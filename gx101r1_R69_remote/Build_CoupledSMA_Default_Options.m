@@ -97,7 +97,7 @@ function coupling = build_coupling_options(solver_options)
     coupling.displacement_tolerance_m = 5.0e-5;
     coupling.residual_reference_force_N = 100.0;
     coupling.residual_reference_displacement_m = 1.0e-4;
-    coupling.monotonic_unload_pressure = true;
+    coupling.monotonic_unload_pressure = false;
 end
 
 function stage_schedule = build_stage_schedule_options()
