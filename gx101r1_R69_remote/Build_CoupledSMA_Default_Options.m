@@ -86,17 +86,18 @@ end
 function coupling = build_coupling_options(solver_options)
     plate_radius_m = get_field(solver_options, 'R', 40.0e-3);
     coupling = struct();
-    coupling.transmission_ratio = 1.0;
+    coupling.transmission_ratio = 1.6;
     coupling.effective_plate_area_m2 = pi * plate_radius_m ^ 2;
     coupling.plate_radius_m = plate_radius_m;
     coupling.displacement_proxy = 'center_w';
-    coupling.compliance_m_per_Pa = 1.2e-8;
+    coupling.compliance_m_per_Pa = 1.1e-8;
     coupling.pressure_min_MPa = 0.0;
     coupling.pressure_max_MPa = 0.90;
     coupling.force_tolerance_N = 25.0;
     coupling.displacement_tolerance_m = 5.0e-5;
     coupling.residual_reference_force_N = 100.0;
     coupling.residual_reference_displacement_m = 1.0e-4;
+    coupling.monotonic_unload_pressure = true;
 end
 
 function stage_schedule = build_stage_schedule_options()
