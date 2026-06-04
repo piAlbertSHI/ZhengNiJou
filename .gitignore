@@ -1,0 +1,50 @@
+# OS/editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.bak
+*.swp
+
+# MATLAB autosave and temporary files
+*.asv
+*.m~
+*.autosave
+
+# Simulink generated artifacts and caches
+slprj/
+*.slxc
+*_ert_rtw/
+*_grt_rtw/
+*_rtw/
+codegen/
+
+# MATLAB compiled binaries
+*.mexw64
+*.mexmaci64
+*.mexa64
+
+# Local simulation outputs and runtime caches
+.literature_extract/
+.literature_render/
+outputs*/
+**/outputs*/
+outputs_*/
+**/outputs_*/
+remote_outputs*/
+**/remote_outputs*/
+remote_results*/
+**/remote_results*/
+batch_outputs*/
+**/batch_outputs*/
+tmp*/
+**/tmp*/
+temp*/
+**/temp*/
+cache*/
+**/cache*/
+prefdir*/
+**/prefdir*/
+
+# Keep source, models, documents, and hand-written validation scripts tracked.
+!.gitignore

@@ -1,0 +1,729 @@
+Agent2 的任务书：将现有圆薄板单级系统改进为单级热驱动正逆耦合系统
+
+一、总目标
+
+你要在当前成熟工程 gx101r1_R69_remote 的基础上，实现一个“单级热驱动 SMA 正逆耦合弹热制冷系统”的第一版可运行仿真。
+
+现有成熟工程本质是：
+
+    单个 SMA 圆薄板制冷体 + 外加压力加载/卸载 + Simulink 四阶段流体换热
+
+你的目标是把它改成：
+
+    热驱动执行 SMA actuator + 机械耦合 + SMA 圆薄板制冷体 refrigerant + 现有 Simulink 热端/冷端换热
+
+核心变化是：阶段 1 和阶段 3 不再使用预设压力斜坡作为机械驱动，而是由执行 SMA 的加热/冷却相变产生力和位移，再通过机械耦合转换成制冷 SMA 圆薄板的等效压力或等效边界。
+
+阶段 2 和阶段 4 暂时继续复用现有 Simulink 换热平台。
+
+二、必须先阅读的文件
+
+开始修改前，必须完整阅读这些文件，并在自己的执行记录中说明你理解到的数据流：
+
+1. 根目录阅读笔记
+   - C:\Users\86182\Desktop\正逆耦合\SMA热驱动正逆耦合文献阅读要点.md
+   - C:\Users\86182\Desktop\正逆耦合\现有程序阅读与正逆耦合改造构思.md
+
+2. 成熟工程主链路
+   - C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\Run_GlobalXi_Simulink_Cycles.m
+   - C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\Build_FourStage_Cycle_Schedule.m
+   - C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\Tools\validation\Remote_RunCase.m
+
+3. SMA 圆薄板求解
+   - C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\GlobalXi_TimeStep_Core.m
+   - C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\SMA_LocalKinetics.m
+   - C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\Run_GlobalXi_Time_Loading_Prototype.m
+   - C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\Run_GlobalXi_Unloading_Prototype.m
+
+4. Simulink 换热接口
+   - C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\Run_Simulink_Exchange_Hook.m
+   - C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\Build_Simulink_Exchange_Params.m
+   - C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\Resolve_Exchange_Stage_Config.m
+
+5. 状态同步和节点映射
+   - C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\GlobalXi_Checkpoint_To_Simulink_State.m
+   - C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\Build_GlobalXi_Checkpoint_From_Exchanged_T.m
+   - C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\Build_GlobalXi_Restart_Balance_Checkpoint.m
+   - C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\Build_Diameter_Strip_Geometry.m
+   - C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\Map_Radial51_To_Diameter101.m
+   - C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\Compress_Diameter101_To_Radial51.m
+
+三、实现原则
+
+1. 不要推翻 gx101r1_R69_remote。
+   它已经有成熟的泵压、阀控、冷热端、冷负载、数据覆盖传入、accelerator 运行、并行远程运行、checkpoint 和验证体系。
+
+2. 不要直接覆盖原有主入口。
+   保留 Run_GlobalXi_Simulink_Cycles.m 的原行为。新增 coupled single-stage 入口。
+
+3. 不要改 d_2.slx 作为主线。
+   d_2.slx 只作为早期概念参考。
+
+4. 第一版不要急着重搭 Simulink。
+   actuator 的热驱动过程先在 MATLAB 层实现为 lumped/1D 模型。Simulink 仍然只负责制冷 SMA 圆薄板的阶段 2/4 换热。
+
+5. 所有新增能力都要可配置。
+   不要把 actuator 参数、传动比、面积比、热源温度、加热功率等写死在函数内部。
+
+6. 保持现有单级外压驱动程序可运行。
+   如果必须改现有函数，只做向后兼容扩展。
+
+四、建议新增的文件
+
+优先新增这些文件，尽量减少对原文件的侵入：
+
+1. Build_CoupledSMA_Default_Options.m
+   作用：构造单级热驱动系统默认参数。
+
+   建议字段：
+   - options.n_cycles
+   - options.outputs_dir
+   - options.refrigerant
+   - options.actuator
+   - options.coupling
+   - options.stage_schedule
+   - options.exchange_options
+   - options.solver_options
+   - options.validation_options
+
+   exchange_options 尽量复用 Remote_RunCase.m 里的成熟配置，包括：
+   - model_path = nixunhuan_solver101_internal.slx
+   - exchange_backend_kind = simulink_directional_101
+   - cold_load_mode
+   - buffer_follow_sink_enabled
+   - cold_end_topology_mode
+   - flow_control_mode
+   - simulation_mode
+   - solver / RelTol / AbsTol / MaxStep
+   - hotflush_stop_time_s
+   - coldflush_stop_time_s
+   - flush_volume_target_ratio
+
+2. Initialize_SMA_Actuator_State.m
+   作用：初始化热驱动执行 SMA 的 lumped 状态。
+
+   推荐 state 字段：
+   - T_K
+   - xi
+   - epsilon
+   - sigma_Pa
+   - force_N
+   - displacement_m
+   - heat_input_J
+   - latent_J
+   - mechanical_work_J
+   - time_s
+
+   初始物理含义：
+   - actuator 初始为低温马氏体倾向，xi 接近 1；
+   - refrigerant 初始应与现有 GlobalXi 基线一致，通常作为低压初态。
+
+3. SMA_Actuator_LumpedModel.m
+   作用：执行 SMA 的 lumped/1D 材料和热模型。
+
+   建议 action 接口：
+   - 'constitutive'
+   - 'phase_target'
+   - 'thermal_step'
+   - 'force_at_displacement'
+   - 'free_strain'
+   - 'stiffness'
+
+   第一版可以使用简化相变律：
+   - 加热时，若 T 从 A_s 到 A_f，xi 从 1 降到 0；
+   - 冷却时，若 T 从 M_s 到 M_f，xi 从 0 升到 1；
+   - 可加入 tau_xi 松弛，避免 xi 突跳；
+   - 后续再加应力修正 Clausius-Clapeyron。
+
+   建议公式：
+   - E(xi) = E_A + xi * (E_M - E_A)
+   - alpha(xi) = alpha_A + xi * (alpha_M - alpha_A)
+   - eps_tr(xi) = eps_L * xi
+   - K_a = E(xi) * A_a / L_a
+   - sigma = E(xi) * (epsilon - eps_tr(xi) - alpha(xi) * (T - T_ref))
+   - F = sigma * A_a
+
+   注意符号：
+   - 必须在代码注释和报告中定义清楚：actuator 输出正力对应 refrigerant 正压力加载。
+   - 如果内部应力符号与现有圆薄板压力符号相反，必须在 coupling 层统一，不要把符号散落到各处。
+
+4. Solve_SMA_Actuator_Refrigerant_Coupling.m
+   作用：求执行 SMA 与制冷 SMA 圆薄板之间的机械耦合。
+
+   输入建议：
+   - actuator_state
+   - actuator_params
+   - refrigerant_checkpoint
+   - refrigerant_params/grid
+   - coupling_options
+   - stage mode: heating_load 或 cooling_unload
+
+   输出建议：
+   - pressure_MPa
+   - force_actuator_N
+   - force_refrigerant_N
+   - displacement_actuator_m
+   - displacement_refrigerant_proxy_m
+   - residual_force_N
+   - residual_displacement_m
+   - residual_norm
+   - solver_status
+
+   机械约束第一版：
+   - F_a = F_r
+   - delta_a = transmission_ratio * delta_r
+
+   其中：
+   - F_r = P_eq * A_effective_plate
+   - A_effective_plate 默认可取 pi * R^2，也允许 options 覆盖；
+   - delta_r 可先取圆薄板中心挠度 w_center，或现有 balance 中的 deflection/volume proxy；
+   - 若使用 w_center，需要先确认 GlobalXi 的 w 索引方向和符号。
+
+   求解策略：
+   - 优先用 quasi-static bisection/secant。
+   - 未必要追求快，goal 模式不考虑时间成本，先追求正确和可解释。
+   - 对候选 pressure，调用或包装现有 GlobalXi 求解器得到 refrigerant 响应。
+   - 如果直接按候选压力反复完整求解太慢，也可以先实现近似 compliance 模型，但必须在报告中标注。
+
+5. Run_CoupledSMA_LoadUnload_Stage.m
+   作用：替代原阶段 1/3 的固定压力加载/卸载。
+
+   对每个时间步执行：
+   - 更新 actuator 热状态；
+   - 根据 actuator 当前 T/xi/free strain 求可用力；
+   - 调用耦合求解器得到 refrigerant 等效压力；
+   - 用该压力推进 GlobalXi 圆薄板状态；
+   - 记录 actuator_trace、pressure_trace、coupling_trace、refrigerant checkpoint。
+
+   阶段 1 heating_load：
+   - actuator 被热源/废热加热；
+   - actuator 由马氏体向奥氏体转变并收缩；
+   - refrigerant 被加载，目标是 A -> M，温度升高；
+   - pressure 应整体上升或达到平台。
+
+   阶段 3 cooling_unload：
+   - actuator 被冷却或断热回冷；
+   - actuator 回复，输出力降低；
+   - refrigerant 卸载，目标是 M -> A，温度降低；
+   - pressure 应整体下降到接近 0。
+
+6. Run_CoupledSMA_SingleStage_Cycles.m
+   作用：单级热驱动正逆耦合系统主入口。
+
+   可以参考 Run_GlobalXi_Simulink_Cycles.m 的结构，但四阶段改为：
+   - stage 1: actuator_heat_load
+   - stage 2: hold_exchange，内部仍传给 Resolve_Exchange_Stage_Config.m 使用原 stage name
+   - stage 3: actuator_cool_unload
+   - stage 4: cooldown_exchange，内部仍传给 Resolve_Exchange_Stage_Config.m 使用原 stage name
+
+   注意：
+   - 阶段 2/4 仍然使用 Run_Simulink_Exchange_Hook。
+   - 经过 Simulink 的温度场仍用 Build_GlobalXi_Checkpoint_From_Exchanged_T 回写。
+   - 仍然调用 Build_GlobalXi_Restart_Balance_Checkpoint 做 restart balance。
+   - actuator state 也要在每个阶段结束时存入 runtime/result，不能丢失。
+
+7. Build_CoupledSMA_SingleStage_Report.m
+   作用：汇总新增耦合系统的报告。
+
+   必须包含：
+   - actuator 热输入；
+   - actuator 温度范围；
+   - actuator xi 范围；
+   - actuator 输出机械功；
+   - refrigerant 接收等效机械功；
+   - pressure max/min；
+   - 阶段 2 热端放热；
+   - 阶段 4 冷端吸热；
+   - 泵功；
+   - 系统 COP；
+   - coupling residual 统计；
+   - 所有能量审计是否有限。
+
+8. Validate_CoupledSMA_SingleStage_Smoke.m
+   作用：最小烟测。
+
+   要求：
+   - n_cycles = 1；
+   - 阶段时间可以短一些；
+   - 能跑完整四阶段；
+   - 输出 result mat 文件；
+   - 输出 summary struct；
+   - 关键量 finite；
+   - 不破坏原 Remote_RunCase。
+
+五、允许的最小侵入式改动
+
+如果只新增 wrapper 无法完成，可以对原有函数做向后兼容扩展。允许范围如下：
+
+1. Run_GlobalXi_Time_Loading_Prototype.m / Run_GlobalXi_Unloading_Prototype.m
+   可增加对外部 pressure profile 或 q_load_func 的支持。
+
+   建议支持：
+   - options.pressure_time_s
+   - options.pressure_MPa
+   - options.q_load_func
+   - options.initial_checkpoint
+
+   但旧调用方式必须保持不变。
+
+2. GlobalXi_TimeStep_Core.m
+   若需要支持 state-dependent pressure，可以新增 action 或 option。
+
+   禁止破坏已有 action：
+   - loading
+   - unloading
+   - exchange_restart_balance
+   - assemble
+   - jv_audit
+
+3. Build_FourStage_Cycle_Schedule.m
+   可增加 coupled mode 的 stage descriptor，但不要改变原四阶段默认输出。
+
+4. 报告函数
+   优先新增 coupled 报告函数。只有当复用成本很低时，才扩展原报告函数。
+
+六、单级系统的物理流程要求
+
+实现出来的单级热驱动循环应满足以下物理顺序：
+
+1. 执行 SMA 加热加载
+   - actuator 吸收热源热量；
+   - actuator 发生热驱动相变并输出机械作用；
+   - refrigerant 被加载；
+   - refrigerant 的等效压力上升；
+   - refrigerant 温度应出现加载升温趋势。
+
+2. 制冷 SMA 热端放热
+   - 保持高载或近似高载；
+   - 调用现有 Simulink hold_exchange；
+   - refrigerant 热量排到热端；
+   - Simulink 输出温度回写到 GlobalXi。
+
+3. 执行 SMA 冷却卸载
+   - actuator 降温或失去热驱动力；
+   - coupling pressure 降低；
+   - refrigerant 卸载；
+   - refrigerant 温度应出现卸载降温趋势。
+
+4. 制冷 SMA 冷端吸热
+   - 调用现有 Simulink cooldown_exchange；
+   - refrigerant 从冷端/冷负载吸热；
+   - 冷端输出按现有报告符号约定统计。
+
+七、验收标准
+
+第一版通过标准不是“论文级精度”，而是“物理链条完整、程序可运行、接口可继续扩展”。
+
+必须满足：
+
+1. 原有 gx101r1_R69_remote 外压驱动流程仍可运行。
+
+2. 新增入口 Run_CoupledSMA_SingleStage_Cycles.m 可运行至少 1 个完整周期。
+
+3. 运行结果中必须保存：
+   - run_result 或 coupled_result；
+   - actuator_trace；
+   - coupling_trace；
+   - pressure_trace；
+   - stage reports；
+   - final checkpoints；
+   - summary。
+
+4. 关键趋势必须成立：
+   - stage 1 actuator T 上升；
+   - stage 1 pressure 上升或维持高位；
+   - stage 3 actuator T 下降；
+   - stage 3 pressure 下降；
+   - stage 2 和 stage 4 的 Simulink 换热输出 finite；
+   - refrigerant T、xi、pressure 不出现 NaN/Inf。
+
+5. coupling residual 必须可审计：
+   - force residual；
+   - displacement residual；
+   - normalized residual。
+
+   第一版建议目标：
+   - median normalized residual < 5%;
+   - max normalized residual < 20%。
+
+   如果做不到，不能隐藏问题，必须在 summary 中明确标出失败原因和最大残差位置。
+
+6. 能量审计必须可读：
+   - actuator heat input；
+   - actuator latent estimate；
+   - actuator mechanical work；
+   - refrigerant thermal change；
+   - hot-end heat；
+   - cold-end heat；
+   - pump work；
+   - COP estimate。
+
+7. 最终要给出一份执行说明，包含：
+   - 新增/修改了哪些文件；
+   - 如何运行 smoke test；
+   - 输出文件在哪里；
+   - 当前实现的物理假设；
+   - 后续扩展到双级需要改哪里。
+
+八、建议的运行命令形态
+
+最终至少提供一个类似下面的 MATLAB 调用方式。字段名可根据实际实现微调，但必须简单清晰。
+
+    cd('C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote');
+    options = Build_CoupledSMA_Default_Options();
+    options.n_cycles = 1;
+    options.outputs_dir = fullfile(pwd, 'outputs_coupled_single_smoke');
+    result = Run_CoupledSMA_SingleStage_Cycles(options);
+
+也建议提供验证入口：
+
+    summary = Validate_CoupledSMA_SingleStage_Smoke();
+
+九、不要做的事情
+
+1. 不要把 d_2.slx 当作主工程继续堆模块。
+
+2. 不要一开始就重写 Run_Simulink_Exchange_Hook.m。
+
+3. 不要把 actuator 热模型直接塞进 Simulink，除非 MATLAB lumped 单级已经跑通。
+
+4. 不要删除或重命名现有成熟文件。
+
+5. 不要为了跑通而关闭物理审计。
+
+6. 不要只生成压力曲线而不保存 actuator/coupling 状态。
+
+7. 不要只看温度图。必须同时检查相变、压力、力、位移和能量。
+
+十、完成后的交付物
+
+完成后，至少应有：
+
+1. 新增 coupled single-stage 入口和辅助函数。
+
+2. 一个可运行 smoke validation。
+
+3. 一个输出目录，包含 result mat、summary、必要图或表。
+
+4. 一份简短说明文档，建议命名：
+   - COUPLED_SINGLE_STAGE_README.md
+
+5. 最终报告中明确说明：
+   - 当前单级热驱动系统是否跑通；
+   - 哪些物理假设是简化；
+   - 哪些接口已经为双级系统预留；
+   - 是否保持原外压驱动流程不受影响。
+
+十一、总体判断
+
+本任务的正确实现路线是：
+
+先把执行 SMA 做成 MATLAB 层 lumped 热驱动源，通过力-位移耦合生成制冷圆薄板的等效压力；保留现有 Simulink 四阶段换热、泵压、冷热端、冷负载、checkpoint 和能量审计体系。这样可以最快把“单级正逆耦合热驱动”跑通，同时为后续双级热回收系统保留清晰扩展路径。
+
+十二、赋予 Agent2 的自主决策权
+
+你在执行本任务时拥有一定程度的自主决策权。原则是：只要不破坏现有成熟外压驱动流程，不删除原始文件，不绕开物理审计，并且能让单级热驱动系统更快形成可运行闭环，就可以自行选择具体实现细节。
+
+你可以自主决定：
+
+1. 新增函数的具体命名。
+   - 如果本任务书建议的函数名与实际代码结构不完全匹配，可以微调。
+   - 但最终必须在报告中列出实际采用的函数名和调用关系。
+
+2. actuator 第一版模型的复杂度。
+   - 可以先做 lumped 0D/1D 热模型。
+   - 可以先使用线性相变区间模型。
+   - 可以先忽略应力对相变温度的修正。
+   - 但必须保留接口，方便后续加入 Clausius-Clapeyron 修正。
+
+3. coupling 第一版的位移代理。
+   - 可以选择圆薄板中心挠度 `w_center`。
+   - 可以选择现有 restart balance 中的 deflection/volume proxy。
+   - 可以选择等效线性 compliance 作为临时近似。
+   - 但必须在报告中写清楚选用原因、公式、符号约定和误差来源。
+
+4. pressure 推进方式。
+   - 可以先生成 pressure profile，再调用现有 loading/unloading 求解器。
+   - 也可以实现逐步推进，每步更新 actuator 和 refrigerant。
+   - 如果逐步推进侵入太大，可以先采用“actuator 生成等效压力轨迹”的过渡实现。
+   - 但最终结果中必须保留 actuator_trace、pressure_trace 和 coupling_trace，不能只留下压力。
+
+5. smoke test 的参数。
+   - 可以缩短阶段时间。
+   - 可以降低周期数到 1。
+   - 可以降低采样点数。
+   - 可以临时关闭非必要绘图。
+   - 但不能关闭关键物理审计和 NaN/Inf 检查。
+
+6. 调试和验证顺序。
+   - 可以先做纯 MATLAB actuator-coupling 单元测试。
+   - 再接入 GlobalXi 阶段 1/3。
+   - 最后接入 Simulink 阶段 2/4。
+   - 不要求一步到位，但最终必须形成完整四阶段运行入口。
+
+必须暂停并向主控用户说明的情况：
+
+1. 发现现有核心文件与任务书描述明显不一致，继续执行会导致大范围重写。
+
+2. Simulink 模型无法加载或 MATLAB 环境缺失关键 toolbox，且无法通过代码侧 workaround 跑通阶段 2/4。
+
+3. 现有 GlobalXi 求解器无法接受任何形式的压力轨迹或 restart checkpoint，导致必须重写核心求解器。
+
+4. 单级热驱动系统只能通过删除物理审计、禁用相变、固定温度或伪造输出才能跑通。
+
+5. coupling residual 长期失控，且无法通过参数调整或更换位移代理改善。
+
+十三、推荐执行阶段和里程碑
+
+建议按以下里程碑推进。每完成一个里程碑，至少运行一次局部验证，并在 Git 中形成可回退节点。
+
+里程碑 0：基线确认
+
+目标：
+- 确认原 `gx101r1_R69_remote` 外压驱动流程仍能运行。
+- 确认当前工作区已经是 Git 仓库。
+- 建立自己的工作分支。
+
+建议动作：
+- 运行最小原始 smoke case。
+- 保存 baseline 输出摘要。
+- 不改原模型。
+
+成功标志：
+- 原四阶段外压驱动至少能进入主流程。
+- 如果 MATLAB/Simulink 环境导致不能运行，也要记录具体错误和版本信息。
+
+里程碑 1：actuator lumped 模型
+
+目标：
+- 新增 actuator 参数、状态初始化和单步热/相变更新。
+
+最小验证：
+- 加热输入下 `T_a` 上升；
+- 冷却边界下 `T_a` 下降；
+- `xi_a` 在加热时从高马氏体向低马氏体变化；
+- 输出 force/displacement 为 finite；
+- 不出现 NaN/Inf。
+
+里程碑 2：coupling 求解器
+
+目标：
+- 给定 actuator state 和 refrigerant checkpoint，输出等效 refrigerant pressure。
+
+最小验证：
+- force residual 可计算；
+- displacement residual 可计算；
+- pressure 有合理上下界；
+- pressure 不为负，除非你明确采用了有符号压力约定；
+- pressure 不超过材料和求解器可承受的上限。
+
+里程碑 3：热驱动加载/卸载阶段
+
+目标：
+- 替代原阶段 1/3 的固定 pressure ramp。
+
+最小验证：
+- stage 1 pressure 上升或维持高位；
+- stage 3 pressure 下降；
+- 每个时间步保存 actuator_trace、pressure_trace、coupling_trace；
+- 结束 checkpoint 可继续交给 Simulink 阶段。
+
+里程碑 4：完整四阶段单周期
+
+目标：
+- `Run_CoupledSMA_SingleStage_Cycles(options)` 完整运行：
+  1. actuator_heat_load
+  2. hold_exchange
+  3. actuator_cool_unload
+  4. cooldown_exchange
+
+最小验证：
+- stage 2/4 调用现有 Simulink hook；
+- 温度回写和 restart balance 正常；
+- final result 中包含 actuator/coupling/refrigerant/exchange 信息；
+- summary 中有 COP 或至少有 COP 所需分量。
+
+里程碑 5：报告和文档
+
+目标：
+- 写出最终文本修改报告。
+- 写出运行说明。
+- 给出下一步双级扩展建议。
+
+十四、Git 版本管理要求
+
+当前主文件夹已经由主控 Agent 初始化为 Git 仓库。你必须遵守以下版本管理要求。
+
+1. 开始前检查状态。
+
+推荐命令：
+
+    git status --short
+    git branch --show-current
+
+2. 建立自己的工作分支。
+
+推荐分支名：
+
+    agent2/coupled-single-stage
+
+推荐命令：
+
+    git switch -c agent2/coupled-single-stage
+
+如果分支已存在：
+
+    git switch agent2/coupled-single-stage
+
+3. 每个里程碑形成一次提交。
+
+建议提交粒度：
+
+    git add <相关文件>
+    git commit -m "Add coupled SMA actuator model"
+    git commit -m "Add actuator-refrigerant coupling solver"
+    git commit -m "Add coupled single-stage runner"
+    git commit -m "Add coupled single-stage smoke validation"
+    git commit -m "Document coupled single-stage implementation"
+
+4. 不要把仿真大输出直接提交。
+
+不要提交：
+- `outputs*`
+- `slprj`
+- `*.slxc`
+- codegen cache
+- temporary prefdir
+- 大量自动生成图像
+- MATLAB autosave
+
+如果某个输出是验收必需的小型 summary，可以单独提交 `.txt`、`.md` 或轻量 `.json`。
+
+5. 修改前后都要检查 diff。
+
+推荐命令：
+
+    git diff --stat
+    git diff -- <file>
+    git status --short
+
+6. 不要回退主控 Agent 或用户已有改动。
+
+禁止使用：
+
+    git reset --hard
+    git checkout -- .
+    git clean -fd
+
+除非用户明确要求。
+
+7. 最终报告中必须写明 Git 状态。
+
+包括：
+- 当前分支；
+- 最新 commit hash；
+- 是否存在未提交修改；
+- 未提交修改的原因；
+- 是否有被 `.gitignore` 忽略的输出目录。
+
+十五、最终文本修改报告要求
+
+完成后必须在主目录或 `gx101r1_R69_remote` 内输出一份文本报告，建议命名：
+
+    Agent2_单级热驱动修改报告.txt
+
+报告必须是中文，并至少包含以下内容：
+
+1. 总结结论
+   - 单级热驱动系统是否跑通；
+   - 跑通了几个周期；
+   - 使用了什么入口函数；
+   - 是否保持原外压驱动流程不受影响。
+
+2. 文件变更清单
+   - 新增文件；
+   - 修改文件；
+   - 每个文件的用途；
+   - 是否涉及 Simulink 模型修改。
+
+3. 物理模型说明
+   - actuator 模型；
+   - refrigerant 模型；
+   - coupling 方程；
+   - pressure/force/displacement 符号约定；
+   - 相变假设；
+   - 热源/冷却边界假设。
+
+4. 四阶段运行流程
+   - stage 1 actuator_heat_load；
+   - stage 2 hold_exchange；
+   - stage 3 actuator_cool_unload；
+   - stage 4 cooldown_exchange；
+   - 每阶段输入、输出和 checkpoint。
+
+5. 验证结果
+   - smoke test 命令；
+   - 输出路径；
+   - actuator 温度趋势；
+   - actuator xi 趋势；
+   - pressure 趋势；
+   - refrigerant T/xi 是否 finite；
+   - stage 2/4 Simulink 输出是否 finite；
+   - coupling residual 统计；
+   - 能量审计结果。
+
+6. Git 信息
+   - 分支名；
+   - commit hash；
+   - `git status --short` 摘要；
+   - 哪些输出被忽略未提交。
+
+7. 已知限制
+   - 哪些物理细节是简化；
+   - 哪些参数需要论文或实验标定；
+   - 当前结果能说明什么，不能说明什么。
+
+8. 后续双级扩展建议
+   - 如何复制 pair；
+   - 如何加入级间热回收；
+   - stage descriptor 需要增加哪些字段；
+   - Simulink 需要如何扩展多 SMA 热对象。
+
+十六、实现质量要求
+
+1. 函数要有清晰输入输出。
+   不要依赖散落在 base workspace 的隐式变量，除非是现有 Simulink 接口必须如此。
+
+2. 参数要集中。
+   actuator、coupling、solver、exchange 参数应集中在 options 结构体中。
+
+3. 输出要可追踪。
+   每个阶段的关键状态都应进入 result。
+
+4. 异常要明确。
+   对 NaN/Inf、压力越界、节点数量不匹配、checkpoint 缺字段等情况，要用明确 error message 或 warning。
+
+5. 不要为了美观做大重构。
+   本任务重心是把单级热驱动闭环跑通，而不是整理整个历史工程。
+
+6. 尽量保持 ASCII 代码注释。
+   中文说明可以写在 `.md` 或 `.txt` 报告中。MATLAB 函数内注释建议用简短英文，减少编码问题。
+
+十七、最终交付判断
+
+如果你只能完成一部分，优先级如下：
+
+1. 保留原工程可用。
+2. actuator lumped 模型可独立验证。
+3. coupling 求解器可输出可审计 pressure。
+4. 阶段 1/3 可由 actuator 生成 pressure trace。
+5. 完整四阶段跑通。
+6. 报告、文档、Git 提交完整。
+
+完整成功的定义：
+
+    新增入口可以运行 1 个完整单级热驱动四阶段周期；
+    结果中包含 actuator、coupling、pressure、refrigerant、exchange 和 energy summary；
+    原外压驱动流程仍保留；
+    Git 有清晰提交历史；
+    最终文本修改报告清楚说明实现、验证和限制。
