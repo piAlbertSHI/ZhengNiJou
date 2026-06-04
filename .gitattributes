@@ -1,0 +1,22 @@
+# Text source files
+*.m text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.ps1 text eol=crlf
+*.json text eol=lf
+*.xml text eol=lf
+
+# Binary engineering artifacts
+*.slx binary
+*.slxc binary
+*.mat binary
+*.fig binary
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.xlsx binary
+*.xls binary
+*.pptx binary
+*.docx binary
