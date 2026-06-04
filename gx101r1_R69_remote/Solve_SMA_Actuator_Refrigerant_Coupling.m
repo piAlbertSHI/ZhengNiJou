@@ -36,8 +36,20 @@ function coupling = Solve_SMA_Actuator_Refrigerant_Coupling( ...
     pressure_min_MPa = get_field(coupling_options, 'pressure_min_MPa', 0.0);
     pressure_max_MPa = get_field(coupling_options, 'pressure_max_MPa', 0.90);
 
-    force_actuator_N = max(get_field(actuator_state, 'force_N', 0.0), 0.0);
-    pressure_raw_MPa = force_actuator_N / max(area_m2, eps) / 1.0e6;
+    force_actuator_free_N = max(get_field(actuator_state, 'force_N', 0.0), 0.0);
+    free_displacement_m = max(get_field(actuator_state, 'displacement_m', ...
+        get_field(actuator_state, 'free_strain', 0.0) * get_field(actuator_params, 'length_m', 1.0)), 0.0);
+    actuator_stiffness_N_per_m = max(get_field(actuator_state, 'stiffness_N_per_m', ...
+        SMA_Actuator_LumpedModel('stiffness', actuator_state, actuator_params)), 0.0);
+    transmission_ratio = get_field(coupling_options, 'transmission_ratio', 1.0);
+    compliance_m_per_Pa = get_field(coupling_options, 'compliance_m_per_Pa', NaN);
+    if isfinite(compliance_m_per_Pa) && compliance_m_per_Pa > 0 && actuator_stiffness_N_per_m > 0
+        pressure_raw_Pa = actuator_stiffness_N_per_m * free_displacement_m / ...
+            max(area_m2 + actuator_stiffness_N_per_m * transmission_ratio * compliance_m_per_Pa, eps);
+        pressure_raw_MPa = pressure_raw_Pa / 1.0e6;
+    else
+        pressure_raw_MPa = force_actuator_free_N / max(area_m2, eps) / 1.0e6;
+    end
     pressure_MPa = min(max(pressure_raw_MPa, pressure_min_MPa), pressure_max_MPa);
 
     current_pressure_MPa = get_field(checkpoint_state, 'pressure_MPa', NaN);
@@ -48,11 +60,15 @@ function coupling = Solve_SMA_Actuator_Refrigerant_Coupling( ...
     pressure_Pa = pressure_MPa * 1.0e6;
 
     force_refrigerant_N = pressure_Pa * area_m2;
-    displacement_actuator_m = get_field(actuator_state, 'displacement_m', ...
-        get_field(actuator_state, 'free_strain', 0.0) * get_field(actuator_params, 'length_m', 1.0));
     displacement_refrigerant_proxy_m = compute_refrigerant_displacement_proxy( ...
         pressure_Pa, checkpoint_state, coupling_options);
-    transmission_ratio = get_field(coupling_options, 'transmission_ratio', 1.0);
+    displacement_actuator_m = transmission_ratio * displacement_refrigerant_proxy_m;
+    if actuator_stiffness_N_per_m > 0
+        force_actuator_N = max(actuator_stiffness_N_per_m * ...
+            (free_displacement_m - displacement_actuator_m), 0.0);
+    else
+        force_actuator_N = force_actuator_free_N;
+    end
 
     residual_force_N = force_actuator_N - force_refrigerant_N;
     residual_displacement_m = displacement_actuator_m - transmission_ratio * displacement_refrigerant_proxy_m;
@@ -79,9 +95,12 @@ function coupling = Solve_SMA_Actuator_Refrigerant_Coupling( ...
     coupling.pressure_max_MPa = pressure_max_MPa;
     coupling.current_pressure_MPa = current_pressure_MPa;
     coupling.force_actuator_N = force_actuator_N;
+    coupling.force_actuator_free_N = force_actuator_free_N;
     coupling.force_refrigerant_N = force_refrigerant_N;
     coupling.displacement_actuator_m = displacement_actuator_m;
+    coupling.displacement_actuator_free_m = free_displacement_m;
     coupling.displacement_refrigerant_proxy_m = displacement_refrigerant_proxy_m;
+    coupling.actuator_stiffness_N_per_m = actuator_stiffness_N_per_m;
     coupling.transmission_ratio = transmission_ratio;
     coupling.effective_plate_area_m2 = area_m2;
     coupling.residual_force_N = residual_force_N;

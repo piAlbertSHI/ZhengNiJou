@@ -52,7 +52,7 @@ function actuator = build_actuator_options()
     actuator.T_initial_K = 293.0;
     actuator.T_ref_K = 293.0;
     actuator.T_hot_K = 353.0;
-    actuator.T_cold_K = 293.0;
+    actuator.T_cold_K = 285.0;
     actuator.A_s_K = 315.0;
     actuator.A_f_K = 340.0;
     actuator.M_s_K = 315.0;
@@ -104,10 +104,10 @@ function stage_schedule = build_stage_schedule_options()
     stage_schedule = struct();
     stage_schedule.stage1_duration_s = 0.10;
     stage_schedule.stage2_duration_s = 0.08;
-    stage_schedule.stage3_duration_s = 0.10;
+    stage_schedule.stage3_duration_s = 0.45;
     stage_schedule.stage4_duration_s = 0.08;
     stage_schedule.stage1_steps = 80;
-    stage_schedule.stage3_steps = 100;
+    stage_schedule.stage3_steps = 180;
 end
 
 function exchange_options = build_exchange_options(root_dir, outputs_dir)
