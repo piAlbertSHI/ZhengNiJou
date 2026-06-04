@@ -1,0 +1,200 @@
+Agent2 单级热驱动 SMA 正逆耦合修改报告
+
+一、总结结论
+
+当前单级热驱动 SMA 正逆耦合系统已经形成可运行的第一版闭环入口：
+
+    Run_CoupledSMA_SingleStage_Cycles(options)
+
+最小 smoke 验证入口为：
+
+    summary = Validate_CoupledSMA_SingleStage_Smoke();
+
+2026-06-04 的 smoke 结果跑通 1 个完整四阶段周期，阶段数为 4，所有阶段 ok，关键趋势和 finite 检查通过。
+
+原 gx101r1_R69_remote 外压驱动主入口 Run_GlobalXi_Simulink_Cycles.m 没有修改；GlobalXi_TimeStep_Core.m 只增加了可选 pressure profile 插值。如果不传 pressure_time_s 与 pressure_Pa/pressure_MPa，旧的 Pmax 幂律加载/卸载仍按原逻辑运行。
+
+baseline 原流程验证情况：
+- MATLAB R2025b 可用。
+- 原外压 runner 可进入主流程，stage 1 loading 完成，并写出 outputs_agent2_baseline/checkpoints/cycle001_load_end.mat。
+- 原 Simulink stage 2 在本机 10 分钟内未返回，因此 baseline 被手动停止。
+- 因此本次 smoke 默认启用显式 surrogate_temperature_v1 exchange，以完成四阶段程序链路；默认 runner 仍保留调用 Run_Simulink_Exchange_Hook 的路径。
+
+二、文件变更清单
+
+新增文件：
+- Agent2_Baseline_Notes.md：记录任务阅读理解、baseline 命令和 baseline 结果。
+- Build_CoupledSMA_Default_Options.m：集中构造 coupled single-stage 参数，包括 actuator、coupling、refrigerant、exchange、stage schedule 和 validation options。
+- Initialize_SMA_Actuator_State.m：初始化 lumped actuator 状态。
+- SMA_Actuator_LumpedModel.m：执行 SMA 的 lumped 热-相变-本构模型，支持 constitutive、phase_target、thermal_step、force_at_displacement、free_strain、stiffness。
+- Solve_SMA_Actuator_Refrigerant_Coupling.m：执行 SMA 与圆薄板 refrigerant 的准静态力-位移耦合求解器。
+- Run_CoupledSMA_LoadUnload_Stage.m：阶段 1/3 热驱动加载/卸载 runner，生成 actuator_trace、pressure_trace、coupling_trace 并调用原 GlobalXi loading/unloading prototype。
+- Run_CoupledSMA_SingleStage_Cycles.m：单级热驱动四阶段主入口。
+- Validate_CoupledSMA_SingleStage_Smoke.m：1 周期 smoke validation。
+- Build_CoupledSMA_SingleStage_Report.m：轻量报告生成函数。
+- COUPLED_SINGLE_STAGE_README.md：运行说明和实现说明。
+- Agent2_单级热驱动修改报告.txt：本文本报告。
+
+修改文件：
+- GlobalXi_TimeStep_Core.m：新增可选 pressure profile 支持；旧调用无 pressure_time_s 时行为不变。
+- Build_CoupledSMA_Default_Options.m、Solve_SMA_Actuator_Refrigerant_Coupling.m 在后续里程碑中按验证结果调整默认参数和耦合求解方式。
+
+Simulink 模型修改：
+- 未修改任何 .slx 文件。
+
+三、物理模型说明
+
+actuator 模型：
+- 第一版为 MATLAB 层 lumped/0D 等效 SMA 执行器。
+- 状态量包括 T_K、xi、epsilon、sigma_Pa、force_N、displacement_m、heat_input_J、latent_J、mechanical_work_J、time_s。
+- 加热时 T 上升，xi 从接近 1 向 0 下降，代表 M -> A。
+- 冷却时 T 下降，xi 从低值回升到接近 1，代表 A -> M。
+- 相变目标使用 A_s/A_f、M_s/M_f 线性区间，并通过 tau_xi_s 松弛。
+- 当前忽略 Clausius-Clapeyron 应力修正，但接口已保留。
+
+refrigerant 模型：
+- 继续使用原 GlobalXi 圆薄板模型。
+- 状态向量仍为 Y = [u, w, T, xi]。
+- loading/unloading、相变、热方程、work audit、checkpoint 全部复用原求解器。
+
+coupling 方程与符号：
+- 正 actuator 输出力对应正 refrigerant 压力加载。
+- 第一版耦合使用线性 compliance 位移代理：
+
+    F = k_a * (delta_free - transmission_ratio * delta_r)
+    F = P * A_effective
+    delta_r = compliance * P
+
+- A_effective 默认取 pi * R^2。
+- delta_r 默认代表圆薄板中心挠度代理。
+- pressure_MPa 非负，默认上限 0.90 MPa。
+- coupling residual 同时输出 force residual、displacement residual 和 normalized residual。
+
+四、四阶段运行流程
+
+stage 1: actuator_heat_load
+- 输入：actuator 初态或上一周期 actuator state、可选 restart checkpoint。
+- 过程：actuator 加热、xi 下降、自由收缩驱动耦合压力上升。
+- 输出：pressure profile、actuator_trace、coupling_trace、GlobalXi load checkpoint。
+
+stage 2: hold_exchange
+- 默认路径：调用 Run_Simulink_Exchange_Hook。
+- smoke 路径：use_surrogate_exchange=true，使用 finite 温度变化代理，并继续走 Build_GlobalXi_Checkpoint_From_Exchanged_T 与 Build_GlobalXi_Restart_Balance_Checkpoint。
+- 输出：温度回写 checkpoint、restart balanced checkpoint、exchange report。
+
+stage 3: actuator_cool_unload
+- 输入：stage 2 restart balanced checkpoint 和 stage 1 后的 actuator state。
+- 过程：actuator 冷却、xi 回升、耦合压力下降到 0。
+- 输出：pressure profile、actuator_trace、coupling_trace、GlobalXi unload checkpoint。
+
+stage 4: cooldown_exchange
+- 默认路径：调用 Run_Simulink_Exchange_Hook。
+- smoke 路径：使用 surrogate_temperature_v1。
+- 输出：温度回写 checkpoint、zero-pressure restart balance checkpoint、final summary。
+
+五、验证结果
+
+smoke test 命令：
+
+    cd('C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote');
+    summary = Validate_CoupledSMA_SingleStage_Smoke();
+
+输出路径：
+
+    C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_coupled_single_smoke
+
+关键结果：
+- ok = true
+- stage_count = 4
+- all_stage_ok = true
+- surrogate_exchange_used = true
+- stage1_T_rises = true
+- stage1_xi_decreases = true
+- stage1_pressure_rises = true
+- stage3_T_drops = true
+- stage3_xi_increases = true
+- stage3_pressure_drops = true
+- final_refrigerant_T_finite = true
+- final_refrigerant_xi_finite = true
+- pressure_min_MPa = 0
+- pressure_max_MPa = 0.4908809012
+- coupling_residual_norm_median = 9.8948949408360166e-17
+- coupling_residual_norm_max = 1.3882929524176368e-15
+- actuator_heat_input_J = 186.71198757002435
+- actuator_latent_J = 129.94245573672768
+- actuator_mechanical_work_J = 31.113929129522305
+- hot_end_heat_J = 17.643184342560275
+- cold_end_heat_J = 11.762122895040184
+- pump_work_J = 0
+- COP_estimate = 0.06299607779939102
+- energy_audit_finite = true
+- physics_checks_ok = true
+
+六、Git 信息
+
+当前工作分支：
+
+    agent2/coupled-single-stage
+
+报告生成前最新 commit：
+
+    fef4d6d Add coupled single-stage smoke validation
+
+本分支提交记录：
+- 4babf17 Record coupled SMA baseline
+- 9416c24 Add coupled SMA actuator model
+- 628d6e0 Add actuator refrigerant coupling solver
+- 6926de8 Add coupled thermal load unload stage
+- 869367c Add coupled single-stage runner
+- fef4d6d Add coupled single-stage smoke validation
+
+报告生成时待提交文件为本报告、README 和报告生成函数。生成输出目录未提交。
+
+被 .gitignore 忽略/未提交的主要生成物：
+- gx101r1_R69_remote/outputs_agent2_baseline/
+- gx101r1_R69_remote/outputs_agent2_stage_smoke/
+- gx101r1_R69_remote/outputs_agent2_runner_smoke/
+- gx101r1_R69_remote/outputs_coupled_single/
+- gx101r1_R69_remote/outputs_coupled_single_smoke/
+- gx101r1_R69_remote/slprj/
+- gx101r1_R69_remote/nixunhuan_solver101_internal.slx.autosave
+
+七、已知限制
+
+1. actuator 是 lumped 0D 等效模型，不是沿长度离散的 1D PDE/ODE 模型。
+2. 相变律为线性温区目标 + 松弛，暂未加入应力修正 Clausius-Clapeyron。
+3. coupling 位移代理为线性 compliance，不是每个 pressure 候选都调用 GlobalXi 非线性求解得到真实 w_center。
+4. smoke 中 stage 2/4 使用 surrogate exchange，因为本机原 Simulink stage 2 baseline 超过 10 分钟未返回。默认 runner 保留真实 Run_Simulink_Exchange_Hook 路径。
+5. 当前 COP 只用于程序审计，不能作为论文级性能结论。
+6. actuator 参数、热源功率、等效截面积、compliance、transmission_ratio 都需要后续根据文献或实验标定。
+
+八、后续双级扩展建议
+
+1. 将当前单级 pair 抽象为：
+
+    pair_i.actuator_state
+    pair_i.refrigerant_checkpoint
+    pair_i.coupling_options
+    pair_i.stage_reports
+
+2. stage descriptor 增加字段：
+- pair_id
+- effect_id
+- heat_source_id
+- heat_recovery_source_pair
+- phase_offset
+- exchange_target_object
+
+3. 级间热回收第一版可先在 MATLAB 层实现：
+
+    Q_recovered_from_pair_1 -> actuator_2 heat_input
+
+4. Simulink 后续扩展方向：
+- 增加多个 SMA 热对象的温度输入/输出。
+- 支持 pair 顺序换热或并联换热。
+- 将 surrogate exchange 替换为多 SMA Simulink thermal object。
+- 保留现有 51/101 节点映射作为每个 refrigerant 圆薄板的温度接口。
+
+九、最终判断
+
+本次修改已经把“执行 SMA 热驱动 + 机械耦合 + refrigerant 圆薄板加载/卸载 + 四阶段 checkpoint/writeback/balance”跑成一个可审计的单级闭环。原外压驱动入口未被覆盖，后续可以在当前 options、coupling solver 和 runner 基础上继续替换更高保真的 actuator、GlobalXi pressure search 和真实多对象 Simulink 换热。
