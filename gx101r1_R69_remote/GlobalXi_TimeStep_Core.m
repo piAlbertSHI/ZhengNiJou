@@ -124,7 +124,6 @@ function result = run_loading(options)
     Y_hist = zeros(4 * grid.N, numel(time_vec));
     Y_hist(:, 1) = Y_old;
     q_hist = zeros(1, numel(time_vec));
-    q_hist(1) = loading_pressure(time_vec(1), params);
     ok = true;
     failure_block = '';
     failure_reason = '';
@@ -295,7 +294,7 @@ function result = run_unloading(options)
     Y_hist = zeros(4 * grid.N, numel(time_vec));
     Y_hist(:, 1) = Y_old;
     q_hist = zeros(1, numel(time_vec));
-    q_hist(1) = unloading_pressure(time_vec(1), params);
+    q_hist(1) = params.Pmax;
     ok = true;
     failure_block = '';
     failure_reason = '';
@@ -1711,56 +1710,13 @@ function [Y, projected] = project_state(Y_in, Y_old, grid, step_ctx)
 end
 
 function q = loading_pressure(t, params)
-    profile_q = pressure_profile_value(t, params);
-    if isfinite(profile_q)
-        q = profile_q;
-        return;
-    end
     tau = min(max(t / params.T_load, 0.0), 1.0);
     q = params.Pmax * tau ^ params.load_power;
 end
 
 function q = unloading_pressure(t, params)
-    profile_q = pressure_profile_value(t, params);
-    if isfinite(profile_q)
-        q = profile_q;
-        return;
-    end
     tau = min(max(t / params.T_unload, 0.0), 1.0);
     q = params.Pmax * (1.0 - tau) ^ params.unload_power;
-end
-
-function q = pressure_profile_value(t, params)
-    q = NaN;
-    if ~isstruct(params) || ~isfield(params, 'pressure_time_s') || isempty(params.pressure_time_s)
-        return;
-    end
-    time_s = params.pressure_time_s(:);
-    if isfield(params, 'pressure_Pa') && ~isempty(params.pressure_Pa)
-        pressure_Pa = params.pressure_Pa(:);
-    elseif isfield(params, 'pressure_MPa') && ~isempty(params.pressure_MPa)
-        pressure_Pa = 1.0e6 * params.pressure_MPa(:);
-    else
-        return;
-    end
-    if numel(time_s) ~= numel(pressure_Pa) || isempty(time_s)
-        error('GlobalXi_TimeStep_Core:InvalidPressureProfile', ...
-            'pressure_time_s and pressure_Pa/pressure_MPa must have the same nonzero length.');
-    end
-    if any(~isfinite(time_s)) || any(~isfinite(pressure_Pa))
-        error('GlobalXi_TimeStep_Core:InvalidPressureProfile', ...
-            'pressure profile contains non-finite values.');
-    end
-    [time_s, order] = sort(time_s);
-    pressure_Pa = pressure_Pa(order);
-    [time_s, unique_idx] = unique(time_s, 'stable');
-    pressure_Pa = pressure_Pa(unique_idx);
-    if numel(time_s) == 1
-        q = max(pressure_Pa(1), 0.0);
-    else
-        q = interp1(time_s, pressure_Pa, t, 'linear', 'extrap');
-        q = max(q, 0.0);
-    end
 end
 
 function audit = directional_jv_audit(Y, Y_old, state_old, step_ctx, params, grid, R, J)
