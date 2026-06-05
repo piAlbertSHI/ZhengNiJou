@@ -69,6 +69,7 @@ function summary = build_validation_summary(result)
         'coupling_residual', isfield(summary, 'coupling_residual'), ...
         'qa_qr_Qa_Qr_PECC_etaECC', true);
     summary.node_outputs = vectorize_node_outputs(result.node_outputs);
+    summary.stage_node_outputs = vectorize_stage_node_outputs(result.state_history);
     summary.stage_reports_compact = compact_stage_reports(stage_reports);
 end
 
@@ -92,6 +93,23 @@ function out = vectorize_node_outputs(node_outputs)
     names = fieldnames(node_outputs);
     for idx = 1:numel(names)
         out.(names{idx}) = node_outputs.(names{idx})(:).';
+    end
+end
+
+function out = vectorize_stage_node_outputs(state_history)
+    out = repmat(struct(), numel(state_history), 1);
+    for idx = 1:numel(state_history)
+        snapshot = state_history{idx};
+        out(idx).stage_name = snapshot.stage_name;
+        out(idx).cycle_index = snapshot.cycle_index;
+        out(idx).SMA_T_51_K = snapshot.SMA.T_51(:).';
+        out(idx).SMA_sigma_51_Pa = snapshot.SMA.sigma_Pa_51(:).';
+        out(idx).SMA_epsilon_51 = snapshot.SMA.epsilon_51(:).';
+        out(idx).SMA_xM_51 = snapshot.SMA.xM_51(:).';
+        out(idx).SE_T_51_K = snapshot.SE.T_51(:).';
+        out(idx).SE_sigma_51_Pa = snapshot.SE.sigma_Pa_51(:).';
+        out(idx).SE_epsilon_51 = snapshot.SE.epsilon_51(:).';
+        out(idx).SE_xM_51 = snapshot.SE.xM_51(:).';
     end
 end
 
@@ -133,4 +151,3 @@ function write_json(path, data)
     cleaner = onCleanup(@() fclose(fid));
     fwrite(fid, text, 'char');
 end
-

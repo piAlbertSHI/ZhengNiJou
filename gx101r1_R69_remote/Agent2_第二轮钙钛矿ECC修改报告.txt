@@ -1,0 +1,216 @@
+Agent2 第二轮钙钛矿 ECC 修改报告
+日期：2026-06-05
+分支：agent2/perovskite-axial-ecc
+
+一、返工结论
+
+本轮已按任务书顶部“第二轮返工指令，2026-06-05，优先级最高”重新建立主线模型。
+
+第二轮主模型不再基于第一轮的圆薄板、GlobalXi、等效压力、u/w 位移、51->101 映射、101/202 换热点或 surrogate exchange。第一轮文件保留为历史审计背景，但 PerovskiteECC 主入口不调用这些旧路线。
+
+GlobalXi_TimeStep_Core.m 中第一轮加入的可选 pressure profile 钩子已隔离恢复为原外压幂律加载/卸载行为，以避免旧外压流程被第二轮返工污染。
+
+二、新增可运行入口
+
+主入口：
+
+    Run_PerovskiteECC_SingleStage_Cycles(options)
+
+Smoke validation：
+
+    Validate_PerovskiteECC_Paper_Smoke(options)
+
+默认运行目录：
+
+    C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote
+
+默认 smoke 输出目录：
+
+    C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_perovskite_ecc_smoke
+
+该输出目录为生成物，不提交 Git。
+
+三、论文 Eq. 6-21 对齐情况
+
+模型来源为：
+
+    热回收驱动弹热冷却系统\Elastocaloric cooler for waste heat recovery from perovskite solar cell with electricity and cooling production.pdf
+    Section 2.2 Elastocaloric cooler, Eq. 6-21
+
+已实现内容：
+
+1. Eq. 6：SMA actuator 与 SE refrigerant 轴向耦合力平衡，sigma_a*S_a = sigma_r*S_r。
+2. Eq. 7：轴向位移兼容，用于 Eq. 11 的 Delta_xM_a 求解。
+3. Eq. 8-9：SMA/SE 一维轴向应变本构。
+4. Eq. 10：SE refrigerant 完全相变，Delta_xM_r = 1。
+5. Eq. 11：由耦合方程求解 Delta_xM_a。
+6. Eq. 12-14：Clausius-Clapeyron actuator loading/unloading 应力约束。
+7. Eq. 15：最小驱动温差 MDTD；代码中将 Delta_sigma_r 作为非负应力间距 sigma_r_uld - sigma_r_ld 处理，并记录 convention。
+8. Eq. 16-21：qa、qr、Qa、Qr、PECC、etaECC。
+
+四、材料形态和节点
+
+材料形态按论文只使用长度 L 和截面积 S 表征，不指定圆薄板、长方体宽厚或丝直径。
+
+默认几何：
+
+    cross_section_shape = generic_area
+    L_a = 1.0 m
+    L_r/L_a = 0.4
+    S_a = 1.0e-6 m^2
+    S_r/S_a = 0.2
+
+绝对 S_a 只用于质量、Qa、Qr、PECC 的量纲换算；核心耦合使用论文比例 L_r/L_a 与 S_r/S_a。
+
+默认离散：
+
+    51 个 SMA actuator 长度节点
+    51 个 SE refrigerant 长度节点
+
+输出节点字段包括：
+
+    T_51
+    sigma_Pa_51
+    epsilon_51
+    xM_51
+    pai_Pa_51
+    r_xi_1_per_s_51
+    q_latent_W_per_m3_51
+
+五、默认参数
+
+Table 1：
+
+    S_r/S_a = 0.2
+    L_r/L_a = 0.4
+    T_c = 288 K
+    T_0 = 308 K
+    eta_hr = 0.7
+
+Table 2 SI 转换：
+
+    C_M = 7.3 MPa/K -> 7.3e6 Pa/K
+    C_A = 7.6 MPa/K -> 7.6e6 Pa/K
+    cp = 0.5 J/g/K -> 500 J/kg/K
+    Delta_h = 10 J/g -> 10000 J/kg
+    epsilon_T = 0.03
+    E_m = 30000 MPa -> 30e9 Pa
+    rho = 6500 kg/m^3
+    refrigerant w_uld = 4.1 J/g -> 4100 J/kg
+    refrigerant w_ld = 5.6 J/g -> 5600 J/kg
+
+Actuator SMA transformation temperatures：
+
+    T_As = 323 K
+    T_Af = 343 K
+    T_Mf = 293 K
+    T_Ms = 313 K
+
+Refrigerant SE transformation temperatures：
+
+    T_As = 268 K
+    T_Af = 288 K
+    T_Mf = 238 K
+    T_Ms = 258 K
+
+六、d_2.slx 本构思想迁移
+
+已参考 d_2.slx 中 MATLAB Function / Stateflow EMChart 的核心思想，但未复制其 12+12 节点和硬编码参数。
+
+迁移内容：
+
+    驱动 SMA 与制冷 SE 节点分区
+    xi_state / xM_51 马氏体分数状态
+    SMA 初始 martensite，SE 初始 austenite
+    耦合应力由 Eq. 6-7/Eq. 11 求解
+    pai 相变驱动力诊断
+    r_xi 相变速率诊断
+    q_latent 节点潜热源输出
+    pump/valve 控制信号输出
+
+PerovskiteECC_D2ConstitutiveKernel.m 是 d_2 风格诊断核；论文 Eq. 6-21 代数求解仍是主模型。
+
+七、Smoke validation 结果
+
+运行命令：
+
+    cd('C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote');
+    summary = Validate_PerovskiteECC_Paper_Smoke();
+
+验证结果：
+
+    ok = true
+    model_route = paper_eq6_21_axial_51_sma_51_se
+    deprecated_first_round_route_used = false
+    stage_count = 4
+    node_count_sma = 51
+    node_count_se = 51
+
+关键数值：
+
+    T_h = 340.0357206298 K
+    MDTD = 32.0357206298 K
+    Delta_xM_a = 0.5478940820
+    Delta_xM_r = 1.0
+    sigma_r_ld = 2.2184112310e8 Pa
+    sigma_r_uld = 2.2639950234e8 Pa
+    sigma_a_ld = 4.4368224621e7 Pa
+    sigma_a_uld = 4.5279900469e7 Pa
+    strict coupling residual = 7.2709704129e-11
+    audit coupling residual including unload Eq.7 = 0.0060702876
+
+Eq. 16-21 输出：
+
+    qa = 10732.2989147847 J/kg
+    qr = 11100 J/kg
+    Qa = 69.7599429461 W
+    Qr = 5.772 W
+    PECC = 5.772 W
+    etaECC = 0.5772
+
+四阶段状态趋势：
+
+    Stage 1 sma_heat_load：SMA xM 从 1 降至约 0.4521，SE xM 到 1
+    Stage 2 se_reject_heat：保持 SE martensite 并排热
+    Stage 3 sma_cool_unload：SMA xM 回到 1
+    Stage 4 se_absorb_heat：SE xM 回到 0，吸冷后回到 R1
+
+八、新增/修改文件
+
+新增：
+
+    Agent2_SecondRound_Paper_D2_Extraction.md
+    Build_PerovskiteECC_Default_Options.m
+    Initialize_PerovskiteECC_State.m
+    PerovskiteECC_ClausiusClapeyron.m
+    PerovskiteECC_CouplingEquations.m
+    PerovskiteECC_Constitutive.m
+    PerovskiteECC_D2ConstitutiveKernel.m
+    PerovskiteECC_EnergyModel.m
+    PerovskiteECC_ThermalStep51.m
+    Run_PerovskiteECC_SingleStage_Cycles.m
+    Validate_PerovskiteECC_Paper_Smoke.m
+    Agent2_第二轮钙钛矿ECC修改报告.txt
+
+修改：
+
+    GlobalXi_TimeStep_Core.m
+
+修改目的仅为隔离第一轮 pressure profile 钩子，恢复原 GlobalXi 外压流程。
+
+九、Git 提交记录
+
+截至本报告写入前，第二轮分支已有提交：
+
+    18fa241 Document second-round ECC basis
+    1b7f3ff Add axial Perovskite ECC core model
+    1b8b287 Add Perovskite ECC runner and smoke validation
+
+本报告及 smoke JSON 审计增强将在后续提交中记录。
+
+十、后续扩展建议
+
+1. 将当前单级 51+51 axial ECC 封装成 stage object，扩展到双级系统。
+2. 若后续需要 PSC 电学耦合，可按论文 Eq. 22-26 接入 Qh 和 frequency 计算；当前 Eq. 21 使用默认 G*A_PSC 审计 etaECC。
+3. 若需要更高保真本构，可在 PerovskiteECC_D2ConstitutiveKernel.m 内替换 pai/r_xi 速率律，但保持 Eq. 6-21 主入口和 51+51 节点接口不变。
+
