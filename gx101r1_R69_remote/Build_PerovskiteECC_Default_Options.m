@@ -12,9 +12,9 @@ function options = Build_PerovskiteECC_Default_Options(overrides)
     root_dir = fileparts(mfilename('fullpath'));
 
     options = struct();
-    options.schema_version = 'perovskite_ecc_axial_eq6_21_v1';
-    options.model_family = 'perovskite_single_stage_axial_ecc';
-    options.source_paper_section = 'Section 2.2 Elastocaloric cooler, Eq. 6-21';
+    options.schema_version = 'perovskite_psc_ecc_article_eq1_26_v1';
+    options.model_family = 'perovskite_psc_ecc_article_reproduction';
+    options.source_paper_section = 'Sections 2.1-2.3, Eq. 1-26';
     options.node_count = 51;
     options.cycle_count = 1;
     options.stage_steps = 25;
@@ -36,8 +36,36 @@ function options = Build_PerovskiteECC_Default_Options(overrides)
     options.system.T0_K = 308.0;
     options.system.eta_hr = 0.7;
     options.system.G_W_per_m2 = 1000.0;
-    options.system.A_PSC_m2 = 0.01;
+    options.system.A_PSC_m2 = 15.57 / (0.1731 * 1000.0);
     options.system.Qh_W = NaN;
+
+    options.psc = struct();
+    options.psc.T_PSC_K = 345.0;
+    options.psc.Eg_eV = 1.55;
+    options.psc.Rs_ohm_m2 = 9.0e-4;
+    options.psc.Rsh_ohm_m2 = 1.2;
+    options.psc.q_C = 1.6e-19;
+    options.psc.h_eV_s = 4.14e-15;
+    options.psc.c_m_per_s = 3.0e8;
+    options.psc.kB_J_per_K = 1.38e-23;
+    options.psc.ideality_factor = 1.0;
+    options.psc.voltage_min_V = 0.0;
+    options.psc.voltage_max_V = 1.25;
+    options.psc.voltage_points = 501;
+    options.psc.article_reference = struct( ...
+        'Vm_V', 0.96, ...
+        'P_PSC_max_W', 15.57, ...
+        'eta_PSC_max', 0.1731);
+    options.psc.calibration_mode = 'article_mpp_reverse_calibration';
+
+    options.psc_ecc = struct();
+    options.psc_ecc.K_L_W_per_m2K = NaN;
+    options.psc_ecc.calibrate_K_L_to_article_PH = true;
+    options.psc_ecc.article_reference = struct( ...
+        'P_H_max_W', 19.19, ...
+        'eta_H_max', 0.2132, ...
+        'P_H_lift_fraction', 0.2325, ...
+        'eta_H_lift_fraction', 0.2317);
 
     options.material = struct();
     options.material.SMA = build_material('actuator_sma', 323.0, 343.0, 293.0, 313.0);
