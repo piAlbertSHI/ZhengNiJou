@@ -1,5 +1,317 @@
 Agent2 的任务书：第二轮返工为论文对齐的一维 SMA/SE 单级热驱动正逆耦合 ECC 系统
 
+【第三轮成品级复现指令，2026-06-05，优先级最高】
+
+本节覆盖第二轮中仍然不充分的部分。第三轮目标不是“再跑一个 smoke”，而是交付一个可以直接复现原文章核心数值、可以运行 10 个 cycle、结果符合物理规律和文章公式的成品级程序。
+
+原文章仍为：
+
+    C:\Users\86182\Desktop\正逆耦合\热回收驱动弹热冷却系统\Elastocaloric cooler for waste heat recovery from perovskite solar cell with electricity and cooling production.pdf
+
+第三轮必须先总结并修复第二轮遗留问题：
+
+1. 第二轮只是“论文 Eq.6-21 代数公式 + 51 节点同值数组”的静态审计模型。
+   - 51 个长度节点目前没有真实长度方向热传导/对流或节点差异。
+   - 每阶段基本直接赋目标温度、应力、应变、马氏体分数。
+
+2. `d_2.slx` 本构没有真正成为主求解器。
+   - 第二轮只是把 `pai`、`r_xi`、潜热做成诊断。
+   - 实际 `xM` 仍按目标插值跳转，没有按 `pai -> r_xi -> xi` 的动力学演化求解。
+
+3. Eq.7 卸载位移兼容被排除在严格残差之外。
+   - `PerovskiteECC_CouplingEquations.m` 中 `eq7_unload` 不能从严格验收中移除。
+   - 第三轮必须把加载和卸载的 Eq.6、Eq.7 都作为硬约束或硬审计。
+
+4. 加载/卸载应力符号和应力大小关系可疑。
+   - 当前 `sigma_r_uld > sigma_r_ld`，需要回到论文 Eq.13-Eq.15 重新核对物理符号。
+   - 禁止只用“nonnegative interval”掩盖符号问题。
+
+5. 当前 `etaECC=0.5772` 不能作为论文复现结果。
+   - 第二轮默认 `A_PSC=0.01 m^2`、`L_a=1 m`、`S_a=1e-6 m^2` 是人为量纲设定。
+   - 第三轮必须用文章默认参数体系复现文章报告的关键结果，而不是只生成自洽数值。
+
+第三轮总目标：
+
+    建立并验证一个完整 PSC-ECC 文章复现程序：
+    1. 能复现文章 PSC、ECC、PSC-ECC 的关键公式和默认参数结果；
+    2. 能运行 10 个 ECC cycle；
+    3. 每个 cycle 都满足 SMA/SE 正逆耦合物理顺序；
+    4. 输出的性能指标、相变趋势、应力/应变、热量、制冷量和效率符合文章公式；
+    5. 最终报告给出与文章关键数值的误差。
+
+一、第三轮必须实现的文章范围
+
+第二轮只覆盖 Eq.6-Eq.21。第三轮必须扩展到原文更完整的复现范围：
+
+1. PSC 子模型
+   - 实现 Eq.1-Eq.5：
+     - PSC 电流密度-电压关系；
+     - 光生电流密度；
+     - 反向饱和电流密度；
+     - PSC 输出功率；
+     - PSC 效率。
+   - 如果 AM1.5G 光谱、IPCE 或论文隐含数据无法从 PDF 直接获得，必须采用可复现的近似或从文献结果反标定，并在报告中明确标注。
+   - 必须尝试复现文章默认状态下：
+     - `V_m ≈ 0.96 V`
+     - `P_PSC,max ≈ 15.57 W`
+     - `eta_PSC,max ≈ 17.31%`
+
+2. ECC 子模型
+   - 保留并修正 Eq.6-Eq.21：
+     - 机械耦合；
+     - 一维 SMA/SE 本构；
+     - Clausius-Clapeyron；
+     - 最小驱动温差；
+     - `q_a`、`q_r`、`Q_a`、`Q_r`、`P_ECC`、`eta_ECC`。
+   - 必须修复 Eq.7 卸载残差验收和应力符号。
+   - 必须把 `d_2.slx` 中的动态相变思想迁移为真正的 51+51 节点本构演化。
+
+3. PSC-ECC 耦合系统
+   - 实现 Eq.22-Eq.26：
+     - `Q_L = K_L * A_PSC * (T_PSC - T_0)`
+     - `Q_h = Q_a = G*A_PSC - P_PSC - Q_L`
+     - `nu = Q_h / (m_a*q_a)`
+     - `P_H = P_PSC + P_ECC`
+     - `eta_H = P_H / (G*A_PSC)`
+   - 必须尝试复现文章默认状态下：
+     - `P_H,max ≈ 19.19 W`
+     - `eta_H,max ≈ 21.32%`
+     - 相对单独 PSC 提升约 `23.25%` 和 `23.17%`
+
+4. 参数扫描
+   - 至少实现对 `V_PSC` 的扫描，复现 Fig.6 的核心趋势：
+     - `P_PSC` 和 `eta_PSC` 随 `V_PSC` 先升后降；
+     - `P_ECC` 和 `eta_ECC` 与 PSC 输出存在互补趋势；
+     - `P_H` 和 `eta_H` 存在最大值。
+   - 如果时间允许，再实现以下参数扫描接口：
+     - `L_r/L_a`
+     - `E_m,a/E_m,r`
+     - `C_a/C_r`
+     - `epsilon_T,a/epsilon_T,r`
+   - 参数扫描接口必须存在，即使只先验证默认值。
+
+二、10 cycle 动态运行要求
+
+第三轮必须提供 10 cycle 运行入口，而不是只运行 1 cycle 静态 smoke。
+
+建议入口：
+
+    result = Run_PerovskiteECC_Article_Cycles(options)
+
+或在现有入口中支持：
+
+    options.cycle_count = 10;
+    result = Run_PerovskiteECC_SingleStage_Cycles(options);
+
+10 cycle 输出必须包含：
+
+1. `cycle_results(1:10)`
+2. 每个 cycle 的四阶段：
+   - `sma_heat_load`
+   - `se_reject_heat`
+   - `sma_cool_unload`
+   - `se_absorb_heat`
+3. 每阶段 51+51 节点：
+   - `SMA.T_51`
+   - `SMA.xM_51`
+   - `SMA.sigma_51`
+   - `SMA.epsilon_51`
+   - `SMA.pai_51`
+   - `SMA.r_xi_51`
+   - `SMA.q_latent_51`
+   - `SE.T_51`
+   - `SE.xM_51`
+   - `SE.sigma_51`
+   - `SE.epsilon_51`
+   - `SE.pai_51`
+   - `SE.r_xi_51`
+   - `SE.q_latent_51`
+4. 每个 cycle 的能量指标：
+   - `qa`
+   - `qr`
+   - `Qa`
+   - `Qr`
+   - `PECC`
+   - `etaECC`
+   - `PPSC`
+   - `etaPSC`
+   - `PH`
+   - `etaH`
+   - `Qh`
+   - `QL`
+   - `nu`
+5. 每个 cycle 的约束残差：
+   - Eq.6 loading/unloading
+   - Eq.7 loading/unloading
+   - Eq.10
+   - Eq.11
+   - Eq.13
+   - Eq.14
+   - Eq.15
+
+10 cycle 物理趋势要求：
+
+1. SMA actuator：
+   - 初始在 `T0` 附近，`xM_a ≈ 1`；
+   - 加热阶段 `T_a` 上升，`xM_a` 下降；
+   - 冷却阶段 `T_a` 回到 `T0` 附近，`xM_a` 回升；
+   - 10 个 cycle 中不得出现 NaN/Inf 或 `xM` 超出 `[0,1]`。
+
+2. SE refrigerant：
+   - 初始无外力时 `xM_r ≈ 0`；
+   - 加载阶段 `xM_r` 接近 1；
+   - 放热阶段保持高 martensite 或按模型合理演化；
+   - 吸热/卸载后回到 `xM_r ≈ 0`；
+   - 10 个 cycle 后不应累积漂移到非物理状态。
+
+3. 应力/应变：
+   - Eq.6 力平衡必须成立；
+   - Eq.7 位移兼容加载和卸载都必须审计；
+   - 应力、应变符号约定必须清楚并和论文公式一致；
+   - 禁止通过排除不合格残差来让 `ok=true`。
+
+4. 热量/功率：
+   - `qa > 0`；
+   - `qr > 0`；
+   - `Qh = Qa` 在耦合系统里应闭合；
+   - `PH = PPSC + PECC`；
+   - `etaH = PH/(G*A_PSC)`；
+   - 10 个 cycle 的性能指标应稳定或说明合理的初始过渡。
+
+三、d_2.slx 本构主线化要求
+
+第三轮必须把 `d_2.slx` 的本构逻辑从“诊断”升级为“动态状态推进”的核心之一。
+
+必须完成：
+
+1. 从 `d_2.slx` 提取的 `s1` 思路要映射到 51+51 节点：
+   - 原 `1:12` 驱动 SMA -> 新 `1:51` SMA；
+   - 原 `13:24` 制冷 SE -> 新 `1:51` SE；
+   - 原 `xi_state` -> 新 `SMA.xM_51` 和 `SE.xM_51`；
+   - 原 `pai1/pai2` -> 新每节点 `pai_a_51/pai_r_51`；
+   - 原 `r_xi1/r_xi2` -> 新每节点 `r_xi_a_51/r_xi_r_51`；
+   - 原 `q` -> 新每节点潜热源。
+
+2. `r_xi` 不能再只是 `(target_xM-old_xM)/dt`。
+   - 必须由 `pai`、硬化项、阈值、正/逆相变分支决定；
+   - 可保留数值限幅和松弛，但要能解释物理含义。
+
+3. 论文 Eq.6-Eq.21 和 d_2 动态本构的关系必须明确：
+   - 论文公式给目标平衡、默认参数和性能指标；
+   - d_2 风格本构推进每个 cycle 内节点状态；
+   - 两者每个 cycle 都要互相校验。
+
+四、文章复现误差验收
+
+第三轮最终报告必须有“文章复现表”，至少包含：
+
+    指标                  文章值        本程序值       相对误差
+    V_m                   0.96 V        ...
+    P_PSC,max             15.57 W       ...
+    eta_PSC,max           17.31%        ...
+    P_H,max               19.19 W       ...
+    eta_H,max             21.32%        ...
+    P_H 提升              23.25%        ...
+    eta_H 提升            23.17%        ...
+    MDTD 或 Th-T0         Fig.5/公式值   ...
+
+误差要求：
+
+1. 如果文章所需输入数据完整可获得：
+   - 主要指标相对误差建议小于 5%；
+   - 趋势必须一致。
+
+2. 如果文章缺少可复现输入数据：
+   - 必须用反标定或合理近似；
+   - 报告中明确列出缺失项、替代方法和误差来源；
+   - 不得只说“已复现”。
+
+五、第三轮验证入口
+
+必须新增或更新验证入口：
+
+1. 文章默认点验证：
+
+    summary = Validate_PerovskiteECC_Article_Reproduction();
+
+2. 10 cycle 验证：
+
+    summary10 = Validate_PerovskiteECC_10Cycle_Physics();
+
+3. 可选参数扫描：
+
+    sweep = Run_PerovskiteECC_Article_Sweep();
+
+验证必须失败即报错，不能只写 warning。
+
+六、第三轮最终交付物
+
+必须输出：
+
+1. 成品级运行入口：
+   - `Run_PerovskiteECC_Article_Cycles.m` 或等效入口。
+
+2. 文章复现验证：
+   - `Validate_PerovskiteECC_Article_Reproduction.m`
+
+3. 10 cycle 物理验证：
+   - `Validate_PerovskiteECC_10Cycle_Physics.m`
+
+4. 文章复现结果：
+   - `.mat` 结果；
+   - `.json` summary；
+   - 文章复现误差表；
+   - 10 cycle 关键趋势表。
+
+5. 最终报告：
+
+    Agent2_第三轮原文复现与10cycle报告.txt
+
+报告必须说明：
+
+    - 第二轮遗留问题如何修复；
+    - 是否真正实现 Eq.1-Eq.26；
+    - 是否真正运行 10 个 cycle；
+    - 文章关键数值复现误差；
+    - Eq.6/Eq.7 加载和卸载残差；
+    - d_2 本构如何迁移；
+    - 仍未完成的 Simulink 长度方向换热部分；
+    - 下一步如何接入成熟工程的泵、阀、冷热端。
+
+七、第三轮 Git 要求
+
+建议从第二轮分支继续新建第三轮分支：
+
+    git switch agent2/perovskite-axial-ecc
+    git switch -c agent2/article-reproduction-10cycle
+
+每完成一个模块提交一次：
+
+    git commit -m "Implement PSC article reproduction model"
+    git commit -m "Fix axial ECC coupling residuals"
+    git commit -m "Promote d2 constitutive kernel to dynamic state update"
+    git commit -m "Add 10-cycle Perovskite ECC runner"
+    git commit -m "Add article reproduction validation"
+    git commit -m "Document article reproduction and 10-cycle results"
+
+禁止：
+
+    - 继续把 `eq7_unload` 排除出严格验收；
+    - 用 1 cycle smoke 代替 10 cycle；
+    - 用人为默认 `A_PSC=0.01` 得出效率后宣称复现文章；
+    - 只输出同值 51 节点数组却声称完成长度方向仿真；
+    - 把第一轮圆薄板 GlobalXi 路线重新接回主模型。
+
+八、第三轮成品定义
+
+第三轮合格定义：
+
+    一个用户可以直接运行的程序，能够复现原文章 PSC-ECC 默认结果和核心趋势；
+    能够连续运行 10 个 ECC cycle；
+    每个 cycle 的 SMA/SE 相变、应力、应变、热量、制冷量和效率均满足物理规律；
+    Eq.1-Eq.26 关键公式均有代码实现或明确近似；
+    最终报告给出文章值、本程序值和误差。
+
 【第二轮返工指令，2026-06-05，优先级最高】
 
 这是一条新的审核结论：Agent2 第一轮提交的“热驱动单级系统”基本没有完成真正需要的物理模型转换。第一轮实现仍然把制冷体当作原来的圆薄板，继续复用 `GlobalXi_TimeStep_Core.m`、`u/w` 圆薄板位移、半径、等效压力、`pi*R^2` 面积、51->101 直径条带映射，以及 surrogate exchange。这些都不符合本项目现在明确的任务诉求。
