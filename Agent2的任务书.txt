@@ -1,4 +1,463 @@
-Agent2 的任务书：将现有圆薄板单级系统改进为单级热驱动正逆耦合系统
+Agent2 的任务书：第二轮返工为论文对齐的一维 SMA/SE 单级热驱动正逆耦合 ECC 系统
+
+【第二轮返工指令，2026-06-05，优先级最高】
+
+这是一条新的审核结论：Agent2 第一轮提交的“热驱动单级系统”基本没有完成真正需要的物理模型转换。第一轮实现仍然把制冷体当作原来的圆薄板，继续复用 `GlobalXi_TimeStep_Core.m`、`u/w` 圆薄板位移、半径、等效压力、`pi*R^2` 面积、51->101 直径条带映射，以及 surrogate exchange。这些都不符合本项目现在明确的任务诉求。
+
+从本节开始，凡是本节和后文旧任务书发生冲突的地方，一律以本节为准。
+
+第二轮总目标改为：
+
+    完全模仿论文《Elastocaloric cooler for waste heat recovery from perovskite solar cell with electricity and cooling production》从 2.2 节开始的弹热冷却器公式推导，建立与论文对齐的一维 Ni-Ti SMA 执行器 + 一维 Ni-Ti SE 制冷体的单级热驱动正逆耦合仿真。
+
+核心更正如下：
+
+1. 几何对象更正
+   - 执行器 SMA 和制冷体 SE 的材料形态必须直接跟论文 2.2 对齐。
+   - 论文没有给出圆薄板、长方体宽厚、丝直径或二维截面求解；论文只用长度 `L` 和截面积 `S` 描述机械耦合。
+   - 因此第二轮主模型应定义为“一维轴向 Ni-Ti 构件”：可物理理解为丝/棒/条带，但数学上只通过 `L_a, L_r, S_a, S_r` 表征。
+   - 如果 Agent2 在 Simulink 或热模型中必须选定具体截面形态，应默认使用“generic prismatic member”，并把圆丝 `S=pi*d^2/4` 或矩形条带 `S=b*t` 作为可选参数化实现；不能声称论文指定了长方体。
+   - 不再是圆薄板。
+   - 不再使用圆半径、中心挠度、径向位移、径向节点、薄板弯曲或压力加载。
+
+2. 力学状态更正
+   - 不再使用原有 `Y=[u,w,T,xi]` 的圆薄板状态。
+   - 不再使用 `u`、`w`。
+   - 不再使用 `GlobalXi_TimeStep_Core.m` 作为 SMA/SE 的主本构求解器。
+   - 不再用“执行器产生等效压力加载圆薄板”的思路。
+   - 正确的力学变量应为论文一维轴向变量：
+     - `sigma_a`：SMA 执行器轴向应力；
+     - `sigma_r`：SE 制冷体轴向应力；
+     - `epsilon_a`：SMA 执行器轴向应变；
+     - `epsilon_r`：SE 制冷体轴向应变；
+     - `xM_a` 或 `chiM_a`：SMA 马氏体质量分数；
+     - `xM_r` 或 `chiM_r`：SE 马氏体质量分数；
+     - `T_a(x,t)`：SMA 沿长度方向温度；
+     - `T_r(x,t)`：SE 沿长度方向温度。
+
+3. 节点离散更正
+   - SMA 和 SE 都沿长度方向离散为 51 个节点。
+   - 每个对象是 1D length-wise thermal object。
+   - 不再做径向 51 节点到直径 101 条带节点扩展。
+   - 不再做 101 节点压缩回 51 径向节点。
+   - 不再出现 SMA 内部 101*2=202 个圆薄板换热点。
+   - 如果需要进 Simulink，正确接口应是：
+     - `T_sma_51_in -> T_sma_51_out`
+     - `T_se_51_in -> T_se_51_out`
+     - 或仅对当前换热阶段参与换热的对象传入 51 点长度方向温度。
+
+4. 可复用范围更正
+   可以复用现有工程思想：
+   - 四阶段运行；
+   - 泵压控制思想；
+   - 冷端、热端、散热热负载；
+   - 阀控阶段切换；
+   - SMA/SE 数据覆盖传入；
+   - fast/accelerator 运行思想；
+   - 并行调用和输出目录隔离；
+   - checkpoint、summary、report、validation 框架思想。
+
+   必须重点复用/参考的早期本构基础：
+   - `C:\Users\86182\Desktop\正逆耦合\d_2.slx` 中的 Stateflow/MATLAB Function 本构求解脚本。
+   - `d_2.slx` 不是主系统框架，但其中的 SMA/SE 一维本构、马氏体分数演化、驱动体/制冷体分区、耦合应力和潜热输出逻辑是第二轮本构求解的优先参考基础。
+
+   不能直接复用现有物理内核：
+   - 不能继续用圆薄板 `GlobalXi_TimeStep_Core.m` 做主求解；
+   - 不能继续用 `SMA_LocalKinetics.m` 作为一维 SMA/SE 的主本构；
+   - 不能继续用 `Build_Diameter_Strip_Geometry.m`、`Map_Radial51_To_Diameter101.m`、`Compress_Diameter101_To_Radial51.m`；
+   - 不能继续用 `Resolve_Exchange_Stage_Config.m` 中针对圆薄板内部 101 换热点的接口作为最终模型接口；
+   - 不能用 surrogate exchange 作为最终验收结果。
+
+5. 第一轮错误实现处理
+   - 第一轮新增的 `SMA_Actuator_LumpedModel.m`、`Solve_SMA_Actuator_Refrigerant_Coupling.m`、`Run_CoupledSMA_LoadUnload_Stage.m`、`Run_CoupledSMA_SingleStage_Cycles.m` 等文件可以作为反例参考，但不能作为第二轮主线继续扩展。
+   - 第一轮对 `GlobalXi_TimeStep_Core.m` 增加 pressure profile 的改动对第二轮不是必需项，应在第二轮分支中撤销或隔离，避免污染原成熟工程。
+   - 第一轮报告中声称“跑通”的 smoke 使用了 surrogate exchange，且仍基于圆薄板模型，不能作为本项目验收依据。
+
+6. `d_2.slx` 本构求解补充要求
+   主控审核已经确认，`d_2.slx` 内部确实存在核心本构求解程序。Agent2 第二轮不得忽略这部分已有基础。
+
+   已识别的关键 Stateflow/MATLAB Function：
+
+   - `数据传递/SMA`
+     - 对 24 节点向量做驱动体/制冷体拆分；
+     - `q1 = u(1:12)`，`q2 = u(13:24)`。
+
+   - `Switch Case Action Subsystem/MATLAB Function`
+     - 函数名 `s0`；
+     - 输入 `sigma0, ts, xi0`；
+     - 输出 `pai1, pai2, sigma0, xi0, signal, Strain1`；
+     - 包含相变驱动力 `pai`、硬化项 `X_xi`、应力-温度-马氏体分数关系和应变输出。
+
+   - `Switch Case Action Subsystem1/MATLAB Function`
+     - 函数名 `s1`；
+     - 输入 `pai1, pai2, sigma0, ts, xi0`；
+     - 输出 `pai1, pai2, sigma0, q, xi0, signal, delt_sigma, Strain1, Strain2`；
+     - 这是第二轮最重要的本构原型。
+
+   `s1` 中已经包含以下核心思想：
+
+   - 24 节点，其中 `1:12` 为驱动 SMA，`13:24` 为制冷 SE；
+   - `persistent xi_state` 保存马氏体分数状态；
+   - 驱动 SMA 初始为冷态马氏体 `xi=1`；
+   - 制冷 SE 初始为常温奥氏体 `xi=0`；
+   - 驱动体和制冷体温度隔离；
+   - 驱动体收缩量 `shrinkage = 1 - xi_state(3)`；
+   - 机械耦合应力 `stress_added = shrinkage * K_link`；
+   - 制冷体应力叠加 `sigma_calc(13:24) = sigma_calc(13:24) + stress_added`；
+   - 驱动力：
+     - `pai1 = epsilonL*sigma_calc(3) + rho*ds0*(T_drive-Ms1) - X_xi1`
+     - `pai2 = epsilonL*sigma_calc(15) + rho*ds0*(T_cool-Ms2) - X_xi2`
+   - 相变速率 `r_xi1, r_xi2`；
+   - `xi_state` 更新和限幅；
+   - 应变输出：
+     - `Strain1 = (sigma_calc(3)/EA + epsilonL*xi_state(3))*100`
+     - `Strain2 = (sigma_calc(15)/EA + epsilonL*xi_state(15))*100`
+   - 制冷体潜热输出和 `q` 热功率分配；
+   - 基于驱动体 `xi` 的泵控/阀控信号。
+
+   第二轮实现要求：
+
+   1. 先从 `d_2.slx` 中导出或手工迁移这些 Stateflow MATLAB Function 脚本，形成可测试的 `.m` 函数。
+      建议新增：
+      - `Extract_D2_Constitutive_Notes.m` 或 `Document_D2_Constitutive_Extraction.md`
+      - `PerovskiteECC_D2ConstitutiveKernel.m`
+
+   2. 不要照抄 `d_2.slx` 的 12+12 节点规模作为最终规模。
+      - `d_2.slx` 是原型：12 个驱动节点 + 12 个制冷节点；
+      - 第二轮目标是：51 个驱动 SMA 长度节点 + 51 个制冷 SE 长度节点。
+
+   3. 不要照抄 `d_2.slx` 中硬编码参数作为最终参数。
+      - `d_2.slx` 中 `Mf/Ms/As/Af`、`epsilonL=0.05`、`K_link=800e6`、`mtr=42` 等可作为实现结构参考；
+      - 默认物理参数必须替换为钙钛矿论文 Table 1 和 Table 2。
+
+   4. 不要保留 `d_2.slx` 中明显临时调参或非物理表述作为最终模型。
+      - 例如“800 MPa 洪荒之力”只能作为历史注释，不应进入正式报告或最终主函数；
+      - `T_cool=303.15`、只取第 1/3/15 节点等写法必须泛化为 51 节点长度方向模型。
+
+   5. `d_2.slx` 本构和论文 2.2 公式必须合并：
+      - `d_2.slx` 提供动态相变/状态更新/潜热输出的实现雏形；
+      - 论文 Eq. 6-21 提供目标物理约束、参数和性能公式；
+      - 最终模型必须同时满足两者：实现结构可参考 `d_2.slx`，物理方程和默认参数以论文为准。
+
+第二轮必须完全对齐的论文模型如下。
+
+一、论文来源
+
+必须以本地 PDF 为主参考：
+
+    C:\Users\86182\Desktop\正逆耦合\热回收驱动弹热冷却系统\Elastocaloric cooler for waste heat recovery from perovskite solar cell with electricity and cooling production.pdf
+
+尤其要从第 2.2 节 `Elastocaloric cooler` 开始完整复现弹热冷却器的公式推导，并使用论文 Table 1、Table 2 中的 ECC 几何比值和 Ni-Ti 材料参数。
+
+二、必须实现的公式
+
+机械耦合约束：
+
+    sigma_a * S_a = sigma_r * S_r                         (Eq. 6)
+    abs(epsilon_a * L_a) = abs(epsilon_r * L_r)           (Eq. 7)
+
+论文一维 SMA/SE 轴向本构：
+
+    epsilon_a = epsilon_T_a * Delta_xM_a - sigma_a / E_m_a    (Eq. 8)
+    epsilon_r = epsilon_T_r * Delta_xM_r + sigma_r / E_m_r    (Eq. 9)
+
+制冷体 SE 全相变约束：
+
+    Delta_xM_r = 1                                           (Eq. 10)
+
+由 Eq. 6-10 推得的 SMA 马氏体分数变化：
+
+    Delta_xM_a =
+        (L_r/L_a) * (epsilon_T_r/epsilon_T_a)
+        + [ (L_r/L_a) + (S_r/S_a)*(E_m_r/E_m_a) ]
+          * sigma_r / (E_m_r * epsilon_T_a)                  (Eq. 11)
+
+Clausius-Clapeyron 关系：
+
+    d_sigma_r,a / dT = C_r,a                                  (Eq. 12)
+
+加载阶段执行器 SMA 约束：
+
+    C_M_a * [T_h - T_As_a - Delta_xM_a*(T_Af_a - T_As_a)]
+        = sigma_a_ld
+        = (S_r/S_a) * sigma_r_ld                              (Eq. 13)
+
+卸载阶段执行器 SMA 约束：
+
+    C_A_a * [T_0 - T_Ms_a - Delta_xM_a*(T_Mf_a - T_Ms_a)]
+        = sigma_a_uld
+        = (S_r/S_a) * sigma_r_uld                             (Eq. 14)
+
+最小驱动温差：
+
+    T_h - T_0 ≈
+        (S_r/S_a) * Delta_sigma_r / C_A_a
+        + T_As_a - T_Ms_a
+        + Delta_xM_a * (T_Af_a - T_As_a + T_Ms_a - T_Mf_a)    (Eq. 15)
+
+单周期单位质量热量：
+
+    q_a =
+        c_p_a * (T_h - T_0) * (1 - eta_hr)
+        + Delta_h_a * Delta_xM_a
+        + w_ld_r * mu                                         (Eq. 16)
+
+    q_r =
+        Delta_h_r
+        + w_uld_r
+        - c_p_r * (T_0 - T_c) * (1 - eta_hr)                  (Eq. 17)
+
+其中：
+
+    mu = (L_r/L_a) * (S_r/S_a) * (rho_r/rho_a)
+
+热功率和制冷功率：
+
+    Q_a = m_a * nu * q_a                                      (Eq. 18)
+    Q_r = m_r * nu * q_r                                      (Eq. 19)
+    P_ECC = Q_r                                               (Eq. 20)
+    eta_ECC = P_ECC / (G * A_PSC)                             (Eq. 21)
+
+如果第二轮需要暂时只做 ECC 而不做完整 PSC 耦合，仍必须保留 `G*A_PSC`、`Q_h=Q_a`、`nu=Q_h/(m_a*q_a)` 的接口，方便后续接入 PSC。
+
+三、必须对齐的默认参数
+
+几何和系统默认值使用论文 Table 1：
+
+    S_r/S_a = 0.2
+    L_r/L_a = 0.4
+    T_c = 288 K
+    T_0 = 308 K
+    eta_hr = 0.7
+
+如实现 PSC-ECC 联合性能，还要保留：
+
+    q = 1.6e-19 C
+    R_s = 9e-4 ohm*m^2
+    R_sh = 1.2 ohm*m^2
+    h = 4.14e-15 eV*s
+    c = 3e8 m/s
+    k_B = 1.38e-23 J/K
+
+ECC 材料参数使用论文 Table 2，单位必须在代码中统一转换，禁止混用：
+
+    材料：Ni-Ti
+
+    Refrigerant SE:
+        C_M_r = 7.3 MPa/K
+        C_A_r = 7.6 MPa/K
+        c_p_r = 0.5 J/g/K
+        Delta_h_r = 10 J/g
+        epsilon_T_r = 0.03
+        T_As_r = 268 K
+        T_Af_r = 288 K
+        T_Mf_r = 238 K
+        T_Ms_r = 258 K
+        w_uld_r = 4.1 J/g
+        w_ld_r = 5.6 J/g
+        E_m_r = 30000 MPa
+        rho_r = 6500 kg/m^3
+
+    Actuator SMA:
+        C_M_a = 7.3 MPa/K
+        C_A_a = 7.6 MPa/K
+        c_p_a = 0.5 J/g/K
+        Delta_h_a = 10 J/g
+        epsilon_T_a = 0.03
+        T_As_a = 323 K
+        T_Af_a = 343 K
+        T_Mf_a = 293 K
+        T_Ms_a = 313 K
+        E_m_a = 30000 MPa
+        rho_a = 6500 kg/m^3
+
+单位要求：
+
+    代码内部建议统一为 SI：
+        stress: Pa
+        modulus: Pa
+        C: Pa/K
+        cp: J/kg/K
+        Delta_h: J/kg
+        w: J/kg
+        length: m
+        area: m^2
+        density: kg/m^3
+        mass: kg
+
+    报告中可以同时列出论文原单位和代码内部单位。
+
+四、第二轮建议新增或重写的文件
+
+不要再沿用第一轮 `CoupledSMA` 命名造成误解。建议使用 `PerovskiteECC` 或 `AxialECC` 前缀，明确这是与钙钛矿论文对齐的一维轴向 ECC 模型。不要用 `RectECC` 暗示论文指定了长方体截面。
+
+建议新增：
+
+1. `Build_PerovskiteECC_Default_Options.m`
+   - 集中设置 Table 1、Table 2 参数；
+   - 设置 `N_length = 51`；
+   - 设置 `L_a`、`L_r`、`S_a`、`S_r`，默认满足论文比值；
+   - 设置 `cross_section_shape = 'generic_area'`，表示几何只由截面积 `S` 控制；
+   - 可选支持 `wire`、`rectangular_strip`，但默认不得依赖具体宽厚或直径；
+   - 设置 `T0`、`Tc`、`Th` 或由 Eq. 15 计算 `Th_min`；
+   - 设置 cycle frequency `nu` 或由 `Qh/(ma*qa)` 计算；
+   - 设置是否启用 PSC 子模型。
+
+2. `Initialize_PerovskiteECC_State.m`
+   - 初始化 SMA/SE 一维轴向 51 节点状态；
+   - `SMA.xM_51` 初始接近 1，表示环境温度下 100% martensite；
+   - `SE.xM_51` 初始接近 0，表示无外力下 fully austenite；
+   - `SMA.T_51` 初始为 `T0`；
+   - `SE.T_51` 初始按 R1 状态设置；
+   - 保存 `sigma_a_51`、`sigma_r_51`、`epsilon_a_51`、`epsilon_r_51`。
+
+3. `PerovskiteECC_Constitutive.m`
+   - 实现 Eq. 8、Eq. 9；
+   - 支持给定 `Delta_xM` 求 `epsilon/sigma`；
+   - 支持给定温度和阶段求相变分数；
+   - 不调用 `SMA_LocalKinetics.m`。
+
+4. `PerovskiteECC_CouplingEquations.m`
+   - 实现 Eq. 6、Eq. 7、Eq. 10、Eq. 11；
+   - 输出 `Delta_xM_a`、`sigma_a`、`sigma_r`、`epsilon_a`、`epsilon_r`；
+   - 输出 coupling residual；
+   - 不出现 pressure、radius、w_center。
+
+5. `PerovskiteECC_ClausiusClapeyron.m`
+   - 实现 Eq. 12、13、14、15；
+   - 计算加载/卸载阶段的 `sigma_r_ld`、`sigma_r_uld`；
+   - 计算 `Th_min`；
+   - 对 `Delta_xM_a` 是否在 `[0,1]` 内做检查。
+
+6. `PerovskiteECC_EnergyModel.m`
+   - 实现 Eq. 16-21；
+   - 输出 `qa`、`qr`、`Qa`、`Qr`、`PECC`、`etaECC`、`mu`；
+   - 做单位转换和 finite 检查。
+
+7. `PerovskiteECC_ThermalStep51.m`
+   - 沿长度方向 51 节点更新 SMA/SE 温度；
+   - 第一版可以采用 lumped + 51 节点同温，或一维对流/传导有限差分；
+   - 即便第一版同温，也必须保留 51 节点数组接口；
+   - 后续 Simulink 换热要接这个 51 点长度方向温度，而不是 101 直径条带温度。
+
+8. `Run_PerovskiteECC_SingleStage_Cycles.m`
+   - 单级论文对齐的一维热驱动 ECC 主入口；
+   - 四阶段建议为：
+     1. SMA 加热，A1->A4；SE 被加载，R1->R2；
+     2. SE 向 THE 放热，R2->R4；SMA 保持热态；
+     3. SMA 冷却，A4->A1；SE 卸载；
+     4. SE 从 RHE 吸热制冷，回到 R1；
+   - 输出每阶段 51 节点温度、应力、应变、xM、热量和耦合残差。
+
+9. `Validate_PerovskiteECC_Paper_Smoke.m`
+   - 用论文 Table 1、Table 2 默认参数运行 1 个周期；
+   - 验证 Eq. 6-21 全部 finite；
+   - 验证趋势和参数数量级；
+   - 输出 JSON/MAT summary。
+
+10. `Agent2_第二轮钙钛矿ECC修改报告.txt`
+   - 最终报告，必须说明第一轮哪些实现被废弃、第二轮如何对齐论文 2.2。
+
+五、Simulink 改造边界
+
+第二轮的主目标不是继续套用现有 `nixunhuan_solver101_internal.slx` 的圆薄板内部换热模型。
+
+可接受路线：
+
+1. 第一阶段先用 MATLAB 纯代码跑通论文对齐的一维 ECC 解析/51 节点模型。
+2. 再决定是否新建一个一维 51 节点换热 Simulink 模型。
+3. 如果进入 Simulink，模型接口必须是长度方向 51 节点，不是圆薄板 101 条带。
+4. 原有 Simulink 中的泵、阀、冷热端、缓冲液、热负载设计可以模仿，但不能直接把一维 SMA/SE 温度塞进圆薄板 101/202 换热点接口。
+
+六、第二轮验收标准
+
+第二轮验收不看第一轮 smoke。
+
+必须满足：
+
+1. 没有把一维 SMA/SE 主模型建立在 `GlobalXi_TimeStep_Core.m`、`u/w`、半径、圆薄板压力或 51->101 映射上。
+
+2. 代码中可以全局搜索，主线文件不得出现以下主控依赖：
+   - `w_center`
+   - `radius`
+   - `pi * R`
+   - `Build_Diameter_Strip_Geometry`
+   - `Map_Radial51_To_Diameter101`
+   - `Compress_Diameter101_To_Radial51`
+   - 用于主模型的 `GlobalXi_TimeStep_Core`
+
+3. `Validate_PerovskiteECC_Paper_Smoke.m` 至少输出：
+   - `Delta_xM_a`
+   - `Delta_xM_r`
+   - `sigma_a_ld`
+   - `sigma_r_ld`
+   - `sigma_a_uld`
+   - `sigma_r_uld`
+   - `Th_min`
+   - `qa`
+   - `qr`
+   - `Qa`
+   - `Qr`
+   - `PECC`
+   - `etaECC`
+   - `mu`
+   - coupling residuals of Eq. 6 and Eq. 7
+
+4. 默认参数必须和论文 Table 1、Table 2 对齐。
+
+5. 必须生成 51 节点长度方向状态：
+   - `SMA.T_51`
+   - `SE.T_51`
+   - `SMA.xM_51`
+   - `SE.xM_51`
+   - `SMA.sigma_51`
+   - `SE.sigma_51`
+   - `SMA.epsilon_51`
+   - `SE.epsilon_51`
+
+6. 最终报告必须明确：
+   - 第一轮方案为何不合格；
+   - 哪些第一轮文件被废弃或隔离；
+   - 第二轮如何逐项实现 Eq. 6-21；
+   - 是否还有一维 51 节点 Simulink 换热模型未完成；
+   - 下一步如何把 51 节点长度方向模型接入现有泵/阀/冷热端思想。
+
+七、第二轮 Git 要求
+
+建议从当前分支新建返工分支，保留第一轮错误实现作为审计记录：
+
+    git switch agent2/coupled-single-stage
+    git switch -c agent2/perovskite-axial-ecc
+
+然后用普通提交隔离或撤销第一轮错误主线。禁止使用 `git reset --hard`。
+
+可选方案：
+
+1. 如果要彻底从 baseline 重做：
+   - 新建分支后用 `git revert` 撤销第一轮实现提交；
+   - 保留任务书和审核记录；
+   - 再提交第二轮论文对齐的一维 ECC 实现。
+
+2. 如果要保留第一轮文件：
+   - 必须把它们移动到 `deprecated_round1/` 或在报告中明确“废弃，不参与主线”；
+   - 第二轮主入口不能调用这些文件。
+
+第二轮提交建议：
+
+    git commit -m "Add perovskite ECC paper-aligned parameters"
+    git commit -m "Implement axial SMA SE coupling equations"
+    git commit -m "Implement perovskite ECC energy model"
+    git commit -m "Add axial 51-node cycle runner"
+    git commit -m "Add perovskite ECC smoke validation"
+    git commit -m "Document perovskite axial ECC second-round implementation"
+
+八、第二轮最终判断
+
+本项目现在需要的不是“圆薄板系统上外挂一个执行器”，也不是自行假定“长方体板”。正确目标是按钙钛矿废热回收论文 2.2 节建立由长度 `L` 和截面积 `S` 表征的一维 Ni-Ti SMA/SE 热驱动 ECC 模型。现有成熟工程只提供工程思想和运行组织经验，不能继续承担主物理求解器。
+
+【以下内容为第一轮旧任务书，仅作历史记录和反例背景】
+
+从这里开始的旧任务书包含“圆薄板制冷体、GlobalXi 外压加载、等效压力、中心挠度、51->101 映射”等第一轮设想。这些内容已经被上方“第二轮返工指令”推翻。Agent2 继续执行时不得按照旧任务书实施；如需参考，只能用于了解第一轮为什么偏离任务。
 
 一、总目标
 
