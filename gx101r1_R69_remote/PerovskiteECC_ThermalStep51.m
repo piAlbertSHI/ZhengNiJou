@@ -19,54 +19,103 @@ function [state, report] = PerovskiteECC_ThermalStep51(state, options, stage_nam
         case {'sma_heat_load', 'stage1_sma_heat_load'}
             stage_index = 1;
             state.stage_name = 'sma_heat_load';
-            state.SMA.T_51 = coupling.T_h_K * ones(N, 1);
             state.SMA.sigma_Pa_51 = constitutive.loading.SMA.sigma_Pa * ones(N, 1);
-            state.SMA.epsilon_51 = constitutive.loading.SMA.epsilon * ones(N, 1);
-            state.SE.T_51 = options.system.T0_K * ones(N, 1);
             state.SE.sigma_Pa_51 = constitutive.loading.SE.sigma_Pa * ones(N, 1);
-            state.SE.epsilon_51 = constitutive.loading.SE.epsilon * ones(N, 1);
+            state.SMA.T_51 = axial_profile(coupling.T_h_K - 2.0, coupling.T_h_K, N);
+            state.SE.T_51 = axial_profile(options.system.T_c_K, options.system.T_c_K + 0.2, N);
             targets.SMA_xM_51 = (1.0 - coupling.delta_xM_a) * ones(N, 1);
+            targets.SMA_direction = -1.0;
             targets.SE_xM_51 = coupling.delta_xM_r * ones(N, 1);
+            targets.SE_direction = 1.0;
         case {'se_reject_heat', 'stage2_se_reject_heat'}
             stage_index = 2;
             state.stage_name = 'se_reject_heat';
-            state.SMA.T_51 = coupling.T_h_K * ones(N, 1);
-            state.SE.T_51 = options.system.T0_K * ones(N, 1);
+            state.SMA.T_51 = axial_profile(coupling.T_h_K - 0.5, coupling.T_h_K, N);
+            state.SE.T_51 = axial_profile(options.system.T_c_K, options.system.T0_K, N);
             targets.SMA_xM_51 = state.SMA.xM_51;
+            targets.SMA_direction = 0.0;
             targets.SE_xM_51 = ones(N, 1);
+            targets.SE_direction = 0.0;
         case {'sma_cool_unload', 'stage3_sma_cool_unload'}
             stage_index = 3;
             state.stage_name = 'sma_cool_unload';
-            state.SMA.T_51 = options.system.T0_K * ones(N, 1);
             state.SMA.sigma_Pa_51 = constitutive.unloading.SMA.sigma_Pa * ones(N, 1);
-            state.SMA.epsilon_51 = constitutive.unloading.SMA.epsilon * ones(N, 1);
-            state.SE.T_51 = options.system.T0_K * ones(N, 1);
             state.SE.sigma_Pa_51 = constitutive.unloading.SE.sigma_Pa * ones(N, 1);
-            state.SE.epsilon_51 = constitutive.unloading.SE.epsilon * ones(N, 1);
+            state.SMA.T_51 = axial_profile(options.system.T0_K, options.system.T0_K + 2.0, N);
+            state.SE.T_51 = axial_profile(options.system.T0_K, options.system.T_c_K, N);
             targets.SMA_xM_51 = ones(N, 1);
+            targets.SMA_direction = 1.0;
             targets.SE_xM_51 = ones(N, 1);
+            targets.SE_direction = 0.0;
         case {'se_absorb_heat', 'stage4_se_absorb_heat'}
             stage_index = 4;
             state.stage_name = 'se_absorb_heat';
-            state.SMA.T_51 = options.system.T0_K * ones(N, 1);
             state.SMA.sigma_Pa_51 = zeros(N, 1);
-            state.SMA.epsilon_51 = zeros(N, 1);
-            state.SE.T_51 = options.system.T_c_K * ones(N, 1);
             state.SE.sigma_Pa_51 = zeros(N, 1);
-            state.SE.epsilon_51 = zeros(N, 1);
+            state.SMA.T_51 = axial_profile(options.system.T0_K + 0.5, options.system.T0_K, N);
+            state.SE.T_51 = axial_profile(options.system.T0_K, options.system.T_c_K, N);
             targets.SMA_xM_51 = ones(N, 1);
+            targets.SMA_direction = 0.0;
             targets.SE_xM_51 = zeros(N, 1);
+            targets.SE_direction = -1.0;
         otherwise
             error('PerovskiteECC_ThermalStep51:InvalidStage', ...
                 'Unknown ECC stage: %s', stage_name);
     end
 
-    [state, kernel_diag] = PerovskiteECC_D2ConstitutiveKernel(state, options, state.stage_name, dt_s, targets);
-    state.time_s = old_state.time_s + dt_s;
+    kernel_diag = struct();
+    accum.SMA_r = zeros(N, 1);
+    accum.SE_r = zeros(N, 1);
+    accum.SMA_q = zeros(N, 1);
+    accum.SE_q = zeros(N, 1);
+    for substep = 1:max(options.stage_steps, 1)
+        [state, kernel_diag] = PerovskiteECC_D2ConstitutiveKernel( ...
+            state, options, state.stage_name, dt_s, targets);
+        accum.SMA_r = accum.SMA_r + state.SMA.r_xi_1_per_s_51;
+        accum.SE_r = accum.SE_r + state.SE.r_xi_1_per_s_51;
+        accum.SMA_q = accum.SMA_q + state.SMA.q_latent_W_per_m3_51;
+        accum.SE_q = accum.SE_q + state.SE.q_latent_W_per_m3_51;
+        state = update_strain_from_current_xM(state, options, coupling);
+    end
+    substeps = max(options.stage_steps, 1);
+    state.SMA.r_xi_1_per_s_51 = accum.SMA_r ./ substeps;
+    state.SE.r_xi_1_per_s_51 = accum.SE_r ./ substeps;
+    state.SMA.q_latent_W_per_m3_51 = accum.SMA_q ./ substeps;
+    state.SE.q_latent_W_per_m3_51 = accum.SE_q ./ substeps;
+    kernel_diag.substeps = substeps;
+    kernel_diag.SMA.r_xi_mean_1_per_s = mean(state.SMA.r_xi_1_per_s_51);
+    kernel_diag.SE.r_xi_mean_1_per_s = mean(state.SE.r_xi_1_per_s_51);
+    kernel_diag.SMA.q_latent_mean_W_per_m3 = mean(state.SMA.q_latent_W_per_m3_51);
+    kernel_diag.SE.q_latent_mean_W_per_m3 = mean(state.SE.q_latent_W_per_m3_51);
+    state.time_s = old_state.time_s + 1.0;
     state.coupling = coupling;
     state.energy = energy;
 
     report = build_report(stage_index, old_state, state, coupling, energy, kernel_diag);
+end
+
+function values = axial_profile(left_value, right_value, N)
+    values = linspace(left_value, right_value, N).';
+end
+
+function state = update_strain_from_current_xM(state, options, coupling)
+    sma = options.material.SMA;
+    se = options.material.SE;
+    delta_a = max(1.0 - state.SMA.xM_51, 0.0);
+    delta_r = state.SE.xM_51;
+    state.SMA.epsilon_51 = sma.epsilon_T .* delta_a - state.SMA.sigma_Pa_51 ./ sma.E_m_Pa;
+    state.SE.epsilon_51 = se.epsilon_T .* delta_r + state.SE.sigma_Pa_51 ./ se.E_m_Pa;
+
+    if strcmp(state.stage_name, 'sma_cool_unload')
+        state.SMA.epsilon_51 = sma.epsilon_T .* coupling.delta_xM_a - ...
+            state.SMA.sigma_Pa_51 ./ sma.E_m_Pa;
+        state.SE.epsilon_51 = se.epsilon_T .* coupling.delta_xM_r + ...
+            state.SE.sigma_Pa_51 ./ se.E_m_Pa;
+    elseif strcmp(state.stage_name, 'se_absorb_heat')
+        state.SMA.epsilon_51 = zeros(size(state.SMA.epsilon_51));
+        state.SE.epsilon_51 = se.epsilon_T .* state.SE.xM_51 + ...
+            state.SE.sigma_Pa_51 ./ se.E_m_Pa;
+    end
 end
 
 function report = build_report(stage_index, old_state, state, coupling, energy, kernel_diag)
@@ -96,4 +145,3 @@ function report = build_report(stage_index, old_state, state, coupling, energy, 
     report.etaECC = energy.etaECC;
     report.kernel_diag = kernel_diag;
 end
-
