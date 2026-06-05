@@ -23,15 +23,7 @@ function result = solve_cycle_point(options)
     se = options.material.SE;
     sys = options.system;
 
-    bracket = [0.0, 1.0];
-    [r_lo, ~] = residual_for_delta_xM(bracket(1), g, sma, se, sys);
-    [r_hi, ~] = residual_for_delta_xM(bracket(2), g, sma, se, sys);
-
-    if isfinite(r_lo) && isfinite(r_hi) && r_lo * r_hi <= 0.0
-        [delta_xM_a, solve_diag] = bisect_delta_xM(bracket, g, sma, se, sys, options.numerics);
-    else
-        [delta_xM_a, solve_diag] = grid_delta_xM(g, sma, se, sys, options.numerics);
-    end
+    [delta_xM_a, solve_diag] = solve_strict_bidirectional_delta(g, sma, se, sys);
 
     [eq11_residual, calc] = residual_for_delta_xM(delta_xM_a, g, sma, se, sys);
     result = calc;
@@ -55,25 +47,15 @@ function [residual, calc] = residual_for_delta_xM(delta_xM_a, g, sma, se, sys)
     inv_S_ratio = 1.0 / S_ratio;
     T0 = sys.T0_K;
 
-    sigma_r_uld_Pa = inv_S_ratio * sma.C_A_Pa_per_K * ...
+    sigma_r_common_Pa = inv_S_ratio * sma.C_A_Pa_per_K * ...
         (T0 - sma.T_Ms_K - delta_xM_a * (sma.T_Mf_K - sma.T_Ms_K));
-
-    mtdt_transform_K = sma.T_As_K - sma.T_Ms_K + delta_xM_a * ...
-        ((sma.T_Af_K - sma.T_As_K) + (sma.T_Ms_K - sma.T_Mf_K));
-
-    % Eq. 15 is a minimum driving temperature difference. We use the
-    % nonnegative stress interval sigma_r,uld - sigma_r,ld for this cycle.
-    A = inv_S_ratio * sma.C_M_Pa_per_K;
-    B = S_ratio / sma.C_A_Pa_per_K;
-    H0 = T0 + mtdt_transform_K + B * sigma_r_uld_Pa;
-    denom = 1.0 + A * B;
-    sigma_r_ld_Pa = A * (H0 - sma.T_As_K - ...
-        delta_xM_a * (sma.T_Af_K - sma.T_As_K)) / denom;
-    T_h_K = H0 - B * sigma_r_ld_Pa;
-
+    sigma_r_ld_Pa = sigma_r_common_Pa;
+    sigma_r_uld_Pa = sigma_r_common_Pa;
     sigma_a_ld_Pa = S_ratio * sigma_r_ld_Pa;
     sigma_a_uld_Pa = S_ratio * sigma_r_uld_Pa;
-    delta_sigma_r_Pa = sigma_r_uld_Pa - sigma_r_ld_Pa;
+    delta_sigma_r_Pa = sigma_r_ld_Pa - sigma_r_uld_Pa;
+    T_h_K = sma.T_As_K + delta_xM_a * (sma.T_Af_K - sma.T_As_K) + ...
+        sigma_a_ld_Pa / sma.C_M_Pa_per_K;
 
     eq11_delta_xM_a = L_ratio * se.epsilon_T / sma.epsilon_T + ...
         (L_ratio + S_ratio * (se.E_m_Pa / sma.E_m_Pa)) * ...
@@ -86,7 +68,7 @@ function [residual, calc] = residual_for_delta_xM(delta_xM_a, g, sma, se, sys)
     calc.T_c_K = sys.T_c_K;
     calc.MDTD_K = T_h_K - T0;
     calc.delta_sigma_r_Pa = delta_sigma_r_Pa;
-    calc.delta_sigma_r_convention = 'sigma_r_uld_minus_sigma_r_ld_nonnegative_interval';
+    calc.delta_sigma_r_convention = 'sigma_r_ld_minus_sigma_r_uld_signed_common_stress_for_strict_eq7';
     calc.sigma_r_ld_Pa = sigma_r_ld_Pa;
     calc.sigma_r_uld_Pa = sigma_r_uld_Pa;
     calc.sigma_a_ld_Pa = sigma_a_ld_Pa;
@@ -94,44 +76,21 @@ function [residual, calc] = residual_for_delta_xM(delta_xM_a, g, sma, se, sys)
     calc.eq11_delta_xM_a = eq11_delta_xM_a;
 end
 
-function [root, diag] = bisect_delta_xM(bracket, g, sma, se, sys, numerics)
-    lo = bracket(1);
-    hi = bracket(2);
-    [r_lo, ~] = residual_for_delta_xM(lo, g, sma, se, sys);
-    iterations = 0;
-    for idx = 1:numerics.coupling_max_iterations
-        mid = 0.5 * (lo + hi);
-        [r_mid, ~] = residual_for_delta_xM(mid, g, sma, se, sys);
-        iterations = idx;
-        if abs(r_mid) <= numerics.coupling_tolerance || abs(hi - lo) <= numerics.coupling_tolerance
-            root = mid;
-            diag = struct('method', 'bisection', 'iterations', iterations, ...
-                'final_residual', r_mid);
-            return;
-        end
-        if r_lo * r_mid <= 0.0
-            hi = mid;
-        else
-            lo = mid;
-            r_lo = r_mid;
-        end
-    end
-    root = 0.5 * (lo + hi);
-    [r_final, ~] = residual_for_delta_xM(root, g, sma, se, sys);
-    diag = struct('method', 'bisection_max_iter', 'iterations', iterations, ...
-        'final_residual', r_final);
-end
-
-function [root, diag] = grid_delta_xM(g, sma, se, sys, numerics)
-    xs = linspace(0.0, 1.0, numerics.coupling_grid_points);
-    residuals = zeros(size(xs));
-    for idx = 1:numel(xs)
-        residuals(idx) = residual_for_delta_xM(xs(idx), g, sma, se, sys);
-    end
-    [~, best_idx] = min(abs(residuals));
-    root = xs(best_idx);
-    diag = struct('method', 'grid_min_abs_residual', 'iterations', numel(xs), ...
-        'final_residual', residuals(best_idx));
+function [root, diag] = solve_strict_bidirectional_delta(g, sma, se, sys)
+    L_ratio = g.L_r_over_L_a;
+    S_ratio = g.S_r_over_S_a;
+    inv_S_ratio = 1.0 / S_ratio;
+    k0 = L_ratio * se.epsilon_T / sma.epsilon_T;
+    k1 = (L_ratio + S_ratio * (se.E_m_Pa / sma.E_m_Pa)) / ...
+        (se.E_m_Pa * sma.epsilon_T);
+    a0 = inv_S_ratio * sma.C_A_Pa_per_K * (sys.T0_K - sma.T_Ms_K);
+    a1 = -inv_S_ratio * sma.C_A_Pa_per_K * (sma.T_Mf_K - sma.T_Ms_K);
+    root = (k0 + k1 * a0) / max(1.0 - k1 * a1, eps);
+    [residual, ~] = residual_for_delta_xM(root, g, sma, se, sys);
+    diag = struct( ...
+        'method', 'closed_form_common_stress_from_eq7_load_unload_eq11_eq14', ...
+        'iterations', 1, ...
+        'final_residual', residual);
 end
 
 function residuals = audit_residuals(calc, g, sma, se, sys)
@@ -144,7 +103,11 @@ function residuals = audit_residuals(calc, g, sma, se, sys)
         calc.T_h_K, calc.delta_xM_a);
     eq14_sigma_a = PerovskiteECC_ClausiusClapeyron(sma, 'unloading', ...
         sys.T0_K, calc.delta_xM_a);
-    eq15_rhs_K = g.S_r_over_S_a * calc.delta_sigma_r_Pa / sma.C_A_Pa_per_K + ...
+    eq15_exact_rhs_K = g.S_r_over_S_a * calc.sigma_r_ld_Pa / sma.C_M_Pa_per_K - ...
+        g.S_r_over_S_a * calc.sigma_r_uld_Pa / sma.C_A_Pa_per_K + ...
+        sma.T_As_K - sma.T_Ms_K + calc.delta_xM_a * ...
+        ((sma.T_Af_K - sma.T_As_K) + (sma.T_Ms_K - sma.T_Mf_K));
+    eq15_paper_rhs_K = g.S_r_over_S_a * calc.delta_sigma_r_Pa / sma.C_A_Pa_per_K + ...
         sma.T_As_K - sma.T_Ms_K + calc.delta_xM_a * ...
         ((sma.T_Af_K - sma.T_As_K) + (sma.T_Ms_K - sma.T_Mf_K));
 
@@ -157,7 +120,8 @@ function residuals = audit_residuals(calc, g, sma, se, sys)
     raw.eq11_delta_xM_a = calc.delta_xM_a - calc.eq11_delta_xM_a;
     raw.eq13_sigma_Pa = eq13_sigma_a.sigma_Pa - calc.sigma_a_ld_Pa;
     raw.eq14_sigma_Pa = eq14_sigma_a.sigma_Pa - calc.sigma_a_uld_Pa;
-    raw.eq15_temperature_K = (calc.T_h_K - sys.T0_K) - eq15_rhs_K;
+    raw.eq15_temperature_K = (calc.T_h_K - sys.T0_K) - eq15_exact_rhs_K;
+    raw.eq15_paper_approx_temperature_K = (calc.T_h_K - sys.T0_K) - eq15_paper_rhs_K;
 
     scaled = struct();
     scaled.eq6_load = raw.eq6_load_N / max(abs(calc.sigma_r_ld_Pa * g.S_r_m2), 1.0);
@@ -169,8 +133,10 @@ function residuals = audit_residuals(calc, g, sma, se, sys)
     scaled.eq13_sigma = raw.eq13_sigma_Pa / max(abs(calc.sigma_a_ld_Pa), 1.0);
     scaled.eq14_sigma = raw.eq14_sigma_Pa / max(abs(calc.sigma_a_uld_Pa), 1.0);
     scaled.eq15_temperature = raw.eq15_temperature_K / max(abs(calc.T_h_K - sys.T0_K), 1.0);
+    scaled.eq15_paper_approx_temperature = raw.eq15_paper_approx_temperature_K / ...
+        max(abs(calc.T_h_K - sys.T0_K), 1.0);
 
-    strict_scaled = rmfield(scaled, 'eq7_unload');
+    strict_scaled = rmfield(scaled, 'eq15_paper_approx_temperature');
     residuals = struct('raw', raw, 'scaled', scaled, 'strict_scaled', strict_scaled);
 end
 
