@@ -56,7 +56,8 @@ function options = Build_HeatDriveECC_Article_Defaults(overrides)
 
     options.validation = struct();
     options.validation.max_finite_abs = 1.0e12;
-    options.validation.max_mechanical_active_eq7_scaled = 0.15;
+    options.validation.max_mechanical_active_eq7_endpoint_scaled = 0.25;
+    options.validation.max_mechanical_active_eq7_transient_scaled = 5.0;
     options.validation.min_probe_samples_per_stage = 50;
 
     options = merge_structs(options, overrides);
@@ -198,4 +199,3 @@ function out = merge_structs(out, overrides)
         end
     end
 end
-

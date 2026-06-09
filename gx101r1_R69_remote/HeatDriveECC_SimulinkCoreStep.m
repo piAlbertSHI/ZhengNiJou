@@ -62,12 +62,15 @@ function y = HeatDriveECC_SimulinkCoreStep(t)
         [route, direction_a, direction_r, target_a, target_r] = route_and_targets(stage_id_update, N);
 
         [sigma_a, sigma_r, eps_a, eps_r, force_residual, disp_residual, eq6_scaled, eq7_scaled] = ...
-            mechanical_coupling(xM_a, xM_r, route(9), S_a, S_r, L_a, L_r, E_a, E_r, epsT_a, epsT_r, sigma_cap_r);
+            mechanical_coupling(xM_a, xM_r, stage_id_update, stage_elapsed_update, d1, d3, ...
+            S_a, S_r, L_a, L_r, E_a, E_r, epsT_a, epsT_r, sigma_cap_r);
+        sigma_drive_r = stress_profile(stage_id_update, stage_elapsed_update, d1, d3, sigma_cap_r);
+        sigma_drive_a = (S_r / S_a) * sigma_drive_r;
 
         [Tbound_a, Tbound_r] = boundary_profiles(stage_id_update, stage_elapsed_update, d1, d2, d3, d4, N, T0, Tc, Th);
-        [xM_a, pai_a, rxi_a, qlat_a] = update_phase(xM_a, T_a, sigma_a, direction_a, target_a, ...
+        [xM_a, pai_a, rxi_a, qlat_a] = update_phase(xM_a, T_a, sigma_drive_a, direction_a, target_a, ...
             dt, epsT_a, CMa, CAa, TMs_a, TAs_a, rho, ds0);
-        [xM_r, pai_r, rxi_r, qlat_r] = update_phase(xM_r, T_r, sigma_r, direction_r, target_r, ...
+        [xM_r, pai_r, rxi_r, qlat_r] = update_phase(xM_r, T_r, sigma_drive_r, direction_r, target_r, ...
             dt, epsT_r, CMr, CAr, TMs_r, TAs_r, rho, ds0);
 
         T_a = update_temperature(T_a, Tbound_a, route(1) || route(2), dt, h_sma, cond, -1.5 .* rxi_a);
@@ -79,7 +82,8 @@ function y = HeatDriveECC_SimulinkCoreStep(t)
         [stage_id_update, ~, stage_elapsed_update] = stage_at_time(t, tau_cycle, d1, d2, d3, d4, total_time);
         [route, direction_a, direction_r, target_a, target_r] = route_and_targets(stage_id_update, N); %#ok<ASGLU>
         [sigma_a, sigma_r, eps_a, eps_r, force_residual, disp_residual, eq6_scaled, eq7_scaled] = ...
-            mechanical_coupling(xM_a, xM_r, route(9), S_a, S_r, L_a, L_r, E_a, E_r, epsT_a, epsT_r, sigma_cap_r);
+            mechanical_coupling(xM_a, xM_r, stage_id_update, stage_elapsed_update, d1, d3, ...
+            S_a, S_r, L_a, L_r, E_a, E_r, epsT_a, epsT_r, sigma_cap_r);
         pai_a = zeros(N, 1);
         rxi_a = zeros(N, 1);
         qlat_a = zeros(N, 1);
@@ -92,7 +96,8 @@ function y = HeatDriveECC_SimulinkCoreStep(t)
     [route, ~, ~, ~, ~] = route_and_targets(stage_id, N);
     [Tbound_a, Tbound_r] = boundary_profiles(stage_id, stage_elapsed, d1, d2, d3, d4, N, T0, Tc, Th);
     [sigma_a, sigma_r, eps_a, eps_r, force_residual, disp_residual, eq6_scaled, eq7_scaled] = ...
-        mechanical_coupling(xM_a, xM_r, route(9), S_a, S_r, L_a, L_r, E_a, E_r, epsT_a, epsT_r, sigma_cap_r);
+        mechanical_coupling(xM_a, xM_r, stage_id, stage_elapsed, d1, d3, ...
+        S_a, S_r, L_a, L_r, E_a, E_r, epsT_a, epsT_r, sigma_cap_r);
 
     Q_shex = route(1) * 5.0 * mean(Tbound_a - T_a);
     Q_the_sma = route(2) * 5.0 * mean(T_a - T0);
@@ -225,19 +230,15 @@ function [route, dir_a, dir_r, target_a, target_r] = route_and_targets(stage_id,
 end
 
 function [sigma_a, sigma_r, eps_a, eps_r, force_residual, disp_residual, eq6_scaled, eq7_scaled] = ...
-        mechanical_coupling(xM_a, xM_r, mechanical_active, S_a, S_r, L_a, L_r, E_a, E_r, epsT_a, epsT_r, sigma_cap_r)
-    xa = mean(xM_a);
-    xr = mean(xM_r);
-    denom = (S_r / S_a) * L_a / E_a + L_r / E_r;
-    sigma_r_req = (epsT_a * (1.0 - xa) * L_a - epsT_r * xr * L_r) / max(denom, eps);
-    if mechanical_active > 0.5
-        sigma_r = min(max(sigma_r_req, 0.0), sigma_cap_r);
+        mechanical_coupling(xM_a, xM_r, stage_id, stage_elapsed, d1, d3, ...
+        S_a, S_r, L_a, L_r, E_a, E_r, epsT_a, epsT_r, sigma_cap_r)
+    sigma_req = compatible_stress(xM_a, xM_r, S_a, S_r, L_a, L_r, E_a, E_r, epsT_a, epsT_r);
+    if stage_id == 1.0 || stage_id == 3.0
+        sigma_r = min(max(sigma_req, 0.0), sigma_cap_r);
+    elseif stage_id == 2.0
+        sigma_r = min(max(sigma_req, 0.0), sigma_cap_r);
     else
-        if xr > 0.8 && xa < 0.6
-            sigma_r = sigma_cap_r;
-        else
-            sigma_r = 0.0;
-        end
+        sigma_r = 0.0;
     end
     sigma_a = (S_r / S_a) * sigma_r;
     eps_a = epsT_a .* (1.0 - xM_a) - sigma_a ./ E_a;
@@ -245,10 +246,29 @@ function [sigma_a, sigma_r, eps_a, eps_r, force_residual, disp_residual, eq6_sca
     force_residual = sigma_a * S_a - sigma_r * S_r;
     disp_residual = mean(eps_a) * L_a - mean(eps_r) * L_r;
     eq6_scaled = force_residual / max(abs(sigma_r * S_r), 1.0);
-    if mechanical_active > 0.5
+    if stage_id == 1.0 || stage_id == 3.0
         eq7_scaled = disp_residual / max(abs(mean(eps_r) * L_r), 1.0e-12);
     else
         eq7_scaled = 0.0;
+    end
+end
+
+function sigma_r_req = compatible_stress(xM_a, xM_r, S_a, S_r, L_a, L_r, E_a, E_r, epsT_a, epsT_r)
+    xa = mean(xM_a);
+    xr = mean(xM_r);
+    denom = (S_r / S_a) * L_a / E_a + L_r / E_r;
+    sigma_r_req = (epsT_a * (1.0 - xa) * L_a - epsT_r * xr * L_r) / max(denom, eps);
+end
+
+function sigma_r = stress_profile(stage_id, stage_elapsed, d1, d3, sigma_cap_r)
+    if stage_id == 1.0
+        sigma_r = sigma_cap_r * min(max(stage_elapsed / max(d1, eps), 0.0), 1.0);
+    elseif stage_id == 2.0
+        sigma_r = sigma_cap_r;
+    elseif stage_id == 3.0
+        sigma_r = sigma_cap_r * max(1.0 - min(max(stage_elapsed / max(d3, eps), 0.0), 1.0), 0.0);
+    else
+        sigma_r = 0.0;
     end
 end
 
@@ -281,10 +301,14 @@ function [xM, pai, rxi, qlat] = update_phase(xM, T, sigma, direction, target, dt
     X0 = 1.0e5;
     H = 1.0e5;
     threshold = 1.0e5;
-    rate_coeff = 8.0;
-    rate_limit = 10.0;
+    rate_coeff = 15.0;
+    rate_limit = 25.0;
     if direction > 0.0
-        pai = sigma + CM .* (TMs - T) - X0 - H .* xM;
+        if TAs < 300.0
+            pai = sigma - 0.2 .* CM .* (T - TMs) - X0 - H .* xM;
+        else
+            pai = CM .* (TMs - T) + 0.02 .* sigma - X0 - H .* xM;
+        end
         drive = max(pai - threshold, 0.0);
         rxi = rate_coeff .* drive ./ threshold;
         rxi = min(rxi, rate_limit);
@@ -338,4 +362,3 @@ function value = htf_in_se(stage_id, T0, Tc)
         value = Tc;
     end
 end
-
