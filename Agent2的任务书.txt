@@ -1,6 +1,730 @@
-Agent2 的任务书：第二轮返工为论文对齐的一维 SMA/SE 单级热驱动正逆耦合 ECC 系统
+Agent2 的任务书：第四轮返工为论文对齐的 Simulink 全循环一维 SMA/SE 单级热驱动 ECC 系统
 
-【第三轮成品级复现指令，2026-06-05，优先级最高】
+【第四轮返工指令，2026-06-09，当前唯一最高优先级】
+
+本节覆盖并纠正第三轮方向。第三轮把任务理解为“MATLAB 复现原文公式 + 51+51 动态状态推进 + 10 cycle”，这不是当前主线目标。第四轮目标是：
+
+    在现有 gx101r1_R69_remote 四阶段求解程序思想基础上，按论文《Elastocaloric cooler for waste heat recovery from perovskite solar cell with electricity and cooling production》2.2 节的材料参数、系统参数、热交换器结构、阀门/流路逻辑和 SMA/SE 正逆耦合方程，重构出一个完整 Simulink 连续执行的单级热驱动 ECC 系统；先运行 3 个 cycle，并通过 3 个 cycle 的趋势和关键公式审计证明物理逻辑正确。
+
+第三轮代码和结果的处理原则：
+
+1. 第三轮的文章公式、默认参数、Eq.6-Eq.26 计算和验证脚本只能作为“参数表/公式审计参考”。
+2. 第三轮的纯 MATLAB cycle runner 不能作为第四轮主交付。
+3. 第三轮的 10 cycle 目标暂时取消；第四轮只要求 3 cycle，但必须是在 Simulink 中完整四阶段连续推进。
+4. 第三轮如果新建了与文章参数相关的函数，可以迁移参数定义和 audit 公式；但不能把“目标插值/静态同值 51 节点/纯 MATLAB 状态推进”包装成最终结果。
+5. 本轮不得继续沿用圆薄板 `u/w`、半径、径向节点、101 直径条带、`GlobalXi` 圆薄板本构作为 SMA/SE 主求解。
+
+一、第四轮总目标和成品定义
+
+第四轮合格成品必须满足：
+
+1. 新建或重构一个 Simulink 主模型，建议命名：
+
+       heatdrive_ecc_1d51_fullcycle.slx
+
+   或使用同等清晰名称。不要覆盖原成熟模型，不要把 `d_2.slx` 直接当主工程堆模块。
+
+2. 完整 cycle 的四个阶段全部在 Simulink 中执行。
+   - 阶段 1：SMA 被 SHEX 热源流体加热并驱动 SE 加载。
+   - 阶段 2：SE 与 THE 换热并向环境/热端放热。
+   - 阶段 3：SMA 被 THE/T0 回路冷却并驱动 SE 卸载。
+   - 阶段 4：SE 与 RHE 换热并向冷端提供制冷。
+   - MATLAB 脚本只负责配置参数、启动 Simulink、收集输出、画图和审计；不能把 stage 1/3 留在 MATLAB 手动推进。
+
+3. 使用论文默认材料参数和系统参数作为默认工况。
+   - `Sr/Sa = 0.2`
+   - `Lr/La = 0.4`
+   - `Tc = 288 K`
+   - `T0 = 308 K`
+   - `eta_hr = 0.7`
+   - NiTi refrigerant 和 actuator 参数见本节第七部分。
+
+4. 使用 51+51 长度方向节点。
+   - SMA actuator：51 个长度方向温度/相分数/应力/应变节点。
+   - SE refrigerant：51 个长度方向温度/相分数/应力/应变节点。
+   - 几何实现采用“一维等截面长条/长方体构件”作为工程对象；力学上只通过 `L` 和 `S` 表征，热模型可用 `S=b*t`、周长、换热面积等参数化。
+   - 禁止使用圆薄板半径、径向位移、中心挠度、薄板弯曲、101 直径条带或 51->101->51 映射。
+
+5. 第四轮先运行 3 个 cycle。
+   - 不要求 10 cycle。
+   - 必须输出三循环趋势图、表格和审计结果。
+   - 3 个 cycle 应能看出热驱动、加载、放热、卸载、吸热的物理顺序，并能和论文关键数据/公式作比较。
+
+二、系统物理逻辑必须先理清
+
+本系统不是“外部压力驱动圆薄板”，也不是“单独文章公式计算器”。正确系统是：
+
+1. 热源来自 PSC 废热或等效 SHEX。
+   - SHEX 提供热流体，使 SMA actuator 从环境温度附近升温到驱动温度 `Th`。
+   - 论文中 `Qh = Qa = G*A_PSC - P_PSC - QL`，频率 `nu = Qh/(ma*qa)`。若本轮暂不完整接入 PSC 电模型，必须用论文 Eq.23/Eq.24 给出等效 SHEX 热源设定和来源说明。
+
+2. SMA actuator 是热驱动执行器。
+   - 初始状态 A1：`T_a ≈ T0`，马氏体分数 `xM_a ≈ 1`。
+   - 被 SHEX 加热后，从 A1 经 A2/A3 到 A4，马氏体向奥氏体转变，发生回复/收缩变形。
+   - 该变形通过机械耦合向 SE 提供应力和位移。
+
+3. SE refrigerant 是被 SMA 驱动的弹热制冷体。
+   - 初始状态 R1：`xM_r ≈ 0`，无外力，奥氏体。
+   - 被 SMA 加载后，从 R1 到 R2，目标是 `Delta xM_r ≈ 1`，发生应力诱导马氏体转变并升温。
+   - 与 THE 换热时，从 R2 到 R4，向 THE 放出相变热/显热。
+   - 卸载和 RHE 换热后回到 R1，向 RHE 提供冷量。
+
+4. 机械耦合是 SMA 和 SE 的核心，不是可选后处理。
+   - 力平衡：`sigma_a * S_a = sigma_r * S_r`。
+   - 位移相容：`abs(integral(epsilon_a dx over La)) = abs(integral(epsilon_r dx over Lr))`。
+   - 若 51 节点近似均匀，则退化为论文 Eq.7：`abs(epsilon_a*La)=abs(epsilon_r*Lr)`。
+   - Simulink 中必须实时计算或准静态求解 `sigma_a, sigma_r, epsilon_a, epsilon_r, xM_a, xM_r`，并记录 Eq.6/Eq.7 残差。
+
+5. 热交换器和阀门决定四阶段边界条件。
+   - 论文结构包含 SHEX/SHE、SMA、SE、RHE、THE、pump、两个三通阀、四个止回阀、piston 和管路。
+   - SMA 属于第一回路：SHEX <-> SMA <-> THE。
+   - SE 属于第二回路：THE <-> SE <-> RHE。
+   - 当前成熟工程已有“冷/热双通道避免加载后和卸载后换热污染”的思想，可以保留；但必须新增 SHEX，并按论文重排阀门/闸门位置和每阶段流路。
+
+三、SMA 和 SE 模块划分决策
+
+第四轮采用“拆分物理子模块 + 顶层耦合子系统”的方案，不做一个黑盒模块，也不做完全独立的两个模块。
+
+建议 Simulink 层级：
+
+    HeatDrivenECC_1D51
+      StageScheduler
+      ValveAndFlowController
+      SHEX_SourceLoop
+      THE_SinkLoop
+      RHE_RefrigerantLoop
+      SMA_Actuator_1D51
+      SE_Refrigerant_1D51
+      MechanicalCouplingSolver
+      EnergyAndEquationAudit
+      OutputLogger
+
+理由：
+
+1. SMA 和 SE 的材料参数、初始相态、热边界和相变方向不同，必须拆分成两个清晰子模块。
+2. SMA 和 SE 又通过 Eq.6/Eq.7 强耦合，不能各自独立求解后再事后修正。
+3. 顶层 `MechanicalCouplingSolver` 统一处理符号、力平衡、位移相容和应力分配，避免把正负号散落到热模块或材料模块中。
+4. 顶层 `ValveAndFlowController` 统一处理 SHEX/THE/RHE 与双通道换热，避免冷热通道状态互相污染。
+
+四、完整四阶段 Simulink 执行要求
+
+本轮必须在一个 Simulink 仿真时间轴内完成 3 个 cycle。允许为调试写单阶段测试模型或脚本，但最终验收入口必须是全周期模型。
+
+四阶段建议命名和物理动作如下：
+
+1. `sma_heat_load`
+   - 阶段状态：A1 -> A4，R1 -> R2。
+   - SMA 流路：SHEX 热流体打开，SMA 与 SHEX 换热；THE 冷却支路关闭。
+   - SE 流路：SE 与 THE/RHE 换热支路关闭或保持隔离；机械加载 active。
+   - 物理趋势：
+     - `T_a` 上升；
+     - `xM_a` 下降；
+     - SMA 收缩/回复变形增大；
+     - `sigma_r` 上升；
+     - `xM_r` 上升，目标接近 1；
+     - SE 由于加载出现升温趋势。
+
+2. `se_reject_heat`
+   - 阶段状态：R2 -> R4，SMA 保持 A4 或高温受控状态。
+   - SE 流路：SE 与 THE 打开，向 THE 放热。
+   - SMA 流路：SMA 不应被错误接到 T0 冷却支路；需要保持热态或按论文流路维持。
+   - 物理趋势：
+     - SE 热量流向 THE；
+     - `T_r` 降向 T0 侧；
+     - `xM_r` 应维持高马氏体或按本构小幅演化，不应提前回到奥氏体；
+     - SMA 不应在本阶段被卸载。
+
+3. `sma_cool_unload`
+   - 阶段状态：A4 -> A1，SE 从高载向卸载过程过渡。
+   - SMA 流路：THE/T0 回路打开，SMA 被 THE 侧流体冷却。
+   - SE 流路：SE 与 THE/RHE 换热支路关闭或保持隔离；机械卸载 active。
+   - 物理趋势：
+     - `T_a` 下降；
+     - `xM_a` 上升回到马氏体；
+     - `sigma_r` 下降；
+     - SE 发生逆相变趋势并降温。
+
+4. `se_absorb_heat`
+   - 阶段状态：SE -> R1。
+   - SE 流路：SE 与 RHE 打开，从冷端/RHE 吸热并提供制冷。
+   - SMA 流路：SMA 保持冷态或与 T0 支路隔离/受控。
+   - 物理趋势：
+     - RHE 热量流向 SE；
+     - 冷端有正的制冷量；
+     - `xM_r` 回到接近 0；
+     - 结束时 SMA/SE 应接近下一 cycle 初始状态。
+
+五、阶段时间和频率要求
+
+旧程序的阶段时间 `[0.1, 0.4, 0.1, 0.4]` 不能继续使用，也不能只改数字后宣称对齐论文。
+
+第四轮必须这样处理时间：
+
+1. 先从论文中核查是否存在明确四阶段持续时间、频率或热交换时间常数。
+   - 必须检查本地 PDF、图 3/图 4 说明、Eq.18-Eq.24、参考文献中被引用的热驱动 ECC cycle 描述。
+   - 如果论文或图注给出明确周期/频率/阶段时间，以论文为准。
+
+2. 如果论文未给固定四阶段比例：
+   - 总周期优先由 Eq.24 约束：`tau_cycle = 1/nu = ma*qa/Qh`。
+   - 阶段切换优先采用物理事件或目标完成度，而不是旧比例：
+     - stage 1 到达 `mean(xM_a)` 低值、`mean(xM_r)` 接近 1，或 SMA 接近 `Th`；
+     - stage 2 SE 放热完成，出口温度/平均温度接近 THE 设定或热流积分达到目标；
+     - stage 3 `mean(xM_a)` 回升、`sigma_r` 释放到低值；
+     - stage 4 SE 吸热完成并回到 R1 附近。
+   - 若 Simulink 实现上第一版必须用固定 duration，应新增 `stage_duration_source` 字段，明确说明每段时间如何由 `tau_cycle`、热交换时间常数和相变完成条件估计；不能使用旧 `[0.1,0.4,0.1,0.4]`。
+
+3. 参数命名建议：
+
+       options.cycle_count = 3
+       options.tau_cycle_s
+       options.stage_durations_s
+       options.stage_duration_source
+       options.stage_switch_mode = 'event_guarded' 或 'fixed_from_article_frequency'
+
+4. 报告必须列出：
+   - 论文是否给出显式 stage time；
+   - 本程序最终采用的每阶段时间；
+   - 每阶段时间的推导依据；
+   - 为什么不是旧程序的 0.1/0.4/0.1/0.4。
+
+六、阀门、流路和换热通道重构要求
+
+新增 SHEX 后，不能再直接套用旧模型的 `hold_exchange/cooldown_exchange` 两阶段流路。
+
+第四轮必须建立清晰的 valve/route matrix，建议用结构体或表格输出：
+
+    route(stage).SHEX_to_SMA
+    route(stage).THE_to_SMA
+    route(stage).SE_to_THE
+    route(stage).RHE_to_SE
+    route(stage).SMA_loop_pump_on
+    route(stage).SE_loop_pump_on
+    route(stage).three_way_valve_1_position
+    route(stage).three_way_valve_2_position
+    route(stage).check_valve_states
+
+必须满足：
+
+1. SMA 第一回路：
+   - 加热时接 SHEX；
+   - 冷却时接 THE/T0；
+   - 两条流体路径不得在数组/水箱状态上错误共用，除非明确模拟 THE 共同热容。
+
+2. SE 第二回路：
+   - 放热时接 THE；
+   - 吸热时接 RHE；
+   - 放热后的热流体状态不得污染吸热阶段的冷端流体状态。
+
+3. THE 是论文中的 sink heat exchanger at T0。
+   - THE 可以作为共享环境热汇，但不能让 SMA 冷却回路和 SE 放热回路在数值上无控制混合。
+   - 如果用同一个 THE 热容，必须显式写出能量平衡和混合规则。
+   - 第一版更稳妥的做法是保留成熟工程“双通道防污染”思想：THE_SMA_branch 和 THE_SE_branch 分开审计，必要时再通过同一个 T0 边界汇合。
+
+4. RHE 是制冷输出端，不是旧冷端任意水箱。
+   - 必须输出 RHE 侧吸热量、入口/出口温度、冷量积分。
+
+5. SHEX 是本轮新增核心模块。
+   - 必须输出 SHEX 输入热流、SMA 吸热量、SHEX 入口/出口或等效边界温度。
+   - 如果 PSC 模型暂不完整接入，SHEX 边界热源要由 Eq.23/Eq.24 或论文 `Th`/MDTD 计算得到，不能随意设定。
+
+七、论文参数必须作为默认参数
+
+建议新增集中参数函数：
+
+    Build_HeatDriveECC_Article_Defaults.m
+
+或同等入口。默认参数必须至少包含：
+
+1. 系统参数 Table 1：
+   - `Sr_over_Sa = 0.2`
+   - `Lr_over_La = 0.4`
+   - `Tc_K = 288`
+   - `T0_K = 308`
+   - `eta_hr = 0.7`
+   - PSC 相关 `q, Rs, Rsh, h, c, Kb` 等若本轮接入 Eq.22-Eq.24。
+
+2. NiTi refrigerant 参数 Table 2：
+   - `CM = 7.3 MPa/K`
+   - `CA = 7.6 MPa/K`
+   - `cp = 0.5 J/g/K`
+   - `Delta_h = 10 J/g`
+   - `epsilon_T = 0.03`
+   - `TAs = 268 K`
+   - `TAf = 288 K`
+   - `TMf = 238 K`
+   - `TMs = 258 K`
+   - `wuld = 4.1 J/g`
+   - `wld = 5.6 J/g`
+   - `Em = 30000 MPa`
+   - `rho = 6500 kg/m^3`
+
+3. NiTi actuator 参数 Table 2：
+   - `CM = 7.3 MPa/K`
+   - `CA = 7.6 MPa/K`
+   - `cp = 0.5 J/g/K`
+   - `Delta_h = 10 J/g`
+   - `epsilon_T = 0.03`
+   - `TAs = 323 K`
+   - `TAf = 343 K`
+   - `TMf = 293 K`
+   - `TMs = 313 K`
+   - `Em = 30000 MPa`
+   - `rho = 6500 kg/m^3`
+
+4. 几何参数：
+   - 论文默认只给 `Sr/Sa`、`Lr/La`，绝对 `Sa, Sr, La, Lr` 需要本工程设定。
+   - 第四轮应选一组可解释的长方体条带基准几何，例如先指定 `La`、`Sa=b_a*t_a`，再由论文比值得到 `Lr`、`Sr`。
+   - 绝对尺寸会影响质量、换热面积和频率，必须写入报告并做参数来源说明。
+   - 禁止为了接旧圆薄板而引入圆盘半径。
+
+5. 单位规范：
+   - Simulink 内部建议统一 SI：Pa、m、kg、J、s、K。
+   - 论文公式中 MPa、J/g、kg/m3 必须在参数函数里统一转换。
+   - 输出报告可同时给 MPa、J/g、K，方便对照论文。
+
+八、本构与 d_2.slx 的关系
+
+`d_2.slx` 中有可参考的核心本构求解思想，第四轮不能忽略，但也不能照搬 12+12 节点和临时参数。
+
+第四轮应执行：
+
+1. 从 `d_2.slx` 提取或复核核心 MATLAB Function/Stateflow 逻辑：
+   - 相变驱动力 `pai`；
+   - 硬化项；
+   - `r_xi`；
+   - `xi_state` 持续状态；
+   - 潜热 `q`；
+   - SMA/SE 分区；
+   - 机械耦合应力对 SE 的加载。
+
+2. 把这些思想改造成 51+51 一维轴向构件本构：
+   - `SMA.xM_51`
+   - `SE.xM_51`
+   - `SMA.pai_51`
+   - `SE.pai_51`
+   - `SMA.r_xi_51`
+   - `SE.r_xi_51`
+   - `SMA.q_latent_51`
+   - `SE.q_latent_51`
+
+3. 本构更新必须受论文参数约束：
+   - 相变温度使用 Table 2；
+   - 机械平衡使用 Eq.6/Eq.7；
+   - Clausius-Clapeyron 使用 Eq.12；
+   - actuator 加载/卸载应力约束使用 Eq.13/Eq.14；
+   - MDTD 使用 Eq.15 做 audit。
+
+4. 不能再用目标插值直接规定 `xM`。
+   - `xM` 必须来自温度、应力、相变驱动力和时间步推进。
+   - 可以使用数值松弛、限幅和事件保护，但必须保留物理驱动项，并在报告说明。
+
+5. 不能沿用 `d_2.slx` 的硬编码非论文参数。
+   - `epsilonL=0.05`、`K_link=800e6`、12+12 节点、固定第 3/15 节点采样等只能作为历史参考。
+   - 默认物理参数必须来自论文 Table 1/2 或明确的本工程几何/换热设定。
+
+九、Simulink 实现建议
+
+第四轮允许 Agent2 自主选择具体建模方式，但必须满足可运行、可审计、可维护。
+
+推荐路线：
+
+1. 先写参数和构建脚本：
+
+       Build_HeatDriveECC_Article_Defaults.m
+       Build_HeatDriveECC_StageSchedule.m
+       Build_HeatDriveECC_RouteMatrix.m
+       Build_HeatDriveECC_Model.m
+
+   如果手工修改 `.slx` 更稳，也可以手工建模，但必须有脚本/文档说明如何初始化模型变量。
+
+2. Simulink 中使用 MATLAB Function blocks 或等效子系统实现：
+   - 51 节点固体热容和轴向/对流换热；
+   - SMA/SE 相变本构；
+   - 机械耦合求解；
+   - 阀门/流路选择；
+   - SHEX/THE/RHE 热交换；
+   - 能量和方程残差审计。
+
+3. 保留成熟工程中可复用的思想：
+   - 四阶段 stage descriptor；
+   - pump/valve 状态记录；
+   - 冷端/热端/热负载边界；
+   - fast/accelerator 或 Rapid Accelerator 运行；
+   - 并行调用和输出目录隔离；
+   - result/summary/report/validation 框架；
+   - 双通道防污染思路。
+
+4. 但不要强行复用成熟工程的旧物理对象：
+   - 不复用 `GlobalXi` 圆薄板主求解；
+   - 不复用径向 `checkpoint` 作为 SMA/SE 物理状态；
+   - 不复用旧阶段名称导致 SHEX 缺失；
+   - 不复用旧 `0.1/0.4/0.1/0.4` 时间。
+
+十、验证入口和输出要求
+
+第四轮必须提供一个主验证入口，建议命名：
+
+    summary = Validate_HeatDriveECC_Simulink_3Cycle();
+
+该入口至少完成：
+
+1. 构建或加载 Simulink 模型。
+2. 加载论文默认参数。
+3. 设置 `cycle_count = 3`。
+4. 运行完整 Simulink 仿真。
+5. 保存轻量结果：
+   - `.mat` 完整结果；
+   - `.json` 或 `.txt` summary；
+   - 趋势图；
+   - 方程审计表；
+   - 阀门/流路状态表。
+
+建议输出目录：
+
+    gx101r1_R69_remote\outputs_heatdrive_ecc_3cycle\
+
+输出信号至少包含：
+
+1. 时间和阶段：
+   - `time_s`
+   - `cycle_index`
+   - `stage_id`
+   - `stage_name`
+   - `route_id`
+   - valve matrix
+
+2. SMA actuator：
+   - `T_a_51`
+   - `xM_a_51`
+   - `sigma_a_51` 或统一 `sigma_a`
+   - `epsilon_a_51`
+   - `pai_a_51`
+   - `r_xi_a_51`
+   - `q_latent_a_51`
+   - SHEX heat input
+
+3. SE refrigerant：
+   - `T_r_51`
+   - `xM_r_51`
+   - `sigma_r_51` 或统一 `sigma_r`
+   - `epsilon_r_51`
+   - `pai_r_51`
+   - `r_xi_r_51`
+   - `q_latent_r_51`
+   - THE rejection heat
+   - RHE cooling heat
+
+4. 换热器和泵阀：
+   - SHEX inlet/outlet or equivalent boundary temperature；
+   - THE inlet/outlet or equivalent heat sink；
+   - RHE inlet/outlet or cold-load heat；
+   - pump on/off 或 flow rate；
+   - 两个三通阀和四个止回阀状态。
+
+5. 公式审计：
+   - Eq.6 force residual；
+   - Eq.7 displacement residual；
+   - Eq.10 `Delta xM_r`；
+   - Eq.11 `Delta xM_a`；
+   - Eq.13/Eq.14 actuator stress constraints；
+   - Eq.15 MDTD；
+   - Eq.16/Eq.17 `qa/qr`；
+   - Eq.18/Eq.21 `Qa/Qr/PECC/etaECC`；
+   - Eq.23/Eq.24 `Qh/nu`，如果本轮接入 PSC/Eq.23。
+
+十一、3 cycle 物理趋势验收
+
+3 cycle 结果必须能看出以下趋势；否则不能交付，需要返工。
+
+1. SMA actuator：
+   - 每个 cycle 的 stage 1 `mean(T_a)` 上升；
+   - stage 1 `mean(xM_a)` 下降；
+   - stage 3 `mean(T_a)` 下降；
+   - stage 3 `mean(xM_a)` 上升；
+   - `xM_a` 全程在 `[0,1]`；
+   - 不出现 NaN/Inf。
+
+2. SE refrigerant：
+   - 每个 cycle 的 stage 1 `mean(sigma_r)` 上升或进入高载平台；
+   - stage 1 `mean(xM_r)` 上升，目标接近 1；
+   - stage 2 热流方向为 SE -> THE；
+   - stage 3 `mean(sigma_r)` 下降；
+   - stage 4 热流方向为 RHE -> SE；
+   - cycle 结束时 `mean(xM_r)` 回到低值，接近 R1；
+   - `xM_r` 全程在 `[0,1]`。
+
+3. 机械耦合：
+   - Eq.6 残差在每个关键阶段可解释且不失控；
+   - Eq.7 残差不能被排除出 strict validation；
+   - 加载和卸载都要审计，不能只审计加载。
+
+4. 能量和热流：
+   - SHEX 在 stage 1 向 SMA 提供热量；
+   - THE 在 stage 2 接收 SE 热量；
+   - THE/T0 在 stage 3 冷却 SMA；
+   - RHE 在 stage 4 被 SE 吸热，形成冷量；
+   - `qa`、`qr`、`PECC`、`etaECC` 的符号和量级符合论文公式。
+
+5. 周期稳定性：
+   - 3 个 cycle 不要求完全稳态，但不能逐周期发散。
+   - 第 2 到第 3 cycle 的关键峰值/谷值应比第 1 cycle 更接近重复。
+   - 如果存在初始过渡，报告必须解释并给出漂移量。
+
+十二、与论文关键数据比较
+
+本轮不要求完整复现 10 cycle 或全文全部图，但必须把 3 cycle 结果和论文关键数据进行对照。
+
+至少比较：
+
+1. Table 1/2 默认参数是否全部进入仿真。
+2. `Sr/Sa=0.2`、`Lr/La=0.4` 是否真实影响 Eq.6/Eq.7 和质量比。
+3. 根据 Eq.11 得到的 `Delta xM_a` 与 Simulink 3 cycle 的实际变化是否一致或误差可解释。
+4. `Delta xM_r` 是否能接近 Eq.10 的 1。
+5. Eq.13/Eq.14 给出的加载/卸载应力是否与 Simulink 应力水平同量级。
+6. Eq.15 给出的 MDTD/`Th-T0` 是否与 SHEX 驱动温度设置一致。
+7. Eq.16/Eq.17 的 `qa/qr` 与 Simulink 积分热量同号、同量级。
+8. 若接入 PSC 热源，则比较 Eq.23/Eq.24 的 `Qh/nu` 和 Simulink 周期热输入/周期时间。
+
+报告中必须区分：
+
+    论文直接给出的值
+    由论文公式计算得到的值
+    本工程为了 Simulink 动态换热补充设定的值
+    当前仿真输出值
+
+十三、硬性禁止事项
+
+1. 禁止把第四轮做成纯 MATLAB 公式复现。
+2. 禁止只运行阶段 2/4 的 Simulink，阶段 1/3 在 MATLAB 里手动推进。
+3. 禁止继续使用圆薄板 `u/w`、`GlobalXi` 主本构、径向压力、中心挠度作为最终物理模型。
+4. 禁止继续使用旧阶段时间 `[0.1,0.4,0.1,0.4]`。
+5. 禁止没有 SHEX 却声称完成热驱动系统。
+6. 禁止只用一个混合水箱让放热和吸热通道互相污染。
+7. 禁止用固定目标插值强行生成 `xM` 变化。
+8. 禁止只检查温度，不检查相分数、应力、应变、阀门状态和能量。
+9. 禁止 validation 失败后仍交付“可运行结果”。
+10. 禁止提交大型仿真输出、缓存、`slprj`、`*.slxc` 或无关自动生成文件。
+
+十四、自主决策权
+
+Agent2 在本轮拥有较高自主决策权。只要满足“完整 Simulink 四阶段、论文参数、51+51 一维长条、SHEX/THE/RHE 流路、机械耦合审计、3 cycle 趋势正确”这些硬约束，可以自主决定：
+
+1. 新 Simulink 模型是手工搭建还是脚本生成。
+2. 热交换器第一版是 lumped NTU、有限体积、简化对流边界，还是在成熟工程换热模块上改造。
+3. 阶段切换是固定 duration、event guarded，还是 fixed duration + event audit。
+4. 机械耦合求解是代数约束、MATLAB Function 内迭代、Simulink Algebraic Constraint，还是每步准静态求解。
+5. 51 节点是否先采用轴向导热 + 对流，或先采用节点对流主导模型再逐步加入轴向导热。
+6. 绝对长方体几何尺寸如何设定，但必须满足论文比值并说明质量、面积、频率影响。
+7. 是否先接入完整 PSC 电模型；如果暂不接入，必须用 Eq.23/Eq.24 给出等效 SHEX 热源并留好接口。
+
+必须暂停并在报告中说明的情况：
+
+1. MATLAB/Simulink 环境无法加载或保存新模型。
+2. d_2.slx 无法读取内部函数，且无法通过已有导出记录复现本构。
+3. 论文/图中没有可确定的 stage duration，且无法构造有物理依据的替代时间。
+4. 只有通过关闭相变、关闭耦合、伪造热流或放宽硬审计才能跑通。
+5. 3 cycle 出现发散、热流方向错误或 xM 越界且多次修复无效。
+
+十五、推荐执行步骤
+
+请按以下步骤推进。每个步骤完成后运行局部验证；如果失败，先修复再继续。
+
+步骤 0：建立第四轮分支和基线记录
+   - 当前可能在第三轮分支 `agent2/article-reproduction-10cycle`。
+   - 新建第四轮分支：
+
+         git switch agent2/article-reproduction-10cycle
+         git switch -c agent2/simulink-fullcycle-3cycle
+
+     如果分支已存在，则切换到该分支。
+   - 记录当前 `git status --short` 和最新 commit。
+   - 第三轮文件保留，不回退；但主线从新 Simulink 全循环模型开始。
+
+步骤 1：重读论文 2.2 和参数表
+   - 重新确认 SHEX/THE/RHE、两三通阀、四止回阀、piston 和两回路描述。
+   - 整理 Table 1/2 为参数结构体。
+   - 核查论文是否给 stage duration；若没有，形成 `stage_duration_source` 说明。
+
+步骤 2：建立参数、几何、单位转换和 route matrix
+   - 新增 `Build_HeatDriveECC_Article_Defaults.m` 或等效文件。
+   - 新增 `Build_HeatDriveECC_RouteMatrix.m` 或等效文件。
+   - 明确 SI 单位转换。
+   - 明确长方体/等截面条带几何。
+   - 输出 route matrix 文本或表格用于报告。
+
+步骤 3：搭建 51+51 SMA/SE 一维状态模块
+   - 提取/迁移 d_2.slx 本构思想。
+   - 实现 SMA 和 SE 的温度、相分数、应力、应变、潜热输出。
+   - 独立验证加热/冷却和加载/卸载趋势。
+
+步骤 4：实现 MechanicalCouplingSolver
+   - 在 Simulink 中按 Eq.6/Eq.7 求解或审计。
+   - 统一应力/应变正负号。
+   - 输出 residual 和 solver status。
+   - 加载和卸载都要覆盖。
+
+步骤 5：实现 SHEX/THE/RHE 和阀门控制
+   - 增加 SHEX。
+   - 把旧冷热端换热思想改造成论文两回路。
+   - 保留双通道防污染。
+   - 输出每阶段阀门状态、热流方向和换热量。
+
+步骤 6：实现 Simulink 全周期调度
+   - 一个模型内执行 3 cycle。
+   - stage scheduler 控制四阶段和 route matrix。
+   - MATLAB 只启动仿真并保存结果。
+   - 第一版可以用 fixed duration，但必须由论文频率/物理事件推导，不用旧比例。
+
+步骤 7：建立验证和图表
+   - 新增 `Validate_HeatDriveECC_Simulink_3Cycle.m`。
+   - 输出趋势图、审计表和 summary。
+   - validation 失败必须 error，不能只 warning。
+
+步骤 8：自检返工
+   - 运行完整验证。
+   - 若硬性检查失败，定位原因并修改。
+   - 再运行验证。
+   - 重复直到 3 cycle 趋势、公式审计、热流方向和阀门状态均通过。
+   - 报告中写明失败过哪些检查、如何修复。
+
+步骤 9：报告和 Git 提交
+   - 输出报告：
+
+         Agent2_第四轮Simulink三循环物理验证报告.txt
+
+   - 报告必须包含实际运行命令、输出目录、3 cycle 结果摘要、论文对照、已知限制、Git 状态。
+   - 按模块提交 Git，不要只在最后一次大提交。
+
+十六、第四轮最终报告必须包含
+
+报告必须是中文，至少包含：
+
+1. 总结结论
+   - 是否完成完整 Simulink 四阶段；
+   - 是否运行 3 cycle；
+   - 入口函数/模型名；
+   - 是否加入 SHEX；
+   - 是否使用论文 Table 1/2 参数；
+   - 是否仍存在未通过审计。
+
+2. 文件变更清单
+   - 新增/修改的 `.m`、`.slx`、`.txt/.md`；
+   - 每个文件用途；
+   - 哪些第三轮文件只是参考，哪些真正进入第四轮主线。
+
+3. 物理模型说明
+   - SMA actuator 模型；
+   - SE refrigerant 模型；
+   - 长方体/等截面条带几何；
+   - 51+51 节点；
+   - d_2.slx 本构迁移内容；
+   - Eq.6/Eq.7 机械耦合；
+   - 相变、潜热和热流符号约定。
+
+4. 系统流路和阀门
+   - SHEX/THE/RHE 结构；
+   - 两回路；
+   - 四阶段 route matrix；
+   - 两三通阀和四止回阀状态或等效抽象；
+   - 如何避免换热污染。
+
+5. 时间参数
+   - 论文是否给 stage duration；
+   - 本程序使用的 `tau_cycle_s` 和 `stage_durations_s`；
+   - 推导依据；
+   - 为什么不使用旧 0.1/0.4/0.1/0.4。
+
+6. 3 cycle 验证结果
+   - 每个 cycle 的 SMA/SE 温度、相分数、应力趋势；
+   - SHEX/THE/RHE 热流方向；
+   - `qa/qr/PECC/etaECC`；
+   - Eq.6/Eq.7/Eq.10/Eq.11/Eq.13-Eq.17 残差；
+   - 周期漂移量。
+
+7. 与论文比较
+   - Table 1/2 参数对照；
+   - Eq.11、Eq.15、Eq.16、Eq.17、Eq.23、Eq.24 的理论值和仿真值；
+   - 误差来源；
+   - 哪些结果只是趋势对齐，哪些已量化对齐。
+
+8. 自检和返工记录
+   - 最初失败的问题；
+   - 修改了什么；
+   - 最终是否通过 hard checks；
+   - 不能通过的项目必须列为限制，不能隐藏。
+
+9. Git 信息
+   - 当前分支；
+   - commit hash；
+   - `git status --short`；
+   - 未提交文件原因；
+   - 被 `.gitignore` 忽略的输出目录。
+
+十七、第四轮 hard checks
+
+`Validate_HeatDriveECC_Simulink_3Cycle` 必须把以下检查作为 hard checks。任何一项失败都不应交付为合格成品：
+
+1. Simulink 完成 3 个完整 cycle。
+2. 四个阶段都在 Simulink 输出时间序列中出现。
+3. 阶段时间不是旧 `[0.1,0.4,0.1,0.4]`。
+4. SHEX/THE/RHE 三个换热器都存在于模型或等效子系统输出中。
+5. `SMA.T_51`、`SE.T_51`、`SMA.xM_51`、`SE.xM_51` 尺寸正确。
+6. 所有关键输出 finite。
+7. `xM_a`、`xM_r` 全程在 `[0,1]`。
+8. stage 1 SMA 吸热且 `xM_a` 下降。
+9. stage 1 SE 加载且 `xM_r` 上升。
+10. stage 2 热流方向 SE -> THE。
+11. stage 3 SMA 冷却且 `xM_a` 上升。
+12. stage 4 热流方向 RHE -> SE。
+13. Eq.6/Eq.7 加载和卸载残差均输出并参与验收。
+14. `qa/qr` 符号和量级符合论文公式。
+15. 第 3 cycle 未出现明显发散。
+
+十八、建议 Git 提交粒度
+
+建议提交：
+
+    git commit -m "Add heat-drive ECC article defaults"
+    git commit -m "Add full-cycle route matrix and stage timing"
+    git commit -m "Add 1D51 SMA and SE Simulink modules"
+    git commit -m "Add mechanical coupling and equation audits"
+    git commit -m "Add SHEX THE RHE flow control"
+    git commit -m "Add 3-cycle Simulink validation"
+    git commit -m "Document fourth-round Simulink validation"
+
+每次提交前运行：
+
+    git status --short
+    git diff --stat
+
+不要提交：
+
+    outputs*
+    slprj
+    *.slxc
+    codegen
+    大型 .mat
+    临时图像缓存
+
+十九、第四轮最终交付判断
+
+本轮成功定义：
+
+    用户可以运行 `Validate_HeatDriveECC_Simulink_3Cycle()`，它会调用完整 Simulink 模型连续执行 3 个 cycle；模型包含 SMA/SE 51+51 一维长条、SHEX/THE/RHE、四阶段阀门/流路、机械耦合、本构相变、潜热和能量审计；结果显示 3 cycle 的热驱动加载、SE 放热、SMA 冷却卸载、SE 吸热趋势正确，并用论文参数和公式给出量化对照。
+
+如果只能完成一部分，优先级是：
+
+1. 完整 Simulink 四阶段框架和 route matrix。
+2. 论文参数和 51+51 状态接口。
+3. SMA/SE 本构和机械耦合。
+4. SHEX/THE/RHE 热流方向正确。
+5. 3 cycle 跑通和 hard checks。
+6. 论文公式量化对照。
+7. 报告和 Git 记录。
+
+但如果 1-5 未达成，不允许把结果标记为第四轮完成。
+
+【历史第三轮指令，2026-06-05，已被第四轮覆盖，仅作公式和参数参考】
 
 本节覆盖第二轮中仍然不充分的部分。第三轮目标不是“再跑一个 smoke”，而是交付一个可以直接复现原文章核心数值、可以运行 10 个 cycle、结果符合物理规律和文章公式的成品级程序。
 
@@ -312,7 +1036,7 @@ Agent2 的任务书：第二轮返工为论文对齐的一维 SMA/SE 单级热�
     Eq.1-Eq.26 关键公式均有代码实现或明确近似；
     最终报告给出文章值、本程序值和误差。
 
-【第二轮返工指令，2026-06-05，优先级最高】
+【历史第二轮返工指令，2026-06-05，已被第四轮覆盖，仅作几何纠偏和 d_2 本构参考】
 
 这是一条新的审核结论：Agent2 第一轮提交的“热驱动单级系统”基本没有完成真正需要的物理模型转换。第一轮实现仍然把制冷体当作原来的圆薄板，继续复用 `GlobalXi_TimeStep_Core.m`、`u/w` 圆薄板位移、半径、等效压力、`pi*R^2` 面积、51->101 直径条带映射，以及 surrogate exchange。这些都不符合本项目现在明确的任务诉求。
 
