@@ -9,7 +9,15 @@ Model path: C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\heatdrive_ecc
 Core Simulink block: heatdrive_ecc_1d51_fullcycle/HeatDriveECC_1D51_FullCycleCore
 Core block type: Interpreted MATLAB Function driven by Simulink Clock
 Output directory: C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_heatdrive_ecc_3cycle
-Trend plot: C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_heatdrive_ecc_3cycle\heatdrive_ecc_3cycle_trends.png
+Trend plot: C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_heatdrive_ecc_3cycle\heatdrive_ecc_3cycle_sma_se_temperature.png
+SMA node temperature plot: C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_heatdrive_ecc_3cycle\heatdrive_ecc_3cycle_sma_temperature_nodes.png
+SE node temperature plot: C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_heatdrive_ecc_3cycle\heatdrive_ecc_3cycle_se_temperature_nodes.png
+All probe temperature plot: C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_heatdrive_ecc_3cycle\heatdrive_ecc_3cycle_all_probe_temperatures.png
+SHEX probe temperature plot: C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_heatdrive_ecc_3cycle\heatdrive_ecc_3cycle_shex_probe_temperatures.png
+HHEX/THE probe temperature plot: C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_heatdrive_ecc_3cycle\heatdrive_ecc_3cycle_hhex_probe_temperatures.png
+CHEX/RHE probe temperature plot: C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_heatdrive_ecc_3cycle\heatdrive_ecc_3cycle_chex_probe_temperatures.png
+Individual probe plot directory: C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_heatdrive_ecc_3cycle\probe_temperature_plots
+Probe plot index CSV: C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_heatdrive_ecc_3cycle\heatdrive_ecc_3cycle_probe_plot_index.csv
 Stage CSV: C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_heatdrive_ecc_3cycle\heatdrive_ecc_3cycle_stage_summary.csv
 Probe CSV: C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_heatdrive_ecc_3cycle\heatdrive_ecc_3cycle_probe_table.csv
 Result MAT: C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_heatdrive_ecc_3cycle\heatdrive_ecc_3cycle_result.mat
@@ -54,16 +62,16 @@ Qa=44.2322867 W, Qr=3.62 W, PECC=3.62 W, etaECC=0.0402454721.
 Output fields Qh/Qa/Qr/PECC/etaECC/nu are copied into every Simulink sample for audit consistency.
 
 7. Equation and hard-check audit
-Output width: 773, expected width: 773.
+Output width: 788, expected width: 788.
 Samples: 972 total; minimum per cycle-stage: 80.
 Eq.6 force residual max scaled=2.00420025e-16, max force residual=7.10542736e-15 N.
 Eq.7 displacement residual max scaled=3.89473684, max displacement residual=0.012 m.
 Validation status: PASS
-  - simulink_result_width: PASS (width=773 expected=773)
+  - simulink_result_width: PASS (width=788 expected=788)
   - all_values_finite: PASS (max_abs=1.91178e+09)
   - three_cycle_four_stage_coverage: PASS (cycles 1..3 and stages 1..4 are present in Simulink output)
   - stage_probe_sample_count: PASS (min_stage_samples=80)
-  - probe_table_row_count: PASS (probe_rows=16800)
+  - probe_table_row_count: PASS (probe_rows=25800)
   - not_legacy_stage_timing: PASS ([0.394085 0.403152 0.394085 0.403152])
   - route_matrix_matches_stage_outputs: PASS (SHEX/THE/RHE route booleans match the four stage definitions)
   - stage1_sma_heat_and_se_load: PASS (stage 1 heats SMA, reduces SMA xM, loads SE, and imports SHEX heat)
@@ -83,11 +91,12 @@ The mechanical solver now records Eq.6/Eq.7 residuals on every sample. Eq.6 is t
 9. Git status at validation time
 Branch: agent2/simulink-fullcycle-3cycle
 ## agent2/simulink-fullcycle-3cycle
+ M Agent2_第四轮Simulink三循环物理验证报告.txt
  M Build_HeatDriveECC_Article_Defaults.m
+ M Build_HeatDriveECC_Model.m
  M HeatDriveECC_SimulinkCoreStep.m
+ M Run_HeatDriveECC_Simulink_3Cycle.m
+ M Write_HeatDriveECC_Simulink_Report.m
  M heatdrive_ecc_1d51_fullcycle.slx
-?? Agent2_第四轮Simulink三循环物理验证报告.txt
-?? Run_HeatDriveECC_Simulink_3Cycle.m
-?? Validate_HeatDriveECC_Simulink_3Cycle.m
-?? Write_HeatDriveECC_Simulink_Report.m
+?? Plot_HeatDriveECC_Temperature_Trends.m
 

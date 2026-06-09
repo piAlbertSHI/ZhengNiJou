@@ -15,9 +15,9 @@ function result = Run_HeatDriveECC_Simulink_3Cycle(options)
         options = Build_HeatDriveECC_Article_Defaults(options);
     end
 
-    if options.cycle_count ~= 3
+    if options.cycle_count < 1 || options.cycle_count ~= round(options.cycle_count)
         error('Run_HeatDriveECC_Simulink_3Cycle:InvalidCycleCount', ...
-            'Fourth-round validation requires exactly 3 cycles.');
+            'Cycle count must be a positive integer.');
     end
 
     if ~isfolder(options.outputs_dir)
@@ -37,9 +37,11 @@ function result = Run_HeatDriveECC_Simulink_3Cycle(options)
 
     yout = sim_out.get('heatdrive_ecc_yout');
     [time_s, values] = unpack_yout(yout);
+    [time_s, values] = trim_to_cycle_count(time_s, values, options);
     summary = summarize_run(time_s, values, options, model_path);
     probe_table = build_probe_table(time_s, values, options);
     stage_table = struct2table(summary.stage_summaries);
+    file_prefix = sprintf('heatdrive_ecc_%dcycle', options.cycle_count);
 
     result = struct();
     result.schema_version = 'heatdrive_ecc_simulink_3cycle_result_v1';
@@ -53,17 +55,17 @@ function result = Run_HeatDriveECC_Simulink_3Cycle(options)
     result.stage_table = stage_table;
     result.probe_table = probe_table;
 
-    result.result_mat_path = fullfile(options.outputs_dir, 'heatdrive_ecc_3cycle_result.mat');
-    result.summary_json_path = fullfile(options.outputs_dir, 'heatdrive_ecc_3cycle_summary.json');
-    result.stage_csv_path = fullfile(options.outputs_dir, 'heatdrive_ecc_3cycle_stage_summary.csv');
-    result.probe_csv_path = fullfile(options.outputs_dir, 'heatdrive_ecc_3cycle_probe_table.csv');
-    result.trend_plot_path = fullfile(options.outputs_dir, 'heatdrive_ecc_3cycle_trends.png');
+    result.result_mat_path = fullfile(options.outputs_dir, [file_prefix, '_result.mat']);
+    result.summary_json_path = fullfile(options.outputs_dir, [file_prefix, '_summary.json']);
+    result.stage_csv_path = fullfile(options.outputs_dir, [file_prefix, '_stage_summary.csv']);
+    result.probe_csv_path = fullfile(options.outputs_dir, [file_prefix, '_probe_table.csv']);
+    result.trend_plot_path = fullfile(options.outputs_dir, [file_prefix, '_sma_se_temperature.png']);
+    result.plot_paths = Plot_HeatDriveECC_Temperature_Trends(result);
 
     save(result.result_mat_path, 'result', '-v7.3');
     write_json(result.summary_json_path, summary);
     writetable(stage_table, result.stage_csv_path);
     writetable(probe_table, result.probe_csv_path);
-    write_trend_plot(time_s, values, options, result.trend_plot_path);
 end
 
 function [time_s, values] = unpack_yout(yout)
@@ -77,6 +79,14 @@ function [time_s, values] = unpack_yout(yout)
         error('Run_HeatDriveECC_Simulink_3Cycle:InvalidYoutShape', ...
             'Cannot align Simulink output values with the time vector.');
     end
+end
+
+function [time_s, values] = trim_to_cycle_count(time_s, values, options)
+    map = options.output_map;
+    keep = round(values(:, map.cycle_index)) >= 1 & ...
+        round(values(:, map.cycle_index)) <= options.cycle_count;
+    time_s = time_s(keep);
+    values = values(keep, :);
 end
 
 function summary = summarize_run(time_s, values, options, model_path)
@@ -281,41 +291,25 @@ function specs = probe_specs()
         'SE_boundary', 'SE_loop', 'SE_boundary_K', 0;
         'SHEX_in', 'SHEX', 'SHEX_in_K', 0;
         'SHEX_out', 'SHEX', 'SHEX_out_K', 0;
-        'THE_SMA', 'THE', 'THE_SMA_K', 0;
-        'THE_SE', 'THE', 'THE_SE_K', 0;
-        'RHE_in', 'RHE', 'RHE_in_K', 0;
-        'RHE_out', 'RHE', 'RHE_out_K', 0};
-end
-
-function write_trend_plot(time_s, values, options, plot_path)
-    map = options.output_map;
-    fig = figure('Visible', 'off', 'Color', 'w', 'Position', [100 100 1100 760]);
-    subplot(3, 1, 1);
-    plot(time_s, values(:, map.T_a_mean_K), 'r-', ...
-        time_s, values(:, map.T_r_mean_K), 'b-', 'LineWidth', 1.1);
-    ylabel('Temperature K');
-    legend({'SMA mean','SE mean'}, 'Location', 'best');
-    grid on;
-
-    subplot(3, 1, 2);
-    plot(time_s, values(:, map.xM_a_mean), 'r-', ...
-        time_s, values(:, map.xM_r_mean), 'b-', 'LineWidth', 1.1);
-    ylabel('xM mean');
-    legend({'SMA xM','SE xM'}, 'Location', 'best');
-    grid on;
-
-    subplot(3, 1, 3);
-    plot(time_s, values(:, map.sigma_r_Pa) ./ 1.0e6, 'k-', ...
-        time_s, values(:, map.Q_shex_W), 'r--', ...
-        time_s, values(:, map.Q_the_se_W), 'm--', ...
-        time_s, values(:, map.Q_rhe_W), 'b--', 'LineWidth', 1.1);
-    xlabel('Time s');
-    ylabel('MPa or W');
-    legend({'SE stress MPa','SHEX W','THE-SE W','RHE W'}, 'Location', 'best');
-    grid on;
-
-    saveas(fig, plot_path);
-    close(fig);
+        'SHEX_internal_hot', 'SHEX', 'SHEX_internal_hot_K', 0;
+        'SHEX_internal_fluid', 'SHEX', 'SHEX_internal_fluid_K', 0;
+        'SHEX_boundary', 'SHEX', 'SHEX_boundary_K', 0;
+        'THE_SMA', 'HHEX/THE', 'THE_SMA_K', 0;
+        'THE_SE', 'HHEX/THE', 'THE_SE_K', 0;
+        'HHEX_internal', 'HHEX/THE', 'HHEX_internal_K', 0;
+        'HHEX_in', 'HHEX/THE', 'HHEX_in_K', 0;
+        'HHEX_out', 'HHEX/THE', 'HHEX_out_K', 0;
+        'HHEX_SMA_internal', 'HHEX/THE_SMA_branch', 'HHEX_SMA_internal_K', 0;
+        'HHEX_SMA_in', 'HHEX/THE_SMA_branch', 'HHEX_SMA_in_K', 0;
+        'HHEX_SMA_out', 'HHEX/THE_SMA_branch', 'HHEX_SMA_out_K', 0;
+        'HHEX_SE_internal', 'HHEX/THE_SE_branch', 'HHEX_SE_internal_K', 0;
+        'HHEX_SE_in', 'HHEX/THE_SE_branch', 'HHEX_SE_in_K', 0;
+        'HHEX_SE_out', 'HHEX/THE_SE_branch', 'HHEX_SE_out_K', 0;
+        'RHE_in', 'CHEX/RHE', 'RHE_in_K', 0;
+        'RHE_out', 'CHEX/RHE', 'RHE_out_K', 0;
+        'CHEX_internal', 'CHEX/RHE', 'CHEX_internal_K', 0;
+        'CHEX_in', 'CHEX/RHE', 'CHEX_in_K', 0;
+        'CHEX_out', 'CHEX/RHE', 'CHEX_out_K', 0};
 end
 
 function write_json(path, value)

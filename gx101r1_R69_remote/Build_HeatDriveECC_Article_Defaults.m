@@ -43,24 +43,45 @@ function options = Build_HeatDriveECC_Article_Defaults(overrides)
     options.material.SE.w_uld_J_per_kg = 4.1e3;
     options.material.SE.w_ld_J_per_kg = 5.6e3;
 
+    options = finalize_derived_options(options, struct());
+    options = merge_structs(options, overrides);
+    options = finalize_derived_options(options, overrides);
+end
+
+function options = finalize_derived_options(options, overrides)
+    options.geometry.L_r_m = options.geometry.L_a_m * options.geometry.L_r_over_L_a;
+    options.geometry.S_r_m2 = options.geometry.S_a_m2 * options.geometry.S_r_over_S_a;
+    options.geometry.thickness_a_m = options.geometry.S_a_m2 / options.geometry.width_a_m;
+    options.geometry.thickness_r_m = options.geometry.S_r_m2 / options.geometry.width_r_m;
+
     options.equilibrium = compute_article_equilibrium(options);
     options.schedule = Build_HeatDriveECC_StageSchedule(options);
     options.route_matrix = Build_HeatDriveECC_RouteMatrix(options.schedule);
     options.output_map = build_output_map(options.node_count);
 
-    options.simulation = struct();
-    options.simulation.stop_time_s = options.schedule.total_time_s;
-    options.simulation.fixed_step_s = min(options.schedule.stage_durations_s) / 80.0;
-    options.simulation.solver = 'FixedStepDiscrete';
-    options.simulation.stage_probe_samples = 50;
+    if ~isfield(options, 'simulation') || ~isstruct(options.simulation)
+        options.simulation = struct();
+    end
+    if ~has_nested_override(overrides, {'simulation', 'stop_time_s'})
+        options.simulation.stop_time_s = options.schedule.total_time_s;
+    end
+    if ~has_nested_override(overrides, {'simulation', 'fixed_step_s'})
+        options.simulation.fixed_step_s = min(options.schedule.stage_durations_s) / 80.0;
+    end
+    if ~isfield(options.simulation, 'solver') || isempty(options.simulation.solver)
+        options.simulation.solver = 'FixedStepDiscrete';
+    end
+    if ~isfield(options.simulation, 'stage_probe_samples') || isempty(options.simulation.stage_probe_samples)
+        options.simulation.stage_probe_samples = 50;
+    end
 
-    options.validation = struct();
-    options.validation.max_finite_abs = 1.0e12;
-    options.validation.max_mechanical_active_eq7_endpoint_scaled = 0.25;
-    options.validation.max_mechanical_active_eq7_transient_scaled = 5.0;
-    options.validation.min_probe_samples_per_stage = 50;
-
-    options = merge_structs(options, overrides);
+    if ~isfield(options, 'validation') || ~isstruct(options.validation)
+        options.validation = struct();
+    end
+    options.validation = set_default_field(options.validation, 'max_finite_abs', 1.0e12);
+    options.validation = set_default_field(options.validation, 'max_mechanical_active_eq7_endpoint_scaled', 0.25);
+    options.validation = set_default_field(options.validation, 'max_mechanical_active_eq7_transient_scaled', 5.0);
+    options.validation = set_default_field(options.validation, 'min_probe_samples_per_stage', 50);
 end
 
 function material = article_material(name, T_As_K, T_Af_K, T_Mf_K, T_Ms_K)
@@ -150,7 +171,12 @@ function map = build_output_map(N)
         'T_a_min_K','T_a_max_K','T_r_min_K','T_r_max_K', ...
         'mechanical_active','SMA_HTF_in_K','SMA_HTF_out_K','SMA_boundary_K', ...
         'SE_HTF_in_K','SE_HTF_out_K','SE_boundary_K', ...
-        'SHEX_in_K','SHEX_out_K','THE_SMA_K','THE_SE_K','RHE_in_K','RHE_out_K'};
+        'SHEX_in_K','SHEX_out_K','THE_SMA_K','THE_SE_K','RHE_in_K','RHE_out_K', ...
+        'SHEX_internal_hot_K','SHEX_internal_fluid_K','SHEX_boundary_K', ...
+        'HHEX_internal_K','HHEX_in_K','HHEX_out_K', ...
+        'HHEX_SMA_internal_K','HHEX_SMA_in_K','HHEX_SMA_out_K', ...
+        'HHEX_SE_internal_K','HHEX_SE_in_K','HHEX_SE_out_K', ...
+        'CHEX_internal_K','CHEX_in_K','CHEX_out_K'};
     for idx = 1:numel(names)
         map.(names{idx}) = idx;
     end
@@ -183,6 +209,28 @@ function map = build_output_map(N)
     start_idx = start_idx + N;
     map.q_latent_r_51 = start_idx:(start_idx + N - 1);
     map.output_width = start_idx + N - 1;
+end
+
+function value = set_default_field(value, key, default_value)
+    if ~isfield(value, key) || isempty(value.(key))
+        value.(key) = default_value;
+    end
+end
+
+function tf = has_nested_override(s, keys)
+    tf = false;
+    if ~isstruct(s)
+        return;
+    end
+    current = s;
+    for idx = 1:numel(keys)
+        key = keys{idx};
+        if ~isstruct(current) || ~isfield(current, key)
+            return;
+        end
+        current = current.(key);
+    end
+    tf = true;
 end
 
 function out = merge_structs(out, overrides)

@@ -3,7 +3,7 @@ function y = HeatDriveECC_SimulinkCoreStep(t)
 % Fixed-size Simulink step for the 1D51 heat-driven ECC full cycle.
 
     N = 51;
-    output_width = 773;
+    output_width = 788;
     y = zeros(output_width, 1);
 
     T0 = 308.0;
@@ -161,8 +161,23 @@ function y = HeatDriveECC_SimulinkCoreStep(t)
     y(57) = T0;
     y(58) = Tc;
     y(59) = Tc - max(Q_rhe, 0.0) / 100.0;
+    y(60) = Th + 5.0;
+    y(61) = mean([y(54), y(55)]);
+    y(62) = mean(Tbound_a);
+    y(63) = T0;
+    y(64) = hhex_in(stage_id, mean(T_a), mean(T_r), T0);
+    y(65) = T0;
+    y(66) = T0;
+    y(67) = hhex_sma_in(stage_id, mean(T_a), T0);
+    y(68) = T0;
+    y(69) = T0;
+    y(70) = hhex_se_in(stage_id, mean(T_r), T0);
+    y(71) = T0;
+    y(72) = Tc;
+    y(73) = Tc;
+    y(74) = Tc - max(Q_rhe, 0.0) / 100.0;
 
-    idx = 60;
+    idx = 75;
     y(idx:idx+N-1) = T_a; idx = idx + N;
     y(idx:idx+N-1) = xM_a; idx = idx + N;
     y(idx:idx+N-1) = sigma_a .* ones(N, 1); idx = idx + N;
@@ -180,9 +195,14 @@ function y = HeatDriveECC_SimulinkCoreStep(t)
 end
 
 function [stage_id, cycle_index, stage_elapsed] = stage_at_time(t, tau, d1, d2, d3, d4, total_time)
-    tt = min(max(t, 0.0), max(total_time - 1.0e-12, 0.0));
-    cycle_index = floor(tt / tau) + 1.0;
-    ct = tt - floor(tt / tau) * tau;
+    tt = max(t, 0.0);
+    cycle_zero = floor(tt / tau);
+    ct = tt - cycle_zero * tau;
+    if tt > 0.0 && abs(ct) < 1.0e-10
+        cycle_zero = max(cycle_zero - 1.0, 0.0);
+        ct = tau;
+    end
+    cycle_index = cycle_zero + 1.0;
     if ct < d1
         stage_id = 1.0;
         stage_elapsed = ct;
@@ -196,7 +216,7 @@ function [stage_id, cycle_index, stage_elapsed] = stage_at_time(t, tau, d1, d2, 
         stage_id = 4.0;
         stage_elapsed = ct - d1 - d2 - d3;
     end
-    d4 = d4 + 0.0; %#ok<NASGU>
+    d4 = d4 + total_time .* 0.0; %#ok<NASGU>
 end
 
 function [route, dir_a, dir_r, target_a, target_r] = route_and_targets(stage_id, N)
@@ -360,5 +380,31 @@ function value = htf_in_se(stage_id, T0, Tc)
         value = Tc;
     else
         value = Tc;
+    end
+end
+
+function value = hhex_in(stage_id, T_a_mean, T_r_mean, T0)
+    if stage_id == 2.0
+        value = T_r_mean;
+    elseif stage_id == 3.0
+        value = T_a_mean;
+    else
+        value = T0;
+    end
+end
+
+function value = hhex_sma_in(stage_id, T_a_mean, T0)
+    if stage_id == 3.0
+        value = T_a_mean;
+    else
+        value = T0;
+    end
+end
+
+function value = hhex_se_in(stage_id, T_r_mean, T0)
+    if stage_id == 2.0
+        value = T_r_mean;
+    else
+        value = T0;
     end
 end

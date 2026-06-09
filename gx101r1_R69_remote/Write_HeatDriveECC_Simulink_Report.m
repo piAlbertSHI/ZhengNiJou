@@ -26,6 +26,16 @@ function report_path = Write_HeatDriveECC_Simulink_Report(result, validation)
     fprintf(fid, 'Core block type: %s\n', sumr.core_block_type);
     fprintf(fid, 'Output directory: %s\n', result.output_dir);
     fprintf(fid, 'Trend plot: %s\n', result.trend_plot_path);
+    if isfield(result, 'plot_paths')
+        fprintf(fid, 'SMA node temperature plot: %s\n', result.plot_paths.sma_temperature_nodes_png);
+        fprintf(fid, 'SE node temperature plot: %s\n', result.plot_paths.se_temperature_nodes_png);
+        fprintf(fid, 'All probe temperature plot: %s\n', result.plot_paths.all_probe_temperatures_png);
+        fprintf(fid, 'SHEX probe temperature plot: %s\n', result.plot_paths.shex_probe_temperatures_png);
+        fprintf(fid, 'HHEX/THE probe temperature plot: %s\n', result.plot_paths.hhex_probe_temperatures_png);
+        fprintf(fid, 'CHEX/RHE probe temperature plot: %s\n', result.plot_paths.chex_probe_temperatures_png);
+        fprintf(fid, 'Individual probe plot directory: %s\n', result.plot_paths.probe_plot_dir);
+        fprintf(fid, 'Probe plot index CSV: %s\n', result.plot_paths.probe_plot_index_csv);
+    end
     fprintf(fid, 'Stage CSV: %s\n', result.stage_csv_path);
     fprintf(fid, 'Probe CSV: %s\n', result.probe_csv_path);
     fprintf(fid, 'Result MAT: %s\n\n', result.result_mat_path);
