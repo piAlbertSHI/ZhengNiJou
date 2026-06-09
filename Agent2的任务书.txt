@@ -432,6 +432,83 @@ Agent2 的任务书：第四轮返工为论文对齐的 Simulink 全循环一维
    - Eq.18/Eq.21 `Qa/Qr/PECC/etaECC`；
    - Eq.23/Eq.24 `Qh/nu`，如果本轮接入 PSC/Eq.23。
 
+6. 温度探针和采样表：
+   - 每个 cycle 的每个 stage 内，每个温度探针必须随时间保存 50 次记录。
+   - 本轮 `cycle_count=3`、每个 cycle 4 个 stage，因此每个探针最终至少有 `3*4*50=600` 个有 stage/cycle 标签的样本。
+   - 50 次记录可以是 Simulink 固定步长直接输出，也可以是仿真结束后对连续输出按 stage 时间窗等间隔重采样；但必须保证每个 stage 都正好或至少 50 个有效点，且保留原始时间戳。
+   - 保存字段建议：
+     - `probe_id`
+     - `probe_name`
+     - `component`
+     - `cycle_index`
+     - `stage_id`
+     - `stage_name`
+     - `sample_in_stage`
+     - `time_s`
+     - `temperature_K`
+     - `temperature_C`
+     - `route_id`
+     - `valve_state_id`
+   - 探针数据必须进入 `.mat` 结果，并额外输出轻量 `.csv` 或 `.json` 表，方便不打开 Simulink 也能检查趋势。
+
+温度探针布置要求：
+
+1. SMA actuator 探针：
+   - SMA 固体长度方向至少保存 `node_1`、`node_13`、`node_26`、`node_39`、`node_51`、`mean`、`min`、`max`。
+   - SMA 流体入口 `SMA_HTF_in`。
+   - SMA 流体出口 `SMA_HTF_out`。
+   - SMA 与 SHEX/THE 当前连接支路的换热边界温度。
+
+2. SE refrigerant 探针：
+   - SE 固体长度方向至少保存 `node_1`、`node_13`、`node_26`、`node_39`、`node_51`、`mean`、`min`、`max`。
+   - SE 流体入口 `SE_HTF_in`。
+   - SE 流体出口 `SE_HTF_out`。
+   - SE 与 HHEX/CHEX 当前连接支路的换热边界温度。
+
+3. SHEX 探针：
+   - SHEX 内部热源侧/工作流体侧代表温度，至少有 `SHEX_internal_hot`、`SHEX_internal_fluid`。
+   - SHEX 入口 `SHEX_in`。
+   - SHEX 出口 `SHEX_out`。
+   - SHEX 到 SMA 的有效边界温度或换热面温度。
+
+4. HHEX 探针：
+   - HHEX 表示热端/环境散热换热器；如果模型命名沿用论文 `THE`，必须在输出里提供 `HHEX/THE` 别名。
+   - 至少保存 `HHEX_internal`、`HHEX_in`、`HHEX_out`。
+   - 如果 HHEX/THE 分为 SMA 冷却支路和 SE 放热支路，为避免污染，两条支路都要单独保存内部、入口和出口温度。
+
+5. CHEX 探针：
+   - CHEX 表示冷端/制冷输出换热器；如果模型命名沿用论文 `RHE`，必须在输出里提供 `CHEX/RHE` 别名。
+   - 至少保存 `CHEX_internal`、`CHEX_in`、`CHEX_out`。
+   - 必须能从 CHEX/RHE 探针看到 stage 4 中冷端热量进入 SE 的趋势。
+
+6. 探针命名必须稳定。
+   - 不允许只输出 `T1,T2,T3` 这种无法追溯物理位置的名字。
+   - 报告中必须附一张 probe map，说明每个探针属于哪个部件、位于入口/出口/内部/节点/边界中的哪一类。
+
+三循环结束后的图表要求：
+
+1. `SMA_SE_temperature_3cycle`：
+   - 同一张图或同一组图中展示 SMA 和 SE 的 `mean/min/max` 温度随时间变化。
+   - 背景或竖线标出 4 个 stage 和 3 个 cycle 的分界。
+
+2. `SMA_temperature_nodes_3cycle`：
+   - 展示 SMA `node_1/node_13/node_26/node_39/node_51` 温度随时间变化。
+   - 用于判断长度方向温度梯度和入口/出口响应是否合理。
+
+3. `SE_temperature_nodes_3cycle`：
+   - 展示 SE `node_1/node_13/node_26/node_39/node_51` 温度随时间变化。
+   - 用于判断加载升温、放热降温、卸载降温和吸热回温趋势。
+
+4. `all_probe_temperatures_3cycle`：
+   - 展示所有温度探针随时间变化；探针太多时可分为 SHEX/HHEX/CHEX/SMA/SE 五个子图。
+   - 图中必须能直观看到 SHEX 加热、HHEX/THE 放热/冷却、CHEX/RHE 吸热、SMA/SE 入口出口响应。
+
+5. `heat_exchanger_probe_temperatures_3cycle`：
+   - 单独展示 SHEX、HHEX/THE、CHEX/RHE 内部和入口/出口温度。
+   - 用于检查新增 SHEX 和阀门流路是否工作。
+
+6. 所有图必须保存到输出目录，建议同时保存 `.fig` 和 `.png`；如果图太多，至少保存 `.png` 和可重画图的 `.mat` 数据。
+
 十一、3 cycle 物理趋势验收
 
 3 cycle 结果必须能看出以下趋势；否则不能交付，需要返工。
@@ -637,6 +714,9 @@ Agent2 在本轮拥有较高自主决策权。只要满足“完整 Simulink 四
 6. 3 cycle 验证结果
    - 每个 cycle 的 SMA/SE 温度、相分数、应力趋势；
    - SHEX/THE/RHE 热流方向；
+   - 每个 stage 每个温度探针 50 次记录是否完整；
+   - SMA/SE 温度变化图、SMA/SE 节点温度图、所有探针温度变化图、SHEX/HHEX/CHEX 入口/出口/内部温度图；
+   - probe map 和探针命名说明；
    - `qa/qr/PECC/etaECC`；
    - Eq.6/Eq.7/Eq.10/Eq.11/Eq.13-Eq.17 残差；
    - 周期漂移量。
@@ -679,6 +759,11 @@ Agent2 在本轮拥有较高自主决策权。只要满足“完整 Simulink 四
 13. Eq.6/Eq.7 加载和卸载残差均输出并参与验收。
 14. `qa/qr` 符号和量级符合论文公式。
 15. 第 3 cycle 未出现明显发散。
+16. 每个 stage 每个温度探针至少保存 50 个带时间戳记录。
+17. 每个探针 3 cycle 总记录数至少为 600，且每条记录包含 `cycle_index`、`stage_id`、`stage_name`、`time_s` 和温度。
+18. SHEX、HHEX/THE、CHEX/RHE 的内部、入口、出口温度探针都存在。
+19. SMA 和 SE 的入口、出口、长度方向节点、mean/min/max 温度探针都存在。
+20. 输出目录包含 SMA/SE 温度变化图、所有探针温度变化图和换热器入口/出口/内部温度图。
 
 十八、建议 Git 提交粒度
 
