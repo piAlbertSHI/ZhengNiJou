@@ -1,6 +1,140 @@
-Agent2 第五轮任务书：重构真实流体回路、机械相容和动态能量闭合
+Agent2 第五轮任务书：基于成熟 Simulink 部件重新拓扑正逆耦合流路、接入机械相容并验证动态能量闭合
 
 【当前唯一最高优先级】
+
+【第五轮路线纠偏：必须以成熟 Simulink 模型重组为主，禁止从头设计已有部件】
+
+当前第四轮运行主模型是：
+
+    C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\heatdrive_ecc_1d51_fullcycle.slx
+
+它只是 `Clock + Interpreted MATLAB Function` 的简化原型，只适合保留当前 SMA/SE 状态、公式审计和绘图接口，不适合作为第五轮流体系统底座。
+
+第五轮真正的主要 Simulink 装配底座必须是：
+
+    C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\nixunhuan_solver101_internal.slx
+
+其构建和参数主线包括：
+
+    Build_nixunhuan_solver101_internal.m
+    Build_Simulink_Exchange_Model.m
+    Build_Simulink_Exchange_Params.m
+    Create_Simulink_Exchange_Runtime.m
+    Run_Simulink_Exchange_Hook.m
+
+`nixunhuan_solver101_internal.slx` 已经包含并经过长期验证的成熟部件与功能：
+
+1. 热端和冷端质量、热容及热负载：
+   - `HotSinkMass`
+   - `ColdSinkMass`
+   - `ColdLoadMass`
+   - `HotFluidBuffer`
+   - `ColdFluidBuffer`
+2. HHEX/CHEX 和管路储能：
+   - `HotPipe`
+   - `ColdSinkHXPipe`
+   - `ColdSinkReturnPipe`
+   - `TransitPipe_V6_to_CHEX`
+   - 对应管路体积、流体热容和换热参数。
+3. 已验证的泵压等效和 PI 流量控制：
+   - `PressurePI_TargetHold`
+   - `PressurePI_TargetCooldown`
+   - `PressurePI_ErrorSum`
+   - `PressurePI_Kp`
+   - `PressurePI_Ki`
+   - `PressurePI_Integrator`
+   - `PressurePI_Saturation`
+   - 热、冷压力源及流量传感器。
+4. 阀门和成熟流路：
+   - `V1_cold_inlet`
+   - `V2_hot_return`
+   - `V3_sma_to_hot`
+   - `V4_hot_inlet`
+   - `V5_cold_return`
+   - `V6_sma_to_chip_cold`
+   - `ValveCommandFromWorkspace`
+5. 已有入口/出口温度探针、流量探针、热流探针、能量报告、fast/并行运行和 checkpoint/runtime 状态。
+
+第五轮的正确工作不是重新设计热端、冷端、热容、质量、泵 PI、阀门、管路和探针，而是：
+
+    复制成熟模型作为新模型；
+    保留并复用上述验证部件；
+    删除或隔离圆薄板专属热对象；
+    将成熟流体网络重新组合成论文 SMA 回路和 SE 回路；
+    接入新的 SMA actuator 51 节点与 SE refrigerant 51 节点；
+    将现有成熟热源/热端模块等效重排为论文 SHEX 支路；
+    接入统一机械耦合和能量审计。
+
+建议新模型命名：
+
+    heatdrive_ecc_reconfigured_from_solver101.slx
+
+禁止覆盖或破坏：
+
+    nixunhuan_solver101_internal.slx
+    nixunhuan_singal.slx
+
+现有成熟部件参数在完成基线重组前必须保持不变。只有通过明确的局部验证证明某个参数或部件不适用于新拓扑时，才允许修改，并必须记录修改前后结果。
+
+第五轮的核心任务定义为：
+
+    部件结构不变；
+    已验证参数不变；
+    通过正逆耦合系统需求重新拓扑优化流路；
+    按论文 Fig.3 和 2.2 节重排连接关系、阀门位置和阶段控制；
+    仅改造 SMA/SE 热对象接口和机械耦合接口。
+
+开始修改前必须建立“论文部件到成熟模型块”的等效映射表，至少包含：
+
+    论文角色        成熟模型等效部件/模板                 第五轮动作
+    SHEX/SHE        热源、HotFluidBuffer、HotPipe 等      保留结构，重定义为 SMA 加热源支路
+    HHEX/THE        HotSinkMass、HotPipe 等               保留结构，按论文连接 SMA 冷却和 SE 放热支路
+    CHEX/RHE        ColdLoadMass、ColdSinkMass、CHEX 管路  保留结构，按论文连接 SE 吸热支路
+    pump            Pressure PI、压力源、流量传感器        原样复用，只修改阶段目标和使能
+    三通/止回阀     V1-V6 和 ValveCommandFromWorkspace     原样复用/等效分配，修改阶段位置矩阵
+    管路和缓冲液    现有 Pipe、TransitPipe、FluidBuffer     原样复用，重新连接
+    温度/流量探针   现有 probe 和 sensor                  原样复用，按新物理位置重命名/补充别名
+    SMA/SE 热对象   原 SMA 101 点换热网络模板             保留换热网络思想，替换为两个 51 点长条接口
+
+若现有成熟模型中某个部件数量不足，优先复制已有且通过验证的同类部件；复制后先保持内部参数不变。禁止用新写的简化 MATLAB Function 代理已有成熟部件。
+
+【先拓扑、后修改的硬性门槛】
+
+在修改 `.slx` 之前，必须先输出：
+
+1. 论文 Fig.3/2.2 节四阶段流路图。
+2. 成熟模型现有 V1-V6、热源/HHEX/CHEX、Pressure PI、管路和探针连接图。
+3. 正逆耦合新系统的目标拓扑图。
+4. 四阶段逐路径映射表：
+
+       cycle/stage
+       论文流路起点和终点
+       新系统物理流路
+       使用的成熟块路径
+       阀门位置/开闭状态
+       Pressure PI 目标和使能
+       活动泵
+       活动探针
+       关闭支路
+
+5. 部件复用审计表：
+
+       原成熟部件
+       是否原样复用
+       新系统角色
+       是否仅改变连接
+       是否改变内部参数
+       改参数的必要证据
+
+拓扑设计的核心约束：
+
+1. 所有部件内部结构默认不变。
+2. 所有已验证参数默认不变。
+3. 正逆耦合系统变化体现在部件数量等效安排、连接关系、阀门位置矩阵和阶段控制时序。
+4. 流路物理路线必须以论文设计为准，不能照搬旧圆薄板系统的 stage 2/stage 4 路线。
+5. 旧 V1-V6 名称可以保留，但其在新系统中的物理角色必须重新标注。
+6. 原有探针优先随对应部件一起复用；重新拓扑后必须更新探针物理位置说明，不能仅沿用旧名字。
+7. 只有目标拓扑确认后，才允许执行 `add_line/delete_line`、复制模块或修改阀门命令。
 
 先完整阅读：
 
@@ -9,11 +143,11 @@ Agent2 第五轮任务书：重构真实流体回路、机械相容和动态能�
 3. C:\Users\86182\Desktop\正逆耦合\项目文档\修改报告\Agent2_第四轮Simulink三循环物理验证报告.txt
 4. 论文《Elastocaloric cooler for waste heat recovery from perovskite solar cell with electricity and cooling production》2.2 节。
 
-第五轮不是继续补探针或调曲线，而是修复第四轮模型中“流路只是布尔开关、换热器探针是常量代理、机械应力与相变驱动应力不一致、动态能量不闭合”的核心问题。
+第五轮不是继续补探针或调曲线，也不是从头设计一套流体系统，而是把第四轮 SMA/SE 正逆耦合需求接入成熟 `nixunhuan_solver101_internal.slx` 部件体系，通过重新组合和接线解决“流路只是布尔开关、换热器探针是常量代理、机械应力与相变驱动应力不一致、动态能量不闭合”的问题。
 
 一、第五轮最终目标
 
-在保留当前 51+51 一维 SMA/SE、Simulink 四阶段时间轴、白底绘图和探针框架的基础上，重构出：
+在保留当前 51+51 一维 SMA/SE、四阶段物理逻辑、白底绘图和探针框架的基础上，以 `nixunhuan_solver101_internal.slx` 为装配底座重组出：
 
 1. 真实可推进的 SMA 热流体回路：
    - SHEX 加热支路；
@@ -23,7 +157,7 @@ Agent2 第五轮任务书：重构真实流体回路、机械相容和动态能�
    - HHEX/THE 放热支路；
    - CHEX/RHE 吸热支路；
    - 两支路状态隔离，避免冷热污染。
-3. SHEX、HHEX/THE、CHEX/RHE 的动态状态或明确的无限边界状态。
+3. 直接继承成熟模型中用于 SHEX 等效支路、HHEX/THE、CHEX/RHE 的热容、质量、动态状态和边界语义；不得为新拓扑另行选择或重定义这些部件的内部物理。
 4. 同一套机械应力同时用于 Eq.6/Eq.7、本构相变和应变计算。
 5. 每阶段和每循环的动态能量闭合。
 6. 先通过 3 cycle 严格验证，再运行 10 cycle 检查稳定趋势。
@@ -65,11 +199,43 @@ Agent2 第五轮任务书：重构真实流体回路、机械相容和动态能�
    - 固定 SHEX/HHEX/CHEX 内部温度；
    - 使用边界温度冒充真实入口/出口温度。
 
-三、第五轮系统模块结构
+三、成熟模型复用边界与系统重组结构
 
 不得继续把全部系统封装在一个 Clock 驱动的 Interpreted MATLAB Function 中作为最终成品。
 
-建议 Simulink 子系统：
+必须从 `nixunhuan_solver101_internal.slx` 复制并保留：
+
+1. 热、冷端热容和质量模块。
+2. Hot/Cooldown 流体通道、管路储能和缓冲液。
+3. 压力源、流量传感器和 Pressure PI 控制器。
+4. V1-V6 阀门及其工作区控制接口。
+5. HHEX/CHEX、冷负载和对应热连接。
+6. 已有温度、流量、压力、热流探针。
+7. 已有 fast/accelerator、runtime、checkpoint、报告和能量审计接口。
+
+不得直接复用的仅是圆薄板专属部分：
+
+1. 圆薄板 `u/w`、半径和压力加载。
+2. 51 径向节点到 101 直径条带的映射物理。
+3. `GlobalXi` 圆薄板本构和圆薄板 checkpoint。
+
+接口改造原则：
+
+1. 成熟模型中的 `SMA` 热交换网络和 `HoldPipe_001...`、`CooldownPipe_001...` 可以作为长度方向换热网络模板。
+2. 将原圆薄板 101 点接口改为一维构件 51 点接口；禁止为了复用网络而恢复圆薄板物理。
+3. 对 SMA actuator 和 SE refrigerant 分别复制/参数化成熟换热通道，形成两个 51 节点热对象接口。
+4. 复用现有 HHEX/CHEX、热源、缓冲液、管路和阀门，按论文四阶段重新接线。
+5. SHEX 不作为从零开发的新部件。应将现有热源/热端换热器、缓冲液、管路和探针的成熟结构等效安排为 SHEX；如需额外一套实例，只复制成熟同类模块并重新连接。
+
+流路拓扑优化原则：
+
+1. 论文 Fig.3/2.2 节决定“哪个阶段哪个换热器连接哪个 SMA/SE 对象”。
+2. `nixunhuan_solver101_internal.slx` 决定“泵、阀、管路、热容、质量、换热器和探针内部如何实现”。
+3. 正逆耦合机械模型决定 SMA actuator 与 SE refrigerant 的力和位移关系。
+4. 不得因为论文命名不同，就重新开发已经存在的等效部件。
+5. 不得为了保留原 V1-V6 旧路线，而违背论文两回路和四阶段流路；应重新定义阀门位置矩阵和连接拓扑。
+
+目标 Simulink 结构应由成熟模块重新组合为：
 
     HeatDriveECC_1D51
       StageScheduler
@@ -90,7 +256,7 @@ Agent2 第五轮任务书：重构真实流体回路、机械相容和动态能�
       EnergyAudit
       ProbeLogger
 
-允许第一版使用 MATLAB Function blocks 实现有限体积状态，但每个物理模块必须有清晰输入输出，不能继续只输入时间并在内部生成全部状态。
+允许 MATLAB Function blocks 实现 SMA/SE 本构和机械耦合，但流体、泵阀、冷热端、管路和换热器必须优先复用成熟 Simscape/Simulink 部件，不能重新用 MATLAB Function 代理已有成熟物理模块。
 
 四、四阶段真实流路
 
@@ -146,9 +312,11 @@ Stage 4：`se_absorb_heat`
 - 必须明确所有 CHEX inlet/outlet 是以 SE 流向还是负载流向命名。
 - 冷端热量应从冷负载进入流体，再进入 SE。
 
-五、换热器和流体状态方程
+五、换热器和流体状态复用与接口适配
 
-每条活动支路至少需要：
+现有 `nixunhuan_solver101_internal.slx` 已经具有管路、缓冲液、冷热端质量、热容、压力源、PI 控制、流量和温度探针。第五轮必须先列出实际复用块及对应参数，不允许先写一套替代状态方程。
+
+复用后每条活动支路仍需从现有部件输出或补齐：
 
 1. `m_dot_kg_s`
 2. `cp_fluid_J_kgK`
@@ -159,14 +327,9 @@ Stage 4：`se_absorb_heat`
 7. `Qdot_fluid_W = m_dot*cp*(T_in-T_out)`，符号必须统一
 8. 泵关闭时的滞留流体温度状态
 
-SHEX/HHEX/CHEX 两种允许实现：
+SHEX/HHEX/CHEX、阀门和探针必须直接复用成熟实现或成熟同类模块副本，不允许重新简化为常温边界或代理信号。它们的内部结构、有限/无限边界语义、热容、质量和已验证参数均保持不变，仅根据论文重新安排系统角色、连接位置和控制时序。
 
-1. 有限热容换热器：
-   - 必须推进内部温度并审计储能。
-2. 无限热源/热汇边界：
-   - 边界温度可以恒定；
-   - 但探针必须明确命名为 `reservoir_boundary_temperature`，不能称为动态 internal temperature；
-   - 流体入口/出口仍必须由换热过程产生变化。
+如果成熟部件缺少新系统验收所需的某个输出量，只允许在不改变内部物理和原参数的前提下补充读出接口、探针或能量审计计算。不得以“缺少输出”为理由重写换热器、泵、阀门、管路、缓冲液或冷热端模型。确实发现成熟部件本身无法满足论文流路时，必须先在报告中给出块路径、失败证据、物理原因和最小修改方案，获得确认后才能改动其内部结构。
 
 SMA/SE 每个长度节点的固体能量方程必须包含：
 
@@ -292,11 +455,20 @@ SMA/SE 每个长度节点的固体能量方程必须包含：
 
     git switch -c agent2/physical-loops-energy-closure
 
-步骤 2：先写当前能量失配基线测试，确保能复现第四轮问题。
+步骤 2：运行并保存 `nixunhuan_solver101_internal.slx` 原始基线。
+   - 验证原模型热端、冷端、热容、质量、泵 PI、阀门、探针和能量审计仍通过。
+   - 记录原模型关键部件清单、块路径、参数来源和基线结果。
 
-步骤 3：拆分流体回路和换热器状态，不先修改相变曲线。
+步骤 3：复制成熟模型为新装配模型。
+   - 不覆盖原模型。
+   - 先保持全部成熟部件参数不变。
+   - 删除/隔离圆薄板专属物理接口。
 
-步骤 4：验证每条单独流体回路的入口/出口、热流和储能闭合。
+步骤 4：重组成熟部件。
+   - 将成熟热流体网络分别接到 SMA actuator 51 点和 SE refrigerant 51 点。
+   - 按论文把现有成熟热源等效安排为 SHEX，并重新拓扑 HHEX/CHEX、管路和阀门。
+   - 生成论文流路与新模型实际块路径的逐阶段对照表。
+   - 验证每条单独流体回路的入口/出口、热流和储能闭合。
 
 步骤 5：统一 MechanicalCouplingSolver 和本构应力，删除 target 相分数和独立 stress profile。
 
@@ -310,18 +482,22 @@ SMA/SE 每个长度节点的固体能量方程必须包含：
 
 十一、第五轮 hard checks
 
-1. Simulink 不再只有 Clock + 单个全系统 Interpreted MATLAB Function。
-2. 两条流体回路都有动态流体状态。
-3. SHEX/HHEX/CHEX 入口和出口温度不是常量代理。
-4. 每条活动路线满足质量流向和热流方向。
-5. 关闭路线不存在非物理热流。
-6. Eq.6、Eq.7 在加载和卸载全过程满足严格阈值。
-7. 相变推进不依赖 target 相分数。
-8. 本构应力和机械审计应力一致。
-9. 每阶段和总周期能量残差通过阈值。
-10. 动态积分 `Qr/PECC` 与论文对照值误差可解释。
-11. 3 cycle 通过后完成 10 cycle，结果不发散。
-12. 所有探针语义清楚，图中能看出真实入口/出口温差。
+1. 新主模型明确由 `nixunhuan_solver101_internal.slx` 复制和重组，不是从零新建。
+2. 原 `nixunhuan_solver101_internal.slx` 基线和模型文件保持不受破坏。
+3. 成熟热容、质量、泵 PI、阀门、HHEX/CHEX、探针和能量审计得到实际复用，不是重新写代理模块。
+4. SHEX 由现有成熟热源/热端换热器、管路、缓冲液、阀门和探针等效安排而成，内部结构和已验证参数未被重写。
+5. Simulink 不再只有 Clock + 单个全系统 Interpreted MATLAB Function。
+6. 两条流体回路都有动态流体状态。
+7. SHEX/HHEX/CHEX 入口和出口温度不是常量代理。
+8. 每条活动路线满足质量流向和热流方向。
+9. 关闭路线不存在非物理热流。
+10. Eq.6、Eq.7 在加载和卸载全过程满足严格阈值。
+11. 相变推进不依赖 target 相分数。
+12. 本构应力和机械审计应力一致。
+13. 每阶段和总周期能量残差通过阈值。
+14. 动态积分 `Qr/PECC` 与论文对照值误差可解释。
+15. 3 cycle 通过后完成 10 cycle，结果不发散。
+16. 所有探针语义清楚，图中能看出真实入口/出口温差。
 
 十二、交付物
 
@@ -342,13 +518,15 @@ SMA/SE 每个长度节点的固体能量方程必须包含：
 
 Agent2 可以自主选择：
 
-- Simulink 原生子系统、MATLAB Function blocks 或有限体积实现方式；
-- 流体和换热器的第一版离散规模；
-- 无限边界或有限热容换热器；
+- SMA actuator、SE refrigerant 的 51 点热对象接口和机械耦合求解器采用 Simulink 原生子系统或 MATLAB Function blocks；
+- 现有 101 点成熟换热网络适配为两个 51 点长度方向接口的最小改造方式；
+- 在不改变成熟部件内部结构和参数的前提下，复制哪些成熟同类模块以组成论文拓扑；
 - 事件切换的具体实现。
 
 但不得牺牲：
 
+- 论文 Fig.3/2.2 决定的四阶段流路和阀门状态；
+- 成熟 SHEX 等效部件、HHEX/CHEX、泵、阀门、管路、缓冲液、冷热端和探针的内部结构与已验证参数；
 - 真实入口/出口状态；
 - Eq.6/Eq.7 同步耦合；
 - 动态能量闭合；
