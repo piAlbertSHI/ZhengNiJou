@@ -2,7 +2,12 @@ function report_path = Write_HeatDriveECC_Simulink_Report(result, validation)
 % Write the fourth-round Simulink 3-cycle audit report.
 
     root_dir = fileparts(mfilename('fullpath'));
-    report_path = fullfile(root_dir, 'Agent2_第四轮Simulink三循环物理验证报告.txt');
+    project_root = fileparts(root_dir);
+    report_dir = fullfile(project_root, '项目文档', '修改报告');
+    if ~isfolder(report_dir)
+        mkdir(report_dir);
+    end
+    report_path = fullfile(report_dir, 'Agent2_第四轮Simulink三循环物理验证报告.txt');
     fid = fopen(report_path, 'w');
     if fid < 0
         error('Write_HeatDriveECC_Simulink_Report:CannotOpenReport', ...

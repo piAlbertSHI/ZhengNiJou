@@ -90,8 +90,8 @@ function validation = Validate_HeatDriveECC_Simulink_3Cycle(options)
     validation.stage_csv_path = result.stage_csv_path;
     validation.probe_csv_path = result.probe_csv_path;
     validation.trend_plot_path = result.trend_plot_path;
-    validation.report_path = fullfile(fileparts(mfilename('fullpath')), ...
-        'Agent2_第四轮Simulink三循环物理验证报告.txt');
+    validation.report_path = fullfile(fileparts(fileparts(mfilename('fullpath'))), ...
+        '项目文档', '修改报告', 'Agent2_第四轮Simulink三循环物理验证报告.txt');
     validation.result_summary = result.summary;
 
     validation_json_path = fullfile(options.outputs_dir, 'heatdrive_ecc_3cycle_validation.json');

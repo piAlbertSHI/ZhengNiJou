@@ -1,0 +1,356 @@
+Agent2 第五轮任务书：重构真实流体回路、机械相容和动态能量闭合
+
+【当前唯一最高优先级】
+
+先完整阅读：
+
+1. C:\Users\86182\Desktop\正逆耦合\项目文档\工作区导航与主参考文件索引.md
+2. C:\Users\86182\Desktop\正逆耦合\项目文档\审核分析\第四轮结果数学物理审核与第五轮修复依据.md
+3. C:\Users\86182\Desktop\正逆耦合\项目文档\修改报告\Agent2_第四轮Simulink三循环物理验证报告.txt
+4. 论文《Elastocaloric cooler for waste heat recovery from perovskite solar cell with electricity and cooling production》2.2 节。
+
+第五轮不是继续补探针或调曲线，而是修复第四轮模型中“流路只是布尔开关、换热器探针是常量代理、机械应力与相变驱动应力不一致、动态能量不闭合”的核心问题。
+
+一、第五轮最终目标
+
+在保留当前 51+51 一维 SMA/SE、Simulink 四阶段时间轴、白底绘图和探针框架的基础上，重构出：
+
+1. 真实可推进的 SMA 热流体回路：
+   - SHEX 加热支路；
+   - HHEX/THE 冷却支路；
+   - 流体质量、流量、比热、入口温度、出口温度和回流状态。
+2. 真实可推进的 SE 热流体回路：
+   - HHEX/THE 放热支路；
+   - CHEX/RHE 吸热支路；
+   - 两支路状态隔离，避免冷热污染。
+3. SHEX、HHEX/THE、CHEX/RHE 的动态状态或明确的无限边界状态。
+4. 同一套机械应力同时用于 Eq.6/Eq.7、本构相变和应变计算。
+5. 每阶段和每循环的动态能量闭合。
+6. 先通过 3 cycle 严格验证，再运行 10 cycle 检查稳定趋势。
+
+二、当前第四轮实现中必须删除或替换的错误近似
+
+必须替换：
+
+1. `HeatDriveECC_SimulinkCoreStep.m` 中固定的 `h_sma=9`、`h_se=8`、`cond=0.06`。
+   - 对流项必须由 `h*A/(m*cp)` 或等效 NTU/有限体积方程推导。
+   - 轴向导热必须由 `alpha/dx^2` 或 `k*A/dx` 推导。
+
+2. 固定 `5 W/K` 计算：
+
+       Q_shex
+       Q_the_sma
+       Q_the_se
+       Q_rhe
+
+   热流必须由流体焓差 `m_dot*cp*(Tin-Tout)` 和固体侧能量同时审计。
+
+3. 经验温度项：
+
+       SMA: -1.5*rxi_a
+       SE: 35*rxi_r
+
+   相变温度贡献必须由潜热、质量和比热推导，符号与能量方程一致。
+
+4. `stress_profile` 独立驱动相变。
+   - 禁止机械审计使用一套应力、本构使用另一套应力。
+
+5. `target_a/target_r` 直接指定阶段目标相分数。
+   - 相分数必须由温度、应力、相变驱动力和时间积分自然得到。
+   - 阶段完成条件可以检查相分数，但不能把相分数目标作为速率截断器强制达到。
+
+6. 固定/伪造探针：
+   - `SMA_HTF_out = mean(T_a)`；
+   - `SE_HTF_out = mean(T_r)`；
+   - 固定 SHEX/HHEX/CHEX 内部温度；
+   - 使用边界温度冒充真实入口/出口温度。
+
+三、第五轮系统模块结构
+
+不得继续把全部系统封装在一个 Clock 驱动的 Interpreted MATLAB Function 中作为最终成品。
+
+建议 Simulink 子系统：
+
+    HeatDriveECC_1D51
+      StageScheduler
+      ValveAndRouteController
+      MechanicalCouplingSolver
+      SMA_Actuator_1D51
+      SE_Refrigerant_1D51
+      SMA_FluidLoop
+        SHEX
+        HHEX_SMA_Branch
+        Pump_SMA
+        Valve_SMA
+      SE_FluidLoop
+        HHEX_SE_Branch
+        CHEX_RHE
+        Pump_SE
+        Valve_SE
+      EnergyAudit
+      ProbeLogger
+
+允许第一版使用 MATLAB Function blocks 实现有限体积状态，但每个物理模块必须有清晰输入输出，不能继续只输入时间并在内部生成全部状态。
+
+四、四阶段真实流路
+
+Stage 1：`sma_heat_load`
+
+    SHEX 工作流体出口
+      -> SMA 流体入口
+      -> SMA 沿长度换热通道
+      -> SMA 流体出口
+      -> SHEX 工作流体入口
+
+- SMA pump 开启。
+- HHEX_SMA 支路关闭。
+- SE 的 HHEX/CHEX 流体支路均关闭。
+- SMA 与 SE 机械耦合实时开启。
+- SE 允许发生近绝热加载弹热升温。
+
+Stage 2：`se_reject_heat`
+
+    SE 流体出口
+      -> HHEX_SE/THE 入口
+      -> HHEX_SE/THE 出口
+      -> SE 流体入口
+
+- SE pump 开启。
+- CHEX 支路关闭。
+- SMA 优先隔离并保持高温/高载；如果需要 SHEX 维持，必须说明控制逻辑和热流方向。
+- 机械连接保持高载约束，不允许仅用 `mechanical_active=0` 表示物理脱开。
+
+Stage 3：`sma_cool_unload`
+
+    HHEX_SMA/THE 出口
+      -> SMA 流体入口
+      -> SMA 沿长度换热通道
+      -> SMA 流体出口
+      -> HHEX_SMA/THE 入口
+
+- SMA pump 开启。
+- SHEX 支路关闭。
+- SE 的 HHEX/CHEX 流体支路关闭。
+- SMA 冷却回复引起 SE 实时卸载和近绝热降温。
+
+Stage 4：`se_absorb_heat`
+
+    CHEX/RHE 冷负载侧出口
+      -> SE 流体入口
+      -> SE 沿长度换热通道
+      -> SE 流体出口
+      -> CHEX/RHE 冷负载侧入口
+
+- SE pump 开启。
+- HHEX_SE 支路关闭。
+- 必须明确所有 CHEX inlet/outlet 是以 SE 流向还是负载流向命名。
+- 冷端热量应从冷负载进入流体，再进入 SE。
+
+五、换热器和流体状态方程
+
+每条活动支路至少需要：
+
+1. `m_dot_kg_s`
+2. `cp_fluid_J_kgK`
+3. `fluid_mass_kg` 或管段控制体积
+4. `T_in_K`
+5. `T_out_K`
+6. `T_internal_K`
+7. `Qdot_fluid_W = m_dot*cp*(T_in-T_out)`，符号必须统一
+8. 泵关闭时的滞留流体温度状态
+
+SHEX/HHEX/CHEX 两种允许实现：
+
+1. 有限热容换热器：
+   - 必须推进内部温度并审计储能。
+2. 无限热源/热汇边界：
+   - 边界温度可以恒定；
+   - 但探针必须明确命名为 `reservoir_boundary_temperature`，不能称为动态 internal temperature；
+   - 流体入口/出口仍必须由换热过程产生变化。
+
+SMA/SE 每个长度节点的固体能量方程必须包含：
+
+    m_i cp_i dT_i/dt
+      = Q_conduction_i
+      + Q_convection_i
+      + Q_latent_i
+      + Q_mechanical_or_dissipation_i
+
+所有项必须具有 W 单位，并能积分为 J。
+
+六、机械耦合和本构重构
+
+每个时间步必须用同一组机械状态满足：
+
+    sigma_a * S_a = sigma_r * S_r
+
+    abs(sum(epsilon_a_i*dx_a)) = abs(sum(epsilon_r_i*dx_r))
+
+要求：
+
+1. `MechanicalCouplingSolver` 输出的 `sigma_a/sigma_r` 直接传入 SMA/SE 相变本构。
+2. 删除独立 `stress_profile` 作为本构驱动力。
+3. 不通过 `sigma_cap` 截断后继续容忍 Eq.7 大残差。
+4. 若材料/几何组合无法同时满足相变和相容，必须判定工况不可行并报告，不能强制 target 相变。
+5. 加载、保持、卸载、低载保持四阶段都应有明确机械边界。
+
+硬性机械验收建议：
+
+- Eq.6 scaled residual `< 1e-8`。
+- Eq.7 active-stage scaled residual `< 1e-3`。
+- 不允许再使用 transient Eq.7 `<5` 作为通过条件。
+
+七、动态能量审计
+
+必须新增每个 stage 和 cycle 的能量表：
+
+1. SMA：
+   - 显热变化；
+   - 潜热变化；
+   - 机械功；
+   - SHEX 输入；
+   - HHEX_SMA 输出；
+   - 能量残差。
+2. SE：
+   - 显热变化；
+   - 潜热变化；
+   - 机械功；
+   - HHEX_SE 输出；
+   - CHEX/RHE 输入；
+   - 能量残差。
+3. 每条流体回路：
+   - 流体储能变化；
+   - 泵输运焓差；
+   - 换热器交换热量；
+   - 支路残差。
+4. 系统：
+   - SHEX 输入；
+   - HHEX 排热；
+   - CHEX 制冷量；
+   - 固体/流体总储能变化；
+   - 机械功和损耗；
+   - 周期闭合残差。
+
+硬性验收：
+
+- 每阶段相对能量残差建议 `<5%`。
+- 第 3 cycle 总周期能量残差 `<5%`。
+- `Qh/Qa/Qr/PECC/etaECC` 必须由动态积分结果计算。
+- 论文公式结果只能作为对照列，不能复制为 Simulink 动态输出。
+
+八、阶段切换时间
+
+停止使用 `[qa,qr,qa,qr]` 权重直接分配阶段时间作为最终方案。
+
+第五轮优先采用 event guarded + maximum duration：
+
+1. Stage 1：
+   - SMA 温度/相变达到可驱动条件；
+   - SE 相变和应力达到可行加载状态。
+2. Stage 2：
+   - SE 排热量达到目标，或 SE 温度接近 HHEX/T0。
+3. Stage 3：
+   - SMA 冷却和 SE 卸载达到相容低载状态。
+4. Stage 4：
+   - SE 吸热完成，温度接近 Tc/R1 初始状态。
+
+所有事件条件、最大持续时间和实际切换时间必须进入结果。
+
+九、探针要求
+
+保留第四轮 50 samples/stage 的要求，并修正探针语义。
+
+每个实际部件至少保存：
+
+- 动态 internal temperature；
+- 流体 inlet temperature；
+- 流体 outlet temperature；
+- mass flow；
+- heat flow；
+- active route；
+- valve state。
+
+禁止：
+
+- 用固体平均温度冒充流体 outlet；
+- 用 reservoir boundary 冒充 internal；
+- 用公式热流反推温度探针。
+
+需要新增 probe semantic table，逐个说明：
+
+    probe_name
+    physical_location
+    measured_state
+    unit
+    sign_convention
+    is_dynamic_state
+    source_block
+
+十、执行步骤和自检返工
+
+步骤 1：建立第五轮分支。
+
+    git switch -c agent2/physical-loops-energy-closure
+
+步骤 2：先写当前能量失配基线测试，确保能复现第四轮问题。
+
+步骤 3：拆分流体回路和换热器状态，不先修改相变曲线。
+
+步骤 4：验证每条单独流体回路的入口/出口、热流和储能闭合。
+
+步骤 5：统一 MechanicalCouplingSolver 和本构应力，删除 target 相分数和独立 stress profile。
+
+步骤 6：接入完整四阶段，先运行 1 cycle 调试。
+
+步骤 7：运行 3 cycle 严格验证。
+
+步骤 8：如果任何 hard check 失败，必须返工并重新运行，不允许交付错误结果。
+
+步骤 9：3 cycle 通过后运行 10 cycle，检查漂移和探针趋势。
+
+十一、第五轮 hard checks
+
+1. Simulink 不再只有 Clock + 单个全系统 Interpreted MATLAB Function。
+2. 两条流体回路都有动态流体状态。
+3. SHEX/HHEX/CHEX 入口和出口温度不是常量代理。
+4. 每条活动路线满足质量流向和热流方向。
+5. 关闭路线不存在非物理热流。
+6. Eq.6、Eq.7 在加载和卸载全过程满足严格阈值。
+7. 相变推进不依赖 target 相分数。
+8. 本构应力和机械审计应力一致。
+9. 每阶段和总周期能量残差通过阈值。
+10. 动态积分 `Qr/PECC` 与论文对照值误差可解释。
+11. 3 cycle 通过后完成 10 cycle，结果不发散。
+12. 所有探针语义清楚，图中能看出真实入口/出口温差。
+
+十二、交付物
+
+1. 重构后的 Simulink 模型和构建脚本。
+2. 流体回路、换热器、机械耦合和能量审计函数。
+3. 三循环严格验证入口。
+4. 十循环稳定性运行入口或配置。
+5. 探针语义表。
+6. 每阶段和每循环能量闭合表。
+7. 白底独立温度、流量、热流和能量图。
+8. 修改报告：
+
+    C:\Users\86182\Desktop\正逆耦合\项目文档\修改报告\Agent2_第五轮真实流路与能量闭合报告.txt
+
+报告必须说明失败过哪些检查、如何返工、最终仍有哪些限制。
+
+十三、自主决策权
+
+Agent2 可以自主选择：
+
+- Simulink 原生子系统、MATLAB Function blocks 或有限体积实现方式；
+- 流体和换热器的第一版离散规模；
+- 无限边界或有限热容换热器；
+- 事件切换的具体实现。
+
+但不得牺牲：
+
+- 真实入口/出口状态；
+- Eq.6/Eq.7 同步耦合；
+- 动态能量闭合；
+- 探针物理语义；
+- 自检失败后的返工。
