@@ -32,6 +32,7 @@ function model_path = Build_HeatDriveECC_Reconfigured_Model(force_rebuild)
 
     rename_block_if_present([model_name '/SMA'], 'SE_Refrigerant_1D51');
     rename_block_if_present([model_name '/Tank (TL)'], 'ColdFluidBuffer');
+    adapt_mature_object_to_axial51([model_name '/SE_Refrigerant_1D51'], 'se');
     prefix_workspace_sinks(model_name, 'se_loop_');
     set_from_workspace_variable([model_name '/ValveCommandFromWorkspace'], ...
         'L_valve_command_se');
@@ -45,6 +46,7 @@ function model_path = Build_HeatDriveECC_Reconfigured_Model(force_rebuild)
     Simulink.BlockDiagram.copyContentsToSubsystem(source_name, sma_loop_path);
     rename_block_if_present([sma_loop_path '/SMA'], 'SMA_Actuator_1D51');
     rename_block_if_present([sma_loop_path '/Tank (TL)'], 'ColdFluidBuffer');
+    adapt_mature_object_to_axial51([sma_loop_path '/SMA_Actuator_1D51'], 'sma');
     prefix_workspace_sinks(sma_loop_path, 'sma_loop_');
     set_from_workspace_variable([sma_loop_path '/ValveCommandFromWorkspace'], ...
         'L_valve_command_sma');
@@ -75,6 +77,93 @@ function model_path = Build_HeatDriveECC_Reconfigured_Model(force_rebuild)
     if ~strcmp(source_hash_before, source_hash_after)
         error('Build_HeatDriveECC_Reconfigured_Model:SourceModified', ...
             'The mature source model changed while assembling the target model.');
+    end
+end
+
+function adapt_mature_object_to_axial51(object_path, role)
+% Keep mature nodewise exchange blocks 1..51 and remove the legacy mirror half.
+
+    node_count = 51;
+    solid_path = [object_path '/Subsystem2'];
+
+    for idx = node_count + 1:101
+        delete_block_if_present([object_path sprintf('/HoldPipe_%03d', idx)]);
+        delete_block_if_present([object_path sprintf('/HoldThermalGate_%03d', idx)]);
+        delete_block_if_present([object_path sprintf('/CooldownPipe_%03d', idx)]);
+        delete_block_if_present([object_path sprintf('/CooldownThermalGate_%03d', idx)]);
+        delete_block_if_present([solid_path sprintf('/NodeMass_%02d', idx)]);
+        delete_block_if_present([solid_path sprintf('/NodeTempSensor_%02d', idx)]);
+        delete_block_if_present([solid_path sprintf('/NodeTempPS_%02d', idx)]);
+    end
+    for idx = node_count:100
+        delete_block_if_present([solid_path sprintf('/NodeCond_%02d_%02d', idx, idx + 1)]);
+    end
+
+    connect_if_unconnected(object_path, ...
+        get_port([object_path '/Conn1'], 'RConn', 1), ...
+        get_port([object_path '/HoldPipe_051'], 'RConn', 1));
+    connect_if_unconnected(object_path, ...
+        get_port([object_path '/CooldownPipe_051'], 'LConn', 1), ...
+        get_port([object_path '/Conn4'], 'RConn', 1));
+
+    mux_path = [solid_path '/TempMux51'];
+    if getSimulinkBlockHandle(mux_path) > 0
+        set_param(mux_path, 'Inputs', num2str(node_count));
+    end
+
+    if strcmp(role, 'sma')
+        mass_expr = 'sma_actuator_node_mass_kg';
+        cp_expr = 'sma_actuator_cp_J_per_kgK';
+        T_expr = 'sma_actuator_T_init_51(%d)';
+        cond_k_expr = 'sma_actuator_k_W_per_mK';
+        cond_area_expr = 'sma_actuator_area_m2';
+        cond_dx_expr = 'sma_actuator_dx_m';
+        fluid_T_expr = 'sma_loop_fluid_T_init_K';
+        output_var = 'sma_actuator_T_nodes_51';
+    else
+        mass_expr = 'se_refrigerant_node_mass_kg';
+        cp_expr = 'se_refrigerant_cp_J_per_kgK';
+        T_expr = 'se_refrigerant_T_init_51(%d)';
+        cond_k_expr = 'se_refrigerant_k_W_per_mK';
+        cond_area_expr = 'se_refrigerant_area_m2';
+        cond_dx_expr = 'se_refrigerant_dx_m';
+        fluid_T_expr = 'se_loop_fluid_T_init_K';
+        output_var = 'se_refrigerant_T_nodes_51';
+    end
+
+    for idx = 1:node_count
+        mass_path = [solid_path sprintf('/NodeMass_%02d', idx)];
+        set_param(mass_path, 'mass', mass_expr, 'sp_heat', cp_expr, ...
+            'T', sprintf(T_expr, idx));
+        hold_pipe_path = [object_path sprintf('/HoldPipe_%03d', idx)];
+        cooldown_pipe_path = [object_path sprintf('/CooldownPipe_%03d', idx)];
+        set_param(hold_pipe_path, 'T0', fluid_T_expr);
+        set_param(cooldown_pipe_path, 'T0', fluid_T_expr);
+    end
+    for idx = 1:node_count - 1
+        cond_path = [solid_path sprintf('/NodeCond_%02d_%02d', idx, idx + 1)];
+        set_param(cond_path, ...
+            'area', cond_area_expr, ...
+            'thickness', cond_dx_expr, ...
+            'th_cond', cond_k_expr);
+    end
+
+    temp_sink = find_system(solid_path, 'SearchDepth', 1, ...
+        'BlockType', 'ToWorkspace');
+    if ~isempty(temp_sink)
+        set_param(temp_sink{1}, 'VariableName', output_var);
+    end
+end
+
+function port = get_port(block_path, field_name, index)
+    ports = get_param(block_path, 'PortHandles');
+    handles = ports.(field_name);
+    port = handles(index);
+end
+
+function connect_if_unconnected(system_path, port_a, port_b)
+    if get_param(port_a, 'Line') == -1 && get_param(port_b, 'Line') == -1
+        add_line(system_path, port_a, port_b, 'autorouting', 'on');
     end
 end
 
