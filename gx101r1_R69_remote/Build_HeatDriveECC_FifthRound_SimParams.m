@@ -62,15 +62,15 @@ function [params, schedule] = Build_HeatDriveECC_FifthRound_SimParams(options)
 
     params.sma_ambient_T_init = options.system.T0_K;
     params.sma_cold_fluid_buffer_T_init = options.system.Th_K;
-    params.sma_hot_sink_T_init = options.system.Th_K;
+    params.sma_hot_sink_T_init = options.system.T0_K;
     params.sma_hot_fluid_buffer_T_init = options.system.T0_K;
     params.sma_hot_side_fluid_T_init = options.system.T0_K;
-    params.sma_cold_sink_T_init = options.system.T0_K;
-    params.sma_cold_load_T_init = options.system.T0_K;
-    params.sma_chip_T_init = options.system.T0_K;
-    params.sma_cold_hx_pipe_T_init = options.system.T0_K;
-    params.sma_cold_return_pipe_T_init = options.system.T0_K;
-    params.sma_transit_pipe_T_init = options.system.T0_K;
+    params.sma_cold_sink_T_init = options.system.Th_K;
+    params.sma_cold_load_T_init = options.system.Th_K;
+    params.sma_chip_T_init = options.system.Th_K;
+    params.sma_cold_hx_pipe_T_init = options.system.Th_K;
+    params.sma_cold_return_pipe_T_init = options.system.Th_K;
+    params.sma_transit_pipe_T_init = options.system.Th_K;
     params.sma_cold_load_heat_W = 0.0;
     params.sma_chip_heat_W = 0.0;
 

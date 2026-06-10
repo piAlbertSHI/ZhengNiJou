@@ -79,11 +79,7 @@ function [stage_table, cycle_table] = build_energy_tables(s, options, schedule)
         (interp_series(s.se_hold_in,t)-interp_series(s.se_hold_out,t));
     q_se_cool = abs(interp_series(s.se_mdot_cool,t))*cp_f .* ...
         (interp_series(s.se_cool_in,t)-interp_series(s.se_cool_out,t));
-    if isfield(s, 'sma_shex_heat')
-        q_shex = interp_series(s.sma_shex_heat, t);
-    else
-        q_shex = zeros(size(t));
-    end
+    q_shex = q_sma_hold;
 
     ma = options.material.rho_kg_per_m3*options.geometry.S_a_m2*options.geometry.L_a_m;
     mr = options.material.rho_kg_per_m3*options.geometry.S_r_m2*options.geometry.L_r_m;
@@ -106,9 +102,13 @@ function [stage_table, cycle_table] = build_energy_tables(s, options, schedule)
                 r.xMa_start=mech(ii(1),5); r.xMa_end=mech(ii(end),5);
                 r.xMr_start=mech(ii(1),6); r.xMr_end=mech(ii(end),6);
                 r.max_eq6_scaled=max(abs(mech(ii,7))); r.max_eq7_scaled=max(abs(mech(ii,8)));
-                r.sma_fluid_energy_J=trapz(t(ii), select_stage_q(sid,q_sma_hold,q_sma_cool,ii));
-                r.sma_shex_energy_J=trapz(t(ii), q_shex(ii));
-                r.se_fluid_energy_J=trapz(t(ii), select_stage_q(sid,q_se_hold,q_se_cool,ii));
+                r.sma_fluid_energy_J=trapz(t(ii), q_sma_hold(ii)+q_sma_cool(ii));
+                if sid == 1
+                    r.sma_shex_energy_J=trapz(t(ii), q_shex(ii));
+                else
+                    r.sma_shex_energy_J=0.0;
+                end
+                r.se_fluid_energy_J=trapz(t(ii), q_se_hold(ii)+q_se_cool(ii));
                 r.sma_phase_mech_energy_J=trapz(t(ii),mech(ii,9));
                 r.se_phase_mech_energy_J=trapz(t(ii),mech(ii,10));
                 r.sma_sensible_change_J=ma*cp_s*(r.Ta_end_K-r.Ta_start_K);
@@ -140,10 +140,6 @@ function [stage_table, cycle_table] = build_energy_tables(s, options, schedule)
         cycles(c).etaECC_dynamic=cycles(c).PECC_dynamic_W/(1000*(15.57/(0.1731*1000)));
     end
     cycle_table=struct2table(cycles);
-end
-
-function q = select_stage_q(sid, q_hold, q_cool, ii)
-    if sid==1 || sid==2, q=q_hold(ii); else, q=q_cool(ii); end
 end
 
 function r=empty_stage()
