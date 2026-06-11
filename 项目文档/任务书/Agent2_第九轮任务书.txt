@@ -1,0 +1,474 @@
+Agent2 第九轮任务书：停止发散、回到真实系统主线、用现有 Simulink 部件和数值模型收敛修复
+生成日期：2026-06-11
+任务性质：收敛纠偏，不是继续堆新模型、新文件、新验证名义。
+
+一、负责人明确要求
+
+第九轮不要再假装有进展。
+
+如果真实问题没有解决，不允许写“通过”“完成”“复现成功”。第九轮的目标不是再造一个第九版玩具模型，而是把已经在工作区存在的 Simulink 部件、数值模型、循环流路逻辑重新梳理清楚，收敛到唯一主线，修复第八轮暴露出的真实物理问题。
+
+当前工作区已经具备我们需要的大部分东西：
+
+1. 成熟单级圆薄板/四循环 Simulink 程序：
+   `gx101r1_R69_remote/nixunhuan_solver101_internal.slx`
+
+2. 成熟模型构建与运行脚本：
+   `gx101r1_R69_remote/Build_nixunhuan_solver101_internal.m`
+   以及 `gx101r1_R69_remote` 下已有的全局循环、探针、检查点、绘图、报告函数。
+
+3. 论文参数与正逆耦合默认参数：
+   `Build_HeatDriveECC_Article_Defaults.m`
+   `Build_HeatDriveECC_StageSchedule.m`
+
+4. d_2 中可参考的本构思想：
+   `d_2.slx`
+   只能参考本构思想，不能复用薄板 w/u 或圆形半径求解。
+
+5. 第七轮/第八轮留下的 51 节点状态接口、本构兼容求解、Simulink wrapper、有限体积支路雏形。
+
+因此第九轮不允许继续一味乱修乱改，导致无效文件越来越多、主线越来越不清楚、最后陷入 debug 负循环。
+
+二、本轮最高目标
+
+第九轮最高目标：
+
+    将现有工作区成果收敛为一条可信主线，修复第八轮 Qh/Qr 口径虚假通过问题，并让真实 Simulink 流路边界热量 raw loop 开始接近论文物理量级。
+
+本轮必须首先完成“理解和收敛”，其次才是修改代码。
+
+禁止顺序：
+
+    先写新代码 -> 跑不通 -> 再写新模型 -> 再改验证 -> 再写报告说有进展
+
+正确顺序：
+
+    盘点已有部件 -> 确认主线和废线 -> 明确流路和能量口径 -> 修复真实 raw loop -> 再验证和报告
+
+三、重新梳理我们的真实需求
+
+我们的系统不是圆薄板单级系统。
+
+目标系统是论文《Elastocaloric cooler for waste heat recovery from perovskite solar cell with electricity and cooling production》第 2.2 节和 Fig.3 对应的热驱动弹热冷却器：
+
+1. SMA actuator：
+   由 PSC 废热/SHEX 加热，产生热驱动形变，承担驱动器角色。
+
+2. SE refrigerant：
+   被 SMA 机械耦合加载/卸载，承担弹热制冷工质角色。
+
+3. SMA 与 SE 是长方体/一维轴向材料。
+   不使用圆薄板 w/u 方程。
+   不使用 101*2 内部换热点。
+   目标是一维长度方向 51 个节点。
+
+4. 四阶段循环逻辑：
+
+   Stage 1：SMA 加热驱动/SE 加载
+   - SHEX/PSC 废热支路向 SMA actuator 输入热量。
+   - SMA 发生相变与形变，通过机械兼容加载 SE。
+   - SE 加载产生弹热升温。
+   - 该阶段应产生合理的 `Qh_raw`，不是后处理公式制造的 Qh。
+
+   Stage 2：SE 高温放热
+   - SE 在加载高温状态下通过热端/THE/HHEX 放热。
+   - SMA 侧保持或隔离，避免冷热通道污染。
+   - 该阶段应能看到 SE 支路真实边界放热。
+
+   Stage 3：SMA 冷却卸载/SE 卸载降温
+   - SMA 通过热端/THE/HHEX 冷却回到低温状态。
+   - 机械耦合释放 SE，SE 卸载发生弹热降温。
+   - 该阶段不能靠固定 target 或强制 xM 实现。
+
+   Stage 4：SE 低温吸热
+   - SE 在低温状态下通过冷端/RHE/CHEX 从冷负载吸热。
+   - 该阶段的真实 `Qr_raw` 必须接近论文制冷量级。
+
+5. 双通道/四支路隔离思想必须保留：
+   - 加载后的高温放热与卸载后的低温吸热不能互相污染。
+   - SMA 与 SE 的热支路必须按阶段切换。
+   - 原成熟模型中的阀门、泵、热容、探针、HHEX/CHEX 等思想应复用或等效对齐。
+
+四、第八轮暴露出的根本问题
+
+第八轮不是完全无效，但不能验收。必须承认并修复：
+
+1. Simulink 确实被调用，但模型只有 Clock + Interpreted MATLAB Function + To Workspace。
+   它是包进 Simulink 的降阶核心，不是成熟部件拓扑重组。
+
+2. 51 节点已经不再全同值，这是进步。
+   但流体有限体积方程仍不严格：
+   - 每个节点独立向边界温度靠近；
+   - plug-flow 只从第一个节点边界温度开始；
+   - 下游本地流体状态没有严格参与 advection。
+
+3. 最大问题：
+   第八轮 hard checks 通过的 `Qh_boundary_J` 和 `Qr_boundary_J` 不是真实支路边界热量积分。
+   它们是 `Summarize_HeatDriveECC_EighthRound_Output.m` 用显热、潜热、机械功和热回收效率重新构造的论文公式审计量。
+
+4. 真实 raw loop 数据仍然严重错误：
+   - `Qh_raw_loop ≈ 131.7 J/cycle`
+   - `Qr_raw_loop ≈ 0.61 J/cycle`
+   - 论文目标：
+     `Qh ≈ 70.5 J/cycle`
+     `Qr ≈ 5.77 J/cycle`
+
+5. 因此第八轮所谓 Qh/Qr 通过是口径混淆，不是物理通过。
+
+第九轮第一修复目标就是这个：真实支路 raw loop 必须进入验收。
+
+五、第九轮工作方式硬约束
+
+1. 禁止继续文件爆炸
+
+除非必要，不要新建大批 `NinthRound_*` 文件。
+
+优先修复和收敛现有第八轮主线：
+`Build_HeatDriveECC_EighthRound_Defaults.m`
+`Build_HeatDriveECC_EighthRound_Simulink_Model.m`
+`HeatDriveECC_EighthRound_CoreStep.m`
+`HeatDriveECC_AxialFVBranchStep51.m`
+`HeatDriveECC_AxialSolidThermalStep51.m`
+`HeatDriveECC_ConstitutiveCompatibilityStep51.m`
+`Summarize_HeatDriveECC_EighthRound_Output.m`
+`Validate_HeatDriveECC_EighthRound_Physics.m`
+
+允许新建：
+1. 一个架构盘点表或审计表。
+2. 一个第九轮最终报告。
+3. 如确有必要，一个新的验证入口或一个新的支路核心函数。
+
+不允许新建：
+1. 又一个完全独立的第九轮仿真体系。
+2. 多个并行模型互相打架。
+3. 只为绕过旧验证失败而改名的新文件。
+
+2. 禁止把公式审计量冒充真实边界热量
+
+必须明确区分：
+
+`Qh_raw_loop_J`：
+真实 SHEX/PSC 热源支路进入系统的边界热量积分。
+
+`Qr_raw_loop_J`：
+真实 RHE/CHEX 冷端支路从冷负载吸收的边界热量积分。
+
+`Qh_article_formula_J`：
+按论文公式由显热/潜热/机械功/热回收效率推导的理论审计量。
+
+`Qr_article_formula_J`：
+按论文公式推导的理论制冷量审计量。
+
+硬规则：
+1. `Qh_boundary_J` 这个名字只能表示真实边界热量。
+2. `Qr_boundary_J` 这个名字只能表示真实边界热量。
+3. 公式审计量必须改名，不能参与 raw loop hard checks。
+4. 任何“公式审计值通过、raw loop 不通过”的情况都必须判定为未通过。
+
+3. 禁止修改验证来掩盖失败
+
+验证失败时，先修模型，不是先改阈值。
+
+允许添加更严格检查。
+不允许删除真实检查。
+不允许把检查对象从 raw loop 偷换成公式值。
+不允许只检查 finite、趋势、Eq.6/Eq.7 残差就标记通过。
+
+4. 先理解现有部件，再决定改哪里
+
+第九轮开始后，必须先输出一个“工作区部件盘点与主线选择表”，至少包含：
+
+1. 文件或模型名。
+2. 类型：Simulink 部件、数值核心、参数、验证、绘图、报告、历史参考。
+3. 当前状态：主线使用、可复用、只参考、废弃/不再扩展。
+4. 复用方式。
+5. 不复用原因。
+
+必须覆盖：
+`nixunhuan_solver101_internal.slx`
+`Build_nixunhuan_solver101_internal.m`
+`heatdrive_ecc_1d51_eighth_round.slx`
+`Build_HeatDriveECC_Article_Defaults.m`
+`Build_HeatDriveECC_StageSchedule.m`
+第七轮核心文件
+第八轮核心文件
+`d_2.slx`
+
+没有这张表，不允许报告本轮完成。
+
+六、必须重新梳理 Simulink 部件复用关系
+
+成熟模型 `nixunhuan_solver101_internal.slx` 中已有很多可靠部件和思想：
+
+1. 泵与等效 PI 控制。
+2. 热端/冷端热容和热负载。
+3. HHEX/CHEX 或等效换热模块。
+4. 阀门/流路切换。
+5. 四阶段运行逻辑。
+6. SMA 数据覆盖传入。
+7. fast 运行、并行调用、探针保存。
+8. 能量审计和循环输出思想。
+
+第九轮要做的是：
+
+1. 明确这些部件在正逆耦合系统中的对应关系。
+2. 说明哪些直接复用，哪些只复用思想，哪些因几何/本构不同不复用。
+3. 不能再把成熟模型完全抛开，从零写一个孤立 toy system。
+
+但也要注意：
+
+1. 原模型的圆薄板 w/u 求解不能复用。
+2. 原模型 101*2 换热点不能照搬。
+3. 原模型半径/直径压缩扩展不能用于长方体。
+4. 原模型成熟部件应服务于新的 51 节点长方体 SMA/SE 正逆耦合，而不是反过来让新系统迁就旧圆薄板几何。
+
+七、推荐的第九轮修改步骤
+
+步骤 0：建立收敛分支与盘点表
+
+建议分支：
+`agent2/ninth-converge-raw-loop-physics`
+
+第一份交付：
+`项目文档/审核分析/Agent2_第九轮工作区部件盘点与主线选择表.csv`
+或同等文本表。
+
+盘点完成前，不要改物理核心。
+
+步骤 1：冻结唯一主线
+
+推荐唯一主线：
+
+1. 以第八轮 Simulink wrapper 作为当前最小可运行主线。
+2. 逐步把成熟模型中对应的泵、阀门、换热器、探针、调度思想映射进来。
+3. 不再新开第九轮独立仿真体系。
+
+如果你认为第八轮 wrapper 不能作为主线，必须在报告中给出数学和工程理由，并说明替代主线来自哪个现有模型。
+
+步骤 2：修正能量口径
+
+必须先改汇总和验证：
+
+1. `Summarize_HeatDriveECC_EighthRound_Output.m`
+   - `Qh_boundary_J` 改为真实 `Q_shex_boundary_W` 积分。
+   - `Qr_boundary_J` 改为真实 `Q_rhe_boundary_W` 积分。
+   - 论文公式量改名为 `Qh_article_formula_J`、`Qr_article_formula_J`。
+   - 同时输出 raw loop 与 formula audit 的差异。
+
+2. `Validate_HeatDriveECC_EighthRound_Physics.m`
+   - hard checks 必须检查真实 raw loop。
+   - `raw_loop_audited` 不能只检查 finite。
+   - raw loop 不过时，整体必须 fail。
+
+第九轮不允许先校准参数再改口径。先把口径修正。
+
+步骤 3：重构 51 节点流体有限体积方程
+
+当前支路方程要改成真正的控制体形式。
+
+建议每个支路每个节点满足：
+
+    m_i cp dTf_i/dt =
+        mdot cp (Tf_{i-1,out} - Tf_i)
+      + Q_boundary_i
+      - Q_solid_i
+
+其中：
+
+1. `Tf_i` 是第 i 个流体控制体状态。
+2. `Tf_{i-1,out}` 或上游入口由上游控制体决定。
+3. `Q_boundary_i` 是外部热源/热汇与流体的换热。
+4. `Q_solid_i` 是流体与 SMA/SE 固体节点的换热。
+5. 每个节点必须有清楚的能量收支。
+
+允许使用显式 upwind 或半隐式稳定格式，但必须：
+1. 保持能量守恒可审计。
+2. 不能只从第一个节点温度递推，却忽略下游流体状态。
+3. 不能为了让曲线好看而人为构造节点梯度。
+
+步骤 4：重新检查四阶段真实流路
+
+必须输出一张阶段-流路表：
+
+Stage 1：
+SHEX/PSC 热源 -> 流体 -> SMA actuator 51 节点。
+检查：`Q_shex_boundary > 0`，SMA 获热，SE 被加载。
+
+Stage 2：
+SE refrigerant -> THE/HHEX 热端。
+检查：SE 真实放热，热端边界吸收热量。
+
+Stage 3：
+SMA actuator -> THE/HHEX 热端，同时机械卸载 SE。
+检查：SMA 真实冷却，SE 卸载降温。
+
+Stage 4：
+冷负载/RHE/CHEX -> 流体 -> SE refrigerant。
+检查：`Qr_raw_loop` 来自冷端边界真实吸热，而不是公式项。
+
+每个阶段必须列出：
+1. 激活支路。
+2. 关闭支路。
+3. 阀门/通道状态。
+4. 泵/等效流量。
+5. 入口/出口/内部温度探针。
+6. 边界热量方向。
+7. 固体温度和相分数变化。
+
+步骤 5：重新校准，但只能校准真实 raw loop
+
+参数搜索目标函数必须使用：
+
+1. `Qh_raw_loop_J` 误差。
+2. `Qr_raw_loop_J` 误差。
+3. `Qr_raw_loop_J / Qh_raw_loop_J` 误差。
+4. `delta_xM_a` 误差。
+5. `delta_xM_r` 误差。
+6. `sigma_r` 误差。
+7. `Th` 误差。
+8. 节点空间梯度。
+9. 能量残差。
+
+不得使用公式审计 Qh/Qr 作为唯一目标。
+
+必须输出：
+1. 搜索参数。
+2. bounds。
+3. 初始值。
+4. 最终值。
+5. 每次尝试或至少关键尝试记录。
+6. 为什么这些参数物理上合理。
+
+代码中的默认值必须在声明的 bounds 内。第八轮出现了 `UA_sma_shex=160` 但 bounds 写 `[5,70]` 的问题，第九轮必须修复。
+
+步骤 6：补齐输出和探针
+
+必须至少输出：
+
+1. `cycle_energy.csv`
+   - raw Qh；
+   - raw Qr；
+   - formula Qh；
+   - formula Qr；
+   - THE reject；
+   - 显热；
+   - 潜热；
+   - 机械功；
+   - 流体储能；
+   - 固体储能；
+   - 能量残差。
+
+2. `stage_energy.csv`
+   - 每阶段各支路热量；
+   - 每阶段相分数变化；
+   - 每阶段入口/出口温度。
+
+3. `probe_timeseries.csv`
+   - stage；
+   - cycle；
+   - SMA/SE 均温；
+   - SMA/SE 代表节点 1/13/26/39/51；
+   - 支路入口/出口；
+   - raw Q；
+   - xM；
+   - sigma。
+
+4. 图：
+   - SMA 代表节点温度图；
+   - SE 代表节点温度图；
+   - SMA/SE 51 节点热图；
+   - SMA/SE 相分数图；
+   - 四支路入口/出口温度图；
+   - 四支路内部节点温度图；
+   - raw vs formula Qh/Qr 对照图；
+   - 阶段能量残差图。
+
+八、第九轮硬验收标准
+
+本轮只有满足以下条件，才能写“第九轮通过”：
+
+1. 已完成工作区部件盘点与主线选择表。
+2. 报告中明确唯一主线，且没有继续新增平行 toy model。
+3. Simulink 3-cycle 和 10-cycle 均可运行完成。
+4. `Qh_boundary_J` 和 `Qr_boundary_J` 是真实支路边界热量，不是公式审计量。
+5. 3-cycle 最后一周期或 10-cycle 最后三周期平均：
+   - `Qh_raw_loop_J` 相对论文 `70.53 J/cycle` 误差不超过 30%。
+   - `Qr_raw_loop_J` 相对论文 `5.77 J/cycle` 误差不超过 30%。
+   - `Qr_raw/Qh_raw` 相对论文 `0.0818` 误差不超过 30%。
+6. `Qh_article_formula_J` 和 `Qr_article_formula_J` 可以保留，但不得替代 raw loop 验收。
+7. 51 节点空间梯度继续存在，且不是人为后处理生成。
+8. 四阶段流路表和探针输出齐全。
+9. 能量残差可解释，阶段和周期残差建议小于 5%。
+10. 参数表、bounds、最终参数一致。
+11. 报告必须明确第八轮遗留问题逐项是否修复。
+12. Git 状态、提交记录必须在最终报告中正确反映最终提交前后的状态。
+
+如果以上任何关键条件未满足，不允许写通过。
+
+九、允许的阶段性结论
+
+第九轮允许出现以下结论：
+
+1. 通过：
+   全部硬验收满足。
+
+2. 部分通过：
+   完成主线收敛、口径修复、真实 raw loop 显著改善，但某些论文误差仍未进入 30%。
+
+3. 未通过：
+   raw loop 没有改善，或仍然靠公式审计冒充边界热量。
+
+4. blocked：
+   只有在同一根因经过至少 3 种独立修复策略仍失败，并提供最小复现、根因分析和下一步选择时才允许。
+
+禁止：
+1. 明明 raw loop 不通过，却写总体完成。
+2. 只用“方向正确”“曲线有趋势”“Simulink 能跑”当成成果。
+3. 用宽松文字掩盖真实失败。
+
+十、最终报告要求
+
+报告建议路径：
+
+`项目文档/修改报告/Agent2_第九轮主线收敛与raw_loop物理修复报告.txt`
+
+报告必须包含：
+
+1. 总结论：通过/部分通过/未通过/blocked。
+2. 工作区部件盘点与主线选择表路径。
+3. 第八轮问题逐项修复状态。
+4. 当前唯一主线模型和入口。
+5. 四阶段流路表。
+6. 能量口径说明：
+   - raw loop；
+   - article formula；
+   - boundary；
+   - storage；
+   - residual。
+7. 3-cycle 与 10-cycle 结果表。
+8. raw loop 与论文目标误差表。
+9. formula audit 与 raw loop 差异表。
+10. 参数搜索和最终参数表。
+11. 输出 CSV/MAT/图路径。
+12. Git 分支、commit 列表、最终状态。
+13. 自检声明：
+   - 是否存在强行赋值；
+   - 是否存在后处理覆盖；
+   - 是否存在把公式值冒充边界热量；
+   - 是否存在新增无效平行模型；
+   - 是否真实调用 sim()。
+
+十一、建议给 Agent2 自己的执行提醒
+
+你不是缺少代码能力，而是前几轮目标收敛不足。
+
+第九轮请先停下来理解系统：
+
+1. 我们不是要一个能画图的脚本。
+2. 我们不是要一个每轮新名字的新模型。
+3. 我们不是要把论文公式结果塞进验证。
+4. 我们要的是工作区现有成熟部件和正逆耦合物理逻辑结合后的真实仿真主线。
+
+先盘点，后收敛，再修复。
+
+如果 raw loop 没有接近论文，就不要说通过。
