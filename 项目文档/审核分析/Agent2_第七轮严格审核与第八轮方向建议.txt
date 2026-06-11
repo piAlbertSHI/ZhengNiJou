@@ -1,0 +1,230 @@
+Agent2 第七轮严格审核与第八轮方向建议
+生成日期：2026-06-11
+审核角色：总审核主管
+当前分支：agent2/seventh-constitutive-branch-closure
+
+一、总判断
+
+第七轮有实际进展，但不能认定为“真实物理复现”或“满足 Simulink 循环仿真验收”。
+
+可以保留的成果：
+1. 建立了 Eq.6/Eq.7 力平衡与位移兼容求解入口。
+2. 把 SMA/SE 分成 51+51 状态接口，摆脱了圆薄板半径/直径求解。
+3. 建立了四阶段、四支路、50 次以上采样、能量表和基本作图输出。
+4. 代码没有直接把 q_shex、Qr、PECC 或论文目标值强行赋给动态结果。
+
+不能通过验收的原因：
+1. 第七轮主循环不是 Simulink 或成熟 nixunhuan_solver101_internal.slx 的重组仿真，而是 MATLAB 离散降阶模型。
+2. 51+51 节点没有真实轴向温度分布，所有节点温度完全相同。
+3. 支路换热使用 mean(Ta_51)/mean(Tr_51) 与集总 UA，不是沿长度方向 51 单元流固换热。
+4. 本构相变速率和滞后参数经过多轮人为调节，并且离线本构验证与循环仿真使用不同参数集。
+5. 论文关键量级没有匹配：Qh 偏高约 85.5%，Qr 偏低约 76.8%，PECC/etaECC 未动态计算。
+6. 验证 hard checks 只证明“趋势方向与内部残差过线”，没有证明论文复现、空间离散正确、流路闭合真实或成熟部件复用成功。
+
+结论：第七轮只能作为“可运行的 MATLAB 物理等效原型/调参基线”，不能作为最终系统或 Simulink 循环仿真成果交付。
+
+二、关键证据
+
+1. 主循环没有调用 Simulink
+
+Run_HeatDriveECC_SeventhRound_Cycles.m 第 4-6 行说明：
+MATLAB 负责参数、积分、审计表和作图；物理更新来自 Eq.6/Eq.7 本构兼容求解和有限体积四支路方程。
+
+Validate_HeatDriveECC_SeventhRound_3Cycle.m 第 13-18 行调用的是：
+Validate_HeatDriveECC_Constitutive_LoadUnload()
+Run_HeatDriveECC_BranchUnit_Preflight()
+Run_HeatDriveECC_SeventhRound_Cycles()
+
+没有 load_system、sim、Simulink.SimulationInput 或 .slx 调用。因此第七轮没有满足“完整 cycle 都在 Simulink 中执行”的要求。
+
+2. 51 节点是接口，不是真实空间离散
+
+Run_HeatDriveECC_SeventhRound_Cycles.m 第 144-150 行：
+对 SMA/SE 支路换热时只取 mean(state.Ta_51) 或 mean(state.Tr_51)。
+
+第 153-170 行：
+把支路总热量均匀加到所有 Ta_51 或 Tr_51 节点。
+
+对 seventh_round_cycle_trace.csv 的直接统计：
+3-cycle 共 864 个样本。
+max(Ta_max_K - Ta_min_K) = 0 K。
+max(Tr_max_K - Tr_min_K) = 0 K。
+首尾样本 Ta_01 = Ta_51，Tr_01 = Tr_51。
+
+这说明当前 51 节点没有沿长度方向梯度，热图只是均匀色带，不能支撑长方体一维传热、节点探针和换热器内部趋势分析。
+
+3. 有限体积支路是集总等效支路
+
+HeatDriveECC_FiniteVolumeBranchStep.m 第 22-37 行：
+Q_boundary_W = boundary_UA * (T_boundary - T_fluid)
+T_out = solid_T + (T_in - solid_T) * exp(-UA/(mdot cp))
+Q_to_solid = mdot cp (T_in - T_out)
+
+这是单节点流体热容 + 单个固体均温 + NTU 出口公式。它有物理意义，但不是原成熟模型中的泵、管路、阀、HHEX/CHEX/SHEX 重新拓扑，也不是 51 节点沿程换热。
+
+默认参数：
+fluid_mass = 0.035 kg
+m_dot = 0.04 kg/s
+UA = 45 W/K
+boundary_UA = 3500 W/K
+
+这些参数没有和论文或成熟 Simscape 部件建立明确映射，boundary_UA 尤其强，主要作用是强制温度快速接近边界。
+
+4. 本构兼容方程残差过小不能单独证明真实
+
+HeatDriveECC_ConstitutiveCompatibilityStep.m 第 97-135 行确实解析求解了 Eq.6/Eq.7 兼容应力。由于 sigma_a/sigma_r 是由这两个方程直接解出来的，Eq.6/Eq.7 残差接近 0 是预期结果，不等于相变动力学真实。
+
+第 137-197 行的相变推进依赖 rate_a_to_A、rate_a_to_M、rate_r_load、rate_r_unload、drive_width、hardening、hysteresis、max_rate 等经验参数。
+
+Validate_HeatDriveECC_Constitutive_LoadUnload.m 第 40-98 行显示 Agent2 通过多次提高速率和修改滞后来达成 hard checks。
+
+Run_HeatDriveECC_SeventhRound_Cycles.m 第 91-104 行又在循环开始前把本构参数替换成更强的 cycle_ready 参数：
+rate_a_to_A = 60
+rate_a_to_M = 220
+rate_r_load = 160
+rate_r_unload = 400
+se_unload_hysteresis = -100 MPa
+max_rate = 1000
+
+这导致“本构验证通过的参数集”和“循环仿真使用的参数集”不一致，不能作为同一物理系统的验证。
+
+5. 论文量级没有复现
+
+第七轮 10-cycle 稳态输出：
+Qh_boundary ≈ 130.819 J/cycle
+Qr_boundary ≈ 1.337 J/cycle
+THE_reject ≈ 133.824 J/cycle
+
+按 Build_HeatDriveECC_Article_Defaults.m 中论文参数：
+Qh = 44.2323 W
+Qr = PECC = 19.19 - 15.57 = 3.62 W
+tau = 1.594475 s
+论文对应：
+Qh ≈ 70.527 J/cycle
+Qr ≈ 5.772 J/cycle
+
+误差：
+Qh 偏高约 85.5%。
+Qr 偏低约 76.8%。
+第七轮 Qr/Qh ≈ 0.0102，论文 Qr/Qh ≈ 0.0818。
+
+这说明当前系统主要是在高热输入下让 SMA 大幅升降温，而 SE/RHE 制冷侧贡献很弱。
+
+6. 四阶段能量分布不合理
+
+3-cycle 典型阶段：
+Stage1：SMA_SHEX 向固体约 130-134 J，Ta 升约 30 K，Tr 同时升约 27.8 K。
+Stage2：SE_THE 放热仅约 2.0 J，Tr 从约 315.8 K 回到 308 K。
+Stage3：SMA_THE 放热约 131-132 J，Ta 降约 30 K，Tr 由于绝热卸载降到约 282.9 K。
+Stage4：SE_RHE 吸热仅约 1.34 J，Tr 回到 288 K。
+
+Stage2/Stage4 的 SE 外部换热量过小，冷端吸热远低于论文目标。这更像“用热源加热 SMA + 用公式触发 SE 温变”的简化模型，不是完整正逆耦合流路已经闭合。
+
+7. 当前 hard checks 不足以验收
+
+Run_HeatDriveECC_SeventhRound_Cycles.m 第 432-451 行只检查：
+有限数值、采样数、Eq6/Eq7 残差、四阶段趋势方向、Qh/Qr 非零。
+
+缺失验收项：
+1. Qh/Qr/PECC/etaECC 与论文量级误差。
+2. delta_xM_a、delta_xM_r、sigma_r 与论文目标误差。
+3. 51 节点空间梯度和沿程换热。
+4. SHEX/HHEX/CHEX/RHE/阀门/泵/管路是否真实闭合。
+5. 成熟 nixunhuan_solver101_internal.slx 部件是否复用。
+6. 统一参数集是否同时通过本构、支路、3-cycle/10-cycle。
+7. 完整系统能量守恒，而不只是内部公式残差为 0。
+
+三、现阶段物理逻辑判断
+
+当前第七轮数学结构：
+
+Stage1：
+SMA_SHEX 集总支路把热量给 SMA 均温节点；本构速率使 SMA xM_a 下降，同时 SE xM_r 上升，并通过 SE 绝热项使 Tr 大幅升温。
+
+Stage2：
+SE_THE 集总支路把 SE 热量排向 T0 边界，xM 状态冻结。
+
+Stage3：
+SMA_THE 集总支路冷却 SMA 均温节点；本构速率使 SMA xM_a 回升、SE xM_r 下降，并通过 SE 绝热项使 Tr 大幅降温。
+
+Stage4：
+SE_RHE 集总支路让 SE 从 Tc 边界吸热，xM 状态冻结。
+
+这个逻辑方向和论文四阶段方向一致，但实现层级过低，尚未形成真实的四换热器/双通道/阀门流路系统。特别是 SHEX 不是 PSC 废热源和内部换热器链路，THE/RHE 也不是成熟模型部件在新拓扑下的连续流体网络。
+
+四、第八轮方向建议
+
+第八轮不要直接写成“继续调图”或“再跑更多 cycle”。当前最需要的是把第七轮降阶原型升级为可验收的物理模型，再决定是否包进 Simulink。
+
+建议第八轮目标：
+“统一参数集的 51 节点一维物理降阶模型 + 论文量级校准 + Simulink 包装验证入口”。
+
+具体方向：
+
+1. 保留第七轮 Eq.6/Eq.7 兼容求解，但重构相变动力学
+
+要求：
+1. 只能使用一套 constitutive 参数，离线本构、3-cycle、10-cycle 全部一致。
+2. 相变参数必须有来源或校准记录，不能为了过单项检查临时覆盖。
+3. hard checks 必须加入论文目标误差：
+   delta_xM_a 目标约 0.554；
+   delta_xM_r 目标 1；
+   sigma_r 目标约 2.31e8 Pa；
+   Th 目标约 340.41 K。
+4. 若仍使用经验速率，应明确为“动力学闭合参数”，并通过目标函数校准，而不是分散硬编码。
+
+2. 把 51 节点从“重复均温状态”改成真实一维流固换热
+
+要求：
+1. 每个支路沿长度方向 51 个流体单元。
+2. 对每个节点 i：
+   T_fluid_in_i -> T_fluid_out_i；
+   Q_i = mdot cp (T_in_i - T_out_i)；
+   固体节点 T_i 单独更新。
+3. 固体节点加入轴向导热项，至少使用有限差分 kA/dx。
+4. 输出 Ta_01..Ta_51、Tr_01..Tr_51 必须出现合理空间梯度。
+5. hard checks 必须包含 max-min 节点温差、入口/出口沿程变化、节点能量闭合。
+
+3. 重新校准支路与热源/热汇参数
+
+目标：
+1. 3-cycle 稳态 Qh 接近论文 70.5 J/cycle。
+2. 3-cycle 稳态 Qr 接近论文 5.77 J/cycle。
+3. Qr/Qh 接近论文 0.0818，而不是当前 0.0102。
+4. THE reject 与 Qh/Qr/储能/相变/机械功形成可解释平衡。
+
+允许 Agent2 自主做参数搜索，但必须输出：
+1. 搜索范围。
+2. 参数物理来源或等效解释。
+3. 目标函数。
+4. 最优参数。
+5. 未匹配项原因。
+
+4. 暂时不急于全量重拼成熟 Simscape，但必须规划 Simulink 接口
+
+推荐顺序：
+1. 先把 MATLAB 51 节点物理模型校准到论文量级。
+2. 再把该模型封装成 Simulink MATLAB Function / 离散状态子模块，保证完整四阶段由 Simulink 时间推进。
+3. 最后再把成熟 nixunhuan_solver101_internal.slx 中的泵、阀、HHEX/CHEX、管路、探针逐步替换/对照。
+
+理由：
+成熟模型的部件可靠，但正逆耦合的本构与 SHEX/四支路拓扑尚未闭合。如果直接回到 Simscape，会继续遇到超时和排错困难；如果继续纯均温 MATLAB，又不能满足物理验收。第八轮应先解决 51 节点物理和论文量级，再进入 Simulink 包装。
+
+5. 验收标准必须升级
+
+第八轮至少要求：
+1. 同一参数集通过本构加载/卸载。
+2. 同一参数集通过 3-cycle 和 10-cycle。
+3. 所有 51 节点不是全同值，具有可解释空间梯度。
+4. Qh、Qr、Qr/Qh 与论文误差进入可接受范围；建议先设 20%-30% 以内，后续再收紧。
+5. 每阶段每探针至少 50 次记录。
+6. 输出 SMA/SE 均温、SMA/SE 51 节点热图、关键节点曲线、四支路入口/出口/内部温度、Qh/Qr/THE reject、阶段能量审计。
+7. 报告中明确说明哪些是论文直接参数、哪些是等效校准参数、哪些暂未复现。
+
+五、给负责人的直接汇报
+
+第七轮不是失败，但不能验收。
+
+它解决了“能跑”和“方程残差闭合”的问题，却没有解决“真实 51 节点传热、论文能量量级、Simulink 循环执行、成熟流路复用”这四个核心问题。当前 pass 主要来自宽松 hard checks 和集总等效模型，不能代表真实正逆耦合系统已经建立。
+
+第八轮不应再让 Agent2 只按检查项过线，而应要求它自主完成“物理模型升级和校准闭环”：先把 51 节点和论文量级做实，再把模型接入 Simulink 执行四阶段。第八轮任务书方向应围绕这个目标展开。
