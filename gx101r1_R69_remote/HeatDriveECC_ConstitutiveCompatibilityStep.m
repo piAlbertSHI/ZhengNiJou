@@ -47,6 +47,8 @@ function [next_state, audit] = HeatDriveECC_ConstitutiveCompatibilityStep(state,
     next_state.q_latent_r_W_per_m3_51 = rates.q_latent_r_W_per_m3_51;
 
     dxR_mean = mean(next_state.xM_r_51 - state.xM_r_51);
+    dT_se = 0.0;
+    adiabaticR_J = 0.0;
     if options.constitutive.adiabatic_se_temperature_enabled && dt_s > 0
         se = options.material.SE;
         work_J_per_kg = options.constitutive.se_loading_work_J_per_kg;
@@ -57,9 +59,13 @@ function [next_state, audit] = HeatDriveECC_ConstitutiveCompatibilityStep(state,
             max(se.cp_J_per_kgK, eps);
         next_state.Tr_51 = max(next_state.Tr_51 + dT_se, ...
             options.system.Tc_K - 80.0);
+        massR_kg = se.rho_kg_per_m3 .* options.geometry.L_r_m .* options.geometry.S_r_m2;
+        adiabaticR_J = massR_kg .* se.cp_J_per_kgK .* dT_se;
     end
 
     audit = build_audit(state, next_state, old, next, rates, options, dt_s, stage_id);
+    audit.se_adiabatic_dT_K = dT_se;
+    audit.se_adiabatic_energy_J = adiabaticR_J;
 end
 
 function state = normalize_state(state, options)

@@ -9,13 +9,18 @@ function [branch_state, audit] = HeatDriveECC_FiniteVolumeBranchStep( ...
     m = options.branch.fluid_mass_kg;
     mdot = options.branch.m_dot_kg_per_s;
     UA = options.branch.UA_W_per_K;
+    if isfield(options.branch, 'boundary_UA_W_per_K')
+        boundary_UA = options.branch.boundary_UA_W_per_K;
+    else
+        boundary_UA = UA;
+    end
     if ~active
         audit = inactive_audit(branch_state, role);
         return;
     end
 
     T_before = branch_state.T_fluid_K;
-    Q_boundary_W = UA * (role.boundary_T_K - branch_state.T_fluid_K);
+    Q_boundary_W = boundary_UA * (role.boundary_T_K - branch_state.T_fluid_K);
     branch_state.T_fluid_K = branch_state.T_fluid_K + ...
         Q_boundary_W * dt_s / max(m * cp, eps);
 

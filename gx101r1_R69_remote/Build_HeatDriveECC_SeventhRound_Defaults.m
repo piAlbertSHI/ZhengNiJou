@@ -15,6 +15,7 @@ function options = Build_HeatDriveECC_SeventhRound_Defaults(overrides)
     options = struct();
     options.schema_version = 'heatdrive_ecc_seventh_round_defaults_v1';
     options.node_count = 51;
+    options.cycle_count = 3;
     options.outputs_dir = fullfile(root_dir, 'outputs_heatdrive_ecc_seventh_round');
     options.report_path = fullfile(fileparts(root_dir), '项目文档', ...
         '修改报告', 'Agent2_第七轮本构与四支路闭合报告.txt');
@@ -56,6 +57,7 @@ function options = Build_HeatDriveECC_SeventhRound_Defaults(overrides)
 
     options.validation = struct();
     options.validation.constitutive_samples_per_stage = 260;
+    options.validation.cycle_samples_per_stage = 72;
     options.validation.max_eq6_scaled = 1.0e-6;
     options.validation.max_eq7_scaled = 1.0e-3;
     options.validation.min_loading_xM_a_delta = -0.2;
@@ -67,8 +69,9 @@ function options = Build_HeatDriveECC_SeventhRound_Defaults(overrides)
     options.branch = struct();
     options.branch.strategy = 'finite_volume_equivalent';
     options.branch.fluid_mass_kg = 0.035;
-    options.branch.m_dot_kg_per_s = 0.018;
-    options.branch.UA_W_per_K = 18.0;
+    options.branch.m_dot_kg_per_s = 0.04;
+    options.branch.UA_W_per_K = 45.0;
+    options.branch.boundary_UA_W_per_K = 3500.0;
     options.branch.wall_time_limit_s = 5.0;
     options.branch.closed_route_threshold_kgps = 1.0e-5;
     options.branch.min_temperature_delta_K = 1.0e-3;

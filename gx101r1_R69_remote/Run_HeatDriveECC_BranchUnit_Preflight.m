@@ -14,7 +14,7 @@ function result = Run_HeatDriveECC_BranchUnit_Preflight(overrides)
         mkdir(output_dir);
     end
 
-    roles = branch_roles(options);
+    roles = Build_HeatDriveECC_SeventhRound_BranchRoles(options);
     rows = repmat(empty_row(), numel(roles) * 3, 1);
     row_idx = 0;
     for role_idx = 1:numel(roles)
@@ -98,24 +98,6 @@ function ok = branch_sign_ok(role, last, q_to_solid_J)
         otherwise
             ok = false;
     end
-end
-
-function roles = branch_roles(options)
-    T0 = options.system.T0_K;
-    Tc = options.system.Tc_K;
-    Th = options.system.Th_K;
-    roles = [
-        role_struct('SMA_SHEX', 1, 'SMA', Th, T0, 'source_to_solid')
-        role_struct('SMA_THE', 3, 'SMA', T0, Th - 3.0, 'solid_to_sink')
-        role_struct('SE_THE', 2, 'SE', T0, T0 + 7.0, 'solid_to_sink')
-        role_struct('SE_RHE', 4, 'SE', Tc, Tc - 5.0, 'source_to_solid')];
-end
-
-function role = role_struct(name, active_stage, solid, boundary_T_K, preflight_solid_T_K, heat_role)
-    role = struct('name', name, 'active_stage', active_stage, ...
-        'solid', solid, 'boundary_T_K', boundary_T_K, ...
-        'preflight_solid_T_K', preflight_solid_T_K, ...
-        'heat_role', heat_role);
 end
 
 function row = empty_row()
