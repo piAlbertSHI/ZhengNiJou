@@ -1,0 +1,392 @@
+Agent2 第六轮任务书：修复四独立物理支路、真实本构相变和动态能量闭合
+
+【第六轮最高目标】
+
+总体目标保持不变：在成熟 `nixunhuan_solver101_internal.slx` 部件基础上，复现论文《Elastocaloric cooler for waste heat recovery from perovskite solar cell with electricity and cooling production》第 2.2 节和 Fig.3 的热驱动弹热冷却器四阶段正逆耦合循环。
+
+第六轮必须取得真正物理和数学意义上的进展。结果必须来自 Simulink/Simscape 动态求解、本构相变计算、机械相容计算和能量积分，禁止通过常数、论文目标值、代理信号或强行赋值制造趋势。
+
+本轮最终先交付通过自检的 3 cycle 结果；3 cycle 通过后再运行 10 cycle 稳定性检查。若 3 cycle 仍不通过，必须报告明确失败阶段、失败物理原因和下一步最小修复，不能交付伪通过结果。
+
+【必须先阅读】
+
+1. `C:\Users\86182\Desktop\正逆耦合\项目文档\修改报告\Agent2_第五轮真实流路与能量闭合报告.txt`
+2. `C:\Users\86182\Desktop\正逆耦合\项目文档\审核分析\第五轮报告审核与第六轮修复依据.md`
+3. `C:\Users\86182\Desktop\正逆耦合\项目文档\审核分析\Agent2_第五轮修改前拓扑与复用审计.md`
+4. `C:\Users\86182\Desktop\正逆耦合\项目文档\审核分析\Agent2_第五轮逐阶段路径映射表.csv`
+5. `C:\Users\86182\Desktop\正逆耦合\项目文档\审核分析\Agent2_第五轮探针语义表.csv`
+6. `C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\nixunhuan_solver101_internal.slx`
+7. `C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\Build_Simulink_Exchange_Model.m`
+8. `C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\Build_Simulink_Exchange_Params.m`
+9. `C:\Users\86182\Desktop\正逆耦合\d_2.slx`，重点查找其中可参考的本构求解核心和相变驱动逻辑。
+
+【第五轮失败必须接受的事实】
+
+1. 第五轮模型不是验收通过版本。
+2. 1-cycle 中 `SHEX_input_J = 0`，SMA 只升温约 0.04 K，不能触发论文要求的相变。
+3. `xM_a = 1`、`xM_r = 0` 全程不动，Eq.6/Eq.7 residual 为 0 是退化零载，不是物理通过。
+4. 直接把成熟模型同一类支路重命名为 SHEX/THE/RHE 会造成热边界语义冲突。
+5. Stage1 0.02 s 预检超时说明当前拓扑或求解设置存在硬问题，不允许直接上 3 cycle。
+6. 当前能量审计中仍有代理计算，例如 `q_shex = q_sma_hold`、`PECC_dynamic = Qr_dynamic`，必须删除。
+
+【第六轮分支与文件要求】
+
+1. 在当前仓库中新建或切换到第六轮分支，例如：
+
+       git switch -c agent2/sixth-physical-branch-closure
+
+   如果分支已存在，继续使用并记录。
+
+2. 保留原模型和第五轮失败模型：
+
+       nixunhuan_solver101_internal.slx
+       heatdrive_ecc_reconfigured_from_solver101.slx
+
+   不允许覆盖这两个文件。
+
+3. 建议第六轮新模型命名：
+
+       heatdrive_ecc_four_branch_physical.slx
+
+4. 建议第六轮新入口：
+
+       Build_HeatDriveECC_SixthRound_Model.m
+       Build_HeatDriveECC_SixthRound_SimParams.m
+       Run_HeatDriveECC_SixthRound_Preflight.m
+       Run_HeatDriveECC_SixthRound_Cycles.m
+       Validate_HeatDriveECC_SixthRound_3Cycle.m
+       Validate_HeatDriveECC_SixthRound_10Cycle.m
+
+5. 第六轮报告输出：
+
+       C:\Users\86182\Desktop\正逆耦合\项目文档\修改报告\Agent2_第六轮四支路物理闭合报告.txt
+
+【第六轮系统结构】
+
+第六轮不能继续只把两条成熟支路重命名为四个物理角色。必须建立四个物理角色独立的流体支路实例：
+
+1. `SMA_SHEX`
+   - 作用：Stage1 废热源加热 SMA。
+   - 热边界：`Th` 或论文废热源/PSC 热回收等效边界。
+   - 能量：必须测量 `Q_SHEX_boundary`、`m_dot`、`T_in`、`T_out`。
+
+2. `SMA_THE`
+   - 作用：Stage3 环境热汇冷却 SMA。
+   - 热边界：`T0` 环境热汇。
+   - 能量：必须测量 SMA 向 THE 放热。
+
+3. `SE_THE`
+   - 作用：Stage2 SE 高载放热到环境热汇。
+   - 热边界：`T0` 环境热汇。
+   - 能量：必须测量 SE 向 THE 放热。
+
+4. `SE_RHE`
+   - 作用：Stage4 SE 低载从冷负载吸热。
+   - 热边界：`Tc` 冷负载/RHE/CHEX。
+   - 能量：必须测量冷负载向 SE 的热量。
+
+这四条支路必须复制成熟部件或成熟同类部件来实现，包括 buffer、pipe、valve、Pressure PI、flow sensor、temperature sensor、thermal mass/HX。内部参数默认不变；若必须改参数，只允许改 51 节点 SMA/SE 固体接口、几何质量、导热、初始温度和阶段命令。任何成熟部件内部参数改动都必须有失败证据和最小修改说明。
+
+【四阶段流路要求】
+
+Stage 1：`sma_heat_load`
+
+    SHEX 热源/热流体出口
+      -> SMA_SHEX 泵/阀
+      -> SMA actuator 51 节点换热通道
+      -> SHEX 热流体入口
+      -> SHEX 热源/缓冲液重新加热
+
+必须满足：
+
+- `m_dot_SMA_SHEX > closed_route_threshold`；
+- `T_SMA_SHEX_in > T_SMA_SHEX_out`；
+- `Q_SHEX_boundary > 0`；
+- `mean(Ta)` 明显上升，不能只有 0.04 K；
+- `xM_a` 从 1 下降；
+- `xM_r` 从 0 上升；
+- SE 流体支路关闭，SE 温升来自机械加载。
+
+Stage 2：`se_reject_heat`
+
+    THE/HHEX 环境侧流体出口
+      -> SE_THE 泵/阀
+      -> SE refrigerant 51 节点换热通道
+      -> THE/HHEX 环境侧流体入口
+      -> THE/HHEX 向 T0 环境放热
+
+必须满足：
+
+- `m_dot_SE_THE > closed_route_threshold`；
+- 以进入 SE 为入口，`T_SE_THE_out > T_SE_THE_in`；
+- `Q_SE_to_THE > 0`；
+- `mean(Tr)` 从加载后的高温下降；
+- SMA 支路关闭或高温滞留，不得伪造热流。
+
+Stage 3：`sma_cool_unload`
+
+    THE/HHEX 环境侧流体出口
+      -> SMA_THE 泵/阀
+      -> SMA actuator 51 节点换热通道
+      -> THE/HHEX 环境侧流体入口
+      -> THE/HHEX 向 T0 环境放热
+
+必须满足：
+
+- `m_dot_SMA_THE > closed_route_threshold`；
+- `T_SMA_THE_out > T_SMA_THE_in`；
+- `mean(Ta)` 下降；
+- `xM_a` 上升；
+- `xM_r` 下降；
+- SE 流体支路关闭，SE 降温来自机械卸载。
+
+Stage 4：`se_absorb_heat`
+
+    RHE/CHEX 冷负载侧流体出口
+      -> SE_RHE 泵/阀
+      -> SE refrigerant 51 节点换热通道
+      -> RHE/CHEX 冷负载侧流体入口
+      -> RHE/CHEX 从冷负载补热
+
+必须满足：
+
+- `m_dot_SE_RHE > closed_route_threshold`；
+- 以冷负载流体进入 SE 为入口，冷负载流体在 SE 中放热后出口温度降低；
+- `Q_RHE_to_SE > 0`；
+- `mean(Tr)` 从低温回升；
+- SMA 支路关闭。
+
+【本构和机械耦合要求】
+
+1. 不允许继续让机械耦合停留在 `xM_a = 1`、`xM_r = 0` 的退化零载状态。
+2. 必须参考论文 Eq.6-Eq.24 和 `d_2.slx` 中的本构求解核心，建立同一套应力用于：
+   - Eq.6 force balance；
+   - Eq.7 displacement compatibility；
+   - SMA 相变驱动力；
+   - SE 相变驱动力；
+   - 应变和机械功计算。
+3. 相分数必须由温度、应力、相变驱动力和时间积分推进，禁止使用 target phase fraction 直接指定。
+4. Stage1 预期：
+   - `xM_a` 从 1 降低，变化方向接近论文 `delta_xM_a`；
+   - `xM_r` 从 0 增加；
+   - 非零应力状态下 Eq.6/Eq.7 residual 通过。
+5. Stage3 预期：
+   - `xM_a` 回升；
+   - `xM_r` 下降；
+   - 卸载过程 Eq.6/Eq.7 residual 通过。
+6. 若材料和几何组合导致 Eq.6/Eq.7 与相变条件不可同时满足，必须报告不可行原因，不允许强行截断或强行赋值。
+
+【能量审计要求】
+
+必须删除或替换以下代理计算：
+
+1. `q_shex = q_sma_hold`
+2. `PECC_dynamic_W = Qr_dynamic_W`
+3. 用论文 `Qh/Qr/PECC/etaECC` 常数填动态结果
+4. 用固体平均温度冒充流体出口
+5. 用 reservoir boundary 冒充 internal temperature
+
+第六轮能量表至少包含：
+
+1. SMA：
+   - 显热变化；
+   - 潜热变化；
+   - 机械功；
+   - `SMA_SHEX` 输入；
+   - `SMA_THE` 输出；
+   - 残差。
+2. SE：
+   - 显热变化；
+   - 潜热变化；
+   - 机械功；
+   - `SE_THE` 输出；
+   - `SE_RHE` 输入；
+   - 残差。
+3. 每条流体支路：
+   - `m_dot`；
+   - `T_in`；
+   - `T_out`；
+   - `m_dot*cp*(T_in-T_out)`；
+   - 支路边界热流；
+   - 支路储能变化；
+   - 支路残差。
+4. 系统：
+   - `Qh_dynamic`；
+   - `Qr_dynamic`；
+   - `HHEX/THE reject`；
+   - `SHEX input`；
+   - `CHEX/RHE cooling`；
+   - 机械功；
+   - 总储能变化；
+   - 总残差；
+   - 与论文表中 `Qh/Qr/PECC/etaECC/nu` 的对照误差。
+
+`PECC_dynamic` 和 `etaECC_dynamic` 必须按论文定义从动态积分量计算。若当前模型尚未包含 PSC 电输出链路，则报告中必须明确 `PECC_dynamic` 暂不可计算，不能用 `Qr_dynamic` 代替。
+
+【分层验证步骤】
+
+第六轮必须按以下顺序推进，任何一步失败都要停止并返工。
+
+步骤 1：第五轮失败复现和基线记录
+
+- 运行或读取第五轮 1-cycle 失败结果；
+- 记录 `SHEX_input_J = 0`、相变不动、能量残差和超时问题；
+- 确认第六轮修复目标不是调图，而是消除这些失败。
+
+步骤 2：四支路结构构建
+
+- 复制成熟部件形成 `SMA_SHEX`、`SMA_THE`、`SE_THE`、`SE_RHE`；
+- 每个支路建立独立入口、出口、内部、边界热流、流量探针；
+- 输出支路语义表；
+- 不接机械耦合前，模型应能编译。
+
+步骤 3：支路单元预检
+
+每条支路都要做：
+
+- 固定固体温度；
+- 运行 0.02 s；
+- 运行 0.1 s；
+- 运行对应 full-stage 时间；
+- 检查流量、温差、边界热流符号、储能残差。
+
+若 0.02 s 超过 120 s wall time 仍不返回，必须终止该测试并定位原因，不允许让 MATLAB 长时间空跑。
+
+步骤 4：机械/本构离线预检
+
+在不接 Simscape 流体前，用规定温度轨迹测试 `MechanicalCouplingSolver`：
+
+- `Ta: 308 -> 340.412 K`，`Tr` 绝热加载；
+- 检查 `xM_a` 下降、`xM_r` 上升；
+- `Ta: 340.412 -> 308 K`，检查卸载；
+- 输出 Eq.6/Eq.7 residual、sigma、epsilon、xM、潜热和机械功。
+
+步骤 5：Stage1 物理闭合
+
+- 只开启 `SMA_SHEX` 和机械耦合；
+- 运行 0.02 s、0.1 s、full Stage1；
+- 必须看到 SMA 明显升温、SHEX 输入、非零相变或接近相变启动条件；
+- 若热量量级仍远低于论文，应优先修 SHEX 边界和流量，不允许继续跑循环。
+
+步骤 6：Stage2/3/4 单阶段闭合
+
+- Stage2 检查 SE 放热；
+- Stage3 检查 SMA 冷却和 SE 卸载；
+- Stage4 检查 SE 从冷端吸热；
+- 每阶段都输出独立阶段能量表。
+
+步骤 7：1-cycle 严格验证
+
+- 四阶段连续运行一个 cycle；
+- 不允许重置相分数或温度状态；
+- 检查四阶段趋势和能量残差；
+- 如果能量残差超过阈值，必须定位到具体支路或固体项。
+
+步骤 8：3-cycle 验证
+
+- 只有 1-cycle 通过后才能运行；
+- 每阶段至少保存 50 个探针样本；
+- 输出白底独立图，不要多图挤在一个难以阅读的图里。
+
+步骤 9：10-cycle 稳定性检查
+
+- 只有 3-cycle 通过后才能运行；
+- 检查周期漂移、相分数漂移、热端/冷端储能漂移和能量闭合。
+
+【图和探针要求】
+
+必须输出以下白底独立图：
+
+1. SMA 平均温度、最小/最大温度随时间；
+2. SE 平均温度、最小/最大温度随时间；
+3. SMA 51 节点温度热图；
+4. SE 51 节点温度热图；
+5. `xM_a`、`xM_r` 平均值和 51 节点趋势；
+6. `sigma_a`、`sigma_r`、Eq.6/Eq.7 residual；
+7. 四条支路的 `m_dot`；
+8. 四条支路的入口/出口温度；
+9. SHEX/HHEX/CHEX/RHE 边界热流；
+10. 每阶段能量残差；
+11. 每循环能量残差。
+
+探针语义表必须更新为第六轮版本，至少包含：
+
+    probe_name
+    simulink_variable
+    source_block
+    physical_location
+    measured_state
+    unit
+    sign_convention
+    active_stage
+    is_dynamic_state
+    validation_rule
+
+【数值求解要求】
+
+1. 阀门、thermal gate、PI target 必须平滑切换，禁止硬阶跃导致求解器卡死。
+2. 每条关闭支路允许保留物理合理的极小泄漏或隔离状态，但不能产生可观热流。
+3. 每个诊断仿真必须有 wall-time 上限和失败记录。
+4. 不允许再出现 0.02 s 预检运行 600 s 后无输出的情况。
+5. 若 Simscape 连续求解仍卡死，必须先把失败支路缩小为最小复现模型，定位具体块、初值、边界和方程冲突。
+
+【第六轮 hard checks】
+
+1. 第六轮主模型不覆盖 mature 原模型和第五轮失败模型。
+2. 四个物理支路 `SMA_SHEX`、`SMA_THE`、`SE_THE`、`SE_RHE` 均存在并有独立探针。
+3. 四条支路单元预检全部通过。
+4. SHEX 输入不是 0，且热量量级接近论文需求。
+5. SMA 在 Stage1 明显升温，不再只有 0.04 K。
+6. `xM_a` 和 `xM_r` 在四阶段按物理方向变化。
+7. Eq.6/Eq.7 在非零应力、非零相变状态下通过。
+8. `q_shex = q_sma_hold`、`PECC_dynamic = Qr_dynamic` 等代理计算已删除。
+9. 所有能量表来自真实仿真信号和积分。
+10. 入口/出口温度来自流体探针，不是固体平均温度。
+11. 关闭支路无非物理可观热流。
+12. 1-cycle 通过后才运行 3-cycle。
+13. 3-cycle 每阶段每探针至少 50 个样本。
+14. 图像清晰、白底、分图输出。
+15. 失败时报告明确失败块路径、失败阶段、物理原因、数学原因和返工动作。
+
+【自主决策权】
+
+Agent2 可以自主决定：
+
+1. 四支路是复制完整成熟 loop 后裁剪，还是复制成熟 branch/HX/valve/PI 子结构后组装；
+2. 本构求解器采用 MATLAB Function、Interpreted MATLAB Function 或可审计的离散状态推进；
+3. 阀门和 thermal gate 的平滑时间常数；
+4. 单元预检的临时固定温度和边界条件；
+5. 在不破坏成熟部件内部参数的前提下，为四支路补充必要探针和读出接口。
+
+Agent2 不可以自主牺牲：
+
+1. 四阶段论文物理流路；
+2. 成熟部件复用边界；
+3. 真实入口/出口温度；
+4. 真实 SHEX/HHEX/CHEX/RHE 边界能量；
+5. 非退化机械相容；
+6. 相分数动态推进；
+7. 动态能量闭合；
+8. 自检失败后的返工。
+
+【交付物】
+
+1. 第六轮模型和构建脚本。
+2. 四支路单元预检结果。
+3. 机械/本构离线预检结果。
+4. 1-cycle、3-cycle 和可选 10-cycle 运行结果。
+5. 第六轮探针语义表。
+6. 第六轮阶段能量表和循环能量表。
+7. 白底独立图。
+8. 修改报告：
+
+       C:\Users\86182\Desktop\正逆耦合\项目文档\修改报告\Agent2_第六轮四支路物理闭合报告.txt
+
+9. Git 提交记录。
+
+报告必须明确：
+
+- 哪些 hard checks 通过；
+- 哪些失败过，如何返工；
+- 最终是否真正形成物理相变和能量闭合；
+- 若未通过，下一步最小修复是什么。
