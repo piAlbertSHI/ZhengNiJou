@@ -1,0 +1,442 @@
+Agent2 第七轮任务书：自主完成真实本构加载/卸载、轻量四支路闭合与三循环物理验证
+
+【最高目标】
+
+第七轮不是再做一个“失败即报告退出”的短任务，而是一次目标驱动的连续返工任务。你拥有足够自主决策权，应在失败后自行分析、缩小问题、修改实现、重新验证，直到达成足够成果。
+
+本轮总体目标仍然不变：
+
+    基于论文《Elastocaloric cooler for waste heat recovery from perovskite solar cell with electricity and cooling production》第 2.2 节和 Fig.3，建立热驱动 SMA actuator 与 SE refrigerant 正逆耦合四阶段循环。
+
+本轮必须优先完成：
+
+1. 真实本构加载/卸载全部通过。
+2. 第六轮未完成的四支路物理闭合继续推进。
+3. 至少完成 1-cycle 物理闭合；目标是完成 3-cycle 验证。
+4. 所有结果来自真实数学计算和仿真信号，不能通过常数、target、代理热流或强行赋值制造趋势。
+
+【必须先阅读】
+
+1. `项目文档/修改报告/Agent2_第六轮四支路物理闭合报告.txt`
+2. `项目文档/任务书/Agent2_第六轮任务书.txt`
+3. `项目文档/审核分析/第五轮报告审核与第六轮修复依据.md`
+4. `项目文档/审核分析/Agent2_第六轮失败复现与四支路修复依据.md`
+5. `gx101r1_R69_remote/HeatDriveECC_SixthRound_MechanicalStep.m`
+6. `gx101r1_R69_remote/Build_HeatDriveECC_SixthRound_Model.m`
+7. `gx101r1_R69_remote/Run_HeatDriveECC_SixthRound_Preflight.m`
+8. `gx101r1_R69_remote/PerovskiteECC_CouplingEquations.m`
+9. `gx101r1_R69_remote/PerovskiteECC_D2ConstitutiveKernel.m`
+10. `gx101r1_R69_remote/PerovskiteECC_ThermalStep51.m`
+11. `d_2.slx`，只提取本构求解思想，不复用薄板或硬编码几何。
+
+【第六轮失败的接续判断】
+
+第六轮并非没有价值。它完成了：
+
+- 第六轮分支；
+- 四支路完整 mature loop skeleton；
+- 第六轮新模型；
+- 初步机械核；
+- 结构检查；
+- 参数隔离返工。
+
+但第六轮失败说明：
+
+1. 完整 mature loop 作为每个 branch unit 太重。即使单支路启用，0.02 s 仍超过 300 s。
+2. 当前 `HeatDriveECC_SixthRound_MechanicalStep.m` 只接受 `[time, stage, Ta_mean, Tr_mean]`，不是完整 51+51 动态本构输入。
+3. 第六轮机械预检虽然非退化，但 SE 相变最大只有约 `0.0328`，远低于论文加载阶段接近全转变的需求。
+4. 本构加载/卸载还没有按论文 Eq.6/Eq.7 与相变条件完整闭合。
+5. 第六轮任务书把失败当作停止条件，导致没有继续裁剪 branch unit、没有做有限体积等效支路，也没有完成后续循环。
+
+第七轮必须修正任务机制：hard check 失败不是退出理由，而是下一轮内部返工目标。
+
+【退出规则】
+
+默认不允许因为某个验证失败就退出。遇到失败后必须按以下流程继续：
+
+1. 记录失败类型、命令、错误信息、耗时、涉及块路径或函数。
+2. 将失败归类：
+   - 本构/机械方程失败；
+   - 编译失败；
+   - 参数缺失；
+   - Simscape 初始化失败；
+   - 求解超时；
+   - 支路流量为零；
+   - 温差符号错误；
+   - 能量残差过大；
+   - 相变方向或量级错误。
+3. 缩小到最小复现：
+   - 单函数；
+   - 单支路；
+   - 单阶段；
+   - 单 cycle。
+4. 修改最小必要实现。
+5. 重新运行验证。
+6. 将尝试记录写入第七轮报告。
+
+只有以下情况才允许最终报告为 blocked：
+
+1. 同一个根因已经经过至少 3 个独立修复策略仍失败；
+2. 已经给出最小复现文件或命令；
+3. 已经明确失败的数学/物理原因；
+4. 已经说明下一步需要用户确认的建模取舍。
+
+除此以外，不允许“触发验证失败然后直接退出”。
+
+【第一优先级：重构真实本构加载/卸载】
+
+第七轮首先实现真实的 SMA/SE 机械-本构状态推进器。建议新建：
+
+    HeatDriveECC_ConstitutiveCompatibilityStep.m
+    Validate_HeatDriveECC_Constitutive_LoadUnload.m
+
+也可以重构现有：
+
+    HeatDriveECC_SixthRound_MechanicalStep.m
+
+但必须满足下列原则。
+
+1. 禁止外部应力轨迹加载：
+   - 禁止 `stress_profile(stage,time)`；
+   - 禁止“阶段时间 -> 人为 sigma_r”；
+   - 禁止固定 800 MPa、固定 cap 或固定 target 制造相变。
+
+2. 应力必须由当前状态求解：
+
+       input:
+           time_s
+           stage_id
+           Ta_51
+           Tr_51
+           xM_a_51
+           xM_r_51
+
+       solve:
+           Eq.6: sigma_a * S_a = sigma_r * S_r
+           Eq.7: integral(epsilon_a dx_a) = integral(epsilon_r dx_r)
+
+       output:
+           sigma_a_51 or sigma_a_mean
+           sigma_r_51 or sigma_r_mean
+           epsilon_a_51
+           epsilon_r_51
+           Eq6 residual
+           Eq7 residual
+
+   第一版可以使用均匀轴向应力，但输入和输出必须保留 51 节点状态，不能只写死 mean 温度接口。
+
+3. 相分数必须由驱动力和速率推进：
+   - 使用论文 Clausius-Clapeyron 关系和已有 `PerovskiteECC_D2ConstitutiveKernel.m` 的 `pai/r_xi/q_latent` 思路；
+   - `xM` 为持久状态或显式离散状态；
+   - `r_xi` 由温度、应力、相变驱动力决定；
+   - target 只能用于验收或物理边界，不允许作为强制截断器。
+
+4. 加载预检必须通过：
+
+   初始：
+
+       xM_a_mean = 1
+       xM_r_mean = 0
+       Ta 从 T0 升到 Th
+       SE 由机械加载近绝热响应
+
+   预期：
+
+       xM_a_mean 明显下降，目标接近 1 - delta_xM_a
+       xM_r_mean 明显上升，目标接近 1
+       sigma_r 为非零正值，量级与论文 Eq.6-Eq.15 对照可解释
+       Eq6/Eq7 residual 在非零应力下通过
+       q_latent 和 mechanical work 符号合理
+
+5. 卸载预检必须通过：
+
+   初始：
+
+       使用加载末状态
+       Ta 从 Th 降到 T0
+       SE 被卸载并近绝热降温
+
+   预期：
+
+       xM_a_mean 回升接近 1
+       xM_r_mean 下降接近 0
+       sigma_r 下降
+       Eq6/Eq7 residual 通过
+       潜热和机械功符号与卸载一致
+
+6. 验收输出：
+
+   必须输出 CSV 和图：
+
+       constitutive_load_unload_trace.csv
+       constitutive_load_unload_summary.json
+       constitutive_xM_sigma_eq_residual.png
+       constitutive_energy_terms.png
+
+   图必须白底、清晰、独立保存。
+
+7. 通过标准：
+
+   不能只写 `passed=true`。必须检查：
+
+       loading_xM_a_delta < -0.2，最好接近论文 delta_xM_a
+       loading_xM_r_delta > 0.5，目标接近 1
+       unloading_xM_a_delta > 0.2
+       unloading_xM_r_delta < -0.5
+       max_abs_eq6_scaled < 1e-6
+       max_abs_eq7_scaled < 1e-3，若局部节点放宽必须说明原因
+       max_sigma_r_Pa > 1e6
+       all finite
+
+   如果论文参数导致目标量级不可同时满足，应输出不可行性证明，而不是伪造通过。
+
+【第二优先级：解决第六轮支路过重问题】
+
+第六轮失败证明“四个完整 mature loop”粒度过重。第七轮必须主动重构 branch unit。
+
+允许以下递进策略，不需要再次请求任务书：
+
+策略 A：裁剪完整 mature loop
+
+- 从完整 loop 中删除非本角色路径；
+- `SMA_SHEX` 只保留 hold path；
+- `SMA_THE` 只保留 cooldown path；
+- `SE_THE` 只保留 hold path；
+- `SE_RHE` 只保留 cooldown path；
+- 删除未使用的 101 节点旧路径、未使用热端/冷端、未使用 valve、未使用 probe；
+- 每条支路只保留必要 solver configuration、thermal liquid settings、PI/pressure/flow/temperature probe。
+
+策略 B：提取单路径成熟模板
+
+- 从 `nixunhuan_solver101_internal.slx` 提取：
+  - hold path template；
+  - cooldown path template；
+- 组装为轻量单路径 branch；
+- 仍保留成熟管路、阀门、传感器、热容和参数来源。
+
+策略 C：物理等效有限体积支路
+
+如果 A/B 仍然在 0.02 s 预检中超时或 Simscape 初始化失败，可以实现数学等效的有限体积支路，但必须满足：
+
+- 参数来自成熟模型或论文；
+- 明确 `fluid_mass`、`cp`、`m_dot`、`UA/hA`、热边界温度、支路储能；
+- 入口/出口温度由输运和换热方程计算；
+- 不能用固定温差或目标热量强行赋值；
+- 能量审计必须闭合；
+- 报告中说明这是“物理等效支路”，不是常数代理。
+
+这三个策略可自主选择和切换。目标是让四条支路都能快速运行并产生真实温差和热量，不是执着于完整 loop 的块级复用。
+
+【第三优先级：四支路物理预检】
+
+每条支路都必须通过：
+
+1. 0.02 s 预检；
+2. 0.1 s 预检；
+3. full-stage 预检。
+
+但如果 0.02 s 失败，不允许退出；必须根据失败类型继续裁剪或换策略。
+
+支路验收：
+
+`SMA_SHEX`：
+
+- `m_dot > threshold`
+- `T_in > T_out`
+- `Q_to_SMA > 0`
+- 热量量级能解释 Stage1 加热需求
+
+`SMA_THE`：
+
+- `m_dot > threshold`
+- `T_out > T_in`
+- `Q_from_SMA_to_THE > 0`
+
+`SE_THE`：
+
+- `m_dot > threshold`
+- `T_out > T_in`
+- `Q_from_SE_to_THE > 0`
+
+`SE_RHE`：
+
+- `m_dot > threshold`
+- 冷负载流体向 SE 放热
+- `Q_RHE_to_SE > 0`
+
+【第四优先级：单阶段闭合】
+
+支路和本构分别通过后，必须做单阶段耦合：
+
+1. Stage1 only：
+   - `SMA_SHEX` 加热 SMA；
+   - 本构加载推进；
+   - `xM_a` 下降；
+   - `xM_r` 上升；
+   - 非退化 Eq6/Eq7 通过；
+   - SHEX 输入为真实积分。
+
+2. Stage2 only：
+   - `SE_THE` 让 SE 放热；
+   - SE 温度下降；
+   - 高载相态不被重置；
+   - THE 放热为真实积分。
+
+3. Stage3 only：
+   - `SMA_THE` 冷却 SMA；
+   - 本构卸载推进；
+   - `xM_a` 上升；
+   - `xM_r` 下降；
+   - 非退化 Eq6/Eq7 通过。
+
+4. Stage4 only：
+   - `SE_RHE` 从冷负载吸热；
+   - SE 温度回升；
+   - RHE/CHEX 制冷量为真实积分。
+
+单阶段失败后继续返工，不允许直接退出。
+
+【第五优先级：1-cycle、3-cycle、10-cycle】
+
+1-cycle 必须在四个单阶段通过后运行。
+
+1-cycle 通过标准：
+
+- 四阶段趋势方向正确；
+- 相分数不重置；
+- 能量项来自真实积分；
+- 支路关闭时无可观热流；
+- 没有 `q_shex=q_sma_hold`、`PECC=Qr` 等代理口径；
+- 能量残差若未达 5%，必须定位到具体项并继续修复。
+
+3-cycle 是本轮目标交付。
+
+3-cycle 通过标准：
+
+- 每阶段每探针至少 50 个样本；
+- `xM_a/xM_r` 周期趋势稳定；
+- 热端、冷端、SHEX、THE、RHE 入口/出口温度均有物理变化；
+- 动态 `Qh/Qr` 与论文量级可解释；
+- 不能出现单调发散或无物理漂移。
+
+10-cycle 在 3-cycle 通过后运行，作为稳定性检查。如果 10-cycle 不稳定，需要继续分析漂移来源；不能把 10-cycle 失败作为 3-cycle 成果的否定，但必须报告。
+
+【能量审计要求】
+
+第七轮必须彻底删除或隔离以下代理：
+
+- `q_shex = q_sma_hold`
+- `PECC_dynamic = Qr_dynamic`
+- 用论文常数填动态结果；
+- 用固体平均温度冒充流体出口；
+- 用 target 相分数冒充相变计算。
+
+必须建立真实能量表：
+
+1. 固体显热；
+2. 潜热；
+3. 机械功；
+4. 每条支路流体焓差；
+5. 每条支路边界热流；
+6. 每条支路储能变化；
+7. 每阶段残差；
+8. 每循环残差。
+
+如果当前模型没有 PSC 电输出链路，则 `PECC_dynamic` 应标注为“暂不可计算”，不能用 `Qr_dynamic` 代替。
+
+【自主决策权】
+
+你可以自主决定：
+
+1. 是否继续使用第六轮模型，还是新建 `heatdrive_ecc_seventh_round.slx`。
+2. 是否把四支路从 Simscape 完整 loop 裁剪为单路径 branch。
+3. 是否实现物理等效有限体积支路。
+4. 是否把本构核拆成多个函数，便于离线测试。
+5. 是否调整 solver、sample time、FastRestart、ModelParameter，以获得可运行速度。
+6. 是否增加新的诊断脚本、最小复现模型、单元测试。
+7. 是否重命名第六轮已有函数，只要保留报告说明和兼容入口。
+
+你不能自主牺牲：
+
+1. 真实 Eq6/Eq7 机械相容；
+2. 真实本构相变推进；
+3. 四阶段论文物理流路；
+4. 真实入口/出口温度；
+5. 真实热量积分；
+6. 失败后的返工责任。
+
+【建议文件】
+
+可以新增：
+
+    Build_HeatDriveECC_SeventhRound_Defaults.m
+    Build_HeatDriveECC_SeventhRound_Model.m
+    Build_HeatDriveECC_SeventhRound_SimParams.m
+    HeatDriveECC_ConstitutiveCompatibilityStep.m
+    Validate_HeatDriveECC_Constitutive_LoadUnload.m
+    Run_HeatDriveECC_BranchUnit_Preflight.m
+    Run_HeatDriveECC_StageClosure.m
+    Run_HeatDriveECC_SeventhRound_Cycles.m
+    Validate_HeatDriveECC_SeventhRound_3Cycle.m
+    Validate_HeatDriveECC_SeventhRound_10Cycle.m
+
+也可以继续改第六轮文件，但必须避免破坏已提交基线。建议优先新增第七轮入口，保留第六轮失败版本用于对比。
+
+【报告要求】
+
+报告文件：
+
+    项目文档/修改报告/Agent2_第七轮本构与四支路闭合报告.txt
+
+报告必须包含：
+
+1. 本构加载/卸载验证结果；
+2. 本构是否来自真实 Eq6/Eq7 和相变驱动力；
+3. 所有失败尝试与返工记录；
+4. 四支路预检结果；
+5. 单阶段闭合结果；
+6. 1-cycle 和 3-cycle 结果；
+7. 10-cycle 如已运行则给稳定性结论；
+8. 尚未通过项和下一步最小修复。
+
+如果没有达成本构加载/卸载全部通过，不允许把报告作为第七轮最终交付。
+
+如果本构已通过但支路仍失败，不允许直接退出；必须完成至少三种支路策略尝试：完整 loop 裁剪、单路径模板、物理等效有限体积。
+
+如果支路通过但 cycle 失败，不允许直接退出；必须定位到阶段、能量项或本构项，并继续修复。
+
+【Git 要求】
+
+1. 新建第七轮分支，例如：
+
+       git switch -c agent2/seventh-constitutive-branch-closure
+
+2. 每达到一个有意义阶段可以提交一次：
+   - 本构加载/卸载通过；
+   - 支路预检通过；
+   - 单阶段闭合通过；
+   - 1-cycle/3-cycle 通过；
+   - 最终报告。
+
+3. 不提交大输出、缓存或 `slprj`。
+
+【最终退出条件】
+
+正常退出第七轮前必须完成上一轮未完成的核心任务，不能只交付“又定位一次失败”。正常退出条件为：
+
+1. 四支路预检通过；
+2. 四个单阶段闭合通过；
+3. 1-cycle 通过；
+4. 3-cycle 输出趋势和图表；
+5. 可选 10-cycle 稳定性检查。
+
+并且必须同时满足：
+
+1. 本构加载/卸载全部通过；
+2. 有清晰证据说明应力不是人为加载，而是 Eq6/Eq7 从当前状态求解；
+3. `xM_a/xM_r` 的加载和卸载方向、量级、应力和潜热符号符合论文物理逻辑；
+4. 所有能量和温度趋势来自真实计算和探针。
+
+若无法正常退出，只能按前文 blocked 条件提交“阻塞报告”。阻塞报告不是验收交付，必须包含至少三种独立修复策略、最小复现、失败根因和下一步需要确认的建模取舍。
+
+请按目标成果努力，不要在第一个失败门槛处停止。
