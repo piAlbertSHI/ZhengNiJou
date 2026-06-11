@@ -61,13 +61,21 @@ function checks = hard_checks(result, use_last3_average)
     checks.energy_residual = max([cycles.energy_residual_fraction]) <= ...
         v.max_energy_residual_fraction;
     checks.raw_loop_audited = all(isfinite([cycles.Qh_raw_loop_J])) && ...
-        all(isfinite([cycles.Qr_raw_loop_J]));
+        all(isfinite([cycles.Qr_raw_loop_J])) && ...
+        max(abs([cycles.Qh_boundary_J] - [cycles.Qh_raw_loop_J])) < 1.0e-9 && ...
+        max(abs([cycles.Qr_boundary_J] - [cycles.Qr_raw_loop_J])) < 1.0e-9;
 end
 
 function avg = average_cycle(cycles)
     avg = cycles(end);
     avg.Qh_boundary_J = mean([cycles.Qh_boundary_J]);
     avg.Qr_boundary_J = mean([cycles.Qr_boundary_J]);
+    avg.Qh_raw_loop_J = mean([cycles.Qh_raw_loop_J]);
+    avg.Qr_raw_loop_J = mean([cycles.Qr_raw_loop_J]);
+    avg.Qh_article_formula_J = mean([cycles.Qh_article_formula_J]);
+    avg.Qr_article_formula_J = mean([cycles.Qr_article_formula_J]);
+    avg.Qh_formula_minus_raw_J = mean([cycles.Qh_formula_minus_raw_J]);
+    avg.Qr_formula_minus_raw_J = mean([cycles.Qr_formula_minus_raw_J]);
     avg.THE_reject_J = mean([cycles.THE_reject_J]);
 end
 
@@ -141,13 +149,12 @@ function path = write_cycle_energy_plot(r3, r10)
     path = fullfile(r3.options.outputs_dir, 'eighth_round_cycle_energy_audit.png');
     c3 = r3.summary.cycle(end);
     c10 = average_cycle(r10.summary.cycle(end-2:end));
-    labels = categorical({'Qh','Qr','THE reject','raw Qh loop','raw Qr loop'});
+    labels = categorical({'raw Qh','raw Qr','formula Qh','formula Qr','THE reject'});
     labels = reordercats(labels, cellstr(labels));
-    data = [c3.Qh_boundary_J, c3.Qr_boundary_J, c3.THE_reject_J, ...
-            c3.Qh_raw_loop_J, c3.Qr_raw_loop_J; ...
-            c10.Qh_boundary_J, c10.Qr_boundary_J, c10.THE_reject_J, ...
-            mean([r10.summary.cycle(end-2:end).Qh_raw_loop_J]), ...
-            mean([r10.summary.cycle(end-2:end).Qr_raw_loop_J])].';
+    data = [c3.Qh_raw_loop_J, c3.Qr_raw_loop_J, ...
+            c3.Qh_article_formula_J, c3.Qr_article_formula_J, c3.THE_reject_J; ...
+            c10.Qh_raw_loop_J, c10.Qr_raw_loop_J, ...
+            c10.Qh_article_formula_J, c10.Qr_article_formula_J, c10.THE_reject_J].';
     fig = figure('Visible', 'off', 'Color', 'w');
     bar(labels, data);
     grid on;
