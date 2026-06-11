@@ -1,0 +1,250 @@
+Agent2 第八轮严格审核与下一步修改方向
+生成日期：2026-06-11
+审核对象：Agent2_第八轮真实51节点Simulink仿真报告.txt
+审核分支：agent2/eighth-51node-simulink-physics
+
+一、总判断
+
+第八轮相对第七轮有实质进展，但不能认定为最终通过。
+
+可确认的进展：
+1. 已建立第八轮独立分支和独立代码入口。
+2. 已有 Simulink 模型 `heatdrive_ecc_1d51_eighth_round.slx`，并由 `Run_HeatDriveECC_EighthRound_Simulink_Cycles.m` 调用 `sim()` 执行。
+3. Simulink 模型通过 Clock + Interpreted MATLAB Function 推进 `HeatDriveECC_EighthRound_CoreStep`，不是纯 MATLAB 外部循环。
+4. 51 节点接口不再是完全均温复制：支路换热改为 51 节点 plug-flow/NTU，固体热步进加入轴向导热。
+5. 本构兼容 Eq.6/Eq.7 仍保留，输出包含 Ta/Tr/xM/sigma/epsilon/pai/r_xi 以及支路入口/出口/内部节点数组。
+
+不能最终验收的原因：
+1. 报告中通过 hard checks 的 `Qh_boundary_J` 和 `Qr_boundary_J` 不是 Simulink 支路真实边界热量积分，而是汇总函数用显热、潜热、机械功和热回收系数重新构造的论文公式审计值。
+2. 真实支路边界热量被另列为 `raw loop Qh/Qr`，但它们严重偏离论文目标，且未纳入 hard checks。
+3. Simulink 模型目前是单个 Interpreted MATLAB Function 核心块，不是成熟 `nixunhuan_solver101_internal.slx` 中泵、阀门、HHEX/CHEX、管路、探针的拓扑重组。
+4. 51 节点支路虽然有沿程递推，但流体存储和 plug-flow advection 的耦合仍不严格，边界 UA 对所有节点独立作用，而下游节点的本地流体温度没有参与上游递推。
+5. 校准参数缺少完整搜索记录和物理来源说明，且默认值与代码中声明的 calibration bounds 存在矛盾。
+6. 输出交付不完整：没有 CSV 表，只有 MAT 和三张图；缺少任务书要求的代表节点曲线、相分数图、支路内部热图、阶段能量表等。
+7. 报告内 Git 状态仍显示大量未跟踪文件，但当前分支实际已经提交且工作区干净，说明报告不是最终提交状态下重新生成的，版本信息不可靠。
+
+结论：第八轮应判定为“部分通过/关键进展”，不能判定为“真实物理和仿真循环最终通过”。
+
+二、关键证据
+
+1. Simulink 执行是真实存在的，但模型层级很薄
+
+`Run_HeatDriveECC_EighthRound_Simulink_Cycles.m` 第 14-21 行创建 `Simulink.SimulationInput` 并调用 `sim(sim_in)`。
+
+`Build_HeatDriveECC_EighthRound_Simulink_Model.m` 第 33-53 行生成模型：
+1. Clock。
+2. Interpreted MATLAB Function：`HeatDriveECC_EighthRound_SimulinkStep`。
+3. To Workspace。
+
+因此第八轮满足“由 Simulink 时间推进核心状态”的最低要求，但没有真正把成熟泵、阀门、管路、HHEX/CHEX/SHEX 部件拼成正逆耦合流路。当前仍是一个包进 Simulink 的降阶物理核心。
+
+2. 51 节点空间离散有进步
+
+`HeatDriveECC_AxialFVBranchStep51.m` 第 32-43 行对每个节点做 plug-flow/NTU：
+`Tin_i -> Tout_i -> Q_i`。
+
+`HeatDriveECC_AxialSolidThermalStep51.m` 第 14-27 行加入轴向导热和节点能量更新。
+
+报告给出的空间温差：
+3-cycle：`max Ta spread = 16.2264 K`，`max Tr spread = 0.3218 K`。
+10-cycle：同量级。
+
+这说明已经不再是第七轮的 51 个相同节点，空间离散方向正确。
+
+但支路实现还不够严格。`HeatDriveECC_AxialFVBranchStep51.m` 第 29-45 行中：
+1. 每个流体节点先独立通过 `boundary_UA_node` 向边界温度靠近。
+2. plug-flow 递推只从 `T_after_boundary(1)` 开始，节点 2..51 的本地流体温度不参与它们自己的入口递推。
+3. 存储更新又使用每个节点的 `T_after_boundary(i) - Q_i`。
+
+这在能量残差上可以自洽，但不是真正的一维流体控制体 advection + storage 方程。下一轮需要重构为更严格的有限体积流体能量方程。
+
+3. 最大问题：用于通过的 Qh/Qr 不是实际支路边界热量
+
+`Summarize_HeatDriveECC_EighthRound_Output.m` 第 36-37 行先计算真实支路边界热量：
+`Qh_raw_loop_J = integrate(Q_shex_boundary_W)`
+`Qr_raw_loop_J = integrate(Q_rhe_boundary_W)`
+
+但第 38-45 行又把用于 hard checks 的 `Qh_boundary_J` 和 `Qr_boundary_J` 改成：
+1. `Qh_boundary_J = (1-eta_hr)*SMA_sensible + positive_latentA + positive(-mechanicalR)`。
+2. `Qr_boundary_J = positive(latentR + mechanicalR) - (1-eta_hr)*cold_lift`。
+
+这两个量不是 Simulink 中 SHEX/RHE 支路真实边界热流积分，而是接近论文 Eq.24 的性能公式审计量。命名为 `Qh_boundary_J/Qr_boundary_J` 会误导 hard checks。
+
+报告显示：
+3-cycle last：
+`Qh_boundary_J = 63.1057 J`，`Qr_boundary_J = 5.1089 J`，看似接近论文。
+但 raw loop：
+`Qh_raw_loop_J = 131.9060 J`，`Qr_raw_loop_J = 0.6104 J`。
+
+10-cycle last-3：
+`Qh_boundary_J = 63.0822 J`，`Qr_boundary_J = 5.1090 J`，看似接近论文。
+但 raw loop：
+`Qh_raw_loop_J = 131.7320 J`，`Qr_raw_loop_J = 0.6113 J`。
+
+论文目标：
+`Qh_cycle ≈ 70.5273 J`。
+`Qr_cycle ≈ 5.7720 J`。
+`Qr/Qh ≈ 0.0818`。
+
+真实 raw loop 误差：
+1. `Qh_raw` 约 131.7 J，相对论文偏高约 86.8%。
+2. `Qr_raw` 约 0.61 J，相对论文偏低约 89.4%。
+3. `Qr_raw/Qh_raw ≈ 0.0046`，远低于论文 `0.0818`。
+
+因此第八轮最核心的“论文量级通过”并不是由真实流路热量达成的，而是由后处理审计公式达成的。这不能作为真实仿真验收。
+
+4. hard checks 没有卡住真实问题
+
+`Validate_HeatDriveECC_EighthRound_Physics.m` 第 52-55 行检查的是 `heat.Qh_boundary_J`、`heat.Qr_boundary_J`、`heat.Qr/Qh`，而这些来自上述公式审计值，不是 raw loop。
+
+第 63-64 行的 `raw_loop_audited` 只检查 raw loop 是否 finite，没有要求 raw loop 接近论文目标，也没有要求 raw loop 与公式审计值一致。
+
+所以 hard checks 可以全部为 true，但实际 SHEX/RHE 边界能量仍不满足论文量级。
+
+5. 能量残差不能证明系统真实闭合
+
+报告中的能量残差为 `1e-14` 量级。这个残差主要来自代码内部构造的支路和固体能量方程自洽，不包含：
+1. 真实 raw loop 与论文 Qh/Qr 的差异；
+2. 公式审计 Qh/Qr 与支路边界 Qh/Qr 的差异；
+3. PSC/SHEX 废热输入链路；
+4. HHEX/CHEX/RHE 外部储能与热源热汇能量平衡。
+
+所以能量残差小不能证明整个正逆耦合系统已经真实闭合。
+
+6. 参数校准记录不足
+
+报告只列出：
+`UA_sma_shex=160 W/K`
+`UA_sma_the=200 W/K`
+`UA_se_rhe=13 W/K`
+`rate_a_to_M=300 1/s`
+`rate_r_unload=300 1/s`
+
+但没有给出：
+1. 搜索范围；
+2. 目标函数；
+3. 每轮尝试记录；
+4. 参数物理来源；
+5. 为什么选择这些值；
+6. 哪些参数来自论文，哪些来自成熟模型，哪些是校准。
+
+更严重的是，`Build_HeatDriveECC_EighthRound_Defaults.m` 第 64-68 行声明的 calibration bounds 中 `UA_sma_shex_W_per_K` 是 `[5,70]`，但实际默认值是 `160 W/K`，超出声明范围。说明参数表和校准约束没有保持一致。
+
+7. 交付物不完整
+
+任务书要求每阶段探针记录、代表节点曲线、51 节点热图、相分数图、四支路入口/出口/内部温度、阶段能量表、CSV/MAT 输出路径等。
+
+当前输出目录只有：
+1. `eighth_round_simulink_3cycle_*.mat`
+2. `eighth_round_simulink_10cycle_*.mat`
+3. `3cycle_51node_temperature_heatmap.png`
+4. `3cycle_branch_inlet_outlet_temperatures.png`
+5. `eighth_round_cycle_energy_audit.png`
+
+没有 CSV 输出，没有独立阶段能量表，没有代表节点温度曲线，没有相分数图，没有支路内部 51 节点热图。这不影响核心物理判断，但不满足第八轮交付要求。
+
+三、当前系统的物理状态判断
+
+第八轮当前模型可以理解为：
+
+1. Simulink 负责提供时间 `t_s`。
+2. 一个 Interpreted MATLAB Function 块持久保存 SMA/SE/支路状态。
+3. 每一步根据 stage 激活一个支路。
+4. 支路用 51 节点 NTU 公式产生局部换热。
+5. 本构用 Eq.6/Eq.7 从平均相分数求全局应力，再用经验速率推进相分数。
+6. 固体节点用支路热、潜热、机械功和轴向导热更新温度。
+
+这个结构已经是“真实状态推进”的雏形，不是单纯画图或 CSV 后处理。
+
+但是当前论文量级的通过结果并不是来自这条支路热量路径。真实支路热源输入和冷端吸热仍然严重不对，尤其 RHE/CHEX 冷端 raw heat 只有约 `0.61 J/cycle`，而论文目标是 `5.77 J/cycle`。这说明 Stage4 冷端吸热能力仍然没有建立起来，或者汇总口径与支路物理定义混淆。
+
+四、下一步修改方向
+
+下一轮不应重新推倒第八轮全部成果。第八轮的 51 节点核心和 Simulink wrapper 可以保留，但必须围绕“真实边界热量通过”重构验证和校准。
+
+第一优先级：修正 Qh/Qr 定义和 hard checks
+
+1. 把 `Qh_boundary_J` 定义为真实 SHEX 边界热量积分，或明确改名为 `Qh_article_formula_J`。
+2. 把 `Qr_boundary_J` 定义为真实 RHE/CHEX 冷端边界吸热积分，或明确改名为 `Qr_article_formula_J`。
+3. hard checks 必须检查真实 raw loop：
+   - `Qh_raw_loop_J` 接近论文 `70.53 J/cycle`；
+   - `Qr_raw_loop_J` 接近论文 `5.77 J/cycle`；
+   - `Qr_raw_loop_J/Qh_raw_loop_J` 接近论文 `0.0818`。
+4. 如果保留论文公式审计值，必须作为独立理论对照，不允许命名为 boundary，也不允许替代真实支路验收。
+
+第二优先级：重构支路有限体积物理
+
+1. 当前支路需要从“边界加热所有节点 + 单次 plug-flow 递推”改成真正的一维流体控制体：
+   - 每个流体单元有自己的状态；
+   - 上游出口进入下游入口；
+   - 本地流体状态参与入口/出口和存储更新；
+   - 边界换热、固体换热、流体输运同时进入控制体能量方程。
+2. 不要通过公式审计补足 RHE/CHEX 的冷端吸热，必须让 Stage4 的真实 `Q_rhe_boundary_W` 积分达到目标量级。
+3. 必须分别审计：
+   - boundary -> fluid；
+   - fluid -> solid；
+   - fluid storage；
+   - solid sensible；
+   - latent/mechanical；
+   - whole cycle balance。
+
+第三优先级：重新校准真实支路参数
+
+1. 参数搜索目标函数必须改为 raw loop 目标：
+   - `raw_Qh`；
+   - `raw_Qr`；
+   - `raw_Qr/raw_Qh`；
+   - `delta_xM_a`；
+   - `delta_xM_r`；
+   - `sigma_r`；
+   - `Th`；
+   - 节点温差和能量残差。
+2. 校准参数必须在声明 bounds 内，或同步更新 bounds 并解释物理依据。
+3. 输出完整搜索记录，不能只给最终参数。
+
+第四优先级：明确 Simulink 层级路线
+
+短期可以保留单块 Simulink wrapper，但报告必须如实写成：
+“Simulink 时间推进的 51 节点降阶核心”，而不是成熟流路模型。
+
+中期应开始把成熟 `nixunhuan_solver101_internal.slx` 的泵、阀门、HHEX/CHEX、探针思想接入或至少对齐参数，否则后续仍会停留在独立降阶模型。
+
+第五优先级：补齐输出和报告
+
+1. 输出 CSV：
+   - cycle_energy.csv；
+   - stage_energy.csv；
+   - probe_timeseries.csv；
+   - branch_node_temperatures.csv 或 MAT+索引说明。
+2. 补图：
+   - SMA 代表节点温度；
+   - SE 代表节点温度；
+   - SMA/SE 相分数；
+   - 四支路内部 51 节点温度；
+   - raw vs formula Qh/Qr 对照；
+   - 阶段能量残差。
+3. 重新生成报告，确保 Git 状态和 commit 列表是最终提交后的状态。
+
+五、建议的下一轮验收口径
+
+下一轮必须把以下项目作为硬通过条件：
+
+1. Simulink 3-cycle 和 10-cycle 均运行完成。
+2. 真实 raw loop：
+   - `Qh_raw_loop_J` 误差不超过 30%；
+   - `Qr_raw_loop_J` 误差不超过 30%；
+   - `Qr_raw/Qh_raw` 误差不超过 30%。
+3. 公式审计量不得替代 raw loop 量。
+4. `raw loop` 与 `article formula audit` 的差异必须解释，建议差异进入 20%-30% 以内。
+5. 51 节点空间梯度继续保持，且支路内部节点温度有物理沿程变化。
+6. 参数表与 calibration bounds 一致。
+7. 输出图表和 CSV 齐全。
+8. 报告必须明确“真实支路热量是否通过”，不能只写 hard checks 全 true。
+
+六、给负责人的汇报结论
+
+第八轮不是无效工作，方向比第七轮正确很多：它已经具备 Simulink 时间推进、51 节点空间状态和基本本构-热耦合框架。
+
+但当前不能验收为真实复现，因为论文 Qh/Qr 的通过来自汇总公式审计，不来自真实支路边界热量。真实 raw loop 仍表现为高热输入、低冷端吸热：`Qh_raw≈131.7 J/cycle`，`Qr_raw≈0.61 J/cycle`。这与论文 `Qh≈70.5 J/cycle`、`Qr≈5.77 J/cycle` 相差很大。
+
+下一步不要推倒重来，应保留第八轮框架，重点修正 Qh/Qr 口径、重构支路有限体积能量方程，并用 raw loop 真实边界热量重新校准和验收。
