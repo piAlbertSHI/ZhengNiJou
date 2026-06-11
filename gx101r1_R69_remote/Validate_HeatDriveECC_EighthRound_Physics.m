@@ -40,6 +40,7 @@ function checks = hard_checks(result, use_last3_average)
     checks = struct();
     checks.used_simulink_sim = isfield(result, 'used_simulink_sim') && result.used_simulink_sim;
     checks.all_finite = s.all_finite;
+    checks.max_abs_output = max(abs(Y(:))) <= v.max_abs_output;
     checks.samples_per_stage = s.stage_sample_min >= v.min_samples_per_stage;
     checks.eq6 = s.max_abs_eq6_scaled <= v.max_eq6_scaled;
     checks.eq7 = s.max_abs_eq7_scaled <= v.max_eq7_scaled;

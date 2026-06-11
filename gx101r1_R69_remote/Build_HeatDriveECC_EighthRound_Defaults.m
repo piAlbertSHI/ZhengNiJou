@@ -52,20 +52,29 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
 
     options.branch = struct();
     options.branch.m_dot_kg_per_s = 0.022;
+    options.branch.m_dot_sma_shex_kg_per_s = options.branch.m_dot_kg_per_s;
+    options.branch.m_dot_sma_the_kg_per_s = options.branch.m_dot_kg_per_s;
+    options.branch.m_dot_se_the_kg_per_s = options.branch.m_dot_kg_per_s;
+    options.branch.m_dot_se_rhe_kg_per_s = options.branch.m_dot_kg_per_s;
     options.branch.fluid_mass_total_kg = 0.018;
     options.branch.UA_sma_shex_W_per_K = 160.0;
     options.branch.UA_sma_the_W_per_K = 200.0;
     options.branch.UA_se_the_W_per_K = 6.0;
-    options.branch.UA_se_rhe_W_per_K = 13.0;
-    options.branch.boundary_UA_shex_W_per_K = 500.0;
+    options.branch.UA_se_rhe_W_per_K = 80.0;
+    options.branch.boundary_UA_shex_W_per_K = 270.0;
     options.branch.boundary_UA_the_W_per_K = 500.0;
-    options.branch.boundary_UA_rhe_W_per_K = 500.0;
+    options.branch.boundary_UA_rhe_W_per_K = 3000.0;
+    options.branch.boundary_T_se_rhe_K = options.system.T0_K;
+    options.branch.boundary_T_se_rhe_source = ...
+        'cold-load inlet temperature T0; Tc remains article target temperature';
     options.branch.source = 'eighth_round_calibrated_finite_volume_51node';
     options.branch.calibration_bounds = struct( ...
-        'm_dot_kg_per_s', [0.005, 0.06], ...
-        'UA_sma_shex_W_per_K', [5.0, 70.0], ...
-        'UA_se_rhe_W_per_K', [3.0, 50.0], ...
-        'boundary_UA_W_per_K', [80.0, 5000.0]);
+        'm_dot_kg_per_s', [0.004, 0.06], ...
+        'UA_sma_shex_W_per_K', [5.0, 200.0], ...
+        'UA_sma_the_W_per_K', [20.0, 250.0], ...
+        'UA_se_rhe_W_per_K', [3.0, 120.0], ...
+        'boundary_UA_shex_W_per_K', [80.0, 500.0], ...
+        'boundary_UA_rhe_W_per_K', [500.0, 3000.0]);
 
     options.solid = struct();
     options.solid.k_sma_W_per_mK = 18.0;
@@ -75,14 +84,14 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.solid.heat_recovery_efficiency = options.system.eta_hr;
 
     options.constitutive = struct();
-    options.constitutive.rate_a_to_A_1_per_s = 95.0;
-    options.constitutive.rate_a_to_M_1_per_s = 300.0;
-    options.constitutive.rate_r_load_1_per_s = 260.0;
-    options.constitutive.rate_r_stage3_unload_1_per_s = 300.0;
-    options.constitutive.rate_r_stage4_unload_1_per_s = 300.0;
+    options.constitutive.rate_a_to_A_1_per_s = 150.0;
+    options.constitutive.rate_a_to_M_1_per_s = 500.0;
+    options.constitutive.rate_r_load_1_per_s = 700.0;
+    options.constitutive.rate_r_stage3_unload_1_per_s = 20.0;
+    options.constitutive.rate_r_stage4_unload_1_per_s = 160.0;
     options.constitutive.max_rate_1_per_s = 800.0;
     options.constitutive.se_load_hardening_Pa = 0.0;
-    options.constitutive.se_unload_assist_Pa = 60.0e6;
+    options.constitutive.se_unload_assist_Pa = 120.0e6;
     options.constitutive.drive_width_a_Pa = ...
         options.material.SMA.C_M_Pa_per_K * ...
         (options.material.SMA.T_Af_K - options.material.SMA.T_As_K);
@@ -95,6 +104,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
 
     options.validation = struct();
     options.validation.min_samples_per_stage = 50;
+    options.validation.max_abs_output = 1.0e10;
     options.validation.max_eq6_scaled = 1.0e-6;
     options.validation.max_eq7_scaled = 1.0e-3;
     options.validation.min_node_spread_K = 0.05;
