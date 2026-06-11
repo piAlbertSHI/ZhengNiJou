@@ -20,7 +20,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.model_path = fullfile(root_dir, [options.model_name '.slx']);
     options.outputs_dir = fullfile(root_dir, 'outputs_heatdrive_ecc_eighth_round');
     options.report_path = fullfile(fileparts(root_dir), '项目文档', ...
-        '修改报告', 'Agent2_第八轮真实51节点Simulink仿真报告.txt');
+        '修改报告', 'Agent2_第九轮主线收敛与raw_loop物理修复报告.txt');
 
     options.system = article.system;
     options.system.Th_K = article.equilibrium.T_h_K;

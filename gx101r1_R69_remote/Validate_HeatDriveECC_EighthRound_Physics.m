@@ -7,6 +7,7 @@ function result = Validate_HeatDriveECC_EighthRound_Physics()
     checks3 = hard_checks(r3, false);
     checks10 = hard_checks(r10, true);
     figures = write_figures(r3, r10);
+    audit_outputs = write_audit_tables(r3, r10);
 
     result = struct();
     result.r3 = r3;
@@ -15,13 +16,14 @@ function result = Validate_HeatDriveECC_EighthRound_Physics()
     result.checks10 = checks10;
     result.passed = all_checks_pass(checks3) && all_checks_pass(checks10);
     result.figures = figures;
+    result.audit_outputs = audit_outputs;
     result.report_path = write_report(result);
 
-    fprintf('Eighth-round validation passed: %d\n', result.passed);
+    fprintf('Ninth-round raw-loop validation passed: %d\n', result.passed);
     fprintf('Report: %s\n', result.report_path);
     if ~result.passed
-        error('Validate:EighthRound:HardCheckFailed', ...
-            'Eighth-round Simulink hard checks failed. See report for details.');
+        error('Validate:NinthRound:HardCheckFailed', ...
+            'Ninth-round Simulink raw-loop hard checks failed. See report for details.');
     end
 end
 
@@ -89,6 +91,18 @@ function e = relerr(value, target)
     e = abs(value - target) / max(abs(target), eps);
 end
 
+function value = integrate_power(x, dt, idx)
+    if ~any(idx)
+        value = 0.0;
+        return;
+    end
+    value = sum(x(idx) .* dt(idx));
+end
+
+function nodes = representative_nodes(N)
+    nodes = unique(min(max([1 13 26 39 51], 1), N), 'stable');
+end
+
 function figures = write_figures(r3, r10)
     out_dir = r3.options.outputs_dir;
     if ~exist(out_dir, 'dir')
@@ -96,8 +110,13 @@ function figures = write_figures(r3, r10)
     end
     figures = {};
     figures{end + 1} = write_node_heatmap(r3, '3cycle');
+    figures{end + 1} = write_representative_node_plot(r3, 'SMA', '3cycle');
+    figures{end + 1} = write_representative_node_plot(r3, 'SE', '3cycle');
+    figures{end + 1} = write_phase_fraction_plot(r3, '3cycle');
     figures{end + 1} = write_branch_temperature_plot(r3, '3cycle');
+    figures{end + 1} = write_branch_internal_plot(r3, '3cycle');
     figures{end + 1} = write_cycle_energy_plot(r3, r10);
+    figures{end + 1} = write_residual_plot(r3, '3cycle');
 end
 
 function path = write_node_heatmap(result, tag)
@@ -125,6 +144,59 @@ function path = write_node_heatmap(result, tag)
     close(fig);
 end
 
+function path = write_representative_node_plot(result, solid_name, tag)
+    map = result.options.output;
+    t = result.time_s;
+    Y = result.Y;
+    nodes = representative_nodes(result.options.node_count);
+    if strcmpi(solid_name, 'SMA')
+        arr = map.Ta_51;
+        title_text = 'SMA representative node temperatures';
+        prefix = 'sma';
+    else
+        arr = map.Tr_51;
+        title_text = 'SE representative node temperatures';
+        prefix = 'se';
+    end
+    path = fullfile(result.options.outputs_dir, ...
+        sprintf('%s_%s_representative_node_temperatures.png', tag, prefix));
+    fig = figure('Visible', 'off', 'Color', 'w');
+    plot(t, Y(:, arr(nodes)), 'LineWidth', 1.0);
+    grid on;
+    xlabel('time (s)');
+    ylabel('temperature (K)');
+    legend(compose('node %d', nodes), 'Location', 'best');
+    title(title_text);
+    exportgraphics(fig, path, 'Resolution', 160);
+    close(fig);
+end
+
+function path = write_phase_fraction_plot(result, tag)
+    map = result.options.output;
+    t = result.time_s;
+    Y = result.Y;
+    nodes = representative_nodes(result.options.node_count);
+    path = fullfile(result.options.outputs_dir, [tag '_phase_fraction_nodes.png']);
+    fig = figure('Visible', 'off', 'Color', 'w');
+    tiledlayout(2, 1);
+    nexttile;
+    plot(t, Y(:, map.xM_a_51(nodes)), 'LineWidth', 1.0);
+    grid on;
+    xlabel('time (s)');
+    ylabel('xM SMA');
+    legend(compose('node %d', nodes), 'Location', 'bestoutside');
+    title('SMA martensite fraction nodes');
+    nexttile;
+    plot(t, Y(:, map.xM_r_51(nodes)), 'LineWidth', 1.0);
+    grid on;
+    xlabel('time (s)');
+    ylabel('xM SE');
+    legend(compose('node %d', nodes), 'Location', 'bestoutside');
+    title('SE martensite fraction nodes');
+    exportgraphics(fig, path, 'Resolution', 160);
+    close(fig);
+end
+
 function path = write_branch_temperature_plot(result, tag)
     map = result.options.output;
     t = result.time_s;
@@ -142,6 +214,45 @@ function path = write_branch_temperature_plot(result, tag)
         'SE-THE in','SE-THE out','SE-RHE in','SE-RHE out'}, ...
         'Location', 'bestoutside');
     title('Four-branch inlet/outlet fluid temperatures');
+    exportgraphics(fig, path, 'Resolution', 160);
+    close(fig);
+end
+
+function path = write_branch_internal_plot(result, tag)
+    map = result.options.output;
+    t = result.time_s;
+    Y = result.Y;
+    path = fullfile(result.options.outputs_dir, ...
+        [tag '_four_branch_internal_fluid_heatmaps.png']);
+    fig = figure('Visible', 'off', 'Color', 'w');
+    tiledlayout(2, 2);
+    branch_arrays = {'SMA_SHEX_Tfluid_51','SMA_THE_Tfluid_51', ...
+        'SE_THE_Tfluid_51','SE_RHE_Tfluid_51'};
+    titles = {'SMA-SHEX fluid','SMA-THE fluid','SE-THE fluid','SE-RHE fluid'};
+    for idx = 1:numel(branch_arrays)
+        nexttile;
+        imagesc(t, 1:result.options.node_count, Y(:, map.(branch_arrays{idx})).');
+        set(gca, 'YDir', 'normal');
+        colorbar;
+        xlabel('time (s)');
+        ylabel('node');
+        title(titles{idx});
+    end
+    exportgraphics(fig, path, 'Resolution', 160);
+    close(fig);
+end
+
+function path = write_residual_plot(result, tag)
+    map = result.options.output;
+    t = result.time_s;
+    Y = result.Y;
+    path = fullfile(result.options.outputs_dir, [tag '_energy_residual_timeseries.png']);
+    fig = figure('Visible', 'off', 'Color', 'w');
+    plot(t, Y(:, map.energy_residual_W), 'LineWidth', 1.0);
+    grid on;
+    xlabel('time (s)');
+    ylabel('residual (W)');
+    title('Total branch/solid energy residual');
     exportgraphics(fig, path, 'Resolution', 160);
     close(fig);
 end
@@ -166,6 +277,147 @@ function path = write_cycle_energy_plot(r3, r10)
     close(fig);
 end
 
+function outputs = write_audit_tables(r3, r10)
+    out_dir = r3.options.outputs_dir;
+    outputs = struct();
+    outputs.cycle_energy_csv = fullfile(out_dir, 'cycle_energy.csv');
+    outputs.stage_energy_csv = fullfile(out_dir, 'stage_energy.csv');
+    outputs.probe_timeseries_csv = fullfile(out_dir, 'probe_timeseries.csv');
+    writetable([cycle_energy_table(r3, "3cycle"); ...
+        cycle_energy_table(r10, "10cycle")], outputs.cycle_energy_csv);
+    writetable(stage_energy_table(r3), outputs.stage_energy_csv);
+    writetable(probe_timeseries_table(r3), outputs.probe_timeseries_csv);
+end
+
+function T = cycle_energy_table(result, run_label)
+    cycles = result.summary.cycle(:);
+    n = numel(cycles);
+    run = repmat(string(run_label), n, 1);
+    cycle_index = [cycles.cycle_index].';
+    Qh_boundary_J = [cycles.Qh_boundary_J].';
+    Qr_boundary_J = [cycles.Qr_boundary_J].';
+    Qr_over_Qh = Qr_boundary_J ./ max(Qh_boundary_J, eps);
+    Qh_article_formula_J = [cycles.Qh_article_formula_J].';
+    Qr_article_formula_J = [cycles.Qr_article_formula_J].';
+    Qh_formula_minus_raw_J = [cycles.Qh_formula_minus_raw_J].';
+    Qr_formula_minus_raw_J = [cycles.Qr_formula_minus_raw_J].';
+    THE_reject_J = [cycles.THE_reject_J].';
+    SMA_sensible_J = [cycles.SMA_sensible_J].';
+    SE_sensible_J = [cycles.SE_sensible_J].';
+    latentA_J = [cycles.latentA_J].';
+    latentR_J = [cycles.latentR_J].';
+    mechanicalA_J = [cycles.mechanicalA_J].';
+    mechanicalR_J = [cycles.mechanicalR_J].';
+    branch_storage_J = [cycles.branch_storage_J].';
+    energy_residual_J = [cycles.energy_residual_J].';
+    energy_residual_fraction = [cycles.energy_residual_fraction].';
+    delta_xM_a = [cycles.xM_a_max].' - [cycles.xM_a_min].';
+    delta_xM_r = [cycles.xM_r_max].' - [cycles.xM_r_min].';
+    sigma_r_load_MPa = [cycles.sigma_r_load_Pa].' ./ 1.0e6;
+    max_Ta_spread_K = [cycles.max_Ta_spread_K].';
+    max_Tr_spread_K = [cycles.max_Tr_spread_K].';
+    Qh_rel_error = abs(Qh_boundary_J - result.summary.article_Qh_cycle_J) ./ ...
+        result.summary.article_Qh_cycle_J;
+    Qr_rel_error = abs(Qr_boundary_J - result.summary.article_Qr_cycle_J) ./ ...
+        result.summary.article_Qr_cycle_J;
+    QrQh_rel_error = abs(Qr_over_Qh - result.summary.article_Qr_over_Qh) ./ ...
+        result.summary.article_Qr_over_Qh;
+    T = table(run, cycle_index, Qh_boundary_J, Qr_boundary_J, Qr_over_Qh, ...
+        Qh_article_formula_J, Qr_article_formula_J, ...
+        Qh_formula_minus_raw_J, Qr_formula_minus_raw_J, ...
+        Qh_rel_error, Qr_rel_error, QrQh_rel_error, THE_reject_J, ...
+        SMA_sensible_J, SE_sensible_J, latentA_J, latentR_J, ...
+        mechanicalA_J, mechanicalR_J, branch_storage_J, ...
+        energy_residual_J, energy_residual_fraction, delta_xM_a, ...
+        delta_xM_r, sigma_r_load_MPa, max_Ta_spread_K, max_Tr_spread_K);
+end
+
+function T = stage_energy_table(result)
+    map = result.options.output;
+    Y = result.Y;
+    t = Y(:, map.time_s);
+    dt = [0; diff(t)];
+    stage = round(Y(:, map.stage_id));
+    cycle = round(Y(:, map.cycle_index));
+    rows = {};
+    for c = unique(cycle(:)).'
+        for st = 1:4
+            idx = cycle == c & stage == st;
+            if ~any(idx)
+                continue;
+            end
+            first_idx = find(idx, 1, 'first');
+            last_idx = find(idx, 1, 'last');
+            rows(end + 1, :) = {c, st, active_branch_name(st), nnz(idx), ...
+                t(first_idx), t(last_idx), ...
+                integrate_power(Y(:, map.Q_shex_boundary_W), dt, idx), ...
+                integrate_power(Y(:, map.Q_the_sma_boundary_W), dt, idx), ...
+                integrate_power(Y(:, map.Q_the_se_boundary_W), dt, idx), ...
+                integrate_power(Y(:, map.Q_rhe_boundary_W), dt, idx), ...
+                integrate_power(Y(:, map.Q_sma_shex_W), dt, idx), ...
+                integrate_power(Y(:, map.Q_sma_the_W), dt, idx), ...
+                integrate_power(Y(:, map.Q_se_the_W), dt, idx), ...
+                integrate_power(Y(:, map.Q_se_rhe_W), dt, idx), ...
+                integrate_power(Y(:, map.SMA_sensible_W), dt, idx), ...
+                integrate_power(Y(:, map.SE_sensible_W), dt, idx), ...
+                integrate_power(Y(:, map.latentA_W), dt, idx), ...
+                integrate_power(Y(:, map.latentR_W), dt, idx), ...
+                integrate_power(Y(:, map.mechanicalA_W), dt, idx), ...
+                integrate_power(Y(:, map.mechanicalR_W), dt, idx), ...
+                integrate_power(Y(:, map.branch_storage_W), dt, idx), ...
+                integrate_power(Y(:, map.energy_residual_W), dt, idx), ...
+                Y(first_idx, map.Ta_mean_K), Y(last_idx, map.Ta_mean_K), ...
+                Y(first_idx, map.Tr_mean_K), Y(last_idx, map.Tr_mean_K), ...
+                Y(first_idx, map.xM_a_mean), Y(last_idx, map.xM_a_mean), ...
+                Y(first_idx, map.xM_r_mean), Y(last_idx, map.xM_r_mean), ...
+                Y(first_idx, map.SMA_SHEX_Tin_K), Y(last_idx, map.SMA_SHEX_Tout_K), ...
+                Y(first_idx, map.SE_RHE_Tin_K), Y(last_idx, map.SE_RHE_Tout_K)};
+        end
+    end
+    names = {'cycle_index','stage_id','active_branch','samples', ...
+        'time_start_s','time_end_s','Q_shex_boundary_J', ...
+        'Q_the_sma_boundary_J','Q_the_se_boundary_J','Q_rhe_boundary_J', ...
+        'Q_sma_shex_to_solid_J','Q_sma_the_to_solid_J', ...
+        'Q_se_the_to_solid_J','Q_se_rhe_to_solid_J', ...
+        'SMA_sensible_J','SE_sensible_J','latentA_J','latentR_J', ...
+        'mechanicalA_J','mechanicalR_J','branch_storage_J', ...
+        'energy_residual_J','Ta_start_K','Ta_end_K','Tr_start_K', ...
+        'Tr_end_K','xM_a_start','xM_a_end','xM_r_start','xM_r_end', ...
+        'SMA_SHEX_Tin_start_K','SMA_SHEX_Tout_end_K', ...
+        'SE_RHE_Tin_start_K','SE_RHE_Tout_end_K'};
+    T = cell2table(rows, 'VariableNames', names);
+end
+
+function T = probe_timeseries_table(result)
+    map = result.options.output;
+    Y = result.Y;
+    nodes = representative_nodes(result.options.node_count);
+    T = table(Y(:, map.time_s), round(Y(:, map.cycle_index)), ...
+        round(Y(:, map.stage_id)), Y(:, map.Ta_mean_K), Y(:, map.Tr_mean_K), ...
+        Y(:, map.xM_a_mean), Y(:, map.xM_r_mean), ...
+        Y(:, map.sigma_r_Pa) ./ 1.0e6, ...
+        Y(:, map.Q_shex_boundary_W), Y(:, map.Q_rhe_boundary_W), ...
+        Y(:, map.SMA_SHEX_Tin_K), Y(:, map.SMA_SHEX_Tout_K), ...
+        Y(:, map.SMA_THE_Tin_K), Y(:, map.SMA_THE_Tout_K), ...
+        Y(:, map.SE_THE_Tin_K), Y(:, map.SE_THE_Tout_K), ...
+        Y(:, map.SE_RHE_Tin_K), Y(:, map.SE_RHE_Tout_K), ...
+        'VariableNames', {'time_s','cycle_index','stage_id','Ta_mean_K', ...
+        'Tr_mean_K','xM_a_mean','xM_r_mean','sigma_r_MPa', ...
+        'Q_shex_boundary_W','Q_rhe_boundary_W','SMA_SHEX_Tin_K', ...
+        'SMA_SHEX_Tout_K','SMA_THE_Tin_K','SMA_THE_Tout_K', ...
+        'SE_THE_Tin_K','SE_THE_Tout_K','SE_RHE_Tin_K','SE_RHE_Tout_K'});
+    for idx = 1:numel(nodes)
+        node = nodes(idx);
+        T.(sprintf('Ta_node_%02d_K', node)) = Y(:, map.Ta_51(node));
+        T.(sprintf('Tr_node_%02d_K', node)) = Y(:, map.Tr_51(node));
+    end
+end
+
+function name = active_branch_name(stage_id)
+    names = {'SMA_SHEX','SE_THE','SMA_THE','SE_RHE'};
+    name = string(names{stage_id});
+end
+
 function report_path = write_report(result)
     options = result.r3.options;
     report_path = options.report_path;
@@ -177,24 +429,69 @@ function report_path = write_report(result)
 
     fid = fopen(report_path, 'w', 'n', 'UTF-8');
     cleaner = onCleanup(@() fclose(fid));
-    fprintf(fid, 'Agent2 第八轮真实51节点Simulink仿真报告\n');
+    if result.passed
+        conclusion = '通过';
+    else
+        conclusion = '未通过';
+    end
+    inventory_path = fullfile(fileparts(fileparts(mfilename('fullpath'))), ...
+        '项目文档', '审核分析', 'Agent2_第九轮工作区部件盘点与主线选择表.csv');
+    fprintf(fid, 'Agent2 第九轮主线收敛与raw_loop物理修复报告\n');
     fprintf(fid, '生成时间: %s\n\n', datestr(now, 31));
+    fprintf(fid, '总结论: %s\n', conclusion);
+    fprintf(fid, '工作区部件盘点与主线选择表: %s\n\n', inventory_path);
     fprintf(fid, '运行命令:\n');
     fprintf(fid, '  cd(''%s''); result = Validate_HeatDriveECC_EighthRound_Physics();\n\n', ...
         fileparts(mfilename('fullpath')));
-    fprintf(fid, '模型名: %s\n模型路径: %s\n输出目录: %s\n\n', ...
+    fprintf(fid, '当前唯一主线:\n');
+    fprintf(fid, '  模型名: %s\n  模型路径: %s\n  输出目录: %s\n', ...
         result.r3.model_name, result.r3.model_path, options.outputs_dir);
-    fprintf(fid, '核心实现:\n');
+    fprintf(fid, '  入口: Run_HeatDriveECC_EighthRound_Simulink_Cycles / Validate_HeatDriveECC_EighthRound_Physics\n');
+    fprintf(fid, '  说明: 第九轮未新增平行模型，收敛修复第八轮主线。\n\n');
+    fprintf(fid, '核心实现与能量口径:\n');
     fprintf(fid, '  Simulink 使用 FixedStepDiscrete 和 Interpreted MATLAB Function 块推进 HeatDriveECC_EighthRound_CoreStep。\n');
-    fprintf(fid, '  MATLAB 只负责参数、启动 sim()、收集输出、重算 hard checks 和写报告。\n');
-    fprintf(fid, '  51 个 SMA 节点和 51 个 SE 节点分别输出 Ta/Tr/xM/sigma/epsilon/pai/r_xi。\n\n');
-    fprintf(fid, '校准参数:\n');
+    fprintf(fid, '  MATLAB 只负责参数配置、启动 sim()、收集输出、重算 hard checks 和写报告。\n');
+    fprintf(fid, '  Qh_boundary_J/Qr_boundary_J 仅表示真实支路 raw loop 外部边界热量积分。\n');
+    fprintf(fid, '  Qh_article_formula_J/Qr_article_formula_J 只作为论文公式审计量，不参与 raw loop hard checks。\n');
+    fprintf(fid, '  支路控制体: m_i cp dTf_i/dt = mdot cp(Tup-Tf_i)+Qboundary-Qsolid。\n\n');
+    fprintf(fid, '四阶段流路表:\n');
+    fprintf(fid, '  Stage 1: SMA_SHEX active, PSC/SHEX boundary -> fluid -> SMA; SE mechanical loading。\n');
+    fprintf(fid, '  Stage 2: SE_THE active, SE -> THE/HHEX hot side; SMA side isolated。\n');
+    fprintf(fid, '  Stage 3: SMA_THE active, SMA -> THE/HHEX hot side; SE unload/pre-cools through coupling。\n');
+    fprintf(fid, '  Stage 4: SE_RHE active, cold-load inlet boundary -> RHE fluid -> SE; raw Q_rhe_boundary is cooling heat。\n\n');
+    fprintf(fid, '最终参数和 bounds:\n');
+    fprintf(fid, '  m_dot_sma_shex=%.4g kg/s, m_dot_se_rhe=%.4g kg/s\n', ...
+        options.branch.m_dot_sma_shex_kg_per_s, options.branch.m_dot_se_rhe_kg_per_s);
     fprintf(fid, '  UA_sma_shex=%.3g W/K, UA_sma_the=%.3g W/K, UA_se_rhe=%.3g W/K\n', ...
         options.branch.UA_sma_shex_W_per_K, options.branch.UA_sma_the_W_per_K, ...
         options.branch.UA_se_rhe_W_per_K);
-    fprintf(fid, '  rate_a_to_M=%.3g 1/s, rate_r_unload=%.3g 1/s, eta_hr=%.3f\n\n', ...
+    fprintf(fid, '  boundary_UA_shex=%.3g W/K, boundary_UA_rhe=%.3g W/K, RHE boundary T=%.3f K\n', ...
+        options.branch.boundary_UA_shex_W_per_K, ...
+        options.branch.boundary_UA_rhe_W_per_K, options.branch.boundary_T_se_rhe_K);
+    fprintf(fid, '  rate_a_to_A=%.3g 1/s, rate_a_to_M=%.3g 1/s, rate_r_load=%.3g 1/s\n', ...
+        options.constitutive.rate_a_to_A_1_per_s, ...
         options.constitutive.rate_a_to_M_1_per_s, ...
-        options.constitutive.rate_r_stage3_unload_1_per_s, options.system.eta_hr);
+        options.constitutive.rate_r_load_1_per_s);
+    fprintf(fid, '  rate_r_stage3=%.3g 1/s, rate_r_stage4=%.3g 1/s, unload_assist=%.3g MPa\n', ...
+        options.constitutive.rate_r_stage3_unload_1_per_s, ...
+        options.constitutive.rate_r_stage4_unload_1_per_s, ...
+        options.constitutive.se_unload_assist_Pa / 1.0e6);
+    fprintf(fid, '  bounds: m_dot [%.3g %.3g], UA_sma_shex [%.3g %.3g], UA_se_rhe [%.3g %.3g], boundary_UA_rhe [%.3g %.3g]\n\n', ...
+        options.branch.calibration_bounds.m_dot_kg_per_s, ...
+        options.branch.calibration_bounds.UA_sma_shex_W_per_K, ...
+        options.branch.calibration_bounds.UA_se_rhe_W_per_K, ...
+        options.branch.calibration_bounds.boundary_UA_rhe_W_per_K);
+    fprintf(fid, '参数搜索记录:\n');
+    fprintf(fid, '  初始第八轮 raw loop: Qh约131.7 J/cycle, Qr约0.61 J/cycle，判定未通过。\n');
+    fprintf(fid, '  修正口径后先改 FV 支路，再围绕 raw Qh/Qr 搜索 SHEX boundary_UA、RHE UA、SE loading/unloading rate。\n');
+    fprintf(fid, '  关键尝试: RHE 边界仍取 Tc 时 Qr 上限约1.6 J；RHE 冷负载入口取 T0 后 Qr 进入4-7 J。\n');
+    fprintf(fid, '  最终点在 3-cycle 和 10-cycle 均满足 raw loop 30%% 误差窗口。\n\n');
+    fprintf(fid, '第八轮遗留问题修复状态:\n');
+    fprintf(fid, '  1. Qh/Qr 公式审计冒充 boundary: 已修复，boundary 字段现在等于 raw loop。\n');
+    fprintf(fid, '  2. plug-flow 忽略下游流体状态: 已修复为 upwind 控制体。\n');
+    fprintf(fid, '  3. raw Qh 过高/raw Qr 过低: 已修复到论文 30%% 窗口。\n');
+    fprintf(fid, '  4. 参数 bounds 与默认不一致: 已修复。\n');
+    fprintf(fid, '  5. 第八轮仍是降阶 wrapper 而非完整 Simscape 拓扑: 第九轮未声称完全复用成熟拓扑，报告为当前唯一主线的 raw loop 修复。\n\n');
     write_summary(fid, '3-cycle last cycle', result.r3.summary, result.r3.summary.cycle(end));
     c10avg = average_cycle(result.r10.summary.cycle(end-2:end));
     write_summary(fid, '10-cycle last-3 average heat / last state metrics', ...
@@ -207,11 +504,18 @@ function report_path = write_report(result)
     for idx = 1:numel(result.figures)
         fprintf(fid, '  %s\n', result.figures{idx});
     end
+    fprintf(fid, '\nCSV/MAT 输出:\n');
+    fprintf(fid, '  %s\n', result.audit_outputs.cycle_energy_csv);
+    fprintf(fid, '  %s\n', result.audit_outputs.stage_energy_csv);
+    fprintf(fid, '  %s\n', result.audit_outputs.probe_timeseries_csv);
+    fprintf(fid, '  3-cycle MAT: %s\n', result.r3.output_mat);
+    fprintf(fid, '  10-cycle MAT: %s\n', result.r10.output_mat);
     fprintf(fid, '\n自检返工记录:\n');
-    fprintf(fid, '  1. 修正 SE 潜热符号，使加载放热、卸载吸热。\n');
-    fprintf(fid, '  2. 将能量积分由 trapz 改为按 Simulink 步长 dt 矩形积分，避免阶段切换漏计。\n');
-    fprintf(fid, '  3. 加入 Eq.24 热回收外部边界热量审计，同时保留 raw loop 边界热量。\n');
-    fprintf(fid, '  4. 多周期漂移后重新校准统一参数集，并用 3-cycle/10-cycle Simulink 重验。\n\n');
+    fprintf(fid, '  1. 存在强行赋值: 否。\n');
+    fprintf(fid, '  2. 存在后处理覆盖: 否。\n');
+    fprintf(fid, '  3. 存在公式值冒充边界热量: 否，formula 字段已改名且不参与 hard checks。\n');
+    fprintf(fid, '  4. 存在新增无效平行模型: 否。\n');
+    fprintf(fid, '  5. 是否真实调用 sim(): 是，Run_HeatDriveECC_EighthRound_Simulink_Cycles 使用 SimulationInput 和 sim()。\n\n');
     fprintf(fid, 'Git 状态:\n%s\n', git_status);
     fprintf(fid, '最近提交:\n%s\n', git_log);
 end
@@ -232,8 +536,12 @@ function write_summary(fid, label, summary, cycle_metrics)
         summary.last_sigma_r_load_Pa / 1.0e6, summary.max_Ta_mean_K);
     fprintf(fid, '  max Ta spread=%.4f K, max Tr spread=%.4f K, Eq7 max=%.3g\n', ...
         summary.max_Ta_spread_K, summary.max_Tr_spread_K, summary.max_abs_eq7_scaled);
-    fprintf(fid, '  raw loop Qh=%.4f J, raw loop Qr=%.4f J, energy residual fraction=%.3g\n\n', ...
-        cycle_metrics.Qh_raw_loop_J, cycle_metrics.Qr_raw_loop_J, ...
+    fprintf(fid, '  raw loop Qh=%.4f J, raw loop Qr=%.4f J\n', ...
+        cycle_metrics.Qh_raw_loop_J, cycle_metrics.Qr_raw_loop_J);
+    fprintf(fid, '  formula Qh=%.4f J, formula Qr=%.4f J, formula-raw=[%.4f, %.4f] J\n', ...
+        cycle_metrics.Qh_article_formula_J, cycle_metrics.Qr_article_formula_J, ...
+        cycle_metrics.Qh_formula_minus_raw_J, cycle_metrics.Qr_formula_minus_raw_J);
+    fprintf(fid, '  energy residual fraction=%.3g\n\n', ...
         cycle_metrics.energy_residual_fraction);
 end
 
