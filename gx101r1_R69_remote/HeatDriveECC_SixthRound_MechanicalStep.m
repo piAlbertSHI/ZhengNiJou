@@ -103,7 +103,7 @@ function p = material_parameters()
     p.SE_Af = 288.0;
     p.SE_Ms = 258.0;
     p.SE_Mf = 238.0;
-    p.rate_tau_s = 0.08;
+    p.rate_tau_s = 0.02;
 end
 
 function [sigma_a, sigma_r, eps_a, eps_r, eq6_scaled, eq7_scaled] = ...
@@ -139,8 +139,11 @@ function [pai_a, pai_r, rxi_a, rxi_r] = phase_driving_rates( ...
 
     heat_drive = normalized_interval(Ta, Astart_a, Afinish_a);
     cool_drive = normalized_interval(Mstart_a, Ta, Mstart_a - Mfinish_a);
-    se_load_drive = normalized_interval(Tr, Mstart_r, Mfinish_r);
-    se_unload_drive = normalized_interval(Astart_r, Tr, Afinish_r - Astart_r);
+    se_load_threshold = p.CA * max(Tr - p.SE_Ms, 0.0);
+    se_load_width = p.CA * max(p.SE_Af - p.SE_As, 1.0e-9);
+    se_unload_threshold = p.CM * max(Tr - p.SE_As, 0.0);
+    se_load_drive = (sigma_r - se_load_threshold) / max(se_load_width, 1.0);
+    se_unload_drive = (se_unload_threshold - sigma_r) / max(se_load_width, 1.0);
 
     pai_a = 0.0;
     pai_r = 0.0;

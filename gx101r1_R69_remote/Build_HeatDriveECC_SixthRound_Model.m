@@ -160,7 +160,8 @@ function prefix_initial_temperature_variables(system_path, prefix)
         'cold_return_pipe_T_init'
         'transit_pipe_T_init'
         'cold_load_heat_W'
-        'chip_heat_W'};
+        'chip_heat_W'
+        'solver_T_init_101_internal'};
     blocks = find_system(system_path, 'LookUnderMasks', 'all', ...
         'FollowLinks', 'on', 'Type', 'Block');
     for block_idx = 1:numel(blocks)

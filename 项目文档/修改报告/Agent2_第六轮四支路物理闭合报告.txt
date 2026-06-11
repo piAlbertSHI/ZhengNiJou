@@ -1,0 +1,192 @@
+Agent2 第六轮四支路物理闭合报告
+生成时间：2026-06-11
+当前分支：agent2/sixth-physical-branch-closure
+
+一、结论
+
+第六轮未通过验收，已按 hard check 停止在“支路单元预检”阶段，没有进入 0.1 s、full-stage、1-cycle、3-cycle 或 10-cycle。
+
+已完成并通过：
+
+1. 新建第六轮分支。
+2. 完整读取第六轮任务书和第五轮失败依据。
+3. 新建第六轮模型：
+       C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\heatdrive_ecc_four_branch_physical.slx
+4. 未覆盖 mature 原模型：
+       C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\nixunhuan_solver101_internal.slx
+5. 未覆盖第五轮失败模型：
+       C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\heatdrive_ecc_reconfigured_from_solver101.slx
+6. 四个物理角色独立支路已经存在：
+       SMA_SHEX
+       SMA_THE
+       SE_THE
+       SE_RHE
+7. 结构检查通过：
+       structure_ok = 1
+8. 机械/本构离线预检通过非退化门槛：
+       xM_a: 1.000000 -> min 0.828361 -> final 0.956242
+       xM_r: 0.000000 -> max 0.032812 -> final 0.000002
+       max sigma_r = 2.57e8 Pa
+       max Eq6 residual = 2.07e-16
+       max Eq7 residual = 5.05e-16
+
+未通过：
+
+1. 四支路 Simscape 0.02 s 单元预检。
+2. 第一次尝试：四个完整 mature loop 同时启用，0.02 s 预检超过 180 s 外层超时。
+3. 返工后第二次尝试：逐支路启用，其他三个支路临时 comment out；仍超过 300 s 外层超时。
+4. 因第六轮任务书明确规定“若 0.02 s 超过 120 s wall time 仍不返回，必须终止该测试并定位原因”，本轮停止，不继续运行循环。
+
+二、运行命令
+
+1. 创建第六轮分支：
+
+       git switch -c agent2/sixth-physical-branch-closure
+
+2. 结构构建与检查：
+
+       cd('C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote')
+       v=Validate_HeatDriveECC_SixthRound_Structure(struct('force_rebuild_model',true));
+
+   结果：
+
+       structure_ok=1
+
+3. 参数和机械离线预检：
+
+       o=Build_HeatDriveECC_SixthRound_Defaults(struct('cycle_count',1));
+       [p,s]=Build_HeatDriveECC_SixthRound_SimParams(o);
+       clear HeatDriveECC_SixthRound_MechanicalStep;
+       tin=p.sixth_mechanical_preflight_input_ts.Time;
+       vin=p.sixth_mechanical_preflight_input_ts.Data;
+       for k=1:numel(tin)
+           y(k,:)=HeatDriveECC_SixthRound_MechanicalStep(vin(k,:));
+       end
+
+   结果：
+
+       xA 1.000000 -> 0.828361 -> 0.956242
+       xR 0.000000 -> 0.032812 -> 0.000002
+       maxeq6 2.07e-16
+       maxeq7 5.05e-16
+       maxsigma 2.57e+08
+
+4. 第一次 Simscape 0.02 s 预检：
+
+       r=Run_HeatDriveECC_SixthRound_Preflight(struct('cycle_count',1,'force_rebuild_model',false,'outputs_dir',fullfile(pwd,'outputs_heatdrive_ecc_sixth_round_preflight')));
+
+   初始失败：
+
+       NodeMass 初温仍引用 solver_T_init_101_internal。
+
+   返工动作：
+
+       将 solver_T_init_101_internal 纳入 Build_HeatDriveECC_SixthRound_Model.m 的前缀隔离。
+       为每个 role 在 Build_HeatDriveECC_SixthRound_SimParams.m 中生成 role-specific 101 节点初温向量。
+
+5. 第二次 Simscape 0.02 s 预检：
+
+       r=Run_HeatDriveECC_SixthRound_Preflight(...)
+
+   结果：
+
+       超过 180 s 外层超时。
+
+   返工动作：
+
+       修改 Run_HeatDriveECC_SixthRound_Preflight.m。
+       每次只启用一个角色支路，其他三个 role branch 临时 comment out。
+
+6. 第三次 Simscape 0.02 s 预检：
+
+       r=Run_HeatDriveECC_SixthRound_Preflight(...)
+
+   结果：
+
+       超过 300 s 外层超时。
+       已终止 MATLAB 进程。
+
+三、新增/修改文件
+
+1. 模型与构建入口：
+
+       gx101r1_R69_remote\heatdrive_ecc_four_branch_physical.slx
+       gx101r1_R69_remote\Build_HeatDriveECC_SixthRound_Defaults.m
+       gx101r1_R69_remote\Build_HeatDriveECC_SixthRound_Model.m
+       gx101r1_R69_remote\Build_HeatDriveECC_SixthRound_SimParams.m
+
+2. 机械本构与预检：
+
+       gx101r1_R69_remote\HeatDriveECC_SixthRound_MechanicalStep.m
+       gx101r1_R69_remote\Run_HeatDriveECC_SixthRound_Preflight.m
+       gx101r1_R69_remote\Validate_HeatDriveECC_SixthRound_Structure.m
+
+3. 审核与报告：
+
+       项目文档\审核分析\Agent2_第六轮失败复现与四支路修复依据.md
+       项目文档\审核分析\Agent2_第六轮探针语义表.csv
+       项目文档\修改报告\Agent2_第六轮四支路物理闭合报告.txt
+
+四、hard checks
+
+| hard check | 状态 | 说明 |
+|---|---|---|
+| 不覆盖 mature 原模型 | PASS | mature SHA256 仍为 17DF6BA77CA6EE3521E4C406F6FEA648273802AEAF970305806635F1FCA133A6 |
+| 不覆盖第五轮失败模型 | PASS | 第六轮新模型名为 heatdrive_ecc_four_branch_physical.slx |
+| 四个独立物理角色支路存在 | PASS | SMA_SHEX、SMA_THE、SE_THE、SE_RHE 均存在 |
+| 独立探针存在 | PASS | 四支路流量和入口/出口温度探针存在 |
+| 固体初温变量隔离 | PASS_AFTER_REWORK | 已修复 role-specific solver_T_init_101_internal |
+| 机械本构离线预检 | PASS | 非零应力、非零相变、Eq6/Eq7 通过 |
+| 0.02 s 支路单元预检 | FAIL | 逐支路启用后仍超过 300 s 外层超时 |
+| 0.1 s 支路单元预检 | NOT_RUN | 0.02 s 已失败，禁止继续 |
+| full-stage 支路预检 | NOT_RUN | 0.02 s 已失败，禁止继续 |
+| Stage1 物理闭合 | NOT_RUN | 支路预检失败 |
+| 1-cycle | NOT_RUN | 支路预检失败 |
+| 3-cycle | NOT_RUN | 支路预检失败 |
+| 10-cycle | NOT_RUN | 3-cycle 未通过 |
+| 删除 q_shex=q_sma_hold 代理 | PASS_IN_SIXTH_CODE | 第六轮新增代码未使用该口径 |
+| 删除 PECC_dynamic=Qr_dynamic 代理 | PASS_IN_SIXTH_CODE | 第六轮未生成动态 PECC 伪结果 |
+
+五、失败原因定位
+
+当前失败阶段：
+
+    步骤 3：支路单元预检
+
+失败表现：
+
+    单支路 0.02 s Simscape 仿真超过任务书 120 s wall-time 门槛。
+
+已经排除：
+
+1. 不是第六轮模型缺少四个角色支路。
+2. 不是缺少支路探针。
+3. 不是 `solver_T_init_101_internal` 参数缺失；该问题已修复。
+4. 不是机械本构核退化；离线预检已出现非零应力和相变方向。
+
+最可能原因：
+
+1. 第六轮当前把每个角色支路复制为完整 mature solver101 loop；即使逐支路 comment out，单个完整 loop 仍包含 101 节点固体、双流体路径、完整 PI/阀/热端/冷端网络和多个 solver configuration。
+2. 这种“完整 loop 作为 branch unit”的粒度仍然过重，不满足任务书的 0.02 s / 120 s 支路单元预检门槛。
+3. 第六轮需要进一步裁剪每个 role branch，只保留该角色所需的单条成熟流体路径、对应 buffer/HX/valve/Pressure PI/flow sensor/temperature probes，而不是复制完整双路径 mature loop。
+
+六、下一步最小修复
+
+下一步不能继续运行循环。最小修复是重构 branch unit 粒度：
+
+1. 从 mature loop 中提取单支路模板：
+   - hold path template: V1/V2/V3 + HoldPipe_001..051 + 对应 buffer/HX/probes/PI；
+   - cooldown path template: V4/V5/V6 + CooldownPipe_001..051 + 对应 buffer/HX/probes/PI。
+2. 为 `SMA_SHEX`、`SMA_THE`、`SE_THE`、`SE_RHE` 各生成单路径支路，而不是完整双路径 loop。
+3. 每条支路只保留一个 solver configuration 和必要 thermal-liquid settings。
+4. 先只构建一个 branch unit 最小复现模型，确认 0.02 s < 120 s。
+5. 单支路通过后再复制成四角色支路。
+
+七、Git 提交记录
+
+本轮当前提交：
+
+    552c729 Add sixth-round failure baseline and repair criteria
+    8bb995e Build sixth-round four-branch model skeleton
+
+本报告、探针表和 preflight 返工脚本在本次第六轮失败定位提交中提交。

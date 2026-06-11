@@ -157,6 +157,12 @@ function params = add_role_initial_temperatures(params, key, role, options)
     for idx = 1:size(names, 1)
         params.([key '_' names{idx, 1}]) = names{idx, 2};
     end
+    if strcmpi(role.solid_role, 'sma')
+        solid_T = options.system.T0_K;
+    else
+        solid_T = options.system.Tc_K;
+    end
+    params.([key '_solver_T_init_101_internal']) = solid_T * ones(101, 1);
 end
 
 function ts = build_mechanical_preflight_input(options)
