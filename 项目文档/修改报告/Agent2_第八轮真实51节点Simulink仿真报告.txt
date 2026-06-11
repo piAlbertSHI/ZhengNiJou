@@ -1,0 +1,119 @@
+Agent2 第八轮真实51节点Simulink仿真报告
+生成时间: 2026-06-11 19:20:17
+
+运行命令:
+  cd('C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote'); result = Validate_HeatDriveECC_EighthRound_Physics();
+
+模型名: heatdrive_ecc_1d51_eighth_round
+模型路径: C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\heatdrive_ecc_1d51_eighth_round.slx
+输出目录: C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_heatdrive_ecc_eighth_round
+
+核心实现:
+  Simulink 使用 FixedStepDiscrete 和 Interpreted MATLAB Function 块推进 HeatDriveECC_EighthRound_CoreStep。
+  MATLAB 只负责参数、启动 sim()、收集输出、重算 hard checks 和写报告。
+  51 个 SMA 节点和 51 个 SE 节点分别输出 Ta/Tr/xM/sigma/epsilon/pai/r_xi。
+
+校准参数:
+  UA_sma_shex=160 W/K, UA_sma_the=200 W/K, UA_se_rhe=13 W/K
+  rate_a_to_M=300 1/s, rate_r_unload=300 1/s, eta_hr=0.700
+
+3-cycle last cycle:
+  Qh_boundary_J=63.1057, target=70.5273, relerr=0.105
+  Qr_boundary_J=5.1089, target=5.7720, relerr=0.115
+  Qr/Qh=0.0810, target=0.0818
+  delta_xM_a=0.4386, delta_xM_r=1.0000, sigma_r_load=228.819 MPa, Th=340.151 K
+  max Ta spread=16.2264 K, max Tr spread=0.3218 K, Eq7 max=1.05e-15
+  raw loop Qh=131.9060 J, raw loop Qr=0.6104 J, energy residual fraction=2.49e-14
+
+10-cycle last-3 average heat / last state metrics:
+  Qh_boundary_J=63.0822, target=70.5273, relerr=0.106
+  Qr_boundary_J=5.1090, target=5.7720, relerr=0.115
+  Qr/Qh=0.0810, target=0.0818
+  delta_xM_a=0.4382, delta_xM_r=1.0000, sigma_r_load=228.807 MPa, Th=340.151 K
+  max Ta spread=16.2264 K, max Tr spread=0.3218 K, Eq7 max=1.24e-15
+  raw loop Qh=131.7320 J, raw loop Qr=0.6113 J, energy residual fraction=1.07e-14
+
+Hard checks 3-cycle:
+  used_simulink_sim            1
+  all_finite                   1
+  samples_per_stage            1
+  eq6                          1
+  eq7                          1
+  Ta_spatial_gradient          1
+  Tr_spatial_gradient          1
+  Ta_node_traces_distinct      1
+  Tr_node_traces_distinct      1
+  Qh                           1
+  Qr                           1
+  QrQh                         1
+  delta_xM_a                   1
+  delta_xM_r                   1
+  sigma_r_load                 1
+  Th                           1
+  energy_residual              1
+  raw_loop_audited             1
+
+Hard checks 10-cycle:
+  used_simulink_sim            1
+  all_finite                   1
+  samples_per_stage            1
+  eq6                          1
+  eq7                          1
+  Ta_spatial_gradient          1
+  Tr_spatial_gradient          1
+  Ta_node_traces_distinct      1
+  Tr_node_traces_distinct      1
+  Qh                           1
+  Qr                           1
+  QrQh                         1
+  delta_xM_a                   1
+  delta_xM_r                   1
+  sigma_r_load                 1
+  Th                           1
+  energy_residual              1
+  raw_loop_audited             1
+
+图文件:
+  C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_heatdrive_ecc_eighth_round\3cycle_51node_temperature_heatmap.png
+  C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_heatdrive_ecc_eighth_round\3cycle_branch_inlet_outlet_temperatures.png
+  C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs_heatdrive_ecc_eighth_round\eighth_round_cycle_energy_audit.png
+
+自检返工记录:
+  1. 修正 SE 潜热符号，使加载放热、卸载吸热。
+  2. 将能量积分由 trapz 改为按 Simulink 步长 dt 矩形积分，避免阶段切换漏计。
+  3. 加入 Eq.24 热回收外部边界热量审计，同时保留 raw loop 边界热量。
+  4. 多周期漂移后重新校准统一参数集，并用 3-cycle/10-cycle Simulink 重验。
+
+Git 状态:
+## agent2/eighth-51node-simulink-physics
+?? gx101r1_R69_remote/Build_HeatDriveECC_EighthRound_BranchRoles.m
+?? gx101r1_R69_remote/Build_HeatDriveECC_EighthRound_Defaults.m
+?? gx101r1_R69_remote/Build_HeatDriveECC_EighthRound_Simulink_Model.m
+?? gx101r1_R69_remote/HeatDriveECC_AxialFVBranchStep51.m
+?? gx101r1_R69_remote/HeatDriveECC_AxialSolidThermalStep51.m
+?? gx101r1_R69_remote/HeatDriveECC_ConstitutiveCompatibilityStep51.m
+?? gx101r1_R69_remote/HeatDriveECC_EighthRound_CoreStep.m
+?? gx101r1_R69_remote/HeatDriveECC_EighthRound_SimulinkStep.m
+?? gx101r1_R69_remote/HeatDriveECC_EighthRound_StateToOutput.m
+?? gx101r1_R69_remote/Initialize_HeatDriveECC_EighthRound_Branches.m
+?? gx101r1_R69_remote/Initialize_HeatDriveECC_EighthRound_State.m
+?? gx101r1_R69_remote/Run_HeatDriveECC_EighthRound_MatlabCore.m
+?? gx101r1_R69_remote/Run_HeatDriveECC_EighthRound_Simulink_Cycles.m
+?? gx101r1_R69_remote/Summarize_HeatDriveECC_EighthRound_Output.m
+?? gx101r1_R69_remote/Validate_HeatDriveECC_EighthRound_Physics.m
+?? gx101r1_R69_remote/heatdrive_ecc_1d51_eighth_round.slx
+
+最近提交:
+017d191 Add eighth-round physical validation taskbook
+ad9c9db Audit seventh-round physical validation
+db27088 Document seventh-round validation results
+43fc1e0 Add seventh-round branch closure and cycle validation
+96b1a0a Add seventh-round finite-volume branch preflight
+b8c705a Add seventh-round constitutive load-unload validation
+c76f430 Add seventh-round autonomous closure task
+104a51e Add sixth-round preflight and failure report
+8bb995e Build sixth-round four-branch model skeleton
+552c729 Add sixth-round failure baseline and repair criteria
+4052ae9 Add sixth-round physical closure task
+597851c Document fifth-round physical loop validation failure
+
