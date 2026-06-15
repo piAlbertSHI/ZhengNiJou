@@ -23,13 +23,13 @@ function y = HeatDriveECC_EighthRound_StateToOutput(state, audit, options)
     put('eq6_scaled', audit.mechanical.eq6_scaled);
     put('eq7_scaled', audit.mechanical.eq7_scaled);
 
-    branch_names = {'SMA_SHEX','SMA_THE','SE_THE','SE_RHE'};
-    q_fields = {'Q_sma_shex_W','Q_sma_the_W','Q_se_the_W','Q_se_rhe_W'};
+    branch_names = {'SMA_SHEX','SMA_THE','SE_THE','SE_CHEX'};
+    q_fields = {'Q_sma_shex_W','Q_sma_the_W','Q_se_the_W','Q_se_chex_W'};
     qb_fields = {'Q_shex_boundary_W','Q_the_sma_boundary_W', ...
-        'Q_the_se_boundary_W','Q_rhe_boundary_W'};
-    mdot_fields = {'SMA_SHEX_mdot','SMA_THE_mdot','SE_THE_mdot','SE_RHE_mdot'};
-    tin_fields = {'SMA_SHEX_Tin_K','SMA_THE_Tin_K','SE_THE_Tin_K','SE_RHE_Tin_K'};
-    tout_fields = {'SMA_SHEX_Tout_K','SMA_THE_Tout_K','SE_THE_Tout_K','SE_RHE_Tout_K'};
+        'Q_the_se_boundary_W','Q_chex_boundary_W'};
+    mdot_fields = {'SMA_SHEX_mdot','SMA_THE_mdot','SE_THE_mdot','SE_CHEX_mdot'};
+    tin_fields = {'SMA_SHEX_Tin_K','SMA_THE_Tin_K','SE_THE_Tin_K','SE_CHEX_Tin_K'};
+    tout_fields = {'SMA_SHEX_Tout_K','SMA_THE_Tout_K','SE_THE_Tout_K','SE_CHEX_Tout_K'};
     for idx = 1:numel(branch_names)
         key = branch_names{idx};
         b = audit.branch.(key);

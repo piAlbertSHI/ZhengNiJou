@@ -1,12 +1,13 @@
 function [model_name, options] = Build_HeatDriveECC_EighthRound_Simulink_Model(overrides)
 % Build the heat-driven ECC Simulink mainline from the mature solver model.
 %
-% The target model is intentionally copied from
-% nixunhuan_solver101_internal.slx. That mature model already contains the
-% verified TL pump/pressure source, V1-V6 valves, buffers, hot/cold heat
-% exchangers, probes, and SMA dual-path exchanger shell. The heat-driven ECC
-% work must extend this physical network; it must not replace it with a
-% synthetic per-stage signal diagram.
+% The target model is the single canonical Simulink model for this workspace.
+% It was seeded from the mature nixunhuan_solver101_internal network and now
+% must be maintained in-place: verified TL pump/pressure source, V1-V6
+% valves, buffers, hot/cold heat exchangers, probes, and the SMA dual-path
+% exchanger shell stay in this one .slx. The heat-driven ECC work extends
+% this physical network; it must not create synthetic per-stage signal
+% diagrams or additional .slx files.
 
     if nargin < 1
         overrides = struct();
@@ -15,17 +16,14 @@ function [model_name, options] = Build_HeatDriveECC_EighthRound_Simulink_Model(o
     model_name = options.model_name;
     model_path = options.model_path;
 
-    root_dir = fileparts(mfilename('fullpath'));
-    source_model_name = 'nixunhuan_solver101_internal';
-    source_model_path = fullfile(root_dir, [source_model_name '.slx']);
-    if ~exist(source_model_path, 'file')
-        error('Build:ECC:MissingMatureModel', ...
-            'Required mature base model not found: %s', source_model_path);
+    if ~exist(model_path, 'file')
+        error('Build:ECC:MissingCanonicalModel', ...
+            ['The canonical model is missing: %s\n', ...
+            'Do not create a new .slx. Restore this file from git, then modify it in-place.'], ...
+            model_path);
     end
 
     close_if_loaded(model_name, false);
-    close_if_loaded(source_model_name, false);
-    copyfile(source_model_path, model_path, 'f');
 
     assignin('base', 'EIGHTH_ROUND_OPTIONS', options);
     assign_mature_exchange_workspace(options, model_path);
@@ -93,7 +91,7 @@ function mark_ecc_mainline(model_name)
     add_or_update_note(model_name, 'ECC_Mainline_Note', ...
         ['ECC mainline is copied from nixunhuan_solver101_internal.slx.', newline, ...
         'Retained verified TL network: pressure source, V1-V6, SMA shell, hot/cold HX, buffers, and probes.', newline, ...
-        'Next physical extension must add SHEX and SE/RHE on this same network, controlled by valves and pumps.'], ...
+        'Next physical extension must add SHEX, SE, and CHEX on this same network, controlled by valves and pumps.'], ...
         [40 10 820 75]);
 
     add_or_update_note(model_name, 'ECC_Route_Map', ...
@@ -101,7 +99,7 @@ function mark_ecc_mainline(model_name)
         'S1: SHEX -> SMA actuator during SMA heat/load.', newline, ...
         'S2: SE refrigerant -> THE/HHEX during loaded heat rejection.', newline, ...
         'S3: THE/HHEX -> SMA actuator during SMA cool/unload.', newline, ...
-        'S4: RHE/CHEX -> SE refrigerant during cold-side heat absorption.'], ...
+        'S4: CHEX -> SE refrigerant during cold-side heat absorption.'], ...
         [840 10 1480 105]);
 
     tag_block(model_name, 'Pressure Source (TL)', ...
@@ -135,7 +133,7 @@ function tag_heat_exchanger_blocks(model_name)
                 'HHEX/THE exchanger retained from mature model');
         elseif contains(block_name, '冷端') || contains(block_type, 'cold')
             tag_block(model_name, block_name, ...
-                'CHEX/RHE exchanger retained from mature model');
+                'CHEX exchanger retained from mature model');
         end
     end
 end
@@ -143,14 +141,15 @@ end
 function add_or_update_note(model_name, tag, text, position)
     existing = find_system(model_name, 'FindAll', 'on', ...
         'Type', 'annotation', 'Tag', tag);
-    if isempty(existing)
-        ann = Simulink.Annotation(model_name, text);
-        ann.Tag = tag;
-        ann.Position = position;
-    else
-        set_param(existing(1), 'PlainText', text);
-        set_param(existing(1), 'Position', position);
+    for idx = 1:numel(existing)
+        try
+            delete(existing(idx));
+        catch
+        end
     end
+    ann = Simulink.Annotation(model_name, text);
+    ann.Tag = tag;
+    ann.Position = position;
 end
 
 function tag_block(model_name, block_name, text)

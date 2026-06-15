@@ -1,5 +1,5 @@
 function routes = Build_HeatDriveECC_RouteMatrix(schedule)
-% Build valve and route matrix for SHEX/THE/RHE full-cycle operation.
+% Build valve and route matrix for SHEX/HHEX/CHEX full-cycle operation.
 
     names = schedule.stage_names;
     routes = repmat(base_route(), numel(names), 1);
@@ -33,7 +33,7 @@ function routes = Build_HeatDriveECC_RouteMatrix(schedule)
                 route.three_way_valve_2_position = 0;
                 route.check_valve_states = [0 1 0 0];
             case 'se_absorb_heat'
-                route.RHE_to_SE = 1;
+                route.CHEX_to_SE = 1;
                 route.SE_loop_pump_on = 1;
                 route.mechanical_coupling_active = 0;
                 route.three_way_valve_1_position = 0;
@@ -52,7 +52,7 @@ function route = base_route()
     route.SHEX_to_SMA = 0;
     route.THE_to_SMA = 0;
     route.SE_to_THE = 0;
-    route.RHE_to_SE = 0;
+    route.CHEX_to_SE = 0;
     route.SMA_loop_pump_on = 0;
     route.SE_loop_pump_on = 0;
     route.mechanical_coupling_active = 0;
@@ -60,4 +60,3 @@ function route = base_route()
     route.three_way_valve_2_position = 0;
     route.check_valve_states = [0 0 0 0];
 end
-
