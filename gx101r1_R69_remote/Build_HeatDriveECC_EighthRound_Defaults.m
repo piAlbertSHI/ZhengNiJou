@@ -101,6 +101,11 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.constitutive.se_loading_work_J_per_kg = options.material.SE.w_ld_J_per_kg;
     options.constitutive.se_unloading_work_J_per_kg = options.material.SE.w_uld_J_per_kg;
     options.constitutive.source = 'single_parameter_set_for_constitutive_cycles_and_simulink';
+    options.constitutive.simulink_sample_time_s = options.simulation.fixed_step_s;
+    options.constitutive.simulink_state_width = 10 * options.node_count;
+    options.constitutive.simulink_output_width = 12 * options.node_count;
+    options.constitutive.simulink_heat_source_sign = ...
+        'Q_node_W = -(latent_W + mechanical_W), positive into Simscape node';
 
     options.validation = struct();
     options.validation.min_samples_per_stage = 50;

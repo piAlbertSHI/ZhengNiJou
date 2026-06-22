@@ -27,6 +27,7 @@ function [model_name, options] = Build_HeatDriveECC_EighthRound_Simulink_Model(o
 
     assignin('base', 'EIGHTH_ROUND_OPTIONS', options);
     assign_mature_exchange_workspace(options, model_path);
+    assign_constitutive_workspace(options);
 
     load_system(model_name);
     set_param(model_name, ...
@@ -42,6 +43,7 @@ function [model_name, options] = Build_HeatDriveECC_EighthRound_Simulink_Model(o
         'ReturnWorkspaceOutputs', 'on');
 
     mark_ecc_mainline(model_name);
+    Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, false);
     save_system(model_name, model_path);
 end
 
@@ -87,11 +89,20 @@ function assign_mature_exchange_workspace(options, model_path)
     end
 end
 
+function assign_constitutive_workspace(options)
+    sample_time_s = options.constitutive.simulink_sample_time_s;
+    assignin('base', 'constitutive_sample_time_s', sample_time_s);
+    assignin('base', 'constitutive_state21_initial', ...
+        Initialize_HeatDriveECC_ConstitutiveVector21(options));
+    assignin('base', 'constitutive_output_width', ...
+        options.constitutive.simulink_output_width);
+end
+
 function mark_ecc_mainline(model_name)
     add_or_update_note(model_name, 'ECC_Mainline_Note', ...
         ['ECC mainline is heatdrive_ecc_coupled_se21.slx.', newline, ...
         'Retained verified TL network: pressure source, V1-V6, active SE21 shell, hot/cold HX, buffers, and probes.', newline, ...
-        'Left SMA and SHEX copies are isolated topology placeholders until explicitly connected.'], ...
+        'SMA/SE remain separate thermal modules; the coupled constitutive interface injects 21-node latent/mechanical heat sources.'], ...
         [40 10 820 75]);
 
     add_or_update_note(model_name, 'ECC_Route_Map', ...
