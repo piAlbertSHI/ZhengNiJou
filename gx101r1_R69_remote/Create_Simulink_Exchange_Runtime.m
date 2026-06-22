@@ -16,16 +16,11 @@ function runtime = Create_Simulink_Exchange_Runtime(options)
     checkpoints_dir = fullfile(outputs_dir, 'simulink_exchange_checkpoints');
     figures_dir = fullfile(outputs_dir, 'simulink_exchange_figures');
 
-    exchange_backend_kind = char(string(get_option_field(options, ...
-        'exchange_backend_kind', 'simulink_directional_101')));
+    exchange_backend_kind = normalize_exchange_backend_kind(get_option_field(options, ...
+        'exchange_backend_kind', 'simulink_axial_21'));
     model_path = get_option_field(options, 'model_path', '');
     if isempty(model_path)
-        switch exchange_backend_kind
-            case 'simulink_directional_101'
-                model_path = Build_nixunhuan_solver101_internal(get_option_field(options, 'force_rebuild_model', false));
-            otherwise
-                model_path = Build_Simulink_Exchange_Model(get_option_field(options, 'force_rebuild_model', false));
-        end
+        model_path = fullfile(this_dir, 'heatdrive_ecc_coupled_se21.slx');
     end
     [~, model_name] = fileparts(model_path);
 
@@ -122,4 +117,15 @@ function tf = is_absolute_path(path_text)
     end
     tf = ischar(path_text) && ~isempty(path_text) && ...
         (~isempty(regexp(path_text, '^[a-zA-Z]:[\\/]', 'once')) || startsWith(path_text, '\\'));
+end
+
+function exchange_backend_kind = normalize_exchange_backend_kind(value)
+    exchange_backend_kind = char(string(value));
+    if isempty(strtrim(exchange_backend_kind)) || strcmpi(exchange_backend_kind, 'simulink_directional_101')
+        exchange_backend_kind = 'simulink_axial_21';
+    end
+    if ~strcmp(exchange_backend_kind, 'simulink_axial_21')
+        error('Create_Simulink_Exchange_Runtime:UnsupportedBackend', ...
+            'Only the 21-node axial Simulink SE backend is supported, got %s.', exchange_backend_kind);
+    end
 end

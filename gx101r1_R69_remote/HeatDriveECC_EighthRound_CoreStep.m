@@ -1,5 +1,5 @@
 function [state, y, audit] = HeatDriveECC_EighthRound_CoreStep(state, options, t_s, dt_s)
-% One physical eighth-round 51-node ECC step.
+% One physical eighth-round 21-node ECC step.
 
     [stage_id, cycle_index, stage_elapsed_s] = stage_from_time(t_s, options);
     state.stage_id = stage_id;
@@ -13,27 +13,29 @@ function [state, y, audit] = HeatDriveECC_EighthRound_CoreStep(state, options, t
     key = matlab.lang.makeValidName(role.name);
     if strcmp(role.solid, 'SMA')
         [state.branch.(key), branch_audits.(key)] = HeatDriveECC_AxialFVBranchStep51( ...
-            state.branch.(key), role, state.Ta_51, dt_s, options, true);
-        Q_sma = branch_audits.(key).Q_to_solid_51_W;
+            state.branch.(key), role, state.Ta_21, dt_s, options, true);
+        Q_sma = branch_audits.(key).Q_to_solid_21_W;
     else
         [state.branch.(key), branch_audits.(key)] = HeatDriveECC_AxialFVBranchStep51( ...
-            state.branch.(key), role, state.Tr_51, dt_s, options, true);
-        Q_se = branch_audits.(key).Q_to_solid_51_W;
+            state.branch.(key), role, state.Tr_21, dt_s, options, true);
+        Q_se = branch_audits.(key).Q_to_solid_21_W;
     end
 
     [state, mech] = HeatDriveECC_ConstitutiveCompatibilityStep51( ...
         state, options, dt_s, stage_id);
 
     [Ta_next, solidA] = HeatDriveECC_AxialSolidThermalStep51( ...
-        state.Ta_51, Q_sma, mech.latentA_W_51, mech.mechanicalA_W_51, ...
+        state.Ta_21, Q_sma, mech.latentA_W_21, mech.mechanicalA_W_21, ...
         options.material.SMA, options.geometry.L_a_m, options.geometry.S_a_m2, ...
         options.solid.k_sma_W_per_mK, dt_s, options);
     [Tr_next, solidR] = HeatDriveECC_AxialSolidThermalStep51( ...
-        state.Tr_51, Q_se, mech.latentR_W_51, mech.mechanicalR_W_51, ...
+        state.Tr_21, Q_se, mech.latentR_W_21, mech.mechanicalR_W_21, ...
         options.material.SE, options.geometry.L_r_m, options.geometry.S_r_m2, ...
         options.solid.k_se_W_per_mK, dt_s, options);
-    state.Ta_51 = Ta_next;
-    state.Tr_51 = Tr_next;
+    state.Ta_21 = Ta_next;
+    state.Tr_21 = Tr_next;
+    state.Ta_51 = state.Ta_21;
+    state.Tr_51 = state.Tr_21;
     state.time_s = t_s;
 
     audit = struct();
@@ -80,20 +82,28 @@ end
 
 function audit = inactive_audit(role, branch_state, options)
     N = options.node_count;
-    fluid = branch_state.T_fluid_51(:);
+    fluid = get_branch_vector(branch_state, 'T_fluid_21', 'T_fluid_51', N);
     audit = struct();
     audit.name = role.name;
     audit.m_dot_kgps = 0.0;
-    audit.T_in_51 = fluid;
-    audit.T_out_51 = fluid;
-    audit.T_fluid_51 = fluid;
-    audit.Q_advective_51_W = zeros(N, 1);
+    audit.T_in_21 = fluid;
+    audit.T_out_21 = fluid;
+    audit.T_fluid_21 = fluid;
+    audit.Q_advective_21_W = zeros(N, 1);
     audit.Q_inlet_boundary_W = 0.0;
-    audit.Q_wall_boundary_51_W = zeros(N, 1);
+    audit.Q_wall_boundary_21_W = zeros(N, 1);
     audit.Q_wall_boundary_W = 0.0;
-    audit.Q_to_solid_51_W = zeros(N, 1);
-    audit.Q_boundary_51_W = zeros(N, 1);
-    audit.storage_51_W = zeros(N, 1);
+    audit.Q_to_solid_21_W = zeros(N, 1);
+    audit.Q_boundary_21_W = zeros(N, 1);
+    audit.storage_21_W = zeros(N, 1);
+    audit.T_in_51 = audit.T_in_21;
+    audit.T_out_51 = audit.T_out_21;
+    audit.T_fluid_51 = audit.T_fluid_21;
+    audit.Q_advective_51_W = audit.Q_advective_21_W;
+    audit.Q_wall_boundary_51_W = audit.Q_wall_boundary_21_W;
+    audit.Q_to_solid_51_W = audit.Q_to_solid_21_W;
+    audit.Q_boundary_51_W = audit.Q_boundary_21_W;
+    audit.storage_51_W = audit.storage_21_W;
     audit.energy_residual_W = 0.0;
     audit.Q_to_solid_W = 0.0;
     audit.Q_boundary_W = 0.0;
@@ -107,5 +117,20 @@ function value = sum_branch_field(branch_audits, field_name)
     names = fieldnames(branch_audits);
     for idx = 1:numel(names)
         value = value + branch_audits.(names{idx}).(field_name);
+    end
+end
+
+function values = get_branch_vector(branch_state, primary, legacy, N)
+    if isfield(branch_state, primary)
+        primary_values = branch_state.(primary);
+        values = primary_values(:);
+    elseif isfield(branch_state, legacy)
+        legacy_values = branch_state.(legacy);
+        values = legacy_values(:);
+    else
+        values = NaN(N, 1);
+    end
+    if numel(values) ~= N
+        values = NaN(N, 1);
     end
 end

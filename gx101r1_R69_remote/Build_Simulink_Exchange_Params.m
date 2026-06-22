@@ -1,5 +1,5 @@
 function sim_params = Build_Simulink_Exchange_Params(state_in, stage_config, exchange_options)
-% Assemble the MATLAB variables expected by nixunhuan_solver51.slx.
+% Assemble the MATLAB variables expected by the 21-node axial SE Simulink model.
 
     if nargin < 3 || isempty(exchange_options)
         exchange_options = struct();
@@ -9,16 +9,15 @@ function sim_params = Build_Simulink_Exchange_Params(state_in, stage_config, exc
     runtime = get_option_field(exchange_options, 'runtime', struct());
     T_init = extract_temperature_vector(state_std);
     state_node_count = numel(T_init);
-    if state_node_count ~= 51
+    exchange_backend_kind = normalize_exchange_backend_kind(get_option_field( ...
+        exchange_options, 'exchange_backend_kind', 'simulink_axial_21'));
+    thermal_model_node_count = get_option_field(exchange_options, ...
+        'simulink_internal_node_count', 21);
+    if state_node_count ~= thermal_model_node_count
         error('Build_Simulink_Exchange_Params:UnexpectedNodeCount', ...
-            'Simulink exchange expects a 51-node temperature vector, got %d.', state_node_count);
-    end
-
-    exchange_backend_kind = char(string(get_option_field( ...
-        exchange_options, 'exchange_backend_kind', 'simulink_directional_101')));
-    thermal_model_node_count = state_node_count;
-    if strcmp(exchange_backend_kind, 'simulink_directional_101')
-        thermal_model_node_count = 101;
+            ['The SE Simulink exchange interface is 21-node axial. ', ...
+            'Expected %d temperature values, got %d.'], ...
+            thermal_model_node_count, state_node_count);
     end
 
     radius_m = get_option_field(exchange_options, 'radius_m', 40e-3);
@@ -155,6 +154,7 @@ function sim_params = Build_Simulink_Exchange_Params(state_in, stage_config, exc
     use_closed_valve_flow = isfield(stage_config, 'all_valves_closed') && logical(stage_config.all_valves_closed);
     target_flush_volume_ratio = flush_volume_target_ratio;
     target_flush_volume_m3 = target_flush_volume_ratio * plate_volume_m3;
+    sma_stage13_nominal_mdot_target_kgps = rho_water * target_flush_volume_m3 / max(stage_duration_s, eps);
     if use_closed_valve_flow
         target_flush_volume_ratio = 0.0;
         target_flush_volume_m3 = 0.0;
@@ -825,8 +825,11 @@ function sim_params = Build_Simulink_Exchange_Params(state_in, stage_config, exc
         sma_pipe_thermal_gate_active_path = 'none';
     end
     startup_config = build_exchange_startup_config(stage_config, exchange_options, stage_duration_s, use_closed_valve_flow);
+    sma_stage13_config = build_sma_stage13_startup_config(stage_config, exchange_options, ...
+        stage_duration_s, sma_stage13_nominal_mdot_target_kgps);
 
     sim_params = struct();
+    sim_params.solver_T_init_21 = T_init(:);
     sim_params.solver_T_init_51 = T_init(:);
     if isstruct(state_std) && isfield(state_std, 'xi') && ~isempty(state_std.xi)
         sim_params.sma_xi_in_51 = state_std.xi(:);
@@ -840,6 +843,17 @@ function sim_params = Build_Simulink_Exchange_Params(state_in, stage_config, exc
     sim_params.L_valve_command = startup_config.L_valve_command;
     sim_params.L_valve_command_time_s = startup_config.L_valve_command_time_s;
     sim_params.L_valve_command_values = startup_config.L_valve_command_values;
+    sim_params.SMA_L_valve_command_target = sma_stage13_config.L_valve_command_target;
+    sim_params.SMA_L_valve_command_initial = sma_stage13_config.L_valve_initial;
+    sim_params.SMA_L_valve_command = sma_stage13_config.L_valve_command;
+    sim_params.SMA_L_valve_command_time_s = sma_stage13_config.L_valve_command_time_s;
+    sim_params.SMA_L_valve_command_values = sma_stage13_config.L_valve_command_values;
+    sim_params.SMA_stage13_valve_order = sma_stage13_config.valve_order;
+    sim_params.SMA_stage13_route_name = sma_stage13_config.route_name;
+    sim_params.SMA_stage13_route_description = sma_stage13_config.route_description;
+    sim_params.SMA_stage13_active = sma_stage13_config.active;
+    sim_params.SMA_stage13_startup_profile = sma_stage13_config.startup_profile;
+    sim_params.SMA_stage13_startup_ramp_s = sma_stage13_config.startup_ramp_s;
     sim_params.exchange_startup_smoothing_enabled = startup_config.exchange_startup_smoothing_enabled;
     sim_params.exchange_startup_ramp_s = startup_config.exchange_startup_ramp_s;
     sim_params.exchange_startup_profile = startup_config.exchange_startup_profile;
@@ -994,6 +1008,9 @@ function sim_params = Build_Simulink_Exchange_Params(state_in, stage_config, exc
     sim_params.mdot_root_source_kgps = mdot_root_source_kgps;
     sim_params.mdot_hold_source_kgps = mdot_hold_source_kgps;
     sim_params.mdot_cooldown_source_kgps = mdot_cooldown_source_kgps;
+    sim_params.sma_mdot_stage1_source_kgps = sma_stage13_config.stage1_mdot_kgps;
+    sim_params.sma_mdot_stage3_source_kgps = sma_stage13_config.stage3_mdot_kgps;
+    sim_params.sma_stage13_nominal_mdot_target_kgps = sma_stage13_nominal_mdot_target_kgps;
     sim_params.root_bypass_restriction_area_m2 = root_bypass_restriction_area_m2;
     sim_params.pressure_pi_kp_MPa_per_kgps = pressure_pi_kp_MPa_per_kgps;
     sim_params.pressure_pi_ki_MPa_per_kgps_s = pressure_pi_ki_MPa_per_kgps_s;
@@ -1455,6 +1472,8 @@ function sim_params = Build_Simulink_Exchange_Params(state_in, stage_config, exc
     sim_params.water_contact_area_mode = 'single_side_plate_area';
     sim_params.hot_fluid_buffer_T_init = hot_buffer_temp_current;
     sim_params.cold_fluid_buffer_T_init = cold_buffer_temp_current;
+    sim_params.shex_fluid_buffer_T_init = get_option_field(exchange_options, ...
+        'shex_fluid_buffer_T_init', hot_sink_T_init);
     sim_params.buffer_follow_sink_enabled = buffer_follow_sink_enabled;
     sim_params.buffer_follow_sink_policy_source = buffer_follow_sink_policy_source;
     sim_params.buffer_effective_energy_accounting_enabled = buffer_effective_energy_accounting_enabled;
@@ -1478,47 +1497,61 @@ function sim_params = Build_Simulink_Exchange_Params(state_in, stage_config, exc
         (flush_volume_ratio < 0.5 || flush_volume_ratio > 1.0);
     sim_params.exchange_backend_kind = exchange_backend_kind;
 
-    if strcmp(exchange_backend_kind, 'simulink_directional_101')
-        proxy_options = get_option_field(exchange_options, 'proxy_options', struct());
-        if ~isfield(proxy_options, 'total_mass') || isempty(proxy_options.total_mass)
-            proxy_options.total_mass = total_mass;
-        end
-        if ~isfield(proxy_options, 'rho_sma') || isempty(proxy_options.rho_sma)
-            proxy_options.rho_sma = sma_density_kg_per_m3;
-        end
-        if ~isfield(proxy_options, 'radius_m') || isempty(proxy_options.radius_m)
-            proxy_options.radius_m = radius_m;
-        end
-        if ~isfield(proxy_options, 'thickness_m') || isempty(proxy_options.thickness_m)
-            proxy_options.thickness_m = thickness_m;
-        end
-        if ~isfield(proxy_options, 'node_cp') || isempty(proxy_options.node_cp)
-            proxy_options.node_cp = node_cp;
-        end
-        strip_geometry = Build_Diameter_Strip_Geometry(proxy_options);
-        [T_strip_101_init, initialization_report] = Initialize_Directional_Strip_State(T_init(:), strip_geometry);
-        [carryover_T_x, carryover_source] = get_path_Tx101_carryover( ...
-            get_stage_field(stage_config, 'stage_name', ''), runtime, strip_geometry.strip_count);
+    if strcmp(exchange_backend_kind, 'simulink_axial_21')
+        target_count = thermal_model_node_count;
+        [T_internal_init, initialization_report] = resize_temperature_vector(T_init(:), target_count);
+        [carryover_T_x, carryover_source] = get_path_Tx21_carryover( ...
+            get_stage_field(stage_config, 'stage_name', ''), runtime, target_count);
         if ~isempty(carryover_T_x)
-            T_strip_101_init = carryover_T_x(:);
+            T_internal_init = carryover_T_x(:);
             initialization_report = struct( ...
-                'initial_state_kind', 'path_directional_101_carryover', ...
+                'initial_state_kind', 'path_axial_21_carryover', ...
                 'final_exchange_state_must_be_directional', true, ...
                 'source_node_count', numel(T_init), ...
-                'target_strip_count', numel(T_strip_101_init), ...
+                'target_strip_count', numel(T_internal_init), ...
                 'source_min_T', min(T_init), ...
                 'source_max_T', max(T_init), ...
-                'target_min_T', min(T_strip_101_init), ...
-                'target_max_T', max(T_strip_101_init), ...
+                'target_min_T', min(T_internal_init), ...
+                'target_max_T', max(T_internal_init), ...
                 'carryover_source', carryover_source);
         end
-        sim_params.solver_T_init_101_internal = T_strip_101_init(:);
-        sim_params.solver_internal_101_strip_count = numel(T_strip_101_init);
-        sim_params.solver_internal_101_initialization_report = initialization_report;
+        sim_params.solver_T_init_21_internal = T_internal_init(:);
+        sim_params.solver_internal_21_strip_count = numel(T_internal_init);
+        sim_params.solver_internal_21_initialization_report = initialization_report;
+        sim_params.solver_internal_temperature_workspace_var = 'Tx21_internal';
     end
 end
 
-function [T_x, source] = get_path_Tx101_carryover(stage_name, runtime, expected_count)
+function [T_out, report] = resize_temperature_vector(T_in, target_count)
+    T_in = T_in(:);
+    if target_count <= 0 || target_count ~= round(target_count)
+        error('Build_Simulink_Exchange_Params:InvalidInternalNodeCount', ...
+            'Internal Simulink node count must be a positive integer.');
+    end
+    if numel(T_in) == target_count
+        T_out = T_in;
+        mode = 'direct_node_count_match';
+    elseif numel(T_in) == 1
+        T_out = repmat(T_in, target_count, 1);
+        mode = 'scalar_replicated_to_internal_nodes';
+    else
+        x_in = linspace(0.0, 1.0, numel(T_in)).';
+        x_out = linspace(0.0, 1.0, target_count).';
+        T_out = interp1(x_in, T_in, x_out, 'linear');
+        mode = 'linear_resample_to_internal_nodes';
+    end
+    report = struct( ...
+        'initial_state_kind', mode, ...
+        'final_exchange_state_must_be_directional', true, ...
+        'source_node_count', numel(T_in), ...
+        'target_strip_count', numel(T_out), ...
+        'source_min_T', min(T_in), ...
+        'source_max_T', max(T_in), ...
+        'target_min_T', min(T_out), ...
+        'target_max_T', max(T_out));
+end
+
+function [T_x, source] = get_path_Tx21_carryover(stage_name, runtime, expected_count)
     T_x = [];
     source = '';
     if ~isstruct(runtime)
@@ -1528,19 +1561,34 @@ function [T_x, source] = get_path_Tx101_carryover(stage_name, runtime, expected_
         return;
     end
     if strcmpi(char(string(stage_name)), 'hold_exchange')
-        field_name = 'stage2_T_x_101_state';
+        field_candidates = {'stage2_T_x_21_state'};
     elseif strcmpi(char(string(stage_name)), 'cooldown_exchange')
-        field_name = 'stage4_T_x_101_state';
+        field_candidates = {'stage4_T_x_21_state'};
     else
         return;
     end
-    if ~isfield(runtime, field_name) || isempty(runtime.(field_name))
-        return;
+    for idx = 1:numel(field_candidates)
+        field_name = field_candidates{idx};
+        if ~isfield(runtime, field_name) || isempty(runtime.(field_name))
+            continue;
+        end
+        candidate = runtime.(field_name)(:);
+        if numel(candidate) == expected_count && all(isfinite(candidate))
+            T_x = candidate;
+            source = field_name;
+            return;
+        end
     end
-    candidate = runtime.(field_name)(:);
-    if numel(candidate) == expected_count && all(isfinite(candidate))
-        T_x = candidate;
-        source = field_name;
+end
+
+function exchange_backend_kind = normalize_exchange_backend_kind(value)
+    exchange_backend_kind = char(string(value));
+    if isempty(strtrim(exchange_backend_kind)) || strcmpi(exchange_backend_kind, 'simulink_directional_101')
+        exchange_backend_kind = 'simulink_axial_21';
+    end
+    if ~strcmp(exchange_backend_kind, 'simulink_axial_21')
+        error('Build_Simulink_Exchange_Params:UnsupportedBackend', ...
+            'Only the 21-node axial Simulink SE backend is supported, got %s.', exchange_backend_kind);
     end
 end
 
@@ -1568,6 +1616,125 @@ function value = default_cooldown_audit_ignore_initial_s(stage_duration_s)
     else
         value = 0.10;
     end
+end
+
+function config = build_sma_stage13_startup_config(stage_config, exchange_options, ...
+        stage_duration_s, nominal_mdot_kgps)
+    stage_name = lower(strtrim(char(string(get_stage_field(stage_config, 'stage_name', '')))));
+    stage_id = get_stage_field(stage_config, 'stage_id', NaN);
+    valve_order = { ...
+        'SMA_V1_SHEX_to_pump', ...
+        'SMA_V2_HHEX_to_pump', ...
+        'SMA_V3_pump_to_heat_path', ...
+        'SMA_V4_pump_to_cool_path', ...
+        'SMA_V5_SMA_to_SHEX', ...
+        'SMA_V6_SMA_to_HHEX'};
+
+    stage1_names = {'load_adiabatic', 'sma_heat_load', 'stage1', 'stage_1', ...
+        'sma_stage1_heat_load', 'heat_load'};
+    stage3_names = {'unload_adiabatic', 'sma_cool_unload', 'stage3', 'stage_3', ...
+        'sma_stage3_cool_unload', 'cool_unload'};
+    is_stage1 = any(strcmpi(stage_name, stage1_names)) || ...
+        (isnumeric(stage_id) && isscalar(stage_id) && isfinite(stage_id) && round(stage_id) == 1);
+    is_stage3 = any(strcmpi(stage_name, stage3_names)) || ...
+        (isnumeric(stage_id) && isscalar(stage_id) && isfinite(stage_id) && round(stage_id) == 3);
+
+    if is_stage1
+        command_target = [1 0 1 0 1 0];
+        route_name = 'shex_buffer_to_sma_to_shex';
+        route_description = ['Stage 1 active SMA route: SHEXFluidBuffer -> ', ...
+            'SMA_V1 -> SMA pump -> SMA_V3 -> SMA hold path Conn1/Conn2 -> ', ...
+            'SMA_V5 -> SHEX -> SHEXFluidBuffer.'];
+    elseif is_stage3
+        command_target = [0 1 0 1 0 1];
+        route_name = 'hhex_buffer_to_sma_to_hhex';
+        route_description = ['Stage 3 active SMA route: HotFluidBuffer/HHEX -> ', ...
+            'SMA_V2 -> SMA pump -> SMA_V4 -> SMA cooldown path Conn3/Conn4 -> ', ...
+            'SMA_V6 -> HHEX SMA branch -> HotFluidBuffer.'];
+    else
+        command_target = zeros(1, 6);
+        route_name = 'sma_stage13_inactive';
+        route_description = 'SMA stage-1/3 valves closed; SE-side stage uses the mature V1-V6 network.';
+    end
+
+    active_scale = get_option_field(exchange_options, 'sma_stage13_active_valve_opening_scale', ...
+        get_option_field(exchange_options, 'active_valve_opening_scale', 1.0));
+    if ~(isnumeric(active_scale) && isscalar(active_scale) && isfinite(active_scale))
+        active_scale = 1.0;
+    end
+    active_scale = min(max(double(active_scale), 0.0), 1.0);
+    command_target = command_target * active_scale;
+
+    closed_opening = get_option_field(exchange_options, 'sma_stage13_closed_valve_opening', ...
+        get_option_field(exchange_options, 'exchange_startup_closed_valve_opening', 0.0));
+    if ~(isnumeric(closed_opening) && isscalar(closed_opening) && isfinite(closed_opening))
+        closed_opening = 0.0;
+    end
+    closed_opening = min(max(double(closed_opening), 0.0), 1.0);
+
+    startup_enabled = logical(get_option_field(exchange_options, ...
+        'sma_stage13_startup_smoothing_enabled', get_option_field(exchange_options, ...
+        'exchange_startup_smoothing_enabled', true)));
+    if is_stage1
+        requested_ramp_s = get_option_field(exchange_options, ...
+            'sma_stage13_startup_ramp_s_stage1', get_option_field(exchange_options, ...
+            'sma_stage13_startup_ramp_s', get_option_field(exchange_options, ...
+            'exchange_startup_ramp_s', 0.002)));
+    elseif is_stage3
+        requested_ramp_s = get_option_field(exchange_options, ...
+            'sma_stage13_startup_ramp_s_stage3', get_option_field(exchange_options, ...
+            'sma_stage13_startup_ramp_s', get_option_field(exchange_options, ...
+            'exchange_startup_ramp_s', 0.002)));
+    else
+        requested_ramp_s = 0.0;
+    end
+    if ~(isnumeric(requested_ramp_s) && isscalar(requested_ramp_s) && isfinite(requested_ramp_s))
+        requested_ramp_s = 0.0;
+    end
+    ramp_s = min(max(double(requested_ramp_s), 0.0), 0.25 * max(stage_duration_s, eps));
+
+    active_mask = command_target ~= 0;
+    if startup_enabled && any(active_mask) && ramp_s > 0
+        command_initial = command_target;
+        command_initial(active_mask) = closed_opening;
+        time_s = [0.0; ramp_s; max(stage_duration_s, eps)];
+        values = [command_initial; command_target; command_target];
+        startup_profile = 'linear_valve_ramp_for_sma_stage13';
+    else
+        command_initial = command_target;
+        time_s = [0.0; max(stage_duration_s, eps)];
+        values = [command_target; command_target];
+        startup_profile = 'constant_sma_stage13_valve_command';
+        ramp_s = 0.0;
+    end
+
+    if is_stage1
+        stage1_mdot = get_option_field(exchange_options, ...
+            'sma_mdot_stage1_source_kgps', nominal_mdot_kgps);
+        stage3_mdot = 0.0;
+    elseif is_stage3
+        stage1_mdot = 0.0;
+        stage3_mdot = get_option_field(exchange_options, ...
+            'sma_mdot_stage3_source_kgps', nominal_mdot_kgps);
+    else
+        stage1_mdot = 0.0;
+        stage3_mdot = 0.0;
+    end
+
+    config = struct( ...
+        'active', is_stage1 || is_stage3, ...
+        'route_name', route_name, ...
+        'route_description', route_description, ...
+        'valve_order', {valve_order}, ...
+        'L_valve_command_target', command_target, ...
+        'L_valve_initial', command_initial, ...
+        'L_valve_command', timeseries(values, time_s), ...
+        'L_valve_command_time_s', time_s, ...
+        'L_valve_command_values', values, ...
+        'startup_profile', startup_profile, ...
+        'startup_ramp_s', ramp_s, ...
+        'stage1_mdot_kgps', stage1_mdot, ...
+        'stage3_mdot_kgps', stage3_mdot);
 end
 
 function startup_config = build_exchange_startup_config(stage_config, exchange_options, stage_duration_s, use_closed_valve_flow)

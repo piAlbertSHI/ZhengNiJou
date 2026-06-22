@@ -4,17 +4,17 @@ function target_model_path = Build_Simulink_Exchange_Model(force_rebuild, build_
 %
 % Despite the historical "solver51" naming on the previous file
 % (Build_nixunhuan_solver51.m), this is the universal constructor: the
-% radial SMA solver always runs on 51 nodes, but the directional fluid
-% strip used inside the Simulink TL network is mirror-doubled to 101
-% nodes for hold + 101 nodes for cooldown when invoked via
-% Build_nixunhuan_solver101_internal. The 101-node fluid strip is then
-% compressed back to the 51-node radial state by
-% Compress_Diameter101_To_Radial51.
+% historical radial SMA solver used 51 nodes, while the directional fluid
+% strip inside the Simulink TL network can be rebuilt at the requested
+% node count. For the current heat-driven SE branch, the wrapper builds two
+% direct 21-node paths instead of the old mirrored 101-node paths.
 %
 % Configurable through build_options:
+%   solid_block_name      - visible root subsystem name for the active solid
+%                           heat exchanger core (default 'SMA'; use 'SE'
+%                           for the heat-driven SE branch).
 %   sma_node_count        - number of HoldPipe_NNN / CooldownPipe_NNN
-%                           blocks built inside SMA (default 51; set 101
-%                           from the internal wrapper).
+%                           blocks built inside the solid core.
 %   sma_tap_count         - thermal-port tap count on Subsystem2 (defaults
 %                           to sma_node_count).
 %   temperature_workspace_var, temperature_init_expr_template - how the
@@ -60,30 +60,41 @@ function target_model_path = Build_Simulink_Exchange_Model(force_rebuild, build_
             build_config.root_manifold_split_mode) && ...
             target_model_has_pressurized_tanks(target_model_path, target_model_name) && ...
             target_model_has_sma_pipe_length_add(target_model_path, target_model_name) && ...
+            target_model_has_core_exchange_contract(target_model_path, target_model_name, ...
+            build_config.solid_block_name, build_config.sma_node_count, ...
+            build_config.temperature_workspace_var) && ...
             target_model_has_cold_end_topology(target_model_path, target_model_name, ...
             build_config.cold_end_topology_mode)
         return;
     end
-    if ~exist(source_model_path, 'file')
+    source_model_available = exist(source_model_path, 'file') == 2;
+    if ~source_model_available && ~exist(target_model_path, 'file')
         error('Build_Simulink_Exchange_Model:MissingSourceModel', ...
-            'Source model not found: %s', source_model_path);
+            'Source model not found and target model cannot be rebuilt in place: %s', source_model_path);
     end
 
     if bdIsLoaded(target_model_name)
         close_system(target_model_name, 0);
     end
 
-    load_system(source_model_path);
-    save_system(source_model_name, target_model_path);
-    load_system(target_model_path);
+    if source_model_available
+        load_system(source_model_path);
+        save_system(source_model_name, target_model_path);
+        load_system(target_model_path);
+    else
+        load_system(target_model_path);
+    end
+    ensure_core_subsystem_name(target_model_name, build_config.solid_block_name);
 
     rebuild_sma_subsystem(target_model_name, ...
+        build_config.solid_block_name, ...
         build_config.sma_node_count, ...
         build_config.sma_tap_count, ...
         build_config.temperature_workspace_var, ...
         build_config.temperature_init_expr_template, ...
         build_config.sma_interface_mode);
     rebuild_sma_fluid_network_if_needed(target_model_name, ...
+        build_config.solid_block_name, ...
         build_config.sma_node_count, ...
         build_config.sma_interface_mode);
     rewrite_valve_monitor_chart(target_model_name);
@@ -103,9 +114,10 @@ function target_model_path = Build_Simulink_Exchange_Model(force_rebuild, build_
     [hot_subsystem_path, cold_subsystem_path] = locate_exchange_subsystems(target_model_name);
     rebuild_hot_end_subsystem(hot_subsystem_path);
     rebuild_cold_end_subsystem(cold_subsystem_path, build_config.cold_end_topology_mode);
-    normalize_tl_storage_initial_temperatures(target_model_name, hot_subsystem_path, cold_subsystem_path);
+    normalize_tl_storage_initial_temperatures(target_model_name, hot_subsystem_path, cold_subsystem_path, ...
+        build_config.solid_block_name);
     configure_tl_tank_pressures(target_model_name);
-    add_root_observability_probes(target_model_name);
+    add_root_observability_probes(target_model_name, build_config.solid_block_name);
     configure_root_pressure_pi_feedback(target_model_name);
     configure_r54_safe_profile(target_model_name, ...
         build_config.r54_safe_profile_enabled, ...
@@ -118,12 +130,14 @@ function target_model_path = Build_Simulink_Exchange_Model(force_rebuild, build_
     % cold without delivering it. Kept the inner-subsystem TransitPipe
     % (TransitPipe_V6_to_CHEX), which gives a +0.13 cycle-1 transport_ratio
     % improvement vs r17 baseline and does not cause this regression.
-    apply_root_visual_layout(target_model_name);
+    apply_root_visual_layout(target_model_name, build_config.solid_block_name);
     apply_compact_visual_font_size(target_model_name, build_config.compact_visual_font_size);
 
     save_system(target_model_name);
     close_system(target_model_name, 0);
-    close_system(source_model_name, 0);
+    if source_model_available && bdIsLoaded(source_model_name)
+        close_system(source_model_name, 0);
+    end
 end
 
 function ok = target_model_has_sma_pipe_length_add(target_model_path, target_model_name)
@@ -142,6 +156,49 @@ function ok = target_model_has_sma_pipe_length_add(target_model_path, target_mod
             ok = strcmp(strtrim(get_param(probe_blocks{1}, 'length_add')), ...
                 'sma_pipe_segment_length_add_l');
         end
+        if ~model_was_loaded
+            close_system(target_model_name, 0);
+        end
+    catch
+        ok = false;
+        if ~model_was_loaded && bdIsLoaded(target_model_name)
+            close_system(target_model_name, 0);
+        end
+    end
+end
+
+function ok = target_model_has_core_exchange_contract( ...
+        target_model_path, target_model_name, solid_block_name, node_count, workspace_var_name)
+    model_was_loaded = bdIsLoaded(target_model_name);
+    ok = false;
+    try
+        if ~model_was_loaded
+            load_system(target_model_path);
+        end
+
+        core_path = [target_model_name '/' char(string(solid_block_name))];
+        if getSimulinkBlockHandle(core_path) <= 0
+            if ~model_was_loaded
+                close_system(target_model_name, 0);
+            end
+            return;
+        end
+
+        hold_blocks = find_system(core_path, ...
+            'SearchDepth', 1, ...
+            'Regexp', 'on', ...
+            'Name', '^HoldPipe_[0-9][0-9][0-9]$');
+        cooldown_blocks = find_system(core_path, ...
+            'SearchDepth', 1, ...
+            'Regexp', 'on', ...
+            'Name', '^CooldownPipe_[0-9][0-9][0-9]$');
+        temperature_sink_path = [core_path '/Subsystem2/' sprintf('ToWorkspace_%s', workspace_var_name)];
+        ok = numel(hold_blocks) == node_count && ...
+            numel(cooldown_blocks) == node_count && ...
+            getSimulinkBlockHandle(temperature_sink_path) > 0 && ...
+            strcmp(strtrim(get_param(temperature_sink_path, 'VariableName')), ...
+            char(string(workspace_var_name)));
+
         if ~model_was_loaded
             close_system(target_model_name, 0);
         end
@@ -461,6 +518,7 @@ function build_config = build_model_config(this_dir, build_options)
         'source_model_name', 'nixunhuan_singal', ...
         'target_model_path', fullfile(this_dir, 'nixunhuan_solver51.slx'), ...
         'target_model_name', 'nixunhuan_solver51', ...
+        'solid_block_name', 'SMA', ...
         'sma_node_count', 51, ...
         'sma_tap_count', 12, ...
         'sma_interface_mode', 'legacy_taps', ...
@@ -474,6 +532,7 @@ function build_config = build_model_config(this_dir, build_options)
 
     build_config = override_build_field(build_config, build_options, 'target_model_path');
     build_config = override_build_field(build_config, build_options, 'target_model_name');
+    build_config = override_build_field(build_config, build_options, 'solid_block_name');
     build_config = override_build_field(build_config, build_options, 'sma_node_count');
     build_config = override_build_field(build_config, build_options, 'sma_tap_count');
     build_config = override_build_field(build_config, build_options, 'sma_interface_mode');
@@ -488,6 +547,11 @@ function build_config = build_model_config(this_dir, build_options)
         build_config.root_manifold_split_mode);
     build_config.cold_end_topology_mode = normalize_cold_end_topology_mode( ...
         build_config.cold_end_topology_mode);
+    build_config.solid_block_name = char(string(build_config.solid_block_name));
+    if isempty(strtrim(build_config.solid_block_name))
+        error('Build_Simulink_Exchange_Model:InvalidSolidBlockName', ...
+            'solid_block_name must be a nonempty Simulink block name.');
+    end
 end
 
 function build_config = override_build_field(build_config, build_options, field_name)
@@ -496,8 +560,25 @@ function build_config = override_build_field(build_config, build_options, field_
     end
 end
 
-function rebuild_sma_subsystem(model_name, node_count, tap_count, workspace_var_name, temperature_init_expr_template, interface_mode)
-    subsystem_path = [model_name '/SMA/Subsystem2'];
+function ensure_core_subsystem_name(model_name, solid_block_name)
+    solid_block_name = char(string(solid_block_name));
+    target_path = [model_name '/' solid_block_name];
+    if getSimulinkBlockHandle(target_path) > 0
+        return;
+    end
+
+    historical_path = [model_name '/SMA'];
+    if getSimulinkBlockHandle(historical_path) > 0
+        set_param(historical_path, 'Name', solid_block_name);
+        return;
+    end
+
+    error('Build_Simulink_Exchange_Model:MissingSolidCore', ...
+        'Could not find root solid core block "%s" or historical "SMA".', solid_block_name);
+end
+
+function rebuild_sma_subsystem(model_name, solid_block_name, node_count, tap_count, workspace_var_name, temperature_init_expr_template, interface_mode)
+    subsystem_path = [model_name '/' char(string(solid_block_name)) '/Subsystem2'];
     if nargin < 6 || isempty(interface_mode)
         interface_mode = 'legacy_taps';
     end
@@ -599,12 +680,12 @@ function rebuild_sma_subsystem(model_name, node_count, tap_count, workspace_var_
     end
 end
 
-function rebuild_sma_fluid_network_if_needed(model_name, node_count, interface_mode)
-    if nargin < 3 || ~strcmp(char(string(interface_mode)), 'dual_path_serial_nodewise')
+function rebuild_sma_fluid_network_if_needed(model_name, solid_block_name, node_count, interface_mode)
+    if nargin < 4 || ~strcmp(char(string(interface_mode)), 'dual_path_serial_nodewise')
         return;
     end
 
-    sma_path = [model_name '/SMA'];
+    sma_path = [model_name '/' char(string(solid_block_name))];
     subsystem_path = [sma_path '/Subsystem2'];
     clear_sma_fluid_network_except_ports_and_nodes(sma_path);
 
@@ -683,7 +764,7 @@ end
 function sync_pmio_connection_ports(subsystem_path, port_count)
     if port_count < 1
         error('Build_Simulink_Exchange_Model:InvalidPortCount', ...
-            'SMA thermal interface port count must be positive.');
+            'Solid-core thermal interface port count must be positive.');
     end
 
     template_path = [subsystem_path '/Conn1'];
@@ -704,6 +785,22 @@ function sync_pmio_connection_ports(subsystem_path, port_count)
             'Port', num2str(idx), ...
             'Side', 'Right', ...
             'Position', [30 y 60 y + 18]);
+    end
+
+    conn_blocks = find_system(subsystem_path, ...
+        'SearchDepth', 1, ...
+        'Regexp', 'on', ...
+        'Name', '^Conn[0-9]+$');
+    for idx = 1:numel(conn_blocks)
+        block_name = get_param(conn_blocks{idx}, 'Name');
+        token = regexp(block_name, '^Conn([0-9]+)$', 'tokens', 'once');
+        if isempty(token)
+            continue;
+        end
+        conn_index = str2double(token{1});
+        if conn_index > port_count
+            delete_block_if_present_with_lines(conn_blocks{idx});
+        end
     end
 end
 
@@ -738,10 +835,14 @@ function replace_root_boundary_buffers(model_name)
     hot_res_path = find_block_by_sid(model_name, '961');
     cold_res_path = find_block_by_sid(model_name, '963');
 
-    replace_reservoir_with_tank_buffer(hot_res_path, 'HotFluidBuffer', ...
-        'hot_fluid_buffer_T_init');
-    replace_reservoir_with_tank_buffer(cold_res_path, 'ColdFluidBuffer', ...
-        'cold_fluid_buffer_T_init');
+    if getSimulinkBlockHandle([model_name '/HotFluidBuffer']) <= 0
+        replace_reservoir_with_tank_buffer(hot_res_path, 'HotFluidBuffer', ...
+            'hot_fluid_buffer_T_init');
+    end
+    if getSimulinkBlockHandle([model_name '/ColdFluidBuffer']) <= 0
+        replace_reservoir_with_tank_buffer(cold_res_path, 'ColdFluidBuffer', ...
+            'cold_fluid_buffer_T_init');
+    end
 end
 
 function configure_root_pressure_source_for_pressure_control(model_name)
@@ -1760,7 +1861,7 @@ function layout_cold_end_subsystem_visuals_r69(subsystem_path)
     reroute_subsystem_lines_if_available(subsystem_path);
 end
 
-function normalize_tl_storage_initial_temperatures(model_name, hot_subsystem_path, cold_subsystem_path)
+function normalize_tl_storage_initial_temperatures(model_name, hot_subsystem_path, cold_subsystem_path, solid_block_name)
     assign_initial_temperature_if_present([model_name '/HotFluidBuffer'], 'T_I', 'hot_fluid_buffer_T_init');
     assign_initial_temperature_if_present([model_name '/ColdFluidBuffer'], 'T_I', 'cold_fluid_buffer_T_init');
     assign_initial_temperature_if_present([model_name '/Tank (TL)'], 'T_I', 'root_hot_loop_T_init');
@@ -1771,7 +1872,8 @@ function normalize_tl_storage_initial_temperatures(model_name, hot_subsystem_pat
     assign_initial_temperature_if_present([cold_subsystem_path '/ColdSinkReturnPipe'], 'T0', 'cold_return_pipe_T_init');
     assign_initial_temperature_if_present([cold_subsystem_path '/TransitPipe_V6_to_CHEX'], 'T0', 'transit_pipe_T_init');
 
-    sma_blocks = find_system([model_name '/SMA'], ...
+    core_path = [model_name '/' char(string(solid_block_name))];
+    sma_blocks = find_system(core_path, ...
         'LookUnderMasks', 'all', ...
         'FollowLinks', 'on', ...
         'ReferenceBlock', 'fl_lib/Thermal Liquid/Elements/Pipe (TL)');
@@ -1835,12 +1937,17 @@ function assign_initial_temperature_if_present(block_path, parameter_name, value
     end
 end
 
-function add_root_observability_probes(model_name)
+function add_root_observability_probes(model_name, solid_block_name)
+    solid_name = char(string(solid_block_name));
+    if ~strcmp(solid_name, 'SMA')
+        delete_legacy_sma_named_root_probe_blocks(model_name);
+    end
+
     v1_path = [model_name '/V1_cold_inlet'];
     v3_path = [model_name '/V3_sma_to_hot'];
     v4_path = [model_name '/V4_hot_inlet'];
     v6_path = [model_name '/V6_sma_to_chip_cold'];
-    sma_path = [model_name '/SMA'];
+    sma_path = [model_name '/' char(string(solid_block_name))];
     hot_buffer_path = [model_name '/HotFluidBuffer'];
     cold_buffer_path = [model_name '/ColdFluidBuffer'];
 
@@ -1867,40 +1974,40 @@ function add_root_observability_probes(model_name)
     [~, cold_buffer_ps_path] = add_fluid_temp_probe(model_name, 'ColdFluidBufferTemp', ...
         get_port(cold_buffer_path, 'LConn', 1), 'cold_buffer_temp_out', ...
         [255 500 305 540], [340 506 370 528], [405 500 555 525]);
-    [~, sma_stage2_port1_ps_path] = add_fluid_temp_probe(model_name, 'SMAHoldInletFluidTemp', ...
+    [~, sma_stage2_port1_ps_path] = add_fluid_temp_probe(model_name, [solid_name 'HoldInletFluidTemp'], ...
         get_port(sma_path, 'LConn', 1), 'sma_hold_inlet_fluid_temp_out', ...
         [845 500 895 540], [930 506 960 528], [995 500 1165 525]);
-    [~, sma_stage2_port2_ps_path] = add_fluid_temp_probe(model_name, 'SMAHoldOutletFluidTemp', ...
+    [~, sma_stage2_port2_ps_path] = add_fluid_temp_probe(model_name, [solid_name 'HoldOutletFluidTemp'], ...
         get_port(sma_path, 'LConn', 2), 'sma_hold_outlet_fluid_temp_out', ...
         [1025 500 1075 540], [1110 506 1140 528], [1175 500 1355 525]);
-    [~, sma_stage4_port3_ps_path] = add_fluid_temp_probe(model_name, 'SMACooldownInletFluidTemp', ...
+    [~, sma_stage4_port3_ps_path] = add_fluid_temp_probe(model_name, [solid_name 'CooldownInletFluidTemp'], ...
         get_port(sma_path, 'LConn', 3), 'sma_cooldown_inlet_fluid_temp_out', ...
         [845 760 895 800], [930 766 960 788], [995 760 1185 785]);
-    [~, sma_stage4_port4_ps_path] = add_fluid_temp_probe(model_name, 'SMACooldownOutletFluidTemp', ...
+    [~, sma_stage4_port4_ps_path] = add_fluid_temp_probe(model_name, [solid_name 'CooldownOutletFluidTemp'], ...
         get_port(sma_path, 'LConn', 4), 'sma_cooldown_outlet_fluid_temp_out', ...
         [1025 760 1075 800], [1110 766 1140 788], [1175 760 1375 785]);
     add_fluid_temp_probe(model_name, 'V1ColdInletColdSideFluidTemp', ...
         get_port(v1_path, 'LConn', 1), 'probe_v1_cold_inlet_cold_buffer_side_T_K', ...
         [660 455 710 495], [745 461 775 483], [810 455 1115 480]);
-    add_fluid_temp_probe(model_name, 'V1ColdInletSMASideFluidTemp', ...
+    add_fluid_temp_probe(model_name, ['V1ColdInlet' solid_name 'SideFluidTemp'], ...
         get_port(v1_path, 'RConn', 1), 'probe_v1_cold_inlet_sma_side_T_K', ...
         [660 605 710 645], [745 611 775 633], [810 605 1085 630]);
-    add_fluid_temp_probe(model_name, 'V3SMAToHotSMASideFluidTemp', ...
+    add_fluid_temp_probe(model_name, ['V3' solid_name 'ToHot' solid_name 'SideFluidTemp'], ...
         get_port(v3_path, 'LConn', 1), 'probe_v3_sma_to_hot_sma_side_T_K', ...
         [1240 605 1290 645], [1325 611 1355 633], [1390 605 1680 630]);
-    add_fluid_temp_probe(model_name, 'V3SMAToHotHotSideFluidTemp', ...
+    add_fluid_temp_probe(model_name, ['V3' solid_name 'ToHotHotSideFluidTemp'], ...
         get_port(v3_path, 'RConn', 1), 'probe_v3_sma_to_hot_hot_hx_side_T_K', ...
         [1240 455 1290 495], [1325 461 1355 483], [1390 455 1690 480]);
     add_fluid_temp_probe(model_name, 'V4HotInletHotSideFluidTemp', ...
         get_port(v4_path, 'LConn', 1), 'probe_v4_hot_inlet_hot_buffer_side_T_K', ...
         [660 715 710 755], [745 721 775 743], [810 715 1120 740]);
-    add_fluid_temp_probe(model_name, 'V4HotInletSMASideFluidTemp', ...
+    add_fluid_temp_probe(model_name, ['V4HotInlet' solid_name 'SideFluidTemp'], ...
         get_port(v4_path, 'RConn', 1), 'probe_v4_hot_inlet_sma_side_T_K', ...
         [660 865 710 905], [745 871 775 893], [810 865 1095 890]);
-    add_fluid_temp_probe(model_name, 'V6SMAToChipSMASideFluidTemp', ...
+    add_fluid_temp_probe(model_name, ['V6' solid_name 'ToChip' solid_name 'SideFluidTemp'], ...
         get_port(v6_path, 'LConn', 1), 'probe_v6_sma_to_chip_sma_side_T_K', ...
         [1240 865 1290 905], [1325 871 1355 893], [1390 865 1690 890]);
-    add_fluid_temp_probe(model_name, 'V6SMAToChipChipSideFluidTemp', ...
+    add_fluid_temp_probe(model_name, ['V6' solid_name 'ToChipChipSideFluidTemp'], ...
         get_port(v6_path, 'RConn', 1), 'probe_v6_sma_to_chip_chip_side_T_K', ...
         [1240 715 1290 755], [1325 721 1355 743], [1390 715 1700 740]);
 
@@ -1922,6 +2029,23 @@ function add_root_observability_probes(model_name)
     add_workspace_alias(model_name, sma_stage4_port4_ps_path, ...
         'ToWorkspace_probe_sma_stage4_port4_v6_side_T_K', 'probe_sma_stage4_port4_v6_side_T_K', ...
         [1175 790 1490 815]);
+end
+
+function delete_legacy_sma_named_root_probe_blocks(model_name)
+    legacy_names = { ...
+        'SMAHoldInletFluidTempSensor', 'SMAHoldInletFluidTempPS', ...
+        'SMAHoldOutletFluidTempSensor', 'SMAHoldOutletFluidTempPS', ...
+        'SMACooldownInletFluidTempSensor', 'SMACooldownInletFluidTempPS', ...
+        'SMACooldownOutletFluidTempSensor', 'SMACooldownOutletFluidTempPS', ...
+        'V1ColdInletSMASideFluidTempSensor', 'V1ColdInletSMASideFluidTempPS', ...
+        'V3SMAToHotSMASideFluidTempSensor', 'V3SMAToHotSMASideFluidTempPS', ...
+        'V3SMAToHotHotSideFluidTempSensor', 'V3SMAToHotHotSideFluidTempPS', ...
+        'V4HotInletSMASideFluidTempSensor', 'V4HotInletSMASideFluidTempPS', ...
+        'V6SMAToChipSMASideFluidTempSensor', 'V6SMAToChipSMASideFluidTempPS', ...
+        'V6SMAToChipChipSideFluidTempSensor', 'V6SMAToChipChipSideFluidTempPS'};
+    for idx = 1:numel(legacy_names)
+        delete_block_if_present_with_lines([model_name '/' legacy_names{idx}]);
+    end
 end
 
 function configure_r54_safe_profile(model_name, enabled, audit_probe_commenting_enabled)
@@ -1975,6 +2099,10 @@ function [sensor_path, ps_path, toworkspace_path] = add_fluid_temp_probe(parent_
     ps_path = [parent_path '/' probe_base_name 'PS'];
     toworkspace_path = [parent_path '/ToWorkspace_' variable_name];
 
+    delete_block_if_present_with_lines(toworkspace_path);
+    delete_block_if_present_with_lines(ps_path);
+    delete_block_if_present_with_lines(sensor_path);
+
     add_block('fl_lib/Thermal Liquid/Sensors/Pressure & Temperature Sensor (TL)', sensor_path, ...
         'Position', sensor_pos, ...
         'pressure', 'false', ...
@@ -1995,6 +2123,7 @@ end
 
 function add_workspace_alias(parent_path, ps_path, alias_block_name, variable_name, workspace_pos)
     alias_path = [parent_path '/' alias_block_name];
+    delete_block_if_present_with_lines(alias_path);
     add_block('simulink/Sinks/To Workspace', alias_path, ...
         'VariableName', variable_name, ...
         'SaveFormat', 'Structure With Time', ...
@@ -2006,6 +2135,10 @@ function insert_flow_sensor_probe(parent_path, upstream_port, downstream_port, s
     sensor_path = [parent_path '/' sensor_name];
     ps_path = [parent_path '/' sensor_name '_PS'];
     toworkspace_path = [parent_path '/ToWorkspace_' variable_name];
+
+    delete_block_if_present_with_lines(toworkspace_path);
+    delete_block_if_present_with_lines(ps_path);
+    delete_block_if_present_with_lines(sensor_path);
 
     delete_line_if_present(parent_path, upstream_port, downstream_port);
     delete_line_if_present(parent_path, downstream_port, upstream_port);
@@ -2345,7 +2478,8 @@ function apply_compact_visual_font_size(model_name, font_size)
     end
 end
 
-function apply_root_visual_layout(model_name)
+function apply_root_visual_layout(model_name, solid_block_name)
+    solid_name = char(string(solid_block_name));
     % Root-level visual cleanup only. Do not change block parameters,
     % ports, or connections.
     layout = {
@@ -2362,39 +2496,39 @@ function apply_root_visual_layout(model_name)
         'V1ColdInletColdSideFluidTempPS', [705 264 735 286]
         'FlowSensor_V1_cold_inlet', [780 325 835 380]
         'FlowSensor_V1_cold_inlet_PS', [870 339 900 361]
-        'V1ColdInletSMASideFluidTempSensor', [620 405 670 445]
-        'V1ColdInletSMASideFluidTempPS', [705 414 735 436]
-        'SMAHoldInletFluidTempSensor', [910 255 960 295]
-        'SMAHoldInletFluidTempPS', [995 264 1025 286]
-        'SMAHoldOutletFluidTempSensor', [1230 255 1280 295]
-        'SMAHoldOutletFluidTempPS', [1315 264 1345 286]
+        ['V1ColdInlet' solid_name 'SideFluidTempSensor'], [620 405 670 445]
+        ['V1ColdInlet' solid_name 'SideFluidTempPS'], [705 414 735 436]
+        [solid_name 'HoldInletFluidTempSensor'], [910 255 960 295]
+        [solid_name 'HoldInletFluidTempPS'], [995 264 1025 286]
+        [solid_name 'HoldOutletFluidTempSensor'], [1230 255 1280 295]
+        [solid_name 'HoldOutletFluidTempPS'], [1315 264 1345 286]
         'FlowSensor_V3_sma_to_hot', [1420 325 1475 380]
         'FlowSensor_V3_sma_to_hot_PS', [1510 339 1540 361]
-        'V3SMAToHotSMASideFluidTempSensor', [1230 405 1280 445]
-        'V3SMAToHotSMASideFluidTempPS', [1315 414 1345 436]
-        'V3SMAToHotHotSideFluidTempSensor', [1590 255 1640 295]
-        'V3SMAToHotHotSideFluidTempPS', [1675 264 1705 286]
+        ['V3' solid_name 'ToHot' solid_name 'SideFluidTempSensor'], [1230 405 1280 445]
+        ['V3' solid_name 'ToHot' solid_name 'SideFluidTempPS'], [1315 414 1345 436]
+        ['V3' solid_name 'ToHotHotSideFluidTempSensor'], [1590 255 1640 295]
+        ['V3' solid_name 'ToHotHotSideFluidTempPS'], [1675 264 1705 286]
         '冷端换热器', [1740 305 1825 350]
 
         'V4HotInletHotSideFluidTempSensor', [620 705 670 745]
         'V4HotInletHotSideFluidTempPS', [705 714 735 736]
         'FlowSensor_V4_hot_inlet', [780 775 835 830]
         'FlowSensor_V4_hot_inlet_PS', [870 789 900 811]
-        'V4HotInletSMASideFluidTempSensor', [620 855 670 895]
-        'V4HotInletSMASideFluidTempPS', [705 864 735 886]
-        'SMACooldownInletFluidTempSensor', [910 705 960 745]
-        'SMACooldownInletFluidTempPS', [995 714 1025 736]
-        'SMACooldownOutletFluidTempSensor', [1230 705 1280 745]
-        'SMACooldownOutletFluidTempPS', [1315 714 1345 736]
+        ['V4HotInlet' solid_name 'SideFluidTempSensor'], [620 855 670 895]
+        ['V4HotInlet' solid_name 'SideFluidTempPS'], [705 864 735 886]
+        [solid_name 'CooldownInletFluidTempSensor'], [910 705 960 745]
+        [solid_name 'CooldownInletFluidTempPS'], [995 714 1025 736]
+        [solid_name 'CooldownOutletFluidTempSensor'], [1230 705 1280 745]
+        [solid_name 'CooldownOutletFluidTempPS'], [1315 714 1345 736]
         'FlowSensor_V6_sma_to_chip_cold', [1420 775 1475 830]
         'FlowSensor_V6_sma_to_chip_cold_PS', [1510 789 1540 811]
-        'V6SMAToChipSMASideFluidTempSensor', [1230 855 1280 895]
-        'V6SMAToChipSMASideFluidTempPS', [1315 864 1345 886]
-        'V6SMAToChipChipSideFluidTempSensor', [1590 705 1640 745]
-        'V6SMAToChipChipSideFluidTempPS', [1675 714 1705 736]
+        ['V6' solid_name 'ToChip' solid_name 'SideFluidTempSensor'], [1230 855 1280 895]
+        ['V6' solid_name 'ToChip' solid_name 'SideFluidTempPS'], [1315 864 1345 886]
+        ['V6' solid_name 'ToChipChipSideFluidTempSensor'], [1590 705 1640 745]
+        ['V6' solid_name 'ToChipChipSideFluidTempPS'], [1675 714 1705 736]
         '热端换热器', [1740 765 1825 810]
 
-        'SMA', [1020 480 1160 620]
+        char(string(solid_block_name)), [1020 480 1160 620]
         'ColdFluidBuffer', [520 315 560 355]
         'HotFluidBuffer', [520 765 560 805]
         'Pressure Source (TL)', [605 760 645 800]

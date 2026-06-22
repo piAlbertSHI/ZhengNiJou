@@ -8,14 +8,14 @@ function y = HeatDriveECC_EighthRound_StateToOutput(state, audit, options)
     put('cycle_index', audit.cycle_index);
     put('stage_id', audit.stage_id);
     put('stage_elapsed_s', audit.stage_elapsed_s);
-    put('Ta_mean_K', mean(state.Ta_51));
-    put('Ta_min_K', min(state.Ta_51));
-    put('Ta_max_K', max(state.Ta_51));
-    put('Tr_mean_K', mean(state.Tr_51));
-    put('Tr_min_K', min(state.Tr_51));
-    put('Tr_max_K', max(state.Tr_51));
-    put('xM_a_mean', mean(state.xM_a_51));
-    put('xM_r_mean', mean(state.xM_r_51));
+    put('Ta_mean_K', mean(state.Ta_21));
+    put('Ta_min_K', min(state.Ta_21));
+    put('Ta_max_K', max(state.Ta_21));
+    put('Tr_mean_K', mean(state.Tr_21));
+    put('Tr_min_K', min(state.Tr_21));
+    put('Tr_max_K', max(state.Tr_21));
+    put('xM_a_mean', mean(state.xM_a_21));
+    put('xM_r_mean', mean(state.xM_r_21));
     put('sigma_a_Pa', audit.mechanical.sigma_a_Pa);
     put('sigma_r_Pa', audit.mechanical.sigma_r_Pa);
     put('epsilon_a_mean', audit.mechanical.epsilon_a_mean);
@@ -48,25 +48,25 @@ function y = HeatDriveECC_EighthRound_StateToOutput(state, audit, options)
     put('branch_storage_W', audit.branch_storage_W);
     put('energy_residual_W', audit.energy_residual_W);
 
-    put_array('Ta_51', state.Ta_51);
-    put_array('Tr_51', state.Tr_51);
-    put_array('xM_a_51', state.xM_a_51);
-    put_array('xM_r_51', state.xM_r_51);
-    put_array('sigma_a_51', state.sigma_a_51);
-    put_array('sigma_r_51', state.sigma_r_51);
-    put_array('epsilon_a_51', state.epsilon_a_51);
-    put_array('epsilon_r_51', state.epsilon_r_51);
-    put_array('pai_a_51', state.pai_a_51);
-    put_array('pai_r_51', state.pai_r_51);
-    put_array('r_xi_a_51', state.r_xi_a_51);
-    put_array('r_xi_r_51', state.r_xi_r_51);
+    put_array('Ta_21', state.Ta_21);
+    put_array('Tr_21', state.Tr_21);
+    put_array('xM_a_21', state.xM_a_21);
+    put_array('xM_r_21', state.xM_r_21);
+    put_array('sigma_a_21', state.sigma_a_21);
+    put_array('sigma_r_21', state.sigma_r_21);
+    put_array('epsilon_a_21', state.epsilon_a_21);
+    put_array('epsilon_r_21', state.epsilon_r_21);
+    put_array('pai_a_21', state.pai_a_21);
+    put_array('pai_r_21', state.pai_r_21);
+    put_array('r_xi_a_21', state.r_xi_a_21);
+    put_array('r_xi_r_21', state.r_xi_r_21);
     for idx = 1:numel(branch_names)
         key = branch_names{idx};
         b = audit.branch.(key);
-        put_array([key '_Tin_51'], fill_nan(b.T_in_51, N));
-        put_array([key '_Tout_51'], fill_nan(b.T_out_51, N));
-        put_array([key '_Tfluid_51'], fill_nan(b.T_fluid_51, N));
-        put_array([key '_Q_51'], b.Q_to_solid_51_W);
+        put_array([key '_Tin_21'], fill_nan(b.T_in_21, N));
+        put_array([key '_Tout_21'], fill_nan(b.T_out_21, N));
+        put_array([key '_Tfluid_21'], fill_nan(b.T_fluid_21, N));
+        put_array([key '_Q_21'], b.Q_to_solid_21_W);
     end
 
     function put(name, value)

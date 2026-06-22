@@ -13,17 +13,23 @@ function hook_output = Run_Simulink_Exchange_Hook(state_in, stage_info, exchange
     stage_config = Resolve_Exchange_Stage_Config(stage_info, exchange_options);
     sim_params = Build_Simulink_Exchange_Params(state_std, stage_config, exchange_options);
     exchange_backend_kind = get_exchange_backend_kind(exchange_options);
+    internal_node_count = get_option_field(sim_params, ...
+        'solver_internal_thermal_node_count', 21);
     proxy_options = build_proxy_options(exchange_options);
     proxy_options = complete_proxy_options_from_sim_params(proxy_options, sim_params);
-    strip_geometry = Build_Diameter_Strip_Geometry(proxy_options);
+    strip_geometry = build_axial21_se_geometry(proxy_options, internal_node_count);
     T_r_in = extract_state_temperature(state_std);
-    [T_x_in_101, input_map_report, directional_contract, directional_initialization_report] = ...
-        initialize_exchange_backend(exchange_backend_kind, stage_config, T_r_in, strip_geometry, runtime);
-    if strcmp(exchange_backend_kind, 'simulink_directional_101')
-        sim_params.solver_T_init_101_internal = T_x_in_101(:);
-        sim_params.solver_internal_101_strip_count = numel(T_x_in_101);
-        sim_params.solver_internal_101_initialization_report = directional_initialization_report;
-    end
+    [T_x_in_101, directional_initialization_report] = ...
+        initialize_axial21_backend(stage_config, T_r_in, runtime, internal_node_count);
+    input_map_report = build_axial21_backend_input_report(T_r_in, T_x_in_101);
+    directional_contract = struct( ...
+        'contract_kind', 'simulink_axial_21', ...
+        'stage_name', stage_config.stage_name, ...
+        'node_count', internal_node_count);
+    sim_params.solver_T_init_21_internal = T_x_in_101(:);
+    sim_params.solver_internal_21_strip_count = numel(T_x_in_101);
+    sim_params.solver_internal_21_initialization_report = directional_initialization_report;
+    sim_params.solver_internal_temperature_workspace_var = 'Tx21_internal';
 
     model_dir = fileparts(stage_config.model_path);
     if ~isempty(model_dir) && isfolder(model_dir)
@@ -37,6 +43,7 @@ function hook_output = Run_Simulink_Exchange_Hook(state_in, stage_info, exchange
     sim_setup_tic = tic;
     configure_simulink_codegen_cache(exchange_options, stage_config);
     load_system(stage_config.model_path);
+    inactive_copy_logging_report = configure_inactive_copy_logging(stage_config.model_name);
     local_solver_report = configure_simscape_local_solver(stage_config.model_name, exchange_options);
     simIn = Simulink.SimulationInput(stage_config.model_name);
     simIn = simIn.setModelParameter('StopTime', num2str(stage_config.stop_time_s));
@@ -405,7 +412,7 @@ function hook_output = Run_Simulink_Exchange_Hook(state_in, stage_info, exchange
             directional_initialization_report, backend_result, bridge_plan, reconcile_report, ...
             observability, raw_observability, active_flow_audit, pump_work_audit, energy_audit, state_out, simOut, runtime, ...
             simulation_mode, fast_restart_requested, fast_restart_effective, fast_restart_disabled_reason, timing_info);
-        checkpoint_path = Save_Stage_Checkpoint(checkpoint_payload, runtime);
+        checkpoint_path = save_stage_checkpoint_payload(checkpoint_payload, runtime);
         checkpoint_walltime_s = toc(checkpoint_tic);
     end
     runtime_out = update_runtime(runtime, stage_info, stage_config, ...
@@ -423,6 +430,8 @@ function hook_output = Run_Simulink_Exchange_Hook(state_in, stage_info, exchange
         'stage_name', stage_config.stage_name, ...
         'exchange_placeholder', false, ...
         'external_hook_used', true, ...
+        'inactive_copy_logging_status', inactive_copy_logging_report.status, ...
+        'inactive_copy_logging_changed_count', inactive_copy_logging_report.changed_count, ...
         'side_thermal_only', ~stage_config.apply_temperature_back_to_state, ...
         'state_temperature_writeback_applied', stage_config.apply_temperature_back_to_state, ...
         'L_valve', stage_config.L_valve, ...
@@ -1067,8 +1076,8 @@ function hook_output = Run_Simulink_Exchange_Hook(state_in, stage_info, exchange
         'accepted_temperature_diff_vs_simulink_raw', backend_result.accepted_temperature_diff_vs_simulink_raw, ...
         'tx_node_count', numel(T_r_compressed), ...
         'proxy_strip_count', numel(T_x_out_101), ...
-        'proxy_theta_count', compression_report.theta_count, ...
-        'proxy_average_mode', compression_report.average_mode, ...
+        'proxy_theta_count', get_option_field(compression_report, 'theta_count', NaN), ...
+        'proxy_average_mode', get_option_field(compression_report, 'average_mode', ''), ...
         'raw_tx_node_count', numel(Tx51_raw), ...
         'reconciled_tx_node_count', numel(T_r_compressed), ...
         'thermal_model_node_count', sim_params.solver_internal_thermal_node_count, ...
@@ -1195,6 +1204,28 @@ function hook_output = Run_Simulink_Exchange_Hook(state_in, stage_info, exchange
         'runtime_out', runtime_out);
 
     clear restore_dir
+end
+
+function checkpoint_path = save_stage_checkpoint_payload(checkpoint_payload, runtime)
+    checkpoints_dir = get_option_field(runtime, 'checkpoints_dir', '');
+    if isempty(checkpoints_dir)
+        outputs_dir = get_option_field(runtime, 'outputs_dir', fullfile(pwd, 'outputs', 'default_run'));
+        checkpoints_dir = fullfile(outputs_dir, 'simulink_exchange_checkpoints');
+    end
+    ensure_local_dir(checkpoints_dir);
+    cycle_index = get_option_field(checkpoint_payload, 'cycle_index', 0);
+    stage_index = get_option_field(checkpoint_payload, 'stage_index', 0);
+    if ~(isnumeric(cycle_index) && isscalar(cycle_index) && isfinite(cycle_index))
+        cycle_index = 0;
+    end
+    if ~(isnumeric(stage_index) && isscalar(stage_index) && isfinite(stage_index))
+        stage_index = 0;
+    end
+    stage_name = sanitize_file_token(get_option_field(checkpoint_payload, 'stage_name', 'stage'));
+    checkpoint_path = fullfile(checkpoints_dir, sprintf( ...
+        'cycle%03d_stage%02d_%s_checkpoint.mat', cycle_index, stage_index, stage_name));
+    checkpoint = checkpoint_payload; %#ok<NASGU>
+    save(checkpoint_path, 'checkpoint', '-v7.3');
 end
 
 function checkpoint_payload = build_checkpoint_payload( ...
@@ -2009,11 +2040,13 @@ function runtime_out = update_runtime(runtime_in, stage_info, stage_config, ...
         runtime_out.cold_hx_pipe_T_state_source = 'frozen_previous_cooldown';
         runtime_out.cold_return_pipe_T_state_source = 'frozen_previous_cooldown';
     end
+    internal_node_count = get_option_field(sim_params, ...
+        'solver_internal_thermal_node_count', numel(T_x_out_101));
     switch stage_name
         case 'hold_exchange'
-            if isnumeric(T_x_out_101) && numel(T_x_out_101) == 101 && all(isfinite(T_x_out_101(:)))
-                runtime_out.stage2_T_x_101_state = T_x_out_101(:);
-                runtime_out.stage2_T_x_101_state_source = 'simulink_internal_101_temperature_after_hold_exchange';
+            if isnumeric(T_x_out_101) && numel(T_x_out_101) == internal_node_count && all(isfinite(T_x_out_101(:)))
+                runtime_out.stage2_T_x_21_state = T_x_out_101(:);
+                runtime_out.stage2_T_x_21_state_source = 'simulink_internal_21_temperature_after_hold_exchange';
             end
             runtime_out.hold_pipe_fluid_mean_T_current_K = pipe_T_end;
             runtime_out.pending_hot_pipe_energy_J = pipe_delta_energy_J;
@@ -2025,9 +2058,9 @@ function runtime_out = update_runtime(runtime_in, stage_info, stage_config, ...
             runtime_out.stage2_path_pipe_delta_U_J = get_option_field(energy_audit, ...
                 'stage2_path_pipe_delta_U_J', pipe_delta_energy_J);
         case 'cooldown_exchange'
-            if isnumeric(T_x_out_101) && numel(T_x_out_101) == 101 && all(isfinite(T_x_out_101(:)))
-                runtime_out.stage4_T_x_101_state = T_x_out_101(:);
-                runtime_out.stage4_T_x_101_state_source = 'simulink_internal_101_temperature_after_cooldown_exchange';
+            if isnumeric(T_x_out_101) && numel(T_x_out_101) == internal_node_count && all(isfinite(T_x_out_101(:)))
+                runtime_out.stage4_T_x_21_state = T_x_out_101(:);
+                runtime_out.stage4_T_x_21_state_source = 'simulink_internal_21_temperature_after_cooldown_exchange';
             end
             runtime_out.cooldown_pipe_fluid_mean_T_current_K = pipe_T_end;
             runtime_out.pending_cold_pipe_energy_J = pipe_delta_energy_J;
@@ -5707,7 +5740,7 @@ end
 
 function topology = build_sma_flow_topology(stage_config)
     stage_name = char(string(get_option_field(stage_config, 'stage_name', '')));
-    model_name = char(string(get_option_field(stage_config, 'model_name', 'nixunhuan_solver101_internal')));
+    model_name = char(string(get_option_field(stage_config, 'model_name', 'heatdrive_ecc_coupled_se21')));
     switch stage_name
         case 'hold_exchange'
             rows = [ ...
@@ -6681,6 +6714,56 @@ function configure_simulink_codegen_cache(exchange_options, stage_config)
     end
 end
 
+function report = configure_inactive_copy_logging(model_name)
+    inactive_roots = {'SMA', 'SHEX'};
+    report = struct( ...
+        'status', 'not_started', ...
+        'inactive_roots', {inactive_roots}, ...
+        'changed_count', 0, ...
+        'changed_blocks', {{}}, ...
+        'original_variables', {{}}, ...
+        'new_variables', {{}}, ...
+        'error_message', '');
+    try
+        initial_dirty = get_param(model_name, 'Dirty');
+        for root_idx = 1:numel(inactive_roots)
+            root_name = inactive_roots{root_idx};
+            root_path = [model_name '/' root_name];
+            if getSimulinkBlockHandle(root_path) < 0
+                continue;
+            end
+            to_workspace_blocks = find_system(root_path, ...
+                'LookUnderMasks', 'all', ...
+                'FollowLinks', 'on', ...
+                'BlockType', 'ToWorkspace');
+            for block_idx = 1:numel(to_workspace_blocks)
+                block_path = to_workspace_blocks{block_idx};
+                original_var = char(string(get_param(block_path, 'VariableName')));
+                prefix = ['inactive_' lower(root_name) '_'];
+                if startsWith(original_var, prefix)
+                    continue;
+                end
+                new_var = matlab.lang.makeValidName( ...
+                    sprintf('%s%s_%03d', prefix, original_var, block_idx));
+                set_param(block_path, 'VariableName', new_var);
+                report.changed_count = report.changed_count + 1;
+                report.changed_blocks{end + 1, 1} = block_path;
+                report.original_variables{end + 1, 1} = original_var;
+                report.new_variables{end + 1, 1} = new_var;
+            end
+        end
+        if strcmp(initial_dirty, 'off')
+            set_param(model_name, 'Dirty', 'off');
+        end
+        report.status = 'configured';
+    catch logging_error
+        report.status = 'failed';
+        report.error_message = logging_error.message;
+        warning('Run_Simulink_Exchange_Hook:InactiveCopyLoggingSetupFailed', ...
+            'Could not isolate inactive copy logging variables: %s', logging_error.message);
+    end
+end
+
 function report = configure_simscape_local_solver(model_name, exchange_options)
     enabled = logical(get_option_field(exchange_options, 'simscape_local_solver_enabled', false));
     choice = char(string(get_option_field(exchange_options, ...
@@ -7343,6 +7426,12 @@ function mdot_i = signed_mass_flow_series_with_terminal(t_m, mdot_raw, t_target,
 end
 
 function radial_C = build_radial_heat_capacity_vector(node_count, strip_geometry)
+    if isfield(strip_geometry, 'geometry_kind') && strcmp(strip_geometry.geometry_kind, 'axial_21_se')
+        radial_C = repmat( ...
+            strip_geometry.total_mass_kg * strip_geometry.default_cp_J_per_kgK / max(node_count, 1), ...
+            node_count, 1);
+        return;
+    end
     if node_count < 2
         radial_C = strip_geometry.total_mass_kg * strip_geometry.default_cp_J_per_kgK;
         return;
@@ -7483,47 +7572,112 @@ function proxy_options = complete_proxy_options_from_sim_params(proxy_options, s
     end
 end
 
+function geometry = build_axial21_se_geometry(proxy_options, node_count)
+    if nargin < 2 || isempty(node_count)
+        node_count = 21;
+    end
+    if node_count <= 0 || node_count ~= round(node_count)
+        error('Run_Simulink_Exchange_Hook:InvalidAxialNodeCount', ...
+            'Axial SE node count must be a positive integer.');
+    end
+    total_mass = get_option_field(proxy_options, 'total_mass', []);
+    if isempty(total_mass) || ~(isnumeric(total_mass) && isscalar(total_mass) && isfinite(total_mass) && total_mass > 0)
+        rho_sma = get_option_field(proxy_options, 'rho_sma', get_option_field(proxy_options, 'rho', 6500.0));
+        radius_m = get_option_field(proxy_options, 'radius_m', 40e-3);
+        thickness_m = get_option_field(proxy_options, 'thickness_m', 0.20e-3);
+        total_mass = rho_sma * pi * radius_m ^ 2 * thickness_m;
+    end
+    node_cp = get_option_field(proxy_options, 'node_cp', 450.0);
+    node_heat_capacity = total_mass * node_cp / node_count;
+    geometry = struct( ...
+        'geometry_kind', 'axial_21_se', ...
+        'total_mass_kg', total_mass, ...
+        'default_cp_J_per_kgK', node_cp, ...
+        'strip_count', node_count, ...
+        'axial_node_count', node_count, ...
+        'strip_index', (1:node_count).', ...
+        'strip_heat_capacity_J_per_K', repmat(node_heat_capacity, node_count, 1), ...
+        'sma_heat_capacity_total_J_per_K', total_mass * node_cp, ...
+        'radius_m', get_option_field(proxy_options, 'radius_m', 40e-3), ...
+        'thickness_m', get_option_field(proxy_options, 'thickness_m', 0.20e-3), ...
+        'default_average_mode', 'direct_axial_nodes');
+end
+
 function exchange_backend_kind = get_exchange_backend_kind(exchange_options)
     exchange_backend_kind = char(string(get_option_field( ...
-        exchange_options, 'exchange_backend_kind', 'simulink_directional_101')));
-    if ~ismember(exchange_backend_kind, {'legacy_symmetric_proxy', 'directional_101', 'simulink_directional_101'})
+        exchange_options, 'exchange_backend_kind', 'simulink_axial_21')));
+    if isempty(strtrim(exchange_backend_kind)) || strcmpi(exchange_backend_kind, 'simulink_directional_101')
+        exchange_backend_kind = 'simulink_axial_21';
+    end
+    if ~strcmp(exchange_backend_kind, 'simulink_axial_21')
         error('Run_Simulink_Exchange_Hook:UnsupportedBackend', ...
-            'Unsupported exchange_backend_kind: %s', exchange_backend_kind);
+            'Only the 21-node axial Simulink SE backend is supported, got %s.', exchange_backend_kind);
     end
 end
 
-function [T_x_in_101, input_map_report, directional_contract, directional_initialization_report] = ...
-        initialize_exchange_backend(exchange_backend_kind, stage_config, T_r_in, strip_geometry, runtime)
-    if nargin < 5 || isempty(runtime)
+function [T_out, report] = resize_internal_temperature_vector(T_in, target_count)
+    T_in = T_in(:);
+    if target_count <= 0 || target_count ~= round(target_count)
+        error('Run_Simulink_Exchange_Hook:InvalidInternalNodeCount', ...
+            'Internal Simulink node count must be a positive integer.');
+    end
+    if numel(T_in) == target_count
+        T_out = T_in;
+        mode = 'direct_node_count_match';
+    elseif numel(T_in) == 1
+        T_out = repmat(T_in, target_count, 1);
+        mode = 'scalar_replicated_to_internal_nodes';
+    else
+        x_in = linspace(0.0, 1.0, numel(T_in)).';
+        x_out = linspace(0.0, 1.0, target_count).';
+        T_out = interp1(x_in, T_in, x_out, 'linear');
+        mode = 'linear_resample_to_internal_nodes';
+    end
+    report = struct( ...
+        'initial_state_kind', mode, ...
+        'final_exchange_state_must_be_directional', true, ...
+        'source_node_count', numel(T_in), ...
+        'target_strip_count', numel(T_out), ...
+        'source_min_T', min(T_in), ...
+        'source_max_T', max(T_in), ...
+        'target_min_T', min(T_out), ...
+        'target_max_T', max(T_out));
+end
+
+function [T_x_in_101, initialization_report] = initialize_axial21_backend(stage_config, T_r_in, runtime, expected_count)
+    if nargin < 3 || isempty(runtime)
         runtime = struct();
     end
-    directional_contract = struct();
-    directional_initialization_report = struct();
-    switch exchange_backend_kind
-        case {'directional_101', 'simulink_directional_101'}
-            directional_contract = Build_Directional_Strip_Contract(stage_config.stage_name, strip_geometry);
-            [T_x_in_101, directional_initialization_report] = Initialize_Directional_Strip_State(T_r_in, strip_geometry);
-            [carryover_T_x, carryover_source] = get_path_Tx101_carryover(stage_config.stage_name, runtime, strip_geometry.strip_count);
-            if ~isempty(carryover_T_x)
-                T_x_in_101 = carryover_T_x(:);
-                directional_initialization_report = struct( ...
-                    'initial_state_kind', 'path_directional_101_carryover', ...
-                    'final_exchange_state_must_be_directional', true, ...
-                    'source_node_count', numel(T_r_in), ...
-                    'target_strip_count', numel(T_x_in_101), ...
-                    'source_min_T', min(T_r_in), ...
-                    'source_max_T', max(T_r_in), ...
-                    'target_min_T', min(T_x_in_101), ...
-                    'target_max_T', max(T_x_in_101), ...
-                    'carryover_source', carryover_source);
-            end
-            input_map_report = build_directional_backend_input_report(T_r_in, T_x_in_101);
-        otherwise
-            [T_x_in_101, input_map_report] = Map_Radial51_To_Diameter101(T_r_in, strip_geometry);
+    if nargin < 4 || isempty(expected_count)
+        expected_count = 21;
+    end
+    T_r_in = T_r_in(:);
+    if numel(T_r_in) ~= expected_count
+        error('Run_Simulink_Exchange_Hook:UnexpectedAxialNodeCount', ...
+            'The SE Simulink exchange interface is %d-node axial, got %d temperature values.', ...
+            expected_count, numel(T_r_in));
+    end
+    T_x_in_101 = T_r_in;
+    initialization_report = struct( ...
+        'initial_state_kind', 'direct_axial_21_state', ...
+        'final_exchange_state_must_be_directional', true, ...
+        'source_node_count', numel(T_r_in), ...
+        'target_strip_count', numel(T_x_in_101), ...
+        'source_min_T', min(T_r_in), ...
+        'source_max_T', max(T_r_in), ...
+        'target_min_T', min(T_x_in_101), ...
+        'target_max_T', max(T_x_in_101));
+    [carryover_T_x, carryover_source] = get_path_Tx21_carryover(stage_config.stage_name, runtime, expected_count);
+    if ~isempty(carryover_T_x)
+        T_x_in_101 = carryover_T_x(:);
+        initialization_report.initial_state_kind = 'path_axial_21_carryover';
+        initialization_report.carryover_source = carryover_source;
+        initialization_report.target_min_T = min(T_x_in_101);
+        initialization_report.target_max_T = max(T_x_in_101);
     end
 end
 
-function [T_x, source] = get_path_Tx101_carryover(stage_name, runtime, expected_count)
+function [T_x, source] = get_path_Tx21_carryover(stage_name, runtime, expected_count)
     T_x = [];
     source = '';
     if ~isstruct(runtime)
@@ -7533,19 +7687,23 @@ function [T_x, source] = get_path_Tx101_carryover(stage_name, runtime, expected_
         return;
     end
     if strcmpi(stage_name, 'hold_exchange')
-        field_name = 'stage2_T_x_101_state';
+        field_candidates = {'stage2_T_x_21_state'};
     elseif strcmpi(stage_name, 'cooldown_exchange')
-        field_name = 'stage4_T_x_101_state';
+        field_candidates = {'stage4_T_x_21_state'};
     else
         return;
     end
-    if ~isfield(runtime, field_name) || isempty(runtime.(field_name))
-        return;
-    end
-    candidate = runtime.(field_name)(:);
-    if numel(candidate) == expected_count && all(isfinite(candidate))
-        T_x = candidate;
-        source = field_name;
+    for idx = 1:numel(field_candidates)
+        field_name = field_candidates{idx};
+        if ~isfield(runtime, field_name) || isempty(runtime.(field_name))
+            continue;
+        end
+        candidate = runtime.(field_name)(:);
+        if numel(candidate) == expected_count && all(isfinite(candidate))
+            T_x = candidate;
+            source = field_name;
+            return;
+        end
     end
 end
 
@@ -7553,47 +7711,21 @@ function backend_result = run_exchange_temperature_backend( ...
         exchange_backend_kind, stage_config, sim_params, proxy_options, strip_geometry, ...
         T_r_in, T_x_in_101, Tx51_raw, directional_contract, directional_initialization_report)
     switch exchange_backend_kind
-        case 'directional_101'
-            directional_fluid_inlet_T = pick_directional_fluid_inlet_temperature(stage_config.stage_name, sim_params);
-            directional_exchange_result = Run_Directional_Strip_Exchange( ...
-                directional_contract, T_x_in_101, directional_fluid_inlet_T, ...
-                sim_params.h_water, sim_params.rho_water, sim_params.cp_water, ...
-                sim_params.Q, stage_config.stop_time_s, strip_geometry);
-            T_x_out_101 = directional_exchange_result.T_strip_101_out;
-            compression_options = proxy_options;
-            compression_options.input_contract_kind = 'directional_101';
-            compression_options.energy_reference_radial_T = T_r_in;
-            compression_options.energy_reference_strip_T = T_x_in_101;
-            compression_options.enforce_energy_conservation = get_option_field( ...
-                proxy_options, 'enforce_compression_energy_conservation', true);
-            [T_r_compressed, compression_report] = Compress_Diameter101_To_Radial51( ...
-                T_x_out_101, strip_geometry, compression_options);
-            output_map_report = build_directional_backend_output_report(Tx51_raw, T_x_out_101, directional_exchange_result);
-            restart_temperature_source = 'directional_backend_compressed';
-            backend_temperature_source = restart_temperature_source;
-            directional_contract_kind = get_option_field(directional_contract, 'contract_kind', '');
-            directional_initial_state_kind = get_option_field(directional_initialization_report, 'initial_state_kind', '');
-            directional_nonmirror_max_abs = directional_exchange_result.nonmirror_max_abs;
-            directional_endpoint_delta_K = directional_exchange_result.endpoint_delta_K;
-            directional_fluid_exit_T = directional_exchange_result.fluid_exit_T;
-            directional_strip_count = numel(T_x_out_101);
-            simulink_internal_contract_kind = '';
-            simulink_internal_nonmirror_max_abs = NaN;
-            simulink_internal_endpoint_delta_K = NaN;
-            simulink_internal_strip_count = NaN;
-
-        case 'simulink_directional_101'
+        case 'simulink_axial_21'
             T_x_out_101 = Tx51_raw(:);
             compression_options = proxy_options;
-            compression_options.input_contract_kind = 'simulink_directional_101';
-            compression_options.energy_reference_radial_T = T_r_in;
-            compression_options.energy_reference_strip_T = T_x_in_101;
-            compression_options.enforce_energy_conservation = get_option_field( ...
-                proxy_options, 'enforce_compression_energy_conservation', true);
-            [T_r_compressed, compression_report] = Compress_Diameter101_To_Radial51( ...
-                T_x_out_101, strip_geometry, compression_options);
+            compression_options.input_contract_kind = 'simulink_axial_21';
+            [T_r_compressed, compression_report] = resize_internal_temperature_vector( ...
+                T_x_out_101, numel(T_r_in));
+            compression_report.input_contract_kind = 'simulink_axial_21';
+            compression_report.raw_strip_count = numel(T_x_out_101);
+            compression_report.reconciled_node_count = numel(T_r_compressed);
+            compression_report.theta_count = NaN;
+            compression_report.average_mode = 'direct_axial_nodes';
+            compression_report.energy_conservation_enabled = false;
+            compression_report.energy_conservation_mode = 'direct_axial_resample_no_circular_projection';
             output_map_report = build_simulink_internal_output_report(T_x_out_101);
-            restart_temperature_source = 'simulink_directional_101_compressed';
+            restart_temperature_source = 'simulink_axial_21_direct';
             backend_temperature_source = restart_temperature_source;
             directional_exchange_result = struct();
             directional_contract_kind = '';
@@ -7603,35 +7735,14 @@ function backend_result = run_exchange_temperature_backend( ...
             directional_fluid_inlet_T = NaN;
             directional_fluid_exit_T = NaN;
             directional_strip_count = NaN;
-            simulink_internal_contract_kind = 'simulink_directional_101';
+            simulink_internal_contract_kind = 'simulink_axial_21';
             simulink_internal_nonmirror_max_abs = compute_nonmirror_max_abs(T_x_out_101);
             simulink_internal_endpoint_delta_K = compute_endpoint_delta(T_x_out_101);
             simulink_internal_strip_count = numel(T_x_out_101);
 
         otherwise
-            [T_x_out_101, output_map_report] = Map_Radial51_To_Diameter101(Tx51_raw, strip_geometry);
-            compression_options = proxy_options;
-            compression_options.input_contract_kind = 'legacy_symmetric_proxy';
-            compression_options.energy_reference_radial_T = T_r_in;
-            compression_options.energy_reference_strip_T = T_x_in_101;
-            compression_options.enforce_energy_conservation = get_option_field( ...
-                proxy_options, 'enforce_compression_energy_conservation', true);
-            [T_r_compressed, compression_report] = Compress_Diameter101_To_Radial51( ...
-                T_x_out_101, strip_geometry, compression_options);
-            restart_temperature_source = 'legacy_symmetric_proxy';
-            backend_temperature_source = restart_temperature_source;
-            directional_exchange_result = struct();
-            directional_contract_kind = '';
-            directional_initial_state_kind = '';
-            directional_nonmirror_max_abs = NaN;
-            directional_endpoint_delta_K = NaN;
-            directional_fluid_inlet_T = NaN;
-            directional_fluid_exit_T = NaN;
-            directional_strip_count = NaN;
-            simulink_internal_contract_kind = '';
-            simulink_internal_nonmirror_max_abs = NaN;
-            simulink_internal_endpoint_delta_K = NaN;
-            simulink_internal_strip_count = NaN;
+            error('Run_Simulink_Exchange_Hook:UnsupportedBackend', ...
+                'Only the 21-node axial Simulink SE backend is supported, got %s.', exchange_backend_kind);
     end
 
     directional_backend_contract_kind = directional_contract_kind;
@@ -7649,7 +7760,7 @@ function backend_result = run_exchange_temperature_backend( ...
     end
     accepted_temperature_nonmirror_max_abs = directional_backend_nonmirror_max_abs;
     accepted_temperature_endpoint_delta_K = directional_backend_endpoint_delta_K;
-    if strcmp(exchange_backend_kind, 'simulink_directional_101')
+    if strcmp(exchange_backend_kind, 'simulink_axial_21')
         accepted_temperature_nonmirror_max_abs = simulink_internal_nonmirror_max_abs;
         accepted_temperature_endpoint_delta_K = simulink_internal_endpoint_delta_K;
     end
@@ -7710,11 +7821,11 @@ function fluid_inlet_T = pick_directional_fluid_inlet_temperature(stage_name, si
             fluid_inlet_T = sim_params.hot_buffer_temp_current;
         otherwise
             error('Run_Simulink_Exchange_Hook:UnsupportedDirectionalStage', ...
-                'directional_101 backend is only supported for exchange stages, got %s', char(string(stage_name)));
+                'The axial SE backend is only supported for exchange stages, got %s.', char(string(stage_name)));
     end
 end
 
-function report = build_directional_backend_input_report(T_r_in, T_x_in_101)
+function report = build_axial21_backend_input_report(T_r_in, T_x_in_101)
     report = struct( ...
         'source_node_count', numel(T_r_in), ...
         'target_node_count', numel(T_x_in_101), ...
@@ -7723,8 +7834,8 @@ function report = build_directional_backend_input_report(T_r_in, T_x_in_101)
         'source_max_T', max(T_r_in), ...
         'target_min_T', min(T_x_in_101), ...
         'target_max_T', max(T_x_in_101), ...
-        'initial_state_kind', 'axisymmetric_expansion', ...
-        'contract_kind', 'directional_101');
+        'initial_state_kind', 'direct_axial_21', ...
+        'contract_kind', 'simulink_axial_21');
 end
 
 function report = build_directional_backend_output_report(Tx51_raw, T_x_out_101, directional_exchange_result)
@@ -7737,7 +7848,7 @@ function report = build_directional_backend_output_report(Tx51_raw, T_x_out_101,
         'target_min_T', min(T_x_out_101), ...
         'target_max_T', max(T_x_out_101), ...
         'mapped_from', 'directional_backend', ...
-        'contract_kind', 'directional_101', ...
+        'contract_kind', 'simulink_axial_21', ...
         'nonmirror_max_abs', directional_exchange_result.nonmirror_max_abs, ...
         'endpoint_delta_K', directional_exchange_result.endpoint_delta_K);
 end
@@ -7751,8 +7862,8 @@ function report = build_simulink_internal_output_report(T_x_out_101)
         'source_max_T', max(T_x_out_101), ...
         'target_min_T', min(T_x_out_101), ...
         'target_max_T', max(T_x_out_101), ...
-        'mapped_from', 'simulink_internal_101', ...
-        'contract_kind', 'simulink_directional_101', ...
+        'mapped_from', 'simulink_internal_21', ...
+        'contract_kind', 'simulink_axial_21', ...
         'nonmirror_max_abs', compute_nonmirror_max_abs(T_x_out_101), ...
         'endpoint_delta_K', compute_endpoint_delta(T_x_out_101));
 end
@@ -7777,9 +7888,11 @@ end
 
 function [var_name, expected_count] = resolve_raw_temperature_log_contract(exchange_backend_kind, sim_params)
     switch exchange_backend_kind
-        case 'simulink_directional_101'
-            var_name = 'Tx101_internal';
-            expected_count = get_option_field(sim_params, 'solver_internal_101_strip_count', 101);
+        case 'simulink_axial_21'
+            var_name = get_option_field(sim_params, ...
+                'solver_internal_temperature_workspace_var', 'Tx21_internal');
+            expected_count = get_option_field(sim_params, 'solver_internal_21_strip_count', ...
+                get_option_field(sim_params, 'solver_internal_thermal_node_count', 21));
         otherwise
             var_name = 'Tx51';
             expected_count = numel(sim_params.solver_T_init_51);

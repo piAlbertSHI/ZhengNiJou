@@ -25,6 +25,8 @@ codegen/
 *.mexa64
 
 # Local simulation outputs and runtime caches
+.archive/
+归档/
 .literature_extract/
 .literature_render/
 outputs*/

@@ -1,5 +1,5 @@
 function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
-% Unified defaults for eighth-round 51-node Simulink ECC validation.
+% Unified defaults for eighth-round 21-node axial Simulink ECC validation.
 %
 % The model is a one-dimensional axial SMA/SE representation using the paper
 % length and generic area abstraction. It intentionally does not use the
@@ -14,13 +14,13 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
 
     options = struct();
     options.schema_version = 'heatdrive_ecc_eighth_round_defaults_v1';
-    options.node_count = 51;
+    options.node_count = 21;
     options.cycle_count = 3;
-    options.model_name = 'heatdrive_ecc_1d51_eighth_round';
+    options.model_name = 'heatdrive_ecc_coupled_se21';
     options.model_path = fullfile(root_dir, [options.model_name '.slx']);
-    options.outputs_dir = fullfile(root_dir, 'outputs_heatdrive_ecc_eighth_round');
+    options.outputs_dir = fullfile(root_dir, 'outputs', 'heatdrive_ecc_eighth_round');
     options.report_path = fullfile(fileparts(root_dir), '项目文档', ...
-        '修改报告', 'Agent2_第九轮主线收敛与raw_loop物理修复报告.txt');
+        '审核分析', '当前主线物理验证报告.txt');
 
     options.system = article.system;
     options.system.Th_K = article.equilibrium.T_h_K;
@@ -67,7 +67,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.branch.boundary_T_se_chex_K = options.system.T0_K;
     options.branch.boundary_T_se_chex_source = ...
         'cold-load inlet temperature T0; Tc remains article target temperature';
-    options.branch.source = 'eighth_round_calibrated_finite_volume_51node';
+    options.branch.source = 'eighth_round_calibrated_finite_volume_21node';
     options.branch.calibration_bounds = struct( ...
         'm_dot_kg_per_s', [0.004, 0.06], ...
         'UA_sma_shex_W_per_K', [5.0, 200.0], ...
@@ -143,19 +143,24 @@ function map = build_output_map(N)
         map.(scalar_names{idx}) = idx;
     end
     start = numel(scalar_names) + 1;
-    array_names = {'Ta_51','Tr_51','xM_a_51','xM_r_51', ...
-        'sigma_a_51','sigma_r_51','epsilon_a_51','epsilon_r_51', ...
-        'pai_a_51','pai_r_51','r_xi_a_51','r_xi_r_51', ...
-        'SMA_SHEX_Tin_51','SMA_SHEX_Tout_51','SMA_SHEX_Tfluid_51','SMA_SHEX_Q_51', ...
-        'SMA_THE_Tin_51','SMA_THE_Tout_51','SMA_THE_Tfluid_51','SMA_THE_Q_51', ...
-        'SE_THE_Tin_51','SE_THE_Tout_51','SE_THE_Tfluid_51','SE_THE_Q_51', ...
-        'SE_CHEX_Tin_51','SE_CHEX_Tout_51','SE_CHEX_Tfluid_51','SE_CHEX_Q_51'};
+    array_names = {'Ta_21','Tr_21','xM_a_21','xM_r_21', ...
+        'sigma_a_21','sigma_r_21','epsilon_a_21','epsilon_r_21', ...
+        'pai_a_21','pai_r_21','r_xi_a_21','r_xi_r_21', ...
+        'SMA_SHEX_Tin_21','SMA_SHEX_Tout_21','SMA_SHEX_Tfluid_21','SMA_SHEX_Q_21', ...
+        'SMA_THE_Tin_21','SMA_THE_Tout_21','SMA_THE_Tfluid_21','SMA_THE_Q_21', ...
+        'SE_THE_Tin_21','SE_THE_Tout_21','SE_THE_Tfluid_21','SE_THE_Q_21', ...
+        'SE_CHEX_Tin_21','SE_CHEX_Tout_21','SE_CHEX_Tfluid_21','SE_CHEX_Q_21'};
     for idx = 1:numel(array_names)
         map.(array_names{idx}) = start:(start + N - 1);
         start = start + N;
     end
+    legacy_array_names = strrep(array_names, '_21', '_51');
+    for idx = 1:numel(array_names)
+        map.(legacy_array_names{idx}) = map.(array_names{idx});
+    end
     map.scalar_names = scalar_names;
     map.array_names = array_names;
+    map.legacy_array_names = legacy_array_names;
     map.output_width = start - 1;
 end
 

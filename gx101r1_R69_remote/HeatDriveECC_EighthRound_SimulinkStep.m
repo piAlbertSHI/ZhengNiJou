@@ -1,5 +1,5 @@
 function y = HeatDriveECC_EighthRound_SimulinkStep(t_s)
-% Simulink-interpreted one-step wrapper for the eighth-round 51-node model.
+% Simulink-interpreted one-step wrapper for the eighth-round 21-node model.
 %
 % The persistent state is advanced only from Simulink time. MATLAB runners
 % configure options and launch sim(), but do not loop over cycle time.

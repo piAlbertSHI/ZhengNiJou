@@ -11,13 +11,8 @@ function stage_config = Resolve_Exchange_Stage_Config(stage_info, exchange_optio
         model_path = get_option_field(exchange_options, 'model_path', '');
     end
     if isempty(model_path)
-        exchange_backend_kind = char(string(get_option_field(exchange_options, ...
-            'exchange_backend_kind', get_option_field(runtime, 'exchange_backend_kind', 'simulink_directional_101'))));
-        if strcmp(exchange_backend_kind, 'simulink_directional_101')
-            model_path = Build_nixunhuan_solver101_internal(false);
-        else
-            model_path = Build_Simulink_Exchange_Model(false);
-        end
+        model_path = fullfile(fileparts(mfilename('fullpath')), ...
+            'heatdrive_ecc_coupled_se21.slx');
     end
     [~, model_name] = fileparts(model_path);
 
@@ -38,45 +33,55 @@ function stage_config = Resolve_Exchange_Stage_Config(stage_info, exchange_optio
         'V4_hot_inlet', 'V5_cold_return', 'V6_sma_to_chip_cold'};
 
     switch stage_name
-        case 'load_adiabatic'
+        case {'load_adiabatic', 'sma_heat_load'}
             stage_kind = 'globalxi_adiabatic_closed';
             L_valve = zeros(1, 6);
             stop_time_s = stage_duration_s;
-            flow_path_name = 'all_valves_closed';
-            flow_path_description = 'All valves closed; side thermal objects frozen; no chip/sink thermal integration in this stage.';
+            flow_path_name = 'sma_stage1_shex_to_sma_to_shex';
+            flow_path_description = ['SE-side V1-V6 valves closed; SMA-side route is controlled by ', ...
+                'SMA_L_valve_command as SHEX buffer -> SMA pump -> SMA Conn1/Conn2 -> SHEX -> SHEX buffer.'];
             side_thermal_state_mode = 'frozen_side_state';
             apply_temperature_back_to_state = false;
             all_valves_closed = true;
+            sma_stage13_active = true;
+            sma_stage13_route_name = 'shex_buffer_to_sma_to_shex';
 
-        case 'hold_exchange'
+        case {'hold_exchange', 'se_reject_heat'}
             stage_kind = 'hotflush';
             L_valve = [1 1 1 0 0 0];
             stop_time_s = get_option_field(exchange_options, 'hotflush_stop_time_s', 0.4);
-            flow_path_name = 'cold_to_sma_to_hot';
-            flow_path_description = 'Cold-side fluid buffer -> V1 -> SMA101 stage-2 segment -> V3 -> hot sink; cold load is isolated from the active fluid path.';
+            flow_path_name = 'chex_to_se_to_hhex';
+            flow_path_description = 'CHEX/cold-side fluid buffer -> V1 -> SE21 stage-2 segment -> V3 -> HHEX/hot sink; cold load is isolated from the active fluid path.';
             side_thermal_state_mode = 'active_exchange_stage_cold_load_isolated';
             apply_temperature_back_to_state = true;
             all_valves_closed = false;
+            sma_stage13_active = false;
+            sma_stage13_route_name = 'sma_stage13_inactive';
 
-        case 'unload_adiabatic'
+        case {'unload_adiabatic', 'sma_cool_unload'}
             stage_kind = 'globalxi_adiabatic_closed';
             L_valve = zeros(1, 6);
             stop_time_s = stage_duration_s;
-            flow_path_name = 'all_valves_closed';
-            flow_path_description = 'All valves closed; side thermal objects frozen; no chip/sink thermal integration in this stage.';
+            flow_path_name = 'sma_stage3_hhex_to_sma_to_hhex';
+            flow_path_description = ['SE-side V1-V6 valves closed; SMA-side route is controlled by ', ...
+                'SMA_L_valve_command as HHEX/hot buffer -> SMA pump -> SMA Conn3/Conn4 -> HHEX SMA branch -> hot buffer.'];
             side_thermal_state_mode = 'frozen_side_state';
             apply_temperature_back_to_state = false;
             all_valves_closed = true;
+            sma_stage13_active = true;
+            sma_stage13_route_name = 'hhex_buffer_to_sma_to_hhex';
 
-        case 'cooldown_exchange'
+        case {'cooldown_exchange', 'se_absorb_heat'}
             stage_kind = 'coldflush';
             L_valve = [0 0 0 1 1 1];
             stop_time_s = get_option_field(exchange_options, 'coldflush_stop_time_s', 0.4);
-            flow_path_name = 'hot_to_sma_to_chex_to_cold';
-            flow_path_description = 'Hot-side fluid buffer -> V4 -> SMA101 stage-4 segment -> V6 -> CHEX/ColdSinkPipe -> cold return; cold load couples thermally to CHEX without being in the fluid line.';
+            flow_path_name = 'hhex_to_se_to_chex';
+            flow_path_description = 'HHEX/hot-side fluid buffer -> V4 -> SE21 stage-4 segment -> V6 -> CHEX/ColdSinkPipe -> cold return; cold load couples thermally to CHEX without being in the fluid line.';
             side_thermal_state_mode = 'active_exchange_stage_cold_load_to_CHEX';
             apply_temperature_back_to_state = true;
             all_valves_closed = false;
+            sma_stage13_active = false;
+            sma_stage13_route_name = 'sma_stage13_inactive';
 
         otherwise
             error('Resolve_Exchange_Stage_Config:UnsupportedStage', ...
@@ -105,6 +110,8 @@ function stage_config = Resolve_Exchange_Stage_Config(stage_info, exchange_optio
         'closed_branch_flow_warning_threshold', closed_branch_flow_warning_threshold, ...
         'closed_branch_flow_ideal_threshold', closed_branch_flow_ideal_threshold, ...
         'all_valves_closed', all_valves_closed, ...
+        'sma_stage13_active', sma_stage13_active, ...
+        'sma_stage13_route_name', sma_stage13_route_name, ...
         'apply_temperature_back_to_state', apply_temperature_back_to_state);
 end
 
