@@ -67,11 +67,11 @@ HHEX内部SMA独立分支新增温度探针：
 - SMA/Subsystem2：本构热源列无重叠；剩余7处为原21节点传导块`NodeCond_*`的继承式贴近排布。
 - SE/Subsystem2：同上，说明这不是本轮新增SMA侧热源列造成的额外问题。
 
-## 1 cycle运行结果
+## 短时接口冒烟测试结果
 
 运行参数：
 
-- `cycle_count = 1`
+- `cycle_count = 1`仅用于取得当前默认`StopTime`，不代表已经完成文献尺度或原24阶段尺度的完整物理循环。
 - `StopTime = 1.59447513812155 s`
 - 输出文件：`gx101r1_R69_remote/outputs/default_run/one_cycle_probe_check.mat`
 
@@ -80,6 +80,7 @@ HHEX内部SMA独立分支新增温度探针：
 - SimulationOutput变量数：80
 - 期望观测变量缺失数：0
 - 新增SMA/SHEX/HHEX探针均有713个时间点，终止时间覆盖到`1.59447513812155 s`。
+- 该结果只证明新增接口、探针和状态输出在短时默认工况下可执行，不能作为“完整1循环已经跑通”的结论。
 
 主要温度范围：
 
@@ -93,6 +94,6 @@ HHEX内部SMA独立分支新增温度探针：
 
 ## 当前限制
 
-- 本轮验证了左侧SMA侧流路观测、SHEX buffer连续仿真状态、HHEX SMA分支探针和1 cycle可运行性。
+- 本轮验证了左侧SMA侧流路观测、SHEX buffer连续仿真状态、HHEX SMA分支探针和短时默认工况可运行性。
 - 但当前1 cycle中`ECC_Q_SMA_constitutive_W`和`ECC_Q_SE_constitutive_W`仍为0，说明本构热源在此算例中尚未产生有效热功输入。
 - 因此本轮结果不能解释为正逆耦合弹热热源已经物理闭环，只能作为下一步“本构加载/卸载热源真正接入Stage 1/3与Stage 2/4”的接口和观测基础。
