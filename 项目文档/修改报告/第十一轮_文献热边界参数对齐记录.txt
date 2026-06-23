@@ -1,0 +1,76 @@
+第十一轮修改记录：SHEX/HHEX/CHEX 文献热边界参数对齐
+
+修改目标
+1. 清除主程序中 SHEX/HHEX/CHEX 继续沿用 270/500/3000 W/K 经验边界 UA 的问题。
+2. 按《Elastocaloric cooler for waste heat recovery from perovskite solar cell with electricity and cooling production》中的热力学边界，统一 SHE/THE/RHE 对应到本程序的 SHEX/HHEX/CHEX。
+3. 明确文献没有给出换热器几何、质量、热容、物理 UA；程序只能使用由文献热流、温度和阶段时间反推的有限体积等效闭合参数，不能把这些闭合参数伪装成文献实测或表格参数。
+
+文献直接对标参数
+- PSC 热源温度 TPSC = 345 K。
+- SMA 热驱动流体温度 Th = 340.412069603850 K。
+- 环境/热端 THE 对应 HHEX 温度 T0 = 308 K。
+- 冷空间/RHE 对应 CHEX 温度 Tc = 288 K。
+- 平均驱动热流 Qh = Qa = 44.232286657261 W。
+- 平均制冷功率 Qr = PECC = 3.620000000000 W。
+- 周期 tau = 1.594475138122 s。
+- 四阶段时间按当前 Build_HeatDriveECC_StageSchedule 的文献热量权重 [qa, qr, qa, qr]：
+  Stage 1 = 0.394085153676 s；
+  Stage 2 = 0.403152415384 s；
+  Stage 3 = 0.394085153676 s；
+  Stage 4 = 0.403152415384 s。
+
+文献等效闭合参数
+这些数值不是原文给出的物理 UA，而是为了把文献热流边界放入当前 21 节点有限体积模型而反推的等效闭合量：
+- Stage 1 SMA-SHEX 有效热流 = ma*qa/t1 = 178.964573314522 W。
+- Stage 2 SE-HHEX 估计排热 = mr*(Delta_h + w_ld + cp*(T0-Tc)*(1-eta_hr))/t2 = 23.990926584866 W。
+- Stage 3 SMA-HHEX 有效排热 = 178.964573314522 W。
+- Stage 4 SE-CHEX 有效制冷热流 = mr*qr/t4 = 14.317165865162 W。
+- UA_sma_shex = 5.521541064853 W/K。
+- UA_sma_the = 5.521541064853 W/K。
+- UA_se_the = 1.199546329243 W/K。
+- UA_se_chex = 0.715858293258 W/K。
+- boundary_UA_shex = 5.521541064853 W/K。
+- boundary_UA_the = 5.521541064853 W/K。
+- boundary_UA_chex = 0.715858293258 W/K。
+- SHEX source-to-sink 等效导热 = Qh/(TPSC-Th) = 9.641010834511 W/K。
+- HHEX-to-ambient 等效导热 = Qh/(Th-T0) = 1.364685661788 W/K。
+- CHEX 环境泄漏在文献模型中没有独立项，程序设置为 1e-12 W/K，避免和 Qr 冷负载重复计入。
+
+代码修改
+1. gx101r1_R69_remote/Build_HeatDriveECC_EighthRound_Defaults.m
+   - 新增 compute_article_heat_exchanger_closure(article)。
+   - 将 SHEX source 温度设为 TPSC，而不是 SHEX 自身温度。
+   - 将 CHEX/RHE 边界温度恢复为 Tc=288 K，而不是上一轮用于凑数的 T0=308 K。
+   - 将 cold_load_heat_W 设为文献 Qr=3.62 W。
+   - 用文献等效闭合值替换旧的 270/500/3000 W/K 边界 UA。
+   - 在 options.branch.effective_HX_UA_source 中明确记录：文献没有报告物理 HX UA/C/mass。
+
+2. gx101r1_R69_remote/Integrate_HeatDriveECC_Constitutive21_Interface.m
+   - Simulink 工作区传参中加入 cold_load_heat_W = Qr。
+   - SHEX source temperature 改为 TPSC。
+   - HHEX 环境导热使用文献等效 HHEX-to-ambient 闭合。
+   - CHEX 环境泄漏关闭为近似零，CHEX 冷负载由 Qr 负责。
+   - SHEX sink-source 边界使用 Qh/(TPSC-Th) 反推的等效闭合。
+
+3. gx101r1_R69_remote/Build_HeatDriveECC_EighthRound_Simulink_Model.m
+   - 与接口文件保持一致，防止重新构建模型时回退到旧参数。
+
+4. gx101r1_R69_remote/Build_Simulink_Exchange_Params.m
+   - 删除旧的 standard_mainline_30W_high_power_calibration 标识，避免报告误导。
+
+5. gx101r1_R69_remote/Validate_HeatDriveECC_EighthRound_Physics.m
+   - 验证报告改为输出文献热边界和等效闭合来源。
+   - 删除“CHEX 用 T0 才能把 Qr 拉入范围”的旧说明。
+
+验证状态
+- 已完成静态 diff 审核和独立公式复算。
+- MATLAB 在当前 Codex 环境下最小命令 disp('MATLAB_START_OK') 启动失败，报错为 Fatal Startup Error: System Error: File system inconsistency。该错误发生在 MATLAB 启动阶段，不是模型或本次代码修改报错。
+- 因 MATLAB 无法启动，本轮未执行完整 3 cycle 或 10 cycle 仿真。
+
+后续建议
+1. 先在可正常启动 MATLAB 的环境中运行：
+   cd('C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote');
+   options = Build_HeatDriveECC_EighthRound_Defaults();
+   Validate_HeatDriveECC_EighthRound_Physics();
+2. 如果仿真后 Qh/Qr 偏离较大，优先检查当前有限体积支路同时包含入口焓流和分布式 boundary_UA，不能再简单调大 UA。
+3. CHEX 温度趋势应以 Tc=288 K 冷空间边界和 Qr=3.62 W 冷负载为准，不应再把 CHEX 边界改成 T0 来强行制造制冷量。

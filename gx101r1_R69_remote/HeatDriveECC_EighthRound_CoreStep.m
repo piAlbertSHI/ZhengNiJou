@@ -5,6 +5,7 @@ function [state, y, audit] = HeatDriveECC_EighthRound_CoreStep(state, options, t
     state.stage_id = stage_id;
 
     roles = Build_HeatDriveECC_EighthRound_BranchRoles(options);
+    roles = apply_dynamic_boundary_temperatures(roles, state);
     branch_audits = initialize_branch_audits(state, roles, options);
     Q_sma = zeros(options.node_count, 1);
     Q_se = zeros(options.node_count, 1);
@@ -20,6 +21,8 @@ function [state, y, audit] = HeatDriveECC_EighthRound_CoreStep(state, options, t
             state.branch.(key), role, state.Tr_21, dt_s, options, true);
         Q_se = branch_audits.(key).Q_to_solid_21_W;
     end
+    [state.boundary, boundary_audit] = update_boundary_temperatures( ...
+        state.boundary, role, branch_audits.(key), options, dt_s);
 
     [state, mech] = HeatDriveECC_ConstitutiveCompatibilityStep51( ...
         state, options, dt_s, stage_id);
@@ -46,11 +49,104 @@ function [state, y, audit] = HeatDriveECC_EighthRound_CoreStep(state, options, t
     audit.mechanical = mech;
     audit.solidA = solidA;
     audit.solidR = solidR;
+    audit.boundary = boundary_audit;
     audit.branch_storage_W = sum_branch_field(branch_audits, 'storage_W');
     audit.energy_residual_W = sum_branch_field(branch_audits, 'energy_residual_W') + ...
         solidA.energy_residual_W + solidR.energy_residual_W;
 
     y = HeatDriveECC_EighthRound_StateToOutput(state, audit, options);
+end
+
+function roles = apply_dynamic_boundary_temperatures(roles, state)
+    if ~isfield(state, 'boundary') || ~isstruct(state.boundary)
+        return;
+    end
+    for idx = 1:numel(roles)
+        switch roles(idx).name
+            case 'SMA_SHEX'
+                roles(idx).boundary_T_K = state.boundary.shex_T_K;
+            case {'SMA_THE', 'SE_THE'}
+                roles(idx).boundary_T_K = state.boundary.hhex_T_K;
+            case 'SE_CHEX'
+                roles(idx).boundary_T_K = state.boundary.chex_T_K;
+        end
+    end
+end
+
+function [boundary, audit] = update_boundary_temperatures( ...
+        boundary, active_role, active_branch_audit, options, dt_s)
+    if ~isfield(boundary, 'shex_T_K')
+        boundary.shex_T_K = options.system.Tshex_K;
+    end
+    if ~isfield(boundary, 'hhex_T_K')
+        boundary.hhex_T_K = options.system.Thhex_K;
+    end
+    if ~isfield(boundary, 'chex_T_K')
+        boundary.chex_T_K = options.system.Tchex_K;
+    end
+
+    q_shex_to_branch_W = active_boundary_heat(active_role, ...
+        active_branch_audit, 'SMA_SHEX');
+    q_hhex_to_branch_W = active_boundary_heat(active_role, ...
+        active_branch_audit, {'SMA_THE', 'SE_THE'});
+    q_chex_to_branch_W = active_boundary_heat(active_role, ...
+        active_branch_audit, 'SE_CHEX');
+
+    q_psc_to_shex_W = options.branch.shex_source_to_sink_UA_W_per_K * ...
+        (options.system.Tshex_source_K - boundary.shex_T_K);
+    q_ambient_to_hhex_W = options.branch.hhex_to_ambient_UA_W_per_K * ...
+        (options.system.T0_K - boundary.hhex_T_K);
+    q_environment_to_chex_W = options.branch.chex_environment_leak_UA_W_per_K * ...
+        (options.system.T0_K - boundary.chex_T_K);
+    q_cold_load_to_chex_W = get_system_scalar(options, ...
+        'cold_load_heat_W', 0.0);
+
+    boundary.shex_T_K = advance_boundary_temperature(boundary.shex_T_K, ...
+        q_psc_to_shex_W - q_shex_to_branch_W, ...
+        options.system.shex_sink_C_J_per_K, dt_s);
+    boundary.hhex_T_K = advance_boundary_temperature(boundary.hhex_T_K, ...
+        q_ambient_to_hhex_W - q_hhex_to_branch_W, ...
+        options.system.hot_sink_C_J_per_K, dt_s);
+    boundary.chex_T_K = advance_boundary_temperature(boundary.chex_T_K, ...
+        q_environment_to_chex_W + q_cold_load_to_chex_W - q_chex_to_branch_W, ...
+        options.system.cold_sink_C_J_per_K, dt_s);
+
+    audit = struct();
+    audit.shex_T_K = boundary.shex_T_K;
+    audit.hhex_T_K = boundary.hhex_T_K;
+    audit.chex_T_K = boundary.chex_T_K;
+    audit.q_psc_to_shex_W = q_psc_to_shex_W;
+    audit.q_ambient_to_hhex_W = q_ambient_to_hhex_W;
+    audit.q_environment_to_chex_W = q_environment_to_chex_W;
+    audit.q_cold_load_to_chex_W = q_cold_load_to_chex_W;
+    audit.q_shex_to_branch_W = q_shex_to_branch_W;
+    audit.q_hhex_to_branch_W = q_hhex_to_branch_W;
+    audit.q_chex_to_branch_W = q_chex_to_branch_W;
+end
+
+function q_W = active_boundary_heat(active_role, active_branch_audit, names)
+    if ischar(names) || isstring(names)
+        names = cellstr(names);
+    end
+    if any(strcmp(active_role.name, names))
+        q_W = active_branch_audit.Q_boundary_W;
+    else
+        q_W = 0.0;
+    end
+end
+
+function T_next = advance_boundary_temperature(T, q_net_W, C_J_per_K, dt_s)
+    C_J_per_K = max(C_J_per_K, eps);
+    T_next = T + q_net_W .* dt_s ./ C_J_per_K;
+end
+
+function value = get_system_scalar(options, field_name, default_value)
+    if isfield(options, 'system') && isfield(options.system, field_name) && ...
+            ~isempty(options.system.(field_name))
+        value = options.system.(field_name);
+    else
+        value = default_value;
+    end
 end
 
 function [stage_id, cycle_index, stage_elapsed_s] = stage_from_time(t_s, options)

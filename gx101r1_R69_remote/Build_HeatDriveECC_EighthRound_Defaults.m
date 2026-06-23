@@ -11,6 +11,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
 
     root_dir = fileparts(mfilename('fullpath'));
     article = Build_HeatDriveECC_Article_Defaults();
+    article_hx = compute_article_heat_exchanger_closure(article);
 
     options = struct();
     options.schema_version = 'heatdrive_ecc_eighth_round_defaults_v1';
@@ -25,9 +26,26 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.system = article.system;
     options.system.Th_K = article.equilibrium.T_h_K;
     options.system.Tshex_K = article.equilibrium.T_h_K;
+    options.system.Tshex_source_K = article.system.T_PSC_K;
     options.system.Thhex_K = article.system.T0_K;
     options.system.Tchex_K = article.system.Tc_K;
     options.system.cp_fluid_J_per_kgK = 4180.0;
+    options.system.thermal_mass_cp_ref_J_per_kgK = article.material.SE.cp_J_per_kgK;
+    options.system.SE_heat_capacity_J_per_K = ...
+        article.equilibrium.m_r_kg * article.material.SE.cp_J_per_kgK;
+    options.system.cold_sink_capacity_multiplier_vs_SE = 5.0;
+    options.system.hot_sink_capacity_multiplier_vs_SE = 10.0;
+    options.system.cold_sink_C_J_per_K = ...
+        options.system.cold_sink_capacity_multiplier_vs_SE * ...
+        options.system.SE_heat_capacity_J_per_K;
+    options.system.hot_sink_C_J_per_K = ...
+        options.system.hot_sink_capacity_multiplier_vs_SE * ...
+        options.system.SE_heat_capacity_J_per_K;
+    options.system.cold_load_C_J_per_K = options.system.cold_sink_C_J_per_K;
+    options.system.shex_sink_C_J_per_K = 500.0;
+    options.system.cold_load_heat_W = 0.0;
+    options.system.cold_load_mode = 'no_load';
+    options.system.cold_load_heat_reference_W = article.equilibrium.Qr_W;
     options.system.article_Qh_W = article.equilibrium.Qh_W;
     options.system.article_Qr_W = article.equilibrium.Qr_W;
     options.system.article_Qh_cycle_J = article.equilibrium.Qh_W * ...
@@ -39,6 +57,11 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.system.article_PECC_W = article.equilibrium.PECC_W;
     options.system.article_etaECC = article.equilibrium.etaECC;
     options.system.article_tau_cycle_s = article.equilibrium.tau_cycle_s;
+    options.system.article_stage1_Qh_W = article_hx.stage1_Qh_W;
+    options.system.article_stage2_SE_to_HHEX_W = article_hx.stage2_SE_to_HHEX_W;
+    options.system.article_stage3_SMA_to_HHEX_W = article_hx.stage3_SMA_to_HHEX_W;
+    options.system.article_stage4_Qr_W = article_hx.stage4_Qr_W;
+    options.system.heat_exchanger_reference_note = article_hx.reference_note;
 
     options.geometry = article.geometry;
     options.material = article.material;
@@ -48,10 +71,15 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.simulation = struct();
     options.simulation.fixed_step_s = min(article.schedule.stage_durations_s) / 80.0;
     options.simulation.samples_per_stage = 80;
-    options.simulation.solver = 'FixedStepDiscrete';
+    options.simulation.solver = 'ode23t';
     options.simulation.stop_time_s = options.cycle_count * ...
         article.equilibrium.tau_cycle_s;
     options.simulation.output_variable = 'eighth_round_yout';
+
+    options.simscape = struct();
+    options.simscape.local_solver_enabled = true;
+    options.simscape.local_solver_choice = 'NE_BACKWARD_EULER_ADVANCER';
+    options.simscape.local_solver_sample_time_s = 1.0e-3;
 
     options.branch = struct();
     options.branch.m_dot_kg_per_s = 0.022;
@@ -60,13 +88,18 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.branch.m_dot_se_the_kg_per_s = options.branch.m_dot_kg_per_s;
     options.branch.m_dot_se_chex_kg_per_s = options.branch.m_dot_kg_per_s;
     options.branch.fluid_mass_total_kg = 0.018;
-    options.branch.UA_sma_shex_W_per_K = 160.0;
-    options.branch.UA_sma_the_W_per_K = 200.0;
-    options.branch.UA_se_the_W_per_K = 6.0;
-    options.branch.UA_se_chex_W_per_K = 80.0;
-    options.branch.boundary_UA_shex_W_per_K = 270.0;
-    options.branch.boundary_UA_the_W_per_K = 500.0;
-    options.branch.boundary_UA_chex_W_per_K = 3000.0;
+    options.branch.UA_sma_shex_W_per_K = article_hx.UA_sma_shex_W_per_K;
+    options.branch.UA_sma_the_W_per_K = article_hx.UA_sma_the_W_per_K;
+    options.branch.UA_se_the_W_per_K = article_hx.UA_se_the_W_per_K;
+    options.branch.UA_se_chex_W_per_K = article_hx.UA_se_chex_W_per_K;
+    options.branch.boundary_UA_shex_W_per_K = article_hx.boundary_UA_shex_W_per_K;
+    options.branch.boundary_UA_the_W_per_K = article_hx.boundary_UA_the_W_per_K;
+    options.branch.boundary_UA_chex_W_per_K = article_hx.boundary_UA_chex_W_per_K;
+    options.branch.shex_source_to_sink_UA_W_per_K = article_hx.shex_source_to_sink_UA_W_per_K;
+    options.branch.hhex_to_ambient_UA_W_per_K = article_hx.hhex_to_ambient_UA_W_per_K;
+    options.branch.chex_environment_leak_UA_W_per_K = article_hx.chex_environment_leak_UA_W_per_K;
+    options.branch.cold_load_to_chex_UA_W_per_K = article_hx.cold_load_to_chex_UA_W_per_K;
+    options.branch.effective_HX_UA_source = article_hx.effective_UA_source;
     options.branch.sma_pipe_internal_volume_target_ml = 1.2;
     options.branch.sma_pipe_internal_volume_source = ...
         ['1m_axial_strip_effective_HTF_inventory; replaces the inherited ', ...
@@ -82,17 +115,17 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.branch.stage_command_ramp_s = 0.005;
     options.branch.sma_pipe_thermal_gate_active_G_W_per_K = 1.0e6;
     options.branch.sma_pipe_thermal_gate_inactive_G_W_per_K = 1.0e-6;
-    options.branch.boundary_T_se_chex_K = options.system.T0_K;
+    options.branch.boundary_T_se_chex_K = options.system.Tc_K;
     options.branch.boundary_T_se_chex_source = ...
-        'cold-load inlet temperature T0; Tc remains article target temperature';
-    options.branch.source = 'eighth_round_calibrated_finite_volume_21node';
+        'article RHE/CHEX cooled-space temperature Tc';
+    options.branch.source = 'article_aligned_finite_volume_21node_with_effective_HX_closure';
     options.branch.calibration_bounds = struct( ...
         'm_dot_kg_per_s', [0.004, 0.06], ...
-        'UA_sma_shex_W_per_K', [5.0, 200.0], ...
-        'UA_sma_the_W_per_K', [20.0, 250.0], ...
-        'UA_se_chex_W_per_K', [3.0, 120.0], ...
-        'boundary_UA_shex_W_per_K', [80.0, 500.0], ...
-        'boundary_UA_chex_W_per_K', [500.0, 3000.0]);
+        'UA_sma_shex_W_per_K', scale_bounds(article_hx.UA_sma_shex_W_per_K), ...
+        'UA_sma_the_W_per_K', scale_bounds(article_hx.UA_sma_the_W_per_K), ...
+        'UA_se_chex_W_per_K', scale_bounds(article_hx.UA_se_chex_W_per_K), ...
+        'boundary_UA_shex_W_per_K', scale_bounds(article_hx.boundary_UA_shex_W_per_K), ...
+        'boundary_UA_chex_W_per_K', scale_bounds(article_hx.boundary_UA_chex_W_per_K));
 
     options.solid = struct();
     options.solid.k_sma_W_per_mK = 18.0;
@@ -150,6 +183,57 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.output = build_output_map(options.node_count);
 end
 
+function hx = compute_article_heat_exchanger_closure(article)
+    % The PSC waste-heat paper gives reservoir temperatures and heat rates,
+    % not standalone heat-exchanger geometry, UA, mass, or heat capacity.
+    % These effective conductances are finite-volume closure values derived
+    % from the paper heat rates, stage durations, and temperature levels.
+    sys = article.system;
+    eq = article.equilibrium;
+    mat = article.material;
+    stage_d = article.schedule.stage_durations_s(:);
+    dT_hot_K = max(eq.T_h_K - sys.T0_K, eps);
+    dT_cold_lift_K = max(sys.T0_K - sys.Tc_K, eps);
+    dT_psc_to_shex_K = max(sys.T_PSC_K - eq.T_h_K, eps);
+
+    stage1_Qh_W = eq.m_a_kg * eq.qa_J_per_kg / max(stage_d(1), eps);
+    stage3_SMA_to_HHEX_W = stage1_Qh_W;
+    se_hot_reject_J_per_kg = mat.SE.Delta_h_J_per_kg + ...
+        mat.SE.w_ld_J_per_kg + mat.SE.cp_J_per_kgK * ...
+        dT_cold_lift_K * (1.0 - sys.eta_hr);
+    stage2_SE_to_HHEX_W = eq.m_r_kg * se_hot_reject_J_per_kg / ...
+        max(stage_d(2), eps);
+    stage4_Qr_W = eq.m_r_kg * eq.qr_J_per_kg / max(stage_d(4), eps);
+
+    hx = struct();
+    hx.stage1_Qh_W = stage1_Qh_W;
+    hx.stage2_SE_to_HHEX_W = stage2_SE_to_HHEX_W;
+    hx.stage3_SMA_to_HHEX_W = stage3_SMA_to_HHEX_W;
+    hx.stage4_Qr_W = stage4_Qr_W;
+    hx.UA_sma_shex_W_per_K = stage1_Qh_W / dT_hot_K;
+    hx.UA_sma_the_W_per_K = stage3_SMA_to_HHEX_W / dT_hot_K;
+    hx.UA_se_the_W_per_K = stage2_SE_to_HHEX_W / dT_cold_lift_K;
+    hx.UA_se_chex_W_per_K = stage4_Qr_W / dT_cold_lift_K;
+    hx.boundary_UA_shex_W_per_K = hx.UA_sma_shex_W_per_K;
+    hx.boundary_UA_the_W_per_K = max(hx.UA_sma_the_W_per_K, hx.UA_se_the_W_per_K);
+    hx.boundary_UA_chex_W_per_K = hx.UA_se_chex_W_per_K;
+    hx.shex_source_to_sink_UA_W_per_K = eq.Qh_W / dT_psc_to_shex_K;
+    hx.hhex_to_ambient_UA_W_per_K = eq.Qh_W / dT_hot_K;
+    hx.chex_environment_leak_UA_W_per_K = 1.0e-12;
+    hx.cold_load_to_chex_UA_W_per_K = hx.UA_se_chex_W_per_K;
+    hx.effective_UA_source = ...
+        ['article-derived equivalent closure from Qh/Qr, stage durations, ', ...
+        'Th/T0/Tc/TPSC; the paper does not report physical HX UA/C/mass.'];
+    hx.reference_note = ...
+        ['SHE source is PSC at TPSC, SMA hot HTF is Th, THE/HHEX is T0, ', ...
+        'RHE/CHEX cooled space is Tc, and cold load heat is article Qr.'];
+end
+
+function bounds = scale_bounds(value)
+    value = max(abs(value), eps);
+    bounds = [0.5 * value, 2.0 * value];
+end
+
 function map = build_output_map(N)
     scalar_names = {'time_s','cycle_index','stage_id','stage_elapsed_s', ...
         'Ta_mean_K','Ta_min_K','Ta_max_K','Tr_mean_K','Tr_min_K','Tr_max_K', ...
@@ -162,6 +246,9 @@ function map = build_output_map(N)
         'SMA_SHEX_mdot','SMA_THE_mdot','SE_THE_mdot','SE_CHEX_mdot', ...
         'SMA_SHEX_Tin_K','SMA_SHEX_Tout_K','SMA_THE_Tin_K','SMA_THE_Tout_K', ...
         'SE_THE_Tin_K','SE_THE_Tout_K','SE_CHEX_Tin_K','SE_CHEX_Tout_K', ...
+        'SHEX_boundary_T_K','HHEX_boundary_T_K','CHEX_boundary_T_K', ...
+        'Q_psc_to_shex_W','Q_ambient_to_hhex_W', ...
+        'Q_environment_to_chex_W','Q_cold_load_to_chex_W', ...
         'SMA_sensible_W','SE_sensible_W','branch_storage_W','energy_residual_W'};
     map = struct();
     for idx = 1:numel(scalar_names)

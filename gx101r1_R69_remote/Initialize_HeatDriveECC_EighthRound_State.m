@@ -18,6 +18,10 @@ function state = Initialize_HeatDriveECC_EighthRound_State(options)
     state.r_xi_a_21 = zeros(N, 1);
     state.r_xi_r_21 = zeros(N, 1);
     state = sync_legacy_51_aliases(state);
+    state.boundary = struct( ...
+        'shex_T_K', options.system.Tshex_K, ...
+        'hhex_T_K', options.system.Thhex_K, ...
+        'chex_T_K', options.system.Tchex_K);
     state.branch = Initialize_HeatDriveECC_EighthRound_Branches(options);
     state.energy = struct();
 end

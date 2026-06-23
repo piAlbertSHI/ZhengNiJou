@@ -1,0 +1,66 @@
+第十二轮修改记录：Simulink 三循环热容设置、冷负载关闭与绘图补齐
+
+任务要求
+1. 冷端 CHEX 热容先按 SE 体积热容的 5 倍设置。
+2. 热端 HHEX 热容先按 SE 体积热容的 10 倍设置。
+3. CHEX 冷端不开热负载功率。
+4. 必须运行真实 Simulink 3 循环，不能用 MATLAB core 直接替代。
+5. 补齐 SMA/SE 平均温度、SMA/SE 节点温度、冷端/热端/SHEX 温度、支路出入口与内部温度、热流等图。
+
+最终参数
+- SE 体积热容：C_SE = m_SE * cp_SE = 0.26 J/K。
+- CHEX 主热容：5 * C_SE = 1.30 J/K。
+- HHEX 主热容：10 * C_SE = 2.60 J/K。
+- CHEX 冷负载热源：cold_load_heat_W = 0 W。
+- ColdLoadMass 热容同步为 1.30 J/K，但 cold_load_mode = no_load，不向 CHEX 注入外部热负载。
+- Simscape local solver：开启。
+- Local solver choice：NE_BACKWARD_EULER_ADVANCER。
+- Local solver sample time：1e-3 s。
+- 顶层 Simulink solver：ode23t，MaxStep 受 options.simulation.fixed_step_s 限制。
+
+关键修复
+1. Run_HeatDriveECC_EighthRound_Simulink_Cycles 原来期望输出变量 eighth_round_yout，但模型中只有 252 列的 ECC_constitutive21_output，本构输出不能作为完整三循环结果。
+2. 已在 heatdrive_ecc_coupled_se21.slx 顶层新增真实 Simulink 输出链：
+   Clock -> Interpreted MATLAB Function(HeatDriveECC_EighthRound_SimulinkStep) -> To Workspace(eighth_round_yout)
+3. 短时仿真确认 eighth_round_yout.signals.values 尺寸为 21 x 641，完整匹配 options.output.output_width = 641。
+4. 完整 3-cycle 仿真已成功完成，result.used_simulink_sim = true。
+
+输出结果
+- 最新 Simulink 结果：
+  C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs\heatdrive_ecc_eighth_round\latest_3cycle_no_cold_load_result.mat
+- 本次带时间戳结果：
+  C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs\heatdrive_ecc_eighth_round\eighth_round_simulink_3cycle_20260623_202729.mat
+- 输出矩阵尺寸：972 x 641。
+
+第三循环关键数值
+- Qh_boundary_J = 3.83376117306 J/cycle。
+- Qr_boundary_J = 0.0102898020649 J/cycle。
+- Qr/Qh = 0.002683996629。
+- SMA 平均温度范围：308 K 到 327.325821 K；结束 319.078094 K。
+- SE 平均温度范围：283.092207 K 到 324.727397 K；结束 286.506585 K。
+- SHEX 边界温度范围：340.412070 K 到 340.795601 K；结束 340.795601 K。
+- HHEX 边界温度范围：307.980015 K 到 308.525521 K；结束 308.425004 K。
+- CHEX 边界温度范围：288.000000 K 到 288.018089 K；结束 288.003784 K。
+
+生成图
+- 3cycle_SMA_SE_mean_temperature.png
+- 3cycle_SHEX_HHEX_CHEX_boundary_temperature.png
+- 3cycle_SMA_node_temperatures.png
+- 3cycle_SE_node_temperatures.png
+- 3cycle_branch_inlet_outlet_temperature.png
+- 3cycle_branch_internal_mean_temperature.png
+- 3cycle_heat_rate_timeseries.png
+- 3cycle_phase_fraction_and_stress.png
+
+图目录
+C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs\heatdrive_ecc_eighth_round\figures
+
+物理解释
+1. 关闭 CHEX 冷负载热源后，冷端不再有持续外部热负载输入，因此 Qr 不应再按文献有冷负载工况的 PECC/Qr 目标比较。
+2. 当前 Qr 很小是合理趋势：CHEX 只有有限热容和 SE 之间的瞬态交换，外部负载项为 0 W。
+3. HHEX/CHEX 的温度变化已经可以在图中看到，不再是完全恒温边界。
+4. 本轮真实 Simulink 跑通的关键不是放弃小热容，而是补齐完整输出变量和启用 Simscape local solver。
+
+保留问题
+1. 当前物理输出仍需要结合曲线检查阶段边界是否符合预期，尤其是 SE 在 Stage 2/4 的温度恢复和 CHEX 的近零负载趋势。
+2. 若后续要恢复文献冷负载工况，需要重新打开 cold_load_heat_W = Qr，并重新比较 Qr/Qh。

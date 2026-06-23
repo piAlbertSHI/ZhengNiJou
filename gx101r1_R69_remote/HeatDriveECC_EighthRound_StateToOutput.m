@@ -39,6 +39,13 @@ function y = HeatDriveECC_EighthRound_StateToOutput(state, audit, options)
         put(tin_fields{idx}, b.T_in_K);
         put(tout_fields{idx}, b.T_out_K);
     end
+    put('SHEX_boundary_T_K', audit.boundary.shex_T_K);
+    put('HHEX_boundary_T_K', audit.boundary.hhex_T_K);
+    put('CHEX_boundary_T_K', audit.boundary.chex_T_K);
+    put('Q_psc_to_shex_W', audit.boundary.q_psc_to_shex_W);
+    put('Q_ambient_to_hhex_W', audit.boundary.q_ambient_to_hhex_W);
+    put('Q_environment_to_chex_W', audit.boundary.q_environment_to_chex_W);
+    put('Q_cold_load_to_chex_W', audit.boundary.q_cold_load_to_chex_W);
     put('latentA_W', audit.mechanical.latentA_W);
     put('latentR_W', audit.mechanical.latentR_W);
     put('mechanicalA_W', audit.mechanical.mechanicalA_W);

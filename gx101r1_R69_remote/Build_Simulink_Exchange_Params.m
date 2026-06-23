@@ -1318,7 +1318,7 @@ function sim_params = Build_Simulink_Exchange_Params(state_in, stage_config, exc
     sim_params.chip_fluid_coupling_mode = chip_fluid_coupling_mode;
     sim_params.chip_heat_dry_equilibrium_W = chip_heat_dry_equilibrium_W;
     sim_params.chip_heat_default_W = chip_heat_default_W;
-    sim_params.chip_heat_default_source = 'standard_mainline_30W_high_power_calibration';
+    sim_params.chip_heat_default_source = sim_params.cold_load_heat_policy;
     % R68 splits the previous ColdSinkPipe into a physical HX segment plus an
     % adiabatic return segment. Only the HX segment is thermally coupled to the
     % 1 ml ColdSinkMass; the return segment keeps hydraulic/storage carryover
