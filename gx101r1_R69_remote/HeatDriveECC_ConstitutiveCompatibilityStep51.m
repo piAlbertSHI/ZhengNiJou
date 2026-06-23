@@ -136,7 +136,10 @@ function rates = phase_rates(state, compatible, options, stage_id)
             drive_a = max(pai_a ./ max(c.drive_width_a_Pa, 1.0), 0.0);
             rA = -c.rate_a_to_A_1_per_s .* drive_a .* xA;
 
-            threshold_r = se.C_A_Pa_per_K .* max(Tr - se.T_Af_K, 0.0) + ...
+            loading_assist = get_constitutive_scalar(c, ...
+                'se_loading_assist_Pa', 0.0);
+            threshold_r = max(se.C_A_Pa_per_K .* max(Tr - se.T_Af_K, 0.0) - ...
+                loading_assist, 0.0) + ...
                 c.se_load_hardening_Pa .* xR;
             pai_r = sigma_r - threshold_r;
             drive_r = max(pai_r ./ max(c.drive_width_r_Pa, 1.0), 0.0);
@@ -161,10 +164,44 @@ function rates = phase_rates(state, compatible, options, stage_id)
             rR = -c.rate_r_stage4_unload_1_per_s .* drive_r .* xR;
     end
 
+    smoothing_rate = get_constitutive_scalar(c, ...
+        'phase_front_smoothing_1_per_s', 0.0);
+    if smoothing_rate > 0.0
+        if any(round(stage_id) == [1, 3])
+            rA = rA + smoothing_rate .* phase_laplacian_neumann(xA);
+        end
+        if any(round(stage_id) == [1, 3, 4])
+            rR = rR + smoothing_rate .* phase_laplacian_neumann(xR);
+        end
+    end
+
     rA = min(max(rA, -c.max_rate_1_per_s), c.max_rate_1_per_s);
     rR = min(max(rR, -c.max_rate_1_per_s), c.max_rate_1_per_s);
     rates = struct('pai_a_21', pai_a, 'pai_r_21', pai_r, ...
         'r_xi_a_21', rA, 'r_xi_r_21', rR);
+end
+
+function lap = phase_laplacian_neumann(x)
+    x = x(:);
+    lap = zeros(size(x));
+    if numel(x) < 2
+        return;
+    end
+    lap(1) = x(2) - x(1);
+    lap(end) = x(end - 1) - x(end);
+    if numel(x) > 2
+        lap(2:end - 1) = x(1:end - 2) - 2.0 .* x(2:end - 1) + x(3:end);
+    end
+end
+
+function value = get_constitutive_scalar(options, field_name, default_value)
+    if isstruct(options) && isfield(options, field_name) && ...
+            isnumeric(options.(field_name)) && isscalar(options.(field_name)) && ...
+            isfinite(options.(field_name))
+        value = double(options.(field_name));
+    else
+        value = default_value;
+    end
 end
 
 function y = clamp01(x)

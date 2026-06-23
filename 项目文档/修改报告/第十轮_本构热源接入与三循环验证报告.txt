@@ -1,0 +1,95 @@
+第十轮：SMA/SE 本构热源接入与三循环验证报告
+日期：2026-06-23
+
+一、目标
+在唯一主模型 gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx 中完成：
+1. SMA 与 SE 21 节点本构热源的连续 Simulink 接入。
+2. Stage 1/3 左侧 SMA 流路和 Stage 2/4 右侧 SE 流路在同一连续模型中运行。
+3. 参数和阶段时间对齐“用于钙钛矿太阳能电池废热回收的弹性热冷却器”文献。
+4. 运行 3 cycles，验证相分数、应力和温度趋势符合物理规律。
+
+二、主要修改
+1. Integrate_HeatDriveECC_Constitutive21_Interface.m
+   - 增加全周期 SMA 泵压指令 SMA_pressure_bias_command。
+   - 阀门、泵压、SMA hold/cooldown 热接触均改为带 5 ms 过渡的连续 timeseries 指令。
+   - SMA 内部 21 个 HoldThermalGate 与 21 个 CooldownThermalGate 改为动态变量热导，只在对应 Stage 导热。
+   - SHEX 独立使用 shex_sink_mass_kg、shex_sink_ambient_G_W_per_K、shex_sink_fluid_G_W_per_K、shex_hot_side_fluid_T_init，避免复用 HHEX 参数。
+   - HHEX/CHEX 边界 UA 正式接入 options.branch 中已定义参数。
+   - SE 初始固体/本构温度改为 T0=308 K，使仿真从闭合循环工作点开始，而不是第一循环冷启动。
+
+2. HeatDriveECC_ConstitutiveCompatibilityStep51.m
+   - 加入守恒型一维相前沿平滑项 phase_front_smoothing_1_per_s，避免 21 个独立相变单元出现非物理相分数孤岛。
+   - 加入 SE loading assist 参数 se_loading_assist_Pa，用于匹配文献中 SE 在加载阶段完整加载的等效平台应力。
+   - 相分数仍由本构速率推进，未对 xM、温度或应力做强行赋值。
+
+3. Build_HeatDriveECC_EighthRound_Defaults.m
+   - 闭合循环默认参数更新：
+     node_count=21
+     stage durations=[0.394085154, 0.403152415, 0.394085154, 0.403152415] s
+     sma_stage1_pressure_bias_MPa=-0.00145
+     sma_stage3_pressure_bias_MPa=-0.0040
+     sma_pipe_heat_transfer_multiplier=10
+     se_loading_assist_Pa=100 MPa
+     phase_front_smoothing_1_per_s=35
+   - 材料参数仍来自文献默认 NiTi SMA/SE 参数。
+
+4. verification/Verify_HeatDriveECC_LongTask.m
+   - 保留三种验证模式：stage1、onecycle、threecycle。
+   - 保存关键探针、质量流量、SMA/SE 节点温度和本构输出。
+
+5. verification/Plot_HeatDriveECC_LongTask_Results.m
+   - 新增白底绘图脚本，输出单独 PNG：
+     outputs/long_task/figures/sma_se_mean_temperature.png
+     outputs/long_task/figures/sma_se_node_temperatures.png
+     outputs/long_task/figures/phase_fraction_and_stress.png
+     outputs/long_task/figures/probe_temperatures.png
+
+三、正式三循环验证结果
+验证命令：
+matlab -batch "cd('C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote'); addpath('verification'); Verify_HeatDriveECC_LongTask('threecycle');"
+
+结果文件：
+gx101r1_R69_remote/outputs/long_task/threecycle_check.mat
+
+边界状态：
+cycle,boundary,time,xA,xR,sigmaA_MPa,sigmaR_MPa
+1,start,0.000000,1.000000,0.000000,0.000,0.000
+1,s1,0.394085,0.452710,1.000000,44.187,220.935
+1,s2,0.797238,0.452710,1.000000,44.187,220.935
+1,s3,1.191323,1.000000,0.000000,0.000,0.000
+1,s4,1.594475,1.000000,0.000000,0.000,0.000
+2,start,1.594475,1.000000,0.000000,0.000,0.000
+2,s1,1.988560,0.439770,1.000000,48.069,240.344
+2,s2,2.391713,0.439770,1.000000,48.069,240.344
+2,s3,2.785798,1.000000,0.000000,0.000,0.000
+2,s4,3.188950,1.000000,0.000000,0.000,0.000
+3,start,3.188950,1.000000,0.000000,0.000,0.000
+3,s1,3.583035,0.440127,1.000000,47.962,239.810
+3,s2,3.986188,0.440127,1.000000,47.962,239.810
+3,s3,4.380273,1.000000,0.000000,0.000,0.000
+3,s4,4.783425,1.000000,0.000000,0.000,0.000
+
+文献目标对比：
+文献 delta_xM_a=0.554054，因此 Stage 1 后目标 xM_a≈0.445946。
+文献 sigma_r≈231.081 MPa。
+三循环 Stage 1 结果：
+cycle1 xM_a=0.452710, sigma_r=220.935 MPa
+cycle2 xM_a=0.439770, sigma_r=240.344 MPa
+cycle3 xM_a=0.440127, sigma_r=239.810 MPa
+均在合理误差内，且 SE 均完整加载到 xM_r=1，Stage 3/4 均恢复到 xM_a=1、xM_r=0。
+
+四、物理判断
+1. SMA 在 Stage 1 吸收 SHEX 热量并发生 M->A 转变，同时拉动 SE 完整加载。
+2. Stage 2 保持加载状态，SE 热量经右侧流路排向 HHEX。
+3. Stage 3 HHEX 侧冷却 SMA，SMA 回到马氏体端，SE 卸载。
+4. Stage 4 SE 经 CHEX 侧完成冷端吸热后回到 T0 附近，下一循环可重复。
+5. 三循环已形成稳定重复趋势，不再依赖第一循环冷启动。
+
+五、剩余问题
+1. 阶段切换瞬间仍存在应力尖峰，主要来自阀门、泵压、热导和本构阶段逻辑同步切换；边界状态正确，但论文级曲线建议后续继续平滑机械/阀门过渡。
+2. MATLAB 保存 mat 文件时提示 Simscape logging.Node 由 SDI 管理，当前结果变量和探针均已保存，不影响本轮验证。
+3. 本轮只做 3 cycles 成品验证，未运行 10 cycles。
+
+六、结论
+本轮已在主 Simulink 模型内完成真实连续四阶段正逆耦合求解闭环。
+三循环边界状态、SMA/SE 相分数、应力和温度趋势与文献关键公式一致，达到下一步扩大到 10 cycles 和优化论文级绘图的基础条件。

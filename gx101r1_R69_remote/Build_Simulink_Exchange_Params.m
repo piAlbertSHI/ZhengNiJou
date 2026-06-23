@@ -54,6 +54,8 @@ function sim_params = Build_Simulink_Exchange_Params(state_in, stage_config, exc
     ambient_T_init = get_stage_field(stage_config, 'ambient_T_init', get_option_field(exchange_options, 'ambient_T_init', 293.0));
     hot_sink_T_init = get_stage_field(stage_config, 'hot_sink_T_in', get_option_field(exchange_options, 'hot_sink_T_init', 293.0));
     cold_sink_T_init = get_stage_field(stage_config, 'cold_sink_T_in', get_option_field(exchange_options, 'cold_sink_T_init', 293.0));
+    shex_sink_T_init = get_option_field(exchange_options, 'shex_sink_T_init', hot_sink_T_init);
+    shex_source_T_init = get_option_field(exchange_options, 'shex_source_T_init', shex_sink_T_init);
     cold_load_mode = char(string(get_option_field(exchange_options, 'cold_load_mode', 'constant_load')));
     cold_load_T_init = get_stage_field(stage_config, 'cold_load_T_in', get_stage_field(stage_config, ...
         'chip_T_in', get_option_field(exchange_options, 'cold_load_T_init', get_option_field(exchange_options, 'chip_T_init', 293.0))));
@@ -1472,8 +1474,10 @@ function sim_params = Build_Simulink_Exchange_Params(state_in, stage_config, exc
     sim_params.water_contact_area_mode = 'single_side_plate_area';
     sim_params.hot_fluid_buffer_T_init = hot_buffer_temp_current;
     sim_params.cold_fluid_buffer_T_init = cold_buffer_temp_current;
+    sim_params.shex_sink_T_init = shex_sink_T_init;
+    sim_params.shex_source_T_init = shex_source_T_init;
     sim_params.shex_fluid_buffer_T_init = get_option_field(exchange_options, ...
-        'shex_fluid_buffer_T_init', hot_sink_T_init);
+        'shex_fluid_buffer_T_init', shex_sink_T_init);
     sim_params.buffer_follow_sink_enabled = buffer_follow_sink_enabled;
     sim_params.buffer_follow_sink_policy_source = buffer_follow_sink_policy_source;
     sim_params.buffer_effective_energy_accounting_enabled = buffer_effective_energy_accounting_enabled;

@@ -24,6 +24,9 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
 
     options.system = article.system;
     options.system.Th_K = article.equilibrium.T_h_K;
+    options.system.Tshex_K = article.equilibrium.T_h_K;
+    options.system.Thhex_K = article.system.T0_K;
+    options.system.Tchex_K = article.system.Tc_K;
     options.system.cp_fluid_J_per_kgK = 4180.0;
     options.system.article_Qh_W = article.equilibrium.Qh_W;
     options.system.article_Qr_W = article.equilibrium.Qr_W;
@@ -64,6 +67,21 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.branch.boundary_UA_shex_W_per_K = 270.0;
     options.branch.boundary_UA_the_W_per_K = 500.0;
     options.branch.boundary_UA_chex_W_per_K = 3000.0;
+    options.branch.sma_pipe_internal_volume_target_ml = 1.2;
+    options.branch.sma_pipe_internal_volume_source = ...
+        ['1m_axial_strip_effective_HTF_inventory; replaces the inherited ', ...
+        '0.1 mL circular-plate exchange volume that underheated the actuator.'];
+    options.branch.sma_pipe_heat_transfer_multiplier = 10.0;
+    options.branch.sma_pipe_heat_transfer_multiplier_source = ...
+        ['stage1_apparent_UA_closure_to_article_timescale: ', ...
+        'initial Simscape pipe-solid coupling was about 3.2 W/K; ', ...
+        'article T0-to-TAs crossing over stage 1 requires about 17.5 W/K.'];
+    options.branch.sma_stage1_pressure_bias_MPa = -0.00145;
+    options.branch.sma_stage3_pressure_bias_MPa = -0.0040;
+    options.branch.sma_inactive_pressure_bias_MPa = 0.0;
+    options.branch.stage_command_ramp_s = 0.005;
+    options.branch.sma_pipe_thermal_gate_active_G_W_per_K = 1.0e6;
+    options.branch.sma_pipe_thermal_gate_inactive_G_W_per_K = 1.0e-6;
     options.branch.boundary_T_se_chex_K = options.system.T0_K;
     options.branch.boundary_T_se_chex_source = ...
         'cold-load inlet temperature T0; Tc remains article target temperature';
@@ -85,12 +103,14 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
 
     options.constitutive = struct();
     options.constitutive.rate_a_to_A_1_per_s = 150.0;
-    options.constitutive.rate_a_to_M_1_per_s = 500.0;
+    options.constitutive.rate_a_to_M_1_per_s = 1500.0;
     options.constitutive.rate_r_load_1_per_s = 700.0;
-    options.constitutive.rate_r_stage3_unload_1_per_s = 20.0;
+    options.constitutive.rate_r_stage3_unload_1_per_s = 160.0;
     options.constitutive.rate_r_stage4_unload_1_per_s = 160.0;
-    options.constitutive.max_rate_1_per_s = 800.0;
+    options.constitutive.max_rate_1_per_s = 2000.0;
+    options.constitutive.phase_front_smoothing_1_per_s = 35.0;
     options.constitutive.se_load_hardening_Pa = 0.0;
+    options.constitutive.se_loading_assist_Pa = 100.0e6;
     options.constitutive.se_unload_assist_Pa = 120.0e6;
     options.constitutive.drive_width_a_Pa = ...
         options.material.SMA.C_M_Pa_per_K * ...
