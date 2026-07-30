@@ -112,3 +112,32 @@ current raw evidence. A rejected one-cycle PI trial did not produce a result
 directory. The trial also changed the model default stop time to 10 s and
 renumbered Simscape instrumentation SIDs during save; the canonical SLX was
 restored byte-for-byte from the verified three-cycle Git checkpoint.
+
+## Table 2/Fig. 5 stress scope correction
+
+The previous `nominal_SMA_stress` gate incorrectly compared the Table 4
+prototype geometry against the 200 MPa stress shown by the Table 2/Fig. 5
+case. Qian Table 2 uses eight 1.5 mm wires with a 450 mm actuator length and
+a 4 mm2, 200 mm SE bed. Substituting that geometry into Qian Eqs. (5)-(8) at
+full transformation gives approximately 195 MPa, consistent with the plotted
+200 MPa reference.
+
+Table 4 changes the actuator to 32 one-millimetre wires and the SE bed to two
+0.5 x 17 mm plates, while specifying a driver/refrigerant mass ratio of 3.2.
+The derived geometry in the production model is therefore
+`S_r/S_a=0.676408508141` and `L_r/L_a=0.461998919646`. With both
+transformation strains equal to 0.03 and both elastic moduli equal to 30 GPa,
+the full-transformation compatibility solution is:
+
+`sigma_SMA = 287.697990 MPa`, `sigma_SE = 425.331726 MPa`.
+
+These values are exactly the maxima in the retained physical Simscape logs.
+The validator now checks the simulated stress against this analytical
+Table 4 Eq. (7)-(8) solution and separately records the scope of the 200 MPa
+Fig. 5 reference. It does not clamp or assign stress. Re-auditing the retained
+MAT gives `qian_table4_compatibility_stress=1` and
+`coupled_mechanism_pass=1`.
+
+This correction does not complete Table 4 reproduction. The dual water /
+glycol-water hydraulic domain and the separate post-convergence no-load and
+zero-lift performance cases remain mandatory.
