@@ -30,7 +30,12 @@ function [model_name, options] = Build_HeatDriveECC_EighthRound_Simulink_Model(o
     assign_constitutive_workspace(options);
 
     load_system(model_name);
+    topology_audit = configure_dual_fluid_topology(model_name);
     configure_thermal_liquid_temperature_range(model_name, options);
+    topology_audit = audit_dual_fluid_topology(model_name, topology_audit);
+    options.validation.dual_fluid_domain_implemented = topology_audit.ok;
+    options.validation.dual_fluid_domain_audit = topology_audit;
+    assignin('base', 'EIGHTH_ROUND_OPTIONS', options);
     configure_thermal_liquid_initial_pressure(model_name);
     set_param(model_name, ...
         'Solver', 'ode23t', ...
@@ -48,6 +53,240 @@ function [model_name, options] = Build_HeatDriveECC_EighthRound_Simulink_Model(o
     Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, false);
     configure_simscape_local_solver(model_name, options);
     save_system(model_name, model_path);
+end
+
+function audit = configure_dual_fluid_topology(model_name)
+    % Qian uses water for SMA/SHEX and glycol-water for SE/HHEX/CHEX.
+    % The HHEX already contains separate HotPipe and SMAHotPipe channels;
+    % split only their formerly shared top-level hot buffer node.
+    hot_buffer = [model_name '/HotFluidBuffer'];
+    sma_buffer = [model_name '/SMAHotFluidBuffer'];
+    if ~exist_block(sma_buffer)
+        add_block(hot_buffer, sma_buffer, ...
+            'MakeNameUnique', 'off', ...
+            'Position', [1580 875 1630 925]);
+    end
+
+    settings_blocks = thermal_liquid_settings_blocks(model_name);
+    if isempty(settings_blocks)
+        error('Build:ECC:MissingThermalLiquidSettings', ...
+            'The canonical model has no Thermal Liquid Settings block.');
+    end
+    sma_settings = [model_name '/SMA_ThermalLiquidSettings'];
+    if ~exist_block(sma_settings)
+        add_block(settings_blocks{1}, sma_settings, ...
+            'MakeNameUnique', 'off', ...
+            'Position', [1460 875 1520 935]);
+    end
+
+    hhex = find_hhex_parent(model_name);
+    sma_v2 = [model_name '/SMA_V2_HHEX_to_pump'];
+    if ~blocks_share_conserving_network(hhex, sma_buffer)
+        delete_conserving_branch(hhex, 'LConn', 2);
+    end
+    if ~blocks_share_conserving_network(sma_v2, sma_buffer)
+        delete_conserving_branch(sma_v2, 'LConn', 1);
+    end
+
+    connect_conserving_ports(model_name, sma_settings, 'RConn', 1, ...
+        sma_buffer, 'LConn', 1);
+    connect_conserving_ports(model_name, hhex, 'LConn', 2, ...
+        sma_buffer, 'LConn', 1);
+    connect_conserving_ports(model_name, sma_v2, 'LConn', 1, ...
+        sma_buffer, 'LConn', 1);
+    add_sma_hot_buffer_temperature_probe(model_name, sma_buffer);
+
+    audit = struct( ...
+        'schema_version', 'qian2019_dual_fluid_topology_audit_v1', ...
+        'sma_settings_path', sma_settings, ...
+        'se_settings_path', settings_blocks{1}, ...
+        'sma_hot_buffer_path', sma_buffer, ...
+        'hhex_path', hhex, ...
+        'ok', false);
+end
+
+function audit = audit_dual_fluid_topology(model_name, audit)
+    settings_blocks = thermal_liquid_settings_blocks(model_name);
+    sma_settings = [model_name '/SMA_ThermalLiquidSettings'];
+    se_settings = setdiff(settings_blocks, {sma_settings}, 'stable');
+    if numel(se_settings) ~= 1
+        audit.ok = false;
+        audit.settings_count = numel(settings_blocks);
+        audit.failure_reason = sprintf( ...
+            'Expected one SMA and one SE settings block; found %d total.', ...
+            numel(settings_blocks));
+        return;
+    end
+
+    sma_buffer = [model_name '/SMAHotFluidBuffer'];
+    se_buffer = [model_name '/HotFluidBuffer'];
+    sma_v2 = [model_name '/SMA_V2_HHEX_to_pump'];
+    se_v4 = [model_name '/V4_hot_inlet'];
+    hhex = find_hhex_parent(model_name);
+    audit.settings_count = numel(settings_blocks);
+    audit.se_settings_path = se_settings{1};
+    audit.sma_domain_connected = ...
+        blocks_share_conserving_network(sma_settings, sma_buffer) && ...
+        blocks_share_conserving_network(sma_settings, sma_v2) && ...
+        blocks_share_conserving_network(sma_settings, hhex);
+    audit.se_domain_connected = ...
+        blocks_share_conserving_network(se_settings{1}, se_buffer) && ...
+        blocks_share_conserving_network(se_settings{1}, se_v4);
+    audit.domains_hydraulically_isolated = ...
+        ~blocks_share_conserving_network(sma_settings, se_settings{1}) && ...
+        ~blocks_share_conserving_network(sma_buffer, se_buffer) && ...
+        ~blocks_share_conserving_network(sma_v2, se_v4);
+    audit.buffer_probe_present = ...
+        exist_block([model_name '/SMAHotFluidBufferTempSensor']) && ...
+        exist_block([model_name '/ToWorkspace_sma_hot_buffer_temp_out']);
+    audit.ok = audit.settings_count == 2 && ...
+        audit.sma_domain_connected && audit.se_domain_connected && ...
+        audit.domains_hydraulically_isolated && audit.buffer_probe_present;
+    if audit.ok
+        audit.failure_reason = '';
+    else
+        audit.failure_reason = ...
+            'Two-domain connectivity or SMA hot-buffer probe audit failed.';
+    end
+end
+
+function add_sma_hot_buffer_temperature_probe(model_name, sma_buffer)
+    source_sensor = [model_name '/HotFluidBufferTempSensor'];
+    source_converter = [model_name '/HotFluidBufferTempPS'];
+    source_workspace = [model_name '/ToWorkspace_hot_buffer_temp_out'];
+    sensor = [model_name '/SMAHotFluidBufferTempSensor'];
+    converter = [model_name '/SMAHotFluidBufferTempPS'];
+    workspace = [model_name '/ToWorkspace_sma_hot_buffer_temp_out'];
+    if ~exist_block(sensor)
+        add_block(source_sensor, sensor, 'MakeNameUnique', 'off', ...
+            'Position', [1580 1020 1630 1060]);
+    end
+    if ~exist_block(converter)
+        add_block(source_converter, converter, 'MakeNameUnique', 'off', ...
+            'Position', [1660 1029 1690 1051]);
+    end
+    if ~exist_block(workspace)
+        add_block(source_workspace, workspace, 'MakeNameUnique', 'off', ...
+            'Position', [1730 1015 1945 1045]);
+    end
+    set_param(sensor, 'Position', [1580 1020 1630 1060]);
+    set_param(converter, 'Position', [1660 1029 1690 1051]);
+    set_param(workspace, 'Position', [1730 1015 1945 1045]);
+    set_param(workspace, ...
+        'VariableName', 'sma_hot_buffer_temp_out', ...
+        'SaveFormat', 'Structure With Time');
+    connect_conserving_ports(model_name, sensor, 'LConn', 1, ...
+        sma_buffer, 'LConn', 1);
+    connect_conserving_ports(model_name, sensor, 'RConn', 1, ...
+        converter, 'LConn', 1);
+    connect_signal_ports(model_name, converter, 1, workspace, 1);
+end
+
+function connect_conserving_ports(model_name, block_a, type_a, index_a, ...
+        block_b, type_b, index_b)
+    if blocks_share_conserving_network(block_a, block_b)
+        return;
+    end
+    ports_a = get_param(block_a, 'PortHandles');
+    ports_b = get_param(block_b, 'PortHandles');
+    add_line(model_name, ports_a.(type_a)(index_a), ...
+        ports_b.(type_b)(index_b), 'autorouting', 'on');
+end
+
+function connect_signal_ports(model_name, source, source_index, ...
+        destination, destination_index)
+    source_ports = get_param(source, 'PortHandles');
+    destination_ports = get_param(destination, 'PortHandles');
+    destination_line = get_param(destination_ports.Inport(destination_index), ...
+        'Line');
+    if destination_line > 0
+        return;
+    end
+    add_line(model_name, source_ports.Outport(source_index), ...
+        destination_ports.Inport(destination_index), 'autorouting', 'on');
+end
+
+function delete_conserving_branch(block_path, port_type, port_index)
+    ports = get_param(block_path, 'PortHandles');
+    line_handle = get_param(ports.(port_type)(port_index), 'Line');
+    if line_handle > 0
+        delete_line(line_handle);
+    end
+end
+
+function tf = blocks_share_conserving_network(block_a, block_b)
+    handle_a = getSimulinkBlockHandle(block_a);
+    handle_b = getSimulinkBlockHandle(block_b);
+    if handle_a <= 0 || handle_b <= 0
+        tf = false;
+        return;
+    end
+    if handle_a == handle_b
+        tf = true;
+        return;
+    end
+
+    queue = handle_a;
+    visited = zeros(0, 1);
+    tf = false;
+    while ~isempty(queue)
+        current = queue(1);
+        queue(1) = [];
+        if any(visited == current)
+            continue;
+        end
+        visited(end + 1, 1) = current; %#ok<AGROW>
+
+        % A top-level subsystem may contain multiple hydraulically isolated
+        % channels coupled only by thermal ports (HHEX, SMA, and SE). Treat
+        % it as a terminal boundary; primitive TL components remain
+        % traversable across all conserving ports.
+        if current ~= handle_a && ...
+                strcmp(get_param(current, 'BlockType'), 'SubSystem')
+            continue;
+        end
+        connectivity = get_param(current, 'PortConnectivity');
+        neighbors = zeros(0, 1);
+        for idx = 1:numel(connectivity)
+            type = connectivity(idx).Type;
+            if ~(startsWith(type, 'LConn') || startsWith(type, 'RConn'))
+                continue;
+            end
+            neighbors = [neighbors; connectivity(idx).SrcBlock(:); ...
+                connectivity(idx).DstBlock(:)]; %#ok<AGROW>
+        end
+        neighbors = unique(neighbors(neighbors > 0));
+        if any(neighbors == handle_b)
+            tf = true;
+            return;
+        end
+        queue = [queue; neighbors(~ismember(neighbors, visited))]; %#ok<AGROW>
+    end
+end
+
+function blocks = thermal_liquid_settings_blocks(model_name)
+    candidates = find_system(model_name, 'LookUnderMasks', 'all', ...
+        'FollowLinks', 'on', 'BlockType', 'SimscapeBlock');
+    blocks = cell(0, 1);
+    for idx = 1:numel(candidates)
+        try
+            if strcmp(get_param(candidates{idx}, 'SourceFile'), ...
+                    'foundation.thermal_liquid.utilities.thermal_liquid_settings')
+                blocks{end + 1, 1} = candidates{idx}; %#ok<AGROW>
+            end
+        catch
+        end
+    end
+end
+
+function hhex = find_hhex_parent(model_name)
+    blocks = find_system(model_name, 'LookUnderMasks', 'all', ...
+        'FollowLinks', 'on', 'Name', 'SMAHotPipe');
+    if numel(blocks) ~= 1
+        error('Build:ECC:HHEXSMAHotPipe', ...
+            'Expected one HHEX/SMAHotPipe block; found %d.', numel(blocks));
+    end
+    hhex = get_param(blocks{1}, 'Parent');
 end
 
 function configure_thermal_liquid_initial_pressure(model_name)
@@ -103,35 +342,56 @@ function configure_thermal_liquid_temperature_range(model_name, options)
             'Required fluid temperature %.3f K exceeds the %.3f K water table.', ...
             required_max_K, T_water_K(end));
     end
-    blocks = find_system(model_name, 'LookUnderMasks', 'all', ...
-        'FollowLinks', 'on', 'BlockType', 'SimscapeBlock');
-    for idx = 1:numel(blocks)
-        try
-            if strcmp(get_param(blocks{idx}, 'SourceFile'), ...
-                    'foundation.thermal_liquid.utilities.thermal_liquid_settings')
-                set_param(blocks{idx}, ...
-                    'table_dimensions', '1', ...
-                    'T_TLU', mat2str(T_water_K, 15), ...
-                    'p_atm', '0.5', ...
-                    'T_min_1D', num2str(T_water_K(1), '%.15g'), ...
-                    'T_max_1D', num2str(T_water_K(end), '%.15g'), ...
-                    'p_min_1D', '0.45', ...
-                    'p_max_1D', '5', ...
-                    'rho_parameterization_1D', '1', ...
-                    'rho_TLU_4', mat2str(rho_water_kg_per_m3, 15), ...
-                    'beta_const_4', '2.15', ...
-                    'p_ref_4', '0.5', ...
-                    'u_parameterization_1D', '1', ...
-                    'u_TLU_4', mat2str(u_water_kJ_per_kg, 15), ...
-                    'nu_TLU_2', mat2str(nu_water_mm2_per_s, 15), ...
-                    'k_TLU_2', mat2str(k_water_mW_per_mK, 15), ...
-                    'properties_range_check', ...
-                    'simscape.enum.assert.action.warn');
-            end
-        catch
-            % Non-settings Simscape blocks do not expose these parameters.
+
+    se_fluid = options.fluid.SE;
+    T_se_K = T_water_K;
+    rho_se_kg_per_m3 = se_fluid.rho_kg_per_m3 .* ones(size(T_se_K));
+    u_se_kJ_per_kg = se_fluid.cp_J_per_kgK .* ...
+        (T_se_K - T_se_K(1)) ./ 1000.0;
+    nu_se_mm2_per_s = se_fluid.mu_Pa_s ./ ...
+        se_fluid.rho_kg_per_m3 .* 1.0e6 .* ones(size(T_se_K));
+    k_se_mW_per_mK = se_fluid.k_W_per_mK .* ...
+        1000.0 .* ones(size(T_se_K));
+
+    settings_blocks = thermal_liquid_settings_blocks(model_name);
+    if numel(settings_blocks) ~= 2
+        error('Build:ECC:DualFluidSettingsCount', ...
+            'Expected two Thermal Liquid Settings blocks; found %d.', ...
+            numel(settings_blocks));
+    end
+    sma_settings = [model_name '/SMA_ThermalLiquidSettings'];
+    for idx = 1:numel(settings_blocks)
+        if strcmp(settings_blocks{idx}, sma_settings)
+            set_thermal_liquid_1d_table(settings_blocks{idx}, ...
+                T_water_K, rho_water_kg_per_m3, u_water_kJ_per_kg, ...
+                nu_water_mm2_per_s, k_water_mW_per_mK, 2.15);
+        else
+            set_thermal_liquid_1d_table(settings_blocks{idx}, ...
+                T_se_K, rho_se_kg_per_m3, u_se_kJ_per_kg, ...
+                nu_se_mm2_per_s, k_se_mW_per_mK, 2.0);
         end
     end
+end
+
+function set_thermal_liquid_1d_table(block, T_K, rho_kg_per_m3, ...
+        u_kJ_per_kg, nu_mm2_per_s, k_mW_per_mK, bulk_modulus_GPa)
+    set_param(block, ...
+        'table_dimensions', '1', ...
+        'T_TLU', mat2str(T_K, 15), ...
+        'p_atm', '0.5', ...
+        'T_min_1D', num2str(T_K(1), '%.15g'), ...
+        'T_max_1D', num2str(T_K(end), '%.15g'), ...
+        'p_min_1D', '0.45', ...
+        'p_max_1D', '5', ...
+        'rho_parameterization_1D', '1', ...
+        'rho_TLU_4', mat2str(rho_kg_per_m3, 15), ...
+        'beta_const_4', num2str(bulk_modulus_GPa, '%.15g'), ...
+        'p_ref_4', '0.5', ...
+        'u_parameterization_1D', '1', ...
+        'u_TLU_4', mat2str(u_kJ_per_kg, 15), ...
+        'nu_TLU_2', mat2str(nu_mm2_per_s, 15), ...
+        'k_TLU_2', mat2str(k_mW_per_mK, 15), ...
+        'properties_range_check', 'simscape.enum.assert.action.warn');
 end
 
 function close_if_loaded(model_name, save_changes)

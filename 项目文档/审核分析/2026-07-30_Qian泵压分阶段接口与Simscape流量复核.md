@@ -141,3 +141,80 @@ MAT gives `qian_table4_compatibility_stress=1` and
 This correction does not complete Table 4 reproduction. The dual water /
 glycol-water hydraulic domain and the separate post-convergence no-load and
 zero-lift performance cases remain mandatory.
+
+## Dual-fluid topology and stage-reset PI completion
+
+The earlier single-domain result and rejected ungated PI trial above are now
+superseded. The canonical model remains
+`gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx`; no parallel SLX was
+created.
+
+The HHEX already contained separate `HotPipe` and `SMAHotPipe` thermal-liquid
+channels. The top-level hydraulic junction was corrected by adding a dedicated
+`SMAHotFluidBuffer` and a second Thermal Liquid Settings block:
+
+- SMA/SHEX/HHEX-SMA channel: Qian Table 2 water, represented by an embedded
+  IAPWS-IF97 liquid-water table at 0.5 MPa over 273.16-413.16 K.
+- SE/HHEX-SE/CHEX channel: the declared Qian glycol-water engineering closure
+  (`rho=1034.516667 kg/m3`, `cp=3812.666667 J/(kg K)`,
+  `mu=0.00228731339 Pa s`, `k=0.452933 W/(m K)`).
+- The two hydraulic graphs are disconnected. They exchange heat only through
+  the HHEX thermal mass. A model-graph audit verifies two settings blocks,
+  both domain connections, hydraulic isolation, and the SMA hot-buffer probe.
+
+The original command profile closed all valves while pump pressure was still
+changing. A real one-cycle run then produced a 250.70 K port-temperature
+excursion at the Stage 1-to-2 transition. The command sequence is now:
+
+1. keep the outgoing route open and ramp its pressure to zero;
+2. switch valves with both pumps unpressurized;
+3. ramp the incoming route pressure only after its valves are open.
+
+This removed the Simscape property warnings without temperature clipping or
+post-processing deletion.
+
+The retained SE pump PI structure is active again with a real stage-dependent
+target of `0.0032 kg/s`. Its settings are `Kp=-1.0 MPa/(kg/s)` and
+`Ki=-2.0 MPa/(kg/s s)`, with Stage 2/4 bias pressures
+`-0.002754/-0.001480 MPa`. The P path is enabled only during Stages 2/4.
+The integrator is held at zero during Stages 1/3 and reset at each active-stage
+entry, so Stage 2 and Stage 4 cannot carry integral state into one another.
+The controller acts on the physical V1/V4 flow sensors; no flow or temperature
+is assigned into the result.
+
+## Retained dual-fluid three-cycle result
+
+Retained output:
+`gx101r1_R69_remote/outputs/heatdrive_ecc_dual_fluid_pi_3cycle/qian2019_table2_table4_simscape_3cycle_20260730_220129`
+
+The run used one continuous real `sim()` call and required 721.729 s wall
+time. Mean active-route flow rates are:
+
+| Cycle | SMA Stage 1 | SMA Stage 3 | SE Stage 2 | SE Stage 4 |
+|---|---:|---:|---:|---:|
+| 1 | 0.056360 | 0.049527 | 0.002959 | 0.002898 |
+| 2 | 0.056224 | 0.049524 | 0.003250 | 0.002890 |
+| 3 | 0.056221 | 0.049524 | 0.003252 | 0.002890 |
+
+All four routes satisfy the added Qian target-flow gate of +/-15 percent.
+The previous Stage 2 drift to about 0.00695 kg/s is absent. Inactive SE flow
+falls from `4.15e-5` to `1.18e-5 kg/s`; inactive SMA flow remains below 20
+percent of active flow.
+
+All mechanism gates pass: real Simscape authority, finite 21-node states and
+probes, 50 records per stage, temperature range, phase bounds and phase swing,
+analytical Table 4 compatibility stress, state/temperature continuity,
+dual-fluid isolation, pump work, and active/inactive flow checks. Over the
+three cycles CHEX changes by `-0.2070`, `-0.2384`, and `-0.2420 K`; the SMA
+cycle-end mean approaches 315.07 K and the SE cycle-end mean approaches
+301.41 K.
+
+`strict_table4_reproduction_evaluated` remains false. Periodic convergence,
+the no-load maximum lift case, and the zero-lift specific-cooling case are
+separate later acceptance runs and are not claimed from this three-cycle
+mechanism result.
+
+After recording these comparisons, the superseded single-domain three-cycle
+directory, the failed open-loop dual-fluid three-cycle directory, and all
+single-cycle calibration directories were removed. The outputs tree now
+retains only the accepted dual-fluid PI three-cycle evidence (33.93 MB).

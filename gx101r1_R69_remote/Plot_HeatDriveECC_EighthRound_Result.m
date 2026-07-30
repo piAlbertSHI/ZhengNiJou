@@ -81,13 +81,16 @@ function path = plot_heat_exchanger_temperatures(result, tag, out_dir)
     plot(p.time_s, p.CHEX_T_K, 'LineWidth', 1.5);
     plot(p.time_s, p.SHEX_buffer_T_K, '--', 'LineWidth', 1.0);
     plot(p.time_s, p.HHEX_buffer_T_K, '--', 'LineWidth', 1.0);
+    plot(p.time_s, p.SMA_HHEX_buffer_T_K, ':', 'LineWidth', 1.2);
     plot(p.time_s, p.CHEX_buffer_T_K, '--', 'LineWidth', 1.0);
     add_stage_lines(gca, result.options);
     grid on;
     xlabel('time (s)');
     ylabel('temperature (K)');
     legend({'SHEX mass','HHEX mass','CHEX mass', ...
-        'SHEX buffer','HHEX buffer','CHEX buffer'}, 'Location', 'bestoutside');
+        'SHEX water buffer','HHEX glycol buffer', ...
+        'HHEX SMA-water buffer','CHEX glycol buffer'}, ...
+        'Location', 'bestoutside');
     title('Physical exchanger and buffer temperatures');
     export_and_close(fig, path);
 end
