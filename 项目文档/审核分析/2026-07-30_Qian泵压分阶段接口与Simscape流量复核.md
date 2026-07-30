@@ -89,3 +89,26 @@ Therefore this is a reproducible coupled-mechanism checkpoint, not a claim
 of completed Qian Table 4 reproduction. The next work should address the
 constitutive stress calibration and two-fluid Simscape domain while keeping
 one canonical SLX and avoiding new parallel models.
+
+## Rejected PI trial
+
+A trial with `se_pressure_pi_kp=0.50 MPa/(kg/s)` was stopped at the first
+stage transition because the existing shared pressure-error channel changed
+the SMA/SHEX liquid network during an inactive SE stage and produced
+Simscape property warnings. The default was restored to zero. No result from
+that trial is retained.
+
+## Output retention audit
+
+Before the follow-up Git checkpoint, the obsolete Xu 2019 two-cycle raw
+output dated 2026-07-22 was removed. Its conclusions remain in
+`2026-07-30_Xu2019当前检查点与Qian重锚定前审计.md`; retaining the 15.2 MB
+MAT file and duplicate plots would not add reproducibility because that
+parameterization has been superseded by the Qian checkpoint.
+
+Only the formal Qian three-cycle directory
+`qian2019_table2_table4_simscape_3cycle_20260730_123759` is retained as
+current raw evidence. A rejected one-cycle PI trial did not produce a result
+directory. The trial also changed the model default stop time to 10 s and
+renumbered Simscape instrumentation SIDs during save; the canonical SLX was
+restored byte-for-byte from the verified three-cycle Git checkpoint.
