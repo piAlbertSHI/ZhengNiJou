@@ -14,7 +14,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     article_hx = compute_article_heat_exchanger_closure(article);
 
     options = struct();
-    options.schema_version = 'heatdrive_ecc_eighth_round_defaults_v1';
+    options.schema_version = 'heatdrive_ecc_xu2019_table5_simscape_defaults_v2';
     options.node_count = 21;
     options.cycle_count = 3;
     options.model_name = 'heatdrive_ecc_coupled_se21';
@@ -33,16 +33,20 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.system.thermal_mass_cp_ref_J_per_kgK = article.material.SE.cp_J_per_kgK;
     options.system.SE_heat_capacity_J_per_K = ...
         article.equilibrium.m_r_kg * article.material.SE.cp_J_per_kgK;
-    options.system.cold_sink_capacity_multiplier_vs_SE = 5.0;
-    options.system.hot_sink_capacity_multiplier_vs_SE = 10.0;
+    system_scale = article.geometry.volume_scale_vs_previous;
     options.system.cold_sink_C_J_per_K = ...
-        options.system.cold_sink_capacity_multiplier_vs_SE * ...
-        options.system.SE_heat_capacity_J_per_K;
+        article.reference.cold_sink_C_J_per_K * system_scale;
     options.system.hot_sink_C_J_per_K = ...
-        options.system.hot_sink_capacity_multiplier_vs_SE * ...
-        options.system.SE_heat_capacity_J_per_K;
+        article.reference.hot_sink_C_J_per_K * system_scale;
+    options.system.cold_sink_capacity_multiplier_vs_SE = ...
+        options.system.cold_sink_C_J_per_K / ...
+        max(options.system.SE_heat_capacity_J_per_K, eps);
+    options.system.hot_sink_capacity_multiplier_vs_SE = ...
+        options.system.hot_sink_C_J_per_K / ...
+        max(options.system.SE_heat_capacity_J_per_K, eps);
     options.system.cold_load_C_J_per_K = options.system.cold_sink_C_J_per_K;
-    options.system.shex_sink_C_J_per_K = 500.0;
+    options.system.shex_sink_C_J_per_K = ...
+        article.reference.shex_sink_C_J_per_K * system_scale;
     options.system.cold_load_heat_W = 0.0;
     options.system.cold_load_mode = 'no_load';
     options.system.cold_load_heat_reference_W = article.equilibrium.Qr_W;
@@ -62,6 +66,8 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.system.article_stage3_SMA_to_HHEX_W = article_hx.stage3_SMA_to_HHEX_W;
     options.system.article_stage4_Qr_W = article_hx.stage4_Qr_W;
     options.system.heat_exchanger_reference_note = article_hx.reference_note;
+    options.system.capacity_scale_source = ...
+        article.system.extensive_scale_source;
 
     options.geometry = article.geometry;
     options.material = article.material;
@@ -69,12 +75,15 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.schedule = article.schedule;
 
     options.simulation = struct();
-    options.simulation.fixed_step_s = min(article.schedule.stage_durations_s) / 80.0;
-    options.simulation.samples_per_stage = 80;
+    options.simulation.fixed_step_s = min(article.schedule.stage_durations_s) / 120.0;
+    options.simulation.samples_per_stage = 120;
     options.simulation.solver = 'ode23t';
     options.simulation.stop_time_s = options.cycle_count * ...
         article.equilibrium.tau_cycle_s;
     options.simulation.output_variable = 'eighth_round_yout';
+    options.simulation.output_variable_role = ...
+        'legacy_surrogate_diagnostic_not_validation_authority';
+    options.simulation.authority = 'physical_simscape_to_workspace_logs';
 
     options.simscape = struct();
     options.simscape.local_solver_enabled = true;
@@ -82,12 +91,14 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.simscape.local_solver_sample_time_s = 1.0e-3;
 
     options.branch = struct();
-    options.branch.m_dot_kg_per_s = 0.022;
+    options.branch.m_dot_kg_per_s = ...
+        article.reference.m_dot_kg_per_s * system_scale;
     options.branch.m_dot_sma_shex_kg_per_s = options.branch.m_dot_kg_per_s;
     options.branch.m_dot_sma_the_kg_per_s = options.branch.m_dot_kg_per_s;
     options.branch.m_dot_se_the_kg_per_s = options.branch.m_dot_kg_per_s;
     options.branch.m_dot_se_chex_kg_per_s = options.branch.m_dot_kg_per_s;
-    options.branch.fluid_mass_total_kg = 0.018;
+    options.branch.fluid_mass_total_kg = ...
+        article.reference.fluid_mass_total_kg * system_scale;
     options.branch.UA_sma_shex_W_per_K = article_hx.UA_sma_shex_W_per_K;
     options.branch.UA_sma_the_W_per_K = article_hx.UA_sma_the_W_per_K;
     options.branch.UA_se_the_W_per_K = article_hx.UA_se_the_W_per_K;
@@ -100,25 +111,32 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.branch.chex_environment_leak_UA_W_per_K = article_hx.chex_environment_leak_UA_W_per_K;
     options.branch.cold_load_to_chex_UA_W_per_K = article_hx.cold_load_to_chex_UA_W_per_K;
     options.branch.effective_HX_UA_source = article_hx.effective_UA_source;
-    options.branch.sma_pipe_internal_volume_target_ml = 1.2;
+    options.branch.sma_pipe_internal_volume_target_ml = ...
+        article.reference.sma_pipe_internal_volume_target_ml * system_scale;
     options.branch.sma_pipe_internal_volume_source = ...
-        ['1m_axial_strip_effective_HTF_inventory; replaces the inherited ', ...
-        '0.1 mL circular-plate exchange volume that underheated the actuator.'];
-    options.branch.sma_pipe_heat_transfer_multiplier = 10.0;
+        ['effective HTF inventory scaled by the Xu Table 5 net SMA volume; ', ...
+        'the model uses the equivalent 100 mm axial strip.'];
+    options.branch.sma_pipe_heat_transfer_multiplier = 1.0;
     options.branch.sma_pipe_heat_transfer_multiplier_source = ...
-        ['stage1_apparent_UA_closure_to_article_timescale: ', ...
-        'initial Simscape pipe-solid coupling was about 3.2 W/K; ', ...
-        'article T0-to-TAs crossing over stage 1 requires about 17.5 W/K.'];
+        ['unit axial pipe-to-solid discretization multiplier; the physical ', ...
+        'UA is set by the new mass, heat duty and stage duration closure.'];
     options.branch.sma_stage1_pressure_bias_MPa = -0.00145;
     options.branch.sma_stage3_pressure_bias_MPa = -0.0040;
     options.branch.sma_inactive_pressure_bias_MPa = 0.0;
-    options.branch.stage_command_ramp_s = 0.005;
+    options.branch.se_pressure_bias_MPa = -0.0025;
+    options.branch.se_pressure_pi_kp_MPa_per_kgps = 0.0;
+    options.branch.se_pressure_pi_ki_MPa_per_kgps_s = 0.0;
+    options.branch.stage_command_ramp_s = ...
+        0.05 * min(article.schedule.stage_durations_s);
     options.branch.sma_pipe_thermal_gate_active_G_W_per_K = 1.0e6;
     options.branch.sma_pipe_thermal_gate_inactive_G_W_per_K = 1.0e-6;
+    options.branch.se_pipe_thermal_gate_active_G_W_per_K = 1.0e6;
+    options.branch.se_pipe_thermal_gate_inactive_G_W_per_K = 1.0e-6;
     options.branch.boundary_T_se_chex_K = options.system.Tc_K;
     options.branch.boundary_T_se_chex_source = ...
         'article RHE/CHEX cooled-space temperature Tc';
-    options.branch.source = 'article_aligned_finite_volume_21node_with_effective_HX_closure';
+    options.branch.source = ...
+        'Xu2019_Table5_volume_scaled_finite_volume_21node_with_effective_HX_closure';
     options.branch.calibration_bounds = struct( ...
         'm_dot_kg_per_s', [0.004, 0.06], ...
         'UA_sma_shex_W_per_K', scale_bounds(article_hx.UA_sma_shex_W_per_K), ...
@@ -128,20 +146,27 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
         'boundary_UA_chex_W_per_K', scale_bounds(article_hx.boundary_UA_chex_W_per_K));
 
     options.solid = struct();
-    options.solid.k_sma_W_per_mK = 18.0;
+    options.solid.k_sma_W_per_mK = options.material.SMA.k_W_per_mK;
     options.solid.k_se_W_per_mK = 18.0;
     options.solid.axial_conduction_enabled = true;
     options.solid.boundary_condition = 'adiabatic_ends';
     options.solid.heat_recovery_efficiency = options.system.eta_hr;
 
     options.constitutive = struct();
-    options.constitutive.rate_a_to_A_1_per_s = 150.0;
-    options.constitutive.rate_a_to_M_1_per_s = 1500.0;
-    options.constitutive.rate_r_load_1_per_s = 700.0;
-    options.constitutive.rate_r_stage3_unload_1_per_s = 160.0;
-    options.constitutive.rate_r_stage4_unload_1_per_s = 160.0;
-    options.constitutive.max_rate_1_per_s = 2000.0;
-    options.constitutive.phase_front_smoothing_1_per_s = 35.0;
+    rate99_stage1 = -log(0.01) / article.schedule.stage_durations_s(1);
+    rate99_stage3 = -log(0.01) / article.schedule.stage_durations_s(3);
+    options.constitutive.rate_a_to_A_1_per_s = rate99_stage1;
+    options.constitutive.rate_a_to_M_1_per_s = rate99_stage3;
+    options.constitutive.rate_r_load_1_per_s = rate99_stage1;
+    options.constitutive.rate_r_stage3_unload_1_per_s = rate99_stage3;
+    options.constitutive.rate_r_stage4_unload_1_per_s = ...
+        -log(0.01) / article.schedule.stage_durations_s(4);
+    options.constitutive.max_rate_1_per_s = 5.0 * max([ ...
+        options.constitutive.rate_a_to_A_1_per_s, ...
+        options.constitutive.rate_a_to_M_1_per_s, ...
+        options.constitutive.rate_r_stage4_unload_1_per_s]);
+    options.constitutive.phase_front_smoothing_1_per_s = ...
+        1.0 / min(article.schedule.stage_durations_s);
     options.constitutive.se_load_hardening_Pa = 0.0;
     options.constitutive.se_loading_assist_Pa = 100.0e6;
     options.constitutive.se_unload_assist_Pa = 120.0e6;
@@ -153,7 +178,10 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
         (options.material.SE.T_Af_K - options.material.SE.T_As_K);
     options.constitutive.se_loading_work_J_per_kg = options.material.SE.w_ld_J_per_kg;
     options.constitutive.se_unloading_work_J_per_kg = options.material.SE.w_uld_J_per_kg;
-    options.constitutive.source = 'single_parameter_set_for_constitutive_cycles_and_simulink';
+    options.constitutive.source = [ ...
+        'SMA uses Xu2019 Table5 nominal one-dimensional reduction; ', ...
+        'kinetic time constants are derived from 99 percent completion ', ...
+        'over each mechanical stage.'];
     options.constitutive.simulink_sample_time_s = options.simulation.fixed_step_s;
     options.constitutive.simulink_state_width = 10 * options.node_count;
     options.constitutive.simulink_output_width = 12 * options.node_count;
@@ -175,11 +203,24 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.validation.max_sigma_r_rel_error = 0.30;
     options.validation.max_Th_abs_error_K = 3.0;
     options.validation.max_energy_residual_fraction = 0.05;
+    options.validation.required_authority = ...
+        'physical_simscape_to_workspace_logs';
+    options.validation.max_temperature_K = 450.0;
+    options.validation.min_temperature_K = 220.0;
+    options.validation.max_abs_stress_Pa = 1.2e9;
+    options.validation.max_abs_flow_over_target = 4.0;
+    options.validation.min_sma_phase_swing = 0.50;
+    options.validation.nominal_sma_stress_Pa = ...
+        options.material.SMA.nominal_stress_Pa;
 
     options.output = build_output_map(options.node_count);
     options = merge_structs(options, overrides);
     options.schedule.total_time_s = options.cycle_count * options.schedule.tau_cycle_s;
-    options.simulation.stop_time_s = options.cycle_count * options.schedule.tau_cycle_s;
+    if ~(isfield(overrides, 'simulation') && isstruct(overrides.simulation) && ...
+            isfield(overrides.simulation, 'stop_time_s'))
+        options.simulation.stop_time_s = ...
+            options.cycle_count * options.schedule.tau_cycle_s;
+    end
     options.output = build_output_map(options.node_count);
 end
 
