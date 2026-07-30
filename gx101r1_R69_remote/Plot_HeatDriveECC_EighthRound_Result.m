@@ -36,15 +36,15 @@ function path = plot_mean_solid_temperatures(result, tag, out_dir)
     plot(t, mean(p.SMA_T_21_K, 2), 'LineWidth', 1.5);
     hold on;
     plot(t, mean(p.SE_T_21_K, 2), 'LineWidth', 1.5);
-    yline(result.options.equilibrium.T_transform_complete_K, ...
-        ':', 'SMA shifted Af');
+    yline(result.options.equilibrium.T_transform_start_K, ...
+        ':', 'SMA reverse start line');
     yline(result.options.system.T0_K, ':', 'HHEX');
     yline(result.options.system.Tc_K, ':', 'CHEX');
     add_stage_lines(gca, result.options);
     grid on;
     xlabel('time (s)');
     ylabel('temperature (K)');
-    legend({'SMA mean','SE mean','SMA shifted Af','HHEX','CHEX'}, ...
+    legend({'SMA mean','SE mean','SMA reverse start','HHEX','CHEX'}, ...
         'Location', 'best');
     title('Physical SMA and SE mean temperatures');
     export_and_close(fig, path);
@@ -158,7 +158,7 @@ function path = plot_stress(result, tag, out_dir)
     hold on;
     plot(p.time_s, mean(p.sigma_SE_21_Pa, 2) / 1.0e6, 'LineWidth', 1.5);
     yline(result.options.material.SMA.nominal_stress_Pa / 1.0e6, ...
-        ':', 'Xu nominal SMA stress');
+        ':', 'Qian Table 4 SMA reference');
     yline(result.options.geometry.sigma_se_design_Pa / 1.0e6, ...
         ':', 'SE design stress');
     add_stage_lines(gca, result.options);
@@ -181,14 +181,17 @@ function path = plot_mass_flows(result, tag, out_dir)
     plot(p.time_s, p.mdot_SE_stage2_out_kgps, '--', 'LineWidth', 1.1);
     plot(p.time_s, p.mdot_SE_stage4_in_kgps, 'LineWidth', 1.1);
     plot(p.time_s, p.mdot_SE_stage4_out_kgps, '--', 'LineWidth', 1.1);
-    yline(result.options.branch.m_dot_kg_per_s, ':', 'scaled target');
-    yline(-result.options.branch.m_dot_kg_per_s, ':');
+    yline(result.options.branch.m_dot_sma_shex_kg_per_s, ...
+        ':', 'SMA 50.8 g/s');
+    yline(result.options.branch.m_dot_se_the_kg_per_s, ...
+        ':', 'SE 3.2 g/s');
     add_stage_lines(gca, result.options);
     grid on;
     xlabel('time (s)');
     ylabel('mass flow rate (kg/s)');
     legend({'SMA S1/S3 loop','SE S2 inlet','SE S2 outlet', ...
-        'SE S4 inlet','SE S4 outlet','target'}, 'Location', 'bestoutside');
+        'SE S4 inlet','SE S4 outlet','SMA target','SE target'}, ...
+        'Location', 'bestoutside');
     title('Physical route mass flow rates');
     export_and_close(fig, path);
 end

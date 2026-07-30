@@ -42,9 +42,9 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
     physical.legacy_surrogate_used_for_results = false;
     summary = Summarize_HeatDriveECC_EighthRound_Output(physical, options);
 
-    stamp = datestr(now, 'yyyymmdd_HHMMSS');
+    stamp = char(datetime('now', 'Format', 'yyyyMMdd_HHmmss'));
     output_dir = fullfile(options.outputs_dir, ...
-        sprintf('xu2019_table5_simscape_%dcycle_%s', ...
+        sprintf('qian2019_table2_table4_simscape_%dcycle_%s', ...
         options.cycle_count, stamp));
     if ~exist(output_dir, 'dir')
         mkdir(output_dir);

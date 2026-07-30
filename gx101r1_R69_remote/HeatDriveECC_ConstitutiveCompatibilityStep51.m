@@ -120,7 +120,6 @@ function rates = phase_rates(state, compatible, options, stage_id)
     Tr = state.Tr_21(:);
     xA = state.xM_a_21(:);
     xR = state.xM_r_21(:);
-    delta_a = 1.0 - xA;
     sigma_a = compatible.sigma_a_Pa;
     sigma_r = compatible.sigma_r_Pa;
     pai_a = zeros(size(xA));
@@ -130,38 +129,29 @@ function rates = phase_rates(state, compatible, options, stage_id)
 
     switch round(stage_id)
         case 1
-            sigma_eq_a = sma.C_M_Pa_per_K .* ...
-                (Ta - sma.T_As_K - delta_a .* (sma.T_Af_K - sma.T_As_K));
-            pai_a = sigma_eq_a - sigma_a;
-            drive_a = max(pai_a ./ max(c.drive_width_a_Pa, 1.0), 0.0);
-            rA = -c.rate_a_to_A_1_per_s .* drive_a .* xA;
-
-            loading_assist = get_constitutive_scalar(c, ...
-                'se_loading_assist_Pa', 0.0);
-            threshold_r = max(se.C_A_Pa_per_K .* max(Tr - se.T_Af_K, 0.0) - ...
-                loading_assist, 0.0) + ...
-                c.se_load_hardening_Pa .* xR;
-            pai_r = sigma_r - threshold_r;
-            drive_r = max(pai_r ./ max(c.drive_width_r_Pa, 1.0), 0.0);
-            rR = c.rate_r_load_1_per_s .* drive_r .* (1.0 - xR);
+            % Stage 1: SMA M->A on its reverse start line, while the
+            % coupled SE A->M starts on its forward start line.
+            pai_a = sma.C_A_Pa_per_K .* (Ta - sma.T_As_K) - sigma_a;
+            pai_r = sigma_r - se.C_M_Pa_per_K .* (Tr - se.T_Ms_K);
+            reverse_gate_a = smooth_gate(pai_a, c.drive_width_a_Pa);
+            forward_gate_r = smooth_gate(pai_r, c.drive_width_r_Pa);
+            rA = -c.rate_a_to_A_1_per_s .* reverse_gate_a .* xA;
+            rR = c.rate_r_load_1_per_s .* forward_gate_r .* (1.0 - xR);
         case 3
-            sigma_eq_a = sma.C_A_Pa_per_K .* ...
-                (Ta - sma.T_Ms_K - delta_a .* (sma.T_Mf_K - sma.T_Ms_K));
-            pai_a = sigma_eq_a - sigma_a;
-            drive_a = max((-pai_a) ./ max(c.drive_width_a_Pa, 1.0), 0.0);
-            rA = c.rate_a_to_M_1_per_s .* drive_a .* (1.0 - xA);
-
-            threshold_r = se.C_M_Pa_per_K .* max(Tr - se.T_As_K, 0.0) + ...
-                c.se_unload_assist_Pa;
-            pai_r = threshold_r - sigma_r;
-            drive_r = max(pai_r ./ max(c.drive_width_r_Pa, 1.0), 0.0);
-            rR = -c.rate_r_stage3_unload_1_per_s .* drive_r .* xR;
+            % Stage 3: SMA A->M on its forward start line, while the
+            % coupled SE M->A is released on its reverse start line.
+            pai_a = sigma_a - sma.C_M_Pa_per_K .* (Ta - sma.T_Ms_K);
+            pai_r = se.C_A_Pa_per_K .* (Tr - se.T_As_K) - sigma_r;
+            forward_gate_a = smooth_gate(pai_a, c.drive_width_a_Pa);
+            reverse_gate_r = smooth_gate(pai_r, c.drive_width_r_Pa);
+            rA = c.rate_a_to_M_1_per_s .* forward_gate_a .* (1.0 - xA);
+            rR = -c.rate_r_stage3_unload_1_per_s .* reverse_gate_r .* xR;
         case 4
-            threshold_r = se.C_M_Pa_per_K .* max(Tr - se.T_As_K, 0.0) + ...
-                0.5 .* c.se_unload_assist_Pa;
-            pai_r = threshold_r - sigma_r;
-            drive_r = max(pai_r ./ max(c.drive_width_r_Pa, 1.0), 0.0);
-            rR = -c.rate_r_stage4_unload_1_per_s .* drive_r .* xR;
+            % Stage 4 is an exchange stage.  It may remove only residual
+            % SE martensite when the instantaneous reverse start line is met.
+            pai_r = se.C_A_Pa_per_K .* (Tr - se.T_As_K) - sigma_r;
+            reverse_gate_r = smooth_gate(pai_r, c.drive_width_r_Pa);
+            rR = -c.rate_r_stage4_unload_1_per_s .* reverse_gate_r .* xR;
     end
 
     smoothing_rate = get_constitutive_scalar(c, ...
@@ -179,6 +169,11 @@ function rates = phase_rates(state, compatible, options, stage_id)
     rR = min(max(rR, -c.max_rate_1_per_s), c.max_rate_1_per_s);
     rates = struct('pai_a_21', pai_a, 'pai_r_21', pai_r, ...
         'r_xi_a_21', rA, 'r_xi_r_21', rR);
+end
+
+function gate = smooth_gate(driving_force_Pa, width_Pa)
+    gate = 0.5 .* (1.0 + tanh(driving_force_Pa ./ ...
+        max(width_Pa, 1.0)));
 end
 
 function lap = phase_laplacian_neumann(x)

@@ -125,7 +125,7 @@ function summary = Summarize_HeatDriveECC_EighthRound_Output(physical, options)
 
     summary.anchor = struct();
     summary.anchor.paper = [ ...
-        'Xu et al., finite-strain constitutive model for SMAs, Table 5/Fig. 7'];
+        'Qian et al., Energy 182 (2019), Table 2/Table 4/Fig. 3'];
     summary.anchor.material = options.material.SMA.name;
     summary.anchor.net_SMA_volume_m3 = options.geometry.net_sma_volume_m3;
     summary.anchor.volume_scale = options.geometry.volume_scale_vs_previous;
@@ -138,8 +138,9 @@ function summary = Summarize_HeatDriveECC_EighthRound_Output(physical, options)
     summary.anchor.thermal_cycle_max_K = options.material.SMA.thermal_cycle_max_K;
     summary.quantitative_literature_reproduction_evaluated = false;
     summary.quantitative_literature_reproduction_reason = [ ...
-        'The paper validates a perforated multiaxial plate over 100 cycles; ', ...
-        'this run is a two-cycle one-dimensional coupled-system check.'];
+        'A three-cycle transient checks the coupled mechanism only. Qian ', ...
+        'Table 4 endpoints require periodic steady state, separate no-load ', ...
+        'and zero-lift cases, and a dual water/glycol-water fluid topology.'];
 end
 
 function tf = required_fields_finite(p)
