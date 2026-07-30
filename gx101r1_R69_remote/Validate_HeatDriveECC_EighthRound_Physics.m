@@ -69,8 +69,10 @@ function checks = hard_checks(result)
         v.min_samples_per_stage;
     checks.node_count = size(p.SMA_T_21_K, 2) == o.node_count && ...
         size(p.SE_T_21_K, 2) == o.node_count;
+    [probe_min_K, probe_max_K] = probe_temperature_range(p);
     checks.temperature_range = s.min_temperature_K >= ...
-        v.min_temperature_K && s.max_temperature_K <= v.max_temperature_K;
+        v.min_temperature_K && s.max_temperature_K <= v.max_temperature_K && ...
+        probe_min_K >= v.min_temperature_K && probe_max_K <= v.max_temperature_K;
     checks.phase_fraction_bounds = all(p.xM_SMA_21(:) >= -1.0e-9) && ...
         all(p.xM_SMA_21(:) <= 1.0 + 1.0e-9) && ...
         all(p.xM_SE_21(:) >= -1.0e-9) && ...
@@ -120,6 +122,24 @@ function checks = hard_checks(result)
         abs(o.geometry.S_r_m2 - 17.0e-6) < 1.0e-12;
     checks.strict_table4_not_claimed_from_transient = ...
         ~s.quantitative_literature_reproduction_evaluated;
+end
+
+function [minimum_K, maximum_K] = probe_temperature_range(physical)
+    minimum_K = Inf;
+    maximum_K = -Inf;
+    if ~isfield(physical, 'probes') || isempty(physical.probes)
+        minimum_K = NaN;
+        maximum_K = NaN;
+        return;
+    end
+    names = fieldnames(physical.probes);
+    for idx = 1:numel(names)
+        values = physical.probes.(names{idx});
+        if isnumeric(values) && ~isempty(values)
+            minimum_K = min(minimum_K, min(values(:)));
+            maximum_K = max(maximum_K, max(values(:)));
+        end
+    end
 end
 
 function outputs = write_audit_outputs(result, checks, passed)

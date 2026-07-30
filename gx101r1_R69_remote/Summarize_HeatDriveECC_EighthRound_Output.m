@@ -36,6 +36,20 @@ function summary = Summarize_HeatDriveECC_EighthRound_Output(physical, options)
     summary.max_temperature_K = max([physical.SMA_T_21_K(:); ...
         physical.SE_T_21_K(:); physical.SHEX_T_K(:); ...
         physical.HHEX_T_K(:); physical.CHEX_T_K(:)]);
+    if isfield(physical, 'probes') && ~isempty(physical.probes)
+        probe_values = struct2cell(physical.probes);
+        probe_values = probe_values(cellfun(@isnumeric, probe_values));
+        if ~isempty(probe_values)
+            summary.min_probe_temperature_K = min(cellfun(@(v) min(v(:)), probe_values));
+            summary.max_probe_temperature_K = max(cellfun(@(v) max(v(:)), probe_values));
+        else
+            summary.min_probe_temperature_K = NaN;
+            summary.max_probe_temperature_K = NaN;
+        end
+    else
+        summary.min_probe_temperature_K = NaN;
+        summary.max_probe_temperature_K = NaN;
+    end
     summary.max_abs_sigma_SMA_Pa = max(abs(physical.sigma_SMA_21_Pa(:)));
     summary.max_abs_sigma_SE_Pa = max(abs(physical.sigma_SE_21_Pa(:)));
     summary.max_abs_flow_kgps = max(abs([physical.mdot_SMA_kgps; ...

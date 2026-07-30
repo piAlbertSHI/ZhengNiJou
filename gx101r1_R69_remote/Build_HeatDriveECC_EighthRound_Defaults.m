@@ -140,14 +140,14 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     % Stage-specific pump-pressure closures are calibrated only against the
     % physical Simscape mass-flow logs.  They are not thermal-state
     % assignments and remain separate because the valve topology changes.
-    options.branch.sma_stage1_pressure_bias_MPa = -0.0286;
+    options.branch.sma_stage1_pressure_bias_MPa = -0.0480;
     options.branch.sma_stage3_pressure_bias_MPa = -0.0454;
     options.branch.sma_inactive_pressure_bias_MPa = 0.0;
     % The SE branch has different hydraulic losses in stages 2 and 4.
     % Keep the old scalar as a fallback, but expose the two active-stage
     % commands so flow calibration cannot silently couple the two routes.
     options.branch.se_pressure_bias_MPa = -0.0015;
-    options.branch.se_stage2_pressure_bias_MPa = -0.00152;
+    options.branch.se_stage2_pressure_bias_MPa = -0.00194;
     options.branch.se_stage4_pressure_bias_MPa = -0.00066;
     options.branch.se_inactive_pressure_bias_MPa = 0.0;
     % The old -0.02 MPa ceiling clipped the SMA calibration, but the
@@ -157,10 +157,18 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     % hydraulic geometry/reference, not by an illegal negative pressure.
     options.branch.pressure_pi_min_MPa = -0.05;
     options.branch.pressure_pi_max_MPa = 0.02;
+    options.branch.sma_hydraulic_area_scale = 2.50;
+    options.branch.sma_hydraulic_area_source = ...
+        ['Qian Table4 SMA water flow target closure; SMA and SE ', ...
+        'branches use independent axial hydraulic areas while the ', ...
+        'Simulink topology and thermal state model remain unchanged.'];
+    options.branch.valve_min_Cv = 0.005;
+    options.branch.valve_min_Cv_source = ...
+        'continuous Simscape liquid pressure-reference leakage closure';
     options.branch.se_pressure_pi_kp_MPa_per_kgps = 0.0;
     options.branch.se_pressure_pi_ki_MPa_per_kgps_s = 0.0;
     options.branch.stage_command_ramp_s = ...
-        0.05 * min(article.schedule.stage_durations_s);
+        0.10 * min(article.schedule.stage_durations_s);
     options.branch.sma_pipe_thermal_gate_active_G_W_per_K = 1.0e6;
     options.branch.sma_pipe_thermal_gate_inactive_G_W_per_K = 1.0e-6;
     options.branch.se_pipe_thermal_gate_active_G_W_per_K = 1.0e6;

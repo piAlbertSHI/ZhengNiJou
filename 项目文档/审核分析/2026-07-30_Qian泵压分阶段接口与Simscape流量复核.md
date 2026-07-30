@@ -1,57 +1,91 @@
-# Qian 泵压分阶段接口与 Simscape 流量复核
+# Qian pressure interface and coupled Simscape audit
 
-## 本次修改
+## Scope
 
-- 在同一个耦合模型 `heatdrive_ecc_coupled_se21.slx` 中，为右侧 SE 的 `PressurePI_BiasSum` 接入 `SE_pressure_bias_command`。
-- Stage 2 和 Stage 4 使用独立偏置，非工作阶段为零；SE 内部换热器和阀门拓扑没有重建。
-- 保留左侧 SMA 的既有 `SMAPressurePI_BiasSum` 接口，并把四个阶段的 SMA/SE 压力命令统一写入同一连续 Simulink 时序。
-- 将旧模板公共 PI 下限 `-0.02 MPa` 显式提升为 `-0.12 MPa`，否则 SMA 文献流量目标在压力饱和前就无法达到。
+This checkpoint uses the single canonical model:
+`gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx`.
 
-## 文献目标
+Qian 2019 Table 2/Table 4 targets are:
 
-- Qian 2019 Table 4：SMA 侧水流量 `50.8 g/s`，SE 侧流量 `3.2 g/s`。
-- 四阶段持续时间：`3.5/1.5/3.5/1.5 s`。
-- 本次命令偏置是液压工作范围内的工程闭合量，不是温度、相变分数或热量的赋值。
+- SMA water flow: 50.8 g/s.
+- SE glycol-water flow: 3.2 g/s.
+- Stage times: 3.5/1.5/3.5/1.5 s.
 
-## 真实 Simscape 试验
+The pressure commands are hydraulic closures from Simscape flow logs. They
+are never used to assign a temperature, phase fraction, stress, or heat
+quantity.
 
-### 原分阶段接口，SMA 压力上限仍为 -0.02 MPa
+## Interface and hydraulic fixes
 
-输出目录：
-`gx101r1_R69_remote/outputs/heatdrive_ecc_qian2019_3cycle/qian2019_table2_table4_simscape_1cycle_20260730_104818`
+1. `PressurePI_BiasSum` now accepts a continuous `SE_pressure_bias_command`
+   with separate Stage 2 and Stage 4 values.
+2. The SMA and SE branches use separate axial flow areas. SMA-side TL pipes,
+   SMA valves, the SMA pressure source, and the SHEX hot pipe use
+   `sma_pipe_fa`; the SE branch remains on `pipe_fa`.
+3. The SHEX conductive thermal links retain `area=1`. A previous generic
+   area rewrite incorrectly changed this to the liquid flow area and reduced
+   actual SHEX heat transfer by several orders of magnitude.
+4. Valve commands use a continuous break-before-make profile. The existing
+   Simscape valve minimum coefficient is explicitly set to `Cv_min=0.005`
+   so closed liquid branches retain a pressure reference.
+5. The old common PI lower bound `-0.02 MPa` was replaced by a validated
+   `-0.05 MPa` operating bound. A trial at approximately `-0.1 MPa` was
+   stopped because the pressure source itself entered an invalid absolute
+   pressure region.
 
-| 阶段 | SMA 流量 | SE Stage 2 流量 | SE Stage 4 流量 |
-|---|---:|---:|---:|
-| 1 | 22.87 g/s | 约 0 | 约 0 |
-| 2 | 约 0 | 1.62 g/s | 约 0 |
-| 3 | 22.48 g/s | 约 0 | 约 0 |
-| 4 | 约 0 | 约 0 | 3.09 g/s |
+## Calibration observations
 
-SMA 两个阶段的压力输出分别达到 `-0.0286 MPa` 和 `-0.0454 MPa`，但旧模板 Saturation 仍把输出截断到 `-0.02 MPa`。因此上一组流量不足不是热量赋值导致，而是压力限幅导致。
+Intermediate one-cycle outputs were cleaned after the values were transcribed
+here. They are not part of the retained result set.
 
-### 放开压力下限后的真实一循环
+- With the old `-0.02 MPa` saturation, SMA flows were about 22.9/22.5 g/s.
+- With independent SMA area and legal pressure, SMA flows reached about
+  46.5/45.4 g/s before the final valve-leakage stabilization.
+- SE Stage 4 converged near 3.0 g/s. Stage 2 is more hydraulically
+  restrictive and was calibrated separately.
 
-输出目录：
-`gx101r1_R69_remote/outputs/heatdrive_ecc_qian2019_3cycle/qian2019_table2_table4_simscape_1cycle_20260730_105617`
+## Formal three-cycle result
 
-| 阶段 | SMA 流量 | SE Stage 2 流量 | SE Stage 4 流量 |
-|---|---:|---:|---:|
-| 1 | 27.50 g/s | 约 0 | 约 0 |
-| 2 | 约 0 | 1.62 g/s | 约 0 |
-| 3 | 34.22 g/s | 约 0 | 约 0 |
-| 4 | 约 0 | 约 0 | 3.09 g/s |
+Retained output:
+`gx101r1_R69_remote/outputs/heatdrive_ecc_qian2019_3cycle/qian2019_table2_table4_simscape_3cycle_20260730_123759`
 
-实际命令输出分别约为 `-0.0286 MPa`、`-0.0454 MPa`，说明该组仍未使用目标压力值；因此下一组将检验 `-0.098/-0.100 MPa`。
+Cycle flow results in kg/s:
 
-## 已发现的物理问题
+| Cycle | SMA Stage 1 | SMA Stage 3 | SE Stage 2 | SE Stage 4 |
+|---|---:|---:|---:|---:|
+| 1 | 0.05504 | 0.04658 | 0.003386 | 0.002912 |
+| 2 | 0.05445 | 0.04662 | 0.006908 | 0.002933 |
+| 3 | 0.05443 | 0.04662 | 0.006955 | 0.002930 |
 
-在高流量边界试验中，物理探针 `probe_sma_stage1_v1_pump_side_T_K` 最低约 `272.666 K`，SHEX 返回支路最低约 `274.445 K`。Simscape 同时报告三通、阀门和 SMA 压力源的水温低于有效物性范围。
+The SMA phase swing is 0.960-1.000 and the SE phase swing is
+0.99995-0.999999. CHEX decreases by approximately 0.18-0.24 K per cycle.
+All retained temperature probes are finite and span 295.391-393.150 K.
 
-这不是可接受的成功结果，也不是通过钳位温度解决的问题。需要继续检查：
+## Strict audit result
 
-1. V1/V2 与 SHEX buffer 的零流量支路是否发生反向混合；
-2. SHEX 等效热容和 SMA constitutive 热源的能量符号及连接方向；
-3. 高流量下等效管段体积、热液体初值和阀门关断后的滞留流体状态；
-4. 每阶段入口/出口能量守恒和所有热液体探针的有效范围。
+The formal validation report is in the retained output directory.
 
-在上述问题解决前，不宣称 Qian Table 4 流量或性能复现通过。
+Passed:
+
+- One real Simulink call and physical Simscape authority.
+- No legacy surrogate in the result path.
+- Three-cycle sample count and 21-node dimensions.
+- Solid and probe temperature bounds.
+- Phase-fraction bounds and SMA/SE phase swing.
+- Active-route and inactive-route isolation checks.
+- Qian material, geometry, and stage-schedule contracts.
+
+Not passed:
+
+- `nominal_SMA_stress=0`: maximum SMA stress is about 287.7 MPa versus
+  the current 200 MPa Qian nominal-stress check.
+- `strict_table4_reproduction_evaluated=0`: periodic steady state,
+  no-load/zero-lift cases, and performance metrics have not been run.
+- `dual_fluid_domain_implemented=0`: the current SLX still has one shared
+  Thermal Liquid settings block, while Qian uses water on the SMA side and
+  glycol-water on the SE side.
+
+Therefore this is a reproducible coupled-mechanism checkpoint, not a claim
+of completed Qian Table 4 reproduction. The next work should address the
+constitutive stress calibration and two-fluid Simscape domain while keeping
+one canonical SLX and avoiding new parallel models.

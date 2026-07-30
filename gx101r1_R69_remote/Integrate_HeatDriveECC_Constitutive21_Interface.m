@@ -19,6 +19,8 @@ function Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, sa
     assign_constitutive_workspace(options);
     load_system(model_name);
     configure_shex_boundary(model_name);
+    configure_sma_hydraulic_area(model_name, options);
+    configure_valve_minimum_opening(model_name, options);
     configure_valve_command_blocks(model_name);
     configure_sma_pressure_bias_command(model_name);
     configure_se_pressure_bias_command(model_name);
@@ -99,7 +101,79 @@ function assign_constitutive_workspace(options)
     assignin('base', 'se_constitutive_T21_initial', ...
         options.system.T0_K * ones(options.node_count, 1));
     assign_component_solid_workspace(options);
+    assignin('base', 'sma_pipe_fa', ...
+        compute_sma_hydraulic_area(options));
     assignin('base', 'constitutive_output_width', 12 * options.node_count);
+end
+
+function area_m2 = compute_sma_hydraulic_area(options)
+    base_area_m2 = pi * (5.0e-3 ^ 2 - 3.0e-3 ^ 2) / 4.0;
+    scale = get_branch_option(options, 'sma_hydraulic_area_scale', 1.0);
+    if ~(isnumeric(scale) && isscalar(scale) && isfinite(scale) && scale > 0)
+        scale = 1.0;
+    end
+    area_m2 = base_area_m2 * scale;
+end
+
+function configure_sma_hydraulic_area(model_name, options)
+    area_m2 = compute_sma_hydraulic_area(options);
+    assignin('base', 'sma_pipe_fa', area_m2);
+    blocks = find_system(model_name, ...
+        'LookUnderMasks', 'all', 'FollowLinks', 'on', 'Type', 'Block');
+    for idx = 1:numel(blocks)
+        block_path = blocks{idx};
+        normalized = lower(strrep(block_path, '\', '/'));
+        is_sma_route = contains(normalized, '/sma');
+        is_shex_route = contains(normalized, '/shex');
+        if ~(is_sma_route || is_shex_route)
+            continue;
+        end
+        try
+            mask_type = lower(get_param(block_path, 'MaskType'));
+            is_fluid_component = contains(mask_type, 'pipe (tl)') || ...
+                contains(mask_type, 'flow coefficient') || ...
+                contains(mask_type, 'pressure source');
+            if ~is_fluid_component
+                continue;
+            end
+            params = get_param(block_path, 'DialogParameters');
+            if isfield(params, 'area')
+                set_param(block_path, 'area', 'sma_pipe_fa');
+            end
+        catch
+            % Non-physical masked helper blocks can be skipped.
+        end
+    end
+end
+
+function configure_valve_minimum_opening(model_name, options)
+    minimum_cv = get_branch_option(options, 'valve_min_Cv', 1.0e-4);
+    if ~(isnumeric(minimum_cv) && isscalar(minimum_cv) && ...
+            isfinite(minimum_cv) && minimum_cv > 0 && minimum_cv <= 1)
+        minimum_cv = 1.0e-4;
+    end
+    assignin('base', 'valve_min_Cv', minimum_cv);
+    blocks = find_system(model_name, ...
+        'LookUnderMasks', 'all', 'FollowLinks', 'on', 'Type', 'Block');
+    for idx = 1:numel(blocks)
+        block_path = blocks{idx};
+        try
+            mask_type = lower(get_param(block_path, 'MaskType'));
+            if ~contains(mask_type, 'flow coefficient') || ...
+                    ~contains(mask_type, 'valve')
+                continue;
+            end
+            params = get_param(block_path, 'DialogParameters');
+            if isfield(params, 'Cv_min')
+                set_param(block_path, 'Cv_min', 'valve_min_Cv');
+            end
+            if isfield(params, 'Kv_min')
+                set_param(block_path, 'Kv_min', 'valve_min_Cv');
+            end
+        catch
+            % Skip non-TL masked helper blocks.
+        end
+    end
 end
 
 function assign_component_solid_workspace(options)
@@ -359,6 +433,15 @@ function [t, se_values, sma_values, sma_pressure_bias_values, ...
         end
         next_stage_idx = mod(stage_idx, 4) + 1;
         transition_end_t = min(boundary_t + ramp_s, total_time_s);
+        transition_mid_t = min(boundary_t + 0.5 * ramp_s, total_time_s);
+        [t, se_values, sma_values, sma_pressure_bias_values, ...
+            se_pressure_bias_values, ...
+            sma_hold_gate_values, sma_cooldown_gate_values] = append_profile_row( ...
+            t, se_values, sma_values, sma_pressure_bias_values, ...
+            se_pressure_bias_values, ...
+            sma_hold_gate_values, sma_cooldown_gate_values, transition_mid_t, 0, ...
+            se_stage, sma_stage, pressure_stage, se_pressure_stage, ...
+            hold_gate_stage, cooldown_gate_stage);
         [t, se_values, sma_values, sma_pressure_bias_values, ...
             se_pressure_bias_values, ...
             sma_hold_gate_values, sma_cooldown_gate_values] = append_profile_row( ...
@@ -378,23 +461,38 @@ function [t, se_values, sma_values, sma_pressure_bias_values, ...
         sma_hold_gate_values, sma_cooldown_gate_values, time_s, stage_idx, ...
         se_stage, sma_stage, pressure_stage, se_pressure_stage, ...
         hold_gate_stage, cooldown_gate_stage)
+    if stage_idx == 0
+        se_row = zeros(1, size(se_stage, 2));
+        sma_row = zeros(1, size(sma_stage, 2));
+        pressure_row = 0.0;
+        se_pressure_row = 0.0;
+        hold_gate_row = min(hold_gate_stage);
+        cooldown_gate_row = min(cooldown_gate_stage);
+    else
+        se_row = se_stage(stage_idx, :);
+        sma_row = sma_stage(stage_idx, :);
+        pressure_row = pressure_stage(stage_idx);
+        se_pressure_row = se_pressure_stage(stage_idx);
+        hold_gate_row = hold_gate_stage(stage_idx);
+        cooldown_gate_row = cooldown_gate_stage(stage_idx);
+    end
     if ~isempty(t) && abs(time_s - t(end)) <= max(1.0e-12, eps(max(time_s, 1.0)))
         t(end) = time_s;
-        se_values(end, :) = se_stage(stage_idx, :);
-        sma_values(end, :) = sma_stage(stage_idx, :);
-        sma_pressure_bias_values(end, 1) = pressure_stage(stage_idx);
-        se_pressure_bias_values(end, 1) = se_pressure_stage(stage_idx);
-        sma_hold_gate_values(end, 1) = hold_gate_stage(stage_idx);
-        sma_cooldown_gate_values(end, 1) = cooldown_gate_stage(stage_idx);
+        se_values(end, :) = se_row;
+        sma_values(end, :) = sma_row;
+        sma_pressure_bias_values(end, 1) = pressure_row;
+        se_pressure_bias_values(end, 1) = se_pressure_row;
+        sma_hold_gate_values(end, 1) = hold_gate_row;
+        sma_cooldown_gate_values(end, 1) = cooldown_gate_row;
         return;
     end
     t(end + 1, 1) = time_s;
-    se_values(end + 1, :) = se_stage(stage_idx, :);
-    sma_values(end + 1, :) = sma_stage(stage_idx, :);
-    sma_pressure_bias_values(end + 1, 1) = pressure_stage(stage_idx);
-    se_pressure_bias_values(end + 1, 1) = se_pressure_stage(stage_idx);
-    sma_hold_gate_values(end + 1, 1) = hold_gate_stage(stage_idx);
-    sma_cooldown_gate_values(end + 1, 1) = cooldown_gate_stage(stage_idx);
+    se_values(end + 1, :) = se_row;
+    sma_values(end + 1, :) = sma_row;
+    sma_pressure_bias_values(end + 1, 1) = pressure_row;
+    se_pressure_bias_values(end + 1, 1) = se_pressure_row;
+    sma_hold_gate_values(end + 1, 1) = hold_gate_row;
+    sma_cooldown_gate_values(end + 1, 1) = cooldown_gate_row;
 end
 
 function value = get_branch_option(options, field_name, fallback)
@@ -455,7 +553,9 @@ function configure_shex_boundary(model_name)
         set_param(shex_ambient_link, 'th_cond', 'shex_sink_ambient_G_W_per_K');
     end
     if exist_block(shex_fluid_link)
-        set_param(shex_fluid_link, 'th_cond', 'shex_sink_fluid_G_W_per_K');
+        set_param(shex_fluid_link, ...
+            'area', '1', ...
+            'th_cond', 'shex_sink_fluid_G_W_per_K');
     end
     if exist_block(shex_hot_pipe)
         set_param(shex_hot_pipe, 'T0', 'shex_hot_side_fluid_T_init');
