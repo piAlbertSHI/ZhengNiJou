@@ -94,6 +94,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.material = article.material;
     options.equilibrium = article.equilibrium;
     options.schedule = article.schedule;
+    options.route_matrix = article.route_matrix;
 
     options.simulation = struct();
     options.simulation.fixed_step_s = min(article.schedule.stage_durations_s) / 120.0;

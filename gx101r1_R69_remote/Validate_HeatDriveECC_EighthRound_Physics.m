@@ -130,12 +130,63 @@ function checks = hard_checks(result)
     checks.qian_table4_geometry_contract = ...
         abs(o.equilibrium.m_a_kg / o.equilibrium.m_r_kg - 3.2) < 1.0e-10 && ...
         abs(o.geometry.S_r_m2 - 17.0e-6) < 1.0e-12;
+    if isfield(o, 'route_matrix')
+        checks.route_matrix_consistency = route_matrix_consistent(o.route_matrix);
+    else
+        checks.route_matrix_consistency = false;
+    end
     checks.dual_fluid_domain = ...
         v.dual_fluid_domain_required && v.dual_fluid_domain_implemented && ...
         isfield(v, 'dual_fluid_domain_audit') && ...
         v.dual_fluid_domain_audit.ok;
     checks.strict_table4_not_claimed_from_transient = ...
         ~s.quantitative_literature_reproduction_evaluated;
+end
+
+function tf = route_matrix_consistent(routes)
+% Keep the diagnostic route contract aligned with the actual valve profiles.
+% Stages 1/3 are SMA-only; stages 2/4 are SE-only.  The SLX command profile
+% remains the execution authority, while this check prevents stale route
+% metadata from masking a mixed-stage topology.
+    tf = isstruct(routes) && numel(routes) == 4;
+    if ~tf
+        return;
+    end
+    for idx = 1:4
+        r = routes(idx);
+        sma_active = logical(get_route_field(r, 'SMA_loop_pump_on', 0));
+        se_active = logical(get_route_field(r, 'SE_loop_pump_on', 0));
+        switch idx
+            case {1, 3}
+                expected = sma_active && ~se_active;
+            case {2, 4}
+                expected = se_active && ~sma_active;
+        end
+        tf = tf && expected && logical(get_route_field( ...
+            r, 'mechanical_coupling_active', 0)) == ismember(idx, [1 3]);
+        if idx == 1
+            tf = tf && logical(get_route_field(r, 'SHEX_to_SMA', 0)) && ...
+                ~logical(get_route_field(r, 'THE_to_SMA', 0));
+        elseif idx == 3
+            tf = tf && logical(get_route_field(r, 'THE_to_SMA', 0)) && ...
+                ~logical(get_route_field(r, 'SHEX_to_SMA', 0));
+        elseif idx == 2
+            tf = tf && ~logical(get_route_field(r, 'SHEX_to_SMA', 0)) && ...
+                logical(get_route_field(r, 'SE_to_THE', 0)) && ...
+                ~logical(get_route_field(r, 'CHEX_to_SE', 0));
+        else
+            tf = tf && ~logical(get_route_field(r, 'SE_to_THE', 0)) && ...
+                logical(get_route_field(r, 'CHEX_to_SE', 0));
+        end
+    end
+end
+
+function value = get_route_field(route, name, default_value)
+    if isfield(route, name) && ~isempty(route.(name))
+        value = route.(name);
+    else
+        value = default_value;
+    end
 end
 
 function [minimum_K, maximum_K] = probe_temperature_range(physical)
