@@ -52,7 +52,10 @@ function [model_name, options] = Build_HeatDriveECC_EighthRound_Simulink_Model(o
     mark_ecc_mainline(model_name);
     Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, false);
     configure_simscape_local_solver(model_name, options);
-    save_system(model_name, model_path);
+    if isfield(options.simulation, 'persist_model_configuration') && ...
+            options.simulation.persist_model_configuration
+        save_system(model_name, model_path);
+    end
 end
 
 function audit = configure_dual_fluid_topology(model_name)

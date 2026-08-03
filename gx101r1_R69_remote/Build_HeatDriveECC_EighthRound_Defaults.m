@@ -106,6 +106,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.simulation.output_variable_role = ...
         'legacy_surrogate_diagnostic_not_validation_authority';
     options.simulation.authority = 'physical_simscape_to_workspace_logs';
+    options.simulation.persist_model_configuration = false;
 
     options.simscape = struct();
     options.simscape.local_solver_enabled = true;
