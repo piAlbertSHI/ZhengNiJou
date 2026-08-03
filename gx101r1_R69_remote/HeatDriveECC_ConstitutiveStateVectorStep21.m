@@ -37,8 +37,11 @@ function y = HeatDriveECC_ConstitutiveStateVectorStep21(u)
     [state, audit] = HeatDriveECC_ConstitutiveCompatibilityStep51( ...
         state, options, dt_s, stage_id);
 
-    q_sma_W = -(audit.latentA_W_21(:) + audit.mechanicalA_W_21(:));
-    q_se_W = -(audit.latentR_W_21(:) + audit.mechanicalR_W_21(:));
+    % epsilon_a is the positive recovery-displacement magnitude, whereas
+    % epsilon_r is the positive tensile strain.  Their physical stress-work
+    % signs are therefore opposite and cancel under Eq. 7/Eq. 8 coupling.
+    q_sma_W = -audit.latentA_W_21(:) - audit.mechanicalA_W_21(:);
+    q_se_W = -audit.latentR_W_21(:) + audit.mechanicalR_W_21(:);
     next_state = state_to_vector(state);
     y = [q_sma_W; q_se_W; next_state];
 end

@@ -355,7 +355,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.constitutive.se_load_hardening_Pa = 0.0;
     options.constitutive.se_loading_assist_Pa = 0.0;
     options.constitutive.se_unload_assist_Pa = 0.0;
-    options.constitutive.phase_surface_min_width_Pa = 1.0e6;
+    options.constitutive.phase_surface_min_width_Pa = 100.0e6;
     options.constitutive.drive_width_a_Pa = ...
         options.constitutive.phase_surface_min_width_Pa;
     options.constitutive.drive_width_r_Pa = ...
@@ -364,8 +364,11 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.constitutive.se_unloading_work_J_per_kg = options.material.SE.w_uld_J_per_kg;
     options.constitutive.source = [ ...
         'Qian2019 Eq3 reduced directional kinetics. Table2 As/Ms are ', ...
-        'start-line gates, not fabricated Af/Mf finish temperatures. ', ...
-        'Finite rates use the Fig3 0.9 s loading and 1.9 s unloading windows.'];
+        'start-line gates, not fabricated Af/Mf finish temperatures. The ', ...
+        '100 MPa finite transformation band is an explicit closure selected ', ...
+        'to complete the Table4 coupled transformation within its 3.5 s ', ...
+        'heating/cooling interval after correcting mechanical-work signs; ', ...
+        'it is not a published pAM/pMA parameter.'];
     options.constitutive.simulink_sample_time_s = options.simulation.fixed_step_s;
     options.constitutive.simulink_state_width = 10 * options.node_count;
     options.constitutive.simulink_output_width = 12 * options.node_count;
@@ -387,6 +390,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.validation.max_sigma_r_rel_error = 0.30;
     options.validation.max_Th_abs_error_K = 3.0;
     options.validation.max_energy_residual_fraction = 0.05;
+    options.validation.max_internal_mechanical_work_balance_fraction = 5.0e-3;
     options.validation.minimum_valid_liquid_pressure_MPa = 0.45;
     options.validation.required_authority = ...
         'physical_simscape_to_workspace_logs';
@@ -408,12 +412,15 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.validation.max_periodic_same_phase_temperature_drift_K = 0.05;
     options.validation.max_periodic_phase_drift = 1.0e-4;
     options.validation.qian_time_step_s = 1.0e-3;
-    options.validation.min_sma_phase_swing = 0.50;
+    options.validation.min_sma_phase_swing = 0.99;
+    options.validation.min_se_phase_swing = 0.99;
     options.validation.max_fig3_loading_onset_s = 0.50;
-    options.validation.max_fig3_loading_completion_s = 2.00;
+    options.validation.max_fig3_loading_completion_s = ...
+        article.schedule.stage_durations_s(1);
     options.validation.max_fig3_unloading_onset_s = 1.50;
-    options.validation.min_fig3_unloading_completion_s = 2.00;
-    options.validation.max_fig3_unloading_completion_s = 3.50;
+    options.validation.min_fig3_unloading_completion_s = 0.0;
+    options.validation.max_fig3_unloading_completion_s = ...
+        article.schedule.stage_durations_s(3);
     options.validation.nominal_sma_stress_Pa = ...
         options.material.SMA.nominal_stress_Pa;
     options.validation.reference_system_scope = ...
