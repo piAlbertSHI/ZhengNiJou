@@ -83,6 +83,10 @@ function reference = build_reference_contract()
     reference.water_k_W_per_mK = 0.60;
     reference.water_mu_Pa_s = 7.9722e-4;
     reference.fully_developed_laminar_Nu = 3.66;
+    reference.connecting_pipe_diameter_m = 3.2e-3;
+    reference.connecting_pipe_length_m = 0.2;
+    reference.connecting_pipe_wall_thickness_m = 0.5e-3;
+    reference.connecting_pipe_source = 'Qian2019 Table2 connecting HTF pipes';
     reference.se_fluid = struct( ...
         'name', '30vol_percent_inhibited_propylene_glycol_water_closure', ...
         'rho_kg_per_m3', 1034.516667, ...

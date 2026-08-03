@@ -147,6 +147,14 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.branch.UA_sma_the_W_per_K = article_hx.UA_sma_the_W_per_K;
     options.branch.UA_se_the_W_per_K = article_hx.UA_se_the_W_per_K;
     options.branch.UA_se_chex_W_per_K = article_hx.UA_se_chex_W_per_K;
+    options.branch.endpoint_UA_sma_shex_W_per_K = ...
+        article_hx.endpoint_UA_sma_shex_W_per_K;
+    options.branch.endpoint_UA_sma_the_W_per_K = ...
+        article_hx.endpoint_UA_sma_the_W_per_K;
+    options.branch.endpoint_UA_se_the_W_per_K = ...
+        article_hx.endpoint_UA_se_the_W_per_K;
+    options.branch.endpoint_UA_se_chex_W_per_K = ...
+        article_hx.endpoint_UA_se_chex_W_per_K;
     options.branch.boundary_UA_shex_W_per_K = article_hx.boundary_UA_shex_W_per_K;
     options.branch.boundary_UA_the_W_per_K = article_hx.boundary_UA_the_W_per_K;
     options.branch.boundary_UA_chex_W_per_K = article_hx.boundary_UA_chex_W_per_K;
@@ -178,6 +186,18 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.branch.article_pipe_geometry_source = [ ...
         'Qian2019 Table2/Table4 bed geometry; SMA Nu follows Qian2017 ', ...
         'Eq15 and SE Nu=3.66 follows Qian2019 Table2'];
+    options.branch.connecting_pipe_diameter_m = ...
+        article.reference.connecting_pipe_diameter_m;
+    options.branch.connecting_pipe_length_m = ...
+        article.reference.connecting_pipe_length_m;
+    options.branch.connecting_pipe_flow_area_m2 = pi * ...
+        options.branch.connecting_pipe_diameter_m ^ 2 / 4.0;
+    options.branch.connecting_pipe_implementation_status = ...
+        'reference_extracted_not_mapped_onto_endpoint_heat_exchanger';
+    options.branch.connecting_pipe_implementation_note = [ ...
+        'Qian distinguishes connecting pipelines from SHEX/HHEX/CHEX. ', ...
+        'The endpoint HotPipe blocks are exchanger channels and must not ', ...
+        'be relabeled as the 3.2 mm by 0.2 m connecting pipes.'];
     % Stage-specific pump-pressure closures are calibrated only against the
     % physical Simscape mass-flow logs.  They are not thermal-state
     % assignments and remain separate because the valve topology changes.
@@ -263,6 +283,10 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.branch.se_pressure_pi_ki_MPa_per_kgps_s = -2.0;
     options.branch.stage_command_ramp_s = ...
         0.10 * min(article.schedule.stage_durations_s);
+    options.branch.valve_switch_sequence_source = [ ...
+        'At each stage boundary pump pressure and the valve-gated flow PI ', ...
+        'target ramp to zero on the open route before valves switch. The ', ...
+        'new route is then pressurized from zero, avoiding trapped pressure.'];
     options.branch.sma_pipe_thermal_gate_active_G_W_per_K = 1.0e6;
     options.branch.sma_pipe_thermal_gate_inactive_G_W_per_K = 1.0e-6;
     options.branch.se_pipe_thermal_gate_active_G_W_per_K = 1.0e6;
@@ -382,10 +406,11 @@ end
 
 function hx = compute_article_heat_exchanger_closure(article)
     % Qian reports bed geometry, fluids and flow rates but not every
-    % accessory UA.  Solid-fluid UA follows the reported geometry and
-    % The SMA wire bed uses the Qian-2017 Eq.15 laminar entrance correction;
-    % the SE plate bed uses Qian-2019 Table 2 Nu=3.66. Endpoint contact uses
-    % the Qian-2017 mixed-tank 99% finite-NTU closure.
+    % accessory UA. Solid-fluid UA follows the reported geometry. The SMA
+    % wire bed uses the Qian-2017 Eq.15 entrance correction and the SE plate
+    % bed uses Qian-2019 Table 2 Nu=3.66. The explicit 99% finite-NTU
+    % endpoint closure is a boundary-model assumption, not a literature
+    % datum or a fitted reproduction parameter.
     eq = article.equilibrium;
     mat = article.material;
     ref = article.reference;
@@ -413,11 +438,17 @@ function hx = compute_article_heat_exchanger_closure(article)
     se_h_W_per_m2K = 3.66 * ref.se_fluid.k_W_per_mK / ...
         g.se_hydraulic_diameter_m;
     se_UA_W_per_K = se_h_W_per_m2K * g.se_wetted_area_m2;
-    endpoint_capacity_rate_W_per_K = ref.se_m_dot_kg_per_s * ...
+    endpoint_capacity_rate_se_W_per_K = ref.se_m_dot_kg_per_s * ...
         ref.se_fluid.cp_J_per_kgK;
-    endpoint_overall_UA_W_per_K = -log(0.01) * ...
-        endpoint_capacity_rate_W_per_K;
-    endpoint_contact_G_W_per_K = 10.0 * endpoint_overall_UA_W_per_K;
+    endpoint_capacity_rate_sma_W_per_K = ref.sma_m_dot_kg_per_s * ...
+        ref.water_cp_J_per_kgK;
+    endpoint_overall_UA_se_W_per_K = -log(0.01) * ...
+        endpoint_capacity_rate_se_W_per_K;
+    endpoint_overall_UA_sma_W_per_K = -log(0.01) * ...
+        endpoint_capacity_rate_sma_W_per_K;
+    endpoint_contact_G_W_per_K = 10.0 * ...
+        max(endpoint_overall_UA_sma_W_per_K, ...
+        endpoint_overall_UA_se_W_per_K);
 
     stage1_Qh_W = eq.m_a_kg * eq.qa_J_per_kg / ...
         max(stage_d(1), eps);
@@ -436,13 +467,17 @@ function hx = compute_article_heat_exchanger_closure(article)
     hx.UA_sma_the_W_per_K = driver_UA_W_per_K;
     hx.UA_se_the_W_per_K = se_UA_W_per_K;
     hx.UA_se_chex_W_per_K = se_UA_W_per_K;
-    hx.boundary_UA_shex_W_per_K = endpoint_overall_UA_W_per_K;
-    hx.boundary_UA_the_W_per_K = endpoint_overall_UA_W_per_K;
-    hx.boundary_UA_chex_W_per_K = endpoint_overall_UA_W_per_K;
+    hx.endpoint_UA_sma_shex_W_per_K = endpoint_overall_UA_sma_W_per_K;
+    hx.endpoint_UA_sma_the_W_per_K = endpoint_overall_UA_sma_W_per_K;
+    hx.endpoint_UA_se_the_W_per_K = endpoint_overall_UA_se_W_per_K;
+    hx.endpoint_UA_se_chex_W_per_K = endpoint_overall_UA_se_W_per_K;
+    hx.boundary_UA_shex_W_per_K = endpoint_overall_UA_sma_W_per_K;
+    hx.boundary_UA_the_W_per_K = endpoint_overall_UA_se_W_per_K;
+    hx.boundary_UA_chex_W_per_K = endpoint_overall_UA_se_W_per_K;
     hx.shex_source_to_sink_UA_W_per_K = endpoint_contact_G_W_per_K;
     hx.hhex_to_ambient_UA_W_per_K = endpoint_contact_G_W_per_K;
     hx.chex_environment_leak_UA_W_per_K = 1.0e-12;
-    hx.cold_load_to_chex_UA_W_per_K = endpoint_overall_UA_W_per_K;
+    hx.cold_load_to_chex_UA_W_per_K = endpoint_overall_UA_se_W_per_K;
     hx.driver_hydraulic_diameter_m = driver_hydraulic_diameter_m;
     hx.driver_void_area_m2 = driver_void_area_m2;
     hx.driver_wetted_area_m2 = driver_wetted_area_m2;
@@ -453,12 +488,15 @@ function hx = compute_article_heat_exchanger_closure(article)
     hx.driver_Nu = driver_Nu;
     hx.driver_h_W_per_m2K = driver_h_W_per_m2K;
     hx.se_h_W_per_m2K = se_h_W_per_m2K;
-    hx.endpoint_overall_UA_W_per_K = endpoint_overall_UA_W_per_K;
+    hx.endpoint_overall_UA_W_per_K = endpoint_overall_UA_se_W_per_K;
+    hx.endpoint_overall_UA_sma_W_per_K = endpoint_overall_UA_sma_W_per_K;
+    hx.endpoint_overall_UA_se_W_per_K = endpoint_overall_UA_se_W_per_K;
     hx.endpoint_contact_G_W_per_K = endpoint_contact_G_W_per_K;
     hx.effective_UA_source = ...
         ['Qian Table4 geometry/flow; SMA Nu uses Qian2017 Eq15 entrance ', ...
-        'correction, SE uses Qian2019 Table2 Nu=3.66, and endpoint contact ', ...
-        'uses the declared Qian2017 99 percent finite-NTU closure.'];
+        'correction and SE uses Qian2019 Table2 Nu=3.66. Endpoint contact ', ...
+        'uses an explicit 99 percent finite-NTU boundary closure because ', ...
+        'Qian does not report heat-exchanger UA; it is not target-fitted.'];
     hx.reference_note = ...
         ['SHEX gas source is 393.15 K; HHEX/CHEX reference is 303.15 K. ', ...
         'Table4 Qr remains an acceptance reference, not an imposed load.'];
