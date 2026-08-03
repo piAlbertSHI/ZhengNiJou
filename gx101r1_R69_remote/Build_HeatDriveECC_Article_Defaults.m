@@ -83,6 +83,9 @@ function reference = build_reference_contract()
     reference.water_k_W_per_mK = 0.60;
     reference.water_mu_Pa_s = 7.9722e-4;
     reference.fully_developed_laminar_Nu = 3.66;
+    reference.se_natural_convection_h_W_per_m2K = 50.0;
+    reference.se_natural_convection_source = ...
+        'Qian2019 Table2 SE-bed natural convective HTC';
     reference.connecting_pipe_diameter_m = 3.2e-3;
     reference.connecting_pipe_length_m = 0.2;
     reference.connecting_pipe_wall_thickness_m = 0.5e-3;

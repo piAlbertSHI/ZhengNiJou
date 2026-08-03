@@ -218,6 +218,8 @@ function area_m2 = compute_sma_hydraulic_area(options)
 end
 
 function assign_article_pipe_workspace(options)
+    assignin('base', 'thermal_gate_min_conductivity_W_per_mK', ...
+        options.branch.thermal_gate_min_conductivity_W_per_mK);
     assignin('base', 'sma_article_pipe_fa', ...
         options.branch.sma_pipe_flow_area_m2);
     assignin('base', 'sma_article_pipe_Dh', ...
@@ -539,12 +541,26 @@ function sim_params = apply_full_cycle_valve_commands(sim_params, options)
     sim_params.SMA_cooldown_pipe_to_sma_G_command_values = sma_cooldown_gate_values;
     se_active_G = options.branch.se_pipe_thermal_gate_active_G_W_per_K;
     se_inactive_G = options.branch.se_pipe_thermal_gate_inactive_G_W_per_K;
+    se_natural_G = options.branch.se_natural_thermal_gate_G_W_per_K;
     se_hold_activity = mean(se_values(:, 1:3), 2);
     se_cooldown_activity = mean(se_values(:, 4:6), 2);
-    se_hold_gate_values = se_inactive_G + ...
-        (se_active_G - se_inactive_G) .* se_hold_activity;
-    se_cooldown_gate_values = se_inactive_G + ...
-        (se_active_G - se_inactive_G) .* se_cooldown_activity;
+    sma_hold_activity = mean(sma_values(:, [1 3 5]), 2);
+    sma_cooldown_activity = mean(sma_values(:, [2 4 6]), 2);
+    se_hold_gate_values = se_inactive_G .* ones(size(t));
+    se_cooldown_gate_values = se_inactive_G .* ones(size(t));
+    % The duplicated fluid columns represent successive half-cycle
+    % inventories. Only the resident column remains thermally connected when
+    % SE bulk flow is stopped: Stage1 inherits Stage4 (Cooldown), while
+    % Stage3 inherits Stage2 (Hold). Qian Table2 natural convection applies
+    % during these nominally adiabatic transformation intervals.
+    se_hold_gate_values(sma_cooldown_activity > 0.5) = se_natural_G;
+    se_cooldown_gate_values(sma_hold_activity > 0.5) = se_natural_G;
+    se_hold_gate_values(se_hold_activity > 0.5) = se_active_G;
+    se_cooldown_gate_values(se_cooldown_activity > 0.5) = se_active_G;
+    initial_deadband = se_hold_activity <= 0.5 & ...
+        se_cooldown_activity <= 0.5 & sma_hold_activity <= 0.5 & ...
+        sma_cooldown_activity <= 0.5;
+    se_cooldown_gate_values(initial_deadband) = se_natural_G;
     sim_params.SE_hold_pipe_to_se_G_command = ...
         timeseries(se_hold_gate_values, t);
     sim_params.SE_hold_pipe_to_se_G_command_time_s = t;
@@ -598,8 +614,8 @@ function [t, se_values, sma_values, sma_pressure_bias_values, ...
             options.branch.se_pressure_bias_MPa)];
     active_G = options.branch.sma_pipe_thermal_gate_active_G_W_per_K;
     inactive_G = options.branch.sma_pipe_thermal_gate_inactive_G_W_per_K;
-    hold_gate_stage = [active_G; inactive_G; inactive_G; inactive_G];
-    cooldown_gate_stage = [inactive_G; inactive_G; active_G; inactive_G];
+    hold_gate_stage = [active_G; active_G; inactive_G; inactive_G];
+    cooldown_gate_stage = [inactive_G; inactive_G; active_G; active_G];
     ramp_s = min(max(double(options.branch.stage_command_ramp_s), 0.0), ...
         0.10 * min(options.schedule.stage_durations_s));
     total_time_s = options.cycle_count * tau;
@@ -1088,7 +1104,7 @@ function configure_dynamic_thermal_gate_group(parent, gate_prefix, command_varia
     converter_path = sprintf('%s/%sThermalGateCommandPS', parent, gate_prefix);
     ensure_block('simulink/Sources/From Workspace', source_path, ...
         'VariableName', command_variable, ...
-        'Interpolate', 'on', ...
+        'Interpolate', 'off', ...
         'OutputAfterFinalValue', 'Holding final value', ...
         'Position', source_pos);
     ensure_block('nesl_utility/Simulink-PS Converter', converter_path, ...
@@ -1105,6 +1121,8 @@ function configure_dynamic_thermal_gate_group(parent, gate_prefix, command_varia
         end
         set_param(gate_path, 'thermal_type', ...
             'foundation.enum.ConstantVariableTabulated.Variable');
+        set_param(gate_path, 'th_cond_min', ...
+            'thermal_gate_min_conductivity_W_per_mK');
         ports = get_param(gate_path, 'PortHandles');
         if numel(ports.LConn) < 2
             warning('HeatDriveECC:MissingVariableThermalGatePort', ...

@@ -69,6 +69,8 @@ function summary = Summarize_HeatDriveECC_EighthRound_Output(physical, options)
     summary.max_abs_flow_kgps = max(abs([physical.mdot_SMA_kgps; ...
         physical.mdot_SE_stage2_in_kgps; physical.mdot_SE_stage2_out_kgps; ...
         physical.mdot_SE_stage4_in_kgps; physical.mdot_SE_stage4_out_kgps]));
+    summary.max_inactive_thermal_path_heat_W = ...
+        max_inactive_thermal_path_heat(physical, options);
     summary.max_cycle_boundary_SMA_state_jump = ...
         max_boundary_jump(t, physical.xM_SMA_21, options.schedule.tau_cycle_s, ncycles);
     summary.max_cycle_boundary_SE_state_jump = ...
@@ -209,6 +211,33 @@ function summary = Summarize_HeatDriveECC_EighthRound_Output(physical, options)
     summary.quantitative_literature_reproduction_evaluated = false;
     summary.quantitative_literature_reproduction_reason = ...
         performance_scope_reason(summary.performance, options);
+end
+
+function maximum_W = max_inactive_thermal_path_heat(physical, options)
+    maximum_W = 0.0;
+    guard_s = get_branch_scalar(options, 'stage_command_ramp_s', 0.0) + ...
+        max(options.simulation.fixed_step_s, eps);
+    inactive_by_stage = {
+        physical.Q_SMA_cooldown_pipe_to_solid_21_W, ...
+            physical.Q_SE_hold_pipe_to_solid_21_W
+        physical.Q_SMA_cooldown_pipe_to_solid_21_W, ...
+            physical.Q_SE_cooldown_pipe_to_solid_21_W
+        physical.Q_SMA_hold_pipe_to_solid_21_W, ...
+            physical.Q_SE_cooldown_pipe_to_solid_21_W
+        physical.Q_SMA_hold_pipe_to_solid_21_W, ...
+            physical.Q_SE_hold_pipe_to_solid_21_W};
+    for stage_idx = 1:4
+        mask = physical.stage_id == stage_idx & ...
+            physical.stage_elapsed_s >= guard_s;
+        if ~any(mask)
+            maximum_W = Inf;
+            return;
+        end
+        for route_idx = 1:2
+            q_W = sum(inactive_by_stage{stage_idx, route_idx}, 2);
+            maximum_W = max(maximum_W, max(abs(q_W(mask))));
+        end
+    end
 end
 
 function value = get_branch_scalar(options, field_name, fallback)
