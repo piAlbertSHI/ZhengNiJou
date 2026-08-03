@@ -2,7 +2,7 @@ function [state, audit] = HeatDriveECC_ConstitutiveCompatibilityStep51(state, op
 % Eighth-round 21-node constitutive compatibility step.
 %
 % Stress is solved from current 21-node phase state using paper Eq.6/Eq.7.
-% Phase rates use current Ta_21/Tr_21, solved stress, and calibrated kinetics.
+% Phase rates use current Ta_21/Tr_21, solved stress, and Fig.3 timing.
 
     if nargin < 4
         stage_id = state.stage_id;

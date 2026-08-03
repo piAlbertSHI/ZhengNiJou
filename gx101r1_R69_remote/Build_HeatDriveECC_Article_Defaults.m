@@ -81,7 +81,8 @@ function reference = build_reference_contract()
     reference.water_cp_J_per_kgK = 4180.0;
     reference.water_rho_kg_per_m3 = 997.0;
     reference.water_k_W_per_mK = 0.60;
-    reference.driver_htc_calibration_factor = 3.5;
+    reference.water_mu_Pa_s = 7.9722e-4;
+    reference.fully_developed_laminar_Nu = 3.66;
     reference.se_fluid = struct( ...
         'name', '30vol_percent_inhibited_propylene_glycol_water_closure', ...
         'rho_kg_per_m3', 1034.516667, ...
@@ -91,7 +92,9 @@ function reference = build_reference_contract()
         'source', 'engineering closure; Qian reports glycol-water but not concentration');
     reference.source = [ ...
         'Qian2019 Table2/Table4 plus Qian2017 Table1 endpoint reservoir ', ...
-        'closure; unreported fluid concentration remains explicit.'];
+        'closure; unreported fluid concentration remains explicit; ', ...
+        'SMA forced convection uses Qian2017 Eq15 entrance correction ', ...
+        'without an empirical multiplier'];
 end
 
 function material = qian_table2_driver_material()
@@ -189,8 +192,9 @@ function geometry = build_equivalent_geometry(material, reference)
     se = material.SE;
     se_cross_section_m2 = reference.se_plate_count * ...
         reference.se_plate_thickness_m * reference.se_plate_width_m;
-    se_void_area_m2 = reference.se_porosity / ...
-        (1.0 - reference.se_porosity) * se_cross_section_m2;
+    % Qian2019 defines porosity as V_HTF / V_solid, not the conventional
+    % V_void / V_total definition.
+    se_void_area_m2 = reference.se_porosity * se_cross_section_m2;
     se_length_m = reference.se_m_dot_kg_per_s * ...
         reference.se_exchange_time_s / ...
         (reference.se_fluid.rho_kg_per_m3 * reference.se_utilization * ...
@@ -223,6 +227,7 @@ function geometry = build_equivalent_geometry(material, reference)
     geometry.se_volume_m3 = se_volume_m3;
     geometry.se_mass_kg = se_mass_kg;
     geometry.se_porosity = reference.se_porosity;
+    geometry.porosity_definition = 'V_HTF_over_V_solid_Qian2019';
     geometry.se_plate_count = reference.se_plate_count;
     geometry.se_plate_thickness_m = reference.se_plate_thickness_m;
     geometry.se_plate_width_m = reference.se_plate_width_m;
