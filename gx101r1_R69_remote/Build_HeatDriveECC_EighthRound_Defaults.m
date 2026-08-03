@@ -97,9 +97,14 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.route_matrix = article.route_matrix;
 
     options.simulation = struct();
-    options.simulation.fixed_step_s = min(article.schedule.stage_durations_s) / 120.0;
-    options.simulation.samples_per_stage = 120;
-    options.simulation.solver = 'ode23t';
+    options.simulation.fixed_step_s = 1.0e-3;
+    options.simulation.samples_per_stage = ...
+        round(min(article.schedule.stage_durations_s) / ...
+        options.simulation.fixed_step_s);
+    options.simulation.time_step_source = [ ...
+        'Qian2019 Section 3.1: coupled ODEs solved by ODE3 with a ', ...
+        'fixed 1e-3 s time step'];
+    options.simulation.solver = 'ode3';
     options.simulation.stop_time_s = options.cycle_count * ...
         article.equilibrium.tau_cycle_s;
     options.simulation.output_variable = 'eighth_round_yout';
@@ -282,6 +287,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.validation.max_periodic_endpoint_drift_K = 0.05;
     options.validation.max_periodic_same_phase_temperature_drift_K = 0.05;
     options.validation.max_periodic_phase_drift = 1.0e-4;
+    options.validation.qian_time_step_s = 1.0e-3;
     options.validation.min_sma_phase_swing = 0.50;
     options.validation.nominal_sma_stress_Pa = ...
         options.material.SMA.nominal_stress_Pa;

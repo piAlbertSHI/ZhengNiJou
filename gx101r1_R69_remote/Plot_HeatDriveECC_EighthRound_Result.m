@@ -26,6 +26,7 @@ function figures = Plot_HeatDriveECC_EighthRound_Result(result, tag)
     figures{end + 1} = plot_mass_flows(result, tag, out_dir);
     figures{end + 1} = plot_constitutive_heat(result, tag, out_dir);
     figures{end + 1} = plot_pump_commands_and_power(result, tag, out_dir);
+    figures{end + 1} = plot_solid_energy_exchange(result, tag, out_dir);
 end
 
 function path = plot_mean_solid_temperatures(result, tag, out_dir)
@@ -160,15 +161,17 @@ function path = plot_stress(result, tag, out_dir)
     plot(p.time_s, mean(p.sigma_SMA_21_Pa, 2) / 1.0e6, 'LineWidth', 1.5);
     hold on;
     plot(p.time_s, mean(p.sigma_SE_21_Pa, 2) / 1.0e6, 'LineWidth', 1.5);
-    yline(result.options.material.SMA.nominal_stress_Pa / 1.0e6, ...
-        ':', 'Qian Table 4 SMA reference');
-    yline(result.options.geometry.sigma_se_design_Pa / 1.0e6, ...
-        ':', 'SE design stress');
+    [sigma_sma_full_Pa, sigma_se_full_Pa] = ...
+        full_transform_compatibility_stresses(result.options);
+    yline(sigma_sma_full_Pa / 1.0e6, ':', ...
+        'Table 4 full-transform SMA compatibility');
+    yline(sigma_se_full_Pa / 1.0e6, ':', ...
+        'Table 4 full-transform SE compatibility');
     add_stage_lines(gca, result.options);
     grid on;
     xlabel('time (s)');
     ylabel('stress (MPa)');
-    legend({'SMA mean','SE mean','SMA target','SE target'}, ...
+    legend({'SMA mean','SE mean','SMA compatibility','SE compatibility'}, ...
         'Location', 'best');
     title('Physical SMA-SE compatibility stress');
     export_and_close(fig, path);
@@ -241,6 +244,58 @@ function path = plot_pump_commands_and_power(result, tag, out_dir)
     legend({'SMA pump','SE pump'}, 'Location', 'best');
     title('Hydraulic power from command and measured mass flow');
     export_and_close(fig, path);
+end
+
+function path = plot_solid_energy_exchange(result, tag, out_dir)
+    p = result.physical;
+    path = fullfile(out_dir, [tag '_12_solid_energy_exchange.png']);
+    fig = new_figure();
+    tiledlayout(2, 1);
+    nexttile;
+    plot(p.time_s, sum(p.Q_SMA_hold_pipe_to_solid_21_W, 2), ...
+        'LineWidth', 1.1);
+    hold on;
+    plot(p.time_s, sum(p.Q_SMA_cooldown_pipe_to_solid_21_W, 2), ...
+        'LineWidth', 1.1);
+    plot(p.time_s, sum(p.Q_SMA_constitutive_21_W, 2), ...
+        'LineWidth', 1.1);
+    add_stage_lines(gca, result.options);
+    grid on;
+    ylabel('heat into SMA (W)');
+    legend({'Stage 1 pipe','Stage 3 pipe','Constitutive'}, ...
+        'Location', 'best');
+    title('Measured SMA solid energy exchange');
+    nexttile;
+    plot(p.time_s, sum(p.Q_SE_hold_pipe_to_solid_21_W, 2), ...
+        'LineWidth', 1.1);
+    hold on;
+    plot(p.time_s, sum(p.Q_SE_cooldown_pipe_to_solid_21_W, 2), ...
+        'LineWidth', 1.1);
+    plot(p.time_s, sum(p.Q_SE_constitutive_21_W, 2), ...
+        'LineWidth', 1.1);
+    add_stage_lines(gca, result.options);
+    grid on;
+    xlabel('time (s)');
+    ylabel('heat into SE (W)');
+    legend({'Stage 2 pipe','Stage 4 pipe','Constitutive'}, ...
+        'Location', 'best');
+    title('Measured SE solid energy exchange');
+    export_and_close(fig, path);
+end
+
+function [sigma_a_Pa, sigma_r_Pa] = ...
+        full_transform_compatibility_stresses(options)
+    g = options.geometry;
+    sma = options.material.SMA;
+    se = options.material.SE;
+    force_ratio = g.S_r_m2 / g.S_a_m2;
+    numerator_m = g.L_a_m * sma.epsilon_T - ...
+        g.L_r_m * se.epsilon_T;
+    denominator_m_per_Pa = ...
+        g.L_a_m * force_ratio / sma.E_m_Pa + ...
+        g.L_r_m / se.E_m_Pa;
+    sigma_r_Pa = numerator_m / max(denominator_m_per_Pa, eps);
+    sigma_a_Pa = force_ratio * sigma_r_Pa;
 end
 
 function add_stage_lines(ax, options)

@@ -17,7 +17,9 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
         'Solver', options.simulation.solver, ...
         'ReturnWorkspaceOutputs', 'on', ...
         'CaptureErrors', 'on');
-    if strcmpi(options.simulation.solver, 'FixedStepDiscrete')
+    fixed_step_solvers = {'ode1','ode2','ode3','ode4','ode5','ode8', ...
+        'ode14x','FixedStepDiscrete'};
+    if any(strcmpi(options.simulation.solver, fixed_step_solvers))
         sim_in = sim_in.setModelParameter( ...
             'FixedStep', num2str(options.simulation.fixed_step_s, '%.15g'));
     else
@@ -57,7 +59,9 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
         'sim_call_count', 1, ...
         'continuous_full_cycle_simulation', true, ...
         'walltime_s', walltime_s, ...
-        'model_name', model_name);
+        'model_name', model_name, ...
+        'solver', options.simulation.solver, ...
+        'fixed_step_s', options.simulation.fixed_step_s);
     save(output_mat, 'physical', 'summary', 'options', 'provenance', ...
         'available_simulink_variables', '-v7.3');
 
@@ -74,6 +78,7 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
     result.used_simulink_sim = true;
     result.authority = physical.authority;
     result.legacy_surrogate_used_for_results = false;
+    result.provenance = provenance;
     result.figures = Plot_HeatDriveECC_EighthRound_Result(result, ...
         sprintf('%dcycle', options.cycle_count));
 end
@@ -101,6 +106,7 @@ function physical = extract_physical_simscape_logs(sim_out, options)
         'probe_sma_stage2_port2_v3_side_T_K', ...
         'probe_sma_stage4_port3_v4_side_T_K', ...
         'probe_sma_stage4_port4_v6_side_T_K'};
+    required = [required, pipe_heat_flow_variable_names()];
     available = sim_out.who;
     missing = setdiff(required, available);
     if ~isempty(missing)
@@ -176,6 +182,14 @@ function physical = extract_physical_simscape_logs(sim_out, options)
         'ECC_Q_SMA_constitutive_W', time_s, 'previous');
     physical.Q_SE_constitutive_21_W = read_on_grid(sim_out, ...
         'ECC_Q_SE_constitutive_W', time_s, 'previous');
+    physical.Q_SMA_hold_pipe_to_solid_21_W = read_pipe_heat_flow_matrix( ...
+        sim_out, time_s, 'sma', 'hold', options.node_count);
+    physical.Q_SMA_cooldown_pipe_to_solid_21_W = read_pipe_heat_flow_matrix( ...
+        sim_out, time_s, 'sma', 'cooldown', options.node_count);
+    physical.Q_SE_hold_pipe_to_solid_21_W = read_pipe_heat_flow_matrix( ...
+        sim_out, time_s, 'se', 'hold', options.node_count);
+    physical.Q_SE_cooldown_pipe_to_solid_21_W = read_pipe_heat_flow_matrix( ...
+        sim_out, time_s, 'se', 'cooldown', options.node_count);
     constitutive = read_on_grid(sim_out, ...
         'ECC_constitutive21_output', time_s, 'previous');
     physical.constitutive_output_252 = constitutive;
@@ -209,6 +223,31 @@ function physical = unpack_constitutive_state(physical, values, options)
         columns = offset + (1:N);
         physical.(names{idx}) = values(:, columns);
         offset = offset + N;
+    end
+end
+
+function names = pipe_heat_flow_variable_names()
+    names = cell(1, 4 * 21);
+    cursor = 0;
+    for component = {'sma', 'se'}
+        for group = {'hold', 'cooldown'}
+            for node_idx = 1:21
+                cursor = cursor + 1;
+                names{cursor} = sprintf('%s_%s_node%02d_heatflow_W', ...
+                    component{1}, group{1}, node_idx);
+            end
+        end
+    end
+end
+
+function values = read_pipe_heat_flow_matrix(sim_out, time_s, ...
+        component, group, node_count)
+    values = zeros(numel(time_s), node_count);
+    for node_idx = 1:node_count
+        variable_name = sprintf('%s_%s_node%02d_heatflow_W', ...
+            component, group, node_idx);
+        values(:, node_idx) = read_on_grid(sim_out, variable_name, ...
+            time_s, 'linear');
     end
 end
 
