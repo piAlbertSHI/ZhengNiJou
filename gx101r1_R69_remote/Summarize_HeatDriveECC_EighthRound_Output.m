@@ -52,6 +52,20 @@ function summary = Summarize_HeatDriveECC_EighthRound_Output(physical, options)
     end
     summary.max_abs_sigma_SMA_Pa = max(abs(physical.sigma_SMA_21_Pa(:)));
     summary.max_abs_sigma_SE_Pa = max(abs(physical.sigma_SE_21_Pa(:)));
+    sigma_sma_mean_Pa = mean(physical.sigma_SMA_21_Pa, 2);
+    sigma_se_mean_Pa = mean(physical.sigma_SE_21_Pa, 2);
+    epsilon_sma_mean = mean(physical.epsilon_SMA_21, 2);
+    epsilon_se_mean = mean(physical.epsilon_SE_21, 2);
+    force_residual_N = sigma_sma_mean_Pa .* options.geometry.S_a_m2 - ...
+        sigma_se_mean_Pa .* options.geometry.S_r_m2;
+    displacement_residual_m = options.geometry.L_a_m .* epsilon_sma_mean - ...
+        options.geometry.L_r_m .* epsilon_se_mean;
+    summary.max_eq6_scaled = max(abs(force_residual_N) ./ ...
+        max(abs(sigma_se_mean_Pa .* options.geometry.S_r_m2), 1.0e-9));
+    summary.max_eq7_scaled = max(abs(displacement_residual_m) ./ ...
+        max(abs(options.geometry.L_r_m .* epsilon_se_mean), 1.0e-9));
+    summary.max_force_residual_N = max(abs(force_residual_N));
+    summary.max_displacement_residual_m = max(abs(displacement_residual_m));
     summary.max_abs_flow_kgps = max(abs([physical.mdot_SMA_kgps; ...
         physical.mdot_SE_stage2_in_kgps; physical.mdot_SE_stage2_out_kgps; ...
         physical.mdot_SE_stage4_in_kgps; physical.mdot_SE_stage4_out_kgps]));

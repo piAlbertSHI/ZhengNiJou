@@ -151,8 +151,12 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     % Stage-specific pump-pressure closures are calibrated only against the
     % physical Simscape mass-flow logs.  They are not thermal-state
     % assignments and remain separate because the valve topology changes.
-    options.branch.sma_stage1_pressure_bias_MPa = -0.0480;
-    options.branch.sma_stage3_pressure_bias_MPa = -0.0454;
+    options.branch.sma_stage1_pressure_bias_MPa = -0.0215;
+    options.branch.sma_stage3_pressure_bias_MPa = -0.0215;
+    options.branch.sma_pressure_bias_source = [ ...
+        'physical Simscape hydraulic closure after replacing finite-volume ', ...
+        'T-junction valve manifolds: dp scales with the square of the ', ...
+        'Qian Table4 0.0508 kg/s SMA flow target'];
     options.branch.sma_inactive_pressure_bias_MPa = 0.0;
     % The SE branch has different hydraulic losses in stages 2 and 4.
     % Keep the old scalar as a fallback, but expose the two active-stage
@@ -180,6 +184,11 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.branch.sma_source_select_valve_min_Cv_source = [ ...
         'separate V1/V2 closed-state leakage contract; accepted by the ', ...
         '2026-08-03 three-cycle physical buffer-isolation regression'];
+    options.branch.sma_source_select_junction_model = ...
+        'zero_volume_direct_manifold_node';
+    options.branch.sma_source_select_junction_source = [ ...
+        'V1/V2 article-equivalent valve manifold; avoids independent ', ...
+        'trapped thermal states introduced by a T-Junction (TL) block'];
     options.branch.se_pressure_pi_kp_MPa_per_kgps = -1.0;
     options.branch.se_pressure_pi_ki_MPa_per_kgps_s = -2.0;
     options.branch.stage_command_ramp_s = ...
@@ -269,6 +278,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.validation.max_inactive_core_flow_fraction_of_target = 0.01;
     options.validation.max_stage1_HHEX_SMA_buffer_rise_K = 5.0;
     options.validation.max_stage3_SHEX_buffer_above_source_K = 3.0;
+    options.validation.max_sma_source_select_probe_temperature_K = 450.0;
     options.validation.max_periodic_endpoint_drift_K = 0.05;
     options.validation.max_periodic_same_phase_temperature_drift_K = 0.05;
     options.validation.max_periodic_phase_drift = 1.0e-4;

@@ -19,10 +19,14 @@ function Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, sa
     assign_constitutive_workspace(options);
     load_system(model_name);
     configure_shex_boundary(model_name);
+    configure_sma_valve_manifolds(model_name);
     configure_sma_hydraulic_area(model_name, options);
     configure_valve_minimum_opening(model_name, options);
     configure_valve_command_blocks(model_name);
     configure_sma_pressure_bias_command(model_name);
+    configure_sma_flow_target_command(model_name);
+    configure_sma_pressure_feedback_enable(model_name);
+    configure_sma_pressure_integrator_reset(model_name);
     configure_se_pressure_bias_command(model_name);
     configure_se_flow_target_command(model_name);
     configure_se_pressure_feedback_enable(model_name);
@@ -50,6 +54,94 @@ function Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, sa
         set_param(model_name, 'SimulationCommand', 'update');
         save_system(model_name);
     end
+end
+
+function configure_sma_valve_manifolds(model_name)
+% Join the SMA source and route valves at zero-volume manifold nodes.
+%
+% A T-Junction (TL) gives each leg an internal fluid energy state.  The
+% inactive source leg is almost isolated by the low-leakage V1/V2 valves;
+% when the other source opens, that trapped leg can produce a nonphysical
+% temperature impulse.  The same issue occurs between the pump and V3/V4.
+% The article shows valve manifolds rather than finite-volume mixing tanks,
+% so direct conserving-node junctions are the appropriate equivalent.
+
+    v1 = [model_name '/SMA_V1_SHEX_to_pump'];
+    v2 = [model_name '/SMA_V2_HHEX_to_pump'];
+    pressure_source = [model_name '/SMA Pressure Source (TL)'];
+    old_junction = [model_name '/SMA_TJ_SourceSelect'];
+    if ~(exist_block(v1) && exist_block(v2) && exist_block(pressure_source))
+        error('HeatDriveECC:MissingSMASourceSelectBlocks', ...
+            'SMA V1/V2 or the SMA pressure source is missing.');
+    end
+
+    if exist_block(old_junction)
+        ports = get_param(old_junction, 'PortHandles');
+        kinds = {'LConn', 'RConn'};
+        line_handles = zeros(0, 1);
+        for kind_idx = 1:numel(kinds)
+            kind = kinds{kind_idx};
+            for port_idx = 1:numel(ports.(kind))
+                line_handle = get_param(ports.(kind)(port_idx), 'Line');
+                if isnumeric(line_handle) && line_handle ~= -1
+                    line_handles(end + 1, 1) = line_handle; %#ok<AGROW>
+                end
+            end
+        end
+        line_handles = unique(line_handles);
+        for idx = 1:numel(line_handles)
+            try
+                delete_line(line_handles(idx));
+            catch
+            end
+        end
+        delete_block(old_junction);
+    end
+
+    safe_add_line_handle(model_name, get_port(v1, 'RConn', 1), ...
+        get_port(pressure_source, 'LConn', 1));
+    safe_add_line_handle(model_name, get_port(v2, 'RConn', 1), ...
+        get_port(pressure_source, 'LConn', 1));
+
+    pump_sensor = [model_name '/FlowSensor_SMA_stage13_loop'];
+    v3 = [model_name '/SMA_V3_pump_to_heat_path'];
+    v4 = [model_name '/SMA_V4_pump_to_cool_path'];
+    pump_junction = [model_name '/SMA_TJ_PumpOutlet'];
+    if ~(exist_block(pump_sensor) && exist_block(v3) && exist_block(v4))
+        error('HeatDriveECC:MissingSMARouteSelectBlocks', ...
+            'The SMA pump flow sensor or V3/V4 route valves are missing.');
+    end
+    remove_tl_junction(pump_junction);
+    safe_add_line_handle(model_name, get_port(pump_sensor, 'RConn', 1), ...
+        get_port(v3, 'LConn', 1));
+    safe_add_line_handle(model_name, get_port(pump_sensor, 'RConn', 1), ...
+        get_port(v4, 'LConn', 1));
+end
+
+function remove_tl_junction(junction_path)
+    if ~exist_block(junction_path)
+        return;
+    end
+    ports = get_param(junction_path, 'PortHandles');
+    kinds = {'LConn', 'RConn'};
+    line_handles = zeros(0, 1);
+    for kind_idx = 1:numel(kinds)
+        kind = kinds{kind_idx};
+        for port_idx = 1:numel(ports.(kind))
+            line_handle = get_param(ports.(kind)(port_idx), 'Line');
+            if isnumeric(line_handle) && line_handle ~= -1
+                line_handles(end + 1, 1) = line_handle; %#ok<AGROW>
+            end
+        end
+    end
+    line_handles = unique(line_handles);
+    for idx = 1:numel(line_handles)
+        try
+            delete_line(line_handles(idx));
+        catch
+        end
+    end
+    delete_block(junction_path);
 end
 
 function add_pressure_command_observability(model_name)
@@ -331,6 +423,24 @@ function sim_params = apply_full_cycle_valve_commands(sim_params, options)
         timeseries(sma_pressure_bias_values, t);
     sim_params.SMA_pressure_bias_command_time_s = t;
     sim_params.SMA_pressure_bias_command_values = sma_pressure_bias_values;
+    sma_flow_target_values = options.branch.m_dot_sma_shex_kg_per_s .* ...
+        double(abs(sma_pressure_bias_values) > 0.0);
+    sim_params.SMA_mdot_target_command = ...
+        timeseries(sma_flow_target_values, t);
+    sim_params.SMA_mdot_target_command_time_s = t;
+    sim_params.SMA_mdot_target_command_values = sma_flow_target_values;
+    sma_feedback_enable_values = double(sma_flow_target_values > 0.0);
+    sim_params.SMA_pressure_feedback_enable_command = ...
+        timeseries(sma_feedback_enable_values, t);
+    sim_params.SMA_pressure_feedback_enable_command_time_s = t;
+    sim_params.SMA_pressure_feedback_enable_command_values = ...
+        sma_feedback_enable_values;
+    sma_feedback_reset_values = 1.0 - sma_feedback_enable_values;
+    sim_params.SMA_pressure_feedback_reset_command = ...
+        timeseries(sma_feedback_reset_values, t);
+    sim_params.SMA_pressure_feedback_reset_command_time_s = t;
+    sim_params.SMA_pressure_feedback_reset_command_values = ...
+        sma_feedback_reset_values;
     sim_params.SE_pressure_bias_command = ...
         timeseries(se_pressure_bias_values, t);
     sim_params.SE_pressure_bias_command_time_s = t;
@@ -448,7 +558,15 @@ function [t, se_values, sma_values, sma_pressure_bias_values, ...
             sma_hold_gate_values, sma_cooldown_gate_values] = append_profile_values( ...
             t, se_values, sma_values, sma_pressure_bias_values, ...
             se_pressure_bias_values, ...
-            sma_hold_gate_values, sma_cooldown_gate_values, 0.5 * ramp_s, ...
+            sma_hold_gate_values, sma_cooldown_gate_values, ramp_s / 3.0, ...
+            zeros(1, 6), zeros(1, 6), 0.0, 0.0, ...
+            inactive_G, inactive_G);
+        [t, se_values, sma_values, sma_pressure_bias_values, ...
+            se_pressure_bias_values, ...
+            sma_hold_gate_values, sma_cooldown_gate_values] = append_profile_values( ...
+            t, se_values, sma_values, sma_pressure_bias_values, ...
+            se_pressure_bias_values, ...
+            sma_hold_gate_values, sma_cooldown_gate_values, 2.0 * ramp_s / 3.0, ...
             se_stage(1, :), sma_stage(1, :), 0.0, 0.0, ...
             hold_gate_stage(1), cooldown_gate_stage(1));
         [t, se_values, sma_values, sma_pressure_bias_values, ...
@@ -682,6 +800,84 @@ function configure_sma_pressure_bias_command(model_name)
     delete_line_at_port(ports.Inport(3));
     safe_add_line_handle(model_name, get_port(command_block, 'Outport', 1), ...
         ports.Inport(3));
+end
+
+function configure_sma_flow_target_command(model_name)
+    error_sum = [model_name '/SMAPressurePI_ErrorSum'];
+    if ~exist_block(error_sum)
+        error('HeatDriveECC:MissingSMAPressureErrorSum', ...
+            'SMAPressurePI_ErrorSum was not found.');
+    end
+
+    command_block = [model_name '/SMAFlowTargetFromWorkspace'];
+    ensure_block('simulink/Sources/From Workspace', command_block, ...
+        'VariableName', 'SMA_mdot_target_command', ...
+        'Interpolate', 'on', ...
+        'OutputAfterFinalValue', 'Holding final value', ...
+        'Position', [-1750 780 -1570 810]);
+    ports = get_param(error_sum, 'PortHandles');
+    if isempty(ports.Inport)
+        error('HeatDriveECC:SMAPressureErrorSumPortCount', ...
+            'SMAPressurePI_ErrorSum has no target input.');
+    end
+    % The installed SMA flow sensor is negative in the physical pump
+    % direction.  Therefore target magnitude plus signed measurement is
+    % the feedback error: e = mdot_target + mdot_measured.
+    set_param(error_sum, 'Inputs', '++');
+    delete_line_at_port(ports.Inport(1));
+    safe_add_line_handle(model_name, get_port(command_block, 'Outport', 1), ...
+        ports.Inport(1));
+end
+
+function configure_sma_pressure_feedback_enable(model_name)
+    kp = [model_name '/SMAPressurePI_Kp'];
+    bias_sum = [model_name '/SMAPressurePI_BiasSum'];
+    if ~(exist_block(kp) && exist_block(bias_sum))
+        error('HeatDriveECC:MissingSMAPressurePPath', ...
+            'The SMA pressure-feedback proportional path is incomplete.');
+    end
+
+    enable = [model_name '/SMAPressureFeedbackEnableFromWorkspace'];
+    product = [model_name '/SMAPressurePEnableProduct'];
+    ensure_block('simulink/Sources/From Workspace', enable, ...
+        'VariableName', 'SMA_pressure_feedback_enable_command', ...
+        'Interpolate', 'on', ...
+        'OutputAfterFinalValue', 'Holding final value', ...
+        'Position', [1000 1435 1200 1465]);
+    ensure_block('simulink/Math Operations/Product', product, ...
+        'Inputs', '**', ...
+        'Position', [1330 1195 1360 1225]);
+    ports = get_param(bias_sum, 'PortHandles');
+    delete_line_at_port(ports.Inport(1));
+    safe_add_line_handle(model_name, get_port(kp, 'Outport', 1), ...
+        get_port(product, 'Inport', 1));
+    safe_add_line_handle(model_name, get_port(enable, 'Outport', 1), ...
+        get_port(product, 'Inport', 2));
+    safe_add_line_handle(model_name, get_port(product, 'Outport', 1), ...
+        ports.Inport(1));
+end
+
+function configure_sma_pressure_integrator_reset(model_name)
+    integrator = [model_name '/SMAPressurePI_Integrator'];
+    if ~exist_block(integrator)
+        error('HeatDriveECC:MissingSMAPressureIntegrator', ...
+            'SMAPressurePI_Integrator was not found.');
+    end
+
+    reset = [model_name '/SMAPressureFeedbackResetFromWorkspace'];
+    ensure_block('simulink/Sources/From Workspace', reset, ...
+        'VariableName', 'SMA_pressure_feedback_reset_command', ...
+        'Interpolate', 'off', ...
+        'OutputAfterFinalValue', 'Holding final value', ...
+        'Position', [1130 1485 1330 1515]);
+    set_param(integrator, ...
+        'ExternalReset', 'level', ...
+        'InitialConditionSource', 'internal', ...
+        'InitialCondition', '0');
+    reset_port = get_port(integrator, 'Inport', 2);
+    delete_line_at_port(reset_port);
+    safe_add_line_handle(model_name, get_port(reset, 'Outport', 1), ...
+        reset_port);
 end
 
 function configure_se_pressure_bias_command(model_name)
@@ -1054,7 +1250,7 @@ function add_sma_stage13_observability(model_name)
         'probe_sma_stage1_v1_pump_side_T_K', ...
         [-1810 220 -1760 260], [-1725 229 -1695 251], [-2680 205 -2315 230]);
     add_tl_temperature_probe(model_name, 'SMAStage13PumpOutletFluidTemp', ...
-        get_port([model_name '/SMA_TJ_PumpOutlet'], 'LConn', 1), ...
+        get_port([model_name '/FlowSensor_SMA_stage13_loop'], 'RConn', 1), ...
         'probe_sma_stage13_pump_outlet_T_K', ...
         [-1340 340 -1290 380], [-1255 349 -1225 371], [-2680 235 -2315 260]);
     [~, stage1_in_ps, ~] = add_tl_temperature_probe(model_name, 'SMAStage1InletFluidTemp', ...
