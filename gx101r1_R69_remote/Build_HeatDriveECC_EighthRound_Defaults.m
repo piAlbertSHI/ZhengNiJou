@@ -175,6 +175,10 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.branch.valve_min_Cv = 0.005;
     options.branch.valve_min_Cv_source = ...
         'continuous Simscape liquid pressure-reference leakage closure';
+    options.branch.sma_source_select_valve_min_Cv = 1.0e-4;
+    options.branch.sma_source_select_valve_min_Cv_source = [ ...
+        'separate V1/V2 closed-state leakage contract; accepted by the ', ...
+        '2026-08-03 three-cycle physical buffer-isolation regression'];
     options.branch.se_pressure_pi_kp_MPa_per_kgps = -1.0;
     options.branch.se_pressure_pi_ki_MPa_per_kgps_s = -2.0;
     options.branch.stage_command_ramp_s = ...
@@ -261,6 +265,12 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.validation.max_abs_flow_over_target = 4.0;
     options.validation.min_active_flow_fraction_of_target = 0.10;
     options.validation.max_active_flow_relative_error = 0.15;
+    options.validation.max_inactive_core_flow_fraction_of_target = 0.01;
+    options.validation.max_stage1_HHEX_SMA_buffer_rise_K = 5.0;
+    options.validation.max_stage3_SHEX_buffer_above_source_K = 3.0;
+    options.validation.max_periodic_endpoint_drift_K = 0.05;
+    options.validation.max_periodic_same_phase_temperature_drift_K = 0.05;
+    options.validation.max_periodic_phase_drift = 1.0e-4;
     options.validation.min_sma_phase_swing = 0.50;
     options.validation.nominal_sma_stress_Pa = ...
         options.material.SMA.nominal_stress_Pa;

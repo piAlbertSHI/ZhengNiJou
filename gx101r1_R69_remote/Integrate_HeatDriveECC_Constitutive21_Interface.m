@@ -156,6 +156,16 @@ function configure_valve_minimum_opening(model_name, options)
         minimum_cv = 1.0e-4;
     end
     assignin('base', 'valve_min_Cv', minimum_cv);
+    sma_source_minimum_cv = get_branch_option(options, ...
+        'sma_source_select_valve_min_Cv', minimum_cv);
+    if ~(isnumeric(sma_source_minimum_cv) && ...
+            isscalar(sma_source_minimum_cv) && ...
+            isfinite(sma_source_minimum_cv) && ...
+            sma_source_minimum_cv > 0 && sma_source_minimum_cv <= 1)
+        sma_source_minimum_cv = minimum_cv;
+    end
+    assignin('base', 'sma_source_select_valve_min_Cv', ...
+        sma_source_minimum_cv);
     blocks = find_system(model_name, ...
         'LookUnderMasks', 'all', 'FollowLinks', 'on', 'Type', 'Block');
     for idx = 1:numel(blocks)
@@ -168,15 +178,30 @@ function configure_valve_minimum_opening(model_name, options)
             end
             params = get_param(block_path, 'DialogParameters');
             if isfield(params, 'Cv_min')
-                set_param(block_path, 'Cv_min', 'valve_min_Cv');
+                if is_sma_source_select_valve(block_path, model_name)
+                    set_param(block_path, 'Cv_min', ...
+                        'sma_source_select_valve_min_Cv');
+                else
+                    set_param(block_path, 'Cv_min', 'valve_min_Cv');
+                end
             end
             if isfield(params, 'Kv_min')
-                set_param(block_path, 'Kv_min', 'valve_min_Cv');
+                if is_sma_source_select_valve(block_path, model_name)
+                    set_param(block_path, 'Kv_min', ...
+                        'sma_source_select_valve_min_Cv');
+                else
+                    set_param(block_path, 'Kv_min', 'valve_min_Cv');
+                end
             end
         catch
             % Skip non-TL masked helper blocks.
         end
     end
+end
+
+function tf = is_sma_source_select_valve(block_path, model_name)
+    tf = strcmp(block_path, [model_name '/SMA_V1_SHEX_to_pump']) || ...
+        strcmp(block_path, [model_name '/SMA_V2_HHEX_to_pump']);
 end
 
 function assign_component_solid_workspace(options)
