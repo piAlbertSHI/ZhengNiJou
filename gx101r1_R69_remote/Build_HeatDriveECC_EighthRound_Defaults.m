@@ -282,9 +282,11 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
         ['Qian Table4 SMA water flow target closure; SMA and SE ', ...
         'branches use independent axial hydraulic areas while the ', ...
         'Simulink topology and thermal state model remain unchanged.'];
-    options.branch.valve_min_Cv = 0.005;
+    options.branch.valve_min_Cv = 1.0e-6;
     options.branch.valve_min_Cv_source = ...
-        'continuous Simscape liquid pressure-reference leakage closure';
+        ['near-zero closed leakage used by the validated SE21 inverse-cycle ', ...
+        'model; retains a nonsingular Simscape liquid network without ', ...
+        'creating a parallel heat-transfer route'];
     options.branch.sma_source_select_valve_min_Cv = 1.0e-5;
     options.branch.sma_source_select_valve_min_Cv_source = [ ...
         'near-zero closed leakage for the article V1/V2 three-way selector; ', ...
@@ -299,10 +301,12 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.branch.se_pressure_pi_ki_MPa_per_kgps_s = -2.0;
     options.branch.stage_command_ramp_s = ...
         0.10 * min(article.schedule.stage_durations_s);
+    options.branch.valve_switch_step_count = 20;
     options.branch.valve_switch_sequence_source = [ ...
         'At each stage boundary pump pressure and the valve-gated flow PI ', ...
-        'target ramp to zero on the open route before valves switch. The ', ...
-        'new route is then pressurized from zero, avoiding trapped pressure.'];
+        'target ramp to zero on the open route. The old route then closes, ', ...
+        'the manifold passes through an all-closed state, and the new route ', ...
+        'opens in finite zero-pressure steps before repressurization.'];
     options.branch.sma_pipe_thermal_gate_active_G_W_per_K = 1.0e6;
     options.branch.sma_pipe_thermal_gate_inactive_G_W_per_K = 1.0e-6;
     options.branch.se_pipe_thermal_gate_active_G_W_per_K = 1.0e6;
@@ -388,11 +392,14 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
         'physical_simscape_to_workspace_logs';
     options.validation.max_temperature_K = 450.0;
     options.validation.min_temperature_K = 220.0;
+    options.validation.min_thermal_liquid_temperature_K = 273.16;
+    options.validation.max_thermal_liquid_temperature_K = 413.16;
     options.validation.max_abs_stress_Pa = 1.2e9;
     options.validation.max_abs_flow_over_target = 4.0;
     options.validation.min_active_flow_fraction_of_target = 0.10;
     options.validation.max_active_flow_relative_error = 0.15;
     options.validation.max_inactive_core_flow_fraction_of_target = 0.01;
+    options.validation.max_cross_route_flow_fraction_of_target = 0.01;
     options.validation.max_inactive_thermal_path_heat_W = 5.0e-3;
     options.validation.max_stage1_HHEX_SMA_buffer_rise_K = 5.0;
     options.validation.max_stage3_SHEX_buffer_above_source_K = 3.0;
@@ -402,6 +409,11 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.validation.max_periodic_phase_drift = 1.0e-4;
     options.validation.qian_time_step_s = 1.0e-3;
     options.validation.min_sma_phase_swing = 0.50;
+    options.validation.max_fig3_loading_onset_s = 0.50;
+    options.validation.max_fig3_loading_completion_s = 2.00;
+    options.validation.max_fig3_unloading_onset_s = 1.50;
+    options.validation.min_fig3_unloading_completion_s = 2.00;
+    options.validation.max_fig3_unloading_completion_s = 3.50;
     options.validation.nominal_sma_stress_Pa = ...
         options.material.SMA.nominal_stress_Pa;
     options.validation.reference_system_scope = ...
