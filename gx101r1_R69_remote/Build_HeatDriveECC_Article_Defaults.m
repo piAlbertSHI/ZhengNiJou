@@ -199,9 +199,11 @@ function geometry = build_equivalent_geometry(material, reference)
     se = material.SE;
     se_cross_section_m2 = reference.se_plate_count * ...
         reference.se_plate_thickness_m * reference.se_plate_width_m;
-    % Qian2019 defines porosity as V_HTF / V_solid, not the conventional
-    % V_void / V_total definition.
-    se_void_area_m2 = reference.se_porosity * se_cross_section_m2;
+    % Qian2017 Eq.4 uses the conventional packed-bed porosity
+    % epsilon = V_HTF / (V_solid + V_HTF). Qian2019 Table 2 geometry is
+    % consistent with the same definition, so A_void/A_solid=epsilon/(1-epsilon).
+    se_void_area_m2 = reference.se_porosity / ...
+        (1.0 - reference.se_porosity) * se_cross_section_m2;
     se_length_m = reference.se_m_dot_kg_per_s * ...
         reference.se_exchange_time_s / ...
         (reference.se_fluid.rho_kg_per_m3 * reference.se_utilization * ...
@@ -213,6 +215,8 @@ function geometry = build_equivalent_geometry(material, reference)
     driver_mass_kg = reference.driver_to_se_mass_ratio * se_mass_kg;
     driver_volume_m3 = driver_mass_kg / sma.rho_kg_per_m3;
     driver_length_m = driver_volume_m3 / driver_cross_section_m2;
+    driver_void_area_m2 = reference.sma_porosity / ...
+        (1.0 - reference.sma_porosity) * driver_cross_section_m2;
     sigma_sma_Pa = sma.nominal_stress_Pa;
     sigma_se_Pa = sigma_sma_Pa * driver_cross_section_m2 / ...
         se_cross_section_m2;
@@ -234,13 +238,20 @@ function geometry = build_equivalent_geometry(material, reference)
     geometry.se_volume_m3 = se_volume_m3;
     geometry.se_mass_kg = se_mass_kg;
     geometry.se_porosity = reference.se_porosity;
-    geometry.porosity_definition = 'V_HTF_over_V_solid_Qian2019';
+    geometry.se_utilization = reference.se_utilization;
+    geometry.porosity_definition = ...
+        'V_HTF_over_total_bed_volume_Qian2017_Eq4_Qian2019_geometry';
     geometry.se_plate_count = reference.se_plate_count;
     geometry.se_plate_thickness_m = reference.se_plate_thickness_m;
     geometry.se_plate_width_m = reference.se_plate_width_m;
     geometry.se_channel_spacing_m = reference.se_channel_spacing_m;
     geometry.se_fluid_void_area_m2 = se_void_area_m2;
     geometry.se_fluid_void_volume_m3 = se_void_area_m2 * se_length_m;
+    geometry.se_porosity_calculated = se_void_area_m2 / ...
+        (se_void_area_m2 + se_cross_section_m2);
+    geometry.se_utilization_calculated = reference.se_m_dot_kg_per_s * ...
+        reference.se_exchange_time_s / ...
+        (reference.se_fluid.rho_kg_per_m3 * se_void_area_m2 * se_length_m);
     geometry.se_wetted_perimeter_m = reference.se_plate_count * ...
         2.0 * reference.se_plate_width_m;
     geometry.se_wetted_area_m2 = geometry.se_wetted_perimeter_m * se_length_m;
@@ -262,6 +273,11 @@ function geometry = build_equivalent_geometry(material, reference)
     geometry.driver_wire_count = reference.sma_wire_count;
     geometry.driver_wire_diameter_m = reference.sma_wire_diameter_m;
     geometry.driver_porosity = reference.sma_porosity;
+    geometry.driver_fluid_void_area_m2 = driver_void_area_m2;
+    geometry.driver_fluid_void_volume_m3 = ...
+        driver_void_area_m2 * driver_length_m;
+    geometry.driver_porosity_calculated = driver_void_area_m2 / ...
+        (driver_void_area_m2 + driver_cross_section_m2);
     geometry.driver_volume_m3 = driver_volume_m3;
     geometry.driver_mass_kg = driver_mass_kg;
     geometry.driver_length_m = driver_length_m;
@@ -275,7 +291,8 @@ function geometry = build_equivalent_geometry(material, reference)
     geometry.thickness_r_m = se_cross_section_m2 / ...
         max(geometry.width_r_m, eps);
     geometry.compatibility_source = [ ...
-        'Qian2019 Table4 plate/wire geometry; force ratio uses ', ...
+        'Qian2019 Table4 plate/wire geometry and conventional bed ', ...
+        'porosity; force ratio uses ', ...
         'sigma_a*Sa=sigma_r*Sr and lengths use Eq18 utilization.'];
     geometry.geometry_source = ...
         'Qian2019 Table 4 plus Qian2017 Eq18 derived axial lengths';
