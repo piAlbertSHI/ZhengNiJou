@@ -17,12 +17,14 @@ function routes = Build_HeatDriveECC_RouteMatrix(schedule)
                 route.three_way_valve_2_position = 0;
                 route.check_valve_states = [1 0 0 0];
             case 'se_reject_heat'
+                route.SHEX_to_SMA = 1;
+                route.SMA_loop_pump_on = 1;
                 route.SE_to_THE = 1;
                 route.SE_loop_pump_on = 1;
                 route.mechanical_coupling_active = 0;
-                route.three_way_valve_1_position = 0;
+                route.three_way_valve_1_position = 1;
                 route.three_way_valve_2_position = 1;
-                route.check_valve_states = [0 0 1 0];
+                route.check_valve_states = [1 0 1 0];
             case 'sma_cool_unload'
                 route.THE_to_SMA = 1;
                 route.SMA_loop_pump_on = 1;
@@ -31,12 +33,14 @@ function routes = Build_HeatDriveECC_RouteMatrix(schedule)
                 route.three_way_valve_2_position = 0;
                 route.check_valve_states = [0 1 0 0];
             case 'se_absorb_heat'
+                route.THE_to_SMA = 1;
+                route.SMA_loop_pump_on = 1;
                 route.CHEX_to_SE = 1;
                 route.SE_loop_pump_on = 1;
                 route.mechanical_coupling_active = 0;
-                route.three_way_valve_1_position = 0;
+                route.three_way_valve_1_position = 2;
                 route.three_way_valve_2_position = 2;
-                route.check_valve_states = [0 0 0 1];
+                route.check_valve_states = [0 1 0 1];
         end
         routes(idx) = route;
     end
