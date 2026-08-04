@@ -268,14 +268,10 @@ function maximum_W = max_inactive_thermal_path_heat(physical, options)
     guard_s = get_branch_scalar(options, 'stage_command_ramp_s', 0.0) + ...
         max(options.simulation.fixed_step_s, eps);
     inactive_by_stage = {
-        physical.Q_SMA_cooldown_pipe_to_solid_21_W, ...
-            physical.Q_SE_hold_pipe_to_solid_21_W
-        physical.Q_SMA_cooldown_pipe_to_solid_21_W, ...
-            physical.Q_SE_cooldown_pipe_to_solid_21_W
-        physical.Q_SMA_hold_pipe_to_solid_21_W, ...
-            physical.Q_SE_cooldown_pipe_to_solid_21_W
-        physical.Q_SMA_hold_pipe_to_solid_21_W, ...
-            physical.Q_SE_hold_pipe_to_solid_21_W};
+        physical.Q_SMA_cooldown_pipe_to_solid_21_W
+        physical.Q_SMA_cooldown_pipe_to_solid_21_W
+        physical.Q_SMA_hold_pipe_to_solid_21_W
+        physical.Q_SMA_hold_pipe_to_solid_21_W};
     for stage_idx = 1:4
         mask = physical.stage_id == stage_idx & ...
             physical.stage_elapsed_s >= guard_s;
@@ -283,7 +279,7 @@ function maximum_W = max_inactive_thermal_path_heat(physical, options)
             maximum_W = Inf;
             return;
         end
-        for route_idx = 1:2
+        for route_idx = 1:size(inactive_by_stage, 2)
             q_W = sum(inactive_by_stage{stage_idx, route_idx}, 2);
             maximum_W = max(maximum_W, max(abs(q_W(mask))));
         end

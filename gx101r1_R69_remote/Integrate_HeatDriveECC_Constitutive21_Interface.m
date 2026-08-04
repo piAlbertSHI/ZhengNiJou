@@ -21,6 +21,7 @@ function Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, sa
     load_system(model_name);
     configure_shex_boundary(model_name);
     configure_sma_valve_manifolds(model_name);
+    configure_se_shared_regenerator_fluid_path(model_name, options);
     configure_sma_hydraulic_area(model_name, options);
     configure_article_component_pipe_geometry(model_name, 'SMA', 'sma');
     configure_article_component_pipe_geometry(model_name, 'SE', 'se');
@@ -238,8 +239,12 @@ end
 
 function configure_article_component_pipe_geometry(model_name, component_name, prefix)
     component = [model_name '/' component_name];
+    routes = {'HoldPipe', 'CooldownPipe'};
+    if strcmp(component_name, 'SE')
+        routes = {'HoldPipe'};
+    end
     for idx = 1:21
-        for route = {'HoldPipe', 'CooldownPipe'}
+        for route = routes
             block_path = sprintf('%s/%s_%03d', component, route{1}, idx);
             if ~exist_block(block_path)
                 error('HeatDriveECC:MissingArticlePipe', ...
@@ -251,6 +256,88 @@ function configure_article_component_pipe_geometry(model_name, component_name, p
                 'Dh', sprintf('%s_article_pipe_Dh', prefix), ...
                 'length_add', '0', ...
                 'Nu_lam', sprintf('%s_article_Nu', prefix));
+        end
+    end
+end
+
+function configure_se_shared_regenerator_fluid_path(model_name, options)
+    if ~logical(get_branch_option(options, ...
+            'se_shared_regenerator_fluid_path', true))
+        return;
+    end
+    parent = [model_name '/SE'];
+    hold_hot = [parent '/HoldPipe_001'];
+    hold_cold = [parent '/HoldPipe_021'];
+    if ~(exist_block(parent) && exist_block(hold_hot) && exist_block(hold_cold))
+        error('HeatDriveECC:MissingSharedSEBed', ...
+            'The SE shared HoldPipe_001...021 bed is incomplete.');
+    end
+
+    se_ports = get_param(parent, 'PortHandles');
+    if numel(se_ports.LConn) ~= 4
+        error('HeatDriveECC:SEFourPortContract', ...
+            'The shared SE bed requires four external valve ports.');
+    end
+    conn_paths = arrayfun(@(idx) sprintf('%s/Conn%d', parent, idx), ...
+        1:4, 'UniformOutput', false);
+    for port_idx = 1:4
+        delete_line_at_port(get_port(conn_paths{port_idx}, 'RConn', 1));
+    end
+    delete_line_at_port(get_port(hold_hot, 'LConn', 1));
+    delete_line_at_port(get_port(hold_cold, 'RConn', 1));
+
+    blocks = find_system(parent, 'SearchDepth', 1, 'Type', 'Block');
+    for idx = 1:numel(blocks)
+        name = get_param(blocks{idx}, 'Name');
+        remove = startsWith(name, 'CooldownPipe_') || ...
+            startsWith(name, 'CooldownThermalGate') || ...
+            startsWith(name, 'SECooldownNode') || ...
+            startsWith(name, 'ToWorkspace_se_cooldown_');
+        if remove
+            delete_block_if_present_with_lines(blocks{idx});
+        end
+    end
+
+    % Hold node 1 is the hot end (V3 outlet/V4 inlet); node 21 is the
+    % cold end (V1 inlet/V6 outlet). T-Junction (TL) is an algebraic loss
+    % element without an additional fluid thermal-storage state.
+    hot_junction = [parent '/SharedSEHotEndJunction'];
+    cold_junction = [parent '/SharedSEColdEndJunction'];
+    junction_source = [ ...
+        'SimscapeFluids_lib/Thermal Liquid/Pipes & Fittings/T-Junction (TL)'];
+    ensure_block(junction_source, hot_junction, ...
+        'Position', [185 105 235 155], ...
+        'area_main', 'se_article_pipe_fa', ...
+        'area_branch', 'se_article_pipe_fa', ...
+        'inertia', 'false');
+    ensure_block(junction_source, cold_junction, ...
+        'Position', [185 825 235 875], ...
+        'area_main', 'se_article_pipe_fa', ...
+        'area_branch', 'se_article_pipe_fa', ...
+        'inertia', 'false');
+    disconnect_all_conserving_ports(hot_junction);
+    disconnect_all_conserving_ports(cold_junction);
+
+    safe_add_line_handle(parent, get_port(hold_hot, 'LConn', 1), ...
+        get_port(hot_junction, 'LConn', 1));
+    safe_add_line_handle(parent, get_port(conn_paths{2}, 'RConn', 1), ...
+        get_port(hot_junction, 'RConn', 1));
+    safe_add_line_handle(parent, get_port(conn_paths{3}, 'RConn', 1), ...
+        get_port(hot_junction, 'RConn', 2));
+    safe_add_line_handle(parent, get_port(hold_cold, 'RConn', 1), ...
+        get_port(cold_junction, 'LConn', 1));
+    safe_add_line_handle(parent, get_port(conn_paths{1}, 'RConn', 1), ...
+        get_port(cold_junction, 'RConn', 1));
+    safe_add_line_handle(parent, get_port(conn_paths{4}, 'RConn', 1), ...
+        get_port(cold_junction, 'RConn', 2));
+end
+
+function disconnect_all_conserving_ports(block_path)
+    ports = get_param(block_path, 'PortHandles');
+    for kind = {'LConn', 'RConn'}
+        handles = ports.(kind{1});
+        for idx = 1:numel(handles)
+            delete_line_at_port(handles(idx));
         end
     end
 end
@@ -548,15 +635,19 @@ function sim_params = apply_full_cycle_valve_commands(sim_params, options)
     sma_cooldown_activity = mean(sma_values(:, [2 4 6]), 2);
     se_hold_gate_values = se_inactive_G .* ones(size(t));
     se_cooldown_gate_values = se_inactive_G .* ones(size(t));
-    % The duplicated fluid columns represent successive half-cycle
-    % inventories. Only the resident column remains thermally connected when
-    % SE bulk flow is stopped: Stage1 inherits Stage4 (Cooldown), while
-    % Stage3 inherits Stage2 (Hold). Qian Table2 natural convection applies
-    % during these nominally adiabatic transformation intervals.
-    se_hold_gate_values(sma_cooldown_activity > 0.5) = se_natural_G;
-    se_cooldown_gate_values(sma_hold_activity > 0.5) = se_natural_G;
-    se_hold_gate_values(se_hold_activity > 0.5) = se_active_G;
-    se_cooldown_gate_values(se_cooldown_activity > 0.5) = se_active_G;
+    if logical(get_branch_option(options, ...
+            'se_shared_regenerator_fluid_path', true))
+        % One resident SE fluid column remains naturally coupled during
+        % Stages 1/3 and is forced in opposite directions in Stages 2/4.
+        se_hold_gate_values(:) = se_natural_G;
+        se_hold_gate_values(se_hold_activity > 0.5 | ...
+            se_cooldown_activity > 0.5) = se_active_G;
+    else
+        se_hold_gate_values(sma_cooldown_activity > 0.5) = se_natural_G;
+        se_cooldown_gate_values(sma_hold_activity > 0.5) = se_natural_G;
+        se_hold_gate_values(se_hold_activity > 0.5) = se_active_G;
+        se_cooldown_gate_values(se_cooldown_activity > 0.5) = se_active_G;
+    end
     initial_deadband = se_hold_activity <= 0.5 & ...
         se_cooldown_activity <= 0.5 & sma_hold_activity <= 0.5 & ...
         sma_cooldown_activity <= 0.5;
@@ -1120,9 +1211,6 @@ function configure_se_dynamic_thermal_gates(model_name)
     configure_dynamic_thermal_gate_group(parent, 'Hold', ...
         'SE_hold_pipe_to_se_G_command', ...
         [35 860 225 890], [260 860 320 890]);
-    configure_dynamic_thermal_gate_group(parent, 'Cooldown', ...
-        'SE_cooldown_pipe_to_se_G_command', ...
-        [505 860 735 890], [770 860 830 890]);
 end
 
 function configure_dynamic_thermal_gate_group(parent, gate_prefix, command_variable, ...
@@ -1456,6 +1544,9 @@ function add_component_pipe_heat_flow_observability(model_name, component_name)
     end
     component_lower = lower(component_name);
     groups = {'Hold', 'Cooldown'};
+    if strcmp(component_name, 'SE')
+        groups = {'Hold'};
+    end
     for group_idx = 1:numel(groups)
         group = groups{group_idx};
         x0 = 960 + (group_idx - 1) * 520;

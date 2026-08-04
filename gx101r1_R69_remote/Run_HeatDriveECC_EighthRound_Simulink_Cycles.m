@@ -188,8 +188,8 @@ function physical = extract_physical_simscape_logs(sim_out, options)
         sim_out, time_s, 'sma', 'cooldown', options.node_count);
     physical.Q_SE_hold_pipe_to_solid_21_W = read_pipe_heat_flow_matrix( ...
         sim_out, time_s, 'se', 'hold', options.node_count);
-    physical.Q_SE_cooldown_pipe_to_solid_21_W = read_pipe_heat_flow_matrix( ...
-        sim_out, time_s, 'se', 'cooldown', options.node_count);
+    physical.Q_SE_cooldown_pipe_to_solid_21_W = ...
+        zeros(numel(time_s), options.node_count);
     constitutive = read_on_grid(sim_out, ...
         'ECC_constitutive21_output', time_s, 'previous');
     physical.constitutive_output_252 = constitutive;
@@ -227,16 +227,17 @@ function physical = unpack_constitutive_state(physical, values, options)
 end
 
 function names = pipe_heat_flow_variable_names()
-    names = cell(1, 4 * 21);
+    names = cell(1, 3 * 21);
     cursor = 0;
-    for component = {'sma', 'se'}
-        for group = {'hold', 'cooldown'}
+    pairs = {'sma','hold'; 'sma','cooldown'; 'se','hold'};
+    for pair_idx = 1:size(pairs, 1)
+        component = pairs{pair_idx, 1};
+        group = pairs{pair_idx, 2};
             for node_idx = 1:21
                 cursor = cursor + 1;
                 names{cursor} = sprintf('%s_%s_node%02d_heatflow_W', ...
-                    component{1}, group{1}, node_idx);
+                    component, group, node_idx);
             end
-        end
     end
 end
 
