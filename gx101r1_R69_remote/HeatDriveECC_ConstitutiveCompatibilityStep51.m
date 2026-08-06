@@ -128,39 +128,36 @@ function rates = phase_rates(state, compatible, options, stage_id)
     rR = zeros(size(xR));
 
     switch round(stage_id)
-        case 1
-            % Stage 1: SMA M->A on its reverse start line, while the
-            % coupled SE A->M starts on its forward start line.
+        case {1, 2}
+            % Hot half-cycle: SMA M->A on its reverse start line while the
+            % coupled SE A->M follows its forward start line. Stage 2 changes
+            % the SE fluid route but does not suppress a thermodynamically
+            % admissible residual transformation.
             pai_a = sma.C_A_Pa_per_K .* (Ta - sma.T_As_K) - sigma_a;
             pai_r = sigma_r - se.C_M_Pa_per_K .* (Tr - se.T_Ms_K);
             reverse_gate_a = smooth_gate(pai_a, c.drive_width_a_Pa);
             forward_gate_r = smooth_gate(pai_r, c.drive_width_r_Pa);
             rA = -c.rate_a_to_A_1_per_s .* reverse_gate_a .* xA;
             rR = c.rate_r_load_1_per_s .* forward_gate_r .* (1.0 - xR);
-        case 3
-            % Stage 3: SMA A->M on its forward start line, while the
-            % coupled SE M->A is released on its reverse start line.
+        case {3, 4}
+            % Ambient half-cycle: SMA A->M on its forward start line while
+            % the coupled SE M->A follows its reverse start line. Stage 4 is
+            % the cooling-delivery flow step, not a constitutive reset.
             pai_a = sigma_a - sma.C_M_Pa_per_K .* (Ta - sma.T_Ms_K);
             pai_r = se.C_A_Pa_per_K .* (Tr - se.T_As_K) - sigma_r;
             forward_gate_a = smooth_gate(pai_a, c.drive_width_a_Pa);
             reverse_gate_r = smooth_gate(pai_r, c.drive_width_r_Pa);
             rA = c.rate_a_to_M_1_per_s .* forward_gate_a .* (1.0 - xA);
             rR = -c.rate_r_stage3_unload_1_per_s .* reverse_gate_r .* xR;
-        case 4
-            % Stage 4 is an exchange stage.  It may remove only residual
-            % SE martensite when the instantaneous reverse start line is met.
-            pai_r = se.C_A_Pa_per_K .* (Tr - se.T_As_K) - sigma_r;
-            reverse_gate_r = smooth_gate(pai_r, c.drive_width_r_Pa);
-            rR = -c.rate_r_stage4_unload_1_per_s .* reverse_gate_r .* xR;
     end
 
     smoothing_rate = get_constitutive_scalar(c, ...
         'phase_front_smoothing_1_per_s', 0.0);
     if smoothing_rate > 0.0
-        if any(round(stage_id) == [1, 3])
+        if any(round(stage_id) == [1, 2, 3, 4])
             rA = rA + smoothing_rate .* phase_laplacian_neumann(xA);
         end
-        if any(round(stage_id) == [1, 3, 4])
+        if any(round(stage_id) == [1, 2, 3, 4])
             rR = rR + smoothing_rate .* phase_laplacian_neumann(xR);
         end
     end

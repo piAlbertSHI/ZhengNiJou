@@ -151,10 +151,8 @@ function summary = Summarize_HeatDriveECC_EighthRound_Output(physical, options)
         item.latent_source_SE_J = options.equilibrium.m_r_kg * ...
             options.material.SE.Delta_h_J_per_kg * ...
             (last_value(xR_mean, idx) - first_value(xR_mean, idx));
-        item.mechanical_source_SMA_J = item.Q_constitutive_SMA_J - ...
-            item.latent_source_SMA_J;
-        item.mechanical_source_SE_J = item.Q_constitutive_SE_J - ...
-            item.latent_source_SE_J;
+        [item.mechanical_source_SMA_J, item.mechanical_source_SE_J] = ...
+            direct_internal_mechanical_sources(physical, options, idx);
         item.mechanical_source_net_J = item.mechanical_source_SMA_J + ...
             item.mechanical_source_SE_J;
         item.mechanical_source_balance_fraction = abs( ...
@@ -542,6 +540,34 @@ function value = integrate_signal(t, x, mask)
     else
         value = trapz(t_local, x_local);
     end
+end
+
+function [source_sma_J, source_se_J] = ...
+        direct_internal_mechanical_sources(physical, options, mask)
+% Reproduce the constitutive step's sigma*d(epsilon)*V quadrature directly.
+% Inferring work by subtracting endpoint latent heat from a trapezoidal
+% heat-source integral creates a false imbalance at discrete phase jumps.
+
+    indices = find(mask);
+    if numel(indices) < 2
+        source_sma_J = NaN;
+        source_se_J = NaN;
+        return;
+    end
+    previous = indices(1:end - 1);
+    current = indices(2:end);
+    d_epsilon_sma = physical.epsilon_SMA_21(current, :) - ...
+        physical.epsilon_SMA_21(previous, :);
+    d_epsilon_se = physical.epsilon_SE_21(current, :) - ...
+        physical.epsilon_SE_21(previous, :);
+    work_sma_J = sum(physical.sigma_SMA_21_Pa(current, :) .* ...
+        d_epsilon_sma, 'all') * options.geometry.S_a_m2 * ...
+        (options.geometry.L_a_m / options.node_count);
+    work_se_J = sum(physical.sigma_SE_21_Pa(current, :) .* ...
+        d_epsilon_se, 'all') * options.geometry.S_r_m2 * ...
+        (options.geometry.L_r_m / options.node_count);
+    source_sma_J = -work_sma_J;
+    source_se_J = work_se_J;
 end
 
 function value = masked_mean_abs(x, mask)
