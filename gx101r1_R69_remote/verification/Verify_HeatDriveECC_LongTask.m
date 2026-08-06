@@ -1,8 +1,8 @@
 function result = Verify_HeatDriveECC_LongTask(mode, overrides)
-% Verification entry point for the heat-driven ECC long task.
+% Run production Simscape verification or evaluate paired Table 4 endpoints.
 
     if nargin < 1 || isempty(mode)
-        mode = 'stage1';
+        mode = 'threecycle';
     end
     if nargin < 2
         overrides = struct();
@@ -10,231 +10,310 @@ function result = Verify_HeatDriveECC_LongTask(mode, overrides)
 
     root_dir = fileparts(fileparts(mfilename('fullpath')));
     cd(root_dir);
+    mode = char(lower(string(mode)));
+    long_dir = fullfile(root_dir, 'outputs', 'long_task');
+    if ~exist(long_dir, 'dir')
+        mkdir(long_dir);
+    end
 
-    switch lower(string(mode))
-        case "stage1"
-            options = Build_HeatDriveECC_EighthRound_Defaults( ...
-                merge_structs(struct('cycle_count', 1), overrides));
-            stop_time_s = options.schedule.stage_end_s(1);
-        case "onecycle"
-            options = Build_HeatDriveECC_EighthRound_Defaults( ...
-                merge_structs(struct('cycle_count', 1), overrides));
-            stop_time_s = options.simulation.stop_time_s;
-        case "threecycle"
-            options = Build_HeatDriveECC_EighthRound_Defaults( ...
-                merge_structs(struct('cycle_count', 3), overrides));
-            stop_time_s = options.simulation.stop_time_s;
+    if strcmp(mode, 'paired_table4')
+        result = evaluate_paired_table4(long_dir, overrides);
+        return;
+    end
+
+    run_overrides = production_overrides(mode, overrides, root_dir);
+    status_path = fullfile(long_dir, 'active_run_status.json');
+    started_at = datetime('now', 'TimeZone', 'local');
+    write_status(status_path, struct( ...
+        'status', 'running', ...
+        'mode', mode, ...
+        'pid', feature('getpid'), ...
+        'started_at', char(started_at), ...
+        'cycle_count', run_overrides.cycle_count, ...
+        'outputs_dir', run_overrides.outputs_dir));
+
+    try
+        % This is the only admissible complete-cycle path: Validate calls the
+        % production runner, which builds the canonical model and issues one
+        % continuous sim() call. Do not replace it with direct sim(model_name).
+        audit = Validate_HeatDriveECC_EighthRound_Physics(run_overrides);
+        result = compact_audit(mode, audit, started_at);
+        index_path = fullfile(long_dir, sprintf('%s_latest.mat', mode));
+        save(index_path, 'result', '-v7');
+        result.index_path = index_path;
+        write_status(status_path, struct( ...
+            'status', 'completed', ...
+            'mode', mode, ...
+            'pid', feature('getpid'), ...
+            'started_at', char(started_at), ...
+            'completed_at', char(datetime('now', 'TimeZone', 'local')), ...
+            'cycle_count', result.cycle_count, ...
+            'output_dir', result.output_dir, ...
+            'index_path', result.index_path, ...
+            'mechanism_pass', result.mechanism_pass, ...
+            'periodic_steady_state', result.summary.performance.periodic_steady_state));
+        print_run_summary(result);
+    catch ME
+        write_status(status_path, struct( ...
+            'status', 'failed', ...
+            'mode', mode, ...
+            'pid', feature('getpid'), ...
+            'started_at', char(started_at), ...
+            'failed_at', char(datetime('now', 'TimeZone', 'local')), ...
+            'identifier', ME.identifier, ...
+            'message', ME.message));
+        rethrow(ME);
+    end
+end
+
+function overrides = production_overrides(mode, user_overrides, root_dir)
+    switch mode
+        case 'onecycle'
+            defaults = struct( ...
+                'cycle_count', 1, ...
+                'outputs_dir', fullfile(root_dir, 'outputs', ...
+                    'qian2019_onecycle_diagnostic'));
+        case 'threecycle'
+            defaults = struct( ...
+                'cycle_count', 3, ...
+                'outputs_dir', fullfile(root_dir, 'outputs', ...
+                    'qian2019_threecycle_regression'));
+        case 'no_load_long'
+            defaults = struct( ...
+                'cycle_count', 60, ...
+                'outputs_dir', fullfile(root_dir, 'outputs', ...
+                    'qian2019_no_load_long'), ...
+                'system', struct( ...
+                    'cold_load_mode', 'no_load', ...
+                    'cold_load_heat_W', 0.0));
+        case 'zero_lift_long'
+            article = Build_HeatDriveECC_EighthRound_Defaults();
+            defaults = struct( ...
+                'cycle_count', 60, ...
+                'outputs_dir', fullfile(root_dir, 'outputs', ...
+                    'qian2019_zero_lift_long'), ...
+                'system', struct( ...
+                    'cold_load_mode', 'constant_load', ...
+                    'cold_load_heat_W', ...
+                        article.system.cold_load_heat_reference_W));
+        case 'stage1'
+            error('HeatDriveECC:PartialStageVerificationDisabled', [ ...
+                'The old Stage-1-only direct sim path is disabled because it ', ...
+                'does not exercise continuous four-stage state carry. Use ', ...
+                'onecycle or a complete-cycle production mode.']);
         otherwise
             error('HeatDriveECC:UnsupportedVerifyMode', ...
                 'Unsupported verification mode: %s', mode);
     end
-
-    model_name = options.model_name;
-    Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, false);
-    simOut = sim(model_name, ...
-        'StopTime', num2str(stop_time_s, '%.15g'), ...
-        'ReturnWorkspaceOutputs', 'on');
-
-    result = summarize_simulation(simOut, options, mode, stop_time_s);
-    outdir = fullfile(root_dir, 'outputs', 'long_task');
-    if ~exist(outdir, 'dir')
-        mkdir(outdir);
-    end
-    result_path = fullfile(outdir, sprintf('%s_check.mat', char(lower(string(mode)))));
-    save(result_path, 'result', 'simOut', 'options', '-v7.3');
-    result.result_path = result_path;
-
-    print_summary(result);
+    overrides = merge_structs(defaults, user_overrides);
 end
 
-function result = summarize_simulation(simOut, options, mode, stop_time_s)
+function result = compact_audit(mode, audit, started_at)
+    run = audit.result;
     result = struct();
-    result.mode = char(string(mode));
-    result.stop_time_s = stop_time_s;
-    result.vars = simOut.who;
-    result.var_count = numel(result.vars);
-    result.options_snapshot = struct( ...
-        'Tc_K', options.system.Tc_K, ...
-        'T0_K', options.system.T0_K, ...
-        'Tshex_K', options.system.Tshex_K, ...
-        'Thhex_K', options.system.Thhex_K, ...
-        'Tchex_K', options.system.Tchex_K, ...
-        'm_a_kg', options.equilibrium.m_a_kg, ...
-        'm_r_kg', options.equilibrium.m_r_kg, ...
-        'cp_sma_J_per_kgK', options.material.SMA.cp_J_per_kgK, ...
-        'cp_se_J_per_kgK', options.material.SE.cp_J_per_kgK, ...
-        'tau_cycle_s', options.schedule.tau_cycle_s, ...
-        'stage_durations_s', options.schedule.stage_durations_s);
-
-    signal_names = {'SMA_Tx21_internal', 'SE_Tx21_internal', ...
-        'ECC_Q_SMA_constitutive_W', 'ECC_Q_SE_constitutive_W', ...
-        'ECC_constitutive21_output', ...
-        'shex_buffer_temp_out', 'hot_buffer_temp_out', 'cold_buffer_temp_out', ...
-        'mass_flow_sma_stage13_kgps', ...
-        'mass_flow_v1_cold_inlet_kgps', ...
-        'mass_flow_v3_sma_to_hot_kgps', ...
-        'mass_flow_v4_hot_inlet_kgps', ...
-        'mass_flow_v6_sma_to_chip_cold_kgps', ...
-        'sma_stage1_inlet_fluid_temp_out', 'sma_stage1_outlet_fluid_temp_out', ...
-        'sma_stage3_inlet_fluid_temp_out', 'sma_stage3_outlet_fluid_temp_out', ...
-        'sma_hold_pipe_node01_fluid_temp_out', ...
-        'sma_hold_pipe_node11_fluid_temp_out', ...
-        'sma_hold_pipe_node21_fluid_temp_out', ...
-        'sma_cooldown_pipe_node01_fluid_temp_out', ...
-        'sma_cooldown_pipe_node11_fluid_temp_out', ...
-        'sma_cooldown_pipe_node21_fluid_temp_out', ...
-        'sma_hold_node01_heatflow_W', ...
-        'sma_hold_node11_heatflow_W', ...
-        'sma_hold_node21_heatflow_W', ...
-        'sma_cooldown_node01_heatflow_W', ...
-        'sma_cooldown_node11_heatflow_W', ...
-        'sma_cooldown_node21_heatflow_W', ...
-        'hhex_sma_branch_inlet_fluid_temp_out', ...
-        'hhex_sma_branch_outlet_fluid_temp_out'};
-    result.signals = struct();
-    for idx = 1:numel(signal_names)
-        result.signals.(signal_names{idx}) = signal_stats(simOut, signal_names{idx});
-    end
-
-    result.constitutive = constitutive_stats(simOut, options.node_count);
-    result.stage_sample_counts = stage_sample_counts(simOut, options);
+    result.schema = 'heatdrive_ecc_compact_long_audit_v1';
+    result.mode = mode;
+    result.started_at = char(started_at);
+    result.completed_at = char(datetime('now', 'TimeZone', 'local'));
+    result.cycle_count = run.options.cycle_count;
+    result.mechanism_pass = audit.coupled_mechanism_pass;
+    result.strict_single_case_evaluated = ...
+        audit.strict_table4_reproduction_evaluated;
+    result.strict_single_case_pass = audit.strict_table4_reproduction_pass;
+    result.summary = run.summary;
+    result.checks = audit.checks;
+    result.options = run.options;
+    result.provenance = run.provenance;
+    result.output_dir = run.output_dir;
+    result.output_mat = run.output_mat;
+    result.validation_outputs = audit.outputs;
 end
 
-function stats = signal_stats(simOut, name)
-    stats = struct('present', false, 'sample_count', 0, 't_first', NaN, ...
-        't_last', NaN, 'first', NaN, 'last', NaN, 'min', NaN, 'max', NaN, ...
-        'mean', NaN, 'abs_max', NaN);
-    if ~any(strcmp(simOut.who, name))
-        return;
-    end
-    stats.present = true;
-    [t, data] = signal_time_data(simOut.get(name));
-    stats.sample_count = numel(t);
-    if ~isempty(t)
-        stats.t_first = double(t(1));
-        stats.t_last = double(t(end));
-    end
-    values = double(data(:));
-    values = values(isfinite(values));
-    if isempty(values)
-        return;
-    end
-    stats.first = values(1);
-    stats.last = values(end);
-    stats.min = min(values);
-    stats.max = max(values);
-    stats.mean = mean(values);
-    stats.abs_max = max(abs(values));
+function paired = evaluate_paired_table4(long_dir, overrides)
+    no_load_path = get_field(overrides, 'no_load_index_path', ...
+        fullfile(long_dir, 'no_load_long_latest.mat'));
+    zero_lift_path = get_field(overrides, 'zero_lift_index_path', ...
+        fullfile(long_dir, 'zero_lift_long_latest.mat'));
+    no_load = load_compact_result(no_load_path);
+    zero_lift = load_compact_result(zero_lift_path);
+
+    tolerance = struct( ...
+        'no_load_lift_relative', get_field(overrides, ...
+            'no_load_lift_relative_tolerance', 0.10), ...
+        'zero_lift_absolute_K', get_field(overrides, ...
+            'zero_lift_absolute_tolerance_K', 1.0), ...
+        'zero_lift_scp_relative', get_field(overrides, ...
+            'zero_lift_scp_relative_tolerance', 0.10), ...
+        'load_energy_relative', get_field(overrides, ...
+            'load_energy_relative_tolerance', 0.10));
+
+    n = no_load.summary.performance;
+    z = zero_lift.summary.performance;
+    target_lift_K = no_load.options.validation.table4_max_no_load_lift_K;
+    target_scp_W_per_g = no_load.options.validation. ...
+        table4_zero_lift_specific_cooling_W_per_g;
+    target_load_W = target_scp_W_per_g * ...
+        no_load.options.equilibrium.m_r_kg * 1.0e3;
+
+    checks = struct();
+    checks.no_load_mechanism_pass = logical(no_load.mechanism_pass);
+    checks.zero_lift_mechanism_pass = logical(zero_lift.mechanism_pass);
+    checks.no_load_continuous_simscape = production_authority(no_load);
+    checks.zero_lift_continuous_simscape = production_authority(zero_lift);
+    checks.no_load_mode = strcmpi(n.cold_load_mode, 'no_load') && ...
+        abs(n.cold_load_heat_W) <= eps;
+    checks.zero_lift_mode = strcmpi(z.cold_load_mode, 'constant_load') && ...
+        z.cold_load_heat_W > 0.0;
+    checks.no_load_periodic = logical(n.periodic_steady_state);
+    checks.zero_lift_periodic = logical(z.periodic_steady_state);
+    checks.no_load_lift = relerr(n.temperature_lift_eq9_K, ...
+        target_lift_K) <= tolerance.no_load_lift_relative;
+    checks.zero_lift_temperature = abs(z.temperature_lift_eq9_K) <= ...
+        tolerance.zero_lift_absolute_K;
+    checks.zero_lift_scp = relerr(z.specific_cooling_eq10_W_per_g, ...
+        target_scp_W_per_g) <= tolerance.zero_lift_scp_relative;
+    checks.zero_lift_energy = relerr(z.cooling_power_eq10_W, ...
+        z.cold_load_heat_W) <= tolerance.load_energy_relative;
+    checks.reference_load_contract = relerr(z.cold_load_heat_W, ...
+        target_load_W) <= tolerance.zero_lift_scp_relative;
+    checks.same_material_and_geometry = same_parameter_contract(no_load, zero_lift);
+
+    paired = struct();
+    paired.schema = 'heatdrive_ecc_qian2019_table4_paired_audit_v1';
+    paired.generated_at = char(datetime('now', 'TimeZone', 'local'));
+    paired.no_load_index_path = no_load_path;
+    paired.zero_lift_index_path = zero_lift_path;
+    paired.tolerance = tolerance;
+    paired.targets = struct( ...
+        'no_load_lift_K', target_lift_K, ...
+        'zero_lift_scp_W_per_g', target_scp_W_per_g, ...
+        'reference_load_W', target_load_W);
+    paired.observed = struct( ...
+        'no_load_lift_K', n.temperature_lift_eq9_K, ...
+        'zero_lift_temperature_K', z.temperature_lift_eq9_K, ...
+        'zero_lift_scp_W_per_g', z.specific_cooling_eq10_W_per_g, ...
+        'zero_lift_cooling_power_W', z.cooling_power_eq10_W, ...
+        'zero_lift_external_load_W', z.cold_load_heat_W);
+    paired.checks = checks;
+    paired.strict_table4_reproduction_evaluated = true;
+    paired.strict_table4_reproduction_pass = all_checks_pass(checks);
+
+    paired.result_path = fullfile(long_dir, 'paired_table4_latest.mat');
+    paired.report_path = fullfile(long_dir, ...
+        'qian2019_table4_paired_strict_report.txt');
+    save(paired.result_path, 'paired', '-v7');
+    write_paired_report(paired.report_path, paired);
+    fprintf('PAIRED_TABLE4_STRICT_PASS=%d REPORT=%s\n', ...
+        paired.strict_table4_reproduction_pass, paired.report_path);
 end
 
-function c = constitutive_stats(simOut, N)
-    c = struct('present', false);
-    if ~any(strcmp(simOut.who, 'ECC_constitutive21_output'))
-        return;
+function result = load_compact_result(path)
+    if ~isfile(path)
+        error('HeatDriveECC:MissingLongTaskIndex', ...
+            'Long-task index does not exist: %s', path);
     end
-    [t, data] = signal_time_data(simOut.get('ECC_constitutive21_output'));
-    if isempty(t) || isempty(data)
-        return;
+    loaded = load(path, 'result');
+    if ~isfield(loaded, 'result') || ...
+            ~isfield(loaded.result, 'schema') || ...
+            ~strcmp(loaded.result.schema, 'heatdrive_ecc_compact_long_audit_v1')
+        error('HeatDriveECC:InvalidLongTaskIndex', ...
+            'Not a compact production long-task index: %s', path);
     end
-    y = squeeze(data);
-    if size(y, 1) ~= numel(t)
-        y = y.';
-    end
-    if size(y, 2) < 12 * N
-        return;
-    end
-    state = y(:, (2 * N + 1):end);
-    xA = state(:, 1:N);
-    xR = state(:, (N + 1):(2 * N));
-    sigmaA = state(:, (2 * N + 1):(3 * N));
-    sigmaR = state(:, (3 * N + 1):(4 * N));
-    epsA = state(:, (4 * N + 1):(5 * N));
-    epsR = state(:, (5 * N + 1):(6 * N));
-
-    c.present = true;
-    c.sample_count = numel(t);
-    c.t_first = double(t(1));
-    c.t_last = double(t(end));
-    c.xM_a_first = mean(xA(1, :));
-    c.xM_a_last = mean(xA(end, :));
-    c.xM_a_min = min(xA(:));
-    c.xM_a_max = max(xA(:));
-    c.xM_r_first = mean(xR(1, :));
-    c.xM_r_last = mean(xR(end, :));
-    c.xM_r_min = min(xR(:));
-    c.xM_r_max = max(xR(:));
-    c.sigma_a_last_Pa = mean(sigmaA(end, :));
-    c.sigma_r_last_Pa = mean(sigmaR(end, :));
-    c.sigma_a_abs_max_Pa = max(abs(sigmaA(:)));
-    c.sigma_r_abs_max_Pa = max(abs(sigmaR(:)));
-    c.epsilon_a_last = mean(epsA(end, :));
-    c.epsilon_r_last = mean(epsR(end, :));
+    result = loaded.result;
 end
 
-function counts = stage_sample_counts(simOut, options)
-    counts = struct();
-    if ~any(strcmp(simOut.who, 'ECC_constitutive21_output'))
-        return;
-    end
-    [t, ~] = signal_time_data(simOut.get('ECC_constitutive21_output'));
-    if isempty(t)
-        return;
-    end
-    tau = options.schedule.tau_cycle_s;
-    ends = options.schedule.stage_end_s(:).';
-    ids = zeros(size(t));
-    for idx = 1:numel(t)
-        local_t = mod(t(idx), tau);
-        stage_id = find(local_t <= ends + 1.0e-12, 1, 'first');
-        if isempty(stage_id)
-            stage_id = 4;
-        end
-        ids(idx) = stage_id;
-    end
-    for stage_id = 1:4
-        counts.(sprintf('stage%d', stage_id)) = sum(ids == stage_id);
-    end
+function tf = production_authority(result)
+    tf = isfield(result, 'provenance') && ...
+        strcmp(result.provenance.authority, ...
+            'physical_simscape_to_workspace_logs') && ...
+        result.provenance.sim_call_count == 1 && ...
+        result.provenance.continuous_full_cycle_simulation && ...
+        ~result.provenance.legacy_surrogate_used_for_results;
 end
 
-function [t, data] = signal_time_data(sig)
-    if isa(sig, 'timeseries')
-        t = sig.Time;
-        data = sig.Data;
-    elseif isstruct(sig) && isfield(sig, 'time')
-        t = sig.time;
-        data = sig.signals.values;
-    else
-        t = [];
-        data = [];
+function tf = same_parameter_contract(a, b)
+    fields = {'m_a_kg','m_r_kg'};
+    tf = true;
+    for idx = 1:numel(fields)
+        tf = tf && relerr(a.options.equilibrium.(fields{idx}), ...
+            b.options.equilibrium.(fields{idx})) <= 1.0e-12;
     end
+    tf = tf && relerr(a.options.geometry.S_a_m2, ...
+        b.options.geometry.S_a_m2) <= 1.0e-12;
+    tf = tf && relerr(a.options.geometry.S_r_m2, ...
+        b.options.geometry.S_r_m2) <= 1.0e-12;
+    tf = tf && max(abs(a.options.schedule.stage_durations_s - ...
+        b.options.schedule.stage_durations_s)) <= 1.0e-12;
 end
 
-function print_summary(result)
-    fprintf('VERIFY_MODE=%s STOP=%.15g VARS=%d SAVED=%s\n', ...
-        result.mode, result.stop_time_s, result.var_count, result.result_path);
-    names = fieldnames(result.signals);
+function write_paired_report(path, paired)
+    fid = fopen(path, 'w', 'n', 'UTF-8');
+    if fid < 0
+        error('HeatDriveECC:CannotWritePairedReport', ...
+            'Cannot write paired report: %s', path);
+    end
+    cleaner = onCleanup(@() fclose(fid)); %#ok<NASGU>
+    fprintf(fid, 'Qian 2019 Table 4 paired endpoint strict audit\n');
+    fprintf(fid, 'generated: %s\n', paired.generated_at);
+    fprintf(fid, 'no-load index: %s\n', paired.no_load_index_path);
+    fprintf(fid, 'zero-lift index: %s\n\n', paired.zero_lift_index_path);
+    fprintf(fid, 'Targets and observations\n');
+    fprintf(fid, '  no-load lift: %.12g / %.12g K\n', ...
+        paired.observed.no_load_lift_K, paired.targets.no_load_lift_K);
+    fprintf(fid, '  zero-lift Eq9: %.12g K (absolute limit %.12g K)\n', ...
+        paired.observed.zero_lift_temperature_K, ...
+        paired.tolerance.zero_lift_absolute_K);
+    fprintf(fid, '  zero-lift SCP: %.12g / %.12g W/g\n', ...
+        paired.observed.zero_lift_scp_W_per_g, ...
+        paired.targets.zero_lift_scp_W_per_g);
+    fprintf(fid, '  zero-lift cooling/load: %.12g / %.12g W\n\n', ...
+        paired.observed.zero_lift_cooling_power_W, ...
+        paired.observed.zero_lift_external_load_W);
+    fprintf(fid, 'Checks\n');
+    names = fieldnames(paired.checks);
     for idx = 1:numel(names)
-        s = result.signals.(names{idx});
-        fprintf(['SIG %s present=%d n=%d t_last=%.15g first=%.9g ', ...
-            'last=%.9g min=%.9g max=%.9g absmax=%.9g\n'], ...
-            names{idx}, s.present, s.sample_count, s.t_last, ...
-            s.first, s.last, s.min, s.max, s.abs_max);
+        fprintf(fid, '  %-34s %d\n', names{idx}, paired.checks.(names{idx}));
     end
-    c = result.constitutive;
-    if isfield(c, 'sample_count')
-        fprintf(['CONSTITUTIVE n=%d t_last=%.15g xA %.9g->%.9g ', ...
-            'range[%.9g %.9g] xR %.9g->%.9g range[%.9g %.9g] ', ...
-            'sigmaAmax=%.9g sigmaRmax=%.9g\n'], ...
-            c.sample_count, c.t_last, c.xM_a_first, c.xM_a_last, ...
-            c.xM_a_min, c.xM_a_max, c.xM_r_first, c.xM_r_last, ...
-            c.xM_r_min, c.xM_r_max, c.sigma_a_abs_max_Pa, ...
-            c.sigma_r_abs_max_Pa);
+    fprintf(fid, '\nstrict_table4_reproduction_evaluated: %d\n', ...
+        paired.strict_table4_reproduction_evaluated);
+    fprintf(fid, 'strict_table4_reproduction_pass: %d\n', ...
+        paired.strict_table4_reproduction_pass);
+end
+
+function write_status(path, status)
+    fid = fopen(path, 'w', 'n', 'UTF-8');
+    if fid < 0
+        error('HeatDriveECC:CannotWriteLongTaskStatus', ...
+            'Cannot write long-task status: %s', path);
     end
-    if ~isempty(fieldnames(result.stage_sample_counts))
-        fprintf('STAGE_COUNTS s1=%d s2=%d s3=%d s4=%d\n', ...
-            result.stage_sample_counts.stage1, result.stage_sample_counts.stage2, ...
-            result.stage_sample_counts.stage3, result.stage_sample_counts.stage4);
+    cleaner = onCleanup(@() fclose(fid)); %#ok<NASGU>
+    fprintf(fid, '%s\n', jsonencode(status, 'PrettyPrint', true));
+end
+
+function print_run_summary(result)
+    p = result.summary.performance;
+    fprintf(['VERIFY_MODE=%s CYCLES=%d MECHANISM_PASS=%d ', ...
+        'PERIODIC=%d EQ9=%.9gK EQ10=%.9gW/g OUTPUT=%s\n'], ...
+        result.mode, result.cycle_count, result.mechanism_pass, ...
+        p.periodic_steady_state, p.temperature_lift_eq9_K, ...
+        p.specific_cooling_eq10_W_per_g, result.output_dir);
+end
+
+function value = get_field(s, name, fallback)
+    if isstruct(s) && isfield(s, name) && ~isempty(s.(name))
+        value = s.(name);
+    else
+        value = fallback;
     end
+end
+
+function value = relerr(actual, target)
+    value = abs(actual - target) / max(abs(target), eps);
+end
+
+function tf = all_checks_pass(checks)
+    values = struct2cell(checks);
+    tf = all(cellfun(@(x) islogical(x) && isscalar(x) && x, values));
 end
 
 function out = merge_structs(out, overrides)
@@ -244,7 +323,8 @@ function out = merge_structs(out, overrides)
     names = fieldnames(overrides);
     for idx = 1:numel(names)
         key = names{idx};
-        if isfield(out, key) && isstruct(out.(key)) && isstruct(overrides.(key))
+        if isfield(out, key) && isstruct(out.(key)) && ...
+                isstruct(overrides.(key))
             out.(key) = merge_structs(out.(key), overrides.(key));
         else
             out.(key) = overrides.(key);
