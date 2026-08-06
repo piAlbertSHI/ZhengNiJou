@@ -439,12 +439,14 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.validation.min_sma_phase_swing = 0.99;
     options.validation.min_se_phase_swing = 0.99;
     options.validation.max_fig3_loading_onset_s = 0.50;
+    % Table 4 specifies 5 s SMA heating/cooling. The SE pulse occupies the
+    % final 1.5 s of each half-cycle, so completion may occur in S2/S4.
     options.validation.max_fig3_loading_completion_s = ...
-        article.schedule.stage_durations_s(1);
+        sum(article.schedule.stage_durations_s(1:2));
     options.validation.max_fig3_unloading_onset_s = 1.50;
     options.validation.min_fig3_unloading_completion_s = 0.0;
     options.validation.max_fig3_unloading_completion_s = ...
-        article.schedule.stage_durations_s(3);
+        sum(article.schedule.stage_durations_s(3:4));
     options.validation.nominal_sma_stress_Pa = ...
         options.material.SMA.nominal_stress_Pa;
     options.validation.reference_system_scope = ...
@@ -452,6 +454,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.validation.strict_table4_reproduction_applicable = true;
     options.validation.strict_table4_reproduction_evaluated = false;
     options.validation.strict_table4_reproduction_pass = false;
+    options.validation.error_on_mechanism_failure = true;
     options.validation.dual_fluid_domain_required = true;
     options.validation.dual_fluid_domain_implemented = false;
     options.validation.table4_max_no_load_lift_K = ...
