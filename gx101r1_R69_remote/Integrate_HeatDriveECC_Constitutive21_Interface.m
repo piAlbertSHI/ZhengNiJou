@@ -20,7 +20,7 @@ function Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, sa
     assign_constitutive_workspace(options);
     load_system(model_name);
     configure_shex_boundary(model_name);
-    configure_sma_valve_manifolds(model_name);
+    configure_sma_valve_manifolds(model_name, options);
     configure_se_shared_regenerator_fluid_path(model_name, options);
     configure_sma_hydraulic_area(model_name, options);
     configure_article_component_pipe_geometry(model_name, 'SMA', 'sma');
@@ -68,24 +68,20 @@ function Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, sa
     end
 end
 
-function configure_sma_valve_manifolds(model_name)
-% Join the SMA source and route valves at zero-volume manifold nodes.
-%
-% A T-Junction (TL) gives each leg an internal fluid energy state.  The
-% inactive source leg is almost isolated by the low-leakage V1/V2 valves;
-% when the other source opens, that trapped leg can produce a nonphysical
-% temperature impulse.  The same issue occurs between the pump and V3/V4.
-% The article shows valve manifolds rather than finite-volume mixing tanks,
-% so direct conserving-node junctions are the appropriate equivalent.
+function configure_sma_valve_manifolds(model_name, options)
+% Retain Qian's connecting-pipe fluid inventory at both pump manifolds.
 
     v1 = [model_name '/SMA_V1_SHEX_to_pump'];
     v2 = [model_name '/SMA_V2_HHEX_to_pump'];
     pressure_source = [model_name '/SMA Pressure Source (TL)'];
+    inlet_plenum = [model_name '/SMA_PumpInletConnectingPipeVolume'];
     old_junction = [model_name '/SMA_TJ_SourceSelect'];
     if ~(exist_block(v1) && exist_block(v2) && exist_block(pressure_source))
         error('HeatDriveECC:MissingSMASourceSelectBlocks', ...
             'SMA V1/V2 or the SMA pressure source is missing.');
     end
+    ensure_sma_pump_manifold_volume(inlet_plenum, options, ...
+        [-1715 365 -1625 455]);
 
     if exist_block(old_junction)
         ports = get_param(old_junction, 'PortHandles');
@@ -110,24 +106,113 @@ function configure_sma_valve_manifolds(model_name)
         delete_block(old_junction);
     end
 
+    source_sensor_names = { ...
+        'SMAStage1V1PumpSideFluidTempSensor', ...
+        'SMAStage3V2PumpSideFluidTempSensor'};
+    source_ports = [get_port(v1, 'RConn', 1), ...
+        get_port(v2, 'RConn', 1), get_port(pressure_source, 'LConn', 1), ...
+        get_port(inlet_plenum, 'LConn', 1), ...
+        get_port(inlet_plenum, 'RConn', 1)];
+    for sensor_idx = 1:numel(source_sensor_names)
+        sensor_path = [model_name '/' source_sensor_names{sensor_idx}];
+        if exist_block(sensor_path)
+            source_ports(end + 1) = get_port(sensor_path, 'LConn', 1); %#ok<AGROW>
+        end
+    end
+    disconnect_conserving_ports(source_ports);
     safe_add_line_handle(model_name, get_port(v1, 'RConn', 1), ...
-        get_port(pressure_source, 'LConn', 1));
-    safe_add_line_handle(model_name, get_port(v2, 'RConn', 1), ...
+        get_port(inlet_plenum, 'LConn', 1));
+    safe_add_line_handle(model_name, get_port(inlet_plenum, 'LConn', 1), ...
+        get_port(v2, 'RConn', 1));
+    for sensor_idx = 1:numel(source_sensor_names)
+        sensor_path = [model_name '/' source_sensor_names{sensor_idx}];
+        if exist_block(sensor_path)
+            safe_add_line_handle(model_name, get_port(inlet_plenum, 'LConn', 1), ...
+                get_port(sensor_path, 'LConn', 1));
+        end
+    end
+    safe_add_line_handle(model_name, get_port(inlet_plenum, 'RConn', 1), ...
         get_port(pressure_source, 'LConn', 1));
 
     pump_sensor = [model_name '/FlowSensor_SMA_stage13_loop'];
     v3 = [model_name '/SMA_V3_pump_to_heat_path'];
     v4 = [model_name '/SMA_V4_pump_to_cool_path'];
+    outlet_plenum = [model_name '/SMA_PumpOutletConnectingPipeVolume'];
     pump_junction = [model_name '/SMA_TJ_PumpOutlet'];
     if ~(exist_block(pump_sensor) && exist_block(v3) && exist_block(v4))
         error('HeatDriveECC:MissingSMARouteSelectBlocks', ...
             'The SMA pump flow sensor or V3/V4 route valves are missing.');
     end
     remove_tl_junction(pump_junction);
+    ensure_sma_pump_manifold_volume(outlet_plenum, options, ...
+        [-1255 365 -1165 455]);
+    outlet_sensor = [model_name '/SMAStage13PumpOutletFluidTempSensor'];
+    outlet_ports = [get_port(pump_sensor, 'RConn', 1), ...
+        get_port(v3, 'LConn', 1), get_port(v4, 'LConn', 1), ...
+        get_port(outlet_plenum, 'LConn', 1), ...
+        get_port(outlet_plenum, 'RConn', 1)];
+    if exist_block(outlet_sensor)
+        outlet_ports(end + 1) = get_port(outlet_sensor, 'LConn', 1);
+    end
+    disconnect_conserving_ports(outlet_ports);
     safe_add_line_handle(model_name, get_port(pump_sensor, 'RConn', 1), ...
+        get_port(outlet_plenum, 'LConn', 1));
+    safe_add_line_handle(model_name, get_port(outlet_plenum, 'RConn', 1), ...
         get_port(v3, 'LConn', 1));
-    safe_add_line_handle(model_name, get_port(pump_sensor, 'RConn', 1), ...
+    safe_add_line_handle(model_name, get_port(v3, 'LConn', 1), ...
         get_port(v4, 'LConn', 1));
+    if exist_block(outlet_sensor)
+        safe_add_line_handle(model_name, get_port(v3, 'LConn', 1), ...
+            get_port(outlet_sensor, 'LConn', 1));
+    end
+end
+
+function disconnect_conserving_ports(port_handles)
+    line_handles = zeros(0, 1);
+    for port_idx = 1:numel(port_handles)
+        try
+            line_handle = get_param(port_handles(port_idx), 'Line');
+            if isnumeric(line_handle) && line_handle ~= -1
+                line_handles(end + 1, 1) = line_handle; %#ok<AGROW>
+            end
+        catch
+        end
+    end
+    line_handles = unique(line_handles);
+    for line_idx = 1:numel(line_handles)
+        try
+            delete_line(line_handles(line_idx));
+        catch ME
+            if ~contains(ME.message, '句柄无效') && ...
+                    ~contains(lower(ME.message), 'invalid')
+                rethrow(ME);
+            end
+        end
+    end
+end
+
+function ensure_sma_pump_manifold_volume(block_path, options, position)
+    if ~exist_block(block_path)
+        add_block(['fl_lib/Thermal Liquid/Elements/', ...
+            'Constant Volume Chamber (TL)'], block_path, 'Position', position);
+    end
+    set_param(block_path, ...
+        'num_ports', 'foundation.enum.num_ports.two', ...
+        'volume', 'sma_pump_manifold_volume_m3', ...
+        'area_A', 'sma_connecting_pipe_flow_area_m2', ...
+        'area_B', 'sma_connecting_pipe_flow_area_m2', ...
+        'p_I_specify', 'on', ...
+        'p_I_priority', 'Low', ...
+        'p_I', 'sma_pump_manifold_p_init_MPa', ...
+        'T_I_specify', 'on', ...
+        'T_I_priority', 'Low', ...
+        'T_I', 'sma_pump_manifold_T_init_K');
+    if abs(options.branch.sma_pump_manifold_volume_m3 - ...
+            options.branch.connecting_pipe_flow_area_m2 * ...
+            options.branch.connecting_pipe_length_m) > 1.0e-15
+        error('HeatDriveECC:SMAPumpManifoldVolumeContract', ...
+            'SMA pump manifold volume must equal one Qian connecting pipe.');
+    end
 end
 
 function remove_tl_junction(junction_path)
@@ -240,6 +325,14 @@ function assign_article_pipe_workspace(options)
     assignin('base', 'se_article_pipe_segment_l', ...
         options.branch.se_pipe_length_m / options.node_count);
     assignin('base', 'se_article_Nu', options.branch.se_pipe_Nu);
+    assignin('base', 'sma_connecting_pipe_flow_area_m2', ...
+        options.branch.connecting_pipe_flow_area_m2);
+    assignin('base', 'sma_pump_manifold_volume_m3', ...
+        options.branch.sma_pump_manifold_volume_m3);
+    assignin('base', 'sma_pump_manifold_p_init_MPa', ...
+        options.branch.network_absolute_pressure_MPa);
+    assignin('base', 'sma_pump_manifold_T_init_K', ...
+        options.system.Tshex_K);
 end
 
 function configure_article_component_pipe_geometry(model_name, component_name, prefix)
@@ -1831,9 +1924,11 @@ function apply_sma_stage13_visual_layout(model_name)
         'SMA_V1_SHEX_to_pump', [-1900 150 -1860 190]
         'SMA_V2_HHEX_to_pump', [-1900 660 -1860 700]
         'SMA_TJ_SourceSelect', [-1710 390 -1670 430]
+        'SMA_PumpInletConnectingPipeVolume', [-1715 365 -1625 455]
         'SMA Pressure Source (TL)', [-1550 390 -1500 440]
         'FlowSensor_SMA_stage13_loop', [-1400 395 -1345 450]
         'SMA_TJ_PumpOutlet', [-1230 390 -1190 430]
+        'SMA_PumpOutletConnectingPipeVolume', [-1255 365 -1165 455]
         'SMA_V3_pump_to_heat_path', [-1060 250 -1020 290]
         'SMA_V4_pump_to_cool_path', [-1060 550 -1020 590]
         'SMA', [-900 370 -760 520]
