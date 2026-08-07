@@ -36,6 +36,7 @@ function Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, sa
     configure_se_flow_target_command(model_name);
     configure_se_pressure_feedback_enable(model_name);
     configure_se_pressure_integrator_reset(model_name);
+    configure_independent_pressure_saturation_limits(model_name);
     expose_component(model_name, 'SMA');
     expose_component(model_name, 'SE');
     configure_component_solid_state(model_name, 'SMA', 'sma');
@@ -557,6 +558,14 @@ function assign_exchange_workspace(options)
     sim_params.hot_sink_sma_fluid_G_W_per_K = ...
         options.branch.endpoint_UA_sma_the_W_per_K;
     sim_params = apply_full_cycle_valve_commands(sim_params, options);
+    sim_params.sma_pressure_pi_min_MPa = get_branch_option(options, ...
+        'sma_pressure_pi_min_MPa', options.branch.pressure_pi_min_MPa);
+    sim_params.se_pressure_pi_min_MPa = get_branch_option(options, ...
+        'se_pressure_pi_min_MPa', options.branch.pressure_pi_min_MPa);
+    sim_params.se_pressure_integrator_min_MPa = get_branch_option(options, ...
+        'se_pressure_integrator_min_MPa', -0.005);
+    sim_params.se_pressure_integrator_max_MPa = get_branch_option(options, ...
+        'se_pressure_integrator_max_MPa', 0.005);
     sim_params.thermal_mass_cp_ref = options.system.thermal_mass_cp_ref_J_per_kgK;
     sim_params.shex_sink_mass_kg = ...
         options.system.shex_sink_C_J_per_K / ...
@@ -1266,6 +1275,25 @@ function configure_se_pressure_integrator_reset(model_name)
     delete_line_at_port(reset_port);
     safe_add_line_handle(model_name, get_port(reset, 'Outport', 1), ...
         reset_port);
+end
+
+function configure_independent_pressure_saturation_limits(model_name)
+    sma_saturation = [model_name '/SMAPressurePI_Saturation'];
+    se_saturation = [model_name '/PressurePI_Saturation'];
+    if ~exist_block(sma_saturation) || ~exist_block(se_saturation)
+        error('HeatDriveECC:MissingPressureSaturation', ...
+            'Independent SMA/SE pressure saturation blocks are required.');
+    end
+    set_param(sma_saturation, 'LowerLimit', 'sma_pressure_pi_min_MPa');
+    set_param(se_saturation, 'LowerLimit', 'se_pressure_pi_min_MPa');
+    se_integrator = [model_name '/PressurePI_Integrator'];
+    if ~exist_block(se_integrator)
+        error('HeatDriveECC:MissingSEPressureIntegrator', ...
+            'SE pressure integrator is required for independent limits.');
+    end
+    set_param(se_integrator, ...
+        'LowerSaturationLimit', 'se_pressure_integrator_min_MPa', ...
+        'UpperSaturationLimit', 'se_pressure_integrator_max_MPa');
 end
 
 function configure_sma_dynamic_thermal_gates(model_name)

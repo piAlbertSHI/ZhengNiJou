@@ -264,6 +264,24 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
         options.fluid.SE.rho_kg_per_m3 * se_velocity_m_per_s ^ 2 / ...
         (2.0e6);
     se_stage2_route_dp_MPa = se_bed_dp_MPa;
+    % Stage 4 approaches the Table 4 no-load cold endpoint. For laminar flow
+    % at fixed mass flow, pressure drop scales linearly with viscosity. Use
+    % the official 40 vol% DOWFROST values at -20/10 degC to evaluate the
+    % target cold-end viscosity; this is hydraulic feedforward, not a fluid
+    % state or performance assignment.
+    se_stage4_reference_T_K = article.reference.T_hot_K - ...
+        article.reference.maximum_no_load_lift_K;
+    se_stage4_reference_mu_Pa_s = log_interpolate_property( ...
+        se_stage4_reference_T_K, [253.15, 283.15], ...
+        [0.0489043, 0.0072173]);
+    se_stage4_viscosity_ratio = se_stage4_reference_mu_Pa_s / ...
+        options.fluid.SE.mu_Pa_s;
+    se_stage4_cold_design_dp_MPa = ...
+        se_bed_dp_MPa * se_stage4_viscosity_ratio;
+    % Keep the cold-start feedforward at the 303.15 K reference value. The
+    % feedback controller moves toward the cold design pressure from measured
+    % flow error; applying the full cold pressure before the route cools
+    % overdrives Stage 4 and perturbs the mechanically coupled Stage 3 state.
     se_stage4_route_dp_MPa = se_bed_dp_MPa;
     options.branch.se_pressure_bias_MPa = -se_bed_dp_MPa;
     options.branch.se_stage2_pressure_bias_MPa = -se_stage2_route_dp_MPa;
@@ -273,10 +291,18 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.branch.se_bed_dp_MPa = se_bed_dp_MPa;
     options.branch.se_stage2_route_dp_MPa = se_stage2_route_dp_MPa;
     options.branch.se_stage4_route_dp_MPa = se_stage4_route_dp_MPa;
+    options.branch.se_stage4_reference_T_K = se_stage4_reference_T_K;
+    options.branch.se_stage4_reference_mu_Pa_s = ...
+        se_stage4_reference_mu_Pa_s;
+    options.branch.se_stage4_viscosity_ratio = se_stage4_viscosity_ratio;
+    options.branch.se_stage4_cold_design_dp_MPa = ...
+        se_stage4_cold_design_dp_MPa;
     options.branch.se_pressure_bias_source = [ ...
         'Qian bed geometry and target flow with Darcy-Weisbach laminar ', ...
-        'f=64/Re bed pressure-drop feedforward; the PI pump closes the ', ...
-        'remaining Stage2/Stage4 valve and endpoint-route pressure error'];
+        'f=64/Re reference-temperature pressure feedforward. The Dow ', ...
+        '40vol PG-water viscosity at the Table4 no-load cold endpoint ', ...
+        'defines the Stage4 design pressure and saturation margin; the PI ', ...
+        'moves toward it only from measured flow error.'];
     options.branch.valve_switch_pressure_MPa = -1.0e-6;
     options.branch.valve_switch_pressure_source = [ ...
         'One-pascal directed numerical prepressure prevents zero-flow ', ...
@@ -289,8 +315,17 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     % network.  Keep the validated operating range below the first
     % pressure-invalid trial; the remaining flow gap must be solved by the
     % hydraulic geometry/reference, not by an illegal negative pressure.
-    options.branch.pressure_pi_min_MPa = -0.35;
+    options.branch.pressure_pi_min_MPa = -0.40;
     options.branch.pressure_pi_max_MPa = 0.02;
+    options.branch.sma_pressure_pi_min_MPa = -0.35;
+    options.branch.se_pressure_pi_min_MPa = -0.40;
+    options.branch.se_pressure_integrator_min_MPa = ...
+        -(se_stage4_cold_design_dp_MPa - se_bed_dp_MPa);
+    options.branch.se_pressure_integrator_max_MPa = 0.10;
+    options.branch.se_pressure_integrator_limit_source = [ ...
+        'Lower limit equals the laminar 40vol PG-water cold-design pressure ', ...
+        'increment above the 303.15 K feedforward; final pump saturation ', ...
+        'remains authoritative and the state resets outside Stages2/4.'];
     options.branch.sma_hydraulic_area_scale = 1.0;
     options.branch.sma_hydraulic_area_source = ...
         ['No empirical area multiplier: the SMA axial hydraulic area is ', ...
@@ -310,8 +345,12 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.branch.sma_source_select_junction_source = [ ...
         'V1/V2 article-equivalent valve manifold; avoids independent ', ...
         'trapped thermal states introduced by a T-Junction (TL) block'];
-    options.branch.se_pressure_pi_kp_MPa_per_kgps = -1.0;
-    options.branch.se_pressure_pi_ki_MPa_per_kgps_s = -2.0;
+    % The cold-start route gain is about 0.02 kg/s/MPa. These gains give an
+    % approximately 0.65 s integral correction scale without the mechanical
+    % and water-side thermal impulse produced by the rejected -150/-800 trial.
+    % Pressure saturation and stage-boundary reset remain authoritative.
+    options.branch.se_pressure_pi_kp_MPa_per_kgps = -35.0;
+    options.branch.se_pressure_pi_ki_MPa_per_kgps_s = -120.0;
     options.branch.stage_command_ramp_s = ...
         0.10 * min(article.schedule.stage_durations_s);
     options.branch.valve_switch_step_count = 20;
@@ -448,8 +487,15 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
         'physical_simscape_to_workspace_logs';
     options.validation.max_temperature_K = 450.0;
     options.validation.min_temperature_K = 220.0;
-    options.validation.min_thermal_liquid_temperature_K = 273.16;
+    options.validation.min_thermal_liquid_temperature_K = ...
+        options.fluid.SE.minimum_operating_temperature_K;
     options.validation.max_thermal_liquid_temperature_K = 413.16;
+    options.validation.min_water_thermal_liquid_temperature_K = 273.16;
+    options.validation.max_water_thermal_liquid_temperature_K = 413.16;
+    options.validation.min_se_glycol_thermal_liquid_temperature_K = ...
+        options.fluid.SE.minimum_operating_temperature_K;
+    options.validation.max_se_glycol_thermal_liquid_temperature_K = ...
+        options.fluid.SE.maximum_tabulated_temperature_K;
     options.validation.max_abs_stress_Pa = 1.2e9;
     options.validation.max_abs_flow_over_target = 4.0;
     options.validation.min_active_flow_fraction_of_target = 0.10;
@@ -602,6 +648,19 @@ end
 function bounds = scale_bounds(value)
     value = max(abs(value), eps);
     bounds = [0.5 * value, 2.0 * value];
+end
+
+function value = log_interpolate_property(query, coordinates, values)
+    if numel(coordinates) ~= 2 || numel(values) ~= 2 || ...
+            coordinates(2) <= coordinates(1) || any(values <= 0.0) || ...
+            query < coordinates(1) || query > coordinates(2)
+        error('Build:ECC:InvalidLogPropertyInterpolation', ...
+            'Log-property interpolation input is outside its valid interval.');
+    end
+    fraction = (query - coordinates(1)) / ...
+        (coordinates(2) - coordinates(1));
+    value = exp(log(values(1)) + fraction * ...
+        (log(values(2)) - log(values(1))));
 end
 
 function map = build_output_map(N)
