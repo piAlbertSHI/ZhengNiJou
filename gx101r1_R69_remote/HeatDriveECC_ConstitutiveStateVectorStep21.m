@@ -78,7 +78,9 @@ function stage_id = stage_from_time(t_s, options)
     end
     local_t = mod(t_s, tau);
     ends = options.schedule.stage_end_s(:).';
-    stage_id = find(local_t <= ends + 1.0e-12, 1, 'first');
+    % Use [start,end) intervals so the constitutive direction changes on
+    % the same sample as valve routing and physical-log stage labels.
+    stage_id = find(local_t < ends, 1, 'first');
     if isempty(stage_id)
         stage_id = 4;
     end

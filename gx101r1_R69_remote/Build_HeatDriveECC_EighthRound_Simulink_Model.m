@@ -915,7 +915,11 @@ function close_if_loaded(model_name, save_changes)
         if save_changes
             close_system(model_name, 1);
         else
-            set_param(model_name, 'Dirty', 'off');
+            if strcmpi(get_param(model_name, 'Dirty'), 'on')
+                error('Build:ECC:UnsavedCanonicalModel', [ ...
+                    'The canonical model is already loaded with unsaved ', ...
+                    'changes. Save or close it before a production run.']);
+            end
             close_system(model_name, 0);
         end
     end

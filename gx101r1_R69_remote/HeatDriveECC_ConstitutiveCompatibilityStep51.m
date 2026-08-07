@@ -2,7 +2,8 @@ function [state, audit] = HeatDriveECC_ConstitutiveCompatibilityStep51(state, op
 % Eighth-round 21-node constitutive compatibility step.
 %
 % Stress is solved from current 21-node phase state using paper Eq.6/Eq.7.
-% Phase rates use current Ta_21/Tr_21, solved stress, and Fig.3 timing.
+% Phase rates use current Ta_21/Tr_21, solved stress, and the declared reduced
+% Eq. (3) kinetic closure in the production options.
 
     if nargin < 4
         stage_id = state.stage_id;
@@ -133,9 +134,9 @@ function rates = phase_rates(state, compatible, options, stage_id)
             % coupled SE A->M follows its forward start line. Stage 2 changes
             % the SE fluid route but does not suppress a thermodynamically
             % admissible residual transformation.
-            reverse_temperature_a = transformation_surface_temperature( ...
+            reverse_temperature_a = qian_fig5_surface_temperature( ...
                 xA, sma.T_As_K, sma.T_Ms_K);
-            forward_temperature_r = transformation_surface_temperature( ...
+            forward_temperature_r = qian_fig5_surface_temperature( ...
                 xR, se.T_As_K, se.T_Ms_K);
             pai_a = sma.C_A_Pa_per_K .* ...
                 (Ta - reverse_temperature_a) - sigma_a;
@@ -151,9 +152,9 @@ function rates = phase_rates(state, compatible, options, stage_id)
             % Ambient half-cycle: SMA A->M on its forward start line while
             % the coupled SE M->A follows its reverse start line. Stage 4 is
             % the cooling-delivery flow step, not a constitutive reset.
-            forward_temperature_a = transformation_surface_temperature( ...
+            forward_temperature_a = qian_fig5_surface_temperature( ...
                 xA, sma.T_As_K, sma.T_Ms_K);
-            reverse_temperature_r = transformation_surface_temperature( ...
+            reverse_temperature_r = qian_fig5_surface_temperature( ...
                 xR, se.T_As_K, se.T_Ms_K);
             pai_a = sigma_a - sma.C_M_Pa_per_K .* ...
                 (Ta - forward_temperature_a);
@@ -184,13 +185,15 @@ function rates = phase_rates(state, compatible, options, stage_id)
         'r_xi_a_21', rA, 'r_xi_r_21', rR);
 end
 
-function T_K = transformation_surface_temperature(xM, T_As_K, T_Ms_K)
+function T_K = qian_fig5_surface_temperature(xM, T_As_K, T_Ms_K)
     if ~(isfinite(T_As_K) && isfinite(T_Ms_K) && T_As_K > T_Ms_K)
         error('HeatDriveECC:InvalidTransformationSurfaceTemperature', ...
-            'Expected finite As > Ms, got %.6g/%.6g K.', T_As_K, T_Ms_K);
+            'Expected finite TAs > TMs, got %.6g/%.6g K.', T_As_K, T_Ms_K);
     end
-    % Qian2019 Fig.5 plots the 0%, 50%, and 100% martensite lines.
-    % The 0% line uses Table-2 As and the 100% line uses Table-2 Ms.
+    % Qian 2019 Fig. 5 explicitly plots the 100%, 50%, and 0% martensite
+    % surfaces. The plotted outer intercepts coincide with the Table 2 TMs
+    % and TAs entries. This is a figure-anchored closure, not an assertion
+    % that separately measured Mf/Af values were reported in Table 2.
     T_K = T_As_K + (T_Ms_K - T_As_K) .* clamp01(xM);
 end
 

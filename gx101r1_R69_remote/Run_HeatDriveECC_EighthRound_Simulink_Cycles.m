@@ -5,6 +5,7 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
         overrides = struct();
     end
     [model_name, options] = Build_HeatDriveECC_EighthRound_Simulink_Model(overrides);
+    model_cleanup = onCleanup(@() discard_runtime_model_changes(model_name));
     if ~exist(options.outputs_dir, 'dir')
         mkdir(options.outputs_dir);
     end
@@ -81,6 +82,14 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
     result.provenance = provenance;
     result.figures = Plot_HeatDriveECC_EighthRound_Result(result, ...
         sprintf('%dcycle', options.cycle_count));
+    clear model_cleanup
+end
+
+function discard_runtime_model_changes(model_name)
+    if bdIsLoaded(model_name)
+        set_param(model_name, 'Dirty', 'off');
+        close_system(model_name, 0);
+    end
 end
 
 function physical = extract_physical_simscape_logs(sim_out, options)
@@ -273,7 +282,7 @@ end
 
 function values = read_on_grid(sim_out, name, query_time_s, method)
     [time_s, raw_values] = read_raw_signal(sim_out, name);
-    if numel(time_s) == 1
+    if isscalar(time_s)
         values = repmat(raw_values(1, :), numel(query_time_s), 1);
         return;
     end
