@@ -729,7 +729,8 @@ function [t, se_values, sma_values, sma_pressure_bias_values, ...
             options.branch.se_pressure_bias_MPa)];
     se_switch_pressure_MPa = get_branch_option(options, ...
         'valve_switch_pressure_MPa', 0.0);
-    sma_switch_pressure_MPa = 0.0;
+    sma_switch_pressure_MPa = get_branch_option(options, ...
+        'valve_switch_pressure_MPa', 0.0);
     active_G = options.branch.sma_pipe_thermal_gate_active_G_W_per_K;
     inactive_G = options.branch.sma_pipe_thermal_gate_inactive_G_W_per_K;
     hold_gate_stage = [active_G; active_G; inactive_G; inactive_G];
