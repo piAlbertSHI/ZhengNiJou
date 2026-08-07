@@ -109,7 +109,9 @@ function material = qian_table2_driver_material()
     material.name = 'Qian2019_Table2_Actuator_NiTi';
     material.parameter_source = [ ...
         'Qian et al. 2019 Table 2 actuator SMA: As=50 degC, ', ...
-        'Ms=40 degC; shared NiTi CA/CM/E/epsilon_t/cp/rho/latent entries.'];
+        'Ms=40 degC; shared NiTi CA/CM/E/epsilon_t/cp/rho/latent entries. ', ...
+        'Qian2019 Fig.5 defines the 0/100 percent phase surfaces from ', ...
+        'these Table 2 As/Ms values.'];
     material.E_A_Pa = 30.0e9;
     material.E_M_Pa = 30.0e9;
     material.E_m_Pa = material.E_M_Pa;
@@ -153,14 +155,16 @@ function material = qian_table2_driver_material()
     material.w_uld_J_per_kg = 0.0;
     material.w_ld_J_per_kg = 0.0;
     material.thermophysical_source = ...
-        'Qian2019 Table 2; no additional Xu constitutive coefficients';
+        'Qian2019 Table 2 and Fig.5 phase-surface interpretation';
 end
 
 function material = qian_table2_se_material()
     material = struct();
     material.name = 'Qian2019_Table2_SE_NiTi';
-    material.parameter_source = ...
-        'Qian et al. 2019 Table 2 refrigerant SE';
+    material.parameter_source = [ ...
+        'Qian et al. 2019 Table 2 refrigerant SE. Qian2019 Fig.5 ', ...
+        'defines the 0/100 percent phase surfaces from the reported ', ...
+        'As/Ms values.'];
     material.C_M_Pa_per_K = 7.3e6;
     material.C_A_Pa_per_K = 7.6e6;
     material.E_A_Pa = 30.0e9;
@@ -191,7 +195,8 @@ function material = qian_table2_se_material()
         material.transformation_reference_T_K;
     material.w_uld_J_per_kg = 0.0;
     material.w_ld_J_per_kg = 0.0;
-    material.thermophysical_source = 'Qian2019 Table 2';
+    material.thermophysical_source = ...
+        'Qian2019 Table 2 and Fig.5 phase-surface interpretation';
 end
 
 function geometry = build_equivalent_geometry(material, reference)

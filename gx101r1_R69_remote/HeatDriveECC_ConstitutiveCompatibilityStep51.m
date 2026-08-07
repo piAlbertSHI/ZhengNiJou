@@ -133,20 +133,36 @@ function rates = phase_rates(state, compatible, options, stage_id)
             % coupled SE A->M follows its forward start line. Stage 2 changes
             % the SE fluid route but does not suppress a thermodynamically
             % admissible residual transformation.
-            pai_a = sma.C_A_Pa_per_K .* (Ta - sma.T_As_K) - sigma_a;
-            pai_r = sigma_r - se.C_M_Pa_per_K .* (Tr - se.T_Ms_K);
-            reverse_gate_a = smooth_gate(pai_a, c.drive_width_a_Pa);
-            forward_gate_r = smooth_gate(pai_r, c.drive_width_r_Pa);
+            reverse_temperature_a = transformation_surface_temperature( ...
+                xA, sma.T_As_K, sma.T_Ms_K);
+            forward_temperature_r = transformation_surface_temperature( ...
+                xR, se.T_As_K, se.T_Ms_K);
+            pai_a = sma.C_A_Pa_per_K .* ...
+                (Ta - reverse_temperature_a) - sigma_a;
+            pai_r = sigma_r - se.C_M_Pa_per_K .* ...
+                (Tr - forward_temperature_r);
+            reverse_gate_a = positive_overdrive_gate( ...
+                pai_a, c.drive_width_a_Pa);
+            forward_gate_r = positive_overdrive_gate( ...
+                pai_r, c.drive_width_r_Pa);
             rA = -c.rate_a_to_A_1_per_s .* reverse_gate_a .* xA;
             rR = c.rate_r_load_1_per_s .* forward_gate_r .* (1.0 - xR);
         case {3, 4}
             % Ambient half-cycle: SMA A->M on its forward start line while
             % the coupled SE M->A follows its reverse start line. Stage 4 is
             % the cooling-delivery flow step, not a constitutive reset.
-            pai_a = sigma_a - sma.C_M_Pa_per_K .* (Ta - sma.T_Ms_K);
-            pai_r = se.C_A_Pa_per_K .* (Tr - se.T_As_K) - sigma_r;
-            forward_gate_a = smooth_gate(pai_a, c.drive_width_a_Pa);
-            reverse_gate_r = smooth_gate(pai_r, c.drive_width_r_Pa);
+            forward_temperature_a = transformation_surface_temperature( ...
+                xA, sma.T_As_K, sma.T_Ms_K);
+            reverse_temperature_r = transformation_surface_temperature( ...
+                xR, se.T_As_K, se.T_Ms_K);
+            pai_a = sigma_a - sma.C_M_Pa_per_K .* ...
+                (Ta - forward_temperature_a);
+            pai_r = se.C_A_Pa_per_K .* ...
+                (Tr - reverse_temperature_r) - sigma_r;
+            forward_gate_a = positive_overdrive_gate( ...
+                pai_a, c.drive_width_a_Pa);
+            reverse_gate_r = positive_overdrive_gate( ...
+                pai_r, c.drive_width_r_Pa);
             rA = c.rate_a_to_M_1_per_s .* forward_gate_a .* (1.0 - xA);
             rR = -c.rate_r_stage3_unload_1_per_s .* reverse_gate_r .* xR;
     end
@@ -168,9 +184,19 @@ function rates = phase_rates(state, compatible, options, stage_id)
         'r_xi_a_21', rA, 'r_xi_r_21', rR);
 end
 
-function gate = smooth_gate(driving_force_Pa, width_Pa)
-    gate = 0.5 .* (1.0 + tanh(driving_force_Pa ./ ...
-        max(width_Pa, 1.0)));
+function T_K = transformation_surface_temperature(xM, T_As_K, T_Ms_K)
+    if ~(isfinite(T_As_K) && isfinite(T_Ms_K) && T_As_K > T_Ms_K)
+        error('HeatDriveECC:InvalidTransformationSurfaceTemperature', ...
+            'Expected finite As > Ms, got %.6g/%.6g K.', T_As_K, T_Ms_K);
+    end
+    % Qian2019 Fig.5 plots the 0%, 50%, and 100% martensite lines.
+    % The 0% line uses Table-2 As and the 100% line uses Table-2 Ms.
+    T_K = T_As_K + (T_Ms_K - T_As_K) .* clamp01(xM);
+end
+
+function gate = positive_overdrive_gate(driving_force_Pa, width_Pa)
+    positive = max(driving_force_Pa, 0.0);
+    gate = 1.0 - exp(-positive ./ max(width_Pa, 1.0));
 end
 
 function lap = phase_laplacian_neumann(x)
