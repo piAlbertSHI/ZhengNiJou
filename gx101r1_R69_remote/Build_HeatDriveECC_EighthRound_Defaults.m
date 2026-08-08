@@ -335,7 +335,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.branch.pressure_pi_min_MPa = -0.40;
     options.branch.pressure_pi_max_MPa = 0.02;
     options.branch.sma_pressure_pi_min_MPa = -0.35;
-    options.branch.se_pressure_pi_min_MPa = -0.40;
+    options.branch.se_pressure_pi_min_MPa = -0.50;
     options.branch.se_pressure_integrator_min_MPa = ...
         -(se_stage4_cold_design_dp_MPa - se_bed_dp_MPa);
     options.branch.se_pressure_integrator_max_MPa = 0.10;
@@ -370,8 +370,14 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     % approximately 0.65 s integral correction scale without the mechanical
     % and water-side thermal impulse produced by the rejected -150/-800 trial.
     % Pressure saturation and stage-boundary reset remain authoritative.
-    options.branch.se_pressure_pi_kp_MPa_per_kgps = -35.0;
-    options.branch.se_pressure_pi_ki_MPa_per_kgps_s = -120.0;
+    options.branch.sma_pressure_pi_kp_MPa_per_kgps = -35.0;
+    options.branch.sma_pressure_pi_ki_MPa_per_kgps_s = -120.0;
+    options.branch.se_pressure_pi_kp_MPa_per_kgps = -120.0;
+    options.branch.se_pressure_pi_ki_MPa_per_kgps_s = -160.0;
+    options.branch.se_pressure_pi_tuning_source = [ ...
+        'Closed-loop tuning from the physical 100-cycle Simscape cold-route ', ...
+        'response: approximately 0.0055 kg/(s MPa) plant gain and a 0.75 s ', ...
+        'PI integral time, shorter than the 1.5 s Qian exchange stage.'];
     options.branch.stage_command_ramp_s = ...
         0.10 * min(article.schedule.stage_durations_s);
     options.branch.valve_switch_step_count = 20;

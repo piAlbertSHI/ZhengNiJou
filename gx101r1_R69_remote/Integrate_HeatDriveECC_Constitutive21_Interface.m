@@ -724,6 +724,14 @@ function assign_exchange_workspace(options)
         'sma_pressure_pi_min_MPa', options.branch.pressure_pi_min_MPa);
     sim_params.se_pressure_pi_min_MPa = get_branch_option(options, ...
         'se_pressure_pi_min_MPa', options.branch.pressure_pi_min_MPa);
+    sim_params.sma_pressure_pi_kp_MPa_per_kgps = get_branch_option(options, ...
+        'sma_pressure_pi_kp_MPa_per_kgps', -35.0);
+    sim_params.sma_pressure_pi_ki_MPa_per_kgps_s = get_branch_option(options, ...
+        'sma_pressure_pi_ki_MPa_per_kgps_s', -120.0);
+    sim_params.se_pressure_pi_kp_MPa_per_kgps = get_branch_option(options, ...
+        'se_pressure_pi_kp_MPa_per_kgps', -120.0);
+    sim_params.se_pressure_pi_ki_MPa_per_kgps_s = get_branch_option(options, ...
+        'se_pressure_pi_ki_MPa_per_kgps_s', -160.0);
     sim_params.se_pressure_integrator_min_MPa = get_branch_option(options, ...
         'se_pressure_integrator_min_MPa', -0.005);
     sim_params.se_pressure_integrator_max_MPa = get_branch_option(options, ...
@@ -1452,6 +1460,19 @@ function configure_independent_pressure_saturation_limits(model_name)
     end
     set_param(sma_saturation, 'LowerLimit', 'sma_pressure_pi_min_MPa');
     set_param(se_saturation, 'LowerLimit', 'se_pressure_pi_min_MPa');
+    sma_kp = [model_name '/SMAPressurePI_Kp'];
+    sma_ki = [model_name '/SMAPressurePI_Ki'];
+    se_kp = [model_name '/PressurePI_Kp'];
+    se_ki = [model_name '/PressurePI_Ki'];
+    gain_blocks = {sma_kp, sma_ki, se_kp, se_ki};
+    if ~all(cellfun(@exist_block, gain_blocks))
+        error('HeatDriveECC:MissingIndependentPressureGains', ...
+            'Independent SMA/SE pressure PI gain blocks are required.');
+    end
+    set_param(sma_kp, 'Gain', 'sma_pressure_pi_kp_MPa_per_kgps');
+    set_param(sma_ki, 'Gain', 'sma_pressure_pi_ki_MPa_per_kgps_s');
+    set_param(se_kp, 'Gain', 'se_pressure_pi_kp_MPa_per_kgps');
+    set_param(se_ki, 'Gain', 'se_pressure_pi_ki_MPa_per_kgps_s');
     se_integrator = [model_name '/PressurePI_Integrator'];
     if ~exist_block(se_integrator)
         error('HeatDriveECC:MissingSEPressureIntegrator', ...
