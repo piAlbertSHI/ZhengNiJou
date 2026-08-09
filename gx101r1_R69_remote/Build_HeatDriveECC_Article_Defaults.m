@@ -220,12 +220,14 @@ function geometry = build_equivalent_geometry(material, reference)
     % A_void/A_solid=epsilon; the conventional Qian2017 Eq.4 definition must
     % not be substituted into the 2019 Table 4 prototype geometry.
     se_void_area_m2 = reference.se_porosity * se_cross_section_m2;
-    se_length_m = reference.se_m_dot_kg_per_s * ...
-        reference.se_exchange_time_s / ...
-        (reference.se_fluid.rho_kg_per_m3 * reference.se_utilization * ...
-        se_void_area_m2);
-    se_volume_m3 = se_cross_section_m2 * se_length_m;
-    se_mass_kg = se.rho_kg_per_m3 * se_volume_m3;
+    % Active-regenerator utilization is the heat capacity of fluid moved
+    % during one blow divided by the sensible heat capacity of the solid
+    % matrix. It is not a displaced-volume/void-volume ratio.
+    se_mass_kg = reference.se_m_dot_kg_per_s * ...
+        reference.se_fluid.cp_J_per_kgK * reference.se_exchange_time_s / ...
+        (reference.se_utilization * se.cp_J_per_kgK);
+    se_volume_m3 = se_mass_kg / se.rho_kg_per_m3;
+    se_length_m = se_volume_m3 / se_cross_section_m2;
     driver_cross_section_m2 = reference.sma_wire_count * pi * ...
         reference.sma_wire_diameter_m ^ 2 / 4.0;
     driver_mass_kg = reference.driver_to_se_mass_ratio * se_mass_kg;
@@ -254,6 +256,8 @@ function geometry = build_equivalent_geometry(material, reference)
     geometry.se_mass_kg = se_mass_kg;
     geometry.se_porosity = reference.se_porosity;
     geometry.se_utilization = reference.se_utilization;
+    geometry.se_utilization_definition = ...
+        'fluid_heat_capacity_per_blow_over_SE_sensible_heat_capacity';
     geometry.porosity_definition = 'V_HTF_over_V_solid_Qian2019_Section3p1';
     geometry.se_plate_count = reference.se_plate_count;
     geometry.se_plate_thickness_m = reference.se_plate_thickness_m;
@@ -263,8 +267,8 @@ function geometry = build_equivalent_geometry(material, reference)
     geometry.se_fluid_void_volume_m3 = se_void_area_m2 * se_length_m;
     geometry.se_porosity_calculated = se_void_area_m2 / se_cross_section_m2;
     geometry.se_utilization_calculated = reference.se_m_dot_kg_per_s * ...
-        reference.se_exchange_time_s / ...
-        (reference.se_fluid.rho_kg_per_m3 * se_void_area_m2 * se_length_m);
+        reference.se_fluid.cp_J_per_kgK * reference.se_exchange_time_s / ...
+        (se_mass_kg * se.cp_J_per_kgK);
     geometry.se_wetted_perimeter_m = reference.se_plate_count * ...
         2.0 * reference.se_plate_width_m;
     geometry.se_wetted_area_m2 = geometry.se_wetted_perimeter_m * se_length_m;
