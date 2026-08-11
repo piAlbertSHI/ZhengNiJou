@@ -15,7 +15,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
 
     options = struct();
     options.schema_version = ...
-        'heatdrive_ecc_qian2019_table2_table4_simscape_defaults_v3';
+        'heatdrive_ecc_qian2019_table2_table4_simscape_defaults_v4';
     options.node_count = 21;
     options.cycle_count = 3;
     options.model_name = 'heatdrive_ecc_coupled_se21';
@@ -242,16 +242,23 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     % feedforward values are the physical Simscape pressure-flow operating
     % points for the Section 3.1 V_HTF/V_solid area.  The PI loop closes only
     % the residual needed to impose Qian's prescribed flow.
-    % The corrected Table-4 geometry changes the hydraulic plant gain. A
-    % physical open-loop Simscape run at -0.1323/-0.1176 MPa produced
-    % 50.48/50.46 g/s over the hot half and 52.01/56.01 g/s over the cold
-    % half. Applying the same-route quadratic pressure-drop law gives the
-    % hot-half target below and cold-half endpoint targets of 0.112205 and
-    % 0.096725 MPa. Their midpoint leaves both corrections inside the
-    % existing +/-0.005 MPa integral band plus the stable proportional path.
-    % Temperature lift and cooling capacity are not calibration inputs.
-    sma_stage1_route_dp_MPa = 0.134043455250;
-    sma_stage3_route_dp_MPa = 0.104465004846;
+    % The preceding real-Simscape calibration used the incorrect
+    % heat-capacity-ratio interpretation of utilization. Preserve only its
+    % measured accessory-route pressure after subtracting the predecessor
+    % bed pressure, then add the Darcy pressure of the Eq. (18) bed. This is
+    % a physical first prediction for the new geometry; measured flow from
+    % the next real run remains authoritative.
+    predecessor_sma_bed_dp_MPa = 0.0493349663364;
+    predecessor_stage1_route_dp_MPa = 0.134043455250;
+    predecessor_stage3_route_dp_MPa = 0.104465004846;
+    sma_stage1_accessory_dp_MPa = max(0.0, ...
+        predecessor_stage1_route_dp_MPa - predecessor_sma_bed_dp_MPa);
+    sma_stage3_accessory_dp_MPa = max(0.0, ...
+        predecessor_stage3_route_dp_MPa - predecessor_sma_bed_dp_MPa);
+    sma_stage1_route_dp_MPa = sma_bed_dp_MPa + ...
+        sma_stage1_accessory_dp_MPa;
+    sma_stage3_route_dp_MPa = sma_bed_dp_MPa + ...
+        sma_stage3_accessory_dp_MPa;
     options.branch.sma_stage1_pressure_bias_MPa = -sma_stage1_route_dp_MPa;
     options.branch.sma_stage3_pressure_bias_MPa = -sma_stage3_route_dp_MPa;
     options.branch.sma_bed_velocity_m_per_s = sma_velocity_m_per_s;
@@ -259,20 +266,24 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.branch.sma_bed_dp_MPa = sma_bed_dp_MPa;
     options.branch.sma_stage1_route_dp_MPa = sma_stage1_route_dp_MPa;
     options.branch.sma_stage3_route_dp_MPa = sma_stage3_route_dp_MPa;
+    options.branch.sma_stage1_accessory_dp_MPa = ...
+        sma_stage1_accessory_dp_MPa;
+    options.branch.sma_stage3_accessory_dp_MPa = ...
+        sma_stage3_accessory_dp_MPa;
     options.branch.sma_identified_flow_gain_stage1_kgps_per_MPa = ...
         0.291564934817;
     options.branch.sma_identified_flow_gain_stage3_kgps_per_MPa = ...
         0.288317295552;
     options.branch.sma_hydraulic_identification_source = [ ...
-        'Physical Simscape one-cycle saturation sweep for the stable PI ', ...
-        'gain bound, followed by one open-loop pressure-flow calibration ', ...
-        'and the same-route quadratic pressure-drop law; temperature ', ...
-        'lift and cooling capacity were not used.'];
+        'Predecessor physical Simscape one-cycle saturation sweep supplies ', ...
+        'a conservative PI gain bound. Eq18 geometry feedforward retains ', ...
+        'the measured accessory pressure and replaces only the bed Darcy ', ...
+        'drop; temperature lift and cooling capacity are not used.'];
     options.branch.sma_pressure_bias_source = [ ...
-        'Qian2019 Section3.1 V_HTF/V_solid porosity and target flow with ', ...
+        'Qian2017 Eq18 utilization and Qian2019 Section3.1 porosity with ', ...
         'Darcy-Weisbach bed pressure plus separate unreported SHEX/HHEX ', ...
-        'accessory-route feedforward from the local physical Simscape ', ...
-        'quadratic pressure-flow relation; PI closes residual error'];
+        'accessory pressure retained from the predecessor real-Simscape ', ...
+        'route calibration; PI closes measured flow error'];
     options.branch.sma_inactive_pressure_bias_MPa = 0.0;
     % The SE branch has different hydraulic losses in stages 2 and 4.
     % Keep the old scalar as a fallback, but expose the two active-stage

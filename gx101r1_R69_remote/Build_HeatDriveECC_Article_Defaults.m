@@ -14,7 +14,7 @@ function options = Build_HeatDriveECC_Article_Defaults(overrides)
 
     root_dir = fileparts(mfilename('fullpath'));
     options = struct();
-    options.schema_version = 'heatdrive_ecc_qian2019_table2_table4_defaults_v3';
+    options.schema_version = 'heatdrive_ecc_qian2019_table2_table4_defaults_v4';
     options.model_name = 'heatdrive_ecc_coupled_se21';
     options.model_path = fullfile(root_dir, [options.model_name, '.slx']);
     options.outputs_dir = fullfile(root_dir, 'outputs', ...
@@ -220,14 +220,16 @@ function geometry = build_equivalent_geometry(material, reference)
     % A_void/A_solid=epsilon; the conventional Qian2017 Eq.4 definition must
     % not be substituted into the 2019 Table 4 prototype geometry.
     se_void_area_m2 = reference.se_porosity * se_cross_section_m2;
-    % Active-regenerator utilization is the heat capacity of fluid moved
-    % during one blow divided by the sensible heat capacity of the solid
-    % matrix. It is not a displaced-volume/void-volume ratio.
-    se_mass_kg = reference.se_m_dot_kg_per_s * ...
-        reference.se_fluid.cp_J_per_kgK * reference.se_exchange_time_s / ...
-        (reference.se_utilization * se.cp_J_per_kgK);
-    se_volume_m3 = se_mass_kg / se.rho_kg_per_m3;
-    se_length_m = se_volume_m3 / se_cross_section_m2;
+    % Qian2017 Eq. (18) defines utilization as the fluid volume displaced
+    % during one blow divided by the bed void volume. Fluid cp appears in
+    % both numerator and denominator and cancels; this is not a fluid/solid
+    % heat-capacity ratio.
+    se_length_m = reference.se_m_dot_kg_per_s * ...
+        reference.se_exchange_time_s / ...
+        (reference.se_fluid.rho_kg_per_m3 * ...
+        reference.se_utilization * se_void_area_m2);
+    se_volume_m3 = se_cross_section_m2 * se_length_m;
+    se_mass_kg = se.rho_kg_per_m3 * se_volume_m3;
     driver_cross_section_m2 = reference.sma_wire_count * pi * ...
         reference.sma_wire_diameter_m ^ 2 / 4.0;
     driver_mass_kg = reference.driver_to_se_mass_ratio * se_mass_kg;
@@ -257,7 +259,7 @@ function geometry = build_equivalent_geometry(material, reference)
     geometry.se_porosity = reference.se_porosity;
     geometry.se_utilization = reference.se_utilization;
     geometry.se_utilization_definition = ...
-        'fluid_heat_capacity_per_blow_over_SE_sensible_heat_capacity';
+        'displaced_fluid_volume_per_blow_over_bed_void_volume_Qian2017_Eq18';
     geometry.porosity_definition = 'V_HTF_over_V_solid_Qian2019_Section3p1';
     geometry.se_plate_count = reference.se_plate_count;
     geometry.se_plate_thickness_m = reference.se_plate_thickness_m;
@@ -267,8 +269,9 @@ function geometry = build_equivalent_geometry(material, reference)
     geometry.se_fluid_void_volume_m3 = se_void_area_m2 * se_length_m;
     geometry.se_porosity_calculated = se_void_area_m2 / se_cross_section_m2;
     geometry.se_utilization_calculated = reference.se_m_dot_kg_per_s * ...
-        reference.se_fluid.cp_J_per_kgK * reference.se_exchange_time_s / ...
-        (se_mass_kg * se.cp_J_per_kgK);
+        reference.se_exchange_time_s / ...
+        (reference.se_fluid.rho_kg_per_m3 * ...
+        geometry.se_fluid_void_volume_m3);
     geometry.se_wetted_perimeter_m = reference.se_plate_count * ...
         2.0 * reference.se_plate_width_m;
     geometry.se_wetted_area_m2 = geometry.se_wetted_perimeter_m * se_length_m;
@@ -311,7 +314,7 @@ function geometry = build_equivalent_geometry(material, reference)
         'Qian2019 Table4 plate/wire geometry and Section3.1 ', ...
         'V_HTF/V_solid porosity; ', ...
         'force ratio uses sigma_a*Sa=sigma_r*Sr and lengths use ', ...
-        'the reported utilization definition.'];
+        'Qian2017 Eq18 displaced-volume utilization.'];
     geometry.geometry_source = ...
         'Qian2019 Table 4 plus Qian2017 Eq18 derived axial lengths';
 end
