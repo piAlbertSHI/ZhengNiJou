@@ -242,8 +242,16 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     % feedforward values are the physical Simscape pressure-flow operating
     % points for the Section 3.1 V_HTF/V_solid area.  The PI loop closes only
     % the residual needed to impose Qian's prescribed flow.
-    sma_stage1_route_dp_MPa = 0.236708897576;
-    sma_stage3_route_dp_MPa = 0.149911704742;
+    % The corrected Table-4 geometry changes the hydraulic plant gain. A
+    % physical open-loop Simscape run at -0.1323/-0.1176 MPa produced
+    % 50.48/50.46 g/s over the hot half and 52.01/56.01 g/s over the cold
+    % half. Applying the same-route quadratic pressure-drop law gives the
+    % hot-half target below and cold-half endpoint targets of 0.112205 and
+    % 0.096725 MPa. Their midpoint leaves both corrections inside the
+    % existing +/-0.005 MPa integral band plus the stable proportional path.
+    % Temperature lift and cooling capacity are not calibration inputs.
+    sma_stage1_route_dp_MPa = 0.134043455250;
+    sma_stage3_route_dp_MPa = 0.104465004846;
     options.branch.sma_stage1_pressure_bias_MPa = -sma_stage1_route_dp_MPa;
     options.branch.sma_stage3_pressure_bias_MPa = -sma_stage3_route_dp_MPa;
     options.branch.sma_bed_velocity_m_per_s = sma_velocity_m_per_s;
@@ -251,6 +259,15 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.branch.sma_bed_dp_MPa = sma_bed_dp_MPa;
     options.branch.sma_stage1_route_dp_MPa = sma_stage1_route_dp_MPa;
     options.branch.sma_stage3_route_dp_MPa = sma_stage3_route_dp_MPa;
+    options.branch.sma_identified_flow_gain_stage1_kgps_per_MPa = ...
+        0.291564934817;
+    options.branch.sma_identified_flow_gain_stage3_kgps_per_MPa = ...
+        0.288317295552;
+    options.branch.sma_hydraulic_identification_source = [ ...
+        'Physical Simscape one-cycle saturation sweep for the stable PI ', ...
+        'gain bound, followed by one open-loop pressure-flow calibration ', ...
+        'and the same-route quadratic pressure-drop law; temperature ', ...
+        'lift and cooling capacity were not used.'];
     options.branch.sma_pressure_bias_source = [ ...
         'Qian2019 Section3.1 V_HTF/V_solid porosity and target flow with ', ...
         'Darcy-Weisbach bed pressure plus separate unreported SHEX/HHEX ', ...
@@ -379,14 +396,19 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.branch.sma_source_select_junction_source = [ ...
         'V1/V2 article-equivalent valve manifold; avoids independent ', ...
         'trapped thermal states introduced by a T-Junction (TL) block'];
-    % The cold-start route gain is about 0.02 kg/s/MPa. These gains give an
-    % approximately 0.65 s integral correction scale without the mechanical
-    % and water-side thermal impulse produced by the rejected -150/-800 trial.
-    % Pressure saturation and stage-boundary reset remain authoritative.
-    options.branch.sma_pressure_pi_kp_MPa_per_kgps = -35.0;
-    options.branch.sma_pressure_pi_ki_MPa_per_kgps_s = -120.0;
+    % The identified corrected-geometry gain is about 0.29 kg/(s MPa).
+    % Kp=-1 gives a worst-case proportional loop magnitude below 0.30,
+    % instead of the unstable 10.2 produced by Kp=-35. Ki=-4 gives an
+    % approximately 0.86 s integral correction scale. The existing
+    % +/-0.005 MPa integral limit and stage-boundary reset remain active.
+    options.branch.sma_pressure_pi_kp_MPa_per_kgps = -1.0;
+    options.branch.sma_pressure_pi_ki_MPa_per_kgps_s = -4.0;
     options.branch.se_pressure_pi_kp_MPa_per_kgps = -120.0;
     options.branch.se_pressure_pi_ki_MPa_per_kgps_s = -160.0;
+    options.branch.sma_pressure_pi_tuning_source = [ ...
+        'Corrected Qian-geometry physical Simscape hydraulic gain; ', ...
+        'chosen for proportional loop magnitude below 0.30 and ', ...
+        'approximately 0.86 s integral correction time.'];
     options.branch.se_pressure_pi_tuning_source = [ ...
         'Closed-loop tuning from the physical Simscape cold-route response: ', ...
         'approximately 0.0055 kg/(s MPa) plant gain and a 0.75 s PI integral ', ...
@@ -554,6 +576,9 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.validation.max_stage3_SHEX_buffer_above_source_K = 3.0;
     options.validation.max_inactive_SMA_route_flow_fraction = 1.0e-3;
     options.validation.max_sma_source_select_probe_temperature_K = 450.0;
+    options.validation.max_sma_water_pressure_MPa = 1.50;
+    options.validation.max_sma_settled_flow_relative_error = 0.20;
+    options.validation.max_sma_settled_pressure_saturation_fraction = 0.01;
     options.validation.max_periodic_endpoint_drift_K = 0.05;
     options.validation.max_periodic_same_phase_temperature_drift_K = 0.05;
     options.validation.max_periodic_phase_drift = 1.0e-4;
