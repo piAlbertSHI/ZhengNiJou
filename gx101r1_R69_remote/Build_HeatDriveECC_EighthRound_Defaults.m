@@ -364,6 +364,22 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.branch.pressure_pi_max_MPa = 0.02;
     options.branch.sma_pressure_pi_min_MPa = -0.35;
     options.branch.se_pressure_pi_min_MPa = -0.50;
+    % The SMA loop uses one integrator and is reset only during the two
+    % half-cycle commutations.  Its state limits are derived from the final
+    % admissible pressure command after subtracting either route's physical
+    % feedforward loss.  This replaces the inherited +/-0.005 MPa limit,
+    % which cannot regulate the longer Qian Eq.18 bed to the Table 4 flow.
+    options.branch.sma_pressure_integrator_min_MPa = min([ ...
+        options.branch.sma_pressure_pi_min_MPa - ...
+            options.branch.sma_stage1_pressure_bias_MPa, ...
+        options.branch.sma_pressure_pi_min_MPa - ...
+            options.branch.sma_stage3_pressure_bias_MPa]);
+    options.branch.sma_pressure_integrator_max_MPa = 0.10;
+    options.branch.sma_pressure_integrator_limit_source = [ ...
+        'Shared SMA PI state is reset at hot/cold half-cycle commutation. ', ...
+        'Its lower limit is the most conservative admissible pump command ', ...
+        'minus the Qian-geometry route feedforward; final pump saturation ', ...
+        'remains authoritative.'];
     % Stage 2 and Stage 4 use the same physical pump but different valve
     % routes.  Each route therefore retains its own integral correction
     % while inactive.  The lower state limit is derived from the admissible
@@ -410,8 +426,9 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     % The identified corrected-geometry gain is about 0.29 kg/(s MPa).
     % Kp=-1 gives a worst-case proportional loop magnitude below 0.30,
     % instead of the unstable 10.2 produced by Kp=-35. Ki=-4 gives an
-    % approximately 0.86 s integral correction scale. The existing
-    % +/-0.005 MPa integral limit and stage-boundary reset remain active.
+    % approximately 0.86 s integral correction scale. The integral state
+    % now has route-derived limits instead of the obsolete +/-0.005 MPa
+    % template limit; the half-cycle boundary reset remains active.
     options.branch.sma_pressure_pi_kp_MPa_per_kgps = -1.0;
     options.branch.sma_pressure_pi_ki_MPa_per_kgps_s = -4.0;
     options.branch.se_pressure_pi_kp_MPa_per_kgps = -120.0;
@@ -579,7 +596,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.validation.max_abs_stress_Pa = 1.2e9;
     options.validation.max_abs_flow_over_target = 4.0;
     options.validation.min_active_flow_fraction_of_target = 0.10;
-    options.validation.max_active_flow_relative_error = 0.15;
+    options.validation.max_active_flow_relative_error = 0.05;
     options.validation.max_inactive_core_flow_fraction_of_target = 0.01;
     options.validation.max_cross_route_flow_fraction_of_target = 0.01;
     options.validation.max_inactive_thermal_path_heat_W = 5.0e-3;
@@ -588,7 +605,9 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.validation.max_inactive_SMA_route_flow_fraction = 1.0e-3;
     options.validation.max_sma_source_select_probe_temperature_K = 450.0;
     options.validation.max_sma_water_pressure_MPa = 1.50;
-    options.validation.max_sma_settled_flow_relative_error = 0.20;
+    options.validation.max_sma_settled_flow_relative_error = 0.05;
+    options.validation.max_stage_constitutive_decomposition_residual_fraction = ...
+        0.01;
     options.validation.max_sma_settled_pressure_saturation_fraction = 0.01;
     options.validation.max_periodic_endpoint_drift_K = 0.05;
     options.validation.max_periodic_same_phase_temperature_drift_K = 0.05;
