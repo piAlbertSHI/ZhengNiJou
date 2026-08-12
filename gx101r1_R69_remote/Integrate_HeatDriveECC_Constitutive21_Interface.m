@@ -1150,14 +1150,15 @@ function [t, se_values, sma_values, sma_pressure_bias_values, ...
         if sma_changed
             for gate_idx = 1:thermal_gate_step_count
                 fraction = gate_idx / thermal_gate_step_count;
+                pressure_fraction = smoothstep_fraction(fraction);
                 gate_time = valve_switch_end_t + fraction * ...
                     (transition_end_t - valve_switch_end_t);
                 sma_pressure = interpolate_changed_value( ...
                     sma_switch_pressure_MPa, pressure_stage(next_stage_idx), ...
-                    fraction, sma_changed);
+                    pressure_fraction, sma_changed);
                 se_pressure = interpolate_changed_value( ...
                     se_switch_pressure_MPa, ...
-                    se_pressure_stage(next_stage_idx), fraction, se_changed);
+                    se_pressure_stage(next_stage_idx), pressure_fraction, se_changed);
                 [t, se_values, sma_values, sma_pressure_bias_values, ...
                     se_pressure_bias_values, ...
                     sma_hold_gate_values, sma_cooldown_gate_values] = ...
@@ -1215,6 +1216,11 @@ function value = interpolate_changed_value(start_value, end_value, fraction, cha
     else
         value = start_value;
     end
+end
+
+function value = smoothstep_fraction(fraction)
+    fraction = min(max(fraction, 0.0), 1.0);
+    value = fraction ^ 2 * (3.0 - 2.0 * fraction);
 end
 
 function value = geometric_gate_ramp(start_value, end_value, fraction)
