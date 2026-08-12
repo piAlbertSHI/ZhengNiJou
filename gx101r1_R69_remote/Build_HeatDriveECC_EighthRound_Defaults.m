@@ -416,18 +416,18 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     % The identified corrected-geometry local gain is at most about
     % 0.416 kg/(s MPa). Kp=-0.6 gives a worst-case proportional loop
     % magnitude below 0.25, instead of the unstable 10.2 produced by Kp=-35.
-    % Ki=-8 gives an approximately 0.30 s local hydraulic correction time
+    % Ki=-10 gives an approximately 0.24 s local hydraulic correction time
     % at the worst identified gain and removes the remaining disturbance.
     % The integral state
     % now has route-derived limits instead of the obsolete +/-0.005 MPa
     % template limit; the half-cycle boundary reset remains active.
     options.branch.sma_pressure_pi_kp_MPa_per_kgps = -0.6;
-    options.branch.sma_pressure_pi_ki_MPa_per_kgps_s = -8.0;
+    options.branch.sma_pressure_pi_ki_MPa_per_kgps_s = -10.0;
     options.branch.se_pressure_pi_kp_MPa_per_kgps = -120.0;
     options.branch.se_pressure_pi_ki_MPa_per_kgps_s = -160.0;
     options.branch.sma_pressure_pi_tuning_source = [ ...
         'Corrected Qian-geometry physical Simscape hydraulic gain; ', ...
-        'chosen for proportional loop magnitude below 0.25 and about 0.30 s ', ...
+        'chosen for proportional loop magnitude below 0.25 and about 0.24 s ', ...
         'local integral response; integral action removes the remaining ', ...
         'time-varying hydraulic disturbance.'];
     options.branch.se_pressure_pi_tuning_source = [ ...
