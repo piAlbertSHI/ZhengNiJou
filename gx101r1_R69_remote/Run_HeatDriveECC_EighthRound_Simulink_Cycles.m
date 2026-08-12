@@ -14,6 +14,7 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
     assignin('base', 'EIGHTH_ROUND_OPTIONS', options);
     sim_in = Simulink.SimulationInput(model_name);
     sim_in = sim_in.setModelParameter( ...
+        'StartTime', '0', ...
         'StopTime', num2str(options.simulation.stop_time_s, '%.15g'), ...
         'Solver', options.simulation.solver, ...
         'ReturnWorkspaceOutputs', 'on', ...
@@ -30,6 +31,14 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
             'AbsTol', '1e-3');
     end
     sim_in = sim_in.setVariable('EIGHTH_ROUND_OPTIONS', options);
+    [sim_in, checkpoint_context] = configure_checkpoint_resume( ...
+        sim_in, model_name, options);
+    if options.simulation.save_final_operating_point
+        sim_in = sim_in.setModelParameter( ...
+            'SaveFinalState', 'on', ...
+            'FinalStateName', 'xFinal', ...
+            'SaveOperatingPoint', 'on');
+    end
 
     wall_start = tic;
     sim_out = sim(sim_in);
@@ -38,10 +47,13 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
         error('Run:EighthRound:SimulinkFailed', '%s', sim_out.ErrorMessage);
     end
 
-    physical = extract_physical_simscape_logs(sim_out, options);
-    physical.walltime_s = walltime_s;
+    segment_physical = extract_physical_simscape_logs(sim_out, options);
+    [physical, prior_provenance] = combine_checkpoint_history( ...
+        segment_physical, checkpoint_context, options);
+    physical.segment_walltime_s = walltime_s;
+    physical.walltime_s = walltime_s + checkpoint_context.prior_walltime_s;
     physical.authority = 'physical_simscape_to_workspace_logs';
-    physical.sim_call_count = 1;
+    physical.sim_call_count = checkpoint_context.prior_sim_call_count + 1;
     physical.legacy_surrogate_used_for_results = false;
     summary = Summarize_HeatDriveECC_EighthRound_Output(physical, options);
 
@@ -57,12 +69,25 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
     provenance = struct( ...
         'authority', physical.authority, ...
         'legacy_surrogate_used_for_results', false, ...
-        'sim_call_count', 1, ...
-        'continuous_full_cycle_simulation', true, ...
-        'walltime_s', walltime_s, ...
+        'sim_call_count', physical.sim_call_count, ...
+        'continuous_full_cycle_simulation', ~checkpoint_context.resumed, ...
+        'checkpoint_restart_used', checkpoint_context.resumed, ...
+        'checkpoint_chain_verified', checkpoint_context.verified, ...
+        'checkpoint_prior_provenance', prior_provenance, ...
+        'walltime_s', physical.walltime_s, ...
+        'segment_walltime_s', walltime_s, ...
         'model_name', model_name, ...
         'solver', options.simulation.solver, ...
         'fixed_step_s', options.simulation.fixed_step_s);
+    checkpoint_path = '';
+    if options.simulation.save_final_operating_point
+        checkpoint_path = fullfile(output_dir, 'final_operating_point.mat');
+        operating_point = sim_out.xFinal;
+        checkpoint_meta = make_checkpoint_metadata(model_name, options, ...
+            physical, output_mat);
+        save(checkpoint_path, 'operating_point', 'checkpoint_meta', '-v7.3');
+        provenance.final_checkpoint_path = checkpoint_path;
+    end
     save(output_mat, 'physical', 'summary', 'options', 'provenance', ...
         'available_simulink_variables', '-v7.3');
 
@@ -80,9 +105,194 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
     result.authority = physical.authority;
     result.legacy_surrogate_used_for_results = false;
     result.provenance = provenance;
+    result.checkpoint_path = checkpoint_path;
     result.figures = Plot_HeatDriveECC_EighthRound_Result(result, ...
         sprintf('%dcycle', options.cycle_count));
     clear model_cleanup
+end
+
+function [sim_in, context] = configure_checkpoint_resume(sim_in, model_name, options)
+    context = struct('resumed', false, 'verified', true, ...
+        'prior_physical', struct(), 'prior_provenance', struct(), ...
+        'prior_walltime_s', 0.0, 'prior_sim_call_count', 0);
+    checkpoint_path = char(string(options.simulation.resume_checkpoint_path));
+    prior_result_path = char(string(options.simulation.prior_result_path));
+    if isempty(strtrim(checkpoint_path)) && isempty(strtrim(prior_result_path))
+        return;
+    end
+    if isempty(strtrim(checkpoint_path)) || isempty(strtrim(prior_result_path))
+        error('Run:EighthRound:IncompleteCheckpointResume', ...
+            'Both resume_checkpoint_path and prior_result_path are required.');
+    end
+    if ~exist(checkpoint_path, 'file') || ~exist(prior_result_path, 'file')
+        error('Run:EighthRound:MissingCheckpointResumeFile', ...
+            'Checkpoint or prior result file is missing.');
+    end
+    checkpoint = load(checkpoint_path, 'operating_point', 'checkpoint_meta');
+    prior = load(prior_result_path, 'physical', 'options', 'provenance');
+    required_checkpoint = {'operating_point','checkpoint_meta'};
+    required_prior = {'physical','options','provenance'};
+    if ~all(isfield(checkpoint, required_checkpoint)) || ...
+            ~all(isfield(prior, required_prior))
+        error('Run:EighthRound:InvalidCheckpointResumeFile', ...
+            'Checkpoint or prior result does not contain the required contract.');
+    end
+    expected = checkpoint_contract(model_name, options);
+    if ~isequaln(checkpoint.checkpoint_meta.contract, expected)
+        error('Run:EighthRound:CheckpointContractMismatch', ...
+            'Model, solver, material, geometry, route, or thermal contract changed.');
+    end
+    if ~isequaln(checkpoint_contract(model_name, prior.options), expected)
+        error('Run:EighthRound:PriorResultContractMismatch', ...
+            'Prior physical result parameters do not match the checkpoint contract.');
+    end
+    bound_prior_path = char(string(checkpoint.checkpoint_meta.prior_result_path));
+    if ~strcmpi(canonical_path(bound_prior_path), canonical_path(prior_result_path))
+        error('Run:EighthRound:CheckpointPriorResultMismatch', ...
+            'Checkpoint is not bound to the supplied prior physical result.');
+    end
+    prior_end_s = prior.physical.time_s(end);
+    if abs(prior_end_s - checkpoint.checkpoint_meta.time_s) > ...
+            10.0 * eps(max(abs(prior_end_s), 1.0)) || ...
+            abs(prior_end_s - prior.options.simulation.stop_time_s) > ...
+            10.0 * eps(max(abs(prior_end_s), 1.0)) || ...
+            options.simulation.stop_time_s <= prior_end_s
+        error('Run:EighthRound:CheckpointTimeMismatch', ...
+            'Checkpoint, prior result, and requested stop time are inconsistent.');
+    end
+    sim_in = sim_in.setInitialState(checkpoint.operating_point);
+    context.resumed = true;
+    context.verified = true;
+    context.prior_physical = prior.physical;
+    context.prior_provenance = prior.provenance;
+    context.prior_walltime_s = prior.physical.walltime_s;
+    context.prior_sim_call_count = prior.physical.sim_call_count;
+end
+
+function [physical, prior_provenance] = combine_checkpoint_history( ...
+        segment, context, options)
+    prior_provenance = struct();
+    if ~context.resumed
+        physical = segment;
+        return;
+    end
+    prior = context.prior_physical;
+    prior_provenance = context.prior_provenance;
+    boundary_s = prior.time_s(end);
+    keep = segment.time_s > boundary_s + ...
+        10.0 * eps(max(abs(boundary_s), 1.0));
+    if ~any(keep)
+        error('Run:EighthRound:EmptyCheckpointContinuation', ...
+            'The resumed simulation produced no samples after the checkpoint.');
+    end
+    physical = append_physical_struct(prior, segment, keep, ...
+        numel(prior.time_s), numel(segment.time_s));
+    [physical.cycle_index, physical.stage_id, physical.stage_elapsed_s] = ...
+        cycle_stage_from_time(physical.time_s, options);
+end
+
+function out = append_physical_struct(prior, segment, keep, n_prior, n_segment)
+    prior_names = fieldnames(prior);
+    segment_names = fieldnames(segment);
+    ignored = {'walltime_s','segment_walltime_s','sim_call_count', ...
+        'authority','legacy_surrogate_used_for_results'};
+    names = setdiff(intersect(prior_names, segment_names, 'stable'), ignored);
+    missing = setxor(setdiff(prior_names, ignored), setdiff(segment_names, ignored));
+    if ~isempty(missing)
+        error('Run:EighthRound:CheckpointSignalContractMismatch', ...
+            'Physical signal sets differ across checkpoint: %s.', strjoin(missing, ', '));
+    end
+    out = struct();
+    for idx = 1:numel(names)
+        name = names{idx};
+        a = prior.(name);
+        b = segment.(name);
+        if strcmp(name, 'probes')
+            out.(name) = append_probe_struct(a, b, keep, n_prior, n_segment);
+        elseif (isnumeric(a) || islogical(a)) && ...
+                (isnumeric(b) || islogical(b)) && ...
+                ~isscalar(a) && ~isscalar(b) && ...
+                size(a, 1) == n_prior && size(b, 1) == n_segment
+            subs = repmat({':'}, 1, ndims(b));
+            subs{1} = keep;
+            out.(name) = cat(1, a, b(subs{:}));
+        else
+            if ~isequaln(a, b)
+                error('Run:EighthRound:CheckpointMetadataMismatch', ...
+                    'Physical metadata differs across checkpoint: %s.', name);
+            end
+            out.(name) = a;
+        end
+    end
+end
+
+function out = append_probe_struct(prior, segment, keep, n_prior, n_segment)
+    names = fieldnames(prior);
+    if ~isequal(names, fieldnames(segment))
+        error('Run:EighthRound:CheckpointProbeContractMismatch', ...
+            'Temperature probe sets differ across checkpoint.');
+    end
+    out = struct();
+    for idx = 1:numel(names)
+        a = prior.(names{idx});
+        b = segment.(names{idx});
+        if size(a, 1) ~= n_prior || size(b, 1) ~= n_segment
+            error('Run:EighthRound:CheckpointProbeShapeMismatch', ...
+                'Probe shape differs across checkpoint: %s.', names{idx});
+        end
+        out.(names{idx}) = [a; b(keep, :)];
+    end
+end
+
+function meta = make_checkpoint_metadata(model_name, options, physical, output_mat)
+    meta = struct('schema', 'heatdrive_ecc_operating_point_v1', ...
+        'time_s', physical.time_s(end), ...
+        'cycle_count', options.cycle_count, ...
+        'prior_result_path', output_mat, ...
+        'contract', checkpoint_contract(model_name, options));
+end
+
+function contract = checkpoint_contract(model_name, options)
+    contract = struct();
+    contract.model_name = model_name;
+    contract.model_file_sha256 = file_sha256(options.model_path);
+    contract.node_count = options.node_count;
+    contract.solver = options.simulation.solver;
+    contract.fixed_step_s = options.simulation.fixed_step_s;
+    contract.schedule = options.schedule.stage_durations_s;
+    contract.geometry = options.geometry;
+    contract.material = options.material;
+    contract.fluid = options.fluid;
+    contract.branch = options.branch;
+    contract.system = rmfield_if_present(options.system, ...
+        {'cold_load_heat_reference_W'});
+    contract.constitutive = options.constitutive;
+end
+
+function value = file_sha256(path)
+    fid = fopen(path, 'rb');
+    if fid < 0
+        error('Run:EighthRound:CheckpointModelHashFailed', ...
+            'Cannot open canonical model for hashing: %s.', path);
+    end
+    cleanup = onCleanup(@() fclose(fid));
+    bytes = fread(fid, Inf, '*uint8');
+    digest = java.security.MessageDigest.getInstance('SHA-256');
+    digest.update(typecast(bytes, 'int8'));
+    value = lower(reshape(dec2hex(typecast(digest.digest(), 'uint8'), 2).', 1, []));
+    clear cleanup
+end
+
+function value = canonical_path(path)
+    file = java.io.File(path);
+    value = char(file.getCanonicalPath());
+end
+
+function value = rmfield_if_present(value, names)
+    present = intersect(fieldnames(value), names);
+    if ~isempty(present)
+        value = rmfield(value, present);
+    end
 end
 
 function discard_runtime_model_changes(model_name)

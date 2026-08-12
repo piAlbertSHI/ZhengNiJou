@@ -112,6 +112,9 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
         'legacy_surrogate_diagnostic_not_validation_authority';
     options.simulation.authority = 'physical_simscape_to_workspace_logs';
     options.simulation.persist_model_configuration = false;
+    options.simulation.save_final_operating_point = false;
+    options.simulation.resume_checkpoint_path = '';
+    options.simulation.prior_result_path = '';
 
     options.simscape = struct();
     options.simscape.local_solver_enabled = true;
