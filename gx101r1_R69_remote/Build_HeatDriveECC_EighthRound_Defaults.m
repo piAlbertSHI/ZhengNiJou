@@ -629,6 +629,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.validation.dual_fluid_domain_implemented = false;
     options.validation.table4_max_no_load_lift_K = ...
         article.reference.maximum_no_load_lift_K;
+    options.validation.max_table4_no_load_lift_relative_error = 0.05;
     options.validation.table4_zero_lift_specific_cooling_W_per_g = ...
         article.reference.maximum_zero_lift_specific_cooling_W_per_g;
 
