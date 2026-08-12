@@ -54,6 +54,7 @@ function Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, sa
     add_top_level_constitutive_loop(model_name, options);
     add_top_level_eighth_round_output_loop(model_name, options);
     add_sma_stage13_observability(model_name);
+    configure_se_route_probe_names(model_name);
     add_pressure_command_observability(model_name);
     add_sma_internal_pipe_observability(model_name);
     add_shex_hot_pipe_pressure_observability(model_name);
@@ -66,6 +67,28 @@ function Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, sa
     if save_changes
         set_param(model_name, 'SimulationCommand', 'update');
         save_system(model_name);
+    end
+end
+
+function configure_se_route_probe_names(model_name)
+% Remove the inherited SMA labels from the four physical SE route probes.
+    suffixes = { ...
+        'hold_inlet_fluid_temp_out', ...
+        'hold_outlet_fluid_temp_out', ...
+        'cooldown_inlet_fluid_temp_out', ...
+        'cooldown_outlet_fluid_temp_out'};
+    for idx = 1:numel(suffixes)
+        old_name = ['ToWorkspace_sma_' suffixes{idx}];
+        new_name = ['ToWorkspace_se_' suffixes{idx}];
+        old_path = [model_name '/' old_name];
+        new_path = [model_name '/' new_name];
+        if exist_block(old_path)
+            set_param(old_path, 'Name', new_name);
+        elseif ~exist_block(new_path)
+            error('HeatDriveECC:MissingSERouteTemperatureProbe', ...
+                'Missing physical SE route probe sink: %s.', new_name);
+        end
+        set_param(new_path, 'VariableName', ['se_' suffixes{idx}]);
     end
 end
 
