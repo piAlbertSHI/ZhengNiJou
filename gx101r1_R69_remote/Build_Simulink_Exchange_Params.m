@@ -24,7 +24,30 @@ function sim_params = Build_Simulink_Exchange_Params(state_in, stage_config, exc
     thickness_m = get_option_field(exchange_options, 'thickness_m', 0.20e-3);
     sma_density_kg_per_m3 = get_option_field(exchange_options, 'rho_sma', ...
         get_option_field(exchange_options, 'rho', 6500.0));
-    sma_physical_mass_kg = sma_density_kg_per_m3 * pi * radius_m ^ 2 * thickness_m;
+    legacy_circular_volume_m3 = pi * radius_m ^ 2 * thickness_m;
+    explicit_solid_volume = get_option_field(exchange_options, ...
+        'solid_volume_m3', []);
+    if isempty(explicit_solid_volume)
+        solid_volume_m3 = legacy_circular_volume_m3;
+        solid_volume_source = 'legacy_pi_radius_squared_thickness_fallback';
+    else
+        solid_volume_m3 = double(explicit_solid_volume);
+        if ~(isscalar(solid_volume_m3) && isfinite(solid_volume_m3) && ...
+                solid_volume_m3 > 0.0)
+            error('Build_Simulink_Exchange_Params:InvalidSolidVolume', ...
+                'solid_volume_m3 must be a finite positive scalar.');
+        end
+        solid_volume_source = ...
+            'explicit_one_dimensional_axial_solid_volume';
+    end
+    require_explicit_axial_geometry = logical(get_option_field( ...
+        exchange_options, 'require_explicit_axial_geometry', false));
+    if require_explicit_axial_geometry && isempty(explicit_solid_volume)
+        error('Build_Simulink_Exchange_Params:MissingAxialSolidVolume', ...
+            ['The production 21-node axial interface requires ', ...
+            'solid_volume_m3 and may not use circular-plate geometry.']);
+    end
+    sma_physical_mass_kg = sma_density_kg_per_m3 * solid_volume_m3;
     if isfield(exchange_options, 'total_mass') && ~isempty(exchange_options.total_mass)
         total_mass = exchange_options.total_mass;
         sma_mass_source = 'exchange_options.total_mass';
@@ -151,7 +174,9 @@ function sim_params = Build_Simulink_Exchange_Params(state_in, stage_config, exc
             'stage_config.stop_time_s must be finite and positive.');
     end
 
-    plate_volume_m3 = pi * radius_m ^ 2 * thickness_m;
+    % Keep the historical variable name for the mature Simulink workspace
+    % contract, but its production value is the explicit axial solid volume.
+    plate_volume_m3 = solid_volume_m3;
     flush_volume_target_ratio = get_option_field(exchange_options, 'flush_volume_target_ratio', 1.0);
     use_closed_valve_flow = isfield(stage_config, 'all_valves_closed') && logical(stage_config.all_valves_closed);
     target_flush_volume_ratio = flush_volume_target_ratio;
@@ -883,6 +908,8 @@ function sim_params = Build_Simulink_Exchange_Params(state_in, stage_config, exc
     sim_params.sma_mass_source = sma_mass_source;
     sim_params.sma_mass_consistency_ratio = sma_mass_consistency_ratio;
     sim_params.sma_mass_contract_ok = sma_mass_contract_ok;
+    sim_params.solid_volume_source = solid_volume_source;
+    sim_params.legacy_circular_volume_m3 = legacy_circular_volume_m3;
     sim_params.sma_heat_capacity_total_J_per_K = total_mass * node_cp;
     sim_params.solver51_cond_k = cond_k;
     sim_params.solver51_cond_area = cond_area;
@@ -1535,7 +1562,7 @@ function [T_out, report] = resize_temperature_vector(T_in, target_count)
     if numel(T_in) == target_count
         T_out = T_in;
         mode = 'direct_node_count_match';
-    elseif numel(T_in) == 1
+    elseif isscalar(T_in)
         T_out = repmat(T_in, target_count, 1);
         mode = 'scalar_replicated_to_internal_nodes';
     else

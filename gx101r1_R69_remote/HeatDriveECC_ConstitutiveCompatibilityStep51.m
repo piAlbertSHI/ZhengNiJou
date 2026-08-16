@@ -11,12 +11,10 @@ function [state, audit] = HeatDriveECC_ConstitutiveCompatibilityStep51(state, op
     N = options.node_count;
     state = normalize_state21(state, N);
     old = solve_compatibility(state, options);
-    rates = phase_rates(state, old, options, stage_id);
-
     old_xA = state.xM_a_21(:);
     old_xR = state.xM_r_21(:);
-    state.xM_a_21 = clamp01(old_xA + dt_s .* rates.r_xi_a_21);
-    state.xM_r_21 = clamp01(old_xR + dt_s .* rates.r_xi_r_21);
+    [state.xM_a_21, state.xM_r_21] = advance_phase_state( ...
+        state, options, dt_s, stage_id);
     next = solve_compatibility(state, options);
     rates = phase_rates(state, next, options, stage_id);
 
@@ -83,6 +81,59 @@ function [state, audit] = HeatDriveECC_ConstitutiveCompatibilityStep51(state, op
     audit.delta_xM_r_mean = mean(dxR);
     audit = sync_legacy_audit51_aliases(audit);
     state = sync_legacy_state51_aliases(state);
+end
+
+function [xA_next, xR_next] = advance_phase_state(state, options, dt_s, stage_id)
+    xA0 = state.xM_a_21(:);
+    xR0 = state.xM_r_21(:);
+    if dt_s <= 0.0
+        xA_next = xA0;
+        xR_next = xR0;
+        return;
+    end
+
+    scheme = 'bogacki_shampine_ode3';
+    if isfield(options.constitutive, 'integration_scheme') && ...
+            ~isempty(options.constitutive.integration_scheme)
+        scheme = char(lower(string(options.constitutive.integration_scheme)));
+    end
+    switch scheme
+        case {'bogacki_shampine_ode3', 'ode3', 'bs3'}
+            % Simulink ode3 (Bogacki-Shampine) stages. Compatibility is
+            % resolved at every substage because stress is algebraically
+            % coupled to both phase fields.
+            k1 = rates_at_phase_state(state, options, stage_id, xA0, xR0);
+            k2 = rates_at_phase_state(state, options, stage_id, ...
+                clamp01(xA0 + 0.5 .* dt_s .* k1.r_xi_a_21), ...
+                clamp01(xR0 + 0.5 .* dt_s .* k1.r_xi_r_21));
+            k3 = rates_at_phase_state(state, options, stage_id, ...
+                clamp01(xA0 + 0.75 .* dt_s .* k2.r_xi_a_21), ...
+                clamp01(xR0 + 0.75 .* dt_s .* k2.r_xi_r_21));
+            xA_next = clamp01(xA0 + dt_s .* ( ...
+                (2.0 / 9.0) .* k1.r_xi_a_21 + ...
+                (1.0 / 3.0) .* k2.r_xi_a_21 + ...
+                (4.0 / 9.0) .* k3.r_xi_a_21));
+            xR_next = clamp01(xR0 + dt_s .* ( ...
+                (2.0 / 9.0) .* k1.r_xi_r_21 + ...
+                (1.0 / 3.0) .* k2.r_xi_r_21 + ...
+                (4.0 / 9.0) .* k3.r_xi_r_21));
+        case {'explicit_euler', 'euler'}
+            rates = phase_rates(state, solve_compatibility(state, options), ...
+                options, stage_id);
+            xA_next = clamp01(xA0 + dt_s .* rates.r_xi_a_21);
+            xR_next = clamp01(xR0 + dt_s .* rates.r_xi_r_21);
+        otherwise
+            error('HeatDriveECC:UnknownConstitutiveIntegrator', ...
+                'Unknown constitutive integration scheme: %s.', scheme);
+    end
+end
+
+function rates = rates_at_phase_state(state, options, stage_id, xA, xR)
+    trial = state;
+    trial.xM_a_21 = xA(:);
+    trial.xM_r_21 = xR(:);
+    compatible = solve_compatibility(trial, options);
+    rates = phase_rates(trial, compatible, options, stage_id);
 end
 
 function c = solve_compatibility(state, options)
