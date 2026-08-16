@@ -13,12 +13,22 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
     clear HeatDriveECC_EighthRound_SimulinkStep
     assignin('base', 'EIGHTH_ROUND_OPTIONS', options);
     sim_in = Simulink.SimulationInput(model_name);
+    simulation_mode = get_struct_option( ...
+        options.simulation, 'mode', 'normal');
     sim_in = sim_in.setModelParameter( ...
         'StartTime', '0', ...
         'StopTime', num2str(options.simulation.stop_time_s, '%.15g'), ...
         'Solver', options.simulation.solver, ...
+        'SimulationMode', simulation_mode, ...
         'ReturnWorkspaceOutputs', 'on', ...
         'CaptureErrors', 'on');
+    if get_struct_option(options.simulation, ...
+            'disable_redundant_model_logging', true)
+        sim_in = sim_in.setModelParameter( ...
+            'SaveTime', 'off', ...
+            'SaveOutput', 'off', ...
+            'SignalLogging', 'off');
+    end
     fixed_step_solvers = {'ode1','ode2','ode3','ode4','ode5','ode8', ...
         'ode14x','FixedStepDiscrete'};
     if any(strcmpi(options.simulation.solver, fixed_step_solvers))
@@ -77,6 +87,9 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
         'walltime_s', physical.walltime_s, ...
         'segment_walltime_s', walltime_s, ...
         'model_name', model_name, ...
+        'simulation_mode', simulation_mode, ...
+        'redundant_model_logging_disabled', logical(get_struct_option( ...
+            options.simulation, 'disable_redundant_model_logging', true)), ...
         'solver', options.simulation.solver, ...
         'fixed_step_s', options.simulation.fixed_step_s);
     checkpoint_path = '';
@@ -106,8 +119,12 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
     result.legacy_surrogate_used_for_results = false;
     result.provenance = provenance;
     result.checkpoint_path = checkpoint_path;
-    result.figures = Plot_HeatDriveECC_EighthRound_Result(result, ...
-        sprintf('%dcycle', options.cycle_count));
+    if get_struct_option(options.output, 'generate_figures', true)
+        result.figures = Plot_HeatDriveECC_EighthRound_Result(result, ...
+            sprintf('%dcycle', options.cycle_count));
+    else
+        result.figures = {};
+    end
     clear model_cleanup
 end
 
@@ -179,19 +196,27 @@ function [physical, prior_provenance] = combine_checkpoint_history( ...
     prior = context.prior_physical;
     prior_provenance = context.prior_provenance;
     boundary_s = prior.time_s(end);
+    boundary_tolerance_s = 10.0 * eps(max(abs(boundary_s), 1.0));
+    boundary_idx = find(abs(segment.time_s - boundary_s) <= ...
+        boundary_tolerance_s, 1, 'last');
+    if isempty(boundary_idx)
+        error('Run:EighthRound:MissingCheckpointBoundarySample', ...
+            'The resumed segment does not contain the checkpoint time sample.');
+    end
     keep = segment.time_s > boundary_s + ...
-        10.0 * eps(max(abs(boundary_s), 1.0));
+        boundary_tolerance_s;
     if ~any(keep)
         error('Run:EighthRound:EmptyCheckpointContinuation', ...
             'The resumed simulation produced no samples after the checkpoint.');
     end
-    physical = append_physical_struct(prior, segment, keep, ...
+    physical = append_physical_struct(prior, segment, keep, boundary_idx, ...
         numel(prior.time_s), numel(segment.time_s));
     [physical.cycle_index, physical.stage_id, physical.stage_elapsed_s] = ...
         cycle_stage_from_time(physical.time_s, options);
 end
 
-function out = append_physical_struct(prior, segment, keep, n_prior, n_segment)
+function out = append_physical_struct( ...
+        prior, segment, keep, boundary_idx, n_prior, n_segment)
     prior_names = fieldnames(prior);
     segment_names = fieldnames(segment);
     ignored = {'walltime_s','segment_walltime_s','sim_call_count', ...
@@ -208,13 +233,19 @@ function out = append_physical_struct(prior, segment, keep, n_prior, n_segment)
         a = prior.(name);
         b = segment.(name);
         if strcmp(name, 'probes')
-            out.(name) = append_probe_struct(a, b, keep, n_prior, n_segment);
+            out.(name) = append_probe_struct( ...
+                a, b, keep, boundary_idx, n_prior, n_segment);
         elseif (isnumeric(a) || islogical(a)) && ...
                 (isnumeric(b) || islogical(b)) && ...
                 ~isscalar(a) && ~isscalar(b) && ...
                 size(a, 1) == n_prior && size(b, 1) == n_segment
             subs = repmat({':'}, 1, ndims(b));
             subs{1} = keep;
+            boundary_subs = repmat({':'}, 1, ndims(b));
+            boundary_subs{1} = boundary_idx;
+            prior_boundary_subs = repmat({':'}, 1, ndims(a));
+            prior_boundary_subs{1} = n_prior;
+            a(prior_boundary_subs{:}) = b(boundary_subs{:});
             out.(name) = cat(1, a, b(subs{:}));
         else
             if ~isequaln(a, b)
@@ -226,7 +257,8 @@ function out = append_physical_struct(prior, segment, keep, n_prior, n_segment)
     end
 end
 
-function out = append_probe_struct(prior, segment, keep, n_prior, n_segment)
+function out = append_probe_struct( ...
+        prior, segment, keep, boundary_idx, n_prior, n_segment)
     names = fieldnames(prior);
     if ~isequal(names, fieldnames(segment))
         error('Run:EighthRound:CheckpointProbeContractMismatch', ...
@@ -240,6 +272,7 @@ function out = append_probe_struct(prior, segment, keep, n_prior, n_segment)
             error('Run:EighthRound:CheckpointProbeShapeMismatch', ...
                 'Probe shape differs across checkpoint: %s.', names{idx});
         end
+        a(end, :) = b(boundary_idx, :);
         out.(names{idx}) = [a; b(keep, :)];
     end
 end
@@ -259,6 +292,8 @@ function contract = checkpoint_contract(model_name, options)
     contract.node_count = options.node_count;
     contract.solver = options.simulation.solver;
     contract.fixed_step_s = options.simulation.fixed_step_s;
+    contract.simulation_mode = get_struct_option( ...
+        options.simulation, 'mode', 'normal');
     contract.schedule = options.schedule.stage_durations_s;
     contract.geometry = options.geometry;
     contract.material = options.material;
@@ -267,6 +302,14 @@ function contract = checkpoint_contract(model_name, options)
     contract.system = rmfield_if_present(options.system, ...
         {'cold_load_heat_reference_W'});
     contract.constitutive = options.constitutive;
+end
+
+function value = get_struct_option(value_struct, name, default_value)
+    if isstruct(value_struct) && isfield(value_struct, name)
+        value = value_struct.(name);
+    else
+        value = default_value;
+    end
 end
 
 function value = file_sha256(path)

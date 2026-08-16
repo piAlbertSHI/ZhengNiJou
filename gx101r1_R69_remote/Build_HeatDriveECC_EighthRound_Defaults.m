@@ -128,6 +128,14 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.simulation.save_final_operating_point = false;
     options.simulation.resume_checkpoint_path = '';
     options.simulation.prior_result_path = '';
+    options.simulation.mode = 'accelerator';
+    options.simulation.disable_redundant_model_logging = true;
+    options.simulation.efficiency_policy = [ ...
+        'Simulation mode may use generated-code accelerator only after ', ...
+        'normal-mode state equivalence is verified. Fixed 1 ms ODE3, ', ...
+        'Simscape local-solver step, and all production To Workspace ', ...
+        'signals remain unchanged. Redundant tout/yout/signal logging is ', ...
+        'disabled because validation authority is the To Workspace logs.'];
 
     options.simscape = struct();
     options.simscape.local_solver_enabled = true;
@@ -674,6 +682,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
         article.reference.maximum_zero_lift_specific_cooling_W_per_g;
 
     options.output = build_output_map(options.node_count);
+    options.output.generate_figures = true;
     options = merge_structs(options, overrides);
     options.schedule.total_time_s = options.cycle_count * options.schedule.tau_cycle_s;
     if ~(isfield(overrides, 'simulation') && isstruct(overrides.simulation) && ...
