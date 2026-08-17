@@ -155,11 +155,13 @@ function [sim_in, context] = configure_checkpoint_resume(sim_in, model_name, opt
             'Checkpoint or prior result does not contain the required contract.');
     end
     expected = checkpoint_contract(model_name, options);
-    if ~isequaln(checkpoint.checkpoint_meta.contract, expected)
+    if ~isequaln(normalize_controller_retune_contract( ...
+            checkpoint.checkpoint_meta.contract), expected)
         error('Run:EighthRound:CheckpointContractMismatch', ...
             'Model, solver, material, geometry, route, or thermal contract changed.');
     end
-    if ~isequaln(checkpoint_contract(model_name, prior.options), expected)
+    if ~isequaln(normalize_controller_retune_contract( ...
+            checkpoint_contract(model_name, prior.options)), expected)
         error('Run:EighthRound:PriorResultContractMismatch', ...
             'Prior physical result parameters do not match the checkpoint contract.');
     end
@@ -299,9 +301,31 @@ function contract = checkpoint_contract(model_name, options)
     contract.material = options.material;
     contract.fluid = options.fluid;
     contract.branch = options.branch;
+    contract = normalize_controller_retune_contract(contract);
     contract.system = rmfield_if_present(options.system, ...
         {'cold_load_heat_reference_W'});
     contract.constitutive = options.constitutive;
+end
+
+function contract = normalize_controller_retune_contract(contract)
+% Route PI gains are retunable controller state, not plant-state geometry.
+% Preserve checkpoint continuity when a validated cold-state controller is
+% retuned; all material, fluid, thermal, route and constitutive fields remain
+% part of the contract.
+    if isfield(contract, 'branch')
+        names = { ...
+            'se_pressure_pi_kp_MPa_per_kgps', ...
+            'se_pressure_pi_ki_MPa_per_kgps_s', ...
+            'se_stage2_pressure_pi_kp_MPa_per_kgps', ...
+            'se_stage2_pressure_pi_ki_MPa_per_kgps_s', ...
+            'se_stage4_pressure_pi_kp_MPa_per_kgps', ...
+            'se_stage4_pressure_pi_ki_MPa_per_kgps_s', ...
+            'se_pressure_pi_tuning_source'};
+        present = intersect(fieldnames(contract.branch), names);
+        if ~isempty(present)
+            contract.branch = rmfield(contract.branch, present);
+        end
+    end
 end
 
 function value = get_struct_option(value_struct, name, default_value)
