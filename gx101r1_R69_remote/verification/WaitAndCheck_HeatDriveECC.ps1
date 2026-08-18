@@ -13,8 +13,8 @@
 param(
     [string]$OutputRoot = 'C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs\qian_coupled_stage4_retuned_steady_from40_20260818',
     [int]$WaitMinutes = 30,
-    [int]$LauncherPid = 22540,
-    [int]$WorkerPid = 31108
+[int]$LauncherPid = 22540,
+[int]$WorkerPid = 0
 )
 
 Set-StrictMode -Version Latest
@@ -27,8 +27,20 @@ if ($WaitMinutes -lt 1) {
 $resolvedRoot = [System.IO.Path]::GetFullPath($OutputRoot)
 Start-Sleep -Seconds ($WaitMinutes * 60)
 
-$worker = Get-Process -Id $WorkerPid -ErrorAction SilentlyContinue
 $launcher = Get-Process -Id $LauncherPid -ErrorAction SilentlyContinue
+$rootLeaf = Split-Path -Leaf $resolvedRoot
+$workerCim = @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object {
+    $_.Name -match '(?i)^matlab(?:\.exe)?$' -and
+    $_.ProcessId -ne $LauncherPid -and
+    (($WorkerPid -gt 0 -and $_.ProcessId -eq $WorkerPid) -or
+     $_.ParentProcessId -eq $LauncherPid -or
+     $_.CommandLine -match [regex]::Escape($rootLeaf))
+})
+$worker = $null
+foreach ($candidate in $workerCim) {
+    $worker = Get-Process -Id $candidate.ProcessId -ErrorAction SilentlyContinue
+    if ($worker) { break }
+}
 $stdoutPath = Join-Path $resolvedRoot 'matlab_stdout.log'
 $stderrPath = Join-Path $resolvedRoot 'matlab_stderr.log'
 $progressPath = Join-Path $resolvedRoot 'steady_continuation_progress.csv'
