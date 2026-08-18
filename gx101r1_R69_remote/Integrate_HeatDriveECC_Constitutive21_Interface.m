@@ -1579,13 +1579,15 @@ end
 
 function configure_se_temperature_viscosity_feedforward(model_name, ...
         static_command, dynamic_command)
-% Scale the scheduled route pressure by mu(T_in)/mu(303.15 K).  Log-space
-% interpolation matches the DOWFROST closure used by the Simscape fluid.
+% Scale the scheduled route pressure by the cold-end viscosity. Stage 2
+% enters from CHEX, so its inlet is the cold end; Stage 4 reverses from
+% HHEX to CHEX, so its outlet is the cold end. Log-space interpolation
+% matches the DOWFROST closure used by the Simscape fluid.
     hold_T = [model_name '/SEHoldInletFluidTempPS'];
-    cooldown_T = [model_name '/SECooldownInletFluidTempPS'];
+    cooldown_T = [model_name '/SECooldownOutletFluidTempPS'];
     if ~(exist_block(hold_T) && exist_block(cooldown_T))
         error('HeatDriveECC:MissingSEFeedforwardTemperature', ...
-            'Both SE route-inlet temperature signals are required.');
+            'Both SE route cold-end temperature signals are required.');
     end
 
     hold_lookup = [model_name '/SEStage2LogViscosityLookup'];

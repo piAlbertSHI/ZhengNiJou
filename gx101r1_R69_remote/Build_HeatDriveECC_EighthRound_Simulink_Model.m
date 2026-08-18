@@ -188,7 +188,7 @@ function audit = audit_article_component_pipe_UA(model_name, options)
     se_dynamic_pressure_command = ...
         [model_name '/SEPressureDynamicFeedforward'];
     se_stage2_T_signal = [model_name '/SEHoldInletFluidTempPS'];
-    se_stage4_T_signal = [model_name '/SECooldownInletFluidTempPS'];
+    se_stage4_T_signal = [model_name '/SECooldownOutletFluidTempPS'];
     se_stage2_T_delay = [model_name '/SEStage2PressureFFTemperatureDelay'];
     se_stage4_T_delay = [model_name '/SEStage4PressureFFTemperatureDelay'];
     se_stage2_mu_lookup = [model_name '/SEStage2LogViscosityLookup'];
