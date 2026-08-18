@@ -1193,8 +1193,9 @@ function configure_thermal_liquid_temperature_range(model_name, options)
     % point (-21.1 degC) retains a 3 K operating margin below the SE
     % TMs=-15 degC state. These temperature-dependent values come from the
     % official DOWFROST HD 40 vol% table. The first row is interpolated at the
-    % declared -18.1 degC minimum operating temperature; viscosity is
-    % interpolated logarithmically.
+    % declared -18.1 degC minimum operating temperature. The Thermal Liquid
+    % block linearly interpolates density and kinematic viscosity; the pump
+    % feedforward reproduces that exact runtime closure.
     T_se_K = [255.05; 283.15; 313.15; 338.15; 363.15; 393.15];
     rho_se_kg_per_m3 = [ ...
         1066.03926666667; 1055.38; 1039.77; 1023.55; 1004.39; 977.53];
