@@ -513,6 +513,10 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
      % failed cold-state direct-PI gains.
      options.branch.se_stage2_pressure_pi_kp_MPa_per_kgps = -70.0;
      options.branch.se_stage2_pressure_pi_ki_MPa_per_kgps_s = -120.0;
+     options.branch.se_stage2_pressure_pi_initial_kp_MPa_per_kgps = ...
+         options.branch.se_stage2_pressure_pi_kp_MPa_per_kgps;
+     options.branch.se_stage2_pressure_pi_transition_start_s = 0.0;
+     options.branch.se_stage2_pressure_pi_transition_duration_s = 0.0;
      % The Stage-4 route is more viscous at its cold inlet than Stage 2.
      % A physical 60-cycle Simscape sweep from the same validated 40-cycle
      % Operating Point gave 5.1540% settled-flow RMS at -150/-240 and
