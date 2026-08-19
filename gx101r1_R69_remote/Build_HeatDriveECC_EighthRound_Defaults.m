@@ -510,6 +510,10 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
      % first point that clears the unchanged 5% RMS requirement.
      options.branch.se_stage4_pressure_pi_kp_MPa_per_kgps = -160.0;
      options.branch.se_stage4_pressure_pi_ki_MPa_per_kgps_s = -255.0;
+     options.branch.se_stage4_pressure_pi_initial_kp_MPa_per_kgps = ...
+         options.branch.se_stage4_pressure_pi_kp_MPa_per_kgps;
+     options.branch.se_stage4_pressure_pi_transition_start_s = 0.0;
+     options.branch.se_stage4_pressure_pi_transition_duration_s = 0.0;
     % Compatibility aliases are Stage 2 values. Production blocks consume
     % the explicit route-specific fields above.
     options.branch.se_pressure_pi_kp_MPa_per_kgps = ...
