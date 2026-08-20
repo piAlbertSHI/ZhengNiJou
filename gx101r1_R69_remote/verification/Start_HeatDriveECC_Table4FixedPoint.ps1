@@ -6,7 +6,10 @@ param(
     [int]$MaximumCycles = 200,
     [string]$InitialPriorResultPath = '',
     [string]$InitialCheckpointPath = '',
-    [double]$Stage2Kp = -130.0,
+    [double]$Stage2InitialKp = -130.0,
+    [double]$Stage2FinalKp = -130.0,
+    [double]$Stage2TransitionStartS = 0.0,
+    [double]$Stage2TransitionDurationS = 0.0,
     [double]$Stage4InitialKp = -225.0,
     [double]$Stage4FinalKp = -245.0,
     [double]$Stage4TransitionStartS = 50.0,
@@ -39,13 +42,16 @@ $repoForMatlab = ConvertTo-MatlabString $repoRoot
 $outputForMatlab = ConvertTo-MatlabString $OutputRoot
 $priorForMatlab = ConvertTo-MatlabString $InitialPriorResultPath
 $checkpointForMatlab = ConvertTo-MatlabString $InitialCheckpointPath
-$stage2KpText = $Stage2Kp.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
+$stage2InitialKpText = $Stage2InitialKp.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
+$stage2FinalKpText = $Stage2FinalKp.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
+$stage2TransitionStartText = $Stage2TransitionStartS.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
+$stage2TransitionDurationText = $Stage2TransitionDurationS.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $stage4InitialKpText = $Stage4InitialKp.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $stage4FinalKpText = $Stage4FinalKp.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $stage4TransitionStartText = $Stage4TransitionStartS.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $stage4TransitionDurationText = $Stage4TransitionDurationS.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $batch = @"
-addpath('$repoForMatlab'); addpath(fullfile('$repoForMatlab','verification')); branch=struct('se_stage2_pressure_pi_kp_MPa_per_kgps',$stage2KpText,'se_stage2_pressure_pi_initial_kp_MPa_per_kgps',$stage2KpText,'se_stage4_pressure_pi_kp_MPa_per_kgps',$stage4FinalKpText,'se_stage4_pressure_pi_initial_kp_MPa_per_kgps',$stage4InitialKpText,'se_stage4_pressure_pi_transition_start_s',$stage4TransitionStartText,'se_stage4_pressure_pi_transition_duration_s',$stage4TransitionDurationText); settings=struct('Tchex_K',$($TchexK.ToString('R',[Globalization.CultureInfo]::InvariantCulture)),'output_root','$outputForMatlab','segment_cycles',$SegmentCycles,'maximum_cycles',$MaximumCycles,'required_consecutive_near_segments',1000,'resume_existing_state',true,'initial_prior_result_path','$priorForMatlab','initial_checkpoint_path','$checkpointForMatlab','branch_overrides',branch); Run_HeatDriveECC_Table4_FixedReservoirPoint(settings);
+addpath('$repoForMatlab'); addpath(fullfile('$repoForMatlab','verification')); branch=struct('se_stage2_pressure_pi_kp_MPa_per_kgps',$stage2FinalKpText,'se_stage2_pressure_pi_initial_kp_MPa_per_kgps',$stage2InitialKpText,'se_stage2_pressure_pi_transition_start_s',$stage2TransitionStartText,'se_stage2_pressure_pi_transition_duration_s',$stage2TransitionDurationText,'se_stage4_pressure_pi_kp_MPa_per_kgps',$stage4FinalKpText,'se_stage4_pressure_pi_initial_kp_MPa_per_kgps',$stage4InitialKpText,'se_stage4_pressure_pi_transition_start_s',$stage4TransitionStartText,'se_stage4_pressure_pi_transition_duration_s',$stage4TransitionDurationText); settings=struct('Tchex_K',$($TchexK.ToString('R',[Globalization.CultureInfo]::InvariantCulture)),'output_root','$outputForMatlab','segment_cycles',$SegmentCycles,'maximum_cycles',$MaximumCycles,'required_consecutive_near_segments',1000,'resume_existing_state',true,'initial_prior_result_path','$priorForMatlab','initial_checkpoint_path','$checkpointForMatlab','branch_overrides',branch); Run_HeatDriveECC_Table4_FixedReservoirPoint(settings);
 "@.Trim()
 $quotedBatch = '"' + $batch.Replace('"', '\"') + '"'
 
@@ -65,7 +71,10 @@ $process = Start-Process -FilePath $matlab -ArgumentList @('-batch', $quotedBatc
     maximum_cycles = $MaximumCycles
     initial_prior_result_path = $InitialPriorResultPath
     initial_checkpoint_path = $InitialCheckpointPath
-    stage2_Kp_MPa_per_kgps = $Stage2Kp
+    stage2_initial_Kp_MPa_per_kgps = $Stage2InitialKp
+    stage2_final_Kp_MPa_per_kgps = $Stage2FinalKp
+    stage2_transition_start_s = $Stage2TransitionStartS
+    stage2_transition_duration_s = $Stage2TransitionDurationS
     stage4_initial_Kp_MPa_per_kgps = $Stage4InitialKp
     stage4_final_Kp_MPa_per_kgps = $Stage4FinalKp
     stage4_transition_start_s = $Stage4TransitionStartS
