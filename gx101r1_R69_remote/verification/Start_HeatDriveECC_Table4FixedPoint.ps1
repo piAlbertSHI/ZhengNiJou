@@ -4,9 +4,11 @@ param(
     [string]$OutputRoot = '',
     [int]$SegmentCycles = 20,
     [int]$MaximumCycles = 200,
+    [string]$InitialPriorResultPath = '',
+    [string]$InitialCheckpointPath = '',
     [double]$Stage2Kp = -130.0,
     [double]$Stage4InitialKp = -225.0,
-    [double]$Stage4FinalKp = -235.0,
+    [double]$Stage4FinalKp = -245.0,
     [double]$Stage4TransitionStartS = 50.0,
     [double]$Stage4TransitionDurationS = 50.0
 )
@@ -35,13 +37,15 @@ function ConvertTo-MatlabString([string]$Value) {
 
 $repoForMatlab = ConvertTo-MatlabString $repoRoot
 $outputForMatlab = ConvertTo-MatlabString $OutputRoot
+$priorForMatlab = ConvertTo-MatlabString $InitialPriorResultPath
+$checkpointForMatlab = ConvertTo-MatlabString $InitialCheckpointPath
 $stage2KpText = $Stage2Kp.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $stage4InitialKpText = $Stage4InitialKp.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $stage4FinalKpText = $Stage4FinalKp.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $stage4TransitionStartText = $Stage4TransitionStartS.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $stage4TransitionDurationText = $Stage4TransitionDurationS.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $batch = @"
-addpath('$repoForMatlab'); addpath(fullfile('$repoForMatlab','verification')); branch=struct('se_stage2_pressure_pi_kp_MPa_per_kgps',$stage2KpText,'se_stage2_pressure_pi_initial_kp_MPa_per_kgps',$stage2KpText,'se_stage4_pressure_pi_kp_MPa_per_kgps',$stage4FinalKpText,'se_stage4_pressure_pi_initial_kp_MPa_per_kgps',$stage4InitialKpText,'se_stage4_pressure_pi_transition_start_s',$stage4TransitionStartText,'se_stage4_pressure_pi_transition_duration_s',$stage4TransitionDurationText); settings=struct('Tchex_K',$($TchexK.ToString('R',[Globalization.CultureInfo]::InvariantCulture)),'output_root','$outputForMatlab','segment_cycles',$SegmentCycles,'maximum_cycles',$MaximumCycles,'required_consecutive_near_segments',1000,'resume_existing_state',true,'branch_overrides',branch); Run_HeatDriveECC_Table4_FixedReservoirPoint(settings);
+addpath('$repoForMatlab'); addpath(fullfile('$repoForMatlab','verification')); branch=struct('se_stage2_pressure_pi_kp_MPa_per_kgps',$stage2KpText,'se_stage2_pressure_pi_initial_kp_MPa_per_kgps',$stage2KpText,'se_stage4_pressure_pi_kp_MPa_per_kgps',$stage4FinalKpText,'se_stage4_pressure_pi_initial_kp_MPa_per_kgps',$stage4InitialKpText,'se_stage4_pressure_pi_transition_start_s',$stage4TransitionStartText,'se_stage4_pressure_pi_transition_duration_s',$stage4TransitionDurationText); settings=struct('Tchex_K',$($TchexK.ToString('R',[Globalization.CultureInfo]::InvariantCulture)),'output_root','$outputForMatlab','segment_cycles',$SegmentCycles,'maximum_cycles',$MaximumCycles,'required_consecutive_near_segments',1000,'resume_existing_state',true,'initial_prior_result_path','$priorForMatlab','initial_checkpoint_path','$checkpointForMatlab','branch_overrides',branch); Run_HeatDriveECC_Table4_FixedReservoirPoint(settings);
 "@.Trim()
 $quotedBatch = '"' + $batch.Replace('"', '\"') + '"'
 
@@ -59,6 +63,8 @@ $process = Start-Process -FilePath $matlab -ArgumentList @('-batch', $quotedBatc
     Tchex_K = $TchexK
     segment_cycles = $SegmentCycles
     maximum_cycles = $MaximumCycles
+    initial_prior_result_path = $InitialPriorResultPath
+    initial_checkpoint_path = $InitialCheckpointPath
     stage2_Kp_MPa_per_kgps = $Stage2Kp
     stage4_initial_Kp_MPa_per_kgps = $Stage4InitialKp
     stage4_final_Kp_MPa_per_kgps = $Stage4FinalKp
