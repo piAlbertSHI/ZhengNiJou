@@ -27,15 +27,24 @@ if ($WaitMinutes -lt 1) {
 $resolvedRoot = [System.IO.Path]::GetFullPath($OutputRoot)
 Start-Sleep -Seconds ($WaitMinutes * 60)
 
-$launcher = Get-Process -Id $LauncherPid -ErrorAction SilentlyContinue
+$launcher = if ($LauncherPid -gt 0) {
+    Get-Process -Id $LauncherPid -ErrorAction SilentlyContinue
+} else {
+    $null
+}
 $rootLeaf = Split-Path -Leaf $resolvedRoot
 $workerCim = @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object {
     $_.Name -match '(?i)^matlab(?:\.exe)?$' -and
     $_.ProcessId -ne $LauncherPid -and
-    (($WorkerPid -gt 0 -and $_.ProcessId -eq $WorkerPid) -or
+    (($WorkerPid -gt 0 -and ($_.ProcessId -eq $WorkerPid -or
+        $_.ParentProcessId -eq $WorkerPid)) -or
      $_.ParentProcessId -eq $LauncherPid -or
      $_.CommandLine -match [regex]::Escape($rootLeaf))
 })
+$workerCim = @($workerCim | Sort-Object `
+    @{ Expression = { if ($_.ParentProcessId -eq $WorkerPid) { 0 } `
+        elseif ($_.ProcessId -eq $WorkerPid) { 1 } else { 2 } } }, `
+    @{ Expression = { $_.CreationDate } })
 $worker = $null
 foreach ($candidate in $workerCim) {
     $worker = Get-Process -Id $candidate.ProcessId -ErrorAction SilentlyContinue

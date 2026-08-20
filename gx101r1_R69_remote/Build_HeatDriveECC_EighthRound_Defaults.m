@@ -15,7 +15,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
 
     options = struct();
     options.schema_version = ...
-        'heatdrive_ecc_qian2019_table2_table4_simscape_defaults_v4';
+        'heatdrive_ecc_qian2019_table2_table4_simscape_defaults_v5';
     options.node_count = 21;
     options.cycle_count = 3;
     options.model_name = 'heatdrive_ecc_coupled_se21';
@@ -31,6 +31,11 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.system.Tshex_source_K = article.reference.T_gas_source_K;
     options.system.Thhex_K = article.reference.T_hot_K;
     options.system.Tchex_K = article.reference.T_hot_K;
+    options.system.cold_boundary_mode = 'finite_pull_down_inventory';
+    options.system.cold_boundary_mode_source = [ ...
+        'finite_pull_down_inventory retains the historical finite CHEX ', ...
+        'thermal mass; fixed_reservoir_temperature imposes Qian Tc as an ', ...
+        'ideal thermal reservoir for periodic Table 4 performance points'];
     options.system.cp_fluid_J_per_kgK = ...
         article.reference.se_fluid.cp_J_per_kgK;
     options.system.thermal_mass_cp_ref_J_per_kgK = article.material.SE.cp_J_per_kgK;
@@ -752,12 +757,19 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.validation.table4_max_no_load_lift_K = ...
         article.reference.maximum_no_load_lift_K;
     options.validation.max_table4_no_load_lift_relative_error = 0.05;
+    options.validation.max_table4_no_load_abs_SCP_W_per_g = 0.01;
+    options.validation.max_fixed_chex_temperature_error_K = 1.0e-6;
+    options.validation.max_eq10_sensor_relative_difference = 0.05;
+    options.validation.max_eq10_sensor_absolute_difference_W = 0.10;
     options.validation.table4_zero_lift_specific_cooling_W_per_g = ...
         article.reference.maximum_zero_lift_specific_cooling_W_per_g;
 
     options.output = build_output_map(options.node_count);
     options.output.generate_figures = true;
     options = merge_structs(options, overrides);
+    options.system.cold_boundary_mode = normalize_cold_boundary_mode( ...
+        options.system.cold_boundary_mode);
+    options.branch.boundary_T_se_chex_K = options.system.Tchex_K;
     options.schedule.total_time_s = options.cycle_count * options.schedule.tau_cycle_s;
     if ~(isfield(overrides, 'simulation') && isstruct(overrides.simulation) && ...
             isfield(overrides.simulation, 'stop_time_s'))
@@ -765,6 +777,24 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
             options.cycle_count * options.schedule.tau_cycle_s;
     end
     options.output = build_output_map(options.node_count);
+end
+
+function mode = normalize_cold_boundary_mode(value)
+    mode = lower(strtrim(char(string(value))));
+    aliases = struct( ...
+        'finite', 'finite_pull_down_inventory', ...
+        'pull_down', 'finite_pull_down_inventory', ...
+        'fixed', 'fixed_reservoir_temperature', ...
+        'fixed_temperature', 'fixed_reservoir_temperature');
+    if isfield(aliases, mode)
+        mode = aliases.(mode);
+    end
+    supported = {'finite_pull_down_inventory', ...
+        'fixed_reservoir_temperature'};
+    if ~ismember(mode, supported)
+        error('HeatDriveECC:UnsupportedColdBoundaryMode', ...
+            'Unsupported cold_boundary_mode: %s.', mode);
+    end
 end
 
 function hx = compute_article_heat_exchanger_closure(article)
