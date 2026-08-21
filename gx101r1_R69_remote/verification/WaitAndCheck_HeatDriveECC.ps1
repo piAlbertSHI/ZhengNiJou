@@ -54,6 +54,16 @@ $stdoutPath = Join-Path $resolvedRoot 'matlab_stdout.log'
 $stderrPath = Join-Path $resolvedRoot 'matlab_stderr.log'
 $progressPath = Join-Path $resolvedRoot 'steady_continuation_progress.csv'
 $statePath = Join-Path $resolvedRoot 'steady_continuation_state.mat'
+if (-not (Test-Path -LiteralPath $progressPath)) {
+    $latestProgress = Get-ChildItem -LiteralPath $resolvedRoot -Recurse -File `
+        -Filter 'steady_continuation_progress.csv' -ErrorAction SilentlyContinue |
+        Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    if ($latestProgress) {
+        $progressPath = $latestProgress.FullName
+        $statePath = Join-Path $latestProgress.DirectoryName `
+            'steady_continuation_state.mat'
+    }
+}
 
 $resultDirectories = @(Get-ChildItem -LiteralPath $resolvedRoot -Directory -ErrorAction SilentlyContinue)
 $progressLines = @()
@@ -93,6 +103,8 @@ $report = [ordered]@{
         stderr_exists = Test-Path -LiteralPath $stderrPath
         progress_exists = Test-Path -LiteralPath $progressPath
         state_exists = Test-Path -LiteralPath $statePath
+        progress_path = $progressPath
+        state_path = $statePath
     }
     result_directories = @($resultDirectories | ForEach-Object {
         [ordered]@{ name = $_.Name; last_write_time = $_.LastWriteTime.ToString('o') }
