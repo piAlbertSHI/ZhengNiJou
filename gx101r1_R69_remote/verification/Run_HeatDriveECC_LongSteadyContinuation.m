@@ -246,7 +246,13 @@ function overrides = build_overrides(settings, target_cycles, ...
             overrides.branch = settings.branch_overrides;
         end
     end
-    overrides.validation = struct('error_on_mechanism_failure', false);
+    if isfield(overrides, 'validation') && ...
+            isstruct(overrides.validation)
+        overrides.validation = merge_structs(overrides.validation, ...
+            struct('error_on_mechanism_failure', false));
+    else
+        overrides.validation = struct('error_on_mechanism_failure', false);
+    end
 end
 
 function row = progress_row(audit, settings, prior_cycles, target_cycles)

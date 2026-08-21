@@ -760,6 +760,13 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.validation.strict_table4_reproduction_applicable = true;
     options.validation.strict_table4_reproduction_evaluated = false;
     options.validation.strict_table4_reproduction_pass = false;
+    options.validation.sensitivity_mode = false;
+    options.validation.sensitivity_declared_transition_fields = {};
+    options.validation.sensitivity_contract_source = [ ...
+        'Disabled on the benchmark mainline. A sensitivity runner must ', ...
+        'explicitly declare every intentionally perturbed field; the ', ...
+        'declaration does not waive flow, phase, energy, property-domain ', ...
+        'or periodic-state gates.'];
     options.validation.error_on_mechanism_failure = true;
     options.validation.dual_fluid_domain_required = true;
     options.validation.dual_fluid_domain_implemented = false;
