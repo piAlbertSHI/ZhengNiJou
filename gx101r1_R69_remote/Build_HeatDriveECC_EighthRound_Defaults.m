@@ -132,6 +132,11 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.simulation.persist_model_configuration = false;
     options.simulation.save_final_operating_point = false;
     options.simulation.resume_checkpoint_path = '';
+    options.simulation.checkpoint_transition_fields = {};
+    options.simulation.checkpoint_transition_source = [ ...
+        'Empty by default. A continuation study may declare only supported ', ...
+        'state-compatible swept parameters; all other checkpoint contract ', ...
+        'fields remain immutable.'];
     options.simulation.prior_result_path = '';
     options.simulation.mode = 'accelerator';
     options.simulation.disable_redundant_model_logging = true;
