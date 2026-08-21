@@ -18,6 +18,9 @@ function state = Run_HeatDriveECC_LongSteadyContinuation(settings)
         'required_consecutive_near_segments', 2, ...
         'generate_intermediate_figures', false, ...
         'resume_existing_state', true, ...
+        'initial_state_policy', 'unrestricted', ...
+        'mainline_contract_path', '', ...
+        'model_overrides', struct(), ...
         'system_overrides', struct(), ...
         'branch_overrides', struct());
     settings = merge_structs(defaults, settings);
@@ -92,24 +95,30 @@ function state = Run_HeatDriveECC_LongSteadyContinuation(settings)
             row.same_phase_phase_drift, row.eq9_lift_K, ...
             row.eq10_SCP_W_per_g, row.output_dir{1});
 
-        current_cycles = target_cycles;
-        prior_result_path = audit.result.output_mat;
-        checkpoint_path = audit.result.checkpoint_path;
-        state.current_cycles = current_cycles;
-        state.prior_result_path = prior_result_path;
-        state.checkpoint_path = checkpoint_path;
+        state.last_attempt_cycles = target_cycles;
+        state.last_attempt_result_path = audit.result.output_mat;
+        state.last_attempt_checkpoint_path = audit.result.checkpoint_path;
         state.updated_at = char(datetime('now', 'Format', ...
             'yyyy-MM-dd HH:mm:ss'));
 
         if ~audit.passed
             state.status = 'mechanism_failure';
             state.stop_reason = ...
-                'A required physical mechanism gate failed.';
-        elseif row.periodic_steady_state
+                ['A required physical mechanism gate failed. The attempt ', ...
+                'was recorded but was not promoted to a recovery state.'];
+        else
+            current_cycles = target_cycles;
+            prior_result_path = audit.result.output_mat;
+            checkpoint_path = audit.result.checkpoint_path;
+            state.current_cycles = current_cycles;
+            state.prior_result_path = prior_result_path;
+            state.checkpoint_path = checkpoint_path;
+        end
+        if audit.passed && row.periodic_steady_state
             state.status = 'periodic_steady_state';
             state.stop_reason = ...
                 'All declared periodic-state drift gates passed.';
-        else
+        elseif audit.passed
             if row.near_steady_state
                 state.near_segment_count = state.near_segment_count + 1;
             else
@@ -162,7 +171,9 @@ function [state, cycles, prior_result_path, checkpoint_path] = ...
     setting_names = {'segment_cycles','near_endpoint_drift_K', ...
         'near_same_phase_temperature_drift_K', ...
         'near_same_phase_phase_drift', ...
-        'required_consecutive_near_segments'};
+        'required_consecutive_near_segments', 'initial_state_policy', ...
+        'mainline_contract_path', 'model_overrides', ...
+        'system_overrides', 'branch_overrides'};
     for idx = 1:numel(setting_names)
         name = setting_names{idx};
         if ~isfield(saved.settings, name) || ...
@@ -202,7 +213,7 @@ end
 
 function overrides = build_overrides(settings, target_cycles, ...
         prior_result_path, checkpoint_path)
-    overrides = struct();
+    overrides = settings.model_overrides;
     overrides.cycle_count = target_cycles;
     overrides.outputs_dir = settings.output_root;
     overrides.simulation = struct( ...
@@ -215,11 +226,21 @@ function overrides = build_overrides(settings, target_cycles, ...
         'generate_figures', settings.generate_intermediate_figures);
     if isfield(settings, 'system_overrides') && ...
             ~isempty(fieldnames(settings.system_overrides))
-        overrides.system = settings.system_overrides;
+        if isfield(overrides, 'system') && isstruct(overrides.system)
+            overrides.system = merge_structs(overrides.system, ...
+                settings.system_overrides);
+        else
+            overrides.system = settings.system_overrides;
+        end
     end
     if isfield(settings, 'branch_overrides') && ...
             ~isempty(fieldnames(settings.branch_overrides))
-        overrides.branch = settings.branch_overrides;
+        if isfield(overrides, 'branch') && isstruct(overrides.branch)
+            overrides.branch = merge_structs(overrides.branch, ...
+                settings.branch_overrides);
+        else
+            overrides.branch = settings.branch_overrides;
+        end
     end
     overrides.validation = struct('error_on_mechanism_failure', false);
 end
@@ -268,6 +289,26 @@ function [cycles, prior_result_path, checkpoint_path] = ...
         error('HeatDriveECC:LongRunIncompleteInitialCheckpoint', ...
             'Both initial prior result and checkpoint paths are required.');
     end
+    if strcmpi(char(string(settings.initial_state_policy)), ...
+            'frozen_c200_only')
+        authority_settings = struct();
+        if ~isempty(strtrim(char(string(settings.mainline_contract_path))))
+            authority_settings.contract_path = settings.mainline_contract_path;
+        end
+        authority = Resolve_HeatDriveECC_MainlineAuthority( ...
+            authority_settings);
+        if ~same_path(prior_result_path, authority.result_path) || ...
+                ~same_path(checkpoint_path, authority.checkpoint_path)
+            error('HeatDriveECC:UnauthorizedInitialState', [ ...
+                'This continuation requires the frozen C200 result and ', ...
+                'Operating Point as its sole initial authority.']);
+        end
+    elseif ~strcmpi(char(string(settings.initial_state_policy)), ...
+            'unrestricted')
+        error('HeatDriveECC:UnknownInitialStatePolicy', ...
+            'Unsupported initial_state_policy: %s', ...
+            char(string(settings.initial_state_policy)));
+    end
     if ~exist(prior_result_path, 'file') || ~exist(checkpoint_path, 'file')
         error('HeatDriveECC:LongRunMissingInitialCheckpoint', ...
             'The initial prior result or checkpoint file is missing.');
@@ -279,6 +320,12 @@ function [cycles, prior_result_path, checkpoint_path] = ...
             'The initial checkpoint metadata is invalid.');
     end
     cycles = checkpoint.checkpoint_meta.cycle_count;
+end
+
+function tf = same_path(a, b)
+    a = char(java.io.File(char(string(a))).getCanonicalPath());
+    b = char(java.io.File(char(string(b))).getCanonicalPath());
+    tf = strcmpi(a, b);
 end
 
 function validate_settings(settings)

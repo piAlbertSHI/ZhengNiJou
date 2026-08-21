@@ -1,0 +1,30 @@
+{
+  "schema": "heatdrive_ecc_mainline_freeze_v1",
+  "frozen_at": "2026-08-22T00:00:00+08:00",
+  "authority": "physical_simscape_to_workspace_logs",
+  "source_code_commit": "e3f1dcfa85c1cad7dd7a6d257b7eb9fb8820ef7d",
+  "completed_cycles": 200,
+  "mechanism_pass": true,
+  "periodic_steady_state": true,
+  "strict_table4_reproduction": false,
+  "result_relative_path": "outputs/qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821/qian2019_table2_table4_simscape_200cycle_20260821_121246/physical_simscape_result.mat",
+  "result_sha256": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD",
+  "checkpoint_relative_path": "outputs/qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821/qian2019_table2_table4_simscape_200cycle_20260821_121246/final_operating_point.mat",
+  "checkpoint_sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816",
+  "validation_report_relative_path": "outputs/qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821/qian2019_table2_table4_simscape_200cycle_20260821_121246/physical_validation_report.txt",
+  "continuation_progress_relative_path": "outputs/qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821/steady_continuation_progress.csv",
+  "resume_policy": {
+    "sole_mainline_recovery": true,
+    "preserve_final_operating_point": true,
+    "preserved_state_classes": [
+      "thermal_capacity",
+      "buffer",
+      "constitutive",
+      "temperature",
+      "phase_fraction",
+      "independent_route_PI_memory"
+    ],
+    "rejected_results_may_resume": false,
+    "rejected_results_may_interpolate": false
+  }
+}
