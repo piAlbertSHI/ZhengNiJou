@@ -1,0 +1,68 @@
+function audit = Verify_FinalHeatDriveECC_Package(package_root)
+% Result-only audit for the completed fixed-CHEX C200 package.
+% This function does not start a simulation and does not alter checkpoints.
+
+    if nargin < 1 || isempty(package_root)
+        package_root = fileparts(fileparts(mfilename('fullpath')));
+    end
+    package_root = char(string(package_root));
+    main_root = fullfile(package_root, 'outputs', ...
+        'qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821');
+    progress_path = fullfile(main_root, 'steady_continuation_progress.csv');
+    report_path = fullfile(main_root, ...
+        'qian2019_table2_table4_simscape_200cycle_20260821_121246', ...
+        'physical_validation_report.txt');
+    manifest_path = fullfile(main_root, 'fixed_reservoir_point_manifest.txt');
+
+    assert(isfile(progress_path), 'Missing steady_continuation_progress.csv.');
+    assert(isfile(report_path), 'Missing C200 physical validation report.');
+    assert(isfile(manifest_path), 'Missing fixed-reservoir manifest.');
+
+    progress = readtable(progress_path, 'TextType', 'string');
+    last = progress(end, :);
+    report_text = fileread(report_path);
+    mechanism_match = regexp(report_text, ...
+        'coupled_mechanism_pass:\s*([01])', 'tokens', 'once');
+    periodic_match = regexp(report_text, ...
+        'periodic steady state:\s*([01])', 'tokens', 'once');
+    strict_match = regexp(report_text, ...
+        'strict_table4_reproduction_pass:\s*([01])', 'tokens', 'once');
+    assert(~isempty(mechanism_match) && ~isempty(periodic_match), ...
+        'Validation report is missing authoritative mechanism/periodic fields.');
+
+    audit = struct();
+    audit.schema = 'heatdrive_ecc_result_only_audit_v1';
+    audit.progress_rows = height(progress);
+    audit.completed_cycles = last.total_cycles;
+    % The progress CSV retains the historical all-required-pass field. The
+    % authoritative robust periodic gate is the final validation report,
+    % which includes P99/RMS statistics for the full same-phase fields.
+    audit.csv_periodic_field = logical(last.periodic_steady_state);
+    audit.mechanism_pass = logical(str2double(mechanism_match{1}));
+    audit.periodic_steady_state = logical(str2double(periodic_match{1}));
+    audit.endpoint_drift_K = last.endpoint_drift_K;
+    audit.same_phase_temperature_drift_K = last.same_phase_temperature_drift_K;
+    audit.same_phase_phase_drift = last.same_phase_phase_drift;
+    audit.eq9_lift_K = last.eq9_lift_K;
+    audit.eq10_SCP_W_per_g = last.eq10_SCP_W_per_g;
+    audit.all_required_pass = logical(last.all_required_pass);
+    audit.strict_table4_reproduction = ~isempty(strict_match) && ...
+        logical(str2double(strict_match{1}));
+    audit.checks = struct( ...
+        'cycles_200', audit.completed_cycles == 200, ...
+        'mechanism_pass', audit.mechanism_pass, ...
+        'periodic_steady_state', audit.periodic_steady_state, ...
+        'strict_table4_not_claimed', ~audit.strict_table4_reproduction);
+    audit.report_path = report_path;
+    audit.manifest_path = manifest_path;
+    audit.result_package_pass = all(struct2array(audit.checks));
+
+    fprintf('C200 cycles=%d mechanism=%d periodic=%d CSV_periodic_field=%d ALL_REQUIRED_PASS=%d\n', ...
+        audit.completed_cycles, audit.mechanism_pass, ...
+        audit.periodic_steady_state, audit.csv_periodic_field, audit.all_required_pass);
+    fprintf('Eq9=%.12g K SCP=%.12g W/g endpoint=%.12g K same_phase_T=%.12g K phase=%.12g\n', ...
+        audit.eq9_lift_K, audit.eq10_SCP_W_per_g, audit.endpoint_drift_K, ...
+        audit.same_phase_temperature_drift_K, audit.same_phase_phase_drift);
+    fprintf('RESULT_PACKAGE_PASS=%d STRICT_TABLE4_REPRODUCTION=%d\n', ...
+        audit.result_package_pass, audit.strict_table4_reproduction);
+end
