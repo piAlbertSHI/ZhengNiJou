@@ -15,7 +15,7 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
 
     options = struct();
     options.schema_version = ...
-        'heatdrive_ecc_qian2019_table2_table4_simscape_defaults_v5';
+        'heatdrive_ecc_qian2019_table2_table4_simscape_defaults_v6';
     options.node_count = 21;
     options.cycle_count = 3;
     options.model_name = 'heatdrive_ecc_coupled_se21';
@@ -732,6 +732,10 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.validation.max_periodic_endpoint_drift_K = 0.05;
     options.validation.max_periodic_same_phase_temperature_drift_K = 0.05;
     options.validation.max_periodic_phase_drift = 1.0e-4;
+    options.validation.max_periodic_same_phase_temperature_p99_drift_K = 0.05;
+    options.validation.max_periodic_same_phase_temperature_rms_drift_K = 0.01;
+    options.validation.max_periodic_same_phase_phase_p99_drift = 2.0e-3;
+    options.validation.max_periodic_same_phase_phase_rms_drift = 4.0e-4;
     options.validation.qian_time_step_s = 1.0e-3;
     options.validation.min_sma_phase_swing = 0.99;
     options.validation.min_se_phase_swing = 0.99;
