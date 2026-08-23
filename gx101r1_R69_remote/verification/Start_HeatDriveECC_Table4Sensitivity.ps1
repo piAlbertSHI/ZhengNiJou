@@ -3,7 +3,8 @@ param(
     [string]$OutputRoot = '',
     [int[]]$RunIndices = @(1, 2, 3, 4, 5, 6, 7, 8),
     [int]$SegmentCycles = 20,
-    [int]$MaximumAdditionalCycles = 40
+    [int]$MaximumAdditionalCycles = 40,
+    [double[]]$FactorFraction = @(0.05, 0.05, 0.10, 0.10, 0.03, 0.05)
 )
 
 Set-StrictMode -Version Latest
@@ -28,6 +29,10 @@ if ($RunIndices.Count -lt 1 -or
 if ($SegmentCycles -lt 1 -or $MaximumAdditionalCycles -lt $SegmentCycles) {
     throw 'Cycle limits must be positive and maximum must cover one segment.'
 }
+if ($FactorFraction.Count -ne 6 -or
+        @($FactorFraction | Where-Object { $_ -le 0 -or $_ -ge 0.5 }).Count -gt 0) {
+    throw 'FactorFraction must contain six values strictly inside (0, 0.5).'
+}
 New-Item -ItemType Directory -Path $OutputRoot -Force | Out-Null
 $stdoutPath = Join-Path $OutputRoot 'matlab_stdout.log'
 $stderrPath = Join-Path $OutputRoot 'matlab_stderr.log'
@@ -44,8 +49,11 @@ $outputForMatlab = ConvertTo-MatlabString $OutputRoot
 $runText = ($RunIndices | Sort-Object -Unique | ForEach-Object {
     $_.ToString([Globalization.CultureInfo]::InvariantCulture)
 }) -join ' '
+$fractionText = ($FactorFraction | ForEach-Object {
+    $_.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
+}) -join ' '
 $batch = @"
-cd('$repoForMatlab'); addpath('$repoForMatlab'); addpath(fullfile('$repoForMatlab','verification')); settings=struct('output_root','$outputForMatlab','run_indices',[$runText],'segment_cycles',$SegmentCycles,'maximum_additional_cycles',$MaximumAdditionalCycles,'run_candidates',true,'compact_raw_after_extraction',true); Run_HeatDriveECC_Table4_Sensitivity(settings);
+cd('$repoForMatlab'); addpath('$repoForMatlab'); addpath(fullfile('$repoForMatlab','verification')); settings=struct('output_root','$outputForMatlab','run_indices',[$runText],'factor_fraction',[$fractionText],'segment_cycles',$SegmentCycles,'maximum_additional_cycles',$MaximumAdditionalCycles,'run_candidates',true,'compact_raw_after_extraction',true); Run_HeatDriveECC_Table4_Sensitivity(settings);
 "@.Trim()
 $quotedBatch = '"' + $batch.Replace('"', '\"') + '"'
 
@@ -63,6 +71,7 @@ $process = Start-Process -FilePath $matlab -ArgumentList @('-batch', $quotedBatc
     run_indices = $RunIndices
     segment_cycles = $SegmentCycles
     maximum_additional_cycles = $MaximumAdditionalCycles
+    factor_fraction = $FactorFraction
     initial_state_policy = 'frozen_c200_only'
     compaction_policy = 'delete candidate raw after scalar/report extraction'
 } | ConvertTo-Json -Depth 4
