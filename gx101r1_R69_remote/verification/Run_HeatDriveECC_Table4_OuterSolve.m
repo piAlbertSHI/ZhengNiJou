@@ -1,5 +1,5 @@
 function outer = Run_HeatDriveECC_Table4_OuterSolve(settings)
-% Mechanism-gated fixed-Tc outer solve for the zero-load Eq.10 root.
+% Mechanism-gated fixed-Tc outer solve for a declared Table 4 endpoint.
 %
 % Each candidate starts from the frozen C200 authority. A candidate may
 % enter bracketing/interpolation only after periodic steady state and the
@@ -13,8 +13,11 @@ function outer = Run_HeatDriveECC_Table4_OuterSolve(settings)
         'output_root', fullfile(repo_root, 'outputs', ...
             'qian_table4_zero_load_outer_solve_20260822'), ...
         'Tc_candidates_K', [275.5, 278.5], ...
+        'target_metric', 'eq10_SCP_W_per_g', ...
         'target_SCP_W_per_g', 0.0, ...
+        'target_lift_K', 0.0, ...
         'root_SCP_tolerance_W_per_g', 0.01, ...
+        'root_lift_tolerance_K', 0.1, ...
         'segment_cycles', 20, ...
         'maximum_additional_cycles', 80, ...
         'generate_intermediate_figures', false, ...
@@ -237,8 +240,9 @@ function outer = build_outer_result(records, settings, authority)
     admitted = records([records.admissible]);
     [~, order] = sort([admitted.Tc_K]);
     admitted = admitted(order);
-    response = [admitted.eq10_SCP_W_per_g] - ...
-        settings.target_SCP_W_per_g;
+    [values, target, tolerance, endpoint_name] = ...
+        endpoint_response(admitted, settings);
+    response = values - target;
     bracket = [];
     for idx = 1:(numel(admitted) - 1)
         if response(idx) == 0 || response(idx) * response(idx + 1) <= 0
@@ -257,24 +261,25 @@ function outer = build_outer_result(records, settings, authority)
             root_Tc_K = mean(x);
         end
     end
-    root_records = admitted(abs(response) <= ...
-        settings.root_SCP_tolerance_W_per_g);
+    root_records = admitted(abs(response) <= tolerance);
     if ~isempty(root_records)
-        [~, best] = min(abs([root_records.eq10_SCP_W_per_g] - ...
-            settings.target_SCP_W_per_g));
+        [root_values, ~, ~, ~] = endpoint_response(root_records, settings);
+        [~, best] = min(abs(root_values - target));
         root_Tc_K = root_records(best).Tc_K;
-        status = 'accepted_zero_load_root';
+        status = ['accepted_' endpoint_name '_root'];
     elseif root_bracketed
         status = 'valid_bracket_requires_next_candidate';
     else
         status = 'no_valid_bracket';
     end
     outer = struct();
-    outer.schema = 'heatdrive_ecc_mechanism_gated_outer_solve_v1';
+    outer.schema = 'heatdrive_ecc_mechanism_gated_outer_solve_v2';
     outer.generated_at = char(datetime('now', 'TimeZone', 'local'));
     outer.status = status;
-    outer.target_SCP_W_per_g = settings.target_SCP_W_per_g;
-    outer.root_tolerance_W_per_g = settings.root_SCP_tolerance_W_per_g;
+    outer.endpoint_name = endpoint_name;
+    outer.target_metric = settings.target_metric;
+    outer.target_value = target;
+    outer.root_tolerance = tolerance;
     outer.root_bracketed = root_bracketed;
     outer.root_Tc_K = root_Tc_K;
     outer.accepted_count = nnz([records.admissible]);
@@ -286,6 +291,25 @@ function outer = build_outer_result(records, settings, authority)
     outer.interpolation_policy = [ ...
         'Only periodic candidates passing mechanism, flow, phase, energy ', ...
         'and observability gates are admitted.'];
+end
+
+function [values, target, tolerance, endpoint_name] = ...
+        endpoint_response(records, settings)
+    switch settings.target_metric
+        case 'eq10_SCP_W_per_g'
+            values = [records.eq10_SCP_W_per_g];
+            target = settings.target_SCP_W_per_g;
+            tolerance = settings.root_SCP_tolerance_W_per_g;
+            endpoint_name = 'zero_load';
+        case 'eq9_lift_K'
+            values = [records.eq9_lift_K];
+            target = settings.target_lift_K;
+            tolerance = settings.root_lift_tolerance_K;
+            endpoint_name = 'zero_lift';
+        otherwise
+            error('HeatDriveECC:OuterInvalidTargetMetric', ...
+                'Unsupported target metric: %s', settings.target_metric);
+    end
 end
 
 function write_outer_outputs(output_root, records, settings, authority)
@@ -369,6 +393,16 @@ function validate_settings(settings)
         round(settings.maximum_additional_cycles), ...
         'HeatDriveECC:OuterInvalidMaximumCycles', ...
         'maximum_additional_cycles must be a positive integer.');
+    assert(any(strcmp(settings.target_metric, ...
+        {'eq10_SCP_W_per_g', 'eq9_lift_K'})), ...
+        'HeatDriveECC:OuterInvalidTargetMetric', ...
+        'target_metric must be eq10_SCP_W_per_g or eq9_lift_K.');
+    assert(isfinite(settings.root_SCP_tolerance_W_per_g) && ...
+        settings.root_SCP_tolerance_W_per_g > 0 && ...
+        isfinite(settings.root_lift_tolerance_K) && ...
+        settings.root_lift_tolerance_K > 0, ...
+        'HeatDriveECC:OuterInvalidTolerance', ...
+        'Endpoint tolerances must be finite and positive.');
 end
 
 function out = merge_structs(out, overrides)

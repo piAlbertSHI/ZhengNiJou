@@ -3,7 +3,9 @@ param(
     [double[]]$TcCandidatesK = @(275.5),
     [string]$OutputRoot = '',
     [int]$SegmentCycles = 20,
-    [int]$MaximumAdditionalCycles = 80
+    [int]$MaximumAdditionalCycles = 80,
+    [ValidateSet('eq10_SCP_W_per_g', 'eq9_lift_K')]
+    [string]$TargetMetric = 'eq10_SCP_W_per_g'
 )
 
 Set-StrictMode -Version Latest
@@ -42,7 +44,7 @@ $candidateText = ($TcCandidatesK | ForEach-Object {
     $_.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 }) -join ' '
 $batch = @"
-cd('$repoForMatlab'); addpath('$repoForMatlab'); addpath(fullfile('$repoForMatlab','verification')); settings=struct('output_root','$outputForMatlab','Tc_candidates_K',[$candidateText],'segment_cycles',$SegmentCycles,'maximum_additional_cycles',$MaximumAdditionalCycles,'run_candidates',true); Run_HeatDriveECC_Table4_OuterSolve(settings);
+cd('$repoForMatlab'); addpath('$repoForMatlab'); addpath(fullfile('$repoForMatlab','verification')); settings=struct('output_root','$outputForMatlab','Tc_candidates_K',[$candidateText],'target_metric','$TargetMetric','segment_cycles',$SegmentCycles,'maximum_additional_cycles',$MaximumAdditionalCycles,'run_candidates',true); Run_HeatDriveECC_Table4_OuterSolve(settings);
 "@.Trim()
 $quotedBatch = '"' + $batch.Replace('"', '\"') + '"'
 
@@ -60,5 +62,7 @@ $process = Start-Process -FilePath $matlab -ArgumentList @('-batch', $quotedBatc
     Tc_candidates_K = $TcCandidatesK
     segment_cycles = $SegmentCycles
     maximum_additional_cycles = $MaximumAdditionalCycles
+    target_metric = $TargetMetric
+    endpoint_name = if ($TargetMetric -eq 'eq9_lift_K') { 'zero_lift' } else { 'zero_load' }
     initial_state_policy = 'frozen_c200_only'
 } | ConvertTo-Json -Depth 4
