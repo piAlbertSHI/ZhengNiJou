@@ -25,9 +25,23 @@ if ($Apply -and $running.Count -gt 0) {
     throw 'A MATLAB process references this outputs root. Wait for it to finish before applying cleanup.'
 }
 
-$preserveRawPrefixes = @(
-    'qian_table4_fixed_Tc_',
-    'qian_coupled_stage2_kp70_130_from_valid100_20260820\qian2019_table2_table4_simscape_120cycle_20260820_010335'
+$freezeContractPath = Join-Path $repoRoot 'verification\c200_mainline_freeze_contract.json'
+if (-not (Test-Path -LiteralPath $freezeContractPath -PathType Leaf)) {
+    throw "C200 freeze contract is missing: $freezeContractPath"
+}
+$freezeContract = Get-Content -LiteralPath $freezeContractPath -Raw |
+    ConvertFrom-Json
+$authorityResult = [System.IO.Path]::GetRelativePath(
+    $outputRootResolved,
+    (Join-Path $repoRoot $freezeContract.result_relative_path))
+$authorityCheckpoint = [System.IO.Path]::GetRelativePath(
+    $outputRootResolved,
+    (Join-Path $repoRoot $freezeContract.checkpoint_relative_path))
+$authorityRun = Split-Path -Parent $authorityResult
+$preserveRawPaths = @(
+    $authorityResult,
+    $authorityCheckpoint,
+    (Join-Path $authorityRun 'stage_temperature_probes_50samples.csv')
 )
 $largeProbeNames = @(
     'stage_temperature_probes_50samples.csv'
@@ -42,8 +56,8 @@ function Get-RelativePath([string]$Path) {
 }
 
 function Test-PreservedRaw([string]$RelativePath) {
-    foreach ($prefix in $preserveRawPrefixes) {
-        if ($RelativePath.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) {
+    foreach ($path in $preserveRawPaths) {
+        if ($RelativePath.Equals($path, [StringComparison]::OrdinalIgnoreCase)) {
             return $true
         }
     }
@@ -54,16 +68,19 @@ $allFiles = @(Get-ChildItem -LiteralPath $outputRootResolved -File -Recurse -For
 $rows = foreach ($file in $allFiles) {
     $relative = Get-RelativePath $file.FullName
     $isRaw = $rawNames -contains $file.Name
-    $isLargeProbe = $largeProbeNames -contains $file.Name -and $file.Length -ge 10MB
+    $isDenseProbe = $largeProbeNames -contains $file.Name
+    $isLegacyFigure = $relative -match '(?i)(^|\\)figures\\'
     $preserved = Test-PreservedRaw $relative
-    if (($isRaw -or $isLargeProbe) -and -not $preserved) {
+    if (($isRaw -or $isDenseProbe -or $isLegacyFigure) -and -not $preserved) {
         [pscustomobject]@{
             relative_path = $relative
             bytes = $file.Length
             size_GB = [math]::Round($file.Length / 1GB, 6)
             disposition = 'delete_reproducible_obsolete_raw'
-            reason = if ($isLargeProbe) {
+            reason = if ($isDenseProbe) {
                 'dense_probe_csv; cycle summary and validation report retained'
+            } elseif ($isLegacyFigure) {
+                'legacy per-run figure; authoritative figures_sci and source retained'
             } elseif ($file.Name -eq 'final_operating_point.mat') {
                 'obsolete_or_failed_checkpoint; must not be propagated'
             } else {
@@ -82,7 +99,11 @@ $summaryPath = Join-Path $auditDir "cleanup_summary_$stamp.txt"
 $rows | Export-Csv -LiteralPath $csvPath -NoTypeInformation -Encoding utf8
 
 $beforeBytes = ($allFiles | Measure-Object Length -Sum).Sum
-$candidateBytes = ($rows | Measure-Object bytes -Sum).Sum
+$candidateBytes = if ($rows.Count -gt 0) {
+    ($rows | Measure-Object bytes -Sum).Sum
+} else {
+    0L
+}
 $deletedBytes = 0L
 if ($Apply) {
     foreach ($row in $rows) {
@@ -121,9 +142,10 @@ $summary = @(
     "bytes_after=$afterBytes"
     "GB_after=$([math]::Round($afterBytes / 1GB, 6))"
     "candidate_csv=$csvPath"
-    'preserved_full_raw_prefixes='
-    ($preserveRawPrefixes | ForEach-Object { "  $_" })
-    'retained_for_all_runs=reports, cycle summaries, parameter contracts, logs, figures, small state manifests'
+    'preserved_authoritative_raw_paths='
+    ($preserveRawPaths | ForEach-Object { "  $_" })
+    'retained_for_all_runs=reports, cycle summaries, parameter contracts, logs, markers, small state manifests'
+    'retained_authoritative_figures=figures_sci'
 )
 $summary | Set-Content -LiteralPath $summaryPath -Encoding utf8
 

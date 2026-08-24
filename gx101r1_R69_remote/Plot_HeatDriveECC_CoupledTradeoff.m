@@ -1,0 +1,260 @@
+function outputs = Plot_HeatDriveECC_CoupledTradeoff(settings)
+% Plot the coupled-cycle operating envelope without admitting rejected runs.
+
+% Hydraulic COP is shown only as an active-unit diagnostic. A heat-driven
+% system COP is intentionally withheld until SHEX source heat is measured.
+
+    if nargin < 1
+        settings = struct();
+    end
+    repo_root = fileparts(mfilename('fullpath'));
+    defaults = struct( ...
+        'sensitivity_v3_csv', fullfile(repo_root, 'outputs', ...
+            'qian_table4_L8_sensitivity_v3_20260822', ...
+            'sensitivity_results.csv'), ...
+        'sensitivity_v4_csv', fullfile(repo_root, 'outputs', ...
+            'qian_table4_L8_sensitivity_v4_admissible_20260823', ...
+            'sensitivity_results.csv'), ...
+        'zero_load_csv', fullfile(repo_root, 'outputs', ...
+            'qian_table4_zero_load_outer_solve_v3_20260822', ...
+            'outer_candidate_summary.csv'), ...
+        'zero_lift_csv', fullfile(repo_root, 'outputs', ...
+            'qian_table4_zero_lift_outer_solve_20260824', ...
+            'outer_candidate_summary.csv'), ...
+        'output_dir', fullfile(repo_root, 'outputs_storage_audit', ...
+            'coupled_tradeoff_figure'));
+    settings = merge_structs(defaults, settings);
+    if ~exist(settings.output_dir, 'dir')
+        mkdir(settings.output_dir);
+    end
+    sensitivity = load_sensitivity(settings);
+    boundary = load_boundary(settings);
+    writetable(sensitivity, fullfile(settings.output_dir, ...
+        'coupled_tradeoff_sensitivity_data.csv'));
+    writetable(boundary, fullfile(settings.output_dir, ...
+        'coupled_tradeoff_boundary_data.csv'));
+
+    fig = figure('Color', 'w', 'Units', 'inches', ...
+        'Position', [1 1 7.2 7.0], 'Visible', 'off');
+    set(fig, 'DefaultAxesFontName', 'Arial', ...
+        'DefaultAxesFontSize', 8, 'DefaultTextFontName', 'Arial', ...
+        'DefaultTextFontSize', 8);
+    tl = tiledlayout(fig, 3, 2, 'TileSpacing', 'compact', ...
+        'Padding', 'compact');
+    plot_boundary(nexttile(tl), boundary);
+    plot_utilization(nexttile(tl), sensitivity);
+    plot_phase(nexttile(tl), sensitivity);
+    plot_work(nexttile(tl), sensitivity);
+    plot_drift(nexttile(tl), sensitivity);
+    plot_endpoint_audit(nexttile(tl), boundary);
+    title(tl, ['Coupled SMA-SE operating envelope: mechanism-gated ', ...
+        'trade-offs'], 'FontWeight', 'normal', 'Color', 'k');
+
+    png_path = fullfile(settings.output_dir, ...
+        'Fig06_coupled_cycle_tradeoff.png');
+    pdf_path = fullfile(settings.output_dir, ...
+        'Fig06_coupled_cycle_tradeoff.pdf');
+    exportgraphics(fig, png_path, 'Resolution', 600, ...
+        'BackgroundColor', 'white');
+    exportgraphics(fig, pdf_path, 'ContentType', 'vector', ...
+        'BackgroundColor', 'white');
+    close(fig);
+    manifest_path = fullfile(settings.output_dir, ...
+        'coupled_tradeoff_manifest.txt');
+    write_manifest(manifest_path, settings, sensitivity, boundary);
+    outputs = struct('schema', ...
+        'heatdrive_ecc_coupled_tradeoff_figure_v1', ...
+        'png', png_path, 'pdf', pdf_path, ...
+        'manifest', manifest_path, ...
+        'admissible_points', nnz(sensitivity.admissible), ...
+        'rejected_points', nnz(~sensitivity.admissible));
+end
+
+function values = load_sensitivity(settings)
+    sources = {settings.sensitivity_v3_csv, settings.sensitivity_v4_csv};
+    labels = {'L8 v3', 'L8 v4'};
+    values = table();
+    for idx = 1:numel(sources)
+        assert(isfile(sources{idx}), ...
+            'HeatDriveECC:TradeoffSensitivityMissing', ...
+            'Missing sensitivity summary: %s', sources{idx});
+        current = readtable(sources{idx}, ...
+            'VariableNamingRule', 'preserve', 'TextType', 'string');
+        current.study = repmat(string(labels{idx}), height(current), 1);
+        values = [values; current]; %#ok<AGROW>
+    end
+end
+
+function values = load_boundary(settings)
+    sources = {settings.zero_load_csv, settings.zero_lift_csv};
+    labels = {'zero-load search', 'zero-lift search'};
+    values = table();
+    for idx = 1:numel(sources)
+        assert(isfile(sources{idx}), ...
+            'HeatDriveECC:TradeoffBoundaryMissing', ...
+            'Missing outer-solve summary: %s', sources{idx});
+        current = readtable(sources{idx}, ...
+            'VariableNamingRule', 'preserve', 'TextType', 'string');
+        current.search = repmat(string(labels{idx}), height(current), 1);
+        values = [values; current]; %#ok<AGROW>
+    end
+    [~, unique_idx] = unique([values.Tc_K, values.eq9_lift_K, ...
+        values.eq10_SCP_W_per_g], 'rows', 'stable');
+    values = values(sort(unique_idx), :);
+end
+
+function plot_boundary(ax, t)
+    hold(ax, 'on');
+    valid = logical(t.admissible);
+    scatter(ax, t.Tc_K(valid), t.eq9_lift_K(valid), 34, ...
+        t.eq10_SCP_W_per_g(valid), 'filled', 'MarkerEdgeColor', 'k');
+    scatter(ax, t.Tc_K(~valid), t.eq9_lift_K(~valid), 42, ...
+        'x', 'MarkerEdgeColor', [0.75 0.15 0.15], 'LineWidth', 1.2);
+    yline(ax, 0, '--', 'Color', [0.35 0.35 0.35]);
+    xlabel(ax, 'Fixed T_c (K)');
+    ylabel(ax, 'Eq. 9 lift (K)');
+    cb = colorbar(ax);
+    cb.Label.String = 'SCP (W g^{-1})';
+    cb.Color = 'k';
+    cb.Label.Color = 'k';
+    clim(ax, [0 0.9]);
+    title(ax, 'Temperature boundary');
+    panel(ax, 'a');
+end
+
+function plot_utilization(ax, t)
+    hold(ax, 'on');
+    valid = logical(t.admissible);
+    scatter(ax, t.SE_regenerator_utilization_mean(valid), ...
+        t.eq10_SCP_W_per_g(valid), 34, t.eq9_lift_K(valid), ...
+        'filled', 'MarkerEdgeColor', 'k');
+    scatter(ax, t.SE_regenerator_utilization_mean(~valid), ...
+        t.eq10_SCP_W_per_g(~valid), 38, 'x', ...
+        'MarkerEdgeColor', [0.75 0.15 0.15], 'LineWidth', 1.0);
+    xlabel(ax, 'SE utilization, m_f c_{p,f}/m_{SE}c_{p,SE}');
+    ylabel(ax, 'SCP (W g^{-1})');
+    title(ax, 'Flow utilization / regeneration');
+    panel(ax, 'b');
+end
+
+function plot_phase(ax, t)
+    hold(ax, 'on');
+    valid = logical(t.admissible);
+    scatter(ax, t.SE_phase_swing(valid), t.eq9_lift_K(valid), ...
+        34, t.eq10_SCP_W_per_g(valid), 'filled', ...
+        'MarkerEdgeColor', 'k');
+    scatter(ax, t.SE_phase_swing(~valid), t.eq9_lift_K(~valid), ...
+        38, 'x', 'MarkerEdgeColor', [0.75 0.15 0.15], ...
+        'LineWidth', 1.0);
+    xline(ax, 0.9, ':', 'Color', [0.35 0.35 0.35]);
+    xlabel(ax, 'SE phase swing');
+    ylabel(ax, 'Eq. 9 lift (K)');
+    title(ax, 'Transformation completion');
+    panel(ax, 'c');
+end
+
+function plot_work(ax, t)
+    hold(ax, 'on');
+    valid = logical(t.admissible);
+    scatter(ax, t.pump_power_W(valid), t.cooling_power_W(valid), ...
+        38, t.hydraulic_COP_diagnostic(valid), 'filled', ...
+        'MarkerEdgeColor', 'k');
+    scatter(ax, t.pump_power_W(~valid), t.cooling_power_W(~valid), ...
+        38, 'x', 'MarkerEdgeColor', [0.75 0.15 0.15], ...
+        'LineWidth', 1.0);
+    xlabel(ax, 'Mean hydraulic pump power (W)');
+    ylabel(ax, 'Eq. 10 cooling power (W)');
+    title(ax, 'Pump work / active-unit output');
+    cb = colorbar(ax);
+    cb.Label.String = 'Q_{cool}/P_{pump} diagnostic';
+    cb.Color = 'k';
+    cb.Label.Color = 'k';
+    panel(ax, 'd');
+end
+
+function plot_drift(ax, t)
+    hold(ax, 'on');
+    valid = logical(t.admissible);
+    scatter(ax, t.same_phase_temperature_drift_K(valid), ...
+        t.same_phase_phase_drift(valid), 34, ...
+        t.endpoint_drift_K(valid), 'filled', 'MarkerEdgeColor', 'k');
+    scatter(ax, t.same_phase_temperature_drift_K(~valid), ...
+        t.same_phase_phase_drift(~valid), 38, 'x', ...
+        'MarkerEdgeColor', [0.75 0.15 0.15], 'LineWidth', 1.0);
+    xlabel(ax, 'Same-phase temperature drift (K)');
+    ylabel(ax, 'Same-phase fraction drift');
+    title(ax, 'Periodic-state gate');
+    panel(ax, 'e');
+end
+
+function plot_endpoint_audit(ax, t)
+    hold(ax, 'on');
+    valid = logical(t.admissible);
+    scatter(ax, t.eq9_lift_K(valid), t.eq10_SCP_W_per_g(valid), ...
+        40, 'filled', 'MarkerFaceColor', [0.10 0.45 0.70], ...
+        'MarkerEdgeColor', 'k');
+    scatter(ax, t.eq9_lift_K(~valid), t.eq10_SCP_W_per_g(~valid), ...
+        44, 'x', 'MarkerEdgeColor', [0.75 0.15 0.15], ...
+        'LineWidth', 1.2);
+    scatter(ax, 26.2, 0, 48, 'd', 'MarkerEdgeColor', 'k', ...
+        'MarkerFaceColor', [0.95 0.75 0.15]);
+    scatter(ax, 0, 0.64, 48, 's', 'MarkerEdgeColor', 'k', ...
+        'MarkerFaceColor', [0.95 0.75 0.15]);
+    xlim(ax, [-1 31]);
+    ylim(ax, [-0.05 1]);
+    xlabel(ax, 'Eq. 9 lift (K)');
+    ylabel(ax, 'SCP (W g^{-1})');
+    title(ax, 'Paired Table 4 boundary');
+    lgd = legend(ax, {'admissible','rejected','Qian zero-load', ...
+        'Qian zero-lift'}, 'Location', 'best', 'Box', 'off');
+    lgd.TextColor = 'k';
+    text(ax, 0.03, 0.05, ...
+        {'System COP withheld:', 'SHEX source heat is not measured'}, ...
+        'Units', 'normalized', 'FontSize', 6.5, 'Color', 'k', ...
+        'VerticalAlignment', 'bottom');
+    panel(ax, 'f');
+end
+
+function panel(ax, label)
+    text(ax, 0.01, 0.98, label, 'Units', 'normalized', ...
+        'VerticalAlignment', 'top', 'FontWeight', 'bold', 'Color', 'k');
+    grid(ax, 'on');
+    box(ax, 'on');
+    ax.Color = 'w';
+    ax.XColor = 'k';
+    ax.YColor = 'k';
+    ax.Title.Color = 'k';
+    ax.XLabel.Color = 'k';
+    ax.YLabel.Color = 'k';
+end
+
+function write_manifest(path, settings, sensitivity, boundary)
+    fid = fopen(path, 'w', 'n', 'UTF-8');
+    assert(fid >= 0, 'HeatDriveECC:TradeoffManifestOpenFailed', ...
+        'Cannot write %s.', path);
+    cleaner = onCleanup(@() fclose(fid));
+    fprintf(fid, 'schema=heatdrive_ecc_coupled_tradeoff_figure_v1\n');
+    fprintf(fid, 'admissible_sensitivity_points=%d\n', ...
+        nnz(sensitivity.admissible));
+    fprintf(fid, 'rejected_sensitivity_points=%d\n', ...
+        nnz(~sensitivity.admissible));
+    fprintf(fid, 'admissible_boundary_points=%d\n', ...
+        nnz(boundary.admissible));
+    fprintf(fid, 'rejected_boundary_points=%d\n', ...
+        nnz(~boundary.admissible));
+    fprintf(fid, 'system_COP_available=0\n');
+    fprintf(fid, ['system_COP_reason=SHEX source heat-flow is not ', ...
+        'measured; hydraulic COP remains an active-unit diagnostic\n']);
+    fprintf(fid, 'sensitivity_v3=%s\n', settings.sensitivity_v3_csv);
+    fprintf(fid, 'sensitivity_v4=%s\n', settings.sensitivity_v4_csv);
+    fprintf(fid, 'zero_load=%s\n', settings.zero_load_csv);
+    fprintf(fid, 'zero_lift=%s\n', settings.zero_lift_csv);
+    clear cleaner
+end
+
+function out = merge_structs(out, overrides)
+    names = fieldnames(overrides);
+    for idx = 1:numel(names)
+        out.(names{idx}) = overrides.(names{idx});
+    end
+end

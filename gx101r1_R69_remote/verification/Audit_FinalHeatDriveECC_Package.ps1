@@ -22,22 +22,22 @@ if ([string]::IsNullOrWhiteSpace($WorkspaceRoot)) {
 } else {
     $WorkspaceRoot = [System.IO.Path]::GetFullPath($WorkspaceRoot)
 }
+$repoRoot = Join-Path $WorkspaceRoot 'gx101r1_R69_remote'
 if ([string]::IsNullOrWhiteSpace($AuditRoot)) {
-    $AuditRoot = Join-Path $WorkspaceRoot 'outputs_storage_audit'
+    $AuditRoot = Join-Path $repoRoot 'outputs_storage_audit'
 } else {
     $AuditRoot = [System.IO.Path]::GetFullPath($AuditRoot)
 }
 
-$repoRoot = Join-Path $WorkspaceRoot 'gx101r1_R69_remote'
 $mainRoot = Join-Path $repoRoot 'outputs\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821'
 $mainRun = Join-Path $mainRoot 'qian2019_table2_table4_simscape_200cycle_20260821_121246'
 $rejectedRoot = Join-Path $repoRoot 'outputs\qian_table4_fixed_Tc_270p000K_kp136_255_rootpoint_20260821'
 $rejectedRun = Join-Path $rejectedRoot 'qian2019_table2_table4_simscape_20cycle_20260821_142345'
 
 New-Item -ItemType Directory -Force -Path $AuditRoot | Out-Null
-$manifestPath = Join-Path $AuditRoot 'final_results_manifest_20260821.csv'
-$hashPath = Join-Path $AuditRoot 'final_results_sha256_20260821.csv'
-$summaryPath = Join-Path $AuditRoot 'final_results_audit_summary_20260821.json'
+$manifestPath = Join-Path $AuditRoot 'final_results_manifest_20260824.csv'
+$hashPath = Join-Path $AuditRoot 'final_results_sha256_20260824.csv'
+$summaryPath = Join-Path $AuditRoot 'final_results_audit_summary_20260824.json'
 
 $entries = [System.Collections.Generic.List[object]]::new()
 function Add-Entry {
@@ -76,6 +76,7 @@ foreach ($stem in @(
 Add-Entry 'C200 fixed-reservoir manifest' (Join-Path $mainRoot 'fixed_reservoir_point_manifest.txt')
 Add-Entry 'C200 stdout' (Join-Path $mainRoot 'matlab_stdout.log')
 Add-Entry 'C200 stderr' (Join-Path $mainRoot 'matlab_stderr.log')
+Add-Entry 'C200 freeze contract' (Join-Path $repoRoot 'verification\c200_mainline_freeze_contract.json')
 
 Add-Entry 'Rejected 270 K report' (Join-Path $rejectedRun 'physical_validation_report.txt') $true 'diagnostic_rejected'
 Add-Entry 'Rejected 270 K summary' (Join-Path $rejectedRun 'cycle_physical_summary.csv') $true 'diagnostic_rejected'
@@ -86,12 +87,61 @@ Add-Entry 'Rejected 270 K stdout' (Join-Path $rejectedRoot 'matlab_stdout.log') 
 Add-Entry 'Rejected 270 K progress' (Join-Path $rejectedRoot 'steady_continuation_progress.csv') $true 'diagnostic_rejected'
 
 Add-Entry 'SCI figure source' (Join-Path $repoRoot 'Plot_HeatDriveECC_SCI_FigureSet.m')
+Add-Entry 'Coupled trade-off figure source' (Join-Path $repoRoot 'Plot_HeatDriveECC_CoupledTradeoff.m')
 Add-Entry 'MATLAB package verifier' (Join-Path $repoRoot 'verification\Verify_FinalHeatDriveECC_Package.m')
 Add-Entry 'PowerShell package auditor' (Join-Path $repoRoot 'verification\Audit_FinalHeatDriveECC_Package.ps1')
 Add-Entry 'Superseded raw cleanup script' (Join-Path $repoRoot 'verification\Prune_Superseded_HeatDriveECC_Raw.ps1')
+Add-Entry 'Rejected candidate compactor' (Join-Path $repoRoot 'verification\Compact_HeatDriveECC_RejectedCandidate.ps1')
+Add-Entry 'Output storage manager' (Join-Path $repoRoot 'verification\Manage_HeatDriveECC_OutputStorage.ps1')
 Add-Entry 'Long-task discipline' (Join-Path $WorkspaceRoot '项目文档\研究笔记\长任务运行纪律.md')
 Add-Entry 'Complete modification report' (Join-Path $WorkspaceRoot '项目文档\报告\SE21_SMA_SE耦合_完整修改与审核报告.md')
-Add-Entry 'Storage cleanup audit' (Join-Path $AuditRoot 'superseded_raw_cleanup_20260821.md')
+Add-Entry 'Eighth-stage strict audit report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第八阶段完整实施与严格审核报告.md')
+
+$controlRoot = Join-Path $AuditRoot 'control_volume_contract'
+foreach ($name in @('control_volume_contract.csv', 'control_volume_contract.json',
+        'control_volume_contract.md', 'qian_eq9_eq10_contract.csv')) {
+    Add-Entry "Control-volume contract $name" (Join-Path $controlRoot $name)
+}
+$pairedRoot = Join-Path $AuditRoot 'paired_table4_endpoint_audit'
+foreach ($name in @('paired_table4_endpoint_audit.json',
+        'paired_table4_endpoint_audit.mat', 'paired_table4_endpoint_audit.txt')) {
+    Add-Entry "Paired endpoint audit $name" (Join-Path $pairedRoot $name)
+}
+$tradeoffRoot = Join-Path $AuditRoot 'coupled_tradeoff_figure'
+foreach ($name in @('Fig06_coupled_cycle_tradeoff.png',
+        'Fig06_coupled_cycle_tradeoff.pdf',
+        'coupled_tradeoff_sensitivity_data.csv',
+        'coupled_tradeoff_boundary_data.csv',
+        'coupled_tradeoff_manifest.txt')) {
+    Add-Entry "Coupled trade-off artifact $name" (Join-Path $tradeoffRoot $name)
+}
+foreach ($relative in @(
+        'outputs\qian_table4_zero_load_outer_solve_v3_20260822\outer_candidate_summary.csv',
+        'outputs\qian_table4_zero_load_outer_solve_v3_20260822\outer_solve_summary.json',
+        'outputs\qian_table4_zero_lift_outer_solve_20260824\outer_candidate_summary.csv',
+        'outputs\qian_table4_zero_lift_outer_solve_20260824\outer_solve_summary.json',
+        'outputs\qian_table4_L8_sensitivity_v3_20260822\sensitivity_results.csv',
+        'outputs\qian_table4_L8_sensitivity_v3_20260822\sensitivity_effects.csv',
+        'outputs\qian_table4_L8_sensitivity_v3_20260822\sensitivity_summary.json',
+        'outputs\qian_table4_L8_sensitivity_v4_admissible_20260823\sensitivity_results.csv',
+        'outputs\qian_table4_L8_sensitivity_v4_admissible_20260823\sensitivity_effects.csv',
+        'outputs\qian_table4_L8_sensitivity_v4_admissible_20260823\sensitivity_summary.json')) {
+    Add-Entry "Mechanism-gated scalar result $relative" (Join-Path $repoRoot $relative)
+}
+$cleanupSummary = Get-ChildItem -LiteralPath $AuditRoot -File -Filter 'cleanup_summary_*.txt' |
+    Where-Object { @(Get-Content -LiteralPath $_.FullName |
+            Where-Object { $_ -eq 'mode=apply' }).Count -gt 0 } |
+    Sort-Object LastWriteTime -Descending | Select-Object -First 1
+if ($null -eq $cleanupSummary) {
+    throw "Applied storage cleanup audit is missing from $AuditRoot"
+}
+Add-Entry 'Applied storage cleanup summary' $cleanupSummary.FullName
+$candidateLine = Get-Content -LiteralPath $cleanupSummary.FullName |
+    Where-Object { $_ -like 'candidate_csv=*' } | Select-Object -First 1
+if ($null -eq $candidateLine) {
+    throw "Cleanup summary does not identify its candidate CSV: $($cleanupSummary.FullName)"
+}
+Add-Entry 'Applied storage cleanup candidate inventory' $candidateLine.Substring('candidate_csv='.Length)
 
 $manifest = foreach ($entry in $entries) {
     $exists = Test-Path -LiteralPath $entry.path -PathType Leaf
@@ -126,7 +176,7 @@ $hashes = foreach ($item in ($manifest | Where-Object exists)) {
 $hashes | Export-Csv -LiteralPath $hashPath -NoTypeInformation -Encoding UTF8
 
 $summary = [ordered]@{
-    schema = 'heatdrive_ecc_final_package_audit_v1'
+    schema = 'heatdrive_ecc_final_package_audit_v2'
     generated_at = (Get-Date).ToString('o')
     workspace_root = $WorkspaceRoot
     authoritative_result = (Join-Path $mainRun 'physical_simscape_result.mat')
@@ -134,6 +184,8 @@ $summary = [ordered]@{
     mechanism_pass = 1
     periodic_steady_state = 1
     strict_table4_reproduction = 0
+    paired_table4_endpoint_pass = 0
+    heat_driven_system_COP_available = 0
     rejected_branch = $rejectedRoot
     required_file_count = @($manifest | Where-Object required).Count
     present_file_count = @($manifest | Where-Object exists).Count
