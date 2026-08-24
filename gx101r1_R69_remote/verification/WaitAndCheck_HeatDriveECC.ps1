@@ -73,7 +73,11 @@ $workerCim = @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Whe
      $_.ParentProcessId -eq $LauncherPid -or
      $_.CommandLine -match [regex]::Escape($rootLeaf))
 })
-$workerPids = @($workerCim.ProcessId)
+$workerPids = if ($workerCim.Count -gt 0) {
+    @($workerCim | ForEach-Object { $_.ProcessId })
+} else {
+    @()
+}
 $workerCim = @($workerCim | Sort-Object `
     @{ Expression = { if ($_.ParentProcessId -eq $WorkerPid) { 0 } `
         elseif ($_.ParentProcessId -in $workerPids) { 1 } `
