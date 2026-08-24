@@ -107,6 +107,14 @@ if (-not (Test-Path -LiteralPath $progressPath)) {
             'steady_continuation_state.mat'
     }
 }
+if (-not (Test-Path -LiteralPath $statePath)) {
+    $latestState = Get-ChildItem -LiteralPath $resolvedRoot -Recurse -File `
+        -Filter 'steady_continuation_state.mat' -ErrorAction SilentlyContinue |
+        Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    if ($latestState) {
+        $statePath = $latestState.FullName
+    }
+}
 
 $resultDirectories = @(Get-ChildItem -LiteralPath $resolvedRoot -Directory -ErrorAction SilentlyContinue)
 $progressLines = @()
