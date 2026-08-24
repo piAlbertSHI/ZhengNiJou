@@ -11,10 +11,10 @@
 
 [CmdletBinding()]
 param(
-    [string]$OutputRoot = 'C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs\qian_coupled_stage4_retuned_steady_from40_20260818',
+    [string]$OutputRoot = '',
     [int]$WaitMinutes = 30,
-[int]$LauncherPid = 22540,
-[int]$WorkerPid = 0
+    [int]$LauncherPid = 0,
+    [int]$WorkerPid = 0
 )
 
 Set-StrictMode -Version Latest
@@ -24,7 +24,39 @@ if ($WaitMinutes -lt 1) {
     throw 'WaitMinutes must be at least 1.'
 }
 
+$repoRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+$outputsRoot = [System.IO.Path]::GetFullPath((Join-Path $repoRoot 'outputs'))
+if ([string]::IsNullOrWhiteSpace($OutputRoot)) {
+    $matlabProcesses = @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue |
+        Where-Object { $_.Name -match '(?i)^matlab(?:\.exe)?$' })
+    $outputDirectories = @(Get-ChildItem -LiteralPath $outputsRoot -Directory)
+    $matches = foreach ($process in $matlabProcesses) {
+        foreach ($directory in $outputDirectories) {
+            if ($process.CommandLine -like "*$($directory.FullName)*") {
+                [pscustomobject]@{
+                    ProcessId = $process.ProcessId
+                    CreationDate = $process.CreationDate
+                    WorkingSetSize = $process.WorkingSetSize
+                    OutputRoot = $directory.FullName
+                }
+            }
+        }
+    }
+    $selected = $matches | Sort-Object `
+        @{ Expression = { $_.CreationDate }; Descending = $true }, `
+        @{ Expression = { $_.WorkingSetSize }; Descending = $true } |
+        Select-Object -First 1
+    if ($null -eq $selected) {
+        throw 'Cannot discover an active HeatDriveECC output root; pass -OutputRoot explicitly.'
+    }
+    $OutputRoot = $selected.OutputRoot
+}
 $resolvedRoot = [System.IO.Path]::GetFullPath($OutputRoot)
+if (-not $resolvedRoot.StartsWith(
+        $outputsRoot + [System.IO.Path]::DirectorySeparatorChar,
+        [StringComparison]::OrdinalIgnoreCase)) {
+    throw "OutputRoot must remain inside repository outputs: $resolvedRoot"
+}
 Start-Sleep -Seconds ($WaitMinutes * 60)
 
 $launcher = if ($LauncherPid -gt 0) {
@@ -41,9 +73,12 @@ $workerCim = @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Whe
      $_.ParentProcessId -eq $LauncherPid -or
      $_.CommandLine -match [regex]::Escape($rootLeaf))
 })
+$workerPids = @($workerCim.ProcessId)
 $workerCim = @($workerCim | Sort-Object `
     @{ Expression = { if ($_.ParentProcessId -eq $WorkerPid) { 0 } `
-        elseif ($_.ProcessId -eq $WorkerPid) { 1 } else { 2 } } }, `
+        elseif ($_.ParentProcessId -in $workerPids) { 1 } `
+        elseif ($_.ProcessId -eq $WorkerPid) { 2 } else { 3 } } }, `
+    @{ Expression = { $_.WorkingSetSize }; Descending = $true }, `
     @{ Expression = { $_.CreationDate } })
 $worker = $null
 foreach ($candidate in $workerCim) {
@@ -52,6 +87,14 @@ foreach ($candidate in $workerCim) {
 }
 $stdoutPath = Join-Path $resolvedRoot 'matlab_stdout.log'
 $stderrPath = Join-Path $resolvedRoot 'matlab_stderr.log'
+$latestStdout = Get-ChildItem -LiteralPath $resolvedRoot -File `
+    -Filter 'matlab_stdout*.log' -ErrorAction SilentlyContinue |
+    Sort-Object LastWriteTime -Descending | Select-Object -First 1
+$latestStderr = Get-ChildItem -LiteralPath $resolvedRoot -File `
+    -Filter 'matlab_stderr*.log' -ErrorAction SilentlyContinue |
+    Sort-Object LastWriteTime -Descending | Select-Object -First 1
+if ($latestStdout) { $stdoutPath = $latestStdout.FullName }
+if ($latestStderr) { $stderrPath = $latestStderr.FullName }
 $progressPath = Join-Path $resolvedRoot 'steady_continuation_progress.csv'
 $statePath = Join-Path $resolvedRoot 'steady_continuation_state.mat'
 if (-not (Test-Path -LiteralPath $progressPath)) {
