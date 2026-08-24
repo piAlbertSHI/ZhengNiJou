@@ -13,6 +13,7 @@ function study = Run_HeatDriveECC_Table4_Sensitivity(settings)
     defaults = struct( ...
         'output_root', fullfile(repo_root, 'outputs', ...
             'qian_table4_L8_sensitivity_20260822'), ...
+        'design_kind', 'l8', ...
         'factor_fraction', [0.05, 0.05, 0.10, 0.10, 0.03, 0.05], ...
         'segment_cycles', 20, ...
         'maximum_additional_cycles', 40, ...
@@ -24,7 +25,9 @@ function study = Run_HeatDriveECC_Table4_Sensitivity(settings)
         'compact_raw_after_extraction', true, ...
         'authority_settings', struct());
     settings = merge_structs(defaults, settings);
-    validate_settings(settings, repo_root);
+    settings.design_kind = lower(char(string(settings.design_kind)));
+    design = build_design(settings.factor_fraction, settings.design_kind);
+    validate_settings(settings, repo_root, height(design));
     authority = Resolve_HeatDriveECC_MainlineAuthority( ...
         settings.authority_settings);
     frozen = load(authority.result_path, 'options');
@@ -32,7 +35,6 @@ function study = Run_HeatDriveECC_Table4_Sensitivity(settings)
         'HeatDriveECC:SensitivityMissingFrozenOptions', ...
         'Frozen C200 result does not contain options.');
     baseline = frozen.options;
-    design = build_design(settings.factor_fraction);
     writetable(design, fullfile(settings.output_root, ...
         'sensitivity_design.csv'));
     if logical(settings.preflight_only)
@@ -56,7 +58,8 @@ function study = Run_HeatDriveECC_Table4_Sensitivity(settings)
     for idx = 1:height(design)
         run_id = design.run_index(idx);
         candidate_root = fullfile(settings.output_root, ...
-            sprintf('L8_R%02d', run_id));
+            sprintf('%s_R%02d', candidate_prefix(settings.design_kind), ...
+            run_id));
         record_path = fullfile(candidate_root, ...
             'sensitivity_candidate_record.mat');
         state_path = fullfile(candidate_root, ...
@@ -65,6 +68,15 @@ function study = Run_HeatDriveECC_Table4_Sensitivity(settings)
         if isfile(record_path)
             saved = load(record_path, 'record');
             record = saved.record;
+            resumable = strcmp(record.status, 'pending') || ...
+                strcmp(record.status, 'running');
+            if resumable && selected && logical(settings.run_candidates)
+                state = run_candidate_with_recorded_failure( ...
+                    candidate_root, design(idx, :), baseline, ...
+                    authority, settings, state_path);
+                record = evaluate_candidate(candidate_root, ...
+                    design(idx, :), state, baseline);
+            end
         elseif isfile(state_path)
             saved = load(state_path, 'state');
             state = saved.state;
@@ -91,7 +103,8 @@ function study = Run_HeatDriveECC_Table4_Sensitivity(settings)
         end
         if ~strcmp(record.status, 'pending') && ...
                 ~strcmp(record.status, 'running')
-            write_candidate_marker(candidate_root, record, authority);
+            write_candidate_marker(candidate_root, record, authority, ...
+                settings.design_kind);
             if logical(settings.compact_raw_after_extraction)
                 [record.compacted_file_count, record.compacted_bytes] = ...
                     compact_candidate_raw(candidate_root, ...
@@ -199,9 +212,10 @@ function preflight = run_preflight(design, baseline, authority, settings)
     preflight = struct2table(rows, 'AsArray', true);
 end
 
-function design = build_design(fractions)
-% Six balanced, pairwise-orthogonal columns from an L8 array.
-    levels = [ ...
+function design = build_design(fractions, design_kind)
+% Build either the balanced L8 screen or six independent local pairs.
+    if strcmp(design_kind, 'l8')
+        levels = [ ...
         -1 -1 -1 -1 -1 -1; ...
         -1 -1 -1  1  1  1; ...
         -1  1  1 -1 -1  1; ...
@@ -210,12 +224,23 @@ function design = build_design(fractions)
          1 -1  1  1 -1  1; ...
          1  1 -1 -1  1  1; ...
          1  1 -1  1 -1 -1];
-    assert(all(sum(levels, 1) == 0) && ...
-        isequal(levels' * levels, 8 * eye(6)), ...
-        'HeatDriveECC:SensitivityDesignNotOrthogonal', ...
-        'The declared L8 factor matrix is not balanced and orthogonal.');
+        assert(all(sum(levels, 1) == 0) && ...
+            isequal(levels' * levels, 8 * eye(6)), ...
+            'HeatDriveECC:SensitivityDesignNotOrthogonal', ...
+            'The declared L8 factor matrix is not balanced and orthogonal.');
+    elseif strcmp(design_kind, 'local_oat')
+        levels = zeros(12, 6);
+        for factor_idx = 1:6
+            levels(2 * factor_idx - 1, factor_idx) = -1;
+            levels(2 * factor_idx, factor_idx) = 1;
+        end
+    else
+        error('HeatDriveECC:InvalidSensitivityDesignKind', ...
+            'Unsupported sensitivity design kind: %s.', design_kind);
+    end
     multipliers = 1.0 + levels .* reshape(fractions, 1, []);
-    design = table((1:8)', levels(:, 1), levels(:, 2), levels(:, 3), ...
+    design = table((1:size(levels, 1))', levels(:, 1), levels(:, 2), ...
+        levels(:, 3), ...
         levels(:, 4), levels(:, 5), levels(:, 6), ...
         multipliers(:, 1), multipliers(:, 2), multipliers(:, 3), ...
         multipliers(:, 4), multipliers(:, 5), multipliers(:, 6), ...
@@ -226,6 +251,14 @@ function design = build_design(fractions)
         'endpoint_capacity_multiplier', 'SE_buffer_multiplier', ...
         'fluid_inventory_multiplier', ...
         'regenerator_utilization_multiplier', 'latent_heat_multiplier'});
+end
+
+function prefix = candidate_prefix(design_kind)
+    if strcmp(design_kind, 'local_oat')
+        prefix = 'OAT';
+    else
+        prefix = 'L8';
+    end
 end
 
 function state = run_candidate(candidate_root, design_row, baseline, ...
@@ -547,13 +580,18 @@ function path = canonical_path(path)
     path = char(java.io.File(char(path)).getCanonicalPath());
 end
 
-function write_candidate_marker(candidate_root, record, authority)
+function write_candidate_marker(candidate_root, record, authority, ...
+        design_kind)
     if record.admissible
         name = 'ADMITTED_SENSITIVITY_POINT.txt';
-        disposition = 'admitted_for_orthogonal_contrast';
+        if strcmp(design_kind, 'local_oat')
+            disposition = 'admitted_for_local_pair_contrast';
+        else
+            disposition = 'admitted_for_orthogonal_contrast';
+        end
     else
         name = 'REJECTED_DO_NOT_RESUME.txt';
-        disposition = 'rejected_not_admissible_for_orthogonal_contrast';
+        disposition = 'rejected_not_admissible_for_sensitivity_contrast';
     end
     path = fullfile(candidate_root, name);
     fid = fopen(path, 'w', 'n', 'UTF-8');
@@ -587,10 +625,21 @@ function study = build_study(records, design, authority, settings)
     completed = status ~= "pending" & status ~= "running";
     admissible = [records.admissible];
     study = struct();
-    study.schema = 'heatdrive_ecc_L8_mechanism_gated_sensitivity_v1';
+    study.schema = 'heatdrive_ecc_mechanism_gated_sensitivity_v2';
+    study.design_kind = settings.design_kind;
     study.generated_at = char(datetime('now', 'TimeZone', 'local'));
     study.status = 'incomplete';
-    if all(completed) && all(admissible)
+    effects = build_effects(records, settings.design_kind, ...
+        settings.factor_fraction);
+    study.strict_local_pair_count = nnz( ...
+        effects.strict_local_pair_available);
+    if strcmp(settings.design_kind, 'local_oat') && all(completed) && ...
+            study.strict_local_pair_count == 6
+        study.status = 'complete_all_local_pairs_admissible';
+    elseif strcmp(settings.design_kind, 'local_oat') && all(completed) && ...
+            study.strict_local_pair_count > 0
+        study.status = 'complete_with_partial_local_pairs';
+    elseif all(completed) && all(admissible)
         study.status = 'complete_all_points_admissible';
     elseif all(completed)
         study.status = 'complete_with_rejected_points_no_strict_contrast';
@@ -616,7 +665,8 @@ end
 function write_study_outputs(output_root, records, design, authority, settings)
     writetable(struct2table(records, 'AsArray', true), fullfile(output_root, ...
         'sensitivity_results.csv'));
-    effects = build_effects(records);
+    effects = build_effects(records, settings.design_kind, ...
+        settings.factor_fraction);
     writetable(effects, fullfile(output_root, 'sensitivity_effects.csv'));
     study = build_study(records, design, authority, settings);
     fid = fopen(fullfile(output_root, 'sensitivity_summary.json'), ...
@@ -628,35 +678,61 @@ function write_study_outputs(output_root, records, design, authority, settings)
     clear cleaner
 end
 
-function effects = build_effects(records)
+function effects = build_effects(records, design_kind, fractions)
     factor_names = {'UA', 'endpoint_capacity', 'SE_buffer', ...
         'fluid_inventory', 'regenerator_utilization', 'latent_heat'};
     level_names = strcat(factor_names, '_level');
     response_names = {'eq9_lift_K', 'eq10_SCP_W_per_g', ...
         'temperature_error_fraction', 'SCP_gap_fraction', ...
         'pump_power_W', 'SE_regenerator_utilization_mean'};
-    strict = numel(records) == 8 && all([records.admissible]);
+    strict_l8 = strcmp(design_kind, 'l8') && numel(records) == 8 && ...
+        all([records.admissible]);
     rows = repmat(struct(), numel(factor_names), 1);
     for idx = 1:numel(factor_names)
         rows(idx).factor = factor_names{idx};
-        rows(idx).strict_orthogonal_contrast_available = strict;
         levels = [records.(level_names{idx})];
+        low_idx = find(levels < 0);
+        high_idx = find(levels > 0);
+        strict_pair = strcmp(design_kind, 'local_oat') && ...
+            isscalar(low_idx) && isscalar(high_idx) && ...
+            records(low_idx).admissible && records(high_idx).admissible;
+        rows(idx).strict_orthogonal_contrast_available = strict_l8;
+        rows(idx).strict_local_pair_available = strict_pair;
+        rows(idx).low_run_index = get_run_index(records, low_idx);
+        rows(idx).high_run_index = get_run_index(records, high_idx);
+        rows(idx).fractional_step = fractions(idx);
         for response_idx = 1:numel(response_names)
             name = response_names{response_idx};
             values = [records.(name)];
             effect_name = [name, '_high_minus_low'];
-            if strict && all(isfinite(values))
+            derivative_name = [name, '_derivative_per_fraction'];
+            if strict_l8 && all(isfinite(values))
                 rows(idx).(effect_name) = ...
                     mean(values(levels > 0)) - mean(values(levels < 0));
+                rows(idx).(derivative_name) = NaN;
+            elseif strict_pair && all(isfinite(values([low_idx high_idx])))
+                contrast = values(high_idx) - values(low_idx);
+                rows(idx).(effect_name) = contrast;
+                rows(idx).(derivative_name) = contrast / ...
+                    (2.0 * fractions(idx));
             else
                 rows(idx).(effect_name) = NaN;
+                rows(idx).(derivative_name) = NaN;
             end
         end
     end
     effects = struct2table(rows, 'AsArray', true);
 end
 
-function validate_settings(settings, repo_root)
+function run_index = get_run_index(records, indices)
+    if isscalar(indices)
+        run_index = records(indices).run_index;
+    else
+        run_index = NaN;
+    end
+end
+
+function validate_settings(settings, repo_root, run_count)
     assert(isnumeric(settings.factor_fraction) && ...
         isequal(size(settings.factor_fraction), [1, 6]) && ...
         all(isfinite(settings.factor_fraction)) && ...
@@ -664,9 +740,12 @@ function validate_settings(settings, repo_root)
         settings.factor_fraction < 0.5), ...
         'HeatDriveECC:InvalidSensitivityFractions', ...
         'factor_fraction must contain six finite values inside (0, 0.5).');
-    assert(all(ismember(settings.run_indices, 1:8)), ...
+    assert(ismember(settings.design_kind, {'l8', 'local_oat'}), ...
+        'HeatDriveECC:InvalidSensitivityDesignKind', ...
+        'design_kind must be l8 or local_oat.');
+    assert(all(ismember(settings.run_indices, 1:run_count)), ...
         'HeatDriveECC:InvalidSensitivityRunIndices', ...
-        'run_indices must be a subset of 1:8.');
+        'run_indices must be a subset of the selected design.');
     outputs_root = canonical_path(fullfile(repo_root, 'outputs'));
     output_root = canonical_path(settings.output_root);
     assert(startsWith(output_root, [outputs_root, filesep], ...
