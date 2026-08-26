@@ -88,6 +88,7 @@ Add-Entry 'Rejected 270 K progress' (Join-Path $rejectedRoot 'steady_continuatio
 
 Add-Entry 'SCI figure source' (Join-Path $repoRoot 'Plot_HeatDriveECC_SCI_FigureSet.m')
 Add-Entry 'Coupled trade-off figure source' (Join-Path $repoRoot 'Plot_HeatDriveECC_CoupledTradeoff.m')
+Add-Entry 'Local sensitivity figure source' (Join-Path $repoRoot 'Plot_HeatDriveECC_LocalSensitivityAudit.m')
 Add-Entry 'MATLAB package verifier' (Join-Path $repoRoot 'verification\Verify_FinalHeatDriveECC_Package.m')
 Add-Entry 'PowerShell package auditor' (Join-Path $repoRoot 'verification\Audit_FinalHeatDriveECC_Package.ps1')
 Add-Entry 'Superseded raw cleanup script' (Join-Path $repoRoot 'verification\Prune_Superseded_HeatDriveECC_Raw.ps1')
@@ -115,6 +116,14 @@ foreach ($name in @('Fig06_coupled_cycle_tradeoff.png',
         'coupled_tradeoff_manifest.txt')) {
     Add-Entry "Coupled trade-off artifact $name" (Join-Path $tradeoffRoot $name)
 }
+$localFigureRoot = Join-Path $AuditRoot 'local_sensitivity_figure'
+foreach ($name in @('Fig07_local_sensitivity_audit.png',
+        'Fig07_local_sensitivity_audit.pdf',
+        'local_sensitivity_results.csv',
+        'local_sensitivity_effects.csv',
+        'local_sensitivity_manifest.txt')) {
+    Add-Entry "Local sensitivity artifact $name" (Join-Path $localFigureRoot $name)
+}
 foreach ($relative in @(
         'outputs\qian_table4_zero_load_outer_solve_v3_20260822\outer_candidate_summary.csv',
         'outputs\qian_table4_zero_load_outer_solve_v3_20260822\outer_solve_summary.json',
@@ -125,7 +134,11 @@ foreach ($relative in @(
         'outputs\qian_table4_L8_sensitivity_v3_20260822\sensitivity_summary.json',
         'outputs\qian_table4_L8_sensitivity_v4_admissible_20260823\sensitivity_results.csv',
         'outputs\qian_table4_L8_sensitivity_v4_admissible_20260823\sensitivity_effects.csv',
-        'outputs\qian_table4_L8_sensitivity_v4_admissible_20260823\sensitivity_summary.json')) {
+        'outputs\qian_table4_L8_sensitivity_v4_admissible_20260823\sensitivity_summary.json',
+        'outputs\qian_table4_local_oat_sensitivity_20260824\sensitivity_design.csv',
+        'outputs\qian_table4_local_oat_sensitivity_20260824\sensitivity_results.csv',
+        'outputs\qian_table4_local_oat_sensitivity_20260824\sensitivity_effects.csv',
+        'outputs\qian_table4_local_oat_sensitivity_20260824\sensitivity_summary.json')) {
     Add-Entry "Mechanism-gated scalar result $relative" (Join-Path $repoRoot $relative)
 }
 $cleanupSummary = Get-ChildItem -LiteralPath $AuditRoot -File -Filter 'cleanup_summary_*.txt' |
@@ -162,6 +175,16 @@ if ($missing.Count -gt 0) {
     throw ('Required package files are missing: ' + ($missing.relative_path -join '; '))
 }
 
+$localSummaryPath = Join-Path $repoRoot `
+    'outputs\qian_table4_local_oat_sensitivity_20260824\sensitivity_summary.json'
+$localSummary = Get-Content -LiteralPath $localSummaryPath -Raw | ConvertFrom-Json
+if ($localSummary.completed_count -ne 12 -or $localSummary.pending_count -ne 0 -or
+        $localSummary.strict_local_pair_count -ne 2) {
+    throw ('Unexpected local OAT completion contract: completed={0}, pending={1}, strict_pairs={2}' -f
+        $localSummary.completed_count, $localSummary.pending_count,
+        $localSummary.strict_local_pair_count)
+}
+
 $hashes = foreach ($item in ($manifest | Where-Object exists)) {
     $hash = Get-FileHash -LiteralPath $item.path -Algorithm SHA256
     [pscustomobject]@{
@@ -176,7 +199,7 @@ $hashes = foreach ($item in ($manifest | Where-Object exists)) {
 $hashes | Export-Csv -LiteralPath $hashPath -NoTypeInformation -Encoding UTF8
 
 $summary = [ordered]@{
-    schema = 'heatdrive_ecc_final_package_audit_v2'
+    schema = 'heatdrive_ecc_final_package_audit_v3'
     generated_at = (Get-Date).ToString('o')
     workspace_root = $WorkspaceRoot
     authoritative_result = (Join-Path $mainRun 'physical_simscape_result.mat')
@@ -186,6 +209,9 @@ $summary = [ordered]@{
     strict_table4_reproduction = 0
     paired_table4_endpoint_pass = 0
     heat_driven_system_COP_available = 0
+    local_OAT_completed_count = $localSummary.completed_count
+    local_OAT_admissible_count = $localSummary.admissible_count
+    local_OAT_strict_pair_count = $localSummary.strict_local_pair_count
     rejected_branch = $rejectedRoot
     required_file_count = @($manifest | Where-Object required).Count
     present_file_count = @($manifest | Where-Object exists).Count

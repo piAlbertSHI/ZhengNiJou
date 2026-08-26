@@ -1,6 +1,6 @@
 # SMA-SE 正逆耦合：第八阶段完整实施与严格审核报告
 
-生成日期：2026-08-24  
+生成日期：2026-08-24；OAT 与最终结果包更新：2026-08-26
 代码分支：`codex/coupled-simscape-authority`  
 报告性质：生产 Simscape 结果交接、文献 benchmark、失败边界和后续计划的权威审计。  
 结论边界：当前工作是 numerical verification + literature benchmark，不是独立实验 validation，也不是 Qian Table 4 strict reproduction。
@@ -20,8 +20,10 @@
 | paired strict audit | 0 | 两个 accepted roots 均缺失 |
 | heat-driven system COP | 不可用 | SHEX source heat-flow 未测量 |
 | L8 严格六因素主效应 | 全部 `NaN` | 可接受点不足，禁止用 rejected 点补算 |
+| local OAT | 12/12 完成，6 点 admissible | 2/6 对可计算严格局部响应 |
+| local OAT 非零严格响应 | SE regeneration flow | `+1%` 相对变化对应 lift `+0.0100909 K`、SCP `+0.00160918 W/g` |
 
-当前最强可写结论是：完整 SMA-SE 物理 Simscape 模型在固定 `Tc=276.95 K` 下达到机制有效的周期性能点；参数过渡和端点搜索的首要限制来自 SE 末循环流量/控制可行域，而不是相变、能量或可观测性门禁。当前结果没有同时复现 Qian 等人报告的 `26.2 K @ zero load` 和 `0.64 W/g @ zero lift`。
+当前最强可写结论是：完整 SMA-SE 物理 Simscape 模型在固定 `Tc=276.95 K` 下达到机制有效的周期性能点；参数过渡和端点搜索的首要限制来自 SE 末循环流量/控制可行域，而不是相变、能量或可观测性门禁。严格 local OAT 仅允许对 SE buffer 与 regeneration flow 两对求导，其中 regeneration flow 是唯一非零响应；这不足以建立完整六因素排序。当前结果没有同时复现 Qian 等人报告的 `26.2 K @ zero load` 和 `0.64 W/g @ zero lift`。
 
 ## 2. 唯一主线恢复源与哈希
 
@@ -89,13 +91,21 @@ C200 是验证通过的固定边界性能点，不是 zero-load maximum，也不
 - 参数过渡期与 benchmark 门禁分离；单个 run 已记录 `simulation_error` 后不终止整个 L8。
 - rejected/transient 点不进入正交效应计算；不能通过删门禁获得看似完整的主效应表。
 
-### 4.5 成对端点审核和绘图
+### 4.5 六因素成对 local OAT
+
+- `verification/Run_HeatDriveECC_Table4_Sensitivity.m` 新增 `design_kind='local_oat'`，从同一 C200 authority 为每个因素建立独立对称 `-/+` 候选。
+- UA、端点热容、回热利用率和潜热采用 `±0.5%`；SE buffer 与 SMA 流体库存采用 `±1%`。
+- 只有同一因素两点都通过 mechanism、periodic、flow、phase、energy 和 observability 门禁，才写入导数；其余字段保持 `NaN`。
+- 12 个候选按 20-cycle 分段、最多再算 40 cycles；每个候选均从 C200 恢复，候选之间不传播 OP。
+
+### 4.6 成对端点审核和绘图
 
 - `verification/Audit_HeatDriveECC_PairedTable4Endpoints.m`：要求两个 accepted roots、共同 authority、共同参数合同、共同 10-cycle window、全部机制门禁和 Table 4 定量容差同时通过。
 - `Plot_HeatDriveECC_CoupledTradeoff.m`：将 admissible 点画为实心圆、rejected 点画为红叉，拒绝点不拟合、不求效应。
+- `Plot_HeatDriveECC_LocalSensitivityAudit.m`：六因素各占一个面板，只有严格成对通过时连接响应点，直接显示不可求导的因素。
 - 输出 600 dpi PNG、矢量 PDF、两个绘图数据 CSV 和 manifest。
 
-### 4.6 存储和长任务纪律
+### 4.7 存储和长任务纪律
 
 - `verification/Compact_HeatDriveECC_RejectedCandidate.ps1`：只压缩具有 rejected 和 scalar-extraction 双标记的单一候选。
 - `verification/Manage_HeatDriveECC_OutputStorage.ps1`：从 C200 冻结合同解析唯一 raw 白名单，先输出 deletion CSV，再删除旧 raw、旧 probe 和 legacy figures。
@@ -176,11 +186,43 @@ C200 是验证通过的固定边界性能点，不是 zero-load maximum，也不
 
 结果：8/8 有记录，3/8 admissible。R01/R03 后续 Simscape Thermal Liquid 温度有效域异常不抹去已记录诊断，但也不使其成为 admissible。所有机制失败点都只失败于 flow gates；全部候选的 phase、energy 和 observability gates 均通过。
 
-### 8.3 可写与不可写结论
+### 8.3 local OAT：独立对称小扰动
 
-可写：当前参数扰动首先暴露 SE 流量/控制可行域限制；在门禁内的性能点仍集中在约 `28.55-28.71 K` 和 `0.297-0.319 W/g`。
+输出：`gx101r1_R69_remote/outputs/qian_table4_local_oat_sensitivity_20260824`。
 
-不可写：UA、buffer、inventory 或 latent heat 是“主导因素”。L8 正交对比不完整，`sensitivity_effects.csv` 对六因素明确给出 `strict_orthogonal_contrast_available=0` 和 `NaN`。用 rejected/transient 数值计算探索性主效应会混入不同物理可行域，结论无效。
+| Run | 因素/扰动 | status | admissible | Eq. 9 (K) | SCP (W/g) | 同相温漂 (K) | 同相相分数漂移 |
+|---|---|---|---:|---:|---:|---:|---:|
+| R01 | UA -0.5% | maximum cycles | 0 | 28.716898 | 0.315802422 | 0.205 | 0.0093 |
+| R02 | UA +0.5% | periodic steady | 1 | 28.703626 | 0.317155544 | 0.244 | 0.0111 |
+| R03 | capacity -0.5% | maximum cycles | 0 | 28.710258 | 0.316481223 | 0.234 | 0.0106 |
+| R04 | capacity +0.5% | maximum cycles | 0 | 28.710255 | 0.316480976 | 0.216 | 0.0098 |
+| R05 | buffer -1% | periodic steady | 1 | 28.710257 | 0.316481488 | 0.221 | 0.0100 |
+| R06 | buffer +1% | periodic steady | 1 | 28.710257 | 0.316481488 | 0.221 | 0.0100 |
+| R07 | inventory -1% | maximum cycles | 0 | 28.710253 | 0.316493327 | 0.240 | 0.0117 |
+| R08 | inventory +1% | maximum cycles | 0 | 28.710255 | 0.316467360 | 0.279 | 0.0136 |
+| R09 | regeneration -0.5% | periodic steady | 1 | 28.706304 | 0.315686779 | 0.234 | 0.0106 |
+| R10 | regeneration +0.5% | periodic steady | 1 | 28.716395 | 0.317295962 | 0.251 | 0.0117 |
+| R11 | latent heat -0.5% | maximum cycles | 0 | 28.698507 | 0.314916805 | 0.210 | 0.0097 |
+| R12 | latent heat +0.5% | periodic steady | 1 | 28.719743 | 0.317999489 | 0.223 | 0.0101 |
+
+审核结果：12/12 完成、6/12 admissible、2/6 strict local pairs。SE buffer 对通过，但在当前数值合同和 `±1%` 范围内 Eq. 9、SCP、泵功和回热利用率响应均为机器精度零；这只能写为“该局部范围未分辨出响应”，不能推广为 buffer 永远无影响。SE regeneration flow 对通过，`high-low` 为：
+
+| 响应 | `high-low` | 每单位 fractional change 导数 |
+|---|---:|---:|
+| Eq. 9 lift | +0.010090901 K | +1.009090099 K |
+| Eq. 10 SCP | +0.001609184 W/g | +0.160918360 W/g |
+| temperature error fraction | +0.000385149 | +0.038514889 |
+| SCP gap fraction | -0.002514349 | -0.251434938 |
+| pump power | +0.004786111 W | +0.478611102 W |
+| SE utilization | +0.007557117 | +0.755711725 |
+
+UA、端点热容、inventory 和 latent heat 至少一侧未通过 periodic gate，四对全部保持 `NaN`。它们的瞬态数值只用于显示可行域边界，不能参与主导因素排序。全部 12 点的 flow、phase、energy 和 observability 均通过；本轮拒绝原因是 240 cycles 内未满足 periodic gate，而不是机制失败。
+
+### 8.4 可写与不可写结论
+
+可写：较宽 L8 扰动首先暴露 SE 流量/控制可行域限制；局部 OAT 表明 regeneration flow 在当前合法局部域内同时提高 lift 与 SCP，但幅度远不足以解释 `9.58%` lift 偏差和约 `50.55%` SCP 缺口。SE buffer 局部响应为零，其余四因素仍不可严格求导。
+
+不可写：UA、buffer、inventory 或 latent heat 是“主导因素”，也不能宣称 regeneration flow 已是全局主导因素。L8 正交对比不完整，local OAT 只有 2/6 对合法。用 rejected/transient 数值补算效应会混入不同周期可行域，结论无效。
 
 ## 9. Paired strict audit
 
@@ -232,6 +274,17 @@ paired_strict_pass=0
 - (e) same-phase temperature drift 对 phase drift；区分 periodic admissible 点与 rejected/transient 点。
 - (f) Eq.9-SCP 与 Qian 两端点；图内明确标出 system COP withheld。
 
+2026-08-26 更新后 Fig. 6 同时读取 L8 v3、L8 v4 和 local OAT，共 28 个敏感性点，其中 11 个 admissible、17 个 rejected。增加 OAT 后仍保持实心圆/红叉合同，不通过点没有被连线或拟合。
+
+### Fig. 7 Local sensitivity audit
+
+目录：`gx101r1_R69_remote/outputs_storage_audit/local_sensitivity_figure/Fig07_local_sensitivity_audit.*`。
+
+- (a) UA、(b) 端点热容、(c) SE buffer、(d) SMA fluid inventory、(e) SE regeneration flow、(f) latent heat，各面板只放该因素的对称低/高点。
+- 蓝色左轴是 Eq. 9，橙色右轴是 SCP；实心标记为 periodic admissible，叉号为 rejected。
+- 只有 (c) 和 (e) 两对有连线，因为只有它们满足严格成对门禁；其余面板明确写 `strict pair: unavailable`。
+- 该图用于审计“哪些导数可以计算”，不用于把 rejected 点包装成趋势，也不替代 Qian Table 4 端点图。
+
 绘图符号合同：实心圆为 admissible，红叉为 rejected，黄色菱形/方形为 Qian benchmark。红叉只用于显示可行域边界，不参与拟合、求根或效应计算。第二轮视觉审核修正了黑色面板标号、标题/坐标/色标文字、固定 SCP 色标和 (f) 注释留白。
 
 ## 11. 与 Qian 文献的具体比较
@@ -265,9 +318,9 @@ paired_strict_pass=0
 
 ## 13. 存储审计和数据治理
 
-2026-08-24 清理前：`gx101r1_R69_remote/outputs = 5.973 GB`。  
-本轮删除：2,177 个旧 raw/probe/legacy-figure 文件，`1.224 GB`。  
-清理后：`4.7491 GB`、891 个文件、1 个 raw result、1 个 OP、0 个 legacy figure、11 个 C200 `figures_sci` 文件。
+2026-08-24 首轮清理前：`gx101r1_R69_remote/outputs = 5.973 GiB`；删除 2,177 个旧 raw/probe/legacy-figure 文件，`1.224 GiB`。
+2026-08-26 OAT 收尾前：`5.000 GiB`；再次删除 374 个已提取标量后的 raw/probe/legacy-figure 文件，`0.232 GiB`。
+最终：`4.768 GiB`，其中约 `4.70 GiB` 是唯一保留的 C200 authority raw；local OAT 标量包为 `19.58 MiB`。候选 compactor 在 12 点运行过程中累计释放 `103,825,298,192 bytes`（`96.695 GiB`）临时 raw。
 
 保留内容：
 
@@ -291,6 +344,7 @@ paired_strict_pass=0
 │  ├─ heatdrive_ecc_coupled_se21.slx
 │  ├─ Plot_HeatDriveECC_SCI_FigureSet.m
 │  ├─ Plot_HeatDriveECC_CoupledTradeoff.m
+│  ├─ Plot_HeatDriveECC_LocalSensitivityAudit.m
 │  ├─ verification/
 │  │  ├─ c200_mainline_freeze_contract.json
 │  │  ├─ Build_HeatDriveECC_ControlVolumeContract.m
@@ -301,11 +355,12 @@ paired_strict_pass=0
 │  │  ├─ Audit_FinalHeatDriveECC_Package.ps1
 │  │  ├─ Manage_HeatDriveECC_OutputStorage.ps1
 │  │  └─ WaitAndCheck_HeatDriveECC.ps1
-│  ├─ outputs/<C200 authority and scalar diagnostic packages>
+│  ├─ outputs/<C200 authority and scalar diagnostic packages, including local OAT>
 │  └─ outputs_storage_audit/
 │     ├─ control_volume_contract/
 │     ├─ paired_table4_endpoint_audit/
-│     └─ coupled_tradeoff_figure/
+│     ├─ coupled_tradeoff_figure/
+│     └─ local_sensitivity_figure/
 └─ 项目文档/
    ├─ 报告/SMA-SE正逆耦合_第八阶段完整实施与严格审核报告.md
    └─ 研究笔记/2026-08-22_Qian文献精确定位索引.md
@@ -339,20 +394,35 @@ matlab -batch "r='C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote'; cd(r)
 matlab -batch "cd('C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote'); o=Plot_HeatDriveECC_CoupledTradeoff(); disp(o);"
 ```
 
-### 15.4 Paired endpoint audit
+### 15.4 审核 local OAT 并重新生成 Fig. 7
+
+```powershell
+matlab -batch "cd('C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote'); o=Plot_HeatDriveECC_LocalSensitivityAudit(); disp(o); addpath(fullfile(pwd,'verification')); a=Verify_FinalHeatDriveECC_Package(pwd); assert(a.local_sensitivity_completed_count==12 && a.local_sensitivity_strict_pair_count==2);"
+```
+
+预期关键输出：
+
+```text
+completed_points: 12
+admissible_points: 6
+strict_local_pairs: 2
+LOCAL_OAT completed=12 admissible=6 strict_pairs=2 factors=SE_buffer,regenerator_utilization
+```
+
+### 15.5 Paired endpoint audit
 
 ```powershell
 matlab -batch "cd('C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote'); addpath(fullfile(pwd,'verification')); a=Audit_HeatDriveECC_PairedTable4Endpoints(); assert(a.paired_strict_pass==0);"
 ```
 
-### 15.5 结果包 manifest 和 SHA-256
+### 15.6 结果包 manifest 和 SHA-256
 
 ```powershell
 cd C:\Users\86182\Desktop\正逆耦合
 pwsh -File .\gx101r1_R69_remote\verification\Audit_FinalHeatDriveECC_Package.ps1
 ```
 
-### 15.6 存储 dry-run 和应用
+### 15.7 存储 dry-run 和应用
 
 ```powershell
 cd C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote
@@ -362,7 +432,7 @@ pwsh -File .\verification\Manage_HeatDriveECC_OutputStorage.ps1 -Apply
 
 第一条只产生候选清单；第二条才删除，并在有 MATLAB 引用 outputs 时拒绝运行。
 
-### 15.7 长任务纪律
+### 15.8 长任务纪律
 
 ```powershell
 pwsh -File .\verification\WaitAndCheck_HeatDriveECC.ps1 -WaitMinutes 30
@@ -373,7 +443,7 @@ pwsh -File .\verification\WaitAndCheck_HeatDriveECC.ps1 -WaitMinutes 30
 ## 16. 尚未完成与后续主线
 
 1. 增加 SHEX source heat-flow sensor 和周期积分，建立真正 heat-driven system COP；在此之前继续 withholding system COP。
-2. 从 C200 对六个因素分别做独立、对称、小扰动的 one-factor local identification。只有 `+/-` 两点均 mechanism-valid、periodic 且共享合同，才计算局部导数；失败对定义为可行域边界。
+2. local OAT 已完成，但仅 2/6 对合法；先对 UA、端点热容、inventory 和 latent heat 扩展周期数或缩小扰动，仍须保持独立 C200 恢复和成对门禁，不能沿 rejected OP 续算。
 3. 针对 SE Stage 2/4 末循环 no-reversal、instantaneous-flow 和 RMS-flow 门禁重新设计控制器，先扩展稳定可行域，再继续端点求根。
 4. 在控制器通过独立流量测试后重新求 zero-load 和 zero-lift；任何失败点仍不得插值或传播。
 5. 两个 accepted roots 共同通过 authority、参数合同、窗口和机制门禁后，再运行 paired strict audit。
@@ -382,12 +452,12 @@ pwsh -File .\verification\WaitAndCheck_HeatDriveECC.ps1 -WaitMinutes 30
 
 ## 17. 最终负责人审核结论
 
-已完成：完整 SMA-SE 主线冻结、控制体合同、outer-solve 实现与两侧候选、两轮 L8、paired audit、SCI 图集、结果哈希和存储治理。
+已完成：完整 SMA-SE 主线冻结、控制体合同、outer-solve 实现与两侧候选、两轮 L8、12 点 local OAT、paired audit、Fig. 1-7 SCI 图集、结果哈希和存储治理。
 
-未完成：两个合法 Table 4 端点、六因素严格局部效应、SHEX 热源输入和 system COP、独立物理 validation。
+未完成：两个合法 Table 4 端点、其余 4/6 因素的严格局部效应、SHEX 热源输入和 system COP、独立物理 validation。
 
 可签字结论：
 
-> The fully coupled physical Simscape SMA-SE model reached a mechanism-valid periodic operating point after 200 cycles at fixed `Tc=276.95 K`, predicting an Eq. 9 lift of `28.70997 K` and an active-SE-mass Eq. 10 SCP of `0.3164805 W/g`. Mechanism-gated endpoint and sensitivity runs identify the SE flow-control feasibility boundary as the present limitation. The paired Qian Table 4 endpoints are not yet reproduced, and system COP is withheld because source-side SHEX heat input is not yet measured.
+> The fully coupled physical Simscape SMA-SE model reached a mechanism-valid periodic operating point after 200 cycles at fixed `Tc=276.95 K`, predicting an Eq. 9 lift of `28.70997 K` and an active-SE-mass Eq. 10 SCP of `0.3164805 W/g`. A 12-point mechanism-gated local OAT admitted six points and only two complete pairs; regeneration flow was the sole non-zero strict local response, while the remaining unavailable pairs were not imputed. The paired Qian Table 4 endpoints are not yet reproduced, and system COP is withheld because source-side SHEX heat input is not yet measured.
 
 禁止签字结论：`Qian Table 4 reproduced`、`experimentally validated`、`system COP = Qcool/Ppump`、或任何基于 rejected L8 点的六因素主导排序。
