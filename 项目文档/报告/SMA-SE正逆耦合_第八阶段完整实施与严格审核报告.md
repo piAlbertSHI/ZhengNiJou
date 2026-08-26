@@ -125,6 +125,8 @@ C200 是验证通过的固定边界性能点，不是 zero-load maximum，也不
 | `7b145b2` | 参数过渡后再启用敏感性门禁 |
 | `d46b156` | 单候选 simulation error 记录后继续 L8 |
 | `ae14fb3` | 增加 paired Table 4 endpoint audit |
+| `4290f5f` | 增加六因素独立、对称、机制门禁 local OAT |
+| `866a960` | 完成 12 点 OAT 审核、Fig. 6/7、结果包 v3 和存储收尾 |
 
 本报告、Fig. 6、拒绝候选压缩脚本和收紧后的全量存储治理脚本在本阶段最终提交中纳入 Git。大 MAT、运行输出和生成图不进入 Git；由结果 manifest 与 SHA-256 管理。
 
