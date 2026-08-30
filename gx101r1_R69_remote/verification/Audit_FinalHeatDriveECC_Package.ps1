@@ -138,8 +138,30 @@ foreach ($relative in @(
         'outputs\qian_table4_local_oat_sensitivity_20260824\sensitivity_design.csv',
         'outputs\qian_table4_local_oat_sensitivity_20260824\sensitivity_results.csv',
         'outputs\qian_table4_local_oat_sensitivity_20260824\sensitivity_effects.csv',
-        'outputs\qian_table4_local_oat_sensitivity_20260824\sensitivity_summary.json')) {
+        'outputs\qian_table4_local_oat_sensitivity_20260824\sensitivity_summary.json',
+        'outputs\qian_table4_local_oat_refined_sensitivity_20260826\sensitivity_design.csv',
+        'outputs\qian_table4_local_oat_refined_sensitivity_20260826\sensitivity_results.csv',
+        'outputs\qian_table4_local_oat_refined_sensitivity_20260826\sensitivity_effects.csv',
+        'outputs\qian_table4_local_oat_refined_sensitivity_20260826\sensitivity_summary.json')) {
     Add-Entry "Mechanism-gated scalar result $relative" (Join-Path $repoRoot $relative)
+}
+$refinedRoot = Join-Path $repoRoot `
+    'outputs\qian_table4_local_oat_refined_sensitivity_20260826'
+$refinedEvidenceNames = @(
+    'matlab_stdout.log', 'matlab_stderr.log',
+    'matlab_stdout_resume_20260829_004355.log',
+    'matlab_stderr_resume_20260829_004355.log',
+    'matlab_stdout_resume_20260829_221144.log',
+    'matlab_stderr_resume_20260829_221144.log',
+    'ADMITTED_SENSITIVITY_POINT.txt', 'REJECTED_SENSITIVITY_POINT.txt',
+    'COMPACTED_AFTER_SCALAR_EXTRACTION.txt',
+    'sensitivity_candidate_record.mat', 'steady_continuation_progress.csv',
+    'steady_continuation_state.mat', 'fixed_reservoir_point_manifest.txt',
+    'physical_validation_report.txt', 'cycle_physical_summary.csv',
+    'qian2019_table2_table4_parameter_contract.csv')
+foreach ($file in (Get-ChildItem -LiteralPath $refinedRoot -File -Recurse |
+        Where-Object { $refinedEvidenceNames -contains $_.Name })) {
+    Add-Entry 'Refined local OAT gate evidence' $file.FullName
 }
 $cleanupSummary = Get-ChildItem -LiteralPath $AuditRoot -File -Filter 'cleanup_summary_*.txt' |
     Where-Object { @(Get-Content -LiteralPath $_.FullName |
@@ -175,14 +197,23 @@ if ($missing.Count -gt 0) {
     throw ('Required package files are missing: ' + ($missing.relative_path -join '; '))
 }
 
-$localSummaryPath = Join-Path $repoRoot `
+$initialSummaryPath = Join-Path $repoRoot `
     'outputs\qian_table4_local_oat_sensitivity_20260824\sensitivity_summary.json'
-$localSummary = Get-Content -LiteralPath $localSummaryPath -Raw | ConvertFrom-Json
-if ($localSummary.completed_count -ne 12 -or $localSummary.pending_count -ne 0 -or
-        $localSummary.strict_local_pair_count -ne 2) {
+$refinedSummaryPath = Join-Path $repoRoot `
+    'outputs\qian_table4_local_oat_refined_sensitivity_20260826\sensitivity_summary.json'
+$initialSummary = Get-Content -LiteralPath $initialSummaryPath -Raw | ConvertFrom-Json
+$refinedSummary = Get-Content -LiteralPath $refinedSummaryPath -Raw | ConvertFrom-Json
+if ($initialSummary.completed_count -ne 12 -or $initialSummary.pending_count -ne 0 -or
+        $initialSummary.strict_local_pair_count -ne 2) {
     throw ('Unexpected local OAT completion contract: completed={0}, pending={1}, strict_pairs={2}' -f
-        $localSummary.completed_count, $localSummary.pending_count,
-        $localSummary.strict_local_pair_count)
+        $initialSummary.completed_count, $initialSummary.pending_count,
+        $initialSummary.strict_local_pair_count)
+}
+if ($refinedSummary.completed_count -ne 10 -or $refinedSummary.pending_count -ne 2 -or
+        $refinedSummary.strict_local_pair_count -ne 4) {
+    throw ('Unexpected refined OAT contract: completed={0}, pending={1}, strict_pairs={2}' -f
+        $refinedSummary.completed_count, $refinedSummary.pending_count,
+        $refinedSummary.strict_local_pair_count)
 }
 
 $hashes = foreach ($item in ($manifest | Where-Object exists)) {
@@ -199,7 +230,7 @@ $hashes = foreach ($item in ($manifest | Where-Object exists)) {
 $hashes | Export-Csv -LiteralPath $hashPath -NoTypeInformation -Encoding UTF8
 
 $summary = [ordered]@{
-    schema = 'heatdrive_ecc_final_package_audit_v3'
+    schema = 'heatdrive_ecc_final_package_audit_v4'
     generated_at = (Get-Date).ToString('o')
     workspace_root = $WorkspaceRoot
     authoritative_result = (Join-Path $mainRun 'physical_simscape_result.mat')
@@ -209,9 +240,16 @@ $summary = [ordered]@{
     strict_table4_reproduction = 0
     paired_table4_endpoint_pass = 0
     heat_driven_system_COP_available = 0
-    local_OAT_completed_count = $localSummary.completed_count
-    local_OAT_admissible_count = $localSummary.admissible_count
-    local_OAT_strict_pair_count = $localSummary.strict_local_pair_count
+    initial_local_OAT_completed_count = $initialSummary.completed_count
+    initial_local_OAT_admissible_count = $initialSummary.admissible_count
+    initial_local_OAT_strict_pair_count = $initialSummary.strict_local_pair_count
+    refined_local_OAT_completed_count = $refinedSummary.completed_count
+    refined_local_OAT_admissible_count = $refinedSummary.admissible_count
+    refined_local_OAT_pending_count = $refinedSummary.pending_count
+    refined_local_OAT_strict_pair_count = $refinedSummary.strict_local_pair_count
+    consolidated_local_OAT_point_count = 12
+    consolidated_local_OAT_admissible_count = 11
+    consolidated_local_OAT_strict_pair_count = 5
     rejected_branch = $rejectedRoot
     required_file_count = @($manifest | Where-Object required).Count
     present_file_count = @($manifest | Where-Object exists).Count
