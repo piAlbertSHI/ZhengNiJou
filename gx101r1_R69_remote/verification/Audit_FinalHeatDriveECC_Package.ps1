@@ -94,6 +94,8 @@ Add-Entry 'SHEX source heat-flow extraction' (Join-Path $repoRoot 'Run_HeatDrive
 Add-Entry 'SHEX source heat-flow performance summary' (Join-Path $repoRoot 'Summarize_HeatDriveECC_EighthRound_Output.m')
 Add-Entry 'Control-volume contract source' (Join-Path $repoRoot 'verification\Build_HeatDriveECC_ControlVolumeContract.m')
 Add-Entry 'SHEX source heat-flow topology audit' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_SourceHeatFlow.m')
+Add-Entry 'SHEX source heat-flow result audit' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_SourceHeatFlowResult.m')
+Add-Entry 'SHEX source heat-flow validation launcher' (Join-Path $repoRoot 'verification\Start_HeatDriveECC_SourceHeatFlowValidation.ps1')
 Add-Entry 'MATLAB package verifier' (Join-Path $repoRoot 'verification\Verify_FinalHeatDriveECC_Package.m')
 Add-Entry 'PowerShell package auditor' (Join-Path $repoRoot 'verification\Audit_FinalHeatDriveECC_Package.ps1')
 Add-Entry 'Superseded raw cleanup script' (Join-Path $repoRoot 'verification\Prune_Superseded_HeatDriveECC_Raw.ps1')
