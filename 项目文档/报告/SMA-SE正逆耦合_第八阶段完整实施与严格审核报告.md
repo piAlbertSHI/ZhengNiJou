@@ -1,6 +1,6 @@
 # SMA-SE 正逆耦合：第八阶段完整实施与严格审核报告
 
-生成日期：2026-08-24；refined OAT、图集与结果包更新：2026-08-30
+生成日期：2026-08-24；refined OAT、图集、结果包与 endpoint-capacity 超细复核更新：2026-08-31
 代码分支：`codex/coupled-simscape-authority`  
 报告性质：生产 Simscape 结果交接、文献 benchmark、失败边界和后续计划的权威审计。  
 结论边界：当前工作是 numerical verification + literature benchmark，不是独立实验 validation，也不是 Qian Table 4 strict reproduction。
@@ -23,6 +23,7 @@
 | 首轮 local OAT | 12/12 完成，6 点 admissible | buffer、regeneration 2/6 对合法 |
 | refined local OAT | 10 点实际运行，9 点 admissible | UA、inventory、regeneration、latent heat 4 对合法；buffer 不重复运行 |
 | 合并后的独立 pair 证据 | 12 个低/高点，11 点 admissible | 5/6 对可计算；仅 endpoint capacity 不可用 |
+| endpoint-capacity ultrafine | 2/12 实际运行，1 admissible，1 rejected | `±0.125%` 仍无 strict pair；导数保持 `NaN` |
 | 最大合法局部归一化响应 | transformation latent heat | 每单位 fractional change：lift `+1.91413 K`、SCP `+0.304583 W/g` |
 
 当前最强可写结论是：完整 SMA-SE 物理 Simscape 模型在固定 `Tc=276.95 K` 下达到机制有效的周期性能点；参数过渡和端点搜索的首要限制来自 SE 末循环流量/控制可行域，而不是相变、能量或可观测性门禁。两轮独立、对称、均从冻结 C200 启动的 local OAT 合并后，UA、buffer、fluid inventory、regeneration flow 和 latent heat 共 5/6 对可严格求导；latent heat 在这五个合法局部 pair 中对 lift 和 SCP 的归一化响应最大，但所有局部变化都远不足以闭合当前 Table 4 偏差，且 endpoint capacity 仍缺少合法 pair，因此不能宣称完整六因素全局排序。当前结果没有同时复现 Qian 等人报告的 `26.2 K @ zero load` 和 `0.64 W/g @ zero lift`。
@@ -237,6 +238,19 @@ UA、端点热容、inventory 和 latent heat 至少一侧未通过 periodic gat
 
 refined 运行共 10/10 完成，9/10 admissible，4 个严格 pair。endpoint capacity 低侧虽通过 flow、phase、energy、observability 和 mechanism gates，但在 240 cycles 内未通过 periodic gate，因此整对导数保持 `NaN`。将首轮已通过的 buffer pair 与本轮其余因素按“每个因素只能来自同一对称 campaign”合并后，最终可审计证据是 12 个低/高点、11 个 admissible、5/6 strict pairs。
 
+### 8.4.1 endpoint-capacity ultrafine follow-up
+
+输出：`gx101r1_R69_remote/outputs/qian_table4_endpoint_capacity_ultrafine_20260830`。该 campaign 以冻结 C200 为恢复基准，对 endpoint capacity 进行同一 `±0.125%` 对称扰动，目标至 C260，并严格禁止从 rejected 状态继续传播。
+
+| 候选 | 倍率 | 最后已验证周期 | mechanism | periodic | 结果 |
+|---|---:|---:|---:|---:|---|
+| R03 低侧 | 0.99875 | C240 | 1 | 0 | C260 物性域错误，rejected diagnostic package |
+| R04 高侧 | 1.00125 | C240 | 1 | 1 | admissible periodic point |
+
+R03 在 C240 的末周期门禁为 endpoint drift `0.0137309021 K`、same-phase temperature drift `0.22803312 K`、same-phase phase drift `0.0103546134`、Eq. 9 `28.7102545 K`、SCP `0.316481587 W/g`；之后 C240 到 C260 的 Thermal Liquid 温度有效域错误发生在 `HoldPipe_021` 和 `SMA_V3_pump_to_heat_path`。R04 在 C240 通过全部 flow/phase/energy/observability/mechanism/periodic gates，endpoint drift `0.0135877171 K`、same-phase temperature drift `0.23846705 K`、same-phase phase drift `0.0107834064`、Eq. 9 `28.7102555 K`、SCP `0.316481247 W/g`。
+
+由于 strict local derivative 要求同一对称 campaign 的两侧均 mechanism-valid 且 periodic，endpoint-capacity 的 strict pair 仍为 `0`，所有 endpoint-capacity derivative 保持 `NaN`。R03 的 C240 标量只保留为 rejected diagnostic evidence，不进入插值、求根、恢复链、主导因素排序或论文趋势线。
+
 按 fractional parameter change 归一化后，五个合法 pair 的局部响应为：
 
 | 因素 | d(lift)/d(fraction) (K) | d(SCP)/d(fraction) (W/g) | 审核解释 |
@@ -305,7 +319,7 @@ paired_strict_pass=0
 - (e) same-phase temperature drift 对 phase drift；区分 periodic admissible 点与 rejected/transient 点。
 - (f) Eq.9-SCP 与 Qian 两端点；图内明确标出 system COP withheld。
 
-2026-08-30 更新后 Fig. 6 同时读取 L8 v3、L8 v4、首轮 local OAT 和 refined local OAT；过滤 refined 中未运行的两条 pending buffer 行后，共 38 个真实候选，其中 20 个 admissible、18 个 rejected。所有不通过点仍只以红叉显示，没有被连线、拟合或用于求根。
+2026-08-31 更新后 Fig. 6 同时读取 L8 v3、L8 v4、首轮 local OAT、refined local OAT 和 endpoint-capacity ultrafine 标量；过滤 pending 行后，共 40 个真实候选，其中 21 个 admissible、19 个 rejected。所有不通过点仍只以红叉显示，没有被连线、拟合或用于求根。
 
 ### Fig. 7 Local sensitivity audit
 
@@ -314,7 +328,7 @@ paired_strict_pass=0
 - (a) UA、(b) 端点热容、(c) SE buffer、(d) SMA fluid inventory、(e) SE regeneration flow、(f) latent heat，各面板只放该因素的对称低/高点。
 - 蓝色左轴是 Eq. 9，橙色右轴是 SCP；实心标记为 periodic admissible，叉号为 rejected。
 - (c) buffer 使用首轮 `±1%` 合法 pair；其余面板使用 refined campaign 的更小对称扰动。每个因素的低/高点始终来自同一 campaign。
-- (a)、(c)、(d)、(e)、(f) 有连线，因为五对均满足严格成对门禁；只有 (b) endpoint capacity 明确写 `strict pair: unavailable`。
+- (a)、(c)、(d)、(e)、(f) 有连线，因为五对均满足严格成对门禁；(b) endpoint capacity 改用 ultrafine `±0.125%` 结果，低侧 rejected，故明确写 `strict pair: unavailable`。
 - 该图用于审计“哪些导数可以计算”，不用于把 rejected 点包装成趋势，也不替代 Qian Table 4 端点图。
 
 绘图符号合同：实心圆为 admissible，红叉为 rejected，黄色菱形/方形为 Qian benchmark。红叉只用于显示可行域边界，不参与拟合、求根或效应计算。第二轮视觉审核修正了黑色面板标号、标题/坐标/色标文字、固定 SCP 色标和 (f) 注释留白。
@@ -370,7 +384,7 @@ paired_strict_pass=0
 
 ## 14. 完整结果包
 
-2026-08-30 `Audit_FinalHeatDriveECC_Package.ps1` 审核结果为 193/193 required files present，`missing_file_count=0`。清单和逐文件 SHA-256 分别位于 `outputs_storage_audit/final_results_manifest_20260824.csv` 与 `outputs_storage_audit/final_results_sha256_20260824.csv`；文件名保留首建日期以维持外部引用，内容 schema 已升级为 v4 并包含 refined OAT 全部必要门禁证据。
+2026-08-31 `Audit_FinalHeatDriveECC_Package.ps1` 审核将 C200、两轮 local OAT 与 endpoint-capacity ultrafine 的必要标量和门禁证据纳入清单；清单和逐文件 SHA-256 分别位于 `outputs_storage_audit/final_results_manifest_20260824.csv` 与 `outputs_storage_audit/final_results_sha256_20260824.csv`。文件名保留首建日期以维持外部引用，内容 schema 已升级并明确记录 ultrafine `2 completed / 1 admissible / 1 rejected / 0 strict pair`。C200 两个冻结 MAT 的 SHA-256 必须仍与第 2 节合同一致。
 
 ```text
 正逆耦合/
@@ -477,7 +491,7 @@ pwsh -File .\verification\WaitAndCheck_HeatDriveECC.ps1 -WaitMinutes 30
 ## 16. 尚未完成与后续主线
 
 1. 增加 SHEX source heat-flow sensor 和周期积分，建立真正 heat-driven system COP；在此之前继续 withholding system COP。
-2. 两轮 local OAT 已形成 5/6 个合法 pair；仅 endpoint capacity 低侧仍未在 C240 达到 periodic。下一步可继续延长该候选或进一步缩小对称扰动，但仍须独立从 C200/本候选最后已验证 OP 恢复，不能沿 rejected OP 续算。
+2. 两轮 local OAT 加 endpoint-capacity ultrafine 已形成 5/6 个合法 pair；endpoint capacity 已完成一次 `±0.125%` follow-up，但仍为 0 strict pair，低侧物性域错误。不得再把该低侧 transient/失败状态作为导数；是否继续该方向须先解决管路温度有效域和控制可行域问题，并仍须从 C200 或候选最后已验证 OP 恢复。
 3. 针对 SE Stage 2/4 末循环 no-reversal、instantaneous-flow 和 RMS-flow 门禁重新设计控制器，先扩展稳定可行域，再继续端点求根。
 4. 在控制器通过独立流量测试后重新求 zero-load 和 zero-lift；任何失败点仍不得插值或传播。
 5. 两个 accepted roots 共同通过 authority、参数合同、窗口和机制门禁后，再运行 paired strict audit。
@@ -486,7 +500,7 @@ pwsh -File .\verification\WaitAndCheck_HeatDriveECC.ps1 -WaitMinutes 30
 
 ## 17. 最终负责人审核结论
 
-已完成：完整 SMA-SE 主线冻结、控制体合同、outer-solve 实现与两侧候选、两轮 L8、首轮与 refined local OAT、5/6 严格局部 pair、paired audit、Fig. 1-7 SCI 图集、结果哈希和存储治理。
+已完成：完整 SMA-SE 主线冻结、控制体合同、outer-solve 实现与两侧候选、两轮 L8、首轮与 refined local OAT、endpoint-capacity ultrafine follow-up、5/6 严格局部 pair、paired audit、Fig. 1-7 SCI 图集、结果哈希和存储治理。
 
 未完成：两个合法 Table 4 端点、endpoint capacity 的严格局部 pair、SHEX 热源输入和 system COP、独立物理 validation。
 

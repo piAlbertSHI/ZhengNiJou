@@ -142,7 +142,11 @@ foreach ($relative in @(
         'outputs\qian_table4_local_oat_refined_sensitivity_20260826\sensitivity_design.csv',
         'outputs\qian_table4_local_oat_refined_sensitivity_20260826\sensitivity_results.csv',
         'outputs\qian_table4_local_oat_refined_sensitivity_20260826\sensitivity_effects.csv',
-        'outputs\qian_table4_local_oat_refined_sensitivity_20260826\sensitivity_summary.json')) {
+        'outputs\qian_table4_local_oat_refined_sensitivity_20260826\sensitivity_summary.json',
+        'outputs\qian_table4_endpoint_capacity_ultrafine_20260830\sensitivity_design.csv',
+        'outputs\qian_table4_endpoint_capacity_ultrafine_20260830\sensitivity_results.csv',
+        'outputs\qian_table4_endpoint_capacity_ultrafine_20260830\sensitivity_effects.csv',
+        'outputs\qian_table4_endpoint_capacity_ultrafine_20260830\sensitivity_summary.json')) {
     Add-Entry "Mechanism-gated scalar result $relative" (Join-Path $repoRoot $relative)
 }
 $refinedRoot = Join-Path $repoRoot `
@@ -162,6 +166,12 @@ $refinedEvidenceNames = @(
 foreach ($file in (Get-ChildItem -LiteralPath $refinedRoot -File -Recurse |
         Where-Object { $refinedEvidenceNames -contains $_.Name })) {
     Add-Entry 'Refined local OAT gate evidence' $file.FullName
+}
+$ultrafineRoot = Join-Path $repoRoot `
+    'outputs\qian_table4_endpoint_capacity_ultrafine_20260830'
+foreach ($file in (Get-ChildItem -LiteralPath $ultrafineRoot -File -Recurse |
+        Where-Object { $refinedEvidenceNames -contains $_.Name })) {
+    Add-Entry 'Ultrafine endpoint-capacity gate evidence' $file.FullName
 }
 $cleanupSummary = Get-ChildItem -LiteralPath $AuditRoot -File -Filter 'cleanup_summary_*.txt' |
     Where-Object { @(Get-Content -LiteralPath $_.FullName |
@@ -203,6 +213,9 @@ $refinedSummaryPath = Join-Path $repoRoot `
     'outputs\qian_table4_local_oat_refined_sensitivity_20260826\sensitivity_summary.json'
 $initialSummary = Get-Content -LiteralPath $initialSummaryPath -Raw | ConvertFrom-Json
 $refinedSummary = Get-Content -LiteralPath $refinedSummaryPath -Raw | ConvertFrom-Json
+$ultrafineSummaryPath = Join-Path $repoRoot `
+    'outputs\qian_table4_endpoint_capacity_ultrafine_20260830\sensitivity_summary.json'
+$ultrafineSummary = Get-Content -LiteralPath $ultrafineSummaryPath -Raw | ConvertFrom-Json
 if ($initialSummary.completed_count -ne 12 -or $initialSummary.pending_count -ne 0 -or
         $initialSummary.strict_local_pair_count -ne 2) {
     throw ('Unexpected local OAT completion contract: completed={0}, pending={1}, strict_pairs={2}' -f
@@ -214,6 +227,16 @@ if ($refinedSummary.completed_count -ne 10 -or $refinedSummary.pending_count -ne
     throw ('Unexpected refined OAT contract: completed={0}, pending={1}, strict_pairs={2}' -f
         $refinedSummary.completed_count, $refinedSummary.pending_count,
         $refinedSummary.strict_local_pair_count)
+}
+if ($ultrafineSummary.completed_count -ne 2 -or
+        $ultrafineSummary.admissible_count -ne 1 -or
+        $ultrafineSummary.rejected_count -ne 1 -or
+        $ultrafineSummary.pending_count -ne 10 -or
+        $ultrafineSummary.strict_local_pair_count -ne 0) {
+    throw ('Unexpected ultrafine endpoint contract: completed={0}, admissible={1}, rejected={2}, pending={3}, strict_pairs={4}' -f
+        $ultrafineSummary.completed_count, $ultrafineSummary.admissible_count,
+        $ultrafineSummary.rejected_count, $ultrafineSummary.pending_count,
+        $ultrafineSummary.strict_local_pair_count)
 }
 
 $hashes = foreach ($item in ($manifest | Where-Object exists)) {
@@ -247,6 +270,11 @@ $summary = [ordered]@{
     refined_local_OAT_admissible_count = $refinedSummary.admissible_count
     refined_local_OAT_pending_count = $refinedSummary.pending_count
     refined_local_OAT_strict_pair_count = $refinedSummary.strict_local_pair_count
+    ultrafine_endpoint_completed_count = $ultrafineSummary.completed_count
+    ultrafine_endpoint_admissible_count = $ultrafineSummary.admissible_count
+    ultrafine_endpoint_rejected_count = $ultrafineSummary.rejected_count
+    ultrafine_endpoint_pending_count = $ultrafineSummary.pending_count
+    ultrafine_endpoint_strict_pair_count = $ultrafineSummary.strict_local_pair_count
     consolidated_local_OAT_point_count = 12
     consolidated_local_OAT_admissible_count = 11
     consolidated_local_OAT_strict_pair_count = 5
