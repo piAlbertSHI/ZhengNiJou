@@ -1,0 +1,38 @@
+{
+  "schema": "heatdrive_ecc_source_heatflow_recovery_v1",
+  "frozen_at": "2026-08-31T23:15:00+08:00",
+  "source_code_commit": "6c78e94",
+  "offline_audit_code_commit": "7634eb4",
+  "completed_cycles": 220,
+  "mechanism_pass": true,
+  "periodic_steady_state": false,
+  "strict_table4_reproduction": false,
+  "state_reset": false,
+  "result_relative_path": "outputs/qian_coupled_source_heatflow_steady_from_c200_20260831_retry3/qian2019_table2_table4_simscape_220cycle_20260831_210256/physical_simscape_result.mat",
+  "result_sha256": "454755BF3176A663DBE6D55ADEFD53B5EDE5FCCFFB1A89BA4AF994F71EC95B34",
+  "checkpoint_relative_path": "outputs/qian_coupled_source_heatflow_steady_from_c200_20260831_retry3/qian2019_table2_table4_simscape_220cycle_20260831_210256/final_operating_point.mat",
+  "checkpoint_sha256": "9A19278B6636E6B35DD0595BDE30CCCF46A7D22BA22FE38FA1D2854698601D2E",
+  "validation_report_relative_path": "outputs/qian_coupled_source_heatflow_steady_from_c200_20260831_retry3/qian2019_table2_table4_simscape_220cycle_20260831_210256/physical_validation_report.txt",
+  "source_heat_input_W": 826.287314712,
+  "cooling_power_eq10_W": 13.2342330251,
+  "heat_driven_system_COP": 0.0160165027219,
+  "source_heat_flow_direction_pass": true,
+  "endpoint_drift_K": 0.0136311817728,
+  "same_phase_temperature_drift_K": 0.233007276106,
+  "same_phase_phase_drift": 0.0106045680079,
+  "eq9_lift_K": 28.710197519,
+  "eq10_SCP_W_per_g": 0.316480971386,
+  "recovery_policy": {
+    "sole_source_heatflow_recovery": true,
+    "preserve_final_operating_point": true,
+    "preserved_state_classes": [
+      "thermal_capacity",
+      "buffer",
+      "constitutive",
+      "temperature",
+      "phase_fraction",
+      "independent_route_PI_memory"
+    ],
+    "failed_results_may_resume": false
+  }
+}

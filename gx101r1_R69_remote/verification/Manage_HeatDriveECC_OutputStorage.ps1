@@ -43,12 +43,28 @@ $preserveRawPaths = @(
     $authorityCheckpoint,
     (Join-Path $authorityRun 'stage_temperature_probes_50samples.csv')
 )
+$activeRecoveryContractPath = Join-Path $repoRoot `
+    'verification\source_heatflow_c220_recovery_contract.json'
+if (Test-Path -LiteralPath $activeRecoveryContractPath -PathType Leaf) {
+    $activeRecoveryContract = Get-Content -LiteralPath `
+        $activeRecoveryContractPath -Raw | ConvertFrom-Json
+    if (-not $activeRecoveryContract.mechanism_pass) {
+        throw 'Active source heat-flow recovery contract is not mechanism-valid.'
+    }
+    $preserveRawPaths += [System.IO.Path]::GetRelativePath(
+        $outputRootResolved,
+        (Join-Path $repoRoot $activeRecoveryContract.result_relative_path))
+    $preserveRawPaths += [System.IO.Path]::GetRelativePath(
+        $outputRootResolved,
+        (Join-Path $repoRoot $activeRecoveryContract.checkpoint_relative_path))
+}
 $largeProbeNames = @(
     'stage_temperature_probes_50samples.csv'
 )
 $rawNames = @(
     'physical_simscape_result.mat',
-    'final_operating_point.mat'
+    'final_operating_point.mat',
+    'source_heat_flow_reaudit.mat'
 )
 
 function Get-RelativePath([string]$Path) {
