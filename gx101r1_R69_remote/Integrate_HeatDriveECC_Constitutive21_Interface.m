@@ -1532,9 +1532,6 @@ function configure_shex_boundary(model_name)
     if exist_block(shex_source) && exist_block(shex_mass)
         add_shex_source_heat_flow_observability(shex_source);
     end
-    if exist_block(shex_fluid_link) && exist_block(shex_mass)
-        add_shex_mass_to_fluid_heat_flow_observability(shex_fluid_link);
-    end
 end
 
 function add_shex_source_heat_flow_observability(source_path)
@@ -1568,76 +1565,14 @@ function add_shex_source_heat_flow_observability(source_path)
         'MakeNameUnique', 'off', 'VariableName', ...
         'shex_source_heat_flow_W', 'SaveFormat', 'Structure With Time', ...
         'Position', [820 220 1035 260]);
-    safe_add_line_handle(parent, source_port, ...
+    add_required_line_handle(parent, source_port, ...
         get_port(sensor_path, 'LConn', 1));
-    safe_add_line_handle(parent, get_port(sensor_path, 'RConn', 2), ...
+    add_required_line_handle(parent, get_port(sensor_path, 'RConn', 2), ...
         downstream_port);
-    safe_add_line_handle(parent, get_port(sensor_path, 'RConn', 1), ...
+    add_required_line_handle(parent, get_port(sensor_path, 'RConn', 1), ...
         get_port(ps_path, 'LConn', 1));
-    safe_add_line_handle(parent, get_port(ps_path, 'Outport', 1), ...
+    add_required_line_handle(parent, get_port(ps_path, 'Outport', 1), ...
         get_port(workspace_path, 'Inport', 1));
-end
-
-function add_shex_mass_to_fluid_heat_flow_observability(fluid_link_path)
-% Measure the SHEX mass-to-fluid thermal transfer for a source-side balance.
-    parent = get_param(fluid_link_path, 'Parent');
-    sensor_path = [parent '/SHEXMassToFluidHeatFlowSensor'];
-    ps_path = [parent '/SHEXMassToFluidHeatFlowPS'];
-    workspace_path = [parent '/ToWorkspace_shex_mass_to_fluid_heat_flow_W'];
-    fluid_port = get_port(fluid_link_path, 'LConn', 1);
-    destination_ports = conserving_destination_ports(fluid_port, ...
-        fluid_link_path);
-    delete_block_if_present_with_lines(workspace_path);
-    delete_block_if_present_with_lines(ps_path);
-    delete_block_if_present_with_lines(sensor_path);
-    if isempty(destination_ports)
-        error('HeatDriveECC:MissingSHEXFluidThermalConnection', ...
-            'SHEX fluid link thermal port is not connected to the mass node.');
-    end
-    delete_line_at_port(fluid_port);
-
-    add_block(sprintf('fl_lib/Thermal/Thermal Sensors/Heat Flow Rate\nSensor'), ...
-        sensor_path, 'MakeNameUnique', 'off', ...
-        'Position', [680 290 730 330]);
-    add_block('nesl_utility/PS-Simulink Converter', ps_path, ...
-        'MakeNameUnique', 'off', 'VectorFormat', '1-D array', ...
-        'Unit', 'W', 'Position', [760 299 790 321]);
-    add_block('simulink/Sinks/To Workspace', workspace_path, ...
-        'MakeNameUnique', 'off', 'VariableName', ...
-        'shex_mass_to_fluid_heat_flow_W', 'SaveFormat', ...
-        'Structure With Time', 'Position', [820 285 1035 325]);
-    for idx = 1:numel(destination_ports)
-        safe_add_line_handle(parent, get_port(sensor_path, 'LConn', 1), ...
-            destination_ports(idx));
-    end
-    safe_add_line_handle(parent, get_port(sensor_path, 'RConn', 2), fluid_port);
-    safe_add_line_handle(parent, get_port(sensor_path, 'RConn', 1), ...
-        get_port(ps_path, 'LConn', 1));
-    safe_add_line_handle(parent, get_port(ps_path, 'Outport', 1), ...
-        get_port(workspace_path, 'Inport', 1));
-end
-
-function destination_ports = conserving_destination_ports(port_handle, ...
-        source_block_path)
-    destination_ports = [];
-    try
-        line_handle = get_param(port_handle, 'Line');
-        if ~(isnumeric(line_handle) && line_handle ~= -1)
-            return;
-        end
-        connectivity = get_param(source_block_path, 'PortConnectivity');
-        for idx = 1:numel(connectivity)
-            if ~strcmp(connectivity(idx).Type, 'LConn1')
-                continue;
-            end
-            candidate = connectivity(idx).DstPort(:).';
-            candidate = candidate(isnumeric(candidate) & candidate ~= -1);
-            destination_ports = unique(candidate, 'stable');
-            return;
-        end
-    catch
-        destination_ports = [];
-    end
 end
 
 function configure_valve_command_blocks(model_name)
@@ -2820,10 +2755,41 @@ function downstream_port = find_existing_heat_flow_downstream(sensor_path, gate_
         end
     end
 
+    % Simscape conserving lines are not directional Simulink signals;
+    % DstPortHandle can therefore point back to the gate port. Use the
+    % block's port-connectivity record to recover the opposite endpoint.
+    try
+        parent_handle = get_param(gate_port, 'Parent');
+        connectivity = get_param(parent_handle, 'PortConnectivity');
+        for idx = 1:numel(connectivity)
+            ports = [connectivity(idx).SrcPort(:); ...
+                connectivity(idx).DstPort(:)];
+            if ~any(ports == gate_port)
+                continue;
+            end
+            candidates = ports(ports ~= gate_port & ports ~= -1);
+            for candidate = candidates(:).'
+                candidate_parent = getfullname(get_param(candidate, 'Parent'));
+                if ~strcmp(candidate_parent, sensor_path)
+                    downstream_port = candidate;
+                    return;
+                end
+            end
+        end
+    catch
+        downstream_port = -1;
+    end
+
     try
         original_line = get_param(gate_port, 'Line');
         if isnumeric(original_line) && original_line ~= -1
-            downstream_port = get_param(original_line, 'DstPortHandle');
+            candidates = [get_param(original_line, 'SrcPortHandle'); ...
+                get_param(original_line, 'DstPortHandle')];
+            candidates = candidates(candidates ~= gate_port & ...
+                candidates ~= -1);
+            if ~isempty(candidates)
+                downstream_port = candidates(1);
+            end
         end
     catch
         downstream_port = -1;
@@ -3098,6 +3064,12 @@ function safe_add_line_handle(system_path, source_handle, destination_handle)
         % Reruns can encounter existing Simscape conserving-connection
         % branches. Compilation checks below catch real missing topology.
     end
+end
+
+function add_required_line_handle(system_path, source_handle, ...
+        destination_handle)
+    add_line(system_path, source_handle, destination_handle, ...
+        'autorouting', 'on');
 end
 
 function delete_line_at_port(port_handle)
