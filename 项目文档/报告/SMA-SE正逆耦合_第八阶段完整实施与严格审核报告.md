@@ -74,11 +74,11 @@ C200 是验证通过的固定边界性能点，不是 zero-load maximum，也不
 
 ### 4.2 控制体与性能合同
 
-- `verification/Build_HeatDriveECC_ControlVolumeContract.m`：生成 9 个控制体的 CSV/JSON/Markdown 合同。
-- 明确 CHEX sensor、SHEX/HHEX/CHEX 流体、SMA、SE、buffer、连接管和泵功边界。
+- `verification/Build_HeatDriveECC_ControlVolumeContract.m`：生成 10 个控制体的 CSV/JSON/Markdown 合同。
+- 明确 SHEX 源热流传感器、CHEX sensor、SHEX/HHEX/CHEX 流体、SMA、SE、buffer、连接管和泵功边界。
 - Eq. 9/Eq. 10 使用最后 10 个完整循环窗口。
 - SCP 分母为 active SE solid mass：`41.8168364663 g`。
-- `Qcool/Ppump` 只称 hydraulic/active-unit diagnostic；因缺少 SHEX source heat-flow，system COP withheld。
+- 新的 `SHEXSourceToSinkHeatFlowSensor` 通过 `shex_source_heat_flow_W` 记录源侧输入；C200 冻结结果没有该信号，因此当前 system COP 仍 withheld，待新周期结果验证后才可启用。
 
 ### 4.3 机制门禁保护的端点求解
 
@@ -357,7 +357,7 @@ paired_strict_pass=0
 
 - SCP：`Eq.10 cooling power / 41.8168364663 g active SE mass`。
 - hydraulic diagnostic：`Eq.10 cooling power / modeled mean pump power`，仅说明 active-unit 水力代价。
-- heat-driven system COP：分母应是 SHEX heat-source input，并声明泵、阀、控制、储热和附件是否包含；当前 SHEX source heat-flow 未测量，所以不报告数值。
+- heat-driven system COP：代码现在把 SHEX 源到 SHEX 质量块的正向热流在同一最后 10 周期窗口积分，作为显式分母，并声明泵、阀、控制、储热和附件是否包含；C200 冻结结果尚未记录该新增信号，所以当前不报告数值。
 - 文献 COP：Qian 2015/2019 和 Yuan 2023 的分母边界不同，不能与 `Qcool/Ppump` 画成同一 COP。
 
 论文允许使用 `simulated`、`predicted`、`benchmark-consistent`、`not yet reproduced`；禁止在当前证据下使用 `validated` 或 `reproduced`。
@@ -366,7 +366,7 @@ paired_strict_pass=0
 
 2026-08-24 首轮清理前：`gx101r1_R69_remote/outputs = 5.973 GiB`；删除 2,177 个旧 raw/probe/legacy-figure 文件，`1.224 GiB`。
 2026-08-26 首轮 OAT 收尾前：`5.000 GiB`；删除 374 个已提取标量后的 raw/probe/legacy-figure 文件，`0.232 GiB`，降至 `4.768 GiB`。
-2026-08-30 refined OAT 的每个已完成候选在标量和门禁提取后立即压缩，R04/R07/R08/R09/R10/R11/R12 的候选 compactor 合计释放约 `63.0 GB` 十进制 raw；最终存储管理器又删除 272 个非 C200 MAT、dense probe 或 legacy figure 文件，共 `0.156414 GiB`。`outputs` 最终为 `4.782257 GiB`，整个 `正逆耦合` 工作区约 `5.44 GiB`，refined OAT 保留证据包为 `14.364 MiB`。最新应用审计是 `outputs_storage_audit/cleanup_summary_20260830_210922.txt`。
+2026-08-30 refined OAT 的每个已完成候选在标量和门禁提取后立即压缩，R04/R07/R08/R09/R10/R11/R12 的候选 compactor 合计释放约 `63.0 GB` 十进制 raw；最终存储管理器随后删除 272 个非 C200 MAT、dense probe 或 legacy figure 文件，共 `0.156414 GiB`。2026-08-31 endpoint-capacity ultrafine 完成后又删除 68 个可重建逐循环图片，共 `0.042315 GiB`；`outputs` 当前约 `4.786 GiB`，整个 `正逆耦合` 工作区约 `5.44 GiB`。本轮 dry-run `cleanup_summary_20260831_155758.txt` 显示候选 `0`、未删除；4.64 GiB 的 C200 `physical_simscape_result.mat` 仍按冻结合同保留，不能作为普通旧数据清理。最新应用审计为 `outputs_storage_audit/cleanup_summary_20260831_131709.txt`。
 
 保留内容：
 
@@ -390,12 +390,16 @@ paired_strict_pass=0
 正逆耦合/
 ├─ gx101r1_R69_remote/
 │  ├─ heatdrive_ecc_coupled_se21.slx
+│  ├─ Integrate_HeatDriveECC_Constitutive21_Interface.m
+│  ├─ Run_HeatDriveECC_EighthRound_Simulink_Cycles.m
+│  ├─ Summarize_HeatDriveECC_EighthRound_Output.m
 │  ├─ Plot_HeatDriveECC_SCI_FigureSet.m
 │  ├─ Plot_HeatDriveECC_CoupledTradeoff.m
 │  ├─ Plot_HeatDriveECC_LocalSensitivityAudit.m
 │  ├─ verification/
 │  │  ├─ c200_mainline_freeze_contract.json
 │  │  ├─ Build_HeatDriveECC_ControlVolumeContract.m
+│  │  ├─ Audit_HeatDriveECC_SourceHeatFlow.m
 │  │  ├─ Run_HeatDriveECC_Table4_OuterSolve.m
 │  │  ├─ Run_HeatDriveECC_Table4_Sensitivity.m
 │  │  ├─ Audit_HeatDriveECC_PairedTable4Endpoints.m
@@ -470,7 +474,15 @@ cd C:\Users\86182\Desktop\正逆耦合
 pwsh -File .\gx101r1_R69_remote\verification\Audit_FinalHeatDriveECC_Package.ps1
 ```
 
-### 15.7 存储 dry-run 和应用
+### 15.7 SHEX 源热流拓扑审计与控制体合同
+
+```powershell
+matlab -batch "cd('C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote'); addpath(pwd); addpath(fullfile(pwd,'verification')); a=Audit_HeatDriveECC_SourceHeatFlow(); assert(a.source_heat_flow_contract==1); Build_HeatDriveECC_ControlVolumeContract(fullfile(pwd,'outputs_storage_audit','control_volume_contract'));"
+```
+
+该命令只在内存中构建模型并审计 `AmbientTempSource -> SHEXSourceToSinkHeatFlowSensor -> HotSinkMass`，不启动仿真、不保存模型；预期输出为 `SHEX_SOURCE_HEAT_FLOW_AUDIT_PASS=1`。生产周期仍必须使用新信号验证方向、正向积分、能量闭合和 COP 分母后，才可解除 system COP withholding。
+
+### 15.8 存储 dry-run 和应用
 
 ```powershell
 cd C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote
@@ -480,7 +492,7 @@ pwsh -File .\verification\Manage_HeatDriveECC_OutputStorage.ps1 -Apply
 
 第一条只产生候选清单；第二条才删除，并在有 MATLAB 引用 outputs 时拒绝运行。
 
-### 15.8 长任务纪律
+### 15.9 长任务纪律
 
 ```powershell
 pwsh -File .\verification\WaitAndCheck_HeatDriveECC.ps1 -WaitMinutes 30
@@ -490,7 +502,7 @@ pwsh -File .\verification\WaitAndCheck_HeatDriveECC.ps1 -WaitMinutes 30
 
 ## 16. 尚未完成与后续主线
 
-1. 增加 SHEX source heat-flow sensor 和周期积分，建立真正 heat-driven system COP；在此之前继续 withholding system COP。
+1. 用新增 SHEX source heat-flow sensor 做一次从 C200 合同恢复的周期运行，验证源热流方向、正向积分和能量闭合；通过后才建立真正 heat-driven system COP，在此之前继续 withholding system COP。
 2. 两轮 local OAT 加 endpoint-capacity ultrafine 已形成 5/6 个合法 pair；endpoint capacity 已完成一次 `±0.125%` follow-up，但仍为 0 strict pair，低侧物性域错误。不得再把该低侧 transient/失败状态作为导数；是否继续该方向须先解决管路温度有效域和控制可行域问题，并仍须从 C200 或候选最后已验证 OP 恢复。
 3. 针对 SE Stage 2/4 末循环 no-reversal、instantaneous-flow 和 RMS-flow 门禁重新设计控制器，先扩展稳定可行域，再继续端点求根。
 4. 在控制器通过独立流量测试后重新求 zero-load 和 zero-lift；任何失败点仍不得插值或传播。
@@ -502,7 +514,7 @@ pwsh -File .\verification\WaitAndCheck_HeatDriveECC.ps1 -WaitMinutes 30
 
 已完成：完整 SMA-SE 主线冻结、控制体合同、outer-solve 实现与两侧候选、两轮 L8、首轮与 refined local OAT、endpoint-capacity ultrafine follow-up、5/6 严格局部 pair、paired audit、Fig. 1-7 SCI 图集、结果哈希和存储治理。
 
-未完成：两个合法 Table 4 端点、endpoint capacity 的严格局部 pair、SHEX 热源输入和 system COP、独立物理 validation。
+未完成：两个合法 Table 4 端点、endpoint capacity 的严格局部 pair、SHEX 新增源热流信号的生产运行审核和 system COP、独立物理 validation。
 
 可签字结论：
 

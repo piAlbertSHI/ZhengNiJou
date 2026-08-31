@@ -1529,6 +1529,50 @@ function configure_shex_boundary(model_name)
     if exist_block(shex_hot_pipe)
         set_param(shex_hot_pipe, 'T0', 'shex_hot_side_fluid_T_init');
     end
+    if exist_block(shex_source) && exist_block(shex_mass)
+        add_shex_source_heat_flow_observability(shex_source);
+    end
+end
+
+function add_shex_source_heat_flow_observability(source_path)
+% Measure the external thermal-source input before it enters the SHEX mass.
+% The signal is intentionally separate from Qian Eq.10 and is only eligible
+% for system-COP accounting after a complete periodic run supplies it.
+    parent = get_param(source_path, 'Parent');
+    sensor_path = [parent '/SHEXSourceToSinkHeatFlowSensor'];
+    ps_path = [parent '/SHEXSourceToSinkHeatFlowPS'];
+    workspace_path = [parent '/ToWorkspace_shex_source_heat_flow_W'];
+    source_port = get_port(source_path, 'LConn', 1);
+    downstream_port = find_existing_heat_flow_downstream(sensor_path, ...
+        source_port);
+    if downstream_port == -1
+        error('HeatDriveECC:MissingSHEXSourceThermalConnection', ...
+            'SHEX source is not directly connected to the SHEX mass.');
+    end
+    delete_line_at_port(source_port);
+    delete_line_at_port(downstream_port);
+    delete_block_if_present_with_lines(workspace_path);
+    delete_block_if_present_with_lines(ps_path);
+    delete_block_if_present_with_lines(sensor_path);
+
+    add_block(sprintf('fl_lib/Thermal/Thermal Sensors/Heat Flow Rate\nSensor'), ...
+        sensor_path, 'MakeNameUnique', 'off', ...
+        'Position', [680 225 730 265]);
+    add_block('nesl_utility/PS-Simulink Converter', ps_path, ...
+        'MakeNameUnique', 'off', 'VectorFormat', '1-D array', ...
+        'Unit', 'W', 'Position', [760 234 790 256]);
+    add_block('simulink/Sinks/To Workspace', workspace_path, ...
+        'MakeNameUnique', 'off', 'VariableName', ...
+        'shex_source_heat_flow_W', 'SaveFormat', 'Structure With Time', ...
+        'Position', [820 220 1035 260]);
+    safe_add_line_handle(parent, source_port, ...
+        get_port(sensor_path, 'LConn', 1));
+    safe_add_line_handle(parent, get_port(sensor_path, 'RConn', 2), ...
+        downstream_port);
+    safe_add_line_handle(parent, get_port(sensor_path, 'RConn', 1), ...
+        get_port(ps_path, 'LConn', 1));
+    safe_add_line_handle(parent, get_port(ps_path, 'Outport', 1), ...
+        get_port(workspace_path, 'Inport', 1));
 end
 
 function configure_valve_command_blocks(model_name)
