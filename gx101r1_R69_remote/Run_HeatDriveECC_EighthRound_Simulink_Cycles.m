@@ -300,29 +300,55 @@ function [physical, prior_provenance] = combine_checkpoint_history( ...
             'The resumed simulation produced no samples after the checkpoint.');
     end
     physical = append_physical_struct(prior, segment, keep, boundary_idx, ...
-        numel(prior.time_s), numel(segment.time_s));
+        numel(prior.time_s), numel(segment.time_s), options);
     [physical.cycle_index, physical.stage_id, physical.stage_elapsed_s] = ...
         cycle_stage_from_time(physical.time_s, options);
 end
 
 function out = append_physical_struct( ...
-        prior, segment, keep, boundary_idx, n_prior, n_segment)
-    prior_names = fieldnames(prior);
-    segment_names = fieldnames(segment);
+        prior, segment, keep, boundary_idx, n_prior, n_segment, options)
     ignored = {'walltime_s','segment_walltime_s','sim_call_count', ...
         'authority','legacy_surrogate_used_for_results', ...
         'constitutive_output_252'};
-    names = setdiff(intersect(prior_names, segment_names, 'stable'), ignored);
-    missing = setxor(setdiff(prior_names, ignored), setdiff(segment_names, ignored));
-    if ~isempty(missing)
+    prior_names = setdiff(fieldnames(prior), ignored, 'stable');
+    segment_names = setdiff(fieldnames(segment), ignored, 'stable');
+    appendable = cellstr(string(get_struct_option(options.simulation, ...
+        'checkpoint_append_signal_fields', {})));
+    missing_prior = setdiff(segment_names, prior_names, 'stable');
+    missing_segment = setdiff(prior_names, segment_names, 'stable');
+    unexpected = setdiff([missing_prior; missing_segment], appendable, 'stable');
+    if ~isempty(unexpected)
         error('Run:EighthRound:CheckpointSignalContractMismatch', ...
-            'Physical signal sets differ across checkpoint: %s.', strjoin(missing, ', '));
+            'Physical signal sets differ across checkpoint: %s.', ...
+            strjoin(unexpected, ', '));
     end
+    names = [prior_names; setdiff(segment_names, prior_names, 'stable')];
     out = struct();
     for idx = 1:numel(names)
         name = names{idx};
-        a = prior.(name);
-        b = segment.(name);
+        prior_has = isfield(prior, name);
+        segment_has = isfield(segment, name);
+        if ~prior_has
+            a = missing_signal_padding(segment.(name), n_prior, name, ...
+                'prior');
+        else
+            a = prior.(name);
+        end
+        if ~segment_has
+            b = missing_signal_padding(prior.(name), n_segment, name, ...
+                'segment');
+        else
+            b = segment.(name);
+        end
+        if ~prior_has || ~segment_has
+            if ~isnumeric(a) || ~isnumeric(b) || isscalar(a) || ...
+                    isscalar(b) || size(a, 1) ~= n_prior || ...
+                    size(b, 1) ~= n_segment
+                error('Run:EighthRound:CheckpointAppendSignalShapeMismatch', ...
+                    'Appendable checkpoint signal has incompatible shape: %s.', ...
+                    name);
+            end
+        end
         if strcmp(name, 'probes')
             out.(name) = append_probe_struct( ...
                 a, b, keep, boundary_idx, n_prior, n_segment);
@@ -346,6 +372,18 @@ function out = append_physical_struct( ...
             out.(name) = a;
         end
     end
+end
+
+function value = missing_signal_padding(reference, row_count, name, side)
+    if ~isnumeric(reference) || isscalar(reference) || isempty(reference) || ...
+            size(reference, 1) < 1
+        error('Run:EighthRound:CheckpointAppendSignalInvalid', ...
+            'Appendable %s signal must be a non-scalar numeric array: %s.', ...
+            side, name);
+    end
+    shape = size(reference);
+    shape(1) = row_count;
+    value = NaN(shape);
 end
 
 function out = append_probe_struct( ...
