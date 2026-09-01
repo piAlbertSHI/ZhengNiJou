@@ -33,6 +33,9 @@ $mainRoot = Join-Path $repoRoot 'outputs\qian_table4_fixed_Tc_276p950K_kp136_255
 $mainRun = Join-Path $mainRoot 'qian2019_table2_table4_simscape_200cycle_20260821_121246'
 $rejectedRoot = Join-Path $repoRoot 'outputs\qian_table4_fixed_Tc_270p000K_kp136_255_rootpoint_20260821'
 $rejectedRun = Join-Path $rejectedRoot 'qian2019_table2_table4_simscape_20cycle_20260821_142345'
+$sourceC240ContractPath = Join-Path $repoRoot 'verification\source_heatflow_c240_recovery_contract.json'
+$sourceC240Contract = Get-Content -LiteralPath $sourceC240ContractPath -Raw | ConvertFrom-Json
+$sourceC240Run = Join-Path $repoRoot 'outputs\qian_coupled_source_heatflow_steady_from_c220_20260831\qian2019_table2_table4_simscape_240cycle_20260901_001301'
 
 New-Item -ItemType Directory -Force -Path $AuditRoot | Out-Null
 $manifestPath = Join-Path $AuditRoot 'final_results_manifest_20260824.csv'
@@ -77,6 +80,25 @@ Add-Entry 'C200 fixed-reservoir manifest' (Join-Path $mainRoot 'fixed_reservoir_
 Add-Entry 'C200 stdout' (Join-Path $mainRoot 'matlab_stdout.log')
 Add-Entry 'C200 stderr' (Join-Path $mainRoot 'matlab_stderr.log')
 Add-Entry 'C200 freeze contract' (Join-Path $repoRoot 'verification\c200_mainline_freeze_contract.json')
+Add-Entry 'C240 source heat-flow physical result' (Join-Path $repoRoot 'outputs\qian_coupled_source_heatflow_steady_from_c220_20260831\qian2019_table2_table4_simscape_240cycle_20260901_001301\physical_simscape_result.mat')
+Add-Entry 'C240 source heat-flow Operating Point' (Join-Path $repoRoot 'outputs\qian_coupled_source_heatflow_steady_from_c220_20260831\qian2019_table2_table4_simscape_240cycle_20260901_001301\final_operating_point.mat')
+Add-Entry 'C240 source heat-flow validation report' (Join-Path $repoRoot 'outputs\qian_coupled_source_heatflow_steady_from_c220_20260831\qian2019_table2_table4_simscape_240cycle_20260901_001301\physical_validation_report.txt')
+Add-Entry 'C240 source heat-flow result audit' (Join-Path $repoRoot 'outputs\qian_coupled_source_heatflow_steady_from_c220_20260831\qian2019_table2_table4_simscape_240cycle_20260901_001301\source_heat_flow_result_audit.mat')
+Add-Entry 'C240 source heat-flow cycle summary' (Join-Path $sourceC240Run 'cycle_physical_summary.csv')
+Add-Entry 'C240 source heat-flow parameter contract' (Join-Path $sourceC240Run 'qian2019_table2_table4_parameter_contract.csv')
+Add-Entry 'C240 source heat-flow continuation state' (Join-Path $repoRoot 'outputs\qian_coupled_source_heatflow_steady_from_c220_20260831\steady_continuation_state.mat')
+Add-Entry 'C240 source heat-flow continuation progress' (Join-Path $repoRoot 'outputs\qian_coupled_source_heatflow_steady_from_c220_20260831\steady_continuation_progress.csv')
+Add-Entry 'C240 source heat-flow figures manifest' (Join-Path $repoRoot 'outputs\qian_coupled_source_heatflow_steady_from_c220_20260831\qian2019_table2_table4_simscape_240cycle_20260901_001301\figures_sci\figure_manifest.txt')
+foreach ($stem in @(
+    'Fig01_last_cycle_mechanism',
+    'Fig02_last_cycle_axial_fields',
+    'Fig03_periodic_convergence',
+    'Fig04_control_and_energy',
+    'Fig05_table4_boundary_audit')) {
+    Add-Entry "C240 source heat-flow SCI figure PNG $stem" (Join-Path $repoRoot "outputs\qian_coupled_source_heatflow_steady_from_c220_20260831\qian2019_table2_table4_simscape_240cycle_20260901_001301\figures_sci\$stem.png")
+    Add-Entry "C240 source heat-flow SCI figure PDF $stem" (Join-Path $repoRoot "outputs\qian_coupled_source_heatflow_steady_from_c220_20260831\qian2019_table2_table4_simscape_240cycle_20260901_001301\figures_sci\$stem.pdf")
+}
+Add-Entry 'C240 source heat-flow recovery contract' (Join-Path $repoRoot 'verification\source_heatflow_c240_recovery_contract.json')
 
 Add-Entry 'Rejected 270 K report' (Join-Path $rejectedRun 'physical_validation_report.txt') $true 'diagnostic_rejected'
 Add-Entry 'Rejected 270 K summary' (Join-Path $rejectedRun 'cycle_physical_summary.csv') $true 'diagnostic_rejected'
@@ -245,6 +267,22 @@ if ($ultrafineSummary.completed_count -ne 2 -or
         $ultrafineSummary.rejected_count, $ultrafineSummary.pending_count,
         $ultrafineSummary.strict_local_pair_count)
 }
+$sourceC240Result = Join-Path $sourceC240Run 'physical_simscape_result.mat'
+$sourceC240Checkpoint = Join-Path $sourceC240Run 'final_operating_point.mat'
+if (-not [bool]$sourceC240Contract.mechanism_pass -or
+        -not [bool]$sourceC240Contract.periodic_steady_state -or
+        -not [bool]$sourceC240Contract.source_heat_flow_direction_pass -or
+        [int]$sourceC240Contract.completed_cycles -ne 240) {
+    throw 'Unexpected C240 source heat-flow recovery contract gates.'
+}
+if ((Get-FileHash -LiteralPath $sourceC240Result -Algorithm SHA256).Hash -ne
+        [string]$sourceC240Contract.result_sha256) {
+    throw 'C240 source heat-flow result SHA-256 mismatch.'
+}
+if ((Get-FileHash -LiteralPath $sourceC240Checkpoint -Algorithm SHA256).Hash -ne
+        [string]$sourceC240Contract.checkpoint_sha256) {
+    throw 'C240 source heat-flow Operating Point SHA-256 mismatch.'
+}
 
 $hashes = foreach ($item in ($manifest | Where-Object exists)) {
     $hash = Get-FileHash -LiteralPath $item.path -Algorithm SHA256
@@ -270,6 +308,12 @@ $summary = [ordered]@{
     strict_table4_reproduction = 0
     paired_table4_endpoint_pass = 0
     heat_driven_system_COP_available = 0
+    source_heatflow_c240_cycles = $sourceC240Contract.completed_cycles
+    source_heatflow_c240_mechanism_pass = [bool]$sourceC240Contract.mechanism_pass
+    source_heatflow_c240_periodic_steady_state = [bool]$sourceC240Contract.periodic_steady_state
+    source_heatflow_c240_direction_pass = [bool]$sourceC240Contract.source_heat_flow_direction_pass
+    source_heatflow_c240_system_energy_closure_complete = [bool]$sourceC240Contract.system_energy_closure_complete
+    source_heatflow_c240_COP = $sourceC240Contract.heat_driven_system_COP
     initial_local_OAT_completed_count = $initialSummary.completed_count
     initial_local_OAT_admissible_count = $initialSummary.admissible_count
     initial_local_OAT_strict_pair_count = $initialSummary.strict_local_pair_count

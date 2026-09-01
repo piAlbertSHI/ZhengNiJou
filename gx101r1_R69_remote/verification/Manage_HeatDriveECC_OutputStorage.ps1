@@ -44,7 +44,7 @@ $preserveRawPaths = @(
     (Join-Path $authorityRun 'stage_temperature_probes_50samples.csv')
 )
 $activeRecoveryContractPath = Join-Path $repoRoot `
-    'verification\source_heatflow_c220_recovery_contract.json'
+    'verification\source_heatflow_c240_recovery_contract.json'
 if (Test-Path -LiteralPath $activeRecoveryContractPath -PathType Leaf) {
     $activeRecoveryContract = Get-Content -LiteralPath `
         $activeRecoveryContractPath -Raw | ConvertFrom-Json

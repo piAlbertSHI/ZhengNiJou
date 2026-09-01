@@ -521,3 +521,83 @@ pwsh -File .\verification\WaitAndCheck_HeatDriveECC.ps1 -WaitMinutes 30
 > The fully coupled physical Simscape SMA-SE model reached a mechanism-valid periodic operating point after 200 cycles at fixed `Tc=276.95 K`, predicting an Eq. 9 lift of `28.70997 K` and an active-SE-mass Eq. 10 SCP of `0.3164805 W/g`. Consolidating two independent, symmetric, C200-initialized local OAT campaigns yielded five admissible parameter pairs; latent heat produced the largest normalized local lift and SCP responses among those pairs, while the unavailable endpoint-capacity derivative was not imputed. The paired Qian Table 4 endpoints are not yet reproduced, and system COP is withheld because source-side SHEX heat input is not measured.
 
 禁止签字结论：`Qian Table 4 reproduced`、`experimentally validated`、`system COP = Qcool/Ppump`、或任何基于 rejected L8 点的六因素主导排序。
+
+## 18. 2026-09-01 源热流生产链补充审核
+
+本补充节记录新增 SHEX 源侧热流观测链和从冻结状态连续恢复的最终证据。C200 主线冻结合同保持不变，仍是 SMA-SE 主线的唯一基准；新增 C240 只作为已通过周期门禁的 source-heat-flow 生产恢复点，不替代 C200 的历史权威合同。
+
+### 18.1 运行链与失败边界
+
+1. 首次 `C200 -> C220` 运行因新增信号与旧 checkpoint 的物理信号集合不一致而停止；该结果没有进入恢复链。
+2. 第二次重试修复了底层合并器，但固定储库点封装器没有传递 append contract，仍停止；该结果没有进入恢复链。
+3. 第三次重试完成真实 C220 Simscape 结果，随后报告字段缺失导致 `MATLAB:nonExistentField`；离线重新审核得到 `mechanism=1`、`periodic=0`，因此 C220 只能作为诊断中间点。
+4. 修复汇总字段后，从 C220 已验证 Operating Point 连续运行到 C240；未重置热容、buffer、本构、温度、相分数或独立路线 PI 记忆。
+
+### 18.2 C240 最终生产证据
+
+结果目录：
+
+`gx101r1_R69_remote/outputs/qian_coupled_source_heatflow_steady_from_c220_20260831/qian2019_table2_table4_simscape_240cycle_20260901_001301`
+
+| 门禁/指标 | 结果 |
+|---|---:|
+| completed cycles | 240 |
+| mechanism gate | 1 |
+| periodic steady state | 1 |
+| endpoint drift | 0.013660504757 K |
+| same-phase temperature drift (max) | 0.220500395386 K |
+| same-phase phase-fraction drift (max) | 0.0100248222919 |
+| Eq. 9 lift, last 10 cycles | 28.7102572487 K |
+| Eq. 10 cooling power | 13.2342546313 W |
+| Eq. 10 SCP, active SE mass | 0.316481488072 W/g |
+| SHEX source heat input, last 10 cycles | 826.316127343 W |
+| source heat flow mean/min/max | 826.307866939 / 0.260349378872 / 4892.90854408 W |
+| positive/negative sample fraction | 1 / 0 |
+| heat-driven system COP | 0.0160159703936 |
+| solid SMA/SE energy residual relative | 2.3930632603e-4 |
+| `ALL_REQUIRED_PASS` | 0 |
+| strict Table 4 reproduction | 0 |
+
+这里的 COP 是 `Eq.10 cooling power / positive SHEX source heat input`，不是泵功 COP。当前传感器覆盖源侧到 SHEX sink 的源输入和 SMA/SE 固体能量门禁，但没有测量 SHEX 下游至各流体端的完整传递热流，因此 `system_energy_closure_complete=0`，完整系统一阶能量闭合仍未完成。C240 的周期门禁通过不改变 `26.2 K` 与 `0.64 W/g` 两个 Qian Table 4 端点尚未成对复现的结论。
+
+### 18.3 新增代码、合同与验证命令
+
+本轮新增/提交：
+
+- `9b29a47`：允许声明的源热流信号加入 checkpoint 合并。
+- `6c78e94`：把 append contract 传递到固定储库点封装器。
+- `7634eb4`：补齐源热流 summary 字段并限定末 10 周期有限性检查。
+- `d03f509`：冻结 C220 中间恢复合同、恢复解析器和源热流存储治理。
+
+源热流 C240 合同为 `verification/source_heatflow_c240_recovery_contract.json`；生产审核函数为 `verification/Audit_HeatDriveECC_SourceHeatFlowResult.m`。复核 C240 的命令：
+
+```powershell
+cd C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote
+matlab -batch "cd('C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote'); addpath(pwd); addpath(fullfile(pwd,'verification')); a=Audit_HeatDriveECC_SourceHeatFlowResult('C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs/qian_coupled_source_heatflow_steady_from_c220_20260831/qian2019_table2_table4_simscape_240cycle_20260901_001301/physical_simscape_result.mat'); assert(a.production_pass==1); disp(a);"
+```
+
+重新运行正式图集（不重跑仿真）：
+
+```powershell
+matlab -batch "cd('C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote'); addpath(pwd); addpath(fullfile(pwd,'verification')); L=load('C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs/qian_coupled_source_heatflow_steady_from_c220_20260831/qian2019_table2_table4_simscape_240cycle_20260901_001301/physical_simscape_result.mat','physical','summary','options','provenance'); r=struct('physical',L.physical,'summary',L.summary,'options',L.options,'provenance',L.provenance,'used_simulink_sim',true,'authority',L.physical.authority,'legacy_surrogate_used_for_results',false,'output_dir','C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs/qian_coupled_source_heatflow_steady_from_c220_20260831/qian2019_table2_table4_simscape_240cycle_20260901_001301','output_mat','C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs/qian_coupled_source_heatflow_steady_from_c220_20260831/qian2019_table2_table4_simscape_240cycle_20260901_001301/physical_simscape_result.mat'); Plot_HeatDriveECC_SCI_FigureSet(r);"
+```
+
+### 18.4 存储与恢复状态
+
+2026-09-01 的 storage audit 先 dry-run 后 apply，删除约 `5.18 GiB`：C220 失败/非稳态 raw、C240 legacy per-run figures 和 dense probe CSV。C240 的两份生产 raw、SCI 图集、报告、cycle summary、参数合同、source-heat-flow audit、manifest 和 state/progress 保留。C200 两份冻结文件哈希仍为：
+
+`physical_simscape_result.mat = 0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD`
+
+`final_operating_point.mat = FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816`
+
+C240 源热流生产文件哈希为：
+
+`physical_simscape_result.mat = 5C9E76BCEEC4445DF80658CC46D22FD8DB07F2A4B97B460DD30AE8D35786E134`
+
+`final_operating_point.mat = 75673FD6EAA636408DF08861419108B8DA05E73B9F0C261A780EB49BFDA25ACA`
+
+清理后再次 dry-run 的 `candidate_count=0`。后续长任务仍只启动一个 `WaitAndCheck_HeatDriveECC.ps1 -WaitMinutes 30`，等待命令自然返回 JSON 前不轮询、不重复续转、不发送中间状态。
+
+### 18.5 后续主线
+
+当前可推进的下一步是：在 C240 周期状态基础上补齐 SHEX 下游各流体端热流传感器，并建立完整控制体的一阶能量闭合；之后才有资格把 heat-driven COP 扩展为完整系统指标。Table 4 zero-load/zero-lift 的 paired endpoint 求解、endpoint-capacity strict pair、独立代码/实验 validation 和论文数据声明仍未完成，任何失败候选仍不得进入恢复链、插值或论文定量结论。

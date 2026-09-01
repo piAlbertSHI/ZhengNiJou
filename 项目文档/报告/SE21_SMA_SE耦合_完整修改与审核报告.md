@@ -213,3 +213,35 @@ pwsh -File .\gx101r1_R69_remote\verification\WaitAndCheck_HeatDriveECC.ps1 -Wait
 > The fully coupled physical Simscape SMA-SE model reached a mechanism-valid periodic operating point at fixed `Tc=276.95 K` after 200 cycles. The point predicts `28.710 K` Eq. 9 lift and `0.31648 W/g` Eq. 10 SCP under the declared active-unit boundary. It is a reproducible numerical benchmark point, not yet a strict reproduction of Qian et al.'s Table 4 zero-load endpoints (`26.2 K`, `0.64 W/g`).
 
 不得写入的结论是“已经复现 Qian Table 4”“已经完成 zero-load root”“C200 的 `ALL_REQUIRED_PASS=0` 等于模型机制失败”。
+
+## 12. 源热流观测链与 C240 续算补充
+
+2026-09-01 已完成新增 SHEX 源侧热流传感器的生产验证。主线恢复基准仍为 C200 冻结合同；C240 是从已验证 C220 Operating Point 连续恢复得到的附加生产证据，恢复过程没有重置热容、buffer、本构、温度、相分数或独立路线 PI 记忆。
+
+最终 C240 结果目录：
+
+`C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\outputs\qian_coupled_source_heatflow_steady_from_c220_20260831\qian2019_table2_table4_simscape_240cycle_20260901_001301`
+
+最终门禁为 `mechanism=1`、`periodic=1`、`Eq.9=28.7102572487 K`、`Eq.10 SCP=0.316481488072 W/g`。末 10 周期源侧 SHEX 输入为 `826.316127343 W`，源热流正向比例 `1`，固体 SMA/SE 最大相对能量残差 `2.3930632603e-4`，由此计算的 heat-driven COP 为 `0.0160159703936`。该 COP 的分母是正向 SHEX source heat input，不是泵功；由于尚未测量 SHEX 下游到流体端的完整转移热流，完整系统一阶能量闭合状态仍为 `incomplete`。
+
+C240 仍不是 Qian Table 4 strict reproduction：`26.2 K` no-load lift 与 `0.64 W/g` zero-lift SCP 尚未形成两个合法成对端点；`ALL_REQUIRED_PASS=0` 表示严格定量 Table 4 条件未满足，不能单独解释为机制失败。C220 之前的三次启动失败证据保留为日志/报告诊断，失败 raw 和不再需要的 dense probe/legacy figures 已按 storage audit 删除。
+
+新增恢复合同：
+
+`gx101r1_R69_remote/verification/source_heatflow_c240_recovery_contract.json`
+
+C240 两个生产 raw 的 SHA-256：
+
+```text
+physical_simscape_result.mat  5C9E76BCEEC4445DF80658CC46D22FD8DB07F2A4B97B460DD30AE8D35786E134
+final_operating_point.mat     75673FD6EAA636408DF08861419108B8DA05E73B9F0C261A780EB49BFDA25ACA
+```
+
+生产复核命令：
+
+```powershell
+cd C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote
+matlab -batch "cd('C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote'); addpath(pwd); addpath(fullfile(pwd,'verification')); a=Audit_HeatDriveECC_SourceHeatFlowResult('C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs/qian_coupled_source_heatflow_steady_from_c220_20260831/qian2019_table2_table4_simscape_240cycle_20260901_001301/physical_simscape_result.mat'); assert(a.production_pass==1); disp(a);"
+```
+
+当前仍未完成：完整 SHEX 下游热流测量与一阶系统闭合、两个合法 Table 4 paired roots、endpoint-capacity strict pair、独立 validation 和论文数据声明。论文表述继续限定为 `simulated`、`predicted`、`benchmark-consistent`、`not yet reproduced`。
