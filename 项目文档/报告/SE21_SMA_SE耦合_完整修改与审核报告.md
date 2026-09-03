@@ -245,3 +245,30 @@ matlab -batch "cd('C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote'); add
 ```
 
 当前仍未完成：完整 SHEX 下游热流测量与一阶系统闭合、两个合法 Table 4 paired roots、endpoint-capacity strict pair、独立 validation 和论文数据声明。论文表述继续限定为 `simulated`、`predicted`、`benchmark-consistent`、`not yet reproduced`。
+
+## 13. 冻结 C240 SHEX 控制体与后续边界
+
+本节替代第 12 节“下游热流完全没有证据”的当前状态判断。冻结 C240 中已有源侧热流、
+SHEX sink 温度和显式 `418 J/K` 热容；按真实三支路节点守恒重建最后 10 周期的
+sink-to-fluid 热流，得到 `826.316127497034 W`，正向比例 `1`，相对传递比
+`1.00000000018664`，控制体残差 `0`，审核 `production_pass=1`。这不是新增传感器的
+直接测量，而是受哈希保护的节点平衡重建；C240 两个冻结哈希保持不变。
+
+Fig.06 上半图显示最后一周期 source、sink-to-fluid 和 sink storage rate 的瞬时关系；
+下半图显示最后 10 周期三者均值，说明周期窗口内 sink 储能变化可忽略。结果包位于：
+
+`gx101r1_R69_remote/outputs_storage_audit/shex_control_volume_c240_20260903`
+
+三条 C260 尝试均在 `2535.101 s` 触发 SMA Thermal Liquid 低温有效域错误，且无新
+result/checkpoint；失败目录均有 `REJECTED_DO_NOT_RESUME.txt`。因此当前后续顺序是：
+先诊断该节点有效域，再补齐 HHEX/CHEX/buffer/pipe 边界，之后才评估完整系统残差。
+SHEX 局部闭合不等于完整整机闭合，也不改变 Table 4 两个 paired roots 未完成的结论。
+
+完整代码、数值、验证命令和逐篇文献页码见：
+
+- `项目文档/报告/SMA-SE正逆耦合_第九阶段SHEX控制体与文献对标报告.md`
+- `项目文档/研究笔记/2026-09-03_Qian本地文献精确定位与模型映射.md`
+
+总包复核仍运行 `verification/Audit_FinalHeatDriveECC_Package.ps1` 和
+`verification/Verify_FinalHeatDriveECC_Package.m`。存储清理只接受 dry-run 列出的
+superseded 候选；有效 C200/C240 raw、Operating Point 和小型失败诊断证据均保留。

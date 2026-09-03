@@ -420,6 +420,20 @@ function observation = build_performance_observation(cycles, physical, options)
         qian.SHEX_source_heat_flow_negative_fraction;
     observation.SHEX_source_heat_flow_direction_pass = ...
         qian.SHEX_source_heat_flow_direction_pass;
+    observation.SHEX_sink_to_fluid_heat_flow_min_W = ...
+        qian.SHEX_sink_to_fluid_heat_flow_min_W;
+    observation.SHEX_sink_to_fluid_heat_flow_max_W = ...
+        qian.SHEX_sink_to_fluid_heat_flow_max_W;
+    observation.SHEX_sink_to_fluid_heat_flow_mean_W = ...
+        qian.SHEX_sink_to_fluid_heat_flow_mean_W;
+    observation.SHEX_sink_to_fluid_heat_flow_positive_fraction = ...
+        qian.SHEX_sink_to_fluid_heat_flow_positive_fraction;
+    observation.SHEX_sink_to_fluid_heat_flow_negative_fraction = ...
+        qian.SHEX_sink_to_fluid_heat_flow_negative_fraction;
+    observation.SHEX_sink_to_fluid_heat_flow_direction_pass = ...
+        qian.SHEX_sink_to_fluid_heat_flow_direction_pass;
+    observation.SHEX_sink_to_fluid_heat_input_W = ...
+        qian.SHEX_sink_to_fluid_heat_input_W;
     observation.heat_driven_system_COP = qian.heat_driven_system_COP;
     observation.heat_driven_system_COP_available = ...
         qian.heat_driven_system_COP_available;
@@ -557,6 +571,13 @@ function metrics = qian_eq9_eq10_metrics(physical, options)
     metrics.SHEX_source_heat_flow_positive_fraction = NaN;
     metrics.SHEX_source_heat_flow_negative_fraction = NaN;
     metrics.SHEX_source_heat_flow_direction_pass = false;
+    metrics.SHEX_sink_to_fluid_heat_input_W = NaN;
+    metrics.SHEX_sink_to_fluid_heat_flow_min_W = NaN;
+    metrics.SHEX_sink_to_fluid_heat_flow_max_W = NaN;
+    metrics.SHEX_sink_to_fluid_heat_flow_mean_W = NaN;
+    metrics.SHEX_sink_to_fluid_heat_flow_positive_fraction = NaN;
+    metrics.SHEX_sink_to_fluid_heat_flow_negative_fraction = NaN;
+    metrics.SHEX_sink_to_fluid_heat_flow_direction_pass = false;
     metrics.heat_driven_system_COP = NaN;
     metrics.heat_driven_system_COP_available = false;
     metrics.heat_driven_system_COP_reason = ...
@@ -632,6 +653,26 @@ function metrics = qian_eq9_eq10_metrics(physical, options)
             metrics.heat_driven_system_COP_reason = ...
                 'SHEX source heat-flow is present but has no positive window integral';
         end
+    end
+    if isfield(physical, 'Q_SHEX_sink_to_fluid_W')
+        fluid_raw = physical.Q_SHEX_sink_to_fluid_W(:);
+        fluid_window = fluid_raw(idx);
+        finite_fluid = fluid_window(isfinite(fluid_window));
+        if ~isempty(finite_fluid)
+            metrics.SHEX_sink_to_fluid_heat_flow_min_W = min(finite_fluid);
+            metrics.SHEX_sink_to_fluid_heat_flow_max_W = max(finite_fluid);
+            metrics.SHEX_sink_to_fluid_heat_flow_mean_W = mean(finite_fluid);
+            metrics.SHEX_sink_to_fluid_heat_flow_positive_fraction = ...
+                mean(finite_fluid > 0.0);
+            metrics.SHEX_sink_to_fluid_heat_flow_negative_fraction = ...
+                mean(finite_fluid < 0.0);
+            metrics.SHEX_sink_to_fluid_heat_flow_direction_pass = ...
+                numel(finite_fluid) == numel(fluid_window) && ...
+                metrics.SHEX_sink_to_fluid_heat_flow_positive_fraction >= 0.95 && ...
+                metrics.SHEX_sink_to_fluid_heat_flow_mean_W > 0.0;
+        end
+        metrics.SHEX_sink_to_fluid_heat_input_W = trapz(t(idx), ...
+            max(fluid_raw(idx), 0.0)) / duration_s;
     end
     if isfield(physical, 'Q_CHEX_reservoir_to_hx_W')
         metrics.cooling_power_CHEX_sensor_W = trapz(t(idx), ...
@@ -774,6 +815,10 @@ function tf = required_fields_finite(p, options)
             eps(options.simulation.stop_time_s);
         tf = any(source_window) && ...
             all(isfinite(p.Q_SHEX_source_to_sink_W(source_window)));
+    end
+    if isfield(p, 'Q_SHEX_sink_to_fluid_W')
+        tf = tf && any(source_window) && ...
+            all(isfinite(p.Q_SHEX_sink_to_fluid_W(source_window)));
     end
     for idx = 1:numel(names)
         value = p.(names{idx});

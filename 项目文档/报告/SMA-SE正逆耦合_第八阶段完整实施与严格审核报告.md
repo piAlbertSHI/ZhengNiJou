@@ -601,3 +601,28 @@ C240 源热流生产文件哈希为：
 ### 18.5 后续主线
 
 当前可推进的下一步是：在 C240 周期状态基础上补齐 SHEX 下游各流体端热流传感器，并建立完整控制体的一阶能量闭合；之后才有资格把 heat-driven COP 扩展为完整系统指标。Table 4 zero-load/zero-lift 的 paired endpoint 求解、endpoint-capacity strict pair、独立代码/实验 validation 和论文数据声明仍未完成，任何失败候选仍不得进入恢复链、插值或论文定量结论。
+
+## 19. 2026-09-03 SHEX 局部控制体补充审核
+
+本节替代 18.2 和 18.5 中“尚未获得 SHEX 下游热流证据”的当前状态判断，但保留其
+历史记录。没有修改 C240 raw 或 Operating Point，而是利用真实拓扑中 source branch、
+`HotSinkMass` 和 `HotSinkFluidLink` 三项节点平衡，在冻结的最后 10 周期重建：
+
+`Q_sink_to_fluid = Q_source_to_sink - C_sink*dT_sink/dt`。
+
+重建结果为 source mean `826.316127342811 W`、sink-to-fluid mean
+`826.316127497034 W`、正向比例 `1`、transfer ratio `1.00000000018664`、控制体
+balance residual `0`，`production_pass=1`。正式图为
+`outputs_storage_audit/shex_control_volume_c240_20260903/Fig06_frozen_C240_SHEX_control_volume.png`；
+上图比较最后一周期的源热流、下游热流和储能率，下图比较最后 10 周期均值。
+
+这只关闭 SHEX 局部节点，完整系统仍缺 HHEX/CHEX/buffer/pipe 热流边界，因此
+`system_energy_closure_complete=0`。三次 C240 到 C260 尝试均在 `2535.101 s` 因
+`SMA/HoldPipe_021` 和 `SMA_V3_pump_to_heat_path` 低于 Thermal Liquid 有效温度而
+退出；物理传感器移除后错误不变，三次均无新结果和 checkpoint，并已标记
+`REJECTED_DO_NOT_RESUME`。
+
+完整方法、数值、代码、验证命令和 Qian 文献页码见
+`项目文档/报告/SMA-SE正逆耦合_第九阶段SHEX控制体与文献对标报告.md` 以及
+`项目文档/研究笔记/2026-09-03_Qian本地文献精确定位与模型映射.md`。当前仍禁止
+宣称 `Qian Table 4 reproduced`、`experimentally validated` 或完整系统一阶能量闭合。

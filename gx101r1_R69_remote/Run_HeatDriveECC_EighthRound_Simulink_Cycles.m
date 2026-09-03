@@ -535,7 +535,7 @@ function physical = extract_physical_simscape_logs(sim_out, options)
         'ECC_Q_SMA_constitutive_W', 'ECC_Q_SE_constitutive_W', ...
         'SHEX_hot_sink_temp_out', 'hot_sink_temp_out', ...
         'cold_sink_temp_out', 'shex_buffer_temp_out', ...
-        'shex_source_heat_flow_W', ...
+        'shex_source_heat_flow_W', 'simlog', ...
         'Qdot_cold_sink_mass_to_hx_pipe_W', ...
         'hot_buffer_temp_out', 'sma_hot_buffer_temp_out', ...
         'cold_buffer_temp_out', ...
@@ -591,6 +591,8 @@ function physical = extract_physical_simscape_logs(sim_out, options)
         'Qdot_cold_sink_mass_to_hx_pipe_W', time_s, 'linear');
     physical.Q_SHEX_source_to_sink_W = read_on_grid(sim_out, ...
         'shex_source_heat_flow_W', time_s, 'linear');
+    physical.Q_SHEX_sink_to_fluid_W = read_simscape_on_grid(sim_out, ...
+        'SHEX/HotSinkFluidLink/Q', time_s, 'W');
     physical.SHEX_buffer_T_K = read_on_grid(sim_out, ...
         'shex_buffer_temp_out', time_s, 'linear');
     physical.HHEX_buffer_T_K = read_on_grid(sim_out, ...
@@ -757,6 +759,38 @@ function values = read_on_grid(sim_out, name, query_time_s, method)
     [time_s, unique_idx] = unique(time_s, 'last');
     raw_values = raw_values(unique_idx, :);
     values = interp1(time_s, raw_values, query_time_s, method, 'extrap');
+end
+
+function sampled_values = read_simscape_on_grid( ...
+        sim_out, node_path, query_time_s, unit)
+% Read one native Simscape variable without adding a sensor to the network.
+    simlog = sim_out.get('simlog');
+    if ~isa(simlog, 'simscape.logging.Node') || ~simlog.hasPath(node_path)
+        error('Run:EighthRound:MissingSimscapeLogNode', ...
+            'Required Simscape log node is missing: simlog/%s', node_path);
+    end
+    node = simlog.get(node_path);
+    log_series = node.series;
+    raw_time_s = double(time(log_series));
+    raw_values = double(values(log_series, Units = unit));
+    raw_time_s = raw_time_s(:);
+    raw_values = squeeze(raw_values);
+    if isvector(raw_values)
+        raw_values = raw_values(:);
+    end
+    if size(raw_values, 1) ~= numel(raw_time_s)
+        error('Run:EighthRound:BadSimscapeLogShape', ...
+            'Simscape log node %s has incompatible time and value shapes.', ...
+            node_path);
+    end
+    [raw_time_s, unique_idx] = unique(raw_time_s, 'last');
+    raw_values = raw_values(unique_idx, :);
+    if isscalar(raw_time_s)
+        sampled_values = repmat(raw_values(1, :), numel(query_time_s), 1);
+    else
+        sampled_values = interp1(raw_time_s, raw_values, query_time_s, ...
+            'linear', 'extrap');
+    end
 end
 
 function [time_s, values] = read_raw_signal(sim_out, name)

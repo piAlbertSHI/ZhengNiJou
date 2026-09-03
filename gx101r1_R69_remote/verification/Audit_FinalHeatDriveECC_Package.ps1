@@ -36,6 +36,15 @@ $rejectedRun = Join-Path $rejectedRoot 'qian2019_table2_table4_simscape_20cycle_
 $sourceC240ContractPath = Join-Path $repoRoot 'verification\source_heatflow_c240_recovery_contract.json'
 $sourceC240Contract = Get-Content -LiteralPath $sourceC240ContractPath -Raw | ConvertFrom-Json
 $sourceC240Run = Join-Path $repoRoot 'outputs\qian_coupled_source_heatflow_steady_from_c220_20260831\qian2019_table2_table4_simscape_240cycle_20260901_001301'
+$shexControlRoot = Join-Path $repoRoot `
+    'outputs_storage_audit\shex_control_volume_c240_20260903'
+$shexControlSummaryPath = Join-Path $shexControlRoot `
+    'shex_control_volume_summary.json'
+$shexControlPackagePath = Join-Path $shexControlRoot 'package_contract.json'
+$shexControlSummary = Get-Content -LiteralPath $shexControlSummaryPath -Raw |
+    ConvertFrom-Json
+$shexControlPackage = Get-Content -LiteralPath $shexControlPackagePath -Raw |
+    ConvertFrom-Json
 
 New-Item -ItemType Directory -Force -Path $AuditRoot | Out-Null
 $manifestPath = Join-Path $AuditRoot 'final_results_manifest_20260824.csv'
@@ -99,6 +108,19 @@ foreach ($stem in @(
     Add-Entry "C240 source heat-flow SCI figure PDF $stem" (Join-Path $repoRoot "outputs\qian_coupled_source_heatflow_steady_from_c220_20260831\qian2019_table2_table4_simscape_240cycle_20260901_001301\figures_sci\$stem.pdf")
 }
 Add-Entry 'C240 source heat-flow recovery contract' (Join-Path $repoRoot 'verification\source_heatflow_c240_recovery_contract.json')
+foreach ($name in @(
+        'shex_control_volume_audit.mat',
+        'shex_control_volume_summary.json',
+        'shex_control_volume_sample.csv',
+        'Fig06_frozen_C240_SHEX_control_volume.png',
+        'Fig06_frozen_C240_SHEX_control_volume.pdf',
+        'artifact_manifest_sha256.csv',
+        'package_contract.json',
+        'matlab_stdout.log',
+        'matlab_stderr.log')) {
+    Add-Entry "C240 frozen SHEX control-volume artifact $name" `
+        (Join-Path $shexControlRoot $name)
+}
 
 Add-Entry 'Rejected 270 K report' (Join-Path $rejectedRun 'physical_validation_report.txt') $true 'diagnostic_rejected'
 Add-Entry 'Rejected 270 K summary' (Join-Path $rejectedRun 'cycle_physical_summary.csv') $true 'diagnostic_rejected'
@@ -117,6 +139,9 @@ Add-Entry 'SHEX source heat-flow performance summary' (Join-Path $repoRoot 'Summ
 Add-Entry 'Control-volume contract source' (Join-Path $repoRoot 'verification\Build_HeatDriveECC_ControlVolumeContract.m')
 Add-Entry 'SHEX source heat-flow topology audit' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_SourceHeatFlow.m')
 Add-Entry 'SHEX source heat-flow result audit' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_SourceHeatFlowResult.m')
+Add-Entry 'SHEX source and sink-to-fluid transfer audit' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_SHEXTransferResult.m')
+Add-Entry 'Frozen C240 SHEX control-volume audit' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_FrozenSHEXControlVolume.m')
+Add-Entry 'Frozen C240 SHEX package builder' (Join-Path $repoRoot 'verification\Build_HeatDriveECC_FrozenSHEXControlVolumePackage.ps1')
 Add-Entry 'SHEX source heat-flow validation launcher' (Join-Path $repoRoot 'verification\Start_HeatDriveECC_SourceHeatFlowValidation.ps1')
 Add-Entry 'MATLAB package verifier' (Join-Path $repoRoot 'verification\Verify_FinalHeatDriveECC_Package.m')
 Add-Entry 'PowerShell package auditor' (Join-Path $repoRoot 'verification\Audit_FinalHeatDriveECC_Package.ps1')
@@ -126,6 +151,8 @@ Add-Entry 'Output storage manager' (Join-Path $repoRoot 'verification\Manage_Hea
 Add-Entry 'Long-task discipline' (Join-Path $WorkspaceRoot '项目文档\研究笔记\长任务运行纪律.md')
 Add-Entry 'Complete modification report' (Join-Path $WorkspaceRoot '项目文档\报告\SE21_SMA_SE耦合_完整修改与审核报告.md')
 Add-Entry 'Eighth-stage strict audit report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第八阶段完整实施与严格审核报告.md')
+Add-Entry 'Ninth-stage SHEX and literature report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第九阶段SHEX控制体与文献对标报告.md')
+Add-Entry 'Qian local literature location index' (Join-Path $WorkspaceRoot '项目文档\研究笔记\2026-09-03_Qian本地文献精确定位与模型映射.md')
 
 $controlRoot = Join-Path $AuditRoot 'control_volume_contract'
 foreach ($name in @('control_volume_contract.csv', 'control_volume_contract.json',
@@ -283,6 +310,24 @@ if ((Get-FileHash -LiteralPath $sourceC240Checkpoint -Algorithm SHA256).Hash -ne
         [string]$sourceC240Contract.checkpoint_sha256) {
     throw 'C240 source heat-flow Operating Point SHA-256 mismatch.'
 }
+if (-not [bool]$shexControlSummary.production_pass -or
+        -not [bool]$shexControlSummary.periodic_steady_state -or
+        -not [bool]$shexControlSummary.source_direction_pass -or
+        -not [bool]$shexControlSummary.sink_to_fluid_direction_pass -or
+        [int]$shexControlSummary.cycle_count -ne 240 -or
+        [double]$shexControlSummary.window_start_s -ne 2300.0 -or
+        [double]$shexControlSummary.window_end_s -ne 2400.0 -or
+        [math]::Abs([double]$shexControlSummary.transfer_ratio - 1.0) -gt 1.0e-8 -or
+        [bool]$shexControlSummary.system_energy_closure_complete) {
+    throw 'Unexpected C240 frozen SHEX control-volume gates.'
+}
+if ([string]$shexControlPackage.frozen_result_sha256 -ne
+        [string]$sourceC240Contract.result_sha256 -or
+        [string]$shexControlPackage.frozen_checkpoint_sha256 -ne
+        [string]$sourceC240Contract.checkpoint_sha256 -or
+        [bool]$shexControlPackage.frozen_files_modified) {
+    throw 'Frozen SHEX package does not preserve the C240 hash contract.'
+}
 
 $hashes = foreach ($item in ($manifest | Where-Object exists)) {
     $hash = Get-FileHash -LiteralPath $item.path -Algorithm SHA256
@@ -314,6 +359,13 @@ $summary = [ordered]@{
     source_heatflow_c240_direction_pass = [bool]$sourceC240Contract.source_heat_flow_direction_pass
     source_heatflow_c240_system_energy_closure_complete = [bool]$sourceC240Contract.system_energy_closure_complete
     source_heatflow_c240_COP = $sourceC240Contract.heat_driven_system_COP
+    shex_control_volume_c240_pass = [bool]$shexControlSummary.production_pass
+    shex_control_volume_c240_sink_to_fluid_W = `
+        [double]$shexControlSummary.sink_to_fluid_heat_flow_mean_W
+    shex_control_volume_c240_transfer_ratio = `
+        [double]$shexControlSummary.transfer_ratio
+    shex_control_volume_c240_complete_system_closure = `
+        [bool]$shexControlSummary.system_energy_closure_complete
     initial_local_OAT_completed_count = $initialSummary.completed_count
     initial_local_OAT_admissible_count = $initialSummary.admissible_count
     initial_local_OAT_strict_pair_count = $initialSummary.strict_local_pair_count
