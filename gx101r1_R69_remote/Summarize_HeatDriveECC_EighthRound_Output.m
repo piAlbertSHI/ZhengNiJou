@@ -442,6 +442,8 @@ function observation = build_performance_observation(cycles, physical, options)
         qian.SHEX_sink_to_fluid_window_duration_s;
     observation.SHEX_sink_to_fluid_window_cycles = ...
         qian.SHEX_sink_to_fluid_window_cycles;
+    observation.SHEX_sink_to_fluid_window_contract = ...
+        qian.SHEX_sink_to_fluid_window_contract;
     observation.SHEX_source_heat_input_over_sink_window_W = ...
         qian.SHEX_source_heat_input_over_sink_window_W;
     observation.SHEX_sink_storage_rate_over_sink_window_W = ...
@@ -602,6 +604,8 @@ function metrics = qian_eq9_eq10_metrics(physical, options)
     metrics.SHEX_sink_to_fluid_window_end_s = NaN;
     metrics.SHEX_sink_to_fluid_window_duration_s = NaN;
     metrics.SHEX_sink_to_fluid_window_cycles = NaN;
+    metrics.SHEX_sink_to_fluid_window_contract = ...
+        'final_complete_cycle_only';
     metrics.SHEX_source_heat_input_over_sink_window_W = NaN;
     metrics.SHEX_sink_storage_rate_over_sink_window_W = NaN;
     metrics.SHEX_sink_to_fluid_signed_mean_W = NaN;
@@ -686,14 +690,11 @@ function metrics = qian_eq9_eq10_metrics(physical, options)
     end
     if isfield(physical, 'Q_SHEX_sink_to_fluid_W')
         fluid_raw = physical.Q_SHEX_sink_to_fluid_W(:);
-        performance_indices = find(idx);
-        last_missing = find(~isfinite(fluid_raw(performance_indices)), ...
-            1, 'last');
-        if isempty(last_missing)
-            fluid_indices = performance_indices;
-        else
-            fluid_indices = performance_indices((last_missing + 1):end);
-        end
+        final_time_s = t(end);
+        final_cycle_start_s = final_time_s - options.schedule.tau_cycle_s;
+        time_tolerance_s = 10.0 * eps(max(abs(final_time_s), 1.0));
+        fluid_indices = find(t >= final_cycle_start_s - time_tolerance_s & ...
+            t <= final_time_s + time_tolerance_s);
         if numel(fluid_indices) >= 2 && ...
                 all(isfinite(fluid_raw(fluid_indices))) && ...
                 t(fluid_indices(end)) > t(fluid_indices(1))
