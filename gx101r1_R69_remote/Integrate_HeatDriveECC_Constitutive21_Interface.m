@@ -837,6 +837,7 @@ function sim_params = apply_full_cycle_valve_commands(sim_params, options)
         se_pressure_bias_values, ...
         sma_hold_gate_values, sma_cooldown_gate_values] = ...
         build_full_cycle_valve_profiles(options);
+    global_t = t + options.simulation.time_offset_s;
     sim_params.L_valve_command = timeseries(se_values, t);
     sim_params.L_valve_command_time_s = t;
     sim_params.L_valve_command_values = se_values;
@@ -902,7 +903,7 @@ function sim_params = apply_full_cycle_valve_commands(sim_params, options)
     stage2_transition_duration_s = get_branch_option(options, ...
         'se_stage2_pressure_pi_transition_duration_s', 0.0);
     if stage2_transition_duration_s > 0.0
-        stage2_transition_fraction = min(max((t - ...
+        stage2_transition_fraction = min(max((global_t - ...
             stage2_transition_start_s) ./ ...
             stage2_transition_duration_s, 0.0), 1.0);
         stage2_kp_values = stage2_initial_kp + ...
@@ -919,7 +920,7 @@ function sim_params = apply_full_cycle_valve_commands(sim_params, options)
     stage4_transition_duration_s = get_branch_option(options, ...
         'se_stage4_pressure_pi_transition_duration_s', 0.0);
     if stage4_transition_duration_s > 0.0
-        transition_fraction = min(max((t - stage4_transition_start_s) ./ ...
+        transition_fraction = min(max((global_t - stage4_transition_start_s) ./ ...
             stage4_transition_duration_s, 0.0), 1.0);
         stage4_kp_values = stage4_initial_kp + ...
             (stage4_kp - stage4_initial_kp) .* transition_fraction;
@@ -969,7 +970,7 @@ function sim_params = apply_full_cycle_valve_commands(sim_params, options)
     stage2_blend_duration_s = get_branch_option(options, ...
         'se_stage2_route_temperature_blend_duration_s', 0.0);
     if stage2_blend_duration_s > 0.0
-        stage2_blend_fraction = min(max((t - stage2_blend_start_s) ./ ...
+        stage2_blend_fraction = min(max((global_t - stage2_blend_start_s) ./ ...
             stage2_blend_duration_s, 0.0), 1.0);
         stage2_blend_fraction = stage2_blend_fraction .^ 2 .* ...
             (3.0 - 2.0 .* stage2_blend_fraction);
@@ -993,7 +994,7 @@ function sim_params = apply_full_cycle_valve_commands(sim_params, options)
     blend_duration_s = get_branch_option(options, ...
         'se_stage4_endpoint_viscosity_blend_duration_s', 0.0);
     if blend_duration_s > 0.0
-        blend_fraction = min(max((t - blend_start_s) ./ ...
+        blend_fraction = min(max((global_t - blend_start_s) ./ ...
             blend_duration_s, 0.0), 1.0);
         blend_fraction = blend_fraction .^ 2 .* (3.0 - 2.0 .* blend_fraction);
         blend_values = blend_initial + ...
@@ -1113,7 +1114,8 @@ function [t, se_values, sma_values, sma_pressure_bias_values, ...
         'valve_switch_step_count', 20)));
     thermal_gate_step_count = max(1, round(get_branch_option(options, ...
         'thermal_gate_switch_step_count', switch_step_count)));
-    total_time_s = options.cycle_count * tau;
+    segment_cycle_count = options.simulation.segment_cycle_count;
+    total_time_s = options.simulation.segment_stop_time_s;
 
     t = zeros(0, 1);
     se_values = zeros(0, 6);
@@ -1176,7 +1178,7 @@ function [t, se_values, sma_values, sma_pressure_bias_values, ...
             hold_gate_stage, cooldown_gate_stage);
     end
 
-    for boundary_idx = 1:(options.cycle_count * 4)
+    for boundary_idx = 1:(segment_cycle_count * 4)
         cycle_idx = floor((boundary_idx - 1) / 4);
         stage_idx = mod(boundary_idx - 1, 4) + 1;
         boundary_t = cycle_idx * tau + options.schedule.stage_end_s(stage_idx);
@@ -1344,10 +1346,11 @@ function values = disable_sma_feedback_during_commutation(values, time_s, option
     if ramp_s <= 0.0
         return;
     end
-    total_time_s = options.cycle_count * options.schedule.tau_cycle_s;
+    segment_cycle_count = options.simulation.segment_cycle_count;
+    total_time_s = options.simulation.segment_stop_time_s;
     local_boundaries = options.schedule.stage_end_s([2, 4]);
     tolerance_s = max(1.0e-12, eps(max(total_time_s, 1.0)));
-    for cycle_idx = 0:(options.cycle_count - 1)
+    for cycle_idx = 0:(segment_cycle_count - 1)
         for boundary_idx = 1:numel(local_boundaries)
             boundary_s = cycle_idx * options.schedule.tau_cycle_s + ...
                 local_boundaries(boundary_idx);

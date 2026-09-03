@@ -22,7 +22,7 @@ function y = HeatDriveECC_ConstitutiveStateVectorStep21(u)
         return;
     end
 
-    t_s = max(u(1), 0.0);
+    t_s = max(u(1), 0.0) + options.simulation.time_offset_s;
     Ta = sanitize_temperature(u(2:(1 + N)), options.system.T0_K, N);
     Tr = sanitize_temperature(u((2 + N):(1 + 2 * N)), options.system.T0_K, N);
     state_vec = u((2 + 2 * N):end);
