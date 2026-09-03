@@ -220,6 +220,8 @@ Add-Entry 'C243 pump-fluid energy transition assessment' (Join-Path $repoRoot 'v
 Add-Entry 'Frozen C240 SHEX control-volume audit' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_FrozenSHEXControlVolume.m')
 Add-Entry 'Frozen C240 SHEX package builder' (Join-Path $repoRoot 'verification\Build_HeatDriveECC_FrozenSHEXControlVolumePackage.ps1')
 Add-Entry 'SHEX source heat-flow validation launcher' (Join-Path $repoRoot 'verification\Start_HeatDriveECC_SourceHeatFlowValidation.ps1')
+Add-Entry 'Cold-boundary runtime bridge source' (Join-Path $repoRoot 'verification\Run_HeatDriveECC_ColdBoundaryRuntimeBridge.m')
+Add-Entry 'Cold-boundary runtime bridge launcher' (Join-Path $repoRoot 'verification\Start_HeatDriveECC_ColdBoundaryRuntimeBridge.ps1')
 Add-Entry 'MATLAB package verifier' (Join-Path $repoRoot 'verification\Verify_FinalHeatDriveECC_Package.m')
 Add-Entry 'PowerShell package auditor' (Join-Path $repoRoot 'verification\Audit_FinalHeatDriveECC_Package.ps1')
 Add-Entry 'Superseded raw cleanup script' (Join-Path $repoRoot 'verification\Prune_Superseded_HeatDriveECC_Raw.ps1')
