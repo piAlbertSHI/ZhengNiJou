@@ -132,6 +132,17 @@ function branch = frozen_controller_overrides(authority)
     for idx = 1:numel(names)
         branch.(names{idx}) = source.(names{idx});
     end
+    % These fields are part of the checkpoint contract. Preserve both the
+    % physical mode and its provenance text so a documentation-only default
+    % change cannot invalidate an otherwise identical authority state.
+    pump_fields = {'pump_fluid_energy_model', ...
+        'pump_fluid_energy_model_source'};
+    for idx = 1:numel(pump_fields)
+        name = pump_fields{idx};
+        if isfield(source, name)
+            branch.(name) = source.(name);
+        end
+    end
 end
 
 function record = frozen_baseline_record(authority)
