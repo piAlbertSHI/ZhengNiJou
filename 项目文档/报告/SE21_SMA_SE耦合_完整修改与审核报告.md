@@ -294,3 +294,35 @@ C242 仍只闭合 SHEX 局部控制体。完整系统的一阶能量闭合、HHE
 完整更正、代码清单、图 1-6 解释和复核命令见：
 
 - `项目文档/报告/SMA-SE正逆耦合_第十阶段C242原生SHEX闭合与存储治理报告.md`
+
+## 15. C243 整机热控制体闭合、潜热符号更正与恢复权威轮换
+
+2026-09-04 已从 C242 通过的 Operating Point 连续运行到 C243，没有重置热容、
+buffer、本构、温度、相分数或独立路线 PI 记忆。C243 继续满足 `mechanism=1`、
+`periodic=1`，Eq.9 为 `28.7102598660 K`，Eq.10 SCP 为 `0.316481103505 W/g`。
+
+新增原生 HHEX/CHEX 支路以及 Pipe/Tank/Constant Volume Chamber 能量和质量库存后，
+最终完整周期得到 SHEX/HHEX/CHEX KCL RMS 分别为 `1.723e-13`、`3.176e-11`、
+`1.468e-12 W`；外部净热输入 `2.97870376 W`，总模型储能率 `3.11887615 W`，
+残差 `-0.14017239 W`，相对 `1.67607e-4`，通过 `1e-3` 门禁。闭环流体质量漂移
+为 `1.33376e-6 kg`，相对 `3.08529e-6`，通过 10 ppm 门禁。
+
+本构向显热节点注入 `+m*Delta_h*dxM`，因此控制体储能必须使用
+`U_latent=-m*Delta_h*xM`。Fig.07 首版错误使用正号，形成约 `1.8 kJ` 半周期伪残差；
+审计和绘图均已更正，仿真状态和 C243 哈希未改变。当前 modeled thermal control
+volume 可以声明通过，但 `11.8430368 W` 泵功在 `power_spec=none` 下没有热耦合，
+故 `complete_device_first_law_closure=false`，完整设备 COP 继续 withheld。
+
+C243 的结果/OP 哈希分别为：
+
+```text
+BEFD79CD744DA356BECF376A968B2FA408E974E25BCCFE7A2AD0776A8AFF7C5D
+7F9EBFA47E578290E7FD7E0D8DED5BB7CB182BDE66A86E3B7E25166F4CAF1B70
+```
+
+恢复权威已从 C242 轮换为 `verification/system_energy_c243_recovery_contract.json`；
+C200 仍是论文基准。受控清理删除 C242 raw/OP 与 C243 可重建 legacy 数据
+`5.705 GiB`，`outputs` 降至 `10.460 GiB`，工作区约 `11.116 GiB`，二次 dry-run
+`candidate_count=0`。完整代码、七张 SCI 图逐图解释、文献比较、命令和后续计划见：
+
+- `项目文档/报告/SMA-SE正逆耦合_第十一阶段C243整机热控制体闭合与设备边界报告.md`

@@ -57,6 +57,18 @@ $shexC242AuditPath = Join-Path $shexC242Root `
     'shex_transfer_audit_c242.json'
 $shexC242Audit = Get-Content -LiteralPath $shexC242AuditPath -Raw |
     ConvertFrom-Json
+$systemC243ContractPath = Join-Path $repoRoot `
+    'verification\system_energy_c243_recovery_contract.json'
+$systemC243Contract = Get-Content -LiteralPath $systemC243ContractPath -Raw |
+    ConvertFrom-Json
+$systemC243Root = Join-Path $repoRoot `
+    'outputs\qian_coupled_system_energy_c243_20260904'
+$systemC243Run = Join-Path $systemC243Root `
+    'qian2019_table2_table4_simscape_243cycle_20260904_025423'
+$systemC243AuditPath = Join-Path $systemC243Root `
+    'system_energy_audit_c243.json'
+$systemC243Audit = Get-Content -LiteralPath $systemC243AuditPath -Raw |
+    ConvertFrom-Json
 
 New-Item -ItemType Directory -Force -Path $AuditRoot | Out-Null
 $manifestPath = Join-Path $AuditRoot 'final_results_manifest_20260824.csv'
@@ -134,8 +146,8 @@ foreach ($name in @(
         (Join-Path $shexControlRoot $name)
 }
 
-Add-Entry 'C242 SHEX physical result' (Join-Path $shexC242Run 'physical_simscape_result.mat')
-Add-Entry 'C242 SHEX final Operating Point' (Join-Path $shexC242Run 'final_operating_point.mat')
+Add-Entry 'C242 superseded SHEX physical result' (Join-Path $shexC242Run 'physical_simscape_result.mat') $false 'historical_superseded'
+Add-Entry 'C242 superseded SHEX final Operating Point' (Join-Path $shexC242Run 'final_operating_point.mat') $false 'historical_superseded'
 Add-Entry 'C242 SHEX validation report' (Join-Path $shexC242Run 'physical_validation_report.txt')
 Add-Entry 'C242 SHEX cycle summary' (Join-Path $shexC242Run 'cycle_physical_summary.csv')
 Add-Entry 'C242 SHEX parameter contract' (Join-Path $shexC242Run 'qian2019_table2_table4_parameter_contract.csv')
@@ -159,6 +171,31 @@ foreach ($stem in @(
     Add-Entry "C242 SCI figure PDF $stem" (Join-Path $shexC242Run "figures_sci\$stem.pdf")
 }
 
+Add-Entry 'C243 system-energy physical result' (Join-Path $systemC243Run 'physical_simscape_result.mat')
+Add-Entry 'C243 system-energy final Operating Point' (Join-Path $systemC243Run 'final_operating_point.mat')
+Add-Entry 'C243 validation report' (Join-Path $systemC243Run 'physical_validation_report.txt')
+Add-Entry 'C243 cycle summary' (Join-Path $systemC243Run 'cycle_physical_summary.csv')
+Add-Entry 'C243 parameter contract' (Join-Path $systemC243Run 'qian2019_table2_table4_parameter_contract.csv')
+Add-Entry 'C243 continuation progress' (Join-Path $systemC243Root 'steady_continuation_progress.csv')
+Add-Entry 'C243 continuation state' (Join-Path $systemC243Root 'steady_continuation_state.mat')
+Add-Entry 'C243 source heat-flow run contract' (Join-Path $systemC243Root 'source_heat_flow_run_contract.json')
+Add-Entry 'C243 modeled system-energy audit' $systemC243AuditPath
+Add-Entry 'C243 recovery contract' $systemC243ContractPath
+Add-Entry 'C243 MATLAB stdout' (Join-Path $systemC243Root 'matlab_stdout.log')
+Add-Entry 'C243 MATLAB stderr' (Join-Path $systemC243Root 'matlab_stderr.log')
+Add-Entry 'C243 SCI figure manifest' (Join-Path $systemC243Run 'figures_sci\figure_manifest.txt')
+foreach ($stem in @(
+    'Fig01_last_cycle_mechanism',
+    'Fig02_last_cycle_axial_fields',
+    'Fig03_periodic_convergence',
+    'Fig04_control_and_energy',
+    'Fig05_table4_boundary_audit',
+    'Fig06_direct_SHEX_control_volume',
+    'Fig07_modeled_system_energy_ledger')) {
+    Add-Entry "C243 SCI figure PNG $stem" (Join-Path $systemC243Run "figures_sci\$stem.png")
+    Add-Entry "C243 SCI figure PDF $stem" (Join-Path $systemC243Run "figures_sci\$stem.pdf")
+}
+
 Add-Entry 'Rejected 270 K report' (Join-Path $rejectedRun 'physical_validation_report.txt') $true 'diagnostic_rejected'
 Add-Entry 'Rejected 270 K summary' (Join-Path $rejectedRun 'cycle_physical_summary.csv') $true 'diagnostic_rejected'
 Add-Entry 'Rejected 270 K parameter contract' (Join-Path $rejectedRun 'qian2019_table2_table4_parameter_contract.csv') $true 'diagnostic_rejected'
@@ -177,6 +214,8 @@ Add-Entry 'Control-volume contract source' (Join-Path $repoRoot 'verification\Bu
 Add-Entry 'SHEX source heat-flow topology audit' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_SourceHeatFlow.m')
 Add-Entry 'SHEX source heat-flow result audit' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_SourceHeatFlowResult.m')
 Add-Entry 'SHEX source and sink-to-fluid transfer audit' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_SHEXTransferResult.m')
+Add-Entry 'Modeled system-energy result audit' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_SystemEnergyResult.m')
+Add-Entry 'Native system-energy logging diagnostic' (Join-Path $repoRoot 'verification\Diagnose_HeatDriveECC_SystemEnergyLogging.m')
 Add-Entry 'Frozen C240 SHEX control-volume audit' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_FrozenSHEXControlVolume.m')
 Add-Entry 'Frozen C240 SHEX package builder' (Join-Path $repoRoot 'verification\Build_HeatDriveECC_FrozenSHEXControlVolumePackage.ps1')
 Add-Entry 'SHEX source heat-flow validation launcher' (Join-Path $repoRoot 'verification\Start_HeatDriveECC_SourceHeatFlowValidation.ps1')
@@ -190,6 +229,7 @@ Add-Entry 'Complete modification report' (Join-Path $WorkspaceRoot '项目文档
 Add-Entry 'Eighth-stage strict audit report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第八阶段完整实施与严格审核报告.md')
 Add-Entry 'Ninth-stage SHEX and literature report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第九阶段SHEX控制体与文献对标报告.md')
 Add-Entry 'Tenth-stage C242 direct SHEX and storage report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第十阶段C242原生SHEX闭合与存储治理报告.md')
+Add-Entry 'Eleventh-stage C243 modeled system-energy report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第十一阶段C243整机热控制体闭合与设备边界报告.md')
 Add-Entry 'Qian local literature location index' (Join-Path $WorkspaceRoot '项目文档\研究笔记\2026-09-03_Qian本地文献精确定位与模型映射.md')
 
 $nativeDiagnosticRoot = Join-Path $AuditRoot `
@@ -343,22 +383,16 @@ if ($ultrafineSummary.completed_count -ne 2 -or
         $ultrafineSummary.rejected_count, $ultrafineSummary.pending_count,
         $ultrafineSummary.strict_local_pair_count)
 }
-$shexC242Result = Join-Path $shexC242Run 'physical_simscape_result.mat'
-$shexC242Checkpoint = Join-Path $shexC242Run 'final_operating_point.mat'
 if (-not [bool]$shexC242Contract.mechanism_pass -or
         -not [bool]$shexC242Contract.periodic_steady_state -or
         -not [bool]$shexC242Contract.direct_shex_control_volume_pass -or
         [bool]$shexC242Contract.system_energy_closure_complete -or
-        [int]$shexC242Contract.completed_cycles -ne 242) {
+        [int]$shexC242Contract.completed_cycles -ne 242 -or
+        [bool]$shexC242Contract.recovery_policy.state_recovery_allowed -or
+        [bool]$shexC242Contract.recovery_policy.preserve_final_operating_point -or
+        [string]$shexC242Contract.authority_status -ne
+            'superseded_by_C243_modeled_system_energy_authority') {
     throw 'Unexpected C242 SHEX recovery contract gates.'
-}
-if ((Get-FileHash -LiteralPath $shexC242Result -Algorithm SHA256).Hash -ne
-        [string]$shexC242Contract.result_sha256) {
-    throw 'C242 SHEX result SHA-256 mismatch.'
-}
-if ((Get-FileHash -LiteralPath $shexC242Checkpoint -Algorithm SHA256).Hash -ne
-        [string]$shexC242Contract.checkpoint_sha256) {
-    throw 'C242 SHEX Operating Point SHA-256 mismatch.'
 }
 if (-not [bool]$shexC242Audit.production_pass -or
         -not [bool]$shexC242Audit.periodic_steady_state -or
@@ -372,6 +406,39 @@ if (-not [bool]$shexC242Audit.production_pass -or
         [double]$shexC242Audit.direct_control_volume_residual_relative -gt 1.0e-3 -or
         [bool]$shexC242Audit.system_energy_closure_complete) {
     throw 'Unexpected C242 direct SHEX control-volume gates.'
+}
+$systemC243Result = Join-Path $systemC243Run 'physical_simscape_result.mat'
+$systemC243Checkpoint = Join-Path $systemC243Run 'final_operating_point.mat'
+if (-not [bool]$systemC243Contract.mechanism_pass -or
+        -not [bool]$systemC243Contract.periodic_steady_state -or
+        -not [bool]$systemC243Contract.modeled_thermal_closure_pass -or
+        -not [bool]$systemC243Contract.fluid_mass_conservation_pass -or
+        [bool]$systemC243Contract.complete_device_first_law_closure -or
+        [int]$systemC243Contract.completed_cycles -ne 243 -or
+        -not [bool]$systemC243Contract.recovery_policy.state_recovery_allowed -or
+        -not [bool]$systemC243Contract.recovery_policy.preserve_final_operating_point) {
+    throw 'Unexpected C243 modeled system-energy recovery contract gates.'
+}
+if ((Get-FileHash -LiteralPath $systemC243Result -Algorithm SHA256).Hash -ne
+        [string]$systemC243Contract.result_sha256) {
+    throw 'C243 system-energy result SHA-256 mismatch.'
+}
+if ((Get-FileHash -LiteralPath $systemC243Checkpoint -Algorithm SHA256).Hash -ne
+        [string]$systemC243Contract.checkpoint_sha256) {
+    throw 'C243 system-energy Operating Point SHA-256 mismatch.'
+}
+if (-not [bool]$systemC243Audit.production_pass -or
+        -not [bool]$systemC243Audit.periodic_steady_state -or
+        -not [bool]$systemC243Audit.local_exchanger_kcl_pass -or
+        -not [bool]$systemC243Audit.boundary_direction_pass -or
+        -not [bool]$systemC243Audit.fluid_mass_conservation_pass -or
+        -not [bool]$systemC243Audit.modeled_thermal_closure_pass -or
+        [bool]$systemC243Audit.complete_device_first_law_closure -or
+        [string]$systemC243Audit.window_contract -ne 'final_complete_cycle_only' -or
+        [double]$systemC243Audit.window_duration_s -ne 10.0 -or
+        [double]$systemC243Audit.modeled_thermal_residual_relative -gt 1.0e-3 -or
+        [double]$systemC243Audit.fluid_mass_drift_relative -gt 1.0e-5) {
+    throw 'Unexpected C243 modeled thermal-system gates.'
 }
 if ([bool]$shexControlSummary.system_energy_closure_complete -or
         [bool]$shexControlPackage.frozen_files_modified) {
@@ -392,7 +459,7 @@ $hashes = foreach ($item in ($manifest | Where-Object exists)) {
 $hashes | Export-Csv -LiteralPath $hashPath -NoTypeInformation -Encoding UTF8
 
 $summary = [ordered]@{
-    schema = 'heatdrive_ecc_final_package_audit_v5'
+    schema = 'heatdrive_ecc_final_package_audit_v6'
     generated_at = (Get-Date).ToString('o')
     workspace_root = $WorkspaceRoot
     authoritative_result = (Join-Path $mainRun 'physical_simscape_result.mat')
@@ -415,7 +482,19 @@ $summary = [ordered]@{
         [double]$shexC242Audit.direct_control_volume_residual_relative
     shex_c242_complete_system_closure = `
         [bool]$shexC242Audit.system_energy_closure_complete
-    c240_reconstruction_status = 'historical_diagnostic_superseded_by_direct_C242_measurement'
+    shex_c242_authority_status = [string]$shexC242Contract.authority_status
+    system_c243_cycles = $systemC243Contract.completed_cycles
+    system_c243_mechanism_pass = [bool]$systemC243Contract.mechanism_pass
+    system_c243_periodic_steady_state = [bool]$systemC243Contract.periodic_steady_state
+    system_c243_local_exchanger_kcl_pass = [bool]$systemC243Audit.local_exchanger_kcl_pass
+    system_c243_fluid_mass_conservation_pass = [bool]$systemC243Audit.fluid_mass_conservation_pass
+    system_c243_modeled_thermal_closure_pass = [bool]$systemC243Audit.modeled_thermal_closure_pass
+    system_c243_modeled_thermal_residual_W = [double]$systemC243Audit.modeled_thermal_residual_W
+    system_c243_modeled_thermal_residual_relative = [double]$systemC243Audit.modeled_thermal_residual_relative
+    system_c243_complete_device_first_law_closure = [bool]$systemC243Audit.complete_device_first_law_closure
+    continuation_authority = 'C243_modeled_system_energy'
+    paper_benchmark_authority = 'C200_fixed_CHEX'
+    c240_reconstruction_status = 'historical_diagnostic_superseded_by_C242_then_C243_measurement'
     initial_local_OAT_completed_count = $initialSummary.completed_count
     initial_local_OAT_admissible_count = $initialSummary.admissible_count
     initial_local_OAT_strict_pair_count = $initialSummary.strict_local_pair_count

@@ -30,10 +30,12 @@
   "direct_shex_control_volume_pass": true,
   "system_energy_closure_complete": false,
   "system_energy_closure_status": "SHEX source/sink/fluid control volume passes over the final complete cycle; HHEX, CHEX, buffer and pipe boundaries remain incomplete.",
+  "authority_status": "superseded_by_C243_modeled_system_energy_authority",
+  "superseded_by_contract": "verification/system_energy_c243_recovery_contract.json",
   "recovery_policy": {
-    "state_recovery_allowed": true,
-    "energy_metrics_may_be_propagated": true,
-    "preserve_final_operating_point": true,
+    "state_recovery_allowed": false,
+    "energy_metrics_may_be_propagated": false,
+    "preserve_final_operating_point": false,
     "preserved_state_classes": [
       "thermal_capacity",
       "buffer",

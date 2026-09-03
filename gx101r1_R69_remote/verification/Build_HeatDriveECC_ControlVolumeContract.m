@@ -33,7 +33,7 @@ function contract = Build_HeatDriveECC_ControlVolumeContract(output_dir, overrid
     write_markdown(markdown_path, rows, equations, options);
 
     contract = struct();
-    contract.schema = 'heatdrive_ecc_control_volume_contract_v1';
+    contract.schema = 'heatdrive_ecc_control_volume_contract_v2';
     contract.generated_at = char(datetime('now', 'TimeZone', 'local'));
     contract.cold_boundary_mode = options.system.cold_boundary_mode;
     contract.cycle_period_s = options.schedule.tau_cycle_s;
@@ -135,7 +135,7 @@ function equations = equation_rows(o)
         "integral(Q_CHEX_reservoir_to_hx_W) dt / Delta t"; ...
         "integral(pump_power_SMA_W+pump_power_SE_W) dt / Delta t"; ...
         "Qcool_mean / Ppump_mean"; ...
-        "Q_SHEX,in + Q_CHEX,source + Q_CHEX,load - Q_HHEX,out - d(U_fluid+U_endpoint+U_solid,sensible+latent)/dt"; ...
+        "Q_SHEX,in + Q_CHEX,source + Q_CHEX,load - Q_HHEX,out - d(U_fluid+U_endpoint+U_solid)/dt; U_solid=m*cp*T-m*Delta_h*xM"; ...
         "(M_fluid,end-M_fluid,start)/M_fluid,start"];
     window = repmat("last min(Ncycle,10) complete cycles; endpoints included by trapz", 10, 1);
     window(9:10) = "final complete cycle only; no native-log extrapolation";
