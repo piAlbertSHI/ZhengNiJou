@@ -216,6 +216,7 @@ Add-Entry 'SHEX source heat-flow result audit' (Join-Path $repoRoot 'verificatio
 Add-Entry 'SHEX source and sink-to-fluid transfer audit' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_SHEXTransferResult.m')
 Add-Entry 'Modeled system-energy result audit' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_SystemEnergyResult.m')
 Add-Entry 'Native system-energy logging diagnostic' (Join-Path $repoRoot 'verification\Diagnose_HeatDriveECC_SystemEnergyLogging.m')
+Add-Entry 'C243 pump-fluid energy transition assessment' (Join-Path $repoRoot 'verification\pump_fluid_energy_transition_assessment_c243.json')
 Add-Entry 'Frozen C240 SHEX control-volume audit' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_FrozenSHEXControlVolume.m')
 Add-Entry 'Frozen C240 SHEX package builder' (Join-Path $repoRoot 'verification\Build_HeatDriveECC_FrozenSHEXControlVolumePackage.ps1')
 Add-Entry 'SHEX source heat-flow validation launcher' (Join-Path $repoRoot 'verification\Start_HeatDriveECC_SourceHeatFlowValidation.ps1')

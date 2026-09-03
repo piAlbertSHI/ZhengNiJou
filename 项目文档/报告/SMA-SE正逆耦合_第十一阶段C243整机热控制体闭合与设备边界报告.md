@@ -274,3 +274,16 @@ pwsh -File .\verification\Manage_HeatDriveECC_OutputStorage.ps1
 > first-law closure remains withheld because the reported 11.843 W pump work is
 > not thermally coupled by the current pressure-source contract. The operating
 > point is not a reproduction of Qian et al.'s paired Table 4 endpoints.
+
+## 12. 泵功热耦合过渡诊断
+
+在 C243 封存后测试了 Simscape 原生 `power_spec=isentropic`。模型构建和
+`SimulationCommand=update` 通过，但 `none -> isentropic` 会改变 Pressure Source
+(TL) 的内部 Simscape 状态结构；用 C243 OP 做 `0.02 s` 诊断续算时，恢复在
+`2430 s` 因 state dimension mismatch 被拒绝。没有生成 result 或 checkpoint，
+也没有进入恢复链。
+
+因此 `branch.pump_fluid_energy_model` 没有加入允许的 checkpoint transition fields。
+该分支只能冷启动，或先实现并验证逐状态映射；在证明原有热容、buffer、本构、
+温度、相分数和 PI 记忆全部保留前，不得从 C243 直接切换。机器可读拒绝合同为
+`verification/pump_fluid_energy_transition_assessment_c243.json`。

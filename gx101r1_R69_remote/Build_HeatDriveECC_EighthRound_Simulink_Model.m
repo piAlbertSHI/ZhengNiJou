@@ -1432,13 +1432,16 @@ function configure_pressure_source_fluid_energy(model_name, options)
             'hydraulic faces of one SE piston); found %d.'], ...
             numel(pressure_sources));
     end
-    if ~strcmp(options.branch.pump_fluid_energy_model, 'none')
+    mode = lower(strtrim(char(string( ...
+        options.branch.pump_fluid_energy_model))));
+    if ~ismember(mode, {'none','isentropic'})
         error('Build:ECC:PumpFluidEnergyContract', ...
-            'The Qian fluid-dissipation assumption requires power_spec=none.');
+            'pump_fluid_energy_model must be none or isentropic.');
     end
+    power_spec = ['foundation.enum.power_spec.' mode];
     for idx = 1:numel(pressure_sources)
         set_param(pressure_sources{idx}, 'power_spec', ...
-            'foundation.enum.power_spec.none');
+            power_spec);
     end
 end
 

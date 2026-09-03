@@ -1,0 +1,19 @@
+{
+  "schema": "heatdrive_ecc_pump_fluid_energy_transition_assessment_v1",
+  "assessed_at": "2026-09-04T05:02:00+08:00",
+  "source_contract": "verification/system_energy_c243_recovery_contract.json",
+  "source_cycles": 243,
+  "requested_transition": "branch.pump_fluid_energy_model: none -> isentropic",
+  "topology_update_pass": true,
+  "operating_point_restore_pass": false,
+  "failure_time_s": 2430.0,
+  "failure_class": "Simscape operating-point structural incompatibility",
+  "failure_summary": "Changing Pressure Source (TL) power_spec changes internal Simscape state structure. The C243 Operating Point cannot restore the modified pressure-source network without data-dimension mismatch and invalid fluid initial states.",
+  "state_compatible_transition": false,
+  "result_generated": false,
+  "checkpoint_generated": false,
+  "resume_allowed": false,
+  "propagate_to_mainline": false,
+  "required_future_method": "cold start or explicit state mapping that proves all pre-existing thermal capacity, buffer, constitutive, temperature, phase-fraction, and PI-memory states are preserved",
+  "claim_boundary": "C243 modeled thermal closure remains authoritative; complete device first-law closure remains withheld."
+}
