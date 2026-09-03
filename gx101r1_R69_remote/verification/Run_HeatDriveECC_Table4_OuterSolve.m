@@ -55,14 +55,16 @@ function outer = Run_HeatDriveECC_Table4_OuterSolve(settings)
             loaded = load(state_path, 'state');
             if strcmp(loaded.state.status, 'running') && ...
                     logical(settings.run_candidates)
-                state = run_candidate(Tc_K, candidate_root, authority, settings);
+                state = run_candidate_with_recorded_failure(Tc_K, ...
+                    candidate_root, authority, settings, state_path);
             else
                 state = loaded.state;
             end
             record = evaluate_candidate(Tc_K, candidate_root, state);
             save(record_path, 'record', '-v7');
         elseif logical(settings.run_candidates)
-            state = run_candidate(Tc_K, candidate_root, authority, settings);
+            state = run_candidate_with_recorded_failure(Tc_K, ...
+                candidate_root, authority, settings, state_path);
             record = evaluate_candidate(Tc_K, candidate_root, state);
             save(record_path, 'record', '-v7');
         else
@@ -83,6 +85,38 @@ function outer = Run_HeatDriveECC_Table4_OuterSolve(settings)
         'root_bracketed=%d root_Tc_K=%.12g\n'], outer.status, ...
         outer.accepted_count, outer.rejected_count, ...
         outer.root_bracketed, outer.root_Tc_K);
+end
+
+function state = run_candidate_with_recorded_failure(Tc_K, candidate_root, ...
+        authority, settings, state_path)
+% Convert a continuation driver's recorded terminal error into an auditable
+% rejected candidate. No result or checkpoint from the failed attempt is
+% promoted; the authority paths in the state remain diagnostic references.
+    try
+        state = run_candidate(Tc_K, candidate_root, authority, settings);
+    catch exception
+        if ~isfile(state_path)
+            rethrow(exception);
+        end
+        saved = load(state_path, 'state');
+        state = saved.state;
+        terminal = isfield(state, 'status') && ...
+            strcmp(state.status, 'simulation_error');
+        authority_preserved = isfield(state, 'current_cycles') && ...
+            state.current_cycles == authority.completed_cycles && ...
+            isfield(state, 'prior_result_path') && ...
+            isfield(state, 'checkpoint_path') && ...
+            strcmpi(canonical_path(state.prior_result_path), ...
+                canonical_path(authority.result_path)) && ...
+            strcmpi(canonical_path(state.checkpoint_path), ...
+                canonical_path(authority.checkpoint_path));
+        if ~(terminal && authority_preserved)
+            rethrow(exception);
+        end
+        fprintf(2, ['OUTER_CANDIDATE_RECORDED_ERROR Tc_K=%.12g ', ...
+            'cycles=%d id=%s; authority preserved without propagation\n'], ...
+            Tc_K, state.current_cycles, exception.identifier);
+    end
 end
 
 function state = run_candidate(Tc_K, candidate_root, authority, settings)
@@ -202,6 +236,7 @@ function record = evaluate_candidate(Tc_K, candidate_root, state)
     record.validated_cycles = state.current_cycles;
     record.attempted_cycles = get_field(state, 'last_attempt_cycles', ...
         state.current_cycles);
+    record.failure_reason = char(string(get_field(state, 'stop_reason', '')));
     if isempty(state.rows)
         return;
     end
@@ -383,6 +418,7 @@ function write_rejection_marker(candidate_root, record, authority)
     fprintf(fid, 'status=rejected_not_admissible_for_outer_solve\n');
     fprintf(fid, 'Tc_K=%.12g\n', record.Tc_K);
     fprintf(fid, 'attempt_status=%s\n', record.status);
+    fprintf(fid, 'failure_reason=%s\n', record.failure_reason);
     fprintf(fid, 'mechanism_pass=%d\n', record.mechanism_pass);
     fprintf(fid, 'periodic_steady_state=%d\n', record.periodic_steady_state);
     fprintf(fid, 'flow_gates_pass=%d\n', record.flow_gates_pass);
@@ -426,7 +462,8 @@ function record = record_template()
         'system_energy_residual_relative', NaN, ...
         'fluid_mass_drift_relative', NaN, ...
         'system_energy_audit_path', '', ...
-        'system_energy_audit_error', '', 'admissible', false, ...
+        'system_energy_audit_error', '', 'failure_reason', '', ...
+        'admissible', false, ...
         'eq9_lift_K', NaN, 'eq10_SCP_W_per_g', NaN, ...
         'endpoint_drift_K', NaN, ...
         'same_phase_temperature_drift_K', NaN, ...
@@ -440,6 +477,10 @@ function value = get_field(s, name, fallback)
     else
         value = fallback;
     end
+end
+
+function path = canonical_path(path)
+    path = char(java.io.File(char(string(path))).getCanonicalPath());
 end
 
 function validate_settings(settings)
