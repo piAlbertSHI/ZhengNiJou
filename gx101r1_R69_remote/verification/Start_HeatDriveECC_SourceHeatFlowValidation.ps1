@@ -86,7 +86,7 @@ $priorForMatlab = ConvertTo-MatlabString $priorResultPath
 $checkpointForMatlab = ConvertTo-MatlabString $checkpointPath
 $contractForMatlab = ConvertTo-MatlabString $contractPath
 $batch = @"
-cd('$repoForMatlab'); addpath(pwd); addpath(fullfile(pwd,'verification')); settings=struct('Tchex_K',276.95,'output_root','$outputForMatlab','segment_cycles',$SegmentCycles,'maximum_cycles',$MaximumCycles,'required_consecutive_near_segments',1000,'resume_existing_state',true,'initial_prior_result_path','$priorForMatlab','initial_checkpoint_path','$checkpointForMatlab','initial_state_policy','validated_recovery_contract_only','mainline_contract_path','$contractForMatlab','checkpoint_transition_fields',{{}},'checkpoint_append_signal_fields',{{'Q_SHEX_source_to_sink_W','Q_SHEX_sink_to_fluid_W'}},'branch_overrides',struct('se_stage2_pressure_pi_kp_MPa_per_kgps',-136.0,'se_stage2_pressure_pi_initial_kp_MPa_per_kgps',-135.0,'se_stage2_pressure_pi_transition_start_s',1070.0,'se_stage2_pressure_pi_transition_duration_s',20.0,'se_stage4_pressure_pi_kp_MPa_per_kgps',-255.0,'se_stage4_pressure_pi_initial_kp_MPa_per_kgps',-255.0,'se_stage4_pressure_pi_transition_start_s',0.0,'se_stage4_pressure_pi_transition_duration_s',0.0)); Run_HeatDriveECC_Table4_FixedReservoirPoint(settings);
+cd('$repoForMatlab'); addpath(pwd); addpath(fullfile(pwd,'verification')); settings=struct('Tchex_K',276.95,'output_root','$outputForMatlab','segment_cycles',$SegmentCycles,'maximum_cycles',$MaximumCycles,'required_consecutive_near_segments',1000,'resume_existing_state',true,'initial_prior_result_path','$priorForMatlab','initial_checkpoint_path','$checkpointForMatlab','initial_state_policy','validated_recovery_contract_only','mainline_contract_path','$contractForMatlab','checkpoint_transition_fields',{{}},'checkpoint_append_signal_fields',{{'Q_SHEX_source_to_sink_W','Q_SHEX_sink_to_fluid_W','Q_SHEX_source_sensor_native_W','Q_SHEX_source_conductor_W','Q_SHEX_sink_mass_W'}},'branch_overrides',struct('se_stage2_pressure_pi_kp_MPa_per_kgps',-136.0,'se_stage2_pressure_pi_initial_kp_MPa_per_kgps',-135.0,'se_stage2_pressure_pi_transition_start_s',1070.0,'se_stage2_pressure_pi_transition_duration_s',20.0,'se_stage4_pressure_pi_kp_MPa_per_kgps',-255.0,'se_stage4_pressure_pi_initial_kp_MPa_per_kgps',-255.0,'se_stage4_pressure_pi_transition_start_s',0.0,'se_stage4_pressure_pi_transition_duration_s',0.0)); Run_HeatDriveECC_Table4_FixedReservoirPoint(settings);
 "@.Trim()
 
 $runContract = [ordered]@{
@@ -103,7 +103,7 @@ $runContract = [ordered]@{
     Tchex_K = 276.95
     segment_cycles = $SegmentCycles
     maximum_cycles = $MaximumCycles
-    new_signal = 'shex_source_heat_flow_W; simlog/SHEX/HotSinkFluidLink/Q'
+    new_signal = 'shex_source_heat_flow_W; native SHEX source/conductor/mass/fluid Q diagnostics'
     topology_change_for_sink_to_fluid_signal = $false
     system_COP_status_before_production_audit = 'withheld'
 }
