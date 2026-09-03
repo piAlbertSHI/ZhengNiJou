@@ -15,7 +15,7 @@ function outputs = Plot_HeatDriveECC_SCI_FigureSet(result_input, output_dir)
     outputs.schema = 'heatdrive_ecc_sci_figure_set_v1';
     outputs.source_result = result.output_mat;
     outputs.output_dir = output_dir;
-    outputs.files = cell(5, 2);
+    outputs.files = cell(6, 2);
     outputs.files(1, :) = export_pair( ...
         figure_cycle_mechanism(result), output_dir, ...
         'Fig01_last_cycle_mechanism');
@@ -31,6 +31,9 @@ function outputs = Plot_HeatDriveECC_SCI_FigureSet(result_input, output_dir)
     outputs.files(5, :) = export_pair( ...
         figure_literature_boundary(result), output_dir, ...
         'Fig05_table4_boundary_audit');
+    outputs.files(6, :) = export_pair( ...
+        figure_direct_shex_control_volume(result), output_dir, ...
+        'Fig06_direct_SHEX_control_volume');
     outputs.manifest = fullfile(output_dir, 'figure_manifest.txt');
     write_manifest(outputs, result);
 end
@@ -307,6 +310,81 @@ function fig = figure_literature_boundary(result)
         'FontWeight', 'normal');
     xlim(ax, [0 max(48, extrapolated_root + 2)]);
     ylim(ax, [-0.03 0.70]);
+end
+
+function fig = figure_direct_shex_control_volume(result)
+    p = result.physical;
+    o = result.options;
+    required = {'Q_SHEX_source_to_sink_W','Q_SHEX_sink_to_fluid_W', ...
+        'Q_SHEX_sink_mass_W'};
+    if ~all(isfield(p, required))
+        error('HeatDriveECC:SCIFigureMissingSHEXBranches', ...
+            'Direct SHEX control-volume signals are incomplete.');
+    end
+    [idx, phase_s] = last_cycle_index(p, o);
+    q_source = p.Q_SHEX_source_to_sink_W(idx);
+    q_fluid = p.Q_SHEX_sink_to_fluid_W(idx);
+    q_storage = p.Q_SHEX_sink_mass_W(idx);
+    if any(~isfinite([q_source(:); q_fluid(:); q_storage(:)]))
+        error('HeatDriveECC:SCIFigureNonfiniteSHEXBranches', ...
+            'Final-cycle SHEX branch signals must all be finite.');
+    end
+    q_balance = q_source - q_fluid - q_storage;
+    performance = result.summary.performance;
+    e_source = cumtrapz(phase_s, q_source);
+    e_fluid = cumtrapz(phase_s, q_fluid);
+    e_storage = cumtrapz(phase_s, q_storage);
+    e_residual = cumtrapz(phase_s, q_balance);
+    residual_scale_J = max(max(abs(e_source)), eps);
+    residual_relative = max(abs(e_residual) / residual_scale_J, 1e-16);
+    c = palette();
+
+    fig = sci_figure(7.2, 5.6);
+    tl = tiledlayout(fig, 2, 1, 'TileSpacing', 'compact', ...
+        'Padding', 'compact');
+    ax = nexttile(tl);
+    plot(ax, phase_s, q_source, 'Color', c.sma, 'LineWidth', 1.2);
+    hold(ax, 'on');
+    plot(ax, phase_s, q_fluid, 'Color', c.se, 'LineWidth', 1.2);
+    plot(ax, phase_s, q_storage, 'Color', c.neutral, 'LineWidth', 0.9);
+    stage_guides(ax, o);
+    ylabel(ax, 'Heat-flow rate (W)');
+    legend(ax, {'Source to sink','Sink to fluid','Sink storage'}, ...
+        'Location', 'eastoutside', 'Box', 'off');
+    panel_label(ax, 'a');
+
+    ax = nexttile(tl);
+    yyaxis(ax, 'left');
+    plot(ax, phase_s, e_source, 'Color', c.sma, 'LineWidth', 1.2);
+    hold(ax, 'on');
+    plot(ax, phase_s, e_fluid, 'Color', c.se, 'LineWidth', 1.2);
+    plot(ax, phase_s, e_storage, 'Color', c.neutral, 'LineWidth', 0.9);
+    ylabel(ax, 'Cumulative energy (J)');
+    yyaxis(ax, 'right');
+    plot(ax, phase_s, residual_relative, ':', ...
+        'Color', c.fail, 'LineWidth', 1.1);
+    ax.YAxis(2).Scale = 'log';
+    ylim(ax, [1e-16 1e-3]);
+    ylabel(ax, 'Cumulative residual / max |E_{in}|');
+    stage_guides(ax, o);
+    xlabel(ax, 'Cycle phase (s)');
+    legend(ax, {'Source input','Fluid transfer','Sink storage', ...
+        'Balance residual'}, 'Location', 'eastoutside', 'Box', 'off');
+    panel_label(ax, 'b');
+
+    note = text(ax, 0.985, 0.10, sprintf( ...
+        'Source %.3f W; fluid %.3f W; final residual %.2e', ...
+        performance.SHEX_source_heat_input_over_sink_window_W, ...
+        performance.SHEX_sink_to_fluid_heat_input_W, ...
+        performance.SHEX_direct_control_volume_residual_relative), ...
+        'Units', 'normalized', 'HorizontalAlignment', 'right', ...
+        'FontSize', 7.5, 'BackgroundColor', 'w', 'Margin', 2);
+    note.Color = [0.0 0.0 0.0];
+    note.FontWeight = 'bold';
+    heading = title(tl, sprintf( ...
+        'Cycle %d direct SHEX control-volume audit', o.cycle_count));
+    heading.Color = [0.0 0.0 0.0];
+    heading.FontWeight = 'bold';
 end
 
 function [eq9_K, scp_Wpg] = cycle_performance(p, o)

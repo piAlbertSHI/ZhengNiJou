@@ -45,6 +45,18 @@ $shexControlSummary = Get-Content -LiteralPath $shexControlSummaryPath -Raw |
     ConvertFrom-Json
 $shexControlPackage = Get-Content -LiteralPath $shexControlPackagePath -Raw |
     ConvertFrom-Json
+$shexC242ContractPath = Join-Path $repoRoot `
+    'verification\shex_fullcycle_c242_recovery_contract.json'
+$shexC242Contract = Get-Content -LiteralPath $shexC242ContractPath -Raw |
+    ConvertFrom-Json
+$shexC242Root = Join-Path $repoRoot `
+    'outputs\qian_coupled_shex_fullcycle_c242_v2_20260903'
+$shexC242Run = Join-Path $shexC242Root `
+    'qian2019_table2_table4_simscape_242cycle_20260903_173052'
+$shexC242AuditPath = Join-Path $shexC242Root `
+    'shex_transfer_audit_c242.json'
+$shexC242Audit = Get-Content -LiteralPath $shexC242AuditPath -Raw |
+    ConvertFrom-Json
 
 New-Item -ItemType Directory -Force -Path $AuditRoot | Out-Null
 $manifestPath = Join-Path $AuditRoot 'final_results_manifest_20260824.csv'
@@ -89,8 +101,8 @@ Add-Entry 'C200 fixed-reservoir manifest' (Join-Path $mainRoot 'fixed_reservoir_
 Add-Entry 'C200 stdout' (Join-Path $mainRoot 'matlab_stdout.log')
 Add-Entry 'C200 stderr' (Join-Path $mainRoot 'matlab_stderr.log')
 Add-Entry 'C200 freeze contract' (Join-Path $repoRoot 'verification\c200_mainline_freeze_contract.json')
-Add-Entry 'C240 source heat-flow physical result' (Join-Path $repoRoot 'outputs\qian_coupled_source_heatflow_steady_from_c220_20260831\qian2019_table2_table4_simscape_240cycle_20260901_001301\physical_simscape_result.mat')
-Add-Entry 'C240 source heat-flow Operating Point' (Join-Path $repoRoot 'outputs\qian_coupled_source_heatflow_steady_from_c220_20260831\qian2019_table2_table4_simscape_240cycle_20260901_001301\final_operating_point.mat')
+Add-Entry 'C240 superseded physical result' (Join-Path $sourceC240Run 'physical_simscape_result.mat') $false 'historical_superseded'
+Add-Entry 'C240 superseded Operating Point' (Join-Path $sourceC240Run 'final_operating_point.mat') $false 'historical_superseded'
 Add-Entry 'C240 source heat-flow validation report' (Join-Path $repoRoot 'outputs\qian_coupled_source_heatflow_steady_from_c220_20260831\qian2019_table2_table4_simscape_240cycle_20260901_001301\physical_validation_report.txt')
 Add-Entry 'C240 source heat-flow result audit' (Join-Path $repoRoot 'outputs\qian_coupled_source_heatflow_steady_from_c220_20260831\qian2019_table2_table4_simscape_240cycle_20260901_001301\source_heat_flow_result_audit.mat')
 Add-Entry 'C240 source heat-flow cycle summary' (Join-Path $sourceC240Run 'cycle_physical_summary.csv')
@@ -120,6 +132,31 @@ foreach ($name in @(
         'matlab_stderr.log')) {
     Add-Entry "C240 frozen SHEX control-volume artifact $name" `
         (Join-Path $shexControlRoot $name)
+}
+
+Add-Entry 'C242 SHEX physical result' (Join-Path $shexC242Run 'physical_simscape_result.mat')
+Add-Entry 'C242 SHEX final Operating Point' (Join-Path $shexC242Run 'final_operating_point.mat')
+Add-Entry 'C242 SHEX validation report' (Join-Path $shexC242Run 'physical_validation_report.txt')
+Add-Entry 'C242 SHEX cycle summary' (Join-Path $shexC242Run 'cycle_physical_summary.csv')
+Add-Entry 'C242 SHEX parameter contract' (Join-Path $shexC242Run 'qian2019_table2_table4_parameter_contract.csv')
+Add-Entry 'C242 continuation progress' (Join-Path $shexC242Root 'steady_continuation_progress.csv')
+Add-Entry 'C242 continuation state' (Join-Path $shexC242Root 'steady_continuation_state.mat')
+Add-Entry 'C242 source heat-flow run contract' (Join-Path $shexC242Root 'source_heat_flow_run_contract.json')
+Add-Entry 'C242 direct SHEX transfer audit' $shexC242AuditPath
+Add-Entry 'C242 recovery contract' $shexC242ContractPath
+Add-Entry 'C241 historical recovery contract' (Join-Path $repoRoot 'verification\shex_branchdiag_c241_recovery_contract.json')
+Add-Entry 'C242 MATLAB stdout' (Join-Path $shexC242Root 'matlab_stdout.log')
+Add-Entry 'C242 MATLAB stderr' (Join-Path $shexC242Root 'matlab_stderr.log')
+Add-Entry 'C242 SCI figure manifest' (Join-Path $shexC242Run 'figures_sci\figure_manifest.txt')
+foreach ($stem in @(
+    'Fig01_last_cycle_mechanism',
+    'Fig02_last_cycle_axial_fields',
+    'Fig03_periodic_convergence',
+    'Fig04_control_and_energy',
+    'Fig05_table4_boundary_audit',
+    'Fig06_direct_SHEX_control_volume')) {
+    Add-Entry "C242 SCI figure PNG $stem" (Join-Path $shexC242Run "figures_sci\$stem.png")
+    Add-Entry "C242 SCI figure PDF $stem" (Join-Path $shexC242Run "figures_sci\$stem.pdf")
 }
 
 Add-Entry 'Rejected 270 K report' (Join-Path $rejectedRun 'physical_validation_report.txt') $true 'diagnostic_rejected'
@@ -152,7 +189,19 @@ Add-Entry 'Long-task discipline' (Join-Path $WorkspaceRoot '项目文档\研究�
 Add-Entry 'Complete modification report' (Join-Path $WorkspaceRoot '项目文档\报告\SE21_SMA_SE耦合_完整修改与审核报告.md')
 Add-Entry 'Eighth-stage strict audit report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第八阶段完整实施与严格审核报告.md')
 Add-Entry 'Ninth-stage SHEX and literature report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第九阶段SHEX控制体与文献对标报告.md')
+Add-Entry 'Tenth-stage C242 direct SHEX and storage report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第十阶段C242原生SHEX闭合与存储治理报告.md')
 Add-Entry 'Qian local literature location index' (Join-Path $WorkspaceRoot '项目文档\研究笔记\2026-09-03_Qian本地文献精确定位与模型映射.md')
+
+$nativeDiagnosticRoot = Join-Path $AuditRoot `
+    'checkpoint_continuation_diagnostics_20260903'
+foreach ($name in @(
+        'README.md',
+        'shex_native_short_continuation.json',
+        'shex_native_fullcycle_continuation.json',
+        'shex_native_fullcycle_historyfix.json')) {
+    Add-Entry "SHEX native diagnostic $name" `
+        (Join-Path $nativeDiagnosticRoot $name)
+}
 
 $controlRoot = Join-Path $AuditRoot 'control_volume_contract'
 foreach ($name in @('control_volume_contract.csv', 'control_volume_contract.json',
@@ -294,39 +343,39 @@ if ($ultrafineSummary.completed_count -ne 2 -or
         $ultrafineSummary.rejected_count, $ultrafineSummary.pending_count,
         $ultrafineSummary.strict_local_pair_count)
 }
-$sourceC240Result = Join-Path $sourceC240Run 'physical_simscape_result.mat'
-$sourceC240Checkpoint = Join-Path $sourceC240Run 'final_operating_point.mat'
-if (-not [bool]$sourceC240Contract.mechanism_pass -or
-        -not [bool]$sourceC240Contract.periodic_steady_state -or
-        -not [bool]$sourceC240Contract.source_heat_flow_direction_pass -or
-        [int]$sourceC240Contract.completed_cycles -ne 240) {
-    throw 'Unexpected C240 source heat-flow recovery contract gates.'
+$shexC242Result = Join-Path $shexC242Run 'physical_simscape_result.mat'
+$shexC242Checkpoint = Join-Path $shexC242Run 'final_operating_point.mat'
+if (-not [bool]$shexC242Contract.mechanism_pass -or
+        -not [bool]$shexC242Contract.periodic_steady_state -or
+        -not [bool]$shexC242Contract.direct_shex_control_volume_pass -or
+        [bool]$shexC242Contract.system_energy_closure_complete -or
+        [int]$shexC242Contract.completed_cycles -ne 242) {
+    throw 'Unexpected C242 SHEX recovery contract gates.'
 }
-if ((Get-FileHash -LiteralPath $sourceC240Result -Algorithm SHA256).Hash -ne
-        [string]$sourceC240Contract.result_sha256) {
-    throw 'C240 source heat-flow result SHA-256 mismatch.'
+if ((Get-FileHash -LiteralPath $shexC242Result -Algorithm SHA256).Hash -ne
+        [string]$shexC242Contract.result_sha256) {
+    throw 'C242 SHEX result SHA-256 mismatch.'
 }
-if ((Get-FileHash -LiteralPath $sourceC240Checkpoint -Algorithm SHA256).Hash -ne
-        [string]$sourceC240Contract.checkpoint_sha256) {
-    throw 'C240 source heat-flow Operating Point SHA-256 mismatch.'
+if ((Get-FileHash -LiteralPath $shexC242Checkpoint -Algorithm SHA256).Hash -ne
+        [string]$shexC242Contract.checkpoint_sha256) {
+    throw 'C242 SHEX Operating Point SHA-256 mismatch.'
 }
-if (-not [bool]$shexControlSummary.production_pass -or
-        -not [bool]$shexControlSummary.periodic_steady_state -or
-        -not [bool]$shexControlSummary.source_direction_pass -or
-        -not [bool]$shexControlSummary.sink_to_fluid_direction_pass -or
-        [int]$shexControlSummary.cycle_count -ne 240 -or
-        [double]$shexControlSummary.window_start_s -ne 2300.0 -or
-        [double]$shexControlSummary.window_end_s -ne 2400.0 -or
-        [math]::Abs([double]$shexControlSummary.transfer_ratio - 1.0) -gt 1.0e-8 -or
-        [bool]$shexControlSummary.system_energy_closure_complete) {
-    throw 'Unexpected C240 frozen SHEX control-volume gates.'
+if (-not [bool]$shexC242Audit.production_pass -or
+        -not [bool]$shexC242Audit.periodic_steady_state -or
+        -not [bool]$shexC242Audit.source_direction_pass -or
+        -not [bool]$shexC242Audit.sink_to_fluid_direction_pass -or
+        -not [bool]$shexC242Audit.direct_control_volume_pass -or
+        [string]$shexC242Audit.sink_to_fluid_window_contract -ne
+            'final_complete_cycle_only' -or
+        [double]$shexC242Audit.sink_to_fluid_observed_duration_s -ne 10.0 -or
+        [math]::Abs([double]$shexC242Audit.transfer_ratio - 1.0) -gt 1.0e-4 -or
+        [double]$shexC242Audit.direct_control_volume_residual_relative -gt 1.0e-3 -or
+        [bool]$shexC242Audit.system_energy_closure_complete) {
+    throw 'Unexpected C242 direct SHEX control-volume gates.'
 }
-if ([string]$shexControlPackage.frozen_result_sha256 -ne
-        [string]$sourceC240Contract.result_sha256 -or
-        [string]$shexControlPackage.frozen_checkpoint_sha256 -ne
-        [string]$sourceC240Contract.checkpoint_sha256 -or
+if ([bool]$shexControlSummary.system_energy_closure_complete -or
         [bool]$shexControlPackage.frozen_files_modified) {
-    throw 'Frozen SHEX package does not preserve the C240 hash contract.'
+    throw 'Historical C240 reconstruction has an invalid completion claim.'
 }
 
 $hashes = foreach ($item in ($manifest | Where-Object exists)) {
@@ -343,7 +392,7 @@ $hashes = foreach ($item in ($manifest | Where-Object exists)) {
 $hashes | Export-Csv -LiteralPath $hashPath -NoTypeInformation -Encoding UTF8
 
 $summary = [ordered]@{
-    schema = 'heatdrive_ecc_final_package_audit_v4'
+    schema = 'heatdrive_ecc_final_package_audit_v5'
     generated_at = (Get-Date).ToString('o')
     workspace_root = $WorkspaceRoot
     authoritative_result = (Join-Path $mainRun 'physical_simscape_result.mat')
@@ -353,19 +402,20 @@ $summary = [ordered]@{
     strict_table4_reproduction = 0
     paired_table4_endpoint_pass = 0
     heat_driven_system_COP_available = 0
-    source_heatflow_c240_cycles = $sourceC240Contract.completed_cycles
-    source_heatflow_c240_mechanism_pass = [bool]$sourceC240Contract.mechanism_pass
-    source_heatflow_c240_periodic_steady_state = [bool]$sourceC240Contract.periodic_steady_state
-    source_heatflow_c240_direction_pass = [bool]$sourceC240Contract.source_heat_flow_direction_pass
-    source_heatflow_c240_system_energy_closure_complete = [bool]$sourceC240Contract.system_energy_closure_complete
-    source_heatflow_c240_COP = $sourceC240Contract.heat_driven_system_COP
-    shex_control_volume_c240_pass = [bool]$shexControlSummary.production_pass
-    shex_control_volume_c240_sink_to_fluid_W = `
-        [double]$shexControlSummary.sink_to_fluid_heat_flow_mean_W
-    shex_control_volume_c240_transfer_ratio = `
-        [double]$shexControlSummary.transfer_ratio
-    shex_control_volume_c240_complete_system_closure = `
-        [bool]$shexControlSummary.system_energy_closure_complete
+    shex_c242_cycles = $shexC242Contract.completed_cycles
+    shex_c242_mechanism_pass = [bool]$shexC242Contract.mechanism_pass
+    shex_c242_periodic_steady_state = [bool]$shexC242Contract.periodic_steady_state
+    shex_c242_direct_control_volume_pass = `
+        [bool]$shexC242Audit.direct_control_volume_pass
+    shex_c242_source_heat_input_W = [double]$shexC242Audit.source_heat_input_W
+    shex_c242_sink_to_fluid_heat_input_W = `
+        [double]$shexC242Audit.sink_to_fluid_heat_input_W
+    shex_c242_transfer_ratio = [double]$shexC242Audit.transfer_ratio
+    shex_c242_control_volume_residual_relative = `
+        [double]$shexC242Audit.direct_control_volume_residual_relative
+    shex_c242_complete_system_closure = `
+        [bool]$shexC242Audit.system_energy_closure_complete
+    c240_reconstruction_status = 'historical_diagnostic_superseded_by_direct_C242_measurement'
     initial_local_OAT_completed_count = $initialSummary.completed_count
     initial_local_OAT_admissible_count = $initialSummary.admissible_count
     initial_local_OAT_strict_pair_count = $initialSummary.strict_local_pair_count

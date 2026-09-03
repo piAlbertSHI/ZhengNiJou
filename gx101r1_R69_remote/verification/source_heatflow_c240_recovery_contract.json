@@ -29,9 +29,13 @@
   "eq10_SCP_W_per_g": 0.316481488072,
   "system_energy_closure_complete": false,
   "system_energy_closure_status": "solid SMA/SE gates pass; downstream SHEX transfer is not measured",
+  "superseded_by": "verification/shex_fullcycle_c242_recovery_contract.json",
+  "storage_disposition": "raw result and Operating Point removed after C242 direct closure was frozen; hashes and scalar evidence retained",
   "recovery_policy": {
-    "sole_source_heatflow_recovery": true,
-    "preserve_final_operating_point": true,
+    "sole_source_heatflow_recovery": false,
+    "state_recovery_allowed": false,
+    "raw_artifacts_retained": false,
+    "preserve_final_operating_point": false,
     "preserved_state_classes": [
       "thermal_capacity",
       "buffer",

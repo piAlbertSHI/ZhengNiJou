@@ -21,11 +21,14 @@
   "eq9_lift_K": 28.7102580232001,
   "eq10_SCP_W_per_g": 0.316481332947418,
   "direct_shex_control_volume_pass": false,
-  "direct_shex_control_volume_reason": "The C241 state is mechanism-valid and periodic, but its native Simscape branch arrays retained only the last 5000 steps and were extrapolated over the first half-cycle. The C241 energy audit is rejected; only its operating state may be resumed.",
+  "direct_shex_control_volume_reason": "The C241 state was mechanism-valid and periodic, but its native Simscape branch arrays retained only the last 5000 steps and were extrapolated over the first half-cycle. Its energy audit is rejected. The state was used once to produce accepted C242 and is no longer retained for recovery.",
+  "superseded_by": "verification/shex_fullcycle_c242_recovery_contract.json",
+  "storage_disposition": "raw result and Operating Point removed after successful C242 continuation; hashes, reports and diagnostics retained",
   "recovery_policy": {
-    "state_recovery_allowed": true,
+    "state_recovery_allowed": false,
+    "raw_artifacts_retained": false,
     "energy_metrics_may_be_propagated": false,
-    "preserve_final_operating_point": true,
+    "preserve_final_operating_point": false,
     "preserved_state_classes": [
       "thermal_capacity",
       "buffer",

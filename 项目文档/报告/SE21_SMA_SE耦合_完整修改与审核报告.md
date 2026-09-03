@@ -271,4 +271,26 @@ SHEX 局部闭合不等于完整整机闭合，也不改变 Table 4 两个 paire
 
 总包复核仍运行 `verification/Audit_FinalHeatDriveECC_Package.ps1` 和
 `verification/Verify_FinalHeatDriveECC_Package.m`。存储清理只接受 dry-run 列出的
-superseded 候选；有效 C200/C240 raw、Operating Point 和小型失败诊断证据均保留。
+superseded 候选；C200 raw 长期保留，C240 raw 只保留到后续直接 C242 结果替代，
+其最终处置见第 14 节。
+
+## 14. C242 原生 SHEX 闭合与存储治理更正
+
+2026-09-03 的 C242 直接支路审核替代第 12-13 节关于 C240 下游重建的当前权威
+地位。完整周期原生日志证明 source-to-sink 与 sensor native 的 RMS 差为
+`8.95e-10 W`，SHEX 三支路节点 KCL RMS 为 `1.65e-13 W`。最终生产结果的
+同周期 source heat input 为 `826.325496580 W`，sink-to-fluid 为
+`826.325496710 W`，传递比 `1.00000000016`，直接控制体相对残差
+`3.8565e-11`，门禁通过。
+
+C242 仍只闭合 SHEX 局部控制体。完整系统的一阶能量闭合、HHEX/CHEX/buffer/pipe
+边界、Table 4 两个成对端点、网格/步长收敛和独立 validation 仍未完成；因此
+`strict_table4_reproduction=0`，完整 heat-driven system COP 继续 withheld。
+
+存储治理已把 C242 设为当前 SHEX 原始恢复点并保留 C200 主线，删除 C240/C241
+及 C242 legacy/dense 可重建数据 `11.317 GiB`。`outputs` 从 `21.753 GiB` 降至
+`10.435 GiB`；生成终版六图后当前为 `10.436 GiB`，整个工作区约 `11.025 GiB`，
+二次 dry-run 为 `candidate_count=0`。
+完整更正、代码清单、图 1-6 解释和复核命令见：
+
+- `项目文档/报告/SMA-SE正逆耦合_第十阶段C242原生SHEX闭合与存储治理报告.md`
