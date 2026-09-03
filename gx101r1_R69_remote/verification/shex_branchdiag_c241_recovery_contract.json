@@ -1,0 +1,39 @@
+{
+  "schema": "heatdrive_ecc_shex_branchdiag_recovery_v1",
+  "frozen_at": "2026-09-03T16:35:00+08:00",
+  "source_code_commit": "557485f",
+  "logging_fix_commit": "97a97d3",
+  "completed_cycles": 241,
+  "mechanism_pass": true,
+  "periodic_steady_state": true,
+  "strict_table4_reproduction": false,
+  "state_reset": false,
+  "result_relative_path": "outputs/qian_coupled_shex_branchdiag_c241_20260903/qian2019_table2_table4_simscape_241cycle_20260903_150259/physical_simscape_result.mat",
+  "result_sha256": "A9A16EBDF9D9708E8AF937FC20478C6D4195A4CCCDEB27E90A728FA93F1BE9BE",
+  "result_bytes": 6013455818,
+  "checkpoint_relative_path": "outputs/qian_coupled_shex_branchdiag_c241_20260903/qian2019_table2_table4_simscape_241cycle_20260903_150259/final_operating_point.mat",
+  "checkpoint_sha256": "155D233A44AAE9093F0BFF7B46C076FC0088F2B06B2438EE20E052B28FDFA7B5",
+  "checkpoint_bytes": 3826001,
+  "validation_report_relative_path": "outputs/qian_coupled_shex_branchdiag_c241_20260903/qian2019_table2_table4_simscape_241cycle_20260903_150259/physical_validation_report.txt",
+  "endpoint_drift_K": 0.0135888409130303,
+  "same_phase_temperature_drift_K": 0.220500395385898,
+  "same_phase_phase_drift": 0.0100248222919335,
+  "eq9_lift_K": 28.7102580232001,
+  "eq10_SCP_W_per_g": 0.316481332947418,
+  "direct_shex_control_volume_pass": false,
+  "direct_shex_control_volume_reason": "The C241 state is mechanism-valid and periodic, but its native Simscape branch arrays retained only the last 5000 steps and were extrapolated over the first half-cycle. The C241 energy audit is rejected; only its operating state may be resumed.",
+  "recovery_policy": {
+    "state_recovery_allowed": true,
+    "energy_metrics_may_be_propagated": false,
+    "preserve_final_operating_point": true,
+    "preserved_state_classes": [
+      "thermal_capacity",
+      "buffer",
+      "constitutive",
+      "temperature",
+      "phase_fraction",
+      "independent_route_PI_memory"
+    ],
+    "failed_results_may_resume": false
+  }
+}
