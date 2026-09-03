@@ -979,7 +979,9 @@ function out = merge_structs(out, overrides)
     names = fieldnames(overrides);
     for idx = 1:numel(names)
         key = names{idx};
-        if isfield(out, key) && isstruct(out.(key)) && isstruct(overrides.(key))
+        if isfield(out, key) && isstruct(out.(key)) && ...
+                isscalar(out.(key)) && isstruct(overrides.(key)) && ...
+                isscalar(overrides.(key))
             out.(key) = merge_structs(out.(key), overrides.(key));
         else
             out.(key) = overrides.(key);
