@@ -1,6 +1,6 @@
 # SMA-SE 正逆耦合第十一阶段：C243 整机热控制体闭合与设备边界报告
 
-更新日期：2026-09-04  
+更新日期：2026-09-04
 代码分支：`codex/coupled-simscape-authority`
 
 ## 1. 严格结论
@@ -43,7 +43,7 @@ Table 4 两个端点、网格/步长收敛和独立验证尚未完成。
 | `physical_simscape_result.mat` | `6067366262` | `BEFD79CD744DA356BECF376A968B2FA408E974E25BCCFE7A2AD0776A8AFF7C5D` |
 | `final_operating_point.mat` | `3825981` | `7F9EBFA47E578290E7FD7E0D8DED5BB7CB182BDE66A86E3B7E25166F4CAF1B70` |
 
-恢复合同：`verification/system_energy_c243_recovery_contract.json`  
+恢复合同：`verification/system_energy_c243_recovery_contract.json`
 结果审核：`outputs/qian_coupled_system_energy_c243_20260904/system_energy_audit_c243.json`
 
 ## 3. C243 周期与性能状态
