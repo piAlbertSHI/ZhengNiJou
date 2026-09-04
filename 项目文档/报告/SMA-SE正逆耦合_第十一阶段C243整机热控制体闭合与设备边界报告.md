@@ -287,3 +287,12 @@ pwsh -File .\verification\Manage_HeatDriveECC_OutputStorage.ps1
 该分支只能冷启动，或先实现并验证逐状态映射；在证明原有热容、buffer、本构、
 温度、相分数和 PI 记忆全部保留前，不得从 C243 直接切换。机器可读拒绝合同为
 `verification/pump_fluid_energy_transition_assessment_c243.json`。
+
+## 13. 2026-09-04 权威轮换说明
+
+C243 之后已完成同温度、完整 Operating Point 的运行时冷端参数桥接，并连续运行到
+C246。C246 通过机制、周期、时间连续性、模型热控制体和质量门禁，现为唯一状态恢复
+权威；`verification/system_energy_c243_recovery_contract.json` 已设置
+`state_recovery_allowed=false`。C243 的数值、哈希、审计和图仍是有效历史证据，但其
+raw/OP 已在 C246 总包通过后受控删除，连同 C246 可重建 legacy 图和 dense probe 共
+释放 `5.722 GiB`。后续状态、哈希和命令以第十二阶段报告为准。

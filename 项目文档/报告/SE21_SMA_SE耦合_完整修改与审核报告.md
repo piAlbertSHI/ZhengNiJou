@@ -326,3 +326,39 @@ C200 仍是论文基准。受控清理删除 C242 raw/OP 与 C243 可重建 lega
 `candidate_count=0`。完整代码、七张 SCI 图逐图解释、文献比较、命令和后续计划见：
 
 - `项目文档/报告/SMA-SE正逆耦合_第十一阶段C243整机热控制体闭合与设备边界报告.md`
+
+## 16. C246 运行时冷端桥接与当前恢复权威
+
+从 C243 直接改变编译时 CHEX Temperature Source 参数会导致
+ModelOperatingPoint contents checksum mismatch。`Tc=276.80 K` 与
+`276.94 K` 两次尝试均在 `2535.101 s` 于 SMA Thermal Liquid 物性域断言退出，
+没有生成结果或检查点，已标记 rejected 且禁止传播。两个不同温度步长在同一时刻、
+同一元件失败，结合 C243 末周期固体最高温度仍低于水物性表上限，说明原方法没有完整
+恢复 Simscape 内部状态，不能将其解释为 Table 4 物理趋势。
+
+因此在 `Tc=276.95 K` 数值不变的条件下建立 compiletime-to-runtime 桥接，并从
+C243 完整 OP 连续运行三个周期到 C246。C246 的 checkpoint chain、time continuity、
+机制、周期、热控制体与质量守恒全部通过，`state_reset=false`。Eq.9 为
+`28.7102592458 K`，Eq.10 为 `0.316480808133 W/g`；模型热残差相对值
+`1.6724817e-4`，质量漂移相对值 `3.0854417e-6`。
+
+C246 现为唯一状态恢复权威，C243 恢复许可已关闭；C200 仍为论文性能基准。C246
+结果/OP SHA-256 分别为：
+
+```text
+B5FA3DE5C0AB7F386B686A6D3090599696DAFA11EAEAB50AEB7CF628238D291E
+6EE1E34C0364C72833BD3918463AB3E6A2600C013BD2EC8DA3FA81FB1D854473
+```
+
+C243 raw/OP 在 C246 冻结并通过总包审核后不再承担恢复职责；保留合同、原哈希、能量
+审核、周期摘要、参数合同、日志和 SCI 图。存储脚本只保护 C200 与 C246 大文件，已按
+20 项 dry-run 清单删除 C243 raw/OP、C246 legacy 图和 dense probe 共 `5.722 GiB`，
+outputs 从 `16.254 GiB` 降至 `10.532 GiB`；删除审计为
+`outputs_storage_audit/cleanup_summary_20260904_091925.txt`。
+
+完整失败诊断、桥接门禁、代码清单、验证命令、存储策略和文献对照见：
+
+- `项目文档/报告/SMA-SE正逆耦合_第十二阶段C246运行时冷端桥接与Table4外层求解报告.md`
+
+完整设备一阶定律、system COP、Table 4 两个合法 paired roots、网格/步长收敛和独立
+validation 仍未完成，不得使用 `reproduced` 或 `experimentally validated`。

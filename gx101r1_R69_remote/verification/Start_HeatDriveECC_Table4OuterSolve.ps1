@@ -64,5 +64,5 @@ $process = Start-Process -FilePath $matlab -ArgumentList @('-batch', $quotedBatc
     maximum_additional_cycles = $MaximumAdditionalCycles
     target_metric = $TargetMetric
     endpoint_name = if ($TargetMetric -eq 'eq9_lift_K') { 'zero_lift' } else { 'zero_load' }
-    initial_state_policy = 'validated_C243_recovery_contract_only'
+    initial_state_policy = 'validated_C246_runtime_recovery_contract_only'
 } | ConvertTo-Json -Depth 4

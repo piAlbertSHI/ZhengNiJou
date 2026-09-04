@@ -69,6 +69,22 @@ $systemC243AuditPath = Join-Path $systemC243Root `
     'system_energy_audit_c243.json'
 $systemC243Audit = Get-Content -LiteralPath $systemC243AuditPath -Raw |
     ConvertFrom-Json
+$runtimeC246ContractPath = Join-Path $repoRoot `
+    'verification\cold_boundary_runtime_c246_recovery_contract.json'
+$runtimeC246Contract = Get-Content -LiteralPath $runtimeC246ContractPath -Raw |
+    ConvertFrom-Json
+$runtimeC246Root = Join-Path $repoRoot `
+    'outputs\qian_cold_boundary_runtime_bridge_from_c243_20260904'
+$runtimeC246Run = Join-Path $runtimeC246Root `
+    'qian2019_table2_table4_simscape_246cycle_20260904_075932'
+$runtimeC246BridgePath = Join-Path $runtimeC246Root `
+    'runtime_bridge_summary.json'
+$runtimeC246Bridge = Get-Content -LiteralPath $runtimeC246BridgePath -Raw |
+    ConvertFrom-Json
+$runtimeC246AuditPath = Join-Path $runtimeC246Root `
+    'system_energy_bridge_audit.json'
+$runtimeC246Audit = Get-Content -LiteralPath $runtimeC246AuditPath -Raw |
+    ConvertFrom-Json
 
 New-Item -ItemType Directory -Force -Path $AuditRoot | Out-Null
 $manifestPath = Join-Path $AuditRoot 'final_results_manifest_20260824.csv'
@@ -109,6 +125,20 @@ foreach ($stem in @(
     Add-Entry "SCI figure PNG $stem" (Join-Path $mainRun "figures_sci\$stem.png")
     Add-Entry "SCI figure PDF $stem" (Join-Path $mainRun "figures_sci\$stem.pdf")
 }
+
+Add-Entry 'C246 runtime-bridge physical result' (Join-Path $runtimeC246Run 'physical_simscape_result.mat')
+Add-Entry 'C246 runtime-bridge final Operating Point' (Join-Path $runtimeC246Run 'final_operating_point.mat')
+Add-Entry 'C246 runtime-bridge validation report' (Join-Path $runtimeC246Run 'physical_validation_report.txt')
+Add-Entry 'C246 runtime-bridge cycle summary' (Join-Path $runtimeC246Run 'cycle_physical_summary.csv')
+Add-Entry 'C246 runtime-bridge parameter contract' (Join-Path $runtimeC246Run 'qian2019_table2_table4_parameter_contract.csv')
+Add-Entry 'C246 runtime-bridge continuation progress' (Join-Path $runtimeC246Root 'steady_continuation_progress.csv')
+Add-Entry 'C246 runtime-bridge continuation state' (Join-Path $runtimeC246Root 'steady_continuation_state.mat')
+Add-Entry 'C246 runtime-bridge summary' $runtimeC246BridgePath
+Add-Entry 'C246 runtime-bridge system-energy audit' $runtimeC246AuditPath
+Add-Entry 'C246 runtime-bridge acceptance marker' (Join-Path $runtimeC246Root 'RUNTIME_BRIDGE_ACCEPTED.txt')
+Add-Entry 'C246 runtime-bridge recovery contract' $runtimeC246ContractPath
+Add-Entry 'C246 runtime-bridge MATLAB stdout' (Join-Path $runtimeC246Root 'matlab_stdout.log')
+Add-Entry 'C246 runtime-bridge MATLAB stderr' (Join-Path $runtimeC246Root 'matlab_stderr.log')
 Add-Entry 'C200 fixed-reservoir manifest' (Join-Path $mainRoot 'fixed_reservoir_point_manifest.txt')
 Add-Entry 'C200 stdout' (Join-Path $mainRoot 'matlab_stdout.log')
 Add-Entry 'C200 stderr' (Join-Path $mainRoot 'matlab_stderr.log')
@@ -171,8 +201,8 @@ foreach ($stem in @(
     Add-Entry "C242 SCI figure PDF $stem" (Join-Path $shexC242Run "figures_sci\$stem.pdf")
 }
 
-Add-Entry 'C243 system-energy physical result' (Join-Path $systemC243Run 'physical_simscape_result.mat')
-Add-Entry 'C243 system-energy final Operating Point' (Join-Path $systemC243Run 'final_operating_point.mat')
+Add-Entry 'C243 superseded system-energy physical result' (Join-Path $systemC243Run 'physical_simscape_result.mat') $false 'historical_superseded_raw'
+Add-Entry 'C243 superseded system-energy final Operating Point' (Join-Path $systemC243Run 'final_operating_point.mat') $false 'historical_superseded_raw'
 Add-Entry 'C243 validation report' (Join-Path $systemC243Run 'physical_validation_report.txt')
 Add-Entry 'C243 cycle summary' (Join-Path $systemC243Run 'cycle_physical_summary.csv')
 Add-Entry 'C243 parameter contract' (Join-Path $systemC243Run 'qian2019_table2_table4_parameter_contract.csv')
@@ -233,6 +263,7 @@ Add-Entry 'Eighth-stage strict audit report' (Join-Path $WorkspaceRoot '项目�
 Add-Entry 'Ninth-stage SHEX and literature report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第九阶段SHEX控制体与文献对标报告.md')
 Add-Entry 'Tenth-stage C242 direct SHEX and storage report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第十阶段C242原生SHEX闭合与存储治理报告.md')
 Add-Entry 'Eleventh-stage C243 modeled system-energy report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第十一阶段C243整机热控制体闭合与设备边界报告.md')
+Add-Entry 'Twelfth-stage C246 runtime bridge report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第十二阶段C246运行时冷端桥接与Table4外层求解报告.md')
 Add-Entry 'Qian local literature location index' (Join-Path $WorkspaceRoot '项目文档\研究笔记\2026-09-03_Qian本地文献精确定位与模型映射.md')
 
 $nativeDiagnosticRoot = Join-Path $AuditRoot `
@@ -410,25 +441,61 @@ if (-not [bool]$shexC242Audit.production_pass -or
         [bool]$shexC242Audit.system_energy_closure_complete) {
     throw 'Unexpected C242 direct SHEX control-volume gates.'
 }
-$systemC243Result = Join-Path $systemC243Run 'physical_simscape_result.mat'
-$systemC243Checkpoint = Join-Path $systemC243Run 'final_operating_point.mat'
 if (-not [bool]$systemC243Contract.mechanism_pass -or
         -not [bool]$systemC243Contract.periodic_steady_state -or
         -not [bool]$systemC243Contract.modeled_thermal_closure_pass -or
         -not [bool]$systemC243Contract.fluid_mass_conservation_pass -or
         [bool]$systemC243Contract.complete_device_first_law_closure -or
         [int]$systemC243Contract.completed_cycles -ne 243 -or
-        -not [bool]$systemC243Contract.recovery_policy.state_recovery_allowed -or
-        -not [bool]$systemC243Contract.recovery_policy.preserve_final_operating_point) {
+        [bool]$systemC243Contract.recovery_policy.state_recovery_allowed -or
+        [bool]$systemC243Contract.recovery_policy.preserve_final_operating_point -or
+        [string]$systemC243Contract.authority_status -ne
+            'superseded_for_state_recovery_by_C246_runtime_bridge') {
     throw 'Unexpected C243 modeled system-energy recovery contract gates.'
 }
-if ((Get-FileHash -LiteralPath $systemC243Result -Algorithm SHA256).Hash -ne
-        [string]$systemC243Contract.result_sha256) {
-    throw 'C243 system-energy result SHA-256 mismatch.'
+$runtimeC246Result = Join-Path $runtimeC246Run 'physical_simscape_result.mat'
+$runtimeC246Checkpoint = Join-Path $runtimeC246Run 'final_operating_point.mat'
+if (-not [bool]$runtimeC246Contract.mechanism_pass -or
+        -not [bool]$runtimeC246Contract.periodic_steady_state -or
+        -not [bool]$runtimeC246Contract.modeled_thermal_closure_pass -or
+        -not [bool]$runtimeC246Contract.fluid_mass_conservation_pass -or
+        [bool]$runtimeC246Contract.complete_device_first_law_closure -or
+        [int]$runtimeC246Contract.completed_cycles -ne 246 -or
+        [string]$runtimeC246Contract.cold_boundary_temperature_configurability -ne
+            'runtime' -or
+        -not [bool]$runtimeC246Contract.recovery_policy.state_recovery_allowed -or
+        -not [bool]$runtimeC246Contract.recovery_policy.preserve_final_operating_point) {
+    throw 'Unexpected C246 runtime-bridge recovery contract gates.'
 }
-if ((Get-FileHash -LiteralPath $systemC243Checkpoint -Algorithm SHA256).Hash -ne
-        [string]$systemC243Contract.checkpoint_sha256) {
-    throw 'C243 system-energy Operating Point SHA-256 mismatch.'
+if ((Get-FileHash -LiteralPath $runtimeC246Result -Algorithm SHA256).Hash -ne
+        [string]$runtimeC246Contract.result_sha256) {
+    throw 'C246 runtime-bridge result SHA-256 mismatch.'
+}
+if ((Get-FileHash -LiteralPath $runtimeC246Checkpoint -Algorithm SHA256).Hash -ne
+        [string]$runtimeC246Contract.checkpoint_sha256) {
+    throw 'C246 runtime-bridge Operating Point SHA-256 mismatch.'
+}
+if (-not [bool]$runtimeC246Bridge.accepted -or
+        [bool]$runtimeC246Bridge.state_reset -or
+        -not [bool]$runtimeC246Bridge.Tc_unchanged -or
+        -not [bool]$runtimeC246Bridge.runtime_configurability -or
+        -not [bool]$runtimeC246Bridge.checkpoint_restart_used -or
+        -not [bool]$runtimeC246Bridge.checkpoint_chain_verified -or
+        -not [bool]$runtimeC246Bridge.time_continuity_verified -or
+        -not [bool]$runtimeC246Bridge.segment_start_matches_authority -or
+        -not [bool]$runtimeC246Bridge.accepted_result_may_resume) {
+    throw 'Unexpected C246 runtime-bridge continuity gates.'
+}
+if (-not [bool]$runtimeC246Audit.production_pass -or
+        -not [bool]$runtimeC246Audit.periodic_steady_state -or
+        -not [bool]$runtimeC246Audit.local_exchanger_kcl_pass -or
+        -not [bool]$runtimeC246Audit.boundary_direction_pass -or
+        -not [bool]$runtimeC246Audit.fluid_mass_conservation_pass -or
+        -not [bool]$runtimeC246Audit.modeled_thermal_closure_pass -or
+        [bool]$runtimeC246Audit.complete_device_first_law_closure -or
+        [double]$runtimeC246Audit.modeled_thermal_residual_relative -gt 1.0e-3 -or
+        [double]$runtimeC246Audit.fluid_mass_drift_relative -gt 1.0e-5) {
+    throw 'Unexpected C246 runtime-bridge system-energy gates.'
 }
 if (-not [bool]$systemC243Audit.production_pass -or
         -not [bool]$systemC243Audit.periodic_steady_state -or
@@ -462,7 +529,7 @@ $hashes = foreach ($item in ($manifest | Where-Object exists)) {
 $hashes | Export-Csv -LiteralPath $hashPath -NoTypeInformation -Encoding UTF8
 
 $summary = [ordered]@{
-    schema = 'heatdrive_ecc_final_package_audit_v6'
+    schema = 'heatdrive_ecc_final_package_audit_v8'
     generated_at = (Get-Date).ToString('o')
     workspace_root = $WorkspaceRoot
     authoritative_result = (Join-Path $mainRun 'physical_simscape_result.mat')
@@ -495,7 +562,16 @@ $summary = [ordered]@{
     system_c243_modeled_thermal_residual_W = [double]$systemC243Audit.modeled_thermal_residual_W
     system_c243_modeled_thermal_residual_relative = [double]$systemC243Audit.modeled_thermal_residual_relative
     system_c243_complete_device_first_law_closure = [bool]$systemC243Audit.complete_device_first_law_closure
-    continuation_authority = 'C243_modeled_system_energy'
+    system_c243_raw_retention_policy = 'superseded raw is optional; compact contract, audit, reports, logs, summaries, and figures remain required'
+    runtime_c246_cycles = $runtimeC246Contract.completed_cycles
+    runtime_c246_bridge_pass = [bool]$runtimeC246Bridge.accepted
+    runtime_c246_mechanism_pass = [bool]$runtimeC246Audit.mechanism_pass
+    runtime_c246_periodic_steady_state = [bool]$runtimeC246Audit.periodic_steady_state
+    runtime_c246_modeled_thermal_closure_pass = [bool]$runtimeC246Audit.modeled_thermal_closure_pass
+    runtime_c246_modeled_thermal_residual_relative = [double]$runtimeC246Audit.modeled_thermal_residual_relative
+    runtime_c246_fluid_mass_conservation_pass = [bool]$runtimeC246Audit.fluid_mass_conservation_pass
+    runtime_c246_complete_device_first_law_closure = [bool]$runtimeC246Audit.complete_device_first_law_closure
+    continuation_authority = 'C246_runtime_cold_boundary_bridge'
     paper_benchmark_authority = 'C200_fixed_CHEX'
     c240_reconstruction_status = 'historical_diagnostic_superseded_by_C242_then_C243_measurement'
     initial_local_OAT_completed_count = $initialSummary.completed_count

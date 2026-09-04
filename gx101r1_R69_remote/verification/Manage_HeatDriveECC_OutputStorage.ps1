@@ -44,20 +44,20 @@ $preserveRawPaths = @(
     (Join-Path $authorityRun 'stage_temperature_probes_50samples.csv')
 )
 $activeRecoveryContractPath = Join-Path $repoRoot `
-    'verification\system_energy_c243_recovery_contract.json'
+    'verification\cold_boundary_runtime_c246_recovery_contract.json'
 if (Test-Path -LiteralPath $activeRecoveryContractPath -PathType Leaf) {
     $activeRecoveryContract = Get-Content -LiteralPath `
         $activeRecoveryContractPath -Raw | ConvertFrom-Json
     if (-not $activeRecoveryContract.mechanism_pass) {
-        throw 'Active system-energy recovery contract is not mechanism-valid.'
+        throw 'Active C246 runtime recovery contract is not mechanism-valid.'
     }
     if (-not [bool]$activeRecoveryContract.modeled_thermal_closure_pass -or
             -not [bool]$activeRecoveryContract.fluid_mass_conservation_pass) {
-        throw 'Active recovery contract has not passed the modeled thermal-system gates.'
+        throw 'Active C246 recovery contract has not passed the modeled thermal-system gates.'
     }
     if (-not [bool]$activeRecoveryContract.recovery_policy.state_recovery_allowed -or
             -not [bool]$activeRecoveryContract.recovery_policy.preserve_final_operating_point) {
-        throw 'Active recovery contract does not authorize state continuation.'
+        throw 'Active C246 recovery contract does not authorize state continuation.'
     }
     $preserveRawPaths += [System.IO.Path]::GetRelativePath(
         $outputRootResolved,
