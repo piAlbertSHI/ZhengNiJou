@@ -99,6 +99,14 @@ $runtimeBuilderAuditPath = Join-Path $repoRoot `
     'outputs_storage_audit\runtime_builder_determinism_20260904\runtime_builder_determinism_audit.json'
 $runtimeBuilderAudit = Get-Content -LiteralPath $runtimeBuilderAuditPath -Raw |
     ConvertFrom-Json
+$runtimeColdStartRejectedRoot = Join-Path $repoRoot `
+    'outputs\qian_coupled_runtime_strict_coldstart_20260904'
+$runtimeColdStartRejectedRun = Join-Path $runtimeColdStartRejectedRoot `
+    'qian2019_table2_table4_simscape_20cycle_20260904_140346'
+$runtimeColdStartFailurePath = Join-Path $runtimeColdStartRejectedRoot `
+    'cold_start_c20_failure_audit.json'
+$runtimeColdStartFailure = Get-Content -LiteralPath `
+    $runtimeColdStartFailurePath -Raw | ConvertFrom-Json
 $runtimeTcWindowRoot = Join-Path $repoRoot `
     'outputs\qian_table4_c246_runtime_tc_276p940K_20260904'
 $runtimeTcWindowCandidate = Join-Path $runtimeTcWindowRoot 'Tc_0276.940K'
@@ -183,6 +191,16 @@ Add-Entry 'C246 strict restore stderr' (Join-Path (Split-Path $runtimeC246Strict
 Add-Entry 'Runtime builder determinism audit' $runtimeBuilderAuditPath
 Add-Entry 'Runtime builder determinism stdout' (Join-Path (Split-Path $runtimeBuilderAuditPath) 'matlab_stdout.log')
 Add-Entry 'Runtime builder determinism stderr' (Join-Path (Split-Path $runtimeBuilderAuditPath) 'matlab_stderr.log')
+Add-Entry 'Runtime cold-start C20 failure audit' $runtimeColdStartFailurePath
+Add-Entry 'Runtime cold-start C20 rejection marker' (Join-Path $runtimeColdStartRejectedRoot 'REJECTED_DO_NOT_RESUME.txt')
+Add-Entry 'Runtime cold-start C20 compaction marker' (Join-Path $runtimeColdStartRejectedRoot 'COMPACTED_AFTER_SCALAR_EXTRACTION.txt')
+Add-Entry 'Runtime cold-start C20 validation' (Join-Path $runtimeColdStartRejectedRun 'physical_validation_report.txt')
+Add-Entry 'Runtime cold-start C20 cycle summary' (Join-Path $runtimeColdStartRejectedRun 'cycle_physical_summary.csv')
+Add-Entry 'Runtime cold-start C20 parameter contract' (Join-Path $runtimeColdStartRejectedRun 'qian2019_table2_table4_parameter_contract.csv')
+Add-Entry 'Runtime cold-start C20 progress' (Join-Path $runtimeColdStartRejectedRoot 'steady_continuation_progress.csv')
+Add-Entry 'Runtime cold-start C20 state' (Join-Path $runtimeColdStartRejectedRoot 'steady_continuation_state.mat')
+Add-Entry 'Runtime cold-start C20 MATLAB stdout' (Join-Path $runtimeColdStartRejectedRoot 'matlab_stdout.log')
+Add-Entry 'Runtime cold-start C20 MATLAB stderr' (Join-Path $runtimeColdStartRejectedRoot 'matlab_stderr.log')
 Add-Entry 'C249 rejected transition-window outer summary' $runtimeTcWindowOuterPath
 Add-Entry 'C249 rejected transition-window candidate summary' (Join-Path $runtimeTcWindowRoot 'outer_candidate_summary.csv')
 Add-Entry 'C249 rejected transition-window MATLAB stdout' (Join-Path $runtimeTcWindowRoot 'matlab_stdout.log')
@@ -321,6 +339,7 @@ Add-Entry 'Strict Operating Point restore audit source' (Join-Path $repoRoot 've
 Add-Entry 'Runtime builder determinism audit source' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_RuntimeBuilderDeterminism.m')
 Add-Entry 'Runtime strict cold-start launcher' (Join-Path $repoRoot 'verification\Start_HeatDriveECC_RuntimeColdStart.ps1')
 Add-Entry 'Storage-bounded long continuation source' (Join-Path $repoRoot 'verification\Run_HeatDriveECC_LongSteadyContinuation.m')
+Add-Entry 'Strict runtime cold-start launcher' (Join-Path $repoRoot 'verification\Start_HeatDriveECC_RuntimeColdStart.ps1')
 Add-Entry 'MATLAB package verifier' (Join-Path $repoRoot 'verification\Verify_FinalHeatDriveECC_Package.m')
 Add-Entry 'PowerShell package auditor' (Join-Path $repoRoot 'verification\Audit_FinalHeatDriveECC_Package.ps1')
 Add-Entry 'Superseded raw cleanup script' (Join-Path $repoRoot 'verification\Prune_Superseded_HeatDriveECC_Raw.ps1')
@@ -586,6 +605,26 @@ if (-not [bool]$runtimeBuilderAudit.first_cold_step_pass -or
         -not [bool]$runtimeBuilderAudit.production_runtime_cold_start_allowed) {
     throw 'Runtime model builder is not deterministic under strict OP restore.'
 }
+if ([string]$runtimeColdStartFailure.schema -ne
+        'heatdrive_ecc_cold_start_failure_audit_v1' -or
+        [int]$runtimeColdStartFailure.validated_cycles -ne 0 -or
+        [bool]$runtimeColdStartFailure.mechanism_pass -or
+        [bool]$runtimeColdStartFailure.state_recovery_allowed -or
+        [bool]$runtimeColdStartFailure.result_propagation_allowed -or
+        [bool]$runtimeColdStartFailure.declared_remediation.thresholds_changed -or
+        [int]$runtimeColdStartFailure.declared_remediation.mechanism_gate_start_cycle -ne 3 -or
+        -not [bool]$runtimeColdStartFailure.cycle_3_to_20_recalculation.stage2_no_reversal -or
+        -not [bool]$runtimeColdStartFailure.cycle_3_to_20_recalculation.stage4_no_reversal -or
+        [double]$runtimeColdStartFailure.cycle_3_to_20_recalculation.stage2_rms_relative_error -gt 0.05 -or
+        [double]$runtimeColdStartFailure.cycle_3_to_20_recalculation.stage4_rms_relative_error -gt 0.05) {
+    throw 'Unexpected runtime cold-start C20 rejection or acquisition-window audit.'
+}
+if ((Test-Path -LiteralPath (Join-Path $runtimeColdStartRejectedRun `
+        'physical_simscape_result.mat')) -or
+        (Test-Path -LiteralPath (Join-Path $runtimeColdStartRejectedRun `
+        'final_operating_point.mat'))) {
+    throw 'Rejected runtime cold-start raw result or checkpoint was not compacted.'
+}
 if (-not [bool]$runtimeC246Audit.production_pass -or
         -not [bool]$runtimeC246Audit.periodic_steady_state -or
         -not [bool]$runtimeC246Audit.local_exchanger_kcl_pass -or
@@ -667,7 +706,7 @@ $hashes = foreach ($item in ($manifest | Where-Object exists)) {
 $hashes | Export-Csv -LiteralPath $hashPath -NoTypeInformation -Encoding UTF8
 
 $summary = [ordered]@{
-    schema = 'heatdrive_ecc_final_package_audit_v10'
+    schema = 'heatdrive_ecc_final_package_audit_v11'
     generated_at = (Get-Date).ToString('o')
     workspace_root = $WorkspaceRoot
     authoritative_result = (Join-Path $mainRun 'physical_simscape_result.mat')
@@ -710,6 +749,12 @@ $summary = [ordered]@{
     runtime_builder_checksum_equal = [bool]$runtimeBuilderAudit.model_checksum_equal
     runtime_builder_strict_restore_pass = [bool]$runtimeBuilderAudit.strict_restore_pass
     runtime_cold_start_allowed = [bool]$runtimeBuilderAudit.production_runtime_cold_start_allowed
+    runtime_cold_start_c20_validated_cycles = [int]$runtimeColdStartFailure.validated_cycles
+    runtime_cold_start_c20_mechanism_pass = [bool]$runtimeColdStartFailure.mechanism_pass
+    runtime_cold_start_c20_state_recovery_allowed = [bool]$runtimeColdStartFailure.state_recovery_allowed
+    runtime_cold_start_acquisition_cycles = [int]$runtimeColdStartFailure.declared_remediation.cold_start_acquisition_cycles
+    runtime_cold_start_mechanism_gate_start_cycle = [int]$runtimeColdStartFailure.declared_remediation.mechanism_gate_start_cycle
+    runtime_cold_start_mechanism_thresholds_changed = [bool]$runtimeColdStartFailure.declared_remediation.thresholds_changed
     runtime_c246_mechanism_pass = [bool]$runtimeC246Audit.mechanism_pass
     runtime_c246_periodic_steady_state = [bool]$runtimeC246Audit.periodic_steady_state
     runtime_c246_modeled_thermal_closure_pass = [bool]$runtimeC246Audit.modeled_thermal_closure_pass

@@ -3,7 +3,8 @@ param(
     [string]$OutputRoot = '',
     [int]$SegmentCycles = 20,
     [int]$MaximumCycles = 260,
-    [double]$TchexK = 276.95
+    [double]$TchexK = 276.95,
+    [int]$ColdStartAcquisitionCycles = 2
 )
 
 Set-StrictMode -Version Latest
@@ -23,6 +24,10 @@ if (-not $OutputRoot.StartsWith($outputsRoot + `
 }
 if ($SegmentCycles -lt 1 -or $MaximumCycles -lt $SegmentCycles) {
     throw 'Cycle limits must be positive and maximum must cover one segment.'
+}
+if ($ColdStartAcquisitionCycles -lt 0 -or
+        $ColdStartAcquisitionCycles -ge $SegmentCycles) {
+    throw 'Cold-start acquisition cycles must be nonnegative and shorter than one segment.'
 }
 
 $determinismPath = Join-Path $repoRoot `
@@ -65,8 +70,9 @@ $repoForMatlab = ConvertTo-MatlabString $repoRoot
 $outputForMatlab = ConvertTo-MatlabString $OutputRoot
 $parameterForMatlab = ConvertTo-MatlabString $parameterResult
 $tchexText = $TchexK.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
+$mechanismGateStartCycle = $ColdStartAcquisitionCycles + 1
 $batch = @"
-cd('$repoForMatlab'); addpath(genpath(pwd)); p=load('$parameterForMatlab','options'); base=p.options; base.system.cold_boundary_temperature_configurability='runtime'; base.system.cold_boundary_temperature_configurability_source='strict runtime cold start; no prior Operating Point'; base.simulation.checkpoint_restore_policy='strict'; settings=struct('Tchex_K',$tchexText,'output_root','$outputForMatlab','segment_cycles',$SegmentCycles,'maximum_cycles',$MaximumCycles,'required_consecutive_near_segments',1000,'generate_intermediate_figures',false,'compact_superseded_segments',true,'resume_existing_state',true,'initial_prior_result_path','','initial_checkpoint_path','','initial_state_policy','cold_start_no_checkpoint','mainline_contract_path','','model_overrides',base); Run_HeatDriveECC_Table4_FixedReservoirPoint(settings);
+cd('$repoForMatlab'); addpath(genpath(pwd)); p=load('$parameterForMatlab','options'); base=p.options; base.system.cold_boundary_temperature_configurability='runtime'; base.system.cold_boundary_temperature_configurability_source='strict runtime cold start; no prior Operating Point'; base.simulation.checkpoint_restore_policy='strict'; base.validation.mechanism_gate_start_cycle=$mechanismGateStartCycle; settings=struct('Tchex_K',$tchexText,'output_root','$outputForMatlab','segment_cycles',$SegmentCycles,'maximum_cycles',$MaximumCycles,'required_consecutive_near_segments',1000,'generate_intermediate_figures',false,'compact_superseded_segments',true,'resume_existing_state',true,'initial_prior_result_path','','initial_checkpoint_path','','initial_state_policy','cold_start_no_checkpoint','mainline_contract_path','','model_overrides',base); Run_HeatDriveECC_Table4_FixedReservoirPoint(settings);
 "@.Trim()
 $quotedBatch = '"' + $batch.Replace('"', '\"') + '"'
 
@@ -86,6 +92,9 @@ $process = Start-Process -FilePath $matlab -ArgumentList @('-batch', $quotedBatc
     Tchex_K = $TchexK
     state_initialization = 'independent_cold_start_no_checkpoint'
     old_operating_point_loaded = $false
+    cold_start_acquisition_cycles = $ColdStartAcquisitionCycles
+    mechanism_gate_start_cycle = $mechanismGateStartCycle
+    mechanism_thresholds_unchanged = $true
     checkpoint_restore_policy = 'strict_after_first_segment'
     cold_boundary_temperature_configurability = 'runtime'
     compact_superseded_segments = $true

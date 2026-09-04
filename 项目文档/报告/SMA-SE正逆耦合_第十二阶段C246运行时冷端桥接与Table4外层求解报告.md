@@ -224,3 +224,24 @@ checkpoint，编排器保持 C246 为唯一恢复源。
 随后严格恢复到 2 ms。两次 `Simulink.BlockDiagram.getChecksum` 相同，第二步严格恢复
 成功，`production_runtime_cold_start_allowed=true`。因此缺陷位于旧 OP 与当前结构之间，
 不是当前 builder 每次随机改变结构；新的 runtime 冷启动链可以安全建立自身检查点。
+
+## 14. runtime 冷启动 C20 拒绝与采集期合同
+
+首个 runtime 独立冷启动从零状态运行 20 周期并正常结束，旧 Operating Point 未加载，
+但按原 `mechanism_gate_start_cycle=1` 审核得到 `mechanism=0`，编排器保持
+`completed_cycles=0`，没有提升 C20 result/OP 为恢复点。失败仅来自把控制器采集瞬态
+纳入全段 SE 流量门禁：C1 两条路线短暂反流，C2 仅 Stage 2 仍短暂反流；C20 末周期
+SE 无反流、瞬时误差和 RMS 误差均通过。
+
+在删除原始时序前，按原 5% RMS 和 15% 瞬时阈值重算所有可能窗口。C3-C20 两路线
+均无反流，Stage 2/4 RMS 相对误差为 `0.0461577/0.0461193`，最大瞬时相对误差为
+`0.100702/0.0857351`。因此后续冷启动在运行前显式声明 C1-C2 为控制器采集期，
+`mechanism_gate_start_cycle=3`；物理阈值保持不变，采集期仍保留为诊断。该修正不能
+追认本次 C20，必须重新从冷态运行；本次失败包继续禁止恢复和传播。
+
+C20 原始结果/OP 删除前 SHA-256 分别为：
+
+```text
+39E7C33D2B824918A0ED5277B34CF4B49721FB60D41E6B9DCEDF546D83C63BE0
+CDCDC8BA6940B4DDEFA4DACBBA450442BE0317006E7B349FFEA2C9C6EFD4FC48
+```
