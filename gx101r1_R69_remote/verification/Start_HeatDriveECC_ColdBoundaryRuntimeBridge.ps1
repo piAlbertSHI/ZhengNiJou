@@ -58,5 +58,6 @@ $process = Start-Process -FilePath $matlab -ArgumentList @('-batch', $quotedBatc
     authority_contract = 'verification/system_energy_c243_recovery_contract.json'
     Tc_policy = 'unchanged_276.95_K'
     migration = 'compiletime_to_runtime_temperature_configurability_only'
-    state_reset = $false
+    strict_operating_point_restore_required = $true
+    state_reset_claim = 'not_assumed; accepted only after strict checksum gates pass'
 } | ConvertTo-Json -Depth 4

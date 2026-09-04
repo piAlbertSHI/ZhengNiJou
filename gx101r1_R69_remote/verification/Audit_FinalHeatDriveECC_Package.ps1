@@ -31,6 +31,12 @@ if ([string]::IsNullOrWhiteSpace($AuditRoot)) {
 
 $mainRoot = Join-Path $repoRoot 'outputs\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821'
 $mainRun = Join-Path $mainRoot 'qian2019_table2_table4_simscape_200cycle_20260821_121246'
+$c200ContractPath = Join-Path $repoRoot 'verification\c200_mainline_freeze_contract.json'
+$c200Contract = Get-Content -LiteralPath $c200ContractPath -Raw | ConvertFrom-Json
+$c200StrictRestorePath = Join-Path $repoRoot `
+    'outputs_storage_audit\c200_strict_restore_20260904\strict_restore_audit.json'
+$c200StrictRestore = Get-Content -LiteralPath $c200StrictRestorePath -Raw |
+    ConvertFrom-Json
 $rejectedRoot = Join-Path $repoRoot 'outputs\qian_table4_fixed_Tc_270p000K_kp136_255_rootpoint_20260821'
 $rejectedRun = Join-Path $rejectedRoot 'qian2019_table2_table4_simscape_20cycle_20260821_142345'
 $sourceC240ContractPath = Join-Path $repoRoot 'verification\source_heatflow_c240_recovery_contract.json'
@@ -85,6 +91,14 @@ $runtimeC246AuditPath = Join-Path $runtimeC246Root `
     'system_energy_bridge_audit.json'
 $runtimeC246Audit = Get-Content -LiteralPath $runtimeC246AuditPath -Raw |
     ConvertFrom-Json
+$runtimeC246StrictRestorePath = Join-Path $repoRoot `
+    'outputs_storage_audit\c246_strict_restore_20260904\strict_restore_audit.json'
+$runtimeC246StrictRestore = Get-Content -LiteralPath `
+    $runtimeC246StrictRestorePath -Raw | ConvertFrom-Json
+$runtimeBuilderAuditPath = Join-Path $repoRoot `
+    'outputs_storage_audit\runtime_builder_determinism_20260904\runtime_builder_determinism_audit.json'
+$runtimeBuilderAudit = Get-Content -LiteralPath $runtimeBuilderAuditPath -Raw |
+    ConvertFrom-Json
 $runtimeTcWindowRoot = Join-Path $repoRoot `
     'outputs\qian_table4_c246_runtime_tc_276p940K_20260904'
 $runtimeTcWindowCandidate = Join-Path $runtimeTcWindowRoot 'Tc_0276.940K'
@@ -98,6 +112,13 @@ $runtimeTcWindowAuditPath = Join-Path $runtimeTcWindowCandidate `
     'system_energy_audit.json'
 $runtimeTcWindowAudit = Get-Content -LiteralPath `
     $runtimeTcWindowAuditPath -Raw | ConvertFrom-Json
+$runtimeTcClean11Root = Join-Path $repoRoot `
+    'outputs\qian_table4_c246_runtime_tc_276p940K_clean11_20260904'
+$runtimeTcClean11Candidate = Join-Path $runtimeTcClean11Root 'Tc_0276.940K'
+$runtimeTcClean11OuterPath = Join-Path $runtimeTcClean11Root `
+    'outer_solve_summary.json'
+$runtimeTcClean11Outer = Get-Content -LiteralPath `
+    $runtimeTcClean11OuterPath -Raw | ConvertFrom-Json
 $runtimeTcWindowCyclePath = Join-Path $runtimeTcWindowRun `
     'cycle_physical_summary.csv'
 $runtimeTcWindowLastCycle = Import-Csv -LiteralPath `
@@ -152,10 +173,16 @@ Add-Entry 'C246 runtime-bridge continuation progress' (Join-Path $runtimeC246Roo
 Add-Entry 'C246 runtime-bridge continuation state' (Join-Path $runtimeC246Root 'steady_continuation_state.mat')
 Add-Entry 'C246 runtime-bridge summary' $runtimeC246BridgePath
 Add-Entry 'C246 runtime-bridge system-energy audit' $runtimeC246AuditPath
-Add-Entry 'C246 runtime-bridge acceptance marker' (Join-Path $runtimeC246Root 'RUNTIME_BRIDGE_ACCEPTED.txt')
+Add-Entry 'C246 runtime-bridge rejection marker' (Join-Path $runtimeC246Root 'REJECTED_DO_NOT_RESUME.txt')
 Add-Entry 'C246 runtime-bridge recovery contract' $runtimeC246ContractPath
 Add-Entry 'C246 runtime-bridge MATLAB stdout' (Join-Path $runtimeC246Root 'matlab_stdout.log')
 Add-Entry 'C246 runtime-bridge MATLAB stderr' (Join-Path $runtimeC246Root 'matlab_stderr.log')
+Add-Entry 'C246 strict restore audit' $runtimeC246StrictRestorePath
+Add-Entry 'C246 strict restore stdout' (Join-Path (Split-Path $runtimeC246StrictRestorePath) 'matlab_stdout.log')
+Add-Entry 'C246 strict restore stderr' (Join-Path (Split-Path $runtimeC246StrictRestorePath) 'matlab_stderr.log')
+Add-Entry 'Runtime builder determinism audit' $runtimeBuilderAuditPath
+Add-Entry 'Runtime builder determinism stdout' (Join-Path (Split-Path $runtimeBuilderAuditPath) 'matlab_stdout.log')
+Add-Entry 'Runtime builder determinism stderr' (Join-Path (Split-Path $runtimeBuilderAuditPath) 'matlab_stderr.log')
 Add-Entry 'C249 rejected transition-window outer summary' $runtimeTcWindowOuterPath
 Add-Entry 'C249 rejected transition-window candidate summary' (Join-Path $runtimeTcWindowRoot 'outer_candidate_summary.csv')
 Add-Entry 'C249 rejected transition-window MATLAB stdout' (Join-Path $runtimeTcWindowRoot 'matlab_stdout.log')
@@ -168,10 +195,19 @@ Add-Entry 'C249 rejected transition-window parameter contract' (Join-Path $runti
 Add-Entry 'C249 rejected transition-window progress' (Join-Path $runtimeTcWindowCandidate 'steady_continuation_progress.csv')
 Add-Entry 'C249 rejected transition-window state' (Join-Path $runtimeTcWindowCandidate 'steady_continuation_state.mat')
 Add-Entry 'C249 rejected transition-window system-energy audit' $runtimeTcWindowAuditPath
+Add-Entry 'C257 clean-window failed outer summary' $runtimeTcClean11OuterPath
+Add-Entry 'C257 clean-window failed candidate summary' (Join-Path $runtimeTcClean11Root 'outer_candidate_summary.csv')
+Add-Entry 'C257 clean-window failed MATLAB stdout' (Join-Path $runtimeTcClean11Root 'matlab_stdout.log')
+Add-Entry 'C257 clean-window failed MATLAB stderr' (Join-Path $runtimeTcClean11Root 'matlab_stderr.log')
+Add-Entry 'C257 clean-window rejection marker' (Join-Path $runtimeTcClean11Candidate 'REJECTED_DO_NOT_RESUME.txt')
+Add-Entry 'C257 clean-window retained state record' (Join-Path $runtimeTcClean11Candidate 'steady_continuation_state.mat')
 Add-Entry 'C200 fixed-reservoir manifest' (Join-Path $mainRoot 'fixed_reservoir_point_manifest.txt')
 Add-Entry 'C200 stdout' (Join-Path $mainRoot 'matlab_stdout.log')
 Add-Entry 'C200 stderr' (Join-Path $mainRoot 'matlab_stderr.log')
-Add-Entry 'C200 freeze contract' (Join-Path $repoRoot 'verification\c200_mainline_freeze_contract.json')
+Add-Entry 'C200 freeze contract' $c200ContractPath
+Add-Entry 'C200 current-model strict restore audit' $c200StrictRestorePath
+Add-Entry 'C200 current-model strict restore stdout' (Join-Path (Split-Path $c200StrictRestorePath) 'matlab_stdout.log')
+Add-Entry 'C200 current-model strict restore stderr' (Join-Path (Split-Path $c200StrictRestorePath) 'matlab_stderr.log')
 Add-Entry 'C240 superseded physical result' (Join-Path $sourceC240Run 'physical_simscape_result.mat') $false 'historical_superseded'
 Add-Entry 'C240 superseded Operating Point' (Join-Path $sourceC240Run 'final_operating_point.mat') $false 'historical_superseded'
 Add-Entry 'C240 source heat-flow validation report' (Join-Path $repoRoot 'outputs\qian_coupled_source_heatflow_steady_from_c220_20260831\qian2019_table2_table4_simscape_240cycle_20260901_001301\physical_validation_report.txt')
@@ -281,6 +317,10 @@ Add-Entry 'Frozen C240 SHEX package builder' (Join-Path $repoRoot 'verification\
 Add-Entry 'SHEX source heat-flow validation launcher' (Join-Path $repoRoot 'verification\Start_HeatDriveECC_SourceHeatFlowValidation.ps1')
 Add-Entry 'Cold-boundary runtime bridge source' (Join-Path $repoRoot 'verification\Run_HeatDriveECC_ColdBoundaryRuntimeBridge.m')
 Add-Entry 'Cold-boundary runtime bridge launcher' (Join-Path $repoRoot 'verification\Start_HeatDriveECC_ColdBoundaryRuntimeBridge.ps1')
+Add-Entry 'Strict Operating Point restore audit source' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_OperatingPointRestore.m')
+Add-Entry 'Runtime builder determinism audit source' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_RuntimeBuilderDeterminism.m')
+Add-Entry 'Runtime strict cold-start launcher' (Join-Path $repoRoot 'verification\Start_HeatDriveECC_RuntimeColdStart.ps1')
+Add-Entry 'Storage-bounded long continuation source' (Join-Path $repoRoot 'verification\Run_HeatDriveECC_LongSteadyContinuation.m')
 Add-Entry 'MATLAB package verifier' (Join-Path $repoRoot 'verification\Verify_FinalHeatDriveECC_Package.m')
 Add-Entry 'PowerShell package auditor' (Join-Path $repoRoot 'verification\Audit_FinalHeatDriveECC_Package.ps1')
 Add-Entry 'Superseded raw cleanup script' (Join-Path $repoRoot 'verification\Prune_Superseded_HeatDriveECC_Raw.ps1')
@@ -479,11 +519,20 @@ if (-not [bool]$systemC243Contract.mechanism_pass -or
         [bool]$systemC243Contract.recovery_policy.state_recovery_allowed -or
         [bool]$systemC243Contract.recovery_policy.preserve_final_operating_point -or
         [string]$systemC243Contract.authority_status -ne
-            'superseded_for_state_recovery_by_C246_runtime_bridge') {
+            'historical_performance_only_raw_and_checkpoint_removed_no_state_recovery') {
     throw 'Unexpected C243 modeled system-energy recovery contract gates.'
 }
 $runtimeC246Result = Join-Path $runtimeC246Run 'physical_simscape_result.mat'
 $runtimeC246Checkpoint = Join-Path $runtimeC246Run 'final_operating_point.mat'
+if ([bool]$c200Contract.resume_policy.sole_mainline_recovery -or
+        [bool]$c200Contract.resume_policy.state_recovery_allowed_current_model -or
+        [bool]$c200Contract.complete_operating_point_restore_verified_current_model -or
+        -not [bool]$c200Contract.contents_checksum_mismatch_detected_current_model -or
+        [bool]$c200StrictRestore.strict_restore_pass -or
+        -not [bool]$c200StrictRestore.contents_checksum_mismatch_detected -or
+        [int]$c200StrictRestore.result_cycles -ne 200) {
+    throw 'Unexpected C200 current-model restore-revocation gates.'
+}
 if (-not [bool]$runtimeC246Contract.mechanism_pass -or
         -not [bool]$runtimeC246Contract.periodic_steady_state -or
         -not [bool]$runtimeC246Contract.modeled_thermal_closure_pass -or
@@ -492,9 +541,14 @@ if (-not [bool]$runtimeC246Contract.mechanism_pass -or
         [int]$runtimeC246Contract.completed_cycles -ne 246 -or
         [string]$runtimeC246Contract.cold_boundary_temperature_configurability -ne
             'runtime' -or
-        -not [bool]$runtimeC246Contract.recovery_policy.state_recovery_allowed -or
+        [bool]$runtimeC246Contract.recovery_policy.state_recovery_allowed -or
+        -not [bool]$runtimeC246Contract.state_reset -or
+        [bool]$runtimeC246Contract.complete_operating_point_restore_verified -or
+        -not [bool]$runtimeC246Contract.contents_checksum_mismatch_detected -or
+        -not [bool]$runtimeC246Contract.solver_configuration_state_invalid -or
+        [bool]$runtimeC246Contract.recovery_policy.complete_operating_point_restore_verified -or
         -not [bool]$runtimeC246Contract.recovery_policy.preserve_final_operating_point) {
-    throw 'Unexpected C246 runtime-bridge recovery contract gates.'
+    throw 'Unexpected C246 revoked-recovery contract gates.'
 }
 if ((Get-FileHash -LiteralPath $runtimeC246Result -Algorithm SHA256).Hash -ne
         [string]$runtimeC246Contract.result_sha256) {
@@ -504,16 +558,33 @@ if ((Get-FileHash -LiteralPath $runtimeC246Checkpoint -Algorithm SHA256).Hash -n
         [string]$runtimeC246Contract.checkpoint_sha256) {
     throw 'C246 runtime-bridge Operating Point SHA-256 mismatch.'
 }
-if (-not [bool]$runtimeC246Bridge.accepted -or
-        [bool]$runtimeC246Bridge.state_reset -or
+if ([bool]$runtimeC246Bridge.accepted -or
+        -not [bool]$runtimeC246Bridge.state_reset -or
         -not [bool]$runtimeC246Bridge.Tc_unchanged -or
         -not [bool]$runtimeC246Bridge.runtime_configurability -or
         -not [bool]$runtimeC246Bridge.checkpoint_restart_used -or
         -not [bool]$runtimeC246Bridge.checkpoint_chain_verified -or
         -not [bool]$runtimeC246Bridge.time_continuity_verified -or
+        [bool]$runtimeC246Bridge.complete_operating_point_restore_verified -or
+        -not [bool]$runtimeC246Bridge.contents_checksum_mismatch_detected -or
+        -not [bool]$runtimeC246Bridge.solver_configuration_state_invalid -or
         -not [bool]$runtimeC246Bridge.segment_start_matches_authority -or
-        -not [bool]$runtimeC246Bridge.accepted_result_may_resume) {
-    throw 'Unexpected C246 runtime-bridge continuity gates.'
+        [bool]$runtimeC246Bridge.accepted_result_may_resume) {
+    throw 'Unexpected C246 rejected-restore continuity gates.'
+}
+if ([bool]$runtimeC246StrictRestore.strict_restore_pass -or
+        [bool]$runtimeC246StrictRestore.complete_operating_point_restore_verified -or
+        -not [bool]$runtimeC246StrictRestore.contents_checksum_mismatch_detected -or
+        [int]$runtimeC246StrictRestore.result_cycles -ne 246 -or
+        [bool]$runtimeC246StrictRestore.failed_result_may_resume) {
+    throw 'Unexpected C246 strict ModelOperatingPoint restore audit.'
+}
+if (-not [bool]$runtimeBuilderAudit.first_cold_step_pass -or
+        -not [bool]$runtimeBuilderAudit.model_checksum_equal -or
+        -not [bool]$runtimeBuilderAudit.strict_restore_pass -or
+        -not [bool]$runtimeBuilderAudit.complete_operating_point_restore_verified -or
+        -not [bool]$runtimeBuilderAudit.production_runtime_cold_start_allowed) {
+    throw 'Runtime model builder is not deterministic under strict OP restore.'
 }
 if (-not [bool]$runtimeC246Audit.production_pass -or
         -not [bool]$runtimeC246Audit.periodic_steady_state -or
@@ -525,6 +596,19 @@ if (-not [bool]$runtimeC246Audit.production_pass -or
         [double]$runtimeC246Audit.modeled_thermal_residual_relative -gt 1.0e-3 -or
         [double]$runtimeC246Audit.fluid_mass_drift_relative -gt 1.0e-5) {
     throw 'Unexpected C246 runtime-bridge system-energy gates.'
+}
+$runtimeTcClean11Record = @($runtimeTcClean11Outer.records | Where-Object {
+    [math]::Abs([double]$_.Tc_K - 276.94) -lt 1.0e-9
+})
+if ([string]$runtimeTcClean11Outer.status -ne 'no_valid_bracket' -or
+        [int]$runtimeTcClean11Outer.accepted_count -ne 1 -or
+        [int]$runtimeTcClean11Outer.rejected_count -ne 1 -or
+        $runtimeTcClean11Record.Count -ne 1 -or
+        [string]$runtimeTcClean11Record[0].status -ne 'simulation_error' -or
+        [bool]$runtimeTcClean11Record[0].admissible -or
+        [int]$runtimeTcClean11Record[0].validated_cycles -ne 246 -or
+        -not ([string]$runtimeTcClean11Record[0].failure_reason).Contains('2535.101000')) {
+    throw 'Unexpected C257 clean transition-window failure evidence.'
 }
 $runtimeTcWindowRecord = @($runtimeTcWindowOuter.records | Where-Object {
     [math]::Abs([double]$_.Tc_K - 276.94) -lt 1.0e-9
@@ -583,7 +667,7 @@ $hashes = foreach ($item in ($manifest | Where-Object exists)) {
 $hashes | Export-Csv -LiteralPath $hashPath -NoTypeInformation -Encoding UTF8
 
 $summary = [ordered]@{
-    schema = 'heatdrive_ecc_final_package_audit_v9'
+    schema = 'heatdrive_ecc_final_package_audit_v10'
     generated_at = (Get-Date).ToString('o')
     workspace_root = $WorkspaceRoot
     authoritative_result = (Join-Path $mainRun 'physical_simscape_result.mat')
@@ -619,6 +703,13 @@ $summary = [ordered]@{
     system_c243_raw_retention_policy = 'superseded raw is optional; compact contract, audit, reports, logs, summaries, and figures remain required'
     runtime_c246_cycles = $runtimeC246Contract.completed_cycles
     runtime_c246_bridge_pass = [bool]$runtimeC246Bridge.accepted
+    runtime_c246_performance_evidence_retained = $true
+    runtime_c246_state_recovery_allowed = [bool]$runtimeC246Contract.recovery_policy.state_recovery_allowed
+    runtime_c246_strict_restore_pass = [bool]$runtimeC246StrictRestore.strict_restore_pass
+    runtime_c246_contents_checksum_mismatch = [bool]$runtimeC246StrictRestore.contents_checksum_mismatch_detected
+    runtime_builder_checksum_equal = [bool]$runtimeBuilderAudit.model_checksum_equal
+    runtime_builder_strict_restore_pass = [bool]$runtimeBuilderAudit.strict_restore_pass
+    runtime_cold_start_allowed = [bool]$runtimeBuilderAudit.production_runtime_cold_start_allowed
     runtime_c246_mechanism_pass = [bool]$runtimeC246Audit.mechanism_pass
     runtime_c246_periodic_steady_state = [bool]$runtimeC246Audit.periodic_steady_state
     runtime_c246_modeled_thermal_closure_pass = [bool]$runtimeC246Audit.modeled_thermal_closure_pass
@@ -630,8 +721,12 @@ $summary = [ordered]@{
     runtime_tc_window_final_CHEX_K = [double]$runtimeTcWindowLastCycle.CHEX_end_K
     runtime_tc_window_failure_gate = 'fixed_chex_temperature_authority; insufficient post-transition cycles in the ten-cycle window'
     runtime_tc_window_failed_result_may_resume = $false
-    continuation_authority = 'C246_runtime_cold_boundary_bridge'
+    runtime_tc_clean11_failure_time_s = 2535.101
+    runtime_tc_clean11_failed_result_may_resume = $false
+    continuation_authority = 'none_pending_strict_runtime_cold_start'
     paper_benchmark_authority = 'C200_fixed_CHEX'
+    c200_state_recovery_allowed_current_model = [bool]$c200Contract.resume_policy.state_recovery_allowed_current_model
+    c200_strict_restore_pass_current_model = [bool]$c200StrictRestore.strict_restore_pass
     c240_reconstruction_status = 'historical_diagnostic_superseded_by_C242_then_C243_measurement'
     initial_local_OAT_completed_count = $initialSummary.completed_count
     initial_local_OAT_admissible_count = $initialSummary.admissible_count

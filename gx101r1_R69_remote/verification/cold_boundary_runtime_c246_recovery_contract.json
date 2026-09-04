@@ -1,13 +1,19 @@
 {
   "schema": "heatdrive_ecc_source_heatflow_recovery_v1",
   "frozen_at": "2026-09-04T09:10:00+08:00",
+  "amended_at": "2026-09-04T12:00:00+08:00",
   "simulation_code_commit": "2eb63e6",
   "summary_audit_commit": "2eb63e6",
   "completed_cycles": 246,
   "mechanism_pass": true,
   "periodic_steady_state": true,
   "strict_table4_reproduction": false,
-  "state_reset": false,
+  "state_reset": true,
+  "authority_status": "performance_evidence_only_recovery_revoked_after_strict_checksum_failure",
+  "complete_operating_point_restore_verified": false,
+  "contents_checksum_mismatch_detected": true,
+  "solver_configuration_state_invalid": true,
+  "strict_restore_audit_relative_path": "outputs_storage_audit/c246_strict_restore_20260904/strict_restore_audit.json",
   "result_relative_path": "outputs/qian_cold_boundary_runtime_bridge_from_c243_20260904/qian2019_table2_table4_simscape_246cycle_20260904_075932/physical_simscape_result.mat",
   "result_sha256": "B5FA3DE5C0AB7F386B686A6D3090599696DAFA11EAEAB50AEB7CF628238D291E",
   "result_bytes": 6143555761,
@@ -35,17 +41,12 @@
   "fluid_mass_conservation_pass": true,
   "complete_device_first_law_closure": false,
   "recovery_policy": {
-    "state_recovery_allowed": true,
+    "state_recovery_allowed": false,
     "energy_metrics_may_be_propagated": true,
     "preserve_final_operating_point": true,
-    "preserved_state_classes": [
-      "thermal_capacity",
-      "buffer",
-      "constitutive",
-      "temperature",
-      "phase_fraction",
-      "independent_route_PI_memory"
-    ],
+    "complete_operating_point_restore_verified": false,
+    "preserved_state_classes": [],
+    "preservation_claim": "not_verified_because_Solver_Configuration_STATE_1_was_invalid",
     "failed_results_may_resume": false
   }
 }

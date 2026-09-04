@@ -327,7 +327,7 @@ C200 仍是论文基准。受控清理删除 C242 raw/OP 与 C243 可重建 lega
 
 - `项目文档/报告/SMA-SE正逆耦合_第十一阶段C243整机热控制体闭合与设备边界报告.md`
 
-## 16. C246 运行时冷端桥接与当前恢复权威
+## 16. C246 运行时桥接、严格恢复失败与恢复资格撤销
 
 从 C243 直接改变编译时 CHEX Temperature Source 参数会导致
 ModelOperatingPoint contents checksum mismatch。`Tc=276.80 K` 与
@@ -336,25 +336,38 @@ ModelOperatingPoint contents checksum mismatch。`Tc=276.80 K` 与
 同一元件失败，结合 C243 末周期固体最高温度仍低于水物性表上限，说明原方法没有完整
 恢复 Simscape 内部状态，不能将其解释为 Table 4 物理趋势。
 
-因此在 `Tc=276.95 K` 数值不变的条件下建立 compiletime-to-runtime 桥接，并从
-C243 完整 OP 连续运行三个周期到 C246。C246 的 checkpoint chain、time continuity、
-机制、周期、热控制体与质量守恒全部通过，`state_reset=false`。Eq.9 为
+因此曾在 `Tc=276.95 K` 数值不变的条件下建立 compiletime-to-runtime 桥接，并从
+C243 Operating Point 运行三个周期到 C246。C246 的自定义 checkpoint chain、时间轴、
+机制、周期、热控制体与质量守恒全部通过。Eq.9 为
 `28.7102592458 K`，Eq.10 为 `0.316480808133 W/g`；模型热残差相对值
 `1.6724817e-4`，质量漂移相对值 `3.0854417e-6`。
 
-C246 现为唯一状态恢复权威，C243 恢复许可已关闭；C200 仍为论文性能基准。C246
-结果/OP SHA-256 分别为：
+后续复核发现桥接日志已经报告 contents checksum mismatch 和无效状态
+`Solver Configuration/EVAL_KEY/STATE_1`，但旧代码把该诊断降级为 warning，并把
+`state_reset=false` 写死。contents/interface checksum=`error` 的 1 ms 严格烟测证明
+C246 不能完整恢复；同样测试也证明 C200 不能在当前模型上完整恢复。因此 C246 与
+C200 均不再是当前模型续算权威：C246 仅作性能/能量/故障诊断证据，C200 仅作冻结
+论文性能基准。C246 结果/OP SHA-256 仍保持不变：
 
 ```text
 B5FA3DE5C0AB7F386B686A6D3090599696DAFA11EAEAB50AEB7CF628238D291E
 6EE1E34C0364C72833BD3918463AB3E6A2600C013BD2EC8DA3FA81FB1D854473
 ```
 
-C243 raw/OP 在 C246 冻结并通过总包审核后不再承担恢复职责；保留合同、原哈希、能量
-审核、周期摘要、参数合同、日志和 SCI 图。存储脚本只保护 C200 与 C246 大文件，已按
+C243 raw/OP 在 C246 冻结并通过总包审核后已删除；保留合同、原哈希、能量审核、周期
+摘要、参数合同、日志和 SCI 图。存储脚本暂时保护 C200 与 C246 大文件，已按
 20 项 dry-run 清单删除 C243 raw/OP、C246 legacy 图和 dense probe 共 `5.722 GiB`，
 outputs 从 `16.254 GiB` 降至 `10.532 GiB`；删除审计为
 `outputs_storage_audit/cleanup_summary_20260904_091925.txt`。
+
+第二次 `Tc=276.94 K` clean11 候选在 `2535.101 s` 再次触发相同 Thermal Liquid
+温度上限断言，未生成 C257 result/checkpoint，`validated_cycles` 保持 246，失败状态
+未传播。生产运行器现强制 strict checksum；当前合法恢复权威为空。下一条主线必须先
+验证 runtime 模型构建确定性，再从冷态独立运行到周期稳态并生成可严格恢复的新 OP。
+
+runtime builder 的双构建审计已经通过：冷态 1 ms OP 在关闭、重建同一模型后可用
+contents/interface=`error` 严格恢复到 2 ms，且两次模型 checksum 相同。因此允许启动
+新的 runtime 冷态独立链，但仍禁止使用 C200/C246 作为该链初始状态。
 
 完整失败诊断、桥接门禁、代码清单、验证命令、存储策略和文献对照见：
 

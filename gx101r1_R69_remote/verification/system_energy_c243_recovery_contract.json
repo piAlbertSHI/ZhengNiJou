@@ -38,12 +38,13 @@
   "native_pressure_source_power_W": 0.0,
   "complete_device_first_law_closure": false,
   "complete_device_first_law_status": "Modeled thermal control volume passes. Full device closure remains withheld until parasitic pump work/dissipation and external accessory heat are assigned to measured boundaries.",
-  "authority_status": "superseded_for_state_recovery_by_C246_runtime_bridge",
+  "authority_status": "historical_performance_only_raw_and_checkpoint_removed_no_state_recovery",
   "superseded_by_contract": "verification/cold_boundary_runtime_c246_recovery_contract.json",
   "recovery_policy": {
     "state_recovery_allowed": false,
     "energy_metrics_may_be_propagated": true,
     "preserve_final_operating_point": false,
+    "complete_operating_point_restore_verified": false,
     "preserved_state_classes": [
       "thermal_capacity",
       "buffer",

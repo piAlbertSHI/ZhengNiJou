@@ -43,28 +43,30 @@ $preserveRawPaths = @(
     $authorityCheckpoint,
     (Join-Path $authorityRun 'stage_temperature_probes_50samples.csv')
 )
-$activeRecoveryContractPath = Join-Path $repoRoot `
+$runtimeEvidenceContractPath = Join-Path $repoRoot `
     'verification\cold_boundary_runtime_c246_recovery_contract.json'
-if (Test-Path -LiteralPath $activeRecoveryContractPath -PathType Leaf) {
-    $activeRecoveryContract = Get-Content -LiteralPath `
-        $activeRecoveryContractPath -Raw | ConvertFrom-Json
-    if (-not $activeRecoveryContract.mechanism_pass) {
-        throw 'Active C246 runtime recovery contract is not mechanism-valid.'
+if (Test-Path -LiteralPath $runtimeEvidenceContractPath -PathType Leaf) {
+    $runtimeEvidenceContract = Get-Content -LiteralPath `
+        $runtimeEvidenceContractPath -Raw | ConvertFrom-Json
+    if (-not $runtimeEvidenceContract.mechanism_pass) {
+        throw 'Retained C246 runtime evidence is not mechanism-valid.'
     }
-    if (-not [bool]$activeRecoveryContract.modeled_thermal_closure_pass -or
-            -not [bool]$activeRecoveryContract.fluid_mass_conservation_pass) {
-        throw 'Active C246 recovery contract has not passed the modeled thermal-system gates.'
+    if (-not [bool]$runtimeEvidenceContract.modeled_thermal_closure_pass -or
+            -not [bool]$runtimeEvidenceContract.fluid_mass_conservation_pass) {
+        throw 'Retained C246 evidence has not passed the modeled thermal-system gates.'
     }
-    if (-not [bool]$activeRecoveryContract.recovery_policy.state_recovery_allowed -or
-            -not [bool]$activeRecoveryContract.recovery_policy.preserve_final_operating_point) {
-        throw 'Active C246 recovery contract does not authorize state continuation.'
+    if ([bool]$runtimeEvidenceContract.recovery_policy.state_recovery_allowed -or
+            -not [bool]$runtimeEvidenceContract.recovery_policy.preserve_final_operating_point -or
+            [bool]$runtimeEvidenceContract.complete_operating_point_restore_verified -or
+            -not [bool]$runtimeEvidenceContract.contents_checksum_mismatch_detected) {
+        throw 'C246 evidence must remain recovery-disabled until strict restore passes.'
     }
     $preserveRawPaths += [System.IO.Path]::GetRelativePath(
         $outputRootResolved,
-        (Join-Path $repoRoot $activeRecoveryContract.result_relative_path))
+        (Join-Path $repoRoot $runtimeEvidenceContract.result_relative_path))
     $preserveRawPaths += [System.IO.Path]::GetRelativePath(
         $outputRootResolved,
-        (Join-Path $repoRoot $activeRecoveryContract.checkpoint_relative_path))
+        (Join-Path $repoRoot $runtimeEvidenceContract.checkpoint_relative_path))
 }
 $largeProbeNames = @(
     'stage_temperature_probes_50samples.csv'

@@ -1,17 +1,21 @@
-# SMA-SE 正逆耦合第十二阶段：C246 运行时冷端桥接与 Table 4 外层求解报告
+# SMA-SE 正逆耦合第十二阶段：C246 运行时桥接、严格恢复复核与资格撤销报告
 
 更新日期：2026-09-04
 
 ## 1. 严格结论
 
-C246 是从 C243 已验证 Operating Point 连续运行三个完整周期得到的当前唯一状态恢复
-权威。桥接过程保持冷端温度 `Tc=276.95 K` 不变，只把 CHEX Temperature Source
-的温度参数从编译时参数改为 Simscape 运行时参数；没有重置热容、buffer、本构、
-温度、相分数或独立路线 PI 记忆。
+C246 的已完成数值段通过机制、周期稳态、模型热控制体和闭环流体质量门禁，因此其
+性能和能量结果继续保留。后续严格复核发现，该段是在
+`OperatingPointContentsChecksumMismatchMsg=warning` 下运行，MATLAB 明确报告
+`Solver Configuration/EVAL_KEY/STATE_1` 无效。用 contents/interface 均为 `error`
+的 1 ms 严格恢复烟测复核时，C246 Operating Point 无法完整加载。
 
-C246 通过机制、周期稳态、检查点连续性、模型热控制体和闭环流体质量门禁，可作为
-后续小范围 `Tc` 外层求解的恢复基线。C200 仍是论文性能基准。完整设备一阶定律、
-system COP、Qian Table 4 两个成对端点、网格/时间步收敛和独立 validation 尚未完成。
+因此，C246 **不是当前状态恢复权威**；原 `state_reset=false` 结论已撤销，机器合同现为
+`state_reset=true`、`complete_operating_point_restore_verified=false`、
+`state_recovery_allowed=false`。C200 在当前模型上也发生同类严格校验失败，只保留为
+冻结论文性能基准。当前没有合法续算权威；新的 runtime 模型必须从冷态独立建立，
+随后只有严格 checksum 恢复成功的 Operating Point 才可推进。完整设备一阶定律、
+system COP、Qian Table 4 成对端点、网格/时间步收敛和独立 validation 仍未完成。
 
 ## 2. 为什么必须建立运行时桥接
 
@@ -25,9 +29,10 @@ checksum mismatch，说明模型状态结构与保存点不再完全匹配。两
 | `Tc=276.94 K` | 无 result/checkpoint | 同上，同一时刻 | rejected，不传播 |
 
 C243 末周期 SMA 固体最高温度仅 `392.602831467 K`，而水物性表上限为
-`413.16 K`；两个不同步长却在同一时刻失败，证据指向不完整 Operating Point 恢复，
-而不是 `Tc` 步长本身。运行时参数桥接用于在不改变温度数值的情况下建立一个与后续
-参数扫描结构一致的新保存点。
+`413.16 K`；两个不同步长却在同一时刻失败。原方案试图用同温度 runtime 桥接建立
+新保存点，但桥接本身已出现 contents checksum mismatch，因此没有完成该目标。
+MathWorks 文档说明：contents mismatch 表示模型结构或算法不同，软件不能完整初始化
+到原 Operating Point；warning 只会尽量加载可用状态，不能证明完整连续性。
 
 ## 3. C246 连续性和状态继承
 
@@ -40,15 +45,18 @@ C243 末周期 SMA 固体最高温度仅 `392.602831467 K`，而水物性表上�
 | `Tc` 保持不变 | `true` |
 | 运行时可调 | `true` |
 | checkpoint restart | `true` |
-| checkpoint chain | `true` |
-| time continuity | `true` |
-| state reset | `false` |
+| 自定义 checkpoint chain | `true` |
+| 时间轴连续 | `true` |
+| contents checksum 严格恢复 | `false` |
+| 无效内部状态 | `Solver Configuration/EVAL_KEY/STATE_1` |
+| state reset | `true`，至少一个内部状态未恢复 |
 | mechanism | `true` |
 | periodic | `true` |
 
-继承的状态类别为 `thermal_capacity`、`buffer`、`constitutive`、`temperature`、
-`phase_fraction` 和 `independent_route_PI_memory`。失败结果不得恢复；只有通过全部
-门禁并写入恢复合同的结果可以推进。
+自定义合同和时间戳只能证明文件、参数与时间轴一致，不能替代 Simulink contents
+checksum。现在不再声明 `thermal_capacity`、`buffer`、`constitutive`、`temperature`、
+`phase_fraction`、`independent_route_PI_memory` 以及 Simscape solver 内部状态已被完整
+继承。C246 仅作性能/诊断证据，禁止恢复或插值。
 
 ## 4. C246 数值审核
 
@@ -86,22 +94,28 @@ final_operating_point.mat
 6EE1E34C0364C72833BD3918463AB3E6A2600C013BD2EC8DA3FA81FB1D854473
 ```
 
-机器可读恢复合同：
+机器可读的已撤销恢复合同：
 `gx101r1_R69_remote/verification/cold_boundary_runtime_c246_recovery_contract.json`。
-C243 合同仍保存原始哈希和数值证据，但 `state_recovery_allowed=false`，不得继续作为
-状态源。
+C243 合同仍保存原始哈希和数值证据，但其 raw/OP 已按此前存储治理删除；C200 与
+C246 的 raw/OP 均保留用于论文证据和故障追溯，当前都不得作为当前模型状态源。
+
+严格恢复证据：
+
+- `outputs_storage_audit/c246_strict_restore_20260904/strict_restore_audit.json`
+- `outputs_storage_audit/c200_strict_restore_20260904/strict_restore_audit.json`
 
 ## 6. 本阶段代码成果
 
 | 文件 | 作用 |
 |---|---|
 | `Integrate_HeatDriveECC_Constitutive21_Interface.m` | Temperature Source 支持可选择 compiletime/runtime，旧路线默认不变 |
-| `verification/Run_HeatDriveECC_ColdBoundaryRuntimeBridge.m` | 同温度、完整 OP、三周期桥接和连续性审核 |
+| `Run_HeatDriveECC_EighthRound_Simulink_Cycles.m` | 生产续算强制 contents/interface checksum=`error`，禁止 flexible restore |
+| `verification/Audit_HeatDriveECC_OperatingPointRestore.m` | 1 ms 严格恢复审计，不写新 OP、不传播失败状态 |
+| `verification/Run_HeatDriveECC_ColdBoundaryRuntimeBridge.m` | 只有严格完整恢复通过才允许桥接被接受 |
 | `verification/Start_HeatDriveECC_ColdBoundaryRuntimeBridge.ps1` | 独立启动器和日志/进程合同 |
-| `verification/Run_HeatDriveECC_Table4_OuterSolve.m` | 后续候选只使用 C246 并继承 runtime 配置和控制器状态 |
-| `verification/Start_HeatDriveECC_Table4OuterSolve.ps1` | 记录 C246-only 恢复策略 |
-| `verification/Resolve_HeatDriveECC_SourceHeatFlowRecovery.m` | 禁止恢复已关闭的 C243 合同 |
-| `verification/Audit_FinalHeatDriveECC_Package.ps1` | 审核 C200/C246 双权威、C243 紧凑历史证据和报告 |
+| `verification/Run_HeatDriveECC_Table4_OuterSolve.m` | C246 合同禁用后会在候选启动前失败，不允许隐式回退 |
+| `verification/Resolve_HeatDriveECC_SourceHeatFlowRecovery.m` | 要求合同显式证明完整 checksum 恢复 |
+| `verification/Audit_FinalHeatDriveECC_Package.ps1` | 审核 C200/C246 性能证据、严格恢复失败和恢复许可关闭 |
 | `verification/Verify_FinalHeatDriveECC_Package.m` | MATLAB 侧复核桥接、周期、机制、能量和质量门禁 |
 | `verification/Manage_HeatDriveECC_OutputStorage.ps1` | 只保护 C200 与当前 C246 raw/OP，列出其余可删除大文件 |
 
@@ -128,20 +142,24 @@ matlab -batch "cd('C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote'); add
 pwsh -File .\verification\Manage_HeatDriveECC_OutputStorage.ps1
 ```
 
-解析 C246 恢复合同并确认 C243 已禁用：
+确认 C246 解析器拒绝恢复：
 
 ```matlab
 cd('C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote');
 addpath(genpath(pwd));
-r = Resolve_HeatDriveECC_SourceHeatFlowRecovery(struct( ...
-    'contract_path', fullfile(pwd,'verification', ...
-    'cold_boundary_runtime_c246_recovery_contract.json')));
-assert(r.completed_cycles == 246);
+try
+    Resolve_HeatDriveECC_SourceHeatFlowRecovery(struct( ...
+        'contract_path', fullfile(pwd,'verification', ...
+        'cold_boundary_runtime_c246_recovery_contract.json')));
+    error('C246 should not be accepted for recovery.');
+catch e
+    assert(strcmp(e.identifier,'HeatDriveECC:DisabledSourceRecoveryContract'));
+end
 ```
 
 ## 9. 存储与 Git 策略
 
-C246 冻结后只长期保留 C200 paper benchmark 与 C246 current recovery 的 raw/OP。
+C246 现阶段保留 C200 paper benchmark 与 C246 performance/diagnostic evidence 的 raw/OP。
 C243 的合同、SHA-256、系统能量 JSON、validation、周期摘要、参数合同、日志和七张
 SCI 图继续保留；其 raw result 和 OP 已被 C246 状态与完整历史替代。删除前 C246
 总包通过且没有 MATLAB 引用 outputs；dry-run 逐项确认 20 个候选后，受控删除 C243
@@ -154,15 +172,17 @@ raw/OP、C246 legacy 图和 dense probe 共 `5.722 GiB`，outputs 从 `16.254 Gi
 
 ## 10. 下一步
 
-1. 从 C246 运行时恢复点以 `Tc=276.94 K` 做最小参数变更候选；先证明无 checksum
-   mismatch、无物性域异常，再接受性能数值。
-2. 每个候选必须通过 checkpoint/time continuity、mechanism、periodic、节点 KCL、
+1. 先验证当前 runtime 模型构建两次是否具有相同 contents checksum，并完成“冷态
+   1 ms 保存 OP -> 重建模型 -> 严格恢复 1 ms”的确定性测试。
+2. 确定性通过后，从冷态独立运行 runtime 模型到周期稳态，生成新的严格恢复基线；
+   不使用 C200/C246 partial restore 缩短过程。
+3. 每个候选必须通过 strict checkpoint restore、time continuity、mechanism、periodic、节点 KCL、
    模型热残差和质量守恒；失败点仅保留 rejected diagnostic package。
-3. 在合法周期点上建立局部斜率，分别求 zero-load 和 zero-lift；禁止用拒绝点或单点
+4. 在合法周期点上建立局部斜率，分别求 zero-load 和 zero-lift；禁止用拒绝点或单点
    外推形成 Table 4 结论。
-4. 完成 UA、热容、buffer、库存、回热和相变参数的有效域敏感性，以及节点数和时间步
+5. 完成 UA、热容、buffer、库存、回热和相变参数的有效域敏感性，以及节点数和时间步
    独立性。
-5. 单独解决泵功热耦合与附件散热边界后，才审核完整设备一阶定律和 system COP。
+6. 单独解决泵功热耦合与附件散热边界后，才审核完整设备一阶定律和 system COP。
 
 ## 11. 首个运行时候选的窗口审核更正
 
@@ -180,10 +200,27 @@ checkpoint，编排器保持 C246 为唯一恢复源。
 
 ## 12. 负责人可用结论
 
-> The C246 operating point is a mechanism-valid and periodic continuation of
-> C243 with an unchanged 276.95 K cold boundary and a verified run-time
-> temperature parameter. The complete operating-point state and time continuity
-> are preserved, and the modeled thermal control volume closes to a relative
-> residual of 1.672e-4. It is the current continuation authority, but it is not
-> a reproduction of Qian et al.'s paired Table 4 endpoints and does not yet close
-> the full device first-law boundary.
+> The completed C246 segment is mechanism-valid and periodic, and its modeled
+> thermal control volume closes to a relative residual of 1.672e-4. However,
+> strict contents-checksum testing proves that its ModelOperatingPoint cannot be
+> completely restored in the current model; C246 is therefore retained only as
+> performance and diagnostic evidence, not as a continuation authority. C200 is
+> likewise a frozen paper benchmark rather than a current-model recovery state.
+> No paired Table 4 endpoint or full-device first-law closure is claimed.
+
+## 13. Clean11 失败与严格恢复审计
+
+为排除 C249 的 10 周期窗口混入旧温度问题，第二次候选要求一次追加 11 周期。该仿真
+未生成 C257 结果，而是在绝对时间 `2535.101 s`、cycle 254 Stage 3 开始后 `0.101 s`
+再次触发 `SMA/HoldPipe_021` 与 `SMA_V3_pump_to_heat_path` 的 Thermal Liquid 最高温度
+断言。编排器保持 `validated_cycles=246`，未产生 result/checkpoint，失败状态未传播。
+
+随后对 C246 和 C200 分别执行 contents/interface checksum=`error` 的 1 ms 审计，二者
+均在完整加载 Operating Point 前终止，`strict_restore_pass=false`。这证明此前 warning
+不能作为状态连续性证据，也解释了为什么不能继续从 C246 调整 `Tc`。生产运行器现已
+写死 strict 策略；任何 checksum mismatch 会在长仿真前失败。
+
+独立的 runtime builder 确定性审计从冷态运行 1 ms、保存内存 OP、关闭并重建模型，
+随后严格恢复到 2 ms。两次 `Simulink.BlockDiagram.getChecksum` 相同，第二步严格恢复
+成功，`production_runtime_cold_start_allowed=true`。因此缺陷位于旧 OP 与当前结构之间，
+不是当前 builder 每次随机改变结构；新的 runtime 冷启动链可以安全建立自身检查点。
