@@ -2,7 +2,7 @@
 param(
     [double[]]$TcCandidatesK = @(275.5),
     [string]$OutputRoot = '',
-    [int]$SegmentCycles = 20,
+    [int]$SegmentCycles = 11,
     [int]$MaximumAdditionalCycles = 80,
     [ValidateSet('eq10_SCP_W_per_g', 'eq9_lift_K')]
     [string]$TargetMetric = 'eq10_SCP_W_per_g'
@@ -26,6 +26,9 @@ if (-not $OutputRoot.StartsWith($expectedOutputs + `
 if ($TcCandidatesK.Count -lt 1 -or
         @($TcCandidatesK | Where-Object { $_ -lt 255.05 -or $_ -gt 303.15 }).Count -gt 0) {
     throw 'All Tc candidates must be inside [255.05, 303.15] K.'
+}
+if ($SegmentCycles -lt 1 -or $MaximumAdditionalCycles -lt 11) {
+    throw 'SegmentCycles must be positive and MaximumAdditionalCycles must be at least 11.'
 }
 New-Item -ItemType Directory -Path $OutputRoot -Force | Out-Null
 $stdoutPath = Join-Path $OutputRoot 'matlab_stdout.log'
@@ -62,6 +65,7 @@ $process = Start-Process -FilePath $matlab -ArgumentList @('-batch', $quotedBatc
     Tc_candidates_K = $TcCandidatesK
     segment_cycles = $SegmentCycles
     maximum_additional_cycles = $MaximumAdditionalCycles
+    effective_minimum_boundary_transition_cycles = [Math]::Max($SegmentCycles, 11)
     target_metric = $TargetMetric
     endpoint_name = if ($TargetMetric -eq 'eq9_lift_K') { 'zero_lift' } else { 'zero_load' }
     initial_state_policy = 'validated_C246_runtime_recovery_contract_only'

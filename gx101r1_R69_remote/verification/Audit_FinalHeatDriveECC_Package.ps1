@@ -85,6 +85,23 @@ $runtimeC246AuditPath = Join-Path $runtimeC246Root `
     'system_energy_bridge_audit.json'
 $runtimeC246Audit = Get-Content -LiteralPath $runtimeC246AuditPath -Raw |
     ConvertFrom-Json
+$runtimeTcWindowRoot = Join-Path $repoRoot `
+    'outputs\qian_table4_c246_runtime_tc_276p940K_20260904'
+$runtimeTcWindowCandidate = Join-Path $runtimeTcWindowRoot 'Tc_0276.940K'
+$runtimeTcWindowRun = Join-Path $runtimeTcWindowCandidate `
+    'qian2019_table2_table4_simscape_249cycle_20260904_094110'
+$runtimeTcWindowOuterPath = Join-Path $runtimeTcWindowRoot `
+    'outer_solve_summary.json'
+$runtimeTcWindowOuter = Get-Content -LiteralPath `
+    $runtimeTcWindowOuterPath -Raw | ConvertFrom-Json
+$runtimeTcWindowAuditPath = Join-Path $runtimeTcWindowCandidate `
+    'system_energy_audit.json'
+$runtimeTcWindowAudit = Get-Content -LiteralPath `
+    $runtimeTcWindowAuditPath -Raw | ConvertFrom-Json
+$runtimeTcWindowCyclePath = Join-Path $runtimeTcWindowRun `
+    'cycle_physical_summary.csv'
+$runtimeTcWindowLastCycle = Import-Csv -LiteralPath `
+    $runtimeTcWindowCyclePath | Select-Object -Last 1
 
 New-Item -ItemType Directory -Force -Path $AuditRoot | Out-Null
 $manifestPath = Join-Path $AuditRoot 'final_results_manifest_20260824.csv'
@@ -139,6 +156,18 @@ Add-Entry 'C246 runtime-bridge acceptance marker' (Join-Path $runtimeC246Root 'R
 Add-Entry 'C246 runtime-bridge recovery contract' $runtimeC246ContractPath
 Add-Entry 'C246 runtime-bridge MATLAB stdout' (Join-Path $runtimeC246Root 'matlab_stdout.log')
 Add-Entry 'C246 runtime-bridge MATLAB stderr' (Join-Path $runtimeC246Root 'matlab_stderr.log')
+Add-Entry 'C249 rejected transition-window outer summary' $runtimeTcWindowOuterPath
+Add-Entry 'C249 rejected transition-window candidate summary' (Join-Path $runtimeTcWindowRoot 'outer_candidate_summary.csv')
+Add-Entry 'C249 rejected transition-window MATLAB stdout' (Join-Path $runtimeTcWindowRoot 'matlab_stdout.log')
+Add-Entry 'C249 rejected transition-window MATLAB stderr' (Join-Path $runtimeTcWindowRoot 'matlab_stderr.log')
+Add-Entry 'C249 rejected transition-window marker' (Join-Path $runtimeTcWindowCandidate 'REJECTED_DO_NOT_RESUME.txt')
+Add-Entry 'C249 rejected transition-window compaction marker' (Join-Path $runtimeTcWindowCandidate 'COMPACTED_AFTER_SCALAR_EXTRACTION.txt')
+Add-Entry 'C249 rejected transition-window validation' (Join-Path $runtimeTcWindowRun 'physical_validation_report.txt')
+Add-Entry 'C249 rejected transition-window cycle summary' $runtimeTcWindowCyclePath
+Add-Entry 'C249 rejected transition-window parameter contract' (Join-Path $runtimeTcWindowRun 'qian2019_table2_table4_parameter_contract.csv')
+Add-Entry 'C249 rejected transition-window progress' (Join-Path $runtimeTcWindowCandidate 'steady_continuation_progress.csv')
+Add-Entry 'C249 rejected transition-window state' (Join-Path $runtimeTcWindowCandidate 'steady_continuation_state.mat')
+Add-Entry 'C249 rejected transition-window system-energy audit' $runtimeTcWindowAuditPath
 Add-Entry 'C200 fixed-reservoir manifest' (Join-Path $mainRoot 'fixed_reservoir_point_manifest.txt')
 Add-Entry 'C200 stdout' (Join-Path $mainRoot 'matlab_stdout.log')
 Add-Entry 'C200 stderr' (Join-Path $mainRoot 'matlab_stderr.log')
@@ -497,6 +526,31 @@ if (-not [bool]$runtimeC246Audit.production_pass -or
         [double]$runtimeC246Audit.fluid_mass_drift_relative -gt 1.0e-5) {
     throw 'Unexpected C246 runtime-bridge system-energy gates.'
 }
+$runtimeTcWindowRecord = @($runtimeTcWindowOuter.records | Where-Object {
+    [math]::Abs([double]$_.Tc_K - 276.94) -lt 1.0e-9
+})
+if ([string]$runtimeTcWindowOuter.status -ne 'no_valid_bracket' -or
+        [int]$runtimeTcWindowOuter.accepted_count -ne 1 -or
+        [int]$runtimeTcWindowOuter.rejected_count -ne 1 -or
+        $runtimeTcWindowRecord.Count -ne 1 -or
+        [bool]$runtimeTcWindowRecord[0].admissible -or
+        [bool]$runtimeTcWindowRecord[0].mechanism_pass -or
+        -not [bool]$runtimeTcWindowRecord[0].periodic_steady_state -or
+        -not [bool]$runtimeTcWindowRecord[0].flow_gates_pass -or
+        -not [bool]$runtimeTcWindowRecord[0].phase_gates_pass -or
+        -not [bool]$runtimeTcWindowRecord[0].energy_gates_pass -or
+        [bool]$runtimeTcWindowRecord[0].observability_gates_pass -or
+        [bool]$runtimeTcWindowRecord[0].system_energy_gates_pass -or
+        [int]$runtimeTcWindowRecord[0].validated_cycles -ne 246 -or
+        [int]$runtimeTcWindowLastCycle.cycle_index -ne 249 -or
+        [math]::Abs([double]$runtimeTcWindowLastCycle.CHEX_start_K - 276.94) -gt 1.0e-9 -or
+        [math]::Abs([double]$runtimeTcWindowLastCycle.CHEX_end_K - 276.94) -gt 1.0e-9 -or
+        [bool]$runtimeTcWindowAudit.production_pass -or
+        -not [bool]$runtimeTcWindowAudit.modeled_thermal_closure_pass -or
+        (Test-Path -LiteralPath (Join-Path $runtimeTcWindowRun 'physical_simscape_result.mat')) -or
+        (Test-Path -LiteralPath (Join-Path $runtimeTcWindowRun 'final_operating_point.mat'))) {
+    throw 'Unexpected C249 boundary-transition-window rejection evidence.'
+}
 if (-not [bool]$systemC243Audit.production_pass -or
         -not [bool]$systemC243Audit.periodic_steady_state -or
         -not [bool]$systemC243Audit.local_exchanger_kcl_pass -or
@@ -529,7 +583,7 @@ $hashes = foreach ($item in ($manifest | Where-Object exists)) {
 $hashes | Export-Csv -LiteralPath $hashPath -NoTypeInformation -Encoding UTF8
 
 $summary = [ordered]@{
-    schema = 'heatdrive_ecc_final_package_audit_v8'
+    schema = 'heatdrive_ecc_final_package_audit_v9'
     generated_at = (Get-Date).ToString('o')
     workspace_root = $WorkspaceRoot
     authoritative_result = (Join-Path $mainRun 'physical_simscape_result.mat')
@@ -571,6 +625,11 @@ $summary = [ordered]@{
     runtime_c246_modeled_thermal_residual_relative = [double]$runtimeC246Audit.modeled_thermal_residual_relative
     runtime_c246_fluid_mass_conservation_pass = [bool]$runtimeC246Audit.fluid_mass_conservation_pass
     runtime_c246_complete_device_first_law_closure = [bool]$runtimeC246Audit.complete_device_first_law_closure
+    runtime_tc_window_rejected_cycles = 249
+    runtime_tc_window_validated_cycles = 246
+    runtime_tc_window_final_CHEX_K = [double]$runtimeTcWindowLastCycle.CHEX_end_K
+    runtime_tc_window_failure_gate = 'fixed_chex_temperature_authority; insufficient post-transition cycles in the ten-cycle window'
+    runtime_tc_window_failed_result_may_resume = $false
     continuation_authority = 'C246_runtime_cold_boundary_bridge'
     paper_benchmark_authority = 'C200_fixed_CHEX'
     c240_reconstruction_status = 'historical_diagnostic_superseded_by_C242_then_C243_measurement'

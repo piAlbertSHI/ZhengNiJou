@@ -164,7 +164,21 @@ raw/OP、C246 legacy 图和 dense probe 共 `5.722 GiB`，outputs 从 `16.254 Gi
    独立性。
 5. 单独解决泵功热耦合与附件散热边界后，才审核完整设备一阶定律和 system COP。
 
-## 11. 负责人可用结论
+## 11. 首个运行时候选的窗口审核更正
+
+提交 C246 冻结后，从 C246 独立启动 `Tc=276.94 K`、3-cycle 的首个运行时候选。
+仿真到 C249 正常结束，末周期实际 CHEX 温度为 `276.94 K`，流量、相变、固体能量、
+periodic、节点 KCL、模型热残差和质量守恒均通过；但总机制门禁为 0，未生成可恢复
+checkpoint，编排器保持 C246 为唯一恢复源。
+
+失败门禁仅为 `fixed_chex_temperature_authority`。原因是该门禁与 Eq.9/Eq.10 都审核
+最后 10 个周期，而只追加 3 周期使窗口包含 7 个旧 `276.95 K` 周期；所以报告中的
+最大温度误差恰为 `0.01 K`。这不是运行时参数未生效，也不能把 C249 改称通过点。
+代码已要求所有改变 `Tc` 的首段至少运行 11 个新周期，使最后 10 周期窗口完全排除
+变更时刻和旧权威历史。C249 保留约 `1.0 MiB` 的紧凑 rejected diagnostic package；
+已删除 raw/OP/legacy 图 `6,297,277,307` 字节（`5.864797 GiB`），不传播恢复状态。
+
+## 12. 负责人可用结论
 
 > The C246 operating point is a mechanism-valid and periodic continuation of
 > C243 with an unchanged 276.95 K cold boundary and a verified run-time
