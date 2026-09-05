@@ -12,7 +12,7 @@ function outputs = Plot_HeatDriveECC_SCI_FigureSet(result_input, output_dir)
     end
 
     outputs = struct();
-    outputs.schema = 'heatdrive_ecc_sci_figure_set_v2';
+    outputs.schema = 'heatdrive_ecc_sci_figure_set_v3';
     outputs.source_result = result.output_mat;
     outputs.output_dir = output_dir;
     outputs.files = cell(7, 2);
@@ -63,7 +63,7 @@ function fig = figure_cycle_mechanism(result)
     o = result.options;
     [idx, phase_s] = last_cycle_index(p, o);
     c = palette();
-    fig = sci_figure(7.2, 6.1);
+    fig = sci_figure(7.2, 7.0);
     tl = tiledlayout(fig, 3, 1, 'TileSpacing', 'compact', ...
         'Padding', 'compact');
 
@@ -80,7 +80,7 @@ function fig = figure_cycle_mechanism(result)
     stage_guides(ax, o);
     ylabel(ax, 'Temperature (K)');
     legend(ax, {'SMA mean','SE mean','HHEX','CHEX'}, ...
-        'Location', 'eastoutside', 'Box', 'off');
+        'Location', 'southoutside', 'Orientation', 'horizontal', 'Box', 'off');
     panel_label(ax, 'a');
 
     ax = nexttile(tl);
@@ -92,7 +92,8 @@ function fig = figure_cycle_mechanism(result)
     stage_guides(ax, o);
     ylim(ax, [-0.03 1.03]);
     ylabel(ax, 'Martensite fraction');
-    legend(ax, {'SMA','SE'}, 'Location', 'eastoutside', 'Box', 'off');
+    legend(ax, {'SMA','SE'}, 'Location', 'southoutside', ...
+        'Orientation', 'horizontal', 'Box', 'off');
     panel_label(ax, 'b');
 
     ax = nexttile(tl);
@@ -100,8 +101,8 @@ function fig = figure_cycle_mechanism(result)
     h_sma = plot(ax, phase_s, abs(p.mdot_SMA_kgps(idx)) * 1e3, ...
         'Color', c.sma, 'LineWidth', 1.1);
     hold(ax, 'on');
-    ylabel(ax, 'SMA mass flow (g s^{-1})');
-    ylim(ax, [0 60]);
+    ylabel(ax, 'SMA flow magnitude (g s^{-1})');
+    ylim(ax, [0 max(60, 1.08 * max(abs(p.mdot_SMA_kgps(idx))) * 1e3)]);
     ax.YAxis(1).Color = c.sma;
     yyaxis(ax, 'right');
     h_s2 = plot(ax, phase_s, p.mdot_SE_stage2_in_kgps(idx) * 1e3, ...
@@ -112,12 +113,15 @@ function fig = figure_cycle_mechanism(result)
     yline(ax, 3.2, ':', 'Color', [0.35 0.35 0.35], ...
         'HandleVisibility', 'off');
     ylabel(ax, 'SE route mass flow (g s^{-1})');
-    ylim(ax, [0 4.2]);
+    route_flow = [p.mdot_SE_stage2_in_kgps(idx); ...
+        p.mdot_SE_stage4_in_kgps(idx)] * 1e3;
+    ylim(ax, [min(-0.05, 1.08 * min(route_flow)), ...
+        max(4.2, 1.08 * max(route_flow))]);
     ax.YAxis(2).Color = c.neutral;
     stage_guides(ax, o);
     xlabel(ax, 'Cycle phase (s)');
     legend(ax, [h_sma h_s2 h_s4], {'SMA','SE rejection','SE cooling'}, ...
-        'Location', 'eastoutside', 'Box', 'off');
+        'Location', 'southoutside', 'Orientation', 'horizontal', 'Box', 'off');
     panel_label(ax, 'c');
     title(tl, sprintf('Cycle %d: coupled thermal, phase, and flow response', ...
         o.cycle_count), 'FontWeight', 'normal', 'Color', 'k');
@@ -170,12 +174,17 @@ function fig = figure_convergence(result)
     panel_label(ax, 'a');
 
     ax = nexttile(tl);
-    semilogy(ax, cycle_id, max(endpoint_drift, eps), ...
+    semilogy(ax, cycle_id, max(endpoint_drift, 1e-6), ...
         'Color', c.neutral, 'LineWidth', 1.2);
     hold(ax, 'on');
     yline(ax, s.performance.periodic_endpoint_limit_K, '--', ...
         'Color', c.limit, 'LineWidth', 1.0);
     ylabel(ax, 'Endpoint L_{\infty} drift (K)');
+    ylim(ax, [1e-6 1]);
+    yticks(ax, 10.^(-6:2:0));
+    yticklabels(ax, {'\leq10^{-6}','10^{-4}','10^{-2}','10^{0}'});
+    legend(ax, {'Drift (display floor 10^{-6} K)','0.05 K limit'}, ...
+        'Location', 'southwest', 'Box', 'off', 'FontSize', 7);
     panel_label(ax, 'b');
 
     ax = nexttile(tl);
@@ -195,7 +204,7 @@ function fig = figure_convergence(result)
     xlabel(ax, 'Cycle');
     ylabel(ax, 'Eq. 10 SCP (W g^{-1})');
     panel_label(ax, 'd');
-    title(tl, 'Cold-start to periodic-state convergence', ...
+    title(tl, 'Cold-start response and declared-state convergence', ...
         'FontWeight', 'normal', 'Color', 'k');
 end
 
@@ -262,57 +271,41 @@ function fig = figure_control_energy(result)
         'Location', 'southoutside', 'Orientation', 'horizontal', ...
         'NumColumns', 2, 'Box', 'off');
     panel_label(ax, 'd');
-    title(tl, sprintf('Cycle %d control effort and energy closure', ...
+    title(tl, sprintf('Cycle %d control effort and solid energy balance', ...
         o.cycle_count), 'FontWeight', 'normal', 'Color', 'k');
 end
 
 function fig = figure_literature_boundary(result)
     perf = result.summary.performance;
-    model_lift = [perf.temperature_lift_eq9_K, 34.2120534519357];
-    model_scp = [perf.specific_cooling_eq10_W_per_g, 0.210892552652645];
-    qian_lift = [0, 26.2];
-    qian_scp = [0.64, 0];
-    slope = diff(model_scp) / diff(model_lift);
-    extrapolated_root = model_lift(1) - model_scp(1) / slope;
+    model_lift = perf.temperature_lift_eq9_K;
+    model_scp = perf.specific_cooling_eq10_W_per_g;
     c = palette();
     fig = sci_figure(7.2, 4.5);
     ax = axes(fig);
-    plot(ax, qian_lift, qian_scp, '-', 'Color', c.neutral, ...
-        'LineWidth', 1.4);
+    scatter(ax, 0, 0.64, 60, 's', 'MarkerEdgeColor', c.neutral, ...
+        'MarkerFaceColor', 'w', 'LineWidth', 1.2);
     hold(ax, 'on');
-    scatter(ax, qian_lift, qian_scp, 55, 'o', ...
+    scatter(ax, 26.2, 0, 60, 'o', ...
         'MarkerEdgeColor', c.neutral, 'MarkerFaceColor', 'w', ...
         'LineWidth', 1.2);
-    plot(ax, [model_lift extrapolated_root], [model_scp 0], '--', ...
-        'Color', c.model, 'LineWidth', 1.2);
-    scatter(ax, model_lift(1), model_scp(1), 65, 'o', ...
+    scatter(ax, model_lift, model_scp, 65, 'o', ...
         'MarkerEdgeColor', c.model, 'MarkerFaceColor', c.model, ...
-        'LineWidth', 1.1);
-    scatter(ax, model_lift(2), model_scp(2), 75, 'x', ...
-        'MarkerEdgeColor', c.fail, 'LineWidth', 1.8);
-    scatter(ax, extrapolated_root, 0, 55, '^', ...
-        'MarkerEdgeColor', c.model, 'MarkerFaceColor', 'w', ...
         'LineWidth', 1.1);
     xlabel(ax, 'Temperature lift, Eq. 9 (K)');
     ylabel(ax, 'Specific cooling power, Eq. 10 (W g^{-1})');
-    lgd = legend(ax, {'Qian Table 4 endpoint connection', ...
-        'Qian Table 4 endpoints','Two-point model extrapolation', ...
-        'Periodic model point, T_c = 276.95 K', ...
-        'Rejected mechanism point, T_c = 270 K', ...
-        'Extrapolated model zero'}, 'Location', 'northeast', 'Box', 'off');
-    lgd.FontSize = 7.2;
-    text(ax, model_lift(1) + 0.5, model_scp(1) + 0.025, ...
-        sprintf('Periodic; SCP = %.3f', model_scp(1)), ...
-        'Color', c.neutral, 'FontSize', 8, 'FontWeight', 'bold');
-    text(ax, model_lift(2) + 0.5, model_scp(2) - 0.035, ...
-        'SE transformation incomplete', 'Color', c.fail, 'FontSize', 8);
-    text(ax, extrapolated_root - 1.0, 0.045, ...
-        sprintf('Linear diagnostic root: %.1f K', extrapolated_root), ...
-        'Color', c.model, 'FontSize', 8, 'HorizontalAlignment', 'right');
-    title(ax, 'Table 4 boundary audit: periodic point versus invalid root search', ...
+    legend(ax, {'Qian zero-lift endpoint','Qian zero-load endpoint', ...
+        sprintf('Current model, T_c = %.2f K', perf.prescribed_CHEX_temperature_K)}, ...
+        'Location', 'northeast', 'Box', 'off', 'FontSize', 8);
+    text(ax, model_lift - 0.5, model_scp + 0.035, ...
+        sprintf('%.3f K; %.4f W g^{-1}', model_lift, model_scp), ...
+        'HorizontalAlignment', 'right', 'Color', c.model, 'FontSize', 8);
+    text(ax, 0.04, 0.09, {'Distinct boundary conditions; no connecting performance curve.', ...
+        'No model roots established. Rejected points excluded.'}, ...
+        'Units', 'normalized', 'Color', c.neutral, 'FontSize', 8);
+    title(ax, 'Table 4 endpoints and the current fixed-T_c point', ...
         'FontWeight', 'normal');
-    xlim(ax, [0 max(48, extrapolated_root + 2)]);
-    ylim(ax, [-0.03 0.70]);
+    xlim(ax, [-1.5 max(33, model_lift + 3)]);
+    ylim(ax, [-0.05 max(0.72, model_scp + 0.15)]);
 end
 
 function fig = figure_direct_shex_control_volume(result)
@@ -342,7 +335,7 @@ function fig = figure_direct_shex_control_volume(result)
     residual_relative = max(abs(e_residual) / residual_scale_J, 1e-16);
     c = palette();
 
-    fig = sci_figure(7.2, 5.6);
+    fig = sci_figure(7.2, 6.4);
     tl = tiledlayout(fig, 2, 1, 'TileSpacing', 'compact', ...
         'Padding', 'compact');
     ax = nexttile(tl);
@@ -353,7 +346,7 @@ function fig = figure_direct_shex_control_volume(result)
     stage_guides(ax, o);
     ylabel(ax, 'Heat-flow rate (W)');
     legend(ax, {'Source to sink','Sink to fluid','Sink storage'}, ...
-        'Location', 'eastoutside', 'Box', 'off');
+        'Location', 'southoutside', 'Orientation', 'horizontal', 'Box', 'off');
     panel_label(ax, 'a');
 
     ax = nexttile(tl);
@@ -372,11 +365,12 @@ function fig = figure_direct_shex_control_volume(result)
     stage_guides(ax, o);
     xlabel(ax, 'Cycle phase (s)');
     legend(ax, {'Source input','Fluid transfer','Sink storage', ...
-        'Balance residual'}, 'Location', 'eastoutside', 'Box', 'off');
+        'Balance residual'}, 'Location', 'southoutside', ...
+        'Orientation', 'horizontal', 'Box', 'off');
     panel_label(ax, 'b');
 
     note = text(ax, 0.985, 0.10, sprintf( ...
-        'Source %.3f W; fluid %.3f W; final residual %.2e', ...
+        'Source %.3f W; fluid %.3f W\nFinal normalized residual %.2e', ...
         performance.SHEX_source_heat_input_over_sink_window_W, ...
         performance.SHEX_sink_to_fluid_heat_input_W, ...
         performance.SHEX_direct_control_volume_residual_relative), ...
@@ -435,8 +429,8 @@ function fig = figure_modeled_system_energy(result)
     residual_relative = max(abs(residual_J) / reference_J, 1.0e-16);
     c = palette();
 
-    fig = sci_figure(7.4, 6.4);
-    tl = tiledlayout(fig, 2, 2, 'TileSpacing', 'compact', ...
+    fig = sci_figure(7.4, 8.0);
+    tl = tiledlayout(fig, 3, 2, 'TileSpacing', 'compact', ...
         'Padding', 'compact');
 
     ax = nexttile(tl);
@@ -447,7 +441,7 @@ function fig = figure_modeled_system_energy(result)
     stage_guides(ax, o);
     ylabel(ax, 'Boundary heat-flow rate (W)');
     legend(ax, {'SHEX input','CHEX cooling input','HHEX rejection'}, ...
-        'Location', 'northwest', 'Box', 'off', 'FontSize', 7.2);
+        'Location', 'southoutside', 'Box', 'off', 'FontSize', 7.2);
     panel_label(ax, 'a');
 
     ax = nexttile(tl);
@@ -460,7 +454,7 @@ function fig = figure_modeled_system_energy(result)
     stage_guides(ax, o);
     ylabel(ax, 'Cumulative energy (J)');
     legend(ax, {'Net external input','Total storage','Residual'}, ...
-        'Location', 'northwest', 'Box', 'off', 'FontSize', 7.2);
+        'Location', 'southoutside', 'Box', 'off', 'FontSize', 7.2);
     panel_label(ax, 'b');
 
     ax = nexttile(tl);
@@ -478,30 +472,45 @@ function fig = figure_modeled_system_energy(result)
     panel_label(ax, 'c');
 
     ax = nexttile(tl);
-    semilogy(ax, phase_s, max(abs(shex_kcl), 1.0e-16), ...
-        'Color', c.sma, 'LineWidth', 0.9);
-    hold(ax, 'on');
-    semilogy(ax, phase_s, max(abs(hhex_kcl), 1.0e-16), ...
-        'Color', c.hot, 'LineWidth', 0.9);
-    semilogy(ax, phase_s, max(abs(chex_kcl), 1.0e-16), ...
-        'Color', c.cold, 'LineWidth', 0.9);
     semilogy(ax, phase_s, residual_relative, '--', ...
         'Color', c.fail, 'LineWidth', 1.0);
     stage_guides(ax, o);
     xlabel(ax, 'Cycle phase (s)');
-    ylabel(ax, 'Absolute or relative residual');
-    legend(ax, {'SHEX KCL (W)','HHEX KCL (W)','CHEX KCL (W)', ...
-        'System cumulative / |E_{SHEX}|'}, ...
-        'Location', 'northwest', 'Box', 'off', 'FontSize', 7.0);
+    ylabel(ax, '|Cumulative residual| / |E_{SHEX,cycle}|');
     panel_label(ax, 'd');
 
     final_relative = abs(residual_J(end)) / reference_J;
     text(ax, 0.98, 0.04, sprintf(['Thermal CV residual: %.3f W (%.2e)\n', ...
-        'Device closure excludes pump dissipation'], ...
+        'Pump dissipation not thermally injected'], ...
         residual_J(end) / phase_s(end), final_relative), ...
         'Units', 'normalized', 'HorizontalAlignment', 'right', ...
         'VerticalAlignment', 'bottom', 'FontSize', 7.0, ...
         'BackgroundColor', 'w', 'Margin', 2, 'Color', 'k');
+
+    % Preserve the worst KCL sample in each 50-ms bin, not an average.
+    ax = nexttile(tl, [1 2]);
+    n_bins = ceil(phase_s(end) / 0.05);
+    bins = min(n_bins, floor(phase_s(:) / 0.05) + 1);
+    bin_centers = ((1:n_bins)' - 0.5) * 0.05;
+    kcl = [shex_kcl(:), hhex_kcl(:), chex_kcl(:)];
+    colors = [c.sma; c.hot; c.cold];
+    styles = {'-', '--', ':'};
+    for k = 1:3
+        worst = accumarray(bins, abs(kcl(:, k)), [n_bins 1], @max);
+        semilogy(ax, bin_centers, max(worst, 1.0e-16), styles{k}, ...
+            'Color', colors(k, :), 'LineWidth', 1.05);
+        hold(ax, 'on');
+    end
+    yline(ax, 1.0e-6, ':', 'RMS gate reference: 10^{-6} W', ...
+        'Color', c.limit, 'HandleVisibility', 'off');
+    stage_guides(ax, o);
+    ylim(ax, [1e-16 1e-5]);
+    xlabel(ax, 'Cycle phase (s)');
+    ylabel(ax, 'Local KCL absolute residual (W)');
+    legend(ax, {'SHEX','HHEX','CHEX'}, 'Location', 'southoutside', ...
+        'Orientation', 'horizontal', 'Box', 'off', 'FontSize', 7.2);
+    title(ax, '50-ms bin maxima; display floor 10^{-16} W');
+    panel_label(ax, 'e');
     heading = title(tl, sprintf( ...
         'Cycle %d modeled thermal-system ledger', o.cycle_count));
     heading.Color = 'k';
@@ -593,7 +602,8 @@ end
 
 function panel_label(ax, letter)
     text(ax, 0.015, 0.96, ['(' letter ')'], 'Units', 'normalized', ...
-        'FontWeight', 'bold', 'VerticalAlignment', 'top', 'Color', 'k');
+        'FontWeight', 'bold', 'VerticalAlignment', 'top', 'Color', 'k', ...
+        'BackgroundColor', 'w', 'Margin', 1);
 end
 
 function fig = sci_figure(width_in, height_in)
@@ -610,10 +620,11 @@ function files = export_pair(fig, output_dir, base_name)
     apply_axes_style(fig);
     png_path = fullfile(output_dir, [base_name '.png']);
     pdf_path = fullfile(output_dir, [base_name '.pdf']);
+    drawnow;
     exportgraphics(fig, png_path, 'Resolution', 600, ...
-        'BackgroundColor', 'white');
+        'BackgroundColor', 'white', 'Units', 'inches', 'Padding', 0.12);
     exportgraphics(fig, pdf_path, 'ContentType', 'vector', ...
-        'BackgroundColor', 'white');
+        'BackgroundColor', 'white', 'Units', 'inches', 'Padding', 0.12);
     close(fig);
     files = {png_path, pdf_path};
 end
@@ -676,6 +687,7 @@ function write_manifest(outputs, result)
         result.summary.performance.periodic_steady_state);
     fprintf(fid, 'strict_table4_reproduction=%d\n', ...
         result.summary.quantitative_literature_reproduction_pass);
+    fprintf(fid, 'rejected_points_used_for_fit=0\n');
     for idx = 1:size(outputs.files, 1)
         fprintf(fid, 'figure_%02d_png=%s\n', idx, outputs.files{idx, 1});
         fprintf(fid, 'figure_%02d_pdf=%s\n', idx, outputs.files{idx, 2});

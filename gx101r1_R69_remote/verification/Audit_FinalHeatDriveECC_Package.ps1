@@ -165,6 +165,22 @@ foreach ($entry in (Import-Csv -LiteralPath (Join-Path $recoveryAuditRoot 'manif
     Add-Entry 'C60 interrupted recovery evidence' $entry.path $true 'audited_transient_not_steady'
 }
 Add-Entry 'C60 interrupted recovery package audit' (Join-Path $recoveryAuditRoot 'package_audit.json')
+$runtimeBaselineRoot = Join-Path $repoRoot 'outputs_storage_audit\runtime_c180_release_20260906'
+& (Join-Path $PSScriptRoot 'Audit_HeatDriveECC_RuntimeBaselinePackage.ps1') | Out-Null
+$runtimeBaseline = Get-Content -LiteralPath (Join-Path $runtimeBaselineRoot 'package_audit.json') -Raw | ConvertFrom-Json
+if (-not $runtimeBaseline.package_pass) { throw 'C180 baseline package failed.' }
+$sourceMetaPath = Join-Path $runtimeBaselineRoot 'source_snapshot_sha256.json'
+$sourceZipPath = Join-Path $runtimeBaselineRoot 'source_snapshot.zip'
+$sourceMeta = Get-Content -LiteralPath $sourceMetaPath -Raw | ConvertFrom-Json
+if ($sourceMeta.raw_results_duplicated -or
+    (Get-FileHash -LiteralPath $sourceZipPath -Algorithm SHA256).Hash -ne $sourceMeta.sha256) {
+    throw 'Current complete source snapshot failed.'
+}
+Add-Entry 'C180 release complete tracked source ZIP' $sourceZipPath
+Add-Entry 'C180 release source snapshot provenance' $sourceMetaPath
+foreach ($entry in (Import-Csv -LiteralPath (Join-Path $runtimeBaselineRoot 'manifest_sha256.csv'))) {
+    Add-Entry 'C180 runtime baseline evidence' $entry.path $true 'strict_runtime_baseline'
+}
 
 Add-Entry 'C200 physical result' (Join-Path $mainRun 'physical_simscape_result.mat')
 Add-Entry 'C200 final Operating Point' (Join-Path $mainRun 'final_operating_point.mat')
@@ -185,7 +201,7 @@ foreach ($stem in @(
     Add-Entry "SCI figure PDF $stem" (Join-Path $mainRun "figures_sci\$stem.pdf")
 }
 
-Add-Entry 'C246 runtime-bridge physical result' (Join-Path $runtimeC246Run 'physical_simscape_result.mat')
+Add-Entry 'C246 retired diagnostic raw' (Join-Path $runtimeC246Run 'physical_simscape_result.mat') $false 'retired_after_strict_C180_release'
 Add-Entry 'C246 runtime-bridge final Operating Point' (Join-Path $runtimeC246Run 'final_operating_point.mat')
 Add-Entry 'C246 runtime-bridge validation report' (Join-Path $runtimeC246Run 'physical_validation_report.txt')
 Add-Entry 'C246 runtime-bridge cycle summary' (Join-Path $runtimeC246Run 'cycle_physical_summary.csv')
@@ -366,6 +382,13 @@ Add-Entry 'Tenth-stage C242 direct SHEX and storage report' (Join-Path $Workspac
 Add-Entry 'Eleventh-stage C243 modeled system-energy report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第十一阶段C243整机热控制体闭合与设备边界报告.md')
 Add-Entry 'Twelfth-stage C246 runtime bridge report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第十二阶段C246运行时冷端桥接与Table4外层求解报告.md')
 Add-Entry 'Qian local literature location index' (Join-Path $WorkspaceRoot '项目文档\研究笔记\2026-09-03_Qian本地文献精确定位与模型映射.md')
+Add-Entry 'Fourteenth-stage C180 release report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第十四阶段C180严格恢复基线与图集存储报告.md')
+foreach ($name in @('Audit_HeatDriveECC_RuntimeBaselinePackage.ps1',
+    'Audit_HeatDriveECC_InternalStateCoverage.py','test_internal_state_coverage.py',
+    'Run_HeatDriveECC_Table4_OuterSolve.m','Test_HeatDriveECC_RuntimeStudyGuard.m',
+    'Build_HeatDriveECC_RuntimeSourceSnapshot.ps1')) {
+    Add-Entry 'C180 scoped release source' (Join-Path $repoRoot "verification\$name")
+}
 
 $nativeDiagnosticRoot = Join-Path $AuditRoot `
     'checkpoint_continuation_diagnostics_20260903'
@@ -582,7 +605,8 @@ if (-not [bool]$runtimeC246Contract.mechanism_pass -or
         -not [bool]$runtimeC246Contract.recovery_policy.preserve_final_operating_point) {
     throw 'Unexpected C246 revoked-recovery contract gates.'
 }
-if ((Get-FileHash -LiteralPath $runtimeC246Result -Algorithm SHA256).Hash -ne
+if ((Test-Path -LiteralPath $runtimeC246Result -PathType Leaf) -and
+        (Get-FileHash -LiteralPath $runtimeC246Result -Algorithm SHA256).Hash -ne
         [string]$runtimeC246Contract.result_sha256) {
     throw 'C246 runtime-bridge result SHA-256 mismatch.'
 }
@@ -719,7 +743,7 @@ $hashes = foreach ($item in ($manifest | Where-Object exists)) {
 $hashes | Export-Csv -LiteralPath $hashPath -NoTypeInformation -Encoding UTF8
 
 $summary = [ordered]@{
-    schema = 'heatdrive_ecc_final_package_audit_v12'
+    schema = 'heatdrive_ecc_final_package_audit_v13'
     generated_at = (Get-Date).ToString('o')
     workspace_root = $WorkspaceRoot
     authoritative_result = (Join-Path $mainRun 'physical_simscape_result.mat')
@@ -781,7 +805,13 @@ $summary = [ordered]@{
     runtime_tc_window_failed_result_may_resume = $false
     runtime_tc_clean11_failure_time_s = 2535.101
     runtime_tc_clean11_failed_result_may_resume = $false
-    continuation_authority = 'audited_runtime_C60_transient_not_steady'
+    continuation_authority = 'strict_runtime_C180_same_parameter_baseline'
+    runtime_c180_declared_periodic_gate_pass = $runtimeBaseline.declared_periodic_gate_pass
+    runtime_c180_strict_restore_pass = $runtimeBaseline.strict_restore_pass
+    source_snapshot_commit = $sourceMeta.source_commit
+    source_snapshot_sha256 = $sourceMeta.sha256
+    complete_internal_state_periodicity_verified = $false
+    steady_parameter_study_allowed_current_baseline = $false
     runtime_recovery_verified_cycles = $recoveryPackage.verified_cycles
     runtime_recovery_strict_restore_pass = $recoveryPackage.strict_restore_pass
     runtime_recovery_periodic_steady_state = $recoveryPackage.periodic_steady_state

@@ -11,6 +11,10 @@ desktop.ini
 *.m~
 *.autosave
 
+# Python diagnostic test caches
+__pycache__/
+*.pyc
+
 # Simulink generated artifacts and caches
 slprj/
 *.slxc

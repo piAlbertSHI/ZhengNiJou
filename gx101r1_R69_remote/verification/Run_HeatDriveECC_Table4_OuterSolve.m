@@ -32,6 +32,13 @@ function outer = Run_HeatDriveECC_Table4_OuterSolve(settings)
             'cold_boundary_runtime_c246_recovery_contract.json')));
     settings = merge_structs(defaults, settings);
     validate_settings(settings);
+    contract = jsondecode(fileread(settings.authority_settings.contract_path));
+    if isfield(contract, 'steady_parameter_study_allowed') && ...
+            ~isequal(contract.steady_parameter_study_allowed, true)
+        error('HeatDriveECC:SteadyParameterStudyNotAuthorized', ...
+            ['The authority permits only same-parameter state auditing. ', ...
+            'Complete the inventory and PI periodicity audit first.']);
+    end
     authority = Resolve_HeatDriveECC_SourceHeatFlowRecovery( ...
         settings.authority_settings);
     if ~exist(settings.output_root, 'dir')

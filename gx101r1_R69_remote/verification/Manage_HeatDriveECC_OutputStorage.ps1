@@ -62,9 +62,15 @@ if (Test-Path -LiteralPath $runtimeEvidenceContractPath -PathType Leaf) {
             -not [bool]$runtimeEvidenceContract.contents_checksum_mismatch_detected) {
         throw 'C246 evidence must remain recovery-disabled until strict restore passes.'
     }
-    $preserveRawPaths += [System.IO.Path]::GetRelativePath(
-        $outputRootResolved,
-        (Join-Path $repoRoot $runtimeEvidenceContract.result_relative_path))
+    if (-not ($runtimeEvidenceContract.PSObject.Properties.Name -contains 'raw_preserved') -or
+            $runtimeEvidenceContract.raw_preserved) {
+        $preserveRawPaths += [System.IO.Path]::GetRelativePath(
+            $outputRootResolved,
+            (Join-Path $repoRoot $runtimeEvidenceContract.result_relative_path))
+    } elseif ($Apply) {
+        $baseline = (& (Join-Path $PSScriptRoot 'Audit_HeatDriveECC_RuntimeBaselinePackage.ps1')) | ConvertFrom-Json
+        if (-not $baseline.package_pass) { throw 'Replacement baseline failed; C246 cannot be retired.' }
+    }
     $preserveRawPaths += [System.IO.Path]::GetRelativePath(
         $outputRootResolved,
         (Join-Path $repoRoot $runtimeEvidenceContract.checkpoint_relative_path))

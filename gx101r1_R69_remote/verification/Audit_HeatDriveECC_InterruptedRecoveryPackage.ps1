@@ -75,9 +75,16 @@ foreach ($name in @('c200_mainline_freeze_contract.json', 'cold_boundary_runtime
     $frozen = Read-Json $path
     $raw = Join-Path $repo $frozen.result_relative_path
     $op = Join-Path $repo $frozen.checkpoint_relative_path
-    Require-Hash $raw $frozen.result_sha256
+    $rawRetired = $frozen.PSObject.Properties.Name -contains 'raw_preserved' -and -not $frozen.raw_preserved
+    if ($rawRetired) {
+        $replacement = (& (Join-Path $PSScriptRoot 'Audit_HeatDriveECC_RuntimeBaselinePackage.ps1')) | ConvertFrom-Json
+        Require $replacement.package_pass 'Replacement baseline failed.'
+    } else {
+        Require-Hash $raw $frozen.result_sha256
+    }
     Require-Hash $op $frozen.checkpoint_sha256
-    foreach ($p in @($path, $raw, $op)) { $paths.Add($p) }
+    foreach ($p in @($path, $op)) { $paths.Add($p) }
+    if (Test-Path -LiteralPath $raw -PathType Leaf) { $paths.Add($raw) }
 }
 foreach ($relative in @(
         'Run_HeatDriveECC_EighthRound_Simulink_Cycles.m',
@@ -131,7 +138,8 @@ $summary = [ordered]@{
     state_reset = $false
     complete_device_first_law_closure = $false
     table4_reproduction_claimed = $false
-    c200_and_c246_hashes_preserved = $true
+    frozen_hash_contracts_verified = $true
+    c246_raw_retired_with_verified_replacement = $true
     source_snapshot_included = Test-Path -LiteralPath $snapshotPath -PathType Leaf
     file_count = $entries.Count
     audit_root = $AuditRoot
