@@ -1,0 +1,13 @@
+function enabled = Resolve_HeatDriveECC_StateLoggingPolicy(overrides)
+% Resolve observation-only settings before the model output map is rebuilt.
+    enabled = false;
+    if isfield(overrides, 'output') && isstruct(overrides.output) && ...
+            isfield(overrides.output, 'capture_internal_states')
+        enabled = overrides.output.capture_internal_states;
+    end
+    assert(isscalar(enabled) && (islogical(enabled) || ...
+        (isnumeric(enabled) && isfinite(enabled) && ismember(enabled, [0 1]))), ...
+        'HeatDriveECC:InvalidStateLoggingPolicy', ...
+        'capture_internal_states must be scalar true or false.');
+    enabled = logical(enabled);
+end

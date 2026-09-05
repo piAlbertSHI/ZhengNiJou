@@ -5,6 +5,7 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
         overrides = struct();
     end
     generate_figures = Resolve_HeatDriveECC_FigurePolicy(overrides);
+    capture_internal_states = Resolve_HeatDriveECC_StateLoggingPolicy(overrides);
     [model_name, options] = Build_HeatDriveECC_EighthRound_Simulink_Model(overrides);
     model_cleanup = onCleanup(@() discard_runtime_model_changes(model_name));
     if ~exist(options.outputs_dir, 'dir')
@@ -67,6 +68,11 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
             'FinalStateName', 'xFinal', ...
             'SaveOperatingPoint', 'on');
     end
+    if capture_internal_states
+        % State logging is OP-compatible; changing native history length is not.
+        sim_in = sim_in.setModelParameter('SaveState', 'on', ...
+            'StateSaveName', 'internal_state_log');
+    end
 
     wall_start = tic;
     sim_out = sim(sim_in);
@@ -119,6 +125,24 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
             options.simulation, 'disable_redundant_model_logging', true)), ...
         'solver', options.simulation.solver, ...
         'fixed_step_s', options.simulation.fixed_step_s);
+    observation_path = '';
+    if capture_internal_states
+        observation = Extract_HeatDriveECC_ObservedStates( ...
+            sim_out.internal_state_log, options.schedule.tau_cycle_s, 11);
+        observation.source_checkpoint_path = char(string( ...
+            options.simulation.resume_checkpoint_path));
+        observation.source_prior_result_path = char(string( ...
+            options.simulation.prior_result_path));
+        observation.checkpoint_complete_restore_verified = ...
+            provenance.checkpoint_complete_restore_verified;
+        observation.segment_start_time_s = checkpoint_context.segment_start_time_s;
+        observation.segment_stop_time_s = options.simulation.stop_time_s;
+        observation_path = fullfile(output_dir, 'internal_state_observation.mat');
+        save(observation_path, 'observation', '-v7.3');
+        provenance.internal_state_observation_file = 'internal_state_observation.mat';
+        provenance.complete_internal_state_periodicity_verified = false;
+        clear observation
+    end
     checkpoint_path = '';
     if options.simulation.save_final_operating_point
         checkpoint_path = fullfile(output_dir, 'final_operating_point.mat');
@@ -146,6 +170,7 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
     result.legacy_surrogate_used_for_results = false;
     result.provenance = provenance;
     result.checkpoint_path = checkpoint_path;
+    result.internal_state_observation_path = observation_path;
     if generate_figures
         result.figures = Plot_HeatDriveECC_EighthRound_Result(result, ...
             sprintf('%dcycle', options.cycle_count));
