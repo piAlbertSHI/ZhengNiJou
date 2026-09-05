@@ -1,0 +1,33 @@
+{
+  "schema": "heatdrive_ecc_runtime_state_observation_diagnostic_v1",
+  "simulation_code_commit": "43def30",
+  "completed_cycles": 200,
+  "source_contract": "verification/runtime_c180_recovery_contract.json",
+  "result_relative_path": "outputs/qian_runtime_state_observation_from180_20260906/qian2019_table2_table4_simscape_200cycle_20260906_030358/physical_simscape_result.mat",
+  "result_sha256": "72A47B76ECECD190E3C92606950274D58B88C99E038C3F18F290DCA57F9E7044",
+  "result_bytes": 5016765753,
+  "checkpoint_relative_path": "outputs/qian_runtime_state_observation_from180_20260906/qian2019_table2_table4_simscape_200cycle_20260906_030358/final_operating_point.mat",
+  "checkpoint_sha256": "2EC167BD44DE604438CB330C0AFB7389BA9F280D24EB011DB43D7668E44DE79D",
+  "observation_relative_path": "outputs/qian_runtime_state_observation_from180_20260906/qian2019_table2_table4_simscape_200cycle_20260906_030358/internal_state_observation.mat",
+  "observation_sha256": "0F165903FAADDD6709628E599E2F36F69C22123A5294B94338B2FC4162353AD5",
+  "observation_bytes": 726180958,
+  "mechanism_pass": true,
+  "periodic_steady_state": false,
+  "modeled_thermal_closure_pass": true,
+  "fluid_mass_conservation_pass": true,
+  "production_pass": false,
+  "complete_internal_state_periodicity_verified": false,
+  "steady_parameter_study_allowed": false,
+  "strict_table4_reproduction": false,
+  "source_complete_operating_point_restore_verified": true,
+  "final_operating_point_round_trip_verified": false,
+  "state_reset": false,
+  "recovery_policy": {
+    "state_recovery_allowed": false,
+    "failed_results_may_resume": false,
+    "preserve_result_and_checkpoint_for_audit": true,
+    "reason": "Observation only; full state coverage/physical semantics and final OP round trip still need audit. Frozen C180 remains the authorized source."
+  },
+  "wrapper_exit_note": "Simulation completed, mechanism/thermal/mass passed. Original wrapper incorrectly asserted production_pass as an energy-only gate after STOP; stderr retained as evidence. Nonperiodic status is not an energy/mass failure.",
+  "authority_note": "Runtime observation C200 is not the frozen paper C200 authority."
+}

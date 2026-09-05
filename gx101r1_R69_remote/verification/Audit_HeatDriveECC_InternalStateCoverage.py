@@ -10,6 +10,8 @@ from pathlib import Path
 import h5py
 import numpy as np
 
+from Audit_HeatDriveECC_ObservedStateDrift import matlab_text, PI_NAMES
+
 
 def drift_metrics(values, stride):
     values = np.asarray(values, dtype=float)
@@ -57,16 +59,38 @@ def audit(contract_path):
                 "last_finite_time_s": float(t[start + finite[-1]]) if finite.size else None,
                 "ten_cycle_coverage": bool(np.isfinite(values).all()),
             }
+        pi_observation = None
+        if "observation_relative_path" in contract:
+            sidecar = repo / contract["observation_relative_path"]
+            with sidecar.open("rb") as stream:
+                sidecar_hash = hashlib.file_digest(stream, "sha256").hexdigest().upper()
+            if sidecar_hash != contract["observation_sha256"]:
+                raise ValueError("Observation sidecar hash mismatch")
+            covered = []
+            with h5py.File(sidecar, "r") as observed:
+                for ref in observed["observation/states"][()].ravel():
+                    row = observed[ref]
+                    name = matlab_text(row["block_path"]).rsplit("/", 1)[-1]
+                    if name in PI_NAMES:
+                        state_time = row["time_s"][()].ravel()
+                        if (state_time[0] <= t[-1] - 11 * tau + 1e-8
+                                and abs(state_time[-1] - t[-1]) < 1e-8
+                                and np.isfinite(row["values"][()]).all()):
+                            covered.append(name)
+            pi_observation = {"sidecar_sha256": sidecar_hash,
+                              "covered_PI_paths": sorted(set(covered))}
+        pi_recorded = pi_observation is not None and len(pi_observation["covered_PI_paths"]) == 3
         result = {
-            "schema": "heatdrive_ecc_internal_state_coverage_v1",
+            "schema": "heatdrive_ecc_internal_state_coverage_v2",
             "source_result": str(source), "source_sha256": digest,
             "window_s": [float(t[start]), float(t[-1])],
             "cycle_period_s": tau, "buffer_same_phase_drift": buffers,
             "native_inventory_coverage": inventory,
-            "PI_route_memory_timeseries_recorded": False,
+            "PI_route_memory_timeseries_recorded": pi_recorded,
+            "PI_observation_sidecar": pi_observation,
             "complete_internal_state_periodicity_verified": False,
             "steady_parameter_study_allowed": False,
-            "scope": "Diagnostic only. Full PI memory trajectories are not exported. "
+            "scope": "Diagnostic only. PI traces, when present, are in a separate hash-bound sidecar. "
                      "Buffer drift is not currently included in the production periodic gate. "
                      "Finite inventory coverage is necessary but does not prove periodicity.",
         }
