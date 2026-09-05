@@ -81,17 +81,20 @@ def audit(contract_path):
                               "covered_PI_paths": sorted(set(covered))}
         pi_recorded = pi_observation is not None and len(pi_observation["covered_PI_paths"]) == 3
         result = {
-            "schema": "heatdrive_ecc_internal_state_coverage_v2",
+            "schema": "heatdrive_ecc_internal_state_coverage_v3",
             "source_result": str(source), "source_sha256": digest,
             "window_s": [float(t[start]), float(t[-1])],
-            "cycle_period_s": tau, "buffer_same_phase_drift": buffers,
+            "cycle_period_s": tau, "buffer_port_same_phase_drift": buffers,
+            "buffer_temperature_semantics": "Workspace aliases of tank port A temperature, not native internal T_I.",
+            "native_buffer_internal_temperature_periodicity_verified": False,
             "native_inventory_coverage": inventory,
             "PI_route_memory_timeseries_recorded": pi_recorded,
             "PI_observation_sidecar": pi_observation,
             "complete_internal_state_periodicity_verified": False,
             "steady_parameter_study_allowed": False,
             "scope": "Diagnostic only. PI traces, when present, are in a separate hash-bound sidecar. "
-                     "Buffer drift is not currently included in the production periodic gate. "
+                     "Buffer PORT drift is not currently included in the production periodic gate. "
+                     "It does not quantify tank internal-temperature drift. "
                      "Finite inventory coverage is necessary but does not prove periodicity.",
         }
     return result

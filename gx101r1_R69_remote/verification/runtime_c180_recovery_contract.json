@@ -8,9 +8,19 @@
   "periodic_gate_scope": "SMA/SE axial solid temperatures and phase fractions; SHEX/HHEX/CHEX temperatures; final ten cycles",
   "complete_internal_state_periodicity_verified": false,
   "steady_parameter_study_allowed": false,
+  "control_volume_basis_review": {
+    "status": "equation_matched_inventory_pending_20260906",
+    "production_continuation_allowed": false,
+    "strict_inventory_diagnostic_allowed": true,
+    "equation_matched_thermal_closure_verified": false,
+    "equation_matched_mass_conservation_verified": false,
+    "legacy_scalar_gates_retained_as_historical_evidence": true,
+    "reason": "Quasisteady pipes use fixed rho_nominal in their storage equation, not instantaneous rho_I. Variable-volume tanks also require their pressure-volume work boundary. Buffer temperature aliases measure port A, not internal T_I. Preserve the strict OP and raw, but do not promote further production points until the component ledger is corrected and audited.",
+    "diagnostic_output_recovery_allowed": false
+  },
   "strict_table4_reproduction": false,
   "state_reset": false,
-  "authority_status": "strict_runtime_same_parameter_continuation_baseline",
+  "authority_status": "strict_runtime_inventory_diagnostic_only_pending_ledger_review",
   "complete_operating_point_restore_verified": true,
   "contents_checksum_mismatch_detected": false,
   "result_relative_path": "outputs/qian_coupled_runtime_shutdown_recovery_from60_20260905/qian2019_table2_table4_simscape_180cycle_20260906_002332/physical_simscape_result.mat",
@@ -45,7 +55,7 @@
     "complete_operating_point_restore_verified": true,
     "failed_results_may_resume": false,
     "preserved_state_classes": ["thermal_capacity", "buffer", "constitutive", "temperature", "phase_fraction", "independent_route_PI_memory"],
-    "allowed_uses": ["same_parameter_continuation", "inventory_and_PI_periodicity_audit"]
+    "allowed_uses": ["inventory_and_PI_periodicity_audit"]
   },
   "retired_diagnostic_raw": {
     "approved": true,
