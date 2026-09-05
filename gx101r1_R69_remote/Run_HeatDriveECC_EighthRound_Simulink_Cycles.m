@@ -4,6 +4,7 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
     if nargin < 1
         overrides = struct();
     end
+    generate_figures = Resolve_HeatDriveECC_FigurePolicy(overrides);
     [model_name, options] = Build_HeatDriveECC_EighthRound_Simulink_Model(overrides);
     model_cleanup = onCleanup(@() discard_runtime_model_changes(model_name));
     if ~exist(options.outputs_dir, 'dir')
@@ -145,7 +146,7 @@ function result = Run_HeatDriveECC_EighthRound_Simulink_Cycles(overrides)
     result.legacy_surrogate_used_for_results = false;
     result.provenance = provenance;
     result.checkpoint_path = checkpoint_path;
-    if get_struct_option(options.output, 'generate_figures', true)
+    if generate_figures
         result.figures = Plot_HeatDriveECC_EighthRound_Result(result, ...
             sprintf('%dcycle', options.cycle_count));
     else

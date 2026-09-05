@@ -57,6 +57,16 @@ if (-not $resolvedRoot.StartsWith(
         [StringComparison]::OrdinalIgnoreCase)) {
     throw "OutputRoot must remain inside repository outputs: $resolvedRoot"
 }
+$sampleStart = Get-Date
+$cpuBefore = @{}
+foreach ($process in @(Get-Process -Name MATLAB -ErrorAction SilentlyContinue)) {
+    try {
+        $cpuBefore[$process.Id] = @{
+            start_time = $process.StartTime
+            cpu_seconds = $process.CPU
+        }
+    } catch { }
+}
 Start-Sleep -Seconds ($WaitMinutes * 60)
 
 $launcher = if ($LauncherPid -gt 0) {
@@ -85,9 +95,18 @@ $workerCim = @($workerCim | Sort-Object `
     @{ Expression = { $_.WorkingSetSize }; Descending = $true }, `
     @{ Expression = { $_.CreationDate } })
 $worker = $null
+$workerCommandLine = $null
 foreach ($candidate in $workerCim) {
     $worker = Get-Process -Id $candidate.ProcessId -ErrorAction SilentlyContinue
-    if ($worker) { break }
+    if ($worker) {
+        $workerCommandLine = $candidate.CommandLine
+        break
+    }
+}
+$cpuDelta = $null
+if ($worker -and $cpuBefore.ContainsKey($worker.Id) -and
+        $cpuBefore[$worker.Id].start_time -eq $worker.StartTime) {
+    $cpuDelta = $worker.CPU - $cpuBefore[$worker.Id].cpu_seconds
 }
 $stdoutPath = Join-Path $resolvedRoot 'matlab_stdout.log'
 $stderrPath = Join-Path $resolvedRoot 'matlab_stderr.log'
@@ -127,13 +146,16 @@ if (Test-Path -LiteralPath $progressPath) {
 }
 $stdoutTail = @(Get-Content -LiteralPath $stdoutPath -Tail 12 -ErrorAction SilentlyContinue)
 $stderrTail = @(Get-Content -LiteralPath $stderrPath -Tail 12 -ErrorAction SilentlyContinue)
+$stopMarker = @(Select-String -LiteralPath $stdoutPath `
+    -Pattern '^STEADY_CONTINUATION_STOP\b' -ErrorAction SilentlyContinue |
+    Select-Object -Last 1 | ForEach-Object { $_.Line })
 
 $processState = if ($worker) {
     'worker_running'
-} elseif ($resultDirectories.Count -gt 0 -or $progressLines.Count -gt 1) {
-    'worker_finished_results_present'
+} elseif ($stopMarker.Count -gt 0) {
+    'continuation_stopped'
 } else {
-    'worker_missing_without_results'
+    'worker_exited_without_stop'
 }
 
 $report = [ordered]@{
@@ -141,6 +163,8 @@ $report = [ordered]@{
     output_root = $resolvedRoot
     wait_minutes = $WaitMinutes
     state = $processState
+    normal_stop_marker_present = $stopMarker.Count -gt 0
+    stop_marker = $stopMarker | Select-Object -First 1
     launcher = if ($launcher) {
         [ordered]@{ pid = $launcher.Id; responding = $launcher.Responding; cpu_seconds = $launcher.CPU }
     } else { $null }
@@ -149,6 +173,9 @@ $report = [ordered]@{
             pid = $worker.Id
             responding = $worker.Responding
             cpu_seconds = $worker.CPU
+            cpu_delta_during_wait_seconds = $cpuDelta
+            observation_wall_seconds = ((Get-Date) - $sampleStart).TotalSeconds
+            command_line = $workerCommandLine
             working_set_gb = [math]::Round($worker.WorkingSet64 / 1GB, 3)
             private_memory_gb = [math]::Round($worker.PrivateMemorySize64 / 1GB, 3)
         }
@@ -171,7 +198,7 @@ $report = [ordered]@{
 
 $report | ConvertTo-Json -Depth 8
 
-if ($processState -eq 'worker_missing_without_results') {
+if ($processState -eq 'worker_exited_without_stop') {
     exit 2
 }
 exit 0

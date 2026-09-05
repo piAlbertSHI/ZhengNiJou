@@ -19,7 +19,8 @@ if ($outputRootResolved -ne $expectedRoot) {
 
 $running = @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object {
     $_.Name -match '(?i)^matlab(?:\.exe)?$' -and
-    $_.CommandLine -match [regex]::Escape($outputRootResolved)
+    ($_.CommandLine -match [regex]::Escape($outputRootResolved) -or
+        $_.CommandLine -match 'HeatDriveECC|qian_coupled_runtime_strict_coldstart_gate3_20260904')
 })
 if ($Apply -and $running.Count -gt 0) {
     throw 'A MATLAB process references this outputs root. Wait for it to finish before applying cleanup.'
@@ -90,13 +91,28 @@ function Test-PreservedRaw([string]$RelativePath) {
     return $false
 }
 
+function Test-ReviewedDiscard([string]$Path) {
+    $directory = Split-Path -Parent $Path
+    $prefix = $outputRootResolved + [IO.Path]::DirectorySeparatorChar
+    while ($directory.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) {
+        foreach ($marker in @('REJECTED_DO_NOT_RESUME.txt', 'SUPERSEDED_RAW_COMPACTED.txt')) {
+            if (Test-Path -LiteralPath (Join-Path $directory $marker) -PathType Leaf) {
+                return $true
+            }
+        }
+        $directory = Split-Path -Parent $directory
+    }
+    return $false
+}
+
 $allFiles = @(Get-ChildItem -LiteralPath $outputRootResolved -File -Recurse -Force)
 $rows = foreach ($file in $allFiles) {
     $relative = Get-RelativePath $file.FullName
     $isRaw = $rawNames -contains $file.Name
     $isDenseProbe = $largeProbeNames -contains $file.Name
     $isLegacyFigure = $relative -match '(?i)(^|\\)figures\\'
-    $preserved = Test-PreservedRaw $relative
+    $preserved = (Test-PreservedRaw $relative) -or
+        ($isRaw -and -not (Test-ReviewedDiscard $file.FullName))
     if (($isRaw -or $isDenseProbe -or $isLegacyFigure) -and -not $preserved) {
         [pscustomobject]@{
             relative_path = $relative
