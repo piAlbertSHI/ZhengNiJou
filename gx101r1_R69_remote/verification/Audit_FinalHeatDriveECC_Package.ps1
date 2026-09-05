@@ -153,6 +153,19 @@ function Add-Entry {
     })
 }
 
+$recoveryAuditRoot = Join-Path $AuditRoot 'shutdown_recovery_20260905\package'
+$recoveryPackage = (& (Join-Path $PSScriptRoot 'Audit_HeatDriveECC_InterruptedRecoveryPackage.ps1') `
+    -AuditRoot $recoveryAuditRoot) | ConvertFrom-Json
+if (-not $recoveryPackage.recovery_package_pass -or
+        -not $recoveryPackage.strict_restore_pass -or
+        $recoveryPackage.state_reset -or $recoveryPackage.table4_reproduction_claimed) {
+    throw 'Interrupted runtime recovery package did not pass its independent audit.'
+}
+foreach ($entry in (Import-Csv -LiteralPath (Join-Path $recoveryAuditRoot 'manifest_sha256.csv'))) {
+    Add-Entry 'C60 interrupted recovery evidence' $entry.path $true 'audited_transient_not_steady'
+}
+Add-Entry 'C60 interrupted recovery package audit' (Join-Path $recoveryAuditRoot 'package_audit.json')
+
 Add-Entry 'C200 physical result' (Join-Path $mainRun 'physical_simscape_result.mat')
 Add-Entry 'C200 final Operating Point' (Join-Path $mainRun 'final_operating_point.mat')
 Add-Entry 'C200 continuation progress' (Join-Path $mainRoot 'steady_continuation_progress.csv')
@@ -706,7 +719,7 @@ $hashes = foreach ($item in ($manifest | Where-Object exists)) {
 $hashes | Export-Csv -LiteralPath $hashPath -NoTypeInformation -Encoding UTF8
 
 $summary = [ordered]@{
-    schema = 'heatdrive_ecc_final_package_audit_v11'
+    schema = 'heatdrive_ecc_final_package_audit_v12'
     generated_at = (Get-Date).ToString('o')
     workspace_root = $WorkspaceRoot
     authoritative_result = (Join-Path $mainRun 'physical_simscape_result.mat')
@@ -768,7 +781,11 @@ $summary = [ordered]@{
     runtime_tc_window_failed_result_may_resume = $false
     runtime_tc_clean11_failure_time_s = 2535.101
     runtime_tc_clean11_failed_result_may_resume = $false
-    continuation_authority = 'none_pending_strict_runtime_cold_start'
+    continuation_authority = 'audited_runtime_C60_transient_not_steady'
+    runtime_recovery_verified_cycles = $recoveryPackage.verified_cycles
+    runtime_recovery_strict_restore_pass = $recoveryPackage.strict_restore_pass
+    runtime_recovery_periodic_steady_state = $recoveryPackage.periodic_steady_state
+    historical_strict_smoke_configuration_caveat = 'C200/C246 old smoke tests did not match all production logging/final-state settings; not reauthorized and not retested by the C60 pass.'
     paper_benchmark_authority = 'C200_fixed_CHEX'
     c200_state_recovery_allowed_current_model = [bool]$c200Contract.resume_policy.state_recovery_allowed_current_model
     c200_strict_restore_pass_current_model = [bool]$c200StrictRestore.strict_restore_pass

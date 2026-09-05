@@ -86,6 +86,7 @@ partial diagnostic 和 contents mismatch 为 false；旧失败 JSON 均保留，
 | `verification/Audit_HeatDriveECC_OperatingPointRestore.m` | 匹配生产日志/状态配置；可选 warning 探针不得产生恢复授权 |
 | `verification/Prepare_HeatDriveECC_InterruptedRecovery.m` | 父链、时间、机制、能量/质量、严格恢复、前后 SHA 通过才生成新目录恢复设置 |
 | `verification/Audit_HeatDriveECC_InterruptedRecoveryPackage.ps1` | 复核合同、原状态未改及 C60/C200/C246 哈希；生成原位数据清单 |
+| `verification/Audit_FinalHeatDriveECC_Package.ps1` | v12 总包调用本阶段独立审核，纳入 C60 证据，并区分暂态恢复源与 C200 论文基准 |
 | `verification/WaitAndCheck_HeatDriveECC.ps1` | 无 worker 且无 STOP 识别中断；计时前后 CPU 差与命令行进入一次性 JSON |
 | `verification/Test_HeatDriveECC_MonitorTermination.ps1` | 旧目录不能掩盖中断；机制失败 STOP 保留原因；实际 PowerShell 通过 |
 | `verification/Manage_HeatDriveECC_OutputStorage.ps1` | 未显式拒绝/替代的 raw/OP 默认保护；识别相对命令行中的本项目 MATLAB |
@@ -120,9 +121,9 @@ D8A49BD2EC81B8CBFF128F390AF68D2BE417BAFD002BBDDD2AB85DC34954E25A
 `manifest_sha256.csv` 记录原位路径/大小/SHA；`package_audit.json` 区分包完整性通过、
 机制通过、未稳态与未复现。清单不是独立可搬运压缩包。
 
-历史总包继续由 `Audit_FinalHeatDriveECC_Package.ps1` 与
-`Verify_FinalHeatDriveECC_Package.m` 管理；其中旧严格烟测只是历史证据，
-不能替代本阶段配置更正后的恢复审核。
+总包 PowerShell v12 已纳入本阶段独立审核，不再把当前恢复源写成 none。
+`Verify_FinalHeatDriveECC_Package.m` 继续管理历史 MATLAB 结果包；其中旧严格烟测只是
+历史证据，不能替代本阶段配置更正后的恢复审核。
 
 提交后的完整受 Git 管理代码/模型/文档快照为
 `outputs_storage_audit/shutdown_recovery_20260905/source_snapshot.zip`，版本和哈希在同目录
