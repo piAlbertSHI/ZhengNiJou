@@ -9,6 +9,8 @@ $workspace = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 if (-not $ReleaseRoot) {
     $ReleaseRoot = Join-Path $workspace 'gx101r1_R69_remote\outputs_storage_audit\runtime_c180_release_20260906'
 }
+# git -C changes the base of relative --output paths; resolve before dispatch.
+$ReleaseRoot = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($ReleaseRoot)
 $commit = (& git -C $workspace rev-parse HEAD).Trim()
 if ($LASTEXITCODE -ne 0) { throw 'Cannot resolve source commit.' }
 $simulationHash = (& git -C $workspace rev-parse --verify "$SimulationCommit^{commit}").Trim()

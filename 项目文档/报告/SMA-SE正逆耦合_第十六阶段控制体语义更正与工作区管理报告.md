@@ -110,6 +110,8 @@ C180 raw/OP、runtime 观测 C200 raw/OP/状态 sidecar、论文冻结 C200 均�
 
 大型结果不入 Git；只提交代码、合同、报告及复核入口。代码 ZIP 和原位结果由 package manifest 绑定，Git 提交号及归档哈希写在 `source_snapshot_sha256.json`。
 
+首次使用相对 ReleaseRoot 打包时，`git -C` 改变归档路径基准而失败，未生成 ZIP。已修正为启动 Git 前解析绝对路径；重新打包并检查 ZIP CRC 和逐文件哈希，旧发布根不覆盖。
+
 ## 9. 下一步及文献边界
 
 1. 以实际连接关系核对每根管所属流体域，从实际物性表及名义参数重建 rho_nominal；用原生 u_I 验证模型库存。不得仅以块路径猜测流体。
