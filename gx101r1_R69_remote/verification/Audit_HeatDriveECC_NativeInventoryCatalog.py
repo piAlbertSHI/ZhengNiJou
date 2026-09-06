@@ -14,6 +14,7 @@ import numpy as np
 
 
 UNITS = {
+    "1": ("1", 1),
     "K": ("K", 1), "kg": ("kg", 1), "m^3": ("m^3", 1),
     "kg/s": ("kg/s", 1), "kg/m^3": ("kg/m^3", 1),
     "Pa": ("Pa", 1), "bar": ("Pa", 1e5), "MPa": ("Pa", 1e6),
