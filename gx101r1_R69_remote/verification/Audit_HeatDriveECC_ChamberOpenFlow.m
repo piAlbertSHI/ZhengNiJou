@@ -1,11 +1,19 @@
-function record = Audit_HeatDriveECC_ChamberOpenFlow(output_root, physical_path)
+function record = Audit_HeatDriveECC_ChamberOpenFlow(output_root, physical_path, outlet_area_m2)
 % Open-port direction and reversal tests, not a production model restart.
+    if nargin < 3
+        outlet_area_m2 = 0;
+    end
+    assert(isscalar(outlet_area_m2) && isfinite(outlet_area_m2) && outlet_area_m2 >= 0, 'Invalid outlet area.');
     assert(~isfolder(output_root), 'Do not overwrite an experiment.');
     mkdir(output_root);
     record = struct('schema', 'heatdrive_ecc_chamber_open_flow_trial_v1', ...
         'cases', {{}}, 'collection_pass', false, 'error_identifier', '', 'error_message', '', ...
         'source_options_path', physical_path, 'production_model_changed', false, ...
         'production_checkpoint_loaded', false, 'production_recovery_allowed', false);
+    if outlet_area_m2 > 0
+        record.schema = 'heatdrive_ecc_chamber_restricted_flow_trial_v1';
+        record.outlet_area_m2 = outlet_area_m2;
+    end
     old_directory = pwd;
     directory_cleanup = onCleanup(@() cd(old_directory));
     try
@@ -35,6 +43,7 @@ function record = Audit_HeatDriveECC_ChamberOpenFlow(output_root, physical_path)
         assert(isscalar(solver), 'Require one source solver.');
         volume = saved.options.branch.sma_pump_manifold_volume_m3;
         area = saved.options.branch.connecting_pipe_flow_area_m2;
+        assert(outlet_area_m2 < area, 'Restriction must be smaller than the port.');
         for formulation = {'native', 'conservative'}
           for mode = {'forward', 'reverse', 'reversal'}
             for step = [.001 .0005 .00025]
@@ -97,7 +106,17 @@ function record = Audit_HeatDriveECC_ChamberOpenFlow(output_root, physical_path)
                 clear scratch_cleanup
                 simscape.addConnection([model '/HotReservoir'], 'A', [model '/FlowSource'], 'A');
                 simscape.addConnection([model '/FlowSource'], 'B', chamber, 'A');
-                simscape.addConnection(chamber, 'B', [model '/ColdReservoir'], 'A');
+                if outlet_area_m2 > 0
+                    restriction = [model '/OutletRestriction'];
+                    add_block('fl_lib/Thermal Liquid/Elements/Local Restriction (TL)', restriction);
+                    set_param(restriction, 'restriction_type', 'foundation.enum.restriction_type.fixed', ...
+                        'restriction_area', num2str(outlet_area_m2, '%.17g'), 'restriction_area_unit', 'm^2', ...
+                        'area', num2str(area, '%.17g'), 'area_unit', 'm^2', 'Cd', '.64', 'Re_c', '150');
+                    simscape.addConnection(chamber, 'B', restriction, 'A');
+                    simscape.addConnection(restriction, 'B', [model '/ColdReservoir'], 'A');
+                else
+                    simscape.addConnection(chamber, 'B', [model '/ColdReservoir'], 'A');
+                end
                 simscape.addConnection(chamber, 'A', [model '/FluidSettings'], only_port([model '/FluidSettings']));
                 simscape.addConnection(chamber, 'A', [model '/Solver'], only_port([model '/Solver']));
                 set_param([model '/Solver'], 'UseLocalSolver', 'on', ...
@@ -116,13 +135,21 @@ function record = Audit_HeatDriveECC_ChamberOpenFlow(output_root, physical_path)
                     names = {'T_I', 'p_I', 'rho_I', 'u_I', 'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'Q_H'};
                 end
                 chamber_node = simscape.logging.findNode(output.simlog, chamber);
+                source_names = {'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'power'};
+                if outlet_area_m2 > 0
+                    source_names = [source_names, {'rho_A', 'rho_B'}];
+                end
                 packets = {extract(chamber_node, 'chamber', names), ...
                     extract(simscape.logging.findNode(output.simlog, [model '/FlowSource']), ...
-                        'flow_source', {'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'power'}), ...
+                        'flow_source', source_names), ...
                     extract(simscape.logging.findNode(output.simlog, [model '/HotReservoir']), ...
                         'hot_reservoir', {'mdot_A', 'Phi_A', 'p_I', 'T_I'}), ...
                     extract(simscape.logging.findNode(output.simlog, [model '/ColdReservoir']), ...
                         'cold_reservoir', {'mdot_A', 'Phi_A', 'p_I', 'T_I'})};
+                if outlet_area_m2 > 0
+                    packets{end+1} = extract(simscape.logging.findNode(output.simlog, restriction), ...
+                        'outlet_restriction', {'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B'});
+                end
                 case_record = struct('formulation', formulation{1}, 'mode', mode{1}, ...
                     'source_settings', settings, 'volume_m3', volume, 'area_m2', area, ...
                     'initial_temperature_K', 340, 'pressure_Pa', 2.5e6, ...
@@ -133,6 +160,14 @@ function record = Audit_HeatDriveECC_ChamberOpenFlow(output_root, physical_path)
                     'local_step_s', str2double(get_param([model '/Solver'], 'LocalSolverSampleTime')), ...
                     'global_solver', get_param(model, 'Solver'), ...
                     'global_step_s', str2double(get_param(model, 'FixedStep')));
+                if outlet_area_m2 > 0
+                    case_record.boundary_mode = 'finite_outlet_restriction';
+                    case_record.outlet_area_m2 = str2double(get_param(restriction, 'restriction_area'));
+                    case_record.restriction_type = get_param(restriction, 'restriction_type');
+                    case_record.discharge_coefficient = str2double(get_param(restriction, 'Cd'));
+                    case_record.critical_reynolds_number = str2double(get_param(restriction, 'Re_c'));
+                    case_record.pressure_recovery = get_param(restriction, 'pressure_recovery');
+                end
                 record_json = jsonencode(case_record);
                 save(fullfile(output_root, sprintf('case_%d.mat', numel(record.cases) + 1)), 'packets', 'record_json', '-v7.3');
                 record.cases{end + 1} = case_record;

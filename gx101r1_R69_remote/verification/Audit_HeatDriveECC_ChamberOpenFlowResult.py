@@ -78,9 +78,11 @@ def temperature_coordinate_balance(time, temperature, pressure, volume, mass_flo
                 scope='Observed trajectory matches temperature-coordinate BE chain rule; not a replacement physical gate')
 
 
-def read_case(path):
+def read_case(path, *, restricted=False):
     units = dict(T_I='K', p_I='Pa', rho_I='kg/m^3', u_I='J/kg', mdot_A='kg/s', mdot_B='kg/s',
                  Phi_A='W', Phi_B='W', Q_H='W', stored_mass='kg', stored_energy='J', power='W')
+    if restricted:
+        units.update(rho_A='kg/m^3', rho_B='kg/m^3')
     with h5py.File(path, 'r') as f:
         meta = json.loads(text_field(f['record_json']))
         packets, common_time = {}, None
@@ -106,6 +108,11 @@ def read_case(path):
                     hot_reservoir={'mdot_A', 'Phi_A', 'p_I', 'T_I'}, cold_reservoir={'mdot_A', 'Phi_A', 'p_I', 'T_I'})
     if meta['formulation'] == 'conservative':
         expected['chamber'].update(('stored_mass', 'stored_energy'))
+    if restricted:
+        if meta.get('boundary_mode') != 'finite_outlet_restriction':
+            raise ValueError('Restricted reader requires explicit boundary contract')
+        expected['flow_source'].update(('rho_A', 'rho_B'))
+        expected['outlet_restriction'] = {'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B'}
     if set(packets) != set(expected) or any(set(packets[k]) != v for k,v in expected.items()):
         raise ValueError('Incomplete native component/port coverage')
     return meta, common_time, packets
