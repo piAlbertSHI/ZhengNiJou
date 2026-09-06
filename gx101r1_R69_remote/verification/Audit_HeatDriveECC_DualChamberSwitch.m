@@ -1,4 +1,4 @@
-function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_path, separate_boundaries, collect_failure_matrix)
+function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_path, separate_boundaries, collect_failure_matrix, valve_transition_s)
 % Test the pressure-coupled pump pair with copied production route valves.
     if nargin < 3
         separate_boundaries = false;
@@ -8,6 +8,11 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
         collect_failure_matrix = false;
     end
     assert(islogical(collect_failure_matrix) && isscalar(collect_failure_matrix), 'Require a logical diagnostic mode.');
+    if nargin < 5
+        valve_transition_s = 0;
+    end
+    assert(isscalar(valve_transition_s) && isfinite(valve_transition_s) && valve_transition_s >= 0 && ...
+        valve_transition_s <= .1, 'Invalid diagnostic valve transition.');
     assert(~isfolder(output_root), 'Do not overwrite an experiment.');
     mkdir(output_root);
     record = struct('schema', 'heatdrive_ecc_dual_chamber_switch_trial_v1', ...
@@ -16,6 +21,11 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
         'production_recovery_allowed', false, 'error_message', '');
     if separate_boundaries
         record.schema = 'heatdrive_ecc_dual_chamber_switch_trial_v2';
+    end
+    if valve_transition_s > 0
+        assert(separate_boundaries, 'Finite-transition trials require separated boundaries.');
+        record.schema = 'heatdrive_ecc_dual_chamber_switch_trial_v3';
+        record.valve_transition_s = valve_transition_s;
     end
     record.collect_failure_matrix = collect_failure_matrix;
     record.failed_cases = {};
@@ -88,7 +98,7 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                     block = sprintf('%s/V%d', model, j);
                     add_block([source '/' valves{j}], block);
                     hot = mod(j, 2) == 1;
-                    add_command(model, sprintf('V%d', j), sprintf('Valve%d', j), '1', .5, double(hot), double(~hot));
+                    add_command(model, sprintf('V%d', j), sprintf('Valve%d', j), '1', .5, double(hot), double(~hot), valve_transition_s);
                 end
                 reservoir_names = {'InletReservoir','OutletReservoir','HotReturn','ColdReturn'};
                 reservoir_roles = {'inlet_reservoir','outlet_reservoir','hot_return','cold_return'};
@@ -132,6 +142,9 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                         'local_step_s', step, 'separate_boundaries', separate_boundaries, ...
                         'simulation_error', output.ErrorMessage, 'production_recovery_allowed', false, ...
                         'attempted_case_index', attempted);
+                    if valve_transition_s > 0
+                        diagnostic.valve_transition_s = valve_transition_s;
+                    end
                     diagnostic_json = jsonencode(diagnostic);
                     failure_name = 'failed_partial_native_traces.mat';
                     if collect_failure_matrix
@@ -155,9 +168,13 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                 end
                 packets{3} = extract(simscape.logging.findNode(output.simlog, [model '/Pump']), 'pump', ...
                     {'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'power', 'rho_A', 'rho_B'});
+                valve_fields = {'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B'};
+                if valve_transition_s > 0
+                    valve_fields = {'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'L', 'A.T', 'B.T', 'A.p', 'B.p'};
+                end
                 for j = 1:4
                     packets{3+j} = extract(simscape.logging.findNode(output.simlog, sprintf('%s/V%d', model, j)), ...
-                        sprintf('v%d', j), {'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B'});
+                        sprintf('v%d', j), valve_fields);
                 end
                 for j = 1:reservoir_count
                     packets{7+j} = extract(simscape.logging.findNode(output.simlog, [model '/' reservoir_names{j}]), ...
@@ -171,6 +188,9 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                     'global_solver', get_param(model, 'Solver'), 'global_step_s', str2double(get_param(model, 'FixedStep')));
                 if separate_boundaries
                     case_record.boundary_mode = 'separate_supply_return';
+                end
+                if valve_transition_s > 0
+                    case_record.valve_transition_s = valve_transition_s;
                 end
                 record_json = jsonencode(case_record);
                 save(fullfile(output_root, sprintf('case_%d.mat', attempted)), 'packets', 'record_json', '-v7.3');
@@ -203,13 +223,25 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
     assert(record.collection_pass, 'HeatDriveECC:DualSwitchTrialFailed', '%s', record.error_message);
 end
 
-function add_command(model, block_name, command_name, unit, switch_time, before, after)
+function add_command(model, block_name, command_name, unit, switch_time, before, after, transition_s)
+    if nargin < 8
+        transition_s = 0;
+    end
     ps = [model '/' command_name 'PS'];
     command_path = [model '/' command_name 'Command'];
     add_block('nesl_utility/Simulink-PS Converter', ps, 'Unit', unit);
-    add_block('simulink/Sources/Step', command_path, 'Time', num2str(switch_time), ...
-        'Before', num2str(before), 'After', num2str(after));
-    add_line(model, [command_name 'Command/1'], [command_name 'PS/1']);
+    if transition_s == 0
+        add_block('simulink/Sources/Step', command_path, 'Time', num2str(switch_time), ...
+            'Before', num2str(before), 'After', num2str(after));
+        add_line(model, [command_name 'Command/1'], [command_name 'PS/1']);
+    else
+        add_block('simulink/Sources/Ramp', command_path, 'start', num2str(switch_time), ...
+            'slope', num2str((after-before)/transition_s, '%.17g'), 'InitialOutput', num2str(before));
+        add_block('simulink/Discontinuities/Saturation', [model '/' command_name 'Limits'], ...
+            'LowerLimit', num2str(min(before, after)), 'UpperLimit', num2str(max(before, after)));
+        add_line(model, [command_name 'Command/1'], [command_name 'Limits/1']);
+        add_line(model, [command_name 'Limits/1'], [command_name 'PS/1']);
+    end
     scratch = 'ecc_dual_switch_port_map';
     new_system(scratch);
     cleanup = onCleanup(@() close_system(scratch, 0));
@@ -225,7 +257,12 @@ end
 function packet = extract(node, role, names)
     traces = cell(size(names));
     for k = 1:numel(names)
-        series = node.child(names{k}).series;
+        selected = node;
+        parts = strsplit(names{k}, '.');
+        for j = 1:numel(parts)
+            selected = selected.child(parts{j});
+        end
+        series = selected.series;
         t = double(time(series));
         traces{k} = struct('name', names{k}, 'unit', series.unit, 'time_s', t(:), 'values', double(values(series)));
     end
