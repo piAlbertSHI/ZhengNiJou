@@ -28,9 +28,9 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
     end
     assert(islogical(pipe_model) && isscalar(pipe_model), 'Require explicit pipe diagnostic mode.');
     if pipe_model
-        assert(separate_boundaries && valve_transition_s == .01 && ...
+        assert(separate_boundaries && ismember(valve_transition_s, [0 .01]) && ...
             strcmp(index_reduction, 'DerivativeReplacement') && isequal(solver_tolerance, 1e-12), ...
-            'Pipe comparison requires the unchanged tight finite-switch baseline.');
+            'Pipe comparison requires the explicit tight hard/finite-switch baseline.');
     end
     assert(~isfolder(output_root), 'Do not overwrite an experiment.');
     mkdir(output_root);
@@ -47,7 +47,7 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
         record.valve_transition_s = valve_transition_s;
     end
     if ~isempty(index_reduction)
-        assert(valve_transition_s > 0, 'Index-reduction comparison requires the finite-transition contract.');
+        assert(valve_transition_s > 0 || pipe_model, 'Index-reduction comparison requires an explicit transition contract.');
         record.schema = 'heatdrive_ecc_dual_chamber_switch_trial_v4';
         record.index_reduction = index_reduction;
     end
@@ -58,6 +58,10 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
     end
     if pipe_model
         record.schema = 'heatdrive_ecc_dual_chamber_switch_trial_v6';
+        if valve_transition_s == 0
+            record.schema = 'heatdrive_ecc_dual_chamber_switch_trial_v7';
+        end
+        record.valve_transition_s = valve_transition_s;
         record.pipe_model = true;
         record.pipe_contract = struct('length_m', .2, 'diameter_m', .0032, ...
             'roughness_m', 15e-6, 'roughness_source', 'explicit Foundation Pipe TL default, not a Qian measured value', ...
@@ -208,7 +212,7 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                         'local_step_s', step, 'separate_boundaries', separate_boundaries, ...
                         'simulation_error', output.ErrorMessage, 'production_recovery_allowed', false, ...
                         'attempted_case_index', attempted);
-                    if valve_transition_s > 0
+                    if valve_transition_s > 0 || pipe_model
                         diagnostic.valve_transition_s = valve_transition_s;
                     end
                     if ~isempty(index_reduction)
@@ -252,7 +256,7 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                 packets{3} = extract(simscape.logging.findNode(output.simlog, [model '/Pump']), 'pump', ...
                     {'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'power', 'rho_A', 'rho_B'});
                 valve_fields = {'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B'};
-                if valve_transition_s > 0
+                if valve_transition_s > 0 || pipe_model
                     valve_fields = {'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'L', 'A.T', 'B.T', 'A.p', 'B.p'};
                 end
                 for j = 1:4
@@ -272,7 +276,7 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                 if separate_boundaries
                     case_record.boundary_mode = 'separate_supply_return';
                 end
-                if valve_transition_s > 0
+                if valve_transition_s > 0 || pipe_model
                     case_record.valve_transition_s = valve_transition_s;
                 end
                 if ~isempty(index_reduction)

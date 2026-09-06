@@ -16,11 +16,15 @@ from Audit_HeatDriveECC_NativeWindowLedger import validate_grid
 from Audit_HeatDriveECC_SegmentedEvidence import sha256, text_field
 
 
-def read_case(path, *, finite_transition=False):
+def read_case(path, *, finite_transition=False, pipe_model=False):
     units = dict(T_I='K',p_I='Pa',rho_I='kg/m^3',u_I='J/kg',mdot_A='kg/s',mdot_B='kg/s',
                  Phi_A='W',Phi_B='W',Q_H='W',stored_mass='kg',stored_energy='J',power='W',rho_A='kg/m^3',rho_B='kg/m^3')
     if finite_transition:
         units.update({'L':'1','A.T':'K','B.T':'K','A.p':'Pa','B.p':'Pa'})
+    if pipe_model:
+        if not finite_transition:
+            raise ValueError('Pipe diagnostic requires the finite-transition contract')
+        units.update(pressure_loss_A='Pa',pressure_loss_B='Pa')
     with h5py.File(path,'r') as f:
         meta = json.loads(text_field(f['record_json']))
         packets,time = {},None
@@ -44,6 +48,10 @@ def read_case(path, *, finite_transition=False):
     chamber = {'T_I','p_I','rho_I','u_I','mdot_A','mdot_B','Phi_A','Phi_B','Q_H'}
     if meta['formulation'] == 'conservative':
         chamber |= {'stored_mass','stored_energy'}
+    if pipe_model:
+        if not meta.get('pipe_contract'):
+            raise ValueError('Explicit pipe contract required')
+        chamber |= {'A.p','B.p','A.T','B.T','pressure_loss_A','pressure_loss_B'}
     expected = dict(inlet=chamber,outlet=chamber,pump={'mdot_A','mdot_B','Phi_A','Phi_B','power','rho_A','rho_B'},
                     inlet_reservoir={'mdot_A','Phi_A','p_I','T_I'},outlet_reservoir={'mdot_A','Phi_A','p_I','T_I'})
     expected.update({f'v{i}':{'mdot_A','mdot_B','Phi_A','Phi_B'} for i in range(1,5)})
@@ -74,7 +82,9 @@ def spatial_identities(p, kind, *, separate=False):
     return float(np.max(abs(np.asarray(rows))))
 
 
-def audit_case(meta,t,p,table, *, finite_transition=False):
+def audit_case(meta,t,p,table, *, finite_transition=False, pipe_model=False):
+    if pipe_model and (not finite_transition or not meta.get('pipe_contract')):
+        raise ValueError('Explicit finite-transition pipe diagnostic required')
     required = dict(volume_each_m3=1.6084954386379741e-6,area_m2=8.04247719318987e-6,
                     initial_temperature_K=340,initial_pressure_Pa=2.5e6,hot_reservoir_K=380,cold_reservoir_K=300,
                     reservoir_pressure_Pa=2.5e6,pressure_step_time_s=.01,command_pressure_Pa=260,route_switch_time_s=.5,
@@ -88,7 +98,9 @@ def audit_case(meta,t,p,table, *, finite_transition=False):
     c,d,s,h,k = [p[x] for x in ('inlet','outlet','pump','inlet_reservoir','outlet_reservoir')]
     index = np.rint(t/meta['local_step_s']).astype(int)
     dp = np.where(index < round(.01/meta['local_step_s']),0,260)
-    if (np.max(abs(d['p_I']-c['p_I']-dp)) > 1e-4 or np.max(abs(h['p_I']-2.5e6)) > 1e-4
+    pump_inlet_pressure = c['B.p'] if pipe_model else c['p_I']
+    pump_outlet_pressure = d['A.p'] if pipe_model else d['p_I']
+    if (np.max(abs(pump_outlet_pressure-pump_inlet_pressure-dp)) > 1e-4 or np.max(abs(h['p_I']-2.5e6)) > 1e-4
             or np.max(abs(k['p_I']-2.5e6)) > 1e-4 or np.max(abs(h['T_I']-380)) > 1e-9
             or np.max(abs(k['T_I']-300)) > 1e-9):
         raise ValueError('Measured pressure command or reservoir boundary failed')
@@ -133,7 +145,7 @@ def audit_case(meta,t,p,table, *, finite_transition=False):
     mass_identity = spatial_identities(p,'mdot',separate=finite_transition)
     energy_identity = spatial_identities(p,'Phi',separate=finite_transition)
     hypothetical = s['mdot_A']*dp/((s['rho_A']+s['rho_B'])/2)
-    power_error = (pump_power_contract(s,c['p_I'],d['p_I']) if meta['power_mode']=='isentropic' else float(np.max(abs(s['power']))))
+    power_error = (pump_power_contract(s,pump_inlet_pressure,pump_outlet_pressure) if meta['power_mode']=='isentropic' else float(np.max(abs(s['power']))))
     active = [(t>=.1)&(t<.49),(t>=.6)&(t<.99)]
     route = dict(hot_active_mean_kg_s=float(np.mean(p['v1']['mdot_A'][active[0]])),
                  hot_inactive_mean_kg_s=float(np.mean(p['v1']['mdot_A'][active[1]])),
