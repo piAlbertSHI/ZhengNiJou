@@ -1,9 +1,13 @@
-function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_path, separate_boundaries)
+function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_path, separate_boundaries, collect_failure_matrix)
 % Test the pressure-coupled pump pair with copied production route valves.
     if nargin < 3
         separate_boundaries = false;
     end
     assert(islogical(separate_boundaries) && isscalar(separate_boundaries), 'Require a logical boundary mode.');
+    if nargin < 4
+        collect_failure_matrix = false;
+    end
+    assert(islogical(collect_failure_matrix) && isscalar(collect_failure_matrix), 'Require a logical diagnostic mode.');
     assert(~isfolder(output_root), 'Do not overwrite an experiment.');
     mkdir(output_root);
     record = struct('schema', 'heatdrive_ecc_dual_chamber_switch_trial_v1', ...
@@ -13,6 +17,9 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
     if separate_boundaries
         record.schema = 'heatdrive_ecc_dual_chamber_switch_trial_v2';
     end
+    record.collect_failure_matrix = collect_failure_matrix;
+    record.failed_cases = {};
+    attempted = 0;
     old = pwd;
     directory_cleanup = onCleanup(@() cd(old));
     try
@@ -51,6 +58,7 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
         for formulation = {'native', 'conservative'}
           for power_mode = {'none', 'isentropic'}
             for step = [.001 .0005 .00025]
+                attempted = attempted + 1;
                 model = 'ecc_dual_chamber_switch_trial';
                 assert(~bdIsLoaded(model), 'Trial model already in use.');
                 new_system(model);
@@ -122,9 +130,19 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                     traces = collect_leaves(output.simlog, '');
                     diagnostic = struct('formulation', formulation{1}, 'power_mode', power_mode{1}, ...
                         'local_step_s', step, 'separate_boundaries', separate_boundaries, ...
-                        'simulation_error', output.ErrorMessage, 'production_recovery_allowed', false);
+                        'simulation_error', output.ErrorMessage, 'production_recovery_allowed', false, ...
+                        'attempted_case_index', attempted);
                     diagnostic_json = jsonencode(diagnostic);
-                    save(fullfile(output_root, 'failed_partial_native_traces.mat'), 'traces', 'diagnostic_json', '-v7.3');
+                    failure_name = 'failed_partial_native_traces.mat';
+                    if collect_failure_matrix
+                        failure_name = sprintf('failed_case_%d.mat', attempted);
+                    end
+                    save(fullfile(output_root, failure_name), 'traces', 'diagnostic_json', '-v7.3');
+                    record.failed_cases{end+1} = diagnostic;
+                    if collect_failure_matrix
+                        clear cleanup output traces
+                        continue;
+                    end
                     error('HeatDriveECC:DualSwitchSimulationFailed', '%s', output.ErrorMessage);
                 end
                 fields = {'T_I', 'p_I', 'rho_I', 'u_I', 'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'Q_H'};
@@ -155,7 +173,7 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                     case_record.boundary_mode = 'separate_supply_return';
                 end
                 record_json = jsonencode(case_record);
-                save(fullfile(output_root, sprintf('case_%d.mat', numel(record.cases)+1)), 'packets', 'record_json', '-v7.3');
+                save(fullfile(output_root, sprintf('case_%d.mat', attempted)), 'packets', 'record_json', '-v7.3');
                 record.cases{end+1} = case_record;
                 for j = 1:2
                     node = simscape.logging.findNode(output.simlog, [model '/' names{j}]);
@@ -167,6 +185,10 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
           end
         end
         record.collection_pass = numel(record.cases) == 12;
+        record.attempted_cases = attempted;
+        if ~record.collection_pass
+            record.error_message = sprintf('%d independent cases failed; no failed state was reused.', numel(record.failed_cases));
+        end
         clear source_cleanup path_cleanup
     catch exception
         record.error_identifier = exception.identifier;
