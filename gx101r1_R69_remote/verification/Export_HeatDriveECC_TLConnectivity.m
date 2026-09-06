@@ -34,8 +34,9 @@ function topology = Export_HeatDriveECC_TLConnectivity(model)
             roots(end + 1) = line; %#ok<AGROW>
         end
         source = '';
-        parameters = get_param(path, 'ObjectParameters');
-        if isfield(parameters, 'SourceFile'), source = get_param(path, 'SourceFile'); end
+        if strcmp(get_param(path, 'BlockType'), 'SimscapeBlock')
+            source = get_param(path, 'SourceFile');
+        end
         blocks{end + 1} = struct('block_path', path, ...
             'block_type', get_param(path, 'BlockType'), ...
             'mask_type', get_param(path, 'MaskType'), ...

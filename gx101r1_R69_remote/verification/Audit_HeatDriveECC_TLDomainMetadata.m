@@ -30,13 +30,16 @@ function audit = Audit_HeatDriveECC_TLDomainMetadata(output_root)
         for j = 1:numel(names), parameters.(names{j}) = get_param(path, names{j}); end
         audit.settings_tables{end + 1} = struct('block_path', path, 'parameters', parameters);
     end
-    assert(numel(audit.settings_tables) == 2, 'Expected two TL property-setting domains.');
+    audit.metadata_collection_pass = numel(audit.settings_tables) == 2;
     if ~isfolder(output_root), mkdir(output_root); end
     fid = fopen(output_path, 'w', 'n', 'UTF-8');
     assert(fid >= 0, 'Cannot write topology metadata.');
     file_cleanup = onCleanup(@() fclose(fid));
     fprintf(fid, '%s\n', jsonencode(audit, 'PrettyPrint', true));
     clear file_cleanup cleanup
+    assert(audit.metadata_collection_pass, ...
+        'Expected two TL property-setting domains; found %d. Partial metadata saved.', ...
+        numel(audit.settings_tables));
     fprintf('TL_DOMAIN_METADATA_EXPORTED=1 BLOCKS=%d PORTS=%d\n', ...
         numel(audit.blocks), numel(audit.vertices));
 end
