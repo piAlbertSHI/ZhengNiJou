@@ -1,4 +1,4 @@
-function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_path, separate_boundaries, collect_failure_matrix, valve_transition_s, index_reduction)
+function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_path, separate_boundaries, collect_failure_matrix, valve_transition_s, index_reduction, solver_tolerance)
 % Test the pressure-coupled pump pair with copied production route valves.
     if nargin < 3
         separate_boundaries = false;
@@ -18,6 +18,11 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
     end
     assert(ischar(index_reduction) && ismember(index_reduction, {'', 'DerivativeReplacement', 'Projection'}), ...
         'Unsupported diagnostic index reduction.');
+    if nargin < 7
+        solver_tolerance = [];
+    end
+    assert(isempty(solver_tolerance) || (isscalar(solver_tolerance) && isfinite(solver_tolerance) && ...
+        solver_tolerance > 0 && solver_tolerance <= .001), 'Invalid diagnostic solver tolerance.');
     assert(~isfolder(output_root), 'Do not overwrite an experiment.');
     mkdir(output_root);
     record = struct('schema', 'heatdrive_ecc_dual_chamber_switch_trial_v1', ...
@@ -36,6 +41,11 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
         assert(valve_transition_s > 0, 'Index-reduction comparison requires the finite-transition contract.');
         record.schema = 'heatdrive_ecc_dual_chamber_switch_trial_v4';
         record.index_reduction = index_reduction;
+    end
+    if ~isempty(solver_tolerance)
+        assert(~isempty(index_reduction), 'Tolerance comparison requires explicit index reduction.');
+        record.schema = 'heatdrive_ecc_dual_chamber_switch_trial_v5';
+        record.solver_tolerance = solver_tolerance;
     end
     record.collect_failure_matrix = collect_failure_matrix;
     record.failed_cases = {};
@@ -105,6 +115,11 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                 if ~isempty(index_reduction)
                     set_param([model '/Solver'], 'IndexReductionMethod', index_reduction);
                 end
+                if ~isempty(solver_tolerance)
+                    tolerance_text = num2str(solver_tolerance, '%.17g');
+                    set_param([model '/Solver'], 'ResidualTolerance', tolerance_text, 'ConsistencyTolSource', 'LOCAL', ...
+                        'ConsistencyAbsTol', tolerance_text, 'ConsistencyRelTol', tolerance_text);
+                end
                 add_block([source '/SMA Pressure Source (TL)'], [model '/Pump']);
                 set_param([model '/Pump'], 'power_spec', ['foundation.enum.power_spec.' power_mode{1}]);
                 add_command(model, 'Pump', 'Pressure', 'Pa', .01, 0, 260);
@@ -162,6 +177,9 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                     if ~isempty(index_reduction)
                         diagnostic.index_reduction = get_param([model '/Solver'], 'IndexReductionMethod');
                     end
+                    if ~isempty(solver_tolerance)
+                        diagnostic.solver_tolerance = solver_tolerance;
+                    end
                     diagnostic_json = jsonencode(diagnostic);
                     failure_name = 'failed_partial_native_traces.mat';
                     if collect_failure_matrix
@@ -211,6 +229,12 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                 end
                 if ~isempty(index_reduction)
                     case_record.index_reduction = get_param([model '/Solver'], 'IndexReductionMethod');
+                end
+                if ~isempty(solver_tolerance)
+                    case_record.solver_tolerances = struct('ResidualTolerance', get_param([model '/Solver'], 'ResidualTolerance'), ...
+                        'ConsistencyTolSource', get_param([model '/Solver'], 'ConsistencyTolSource'), ...
+                        'ConsistencyAbsTol', get_param([model '/Solver'], 'ConsistencyAbsTol'), ...
+                        'ConsistencyRelTol', get_param([model '/Solver'], 'ConsistencyRelTol'));
                 end
                 record_json = jsonencode(case_record);
                 save(fullfile(output_root, sprintf('case_%d.mat', attempted)), 'packets', 'record_json', '-v7.3');

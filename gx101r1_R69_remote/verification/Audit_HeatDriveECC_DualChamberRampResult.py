@@ -14,11 +14,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--repo',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--projection',action='store_true')
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError('Do not overwrite audit evidence')
     base = args.repo/'outputs_storage_audit'
-    root = base/'dual_chamber_ramp_20260907/trial'
+    root = base/('dual_chamber_projection_20260907/trial' if args.projection else 'dual_chamber_ramp_20260907/trial')
     trial_path = root/'dual_switch_result.json'
     trial = json.loads(trial_path.read_text(encoding='utf-8-sig'))
     topology_path = base/'tl_domain_energy_tables_20260906/tl_domain_metadata.json'
@@ -26,13 +27,18 @@ def main():
     parent = json.loads(parent_path.read_text())
     component = root/'build/+ecc_inventory/conservative_chamber.ssc'
     old_component = base/'dual_chamber_switch_20260907_v4/trial/build/+ecc_inventory/conservative_chamber.ssc'
-    if (trial['schema'] != 'heatdrive_ecc_dual_chamber_switch_trial_v3' or not trial['collection_pass']
+    expected_schema = 'heatdrive_ecc_dual_chamber_switch_trial_v4' if args.projection else 'heatdrive_ecc_dual_chamber_switch_trial_v3'
+    expected_commit = '1371d3a3b5b7587b310337b9e97a86b668541b8d' if args.projection else '702165653bdd80795599675290dc2b770dc25af6'
+    if (trial['schema'] != expected_schema or not trial['collection_pass']
             or len(trial['cases']) != 12 or trial['failed_cases'] or trial['valve_transition_s'] != .01
-            or not trial['execution_commit'].startswith('7021656') or trial['production_model_changed']
+            or trial['execution_commit'] != expected_commit or trial['production_model_changed']
             or trial['production_checkpoint_loaded'] or trial['production_recovery_allowed']
             or sha256(topology_path).upper() != TOPOLOGY_SHA or sha256(Path(trial['source_options_path'])).upper() != PHYSICAL_SHA
             or sha256(component) != sha256(old_component) or parent['completed_simulations'] != 0):
         raise ValueError('Frozen source, failed baseline or scope changed')
+    if args.projection and (trial['index_reduction'] != 'Projection'
+                            or trial['source_solver_parameters']['values']['IndexReductionMethod'] != 'DerivativeReplacement'):
+        raise ValueError('Index-reduction intervention changed')
     table_data = json.loads(topology_path.read_text(encoding='utf-8-sig'))
     water = next(r for r in table_data['settings_tables'] if r['block_path'].endswith('/SMA_ThermalLiquidSettings'))
     table = energy_tables(water['parameters'])
@@ -43,9 +49,12 @@ def main():
         meta,t,p = read_case(path,finite_transition=True)
         if meta != trial['cases'][i-1] or tuple(meta[k] for k in ('formulation','power_mode','local_step_s')) != key:
             raise ValueError('Mismatched finite-actuation case')
+        if args.projection and meta.get('index_reduction') != 'Projection':
+            raise ValueError('Actual case is not the projection intervention')
         rows.append(audit_case(meta,t,p,table,finite_transition=True))
         hashes[f'case_{i}'] = sha256(path)
-    result = dict(schema='heatdrive_ecc_dual_chamber_ramp_audit_v1',computation_complete=True,
+    schema = 'heatdrive_ecc_dual_chamber_projection_audit_v1' if args.projection else 'heatdrive_ecc_dual_chamber_ramp_audit_v1'
+    result = dict(schema=schema,computation_complete=True,
                   trial_execution_commit=trial['execution_commit'],actual_simscape_cases=12,actual_scalar_trace_count=948,
                   cases=rows,input_sha256=hashes,mass_absolute_gate_kg=MASS_ATOL_KG,energy_absolute_gate_J=ENERGY_ATOL_J,
                   tested_dual_inventory_closure_verified=all(r['dual_inventory_closure_pass'] for r in rows[6:]),
