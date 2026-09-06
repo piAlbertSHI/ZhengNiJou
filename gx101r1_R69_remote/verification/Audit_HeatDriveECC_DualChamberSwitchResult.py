@@ -56,7 +56,7 @@ def read_case(path, *, finite_transition=False, pipe_model=False):
                     inlet_reservoir={'mdot_A','Phi_A','p_I','T_I'},outlet_reservoir={'mdot_A','Phi_A','p_I','T_I'})
     expected.update({f'v{i}':{'mdot_A','mdot_B','Phi_A','Phi_B'} for i in range(1,5)})
     if finite_transition:
-        if meta.get('boundary_mode') != 'separate_supply_return' or meta.get('valve_transition_s') != .01:
+        if meta.get('boundary_mode') != 'separate_supply_return' or meta.get('valve_transition_s') not in ((0,.01) if pipe_model else (.01,)):
             raise ValueError('Explicit finite-transition contract required')
         for i in range(1,5):
             expected[f'v{i}'].update(('L','A.T','B.T','A.p','B.p'))
@@ -91,6 +91,10 @@ def audit_case(meta,t,p,table, *, finite_transition=False, pipe_model=False):
                     stop_s=1,local_solver='NE_BACKWARD_EULER_ADVANCER',global_solver='ode3')
     if finite_transition:
         required.update(boundary_mode='separate_supply_return',valve_transition_s=.01)
+        if pipe_model:
+            if meta.get('valve_transition_s') not in (0,.01):
+                raise ValueError('Unsupported pipe actuation duration')
+            required['valve_transition_s']=meta['valve_transition_s']
     if (any(meta.get(k) != v for k,v in required.items()) or meta['formulation'] not in ('native','conservative')
             or meta['power_mode'] not in ('none','isentropic') or meta['local_step_s'] not in (.001,.0005,.00025)
             or meta['global_step_s'] != meta['local_step_s']):
@@ -169,7 +173,7 @@ def audit_case(meta,t,p,table, *, finite_transition=False, pipe_model=False):
         row['property_table_identity_pass'] = all(r['property_table_identity_pass'] for r in property_errors.values())
         errors = []
         for i in range(1,5):
-            fraction = np.clip((t-.5)/.01,0,1)
+            fraction = (t>=.5).astype(float) if pipe_model and meta['valve_transition_s']==0 else np.clip((t-.5)/.01,0,1)
             expected = 1-fraction if i%2 else fraction
             valve = p[f'v{i}']
             errors.append(np.max(abs(valve['L']-expected)))

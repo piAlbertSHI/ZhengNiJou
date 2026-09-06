@@ -59,19 +59,25 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--repo',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--hard',action='store_true')
     args=parser.parse_args()
     if args.output.exists():
         raise FileExistsError('Do not overwrite audit evidence')
     base=args.repo/'outputs_storage_audit'
     root=base/'dual_pipe_friction_20260907_v2/trial'
+    if args.hard:
+        root=base/'dual_pipe_hard_switch_20260907/trial'
     trial_path=root/'dual_switch_result.json'
     trial=json.loads(trial_path.read_text(encoding='utf-8-sig'))
     topology=base/'tl_domain_energy_tables_20260906/tl_domain_metadata.json'
     component=root/'build/+ecc_inventory/conservative_chamber.ssc'
     source=args.repo/'verification/simscape_inventory_pipe/+ecc_inventory/conservative_chamber.ssc'
-    if (trial['schema']!='heatdrive_ecc_dual_chamber_switch_trial_v6' or not trial['collection_pass']
+    schema='heatdrive_ecc_dual_chamber_switch_trial_v7' if args.hard else 'heatdrive_ecc_dual_chamber_switch_trial_v6'
+    commit='7bbd60bf79e125664476f9a4d248e9de64b2cadc' if args.hard else 'd9c689797498949f96b0a536cac0fa5dba54456e'
+    duration=0 if args.hard else .01
+    if (trial['schema']!=schema or not trial['collection_pass']
             or len(trial['cases'])!=12 or trial['failed_cases'] or not trial['pipe_model']
-            or trial['execution_commit']!='d9c689797498949f96b0a536cac0fa5dba54456e'
+            or trial['execution_commit']!=commit or trial['valve_transition_s']!=duration
             or trial['production_model_changed'] or trial['production_checkpoint_loaded'] or trial['production_recovery_allowed']
             or sha256(topology)!=TOPOLOGY_SHA or sha256(Path(trial['source_options_path']))!=PHYSICAL_SHA
             or sha256(component)!=sha256(source)):
@@ -85,7 +91,8 @@ def main():
     for i,key in enumerate(keys,1):
         path=root/f'case_{i}.mat'
         meta,t,p=read_case(path,finite_transition=True,pipe_model=True)
-        if meta!=trial['cases'][i-1] or tuple(meta[k] for k in ('formulation','power_mode','local_step_s'))!=key:
+        if (meta!=trial['cases'][i-1] or tuple(meta[k] for k in ('formulation','power_mode','local_step_s'))!=key
+                or meta['valve_transition_s']!=duration):
             raise ValueError('Unpaired experiment')
         verify_parameters(meta)
         row=audit_case(meta,t,p,table,finite_transition=True,pipe_model=True)
@@ -94,7 +101,8 @@ def main():
             row['dual_inventory_closure_pass'] &= row['momentum_pressure_pass'] and row['finite_pipe_loss_observed']
         rows.append(row)
         hashes[f'case_{i}']=sha256(path)
-    result=dict(schema='heatdrive_ecc_dual_pipe_friction_audit_v1',computation_complete=True,
+    result=dict(schema='heatdrive_ecc_dual_pipe_hard_audit_v1' if args.hard else 'heatdrive_ecc_dual_pipe_friction_audit_v1',computation_complete=True,
+                **(dict(valve_transition_s=duration) if args.hard else {}),
                 trial_execution_commit=trial['execution_commit'],actual_simscape_cases=12,actual_scalar_trace_count=1092,
                 cases=rows,input_sha256=hashes,mass_absolute_gate_kg=1e-15,energy_absolute_gate_J=1e-8,
                 conservative_inventory_all_pass=all(r['dual_inventory_closure_pass'] for r in rows[6:]),
