@@ -16,9 +16,11 @@ from Audit_HeatDriveECC_NativeWindowLedger import validate_grid
 from Audit_HeatDriveECC_SegmentedEvidence import sha256, text_field
 
 
-def read_case(path):
+def read_case(path, *, finite_transition=False):
     units = dict(T_I='K',p_I='Pa',rho_I='kg/m^3',u_I='J/kg',mdot_A='kg/s',mdot_B='kg/s',
                  Phi_A='W',Phi_B='W',Q_H='W',stored_mass='kg',stored_energy='J',power='W',rho_A='kg/m^3',rho_B='kg/m^3')
+    if finite_transition:
+        units.update({'L':'1','A.T':'K','B.T':'K','A.p':'Pa','B.p':'Pa'})
     with h5py.File(path,'r') as f:
         meta = json.loads(text_field(f['record_json']))
         packets,time = {},None
@@ -45,12 +47,18 @@ def read_case(path):
     expected = dict(inlet=chamber,outlet=chamber,pump={'mdot_A','mdot_B','Phi_A','Phi_B','power','rho_A','rho_B'},
                     inlet_reservoir={'mdot_A','Phi_A','p_I','T_I'},outlet_reservoir={'mdot_A','Phi_A','p_I','T_I'})
     expected.update({f'v{i}':{'mdot_A','mdot_B','Phi_A','Phi_B'} for i in range(1,5)})
+    if finite_transition:
+        if meta.get('boundary_mode') != 'separate_supply_return' or meta.get('valve_transition_s') != .01:
+            raise ValueError('Explicit finite-transition contract required')
+        for i in range(1,5):
+            expected[f'v{i}'].update(('L','A.T','B.T','A.p','B.p'))
+        expected.update({k:{'mdot_A','Phi_A','p_I','T_I'} for k in ('hot_return','cold_return')})
     if set(packets) != set(expected) or any(set(packets[k]) != v for k,v in expected.items()):
         raise ValueError('Require complete nine-component port coverage')
     return meta,time,packets
 
 
-def spatial_identities(p, kind):
+def spatial_identities(p, kind, *, separate=False):
     if kind not in ('mdot','Phi'):
         raise ValueError('Unsupported conserved port quantity')
     a,b = kind+'_A',kind+'_B'
@@ -59,16 +67,20 @@ def spatial_identities(p, kind):
     rows = [h[a]+v1[a]+v3[b], k[a]+v2[a]+v4[b], c[a]+v1[b]+v2[b], c[b]+s[a],
             s[b]+d[a], d[b]+v3[a]+v4[a], s[a]+s[b]+(s['power'] if kind=='Phi' else 0)]
     rows += [v[a]+v[b] for v in (v1,v2,v3,v4)]
+    if separate:
+        rows[:2] = [h[a]+v1[a],k[a]+v2[a],p['hot_return'][a]+v3[b],p['cold_return'][a]+v4[b]]
     if not np.isfinite(rows).all():
         raise ValueError('Nonfinite spatial identity')
     return float(np.max(abs(np.asarray(rows))))
 
 
-def audit_case(meta,t,p,table):
+def audit_case(meta,t,p,table, *, finite_transition=False):
     required = dict(volume_each_m3=1.6084954386379741e-6,area_m2=8.04247719318987e-6,
                     initial_temperature_K=340,initial_pressure_Pa=2.5e6,hot_reservoir_K=380,cold_reservoir_K=300,
                     reservoir_pressure_Pa=2.5e6,pressure_step_time_s=.01,command_pressure_Pa=260,route_switch_time_s=.5,
                     stop_s=1,local_solver='NE_BACKWARD_EULER_ADVANCER',global_solver='ode3')
+    if finite_transition:
+        required.update(boundary_mode='separate_supply_return',valve_transition_s=.01)
     if (any(meta.get(k) != v for k,v in required.items()) or meta['formulation'] not in ('native','conservative')
             or meta['power_mode'] not in ('none','isentropic') or meta['local_step_s'] not in (.001,.0005,.00025)
             or meta['global_step_s'] != meta['local_step_s']):
@@ -81,23 +93,45 @@ def audit_case(meta,t,p,table):
             or np.max(abs(k['T_I']-300)) > 1e-9):
         raise ValueError('Measured pressure command or reservoir boundary failed')
     masses,energies,ledgers,aliases = [],[],{},[]
+    reconstructed_masses,reconstructed_energies,property_errors = [],[],{}
     for role in ('inlet','outlet'):
         v = p[role]
         if abs(v['T_I'][0]-340) > 1e-9 or abs(v['p_I'][0]-2.5e6) > 1e-4 or np.max(abs(v['Q_H'])) > 1e-9:
             raise ValueError('Unpaired initial state or heat input')
         point = np.column_stack((v['T_I'],v['p_I']))
-        if np.max(abs(table['rho'](point)-v['rho_I'])) > 1e-8 or np.max(abs(table['u'](point)-v['u_I'])) > 1e-6:
+        rho_table,u_table = table['rho'](point),table['u'](point)
+        rho_error,u_error = float(np.max(abs(rho_table-v['rho_I']))),float(np.max(abs(u_table-v['u_I'])))
+        property_errors[role] = dict(density_max_abs_error_kg_m3=rho_error,internal_energy_max_abs_error_J_kg=u_error,
+                                     property_table_identity_pass=rho_error <= 1e-8 and u_error <= 1e-6)
+        if not finite_transition and not property_errors[role]['property_table_identity_pass']:
             raise ValueError('Frozen water domain mismatch')
         m = v['rho_I']*meta['volume_each_m3']
         u = m*v['u_I']
         masses.append(m)
         energies.append(u)
         ledgers[role] = balance(t,m,u,v['mdot_A']+v['mdot_B'],v['Phi_A']+v['Phi_B']+v['Q_H'])
+        if finite_transition:
+            mt = rho_table*meta['volume_each_m3']
+            ut = mt*u_table
+            reconstructed_masses.append(mt)
+            reconstructed_energies.append(ut)
+            ledgers[role+'_table'] = balance(t,mt,ut,v['mdot_A']+v['mdot_B'],v['Phi_A']+v['Phi_B']+v['Q_H'])
         if meta['formulation']=='conservative':
             aliases.append(np.max(abs(v['stored_mass']-m)) <= MASS_ATOL_KG and np.max(abs(v['stored_energy']-u)) <= ENERGY_ATOL_J)
     total_mass,total_energy = np.sum(masses,axis=0),np.sum(energies,axis=0)
-    ledgers['external_total'] = balance(t,total_mass,total_energy,-h['mdot_A']-k['mdot_A'],-h['Phi_A']-k['Phi_A']+s['power'])
-    mass_identity,energy_identity = spatial_identities(p,'mdot'),spatial_identities(p,'Phi')
+    reservoirs = [h,k]
+    if finite_transition:
+        reservoirs += [p['hot_return'],p['cold_return']]
+        for reservoir,temp in zip(reservoirs,(380,300,380,300)):
+            if np.max(abs(reservoir['p_I']-2.5e6)) > 1e-4 or np.max(abs(reservoir['T_I']-temp)) > 1e-9:
+                raise ValueError('Independent reservoir contract failed')
+    ledgers['external_total'] = balance(t,total_mass,total_energy,-sum(r['mdot_A'] for r in reservoirs),
+                                       -sum(r['Phi_A'] for r in reservoirs)+s['power'])
+    if finite_transition:
+        ledgers['external_table_total'] = balance(t,np.sum(reconstructed_masses,axis=0),np.sum(reconstructed_energies,axis=0),
+                                                  -sum(r['mdot_A'] for r in reservoirs),-sum(r['Phi_A'] for r in reservoirs)+s['power'])
+    mass_identity = spatial_identities(p,'mdot',separate=finite_transition)
+    energy_identity = spatial_identities(p,'Phi',separate=finite_transition)
     hypothetical = s['mdot_A']*dp/((s['rho_A']+s['rho_B'])/2)
     power_error = (pump_power_contract(s,c['p_I'],d['p_I']) if meta['power_mode']=='isentropic' else float(np.max(abs(s['power']))))
     active = [(t>=.1)&(t<.49),(t>=.6)&(t<.99)]
@@ -118,11 +152,32 @@ def audit_case(meta,t,p,table):
                min_pressure_Pa=float(min(c['p_I'].min(),d['p_I'].min())),max_pressure_Pa=float(max(c['p_I'].max(),d['p_I'].max())),
                min_temperature_K=float(min(c['T_I'].min(),d['T_I'].min())),max_temperature_K=float(max(c['T_I'].max(),d['T_I'].max())),
                omitted_event_intervals=0,compiler_state_selection_directly_observed=False)
+    if finite_transition:
+        row['property_reconstruction'] = property_errors
+        row['property_table_identity_pass'] = all(r['property_table_identity_pass'] for r in property_errors.values())
+        errors = []
+        for i in range(1,5):
+            fraction = np.clip((t-.5)/.01,0,1)
+            expected = 1-fraction if i%2 else fraction
+            valve = p[f'v{i}']
+            errors.append(np.max(abs(valve['L']-expected)))
+            for side in ('A','B'):
+                if (np.any(valve[f'{side}.T'] < 273.16) or np.any(valve[f'{side}.T'] > 413.16)
+                        or np.any(valve[f'{side}.p'] < .45e6) or np.any(valve[f'{side}.p'] > 5e6)):
+                    raise ValueError('Valve port outside unchanged physical domain')
+        row['valve_opening_max_error'] = float(max(errors))
+        row['valve_command_pass'] = bool(max(errors) <= 1e-12)
+        before_switch = round(.49/meta['local_step_s'])
+        row['thermal_excitation_observed'] = bool(c['T_I'][before_switch] > 341 and c['T_I'][-1] < c['T_I'][before_switch]-1)
+        row['minimum_valve_port_temperature_K'] = float(min(p[f'v{i}'][f'{side}.T'].min() for i in range(1,5) for side in ('A','B')))
     if meta['formulation']=='conservative':
         row['inventory_aliases_match'] = bool(all(aliases))
         row['dual_inventory_closure_pass'] = (row['inventory_aliases_match'] and row['spatial_port_identities_pass']
             and row['pump_mode_formula_pass'] and route_pass
             and all(v['mass_closure_pass'] and v['energy_closure_pass'] for v in ledgers.values()))
+        if finite_transition:
+            row['dual_inventory_closure_pass'] = (row['dual_inventory_closure_pass'] and row['valve_command_pass']
+                                                  and row['thermal_excitation_observed'] and row['property_table_identity_pass'])
     return row
 
 

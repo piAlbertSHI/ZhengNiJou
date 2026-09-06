@@ -1,4 +1,4 @@
-function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_path, separate_boundaries, collect_failure_matrix, valve_transition_s)
+function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_path, separate_boundaries, collect_failure_matrix, valve_transition_s, index_reduction)
 % Test the pressure-coupled pump pair with copied production route valves.
     if nargin < 3
         separate_boundaries = false;
@@ -13,6 +13,11 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
     end
     assert(isscalar(valve_transition_s) && isfinite(valve_transition_s) && valve_transition_s >= 0 && ...
         valve_transition_s <= .1, 'Invalid diagnostic valve transition.');
+    if nargin < 6
+        index_reduction = '';
+    end
+    assert(ischar(index_reduction) && ismember(index_reduction, {'', 'DerivativeReplacement', 'Projection'}), ...
+        'Unsupported diagnostic index reduction.');
     assert(~isfolder(output_root), 'Do not overwrite an experiment.');
     mkdir(output_root);
     record = struct('schema', 'heatdrive_ecc_dual_chamber_switch_trial_v1', ...
@@ -26,6 +31,11 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
         assert(separate_boundaries, 'Finite-transition trials require separated boundaries.');
         record.schema = 'heatdrive_ecc_dual_chamber_switch_trial_v3';
         record.valve_transition_s = valve_transition_s;
+    end
+    if ~isempty(index_reduction)
+        assert(valve_transition_s > 0, 'Index-reduction comparison requires the finite-transition contract.');
+        record.schema = 'heatdrive_ecc_dual_chamber_switch_trial_v4';
+        record.index_reduction = index_reduction;
     end
     record.collect_failure_matrix = collect_failure_matrix;
     record.failed_cases = {};
@@ -56,6 +66,7 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
         source_cleanup = onCleanup(@() close_system(source, 0));
         solver = find_system(source, 'LookUnderMasks', 'all', 'FollowLinks', 'on', 'MaskType', 'Solver Configuration');
         assert(isscalar(solver), 'Expected one physical solver.');
+        record.source_solver_parameters = parameters(solver{1});
         volume = saved.options.branch.sma_pump_manifold_volume_m3;
         area = saved.options.branch.connecting_pipe_flow_area_m2;
         valves = {'SMA_V1_SHEX_to_pump', 'SMA_V2_HHEX_to_pump', ...
@@ -91,6 +102,9 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                 end
                 add_block([source '/SMA_ThermalLiquidSettings'], [model '/FluidSettings']);
                 add_block(solver{1}, [model '/Solver']);
+                if ~isempty(index_reduction)
+                    set_param([model '/Solver'], 'IndexReductionMethod', index_reduction);
+                end
                 add_block([source '/SMA Pressure Source (TL)'], [model '/Pump']);
                 set_param([model '/Pump'], 'power_spec', ['foundation.enum.power_spec.' power_mode{1}]);
                 add_command(model, 'Pump', 'Pressure', 'Pa', .01, 0, 260);
@@ -145,6 +159,9 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                     if valve_transition_s > 0
                         diagnostic.valve_transition_s = valve_transition_s;
                     end
+                    if ~isempty(index_reduction)
+                        diagnostic.index_reduction = get_param([model '/Solver'], 'IndexReductionMethod');
+                    end
                     diagnostic_json = jsonencode(diagnostic);
                     failure_name = 'failed_partial_native_traces.mat';
                     if collect_failure_matrix
@@ -191,6 +208,9 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                 end
                 if valve_transition_s > 0
                     case_record.valve_transition_s = valve_transition_s;
+                end
+                if ~isempty(index_reduction)
+                    case_record.index_reduction = get_param([model '/Solver'], 'IndexReductionMethod');
                 end
                 record_json = jsonencode(case_record);
                 save(fullfile(output_root, sprintf('case_%d.mat', attempted)), 'packets', 'record_json', '-v7.3');
