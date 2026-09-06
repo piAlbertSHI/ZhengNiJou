@@ -1,4 +1,4 @@
-function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_path, separate_boundaries, collect_failure_matrix, valve_transition_s, index_reduction, solver_tolerance)
+function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_path, separate_boundaries, collect_failure_matrix, valve_transition_s, index_reduction, solver_tolerance, pipe_model)
 % Test the pressure-coupled pump pair with copied production route valves.
     if nargin < 3
         separate_boundaries = false;
@@ -23,6 +23,15 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
     end
     assert(isempty(solver_tolerance) || (isscalar(solver_tolerance) && isfinite(solver_tolerance) && ...
         solver_tolerance > 0 && solver_tolerance <= .001), 'Invalid diagnostic solver tolerance.');
+    if nargin < 8
+        pipe_model = false;
+    end
+    assert(islogical(pipe_model) && isscalar(pipe_model), 'Require explicit pipe diagnostic mode.');
+    if pipe_model
+        assert(separate_boundaries && valve_transition_s == .01 && ...
+            strcmp(index_reduction, 'DerivativeReplacement') && isequal(solver_tolerance, 1e-12), ...
+            'Pipe comparison requires the unchanged tight finite-switch baseline.');
+    end
     assert(~isfolder(output_root), 'Do not overwrite an experiment.');
     mkdir(output_root);
     record = struct('schema', 'heatdrive_ecc_dual_chamber_switch_trial_v1', ...
@@ -47,6 +56,14 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
         record.schema = 'heatdrive_ecc_dual_chamber_switch_trial_v5';
         record.solver_tolerance = solver_tolerance;
     end
+    if pipe_model
+        record.schema = 'heatdrive_ecc_dual_chamber_switch_trial_v6';
+        record.pipe_model = true;
+        record.pipe_contract = struct('length_m', .2, 'diameter_m', .0032, ...
+            'roughness_m', 15e-6, 'roughness_source', 'explicit Foundation Pipe TL default, not a Qian measured value', ...
+            'length_add_m', 0, 'Re_lam', 2000, 'Re_tur', 4000, 'shape_factor', 64, ...
+            'inertia', false, 'wall_heat_flow_W', 0, 'production_qualification', false);
+    end
     record.collect_failure_matrix = collect_failure_matrix;
     record.failed_cases = {};
     attempted = 0;
@@ -61,6 +78,9 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
         build = fullfile(output_root, 'build');
         mkdir(build);
         package = fullfile(fileparts(mfilename('fullpath')), 'simscape_inventory', '+ecc_inventory');
+        if pipe_model
+            package = fullfile(fileparts(mfilename('fullpath')), 'simscape_inventory_pipe', '+ecc_inventory');
+        end
         copyfile(package, fullfile(build, '+ecc_inventory'));
         cd(build);
         ssc_build('ecc_inventory');
@@ -79,6 +99,11 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
         record.source_solver_parameters = parameters(solver{1});
         volume = saved.options.branch.sma_pump_manifold_volume_m3;
         area = saved.options.branch.connecting_pipe_flow_area_m2;
+        if pipe_model
+            assert(abs(saved.options.branch.connecting_pipe_length_m-.2) < 1e-12 && ...
+                abs(saved.options.branch.connecting_pipe_diameter_m-.0032) < 1e-12 && ...
+                abs(volume-area*.2) < 1e-15, 'Pipe geometry differs from the frozen article contract.');
+        end
         valves = {'SMA_V1_SHEX_to_pump', 'SMA_V2_HHEX_to_pump', ...
             'SMA_V3_pump_to_heat_path', 'SMA_V4_pump_to_cool_path'};
         record.source_valve_parameters = cell(1, 4);
@@ -98,17 +123,29 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                 for j = 1:2
                     chamber = [model '/' names{j}];
                     if strcmp(formulation{1}, 'native')
-                        add_block([source '/SMA_Pump' names{j} 'ConnectingPipeVolume'], chamber);
-                        set_param(chamber, 'area_A', num2str(area, '%.17g'), 'area_A_unit', 'm^2', ...
-                            'area_B', num2str(area, '%.17g'), 'area_B_unit', 'm^2');
+                        if pipe_model
+                            add_block('fl_lib/Thermal Liquid/Elements/Pipe (TL)', chamber);
+                            set_param(chamber, 'length', '.2', 'length_unit', 'm', 'Dh', '.0032', 'Dh_unit', 'm', ...
+                                'area', num2str(area, '%.17g'), 'area_unit', 'm^2', ...
+                                'roughness', '15e-6', 'roughness_unit', 'm', 'length_add', '0', 'length_add_unit', 'm', ...
+                                'Re_lam', '2000', 'Re_tur', '4000', 'shape_factor', '64', ...
+                                'dynamic_compressibility', 'true', 'inertia', 'false', ...
+                                'p0', '2.5', 'p0_unit', 'MPa', 'T0', '340', 'T0_unit', 'K');
+                        else
+                            add_block([source '/SMA_Pump' names{j} 'ConnectingPipeVolume'], chamber);
+                            set_param(chamber, 'area_A', num2str(area, '%.17g'), 'area_A_unit', 'm^2', ...
+                                'area_B', num2str(area, '%.17g'), 'area_B_unit', 'm^2');
+                        end
                     else
                         add_block(blocks{1}, chamber);
                         set_param(chamber, 'area', num2str(area, '%.17g'), 'area_unit', 'm^2');
                     end
-                    set_param(chamber, 'volume', num2str(volume, '%.17g'), 'volume_unit', 'm^3', ...
-                        'p_I_specify', 'on', 'T_I_specify', 'on', ...
-                        'p_I', '2.5', 'p_I_unit', 'MPa', 'p_I_priority', 'High', ...
-                        'T_I', '340', 'T_I_unit', 'K', 'T_I_priority', 'High');
+                    if ~pipe_model || strcmp(formulation{1}, 'conservative')
+                        set_param(chamber, 'volume', num2str(volume, '%.17g'), 'volume_unit', 'm^3', ...
+                            'p_I_specify', 'on', 'T_I_specify', 'on', ...
+                            'p_I', '2.5', 'p_I_unit', 'MPa', 'p_I_priority', 'High', ...
+                            'T_I', '340', 'T_I_unit', 'K', 'T_I_priority', 'High');
+                    end
                 end
                 add_block([source '/SMA_ThermalLiquidSettings'], [model '/FluidSettings']);
                 add_block(solver{1}, [model '/Solver']);
@@ -180,6 +217,9 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                     if ~isempty(solver_tolerance)
                         diagnostic.solver_tolerance = solver_tolerance;
                     end
+                    if pipe_model
+                        diagnostic.pipe_model = true;
+                    end
                     diagnostic_json = jsonencode(diagnostic);
                     failure_name = 'failed_partial_native_traces.mat';
                     if collect_failure_matrix
@@ -196,6 +236,9 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                 fields = {'T_I', 'p_I', 'rho_I', 'u_I', 'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'Q_H'};
                 if strcmp(formulation{1}, 'conservative')
                     fields = {'T_I', 'p_I', 'rho_I', 'u_I', 'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'Q_H', 'stored_mass', 'stored_energy'};
+                end
+                if pipe_model
+                    fields = [fields, {'A.p', 'B.p', 'A.T', 'B.T', 'pressure_loss_A', 'pressure_loss_B'}];
                 end
                 packets = cell(1, 7 + reservoir_count);
                 for j = 1:2
@@ -235,6 +278,11 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                         'ConsistencyTolSource', get_param([model '/Solver'], 'ConsistencyTolSource'), ...
                         'ConsistencyAbsTol', get_param([model '/Solver'], 'ConsistencyAbsTol'), ...
                         'ConsistencyRelTol', get_param([model '/Solver'], 'ConsistencyRelTol'));
+                end
+                if pipe_model
+                    case_record.pipe_contract = record.pipe_contract;
+                    case_record.actual_inlet_parameters = parameters([model '/Inlet']);
+                    case_record.actual_outlet_parameters = parameters([model '/Outlet']);
                 end
                 record_json = jsonencode(case_record);
                 save(fullfile(output_root, sprintf('case_%d.mat', attempted)), 'packets', 'record_json', '-v7.3');
