@@ -10,7 +10,7 @@ function record = Collect_HeatDriveECC_NativeCycleDiagnostic(output_root, cycle_
     else
         mkdir(output_root);
     end
-    record = struct('schema', 'heatdrive_ecc_native_cycle_collection_v1', ...
+    record = struct('schema', 'heatdrive_ecc_native_cycle_collection_v2', ...
         'requested_cycles', cycle_count, 'collected_cycles', 0, 'cycles', {{}}, ...
         'collection_pass', false, 'mechanism_all_collected_cycles_pass', false, ...
         'production_recovery_allowed', false, 'full_internal_periodicity_verified', false, ...
@@ -36,7 +36,9 @@ function record = Collect_HeatDriveECC_NativeCycleDiagnostic(output_root, cycle_
         assignin('base', 'EIGHTH_ROUND_OPTIONS', options);
         tau = options.schedule.tau_cycle_s; dt = options.simulation.fixed_step_s;
         record.source_time_s = start;
-        record.command_horizon_s = options.simulation.stop_time_s;
+        record.command_coverage = Audit_HeatDriveECC_CommandCoverage(model, options, start + cycle_count * tau);
+        record.command_horizon_s = record.command_coverage.minimum_command_end_s;
+        record.nominal_model_stop_time_s = options.simulation.stop_time_s;
         record.simscape_history_points = ceil(tau / dt) + 2;
         input = Simulink.SimulationInput(model);
         input = input.setModelParameter('StartTime', '0', 'Solver', options.simulation.solver, ...
