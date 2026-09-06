@@ -1,0 +1,39 @@
+{
+  "schema": "heatdrive_ecc_inventory_equation_sources_v1",
+  "release": "MATLAB R2025b",
+  "local_source_root": "C:/Program Files/MATLAB/R2025b/toolbox/physmod/simscape/library/m",
+  "files": [
+    {
+      "relative_path": "+foundation/+thermal_liquid/+elements/pipe.ssc",
+      "sha256": "CC478BAB8A9B5DD6156ACE2239BF837FE0849843EF5BDBFE6F55C315343FAC3E",
+      "key_lines": [174, 193, 226, 229],
+      "scope": "Quasisteady fixed nominal mass, native density lookup and energy rate."
+    },
+    {
+      "relative_path": "+foundation/+thermal_liquid/+utilities/thermal_liquid_settings.ssc",
+      "sha256": "D0B8A66CBD6AFE7BBF14402A78BFE975BCBE009A5817D346CCBC5F64A85E1693",
+      "key_lines": [376, 709, 716, 722, 756, 762, 775, 857],
+      "scope": "30-point pressure expansion, density/internal-energy vector modes, linear lookup and finite differences."
+    },
+    {
+      "relative_path": "+foundation/+thermal_liquid/+elements/constant_volume_chamber.ssc",
+      "sha256": "D2A49CAEB1E66F5CA63C9ED1161BA354DA31F586814BF49A61A91007395215BB",
+      "key_lines": [132, 133, 156, 159],
+      "scope": "Table-derived differential storage coefficients; keep separate from endpoint rho*V*u."
+    }
+  ],
+  "official_documentation": [
+    {
+      "url": "https://www.mathworks.com/help/simulink/slref/block-parameters-and-properties.html",
+      "section": "PortConnectivity",
+      "scope": "Physical DstPort returns handles; LConn/RConn identify connector location."
+    },
+    {
+      "url": "https://www.mathworks.com/help/hydro/ref/tanktl.html",
+      "section": "Energy Balance",
+      "scope": "Constant-pressure tank energy equation simplifies algebraically to M*cp*dT+h*dM. Protected local implementation was not decoded."
+    }
+  ],
+  "equation_matched_cycle_closure_verified": false,
+  "production_continuation_allowed": false
+}
