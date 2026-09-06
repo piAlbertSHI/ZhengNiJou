@@ -114,6 +114,7 @@ function record = Audit_HeatDriveECC_ConservativeChamber(output_root, physical_p
     catch exception
         record.error_identifier = exception.identifier;
         record.error_message = exception.message;
+        record.error_report = getReport(exception, 'extended', 'hyperlinks', 'off');
     end
     fid = fopen(fullfile(output_root, 'conservative_chamber_result.json'), 'w', 'n', 'UTF-8');
     assert(fid >= 0, 'Cannot save experiment outcome.');

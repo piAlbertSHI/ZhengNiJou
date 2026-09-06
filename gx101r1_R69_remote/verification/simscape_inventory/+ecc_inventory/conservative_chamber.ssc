@@ -5,7 +5,7 @@ component conservative_chamber
 nodes
     A = foundation.thermal_liquid.thermal_liquid; % A:left
     B = foundation.thermal_liquid.thermal_liquid; % B:right
-    H = foundation.thermal.thermal;               % H:bottom
+    H = foundation.thermal.thermal;               % H:left
 end
 
 parameters
