@@ -26,6 +26,11 @@ function Test_HeatDriveECC_TLConnectivity()
     first = get_param([subsystem '/Channel1'], 'PortHandles');
     second = get_param([subsystem '/Channel2'], 'PortHandles');
     add_line(subsystem, first.LConn(2), second.LConn(2));
+    for k = 1:3
+        sensor = sprintf('%s/BranchSensor%d', model, k);
+        add_block('fl_lib/Thermal Liquid/Sensors/Pressure & Temperature Sensor (TL)', sensor);
+        simscape.addConnection([model '/Outer1'], 'A', sensor, 'A');
+    end
     topology = Export_HeatDriveECC_TLConnectivity(model);
     a = cellfun(@(e) e.a, topology.edges);
     b = cellfun(@(e) e.b, topology.edges);
@@ -42,6 +47,14 @@ function Test_HeatDriveECC_TLConnectivity()
     assert(numel(unique(labels)) == 2, 'Distinct channels were merged or a bridge is missing.');
     bridge_count = nnz(cellfun(@(e) strcmp(e.kind, 'hierarchy_connector'), topology.edges));
     assert(bridge_count == 4, 'Expected exactly four hierarchy bridges.');
+    outer_vertex = find(cellfun(@(v) strcmp(v.key, [model '/Outer1:A']), topology.vertices));
+    assert(isscalar(outer_vertex), 'Expected one named outer pipe port.');
+    for k = 1:3
+        key = sprintf('%s/BranchSensor%d:A', model, k);
+        sensor_vertex = find(cellfun(@(v) strcmp(v.key, key), topology.vertices));
+        assert(isscalar(sensor_vertex) && labels(sensor_vertex) == labels(outer_vertex), ...
+            'A branch sensor was omitted from its physical net.');
+    end
     clear cleanup
-    fprintf('TL_CONNECTIVITY_TEST_PASS=1 DISTINCT_CHANNELS=2 BRIDGES=4\n');
+    fprintf('TL_CONNECTIVITY_TEST_PASS=1 DISTINCT_CHANNELS=2 BRIDGES=4 BRANCH_SENSORS=3\n');
 end
