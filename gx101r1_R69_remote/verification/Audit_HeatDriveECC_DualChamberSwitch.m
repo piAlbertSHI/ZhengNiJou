@@ -1,11 +1,18 @@
-function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_path)
+function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_path, separate_boundaries)
 % Test the pressure-coupled pump pair with copied production route valves.
+    if nargin < 3
+        separate_boundaries = false;
+    end
+    assert(islogical(separate_boundaries) && isscalar(separate_boundaries), 'Require a logical boundary mode.');
     assert(~isfolder(output_root), 'Do not overwrite an experiment.');
     mkdir(output_root);
     record = struct('schema', 'heatdrive_ecc_dual_chamber_switch_trial_v1', ...
         'source_options_path', physical_path, 'cases', {{}}, 'collection_pass', false, ...
         'production_model_changed', false, 'production_checkpoint_loaded', false, ...
         'production_recovery_allowed', false, 'error_message', '');
+    if separate_boundaries
+        record.schema = 'heatdrive_ecc_dual_chamber_switch_trial_v2';
+    end
     old = pwd;
     directory_cleanup = onCleanup(@() cd(old));
     try
@@ -75,18 +82,25 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                     hot = mod(j, 2) == 1;
                     add_command(model, sprintf('V%d', j), sprintf('Valve%d', j), '1', .5, double(hot), double(~hot));
                 end
-                for j = 1:2
-                    reservoir = [model '/' names{j} 'Reservoir'];
+                reservoir_names = {'InletReservoir','OutletReservoir','HotReturn','ColdReturn'};
+                reservoir_roles = {'inlet_reservoir','outlet_reservoir','hot_return','cold_return'};
+                reservoir_count = 2 + 2*separate_boundaries;
+                for j = 1:reservoir_count
+                    reservoir = [model '/' reservoir_names{j}];
                     add_block('fl_lib/Thermal Liquid/Elements/Reservoir (TL)', reservoir);
                     set_param(reservoir, 'pressure_spec', 'foundation.enum.pressure_spec.specified', ...
                         'reservoir_pressure', '2.5', 'reservoir_pressure_unit', 'MPa', ...
-                        'reservoir_temperature', num2str(380-80*(j-1)), 'reservoir_temperature_unit', 'K', ...
+                        'reservoir_temperature', num2str(380-80*mod(j-1,2)), 'reservoir_temperature_unit', 'K', ...
                         'area', num2str(area, '%.17g'), 'area_unit', 'm^2');
                 end
                 simscape.addConnection([model '/InletReservoir'], 'A', [model '/V1'], 'A');
-                simscape.addConnection([model '/InletReservoir'], 'A', [model '/V3'], 'B');
                 simscape.addConnection([model '/OutletReservoir'], 'A', [model '/V2'], 'A');
-                simscape.addConnection([model '/OutletReservoir'], 'A', [model '/V4'], 'B');
+                return_names = {'InletReservoir','OutletReservoir'};
+                if separate_boundaries
+                    return_names = {'HotReturn','ColdReturn'};
+                end
+                simscape.addConnection([model '/' return_names{1}], 'A', [model '/V3'], 'B');
+                simscape.addConnection([model '/' return_names{2}], 'A', [model '/V4'], 'B');
                 simscape.addConnection([model '/V1'], 'B', [model '/Inlet'], 'A');
                 simscape.addConnection([model '/V2'], 'B', [model '/Inlet'], 'A');
                 simscape.addConnection([model '/Inlet'], 'B', [model '/Pump'], 'A');
@@ -106,7 +120,7 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                 if strcmp(formulation{1}, 'conservative')
                     fields = {'T_I', 'p_I', 'rho_I', 'u_I', 'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'Q_H', 'stored_mass', 'stored_energy'};
                 end
-                packets = cell(1, 9);
+                packets = cell(1, 7 + reservoir_count);
                 for j = 1:2
                     packets{j} = extract(simscape.logging.findNode(output.simlog, [model '/' names{j}]), lower(names{j}), fields);
                 end
@@ -116,9 +130,9 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                     packets{3+j} = extract(simscape.logging.findNode(output.simlog, sprintf('%s/V%d', model, j)), ...
                         sprintf('v%d', j), {'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B'});
                 end
-                for j = 1:2
-                    packets{7+j} = extract(simscape.logging.findNode(output.simlog, [model '/' names{j} 'Reservoir']), ...
-                        [lower(names{j}) '_reservoir'], {'mdot_A', 'Phi_A', 'p_I', 'T_I'});
+                for j = 1:reservoir_count
+                    packets{7+j} = extract(simscape.logging.findNode(output.simlog, [model '/' reservoir_names{j}]), ...
+                        reservoir_roles{j}, {'mdot_A', 'Phi_A', 'p_I', 'T_I'});
                 end
                 case_record = struct('formulation', formulation{1}, 'power_mode', power_mode{1}, 'local_step_s', step, ...
                     'volume_each_m3', volume, 'area_m2', area, 'initial_temperature_K', 340, 'initial_pressure_Pa', 2.5e6, ...
@@ -126,6 +140,9 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                     'pressure_step_time_s', .01, 'command_pressure_Pa', 260, 'route_switch_time_s', .5, 'stop_s', 1, ...
                     'local_solver', get_param([model '/Solver'], 'LocalSolverChoice'), ...
                     'global_solver', get_param(model, 'Solver'), 'global_step_s', str2double(get_param(model, 'FixedStep')));
+                if separate_boundaries
+                    case_record.boundary_mode = 'separate_supply_return';
+                end
                 record_json = jsonencode(case_record);
                 save(fullfile(output_root, sprintf('case_%d.mat', numel(record.cases)+1)), 'packets', 'record_json', '-v7.3');
                 record.cases{end+1} = case_record;
