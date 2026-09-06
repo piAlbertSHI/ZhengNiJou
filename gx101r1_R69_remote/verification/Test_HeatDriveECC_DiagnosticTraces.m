@@ -15,7 +15,10 @@ function Test_HeatDriveECC_DiagnosticTraces()
     expect_failure(@() Compare_HeatDriveECC_DiagnosticTraces({row}, {part}));
     part.state_name = row.state_name; part.unit = 'Pa';
     expect_failure(@() Compare_HeatDriveECC_DiagnosticTraces({row}, {part}));
-    fprintf('DIAGNOSTIC_TRACE_COMPARISON_TEST_PASS=1 CASES=6\n');
+    part.unit = 'K'; part.values(1, 1) = -0.0;
+    audit = Compare_HeatDriveECC_DiagnosticTraces({row}, {part});
+    assert(audit.pass && ~audit.bitwise_values_equal, 'Signed zero differs bitwise, not numerically.');
+    fprintf('DIAGNOSTIC_TRACE_COMPARISON_TEST_PASS=1 CASES=7\n');
 end
 
 function expect_failure(action)
