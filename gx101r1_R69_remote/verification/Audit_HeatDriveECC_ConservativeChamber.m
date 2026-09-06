@@ -79,9 +79,11 @@ function record = Audit_HeatDriveECC_ConservativeChamber(output_root, physical_p
                     set_param(model, 'SimulationCommand', 'update');
                     output = sim(model);
                     node = simscape.logging.findNode(output.simlog, chamber);
-                    names = {'T_I', 'p_I', 'rho_I', 'u_I', 'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'Q_H'};
                     if strcmp(formulation{1}, 'conservative')
-                        names = [names {'stored_mass', 'stored_energy'}];
+                        names = {'T_I', 'p_I', 'rho_I', 'u_I', 'mdot_A', 'mdot_B', ...
+                            'Phi_A', 'Phi_B', 'Q_H', 'stored_mass', 'stored_energy'};
+                    else
+                        names = {'T_I', 'p_I', 'rho_I', 'u_I', 'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'Q_H'};
                     end
                     traces = cell(size(names));
                     for k = 1:numel(names)
