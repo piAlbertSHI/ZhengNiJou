@@ -2,12 +2,17 @@ import unittest
 
 import numpy as np
 
-from Audit_HeatDriveECC_NativeResidualLocalization import component_terms, event_mask, interval_integrals, summarize
+from Audit_HeatDriveECC_NativeResidualLocalization import backward_euler_integrals, component_terms, event_mask, interval_integrals, summarize
 from test_native_inventory_catalog import tank
 from test_native_window_ledger import TABLE, pipe
 
 
 class ResidualLocalizationTests(unittest.TestCase):
+    def test_BE_uses_right_endpoint_without_discarding_intervals(self):
+        np.testing.assert_array_equal(backward_euler_integrals([2, 4, 8], [0, 1, 3]), [4, 16])
+        self.assertNotEqual(sum(backward_euler_integrals([2, 4, 8], [0, 1, 3])),
+                            sum(interval_integrals([2, 4, 8], [0, 1, 3])))
+
     def test_partition_keeps_event_and_terminal_intervals(self):
         time = np.linspace(0, .04, 41)
         terms = {"energy_residual_J": np.arange(40.), "mass_residual_kg": np.arange(40.) * 1e-6}
