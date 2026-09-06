@@ -4,7 +4,8 @@ function rows = Map_HeatDriveECC_PhysicalPortHandles(block_path, scratch_model, 
     properties = simscape.connectionPortProperties(block_path);
     if nargin < 3, domain_filter = ''; end
     if ~isempty(domain_filter)
-        selected = arrayfun(@(p) strcmp(p.Type.Name, domain_filter), properties);
+        selected = arrayfun(@(p) isprop(p.Type, 'Name') && ...
+            strcmp(p.Type.Name, domain_filter), properties);
         properties = properties(selected);
     end
     rows = {};

@@ -81,17 +81,19 @@ function record = Audit_HeatDriveECC_ChamberOpenFlow(output_root, physical_path)
                 add_line(model, 'FlowCommand/1', 'FlowCommandPS/1');
                 ps = get_param([model '/FlowCommandPS'], 'PortHandles');
                 port = simscape.connectionPortProperties([model '/FlowSource']);
-                input = port(strcmp({port.Name}, 'M'));
+                input = port(arrayfun(@(p) strcmp(char(p.Name), 'M'), port));
                 assert(isscalar(input), 'Expected one mass-flow command port.');
                 % The physical input is located by the public port mapper.
                 scratch = 'ecc_open_flow_port_map';
                 assert(~bdIsLoaded(scratch), 'Port-map scratch model already in use.');
                 new_system(scratch);
                 scratch_cleanup = onCleanup(@() close_system(scratch, 0));
-                mapped = Map_HeatDriveECC_PhysicalPortHandles([model '/FlowSource'], scratch);
-                selected = mapped(cellfun(@(row) strcmp(row.name, 'M'), mapped));
-                assert(isscalar(selected), 'Expected named source input.');
-                add_line(model, ps.RConn(1), selected{1}.handle);
+                mapped = Map_HeatDriveECC_PhysicalPortHandles([model '/FlowSource'], scratch, ...
+                    'foundation.thermal_liquid.thermal_liquid');
+                handles = get_param([model '/FlowSource'], 'PortHandles');
+                selected = setdiff([handles.LConn(:); handles.RConn(:)], cellfun(@(row) row.handle, mapped));
+                assert(numel(mapped) == 2 && isscalar(selected), 'Expected exactly two liquid ports and one control input.');
+                add_line(model, ps.RConn(1), selected);
                 clear scratch_cleanup
                 simscape.addConnection([model '/HotReservoir'], 'A', [model '/FlowSource'], 'A');
                 simscape.addConnection([model '/FlowSource'], 'B', chamber, 'A');
