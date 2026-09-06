@@ -39,7 +39,7 @@ def pump_power_contract(source, upstream_pressure, downstream_pressure):
 def audit_case(meta, time, packets, table):
     required = dict(boundary_mode='finite_outlet_restriction', outlet_area_m2=2e-8,
                     restriction_type='foundation.enum.restriction_type.fixed', discharge_coefficient=.64,
-                    critical_reynolds_number=150, pressure_recovery='on',
+                    critical_reynolds_number=150, pressure_recovery='true',
                     local_solver_enabled='on', local_solver='NE_BACKWARD_EULER_ADVANCER', global_solver='ode3',
                     initial_temperature_K=340, pressure_Pa=2.5e6, hot_reservoir_K=380, cold_reservoir_K=300,
                     flow_magnitude_kg_s=.0002, reversal_time_s=.5, stop_s=1,

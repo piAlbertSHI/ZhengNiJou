@@ -1,11 +1,56 @@
 import unittest
+import json
+import tempfile
+from pathlib import Path
 
+import h5py
 import numpy as np
 
 from Audit_HeatDriveECC_ChamberRestrictedFlow import port_identities, pump_power_contract
+from Audit_HeatDriveECC_ChamberOpenFlowResult import read_case
 
 
 class RestrictedFlowTests(unittest.TestCase):
+    def test_five_role_reader_requires_explicit_restricted_contract(self):
+        groups = dict(chamber=dict(T_I='K',p_I='Pa',rho_I='kg/m^3',u_I='J/kg',mdot_A='kg/s',mdot_B='kg/s',
+                                  Phi_A='W',Phi_B='W',Q_H='W',stored_mass='kg',stored_energy='J'),
+                      flow_source=dict(mdot_A='kg/s',mdot_B='kg/s',Phi_A='W',Phi_B='W',power='W',rho_A='kg/m^3',rho_B='kg/m^3'),
+                      hot_reservoir=dict(mdot_A='kg/s',Phi_A='W',p_I='Pa',T_I='K'),
+                      cold_reservoir=dict(mdot_A='kg/s',Phi_A='W',p_I='Pa',T_I='K'),
+                      outlet_restriction=dict(mdot_A='kg/s',mdot_B='kg/s',Phi_A='W',Phi_B='W'))
+        def chars(parent,name,text):
+            parent.create_dataset(name,data=np.array([ord(c) for c in text],dtype=np.uint16))
+        meta = dict(formulation='conservative',local_step_s=1,boundary_mode='finite_outlet_restriction')
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp)/'packet.mat'
+            with h5py.File(path,'w') as f:
+                chars(f,'record_json',json.dumps(meta))
+                refs = f.create_dataset('packets',(len(groups),),dtype=h5py.ref_dtype)
+                for i,(role,units) in enumerate(groups.items()):
+                    block = f.create_group(role)
+                    chars(block,'role',role)
+                    traces = block.create_dataset('traces',(len(units),),dtype=h5py.ref_dtype)
+                    for j,(name,unit) in enumerate(units.items()):
+                        trace = block.create_group(name)
+                        chars(trace,'name',name)
+                        chars(trace,'unit',unit)
+                        trace.create_dataset('time_s',data=[0,1])
+                        trace.create_dataset('values',data=[1,1])
+                        traces[j] = trace.ref
+                    refs[i] = block.ref
+            _,time,packets = read_case(path,restricted=True)
+            self.assertEqual(len(packets),5)
+            self.assertEqual(len(packets['flow_source']),7)
+            np.testing.assert_array_equal(time,[0,1])
+            with self.assertRaises(ValueError):
+                read_case(path)
+            with h5py.File(path,'a') as f:
+                del f['record_json']
+                del meta['boundary_mode']
+                chars(f,'record_json',json.dumps(meta))
+            with self.assertRaises(ValueError):
+                read_case(path,restricted=True)
+
     def test_nonzero_pump_power_uses_port_density_and_signed_head(self):
         source = dict(rho_A=np.array([900.,1000.]),rho_B=np.array([1100.,1000.]),
                       mdot_A=np.array([.0002,-.0002]),power=np.array([.02,.02]))
