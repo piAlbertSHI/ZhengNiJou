@@ -53,6 +53,7 @@ function record = Audit_HeatDriveECC_ConservativeChamber(output_root, physical_p
                         set_param(chamber, 'area', num2str(area, '%.17g'), 'area_unit', 'm^2');
                     end
                     set_param(chamber, 'volume', num2str(volume, '%.17g'), 'volume_unit', 'm^3', ...
+                        'p_I_specify', 'on', 'T_I_specify', 'on', ...
                         'p_I', '2.5', 'p_I_unit', 'MPa', 'p_I_priority', 'High', ...
                         'T_I', num2str(temperature), 'T_I_unit', 'K', 'T_I_priority', 'High');
                     add_block(source_settings, [model '/FluidSettings']);
@@ -104,6 +105,9 @@ function record = Audit_HeatDriveECC_ConservativeChamber(output_root, physical_p
                     save(fullfile(output_root, sprintf('case_%d.mat', numel(record.cases) + 1)), ...
                         'traces', 'record_json', '-v7.3');
                     record.cases{end + 1} = case_record;
+                    assert(abs(first_si(node, 'T_I', 'K') - temperature) <= 1e-9 && ...
+                        abs(first_si(node, 'p_I', 'Pa') - 2.5e6) <= 1e-4, ...
+                        'HeatDriveECC:InitialTrialStateMismatch', 'Actual trial initial state differs from paired target.');
                     clear cleanup output traces
                 end
             end
@@ -128,4 +132,11 @@ function name = only_port(path)
     ports = simscape.connectionPortProperties(path);
     assert(isscalar(ports), 'Expected one connection port at %s.', path);
     name = ports.Name;
+end
+
+function number = first_si(node, name, unit)
+    series = node.child(name).series;
+    numbers = double(values(series));
+    quantity = simscape.Value(numbers(1), series.unit);
+    number = value(quantity, unit);
 end
