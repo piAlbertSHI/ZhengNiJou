@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 from scipy.interpolate import RegularGridInterpolator
 
-from Audit_HeatDriveECC_ConservativeChamberResult import closed_balance, independent_endpoint
+from Audit_HeatDriveECC_ConservativeChamberResult import audit_case, closed_balance, independent_endpoint
 from Audit_HeatDriveECC_NativeInventoryCatalog import convert
 
 
@@ -14,6 +14,17 @@ class ConservativeChamberTests(unittest.TestCase):
         for native in ('W', 'J/kg'):
             with self.assertRaises(ValueError):
                 convert([1], native, 'J')
+
+    def test_unpaired_actual_initial_state_rejected(self):
+        meta = dict(local_solver_enabled='on', local_solver='NE_BACKWARD_EULER_ADVANCER',
+                    local_step_s=.001, global_step_s=.001, global_solver='ode3', stop_s=1,
+                    initial_pressure_Pa=2.5e6, initial_temperature_K=380,
+                    expected_Q_H_W=5, heat_source_command_W=-5)
+        values = {k:np.array([0.]) for k in ('mdot_A', 'mdot_B', 'Phi_A', 'Phi_B')}
+        values.update(Q_H=np.array([5.]), T_I=np.array([300.]), p_I=np.array([1e6]),
+                      rho_I=np.array([1000.]), u_I=np.array([100000.]))
+        with self.assertRaisesRegex(ValueError, 'Initial state not paired'):
+            audit_case(meta, [0], values, {})
 
     def test_signed_heat_and_inventory_alias(self):
         for heat in (-5, 5):

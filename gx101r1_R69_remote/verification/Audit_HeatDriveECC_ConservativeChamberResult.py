@@ -14,7 +14,7 @@ from Audit_HeatDriveECC_NativeWindowLedger import validate_grid
 from Audit_HeatDriveECC_SegmentedEvidence import sha256, text_field
 
 
-TRIAL_COMMIT = '3b13b26c630bf168e1f8453c57702a34403519fa'
+TRIAL_COMMIT = '3484fa1dcc78753b6ad63d7ccad557203d286dfa'
 MASS_ATOL_KG = 1e-15
 ENERGY_ATOL_J = 1e-8
 
@@ -118,7 +118,7 @@ def main():
     if args.output.exists():
         raise FileExistsError('Do not overwrite result evidence')
     root_dir = args.repo/'outputs_storage_audit'
-    trial_dir = root_dir/'conservative_chamber_20260907_v3/trial'
+    trial_dir = root_dir/'conservative_chamber_20260907_v4/trial'
     trial_path = trial_dir/'conservative_chamber_result.json'
     trial = json.loads(trial_path.read_text(encoding='utf-8-sig'))
     table_path = root_dir/'tl_domain_energy_tables_20260906/tl_domain_metadata.json'
