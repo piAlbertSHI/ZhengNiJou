@@ -115,7 +115,18 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                     'SimscapeLogType', 'all', 'SimscapeLogName', 'simlog', 'SimscapeLogLimitData', 'off', ...
                     'ReturnWorkspaceOutputs', 'on', 'SaveTime', 'off', 'SaveOutput', 'off', 'SaveState', 'off', 'SaveFinalState', 'off');
                 set_param(model, 'SimulationCommand', 'update');
-                output = sim(model);
+                sim_input = Simulink.SimulationInput(model);
+                sim_input = setModelParameter(sim_input, 'CaptureErrors', 'on');
+                output = sim(sim_input);
+                if ~isempty(output.ErrorMessage)
+                    traces = collect_leaves(output.simlog, '');
+                    diagnostic = struct('formulation', formulation{1}, 'power_mode', power_mode{1}, ...
+                        'local_step_s', step, 'separate_boundaries', separate_boundaries, ...
+                        'simulation_error', output.ErrorMessage, 'production_recovery_allowed', false);
+                    diagnostic_json = jsonencode(diagnostic);
+                    save(fullfile(output_root, 'failed_partial_native_traces.mat'), 'traces', 'diagnostic_json', '-v7.3');
+                    error('HeatDriveECC:DualSwitchSimulationFailed', '%s', output.ErrorMessage);
+                end
                 fields = {'T_I', 'p_I', 'rho_I', 'u_I', 'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'Q_H'};
                 if strcmp(formulation{1}, 'conservative')
                     fields = {'T_I', 'p_I', 'rho_I', 'u_I', 'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'Q_H', 'stored_mass', 'stored_energy'};
@@ -216,5 +227,18 @@ function result = parameters(path)
     result = struct('path', path, 'values', struct());
     for j = 1:numel(names)
         result.values.(names{j}) = get_param(path, names{j});
+    end
+end
+
+function traces = collect_leaves(node, prefix)
+    traces = {};
+    series = node.series;
+    if ~isempty(series) && series.points > 0
+        t = double(time(series));
+        traces = {struct('name', prefix, 'unit', series.unit, 'time_s', t(:), 'values', double(values(series)))};
+    end
+    names = node.childIds;
+    for j = 1:numel(names)
+        traces = [traces, collect_leaves(node.child(names{j}), [prefix '/' names{j}])]; %#ok<AGROW>
     end
 end
