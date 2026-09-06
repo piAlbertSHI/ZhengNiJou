@@ -22,6 +22,10 @@ function record = Audit_HeatDriveECC_ConservativeChamber(output_root, physical_p
         ssc_build('ecc_inventory');
         addpath(build_directory);
         path_cleanup = onCleanup(@() rmpath(build_directory));
+        load_system('ecc_inventory_lib');
+        library_blocks = find_system('ecc_inventory_lib', 'SearchDepth', 1, 'Type', 'Block');
+        library_blocks = setdiff(library_blocks, {'ecc_inventory_lib'});
+        assert(isscalar(library_blocks), 'Expected one diagnostic library component.');
         cd(old_directory);
         saved = load(physical_path, 'options');
         [source, ~] = Build_HeatDriveECC_EighthRound_Simulink_Model(saved.options);
@@ -31,18 +35,25 @@ function record = Audit_HeatDriveECC_ConservativeChamber(output_root, physical_p
         assert(isscalar(solver), 'Require one source solver.');
         volume = saved.options.branch.sma_pump_manifold_volume_m3;
         area = saved.options.branch.connecting_pipe_flow_area_m2;
-        for temperature = [300 380]
-            for heat_input = [10 -10]
+        for formulation = {'native', 'conservative'}
+          for temperature = [300 380]
+            for heat_input = [5 -5]
                 for step = [.001 .0005 .00025]
                     model = 'ecc_conservative_chamber_trial';
                     assert(~bdIsLoaded(model), 'Trial model already in use.');
                     new_system(model);
                     cleanup = onCleanup(@() close_system(model, 0));
                     chamber = [model '/Chamber'];
-                    add_block('ecc_inventory_lib/conservative_chamber', chamber);
+                    if strcmp(formulation{1}, 'native')
+                        add_block([source '/SMA_PumpInletConnectingPipeVolume'], chamber);
+                        set_param(chamber, 'area_A', num2str(area, '%.17g'), 'area_A_unit', 'm^2', ...
+                            'area_B', num2str(area, '%.17g'), 'area_B_unit', 'm^2');
+                    else
+                        add_block(library_blocks{1}, chamber);
+                        set_param(chamber, 'area', num2str(area, '%.17g'), 'area_unit', 'm^2');
+                    end
                     set_param(chamber, 'volume', num2str(volume, '%.17g'), 'volume_unit', 'm^3', ...
-                        'area', num2str(area, '%.17g'), 'area_unit', 'm^2', ...
-                        'p_I', '5', 'p_I_unit', 'MPa', 'p_I_priority', 'High', ...
+                        'p_I', '2.5', 'p_I_unit', 'MPa', 'p_I_priority', 'High', ...
                         'T_I', num2str(temperature), 'T_I_unit', 'K', 'T_I_priority', 'High');
                     add_block(source_settings, [model '/FluidSettings']);
                     add_block(solver{1}, [model '/Solver']);
@@ -68,8 +79,10 @@ function record = Audit_HeatDriveECC_ConservativeChamber(output_root, physical_p
                     set_param(model, 'SimulationCommand', 'update');
                     output = sim(model);
                     node = simscape.logging.findNode(output.simlog, chamber);
-                    names = {'T_I', 'p_I', 'rho_I', 'u_I', 'stored_mass', 'stored_energy', ...
-                        'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'Q_H'};
+                    names = {'T_I', 'p_I', 'rho_I', 'u_I', 'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'Q_H'};
+                    if strcmp(formulation{1}, 'conservative')
+                        names = [names {'stored_mass', 'stored_energy'}];
+                    end
                     traces = cell(size(names));
                     for k = 1:numel(names)
                         series = node.child(names{k}).series;
@@ -77,8 +90,8 @@ function record = Audit_HeatDriveECC_ConservativeChamber(output_root, physical_p
                         traces{k} = struct('name', names{k}, 'unit', series.unit, ...
                             'time_s', t(:), 'values', double(values(series)));
                     end
-                    case_record = struct('source_settings', source_settings, 'volume_m3', volume, ...
-                        'area_m2', area, 'initial_temperature_K', temperature, 'initial_pressure_Pa', 5e6, ...
+                    case_record = struct('formulation', formulation{1}, 'source_settings', source_settings, 'volume_m3', volume, ...
+                        'area_m2', area, 'initial_temperature_K', temperature, 'initial_pressure_Pa', 2.5e6, ...
                         'heat_source_command_W', -heat_input, 'expected_Q_H_W', heat_input, 'stop_s', 1, ...
                         'local_solver_enabled', get_param([model '/Solver'], 'UseLocalSolver'), ...
                         'local_solver', get_param([model '/Solver'], 'LocalSolverChoice'), ...
@@ -92,8 +105,9 @@ function record = Audit_HeatDriveECC_ConservativeChamber(output_root, physical_p
                     clear cleanup output traces
                 end
             end
+          end
         end
-        record.collection_pass = numel(record.cases) == 12;
+        record.collection_pass = numel(record.cases) == 24;
         clear source_cleanup path_cleanup
     catch exception
         record.error_identifier = exception.identifier;
