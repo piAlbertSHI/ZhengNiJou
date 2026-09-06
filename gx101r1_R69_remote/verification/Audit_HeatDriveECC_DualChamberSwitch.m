@@ -238,7 +238,12 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                     fields = {'T_I', 'p_I', 'rho_I', 'u_I', 'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'Q_H', 'stored_mass', 'stored_energy'};
                 end
                 if pipe_model
-                    fields = [fields, {'A.p', 'B.p', 'A.T', 'B.T', 'pressure_loss_A', 'pressure_loss_B'}];
+                    fields = {'T_I', 'p_I', 'rho_I', 'u_I', 'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'Q_H', ...
+                        'A.p', 'B.p', 'A.T', 'B.T', 'pressure_loss_A', 'pressure_loss_B'};
+                    if strcmp(formulation{1}, 'conservative')
+                        fields = {'T_I', 'p_I', 'rho_I', 'u_I', 'mdot_A', 'mdot_B', 'Phi_A', 'Phi_B', 'Q_H', ...
+                            'stored_mass', 'stored_energy', 'A.p', 'B.p', 'A.T', 'B.T', 'pressure_loss_A', 'pressure_loss_B'};
+                    end
                 end
                 packets = cell(1, 7 + reservoir_count);
                 for j = 1:2
