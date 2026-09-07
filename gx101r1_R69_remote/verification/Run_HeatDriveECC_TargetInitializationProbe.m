@@ -2,7 +2,8 @@ function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root, m
 % Diagnostic joint initialization, not a production operating-point restore.
     if nargin<3,method='partial_dataset';end
     assert(any(strcmp(method,{'partial_dataset','seeded_model_op','seeded_model_op_with_controller_ic', ...
-        'seeded_model_op_with_controller_ic_and_converter_history'})), ...
+        'seeded_model_op_with_controller_ic_and_converter_history', ...
+        'seeded_model_op_with_controller_ic_and_converter_history_and_flux_targets'})), ...
         'Unknown initialization method.');
     assert(~isfolder(output_root),'Do not overwrite initialization evidence.');
     [code,commit]=system('git rev-parse HEAD'); assert(code==0,'Cannot record source.');
@@ -125,7 +126,7 @@ function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root, m
         else
             audit.controller_representation_changed=false;
         end
-        if strcmp(method,'seeded_model_op_with_controller_ic_and_converter_history')
+        if startsWith(method,'seeded_model_op_with_controller_ic_and_converter_history')
             [initial,converter_history_records]=Apply_HeatDriveECC_ConverterHistoryState(initial,model, ...
                 fullfile(repo,'outputs_storage_audit','c200_converter_digital_history_20260908'));
             audit.converter_history_records=converter_history_records;
@@ -134,6 +135,15 @@ function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root, m
                 '42 converters: isolated digital snapshots replayed from frozen C200 input history.'];
             save(fullfile(output_root,'initial_named_states_with_converter_history.mat'), ...
                 'initial','converter_history_records','-v7.3');
+        end
+        if endsWith(method,'_and_flux_targets')
+            [candidate,audit.additional_flux_targets]=Apply_HeatDriveECC_ObservedFluxTargets(candidate,repo,model);
+            audit.additional_flux_targets_applied=true;
+            for k=1:numel(mapping.initialization_candidates)
+                row=mapping.initialization_candidates(k);item=get(candidate,row.path);
+                assert(isequal(value(item.Value,row.unit),row.c200_value) && ...
+                    strcmp(char(item.Priority),row.priority),'Original physical target changed.');
+            end
         end
         commands=struct();
         names={'L_valve_command','SMA_L_valve_command','SMA_pressure_bias_command', ...
