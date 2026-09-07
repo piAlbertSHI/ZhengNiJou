@@ -29,7 +29,7 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
     if nargin < 9
         ablation_mode = '';
     end
-    assert(ischar(ablation_mode) && ismember(ablation_mode, {'', 'no_friction_long_port', 'friction_short_port'}), ...
+    assert(ischar(ablation_mode) && ismember(ablation_mode, {'', 'no_friction_long_port', 'friction_short_port', 'no_friction_short_port'}), ...
         'Unsupported diagnostic ablation.');
     if ~isempty(ablation_mode)
         assert(pipe_model && valve_transition_s == 0, 'Ablation requires the explicit hard-switch pipe baseline.');
@@ -84,7 +84,7 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
         record.ablation_mode = ablation_mode;
         record.friction_scale = double(strcmp(ablation_mode, 'friction_short_port'));
         record.convection_length_m = .1;
-        if record.friction_scale == 1
+        if endsWith(ablation_mode, 'short_port')
             record.convection_length_m = .0032;
         end
         formulations = {'conservative'};
