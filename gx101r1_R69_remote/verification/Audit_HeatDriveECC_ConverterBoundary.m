@@ -15,7 +15,7 @@ function audit = Audit_HeatDriveECC_ConverterBoundary(output_root, input_driver)
         'production_model_loaded',false,'production_checkpoint_loaded',false,'production_recovery_allowed',false, ...
         'collection_complete',false,'input_driver',input_driver,'cases',{{}},'error_identifier','','error_message','');
     try
-        for waveform={'zero','signed_steps'}
+        for waveform={'zero','signed_steps','fall_to_zero'}
             model=['ecc_converter_boundary_' waveform{1}];
             assert(~bdIsLoaded(model),'Model name in use.');new_system(model);
             cleanup_model=onCleanup(@() close_system(model,0));
@@ -51,6 +51,7 @@ function audit = Audit_HeatDriveECC_ConverterBoundary(output_root, input_driver)
             command_time=[1999.99;2000;2000.003;2000.004;2000.006;2000.009;2000.01];
             command_values=[0;0;0;5;-3;7;0];
             if strcmp(waveform{1},'zero'),command_values(:)=0;end
+            if strcmp(waveform{1},'fall_to_zero'),command_values=[0;0;5;0;-3;7;0];end
             heat_command=timeseries(command_values,command_time);
             input=Simulink.SimulationInput(model);input=input.setVariable('heat_command',heat_command);
             input=input.setModelParameter('CaptureErrors','on');
@@ -105,7 +106,7 @@ function audit = Audit_HeatDriveECC_ConverterBoundary(output_root, input_driver)
             end
             clear cleanup_model
         end
-        audit.collection_complete=numel(audit.cases)==4;
+        audit.collection_complete=numel(audit.cases)==6;
     catch ME
         audit.error_identifier=ME.identifier;audit.error_message=ME.message;
         audit.error_report=getReport(ME,'extended','hyperlinks','off');
