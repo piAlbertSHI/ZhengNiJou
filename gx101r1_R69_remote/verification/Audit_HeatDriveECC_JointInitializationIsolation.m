@@ -29,8 +29,10 @@ function audit = Audit_HeatDriveECC_JointInitializationIsolation(output_root)
                 'T','300','T_unit','K','T_specify','on','T_priority','High');
             add_block('nesl_utility/Solver Configuration',solver);
             p=simscape.connectionPortProperties(solver);
-            assert(isscalar(p),'Unexpected solver port.');
-            simscape.addConnection(mass,'A',solver,p.Name);
+            mass_port=simscape.connectionPortProperties(mass);
+            assert(isscalar(p) && isscalar(mass_port),'Unexpected thermal or solver port count.');
+            row.mass_port=mass_port.Name;
+            simscape.addConnection(mass,mass_port.Name,solver,p.Name);
             add_block('simulink/Sources/Constant',[model '/Zero'],'Value','0');
             add_block('simulink/Continuous/Integrator',[model '/Memory'],'InitialCondition','0');
             add_block('simulink/Sinks/To Workspace',[model '/MemoryLog'], ...
