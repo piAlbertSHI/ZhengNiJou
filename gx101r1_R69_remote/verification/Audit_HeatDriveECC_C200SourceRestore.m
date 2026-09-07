@@ -1,7 +1,10 @@
-function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_repo, output_root, observe_states, target_cycles)
+function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_repo, output_root, observe_states, target_cycles, boundary_hold_diagnostic)
 % Restore the unedited frozen C200 OP with the archived builder's own settings.
     if nargin < 4, observe_states = false; end
     if nargin < 5, target_cycles = 200; end
+    if nargin < 6, boundary_hold_diagnostic = false; end
+    assert(islogical(boundary_hold_diagnostic) && isscalar(boundary_hold_diagnostic), 'Require explicit diagnostic mode.');
+    assert(~boundary_hold_diagnostic || target_cycles == 201, 'Boundary ablation requires the extended horizon.');
     assert(isscalar(target_cycles) && any(target_cycles == [200 201]), 'Only the C200/C201 horizon probe is authorized.');
     assert(islogical(observe_states) && isscalar(observe_states), 'Require explicit observation mode.');
     assert(~isfolder(output_root), 'Do not overwrite restore evidence.');
@@ -15,6 +18,7 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
         'source_operating_point_edited', false, 'partial_restore_executed', false, ...
         'cold_start_executed', false, 'error_identifier', '', 'error_message', '');
     audit.observation_complete = false;
+    audit.boundary_sample_hold_diagnostic = boundary_hold_diagnostic;
     audit.registered_state_observation_requested = observe_states;
     try
         contract_path = fullfile(authority_repo, 'verification', 'c200_mainline_freeze_contract.json');
@@ -73,7 +77,8 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
         audit.schedule_total_time_s = options.schedule.total_time_s;
         audit.physical_comparison_scope = 'Frozen physical groups; schedule permits only the declared total_time_s extension.';
         commands = struct();
-        command_names = {'L_valve_command', 'SMA_L_valve_command', 'SMA_pressure_bias_command'};
+        command_names = {'L_valve_command', 'SMA_L_valve_command', 'SMA_pressure_bias_command', ...
+            'SMA_pressure_feedback_enable_command', 'SMA_pressure_feedback_reset_command'};
         for k = 1:numel(command_names)
             name = command_names{k};
             command = evalin('base', name);
@@ -81,7 +86,27 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
                 'Command horizon does not reach the requested cycle: %s', name);
             commands.(name) = struct('time_s', command.Time, 'values', command.Data);
         end
-        save(fullfile(output_root, 'command_profiles.mat'), 'commands', '-v7.3');
+        nominal_commands = commands;
+        audit.boundary_control = struct('external_reset', get_param([model '/SMAPressurePI_Integrator'], 'ExternalReset'), ...
+            'initial_condition', get_param([model '/SMAPressurePI_Integrator'], 'InitialCondition'));
+        if boundary_hold_diagnostic
+            % Causal ablation only: postpone the boundary control event by one
+            % fixed step, without changing the saved state or later knots.
+            for k = 4:5
+                name = command_names{k};
+                command = evalin('base', name);
+                t = command.Time; y = command.Data;
+                idx = find(t == 2000);
+                assert(isscalar(idx) && idx > 1 && t(idx+1) > 2000.001, 'Unexpected boundary command grid.');
+                audit.boundary_control.(name) = struct('nominal', y(idx), 'held', y(idx-1), 'release_time_s', 2000.001);
+                y = [y(1:idx-1); y(idx-1); y(idx:end)];
+                t = [t(1:idx); 2000.001; t(idx+1:end)];
+                command = timeseries(y, t);
+                assignin('base', name, command);
+                commands.(name) = struct('time_s', t, 'values', y);
+            end
+        end
+        save(fullfile(output_root, 'command_profiles.mat'), 'commands', 'nominal_commands', '-v7.3');
         audit.resolved_builder = builder;
         helpers = {'Build_HeatDriveECC_EighthRound_Defaults', 'Build_HeatDriveECC_Article_Defaults', ...
             'Integrate_HeatDriveECC_Constitutive21_Interface', 'Build_Simulink_Exchange_Params', ...
