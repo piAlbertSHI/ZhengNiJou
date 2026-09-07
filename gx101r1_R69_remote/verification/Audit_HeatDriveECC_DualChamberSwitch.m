@@ -1,4 +1,4 @@
-function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_path, separate_boundaries, collect_failure_matrix, valve_transition_s, index_reduction, solver_tolerance, pipe_model)
+function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_path, separate_boundaries, collect_failure_matrix, valve_transition_s, index_reduction, solver_tolerance, pipe_model, ablation_mode)
 % Test the pressure-coupled pump pair with copied production route valves.
     if nargin < 3
         separate_boundaries = false;
@@ -25,6 +25,14 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
         solver_tolerance > 0 && solver_tolerance <= .001), 'Invalid diagnostic solver tolerance.');
     if nargin < 8
         pipe_model = false;
+    end
+    if nargin < 9
+        ablation_mode = '';
+    end
+    assert(ischar(ablation_mode) && ismember(ablation_mode, {'', 'no_friction_long_port', 'friction_short_port'}), ...
+        'Unsupported diagnostic ablation.');
+    if ~isempty(ablation_mode)
+        assert(pipe_model && valve_transition_s == 0, 'Ablation requires the explicit hard-switch pipe baseline.');
     end
     assert(islogical(pipe_model) && isscalar(pipe_model), 'Require explicit pipe diagnostic mode.');
     if pipe_model
@@ -69,6 +77,19 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
             'inertia', false, 'wall_heat_flow_W', 0, 'production_qualification', false);
     end
     record.collect_failure_matrix = collect_failure_matrix;
+    formulations = {'native', 'conservative'};
+    expected_cases = 12;
+    if ~isempty(ablation_mode)
+        record.schema = 'heatdrive_ecc_dual_chamber_switch_trial_v8';
+        record.ablation_mode = ablation_mode;
+        record.friction_scale = double(strcmp(ablation_mode, 'friction_short_port'));
+        record.convection_length_m = .1;
+        if record.friction_scale == 1
+            record.convection_length_m = .0032;
+        end
+        formulations = {'conservative'};
+        expected_cases = 6;
+    end
     record.failed_cases = {};
     attempted = 0;
     old = pwd;
@@ -84,6 +105,9 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
         package = fullfile(fileparts(mfilename('fullpath')), 'simscape_inventory', '+ecc_inventory');
         if pipe_model
             package = fullfile(fileparts(mfilename('fullpath')), 'simscape_inventory_pipe', '+ecc_inventory');
+        end
+        if ~isempty(ablation_mode)
+            package = fullfile(fileparts(mfilename('fullpath')), 'simscape_inventory_ablation', '+ecc_inventory');
         end
         copyfile(package, fullfile(build, '+ecc_inventory'));
         cd(build);
@@ -115,7 +139,7 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
             record.source_valve_parameters{j} = parameters([source '/' valves{j}]);
         end
         record.source_pressure_parameters = parameters([source '/SMA Pressure Source (TL)']);
-        for formulation = {'native', 'conservative'}
+        for formulation = formulations
           for power_mode = {'none', 'isentropic'}
             for step = [.001 .0005 .00025]
                 attempted = attempted + 1;
@@ -143,6 +167,10 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                     else
                         add_block(blocks{1}, chamber);
                         set_param(chamber, 'area', num2str(area, '%.17g'), 'area_unit', 'm^2');
+                        if ~isempty(ablation_mode)
+                            set_param(chamber, 'friction_scale', num2str(record.friction_scale), ...
+                                'convection_length', num2str(record.convection_length_m, '%.17g'), 'convection_length_unit', 'm');
+                        end
                     end
                     if ~pipe_model || strcmp(formulation{1}, 'conservative')
                         set_param(chamber, 'volume', num2str(volume, '%.17g'), 'volume_unit', 'm^3', ...
@@ -224,6 +252,11 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                     if pipe_model
                         diagnostic.pipe_model = true;
                     end
+                    if ~isempty(ablation_mode)
+                        diagnostic.ablation_mode = ablation_mode;
+                        diagnostic.friction_scale = record.friction_scale;
+                        diagnostic.convection_length_m = record.convection_length_m;
+                    end
                     diagnostic_json = jsonencode(diagnostic);
                     failure_name = 'failed_partial_native_traces.mat';
                     if collect_failure_matrix
@@ -293,6 +326,11 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                     case_record.actual_inlet_parameters = parameters([model '/Inlet']);
                     case_record.actual_outlet_parameters = parameters([model '/Outlet']);
                 end
+                if ~isempty(ablation_mode)
+                    case_record.ablation_mode = ablation_mode;
+                    case_record.friction_scale = record.friction_scale;
+                    case_record.convection_length_m = record.convection_length_m;
+                end
                 record_json = jsonencode(case_record);
                 save(fullfile(output_root, sprintf('case_%d.mat', attempted)), 'packets', 'record_json', '-v7.3');
                 record.cases{end+1} = case_record;
@@ -305,7 +343,7 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
             end
           end
         end
-        record.collection_pass = numel(record.cases) == 12;
+        record.collection_pass = numel(record.cases) == expected_cases;
         record.attempted_cases = attempted;
         if ~record.collection_pass
             record.error_message = sprintf('%d independent cases failed; no failed state was reused.', numel(record.failed_cases));
