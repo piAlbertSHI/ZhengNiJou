@@ -44,6 +44,8 @@ function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root)
         template_sha='8ACBED525F7F45170EF308B5F6BCB8E008AAEB87A4A90900982052786273E321';
         assert(strcmp(file_sha256(template_path),template_sha) && ...
             strcmp(file_sha256(observed_path),capture.input_sha256.registered), 'State source changed.');
+        % Register Simulink serialization before the first OP load in R2025b.
+        load_system('simulink');
         template=load(template_path,'diagnostic_op');
         observed=load(observed_path,'observation');
         assert(template.diagnostic_op.snapshotTime==2000.001,'Wrong typed template endpoint.');
@@ -68,7 +70,7 @@ function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root)
             end
             % Copy the public state metadata, replacing only the sample by its
             % measured C200 value. Never edit the source ModelOperatingPoint.
-            series=copy(series);
+            % R2025b timeseries is a value class; Data/Time assignment copies it.
             series.Data=reshape(row.values(1,:),size(series.Data));
             series.Time=2000;
             state.Values=series;
