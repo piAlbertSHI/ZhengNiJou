@@ -70,9 +70,9 @@ function audit = Audit_HeatDriveECC_ConverterBoundary(output_root, input_driver)
             seed=sim(seed_input);assert(isempty(seed.ErrorMessage),'HeatDriveECC:ConverterSeedFailed','%s',seed.ErrorMessage);
             seed_row=observe(seed,mass,source,converter);
             assert(abs(seed_row.temperature_K(end)-temperature)<=1e-10,'Warm temperature not preserved.');
-            for mode={'seed_op','seed_op_with_converter_logged_state'}
+            for mode={'seed_op','seed_op_with_converter_logged_state','seed_op_with_output_sample'}
                 candidate=seed.xFinal;
-                if strcmp(mode{1},'seed_op_with_converter_logged_state')
+                if ~strcmp(mode{1},'seed_op')
                     original=original_op.loggedStates; rebuilt=candidate.loggedStates; count=0;
                     for j=1:rebuilt.numElements
                         item=rebuilt.getElement(j);
@@ -80,6 +80,11 @@ function audit = Audit_HeatDriveECC_ConverterBoundary(output_root, input_driver)
                             for k=1:original.numElements
                                 prior=original.getElement(k);
                                 if strcmp(char(prior.BlockPath.getBlock(1)),converter)
+                                    if strcmp(mode{1},'seed_op_with_output_sample')
+                                        series=prior.Values;
+                                        series.Data=reshape(prefix_row.converter_values(end,:),size(series.Data));
+                                        prior.Values=series;
+                                    end
                                     rebuilt=rebuilt.setElement(j,prior);count=count+1;
                                 end
                             end
@@ -94,6 +99,9 @@ function audit = Audit_HeatDriveECC_ConverterBoundary(output_root, input_driver)
                     'command_values_W',command_values,'prefix',prefix_row,'seed',seed_row, ...
                     'reference',reference,'actual',actual,'capacity_J_K',1000, ...
                     'step_s',.001,'start_s',2000.004,'stop_s',2000.01);
+                row.original_converter_snapshot=converter_snapshot(original_op,converter);
+                row.seed_converter_snapshot=converter_snapshot(seed.xFinal,converter);
+                row.imported_converter_snapshot=converter_snapshot(candidate,converter);
                 row.exact_delivered_heat=isequal(reference.source_Q_W,actual.source_Q_W) && ...
                     isequal(reference.mass_Q_W,actual.mass_Q_W);
                 row.max_temperature_difference_K=max(abs(reference.temperature_K-actual.temperature_K));
@@ -106,7 +114,7 @@ function audit = Audit_HeatDriveECC_ConverterBoundary(output_root, input_driver)
             end
             clear cleanup_model
         end
-        audit.collection_complete=numel(audit.cases)==6;
+        audit.collection_complete=numel(audit.cases)==9;
     catch ME
         audit.error_identifier=ME.identifier;audit.error_message=ME.message;
         audit.error_report=getReport(ME,'extended','hyperlinks','off');
@@ -115,6 +123,18 @@ function audit = Audit_HeatDriveECC_ConverterBoundary(output_root, input_driver)
     cleanup_file=onCleanup(@() fclose(fid));fprintf(fid,'%s\n',jsonencode(audit,'PrettyPrint',true));
     fprintf('%s\n',jsonencode(audit));
     assert(audit.collection_complete,'HeatDriveECC:ConverterBoundaryFailed','See converter_boundary_trial.json.');
+end
+
+function data=converter_snapshot(op,converter)
+    states=op.loggedStates;matches=0;
+    for k=1:states.numElements
+        item=states.getElement(k);
+        if strcmp(char(item.BlockPath.getBlock(1)),converter)
+            data=struct('time_s',item.Values.Time,'values',item.Values.Data, ...
+                'state_name',char(item.Name));matches=matches+1;
+        end
+    end
+    assert(matches==1,'Missing converter snapshot.');
 end
 
 function row=observe(output,mass,source,converter)

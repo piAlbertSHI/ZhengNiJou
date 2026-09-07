@@ -71,7 +71,7 @@ def compute(root):
                                         'production_recovery_allowed'))):
         raise ValueError('Incomplete or wrong-scope trial')
     paths = sorted(root.glob('case_*.mat'))
-    if len(paths) != len(producer['cases']) or len(paths) not in (4, 6):
+    if len(paths) != len(producer['cases']) or len(paths) not in (4, 6, 9):
         raise ValueError('Incomplete case coverage')
     cases = []
     identities = set()
@@ -112,9 +112,14 @@ def compute(root):
                               exact_reference_actual=equal, initial_converter_values=initial,
                               max_time_difference_s=float(np.max(np.abs(ref['time_s']-actual['time_s']))),
                               isolated_physical_delivery_pass=bool(physical_pass)))
+            if 'original_converter_snapshot' in row:
+                cases[-1]['converter_snapshots'] = {
+                    key: row[key]['values'][:].reshape(-1).tolist() for key in
+                    ('original_converter_snapshot','seed_converter_snapshot','imported_converter_snapshot')}
         hashes[path.name] = sha256(path)
-    waveforms = ('zero','signed_steps') + (('fall_to_zero',) if len(paths)==6 else ())
-    if identities != {(w,m) for w in waveforms for m in ('seed_op','seed_op_with_converter_logged_state')}:
+    waveforms = ('zero','signed_steps') + (('fall_to_zero',) if len(paths)>=6 else ())
+    modes = ('seed_op','seed_op_with_converter_logged_state') + (('seed_op_with_output_sample',) if len(paths)==9 else ())
+    if identities != {(w,m) for w in waveforms for m in modes}:
         raise ValueError('Wrong test coverage')
     return dict(schema='heatdrive_ecc_converter_evidence_v1',execution_commit=producer['execution_commit'],
                 input_driver=producer.get('input_driver','direct'),cases=cases,input_sha256=hashes,
