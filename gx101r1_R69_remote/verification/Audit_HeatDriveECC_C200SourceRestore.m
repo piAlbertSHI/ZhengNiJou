@@ -1,4 +1,4 @@
-function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_repo, output_root, observe_states, target_cycles, boundary_hold_diagnostic, cycle_diagnostic, segment_request, boundary_observation)
+function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_repo, output_root, observe_states, target_cycles, boundary_hold_diagnostic, cycle_diagnostic, segment_request, boundary_observation, endpoint_only)
 % Restore the unedited frozen C200 OP with the archived builder's own settings.
     if nargin < 4, observe_states = false; end
     if nargin < 5, target_cycles = 200; end
@@ -6,6 +6,10 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
     if nargin < 7, cycle_diagnostic = false; end
     if nargin < 8, segment_request = struct('index', 0, 'prior_root', ''); end
     if nargin < 9, boundary_observation = false; end
+    if nargin < 10, endpoint_only = false; end
+    assert(islogical(endpoint_only) && isscalar(endpoint_only),'Require explicit endpoint mode.');
+    assert(~endpoint_only || (observe_states && target_cycles==200 && ~boundary_hold_diagnostic && ...
+        ~cycle_diagnostic && ~boundary_observation),'Endpoint-only capture cannot change the command horizon.');
     assert(islogical(boundary_observation) && isscalar(boundary_observation), 'Require explicit boundary observation mode.');
     assert(~isfield(segment_request,'boundary_observation'), 'Select boundary observation through the explicit ninth argument.');
     if boundary_observation && cycle_diagnostic
@@ -43,6 +47,7 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
     audit.boundary_sample_hold_diagnostic = boundary_hold_diagnostic;
     audit.registered_state_observation_requested = observe_states;
     audit.boundary_observation_requested = boundary_observation;
+    audit.endpoint_only = endpoint_only;
     try
         contract_path = fullfile(authority_repo, 'verification', 'c200_mainline_freeze_contract.json');
         authority = jsondecode(fileread(contract_path));
@@ -63,6 +68,7 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
         prior.options.cycle_count = target_cycles;
         prior.options.simulation.stop_time_s = target_cycles * frozen_options.schedule.tau_cycle_s;
         prior.options.schedule.total_time_s = prior.options.simulation.stop_time_s;
+        load_system('simulink');
         saved = load(op_path, 'operating_point', 'checkpoint_meta');
         audit.checkpoint_meta = saved.checkpoint_meta;
         audit.snapshot_time_s = saved.operating_point.snapshotTime;
@@ -158,6 +164,7 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
         if observe_states
             input = input.setModelParameter('SaveState', 'on', 'StateSaveName', 'internal_state_log');
         end
+        if endpoint_only,input=input.setModelParameter('StopTime','2000');end
         audit.input_parameters = input.ModelParameters;
         if cycle_diagnostic
             audit.cycle = Run_HeatDriveECC_C201ObservedCycle(model, input, saved.operating_point, options, output_root, segment_request);
@@ -174,7 +181,8 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
         audit.strict_restore_pass = isempty(output.ErrorMessage);
         if audit.strict_restore_pass
             audit.final_snapshot_time_s = output.xFinal.snapshotTime;
-            assert(abs(audit.final_snapshot_time_s-2000.001) < 1e-10, 'Wrong restored endpoint.');
+            expected_endpoint=2000.001;if endpoint_only,expected_endpoint=2000;end
+            assert(abs(audit.final_snapshot_time_s-expected_endpoint) < 1e-10, 'Wrong restored endpoint.');
             signals = struct();
             names = output.who;
             for k = 1:numel(names)
@@ -209,6 +217,13 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
             production_recovery_allowed = false;
             save(fullfile(output_root, 'DO_NOT_RESUME_FOR_PRODUCTION.mat'), ...
                 'diagnostic_op', 'production_recovery_allowed', '-v7.3');
+            if endpoint_only
+                observation=Extract_HeatDriveECC_ObservedStates(diagnostic_op.loggedStates,options.schedule.tau_cycle_s,1);
+                save(fullfile(output_root,'registered_op_snapshot.mat'),'observation','-v7.3');
+                audit.public_snapshot_group_count=observation.logged_state_group_count;
+                audit.public_snapshot_sha256=file_sha256(fullfile(output_root,'registered_op_snapshot.mat'));
+                audit.diagnostic_op_sha256=file_sha256(fullfile(output_root,'DO_NOT_RESUME_FOR_PRODUCTION.mat'));
+            end
         end
         end
         clear cleanup_model
