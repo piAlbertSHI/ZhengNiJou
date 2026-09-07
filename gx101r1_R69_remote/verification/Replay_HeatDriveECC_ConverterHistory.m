@@ -1,5 +1,7 @@
-function audit=Replay_HeatDriveECC_ConverterHistory(input_path,output_root)
+function audit=Replay_HeatDriveECC_ConverterHistory(input_path,output_root,audit_scope)
 % Generate public converter snapshots from measured inputs, never packed states.
+    if nargin<3,audit_scope='strict_port_equality';end
+    assert(any(strcmp(audit_scope,{'strict_port_equality','digital_state_observation'})),'Unknown scope.');
     assert(~isfolder(output_root),'Do not overwrite evidence.');
     [code,commit]=system('git rev-parse HEAD');assert(code==0,'Cannot record source.');
     [code,dirty]=system('git status --porcelain');assert(code==0 && isempty(strtrim(dirty)),'Commit source first.');
@@ -15,14 +17,15 @@ function audit=Replay_HeatDriveECC_ConverterHistory(input_path,output_root)
         'CodeGenFolder',fullfile(output_root,'generated_code'),'createDir',true);
     audit=struct('schema','heatdrive_ecc_converter_history_replay_v1','execution_commit',strtrim(commit), ...
         'computation_complete',false,'production_recovery_allowed',false,'source_sha256',data.source_sha256, ...
-        'production_checkpoint_loaded',false,'error_message','','snapshots',{{}});
+        'production_checkpoint_loaded',false,'error_message','','snapshots',{{}},'audit_scope',audit_scope, ...
+        'digital_state_observation_pass',false);
     try
         load_system('simulink');model='ecc_converter_history_replay';
         assert(~bdIsLoaded(model),'Model name in use.');new_system(model);
         cleanup_model=onCleanup(@() close_system(model,0));
         mass=[model '/Mass'];solver=[model '/Solver'];reference=[model '/Reference'];
         add_block('fl_lib/Thermal/Thermal Elements/Thermal Mass',mass,'mass','1','mass_unit','kg', ...
-            'sp_heat','1000','sp_heat_unit','J/(K*kg)','T','340','T_unit','K','T_priority','High');
+            'sp_heat','1000','sp_heat_unit','J/(K*kg)','T','340','T_unit','K','T_specify','on','T_priority','High');
         add_block('nesl_utility/Solver Configuration',solver);
         add_block('fl_lib/Thermal/Thermal Elements/Thermal Reference',reference);
         simscape.addConnection(mass,only_port(mass),solver,only_port(solver));
@@ -32,6 +35,9 @@ function audit=Replay_HeatDriveECC_ConverterHistory(input_path,output_root)
             'MATLABFcn','HeatDriveECC_ConverterIdentity','OutputDimensions','42','SampleTime','0.001');
         add_block('simulink/Signal Routing/Demux',[model '/Demux'],'Outputs','42');
         add_line(model,'Input/1','DiscreteDriver/1');add_line(model,'DiscreteDriver/1','Demux/1');
+        add_block('simulink/Sinks/To Workspace',[model '/DigitalInputLog'], ...
+            'VariableName','digital_input','SaveFormat','Timeseries');
+        add_line(model,'DiscreteDriver/1','DigitalInputLog/1');
         command=zeros(4,42);
         for k=1:42
             converter=[model sprintf('/Converter_%02d',k)];source=[model sprintf('/Heat_%02d',k)];
@@ -54,6 +60,7 @@ function audit=Replay_HeatDriveECC_ConverterHistory(input_path,output_root)
         assert(isempty(out.ErrorMessage),'HeatDriveECC:ConverterReplayFailed','%s',out.ErrorMessage);
         assert(out.xFinal.snapshotTime==2000,'Wrong replay endpoint.');
         states=out.xFinal.loggedStates;observed=out.states;snapshots={};delivery={};
+        digital_input=struct('time_s',out.digital_input.Time,'values_W',out.digital_input.Data);
         for k=1:42
             converter=[model sprintf('/Converter_%02d',k)];source=[model sprintf('/Heat_%02d',k)];
             state=select(states,converter);log=select(observed,converter);
@@ -66,7 +73,8 @@ function audit=Replay_HeatDriveECC_ConverterHistory(input_path,output_root)
             assert(isa(state.Values,'timeseries') && numel(state.Values.Data)==2 && state.Values.Time==2000, ...
                 'Unexpected public converter snapshot.');
             snapshots{end+1}=struct('block_path',data.rows(k).block_path,'snapshot',state.Values, ...
-                'observed',log.Values,'time_s',t,'heat_W',q);
+                'observed',log.Values,'time_s',t,'heat_W',q, ...
+                'snapshot_values',state.Values.Data,'observed_values',log.Values.Data);
             audit.snapshots{end+1}=struct('block_path',data.rows(k).block_path, ...
                 'snapshot_values',state.Values.Data(:).','final_observed_values',log.Values.Data(end,:)); %#ok<AGROW>
         end
@@ -74,11 +82,31 @@ function audit=Replay_HeatDriveECC_ConverterHistory(input_path,output_root)
         mass_temperature_K=value(simscape.Value(double(values(m.T.series)),m.T.series.unit),'K');
         mass_heat_W=value(simscape.Value(double(values(m.Q.series)),m.Q.series.unit),'W');
         save(fullfile(output_root,'converter_history_snapshots.mat'),'snapshots','data','command', ...
-            'mass_temperature_K','mass_heat_W','-v7.3');
+            'mass_temperature_K','mass_heat_W','digital_input','-v7.3');
         audit.delivery=delivery;
         audit.collection_complete=numel(snapshots)==42;
         audit.exact_input_delivery=all(cellfun(@(r) r.exact_time && r.exact_heat,delivery));
-        assert(audit.exact_input_delivery,'Replay input or time grid not delivered exactly; see delivery rows.');
+        audit.exact_native_heat_delivery=audit.exact_input_delivery;
+        audit.digital_input_exact=isequal(digital_input.time_s(:),data.time_s(:)) && ...
+            isequal(digital_input.values_W,command);
+        audit.converter_input_observation_exact=all(cellfun(@(r) ...
+            isequal(r.observed_values(:,2),command(:,find(strcmp({data.rows.block_path},r.block_path)))),snapshots));
+        audit.initial_temperature_K=mass_temperature_K(1);
+        audit.initial_temperature_exact=audit.initial_temperature_K==340;
+        residual=1000*diff(mass_temperature_K(:))-.001*mass_heat_W(2:end);
+        audit.max_mass_energy_residual_J=max(abs(residual));
+        audit.mass_energy_roundoff_bound_J=8*1000*eps(max(abs(mass_temperature_K)));
+        audit.mass_energy_roundoff_pass=all(abs(residual)<=audit.mass_energy_roundoff_bound_J);
+        audit.digital_state_observation_pass=audit.digital_input_exact && ...
+            audit.converter_input_observation_exact && audit.initial_temperature_exact && ...
+            audit.mass_energy_roundoff_pass && all(cellfun(@(r) r.exact_time,delivery));
+        if strcmp(audit_scope,'strict_port_equality')
+            assert(audit.exact_input_delivery,'Replay input or time grid not delivered exactly; see delivery rows.');
+        else
+            % Digital memory qualification is separate from bitwise analog port equality.
+            % Keep the latter result false when it fails; no production OP is saved.
+            assert(audit.digital_state_observation_pass,'Digital observation or initial thermal state failed.');
+        end
         audit.computation_complete=audit.collection_complete;
     catch ME
         audit.error_message=ME.message;audit.error_report=getReport(ME,'extended','hyperlinks','off');
