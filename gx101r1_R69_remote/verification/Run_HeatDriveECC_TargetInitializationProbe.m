@@ -1,7 +1,8 @@
 function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root, method)
 % Diagnostic joint initialization, not a production operating-point restore.
     if nargin<3,method='partial_dataset';end
-    assert(any(strcmp(method,{'partial_dataset','seeded_model_op','seeded_model_op_with_controller_ic'})), ...
+    assert(any(strcmp(method,{'partial_dataset','seeded_model_op','seeded_model_op_with_controller_ic', ...
+        'seeded_model_op_with_controller_ic_and_converter_history'})), ...
         'Unknown initialization method.');
     assert(~isfolder(output_root),'Do not overwrite initialization evidence.');
     [code,commit]=system('git rev-parse HEAD'); assert(code==0,'Cannot record source.');
@@ -117,12 +118,22 @@ function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root, m
         for k=1:numel(fields)
             assert(isequaln(built.(fields{k}),frozen.options.(fields{k})),'Physical options changed: %s',fields{k});
         end
-        if strcmp(method,'seeded_model_op_with_controller_ic')
+        if startsWith(method,'seeded_model_op_with_controller_ic')
             audit.controller_initial_conditions=Apply_HeatDriveECC_ObservedControllerInitialState(model,mapping, ...
                 fullfile(repo,'outputs_storage_audit','lag_state_space_equivalence_20260908','lag_equivalence.json'));
             audit.controller_representation_changed=true;
         else
             audit.controller_representation_changed=false;
+        end
+        if strcmp(method,'seeded_model_op_with_controller_ic_and_converter_history')
+            [initial,converter_history_records]=Apply_HeatDriveECC_ConverterHistoryState(initial,model, ...
+                fullfile(repo,'outputs_storage_audit','c200_converter_digital_history_20260908'));
+            audit.converter_history_records=converter_history_records;
+            audit.converter_history_applied=true;
+            audit.state_value_source=['Core and other named memories: C200 observed initial sample; ' ...
+                '42 converters: isolated digital snapshots replayed from frozen C200 input history.'];
+            save(fullfile(output_root,'initial_named_states_with_converter_history.mat'), ...
+                'initial','converter_history_records','-v7.3');
         end
         commands=struct();
         names={'L_valve_command','SMA_L_valve_command','SMA_pressure_bias_command', ...
