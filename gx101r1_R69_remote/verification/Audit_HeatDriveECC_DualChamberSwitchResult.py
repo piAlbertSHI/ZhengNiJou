@@ -156,7 +156,8 @@ def audit_case(meta,t,p,table, *, finite_transition=False, pipe_model=False, wal
                 raise ValueError('Invalid wall state')
             energy = cap*(wall['T']-340)
             wall_energy += energy
-            ledgers[role+'_wall'] = balance(t,np.zeros_like(t),energy,np.zeros_like(t),wall['Q'])
+            wall_mass = np.full_like(t, cap/meta['wall_contract']['wall_cp_reference_J_kgK'])
+            ledgers[role+'_wall'] = balance(t,wall_mass,energy,np.zeros_like(t),wall['Q'])
             wall_errors.extend([float(np.max(abs(wall['Q']+fluid['Q_H']))),
                                 float(np.max(abs(fluid['Q_H']-conductance*(wall['T']-fluid['T_I']))))])
             wall_temperature_changes.append(float(np.ptp(wall['T'])))

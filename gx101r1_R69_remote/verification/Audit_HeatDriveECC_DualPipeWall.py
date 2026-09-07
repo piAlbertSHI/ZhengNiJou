@@ -54,7 +54,7 @@ def main():
     component = root/'build/+ecc_inventory/conservative_chamber.ssc'
     if (trial['schema'] != 'heatdrive_ecc_dual_chamber_switch_trial_v9' or not trial['collection_pass']
             or len(trial['cases']) != 6 or trial['failed_cases'] or not trial['wall_model']
-            or trial['execution_commit'] != '3a8f5f22070ba917eb994cd0982e0c48bd220973'
+            or trial['execution_commit'] != '22e7b0b266448fc4a8c563c180833705f3e9a6d4'
             or trial['production_checkpoint_loaded'] or trial['production_model_changed'] or trial['production_recovery_allowed']
             or sha256(topology) != TOPOLOGY_SHA or sha256(Path(trial['source_options_path'])) != PHYSICAL_SHA
             or sha256(component) != sha256(args.repo/'verification/simscape_inventory_pipe/+ecc_inventory/conservative_chamber.ssc')):
