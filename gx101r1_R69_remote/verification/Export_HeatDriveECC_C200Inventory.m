@@ -34,8 +34,8 @@ function metadata = Export_HeatDriveECC_C200Inventory(repo, output_root)
         'storage_blocks',{{}},'settings_tables',{{}});
     types = {'Pipe (TL)','Tank (TL)','Constant Volume Chamber (TL)','Thermal Mass'};
     mode_names = {'dynamic_compressibility','inertia','mass_type','p_nominal','p_nominal_unit', ...
-        'T_nominal','T_nominal_unit','num_ports'};
-    parameter_names = {'area','length','volume','mass','sp_heat'};
+        'T_nominal','T_nominal_unit','num_ports','num_inlet','volume_spec'};
+    parameter_names = {'area','length','volume','mass','sp_heat','tank_area','g','inlet_height_A'};
     for kind = 1:numel(types)
         blocks = find_system(model,'LookUnderMasks','all','FollowLinks','on', ...
             'Type','Block','MaskType',types{kind});
