@@ -1,5 +1,7 @@
-function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root)
+function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root, method)
 % Diagnostic joint initialization, not a production operating-point restore.
+    if nargin<3,method='partial_dataset';end
+    assert(any(strcmp(method,{'partial_dataset','seeded_model_op'})),'Unknown initialization method.');
     assert(~isfolder(output_root),'Do not overwrite initialization evidence.');
     [code,commit]=system('git rev-parse HEAD'); assert(code==0,'Cannot record source.');
     [code,dirty]=system('git status --porcelain');
@@ -17,7 +19,8 @@ function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root)
         'joint_initialization_attempted',false,'production_recovery_allowed',false, ...
         'strict_model_operating_point_restore',false,'source_operating_point_edited',false, ...
         'packed_solver_state_imported',false,'source_physical_model_changed',false, ...
-        'state_preservation_verified',false,'final_checkpoint_saved',false, ...
+        'state_preservation_verified',false,'final_checkpoint_saved',false,'method',method, ...
+        'seed_generated_model_op_used',false,'seeded_operating_point_memory_edited',false, ...
         'start_time_s',2000,'stop_time_s',2000.001,'error_identifier','','error_message','');
     try
         origin=fullfile(repo,'outputs_storage_audit','c200_source_compatibility_20260907');
@@ -126,7 +129,7 @@ function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root)
         input=Simulink.SimulationInput(model);
         input=input.setVariable('EIGHTH_ROUND_OPTIONS',built);
         input=input.setVariable('c200_public_targets',candidate);
-        input=input.setInitialState(initial);
+        if strcmp(method,'partial_dataset'),input=input.setInitialState(initial);end
         input=input.setModelParameter('StartTime','2000','StopTime','2000.001', ...
             'SimscapeUseOperatingPoints','on','SimscapeOperatingPoint','c200_public_targets', ...
             'Solver',built.simulation.solver,'FixedStep',num2str(built.simulation.fixed_step_s,'%.17g'), ...
@@ -145,6 +148,58 @@ function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root)
         audit.joint_initialization_attempted=true;
         write_json(fullfile(output_root,'initialization_probe_audit.json'),audit);
         started=tic;
+        if strcmp(method,'seeded_model_op')
+            isolation=jsondecode(fileread(fullfile(repo,'outputs_storage_audit', ...
+                'joint_init_interface_isolation_20260908_v5','joint_initialization_isolation.json')));
+            control=isolation.cases{5};
+            assert(control.computation_complete && control.temperature_target_pass && ...
+                control.memory_target_pass && ~isolation.production_recovery_allowed, ...
+                'Require successful full-OP isolated control.');
+            seed_input=input.setModelParameter('StopTime','2000');
+            seed=sim(seed_input);
+            assert(isempty(seed.ErrorMessage),'HeatDriveECC:TargetSeedFailed','%s',seed.ErrorMessage);
+            seed_native=Extract_HeatDriveECC_NativeStorageTraces(seed.get('simlog'),model);
+            seed_observation=Extract_HeatDriveECC_ObservedStates(seed.internal_state_log,built.schedule.tau_cycle_s,1);
+            save(fullfile(output_root,'seed_observations.mat'),'seed_native','seed_observation','-v7.3');
+            seed_matches={};
+            for k=1:numel(mapping.initialization_candidates)
+                row=mapping.initialization_candidates(k);
+                idx=find(cellfun(@(r) strcmp([r.block_path '/' r.state_name],[model '/' row.path]),seed_native));
+                assert(isscalar(idx),'Missing seeded native target.');
+                native_row=seed_native{idx};
+                actual=value(simscape.Value(native_row.values(end),native_row.unit),row.unit);
+                delta=abs(actual-row.c200_value); bound=1e-10+1e-11*max(abs(actual),abs(row.c200_value));
+                seed_matches{end+1}=struct('path',row.path,'unit',row.unit,'expected',row.c200_value, ...
+                    'actual',actual,'difference',delta,'bound',bound,'pass',delta<=bound); %#ok<AGROW>
+            end
+            audit.seed_target_matches=seed_matches;
+            audit.seed_target_preservation_pass=all(cellfun(@(r) r.pass,seed_matches));
+            assert(audit.seed_target_preservation_pass,'HeatDriveECC:TargetSeedPreservationFailed', ...
+                'Thermal target seed differs from C200; see seed_observations.mat and seed_target_matches.');
+            edited=seed.xFinal; ds=edited.loggedStates;
+            assert(isa(ds,'Simulink.SimulationData.Dataset') && ds.numElements==73 && ...
+                edited.snapshotTime==2000,'Wrong target-seeded operating point.');
+            replaced=0;
+            for k=1:ds.numElements
+                state=ds.getElement(k); block=char(state.BlockPath.getBlock(1)); name=char(state.Name);
+                if endsWith(block,'/Solver Configuration'),continue;end
+                matches=[];
+                for j=1:initial.numElements
+                    item=initial.getElement(j);
+                    if strcmp(char(item.BlockPath.getBlock(1)),block) && strcmp(char(item.Name),name)
+                        matches(end+1)=j; %#ok<AGROW>
+                    end
+                end
+                assert(isscalar(matches),'Seeded public state cannot be matched.');
+                ds=ds.setElement(k,initial.getElement(matches)); replaced=replaced+1;
+            end
+            assert(replaced==72,'Do not leave any declared memory state at its default.');
+            edited.loggedStates=ds;
+            input=input.setInitialState(edited);
+            audit.seed_generated_model_op_used=true;
+            audit.seeded_operating_point_memory_edited=true;
+            clear seed
+        end
         output=sim(input);
         audit.wall_time_s=toc(started);
         audit.error_message=char(string(output.ErrorMessage));
