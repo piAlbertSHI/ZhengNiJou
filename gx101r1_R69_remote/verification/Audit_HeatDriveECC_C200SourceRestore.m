@@ -1,9 +1,11 @@
-function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_repo, output_root, observe_states, target_cycles, boundary_hold_diagnostic, cycle_diagnostic)
+function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_repo, output_root, observe_states, target_cycles, boundary_hold_diagnostic, cycle_diagnostic, segment_request)
 % Restore the unedited frozen C200 OP with the archived builder's own settings.
     if nargin < 4, observe_states = false; end
     if nargin < 5, target_cycles = 200; end
     if nargin < 6, boundary_hold_diagnostic = false; end
     if nargin < 7, cycle_diagnostic = false; end
+    if nargin < 8, segment_request = struct('index', 0, 'prior_root', ''); end
+    assert(cycle_diagnostic || segment_request.index == 0, 'Segment requests require diagnostic cycle mode.');
     assert(islogical(cycle_diagnostic) && isscalar(cycle_diagnostic), 'Require explicit cycle diagnostic mode.');
     assert(~cycle_diagnostic || (target_cycles == 201 && observe_states), 'Full-cycle diagnosis requires C201 state observation.');
     assert(islogical(boundary_hold_diagnostic) && isscalar(boundary_hold_diagnostic), 'Require explicit diagnostic mode.');
@@ -145,11 +147,11 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
         end
         audit.input_parameters = input.ModelParameters;
         if cycle_diagnostic
-            audit.cycle = Run_HeatDriveECC_C201ObservedCycle(model, input, saved.operating_point, options, output_root);
+            audit.cycle = Run_HeatDriveECC_C201ObservedCycle(model, input, saved.operating_point, options, output_root, segment_request);
             audit.strict_restore_pass = audit.cycle.computation_complete;
             audit.observation_complete = audit.cycle.computation_complete;
             audit.final_snapshot_time_s = audit.cycle.final_snapshot_time_s;
-            audit.full_cycle_simulated = true;
+            audit.full_cycle_simulated = audit.cycle.final_snapshot_time_s == 2010;
         else
         input = input.setInitialState(saved.operating_point);
         started = tic;

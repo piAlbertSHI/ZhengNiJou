@@ -1,18 +1,63 @@
-function audit = Run_HeatDriveECC_C201ObservedCycle(model, input, original_op, options, output_root)
+function audit = Run_HeatDriveECC_C201ObservedCycle(model, input, original_op, options, output_root, request)
 % Full diagnostic cycle with bounded native logs and exact segment-state checks.
     assert(original_op.snapshotTime == 2000 && options.cycle_count == 201);
     assert(options.simulation.fixed_step_s == .001);
     assert(get_param(model, 'SimscapeLogDataHistory') == 5000);
     ends = [2004 2008 2010];
+    if nargin < 6, request = struct('index', 0, 'prior_root', ''); end
+    assert(isscalar(request.index) && any(request.index == 0:3), 'Invalid planned segment.');
+    assert((request.index <= 1) == isempty(request.prior_root), 'Unexpected diagnostic predecessor.');
+    requested = 1:3;
+    if request.index > 0, requested = request.index; end
     current_op = original_op;
     previous = [];
     audit = struct('schema', 'heatdrive_ecc_c201_observed_cycle_v1', ...
         'computation_complete', false, 'production_recovery_allowed', false, ...
         'full_scientific_gates_pass', false, 'whole_model_first_law_verified', false, ...
         'segment_end_times_s', ends, 'segments', {{}});
+    audit.request = request;
+    audit.runner_sha256 = file_sha256([mfilename('fullpath') '.m']);
     save(fullfile(output_root, 'diagnostic_options.mat'), 'options', '-v7.3');
     try
-        for segment = 1:numel(ends)
+        if request.index > 1
+            previous_audit = jsondecode(fileread(fullfile(request.prior_root, 'cycle_observation_audit.json')));
+            outer = jsondecode(fileread(fullfile(request.prior_root, 'source_restore_audit.json')));
+            independent = jsondecode(fileread(fullfile(request.prior_root, 'independent_segment_audit.json')));
+            assert(independent.data_audit_pass && independent.diagnostic_continuation_eligible && ...
+                ~independent.production_recovery_allowed && ~independent.interrupted_without_final_record, ...
+                'Independent predecessor observation audit is required.');
+            assert(previous_audit.computation_complete && previous_audit.diagnostic_resume_allowed && ...
+                ~previous_audit.production_recovery_allowed && outer.strict_restore_pass && ...
+                outer.observation_complete && isempty(outer.error_message), 'Predecessor did not finish verification.');
+            assert(previous_audit.request.index == request.index-1 && ...
+                previous_audit.final_snapshot_time_s == ends(request.index-1), 'Wrong predecessor segment.');
+            assert(strcmp(previous_audit.runner_sha256, audit.runner_sha256), 'Diagnostic runner changed.');
+            fields = fieldnames(previous_audit.artifact_sha256);
+            for k = 1:numel(fields)
+                artifact = previous_audit.artifact_names.(fields{k});
+                assert(strcmp(independent.input_sha256.(matlab.lang.makeValidName(artifact)), ...
+                    previous_audit.artifact_sha256.(fields{k})), 'Independent artifact hash differs.');
+                assert(strcmp(file_sha256(fullfile(request.prior_root, artifact)), ...
+                    previous_audit.artifact_sha256.(fields{k})), 'Changed predecessor artifact: %s', artifact);
+            end
+            old_options = load(fullfile(request.prior_root, 'diagnostic_options.mat'), 'options');
+            physical_fields = {'geometry','material','branch','system','constitutive','schedule','fluid','simulation'};
+            for k = 1:numel(physical_fields)
+                key = physical_fields{k};
+                assert(isequaln(old_options.options.(key), options.(key)), 'Diagnostic contract changed: %s', key);
+            end
+            old_commands = load(fullfile(request.prior_root, 'command_profiles.mat'));
+            new_commands = load(fullfile(output_root, 'command_profiles.mat'));
+            assert(isequaln(old_commands, new_commands), 'Diagnostic command branch changed.');
+            saved = load(fullfile(request.prior_root, 'DO_NOT_RESUME_FOR_PRODUCTION.mat'));
+            assert(~saved.production_recovery_allowed, 'Unexpected checkpoint status.');
+            current_op = saved.diagnostic_op;
+            assert(current_op.snapshotTime == ends(request.index-1), 'Wrong saved snapshot time.');
+            tail = load(fullfile(request.prior_root, 'final_observation_tail.mat'), 'last');
+            previous = tail.last;
+            audit.predecessor_audit_sha256 = file_sha256(fullfile(request.prior_root, 'cycle_observation_audit.json'));
+        end
+        for segment = requested
             start = current_op.snapshotTime;
             run_input = input.setModelParameter('StopTime', num2str(ends(segment), '%.15g'));
             run_input = run_input.setInitialState(current_op);
@@ -82,7 +127,7 @@ function audit = Run_HeatDriveECC_C201ObservedCycle(model, input, original_op, o
                         'HeatDriveECC:C201SegmentDiscontinuity', 'Segment boundary changed: %s', first.identities{k});
                 end
             end
-            audit.segments{segment} = struct('start_time_s', start, 'end_time_s', ends(segment), ...
+            audit.segments{end+1} = struct('index', segment, 'start_time_s', start, 'end_time_s', ends(segment), ...
                 'sample_count', numel(expected_t), 'wall_time_s', elapsed, 'boundary', boundary);
             previous = last;
             current_op = output.xFinal;
@@ -94,6 +139,18 @@ function audit = Run_HeatDriveECC_C201ObservedCycle(model, input, original_op, o
         production_recovery_allowed = false;
         save(fullfile(output_root, 'DO_NOT_RESUME_FOR_PRODUCTION.mat'), ...
             'diagnostic_op', 'production_recovery_allowed', '-v7.3');
+        save(fullfile(output_root, 'final_observation_tail.mat'), 'last', '-v7.3');
+        audit.artifact_names = struct('checkpoint', 'DO_NOT_RESUME_FOR_PRODUCTION.mat', ...
+            'tail', 'final_observation_tail.mat', 'options', 'diagnostic_options.mat', ...
+            'commands', 'command_profiles.mat');
+        for segment = requested
+            audit.artifact_names.(sprintf('segment_%02d',segment)) = sprintf('segment_%02d.mat',segment);
+        end
+        fields = fieldnames(audit.artifact_names);
+        for k = 1:numel(fields)
+            audit.artifact_sha256.(fields{k}) = file_sha256(fullfile(output_root, audit.artifact_names.(fields{k})));
+        end
+        audit.diagnostic_resume_allowed = true;
     catch exception
         audit.error_identifier = exception.identifier;
         audit.error_message = exception.message;
@@ -101,6 +158,15 @@ function audit = Run_HeatDriveECC_C201ObservedCycle(model, input, original_op, o
         rethrow(exception);
     end
     write_audit(output_root, audit);
+end
+
+function value = file_sha256(path)
+    digest = java.security.MessageDigest.getInstance('SHA-256');
+    fid = fopen(path, 'rb');
+    assert(fid >= 0, 'Cannot read diagnostic artifact.');
+    cleanup = onCleanup(@() fclose(fid));
+    while ~feof(fid), digest.update(fread(fid, 8*1024*1024, '*uint8')); end
+    value = upper(reshape(dec2hex(typecast(digest.digest(), 'uint8'), 2).', 1, []));
 end
 
 function write_audit(root, audit)
