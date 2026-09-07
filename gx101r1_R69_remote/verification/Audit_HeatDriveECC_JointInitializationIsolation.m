@@ -15,7 +15,7 @@ function audit = Audit_HeatDriveECC_JointInitializationIsolation(output_root)
         'production_model_loaded',false,'production_checkpoint_loaded',false, ...
         'production_recovery_allowed',false,'collection_complete',false,'cases',{{}});
     modes={'target_only','target_and_partial_dataset','target_and_block_initial_condition', ...
-        'target_and_complete_dataset_from_seed'};
+        'target_and_complete_dataset_from_seed','target_seed_op_with_edited_memory'};
     for k=1:numel(modes)
         row=struct('mode',modes{k},'computation_complete',false,'error_identifier','','error_message','', ...
             'expected_temperature_K',340,'expected_integrator',7.25*(k~=1), ...
@@ -52,13 +52,13 @@ function audit = Audit_HeatDriveECC_JointInitializationIsolation(output_root)
                 'SimscapeUseOperatingPoints','on','SimscapeOperatingPoint','isolation_targets', ...
                 'SimscapeLogType','all','SimscapeLogName','simlog','SimscapeLogLimitData','off', ...
                 'SaveTime','off','SaveOutput','off','SaveState','off');
-            if k==2 || k==4
+            if k==2 || k==4 || k==5
                 state=Simulink.SimulationData.State;
                 state.Name='CSTATE'; state.BlockPath=Simulink.SimulationData.BlockPath([model '/Memory']);
                 state.Values=timeseries(7.25,2000);
                 initial=Simulink.SimulationData.Dataset;
                 initial=addElement(initial,state);
-                if k==4
+                if k==4 || k==5
                     seed_input=input.setModelParameter('StopTime','2000','SaveState','on', ...
                         'SaveFinalState','on','FinalStateName','xFinal','SaveOperatingPoint','on');
                     seed=sim(seed_input);
@@ -76,6 +76,22 @@ function audit = Audit_HeatDriveECC_JointInitializationIsolation(output_root)
                     row.seed_time_s=seed.xFinal.snapshotTime;
                     row.seed_network_obtained_from_model=true;
                     row.packed_indices_edited=false;
+                    if k==5
+                        edited=seed.xFinal;
+                        for j=1:ds.numElements
+                            item=ds.getElement(j);
+                            if strcmp(char(item.BlockPath.getBlock(1)),[model '/Memory'])
+                                series=item.Values;
+                                series.Data(:)=7.25;
+                                item.Values=series;
+                                ds=ds.setElement(j,item);
+                            end
+                        end
+                        edited.loggedStates=ds;
+                        initial=edited;
+                        input=seed_input.setModelParameter('StopTime','2000.001');
+                        row.complete_model_operating_point_used=true;
+                    end
                 end
                 input=input.setInitialState(initial);
             end
@@ -99,7 +115,7 @@ function audit = Audit_HeatDriveECC_JointInitializationIsolation(output_root)
         audit.cases{end+1}=row;
         clear cleanup_model
     end
-    audit.collection_complete=numel(audit.cases)==4;
+    audit.collection_complete=numel(audit.cases)==5;
     fid=fopen(fullfile(output_root,'joint_initialization_isolation.json'),'w','n','UTF-8');
     assert(fid>=0,'Cannot write isolation evidence.'); cleanup_file=onCleanup(@() fclose(fid));
     fprintf(fid,'%s\n',jsonencode(audit,'PrettyPrint',true));
