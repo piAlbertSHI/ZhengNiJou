@@ -1,5 +1,6 @@
-function audit = Audit_HeatDriveECC_RouteGeometry(output_root, physical_path)
+function audit = Audit_HeatDriveECC_RouteGeometry(output_root, physical_path, include_thermal)
 % Export actual geometry and physical connectivity without loading any OP.
+    if nargin < 3, include_thermal = false; end
     assert(~isfolder(output_root), 'Do not overwrite geometry evidence.');
     [code, commit] = system('git rev-parse HEAD');
     assert(code == 0, 'Cannot identify source commit.');
@@ -18,6 +19,13 @@ function audit = Audit_HeatDriveECC_RouteGeometry(output_root, physical_path)
     audit.production_model_saved = false;
     audit.production_recovery_allowed = false;
     audit.branch_options = saved.options.branch;
+    if include_thermal
+        audit.thermal_connectivity = Export_HeatDriveECC_TLConnectivity( ...
+            model, 'foundation.thermal.thermal');
+        audit.system_options = saved.options.system;
+        audit.material_options = saved.options.material;
+        audit.geometry_options = saved.options.geometry;
+    end
     audit.geometry = {};
     selected = {'length', 'length_add', 'Dh', 'area', 'area_A', 'area_B', 'volume', ...
         'mass', 'sp_heat', 'specific_heat', 'roughness', 'Re_lam', 'Re_tur', 'shape_factor', ...

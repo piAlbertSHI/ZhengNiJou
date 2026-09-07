@@ -1,10 +1,12 @@
-function topology = Export_HeatDriveECC_TLConnectivity(model)
+function topology = Export_HeatDriveECC_TLConnectivity(model, domain)
 % Export typed wire nets and hierarchy bridges, without merging fluid channels.
+    if nargin < 2, domain = 'foundation.thermal_liquid.thermal_liquid'; end
+    assert(ismember(domain, {'foundation.thermal_liquid.thermal_liquid', ...
+        'foundation.thermal.thermal'}), 'Unsupported physical domain.');
     scratch = 'ecc_tl_connectivity_scratch';
     assert(~bdIsLoaded(scratch), 'Scratch model is already in use.');
     new_system(scratch);
     cleanup = onCleanup(@() close_system(scratch, 0));
-    domain = 'foundation.thermal_liquid.thermal_liquid';
     paths = find_system(model, 'LookUnderMasks', 'all', 'FollowLinks', 'on', 'Type', 'Block');
     vertices = {};
     blocks = {};
@@ -65,7 +67,7 @@ function topology = Export_HeatDriveECC_TLConnectivity(model)
         if ~strcmp(block.block_type, 'PMIOPort'), continue; end
         path = block.block_path;
         parent = get_param(path, 'Parent');
-        assert(~strcmp(parent, model), 'Unexpected root-level TL connection port.');
+        assert(~strcmp(parent, model), 'Unexpected root-level physical connection port.');
         siblings = find_system(parent, 'SearchDepth', 1, 'LookUnderMasks', 'all', ...
             'FollowLinks', 'on', 'BlockType', 'PMIOPort');
         side = get_param(path, 'Side');
@@ -82,7 +84,7 @@ function topology = Export_HeatDriveECC_TLConnectivity(model)
             'Hierarchy connector index is outside parent ports.');
         external = find(vertex_handles == parent_handles.(field)(index));
         assert(isscalar(external) && isscalar(block.vertex_indices), ...
-            'Missing typed parent/child TL connector mapping.');
+            'Missing typed parent/child physical connector mapping.');
         edges{end + 1} = struct('a', block.vertex_indices, 'b', external, ...
             'kind', 'hierarchy_connector'); %#ok<AGROW>
     end
@@ -91,5 +93,8 @@ function topology = Export_HeatDriveECC_TLConnectivity(model)
         'edges', {edges}, 'port_connectivity', {connections}, ...
         'primitive_internal_connections_inferred', false, ...
         'hydraulic_domains_verified', false, 'source_model_modified', false);
+    if strcmp(domain, 'foundation.thermal.thermal')
+        topology.schema = 'heatdrive_ecc_thermal_connectivity_v1';
+    end
     clear cleanup
 end
