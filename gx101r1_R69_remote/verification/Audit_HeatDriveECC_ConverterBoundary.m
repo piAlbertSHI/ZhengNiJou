@@ -1,5 +1,7 @@
-function audit = Audit_HeatDriveECC_ConverterBoundary(output_root)
+function audit = Audit_HeatDriveECC_ConverterBoundary(output_root, input_driver)
 % Isolate converter observations from delivered heat at a warm restart boundary.
+    if nargin<2,input_driver='direct';end
+    assert(any(strcmp(input_driver,{'direct','interpreted_discrete'})),'Unknown input driver.');
     assert(~isfolder(output_root),'Do not overwrite converter evidence.');
     [code,commit]=system('git rev-parse HEAD');assert(code==0,'Cannot record source.');
     [code,dirty]=system('git status --porcelain');assert(code==0 && isempty(strtrim(dirty)),'Commit source first.');
@@ -11,7 +13,7 @@ function audit = Audit_HeatDriveECC_ConverterBoundary(output_root)
     load_system('simulink');
     audit=struct('schema','heatdrive_ecc_converter_boundary_trial_v1','execution_commit',strtrim(commit), ...
         'production_model_loaded',false,'production_checkpoint_loaded',false,'production_recovery_allowed',false, ...
-        'collection_complete',false,'cases',{{}},'error_identifier','','error_message','');
+        'collection_complete',false,'input_driver',input_driver,'cases',{{}},'error_identifier','','error_message','');
     try
         for waveform={'zero','signed_steps'}
             model=['ecc_converter_boundary_' waveform{1}];
@@ -30,7 +32,13 @@ function audit = Audit_HeatDriveECC_ConverterBoundary(output_root)
             simscape.addConnection(mass,only_port(mass),solver,only_port(solver));
             simscape.addConnection(source,'A',mass,only_port(mass));
             simscape.addConnection(source,'B',[model '/Reference'],only_port([model '/Reference']));
-            add_line(model,'Input/1','Converter/1');
+            if strcmp(input_driver,'interpreted_discrete')
+                add_block('simulink/User-Defined Functions/Interpreted MATLAB Function',[model '/DiscreteDriver'], ...
+                    'MATLABFcn','HeatDriveECC_ConverterIdentity','OutputDimensions','1','SampleTime','0.001');
+                add_line(model,'Input/1','DiscreteDriver/1');add_line(model,'DiscreteDriver/1','Converter/1');
+            else
+                add_line(model,'Input/1','Converter/1');
+            end
             ports=get_param(converter,'PortHandles'); heat_ports=get_param(source,'PortHandles');
             add_line(model,ports.RConn(1),heat_ports.RConn(1));
             set_param(solver,'UseLocalSolver','on','LocalSolverChoice','NE_BACKWARD_EULER_ADVANCER','LocalSolverSampleTime','0.001');
@@ -81,7 +89,7 @@ function audit = Audit_HeatDriveECC_ConverterBoundary(output_root)
                 run=seed_input.setModelParameter('StopTime','2000.01');run=run.setInitialState(candidate);
                 out=sim(run);assert(isempty(out.ErrorMessage),'HeatDriveECC:ConverterRestartFailed','%s',out.ErrorMessage);
                 actual=observe(out,mass,source,converter);
-                row=struct('waveform',waveform{1},'mode',mode{1},'command_time_s',command_time, ...
+                row=struct('waveform',waveform{1},'mode',mode{1},'input_driver',input_driver,'command_time_s',command_time, ...
                     'command_values_W',command_values,'prefix',prefix_row,'seed',seed_row, ...
                     'reference',reference,'actual',actual,'capacity_J_K',1000, ...
                     'step_s',.001,'start_s',2000.004,'stop_s',2000.01);
