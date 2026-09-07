@@ -3,7 +3,8 @@ function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root, m
     if nargin<3,method='partial_dataset';end
     assert(any(strcmp(method,{'partial_dataset','seeded_model_op','seeded_model_op_with_controller_ic', ...
         'seeded_model_op_with_controller_ic_and_converter_history', ...
-        'seeded_model_op_with_controller_ic_and_converter_history_and_flux_targets'})), ...
+        'seeded_model_op_with_controller_ic_and_converter_history_and_flux_targets', ...
+        'seeded_model_op_with_controller_ic_and_converter_history_and_differential_targets'})), ...
         'Unknown initialization method.');
     assert(~isfolder(output_root),'Do not overwrite initialization evidence.');
     [code,commit]=system('git rev-parse HEAD'); assert(code==0,'Cannot record source.');
@@ -145,6 +146,11 @@ function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root, m
                     strcmp(char(item.Priority),row.priority),'Original physical target changed.');
             end
         end
+        if endsWith(method,'_and_differential_targets')
+            [candidate,audit.differential_target_records]=Build_HeatDriveECC_DifferentialStateTargets(repo,model);
+            audit.differential_targets_applied=true;
+            save(fullfile(output_root,'differential_target_candidate.mat'),'candidate','-v7.3');
+        end
         commands=struct();
         names={'L_valve_command','SMA_L_valve_command','SMA_pressure_bias_command', ...
             'SMA_pressure_feedback_enable_command','SMA_pressure_feedback_reset_command'};
@@ -203,6 +209,22 @@ function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root, m
             end
             audit.seed_target_matches=seed_matches;
             audit.seed_target_preservation_pass=all(cellfun(@(r) r.pass,seed_matches));
+            if isfield(audit,'differential_target_records')
+                differential_matches={};
+                for k=1:numel(audit.differential_target_records)
+                    row=audit.differential_target_records{k};if ~row.differential,continue;end
+                    idx=find(cellfun(@(r) strcmp([r.block_path '/' r.state_name],[model '/' row.path]),seed_native));
+                    assert(isscalar(idx),'Missing seeded dynamic coordinate.');native_row=seed_native{idx};
+                    actual=value(simscape.Value(native_row.values(end),native_row.unit),row.unit);
+                    delta=abs(actual-row.value);bound=1e-10+1e-11*max(abs(actual),abs(row.value));
+                    differential_matches{end+1}=struct('path',row.path,'unit',row.unit,'expected',row.value, ...
+                        'actual',actual,'difference',delta,'bound',bound,'pass',delta<=bound); %#ok<AGROW>
+                end
+                audit.seed_differential_matches=differential_matches;
+                audit.seed_differential_preservation_pass=numel(differential_matches)==125 && ...
+                    all(cellfun(@(r) r.pass,differential_matches));
+                assert(audit.seed_differential_preservation_pass,'Dynamic-state seed differs from C200.');
+            end
             assert(audit.seed_target_preservation_pass,'HeatDriveECC:TargetSeedPreservationFailed', ...
                 'Thermal target seed differs from C200; see seed_observations.mat and seed_target_matches.');
             edited=seed.xFinal; ds=edited.loggedStates;
