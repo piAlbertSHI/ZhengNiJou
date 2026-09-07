@@ -52,7 +52,7 @@ function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root)
         states=template.diagnostic_op.loggedStates;
         assert(isa(states,'Simulink.SimulationData.Dataset') && states.numElements==73,'Missing typed states.');
         initial=Simulink.SimulationData.Dataset;
-        imported={}; omitted={};
+        imported={}; omitted={}; template_differences={};
         for k=1:states.numElements
             state=states.getElement(k);
             block=char(state.BlockPath.getBlock(1)); name=char(state.Name);
@@ -62,7 +62,13 @@ function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root)
             assert(isa(series,'timeseries') && isa(series.Data,'double') && ...
                 isscalar(series.Time) && series.Time==2000.001 && series.IsTimeFirst && ...
                 isequal(row.time_s(:),[2000;2000.001]) && ...
-                isequal(series.Data(:),reshape(row.values(end,:),[],1)), 'Typed state differs from observation.');
+                numel(series.Data)==row.channel_count, 'Typed metadata differs from observation.');
+            delta=series.Data(:)-reshape(row.values(end,:),[],1);
+            if any(delta~=0)
+                template_differences{end+1}=struct('block_path',block,'state_name',name, ...
+                    'max_abs_difference',max(abs(delta)), ...
+                    'template_values',series.Data(:).','logged_final_values',row.values(end,:)); %#ok<AGROW>
+            end
             if endsWith(block,'/Solver Configuration')
                 assert(row.channel_count==995,'Unexpected opaque state size.');
                 omitted{end+1}=struct('block_path',block,'state_name',name,'channels',995); %#ok<AGROW>
@@ -82,7 +88,9 @@ function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root)
         assert(initial.numElements==72 && isscalar(omitted) && ...
             sum(cellfun(@(r) r.channels,imported))==381,'Incomplete named-state import.');
         assert(isequaln(template.diagnostic_op.loggedStates,states),'Typed source was changed.');
-        save(fullfile(output_root,'initial_named_states.mat'),'initial','imported','omitted','-v7.3');
+        save(fullfile(output_root,'initial_named_states.mat'),'initial','imported','omitted','template_differences','-v7.3');
+        audit.template_vs_logged_final_differences=template_differences;
+        audit.state_value_source='Observed C200 initial sample; OP used only for public typed metadata.';
         clear template states loaded
         authority=jsondecode(fileread(fullfile(repo,'verification','c200_mainline_freeze_contract.json')));
         result_path=fullfile(repo,authority.result_relative_path);
