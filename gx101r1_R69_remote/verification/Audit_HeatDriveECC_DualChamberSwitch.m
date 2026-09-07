@@ -1,4 +1,4 @@
-function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_path, separate_boundaries, collect_failure_matrix, valve_transition_s, index_reduction, solver_tolerance, pipe_model, ablation_mode)
+function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_path, separate_boundaries, collect_failure_matrix, valve_transition_s, index_reduction, solver_tolerance, pipe_model, ablation_mode, wall_model)
 % Test the pressure-coupled pump pair with copied production route valves.
     if nargin < 3
         separate_boundaries = false;
@@ -28,6 +28,12 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
     end
     if nargin < 9
         ablation_mode = '';
+    end
+    if nargin < 10, wall_model = false; end
+    assert(islogical(wall_model) && isscalar(wall_model), 'Require explicit wall diagnostic mode.');
+    if wall_model
+        assert(pipe_model && isempty(ablation_mode) && valve_transition_s == 0, ...
+            'Wall diagnostic requires the unchanged finite-friction hard-switch pipe.');
     end
     assert(ischar(ablation_mode) && ismember(ablation_mode, {'', 'no_friction_long_port', 'friction_short_port', 'no_friction_short_port'}), ...
         'Unsupported diagnostic ablation.');
@@ -91,6 +97,18 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
         expected_cases = 6;
     end
     record.failed_cases = {};
+    if wall_model
+        record.schema = 'heatdrive_ecc_dual_chamber_switch_trial_v9';
+        record.wall_model = true;
+        record.pipe_contract.wall_heat_flow_W = [];
+        record.wall_contract = struct('capacity_each_J_K', pi/4*((.0032+2*.0005)^2-.0032^2)*.2*1.8e6, ...
+            'conductance_each_W_K', 3.66*pi*.2*.60, 'initial_temperature_K', 340, ...
+            'external_heat_flow_W', 0, 'wall_cp_reference_J_kgK', 500, ...
+            'source', ['Conditional two Qian Table2 shells; constant Nu=3.66 and k=0.60 W/(m K) ', ...
+                'finite wall-fluid conductance is a diagnostic assumption, not production qualification.']);
+        formulations = {'conservative'};
+        expected_cases = 6;
+    end
     attempted = 0;
     old = pwd;
     directory_cleanup = onCleanup(@() cd(old));
@@ -178,6 +196,22 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                             'p_I', '2.5', 'p_I_unit', 'MPa', 'p_I_priority', 'High', ...
                             'T_I', '340', 'T_I_unit', 'K', 'T_I_priority', 'High');
                     end
+                    if wall_model
+                        wall = [model '/' names{j} 'Wall'];
+                        link = [model '/' names{j} 'WallLink'];
+                        add_block('fl_lib/Thermal/Thermal Elements/Thermal Mass', wall, ...
+                            'mass', num2str(record.wall_contract.capacity_each_J_K/500, '%.17g'), 'mass_unit', 'kg', ...
+                            'sp_heat', '500', 'sp_heat_unit', 'J/(K*kg)', 'T', '340', 'T_unit', 'K', ...
+                            'mass_type', 'foundation.enum.constant_variable.constant', ...
+                            'num_ports', 'foundation.enum.numPorts2.one');
+                        add_block('fl_lib/Thermal/Thermal Elements/Conductive Heat Transfer', link, ...
+                            'thermal_type', 'foundation.enum.ConstantVariableTabulated.Constant', ...
+                            'wall_geometry', 'foundation.enum.ConductionWallGeometry.Planar', ...
+                            'area', '1', 'area_unit', 'm^2', 'thickness', '1', 'thickness_unit', 'm', ...
+                            'th_cond', num2str(record.wall_contract.conductance_each_W_K, '%.17g'), 'th_cond_unit', 'W/(K*m)');
+                        simscape.addConnection(wall, 'M', link, 'A');
+                        simscape.addConnection(link, 'B', chamber, 'H');
+                    end
                 end
                 add_block([source '/SMA_ThermalLiquidSettings'], [model '/FluidSettings']);
                 add_block(solver{1}, [model '/Solver']);
@@ -258,6 +292,10 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                         diagnostic.convection_length_m = record.convection_length_m;
                     end
                     diagnostic_json = jsonencode(diagnostic);
+                    if wall_model
+                        diagnostic.wall_contract = record.wall_contract;
+                        diagnostic_json = jsonencode(diagnostic);
+                    end
                     failure_name = 'failed_partial_native_traces.mat';
                     if collect_failure_matrix
                         failure_name = sprintf('failed_case_%d.mat', attempted);
@@ -300,6 +338,12 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                     packets{7+j} = extract(simscape.logging.findNode(output.simlog, [model '/' reservoir_names{j}]), ...
                         reservoir_roles{j}, {'mdot_A', 'Phi_A', 'p_I', 'T_I'});
                 end
+                if wall_model
+                    for j = 1:2
+                        packets{end+1} = extract(simscape.logging.findNode(output.simlog, [model '/' names{j} 'Wall']), ...
+                            [lower(names{j}) '_wall'], {'T', 'Q'}); %#ok<AGROW>
+                    end
+                end
                 case_record = struct('formulation', formulation{1}, 'power_mode', power_mode{1}, 'local_step_s', step, ...
                     'volume_each_m3', volume, 'area_m2', area, 'initial_temperature_K', 340, 'initial_pressure_Pa', 2.5e6, ...
                     'hot_reservoir_K', 380, 'cold_reservoir_K', 300, 'reservoir_pressure_Pa', 2.5e6, ...
@@ -330,6 +374,11 @@ function record = Audit_HeatDriveECC_DualChamberSwitch(output_root, physical_pat
                     case_record.ablation_mode = ablation_mode;
                     case_record.friction_scale = record.friction_scale;
                     case_record.convection_length_m = record.convection_length_m;
+                end
+                if wall_model
+                    case_record.wall_contract = record.wall_contract;
+                    case_record.actual_wall_parameters = {parameters([model '/InletWall']), parameters([model '/OutletWall'])};
+                    case_record.actual_wall_link_parameters = {parameters([model '/InletWallLink']), parameters([model '/OutletWallLink'])};
                 end
                 record_json = jsonencode(case_record);
                 save(fullfile(output_root, sprintf('case_%d.mat', attempted)), 'packets', 'record_json', '-v7.3');

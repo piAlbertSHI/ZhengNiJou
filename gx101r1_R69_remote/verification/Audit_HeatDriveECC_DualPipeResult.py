@@ -30,11 +30,13 @@ def momentum_audit(p):
                 maximum_half_pipe_loss_Pa=max(losses), finite_pipe_loss_observed=max(losses)>1)
 
 
-def verify_parameters(meta):
+def verify_parameters(meta, *, wall_model=False):
     contract = meta['pipe_contract']
     expected = dict(length_m=.2, diameter_m=.0032, roughness_m=15e-6, length_add_m=0,
                     Re_lam=2000, Re_tur=4000, shape_factor=64, inertia=False, wall_heat_flow_W=0,
                     production_qualification=False)
+    if wall_model:
+        expected['wall_heat_flow_W'] = []
     if any(contract.get(k)!=v for k,v in expected.items()):
         raise ValueError('Declared pipe physics changed')
     for key in ('actual_inlet_parameters','actual_outlet_parameters'):

@@ -16,7 +16,7 @@ from Audit_HeatDriveECC_NativeWindowLedger import validate_grid
 from Audit_HeatDriveECC_SegmentedEvidence import sha256, text_field
 
 
-def read_case(path, *, finite_transition=False, pipe_model=False):
+def read_case(path, *, finite_transition=False, pipe_model=False, wall_model=False):
     units = dict(T_I='K',p_I='Pa',rho_I='kg/m^3',u_I='J/kg',mdot_A='kg/s',mdot_B='kg/s',
                  Phi_A='W',Phi_B='W',Q_H='W',stored_mass='kg',stored_energy='J',power='W',rho_A='kg/m^3',rho_B='kg/m^3')
     if finite_transition:
@@ -25,6 +25,10 @@ def read_case(path, *, finite_transition=False, pipe_model=False):
         if not finite_transition:
             raise ValueError('Pipe diagnostic requires the finite-transition contract')
         units.update(pressure_loss_A='Pa',pressure_loss_B='Pa')
+    if wall_model:
+        if not pipe_model:
+            raise ValueError('Wall diagnostic requires the explicit pipe model')
+        units.update(T='K', Q='W')
     with h5py.File(path,'r') as f:
         meta = json.loads(text_field(f['record_json']))
         packets,time = {},None
@@ -61,6 +65,10 @@ def read_case(path, *, finite_transition=False, pipe_model=False):
         for i in range(1,5):
             expected[f'v{i}'].update(('L','A.T','B.T','A.p','B.p'))
         expected.update({k:{'mdot_A','Phi_A','p_I','T_I'} for k in ('hot_return','cold_return')})
+    if wall_model:
+        if not meta.get('wall_contract') or meta['formulation'] != 'conservative':
+            raise ValueError('Explicit conservative wall contract required')
+        expected.update(inlet_wall={'T','Q'}, outlet_wall={'T','Q'})
     if set(packets) != set(expected) or any(set(packets[k]) != v for k,v in expected.items()):
         raise ValueError('Require complete nine-component port coverage')
     return meta,time,packets
@@ -82,9 +90,11 @@ def spatial_identities(p, kind, *, separate=False):
     return float(np.max(abs(np.asarray(rows))))
 
 
-def audit_case(meta,t,p,table, *, finite_transition=False, pipe_model=False):
+def audit_case(meta,t,p,table, *, finite_transition=False, pipe_model=False, wall_model=False):
     if pipe_model and (not finite_transition or not meta.get('pipe_contract')):
         raise ValueError('Explicit finite-transition pipe diagnostic required')
+    if wall_model and (not pipe_model or not meta.get('wall_contract')):
+        raise ValueError('Explicit wall diagnostic required')
     required = dict(volume_each_m3=1.6084954386379741e-6,area_m2=8.04247719318987e-6,
                     initial_temperature_K=340,initial_pressure_Pa=2.5e6,hot_reservoir_K=380,cold_reservoir_K=300,
                     reservoir_pressure_Pa=2.5e6,pressure_step_time_s=.01,command_pressure_Pa=260,route_switch_time_s=.5,
@@ -112,7 +122,8 @@ def audit_case(meta,t,p,table, *, finite_transition=False, pipe_model=False):
     reconstructed_masses,reconstructed_energies,property_errors = [],[],{}
     for role in ('inlet','outlet'):
         v = p[role]
-        if abs(v['T_I'][0]-340) > 1e-9 or abs(v['p_I'][0]-2.5e6) > 1e-4 or np.max(abs(v['Q_H'])) > 1e-9:
+        if (abs(v['T_I'][0]-340) > 1e-9 or abs(v['p_I'][0]-2.5e6) > 1e-4
+                or (not wall_model and np.max(abs(v['Q_H'])) > 1e-9)):
             raise ValueError('Unpaired initial state or heat input')
         point = np.column_stack((v['T_I'],v['p_I']))
         rho_table,u_table = table['rho'](point),table['u'](point)
@@ -134,7 +145,22 @@ def audit_case(meta,t,p,table, *, finite_transition=False, pipe_model=False):
             ledgers[role+'_table'] = balance(t,mt,ut,v['mdot_A']+v['mdot_B'],v['Phi_A']+v['Phi_B']+v['Q_H'])
         if meta['formulation']=='conservative':
             aliases.append(np.max(abs(v['stored_mass']-m)) <= MASS_ATOL_KG and np.max(abs(v['stored_energy']-u)) <= ENERGY_ATOL_J)
-    total_mass,total_energy = np.sum(masses,axis=0),np.sum(energies,axis=0)
+    wall_energy = np.zeros_like(t)
+    wall_errors, wall_temperature_changes = [], []
+    if wall_model:
+        cap, conductance = (meta['wall_contract'][k] for k in ('capacity_each_J_K','conductance_each_W_K'))
+        for role in ('inlet','outlet'):
+            wall, fluid = p[role+'_wall'], p[role]
+            if (not np.isfinite([wall['T'],wall['Q']]).all() or abs(wall['T'][0]-340)>1e-9
+                    or np.any(wall['T']<273.16) or np.any(wall['T']>413.16)):
+                raise ValueError('Invalid wall state')
+            energy = cap*(wall['T']-340)
+            wall_energy += energy
+            ledgers[role+'_wall'] = balance(t,np.zeros_like(t),energy,np.zeros_like(t),wall['Q'])
+            wall_errors.extend([float(np.max(abs(wall['Q']+fluid['Q_H']))),
+                                float(np.max(abs(fluid['Q_H']-conductance*(wall['T']-fluid['T_I']))))])
+            wall_temperature_changes.append(float(np.ptp(wall['T'])))
+    total_mass,total_energy = np.sum(masses,axis=0),np.sum(energies,axis=0)+wall_energy
     reservoirs = [h,k]
     if finite_transition:
         reservoirs += [p['hot_return'],p['cold_return']]
@@ -144,7 +170,7 @@ def audit_case(meta,t,p,table, *, finite_transition=False, pipe_model=False):
     ledgers['external_total'] = balance(t,total_mass,total_energy,-sum(r['mdot_A'] for r in reservoirs),
                                        -sum(r['Phi_A'] for r in reservoirs)+s['power'])
     if finite_transition:
-        ledgers['external_table_total'] = balance(t,np.sum(reconstructed_masses,axis=0),np.sum(reconstructed_energies,axis=0),
+        ledgers['external_table_total'] = balance(t,np.sum(reconstructed_masses,axis=0),np.sum(reconstructed_energies,axis=0)+wall_energy,
                                                   -sum(r['mdot_A'] for r in reservoirs),-sum(r['Phi_A'] for r in reservoirs)+s['power'])
     mass_identity = spatial_identities(p,'mdot',separate=finite_transition)
     energy_identity = spatial_identities(p,'Phi',separate=finite_transition)
@@ -194,6 +220,11 @@ def audit_case(meta,t,p,table, *, finite_transition=False, pipe_model=False):
         if finite_transition:
             row['dual_inventory_closure_pass'] = (row['dual_inventory_closure_pass'] and row['valve_command_pass']
                                                   and row['thermal_excitation_observed'] and row['property_table_identity_pass'])
+    if wall_model:
+        row['wall_heat_flow_identity_max_error_W'] = max(wall_errors)
+        row['wall_temperature_swing_K'] = wall_temperature_changes
+        row['wall_heat_transfer_pass'] = max(wall_errors)<=1e-9 and min(wall_temperature_changes)>.01
+        row['dual_inventory_closure_pass'] &= row['wall_heat_transfer_pass']
     return row
 
 
