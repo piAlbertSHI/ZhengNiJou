@@ -10,6 +10,7 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
         'strict_restore_pass', false, 'production_recovery_allowed', false, ...
         'source_operating_point_edited', false, 'partial_restore_executed', false, ...
         'cold_start_executed', false, 'error_identifier', '', 'error_message', '');
+    audit.observation_complete = false;
     try
         contract_path = fullfile(authority_repo, 'verification', 'c200_mainline_freeze_contract.json');
         authority = jsondecode(fileread(contract_path));
@@ -91,10 +92,17 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
                 item = output.get(names{k});
                 if isa(item, 'timeseries')
                     signals.(names{k}) = struct('time_s', item.Time, 'values', item.Data);
+                elseif isstruct(item) && isscalar(item) && isfield(item, 'time') && ...
+                        isfield(item, 'signals') && isscalar(item.signals) && isfield(item.signals, 'values')
+                    signals.(names{k}) = struct('time_s', item.time, 'values', item.signals.values);
                 end
             end
             audit.signal_count = numel(fieldnames(signals));
-            save(fullfile(output_root, 'restored_step_signals.mat'), 'signals', '-v7.3');
+            assert(audit.signal_count > 0, 'No physical signals extracted.');
+            native = Extract_HeatDriveECC_NativeStorageTraces(output.get('simlog'), model);
+            audit.native_scalar_trace_count = numel(native);
+            save(fullfile(output_root, 'restored_step_signals.mat'), 'signals', 'native', '-v7.3');
+            audit.observation_complete = true;
             diagnostic_op = output.xFinal;
             production_recovery_allowed = false;
             save(fullfile(output_root, 'DO_NOT_RESUME_FOR_PRODUCTION.mat'), ...
@@ -105,7 +113,6 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
         audit.error_identifier = exception.identifier;
         audit.error_message = exception.message;
         audit.error_stack = exception.stack;
-        audit.strict_restore_pass = false;
     end
     fid = fopen(fullfile(output_root, 'source_restore_audit.json'), 'w', 'n', 'UTF-8');
     assert(fid >= 0, 'Cannot save restore evidence.');
@@ -113,7 +120,8 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
     fprintf(fid, '%s\n', jsonencode(audit, 'PrettyPrint', true));
     clear cleanup_file cleanup_path
     fprintf('C200_SOURCE_STRICT_RESTORE_PASS=%d\n', audit.strict_restore_pass);
-    assert(audit.strict_restore_pass, 'HeatDriveECC:C200SourceRestoreFailed', '%s', audit.error_message);
+    assert(audit.strict_restore_pass && audit.observation_complete && isempty(audit.error_message), ...
+        'HeatDriveECC:C200SourceRestoreFailed', '%s', audit.error_message);
 end
 
 function value = file_sha256(path)
