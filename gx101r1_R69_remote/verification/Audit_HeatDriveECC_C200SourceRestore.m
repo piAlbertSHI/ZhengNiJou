@@ -1,6 +1,8 @@
-function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_repo, output_root, observe_states)
+function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_repo, output_root, observe_states, target_cycles)
 % Restore the unedited frozen C200 OP with the archived builder's own settings.
     if nargin < 4, observe_states = false; end
+    if nargin < 5, target_cycles = 200; end
+    assert(isscalar(target_cycles) && any(target_cycles == [200 201]), 'Only the C200/C201 horizon probe is authorized.');
     assert(islogical(observe_states) && isscalar(observe_states), 'Require explicit observation mode.');
     assert(~isfolder(output_root), 'Do not overwrite restore evidence.');
     mkdir(output_root);
@@ -25,6 +27,15 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
         assert(strcmp(audit.result_sha256, authority.result_sha256) && ...
             strcmp(audit.checkpoint_sha256, authority.checkpoint_sha256), 'Frozen inputs changed.');
         prior = load(result_path, 'options');
+        frozen_options = prior.options;
+        audit.original_cycle_count = frozen_options.cycle_count;
+        audit.target_cycle_count = target_cycles;
+        audit.command_horizon_extended = target_cycles ~= frozen_options.cycle_count;
+        audit.full_cycle_verified = false;
+        assert(frozen_options.cycle_count == 200, 'Unexpected frozen cycle count.');
+        prior.options.cycle_count = target_cycles;
+        prior.options.simulation.stop_time_s = target_cycles * frozen_options.schedule.tau_cycle_s;
+        prior.options.schedule.total_time_s = prior.options.simulation.stop_time_s;
         saved = load(op_path, 'operating_point', 'checkpoint_meta');
         audit.checkpoint_meta = saved.checkpoint_meta;
         audit.snapshot_time_s = saved.operating_point.snapshotTime;
@@ -51,10 +62,26 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
         audit.physical_options_unchanged = struct();
         for k = 1:numel(physical_fields)
             field = physical_fields{k};
-            equal = isequaln(options.(field), prior.options.(field));
+            expected = frozen_options.(field);
+            if strcmp(field, 'schedule')
+                expected.total_time_s = target_cycles * frozen_options.schedule.tau_cycle_s;
+            end
+            equal = isequaln(options.(field), expected);
             audit.physical_options_unchanged.(field) = equal;
             assert(equal, 'Physical options changed while reconstructing %s.', field);
         end
+        audit.schedule_total_time_s = options.schedule.total_time_s;
+        audit.physical_comparison_scope = 'Frozen physical groups; schedule permits only the declared total_time_s extension.';
+        commands = struct();
+        command_names = {'L_valve_command', 'SMA_L_valve_command', 'SMA_pressure_bias_command'};
+        for k = 1:numel(command_names)
+            name = command_names{k};
+            command = evalin('base', name);
+            assert(isa(command, 'timeseries') && command.Time(end) == options.schedule.total_time_s, ...
+                'Command horizon does not reach the requested cycle: %s', name);
+            commands.(name) = struct('time_s', command.Time, 'values', command.Data);
+        end
+        save(fullfile(output_root, 'command_profiles.mat'), 'commands', '-v7.3');
         audit.resolved_builder = builder;
         helpers = {'Build_HeatDriveECC_EighthRound_Defaults', 'Build_HeatDriveECC_Article_Defaults', ...
             'Integrate_HeatDriveECC_Constitutive21_Interface', 'Build_Simulink_Exchange_Params', ...
