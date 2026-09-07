@@ -65,6 +65,11 @@ def compute(repo, root):
                 'source_operating_point_edited','packed_solver_state_imported','source_physical_model_changed',
                 'state_preservation_verified','final_checkpoint_saved'))):
         raise ValueError('Unexpected joint initialization execution scope')
+    if audit.get('method','').startswith('seeded_model_op'):
+        if (not audit.get('seed_generated_model_op_used') or not audit.get('seeded_operating_point_memory_edited')
+                or not audit.get('seed_target_preservation_pass') or len(audit.get('seed_target_matches',[]))!=125
+                or any(not r['pass'] for r in audit['seed_target_matches'])):
+            raise ValueError('Target-seeded OP did not preserve all prerequisite physical targets')
     path=root/'joint_initialization_observations.mat'
     if sha256(path)!=audit['observation_sha256']:
         raise ValueError('Probe observations changed')
