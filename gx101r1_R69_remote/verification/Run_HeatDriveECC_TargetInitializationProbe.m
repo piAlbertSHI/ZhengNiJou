@@ -1,7 +1,8 @@
 function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root, method)
 % Diagnostic joint initialization, not a production operating-point restore.
     if nargin<3,method='partial_dataset';end
-    assert(any(strcmp(method,{'partial_dataset','seeded_model_op'})),'Unknown initialization method.');
+    assert(any(strcmp(method,{'partial_dataset','seeded_model_op','seeded_model_op_with_controller_ic'})), ...
+        'Unknown initialization method.');
     assert(~isfolder(output_root),'Do not overwrite initialization evidence.');
     [code,commit]=system('git rev-parse HEAD'); assert(code==0,'Cannot record source.');
     [code,dirty]=system('git status --porcelain');
@@ -116,6 +117,13 @@ function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root, m
         for k=1:numel(fields)
             assert(isequaln(built.(fields{k}),frozen.options.(fields{k})),'Physical options changed: %s',fields{k});
         end
+        if strcmp(method,'seeded_model_op_with_controller_ic')
+            audit.controller_initial_conditions=Apply_HeatDriveECC_ObservedControllerInitialState(model,mapping, ...
+                fullfile(repo,'outputs_storage_audit','lag_state_space_equivalence_20260908','lag_equivalence.json'));
+            audit.controller_representation_changed=true;
+        else
+            audit.controller_representation_changed=false;
+        end
         commands=struct();
         names={'L_valve_command','SMA_L_valve_command','SMA_pressure_bias_command', ...
             'SMA_pressure_feedback_enable_command','SMA_pressure_feedback_reset_command'};
@@ -148,7 +156,7 @@ function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root, m
         audit.joint_initialization_attempted=true;
         write_json(fullfile(output_root,'initialization_probe_audit.json'),audit);
         started=tic;
-        if strcmp(method,'seeded_model_op')
+        if startsWith(method,'seeded_model_op')
             isolation=jsondecode(fileread(fullfile(repo,'outputs_storage_audit', ...
                 'joint_init_interface_isolation_20260908_v5','joint_initialization_isolation.json')));
             control=isolation.cases{5};
