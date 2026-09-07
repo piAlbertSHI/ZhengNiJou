@@ -40,19 +40,19 @@ function metadata = Export_HeatDriveECC_C200Inventory(repo, output_root)
         blocks = find_system(model,'LookUnderMasks','all','FollowLinks','on', ...
             'Type','Block','MaskType',types{kind});
         for k = 1:numel(blocks)
-            path = blocks{k}; dialog = get_param(path,'DialogParameters');
-            row = struct('block_path',path,'mask_type',types{kind}, ...
-                'reference_block',get_param(path,'ReferenceBlock'),'model_modes',struct(),'mask_parameters',struct());
+            block_path = blocks{k}; dialog = get_param(block_path,'DialogParameters');
+            row = struct('block_path',block_path,'mask_type',types{kind}, ...
+                'reference_block',get_param(block_path,'ReferenceBlock'),'model_modes',struct(),'mask_parameters',struct());
             for j = 1:numel(mode_names)
                 name = mode_names{j};
-                if isfield(dialog,name), row.model_modes.(name)=get_param(path,name); end
+                if isfield(dialog,name), row.model_modes.(name)=get_param(block_path,name); end
             end
             for j = 1:numel(parameter_names)
                 name = parameter_names{j};
                 if isfield(dialog,name)
-                    expression = get_param(path,name);
+                    expression = get_param(block_path,name);
                     row.mask_parameters.(name) = struct('expression',expression, ...
-                        'value',slResolve(expression,path),'unit',get_param(path,[name '_unit']));
+                        'value',slResolve(expression,block_path),'unit',get_param(block_path,[name '_unit']));
                 end
             end
             metadata.storage_blocks{end+1}=row;
