@@ -1,5 +1,7 @@
-function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_repo, output_root)
+function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_repo, output_root, observe_states)
 % Restore the unedited frozen C200 OP with the archived builder's own settings.
+    if nargin < 4, observe_states = false; end
+    assert(islogical(observe_states) && isscalar(observe_states), 'Require explicit observation mode.');
     assert(~isfolder(output_root), 'Do not overwrite restore evidence.');
     mkdir(output_root);
     old = pwd;
@@ -11,6 +13,7 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
         'source_operating_point_edited', false, 'partial_restore_executed', false, ...
         'cold_start_executed', false, 'error_identifier', '', 'error_message', '');
     audit.observation_complete = false;
+    audit.registered_state_observation_requested = observe_states;
     try
         contract_path = fullfile(authority_repo, 'verification', 'c200_mainline_freeze_contract.json');
         authority = jsondecode(fileread(contract_path));
@@ -28,6 +31,7 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
         assert(audit.snapshot_time_s == 2000 && saved.checkpoint_meta.time_s == 2000, 'Wrong C200 time.');
         audit.operating_point_properties = properties(saved.operating_point);
         audit.logged_state_class = class(saved.operating_point.loggedStates);
+        addpath(authority_repo, '-end');
         addpath(source_root, '-begin');
         cd(source_root);
         builder = which('Build_HeatDriveECC_EighthRound_Simulink_Model');
@@ -76,6 +80,9 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
             'SaveFinalState', 'on', 'FinalStateName', 'xFinal', 'SaveOperatingPoint', 'on', ...
             'OperatingPointContentsChecksumMismatchMsg', 'error', 'OperatingPointInterfaceChecksumMismatchMsg', 'error');
         assert(options.simulation.fixed_step_s == .001, 'Unexpected frozen timestep.');
+        if observe_states
+            input = input.setModelParameter('SaveState', 'on', 'StateSaveName', 'internal_state_log');
+        end
         audit.input_parameters = input.ModelParameters;
         input = input.setInitialState(saved.operating_point);
         started = tic;
@@ -103,6 +110,12 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
             audit.native_scalar_trace_count = numel(native);
             save(fullfile(output_root, 'restored_step_signals.mat'), 'signals', 'native', '-v7.3');
             audit.observation_complete = true;
+            if observe_states
+                observation = Extract_HeatDriveECC_ObservedStates(output.internal_state_log, options.schedule.tau_cycle_s, 1);
+                audit.registered_state_group_count = observation.logged_state_group_count;
+                audit.final_logged_state_class = class(output.xFinal.loggedStates);
+                save(fullfile(output_root, 'registered_states.mat'), 'observation', '-v7.3');
+            end
             diagnostic_op = output.xFinal;
             production_recovery_allowed = false;
             save(fullfile(output_root, 'DO_NOT_RESUME_FOR_PRODUCTION.mat'), ...
