@@ -176,8 +176,9 @@ function audit = Run_HeatDriveECC_TargetInitializationProbe(repo, output_root)
     end
     write_json(fullfile(output_root,'initialization_probe_audit.json'),audit);
     clear cleanup_generation cleanup_path
-    fprintf('JOINT_INITIALIZATION_COMPUTATION_COMPLETE=%d\n%s\n',audit.computation_complete,jsonencode(audit));
-    assert(audit.computation_complete,'HeatDriveECC:JointInitializationProbeFailed','%s',audit.error_message);
+    fprintf('JOINT_INITIALIZATION_COMPUTATION_COMPLETE=%d EVIDENCE=%s\n',audit.computation_complete,output_root);
+    assert(audit.computation_complete,'HeatDriveECC:JointInitializationProbeFailed', ...
+        'Joint initialization failed; full error retained in initialization_probe_audit.json.');
 end
 
 function write_json(path,data)
