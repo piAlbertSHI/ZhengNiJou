@@ -25,7 +25,8 @@ function audit = Audit_HeatDriveECC_ConverterBoundary(output_root)
                 'UdotUserProvided','0','SimscapeFilterOrder','1','InputFilterTimeConstant','0.001','AffineConversion','off');
             add_block('fl_lib/Thermal/Thermal Sources/Controlled Heat Flow Rate Source',source);
             add_block('fl_lib/Thermal/Thermal Elements/Thermal Reference',[model '/Reference']);
-            add_block('simulink/Sources/From Workspace',[model '/Input'],'VariableName','heat_command','Interpolate','off');
+            add_block('simulink/Sources/From Workspace',[model '/Input'],'VariableName','heat_command', ...
+                'Interpolate','off','OutputAfterFinalValue','Holding final value');
             simscape.addConnection(mass,only_port(mass),solver,only_port(solver));
             simscape.addConnection(source,'A',mass,only_port(mass));
             simscape.addConnection(source,'B',[model '/Reference'],only_port([model '/Reference']));
