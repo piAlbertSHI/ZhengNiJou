@@ -53,17 +53,20 @@ function audit=Replay_HeatDriveECC_ConverterHistory(input_path,output_root)
         input=input.setModelParameter('CaptureErrors','on');out=sim(input);
         assert(isempty(out.ErrorMessage),'HeatDriveECC:ConverterReplayFailed','%s',out.ErrorMessage);
         assert(out.xFinal.snapshotTime==2000,'Wrong replay endpoint.');
-        states=out.xFinal.loggedStates;observed=out.states;snapshots={};
+        states=out.xFinal.loggedStates;observed=out.states;snapshots={};delivery={};
         for k=1:42
             converter=[model sprintf('/Converter_%02d',k)];source=[model sprintf('/Heat_%02d',k)];
             state=select(states,converter);log=select(observed,converter);
             heat=simscape.logging.findNode(out.simlog,source);
             t=double(time(heat.Q.series));q=value(simscape.Value(double(values(heat.Q.series)),heat.Q.series.unit),'W');
-            assert(isequal(t(:),data.time_s(:)) && isequal(q(:),command(:,k)),'Replay input not delivered exactly.');
+            delivery{end+1}=struct('block_path',data.rows(k).block_path, ...
+                'time_s',t(:).','expected_time_s',data.time_s(:).', ...
+                'heat_W',q(:).','expected_heat_W',command(:,k).', ...
+                'exact_time',isequal(t(:),data.time_s(:)),'exact_heat',isequal(q(:),command(:,k))); %#ok<AGROW>
             assert(isa(state.Values,'timeseries') && numel(state.Values.Data)==2 && state.Values.Time==2000, ...
                 'Unexpected public converter snapshot.');
             snapshots{end+1}=struct('block_path',data.rows(k).block_path,'snapshot',state.Values, ...
-                'observed',log.Values,'time_s',t,'heat_W',q); %#ok<AGROW>
+                'observed',log.Values,'time_s',t,'heat_W',q);
             audit.snapshots{end+1}=struct('block_path',data.rows(k).block_path, ...
                 'snapshot_values',state.Values.Data(:).','final_observed_values',log.Values.Data(end,:)); %#ok<AGROW>
         end
@@ -72,7 +75,11 @@ function audit=Replay_HeatDriveECC_ConverterHistory(input_path,output_root)
         mass_heat_W=value(simscape.Value(double(values(m.Q.series)),m.Q.series.unit),'W');
         save(fullfile(output_root,'converter_history_snapshots.mat'),'snapshots','data','command', ...
             'mass_temperature_K','mass_heat_W','-v7.3');
-        audit.computation_complete=numel(snapshots)==42;
+        audit.delivery=delivery;
+        audit.collection_complete=numel(snapshots)==42;
+        audit.exact_input_delivery=all(cellfun(@(r) r.exact_time && r.exact_heat,delivery));
+        assert(audit.exact_input_delivery,'Replay input or time grid not delivered exactly; see delivery rows.');
+        audit.computation_complete=audit.collection_complete;
     catch ME
         audit.error_message=ME.message;audit.error_report=getReport(ME,'extended','hyperlinks','off');
     end
