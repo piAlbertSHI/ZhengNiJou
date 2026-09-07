@@ -65,7 +65,7 @@ def route_paths(topology, active_valves):
 def value(row,key,unit):
     item=row['resolved'][key]
     number=float(item['value'])
-    if item['unit']!=unit or not math.isfinite(number):
+    if item['unit']!=unit or not math.isfinite(number) or number<0 or (key!='length_add' and number==0):
         raise ValueError('Unsupported geometry unit or nonfinite value')
     return number
 
