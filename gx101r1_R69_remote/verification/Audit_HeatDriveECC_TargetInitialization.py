@@ -90,7 +90,7 @@ def compute(repo, root):
         raise ValueError('Incomplete primary state preservation coverage')
     initial_pass=all(r['initial']['pass_endpoint_match'] for r in targets+memories)
     all_pass=all(r['initial']['pass_endpoint_match'] and r['one_step']['pass_endpoint_match'] for r in comparisons)
-    return dict(schema='heatdrive_ecc_joint_initialization_audit_v1',computation_complete=True,
+    result=dict(schema='heatdrive_ecc_joint_initialization_audit_v1',computation_complete=True,
         comparison_group_count=1474,initial_state_target_count=125,named_memory_group_count=72,
         initial_primary_state_preservation_pass=initial_pass,
         initial_target_failures=[r['key'] for r in targets if not r['initial']['pass_endpoint_match']],
@@ -106,6 +106,46 @@ def compute(repo, root):
         execution_commit=audit['execution_commit'],
         input_sha256=dict(producer=sha256(audit_path),observed=sha256(path),reference=sha256(reference_path),
                           registered=sha256(memory_path),mapping=sha256(mapping_path)))
+    if audit.get('converter_history_applied'):
+        from Audit_HeatDriveECC_DigitalConverterHistory import compute as digital_compute
+        digital_root=repo/'outputs_storage_audit/c200_converter_digital_history_20260908'
+        digital_path=digital_root/'independent_digital_history_audit.json'
+        digital=json.loads(digital_path.read_text(encoding='utf-8-sig'))
+        records=audit['converter_history_records']
+        if (digital_compute(repo,digital_root)!=digital or not digital['diagnostic_digital_memory_observation_pass']
+                or len(records)!=42 or any(r['proof_sha256']!=sha256(digital_path)
+                    or r['raw_sha256']!=digital['input_sha256']['raw'] for r in records)):
+            raise ValueError('Digital snapshot evidence changed')
+        converters=[r for r in comparisons if '/ConstitutiveHeatPS_' in r['key']]
+        if len(converters)!=42:raise ValueError('Incomplete converter comparison')
+        result['replayed_converter_count']=42
+        result['exact_initial_converter_count']=sum(r['exact_initial'] for r in converters)
+        result['digital_history_audit_sha256']=sha256(digital_path)
+    if audit.get('differential_targets_applied'):
+        metadata_path=repo/'outputs_storage_audit/c200_differential_target_metadata_20260908.json'
+        metadata=json.loads(metadata_path.read_text(encoding='utf-8-sig'))
+        dynamic={'native/heatdrive_ecc_coupled_se21/'+r['path']:r for r in metadata['targets'] if r['differential']}
+        if len(dynamic)!=125 or any(r['eliminated'] for r in dynamic.values()):
+            raise ValueError('Unexpected independent dynamic coordinates')
+        records=audit['differential_target_records']
+        selected={r['path'] for r in metadata['targets'] if r['differential'] or r['priority']!='None'}
+        if len(records)!=196 or {r['path'] for r in records}!=selected:
+            raise ValueError('Dynamic/algebraic target coverage changed')
+        for record in records:
+            key='native/heatdrive_ecc_coupled_se21/'+record['path'];unit,_,values=reference[key]
+            if (record['reference_sha256']!=sha256(reference_path)
+                    or record['metadata_sha256']!=sha256(metadata_path) or unit!=record['unit']
+                    or float(values.reshape(-1)[0])!=record['value']
+                    or record['new_priority']!=('High' if key in dynamic else 'Low')):
+                raise ValueError('Dynamic target provenance mismatch: '+key)
+        matches=[r for r in comparisons if r['key'] in dynamic]
+        if len(matches)!=125:raise ValueError('Incomplete dynamic comparison')
+        result['dynamic_state_count']=125
+        result['exact_initial_dynamic_state_count']=sum(r['exact_initial'] for r in matches)
+        result['initial_dynamic_state_preservation_pass']=all(r['initial']['pass_endpoint_match'] for r in matches)
+        result['failed_one_step_dynamic_state_count']=sum(not r['one_step']['pass_endpoint_match'] for r in matches)
+        result['dynamic_metadata_sha256']=sha256(metadata_path)
+    return result
 
 
 def main():
