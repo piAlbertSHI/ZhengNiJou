@@ -38,12 +38,31 @@ def check_period(t, y):
     return result
 
 
-def audit(repo):
+def check_ablation(t, y, changed_t, changed_y):
+    t, changed_t = np.asarray(t).reshape(-1), np.asarray(changed_t).reshape(-1)
+    y, changed_y = np.asarray(y), np.asarray(changed_y)
+    indices = np.flatnonzero(t == 2000)
+    if len(indices) != 1 or indices[0] == 0 or y.shape != (1,len(t)):
+        raise ValueError('Invalid nominal boundary profile')
+    i = indices[0]
+    if t[i+1] <= 2000.001:
+        raise ValueError('Unexpected next command knot')
+    expected_t = np.insert(t,i+1,2000.001)
+    expected_y = np.insert(y,i,y[:,i-1],axis=1)
+    if not np.array_equal(changed_t,expected_t) or not np.array_equal(changed_y,expected_y):
+        raise ValueError('Ablation changed more than one boundary control sample')
+    return dict(nominal_at_boundary=float(y[0,i]),held_at_boundary=float(y[0,i-1]),release_time_s=2000.001)
+
+
+def audit(repo, probe_name='probe201'):
     archive = repo/'outputs_storage_audit/c200_source_compatibility_20260907'
-    probe = repo/'outputs_storage_audit/c200_horizon_20260907/probe201'
+    probe = repo/'outputs_storage_audit/c200_horizon_20260907'/probe_name
+    ablation = probe_name == 'boundary_hold_diagnostic'
     source = archived_source(archive)
     meta_path = probe/'source_restore_audit.json'
     meta = json.loads(meta_path.read_text(encoding='utf-8-sig'))
+    if bool(meta.get('boundary_sample_hold_diagnostic',False)) != ablation:
+        raise ValueError('Undeclared boundary ablation')
     authority = json.loads((repo/'verification/c200_mainline_freeze_contract.json').read_text(encoding='utf-8-sig'))
     if (not meta['strict_restore_pass'] or not meta['observation_complete'] or meta['error_message']
             or not all(meta['physical_options_unchanged'].values()) or meta['target_cycle_count'] != 201
@@ -91,25 +110,46 @@ def audit(repo):
             initial(x[key], y[key], key)
     command_file = probe/'command_profiles.mat'
     with h5py.File(command_file) as f:
-        commands = {name: check_period(row['time_s'][:], row['values'][:]) for name,row in f['commands'].items()}
+        period_names = ('L_valve_command','SMA_L_valve_command','SMA_pressure_bias_command')
+        commands = {name: check_period(f['commands'][name]['time_s'][:], f['commands'][name]['values'][:]) for name in period_names}
+        ablations = {}
+        if ablation:
+            if meta['boundary_control'] != dict(external_reset='level',initial_condition='0',
+                    SMA_pressure_feedback_enable_command=dict(nominal=0,held=1,release_time_s=2000.001),
+                    SMA_pressure_feedback_reset_command=dict(nominal=1,held=0,release_time_s=2000.001)):
+                raise ValueError('Unexpected actual PI reset parameters')
+            if len(f['commands']) != 5 or set(f['commands']) != set(f['nominal_commands']):
+                raise ValueError('Command coverage changed')
+            for name in f['commands']:
+                a,b = f['nominal_commands'][name],f['commands'][name]
+                if name in period_names:
+                    if not np.array_equal(a['time_s'][:],b['time_s'][:]) or not np.array_equal(a['values'][:],b['values'][:]):
+                        raise ValueError('Ablation changed a valve or pressure command')
+                else:
+                    ablations[name] = check_ablation(a['time_s'][:],a['values'][:],b['time_s'][:],b['values'][:])
     passed = all(r['pass_endpoint_match'] for r in comparisons)
-    return dict(schema='heatdrive_ecc_c201_horizon_v1', audit_pass=passed, source=source,
+    result = dict(schema='heatdrive_ecc_c201_horizon_v1', audit_pass=passed, source=source,
                 strict_horizon_restore_pass=True, inherited_initial_comparison_groups=len(comparisons),
                 failed_initial_comparison_groups=sum(not r['pass_endpoint_match'] for r in comparisons),
                 maximum_initial_difference=max(r['max_abs_error'] for r in comparisons),
                 comparisons=comparisons, command_periods=commands, full_cycle_verified=False,
                 whole_model_first_law_verified=False, new_model_recovery_allowed=False, table4_reproduction_claim=False,
                 input_sha256={p.name:sha256(p) for p in (raw,registered,command_file,meta_path)})
+    if ablation:
+        result['boundary_ablation'] = ablations
+        result['production_boundary_shift_authorized'] = False
+    return result
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--repo', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--probe', choices=('probe201','boundary_hold_diagnostic'), default='probe201')
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError('Do not overwrite evidence')
-    result = audit(args.repo)
+    result = audit(args.repo,args.probe)
     args.output.write_text(json.dumps(result,indent=2,allow_nan=False)+'\n',encoding='utf-8')
     print(json.dumps({k:v for k,v in result.items() if k not in ('comparisons','input_sha256')},indent=2))
     if not result['audit_pass']:

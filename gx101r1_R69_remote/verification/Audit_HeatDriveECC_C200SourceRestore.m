@@ -12,6 +12,10 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
     old = pwd;
     old_path = path;
     cleanup_path = onCleanup(@() restore_environment(old, old_path));
+    old_generation = Simulink.fileGenControl('getConfig');
+    cleanup_generation = onCleanup(@() Simulink.fileGenControl('setConfig', 'config', old_generation));
+    Simulink.fileGenControl('set', 'CacheFolder', fullfile(output_root, 'build_cache'), ...
+        'CodeGenFolder', fullfile(output_root, 'generated_code'), 'createDir', true);
     audit = struct('schema', 'heatdrive_ecc_c200_source_restore_v1', ...
         'source_root', source_root, 'source_commit', 'e3f1dcfa85c1cad7dd7a6d257b7eb9fb8820ef7d', ...
         'strict_restore_pass', false, 'production_recovery_allowed', false, ...
@@ -183,7 +187,7 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
     assert(fid >= 0, 'Cannot save restore evidence.');
     cleanup_file = onCleanup(@() fclose(fid));
     fprintf(fid, '%s\n', jsonencode(audit, 'PrettyPrint', true));
-    clear cleanup_file cleanup_path
+    clear cleanup_file cleanup_generation cleanup_path
     fprintf('C200_SOURCE_STRICT_RESTORE_PASS=%d\n', audit.strict_restore_pass);
     assert(audit.strict_restore_pass && audit.observation_complete && isempty(audit.error_message), ...
         'HeatDriveECC:C200SourceRestoreFailed', '%s', audit.error_message);
