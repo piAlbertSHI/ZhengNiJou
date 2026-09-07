@@ -35,8 +35,21 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
         prior.options.model_path = fullfile(source_root, [prior.options.model_name '.slx']);
         prior.options.simulation.persist_model_configuration = false;
         audit.transport_overrides = {'model_path', 'simulation.persist_model_configuration=false'};
+        audit.archived_model_sha256 = file_sha256(prior.options.model_path);
+        assert(strcmpi(audit.archived_model_sha256, saved.checkpoint_meta.contract.model_file_sha256), ...
+            'Archived SLX differs from the checkpoint contract.');
+        audit.archived_defaults_sha256 = file_sha256(fullfile(source_root, 'Build_HeatDriveECC_EighthRound_Defaults.m'));
+        audit.archived_defaults_patch = 'Only recurse into scalar structs; replace struct arrays as in the current builder.';
         [model, options] = Build_HeatDriveECC_EighthRound_Simulink_Model(prior.options);
         cleanup_model = onCleanup(@() close_system(model, 0));
+        physical_fields = {'geometry','material','branch','system','constitutive','schedule','fluid'};
+        audit.physical_options_unchanged = struct();
+        for k = 1:numel(physical_fields)
+            field = physical_fields{k};
+            equal = isequaln(options.(field), prior.options.(field));
+            audit.physical_options_unchanged.(field) = equal;
+            assert(equal, 'Physical options changed while reconstructing %s.', field);
+        end
         audit.resolved_builder = builder;
         helpers = {'Build_HeatDriveECC_EighthRound_Defaults', 'Build_HeatDriveECC_Article_Defaults', ...
             'Integrate_HeatDriveECC_Constitutive21_Interface', 'Build_Simulink_Exchange_Params', ...
@@ -91,6 +104,7 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
     catch exception
         audit.error_identifier = exception.identifier;
         audit.error_message = exception.message;
+        audit.error_stack = exception.stack;
         audit.strict_restore_pass = false;
     end
     fid = fopen(fullfile(output_root, 'source_restore_audit.json'), 'w', 'n', 'UTF-8');
