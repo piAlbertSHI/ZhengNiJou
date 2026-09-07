@@ -14,7 +14,8 @@ function audit = Audit_HeatDriveECC_JointInitializationIsolation(output_root)
     audit=struct('schema','heatdrive_ecc_joint_initialization_isolation_v1','execution_commit',strtrim(commit), ...
         'production_model_loaded',false,'production_checkpoint_loaded',false, ...
         'production_recovery_allowed',false,'collection_complete',false,'cases',{{}});
-    modes={'target_only','target_and_partial_dataset','target_and_block_initial_condition'};
+    modes={'target_only','target_and_partial_dataset','target_and_block_initial_condition', ...
+        'target_and_complete_dataset_from_seed'};
     for k=1:numel(modes)
         row=struct('mode',modes{k},'computation_complete',false,'error_identifier','','error_message','', ...
             'expected_temperature_K',340,'expected_integrator',7.25*(k~=1), ...
@@ -51,12 +52,31 @@ function audit = Audit_HeatDriveECC_JointInitializationIsolation(output_root)
                 'SimscapeUseOperatingPoints','on','SimscapeOperatingPoint','isolation_targets', ...
                 'SimscapeLogType','all','SimscapeLogName','simlog','SimscapeLogLimitData','off', ...
                 'SaveTime','off','SaveOutput','off','SaveState','off');
-            if k==2
+            if k==2 || k==4
                 state=Simulink.SimulationData.State;
                 state.Name='CSTATE'; state.BlockPath=Simulink.SimulationData.BlockPath([model '/Memory']);
                 state.Values=timeseries(7.25,2000);
                 initial=Simulink.SimulationData.Dataset;
                 initial=addElement(initial,state);
+                if k==4
+                    seed_input=input.setModelParameter('StopTime','2000','SaveState','on', ...
+                        'SaveFinalState','on','FinalStateName','xFinal','SaveOperatingPoint','on');
+                    seed=sim(seed_input);
+                    assert(isempty(seed.ErrorMessage),'HeatDriveECC:IsolationSeedFailed','%s',seed.ErrorMessage);
+                    ds=seed.xFinal.loggedStates;
+                    assert(isa(ds,'Simulink.SimulationData.Dataset'),'Missing initialized network state.');
+                    appended=0;
+                    for j=1:ds.numElements
+                        item=ds.getElement(j);
+                        if strcmp(char(item.BlockPath.getBlock(1)),solver)
+                            initial=addElement(initial,item); appended=appended+1;
+                        end
+                    end
+                    assert(appended==1 && initial.numElements==ds.numElements,'Incomplete seeded Dataset.');
+                    row.seed_time_s=seed.xFinal.snapshotTime;
+                    row.seed_network_obtained_from_model=true;
+                    row.packed_indices_edited=false;
+                end
                 input=input.setInitialState(initial);
             end
             out=sim(input);
@@ -79,7 +99,7 @@ function audit = Audit_HeatDriveECC_JointInitializationIsolation(output_root)
         audit.cases{end+1}=row;
         clear cleanup_model
     end
-    audit.collection_complete=numel(audit.cases)==3;
+    audit.collection_complete=numel(audit.cases)==4;
     fid=fopen(fullfile(output_root,'joint_initialization_isolation.json'),'w','n','UTF-8');
     assert(fid>=0,'Cannot write isolation evidence.'); cleanup_file=onCleanup(@() fclose(fid));
     fprintf(fid,'%s\n',jsonencode(audit,'PrettyPrint',true));
