@@ -1,5 +1,6 @@
 """Audit complete sample coverage and boundaries without granting production use."""
 import argparse
+from collections import Counter
 import json
 from pathlib import Path
 
@@ -28,6 +29,25 @@ def inspect(path):
                 ('state',named_rows(f,f['observation']['states']))]
         if tuple(len(rows) for _,rows in groups)!=(161,1240,73):
             raise ValueError('Incomplete observed identity coverage')
+        if 'source_traces' in f:
+            sources=named_rows(f,f['source_traces'])
+            metadata=f['boundary_metadata']
+            if (len(sources)!=162 or int(metadata['source_count'][0,0])!=49
+                    or any(bool(metadata[k][0,0]) for k in ('physical_model_modified','production_recovery_allowed',
+                        'full_device_first_law_verified','complete_cycle_verified'))):
+                raise ValueError('Invalid boundary observation scope')
+            counts=Counter()
+            declared=set()
+            for ref in metadata['blocks'][:].flat:
+                block=f[ref];block_path=text_field(block['block_path'])
+                counts[text_field(block['source_file'])]+=1
+                for trace_ref in block['trace_names'][:].flat:
+                    declared.add((block_path,text_field(f[trace_ref])))
+            if (dict(counts)!={'foundation.thermal.sources.controlled_heat_flow':43,
+                    'foundation.thermal.sources.temperature':3,'foundation.thermal_liquid.sources.pressure_source':3}
+                    or declared!=set(sources)):
+                raise ValueError('Source metadata does not cover recorded identities')
+            groups.append(('source',sources))
         for prefix,rows in groups:
             for key,row in rows.items():
                 name=prefix+'/'+(key if isinstance(key,str) else '/'.join(key))
@@ -79,6 +99,10 @@ def audit(root, prior_root=None, interrupted=False):
                 or not produced['computation_complete'] or not produced['diagnostic_resume_allowed']
                 or produced['production_recovery_allowed'] or produced['full_scientific_gates_pass']):
             raise ValueError('Segment producer did not finish its bounded job')
+        has_sources=any(k.startswith('source/') for k in current['last'])
+        if (bool(produced.get('boundary_observation_requested',False))!=has_sources
+                or bool(outer.get('boundary_observation_requested',False))!=has_sources):
+            raise ValueError('Undeclared boundary observation mode')
         for key,value in produced['artifact_sha256'].items():
             p=root/produced['artifact_names'][key]
             if p.parent.resolve()!=root.resolve() or sha256(p)!=value:
@@ -88,7 +112,8 @@ def audit(root, prior_root=None, interrupted=False):
             row=f['last']
             identities=[text_field(f[ref]) for ref in row['identities'][:].flat]
             values=[f[ref][:].reshape(-1) for ref in row['values'][:].flat]
-            if len(identities)!=1474 or len(set(identities))!=1474 or set(identities)!=set(current['last']):
+            expected_count=1636 if has_sources else 1474
+            if len(identities)!=expected_count or len(set(identities))!=expected_count or set(identities)!=set(current['last']):
                 raise ValueError('Incomplete saved observation tail')
             if not all(np.array_equal(v,current['last'][k]) for k,v in zip(identities,values)):
                 raise ValueError('Saved tail does not match raw observation')

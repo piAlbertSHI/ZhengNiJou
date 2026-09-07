@@ -24,6 +24,21 @@ class C201SegmentTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             boundary(a,b)
 
+    def test_source_trace_is_included_in_boundary_gate(self):
+        a=dict(stop_s=2004,last={'state/PI':np.array([.1]),'source/SHEX/Q':np.array([80.])},
+               units={'state/PI':'MPa','source/SHEX/Q':'W'})
+        b=dict(start_s=2004,first={'state/PI':np.array([.1]),'source/SHEX/Q':np.array([81.])},units=a['units'])
+        result=boundary(a,b)
+        self.assertEqual(result['compared_groups'],2)
+        self.assertFalse(result['pass_boundary'])
+        self.assertEqual(result['failed_groups'][0]['identity'],'source/SHEX/Q')
+
+    def test_source_cannot_disappear_between_segments(self):
+        a=dict(stop_s=2004,last={'source/SHEX/Q':np.array([80.])},units={'source/SHEX/Q':'W'})
+        b=dict(start_s=2004,first={},units={})
+        with self.assertRaises(ValueError):
+            boundary(a,b)
+
 
 if __name__=='__main__':
     unittest.main()

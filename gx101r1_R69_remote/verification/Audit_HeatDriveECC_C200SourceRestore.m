@@ -7,7 +7,16 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
     if nargin < 8, segment_request = struct('index', 0, 'prior_root', ''); end
     if nargin < 9, boundary_observation = false; end
     assert(islogical(boundary_observation) && isscalar(boundary_observation), 'Require explicit boundary observation mode.');
-    assert(~boundary_observation || ~cycle_diagnostic, 'Boundary discovery is limited to the one-step probe.');
+    assert(~isfield(segment_request,'boundary_observation'), 'Select boundary observation through the explicit ninth argument.');
+    if boundary_observation && cycle_diagnostic
+        segment_request.boundary_observation = true;
+        discovery_path = fullfile(authority_repo,'outputs_storage_audit', ...
+            'c201_boundary_source_probe_20260907','independent_boundary_audit_v2.json');
+        discovery = jsondecode(fileread(discovery_path));
+        assert(discovery.one_step_source_coverage_verified && discovery.instantaneous_port_sum_match && ...
+            discovery.exact_comparison_groups==1474 && discovery.trace_count==162 && ...
+            ~discovery.production_recovery_allowed, 'Require verified nonintrusive source discovery.');
+    end
     assert(cycle_diagnostic || segment_request.index == 0, 'Segment requests require diagnostic cycle mode.');
     assert(islogical(cycle_diagnostic) && isscalar(cycle_diagnostic), 'Require explicit cycle diagnostic mode.');
     assert(~cycle_diagnostic || (target_cycles == 201 && observe_states), 'Full-cycle diagnosis requires C201 state observation.');
