@@ -1,10 +1,13 @@
-function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_repo, output_root, observe_states, target_cycles, boundary_hold_diagnostic, cycle_diagnostic, segment_request)
+function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_repo, output_root, observe_states, target_cycles, boundary_hold_diagnostic, cycle_diagnostic, segment_request, boundary_observation)
 % Restore the unedited frozen C200 OP with the archived builder's own settings.
     if nargin < 4, observe_states = false; end
     if nargin < 5, target_cycles = 200; end
     if nargin < 6, boundary_hold_diagnostic = false; end
     if nargin < 7, cycle_diagnostic = false; end
     if nargin < 8, segment_request = struct('index', 0, 'prior_root', ''); end
+    if nargin < 9, boundary_observation = false; end
+    assert(islogical(boundary_observation) && isscalar(boundary_observation), 'Require explicit boundary observation mode.');
+    assert(~boundary_observation || ~cycle_diagnostic, 'Boundary discovery is limited to the one-step probe.');
     assert(cycle_diagnostic || segment_request.index == 0, 'Segment requests require diagnostic cycle mode.');
     assert(islogical(cycle_diagnostic) && isscalar(cycle_diagnostic), 'Require explicit cycle diagnostic mode.');
     assert(~cycle_diagnostic || (target_cycles == 201 && observe_states), 'Full-cycle diagnosis requires C201 state observation.');
@@ -30,6 +33,7 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
     audit.full_cycle_diagnostic_requested = cycle_diagnostic;
     audit.boundary_sample_hold_diagnostic = boundary_hold_diagnostic;
     audit.registered_state_observation_requested = observe_states;
+    audit.boundary_observation_requested = boundary_observation;
     try
         contract_path = fullfile(authority_repo, 'verification', 'c200_mainline_freeze_contract.json');
         authority = jsondecode(fileread(contract_path));
@@ -178,6 +182,13 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
             native = Extract_HeatDriveECC_NativeStorageTraces(output.get('simlog'), model);
             audit.native_scalar_trace_count = numel(native);
             save(fullfile(output_root, 'restored_step_signals.mat'), 'signals', 'native', '-v7.3');
+            if boundary_observation
+                [boundary, boundary_metadata] = Extract_HeatDriveECC_BoundaryTraces(output.get('simlog'), model);
+                save(fullfile(output_root, 'boundary_traces.mat'), 'boundary', 'boundary_metadata', '-v7.3');
+                audit.boundary_source_count = boundary_metadata.source_count;
+                audit.boundary_trace_count = numel(boundary);
+                audit.boundary_trace_sha256 = file_sha256(fullfile(output_root, 'boundary_traces.mat'));
+            end
             audit.observation_complete = true;
             if observe_states
                 observation = Extract_HeatDriveECC_ObservedStates(output.internal_state_log, options.schedule.tau_cycle_s, 1);
