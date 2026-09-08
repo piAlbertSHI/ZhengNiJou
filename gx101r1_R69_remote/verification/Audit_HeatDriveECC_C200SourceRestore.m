@@ -1,4 +1,4 @@
-function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_repo, output_root, observe_states, target_cycles, boundary_hold_diagnostic, cycle_diagnostic, segment_request, boundary_observation, endpoint_only, capture_stop_time_s)
+function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_repo, output_root, observe_states, target_cycles, boundary_hold_diagnostic, cycle_diagnostic, segment_request, boundary_observation, endpoint_only, capture_stop_time_s, export_log_op)
 % Restore the unedited frozen C200 OP with the archived builder's own settings.
     if nargin < 4, observe_states = false; end
     if nargin < 5, target_cycles = 200; end
@@ -8,6 +8,9 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
     if nargin < 9, boundary_observation = false; end
     if nargin < 10, endpoint_only = false; end
     if nargin < 11, capture_stop_time_s = 2000.001; end
+    if nargin < 12, export_log_op = false; end
+    assert(islogical(export_log_op) && isscalar(export_log_op),'Require explicit log-OP export.');
+    assert(~export_log_op || capture_stop_time_s==2000.002,'Log-OP export requires the verified two-step window.');
     assert(isscalar(capture_stop_time_s) && any(capture_stop_time_s==[2000.001 2000.002]),'Unsupported capture stop.');
     assert(capture_stop_time_s==2000.001 || (observe_states && target_cycles==200 && ~endpoint_only && ...
         ~boundary_hold_diagnostic && ~cycle_diagnostic && ~boundary_observation),'Two-step capture must preserve C200 commands.');
@@ -228,6 +231,18 @@ function audit = Audit_HeatDriveECC_C200SourceRestore(source_root, authority_rep
                 audit.public_snapshot_group_count=observation.logged_state_group_count;
                 audit.public_snapshot_sha256=file_sha256(fullfile(output_root,'registered_op_snapshot.mat'));
                 audit.diagnostic_op_sha256=file_sha256(fullfile(output_root,'DO_NOT_RESUME_FOR_PRODUCTION.mat'));
+            end
+            if export_log_op
+                log_operating_point=simscape.op.create(output.get('simlog'),2000.001);
+                log_target_table=simscape.op.targetTable(log_operating_point);
+                production_recovery_allowed=false;
+                export_path=fullfile(output_root,'LOG_OPERATING_POINT_DIAGNOSTIC_ONLY.mat');
+                save(export_path,'log_operating_point','log_target_table','production_recovery_allowed','-v7.3');
+                audit.log_operating_point_sha256=file_sha256(export_path);
+                audit.log_operating_point_time_s=2000.001;
+                audit.log_operating_point_has_private_data=hasPrivateData(log_operating_point);
+                audit.log_operating_point_target_count=height(log_target_table);
+                audit.log_operating_point_restore_verified=false;
             end
         end
         end
