@@ -28,7 +28,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     assert(strcmp(file_hash(fullfile(source,'component_build','+ecc_inventory','conservative_chamber.ssc')), ...
         file_hash(fullfile(repo,'verification','simscape_inventory','+ecc_inventory','conservative_chamber.ssc'))),'Chamber source changed.');
     if component_priorities
-        variant=fullfile(repo,'verification','simscape_inventory_priorities','+ecc_inventory','conservative_chamber.ssc');
+        variant=fullfile(repo,'verification','simscape_inventory_priorities','+ecc_inventory_priority','conservative_chamber.ssc');
         original_text=fileread(fullfile(repo,'verification','simscape_inventory','+ecc_inventory','conservative_chamber.ssc'));
         expected_text=strrep(original_text,'priority = priority.high','priority = priority.low');
         expected_text=strrep(expected_text,"stored_mass = {0.0016, 'kg'};", ...
@@ -38,19 +38,22 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         assert(strcmp(strrep(expected_text,sprintf('\r\n'),sprintf('\n')), ...
             strrep(fileread(variant),sprintf('\r\n'),sprintf('\n'))),'Variant changed more than four declaration priorities.');
         build=fullfile(output_root,'component_build');mkdir(build);
-        copyfile(fileparts(variant),fullfile(build,'+ecc_inventory'));
-        old=pwd;cc=onCleanup(@() cd(old));cd(build);ssc_build('ecc_inventory');cd(old);clear cc
+        copyfile(fileparts(variant),fullfile(build,'+ecc_inventory_priority'));
+        old=pwd;cc=onCleanup(@() cd(old));cd(build);ssc_build('ecc_inventory_priority');cd(old);clear cc
         addpath(build);
     end
     if component_priorities
-        selected_library=fullfile(build,'ecc_inventory_lib.slx');
+        library_name='ecc_inventory_priority_lib';chamber_source='ecc_inventory_priority.conservative_chamber';
+        selected_library=fullfile(build,[library_name '.slx']);
     else
+        library_name='ecc_inventory_lib';chamber_source='ecc_inventory.conservative_chamber';
         selected_library=fullfile(source,'component_build','ecc_inventory_lib.slx');
     end
     load_system(selected_library);load_system('ecc_buffer_coupled_lib');
-    assert(strcmp(get_param('ecc_inventory_lib','FileName'),selected_library),'A different component library is loaded.');
+    assert(strcmp(get_param(library_name,'FileName'),selected_library),'A different component library is loaded.');
     config=load(fullfile(source,'conservative','configuration.mat'),'options');
     config.options.simulation.persist_model_configuration=false;
+    config.options.branch.independent_conservative_chamber_library=library_name;
     canonical=config.options.model_path;canonical_hash=file_hash(canonical);
     record=struct('schema','heatdrive_ecc_cold_compiled_states_v1','inspector_commit',strtrim(commit), ...
         'inspection_pass',false,'simulation_run',false,'initialization_only',true,'source_time_s',0,'failed_terminal_state_imported',false, ...
@@ -59,7 +62,8 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.block_temperature_pressure_priority_low=prefer_inventory;
     record.component_inventory_priority_high=component_priorities;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
-    record.chamber_package_resolution=evalc("which('ecc_inventory.conservative_chamber','-all')");
+    record.chamber_package_resolution=evalc('which(chamber_source,''-all'')');
+    record.chamber_source_file=chamber_source;
     try
         [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(config.options);
         mc=onCleanup(@() close_system(model,0));
@@ -67,6 +71,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         targets=jsondecode(fileread(fullfile(source,'conservative','cold_inventory_targets.json')));
         for k=1:numel(targets)
             t=targets(k);assert(t.source_time_s==0 && strcmp(t.source_sha256,record.source_native_sha256),'Invalid target source.');
+            assert(strcmp(get_param(t.block_path,'SourceFile'),chamber_source),'Actual chamber source mismatch.');
             set_param(t.block_path,'stored_mass_specify','on','stored_mass_priority','High', ...
                 'stored_mass',num2str(t.stored_mass_kg,'%.17g'),'stored_mass_unit','kg', ...
                 'stored_energy_specify','on','stored_energy_priority','High', ...
@@ -84,7 +89,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         set_param(model,'LoadInitialState','off');
         buffers=Apply_HeatDriveECC_ColdConservativeBuffers(model,prior.native);
         [cold_public_targets,public_targets]=Build_HeatDriveECC_ColdInventoryTargets(model,prior.native, ...
-            options.branch.sma_pump_manifold_volume_m3,buffers);
+            options.branch.sma_pump_manifold_volume_m3,buffers,chamber_source);
         expected=jsondecode(fileread(fullfile(source,'conservative','public_inventory_targets.json')));
         assert(~hasPrivateData(cold_public_targets) && numel(public_targets)==numel(expected.targets),'Public cold target coverage differs.');
         for k=1:numel(public_targets)

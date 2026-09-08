@@ -1,6 +1,9 @@
-function [point,records]=Build_HeatDriveECC_ColdInventoryTargets(model,native,chamber_volume,buffers)
+function [point,records]=Build_HeatDriveECC_ColdInventoryTargets(model,native,chamber_volume,buffers,chamber_source)
 % Public target specification at t=0, not a ModelOperatingPoint or hidden state.
     if nargin<4, buffers={}; end
+    if nargin<5,chamber_source='ecc_inventory.conservative_chamber';end
+    assert(any(strcmp(chamber_source,{'ecc_inventory.conservative_chamber', ...
+        'ecc_inventory_priority.conservative_chamber'})),'Unknown cold diagnostic chamber source.');
     point=simscape.op.OperatingPoint;records={};primary=0;
     types={'Pipe (TL)','Tank (TL)','Thermal Mass'};counts=[67 4 46];
     for kind=1:3
@@ -32,7 +35,7 @@ function [point,records]=Build_HeatDriveECC_ColdInventoryTargets(model,native,ch
     end
     for name={'SMA_PumpInletConnectingPipeVolume','SMA_PumpOutletConnectingPipeVolume'}
         p=[model '/' name{1}];
-        assert(strcmp(get_param(p,'SourceFile'),'ecc_inventory.conservative_chamber'),'Wrong chamber.');
+        assert(strcmp(get_param(p,'SourceFile'),chamber_source),'Wrong chamber.');
         mass=observed(p,'rho_I','kg/m^3')*chamber_volume;
         add_value(p,'stored_mass','kg','High',mass);
         add_value(p,'stored_energy','J','High',mass*observed(p,'u_I','J/kg'));

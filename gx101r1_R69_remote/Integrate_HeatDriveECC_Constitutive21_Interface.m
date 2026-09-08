@@ -273,7 +273,13 @@ function ensure_sma_pump_manifold_volume(block_path, options, position)
             'Independent diagnostic must not overwrite the canonical model.');
         assert(isempty(options.simulation.resume_checkpoint_path), ...
             'Independent cold chamber diagnostic cannot import a recovery checkpoint.');
-        assert(bdIsLoaded('ecc_inventory_lib'), 'Build the diagnostic component library first.');
+        library_name='ecc_inventory_lib';
+        if isfield(options.branch,'independent_conservative_chamber_library')
+            library_name=options.branch.independent_conservative_chamber_library;
+        end
+        assert(any(strcmp(library_name,{'ecc_inventory_lib','ecc_inventory_priority_lib'})), ...
+            'Unknown independent chamber library.');
+        assert(bdIsLoaded(library_name), 'Build the diagnostic component library first.');
         if exist_block(block_path)
             % Both original chambers are adiabatic. Never discard a heat connection.
             ports = get_param(block_path, 'PortHandles');
@@ -281,8 +287,8 @@ function ensure_sma_pump_manifold_volume(block_path, options, position)
                 'Unexpected chamber thermal connection or port layout.');
             delete_block(block_path);
         end
-        library = find_system('ecc_inventory_lib','SearchDepth',1,'Type','Block');
-        library = setdiff(library,{'ecc_inventory_lib'});
+        library = find_system(library_name,'SearchDepth',1,'Type','Block');
+        library = setdiff(library,{library_name});
         assert(isscalar(library),'Expected one conservative diagnostic component.');
         add_block(library{1}, block_path, 'Position', position);
         set_param(block_path, 'volume', 'sma_pump_manifold_volume_m3', 'volume_unit', 'm^3', ...
