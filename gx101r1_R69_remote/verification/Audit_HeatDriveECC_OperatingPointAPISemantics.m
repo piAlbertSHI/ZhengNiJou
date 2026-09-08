@@ -1,7 +1,7 @@
 function audit=Audit_HeatDriveECC_OperatingPointAPISemantics(output_root,seed_mode)
 % Isolated interface test. Never load, reset, or modify production state.
     if nargin<2,seed_mode='one_step';end
-    assert(any(strcmp(seed_mode,{'one_step','zero_duration'})),'Unknown seed mode.');
+    assert(any(strcmp(seed_mode,{'one_step','zero_duration','zero_duration_advanced_donor'})),'Unknown seed mode.');
     assert(~isfolder(output_root),'Do not overwrite evidence.');
     [code,commit]=system('git rev-parse HEAD');assert(code==0,'Cannot record source.');
     [code,dirty]=system('git status --porcelain');assert(code==0 && isempty(strtrim(dirty)),'Commit source first.');
@@ -44,11 +44,15 @@ function audit=Audit_HeatDriveECC_OperatingPointAPISemantics(output_root,seed_mo
             'SaveFinalState','on','FinalStateName','xFinal','SaveOperatingPoint','on', ...
             'SaveTime','off','SaveOutput','off','ReturnWorkspaceOutputs','on','CaptureErrors','on', ...
             'OperatingPointContentsChecksumMismatchMsg','error','OperatingPointInterfaceChecksumMismatchMsg','error');
-        if strcmp(seed_mode,'zero_duration')
+        if startsWith(seed_mode,'zero_duration')
             input=input.setModelParameter('StartTime','2000.001');
         end
         low=sim(input);assert(isempty(low.ErrorMessage),'Low seed failed: %s',low.ErrorMessage);
-        high=sim(input.setVariable('thermal_targets',hot));assert(isempty(high.ErrorMessage),'High seed failed: %s',high.ErrorMessage);
+        donor=input.setVariable('thermal_targets',hot);
+        if strcmp(seed_mode,'zero_duration_advanced_donor')
+            donor=donor.setModelParameter('StartTime','2000');
+        end
+        high=sim(donor);assert(isempty(high.ErrorMessage),'High seed failed: %s',high.ErrorMessage);
         audit.low_seed=observe(low,mass);audit.high_seed=observe(high,mass);
         assert(all(audit.low_seed.temperature_K==340) && all(audit.high_seed.temperature_K==400),'Conflicting target seeds not established.');
         original=low.xFinal.loggedStates;
