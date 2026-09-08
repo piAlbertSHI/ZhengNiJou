@@ -2,7 +2,7 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_sour
 % Same physical graph control: import complete public groups, never state indices.
     if nargin<3,seed_source='differential_targets';end
     assert(any(strcmp(seed_source,{'differential_targets','logged_simscape_point', ...
-        'differential_targets_full_op_only'})),'Unknown seed source.');
+        'differential_targets_full_op_only','advanced_differential_targets'})),'Unknown seed source.');
     assert(~isfolder(output_root),'Do not overwrite control evidence.');
     [code,commit]=system('git rev-parse HEAD');assert(code==0,'Cannot record source.');
     [code,dirty]=system('git status --porcelain');assert(code==0 && isempty(strtrim(dirty)),'Commit source first.');
@@ -20,6 +20,13 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_sour
         'resume_simscape_use_operating_points','on');
     if strcmp(seed_source,'differential_targets_full_op_only')
         audit.resume_simscape_use_operating_points='off';
+    end
+    advanced=strcmp(seed_source,'advanced_differential_targets');
+    if advanced
+        audit.seed_initial_time_s=2000;
+        audit.seed_snapshot_time_s=2000.001;
+        audit.seed_target_comparison='initial_sample_before_advance';
+        audit.seed_trajectory_is_diagnostic_only=true;
     end
     try
         origin=fullfile(repo,'outputs_storage_audit','c200_source_compatibility_20260907');
@@ -89,6 +96,9 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_sour
             'SaveTime','off','SaveOutput','off','SignalLogging','off','SaveState','on','StateSaveName','internal_state_log', ...
             'SaveFinalState','on','FinalStateName','xFinal','SaveOperatingPoint','on', ...
             'OperatingPointContentsChecksumMismatchMsg','error','OperatingPointInterfaceChecksumMismatchMsg','error');
+        if advanced
+            input=input.setModelParameter('StartTime','2000');
+        end
         seed=sim(input);assert(isempty(seed.ErrorMessage),'Seed failed: %s',seed.ErrorMessage);
         seed_native=Extract_HeatDriveECC_NativeStorageTraces(seed.simlog,model);
         save(fullfile(output_root,'seed_native.mat'),'seed_native','-v7.3');
@@ -98,13 +108,20 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_sour
         for k=1:numel(target_records)
             row=target_records{k};idx=find(cellfun(@(r) strcmp([r.block_path '/' r.state_name],[model '/' row.path]),seed_native));
             assert(isscalar(idx),'Missing native seed target.');native=seed_native{idx};
-            actual=double(native.values(end));assert(strcmp(native.unit,row.unit),'Wrong seed units.');
+            if advanced
+                assert(isequal(native.time_s(:),[2000;2000.001]),'Wrong seed observation grid.');
+                actual=double(native.values(1));
+            else
+                actual=double(native.values(end));
+            end
+            assert(strcmp(native.unit,row.unit),'Wrong seed units.');
             delta=abs(actual-row.value);bound=1e-10+1e-11*max(abs(actual),abs(row.value));
             matches{end+1}=struct('path',row.path,'unit',row.unit,'expected',row.value,'actual',actual, ...
                 'difference',delta,'bound',bound,'pass',delta<=bound,'differential',row.differential); %#ok<AGROW>
         end
         audit.seed_matches=matches;audit.seed_target_pass=all(cellfun(@(r) r.pass,matches));
         assert(audit.seed_target_pass,'Seed does not preserve source targets.');
+        seed_original=seed.xFinal.loggedStates;
         for arm=arms
             candidate=seed.xFinal;ds=candidate.loggedStates;replaced=0;solver_groups=0;
             assert(ds.numElements==73 && candidate.snapshotTime==2000.001,'Wrong seeded public state set.');
@@ -124,6 +141,7 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_sour
                 ds=ds.setElement(k,item);replaced=replaced+1;
             end
             candidate.loggedStates=ds;
+            assert(isequaln(candidate.loggedStates,ds),'Public copied state readback changed.');
             assert(replaced==72+solver_groups && solver_groups<=1,'Wrong copied group count.');
             input_snapshot=Extract_HeatDriveECC_ObservedStates(candidate.loggedStates,built.schedule.tau_cycle_s,1);
             save(fullfile(output_root,[arm{1} '_input_public_states.mat']),'input_snapshot','-v7.3');
@@ -149,6 +167,7 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_sour
                 'observation_sha256',file_sha256(observation_path)); %#ok<AGROW>
             clear output
         end
+        assert(isequaln(seed_original,seed.xFinal.loggedStates),'Diagnostic seed OP changed.');
         assert(isequaln(original,saved.diagnostic_op.loggedStates),'Source OP was changed.');
         audit.source_snapshot_sha256=expected;audit.computation_complete=numel(audit.cases)==numel(arms);
     catch ME
