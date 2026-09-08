@@ -16,10 +16,12 @@ function audit=Audit_HeatDriveECC_PublicOPAccess(repo,output_root)
         'model_simulation_executed',false,'private_fields_read_or_written',false, ...
         'production_recovery_allowed',false,'start_time_s',point.startTime,'snapshot_time_s',point.snapshotTime, ...
         'properties',{{}},'queries',{{}});
+    visible=properties(point);
+    audit.time_read_only_contract='Official documentation; no runtime write attempted.';
+    audit.runtime_set_access_reflection_available=false;
     for name={'startTime','snapshotTime','loggedStates'}
-        p=findprop(point,name{1});assert(~isempty(p),'Missing documented public property.');
-        audit.properties{end+1}=struct('name',name{1},'get_access',access_name(p.GetAccess), ...
-            'set_access',access_name(p.SetAccess),'dependent',p.Dependent,'hidden',p.Hidden); %#ok<AGROW>
+        assert(any(strcmp(visible,name{1})),'Missing documented public property.');
+        audit.properties{end+1}=struct('name',name{1},'publicly_enumerated',true); %#ok<AGROW>
     end
     targets={};
     for k=1:original.numElements
@@ -45,11 +47,6 @@ function audit=Audit_HeatDriveECC_PublicOPAccess(repo,output_root)
     fid=fopen(fullfile(output_root,'public_op_access.json'),'w','n','UTF-8');assert(fid>=0,'Cannot save evidence.');
     cleanup_file=onCleanup(@() fclose(fid));fprintf(fid,'%s\n',jsonencode(audit,'PrettyPrint',true));
     fprintf('%s\n',jsonencode(audit));
-end
-
-function value=access_name(access)
-    if ischar(access) || isstring(access),value=char(access);
-    else,value=class(access);end
 end
 
 function result=file_sha256(file)
