@@ -17,7 +17,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'c200_state_imported',false,'production_recovery_allowed',false, ...
         'table4_reproduction_claim',false,'periodic_steady_state',false, ...
         'full_device_first_law_verified',false,'checkpoint_saved',false, ...
-        'start_time_s',0,'stop_time_s',duration,'collection_pass',false,'cases',{{}},'error_message','');
+        'start_time_s',0,'stop_time_s',duration,'collection_pass',false,'cases',{{}},'error_message','', ...
+        'new_inventory_initialization','native_cold_t0_mass_energy_high_targets');
     try
         contract=jsondecode(fileread(fullfile(repo,'verification','c200_mainline_freeze_contract.json')));
         raw=fullfile(repo,contract.result_relative_path); op=fullfile(repo,contract.checkpoint_relative_path);
@@ -43,6 +44,21 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     assert(strcmp(get_param(changed{k},'SourceFile'),'ecc_inventory.conservative_chamber'), ...
                         'Wrong diagnostic component.');
                 end
+                prior=load(fullfile(output_root,'native','observations.mat'),'native');
+                initial_targets={};
+                for k=1:2
+                    rows=prior.native(cellfun(@(r) strcmp(r.block_path,changed{k}),prior.native));
+                    rho=initial_value(rows,'rho_I','kg/m^3'); u=initial_value(rows,'u_I','J/kg');
+                    mass=options.branch.sma_pump_manifold_volume_m3*rho;
+                    set_param(changed{k},'stored_mass_specify','on','stored_mass_priority','High', ...
+                        'stored_mass',num2str(mass,'%.17g'),'stored_mass_unit','kg', ...
+                        'stored_energy_specify','on','stored_energy_priority','High', ...
+                        'stored_energy',num2str(mass*u,'%.17g'),'stored_energy_unit','J');
+                    initial_targets{end+1}=struct('block_path',changed{k},'stored_mass_kg',mass, ...
+                        'stored_energy_J',mass*u,'source_time_s',0, ...
+                        'source_sha256',file_hash(fullfile(output_root,'native','observations.mat')));
+                end
+                write_json(fullfile(arm,'cold_inventory_targets.json'),initial_targets);
             end
             names={'L_valve_command','SMA_L_valve_command','SMA_pressure_bias_command', ...
                 'SMA_pressure_feedback_enable_command','SMA_pressure_feedback_reset_command'};
@@ -68,7 +84,14 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             write_json(fullfile(arm,'tl_connectivity.json'),Export_HeatDriveECC_TLConnectivity(model));
             write_json(fullfile(arm,'thermal_connectivity.json'), ...
                 Export_HeatDriveECC_TLConnectivity(model,'foundation.thermal.thermal'));
-            output=sim(model);
+            input=Simulink.SimulationInput(model);
+            input=input.setModelParameter('CaptureErrors','on');
+            output=sim(input);
+            if ~isempty(output.ErrorMessage)
+                failure_message=output.ErrorMessage;
+                save(fullfile(arm,'failed_output.mat'),'output','-v7.3');
+                error('HeatDriveECC:ColdDiagnosticSimulationFailed','%s',failure_message);
+            end
             native=Extract_HeatDriveECC_NativeStorageTraces(output.simlog,model,false,changed);
             [source_traces,boundary_metadata]=Extract_HeatDriveECC_BoundaryTraces(output.simlog,model);
             signals=struct(); names=output.who;
@@ -95,7 +118,9 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         record.error_report=getReport(ME,'extended','hyperlinks','off');
     end
     write_json(fullfile(output_root,'cold_chamber_execution.json'),record);
-    fprintf('%s\n',jsonencode(record));
+    fprintf('%s\n',jsonencode(struct('collection_pass',record.collection_pass, ...
+        'completed_arms',numel(record.cases),'production_recovery_allowed',false, ...
+        'result_file',fullfile(output_root,'cold_chamber_execution.json'),'error_message',record.error_message)));
     assert(record.collection_pass,'Cold chamber diagnostic failed; inspect execution JSON.');
 end
 
@@ -115,7 +140,8 @@ function metadata=export_metadata(model,changed)
                 n=modes{j}; if isfield(dialog,n),row.model_modes.(n)=get_param(p,n);end
             end
             for j=1:numel(params)
-                n=params{j}; if isfield(dialog,n)
+                n=params{j};
+                if isfield(dialog,n)
                     expression=get_param(p,n); row.mask_parameters.(n)=struct('expression',expression, ...
                         'value',slResolve(expression,p),'unit',get_param(p,[n '_unit']));
                 end
@@ -137,6 +163,13 @@ function metadata=export_metadata(model,changed)
         end
     end
     assert(numel(metadata.storage_blocks)==119 && numel(metadata.settings_tables)==2,'Incomplete storage inventory.');
+end
+
+function v=initial_value(rows,name,unit)
+    selected=rows(cellfun(@(r) strcmp(r.state_name,name),rows));
+    assert(isscalar(selected) && selected{1}.time_s(1)==0,'Require actual native cold initial sample.');
+    v=value(simscape.Value(selected{1}.values(1),selected{1}.unit),unit);
+    assert(isfinite(v),'Nonfinite cold coordinate.');
 end
 
 function write_json(file,value)
