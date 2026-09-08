@@ -1,5 +1,7 @@
-function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root)
+function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_source)
 % Same physical graph control: import complete public groups, never state indices.
+    if nargin<3,seed_source='differential_targets';end
+    assert(any(strcmp(seed_source,{'differential_targets','logged_simscape_point'})),'Unknown seed source.');
     assert(~isfolder(output_root),'Do not overwrite control evidence.');
     [code,commit]=system('git rev-parse HEAD');assert(code==0,'Cannot record source.');
     [code,dirty]=system('git status --porcelain');assert(code==0 && isempty(strtrim(dirty)),'Commit source first.');
@@ -12,7 +14,8 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root)
     audit=struct('schema','heatdrive_ecc_public_snapshot_control_v1','execution_commit',strtrim(commit), ...
         'computation_complete',false,'production_recovery_allowed',false,'source_physical_model_changed',false, ...
         'controller_representation_changed',true,'source_op_edited',false,'final_checkpoint_saved',false, ...
-        'anonymous_indices_edited',false,'start_time_s',2000.001,'stop_time_s',2000.002,'cases',{{}},'error_message','');
+        'anonymous_indices_edited',false,'start_time_s',2000.001,'stop_time_s',2000.002,'cases',{{}},'error_message','', ...
+        'seed_source',seed_source);
     try
         origin=fullfile(repo,'outputs_storage_audit','c200_source_compatibility_20260907');
         template_path=fullfile(origin,'archived_source_probe_v4','DO_NOT_RESUME_FOR_PRODUCTION.mat');
@@ -50,6 +53,21 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root)
         audit.controller_initial_conditions=Apply_HeatDriveECC_ObservedControllerInitialState(model,mapping, ...
             fullfile(repo,'outputs_storage_audit','lag_state_space_equivalence_20260908','lag_equivalence.json'));
         [targets,target_records]=Build_HeatDriveECC_DifferentialStateTargets(repo,model,2);
+        arms={'nonnetwork_snapshot','whole_snapshot'};
+        if strcmp(seed_source,'logged_simscape_point')
+            log_root=fullfile(repo,'outputs_storage_audit','c200_logged_simscape_op_20260908');
+            log_audit=jsondecode(fileread(fullfile(log_root,'source_restore_audit.json')));
+            log_path=fullfile(log_root,'LOG_OPERATING_POINT_DIAGNOSTIC_ONLY.mat');
+            assert(log_audit.strict_restore_pass && log_audit.observation_complete && isempty(log_audit.error_message) && ...
+                ~log_audit.production_recovery_allowed && ~log_audit.source_operating_point_edited && ...
+                log_audit.log_operating_point_time_s==2000.001 && ...
+                strcmp(file_sha256(log_path),log_audit.log_operating_point_sha256),'Unverified log operating point.');
+            logged=load(log_path,'log_operating_point','production_recovery_allowed');
+            assert(~logged.production_recovery_allowed && hasPrivateData(logged.log_operating_point),'Missing opaque log data.');
+            targets=logged.log_operating_point;
+            audit.logged_simscape_point_sha256=log_audit.log_operating_point_sha256;
+            audit.logged_simscape_point_unedited=true;arms={'nonnetwork_snapshot'};
+        end
         commands=struct();names={'L_valve_command','SMA_L_valve_command','SMA_pressure_bias_command', ...
             'SMA_pressure_feedback_enable_command','SMA_pressure_feedback_reset_command'};
         for k=1:numel(names)
@@ -80,7 +98,7 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root)
         end
         audit.seed_matches=matches;audit.seed_target_pass=all(cellfun(@(r) r.pass,matches));
         assert(audit.seed_target_pass,'Seed does not preserve source targets.');
-        for arm={'nonnetwork_snapshot','whole_snapshot'}
+        for arm=arms
             candidate=seed.xFinal;ds=candidate.loggedStates;replaced=0;solver_groups=0;
             assert(ds.numElements==73 && candidate.snapshotTime==2000.001,'Wrong seeded public state set.');
             for k=1:ds.numElements
@@ -100,6 +118,8 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root)
             end
             candidate.loggedStates=ds;
             assert(replaced==72+solver_groups && solver_groups<=1,'Wrong copied group count.');
+            input_snapshot=Extract_HeatDriveECC_ObservedStates(candidate.loggedStates,built.schedule.tau_cycle_s,1);
+            save(fullfile(output_root,[arm{1} '_input_public_states.mat']),'input_snapshot','-v7.3');
             run=input.setModelParameter('StopTime','2000.002');run=run.setInitialState(candidate);
             output=sim(run);assert(isempty(output.ErrorMessage),'Snapshot control failed: %s',output.ErrorMessage);
             signals=struct();names=output.who;
@@ -122,7 +142,7 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root)
             clear output
         end
         assert(isequaln(original,saved.diagnostic_op.loggedStates),'Source OP was changed.');
-        audit.source_snapshot_sha256=expected;audit.computation_complete=numel(audit.cases)==2;
+        audit.source_snapshot_sha256=expected;audit.computation_complete=numel(audit.cases)==numel(arms);
     catch ME
         audit.error_message=ME.message;audit.error_identifier=ME.identifier;audit.error_report=getReport(ME,'extended','hyperlinks','off');
     end
