@@ -101,21 +101,12 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     write_json(fullfile(arm,'buffer_mass_guesses.json'),guesses);
                 end
                 if pipe_energy_targets
-                    pipes=find_system(model,'LookUnderMasks','all','FollowLinks','on', ...
-                        'Type','Block','MaskType','Pipe (TL)');
-                    assert(numel(pipes)==67,'Expected all 67 quasisteady pipes.');
-                    targets=cell(size(pipes));
-                    for k=1:numel(pipes)
-                        p=pipes{k}; rows=prior.native(cellfun(@(r) strcmp(r.block_path,p),prior.native));
-                        energy=initial_value(rows,'u_I','kJ/kg');
-                        assert(strcmp(get_param(p,'dynamic_compressibility'),'false'),'Wrong pipe storage mode.');
-                        targets{k}=struct('block_path',p,'u_I_kJ_per_kg',energy, ...
-                            'old_specify',get_param(p,'u_I_specify'),'old_priority',get_param(p,'u_I_priority'), ...
-                            'source_time_s',0,'source_sha256',file_hash(fullfile(output_root,'native','observations.mat')));
-                        set_param(p,'u_I_specify','on','u_I_priority','High', ...
-                            'u_I',num2str(energy,'%.17g'),'u_I_unit','kJ/kg');
-                    end
-                    write_json(fullfile(arm,'pipe_energy_targets.json'),targets);
+                    [cold_public_targets,targets]=Build_HeatDriveECC_ColdInventoryTargets(model,prior.native, ...
+                        options.branch.sma_pump_manifold_volume_m3);
+                    write_json(fullfile(arm,'public_inventory_targets.json'),struct('targets',{targets}, ...
+                        'source_sha256',file_hash(fullfile(output_root,'native','observations.mat')), ...
+                        'has_private_data',hasPrivateData(cold_public_targets),'source_time_s',0));
+                    save(fullfile(arm,'cold_public_targets.mat'),'cold_public_targets','-v7.3');
                 end
             end
             names={'L_valve_command','SMA_L_valve_command','SMA_pressure_bias_command', ...
@@ -133,6 +124,10 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 'SimscapeLogType','all','SimscapeLogName','simlog','SimscapeLogLimitData','off', ...
                 'SaveFinalState','off','SaveOperatingPoint','off','SaveState','off', ...
                 'SaveTime','off','SaveOutput','off','SignalLogging','off');
+            if strcmp(name,'conservative') && pipe_energy_targets
+                assignin('base','cold_public_targets',cold_public_targets);
+                set_param(model,'SimscapeUseOperatingPoints','on','SimscapeOperatingPoint','cold_public_targets');
+            end
             assert(options.simscape.local_solver_enabled && ...
                 strcmp(options.simscape.local_solver_choice,'NE_BACKWARD_EULER_ADVANCER') && ...
                 options.simscape.local_solver_sample_time_s==.001,'Require the unchanged local BE solver.');
@@ -144,6 +139,9 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 Export_HeatDriveECC_TLConnectivity(model,'foundation.thermal.thermal'));
             input=Simulink.SimulationInput(model);
             input=input.setModelParameter('CaptureErrors','on');
+            if strcmp(name,'conservative') && pipe_energy_targets
+                input=input.setVariable('cold_public_targets',cold_public_targets);
+            end
             output=sim(input);
             if ~isempty(output.ErrorMessage)
                 failure_message=output.ErrorMessage;
