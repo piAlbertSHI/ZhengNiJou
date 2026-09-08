@@ -1,5 +1,7 @@
-function audit=Audit_HeatDriveECC_OperatingPointAPISemantics(output_root)
+function audit=Audit_HeatDriveECC_OperatingPointAPISemantics(output_root,seed_mode)
 % Isolated interface test. Never load, reset, or modify production state.
+    if nargin<2,seed_mode='one_step';end
+    assert(any(strcmp(seed_mode,{'one_step','zero_duration'})),'Unknown seed mode.');
     assert(~isfolder(output_root),'Do not overwrite evidence.');
     [code,commit]=system('git rev-parse HEAD');assert(code==0,'Cannot record source.');
     [code,dirty]=system('git status --porcelain');assert(code==0 && isempty(strtrim(dirty)),'Commit source first.');
@@ -15,7 +17,8 @@ function audit=Audit_HeatDriveECC_OperatingPointAPISemantics(output_root)
     audit=struct('schema','heatdrive_ecc_op_api_isolation_v1','execution_commit',strtrim(commit), ...
         'matlab_release',version('-release'),'production_model_loaded',false, ...
         'production_checkpoint_loaded',false,'production_recovery_allowed',false, ...
-        'collection_complete',false,'cases',{{}},'error_message','');
+        'collection_complete',false,'cases',{{}},'error_message','', ...
+        'seed_mode',seed_mode);
     try
         mass=[model '/Mass'];solver=[model '/Solver'];memory=[model '/Memory'];
         add_block('fl_lib/Thermal/Thermal Elements/Thermal Mass',mass,'mass','1','mass_unit','kg', ...
@@ -41,6 +44,9 @@ function audit=Audit_HeatDriveECC_OperatingPointAPISemantics(output_root)
             'SaveFinalState','on','FinalStateName','xFinal','SaveOperatingPoint','on', ...
             'SaveTime','off','SaveOutput','off','ReturnWorkspaceOutputs','on','CaptureErrors','on', ...
             'OperatingPointContentsChecksumMismatchMsg','error','OperatingPointInterfaceChecksumMismatchMsg','error');
+        if strcmp(seed_mode,'zero_duration')
+            input=input.setModelParameter('StartTime','2000.001');
+        end
         low=sim(input);assert(isempty(low.ErrorMessage),'Low seed failed: %s',low.ErrorMessage);
         high=sim(input.setVariable('thermal_targets',hot));assert(isempty(high.ErrorMessage),'High seed failed: %s',high.ErrorMessage);
         audit.low_seed=observe(low,mass);audit.high_seed=observe(high,mass);
