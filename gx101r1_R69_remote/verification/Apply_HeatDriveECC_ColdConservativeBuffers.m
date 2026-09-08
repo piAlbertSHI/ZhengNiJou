@@ -20,8 +20,18 @@ function records = Apply_HeatDriveECC_ColdConservativeBuffers(model, native)
         area = resolved('tank_area', 'm^2'); port_area = resolved('inlet_area_A', 'm^2');
         height = resolved('inlet_height_A', 'm'); gravity = resolved('g', 'm/s^2'); pressure = resolved('tank_pressure', 'Pa');
         assert(area>0 && port_area>0 && height==0 && gravity>=0, 'Only a positive-area bottom inlet is supported.');
-        ports_before = Map_HeatDriveECC_PhysicalPortHandles(path,scratch);
-        assert(numel(ports_before)==2 && isequal(sort(cellfun(@(p) p.name,ports_before,'UniformOutput',false)),{'A','H'}), 'Unexpected buffer ports.');
+        all_ports_before = Map_HeatDriveECC_PhysicalPortHandles(path,scratch);
+        for j=1:numel(all_ports_before)
+            all_ports_before{j}.connected = get_param(all_ports_before{j}.handle,'Line')>=0;
+        end
+        conserving = cellfun(@(p) strcmp(p.interface_type,'Domain'),all_ports_before);
+        ports_before = all_ports_before(conserving);
+        removed_outputs = all_ports_before(~conserving);
+        assert(numel(ports_before)==2 && isequal(sort(cellfun(@(p) p.name,ports_before,'UniformOutput',false)),{'A','H'}), 'Unexpected conserving buffer ports.');
+        % Native Tank exposes optional state outputs; no connected signal may be discarded.
+        assert(numel(removed_outputs)==3 && isequal(sort(cellfun(@(p) p.name,removed_outputs,'UniformOutput',false)), ...
+            {'L_out','T_out','V_out'}) && all(cellfun(@(p) strcmp(p.interface_type,'Output') && ...
+            isempty(p.domain) && ~p.connected,removed_outputs)), 'Cannot remove connected or unknown buffer outputs.');
         temp = observed('T_I','K'); mass = observed('mass','kg'); rho = observed('rho_I','kg/m^3'); u = observed('u_I','J/kg');
         volume = mass/rho;
         assert(abs(volume-observed('volume','m^3'))<1e-12 && abs(pressure-observed('p_I','Pa'))<1e-6, ...
@@ -38,13 +48,17 @@ function records = Apply_HeatDriveECC_ColdConservativeBuffers(model, native)
             'stored_energy_specify','on','stored_energy_priority','High','stored_energy',number(energy),'stored_energy_unit','J', ...
             'T_I_specify','on','T_I_priority','Low','T_I',number(temp),'T_I_unit','K');
         ports_after = Map_HeatDriveECC_PhysicalPortHandles(path,scratch);
+        assert(numel(ports_after)==2,'Unexpected replacement port count.');
         for j=1:numel(ports_before)
             a=ports_before{j};selected=ports_after(cellfun(@(p) strcmp(p.name,a.name),ports_after));
             assert(isscalar(selected),'Missing unique physical port.');b=selected{1};
             assert(strcmp(a.side,b.side) && a.index==b.index && strcmp(a.domain,b.domain), ...
                 'Physical port identity or layout changed.');
+            assert(strcmp(b.interface_type,'Domain') && a.connected==(get_param(b.handle,'Line')>=0), ...
+                'Physical port connectivity changed.');
         end
         records{end+1}=struct('block_path',path,'original_parameters',parameters, ...
+            'original_conserving_ports',{ports_before},'removed_unconnected_outputs',{removed_outputs}, ...
             'tank_area_m2',area,'port_area_m2',port_area,'inlet_height_m',height,'gravity_m_s2',gravity, ...
             'p_environment_Pa',pressure,'reference_temperature_K',temp,'initial_mass_kg',mass, ...
             'initial_volume_m3',volume,'initial_extended_energy_J',energy,'initial_source_time_s',0, ...
