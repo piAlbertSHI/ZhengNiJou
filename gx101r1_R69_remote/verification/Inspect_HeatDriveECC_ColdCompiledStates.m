@@ -1,5 +1,7 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
+    if nargin<3,prefer_inventory=false;end
+    assert(islogical(prefer_inventory) && isscalar(prefer_inventory),'Require explicit inventory priority choice.');
     assert(~isfolder(output_root),'Never overwrite state inspection evidence.');
     [code,dirty]=system('git status --porcelain');assert(code==0 && isempty(strtrim(dirty)),'Commit inspector first.');
     [code,commit]=system('git rev-parse HEAD');assert(code==0,'Cannot record inspector.');
@@ -29,6 +31,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root)
         'inspection_pass',false,'simulation_run',false,'initialization_only',true,'source_time_s',0,'failed_terminal_state_imported',false, ...
         'c200_state_imported',false,'production_recovery_allowed',false,'checkpoint_saved',false, ...
         'source_native_sha256',file_hash(original),'states',{{}},'stage','build','error_message','');
+    record.block_temperature_pressure_priority_low=prefer_inventory;
     try
         [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(config.options);
         mc=onCleanup(@() close_system(model,0));
@@ -43,6 +46,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root)
                 'stored_mass_nominal_specify','on','stored_mass_nominal_value',num2str(t.stored_mass_kg,'%.17g'), ...
                 'stored_mass_nominal_unit','kg','stored_energy_nominal_specify','on', ...
                 'stored_energy_nominal_value',num2str(t.stored_energy_J,'%.17g'),'stored_energy_nominal_unit','J');
+            if prefer_inventory,set_param(t.block_path,'T_I_priority','Low','p_I_priority','Low');end
         end
         guesses=jsondecode(fileread(fullfile(source,'conservative','buffer_mass_guesses.json')));
         for k=1:numel(guesses)
