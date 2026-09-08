@@ -4,6 +4,7 @@ import numpy as np
 from scipy.interpolate import RegularGridInterpolator
 
 from Audit_HeatDriveECC_TankInterpolationConsistency import integrate_linear, enthalpy_derivative, analyze_path
+from Audit_HeatDriveECC_TankStepRefinement import capacity_integral
 
 
 class TankInterpolationTests(unittest.TestCase):
@@ -55,6 +56,20 @@ class TankInterpolationTests(unittest.TestCase):
         table, temp, u = self.fixture([10., 10., 10.])
         with self.assertRaisesRegex(ValueError, 'Native properties'):
             analyze_path(table, 1, temp, np.ones(4), u+1, np.full(4, 2.), u)
+
+    def test_quadratic_extra_capacity_integral(self):
+        # cp=T, rho=2*T: integral((3+2*T)*T, 1, 2)=55/6.
+        self.assertAlmostEqual(capacity_integral([1, 2], [1, 2], [2, 4], 3, 1, 1, 2), 55/6)
+        self.assertAlmostEqual(capacity_integral([1, 2], [1, 2], [2, 4], 3, 1, 2, 1), -55/6)
+
+    def test_capacity_without_extra_volume(self):
+        self.assertAlmostEqual(capacity_integral([1, 2], [1, 2], [2, 4], 3, 0, 1, 2), 4.5)
+
+    def test_invalid_capacity_arrays_rejected(self):
+        with self.assertRaises(ValueError):
+            capacity_integral([1, 2], [1, 2], [2], 3, 0, 1, 2)
+        with self.assertRaises(ValueError):
+            capacity_integral([1, 2], [1, 2], [2, -4], 3, 0, 1, 2)
 
 
 if __name__ == '__main__':
