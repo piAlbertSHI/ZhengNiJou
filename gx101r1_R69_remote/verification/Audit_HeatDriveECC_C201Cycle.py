@@ -27,23 +27,23 @@ def load_signals(root):
     return {name:np.concatenate(parts,axis=1) for name,parts in combined.items()}
 
 
-def phase_axes(time):
-    phase=np.asarray(time)-2000
+def phase_axes(time, origin=2000):
+    phase=np.asarray(time)-origin
     stage=np.minimum(np.searchsorted([3.5,5,8.5,10],phase,side='right')+1,4)
     elapsed=phase-np.array([0,3.5,5,8.5])[stage-1]
     return stage,elapsed
 
 
-def metrics(signals, options, time):
+def metrics(signals, options, time, origin=2000):
     scalar=lambda path:float(options[path][0,0])
-    stage,elapsed=phase_axes(time)
+    stage,elapsed=phase_axes(time,origin)
     mean=lambda value:float(np.trapezoid(value,time)/10)
     q=signals['mass_flow_v4_hot_inlet_kgps'][0]
     hot=signals['hot_hx_inlet_fluid_temp_out'][0]
     cold=signals['cold_hx_inlet_fluid_temp_out'][0]
     inlet=signals['cold_hx_outlet_fluid_temp_out'][0]
     power=abs(q)*(stage==4)*scalar('system/cp_fluid_J_per_kgK')*(cold-inlet)
-    performance=dict(window_start_s=2000,window_stop_s=2010,window_cycles=1,
+    performance=dict(window_start_s=origin,window_stop_s=origin+10,window_cycles=1,
                      SE_mass_g=1000*scalar('equilibrium/m_r_kg'),cp_fluid_J_kgK=scalar('system/cp_fluid_J_per_kgK'),
                      outlet_lift_mean_K=mean(hot-cold),cooling_power_W=mean(power),
                      SCP_W_g=mean(power)/(1000*scalar('equilibrium/m_r_kg')),
