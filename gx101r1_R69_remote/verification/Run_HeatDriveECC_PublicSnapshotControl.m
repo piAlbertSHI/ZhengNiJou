@@ -1,7 +1,8 @@
 function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_source)
 % Same physical graph control: import complete public groups, never state indices.
     if nargin<3,seed_source='differential_targets';end
-    assert(any(strcmp(seed_source,{'differential_targets','logged_simscape_point'})),'Unknown seed source.');
+    assert(any(strcmp(seed_source,{'differential_targets','logged_simscape_point', ...
+        'differential_targets_full_op_only'})),'Unknown seed source.');
     assert(~isfolder(output_root),'Do not overwrite control evidence.');
     [code,commit]=system('git rev-parse HEAD');assert(code==0,'Cannot record source.');
     [code,dirty]=system('git status --porcelain');assert(code==0 && isempty(strtrim(dirty)),'Commit source first.');
@@ -15,7 +16,11 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_sour
         'computation_complete',false,'production_recovery_allowed',false,'source_physical_model_changed',false, ...
         'controller_representation_changed',true,'source_op_edited',false,'final_checkpoint_saved',false, ...
         'anonymous_indices_edited',false,'start_time_s',2000.001,'stop_time_s',2000.002,'cases',{{}},'error_message','', ...
-        'seed_source',seed_source);
+        'seed_source',seed_source,'seed_simscape_use_operating_points','on', ...
+        'resume_simscape_use_operating_points','on');
+    if strcmp(seed_source,'differential_targets_full_op_only')
+        audit.resume_simscape_use_operating_points='off';
+    end
     try
         origin=fullfile(repo,'outputs_storage_audit','c200_source_compatibility_20260907');
         template_path=fullfile(origin,'archived_source_probe_v4','DO_NOT_RESUME_FOR_PRODUCTION.mat');
@@ -87,6 +92,8 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_sour
         seed=sim(input);assert(isempty(seed.ErrorMessage),'Seed failed: %s',seed.ErrorMessage);
         seed_native=Extract_HeatDriveECC_NativeStorageTraces(seed.simlog,model);
         save(fullfile(output_root,'seed_native.mat'),'seed_native','-v7.3');
+        observation=Extract_HeatDriveECC_ObservedStates(seed.xFinal.loggedStates,built.schedule.tau_cycle_s,1);
+        save(fullfile(output_root,'seed_public_states.mat'),'observation','-v7.3');
         matches={};
         for k=1:numel(target_records)
             row=target_records{k};idx=find(cellfun(@(r) strcmp([r.block_path '/' r.state_name],[model '/' row.path]),seed_native));
@@ -121,6 +128,7 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_sour
             input_snapshot=Extract_HeatDriveECC_ObservedStates(candidate.loggedStates,built.schedule.tau_cycle_s,1);
             save(fullfile(output_root,[arm{1} '_input_public_states.mat']),'input_snapshot','-v7.3');
             run=input.setModelParameter('StopTime','2000.002');run=run.setInitialState(candidate);
+            run=run.setModelParameter('SimscapeUseOperatingPoints',audit.resume_simscape_use_operating_points);
             output=sim(run);assert(isempty(output.ErrorMessage),'Snapshot control failed: %s',output.ErrorMessage);
             signals=struct();names=output.who;
             for k=1:numel(names)
