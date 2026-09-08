@@ -44,6 +44,25 @@ $preserveRawPaths = @(
     $authorityCheckpoint,
     (Join-Path $authorityRun 'stage_temperature_probes_50samples.csv')
 )
+$prefixArchiveRoot = Join-Path $repoRoot 'outputs_storage_audit\c40_c60_prefix_archive_20260908_v3'
+if (Test-Path -LiteralPath (Join-Path $prefixArchiveRoot 'archive_verification.json')) {
+    foreach ($cycles in @(40,60)) {
+        $descriptor = Get-Content -LiteralPath (Join-Path $prefixArchiveRoot "c$cycles\archive.json") -Raw | ConvertFrom-Json
+        if ($descriptor.schema -ne 'heatdrive_ecc_raw_prefix_archive_v1' -or -not $descriptor.exact_logical_data_preserved) {
+            throw 'Unknown prefix archive dependency; refuse automatic cleanup.'
+        }
+        $replacement = [IO.Path]::GetFullPath((Join-Path $repoRoot $descriptor.replacement_path))
+        if (-not $replacement.StartsWith($outputRootResolved + [IO.Path]::DirectorySeparatorChar,
+                [StringComparison]::OrdinalIgnoreCase) -or -not (Test-Path -LiteralPath $replacement -PathType Leaf)) {
+            throw 'A retained prefix archive lost its required raw dependency.'
+        }
+        $preserveRawPaths += [IO.Path]::GetRelativePath($outputRootResolved,$replacement)
+    }
+    if ($Apply) {
+        $archiveAudit = & python -X utf8 (Join-Path $PSScriptRoot 'Archive_HeatDriveECC_RawPrefixes.py') --verify
+        if ($LASTEXITCODE -ne 0) { throw 'Prefix archive verification failed; cleanup is disabled.' }
+    }
+}
 $runtimeEvidenceContractPath = Join-Path $repoRoot `
     'verification\cold_boundary_runtime_c246_recovery_contract.json'
 if (Test-Path -LiteralPath $runtimeEvidenceContractPath -PathType Leaf) {

@@ -5,10 +5,20 @@ import unittest
 import h5py
 import numpy as np
 
-from Archive_HeatDriveECC_RawPrefixes import copy_without_traces,logical_hash,reconstructed_chunks
+from Archive_HeatDriveECC_RawPrefixes import copy_without_traces,logical_hash,reconstructed_chunks,validate_descriptor
 
 
 class RawArchiveTests(unittest.TestCase):
+    def test_missing_trace_in_descriptor_rejected(self):
+        case=dict(source_sha256='old',source_path='old.mat',source_bytes=99,records=[{'path':'physical/time_s'}])
+        coverage=dict(replacement_path='new.mat',replacement_sha256='new')
+        descriptor=dict(**{k:v for k,v in case.items() if k!='records'},**coverage,traces=case['records'],
+            exact_logical_data_preserved=True,original_mat_container_bytes_preserved=False,production_recovery_allowed=False,
+            metadata_logical_sha256={k:'hash' for k in ['available_simulink_variables','options','physical','provenance','summary']})
+        validate_descriptor(descriptor,case,coverage)
+        descriptor['traces']=[]
+        with self.assertRaises(ValueError):validate_descriptor(descriptor,case,coverage)
+
     def test_original_endpoint_replaces_later_boundary(self):
         later=np.array([[1.,2.,99.,100.]])
         endpoint=np.array([[3.]])

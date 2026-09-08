@@ -78,8 +78,27 @@ def reconstructed_chunks(replacement,endpoint,shape,chunk_samples):
         yield start,stop,values
 
 
+def validate_descriptor(descriptor,case,coverage):
+    if (descriptor['source_sha256']!=case['source_sha256'] or descriptor['source_path']!=case['source_path']
+            or descriptor['source_bytes']!=case['source_bytes'] or descriptor['traces']!=case['records']
+            or descriptor['replacement_path']!=coverage['replacement_path']
+            or descriptor['replacement_sha256']!=coverage['replacement_sha256']
+            or not descriptor['exact_logical_data_preserved']
+            or descriptor['original_mat_container_bytes_preserved'] or descriptor['production_recovery_allowed']
+            or set(descriptor['metadata_logical_sha256'])!={'available_simulink_variables','options','physical','provenance','summary'}):
+        raise ValueError('Incomplete or changed archive descriptor')
+
+
 def verify_case(repo,folder,replacement_hash=None):
     descriptor=read(folder/'archive.json')
+    coverage_path=repo/'outputs_storage_audit/c40_c60_raw_prefix_coverage_20260908.json'
+    coverage=read(coverage_path)
+    candidates=[case for case in coverage['cases'] if case['source_sha256']==descriptor['source_sha256']]
+    if len(candidates)!=1:raise ValueError('Unknown archived source')
+    validate_descriptor(descriptor,candidates[0],coverage)
+    verification=folder.parent/'archive_verification.json'
+    if verification.exists() and sha256(coverage_path)!=read(verification)['coverage_audit_sha256']:
+        raise ValueError('Frozen source coverage changed')
     replacement=(repo/descriptor['replacement_path']).resolve()
     if not replacement.is_relative_to(repo.resolve()):raise ValueError('Replacement escapes repository')
     if (replacement_hash or sha256(replacement))!=descriptor['replacement_sha256']:
