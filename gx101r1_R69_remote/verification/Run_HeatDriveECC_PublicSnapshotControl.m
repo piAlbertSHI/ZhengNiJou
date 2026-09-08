@@ -115,9 +115,10 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root)
             observation=Extract_HeatDriveECC_ObservedStates(output.internal_state_log,built.schedule.tau_cycle_s,1);
             assert(numel(fieldnames(signals))==161 && numel(native)==1240 && observation.logged_state_group_count==73, ...
                 'Incomplete snapshot-control observation.');
-            path=fullfile(output_root,[arm{1} '_observations.mat']);save(path,'signals','native','observation','-v7.3');
+            observation_path=fullfile(output_root,[arm{1} '_observations.mat']);
+            save(observation_path,'signals','native','observation','-v7.3');
             audit.cases{end+1}=struct('arm',arm{1},'copied_public_groups',replaced,'whole_solver_groups',solver_groups, ...
-                'observation_sha256',file_sha256(path)); %#ok<AGROW>
+                'observation_sha256',file_sha256(observation_path)); %#ok<AGROW>
             clear output
         end
         assert(isequaln(original,saved.diagnostic_op.loggedStates),'Source OP was changed.');
