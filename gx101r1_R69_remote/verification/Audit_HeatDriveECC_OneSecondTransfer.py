@@ -116,7 +116,7 @@ def compute(repo):
                 comparisons=comparisons, input_sha256={str(p.relative_to(repo)):sha256(p) for p in paths})
 
 
-def seal_and_verify(repo, root, result, seal):
+def seal_and_verify(repo, root, result, seal, note_relative=None, extra_paths=None):
     workspace = repo.parent; manifest_path = root / 'rejected_evidence_manifest.json'
     if seal:
         require(not manifest_path.exists() and not subprocess.check_output(['git', 'status', '--porcelain'],
@@ -133,10 +133,13 @@ def seal_and_verify(repo, root, result, seal):
             subprocess.run([sys.executable, '-m', 'unittest', 'discover', '-s', str(repo / 'verification'),
                             '-p', 'test_*.py', '-v'], check=True, stdout=stream, stderr=subprocess.STDOUT)
         paths = {repo / p for p in result['input_sha256']}
+        if note_relative is None:
+            note_relative='项目文档/研究笔记/2026-09-08_一秒公开状态迁移拒绝与偏离定位.md'
+        if extra_paths is None:
+            extra_paths=[root / 'candidate/seed_native.mat', root / 'candidate/seed_public_states.mat']
         paths.update((root / 'independent_one_second_audit.json', root / 'comparison_by_group.csv',
-                      root / 'python_tests.log', patch, baseline,
-                      root / 'candidate/seed_native.mat', root / 'candidate/seed_public_states.mat',
-                      workspace / '项目文档/研究笔记/2026-09-08_一秒公开状态迁移拒绝与偏离定位.md'))
+                      root / 'python_tests.log', patch, baseline, workspace / note_relative))
+        paths.update(extra_paths)
         contract_path = repo / 'verification/c200_mainline_freeze_contract.json'
         contract = json.loads(contract_path.read_text(encoding='utf-8-sig')); paths.add(contract_path)
         for name, digest in (('result_relative_path', 'result_sha256'), ('checkpoint_relative_path', 'checkpoint_sha256')):
