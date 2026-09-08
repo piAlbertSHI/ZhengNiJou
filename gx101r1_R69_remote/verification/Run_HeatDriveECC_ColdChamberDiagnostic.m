@@ -28,6 +28,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         overrides.model_path=fullfile(repo,[overrides.model_name '.slx']);
         overrides.cycle_count=1; overrides.simulation.stop_time_s=duration;
         overrides.simulation.persist_model_configuration=false;
+        overrides.simulation.resume_checkpoint_path='';
         model_hash=file_hash(overrides.model_path);
         build=fullfile(output_root,'component_build'); mkdir(build);
         copyfile(fullfile(repo,'verification','simscape_inventory','+ecc_inventory'),fullfile(build,'+ecc_inventory'));
@@ -45,7 +46,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                         'Wrong diagnostic component.');
                 end
                 prior=load(fullfile(output_root,'native','observations.mat'),'native');
-                initial_targets={};
+                initial_targets=cell(1,2);
                 for k=1:2
                     rows=prior.native(cellfun(@(r) strcmp(r.block_path,changed{k}),prior.native));
                     rho=initial_value(rows,'rho_I','kg/m^3'); u=initial_value(rows,'u_I','J/kg');
@@ -54,7 +55,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                         'stored_mass',num2str(mass,'%.17g'),'stored_mass_unit','kg', ...
                         'stored_energy_specify','on','stored_energy_priority','High', ...
                         'stored_energy',num2str(mass*u,'%.17g'),'stored_energy_unit','J');
-                    initial_targets{end+1}=struct('block_path',changed{k},'stored_mass_kg',mass, ...
+                    initial_targets{k}=struct('block_path',changed{k},'stored_mass_kg',mass, ...
                         'stored_energy_J',mass*u,'source_time_s',0, ...
                         'source_sha256',file_hash(fullfile(output_root,'native','observations.mat')));
                 end
@@ -120,7 +121,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     write_json(fullfile(output_root,'cold_chamber_execution.json'),record);
     fprintf('%s\n',jsonencode(struct('collection_pass',record.collection_pass, ...
         'completed_arms',numel(record.cases),'production_recovery_allowed',false, ...
-        'result_file',fullfile(output_root,'cold_chamber_execution.json'),'error_message',record.error_message)));
+        'result_file',fullfile(output_root,'cold_chamber_execution.json'))));
     assert(record.collection_pass,'Cold chamber diagnostic failed; inspect execution JSON.');
 end
 

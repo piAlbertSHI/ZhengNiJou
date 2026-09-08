@@ -271,6 +271,8 @@ function ensure_sma_pump_manifold_volume(block_path, options, position)
     if diagnostic
         assert(~options.simulation.persist_model_configuration, ...
             'Independent diagnostic must not overwrite the canonical model.');
+        assert(isempty(options.simulation.resume_checkpoint_path), ...
+            'Independent cold chamber diagnostic cannot import a recovery checkpoint.');
         assert(bdIsLoaded('ecc_inventory_lib'), 'Build the diagnostic component library first.');
         if exist_block(block_path)
             % Both original chambers are adiabatic. Never discard a heat connection.

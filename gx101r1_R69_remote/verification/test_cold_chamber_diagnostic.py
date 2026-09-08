@@ -1,0 +1,29 @@
+import unittest
+from pathlib import Path
+
+from Audit_HeatDriveECC_ColdChamberRejection import check_topology, check_targets
+
+
+class ColdChamberTests(unittest.TestCase):
+    def test_changed_edge_rejected(self):
+        a=dict(vertices=[{'key':'a'},{'key':'b'}],edges=[])
+        b=dict(vertices=a['vertices'],edges=[dict(kind='physical_wire_net',a=1,b=2)])
+        with self.assertRaisesRegex(ValueError,'edges changed'): check_topology(a,b)
+
+    def test_empty_target_set_rejected(self):
+        with self.assertRaisesRegex(ValueError,'coverage'): check_targets([],{},1,'hash')
+
+    def test_cold_runner_does_not_import_checkpoint(self):
+        source=(Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text()
+        self.assertIn("overrides.simulation.resume_checkpoint_path='';",source)
+        self.assertIn("'LoadInitialState','off','SimscapeUseOperatingPoints','off'",source)
+        self.assertNotIn('.setInitialState(',source)
+        self.assertIn("'SaveFinalState','off','SaveOperatingPoint','off'",source)
+
+    def test_library_hook_cannot_write_mainline(self):
+        source=(Path(__file__).parent.parent/'Integrate_HeatDriveECC_Constitutive21_Interface.m').read_text(encoding='utf-8')
+        self.assertIn('assert(isempty(options.simulation.resume_checkpoint_path)',source)
+        self.assertIn('assert(~options.simulation.persist_model_configuration',source)
+
+
+if __name__=='__main__': unittest.main()
