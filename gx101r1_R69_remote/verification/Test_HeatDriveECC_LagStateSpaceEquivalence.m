@@ -1,6 +1,10 @@
-function audit = Test_HeatDriveECC_LagStateSpaceEquivalence(output_root)
+function audit = Test_HeatDriveECC_LagStateSpaceEquivalence(output_root,simulation_mode)
 % Compare first-order transfer-function and canonical state-space states.
-    assert(~isfolder(output_root),'Do not overwrite lag evidence.'); mkdir(output_root);
+    if nargin<2,simulation_mode='normal';end
+    assert(any(strcmp(simulation_mode,{'normal','accelerator'})),'Unknown simulation mode.');
+    assert(~isfolder(output_root),'Do not overwrite lag evidence.');
+    [code,dirty]=system('git status --porcelain');assert(code==0 && isempty(strtrim(dirty)),'Commit source first.');
+    mkdir(output_root);
     [code,commit]=system('git rev-parse HEAD');assert(code==0,'Cannot record source.');
     generation=Simulink.fileGenControl('getConfig');
     cleanup_generation=onCleanup(@() Simulink.fileGenControl('setConfig','config',generation));
@@ -35,6 +39,7 @@ function audit = Test_HeatDriveECC_LagStateSpaceEquivalence(output_root)
         ds=ds.setElement(k,item);
     end
     input=Simulink.SimulationInput(model);input=input.setInitialState(ds);
+    input=input.setModelParameter('SimulationMode',simulation_mode);
     out=sim(input);
     time_s=out.transfer_output.Time; transfer=out.transfer_output.Data; state_space=out.statespace_output.Data;
     observed=out.states;
@@ -48,6 +53,9 @@ function audit = Test_HeatDriveECC_LagStateSpaceEquivalence(output_root)
         'state_max_difference',state_difference,'output_max_difference',output_difference, ...
         'equivalence_pass',state_difference<=1e-15 && output_difference<=1e-12, ...
         'production_model_modified',false,'production_recovery_allowed',false);
+    audit.simulation_mode=simulation_mode;
+    audit.state_bitwise_equal=isequal(state1.Values.Data,state2.Values.Data);
+    audit.output_bitwise_equal=isequal(transfer,state_space);
     save(fullfile(output_root,'equivalence_traces.mat'),'time_s','transfer','state_space','observed','audit','-v7.3');
     fid=fopen(fullfile(output_root,'lag_equivalence.json'),'w','n','UTF-8');assert(fid>=0,'Cannot save audit.');
     cleanup_file=onCleanup(@() fclose(fid));fprintf(fid,'%s\n',jsonencode(audit,'PrettyPrint',true));
