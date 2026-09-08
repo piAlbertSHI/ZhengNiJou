@@ -1,6 +1,8 @@
-function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration)
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory)
 % Authorized independent cold diagnostic. Never import or export a recovery OP.
     if nargin<3, duration=10; end
+    if nargin<4, scale_inventory=false; end
+    assert(islogical(scale_inventory) && isscalar(scale_inventory),'Require a scalar scaling choice.');
     assert(ismember(duration,[0.01 10]), 'Only topology smoke or one full cycle is authorized here.');
     assert(~isfolder(output_root), 'Do not overwrite diagnostic evidence.');
     [code,commit]=system('git rev-parse HEAD'); assert(code==0,'Cannot record source.');
@@ -18,7 +20,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'table4_reproduction_claim',false,'periodic_steady_state',false, ...
         'full_device_first_law_verified',false,'checkpoint_saved',false, ...
         'start_time_s',0,'stop_time_s',duration,'collection_pass',false,'cases',{{}},'error_message','', ...
-        'new_inventory_initialization','native_cold_t0_mass_energy_high_targets');
+        'new_inventory_initialization','native_cold_t0_mass_energy_high_targets', ...
+        'new_inventory_nominal_scaling',scale_inventory);
     try
         contract=jsondecode(fileread(fullfile(repo,'verification','c200_mainline_freeze_contract.json')));
         raw=fullfile(repo,contract.result_relative_path); op=fullfile(repo,contract.checkpoint_relative_path);
@@ -55,6 +58,13 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                         'stored_mass',num2str(mass,'%.17g'),'stored_mass_unit','kg', ...
                         'stored_energy_specify','on','stored_energy_priority','High', ...
                         'stored_energy',num2str(mass*u,'%.17g'),'stored_energy_unit','J');
+                    if scale_inventory
+                        assert(mass>0 && mass*u>0,'Require positive physical nominal inventory magnitudes.');
+                        set_param(changed{k},'stored_mass_nominal_specify','on', ...
+                            'stored_mass_nominal_value',num2str(mass,'%.17g'),'stored_mass_nominal_unit','kg', ...
+                            'stored_energy_nominal_specify','on','stored_energy_nominal_value',num2str(mass*u,'%.17g'), ...
+                            'stored_energy_nominal_unit','J');
+                    end
                     initial_targets{k}=struct('block_path',changed{k},'stored_mass_kg',mass, ...
                         'stored_energy_J',mass*u,'source_time_s',0, ...
                         'source_sha256',file_hash(fullfile(output_root,'native','observations.mat')));
@@ -90,7 +100,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             output=sim(input);
             if ~isempty(output.ErrorMessage)
                 failure_message=output.ErrorMessage;
-                save(fullfile(arm,'failed_output.mat'),'output','-v7.3');
+                Export_HeatDriveECC_FailedColdObservations(output,model,metadata, ...
+                    fullfile(arm,'failed_public_observations.mat'));
                 error('HeatDriveECC:ColdDiagnosticSimulationFailed','%s',failure_message);
             end
             native=Extract_HeatDriveECC_NativeStorageTraces(output.simlog,model,false,changed);
@@ -136,7 +147,15 @@ function metadata=export_metadata(model,changed)
         for k=1:numel(blocks)
             p=blocks{k}; dialog=get_param(p,'DialogParameters');
             row=struct('block_path',p,'mask_type',types{kind},'model_modes',struct(),'mask_parameters',struct(), ...
+                'initialization_parameters',struct(), ...
                 'conservative_diagnostic',ismember(p,changed));
+            names=fieldnames(dialog);
+            for j=1:numel(names)
+                n=names{j};
+                if ~isempty(regexp(n,'^(p_I|T_I|mass|stored_mass|stored_energy|level)(_|$)','once'))
+                    row.initialization_parameters.(n)=get_param(p,n);
+                end
+            end
             for j=1:numel(modes)
                 n=modes{j}; if isfield(dialog,n),row.model_modes.(n)=get_param(p,n);end
             end
