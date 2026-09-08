@@ -5,11 +5,12 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_sour
     assert(any(strcmp(window_mode,{'one_step_pair','one_second_complete_only'})),'Unknown window mode.');
     stop_time=2000.002;
     if strcmp(window_mode,'one_second_complete_only')
-        assert(strcmp(seed_source,'advanced_differential_targets'),'Long window requires advanced seed.');
+        assert(any(strcmp(seed_source,{'advanced_differential_targets','advanced_native_lag_bootstrap'})), ...
+            'Long window requires advanced seed.');
         stop_time=2001.001;
     end
     assert(any(strcmp(seed_source,{'differential_targets','logged_simscape_point', ...
-        'differential_targets_full_op_only','advanced_differential_targets'})),'Unknown seed source.');
+        'differential_targets_full_op_only','advanced_differential_targets','advanced_native_lag_bootstrap'})),'Unknown seed source.');
     assert(~isfolder(output_root),'Do not overwrite control evidence.');
     [code,commit]=system('git rev-parse HEAD');assert(code==0,'Cannot record source.');
     [code,dirty]=system('git status --porcelain');assert(code==0 && isempty(strtrim(dirty)),'Commit source first.');
@@ -30,7 +31,13 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_sour
     if strcmp(seed_source,'differential_targets_full_op_only')
         audit.resume_simscape_use_operating_points='off';
     end
-    advanced=strcmp(seed_source,'advanced_differential_targets');
+    native_lags=strcmp(seed_source,'advanced_native_lag_bootstrap');
+    advanced=strcmp(seed_source,'advanced_differential_targets') || native_lags;
+    if native_lags
+        audit.controller_representation_changed=false;
+        audit.bootstrap_operating_point_not_recovery=true;
+        audit.bootstrap_public_lag_groups=0;
+    end
     if advanced
         audit.seed_initial_time_s=2000;
         audit.seed_snapshot_time_s=2000.001;
@@ -72,7 +79,7 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_sour
         end
         assert(numel(memory)==72,'Incomplete named memory.');mapping=struct('named_nonnetwork_state_groups',vertcat(memory{:}));
         audit.controller_initial_conditions=Apply_HeatDriveECC_ObservedControllerInitialState(model,mapping, ...
-            fullfile(repo,'outputs_storage_audit','lag_state_space_equivalence_20260908','lag_equivalence.json'));
+            fullfile(repo,'outputs_storage_audit','lag_state_space_equivalence_20260908','lag_equivalence.json'),native_lags);
         [targets,target_records]=Build_HeatDriveECC_DifferentialStateTargets(repo,model,2);
         arms={'nonnetwork_snapshot','whole_snapshot'};
         if strcmp(window_mode,'one_second_complete_only'),arms={'whole_snapshot'};end
@@ -109,7 +116,34 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_sour
         if advanced
             input=input.setModelParameter('StartTime','2000');
         end
-        seed=sim(input);assert(isempty(seed.ErrorMessage),'Seed failed: %s',seed.ErrorMessage);
+        seed_input=input;
+        if native_lags
+            % Complete the two public controller ICs before the physical seed
+            % is evaluated. This bootstrap is never a recovery candidate.
+            bootstrap=sim(input.setModelParameter('StopTime','2000'));
+            assert(isempty(bootstrap.ErrorMessage),'Controller bootstrap failed: %s',bootstrap.ErrorMessage);
+            initial=bootstrap.xFinal;ds=initial.loggedStates;
+            assert(initial.snapshotTime==2000 && ds.numElements==73,'Wrong bootstrap metadata.');
+            observation=Extract_HeatDriveECC_ObservedStates(ds,built.schedule.tau_cycle_s,1);
+            save(fullfile(output_root,'bootstrap_before_public_states.mat'),'observation','-v7.3');
+            replaced=0;
+            for k=1:ds.numElements
+                item=ds.getElement(k);block=char(item.BlockPath.getBlock(1));
+                if ~any(strcmp(block,{[model '/PressurePI_ErrorLag'],[model '/SMAPressurePI_ErrorLag']})),continue;end
+                assert(strcmp(get_param(block,'BlockType'),'TransferFcn'),'Lag realization changed.');
+                found=find(cellfun(@(r) strcmp(r.block_path,block),memory));
+                assert(isscalar(found) && isscalar(item.Values.Data) && item.Values.Time==2000,'Wrong named lag state.');
+                values=item.Values;values.Data(:)=memory{found}.c200_values;item.Values=values;
+                ds=ds.setElement(k,item);replaced=replaced+1;
+            end
+            assert(replaced==2,'Expected two public scalar lag states.');initial.loggedStates=ds;
+            assert(isequaln(initial.loggedStates,ds),'Bootstrap readback changed.');
+            observation=Extract_HeatDriveECC_ObservedStates(ds,built.schedule.tau_cycle_s,1);
+            save(fullfile(output_root,'bootstrap_after_public_states.mat'),'observation','-v7.3');
+            audit.bootstrap_public_lag_groups=replaced;
+            seed_input=input.setInitialState(initial);
+        end
+        seed=sim(seed_input);assert(isempty(seed.ErrorMessage),'Seed failed: %s',seed.ErrorMessage);
         seed_native=Extract_HeatDriveECC_NativeStorageTraces(seed.simlog,model);
         save(fullfile(output_root,'seed_native.mat'),'seed_native','-v7.3');
         observation=Extract_HeatDriveECC_ObservedStates(seed.xFinal.loggedStates,built.schedule.tau_cycle_s,1);

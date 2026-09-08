@@ -1,5 +1,7 @@
-function records = Apply_HeatDriveECC_ObservedControllerInitialState(model, mapping, proof_path)
+function records = Apply_HeatDriveECC_ObservedControllerInitialState(model, mapping, proof_path, preserve_transfer_functions)
 % Explicit measured controller ICs; convert only the two canonical error lags.
+    if nargin<4,preserve_transfer_functions=false;end
+    assert(islogical(preserve_transfer_functions) && isscalar(preserve_transfer_functions),'Require explicit realization mode.');
     proof=jsondecode(fileread(proof_path));
     assert(proof.equivalence_pass && proof.state_max_difference==0 && proof.output_max_difference==0, ...
         'Require actual canonical state equivalence evidence.');
@@ -25,6 +27,11 @@ function records = Apply_HeatDriveECC_ObservedControllerInitialState(model, mapp
             assert(isequal(numerator,1) && isequal(denominator,[proof.tau_s 1]) && isscalar(row.c200_values), ...
                 'Lag basis not covered by the isolated state-equivalence test.');
             [A,B,C,D]=tf2ss(numerator,denominator);
+            if preserve_transfer_functions
+                records{end+1}=struct('block_path',block,'kind',kind,'canonical_replacement',false, ...
+                    'bootstrap_public_state_required',true,'new_initial_condition',row.c200_values); %#ok<AGROW>
+                continue;
+            end
             leaf=get_param(block,'Name'); position=get_param(block,'Position');
             replacements=replace_block(model,'Name',leaf,'simulink/Continuous/State-Space','noprompt');
             assert(isscalar(replacements) && strcmp(replacements{1},block),'Unexpected replacement set.');
@@ -36,6 +43,6 @@ function records = Apply_HeatDriveECC_ObservedControllerInitialState(model, mapp
             assert(contains(block,'PS') || contains(block,'Simulink-PS'),'Unrecognized non-adapter state: %s',block);
         end
     end
-    assert(numel(records)==12 && sum(cellfun(@(r) r.canonical_replacement,records))==2, ...
-        'Expected ten explicit ICs and two canonical lag realizations.');
+    assert(numel(records)==12 && sum(cellfun(@(r) r.canonical_replacement,records))==2*~preserve_transfer_functions, ...
+        'Expected ten explicit ICs and two declared lag states.');
 end
