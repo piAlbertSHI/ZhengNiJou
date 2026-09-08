@@ -23,7 +23,8 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     frozen=jsondecode(fileread(fullfile(repo,'verification','c200_mainline_freeze_contract.json')));
     raw=fullfile(repo,frozen.result_relative_path);op=fullfile(repo,frozen.checkpoint_relative_path);
     assert(strcmp(file_hash(raw),frozen.result_sha256) && strcmp(file_hash(op),frozen.checkpoint_sha256),'C200 changed.');
-    for entry={'component_build','buffer_component_build'},addpath(fullfile(source,entry{1}));end
+    addpath(fullfile(source,'buffer_component_build'));
+    if ~component_priorities,addpath(fullfile(source,'component_build'));end
     assert(strcmp(file_hash(fullfile(source,'component_build','+ecc_inventory','conservative_chamber.ssc')), ...
         file_hash(fullfile(repo,'verification','simscape_inventory','+ecc_inventory','conservative_chamber.ssc'))),'Chamber source changed.');
     if component_priorities
@@ -41,7 +42,13 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         old=pwd;cc=onCleanup(@() cd(old));cd(build);ssc_build('ecc_inventory');cd(old);clear cc
         addpath(build);
     end
-    load_system('ecc_inventory_lib');load_system('ecc_buffer_coupled_lib');
+    if component_priorities
+        selected_library=fullfile(build,'ecc_inventory_lib.slx');
+    else
+        selected_library=fullfile(source,'component_build','ecc_inventory_lib.slx');
+    end
+    load_system(selected_library);load_system('ecc_buffer_coupled_lib');
+    assert(strcmp(get_param('ecc_inventory_lib','FileName'),selected_library),'A different component library is loaded.');
     config=load(fullfile(source,'conservative','configuration.mat'),'options');
     config.options.simulation.persist_model_configuration=false;
     canonical=config.options.model_path;canonical_hash=file_hash(canonical);
@@ -51,6 +58,8 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         'source_native_sha256',file_hash(original),'states',{{}},'stage','build','error_message','');
     record.block_temperature_pressure_priority_low=prefer_inventory;
     record.component_inventory_priority_high=component_priorities;
+    record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
+    record.chamber_package_resolution=evalc("which('ecc_inventory.conservative_chamber','-all')");
     try
         [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(config.options);
         mc=onCleanup(@() close_system(model,0));
