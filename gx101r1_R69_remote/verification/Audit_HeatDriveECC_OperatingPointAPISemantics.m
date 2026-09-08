@@ -53,7 +53,7 @@ function audit=Audit_HeatDriveECC_OperatingPointAPISemantics(output_root)
             try
                 candidate=low.xFinal;ds=candidate.loggedStates;
                 run=input.setModelParameter('StopTime','2000.002');
-                if ~strcmp(name{1},'baseline')
+                if strcmp(name{1},'conflicting_simscape_target')
                     run=run.setVariable('thermal_targets',hot);row.target_temperature_K=400;
                 end
                 if strcmp(name{1},'builtin_memory_edit') || strcmp(name{1},'whole_solver_group_copy')
