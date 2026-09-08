@@ -1,7 +1,10 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
+    if nargin<4,component_priorities=false;end
     assert(islogical(prefer_inventory) && isscalar(prefer_inventory),'Require explicit inventory priority choice.');
+    assert(islogical(component_priorities) && isscalar(component_priorities) && ...
+        (~component_priorities || prefer_inventory),'Component priority trial requires matching block priorities.');
     assert(~isfolder(output_root),'Never overwrite state inspection evidence.');
     [code,dirty]=system('git status --porcelain');assert(code==0 && isempty(strtrim(dirty)),'Commit inspector first.');
     [code,commit]=system('git rev-parse HEAD');assert(code==0,'Cannot record inspector.');
@@ -23,6 +26,21 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     for entry={'component_build','buffer_component_build'},addpath(fullfile(source,entry{1}));end
     assert(strcmp(file_hash(fullfile(source,'component_build','+ecc_inventory','conservative_chamber.ssc')), ...
         file_hash(fullfile(repo,'verification','simscape_inventory','+ecc_inventory','conservative_chamber.ssc'))),'Chamber source changed.');
+    if component_priorities
+        variant=fullfile(repo,'verification','simscape_inventory_priorities','+ecc_inventory','conservative_chamber.ssc');
+        original_text=fileread(fullfile(repo,'verification','simscape_inventory','+ecc_inventory','conservative_chamber.ssc'));
+        expected_text=strrep(original_text,'priority = priority.high','priority = priority.low');
+        expected_text=strrep(expected_text,"stored_mass = {0.0016, 'kg'};", ...
+            "stored_mass = {value = {0.0016, 'kg'}, priority = priority.high};");
+        expected_text=strrep(expected_text,"stored_energy = {160, 'J'};", ...
+            "stored_energy = {value = {160, 'J'}, priority = priority.high};");
+        assert(strcmp(strrep(expected_text,sprintf('\r\n'),sprintf('\n')), ...
+            strrep(fileread(variant),sprintf('\r\n'),sprintf('\n'))),'Variant changed more than four declaration priorities.');
+        build=fullfile(output_root,'component_build');mkdir(build);
+        copyfile(fileparts(variant),fullfile(build,'+ecc_inventory'));
+        old=pwd;cc=onCleanup(@() cd(old));cd(build);ssc_build('ecc_inventory');cd(old);clear cc
+        addpath(build);
+    end
     load_system('ecc_inventory_lib');load_system('ecc_buffer_coupled_lib');
     config=load(fullfile(source,'conservative','configuration.mat'),'options');
     config.options.simulation.persist_model_configuration=false;
@@ -32,6 +50,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         'c200_state_imported',false,'production_recovery_allowed',false,'checkpoint_saved',false, ...
         'source_native_sha256',file_hash(original),'states',{{}},'stage','build','error_message','');
     record.block_temperature_pressure_priority_low=prefer_inventory;
+    record.component_inventory_priority_high=component_priorities;
     try
         [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(config.options);
         mc=onCleanup(@() close_system(model,0));
