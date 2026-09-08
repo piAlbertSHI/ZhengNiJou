@@ -1,5 +1,7 @@
-function [candidate,records]=Build_HeatDriveECC_DifferentialStateTargets(repo,model)
+function [candidate,records]=Build_HeatDriveECC_DifferentialStateTargets(repo,model,sample_index)
 % Prefer measured differential coordinates; retain old algebraic targets as Low.
+    if nargin<3,sample_index=1;end
+    assert(isscalar(sample_index) && any(sample_index==[1 2]),'Unsupported observed sample.');
     base=fullfile(repo,'outputs_storage_audit');
     metadata_path=fullfile(base,'c200_differential_target_metadata_20260908.json');
     metadata=jsondecode(fileread(metadata_path));
@@ -17,11 +19,12 @@ function [candidate,records]=Build_HeatDriveECC_DifferentialStateTargets(repo,mo
         matches=find(cellfun(@(r) strcmp([r.block_path '/' r.state_name],[model '/' declared.path]),loaded.native));
         assert(isscalar(matches),'Missing unique differential/algebraic observation.');row=loaded.native{matches};
         assert(isequal(row.time_s(:),[2000;2000.001]) && strcmp(row.unit,declared.unit),'Wrong units/time.');
-        observed=row.values(1);assert(isfinite(observed),'Nonfinite target.');
+        observed=row.values(sample_index);assert(isfinite(observed),'Nonfinite target.');
         if declared.differential,priority='High';else,priority='Low';end
         candidate=set(candidate,declared.path,simscape.op.Target(observed,declared.unit,priority));
         records{end+1}=struct('path',declared.path,'unit',declared.unit,'value',observed, ...
             'original_priority',declared.priority,'new_priority',priority,'differential',declared.differential, ...
+            'sample_time_s',row.time_s(sample_index), ...
             'metadata_sha256',file_sha256(metadata_path),'reference_sha256',expected_sha); %#ok<AGROW>
     end
     assert(numel(records)==196 && sum(cellfun(@(r) r.differential,records))==125 && ~hasPrivateData(candidate), ...
