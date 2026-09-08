@@ -1,7 +1,8 @@
-function traces = Extract_HeatDriveECC_NativeStorageTraces(log, model, final_only, diagnostic_paths)
+function traces = Extract_HeatDriveECC_NativeStorageTraces(log, model, final_only, diagnostic_paths, buffer_paths)
 % Read named native leaves of actual storage blocks; no anonymous-state mapping.
     if nargin < 3, final_only = false; end
     if nargin < 4, diagnostic_paths = {}; end
+    if nargin < 5, buffer_paths = {}; end
     assert(isa(log, 'simscape.logging.Node'), 'Missing native Simscape log.');
     types = {'Pipe (TL)', 'Tank (TL)', 'Constant Volume Chamber (TL)', 'Thermal Mass'};
     traces = {};
@@ -12,6 +13,10 @@ function traces = Extract_HeatDriveECC_NativeStorageTraces(log, model, final_onl
         if kind == 3
             assert(isempty(intersect(paths, diagnostic_paths)), 'Duplicate native/diagnostic storage.');
             paths = [paths(:); diagnostic_paths(:)];
+        end
+        if kind == 2
+            assert(isempty(intersect(paths, buffer_paths)), 'Duplicate native/candidate buffer.');
+            paths = [paths(:); buffer_paths(:)];
         end
         component_count = component_count + numel(paths);
         for k = 1:numel(paths)

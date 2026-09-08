@@ -1,5 +1,6 @@
 """Inventory components and boundary work must remain explicit."""
 import unittest
+from pathlib import Path
 import numpy as np
 from scipy.interpolate import RegularGridInterpolator
 
@@ -8,6 +9,12 @@ from Audit_HeatDriveECC_ColdCoordinateSmoke import ledger
 
 
 class ConservativeBufferTests(unittest.TestCase):
+    def test_coupled_variant_changes_only_thermal_port_location(self):
+        root = Path(__file__).resolve().parent
+        original = (root/'simscape_buffer/+ecc_buffer/conservative_buffer.ssc').read_text(encoding='utf-8')
+        aligned = (root/'simscape_buffer_coupled/+ecc_buffer_coupled/conservative_buffer.ssc').read_text(encoding='utf-8')
+        self.assertEqual(original.replace('% H:left', '% H:right'), aligned)
+
     def table(self):
         grid = (np.array([270., 330.]), np.array([1e5, 2e6]))
         return {'rho': RegularGridInterpolator(grid, np.full((2, 2), 1000.)),

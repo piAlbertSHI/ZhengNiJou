@@ -1,10 +1,14 @@
-function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets)
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers)
 % Authorized independent cold diagnostic. Never import or export a recovery OP.
     if nargin<3, duration=10; end
     if nargin<4, scale_inventory=false; end
     if nargin<5, buffer_mass_guess=false; end
     if nargin<6, buffer_mass_targets=false; end
     if nargin<7, pipe_energy_targets=false; end
+    if nargin<8, conservative_buffers=false; end
+    assert(islogical(conservative_buffers) && isscalar(conservative_buffers) && ...
+        (~conservative_buffers || (pipe_energy_targets && buffer_mass_targets && buffer_mass_guess)), ...
+        'Conservative buffers require the complete independent cold inventory contract.');
     assert(islogical(scale_inventory) && isscalar(scale_inventory),'Require a scalar scaling choice.');
     assert(islogical(buffer_mass_guess) && isscalar(buffer_mass_guess),'Require a scalar buffer guess choice.');
     assert(islogical(buffer_mass_targets) && isscalar(buffer_mass_targets) && ...
@@ -29,7 +33,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'start_time_s',0,'stop_time_s',duration,'collection_pass',false,'cases',{{}},'error_message','', ...
         'new_inventory_initialization','native_cold_t0_mass_energy_high_targets', ...
         'new_inventory_nominal_scaling',scale_inventory,'physical_buffer_mass_guess',buffer_mass_guess, ...
-        'physical_buffer_mass_high_targets',buffer_mass_targets,'physical_pipe_energy_high_targets',pipe_energy_targets);
+        'physical_buffer_mass_high_targets',buffer_mass_targets,'physical_pipe_energy_high_targets',pipe_energy_targets, ...
+        'conservative_buffers',conservative_buffers);
     try
         contract=jsondecode(fileread(fullfile(repo,'verification','c200_mainline_freeze_contract.json')));
         raw=fullfile(repo,contract.result_relative_path); op=fullfile(repo,contract.checkpoint_relative_path);
@@ -44,12 +49,24 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         build=fullfile(output_root,'component_build'); mkdir(build);
         copyfile(fullfile(repo,'verification','simscape_inventory','+ecc_inventory'),fullfile(build,'+ecc_inventory'));
         cd(build); ssc_build('ecc_inventory'); addpath(build); load_system('ecc_inventory_lib'); cd(repo);
+        if conservative_buffers
+            component_audit=jsondecode(fileread(fullfile(repo,'outputs_storage_audit', ...
+                'conservative_buffer_audit_20260909_v2','conservative_buffer_audit.json')));
+            assert(component_audit.isolated_component_conservation_pass && ~component_audit.production_recovery_allowed, ...
+                'Require independently qualified buffer candidate.');
+            original=fileread(fullfile(repo,'verification','simscape_buffer','+ecc_buffer','conservative_buffer.ssc'));
+            aligned=fileread(fullfile(repo,'verification','simscape_buffer_coupled','+ecc_buffer_coupled','conservative_buffer.ssc'));
+            assert(strcmp(strrep(original,'% H:left','% H:right'),aligned),'Aligned component changed more than the port location.');
+            buffer_build=fullfile(output_root,'buffer_component_build');mkdir(buffer_build);
+            copyfile(fullfile(repo,'verification','simscape_buffer_coupled','+ecc_buffer_coupled'),fullfile(buffer_build,'+ecc_buffer_coupled'));
+            cd(buffer_build);ssc_build('ecc_buffer_coupled');addpath(buffer_build);load_system('ecc_buffer_coupled_lib');cd(repo);
+        end
         for kind={'native','conservative'}
             name=kind{1}; arm=fullfile(output_root,name); mkdir(arm);
             overrides.branch.independent_conservative_chamber_diagnostic=strcmp(name,'conservative');
             [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(overrides);
             model_cleanup=onCleanup(@() close_system(model,0));
-            changed={};
+            changed={};buffer_records={};buffer_paths={};
             if strcmp(name,'conservative')
                 changed={[model '/SMA_PumpInletConnectingPipeVolume'],[model '/SMA_PumpOutletConnectingPipeVolume']};
                 for k=1:2
@@ -100,9 +117,16 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     end
                     write_json(fullfile(arm,'buffer_mass_guesses.json'),guesses);
                 end
+                if conservative_buffers
+                    set_param(model,'LoadInitialState','off');
+                    buffer_records=Apply_HeatDriveECC_ColdConservativeBuffers(model,prior.native);
+                    buffer_paths=cellfun(@(b) b.block_path,buffer_records,'UniformOutput',false);
+                    write_json(fullfile(arm,'buffer_replacement_contract.json'),struct('buffers',{buffer_records}, ...
+                        'source_sha256',file_hash(fullfile(output_root,'native','observations.mat')),'source_time_s',0));
+                end
                 if pipe_energy_targets
                     [cold_public_targets,targets]=Build_HeatDriveECC_ColdInventoryTargets(model,prior.native, ...
-                        options.branch.sma_pump_manifold_volume_m3);
+                        options.branch.sma_pump_manifold_volume_m3,buffer_records);
                     write_json(fullfile(arm,'public_inventory_targets.json'),struct('targets',{targets}, ...
                         'source_sha256',file_hash(fullfile(output_root,'native','observations.mat')), ...
                         'has_private_data',hasPrivateData(cold_public_targets),'source_time_s',0));
@@ -132,7 +156,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 strcmp(options.simscape.local_solver_choice,'NE_BACKWARD_EULER_ADVANCER') && ...
                 options.simscape.local_solver_sample_time_s==.001,'Require the unchanged local BE solver.');
             set_param(model,'SimulationCommand','update');
-            metadata=export_metadata(model,changed);
+            metadata=export_metadata(model,changed,buffer_paths);
             write_json(fullfile(arm,'inventory_metadata.json'),metadata);
             write_json(fullfile(arm,'tl_connectivity.json'),Export_HeatDriveECC_TLConnectivity(model));
             write_json(fullfile(arm,'thermal_connectivity.json'), ...
@@ -149,7 +173,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     fullfile(arm,'failed_public_observations.mat'));
                 error('HeatDriveECC:ColdDiagnosticSimulationFailed','%s',failure_message);
             end
-            native=Extract_HeatDriveECC_NativeStorageTraces(output.simlog,model,false,changed);
+            native=Extract_HeatDriveECC_NativeStorageTraces(output.simlog,model,false,changed,buffer_paths);
             [source_traces,boundary_metadata]=Extract_HeatDriveECC_BoundaryTraces(output.simlog,model);
             signals=struct(); names=output.who;
             for k=1:numel(names)
@@ -181,19 +205,21 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     assert(record.collection_pass,'Cold chamber diagnostic failed; inspect execution JSON.');
 end
 
-function metadata=export_metadata(model,changed)
+function metadata=export_metadata(model,changed,buffer_paths)
     metadata=struct('schema','heatdrive_ecc_cold_chamber_inventory_v1','storage_blocks',{{}},'settings_tables',{{}});
-    types={'Pipe (TL)','Tank (TL)','Constant Volume Chamber (TL)','Thermal Mass'};
+    types={'Pipe (TL)','Tank (TL)','Constant Volume Chamber (TL)','Thermal Mass','Conservative Buffer (TL)'};
     modes={'dynamic_compressibility','inertia','mass_type','p_nominal','p_nominal_unit','T_nominal','T_nominal_unit','num_ports','num_inlet','volume_spec'};
-    params={'area','length','volume','mass','sp_heat','tank_area','g','inlet_height_A'};
-    for kind=1:4
+    params={'area','length','volume','mass','sp_heat','tank_area','g','inlet_height_A', ...
+        'port_area','p_environment','gravity','reference_temperature','auxiliary_depth'};
+    for kind=1:5
         blocks=find_system(model,'LookUnderMasks','all','FollowLinks','on','Type','Block','MaskType',types{kind});
         if kind==3, blocks=[blocks(:);changed(:)]; end
+        if kind==5, blocks=[blocks(:);buffer_paths(:)]; end
         for k=1:numel(blocks)
             p=blocks{k}; dialog=get_param(p,'DialogParameters');
             row=struct('block_path',p,'mask_type',types{kind},'model_modes',struct(),'mask_parameters',struct(), ...
                 'initialization_parameters',struct(), ...
-                'conservative_diagnostic',ismember(p,changed));
+                'conservative_diagnostic',ismember(p,[changed(:);buffer_paths(:)]));
             names=fieldnames(dialog);
             for j=1:numel(names)
                 n=names{j};

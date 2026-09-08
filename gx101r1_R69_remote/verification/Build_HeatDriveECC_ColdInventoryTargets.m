@@ -1,9 +1,14 @@
-function [point,records]=Build_HeatDriveECC_ColdInventoryTargets(model,native,chamber_volume)
+function [point,records]=Build_HeatDriveECC_ColdInventoryTargets(model,native,chamber_volume,buffers)
 % Public target specification at t=0, not a ModelOperatingPoint or hidden state.
+    if nargin<4, buffers={}; end
     point=simscape.op.OperatingPoint;records={};primary=0;
     types={'Pipe (TL)','Tank (TL)','Thermal Mass'};counts=[67 4 46];
     for kind=1:3
         paths=find_system(model,'LookUnderMasks','all','FollowLinks','on','Type','Block','MaskType',types{kind});
+        if kind==2 && ~isempty(buffers)
+            assert(isempty(paths) && numel(buffers)==4,'Expected four replaced buffers.');
+            paths=cellfun(@(b) b.block_path,buffers,'UniformOutput',false);
+        end
         assert(numel(paths)==counts(kind),'Incomplete cold inventory.');
         for k=1:numel(paths)
             p=paths{k};
@@ -11,7 +16,15 @@ function [point,records]=Build_HeatDriveECC_ColdInventoryTargets(model,native,ch
                 assert(strcmp(get_param(p,'dynamic_compressibility'),'false'),'Only quasisteady pipes supported.');
                 add(p,'u_I','kJ/kg','High');add(p,'T_I','K','Low');
             elseif kind==2
-                add(p,'mass','kg','High');add(p,'T_I','K','High');add(p,'level','m','Low');
+                if isempty(buffers)
+                    add(p,'mass','kg','High');add(p,'T_I','K','High');add(p,'level','m','Low');
+                else
+                    b=buffers(cellfun(@(r) strcmp(r.block_path,p),buffers));assert(isscalar(b),'Duplicate buffer target.');
+                    assert(strcmp(get_param(p,'SourceFile'),'ecc_buffer_coupled.conservative_buffer'),'Wrong candidate buffer.');
+                    add_value(p,'stored_mass','kg','High',b{1}.initial_mass_kg);
+                    add_value(p,'stored_energy','J','High',b{1}.initial_extended_energy_J);
+                    add(p,'T_I','K','Low');add(p,'level','m','Low');
+                end
             else
                 add(p,'T','K','High');
             end
@@ -25,7 +38,7 @@ function [point,records]=Build_HeatDriveECC_ColdInventoryTargets(model,native,ch
         add_value(p,'stored_energy','J','High',mass*observed(p,'u_I','J/kg'));
         add(p,'T_I','K','Low');add(p,'p_I','MPa','Low');
     end
-    assert(primary==125 && numel(records)==200 && ~hasPrivateData(point),'Invalid public cold target coverage.');
+    assert(primary==125 && numel(records)==200+numel(buffers) && ~hasPrivateData(point),'Invalid public cold target coverage.');
 
     function v=observed(p,n,u)
         rows=native(cellfun(@(r) strcmp(r.block_path,p) && strcmp(r.state_name,n),native));
