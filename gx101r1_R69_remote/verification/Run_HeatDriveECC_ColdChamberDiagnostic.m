@@ -1,10 +1,13 @@
-function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess)
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets)
 % Authorized independent cold diagnostic. Never import or export a recovery OP.
     if nargin<3, duration=10; end
     if nargin<4, scale_inventory=false; end
     if nargin<5, buffer_mass_guess=false; end
+    if nargin<6, buffer_mass_targets=false; end
     assert(islogical(scale_inventory) && isscalar(scale_inventory),'Require a scalar scaling choice.');
     assert(islogical(buffer_mass_guess) && isscalar(buffer_mass_guess),'Require a scalar buffer guess choice.');
+    assert(islogical(buffer_mass_targets) && isscalar(buffer_mass_targets) && ...
+        (~buffer_mass_targets || buffer_mass_guess),'Buffer targets require the physical cold mass values.');
     assert(ismember(duration,[0.01 10]), 'Only topology smoke or one full cycle is authorized here.');
     assert(~isfolder(output_root), 'Do not overwrite diagnostic evidence.');
     [code,commit]=system('git rev-parse HEAD'); assert(code==0,'Cannot record source.');
@@ -23,7 +26,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'full_device_first_law_verified',false,'checkpoint_saved',false, ...
         'start_time_s',0,'stop_time_s',duration,'collection_pass',false,'cases',{{}},'error_message','', ...
         'new_inventory_initialization','native_cold_t0_mass_energy_high_targets', ...
-        'new_inventory_nominal_scaling',scale_inventory,'physical_buffer_mass_guess',buffer_mass_guess);
+        'new_inventory_nominal_scaling',scale_inventory,'physical_buffer_mass_guess',buffer_mass_guess, ...
+        'physical_buffer_mass_high_targets',buffer_mass_targets);
     try
         contract=jsondecode(fileread(fullfile(repo,'verification','c200_mainline_freeze_contract.json')));
         raw=fullfile(repo,contract.result_relative_path); op=fullfile(repo,contract.checkpoint_relative_path);
@@ -87,6 +91,10 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                             'mass_specify','off','mass_priority','None','source_time_s',0, ...
                             'source_sha256',file_hash(fullfile(output_root,'native','observations.mat')));
                         set_param(p,'mass',num2str(mass,'%.17g'),'mass_unit','kg');
+                        if buffer_mass_targets
+                            set_param(p,'mass_specify','on','mass_priority','High');
+                            guesses{k}.mass_specify='on';guesses{k}.mass_priority='High';
+                        end
                     end
                     write_json(fullfile(arm,'buffer_mass_guesses.json'),guesses);
                 end
