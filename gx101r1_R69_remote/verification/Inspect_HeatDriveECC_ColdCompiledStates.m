@@ -89,7 +89,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root)
             for name={'stored_mass','stored_energy','T_I','p_I'}
                 node=parent.child(name{1});
                 record.node_metadata{end+1}=struct('block_name',block{1},'variable_name',name{1}, ...
-                    'tags_text',evalc('disp(node.tags)'), 'tag_names',{node.tagNames});
+                    'tags_text',evalc('disp(node.tags)'), 'tag_names',{node.tagNames},'tag_values',{node.tags});
             end
         end
         plugin=get_param(model,'SimscapePlugin');
