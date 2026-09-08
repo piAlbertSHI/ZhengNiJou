@@ -1,13 +1,15 @@
-function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets)
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets)
 % Authorized independent cold diagnostic. Never import or export a recovery OP.
     if nargin<3, duration=10; end
     if nargin<4, scale_inventory=false; end
     if nargin<5, buffer_mass_guess=false; end
     if nargin<6, buffer_mass_targets=false; end
+    if nargin<7, pipe_energy_targets=false; end
     assert(islogical(scale_inventory) && isscalar(scale_inventory),'Require a scalar scaling choice.');
     assert(islogical(buffer_mass_guess) && isscalar(buffer_mass_guess),'Require a scalar buffer guess choice.');
     assert(islogical(buffer_mass_targets) && isscalar(buffer_mass_targets) && ...
         (~buffer_mass_targets || buffer_mass_guess),'Buffer targets require the physical cold mass values.');
+    assert(islogical(pipe_energy_targets) && isscalar(pipe_energy_targets),'Require a scalar pipe initial-state choice.');
     assert(ismember(duration,[0.01 10]), 'Only topology smoke or one full cycle is authorized here.');
     assert(~isfolder(output_root), 'Do not overwrite diagnostic evidence.');
     [code,commit]=system('git rev-parse HEAD'); assert(code==0,'Cannot record source.');
@@ -27,7 +29,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'start_time_s',0,'stop_time_s',duration,'collection_pass',false,'cases',{{}},'error_message','', ...
         'new_inventory_initialization','native_cold_t0_mass_energy_high_targets', ...
         'new_inventory_nominal_scaling',scale_inventory,'physical_buffer_mass_guess',buffer_mass_guess, ...
-        'physical_buffer_mass_high_targets',buffer_mass_targets);
+        'physical_buffer_mass_high_targets',buffer_mass_targets,'physical_pipe_energy_high_targets',pipe_energy_targets);
     try
         contract=jsondecode(fileread(fullfile(repo,'verification','c200_mainline_freeze_contract.json')));
         raw=fullfile(repo,contract.result_relative_path); op=fullfile(repo,contract.checkpoint_relative_path);
@@ -97,6 +99,23 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                         end
                     end
                     write_json(fullfile(arm,'buffer_mass_guesses.json'),guesses);
+                end
+                if pipe_energy_targets
+                    pipes=find_system(model,'LookUnderMasks','all','FollowLinks','on', ...
+                        'Type','Block','MaskType','Pipe (TL)');
+                    assert(numel(pipes)==67,'Expected all 67 quasisteady pipes.');
+                    targets=cell(size(pipes));
+                    for k=1:numel(pipes)
+                        p=pipes{k}; rows=prior.native(cellfun(@(r) strcmp(r.block_path,p),prior.native));
+                        energy=initial_value(rows,'u_I','kJ/kg');
+                        assert(strcmp(get_param(p,'dynamic_compressibility'),'false'),'Wrong pipe storage mode.');
+                        targets{k}=struct('block_path',p,'u_I_kJ_per_kg',energy, ...
+                            'old_specify',get_param(p,'u_I_specify'),'old_priority',get_param(p,'u_I_priority'), ...
+                            'source_time_s',0,'source_sha256',file_hash(fullfile(output_root,'native','observations.mat')));
+                        set_param(p,'u_I_specify','on','u_I_priority','High', ...
+                            'u_I',num2str(energy,'%.17g'),'u_I_unit','kJ/kg');
+                    end
+                    write_json(fullfile(arm,'pipe_energy_targets.json'),targets);
                 end
             end
             names={'L_valve_command','SMA_L_valve_command','SMA_pressure_bias_command', ...
@@ -180,7 +199,7 @@ function metadata=export_metadata(model,changed)
             names=fieldnames(dialog);
             for j=1:numel(names)
                 n=names{j};
-                if ~isempty(regexp(n,'^(p_I|T_I|mass|stored_mass|stored_energy|level)(_|$)','once'))
+                if ~isempty(regexp(n,'^(p_I|T_I|u_I|mass|stored_mass|stored_energy|level)(_|$)','once'))
                     row.initialization_parameters.(n)=get_param(p,n);
                 end
             end
