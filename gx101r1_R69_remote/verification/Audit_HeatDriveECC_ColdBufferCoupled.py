@@ -10,16 +10,22 @@ import h5py
 import numpy as np
 
 from Audit_HeatDriveECC_ColdChamberCycle import checked_rows, custom_ledger, source_ledger
+from Audit_HeatDriveECC_C201Inventory import ledgers, stage_totals
+from Audit_HeatDriveECC_C201BoundaryCycle import integral_summary
+from Audit_HeatDriveECC_C201Cycle import metrics
 from Audit_HeatDriveECC_ColdChamberRejection import CHAMBERS, ROOT, edges, read
 from Audit_HeatDriveECC_ColdCoordinateSmoke import compare_initial, scalar_series, ledger
 from Audit_HeatDriveECC_ConservativeBufferTrial import inventory, NAMES
 from Audit_HeatDriveECC_NativeAccumulation import energy_tables
+from Audit_HeatDriveECC_NativeWindowLedger import validate_grid
 from Audit_HeatDriveECC_SegmentedEvidence import sha256, text_field
-from Audit_HeatDriveECC_TLDomainInventory import resolve_domains
+from Audit_HeatDriveECC_TLDomainInventory import resolve_domains, density_table, scalar
 
 
 PRODUCER = 'fde7153fddc9706d18f5a69b2e198bbbbb11247c'
 EXPERIMENT = 'conservative_buffer_coupled_smoke_20260909_v2'
+CYCLE_PRODUCER = '6148ebd49c3679821684a0e6206b8661e54fa7fa'
+CYCLE_EXPERIMENT = 'conservative_buffer_coupled_cycle_20260909'
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
 
 
@@ -94,10 +100,89 @@ def buffer_ledger(rows, path, table, contract):
                 candidate_component_pass=bool(alias_pass and local['mass_closure_pass'] and local['energy_closure_pass']))
 
 
-def audit(repo):
-    root = repo/'outputs_storage_audit'/EXPERIMENT
-    execution = read(root/'cold_chamber_execution.json'); stop = .01
-    if (execution['execution_commit'] != PRODUCER or not execution['collection_pass'] or not execution['conservative_buffers']
+def cycle_arm(folder, assignment, contracts):
+    meta = read(folder/'inventory_metadata.json')
+    tables = {r['block_path']: energy_tables(r['parameters']) for r in meta['settings_tables']}
+    densities = {r['block_path']: density_table(r['parameters']) for r in meta['settings_tables']}
+    sources = {b['block_path']: b['source_file'] for b in read(folder/'tl_connectivity.json')['blocks']}
+    time = np.arange(10001)*.001; components = []; consumed = set()
+    with h5py.File(folder/'observations.mat') as f:
+        rows = checked_rows(f, 'native', 1240 if folder.name == 'native' else 1258)
+        for original in meta['storage_blocks']:
+            block = copy.deepcopy(original); path = block['block_path']; kind = block['mask_type']
+            block['reference_block'] = sources.get(path, 'foundation.thermal.elements.mass')
+            block['leaf_variables'] = []
+            for key, r in rows.items():
+                if key[0] == path:
+                    consumed.add(key)
+                    block['leaf_variables'].append(dict(name=key[1], unit=text_field(r['unit']),
+                        time_s=r['time_s'][:].reshape(-1), values=r['values'][:].reshape(-1)))
+            table = tables.get(assignment.get(path)); nominal = None
+            if kind == 'Pipe (TL)':
+                mode = block['model_modes']; p = block['mask_parameters']
+                temp = scalar(mode['T_nominal'], mode['T_nominal_unit'], 'K')
+                pressure = scalar(mode['p_nominal'], mode['p_nominal_unit'], 'Pa')
+                if p['area']['unit'] != 'm^2' or p['length']['unit'] != 'm': raise ValueError('Unexpected native pipe geometry units')
+                nominal = float(densities[assignment[path]]([[temp, pressure]])[0])*p['area']['value']*p['length']['value']
+            if kind == 'Conservative Buffer (TL)':
+                detail = buffer_ledger(rows, path, table, contracts[path]); c = contracts[path]
+                get = lambda n, u: scalar_series(rows[path, n], u)
+                mass = get('stored_mass', 'kg')
+                reconstructed = inventory(table, get('T_I', 'K'), mass, c['p_environment_Pa'], c['tank_area_m2'],
+                    c['gravity_m_s2'], c['reference_temperature_K'], c['auxiliary_depth_m'])
+                energy = reconstructed['total']
+                energy_input = np.r_[0, np.cumsum((get('Phi_A', 'W')+get('Q_H', 'W'))[1:]*np.diff(time))]
+                mass_input = np.r_[0, np.cumsum(get('mdot_A', 'kg/s')[1:]*np.diff(time))]
+                h = dict(endpoint_energy_residual_J=energy_input-(energy-energy[0]),
+                         endpoint_mass_residual_kg=mass_input-(mass-mass[0]))
+                row = dict(block_path=path, mask_type=kind, energy_endpoint_change_J=float(energy[-1]-energy[0]),
+                           pressure_volume_work_J=0., endpoint_energy_residual_J_end=float(h['endpoint_energy_residual_J'][-1]),
+                           endpoint_mass_residual_kg_end=float(h['endpoint_mass_residual_kg'][-1]),
+                           energy_basis='M*u + p_environment*V + M*g*level/2 + C_aux*(T-T_ref); do not add p*dV again',
+                           component_detail=detail)
+            elif block['conservative_diagnostic']:
+                if path not in CHAMBERS: raise ValueError('Unknown custom storage')
+                row, h = custom_ledger(block, table)
+            else:
+                row, h = ledgers(block, table, nominal)
+            row['stages'] = stage_totals(h); components.append(row)
+        if consumed != set(rows) or len(components) != 119 or len({r['block_path'] for r in components}) != 119:
+            raise ValueError('Unaccounted storage leaves')
+        rates, source_rows, pumps = source_ledger(f, read(folder/'thermal_connectivity.json'), time)
+        signals = {}
+        for key, r in f['signals'].items():
+            validate_grid(r['time_s'][:].reshape(-1), 0, 10, .001)
+            values = r['values'][:]
+            if values.ndim != 2 or values.shape[1] != 10001 or not np.isfinite(values).all(): raise ValueError('Incomplete public signals')
+            signals[key] = values
+        with h5py.File(folder/'configuration.mat') as config:
+            performance, solids, flows = metrics(signals, config['options'], time, origin=0)
+        storage = sum(scalar_series(r, 'W') for (_, n), r in rows.items() if n.startswith('Phi_') or n in ('Q_H', 'Q'))
+        kcl = sum(rates.values())-storage
+    endpoint = sum(r['energy_endpoint_change_J']+r.get('pressure_volume_work_J', 0) for r in components)
+    source_input = integral_summary(sum(rates.values()), time)['BE_energy_J']
+    residual = source_input-endpoint
+    if abs(residual-sum(r['endpoint_energy_residual_J_end'] for r in components)-integral_summary(kcl, time)['BE_energy_J']) > 1e-7:
+        raise ValueError('Full source/storage ledger identity failed')
+    groups = {kind: dict(count=sum(r['mask_type'] == kind for r in components),
+                        endpoint_energy_residual_J=sum(r['endpoint_energy_residual_J_end'] for r in components if r['mask_type'] == kind))
+              for kind in sorted({r['mask_type'] for r in components})}
+    return dict(arm=folder.name, storage_count=119, source_count=49, samples=10001, omitted_intervals=0,
+                components=components, component_groups=groups, source_rows=source_rows, pumps=pumps,
+                source_ledger={k: integral_summary(v, time) for k, v in rates.items()},
+                source_stages=stage_totals({k: np.r_[0, np.cumsum(v[1:]*np.diff(time))] for k, v in rates.items()}),
+                BE_source_net_energy_J=source_input, actual_endpoint_storage_plus_pdv_J=endpoint,
+                source_minus_actual_endpoint_storage_J=residual, selected_flow_gates=flows,
+                performance=performance, selected_solid_balances=solids, own_actual_initial_inventory_used=True,
+                full_device_first_law_verified=False, production_recovery_allowed=False,
+                interpretation='One cold cycle, declared lumped storage and native ideal source boundaries only; not full device validation')
+
+
+def audit(repo, full_cycle=False):
+    root = repo/'outputs_storage_audit'/(CYCLE_EXPERIMENT if full_cycle else EXPERIMENT)
+    producer = CYCLE_PRODUCER if full_cycle else PRODUCER
+    execution = read(root/'cold_chamber_execution.json'); stop = 10 if full_cycle else .01
+    if (execution['execution_commit'] != producer or not execution['collection_pass'] or not execution['conservative_buffers']
             or execution['start_time_s'] != 0 or execution['stop_time_s'] != stop
             or any(execution[k] for k in ('c200_state_imported', 'checkpoint_saved', 'production_recovery_allowed'))
             or [c['arm'] for c in execution['cases']] != ['native', 'conservative']):
@@ -175,7 +260,7 @@ def audit(repo):
             block['leaf_variables'] = [dict(name=k[1], unit=text_field(r['unit']), time_s=r['time_s'][:].reshape(-1),
                                            values=r['values'][:].reshape(-1)) for k, r in bb.items() if k[0] == path]
             row, _ = custom_ledger(block, tables[assignment[path]]); chambers.append(row)
-        time = np.arange(11)*.001
+        time = np.arange(round(stop/.001)+1)*.001
         for arm, f, rows in [('native', a, aa), ('conservative', b, bb)]:
             rates, _, _ = source_ledger(f, read(root/arm/'thermal_connectivity.json'), time)
             storage = sum(scalar_series(r, 'W') for (_, n), r in rows.items() if n.startswith('Phi_') or n in ('Q_H', 'Q'))
@@ -200,27 +285,35 @@ def audit(repo):
     strict = all(r['within_strict_comparison'] for r in comparisons)
     local_pass = all(r['candidate_component_pass'] for r in local) and all(
         r['local_chamber_gate']['mass_closure_pass'] and r['local_chamber_gate']['energy_closure_pass'] for r in chambers)
-    result = dict(schema='heatdrive_ecc_cold_buffer_coupled_smoke_audit_v1', evidence_audit_pass=True,
-        execution_commit=PRODUCER, stop_time_s=stop, samples=11, buffers=local, chambers=chambers,
+    numerical_pass = bool(local_pass and strict and all(r['passed'] for r in kcls))
+    result = dict(schema='heatdrive_ecc_cold_buffer_coupled_audit_v2', evidence_audit_pass=True,
+        execution_commit=producer, stop_time_s=stop, samples=round(stop/.001)+1, buffers=local, chambers=chambers,
         topology_edges_and_domain_assignment_identical=True, property_tables_identical=True,
         source_storage_port_checks=kcls, local_inventory_conservation_pass=local_pass,
         strict_initial_coordinate_match=strict, initial_matching_counts={p: sum(r['within_strict_comparison'] for r in comparisons if r['priority'] == p) for p in ('High', 'Low')},
-        cold_smoke_numerical_gates_pass=bool(local_pass and strict and all(r['passed'] for r in kcls)),
-        full_cycle_completed=False, all_mechanism_gates_evaluated=False, full_device_first_law_verified=False,
+        declared_window_numerical_gates_pass=numerical_pass,
+        cold_smoke_numerical_gates_pass=numerical_pass if not full_cycle else None,
+        full_cycle_completed=full_cycle, all_mechanism_gates_evaluated=False, full_device_first_law_verified=False,
         production_recovery_allowed=False, table4_reproduction_claim=False,
         input_sha256={str(p.relative_to(repo)): sha256(p) for p in sorted(set(files))})
+    if full_cycle:
+        result['arms'] = [cycle_arm(root/a, assignment, contracts) for a in ('native', 'conservative')]
     return result, comparisons
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__); parser.add_argument('--output-root', type=Path, required=True)
+    parser.add_argument('--full-cycle', action='store_true')
     args = parser.parse_args()
     if args.output_root.exists(): raise FileExistsError('Never overwrite evidence')
-    result, comparisons = audit(Path(__file__).resolve().parents[1])
+    result, comparisons = audit(Path(__file__).resolve().parents[1], args.full_cycle)
     args.output_root.mkdir(parents=True)
     (args.output_root/'cold_buffer_coupled_audit.json').write_text(json.dumps(result, indent=2, allow_nan=False)+'\n', encoding='utf-8')
     with (args.output_root/'initial_coordinates.csv').open('w', newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=list(comparisons[0])); writer.writeheader(); writer.writerows(comparisons)
     print(json.dumps({k: result[k] for k in ('evidence_audit_pass', 'local_inventory_conservation_pass',
-        'strict_initial_coordinate_match', 'initial_matching_counts', 'source_storage_port_checks', 'cold_smoke_numerical_gates_pass', 'production_recovery_allowed')}, indent=2))
-    raise SystemExit(0 if result['cold_smoke_numerical_gates_pass'] else 1)
+        'strict_initial_coordinate_match', 'initial_matching_counts', 'source_storage_port_checks', 'declared_window_numerical_gates_pass', 'production_recovery_allowed')}, indent=2))
+    if args.full_cycle:
+        print(json.dumps([{k: a[k] for k in ('arm', 'source_minus_actual_endpoint_storage_J', 'component_groups', 'selected_flow_gates', 'performance')}
+                          for a in result['arms']], indent=2))
+    raise SystemExit(0 if result['declared_window_numerical_gates_pass'] else 1)
