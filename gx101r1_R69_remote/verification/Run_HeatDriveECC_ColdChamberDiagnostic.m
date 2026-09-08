@@ -1,0 +1,154 @@
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration)
+% Authorized independent cold diagnostic. Never import or export a recovery OP.
+    if nargin<3, duration=10; end
+    assert(ismember(duration,[0.01 10]), 'Only topology smoke or one full cycle is authorized here.');
+    assert(~isfolder(output_root), 'Do not overwrite diagnostic evidence.');
+    [code,commit]=system('git rev-parse HEAD'); assert(code==0,'Cannot record source.');
+    [code,dirty]=system('git status --porcelain'); assert(code==0 && isempty(strtrim(dirty)),'Commit source first.');
+    mkdir(output_root); diary(fullfile(output_root,'matlab_diary.log'));
+    diary_cleanup=onCleanup(@() diary('off'));
+    old=pwd; oldpath=path; path_cleanup=onCleanup(@() restore_path(old,oldpath));
+    generation=Simulink.fileGenControl('getConfig');
+    generation_cleanup=onCleanup(@() Simulink.fileGenControl('setConfig','config',generation));
+    Simulink.fileGenControl('set','CacheFolder',fullfile(output_root,'cache'), ...
+        'CodeGenFolder',fullfile(output_root,'codegen'),'createDir',true);
+    record=struct('schema','heatdrive_ecc_independent_cold_chamber_v1', ...
+        'execution_commit',strtrim(commit),'user_authorized_independent_cold_start',true, ...
+        'c200_state_imported',false,'production_recovery_allowed',false, ...
+        'table4_reproduction_claim',false,'periodic_steady_state',false, ...
+        'full_device_first_law_verified',false,'checkpoint_saved',false, ...
+        'start_time_s',0,'stop_time_s',duration,'collection_pass',false,'cases',{{}},'error_message','');
+    try
+        contract=jsondecode(fileread(fullfile(repo,'verification','c200_mainline_freeze_contract.json')));
+        raw=fullfile(repo,contract.result_relative_path); op=fullfile(repo,contract.checkpoint_relative_path);
+        assert(strcmp(file_hash(raw),contract.result_sha256) && strcmp(file_hash(op),contract.checkpoint_sha256), ...
+            'C200 authority hash mismatch.');
+        frozen=load(raw,'options'); overrides=frozen.options;
+        overrides.model_path=fullfile(repo,[overrides.model_name '.slx']);
+        overrides.cycle_count=1; overrides.simulation.stop_time_s=duration;
+        overrides.simulation.persist_model_configuration=false;
+        model_hash=file_hash(overrides.model_path);
+        build=fullfile(output_root,'component_build'); mkdir(build);
+        copyfile(fullfile(repo,'verification','simscape_inventory','+ecc_inventory'),fullfile(build,'+ecc_inventory'));
+        cd(build); ssc_build('ecc_inventory'); addpath(build); load_system('ecc_inventory_lib'); cd(repo);
+        for kind={'native','conservative'}
+            name=kind{1}; arm=fullfile(output_root,name); mkdir(arm);
+            overrides.branch.independent_conservative_chamber_diagnostic=strcmp(name,'conservative');
+            [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(overrides);
+            model_cleanup=onCleanup(@() close_system(model,0));
+            changed={};
+            if strcmp(name,'conservative')
+                changed={[model '/SMA_PumpInletConnectingPipeVolume'],[model '/SMA_PumpOutletConnectingPipeVolume']};
+                for k=1:2
+                    assert(strcmp(get_param(changed{k},'SourceFile'),'ecc_inventory.conservative_chamber'), ...
+                        'Wrong diagnostic component.');
+                end
+            end
+            names={'L_valve_command','SMA_L_valve_command','SMA_pressure_bias_command', ...
+                'SMA_pressure_feedback_enable_command','SMA_pressure_feedback_reset_command'};
+            commands=struct();
+            for k=1:numel(names)
+                v=evalin('base',names{k}); assert(v.Time(1)==0 && v.Time(end)==10,'Require an actual one-cycle schedule.');
+                commands.(names{k})=struct('time_s',v.Time,'values',v.Data);
+            end
+            save(fullfile(arm,'configuration.mat'),'options','commands','-v7.3');
+            set_param(model,'LoadInitialState','off','SimscapeUseOperatingPoints','off', ...
+                'StartTime','0','StopTime',num2str(duration,'%.17g'), ...
+                'Solver',options.simulation.solver,'FixedStep',num2str(options.simulation.fixed_step_s,'%.17g'), ...
+                'SimulationMode',options.simulation.mode,'ReturnWorkspaceOutputs','on', ...
+                'SimscapeLogType','all','SimscapeLogName','simlog','SimscapeLogLimitData','off', ...
+                'SaveFinalState','off','SaveOperatingPoint','off','SaveState','off', ...
+                'SaveTime','off','SaveOutput','off','SignalLogging','off');
+            assert(options.simscape.local_solver_enabled && ...
+                strcmp(options.simscape.local_solver_choice,'NE_BACKWARD_EULER_ADVANCER') && ...
+                options.simscape.local_solver_sample_time_s==.001,'Require the unchanged local BE solver.');
+            set_param(model,'SimulationCommand','update');
+            metadata=export_metadata(model,changed);
+            write_json(fullfile(arm,'inventory_metadata.json'),metadata);
+            write_json(fullfile(arm,'tl_connectivity.json'),Export_HeatDriveECC_TLConnectivity(model));
+            write_json(fullfile(arm,'thermal_connectivity.json'), ...
+                Export_HeatDriveECC_TLConnectivity(model,'foundation.thermal.thermal'));
+            output=sim(model);
+            native=Extract_HeatDriveECC_NativeStorageTraces(output.simlog,model,false,changed);
+            [source_traces,boundary_metadata]=Extract_HeatDriveECC_BoundaryTraces(output.simlog,model);
+            signals=struct(); names=output.who;
+            for k=1:numel(names)
+                v=output.get(names{k});
+                if isa(v,'timeseries'), signals.(names{k})=struct('time_s',v.Time,'values',v.Data);
+                elseif isstruct(v) && isscalar(v) && isfield(v,'time') && isfield(v,'signals') && ...
+                        isscalar(v.signals) && isfield(v.signals,'values')
+                    signals.(names{k})=struct('time_s',v.time,'values',v.signals.values);
+                end
+            end
+            save(fullfile(arm,'observations.mat'),'native','source_traces','boundary_metadata','signals','-v7.3');
+            record.cases{end+1}=struct('arm',name,'topology_update_pass',true, ...
+                'storage_components',numel(metadata.storage_blocks),'native_trace_count',numel(native), ...
+                'source_count',boundary_metadata.source_count,'observation_sha256',file_hash(fullfile(arm,'observations.mat')));
+            clear model_cleanup output
+        end
+        assert(strcmp(file_hash(op),contract.checkpoint_sha256) && strcmp(file_hash(raw),contract.result_sha256) && ...
+            strcmp(file_hash(overrides.model_path),model_hash),'Frozen authority or canonical model changed.');
+        record.c200_result_sha256=contract.result_sha256; record.c200_checkpoint_sha256=contract.checkpoint_sha256;
+        record.collection_pass=numel(record.cases)==2;
+    catch ME
+        record.error_message=ME.message; record.error_identifier=ME.identifier;
+        record.error_report=getReport(ME,'extended','hyperlinks','off');
+    end
+    write_json(fullfile(output_root,'cold_chamber_execution.json'),record);
+    fprintf('%s\n',jsonencode(record));
+    assert(record.collection_pass,'Cold chamber diagnostic failed; inspect execution JSON.');
+end
+
+function metadata=export_metadata(model,changed)
+    metadata=struct('schema','heatdrive_ecc_cold_chamber_inventory_v1','storage_blocks',{{}},'settings_tables',{{}});
+    types={'Pipe (TL)','Tank (TL)','Constant Volume Chamber (TL)','Thermal Mass'};
+    modes={'dynamic_compressibility','inertia','mass_type','p_nominal','p_nominal_unit','T_nominal','T_nominal_unit','num_ports','num_inlet','volume_spec'};
+    params={'area','length','volume','mass','sp_heat','tank_area','g','inlet_height_A'};
+    for kind=1:4
+        blocks=find_system(model,'LookUnderMasks','all','FollowLinks','on','Type','Block','MaskType',types{kind});
+        if kind==3, blocks=[blocks(:);changed(:)]; end
+        for k=1:numel(blocks)
+            p=blocks{k}; dialog=get_param(p,'DialogParameters');
+            row=struct('block_path',p,'mask_type',types{kind},'model_modes',struct(),'mask_parameters',struct(), ...
+                'conservative_diagnostic',ismember(p,changed));
+            for j=1:numel(modes)
+                n=modes{j}; if isfield(dialog,n),row.model_modes.(n)=get_param(p,n);end
+            end
+            for j=1:numel(params)
+                n=params{j}; if isfield(dialog,n)
+                    expression=get_param(p,n); row.mask_parameters.(n)=struct('expression',expression, ...
+                        'value',slResolve(expression,p),'unit',get_param(p,[n '_unit']));
+                end
+            end
+            metadata.storage_blocks{end+1}=row;
+        end
+    end
+    topology=Export_HeatDriveECC_TLConnectivity(model);
+    names={'table_dimensions','T_TLU','T_TLU_unit','T_min_1D','T_max_1D','p_min_1D','p_max_1D', ...
+        'p_min_1D_unit','p_max_1D_unit','rho_parameterization_1D','rho_TLU_4','rho_TLU_4_unit', ...
+        'beta_const_4','beta_const_4_unit','p_ref_4','p_ref_4_unit','u_parameterization_1D', ...
+        'u_TLU_4','u_TLU_4_unit','cp_TLU_5','cp_TLU_5_unit'};
+    for k=1:numel(topology.blocks)
+        block=topology.blocks{k};
+        if strcmp(block.source_file,'foundation.thermal_liquid.utilities.thermal_liquid_settings')
+            row=struct('block_path',block.block_path,'parameters',struct());
+            for j=1:numel(names),row.parameters.(names{j})=get_param(block.block_path,names{j});end
+            metadata.settings_tables{end+1}=row;
+        end
+    end
+    assert(numel(metadata.storage_blocks)==119 && numel(metadata.settings_tables)==2,'Incomplete storage inventory.');
+end
+
+function write_json(file,value)
+    fid=fopen(file,'w','n','UTF-8'); assert(fid>=0,'Cannot save JSON.'); cleanup=onCleanup(@() fclose(fid));
+    fprintf(fid,'%s\n',jsonencode(value,'PrettyPrint',true));
+end
+function hash=file_hash(file)
+    digest=java.security.MessageDigest.getInstance('SHA-256'); fid=fopen(file,'rb'); assert(fid>=0,'Missing file.');
+    cleanup=onCleanup(@() fclose(fid));
+    while ~feof(fid),digest.update(fread(fid,8*1024*1024,'*uint8'));end
+    hash=upper(reshape(dec2hex(typecast(digest.digest(),'uint8'),2).',1,[]));
+end
+function restore_path(folder,oldpath)
+    cd(folder);path(oldpath);
+end
