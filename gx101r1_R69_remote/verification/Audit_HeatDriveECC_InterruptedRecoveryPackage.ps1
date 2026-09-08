@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [string]$RecoveryRoot = '',
-    [string]$AuditRoot = ''
+    [string]$AuditRoot = '',
+    [switch]$PreferCompactedEvidence
 )
 
 Set-StrictMode -Version Latest
@@ -30,6 +31,43 @@ function Require([bool]$Condition, [string]$Message) {
 function Require-Hash([string]$Path, [string]$Expected) {
     Require ((Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash -eq $Expected) "Hash mismatch: $Path"
 }
+$script:archiveVerified = $false
+$script:archiveFiles = [Collections.Generic.List[string]]::new()
+$script:compactedRawCount = 0
+function Resolve-RawEvidence([string]$Path, [string]$Expected) {
+    if ((Test-Path -LiteralPath $Path -PathType Leaf) -and -not $PreferCompactedEvidence) {
+        Require-Hash $Path $Expected
+        return $Path
+    }
+    $archiveRoot = Join-Path $repo 'outputs_storage_audit\c40_c60_prefix_archive_20260908_v3'
+    if (-not $script:archiveVerified) {
+        $output = & python -X utf8 (Join-Path $PSScriptRoot 'Archive_HeatDriveECC_RawPrefixes.py') --verify
+        Require ($LASTEXITCODE -eq 0) 'Compacted raw reconstruction audit failed.'
+        $verified = $output | ConvertFrom-Json
+        Require ($verified.archive_verification_pass -and -not $verified.production_recovery_allowed) 'Wrong archive scope.'
+        $matlabPath = Join-Path $archiveRoot 'matlab_materialization_audit.json'
+        $matlab = Read-Json $matlabPath
+        Require ($matlab.load_and_value_comparison_pass -and -not $matlab.production_recovery_allowed -and
+            $matlab.cases.Count -eq 2 -and [string]::IsNullOrEmpty($matlab.error_message)) 'MATLAB archive loading was not verified.'
+        $script:archiveFiles.Add($matlabPath)
+        $script:archiveVerified = $true
+    }
+    foreach ($cycles in @(40,60)) {
+        $folder = Join-Path $archiveRoot "c$cycles"
+        $descriptorPath = Join-Path $folder 'archive.json'
+        $descriptor = Read-Json $descriptorPath
+        $original = [IO.Path]::GetFullPath((Join-Path $repo $descriptor.source_path))
+        if ($original -ne [IO.Path]::GetFullPath($Path)) { continue }
+        Require ($descriptor.source_sha256 -eq $Expected -and $descriptor.exact_logical_data_preserved -and
+            -not $descriptor.original_mat_container_bytes_preserved -and -not $descriptor.production_recovery_allowed) 'Wrong retired raw identity.'
+        foreach ($name in @('metadata.h5','endpoints.h5','matlab_header.bin','materialized_validation.json')) {
+            $script:archiveFiles.Add((Join-Path $folder $name))
+        }
+        $script:compactedRawCount++
+        return $descriptorPath
+    }
+    throw "No verified archive exists for missing raw: $Path"
+}
 
 $contractPath = Join-Path $RecoveryRoot 'audited_recovery_contract.json'
 $c = Read-Json $contractPath
@@ -40,7 +78,7 @@ Require ($c.mechanism_pass -and $c.strict_restore_pass -and -not $c.state_reset 
 Require ($c.source_recorded_cycles -eq 40 -and $c.recovered_cycles -eq 60 -and
     $c.mechanism_gate_start_cycle -eq 3) 'This audit covers the declared C40-to-C60 interruption only.'
 Require ([IO.Path]::GetFullPath($c.output_root) -eq $RecoveryRoot) 'Recovery output root differs.'
-Require-Hash $c.result_path $c.result_sha256
+$resultEvidence = Resolve-RawEvidence $c.result_path $c.result_sha256
 Require-Hash $c.checkpoint_path $c.checkpoint_sha256
 Require-Hash $c.source_state_path $c.source_state_sha256
 $strict = Read-Json $c.strict_audit_path
@@ -61,15 +99,16 @@ Require ($energy.local_exchanger_kcl_pass -and $energy.boundary_direction_pass -
 
 $paths = [Collections.Generic.List[string]]::new()
 foreach ($p in @($contractPath, (Join-Path $RecoveryRoot 'audited_recovery_settings.mat'),
-        $c.result_path, $c.checkpoint_path, $c.source_state_path,
+        $resultEvidence, $c.checkpoint_path, $c.source_state_path,
         $c.strict_audit_path, $c.energy_audit_path, $savedPath)) { $paths.Add($p) }
 $parentRun = Join-Path (Split-Path $c.source_state_path) 'qian2019_table2_table4_simscape_40cycle_20260904_183855'
 $parentRaw = Join-Path $parentRun 'physical_simscape_result.mat'
 $parentOp = Join-Path $parentRun 'final_operating_point.mat'
-Require-Hash $parentRaw '80C12F151242EB9ED079319776AE45B2F835F9940A881954A8731A5A7B0D7DF1'
+$parentRawEvidence = Resolve-RawEvidence $parentRaw '80C12F151242EB9ED079319776AE45B2F835F9940A881954A8731A5A7B0D7DF1'
 Require-Hash $parentOp 'D8A49BD2EC81B8CBFF128F390AF68D2BE417BAFD002BBDDD2AB85DC34954E25A'
-$paths.Add($parentRaw)
+$paths.Add($parentRawEvidence)
 $paths.Add($parentOp)
+foreach ($path in $script:archiveFiles) { $paths.Add($path) }
 foreach ($name in @('c200_mainline_freeze_contract.json', 'cold_boundary_runtime_c246_recovery_contract.json')) {
     $path = Join-Path $PSScriptRoot $name
     $frozen = Read-Json $path
@@ -77,7 +116,8 @@ foreach ($name in @('c200_mainline_freeze_contract.json', 'cold_boundary_runtime
     $op = Join-Path $repo $frozen.checkpoint_relative_path
     $rawRetired = $frozen.PSObject.Properties.Name -contains 'raw_preserved' -and -not $frozen.raw_preserved
     if ($rawRetired) {
-        $replacement = (& (Join-Path $PSScriptRoot 'Audit_HeatDriveECC_RuntimeBaselinePackage.ps1')) | ConvertFrom-Json
+        $replacement = (& (Join-Path $PSScriptRoot 'Audit_HeatDriveECC_RuntimeBaselinePackage.ps1') `
+            -AuditRoot (Join-Path $AuditRoot 'runtime_baseline_reaudit')) | ConvertFrom-Json
         Require $replacement.package_pass 'Replacement baseline failed.'
     } else {
         Require-Hash $raw $frozen.result_sha256
@@ -141,6 +181,8 @@ $summary = [ordered]@{
     frozen_hash_contracts_verified = $true
     c246_raw_retired_with_verified_replacement = $true
     source_snapshot_included = Test-Path -LiteralPath $snapshotPath -PathType Leaf
+    compacted_raw_files_used = $script:compactedRawCount
+    compacted_evidence_scope = 'Exact logical MAT datasets and MATLAB loader comparison; original container hashes retained as provenance, not asserted for regenerated files.'
     file_count = $entries.Count
     audit_root = $AuditRoot
 }
