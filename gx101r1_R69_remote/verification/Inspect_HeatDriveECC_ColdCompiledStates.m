@@ -64,7 +64,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root)
             'StartTime','0','StopTime','0','SimulationMode',options.simulation.mode, ...
             'Solver',options.simulation.solver,'FixedStep',num2str(options.simulation.fixed_step_s,'%.17g'), ...
             'SaveState','on','StateSaveName','states','SaveFormat','Dataset','SaveFinalState','off','SaveOperatingPoint','off', ...
-            'ReturnWorkspaceOutputs','on');
+            'ReturnWorkspaceOutputs','on','SimscapeLogType','all','SimscapeLogName','simlog','SimscapeLogLimitData','off');
         record.stage='accelerator_initialization_state_logging';record.simulation_run=true;
         input=Simulink.SimulationInput(model);input=input.setVariable('cold_public_targets',cold_public_targets);
         input=input.setModelParameter('CaptureErrors','on');output=sim(input);
@@ -82,6 +82,19 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root)
             end
             record.states{end+1}=entry;
         end
+        record.stage='read_node_metadata';log=output.get('simlog');record.node_metadata={};
+        for block={'SMA_PumpInletConnectingPipeVolume','SMA_PumpOutletConnectingPipeVolume', ...
+                'ColdFluidBuffer','HotFluidBuffer','SHEXFluidBuffer','SMAHotFluidBuffer'}
+            parent=log.child(block{1});
+            for name={'stored_mass','stored_energy','T_I','p_I'}
+                node=parent.child(name{1});
+                record.node_metadata{end+1}=struct('block_name',block{1},'variable_name',name{1}, ...
+                    'tags_text',evalc('disp(node.tags)'), 'tag_names',{node.tagNames});
+            end
+        end
+        plugin=get_param(model,'SimscapePlugin');
+        record.plugin_class=class(plugin);record.plugin_display=evalc('disp(plugin)');
+        if isobject(plugin),record.plugin_methods=methods(plugin);record.plugin_properties=properties(plugin);end
         record.stage='verify_frozen_authority';
         assert(strcmp(file_hash(canonical),canonical_hash) && strcmp(file_hash(raw),frozen.result_sha256) && ...
             strcmp(file_hash(op),frozen.checkpoint_sha256),'Frozen model or authority changed.');
@@ -92,7 +105,8 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root)
     end
     fid=fopen(fullfile(output_root,'compiled_states_inspection.json'),'w','n','UTF-8');assert(fid>=0);fc=onCleanup(@() fclose(fid));
     fprintf(fid,'%s\n',jsonencode(record,'PrettyPrint',true));clear fc
-    fprintf('%s\n',jsonencode(record));assert(record.inspection_pass,'Compiled-state inspection failed.');
+    fprintf('%s\n',jsonencode(struct('inspection_pass',record.inspection_pass,'stage',record.stage, ...
+        'output_root',output_root,'production_recovery_allowed',false)));assert(record.inspection_pass,'Compiled-state inspection failed.');
 end
 
 function hash=file_hash(file)
