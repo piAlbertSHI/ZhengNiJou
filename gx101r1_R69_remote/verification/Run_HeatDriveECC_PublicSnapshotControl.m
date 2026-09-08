@@ -1,6 +1,13 @@
-function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_source)
+function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_source,window_mode)
 % Same physical graph control: import complete public groups, never state indices.
     if nargin<3,seed_source='differential_targets';end
+    if nargin<4,window_mode='one_step_pair';end
+    assert(any(strcmp(window_mode,{'one_step_pair','one_second_complete_only'})),'Unknown window mode.');
+    stop_time=2000.002;
+    if strcmp(window_mode,'one_second_complete_only')
+        assert(strcmp(seed_source,'advanced_differential_targets'),'Long window requires advanced seed.');
+        stop_time=2001.001;
+    end
     assert(any(strcmp(seed_source,{'differential_targets','logged_simscape_point', ...
         'differential_targets_full_op_only','advanced_differential_targets'})),'Unknown seed source.');
     assert(~isfolder(output_root),'Do not overwrite control evidence.');
@@ -18,6 +25,8 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_sour
         'anonymous_indices_edited',false,'start_time_s',2000.001,'stop_time_s',2000.002,'cases',{{}},'error_message','', ...
         'seed_source',seed_source,'seed_simscape_use_operating_points','on', ...
         'resume_simscape_use_operating_points','on');
+    audit.window_mode=window_mode;audit.stop_time_s=stop_time;
+    audit.command_horizon_extended=false;audit.boundary_sample_hold_diagnostic=true;
     if strcmp(seed_source,'differential_targets_full_op_only')
         audit.resume_simscape_use_operating_points='off';
     end
@@ -66,6 +75,7 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_sour
             fullfile(repo,'outputs_storage_audit','lag_state_space_equivalence_20260908','lag_equivalence.json'));
         [targets,target_records]=Build_HeatDriveECC_DifferentialStateTargets(repo,model,2);
         arms={'nonnetwork_snapshot','whole_snapshot'};
+        if strcmp(window_mode,'one_second_complete_only'),arms={'whole_snapshot'};end
         if strcmp(seed_source,'logged_simscape_point')
             log_root=fullfile(repo,'outputs_storage_audit','c200_logged_simscape_op_20260908');
             log_audit=jsondecode(fileread(fullfile(log_root,'source_restore_audit.json')));
@@ -145,7 +155,7 @@ function audit=Run_HeatDriveECC_PublicSnapshotControl(repo,output_root,seed_sour
             assert(replaced==72+solver_groups && solver_groups<=1,'Wrong copied group count.');
             input_snapshot=Extract_HeatDriveECC_ObservedStates(candidate.loggedStates,built.schedule.tau_cycle_s,1);
             save(fullfile(output_root,[arm{1} '_input_public_states.mat']),'input_snapshot','-v7.3');
-            run=input.setModelParameter('StopTime','2000.002');run=run.setInitialState(candidate);
+            run=input.setModelParameter('StopTime',num2str(stop_time,'%.17g'));run=run.setInitialState(candidate);
             run=run.setModelParameter('SimscapeUseOperatingPoints',audit.resume_simscape_use_operating_points);
             output=sim(run);assert(isempty(output.ErrorMessage),'Snapshot control failed: %s',output.ErrorMessage);
             signals=struct();names=output.who;

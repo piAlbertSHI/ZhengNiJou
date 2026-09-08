@@ -1,5 +1,9 @@
-function audit=Run_HeatDriveECC_FullOPRoundtripControl(repo,output_root)
+function audit=Run_HeatDriveECC_FullOPRoundtripControl(repo,output_root,window_mode)
 % Compare an untouched full OP with an identity write through its public Dataset.
+    if nargin<3,window_mode='one_step_pair';end
+    assert(any(strcmp(window_mode,{'one_step_pair','one_second_reference'})),'Unknown window mode.');
+    stop_time=2000.002;arms={'untouched','identity_dataset_write'};
+    if strcmp(window_mode,'one_second_reference'),stop_time=2001.001;arms={'untouched'};end
     assert(~isfolder(output_root),'Do not overwrite evidence.');
     [code,commit]=system('git rev-parse HEAD');assert(code==0,'Cannot record source.');
     [code,dirty]=system('git status --porcelain');assert(code==0 && isempty(strtrim(dirty)),'Commit source first.');
@@ -15,6 +19,8 @@ function audit=Run_HeatDriveECC_FullOPRoundtripControl(repo,output_root)
         'physical_options_changed',false,'controller_representation_changed',false, ...
         'command_horizon_extended',false,'source_op_edited',false,'final_checkpoint_saved',false, ...
         'anonymous_indices_edited',false,'error_message','');
+    audit.window_mode=window_mode;audit.start_time_s=2000.001;audit.stop_time_s=stop_time;
+    audit.boundary_sample_hold_diagnostic=true;
     try
         origin=fullfile(repo,'outputs_storage_audit','c200_source_compatibility_20260907');
         op_path=fullfile(origin,'archived_source_probe_v4','DO_NOT_RESUME_FOR_PRODUCTION.mat');
@@ -51,13 +57,13 @@ function audit=Run_HeatDriveECC_FullOPRoundtripControl(repo,output_root)
         save(fullfile(output_root,'control_inputs.mat'),'built','commands','-v7.3');
         assignin('base','EIGHTH_ROUND_OPTIONS',built);input=Simulink.SimulationInput(model);
         input=input.setVariable('EIGHTH_ROUND_OPTIONS',built);
-        input=input.setModelParameter('StartTime','0','StopTime','2000.002', ...
+        input=input.setModelParameter('StartTime','0','StopTime',num2str(stop_time,'%.17g'), ...
             'Solver',built.simulation.solver,'FixedStep',num2str(built.simulation.fixed_step_s,'%.17g'), ...
             'SimulationMode',built.simulation.mode,'ReturnWorkspaceOutputs','on','CaptureErrors','on', ...
             'SaveTime','off','SaveOutput','off','SignalLogging','off','SaveState','on','StateSaveName','internal_state_log', ...
             'SaveFinalState','on','FinalStateName','xFinal','SaveOperatingPoint','on', ...
             'OperatingPointContentsChecksumMismatchMsg','error','OperatingPointInterfaceChecksumMismatchMsg','error');
-        for arm={'untouched','identity_dataset_write'}
+        for arm=arms
             candidate=saved.diagnostic_op;
             if strcmp(arm{1},'identity_dataset_write'),candidate.loggedStates=original;end
             assert(candidate.snapshotTime==2000.001 && isequaln(candidate.loggedStates,original), ...
@@ -87,7 +93,7 @@ function audit=Run_HeatDriveECC_FullOPRoundtripControl(repo,output_root)
             clear output
         end
         assert(isequaln(original,saved.diagnostic_op.loggedStates) && strcmp(file_sha256(op_path),expected),'Source changed.');
-        audit.source_snapshot_sha256=expected;audit.computation_complete=numel(audit.cases)==2;
+        audit.source_snapshot_sha256=expected;audit.computation_complete=numel(audit.cases)==numel(arms);
     catch ME
         audit.error_message=ME.message;audit.error_identifier=ME.identifier;
         audit.error_report=getReport(ME,'extended','hyperlinks','off');
