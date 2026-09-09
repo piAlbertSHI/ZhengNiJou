@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -28,6 +28,10 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<28,separate_observer_network=false;end
     if nargin<29,live_observer_flow=false;end
     if nargin<30,actuate_ps_output=false;end
+    if nargin<31,algebraic_structure_only=false;end
+    assert(islogical(algebraic_structure_only) && isscalar(algebraic_structure_only) && ...
+        (~algebraic_structure_only || (actuate_ps_output && ~tighten_global && duration==0 && capture_runtime)), ...
+        'Structure-only inspection requires the unchanged initial-actuation baseline.');
     assert(islogical(actuate_ps_output) && isscalar(actuate_ps_output) && (~actuate_ps_output || live_observer_flow));
     assert(islogical(live_observer_flow) && isscalar(live_observer_flow) && (~live_observer_flow || separate_observer_network));
     assert(islogical(separate_observer_network) && isscalar(separate_observer_network) && ...
@@ -210,6 +214,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.live_observer_flow_requested=live_observer_flow;
     record.actuate_ps_output_requested=actuate_ps_output;
     record.tight_actuation_tolerance_trial=tighten_global && actuate_ps_output;
+    record.algebraic_structure_only=algebraic_structure_only;
     record.diagnostic_stop_time_s=duration;
     record.initialization_only=duration==0;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
@@ -365,7 +370,6 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         if ps_controller
             record.ps_controller_contract=Configure_HeatDriveECC_ColdPSController(repo,model,initial_bias_only,initial_mdot_probe,constant_bias_derivative);
         end
-        record.stage='initialization_state_logging';record.simulation_run=true;
         if capture_runtime
             assignin('base','cold_initialization_context',{});
             assignin('base','cold_public_target_records',public_targets);
@@ -374,6 +378,12 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
                 set_param(model,callback{1},sprintf('Capture_HeatDriveECC_ColdInitializationContext(''%s'',''%s'');',model,callback{1}));
             end
         end
+        if algebraic_structure_only
+            record.stage='compiled_algebraic_structure';
+            record.algebraic_structure=Inspect_HeatDriveECC_CompiledAlgebraicStructure(model);
+            record.runtime_callbacks=evalin('base','cold_initialization_context');
+        else
+        record.stage='initialization_state_logging';record.simulation_run=true;
         input=Simulink.SimulationInput(model);input=input.setVariable('cold_public_targets',cold_public_targets);
         input=input.setModelParameter('CaptureErrors','on');output=sim(input);
         if capture_runtime,record.runtime_callbacks=evalin('base','cold_initialization_context');end
@@ -506,6 +516,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             assert(numel(evalin('base','cold_initialization_context'))==count_before, ...
                 'Cached phase extraction must not initialize or simulate again.');
             record.cached_extraction_added_callbacks=false;
+        end
         end
         record.stage='verify_frozen_authority';
         if momentum_buffers
