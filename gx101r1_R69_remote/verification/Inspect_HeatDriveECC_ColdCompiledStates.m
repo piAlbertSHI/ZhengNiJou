@@ -1,10 +1,12 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
     if nargin<5,formulation='explicit';end
     if nargin<6,consistency_tolerance=[];end
     if nargin<7,residual_tolerance=[];end
+    if nargin<8,capture_runtime=false;end
+    assert(islogical(capture_runtime) && isscalar(capture_runtime),'Require explicit callback capture choice.');
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown inventory formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
     assert(isempty(consistency_tolerance) || (specific_inventory && isscalar(consistency_tolerance) && ...
@@ -86,6 +88,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.inventory_formulation=formulation;
     record.consistency_tolerance_override=consistency_tolerance;
     record.residual_tolerance_override=residual_tolerance;
+    record.runtime_callback_capture_requested=capture_runtime;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
     record.chamber_package_resolution=evalc('which(chamber_source,''-all'')');
     record.chamber_source_file=chamber_source;
@@ -146,8 +149,17 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             'SaveState','on','StateSaveName','states','SaveFormat','Dataset','SaveFinalState','off','SaveOperatingPoint','off', ...
             'ReturnWorkspaceOutputs','on','SimscapeLogType','all','SimscapeLogName','simlog','SimscapeLogLimitData','off');
         record.stage='accelerator_initialization_state_logging';record.simulation_run=true;
+        if capture_runtime
+            assignin('base','cold_initialization_context',{});
+            assignin('base','cold_public_target_records',public_targets);
+            for callback={'InitFcn','StartFcn','StopFcn'}
+                assert(isempty(strtrim(get_param(model,callback{1}))),'Do not replace an existing model callback.');
+                set_param(model,callback{1},sprintf('Capture_HeatDriveECC_ColdInitializationContext(''%s'',''%s'');',model,callback{1}));
+            end
+        end
         input=Simulink.SimulationInput(model);input=input.setVariable('cold_public_targets',cold_public_targets);
         input=input.setModelParameter('CaptureErrors','on');output=sim(input);
+        if capture_runtime,record.runtime_callbacks=evalin('base','cold_initialization_context');end
         assert(isempty(output.ErrorMessage),output.ErrorMessage);
         for k=1:numel(targets)
             assert(strcmp(get_param(targets(k).block_path,'SourceFile'),chamber_source), ...
