@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -8,9 +8,14 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<8,capture_runtime=false;end
     if nargin<9,tighten_global=false;end
     if nargin<10,scale_buffers=false;end
+    if nargin<11,normal_mode=false;end
     assert(islogical(capture_runtime) && isscalar(capture_runtime),'Require explicit callback capture choice.');
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown inventory formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
+    assert(islogical(normal_mode) && isscalar(normal_mode) && (~normal_mode || ...
+        (specific_inventory && capture_runtime && ~scale_buffers && ~tighten_global && ...
+        isempty(consistency_tolerance) && isempty(residual_tolerance))), ...
+        'Normal-mode trial must retain the baseline physical solver and scaling.');
     assert(islogical(scale_buffers) && isscalar(scale_buffers) && (~scale_buffers || ...
         (specific_inventory && capture_runtime && ~tighten_global && isempty(consistency_tolerance) && isempty(residual_tolerance))), ...
         'Buffer nominal trial must not change any tolerance.');
@@ -99,6 +104,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.runtime_callback_capture_requested=capture_runtime;
     record.global_tolerance_override=tighten_global;
     record.buffer_nominal_scaling_requested=scale_buffers;
+    record.normal_mode_requested=normal_mode;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
     record.chamber_package_resolution=evalc('which(chamber_source,''-all'')');
     record.chamber_source_file=chamber_source;
@@ -181,12 +187,18 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             e=expected.targets(idx);assert(isequal(t,e),'Public cold target changed.');
         end
         assignin('base','cold_public_targets',cold_public_targets);
+        simulation_mode=options.simulation.mode;
+        if normal_mode
+            assert(strcmp(simulation_mode,'accelerator'),'Unexpected baseline execution mode.');
+            simulation_mode='normal';
+        end
+        record.execution_mode=simulation_mode;
         set_param(model,'LoadInitialState','off','SimscapeUseOperatingPoints','on','SimscapeOperatingPoint','cold_public_targets', ...
-            'StartTime','0','StopTime','0','SimulationMode',options.simulation.mode, ...
+            'StartTime','0','StopTime','0','SimulationMode',simulation_mode, ...
             'Solver',options.simulation.solver,'FixedStep',num2str(options.simulation.fixed_step_s,'%.17g'), ...
             'SaveState','on','StateSaveName','states','SaveFormat','Dataset','SaveFinalState','off','SaveOperatingPoint','off', ...
             'ReturnWorkspaceOutputs','on','SimscapeLogType','all','SimscapeLogName','simlog','SimscapeLogLimitData','off');
-        record.stage='accelerator_initialization_state_logging';record.simulation_run=true;
+        record.stage='initialization_state_logging';record.simulation_run=true;
         if capture_runtime
             assignin('base','cold_initialization_context',{});
             assignin('base','cold_public_target_records',public_targets);
