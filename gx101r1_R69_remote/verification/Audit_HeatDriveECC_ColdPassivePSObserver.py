@@ -33,9 +33,22 @@ def check_topology(c, separate):
     return True
 
 
-def check_initial(rows, c):
+def check_live_input(c, callback):
+    prefix = 'heatdrive_ecc_coupled_se21/'
+    expected = dict(path=prefix+'ColdObserver_mdot_PS', Unit='kg/s', FilteringAndDerivatives='provide',
+                    UdotUserProvided='0', input_count=1, value_source=prefix+'FlowSensor_SMA_stage13_loop_PS')
+    if (c['flow_input_mode'] != 'live_simulink_bridge' or c['provided_flow_derivatives'] != '0'
+            or c['flow_value_source'] != expected['value_source'] or callback != expected):
+        raise ValueError('Live flow must use the unfiltered value-only signal bridge')
+    return True
+
+
+def check_initial(rows, c, measured_mdot=None):
     commands = c['commands']
-    expected = dict(mdot=(c['frozen_mdot_kg_s'], 'kg/s'), target=(commands[1]['values'][0], 'kg/s'),
+    mdot = c['frozen_mdot_kg_s'] if measured_mdot is None else measured_mdot
+    if not math.isfinite(mdot):
+        raise ValueError('Nonfinite measured flow')
+    expected = dict(mdot=(mdot, 'kg/s'), target=(commands[1]['values'][0], 'kg/s'),
                     bias=(commands[0]['values'][0], 'MPa'), enable=(0., '1'), reset=(1., '1'),
                     pressure=(commands[0]['values'][0], 'MPa'), lag=(0., '1'), integral=(0., 'MPa'))
     if len(rows) != 8 or set(x['name'] for x in rows) != set(expected):
@@ -59,14 +72,17 @@ def audit(repo):
     if sha256(flow_path) != '25BD6933EF469E29F77474659B0D8F74027B890D8E3B80910660559E9CA50B4D':
         raise ValueError('Frozen input qualification changed')
     cases = [('shared', 'specific_inventory_passive_ps_original_converter_initial_20260909',
-              '6dfcb4b7792bfba183da39f53390b77033c8432f', False),
+              '6dfcb4b7792bfba183da39f53390b77033c8432f', False, False),
              ('separate', 'specific_inventory_passive_ps_separate_network_initial_20260909',
-              'd9a6a4a011989bb4ef1a1c02b595a286715278b9', True)]
+              'd9a6a4a011989bb4ef1a1c02b595a286715278b9', True, False),
+             ('live_flow', 'specific_inventory_passive_ps_live_flow_initial_20260909',
+              '1d0c35c7018e3f784aa2385d7d3e61da43c72c32', True, True)]
     files = [reference_path, native, command_path, qualified_path, flow_path]; results = []; rows = []
-    for label, folder, producer, separate in cases:
+    for label, folder, producer, separate, live in cases:
         case_root = root/folder; path = case_root/'compiled_states_inspection.json'; r = read(path)
         if (r['inspector_commit'] != producer or not r['passive_ps_observer_requested']
                 or r.get('separate_observer_network_requested', False) != separate
+                or r.get('live_observer_flow_requested', False) != live
                 or not r['remove_inactive_controller_requested'] or not r['bias_value_path_requested']
                 or not r['initialization_only'] or r['diagnostic_stop_time_s'] != 0 or r['inventory_formulation'] != 'specific_inventory'
                 or any(r[k] for k in ('ps_controller_requested', 'analytic_pressure_derivative_requested',
@@ -85,6 +101,8 @@ def audit(repo):
         if sha256(raw) != c['flow_observations_sha256'] or sha256(library) != c['library_sha256']:
             raise ValueError('Qualified observer artifact changed')
         for callback in r['runtime_callbacks']:
+            if live:
+                check_live_input(c, callback['passive_observer_flow_input'])
             if (callback['pressure_converter']['value_source'] != c['pressure_value_source']
                     or callback['original_control_state_blocks_present'] != dict(lag=False, integral=False)):
                 raise ValueError('Runtime pressure path changed')
@@ -100,7 +118,8 @@ def audit(repo):
             tagged = [dict(block_name=x['block_name'], variable_name=x['variable_name'], **decode_tags(x)) for x in r['node_metadata']]
             if not all(x['within_strict_comparison'] for x in rows) or not component_inventory_preserved(tagged, CHAMBERS | BUFFERS):
                 raise ValueError('Actual physical inventories were not preserved')
-            check_initial(r['ps_controller_initial'], c); files.append(case_root/'compiled_initial_state_dataset.mat')
+            check_initial(r['ps_controller_initial'], c, r['actual_initial_sensor_mdot_kg_s'] if live else None)
+            files.append(case_root/'compiled_initial_state_dataset.mat')
         else:
             if (r['inspection_pass'] or r['stage'] != 'initialization_state_logging' or r['states']
                     or 'initial_coordinates' in r or 'ps_controller_initial' in r
@@ -111,6 +130,7 @@ def audit(repo):
                 raise ValueError('Shared-network failure signature changed')
         results.append(dict(case=label, initialization_pass=separate, actual_initial_coordinates=204 if separate else None,
                             observer_initial_values_pass=True if separate else None, separate_solver=separate,
+                            live_flow_input=live,
                             controller_drives_pump=False, production_recovery_allowed=False))
         files += [path, case_root/'matlab_diary.log', raw, library]
     freeze_path = repo/'verification/c200_mainline_freeze_contract.json'; freeze = read(freeze_path); files.append(freeze_path)
@@ -119,8 +139,9 @@ def audit(repo):
         if sha256(p) != freeze[key+'_sha256']:
             raise ValueError('C200 benchmark changed')
         files.append(p)
-    return dict(schema='heatdrive_ecc_cold_passive_ps_network_audit_v1', evidence_audit_pass=True, cases=results,
+    return dict(schema='heatdrive_ecc_cold_passive_ps_network_audit_v2', evidence_audit_pass=True, cases=results,
                 separated_passive_initialization_pass=True, physical_inventory_gate=True,
+                live_flow_passive_initialization_pass=True,
                 causal_root_proven=False, closed_loop_initialization_verified=False, trajectory_conservation_verified=False,
                 full_device_first_law_verified=False, production_recovery_allowed=False, table4_reproduction_claim=False,
                 input_sha256={str(p.relative_to(repo)): sha256(p) for p in files}), rows
