@@ -20,16 +20,21 @@ from Audit_HeatDriveECC_NativeAccumulation import energy_tables
 from Audit_HeatDriveECC_NativeWindowLedger import validate_grid
 from Audit_HeatDriveECC_SegmentedEvidence import sha256, text_field
 from Audit_HeatDriveECC_TLDomainInventory import resolve_domains, density_table, scalar
+from Audit_HeatDriveECC_CompiledInventoryStates import decode_tags, component_inventory_preserved
 
 
 PRODUCER = 'fde7153fddc9706d18f5a69b2e198bbbbb11247c'
 EXPERIMENT = 'conservative_buffer_coupled_smoke_20260909_v2'
 CYCLE_PRODUCER = '6148ebd49c3679821684a0e6206b8661e54fa7fa'
 CYCLE_EXPERIMENT = 'conservative_buffer_coupled_cycle_20260909'
+SPECIFIC_PRODUCER = '7408b1deda367f2d5324bd75e66ab593114cc459'
+SPECIFIC_EXPERIMENT = 'specific_inventory_cold_onset_20260909'
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
 
 
-def topology_check(native, candidate):
+def topology_check(native, candidate, chamber_source='ecc_inventory.conservative_chamber'):
+    if chamber_source not in ('ecc_inventory.conservative_chamber', 'ecc_inventory_specific.conservative_chamber'):
+        raise ValueError('Unknown declared chamber source')
     if edges(native) != edges(candidate):
         raise ValueError('Named physical edges changed')
     projected = copy.deepcopy(candidate)
@@ -38,7 +43,7 @@ def topology_check(native, candidate):
     for b in projected['blocks']:
         path = b['block_path']
         if path in BUFFERS | CHAMBERS:
-            expected = 'ecc_buffer_coupled.conservative_buffer' if path in BUFFERS else 'ecc_inventory.conservative_chamber'
+            expected = 'ecc_buffer_coupled.conservative_buffer' if path in BUFFERS else chamber_source
             if b['source_file'] != expected:
                 raise ValueError('Unexpected replacement class')
             seen.add(path)
@@ -178,10 +183,11 @@ def cycle_arm(folder, assignment, contracts):
                 interpretation='One cold cycle, declared lumped storage and native ideal source boundaries only; not full device validation')
 
 
-def audit(repo, full_cycle=False):
-    root = repo/'outputs_storage_audit'/(CYCLE_EXPERIMENT if full_cycle else EXPERIMENT)
-    producer = CYCLE_PRODUCER if full_cycle else PRODUCER
-    execution = read(root/'cold_chamber_execution.json'); stop = 10 if full_cycle else .01
+def audit(repo, full_cycle=False, specific_onset=False):
+    if full_cycle and specific_onset: raise ValueError('Onset probe is not a full cycle')
+    root = repo/'outputs_storage_audit'/(SPECIFIC_EXPERIMENT if specific_onset else CYCLE_EXPERIMENT if full_cycle else EXPERIMENT)
+    producer = SPECIFIC_PRODUCER if specific_onset else CYCLE_PRODUCER if full_cycle else PRODUCER
+    execution = read(root/'cold_chamber_execution.json'); stop = .2 if specific_onset else 10 if full_cycle else .01
     if (execution['execution_commit'] != producer or not execution['collection_pass'] or not execution['conservative_buffers']
             or execution['start_time_s'] != 0 or execution['stop_time_s'] != stop
             or any(execution[k] for k in ('c200_state_imported', 'checkpoint_saved', 'production_recovery_allowed'))
@@ -190,7 +196,27 @@ def audit(repo, full_cycle=False):
     for c in execution['cases']:
         if sha256(root/c['arm']/'observations.mat') != c['observation_sha256']:
             raise ValueError('Observation hash mismatch')
-    assignment = topology_check(read(root/'native/tl_connectivity.json'), read(root/'conservative/tl_connectivity.json'))
+    compiled_gate = None
+    if specific_onset:
+        prereq = repo/'outputs_storage_audit/compiled_specific_inventory_audit_20260909/compiled_inventory_state_audit.json'
+        pre = read(prereq)
+        component = root/'component_build/+ecc_inventory_specific/conservative_chamber.ssc'
+        original = (repo/'verification/simscape_inventory/+ecc_inventory/conservative_chamber.ssc').read_text(encoding='utf-8')
+        expected = original.replace('stored_mass == volume * rho_I;', 'rho_I == stored_mass / volume;')
+        expected = expected.replace('stored_energy == stored_mass * u_I;', 'u_I == stored_energy / stored_mass;')
+        if (execution['inventory_formulation'] != 'specific_inventory' or execution['chamber_source_file'] != 'ecc_inventory_specific.conservative_chamber'
+                or execution['compiled_inventory_gate_sha256'] != sha256(prereq) or not pre['specific_inventory_compiled_gate_pass']
+                or not pre['evidence_audit_pass'] or pre['production_recovery_allowed']
+                or component.read_text(encoding='utf-8') != expected
+                or execution['chamber_library_sha256'] != sha256(root/'component_build/ecc_inventory_specific_lib.slx')):
+            raise ValueError('Specific inventory onset source or compiled prerequisite changed')
+        tags = read(root/'conservative/compiled_inventory_tags.json')
+        if tags['chamber_source_file'] != execution['chamber_source_file'] or not tags['post_simulation_source_verified']:
+            raise ValueError('Wrong trajectory source identity')
+        tag_rows = [dict(block_name=r['block_name'], variable_name=r['variable_name'], **decode_tags(r)) for r in tags['node_metadata']]
+        compiled_gate = component_inventory_preserved(tag_rows, {p.removeprefix(ROOT) for p in BUFFERS | CHAMBERS})
+    assignment = topology_check(read(root/'native/tl_connectivity.json'), read(root/'conservative/tl_connectivity.json'),
+                                'ecc_inventory_specific.conservative_chamber' if specific_onset else 'ecc_inventory.conservative_chamber')
     if edges(read(root/'native/thermal_connectivity.json')) != edges(read(root/'conservative/thermal_connectivity.json')):
         raise ValueError('Thermal physical edges changed')
     metas = {a: read(root/a/'inventory_metadata.json') for a in ('native', 'conservative')}
@@ -277,6 +303,8 @@ def audit(repo, full_cycle=False):
                 if not np.array_equal(a['commands'][n][field][:], b['commands'][n][field][:]): raise ValueError('Changed command trajectory')
     contract_path = repo/'verification/c200_mainline_freeze_contract.json'; frozen = read(contract_path)
     files = [contract_path]
+    if specific_onset:
+        files += [prereq, component, root/'component_build/ecc_inventory_specific_lib.slx']
     for key in ('result', 'checkpoint'):
         p = repo/frozen[key+'_relative_path']
         if sha256(p) != frozen[key+'_sha256']: raise ValueError('Frozen C200 changed')
@@ -285,13 +313,14 @@ def audit(repo, full_cycle=False):
     strict = all(r['within_strict_comparison'] for r in comparisons)
     local_pass = all(r['candidate_component_pass'] for r in local) and all(
         r['local_chamber_gate']['mass_closure_pass'] and r['local_chamber_gate']['energy_closure_pass'] for r in chambers)
-    numerical_pass = bool(local_pass and strict and all(r['passed'] for r in kcls))
+    numerical_pass = bool(local_pass and strict and all(r['passed'] for r in kcls) and (not specific_onset or compiled_gate))
     result = dict(schema='heatdrive_ecc_cold_buffer_coupled_audit_v2', evidence_audit_pass=True,
         execution_commit=producer, stop_time_s=stop, samples=round(stop/.001)+1, buffers=local, chambers=chambers,
         topology_edges_and_domain_assignment_identical=True, property_tables_identical=True,
         source_storage_port_checks=kcls, local_inventory_conservation_pass=local_pass,
         strict_initial_coordinate_match=strict, initial_matching_counts={p: sum(r['within_strict_comparison'] for r in comparisons if r['priority'] == p) for p in ('High', 'Low')},
         declared_window_numerical_gates_pass=numerical_pass,
+        specific_inventory_onset_probe=specific_onset, trajectory_compiled_inventory_gate=compiled_gate,
         cold_smoke_numerical_gates_pass=numerical_pass if not full_cycle else None,
         full_cycle_completed=full_cycle, all_mechanism_gates_evaluated=False, full_device_first_law_verified=False,
         production_recovery_allowed=False, table4_reproduction_claim=False,
@@ -304,9 +333,10 @@ def audit(repo, full_cycle=False):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__); parser.add_argument('--output-root', type=Path, required=True)
     parser.add_argument('--full-cycle', action='store_true')
+    parser.add_argument('--specific-onset', action='store_true')
     args = parser.parse_args()
     if args.output_root.exists(): raise FileExistsError('Never overwrite evidence')
-    result, comparisons = audit(Path(__file__).resolve().parents[1], args.full_cycle)
+    result, comparisons = audit(Path(__file__).resolve().parents[1], args.full_cycle, args.specific_onset)
     args.output_root.mkdir(parents=True)
     (args.output_root/'cold_buffer_coupled_audit.json').write_text(json.dumps(result, indent=2, allow_nan=False)+'\n', encoding='utf-8')
     with (args.output_root/'initial_coordinates.csv').open('w', newline='', encoding='utf-8') as f:

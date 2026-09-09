@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 import numpy as np
 
-from Audit_HeatDriveECC_ColdBufferCoupled import port_contract
+from Audit_HeatDriveECC_ColdBufferCoupled import port_contract, audit, topology_check
 from Audit_HeatDriveECC_ColdChamberCycle import checked_rows
 
 
@@ -53,6 +53,15 @@ class ColdBufferCoupledTests(unittest.TestCase):
         with self.assertRaises(ValueError): checked_rows({'native': None}, 'native', 1)
         named.return_value = self.rows(10)
         checked_rows({'native': None}, 'native', 1)
+        named.return_value = self.rows(.2)
+        checked_rows({'native': None}, 'native', 1, stop=.2)
+        with self.assertRaises(ValueError): checked_rows({'native': None}, 'native', 1, stop=.01)
+
+    def test_onset_cannot_be_full_cycle(self):
+        with self.assertRaises(ValueError): audit(None, full_cycle=True, specific_onset=True)
+
+    def test_unknown_chamber_source_rejected(self):
+        with self.assertRaises(ValueError): topology_check({}, {}, 'unreviewed_component')
 
     @patch('Audit_HeatDriveECC_ColdChamberCycle.named_rows')
     def test_nonfinite_or_missing_sample_rejected(self, named):
