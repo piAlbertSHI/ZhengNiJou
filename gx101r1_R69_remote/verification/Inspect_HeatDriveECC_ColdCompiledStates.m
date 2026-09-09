@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -6,9 +6,13 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<6,consistency_tolerance=[];end
     if nargin<7,residual_tolerance=[];end
     if nargin<8,capture_runtime=false;end
+    if nargin<9,tighten_global=false;end
     assert(islogical(capture_runtime) && isscalar(capture_runtime),'Require explicit callback capture choice.');
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown inventory formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
+    assert(islogical(tighten_global) && isscalar(tighten_global) && (~tighten_global || ...
+        (specific_inventory && capture_runtime && isempty(consistency_tolerance) && isempty(residual_tolerance))), ...
+        'Global-only trial requires callback evidence and unchanged local settings.');
     assert(isempty(consistency_tolerance) || (specific_inventory && isscalar(consistency_tolerance) && ...
         isfinite(consistency_tolerance) && consistency_tolerance==1e-9), ...
         'Only the declared 1e-9 consistency trial is supported.');
@@ -89,6 +93,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.consistency_tolerance_override=consistency_tolerance;
     record.residual_tolerance_override=residual_tolerance;
     record.runtime_callback_capture_requested=capture_runtime;
+    record.global_tolerance_override=tighten_global;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
     record.chamber_package_resolution=evalc('which(chamber_source,''-all'')');
     record.chamber_source_file=chamber_source;
@@ -102,6 +107,12 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         before=struct();for k=1:numel(names),before.(names{k})=get_param(solvers{1},names{k});end
         record.consistency_settings_before=before;
         record.global_tolerances=struct('RelTol',get_param(model,'RelTol'),'AbsTol',get_param(model,'AbsTol'));
+        if tighten_global
+            assert(strcmp(record.global_tolerances.RelTol,'1e-2') && strcmp(record.global_tolerances.AbsTol,'1e-3'), ...
+                'Unexpected global baseline tolerances.');
+            set_param(model,'RelTol','1e-10','AbsTol','1e-12');
+        end
+        record.global_tolerances_after=struct('RelTol',get_param(model,'RelTol'),'AbsTol',get_param(model,'AbsTol'));
         if ~isempty(consistency_tolerance)
             assert(strcmp(before.ConsistencyTolSource,'GLOBAL') && strcmp(before.ConsistencyTolFactor,'0.001'), ...
                 'Unexpected baseline consistency settings.');
