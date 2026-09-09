@@ -36,12 +36,36 @@ def check_value_edge(c):
     return True
 
 
-def audit(repo):
-    root = repo/'outputs_storage_audit/specific_inventory_original_bias_value_initial_20260909'
+def check_inactive_removal(c, value_contract):
+    prefix = 'heatdrive_ecc_coupled_se21/'
+    removed = [prefix+x for x in ('SMAPressurePI_ErrorSum', 'SMAPressurePI_ErrorNormalizer', 'SMAPressurePI_ErrorLag',
+               'SMAPressurePI_Kp', 'SMAPressurePI_Ki', 'SMAPressurePEnableProduct', 'SMAPressurePI_Integrator', 'SMAPressurePI_BiasSum')]
+    if (c['removed_paths'] != removed or c['inputs_before'] != value_contract['inputs_after']
+            or c['pressure_converter'] != value_contract['converter'] or c['pressure_value_source'] != value_contract['value_source_after']
+            or c['pressure_derivative_source'] != value_contract['derivative_source']
+            or c['logger_saturation'] != prefix+'SMAPressurePI_Saturation'
+            or c['logger_value_source_after'] != value_contract['value_source_after']
+            or not c['converter_physical_line_unchanged'] or not c['only_expected_blocks_removed']
+            or c['candidate_ps_added'] or c['allowed_stop_time_s'] != 0 or c['c200_state_imported'] or c['production_recovery_allowed']):
+        raise ValueError('Unexpected controller removal contract')
+    expected = [copy.deepcopy(x) for x in c['inputs_before'] if x['path'] not in removed]
+    for x in expected:
+        if x['path'] == c['logger_saturation']:
+            x['sources'] = [c['logger_value_source_after']]
+    if len(expected) != 7 or c['retained_inputs_after'] != expected:
+        raise ValueError('Retained logger or pressure input changed')
+    return True
+
+
+def audit(repo, removed_controller=False):
+    folder, producer = ('specific_inventory_inactive_controller_removed_initial_20260909', 'c4ec910d963d2bb220e74cfd40a02e6174419f33') if removed_controller else (
+        'specific_inventory_original_bias_value_initial_20260909', 'c34840e0f109d313ff8a58a6a0b30556399ce793')
+    root = repo/'outputs_storage_audit'/folder
     record_path = root/'compiled_states_inspection.json'; r = read(record_path)
-    if (r['inspector_commit'] != 'c34840e0f109d313ff8a58a6a0b30556399ce793'
+    if (r['inspector_commit'] != producer
             or not r['inspection_pass'] or r['stage'] != 'complete' or r['error_message']
             or not r['bias_value_path_requested'] or not r['initialization_only'] or r['diagnostic_stop_time_s'] != 0
+            or r.get('remove_inactive_controller_requested', False) != removed_controller
             or r['inventory_formulation'] != 'specific_inventory'
             or any(r.get(k, False) for k in ('ps_controller_requested', 'initial_bias_only_requested',
                     'initial_mdot_probe_requested', 'constant_bias_derivative_requested', 'analytic_pressure_derivative_requested',
@@ -54,6 +78,8 @@ def audit(repo):
         raise ValueError('Native cold targets changed')
     check_runtime(r, targets, 'derivative'); check_derivative(r['initial_pressure_derivative_contract'])
     c = r['pressure_value_path_contract']; check_value_edge(c)
+    if removed_controller:
+        check_inactive_removal(r['inactive_controller_removal_contract'], c)
     source = Path(c['reference_path'])
     if sha256(source) != c['reference_sha256'] or c['reference_sha256'] != 'EE5C16D580693FCA925D24D0DB2A8E021BAC65E36F0A77A8E12AE795070ACEE2':
         raise ValueError('Controller reference changed')
@@ -69,6 +95,8 @@ def audit(repo):
     for callback in r['runtime_callbacks']:
         if callback['pressure_converter']['value_source'] != c['value_source_after']:
             raise ValueError('Runtime value input does not match the ablation')
+        if removed_controller and callback['original_control_state_blocks_present'] != dict(lag=False, integral=False):
+            raise ValueError('Inactive controller blocks reappeared at runtime')
     rows = coordinates(r['initial_coordinates'], targets)
     check_phases(r['cached_phase_targets'], targets, rows)
     tagged = [dict(block_name=x['block_name'], variable_name=x['variable_name'], **decode_tags(x)) for x in r['node_metadata']]
@@ -78,6 +106,10 @@ def audit(repo):
     controller_states = []
     for name in ('SMAPressurePI_ErrorLag', 'SMAPressurePI_Integrator'):
         matches = [x for x in r['states'] if x['block_path'] == ['heatdrive_ecc_coupled_se21/'+name]]
+        if removed_controller:
+            if matches:
+                raise ValueError('Removed controller state unexpectedly logged')
+            continue
         if (len(matches) != 1 or matches[0]['values_class'] != 'timeseries'
                 or matches[0]['time_s'] != 0 or matches[0]['value_size'] != [1, 1]):
             raise ValueError('Original controller state logging was lost')
@@ -100,12 +132,14 @@ def audit(repo):
         if sha256(p) != freeze[key+'_sha256']:
             raise ValueError('C200 benchmark changed')
         files.append(p)
-    return dict(schema='heatdrive_ecc_cold_pressure_value_path_audit_v1', initial_point_audit_pass=True,
+    return dict(schema='heatdrive_ecc_cold_pressure_value_path_audit_v2', initial_point_audit_pass=True,
                 matching_initial_coordinates=len(rows), compiled_inventory_gate=retained,
-                original_controller_retained=True, changed_value_edges=1,
+                original_controller_retained=not removed_controller, removed_controller_blocks=8 if removed_controller else 0,
+                changed_pressure_value_edges=1,
                 original_controller_logged_states=controller_states,
                 initial_pressure_difference_residual_MPa=pressure_error, pressure_difference_limit_MPa=1e-9,
                 original_feedback_value_path_required_for_this_initial_point=False,
+                inactive_controller_removal_caused_initialization_failure=False if removed_controller else None,
                 ps_controller_initialization_verified=False, full_cycle_derivative_verified=False,
                 trajectory_conservation_verified=False, production_recovery_allowed=False,
                 full_device_first_law_verified=False, table4_reproduction_claim=False,
@@ -114,10 +148,11 @@ def audit(repo):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__); parser.add_argument('--output-root', type=Path, required=True)
+    parser.add_argument('--removed-controller', action='store_true')
     args = parser.parse_args()
     if args.output_root.exists():
         raise FileExistsError('Never overwrite evidence')
-    result, rows = audit(Path(__file__).resolve().parents[1]); args.output_root.mkdir(parents=True)
+    result, rows = audit(Path(__file__).resolve().parents[1], args.removed_controller); args.output_root.mkdir(parents=True)
     (args.output_root/'pressure_value_path_audit.json').write_text(json.dumps(result, indent=2, allow_nan=False)+'\n', encoding='utf-8')
     with (args.output_root/'initial_coordinates.csv').open('w', newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0])); writer.writeheader(); writer.writerows(rows)
