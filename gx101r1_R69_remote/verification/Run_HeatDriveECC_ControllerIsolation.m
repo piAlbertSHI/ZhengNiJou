@@ -34,6 +34,9 @@ function record=Run_HeatDriveECC_ControllerIsolation(repo,output_root,side)
         expected={'ode15s','Variable-step','.001','1e-9','1e-11','10','error'};
         for k=1:numel(parameters),assert(strcmp(get_param(model,parameters{k}),expected{k}));end
         record.solver_parameters=cell2struct(expected,parameters,2);
+        ports=get_param([model '/Observations'],'LineHandles');
+        lines=unique([ports.Inport,ports.Outport]);
+        for k=1:numel(lines),if lines(k)>0,delete_line(lines(k));end,end
         delete_block([model '/Observations']);
         add_block('simulink/Signal Routing/Mux',[model '/Observations'],'Inputs','3');
         if strcmp(side,'candidate')
