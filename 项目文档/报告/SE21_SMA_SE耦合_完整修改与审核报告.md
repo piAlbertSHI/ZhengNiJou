@@ -1441,3 +1441,24 @@ SMAHotFluidBuffer的能量项已通过，但其质量项未通过；六组件两
 
 - [三档实测对照及逐文件哈希/存储清单](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_step_comparison_20260910/held_step_comparison.json)
 - [第三档逐项守恒审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_quarterstep_audit_20260910/held_interval_audit.json)
+
+## 83. 全局误差控制试验被拒绝，步长塌缩现在可自行退出
+
+保持MaxStep=0.25ms及物理/初值不变，将RelTol/AbsTol改为1e-10/1e-12。
+首次试验提交 `043ef64` 在约4.15e-174秒发生持续最小步长违规，已确认数值停滞后仅停止对应worker，
+终端退出1；这次不是自然退出，没有完整初态审核文件，原始日志和操作记录均保留。
+
+随后提交 `6606ab0` 只修正失败诊断和取证：MinStepSizeMsg由warning改为error，
+不增加允许违规次数、不改物理或容差，并在仿真前保存配置。
+新试验自行退出1，记录到165路信号、1258个储能变量及完整运行时配置，未完成40ms。
+其204项实际初态仍全部通过，零代数环保持；说明本次收紧全局误差控制未能得到可用的正时间轨迹。
+日志提及代数约束/刚度可能性，但尚不能唯一定位根因。GLOBAL一致性容差源未改，
+故不能把本试验理解为仅改变时间积分误差。
+
+414项回归通过；MATLAB checkcode对本次入口返回0条消息。失败结果不进入恢复/长循环链，
+C200两项哈希重新核验未变。两个必要失败原始包合计9,197,770字节，未生成重复长周期raw。
+后续针对可运行与数值塌缩之间的误差控制设置开展受控诊断，不继续盲目收紧容差或放宽守恒门禁。
+完整系统闭合、主动反馈切换、周期与Table4配对结果仍未完成。
+
+- [完整失败证据审核与初态结果](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_error_control_audit_20260910/held_error_control_audit.json)
+- [研究笔记第31节：两次执行、哈希、复核命令与证据边界](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
