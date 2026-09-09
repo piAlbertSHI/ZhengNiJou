@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -19,6 +19,10 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<19,duration=0;end
     if nargin<20,ps_controller=false;end
     if nargin<21,initial_bias_only=false;end
+    if nargin<22,export_initial_flux=false;end
+    assert(islogical(export_initial_flux) && isscalar(export_initial_flux) && ...
+        (~export_initial_flux || (duration==0 && initial_derivative && ~ps_controller && ~initial_bias_only)), ...
+        'Initial flux export is read-only on the qualified initial-derivative configuration.');
     assert(islogical(initial_bias_only) && isscalar(initial_bias_only) && (~initial_bias_only || ps_controller));
     assert(islogical(ps_controller) && isscalar(ps_controller) && ...
         (~ps_controller || (projection && ~initial_derivative && ~analytic_derivative && duration==0)), ...
@@ -172,6 +176,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.analytic_pressure_derivative_requested=analytic_derivative;
     record.ps_controller_requested=ps_controller;
     record.initial_bias_only_requested=initial_bias_only;
+    record.initial_flux_export_requested=export_initial_flux;
     record.diagnostic_stop_time_s=duration;
     record.initialization_only=duration==0;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
@@ -327,8 +332,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         input=Simulink.SimulationInput(model);input=input.setVariable('cold_public_targets',cold_public_targets);
         input=input.setModelParameter('CaptureErrors','on');output=sim(input);
         if capture_runtime,record.runtime_callbacks=evalin('base','cold_initialization_context');end
-        if duration>0
+        if duration>0 || export_initial_flux
             record.stage='export_onset_observations';
+            if export_initial_flux,record.stage='export_initial_flux_observations';end
             changed=cellfun(@(t) t.block_path,buffers,'UniformOutput',false);
             chamber_paths=arrayfun(@(t) t.block_path,targets,'UniformOutput',false);
             if ~isempty(output.ErrorMessage)
