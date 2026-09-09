@@ -6,7 +6,7 @@ import math
 from pathlib import Path
 
 from Audit_HeatDriveECC_ColdChamberRejection import read
-from Audit_HeatDriveECC_ColdInitialTolerance import coordinates, check_settings
+from Audit_HeatDriveECC_ColdInitialTolerance import coordinates, check_settings, BASE
 from Audit_HeatDriveECC_CompiledInventoryStates import CHAMBERS, BUFFERS, decode_tags, component_inventory_preserved
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from Audit_HeatDriveECC_ColdBufferCoupled import port_contract
@@ -20,6 +20,7 @@ SCALING_CASES = [('buffer_nominals', 'specific_inventory_initial_buffer_nominals
                  ('normal', 'specific_inventory_initial_normal_mode_20260909', 'ec465e8')]
 MOMENTUM_CASES = [('momentum', 'specific_inventory_momentum_initial_20260909', '21d9098ec5a630f6d70732e87418f5fa483bc605')]
 REGULARIZATION_CASES = [('regularization_off', 'specific_inventory_regularization_off_initial_20260909', 'dada2c67fdb4d29b93c45a6662238fc6313769c3')]
+HALF_STEP_CASES = [('half_step','specific_inventory_half_step_initial_20260909','2f37b55e19838cfbbb4d41ad22a64d9d5145456a')]
 RUNTIME_BASE = dict(ResolveIndetEquations='on', DoFixedCost='off', ComputeImpulses='off',
                     ImpulseIterations='2', IndexReductionMethod='DerivativeReplacement', DoDC='off')
 
@@ -33,6 +34,18 @@ def check_regularization(record):
         raise ValueError('Regularization-only experiment changed another factor')
     if len(record['runtime_callbacks']) != 3 or any(c['runtime_solver_options'] != expected for c in record['runtime_callbacks']):
         raise ValueError('Runtime regularization state differs from the declared experiment')
+
+
+def check_half_step(record):
+    if (not record['half_step_requested'] or record['fixed_step_before']!=.001 or record['fixed_step_after']!=.0005
+            or record['consistency_settings_before']!=BASE
+            or record['consistency_settings_after']!=dict(BASE,LocalSolverSampleTime='0.0005')
+            or record['runtime_solver_options_before']!=RUNTIME_BASE or record['runtime_solver_options_after']!=RUNTIME_BASE
+            or any(record[k] for k in ('disable_regularization_requested','momentum_buffers_requested','normal_mode_requested',
+                                      'buffer_nominal_scaling_requested','global_tolerance_override','consistency_tolerance_override','residual_tolerance_override'))):
+        raise ValueError('Half-step experiment changed another factor')
+    if len(record['runtime_callbacks'])!=3 or any(float(c['global_fixed_step'])!=.0005 or c['runtime_solver_options']!=RUNTIME_BASE for c in record['runtime_callbacks']):
+        raise ValueError('Half-step runtime configuration differs')
 
 
 def check_momentum_rows(contracts, rows):
@@ -118,8 +131,8 @@ def check_buffer_nominals(record, targets):
                 raise ValueError('Runtime nominal value differs')
 
 
-def audit(repo, scaling_mode=False, momentum=False, regularization=False):
-    if sum((scaling_mode,momentum,regularization)) > 1: raise ValueError('Do not mix experiment contracts')
+def audit(repo, scaling_mode=False, momentum=False, regularization=False, half_step=False):
+    if sum((scaling_mode,momentum,regularization,half_step)) > 1: raise ValueError('Do not mix experiment contracts')
     targets_path = repo/'outputs_storage_audit/conservative_buffer_coupled_cycle_20260909/conservative/public_inventory_targets.json'
     targets_record = read(targets_path); targets = targets_record['targets']
     if len(targets) != 204 or targets_record['has_private_data'] or targets_record['source_time_s'] != 0:
@@ -133,7 +146,7 @@ def audit(repo, scaling_mode=False, momentum=False, regularization=False):
     expected_component = original.read_text(encoding='utf-8').replace('stored_mass == volume * rho_I;', 'rho_I == stored_mass / volume;')
     expected_component = expected_component.replace('stored_energy == stored_mass * u_I;', 'u_I == stored_energy / stored_mass;')
     files = [targets_path, native, baseline_path, original]; results = []; rows = []
-    cases = REGULARIZATION_CASES if regularization else (MOMENTUM_CASES if momentum else (SCALING_CASES if scaling_mode else CASES))
+    cases = HALF_STEP_CASES if half_step else (REGULARIZATION_CASES if regularization else (MOMENTUM_CASES if momentum else (SCALING_CASES if scaling_mode else CASES)))
     for name, folder, producer in cases:
         root = repo/'outputs_storage_audit'/folder; path = root/'compiled_states_inspection.json'; r = read(path)
         if (not r['inspector_commit'].startswith(producer) or not r['inspection_pass'] or not r['initialization_only']
@@ -143,7 +156,8 @@ def audit(repo, scaling_mode=False, momentum=False, regularization=False):
                 or r['inventory_formulation'] != 'specific_inventory' or r['component_inventory_priority_high']):
             raise ValueError('Wrong runtime context evidence')
         global_tolerances = {'RelTol': '1e-10', 'AbsTol': '1e-12'} if name == 'global' else {'RelTol': '1e-2', 'AbsTol': '1e-3'}
-        check_settings('default' if scaling_mode or momentum or regularization or name == 'global' else 'tight', r['consistency_settings_before'], r['consistency_settings_after'])
+        if half_step: check_half_step(r)
+        else: check_settings('default' if scaling_mode or momentum or regularization or name == 'global' else 'tight', r['consistency_settings_before'], r['consistency_settings_after'])
         check_callbacks(r['runtime_callbacks'], targets, r['consistency_settings_after'], global_tolerances, 'normal' if name == 'normal' else 'accelerator')
         if name == 'buffer_nominals': check_buffer_nominals(r, targets)
         if regularization: check_regularization(r)
@@ -178,7 +192,7 @@ def audit(repo, scaling_mode=False, momentum=False, regularization=False):
         tagged = [dict(block_name=t['block_name'], variable_name=t['variable_name'], **decode_tags(t)) for t in r['node_metadata']]
         compiled = component_inventory_preserved(tagged, CHAMBERS | BUFFERS)
         target_classification = None
-        if (scaling_mode and name != 'buffer_nominals') or momentum or regularization:
+        if (scaling_mode and name != 'buffer_nominals') or momentum or regularization or half_step:
             classified = [dict(priority=t['priority'], **decode_tags(t)) for t in r['initial_coordinates']]
             target_classification = {p: dict(count=sum(t['priority'] == p for t in classified),
                 retained_differential_count=sum(t['priority'] == p and t['isRetained'] and t['isDifferential'] for t in classified)) for p in ('High', 'Low')}
@@ -196,6 +210,14 @@ def audit(repo, scaling_mode=False, momentum=False, regularization=False):
                             algebraic_independence_of_targets_proven=False,
                             changed_coordinate_count=sum(t['actual'] != baseline_values[t['path']] for t in measured),
                             actual_coordinates_identical_to_default={t['path']: t['actual'] for t in measured} == baseline_values))
+        if half_step:
+            paths={f'SE/HoldPipe_{k:03d}/T_I' for k in range(1,22)} | {f'SE/Subsystem2/NodeMass_{k:02d}/T' for k in range(1,22)}
+            selected=[t for t in measured if t['path'] in paths]
+            if len(selected)!=42: raise ValueError('Incomplete SE temperature comparison')
+            values={t['path']:t['value'] for t in targets}
+            ratios=[(t['actual']-values[t['path']])/(baseline_values[t['path']]-values[t['path']]) for t in selected]
+            results[-1]['SE_temperature_offset_ratios']=dict(count=42,minimum=min(ratios),maximum=max(ratios),
+                expected_first_order_ratio=.5,not_a_strict_initial_gate=True)
         rows += [dict(case=name, **t) for t in measured]
         files += [path, library, component, root/'compiled_initial_state_dataset.mat', root/'matlab_diary.log']
     frozen_path = repo/'verification/c200_mainline_freeze_contract.json'; f = read(frozen_path); files.append(frozen_path)
@@ -215,9 +237,10 @@ if __name__ == '__main__':
     parser.add_argument('--scaling-mode', action='store_true')
     parser.add_argument('--momentum', action='store_true')
     parser.add_argument('--regularization-off', action='store_true')
+    parser.add_argument('--half-step', action='store_true')
     args = parser.parse_args()
     if args.output_root.exists(): raise FileExistsError('Never overwrite evidence')
-    result, rows = audit(Path(__file__).resolve().parents[1], args.scaling_mode, args.momentum, args.regularization_off); args.output_root.mkdir(parents=True)
+    result, rows = audit(Path(__file__).resolve().parents[1], args.scaling_mode, args.momentum, args.regularization_off, args.half_step); args.output_root.mkdir(parents=True)
     (args.output_root/'initialization_phases_audit.json').write_text(json.dumps(result, indent=2, allow_nan=False)+'\n', encoding='utf-8')
     with (args.output_root/'initial_coordinates.csv').open('w', newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0])); writer.writeheader(); writer.writerows(rows)

@@ -24,6 +24,9 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
         'LoadInitialState',get_param(model,'LoadInitialState'),'targets',{targets},'has_private_data',false);
     record.normalize_using_nominal_values=get_param(model,'SimscapeNormalizeSystem');
     record.global_fixed_step=get_param(model,'FixedStep');
+    record.global_solver_configuration=struct('Solver',get_param(model,'Solver'), ...
+        'SolverType',get_param(model,'SolverType'),'MaxStep',get_param(model,'MaxStep'), ...
+        'InitialStep',get_param(model,'InitialStep'));
     runtime_names={'ResolveIndetEquations','DoFixedCost','ComputeImpulses','ImpulseIterations','IndexReductionMethod','DoDC'};
     record.runtime_solver_options=struct();
     for k=1:numel(runtime_names)

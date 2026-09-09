@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -12,9 +12,14 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<12,momentum_buffers=false;end
     if nargin<13,disable_regularization=false;end
     if nargin<14,half_step=false;end
+    if nargin<15,global_implicit=false;end
     assert(islogical(capture_runtime) && isscalar(capture_runtime),'Require explicit callback capture choice.');
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown inventory formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
+    assert(islogical(global_implicit) && isscalar(global_implicit) && (~global_implicit || ...
+        (specific_inventory && capture_runtime && ~half_step && ~disable_regularization && ~momentum_buffers && ...
+        ~normal_mode && ~scale_buffers && ~tighten_global && isempty(consistency_tolerance) && isempty(residual_tolerance))), ...
+        'Global implicit initialization diagnostic must retain physics and all original targets.');
     assert(islogical(half_step) && isscalar(half_step) && (~half_step || ...
         (specific_inventory && capture_runtime && ~disable_regularization && ~momentum_buffers && ~normal_mode && ...
         ~scale_buffers && ~tighten_global && isempty(consistency_tolerance) && isempty(residual_tolerance))), ...
@@ -142,6 +147,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.momentum_contract=momentum_contract;
     record.disable_regularization_requested=disable_regularization;
     record.half_step_requested=half_step;
+    record.global_implicit_requested=global_implicit;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
     record.chamber_package_resolution=evalc('which(chamber_source,''-all'')');
     record.chamber_source_file=chamber_source;
@@ -169,6 +175,10 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         if half_step
             assert(strcmp(before.LocalSolverSampleTime,'0.001'),'Unexpected baseline local step.');
             set_param(solvers{1},'LocalSolverSampleTime','0.0005');
+        end
+        if global_implicit
+            assert(strcmp(before.UseLocalSolver,'on'),'Unexpected local solver baseline.');
+            set_param(solvers{1},'UseLocalSolver','off');
         end
         record.global_tolerances=struct('RelTol',get_param(model,'RelTol'),'AbsTol',get_param(model,'AbsTol'));
         if tighten_global
@@ -259,6 +269,13 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             'Solver',options.simulation.solver,'FixedStep',num2str(fixed_step,'%.17g'), ...
             'SaveState','on','StateSaveName','states','SaveFormat','Dataset','SaveFinalState','off','SaveOperatingPoint','off', ...
             'ReturnWorkspaceOutputs','on','SimscapeLogType','all','SimscapeLogName','simlog','SimscapeLogLimitData','off');
+        if global_implicit
+            assert(strcmp(get_param(model,'Solver'),'ode3'),'Unexpected baseline global solver.');
+            set_param(model,'SolverType','Variable-step','Solver','ode15s','MaxStep','0.001','InitialStep','auto');
+        end
+        record.global_solver_configuration=struct('Solver',get_param(model,'Solver'), ...
+            'SolverType',get_param(model,'SolverType'),'MaxStep',get_param(model,'MaxStep'), ...
+            'InitialStep',get_param(model,'InitialStep'));
         record.stage='initialization_state_logging';record.simulation_run=true;
         if capture_runtime
             assignin('base','cold_initialization_context',{});

@@ -1,7 +1,7 @@
 import copy
 import unittest
 from pathlib import Path
-from Audit_HeatDriveECC_ColdInitializationPhases import check_callbacks, check_phases, target_map, check_buffer_nominals, check_momentum_rows, check_regularization, RUNTIME_BASE, audit
+from Audit_HeatDriveECC_ColdInitializationPhases import check_callbacks, check_phases, target_map, check_buffer_nominals, check_momentum_rows, check_regularization, check_half_step, RUNTIME_BASE, BASE, audit
 
 
 class ColdInitializationPhasesTests(unittest.TestCase):
@@ -114,6 +114,16 @@ class ColdInitializationPhasesTests(unittest.TestCase):
         r=self.regularization_fixture();r['runtime_solver_options_after']['DoFixedCost']='on'
         with self.assertRaises(ValueError):check_regularization(r)
         with self.assertRaises(ValueError):audit(None,momentum=True,regularization=True)
+
+    def test_half_step_preserves_tolerances_and_runtime(self):
+        r=self.regularization_fixture();r.update(disable_regularization_requested=False,half_step_requested=True,
+            fixed_step_before=.001,fixed_step_after=.0005,consistency_settings_before=BASE,
+            consistency_settings_after=dict(BASE,LocalSolverSampleTime='0.0005'),runtime_solver_options_after=RUNTIME_BASE,
+            runtime_callbacks=[dict(global_fixed_step='0.0005',runtime_solver_options=RUNTIME_BASE) for _ in range(3)])
+        check_half_step(r)
+        r['fixed_step_after']=.0001
+        with self.assertRaises(ValueError):check_half_step(r)
+        with self.assertRaises(ValueError):audit(None,half_step=True,regularization=True)
 
 
 if __name__ == '__main__': unittest.main()
