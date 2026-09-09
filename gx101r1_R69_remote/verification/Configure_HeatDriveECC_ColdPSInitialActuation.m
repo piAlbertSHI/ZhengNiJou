@@ -2,7 +2,11 @@ function contract=Configure_HeatDriveECC_ColdPSInitialActuation(repo,model,obser
 % Close the pressure value path only at the verified held-reset initial point.
     assert(strcmp(get_param(model,'StartTime'),'0') && strcmp(get_param(model,'StopTime'),'0') && ...
         strcmp(get_param(model,'LoadInitialState'),'off') && strcmp(get_param(model,'SaveOperatingPoint'),'off'));
-    assert(observer.separate_solver_added && strcmp(observer.flow_input_mode,'live_simulink_bridge') && ~observer.observer_drives_pump);
+    assert(observer.separate_solver_added && any(strcmp(observer.flow_input_mode,{'live_simulink_bridge','live_external_lag'})) && ~observer.observer_drives_pump);
+    if strcmp(observer.flow_input_mode,'live_external_lag')
+        assert(observer.external_lag && strcmp(observer.hybrid_contract.qualification_sha256, ...
+            'E2B9A87B4EA88A33C3376D11F3EE716692F5C8B7F558133E7471142CBF6A4CC9'));
+    end
     qualified=fullfile(repo,'outputs_storage_audit','passive_ps_live_flow_audit_20260909','passive_ps_network_audit.json');
     assert(strcmp(file_hash(qualified),'3C47AB592F9CC5BBAC3C4005BEA53B9EE58CE36D0F0FA36B42A62B0FE8598330'));
     commands=observer.commands;

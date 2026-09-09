@@ -118,7 +118,7 @@ function record=Run_HeatDriveECC_PSControllerEquivalence(repo,output_root,gate_r
         save(fullfile(output_root,'paired_observations.mat'),'observations','commands','-v7.3');
         record.observations_sha256=file_hash(fullfile(output_root,'paired_observations.mat'));
         if external_lag
-            time_s=observations.Time;values=observations.Data;source_sha256=record.observations_sha256; %#ok<NASGU>
+            time_s=observations.Time;values=observations.Data;source_sha256=record.observations_sha256;
             save(fullfile(output_root,'paired_public_traces.mat'),'time_s','values','source_sha256','-v7.3');
             record.public_traces_sha256=file_hash(fullfile(output_root,'paired_public_traces.mat'));
         end

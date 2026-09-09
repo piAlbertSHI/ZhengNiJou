@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -29,6 +29,10 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<29,live_observer_flow=false;end
     if nargin<30,actuate_ps_output=false;end
     if nargin<31,algebraic_structure_only=false;end
+    if nargin<32,external_lag=false;end
+    assert(islogical(external_lag) && isscalar(external_lag) && ...
+        (~external_lag || (actuate_ps_output && ~tighten_global && duration==0 && capture_runtime)), ...
+        'External lag requires a separate cold-only actual-actuation diagnostic.');
     assert(islogical(algebraic_structure_only) && isscalar(algebraic_structure_only) && ...
         (~algebraic_structure_only || (actuate_ps_output && ~tighten_global && duration==0 && capture_runtime)), ...
         'Structure-only inspection requires the unchanged initial-actuation baseline.');
@@ -215,6 +219,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.actuate_ps_output_requested=actuate_ps_output;
     record.tight_actuation_tolerance_trial=tighten_global && actuate_ps_output;
     record.algebraic_structure_only=algebraic_structure_only;
+    record.external_lag_requested=external_lag;
     record.diagnostic_stop_time_s=duration;
     record.initialization_only=duration==0;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
@@ -359,7 +364,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             record.inactive_controller_removal_contract=Configure_HeatDriveECC_ColdInactiveControllerRemoval(model,record.pressure_value_path_contract);
         end
         if passive_ps_observer
-            record.passive_ps_observer_contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,record.inactive_controller_removal_contract,separate_observer_network,live_observer_flow);
+            record.passive_ps_observer_contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,record.inactive_controller_removal_contract,separate_observer_network,live_observer_flow,external_lag);
         end
         if actuate_ps_output
             record.ps_initial_actuation_contract=Configure_HeatDriveECC_ColdPSInitialActuation(repo,model,record.passive_ps_observer_contract);
@@ -383,6 +388,12 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             record.algebraic_structure=Inspect_HeatDriveECC_CompiledAlgebraicStructure(model);
             record.runtime_callbacks=evalin('base','cold_initialization_context');
         else
+        if external_lag
+            record.stage='hybrid_compiled_algebraic_structure';
+            record.algebraic_structure=Inspect_HeatDriveECC_CompiledAlgebraicStructure(model);
+            record.pre_simulation_compile_callbacks=evalin('base','cold_initialization_context');
+            assignin('base','cold_initialization_context',{});
+        end
         record.stage='initialization_state_logging';record.simulation_run=true;
         input=Simulink.SimulationInput(model);input=input.setVariable('cold_public_targets',cold_public_targets);
         input=input.setModelParameter('CaptureErrors','on');output=sim(input);
@@ -444,6 +455,10 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             node=log.child(node_name);record.ps_controller_initial={};
             variables={'mdot','target','bias','enable','reset','pressure','lag','integral'};
             units={'kg/s','kg/s','MPa','1','1','MPa','1','MPa'};
+            if external_lag
+                variables={'lag_input','bias','enable','reset','pressure','lag','integral'};
+                units={'1','MPa','1','1','MPa','1','MPa'};
+            end
             for j=1:numel(variables)
                 child=node.child(variables{j});series=child.series;t=double(time(series));v=double(values(series));
                 assert(isscalar(t) && t==0 && isscalar(v) && isfinite(v));

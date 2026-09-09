@@ -1,10 +1,12 @@
-function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,removal,separate_network,live_flow)
+function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,removal,separate_network,live_flow,external_lag)
 % Add a non-driving PS observer to the qualified original pressure input.
     assert(strcmp(get_param(model,'StartTime'),'0') && strcmp(get_param(model,'StopTime'),'0') && ...
         strcmp(get_param(model,'LoadInitialState'),'off') && strcmp(get_param(model,'SaveOperatingPoint'),'off'));
     assert(removal.only_expected_blocks_removed && removal.allowed_stop_time_s==0 && ~removal.candidate_ps_added);
     if nargin<4,separate_network=false;end
     if nargin<5,live_flow=false;end
+    if nargin<6,external_lag=false;end
+    assert(islogical(external_lag) && isscalar(external_lag) && (~external_lag || live_flow));
     assert(islogical(live_flow) && isscalar(live_flow) && (~live_flow || separate_network));
     assert(islogical(separate_network) && isscalar(separate_network));
     root=fullfile(repo,'outputs_storage_audit');
@@ -26,8 +28,21 @@ function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,remova
     source_hash=file_hash(source);assert(strcmp(source_hash,'EB6AC72398E21E9069674744E1F1ECE1D8133E4729D23E42FDE3AC5C332AEA71'));
     build=fullfile(root,'ps_controller_equivalence_20260909_v2','component_build');
     assert(strcmp(file_hash(fullfile(build,'+ecc_sma_controller','pressure_controller.ssc')),source_hash));
-    addpath(build);library=fullfile(build,'ecc_sma_controller_lib.slx');load_system(library);
-    lib=find_system('ecc_sma_controller_lib','SearchDepth',1,'Type','Block');assert(isscalar(lib));
+    library_name='ecc_sma_controller_lib';hybrid_contract=struct();
+    if external_lag
+        hp=fullfile(root,'hybrid_controller_equivalence_20260910','hybrid_controller_audit.json');
+        assert(strcmp(file_hash(hp),'E2B9A87B4EA88A33C3376D11F3EE716692F5C8B7F558133E7471142CBF6A4CC9'));
+        h=jsondecode(fileread(hp));assert(h.isolated_equivalence_pass && ~h.production_recovery_allowed);
+        source=fullfile(repo,'verification','simscape_sma_hybrid','+ecc_sma_hybrid','pressure_controller.ssc');
+        source_hash=file_hash(source);assert(strcmp(source_hash,'A5A02F73DA1A197922BA42EB693C1D81CE11C329903D7AF112923C8B4FB9FF79'));
+        build=fullfile(root,'hybrid_controller_equivalence_20260910','component_build');library_name='ecc_sma_hybrid_lib';
+        assert(strcmp(file_hash(fullfile(build,'+ecc_sma_hybrid','pressure_controller.ssc')),source_hash));
+        assert(strcmp(file_hash(fullfile(build,[library_name '.slx'])), ...
+            '42A1C93C7130EDCE8D85E0FD21740D81B4EEC0C6BE10A6C1B6021DBD856B4743'));
+        hybrid_contract=struct('qualification_path',hp,'qualification_sha256',file_hash(hp));
+    end
+    addpath(build);library=fullfile(build,[library_name '.slx']);load_system(library);
+    lib=find_system(library_name,'SearchDepth',1,'Type','Block');assert(isscalar(lib));
     converter=removal.pressure_converter;
     assert(strcmp(input_source(converter,1),removal.pressure_value_source) && ...
         strcmp(input_source(converter,2),removal.pressure_derivative_source));
@@ -36,6 +51,7 @@ function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,remova
     for k=1:3
         c=r.commands(k+1);v=slResolve(c.variable,c.block);
         assert(isequal(v.Time(:),c.time_s(:)) && isequal(v.Data(:),c.values(:)));
+        if external_lag && k==1,continue;end
         ps=[model '/ColdObserver_' names{k} '_PS'];
         add_block('nesl_utility/Simulink-PS Converter',ps,'Unit',units{k},'UdotUserProvided','1');
         assert(strcmp(get_param(ps,'FilteringAndDerivatives'),'provide'));
@@ -48,7 +64,23 @@ function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,remova
     end
     mdot=[model '/ColdObserver_mdot_PS'];constant=[mdot '_Value'];zero=[mdot '_Derivative'];
     flow_source=constant;flow_mode='frozen_initial';flow_derivatives='1';
-    if live_flow
+    observer_input='mdot';flow_unit='kg/s';
+    if external_lag
+        flow_mode='live_external_lag';flow_derivatives='0';flow_unit='1';observer_input='lag_input';
+        sum_block=[model '/ColdObserver_ErrorSum'];norm_block=[model '/ColdObserver_ErrorNormalizer'];
+        flow_source=[model '/ColdObserver_ErrorLag'];
+        add_block('simulink/Math Operations/Sum',sum_block,'Inputs','++');
+        add_block('simulink/Math Operations/Gain',norm_block,'Gain','1');
+        add_block('simulink/Continuous/Transfer Fcn',flow_source,'Numerator','1','Denominator','[.002 1]');
+        wire(model,r.commands(2).block,1,sum_block,1);
+        wire(model,[model '/FlowSensor_SMA_stage13_loop_PS'],1,sum_block,2);
+        wire(model,sum_block,1,norm_block,1);wire(model,norm_block,1,flow_source,1);
+        add_block('nesl_utility/Simulink-PS Converter',mdot,'Unit',flow_unit,'FilteringAndDerivatives','provide','UdotUserProvided','0');
+        wire(model,flow_source,1,mdot,1);
+        hybrid_contract.lag_path=flow_source;hybrid_contract.lag_numerator=get_param(flow_source,'Numerator');
+        hybrid_contract.lag_denominator=get_param(flow_source,'Denominator');hybrid_contract.normalization=get_param(norm_block,'Gain');
+        hybrid_contract.additional_lag_state_added=false;hybrid_contract.original_internal_lag_removed=true;
+    elseif live_flow
         flow_source=[model '/FlowSensor_SMA_stage13_loop_PS'];flow_mode='live_simulink_bridge';flow_derivatives='0';
         assert(strcmp(get_param(flow_source,'Unit'),'kg/s'));
         add_block('nesl_utility/Simulink-PS Converter',mdot,'Unit','kg/s','FilteringAndDerivatives','provide','UdotUserProvided','0');
@@ -59,7 +91,7 @@ function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,remova
         add_block('simulink/Sources/Constant',zero,'Value','0');
         wire(model,constant,1,mdot,1);wire(model,zero,1,mdot,2);
     end
-    simscape.addConnection(mdot,only_port(mdot),observer,'mdot');
+    simscape.addConnection(mdot,only_port(mdot),observer,observer_input);
     solver_contract=struct();bias_driver=converter;
     if separate_network
         bias_driver=[model '/ColdObserver_bias_PS'];
@@ -73,7 +105,7 @@ function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,remova
             settings.(parameters{k})=get_param(solvers{1},parameters{k});
             assert(isequal(get_param(isolated,parameters{k}),settings.(parameters{k})));
         end
-        simscape.addConnection(observer,'mdot',isolated,only_port(isolated));
+        simscape.addConnection(observer,observer_input,isolated,only_port(isolated));
         solver_contract=struct('original_path',solvers{1},'observer_path',isolated,'settings',settings,'copied_settings_identical',true);
     end
     simscape.addConnection(bias_driver,only_port(bias_driver),observer,'bias');
@@ -100,6 +132,7 @@ function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,remova
         'pressure_destinations_after',{after},'observer_drives_pump',false,'separate_solver_added',separate_network, ...
         'observer_bias_driver',bias_driver,'observer_solver_contract',solver_contract, ...
         'flow_input_mode',flow_mode,'flow_value_source',flow_source,'provided_flow_derivatives',flow_derivatives, ...
+        'external_lag',external_lag,'hybrid_contract',hybrid_contract, ...
         'allowed_stop_time_s',0,'production_recovery_allowed',false,'c200_state_imported',false);
 end
 function rows=destinations(block)

@@ -48,6 +48,13 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
     record.original_control_state_blocks_present=struct( ...
         'lag',getSimulinkBlockHandle([model '/SMAPressurePI_ErrorLag'])>0, ...
         'integral',getSimulinkBlockHandle([model '/SMAPressurePI_Integrator'])>0);
+    external_lag=[model '/ColdObserver_ErrorLag'];
+    if getSimulinkBlockHandle(external_lag)>0
+        p=get_param(external_lag,'PortHandles');line=get_param(p.Inport(1),'Line');
+        record.external_controller_lag=struct('path',external_lag,'block_type',get_param(external_lag,'BlockType'), ...
+            'numerator',get_param(external_lag,'Numerator'),'denominator',get_param(external_lag,'Denominator'), ...
+            'input_source',getfullname(get_param(line,'SrcBlockHandle')));
+    end
     converter=[model '/SMAPressurePI_SimulinkPS'];
     candidate=[model '/ColdSMAPSController'];
     if getSimulinkBlockHandle(candidate)>0
