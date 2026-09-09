@@ -1,7 +1,7 @@
 import copy
 import unittest
 from pathlib import Path
-from Audit_HeatDriveECC_ColdInitializationPhases import check_callbacks, check_phases, target_map, check_buffer_nominals
+from Audit_HeatDriveECC_ColdInitializationPhases import check_callbacks, check_phases, target_map, check_buffer_nominals, check_momentum_rows, audit
 
 
 class ColdInitializationPhasesTests(unittest.TestCase):
@@ -71,6 +71,34 @@ class ColdInitializationPhasesTests(unittest.TestCase):
         with self.assertRaises(ValueError): check_buffer_nominals(r, targets)
         targets, r = self.nominal_fixture(); r['buffer_nominal_changes'].pop()
         with self.assertRaises(ValueError): check_buffer_nominals(r, targets)
+
+    def momentum_fixture(self):
+        contracts = []; rows = []
+        for name in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer'):
+            path = 'model/'+name
+            contracts.append(dict(block_path=path, candidate_source_file='ecc_buffer_momentum.conservative_buffer',
+                initial_source_time_s=0, tank_area_m2=.001, port_area_m2=.01, inlet_height_m=0,
+                gravity_m_s2=9.81, p_environment_Pa=1e6, mainline_recovery_allowed=False,
+                original_conserving_ports=[dict(name='A', interface_type='Domain', side='LConn', index=1,
+                    domain='foundation.thermal_liquid.thermal_liquid', connected=True),
+                    dict(name='H', interface_type='Domain', side='RConn', index=1, domain='foundation.thermal.thermal', connected=False)],
+                removed_unconnected_outputs=[dict(name=n, interface_type='Output', domain='', connected=False) for n in ('L_out','T_out','V_out')]))
+            rows.append(dict(block_path=path, source_time_s=0, mdot_A=-.1, rho_port=1000.,
+                             dynamic_pressure=.05, p_A=1000980.95, rho_I=1000., level=.1))
+        return contracts, rows
+
+    def test_momentum_initial_contract(self):
+        c, rows = self.momentum_fixture()
+        self.assertEqual(len(check_momentum_rows(c, rows)), 4)
+        rows[0]['dynamic_pressure'] = 0
+        with self.assertRaises(ValueError): check_momentum_rows(c, rows)
+
+    def test_momentum_duplicates_and_changed_geometry_rejected(self):
+        c, rows = self.momentum_fixture(); rows[1] = rows[0]
+        with self.assertRaises(ValueError): check_momentum_rows(c, rows)
+        c, rows = self.momentum_fixture(); c[0]['port_area_m2'] = .0001
+        with self.assertRaises(ValueError): check_momentum_rows(c, rows)
+        with self.assertRaises(ValueError): audit(None, scaling_mode=True, momentum=True)
 
 
 if __name__ == '__main__': unittest.main()
