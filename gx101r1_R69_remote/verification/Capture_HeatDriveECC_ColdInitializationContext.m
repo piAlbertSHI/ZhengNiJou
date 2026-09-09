@@ -103,6 +103,8 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
         if strcmp(source,[model '/ColdInitialPressureDerivativeOnly'])
             assert(strcmp(get_param(model,'StopTime'),'0') && strcmp(get_param(source,'Value'),'0'), ...
                 'Initial derivative must not enter a trajectory.');
+        elseif strcmp(source,[model '/ColdHeldPressureDerivative'])
+            record.held_interval_contract=Verify_HeatDriveECC_HybridHeldInterval(model);
         else
             assert(strcmp(source,[model '/ColdPressureDerivative']) && ...
                 ismember(str2double(get_param(model,'StopTime')),[0,.2]),'Unknown derivative diagnostic.');

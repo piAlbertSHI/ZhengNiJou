@@ -30,8 +30,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<30,actuate_ps_output=false;end
     if nargin<31,algebraic_structure_only=false;end
     if nargin<32,external_lag=false;end
+    held_interval=external_lag && duration==.04;
     assert(islogical(external_lag) && isscalar(external_lag) && ...
-        (~external_lag || (actuate_ps_output && ~tighten_global && duration==0 && capture_runtime)), ...
+        (~external_lag || (actuate_ps_output && ~tighten_global && (duration==0 || held_interval) && capture_runtime)), ...
         'External lag requires a separate cold-only actual-actuation diagnostic.');
     assert(islogical(algebraic_structure_only) && isscalar(algebraic_structure_only) && ...
         (~algebraic_structure_only || (actuate_ps_output && ~tighten_global && duration==0 && capture_runtime)), ...
@@ -45,7 +46,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     assert(islogical(remove_inactive_controller) && isscalar(remove_inactive_controller) && ...
         (~remove_inactive_controller || bias_value_path),'Inactive controller removal requires the bounded bias-value path.');
     assert(islogical(bias_value_path) && isscalar(bias_value_path) && ...
-        (~bias_value_path || (initial_derivative && ~ps_controller && duration==0 && ~export_initial_flux)), ...
+        (~bias_value_path || (initial_derivative && ~ps_controller && (duration==0 || held_interval) && ~export_initial_flux)), ...
         'Value-edge isolation requires the original initial-derivative controller and t=0 only.');
     assert(islogical(constant_bias_derivative) && isscalar(constant_bias_derivative) && ...
         (~constant_bias_derivative || initial_mdot_probe),'Constant bias derivative requires the frozen-flow t=0 diagnostic.');
@@ -61,7 +62,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         'PS controller requires its own cold initialization-only diagnostic.');
     assert(islogical(analytic_derivative) && isscalar(analytic_derivative) && ...
         (~analytic_derivative || (projection && ~initial_derivative)),'Separate analytic derivative diagnostic required.');
-    assert(isscalar(duration) && (duration==0 || (analytic_derivative && duration==.2)), ...
+    assert(isscalar(duration) && (duration==0 || held_interval || (analytic_derivative && duration==.2)), ...
         'Only declared initial/onset diagnostics are allowed.');
     assert(islogical(initial_derivative) && isscalar(initial_derivative) && (~initial_derivative || projection), ...
         'Initial pressure derivative diagnostic requires global Projection.');
@@ -220,6 +221,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.tight_actuation_tolerance_trial=tighten_global && actuate_ps_output;
     record.algebraic_structure_only=algebraic_structure_only;
     record.external_lag_requested=external_lag;
+    record.held_interval_requested=held_interval;
     record.diagnostic_stop_time_s=duration;
     record.initialization_only=duration==0;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
@@ -342,8 +344,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             fixed_step=.0005;
         end
         record.fixed_step_after=fixed_step;
+        assembly_stop=duration;if held_interval,assembly_stop=0;end
         set_param(model,'LoadInitialState','off','SimscapeUseOperatingPoints','on','SimscapeOperatingPoint','cold_public_targets', ...
-            'StartTime','0','StopTime',num2str(duration,'%.17g'),'SimulationMode',simulation_mode, ...
+            'StartTime','0','StopTime',num2str(assembly_stop,'%.17g'),'SimulationMode',simulation_mode, ...
             'Solver',options.simulation.solver,'FixedStep',num2str(fixed_step,'%.17g'), ...
             'SaveState','on','StateSaveName','states','SaveFormat','Dataset','SaveFinalState','off','SaveOperatingPoint','off', ...
             'ReturnWorkspaceOutputs','on','SimscapeLogType','all','SimscapeLogName','simlog','SimscapeLogLimitData','off');
@@ -394,6 +397,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             record.pre_simulation_compile_callbacks=evalin('base','cold_initialization_context');
             assignin('base','cold_initialization_context',{});
         end
+        if held_interval
+            record.held_interval_contract=Configure_HeatDriveECC_HybridHeldInterval(repo,model,duration);
+        end
         record.stage='initialization_state_logging';record.simulation_run=true;
         input=Simulink.SimulationInput(model);input=input.setVariable('cold_public_targets',cold_public_targets);
         input=input.setModelParameter('CaptureErrors','on');output=sim(input);
@@ -428,8 +434,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             signal=output.get('mass_flow_sma_stage13_kgps');
             if isa(signal,'timeseries'),t=signal.Time;v=signal.Data;
             else,t=signal.time;v=signal.signals.values;end
-            assert(isscalar(t) && t==0 && isscalar(v) && isfinite(v));
-            record.actual_initial_sensor_mdot_kg_s=v;
+            assert(t(1)==0 && t(end)==duration && isvector(v) && numel(v)==numel(t) && all(isfinite(v)) && ...
+                ((duration==0 && isscalar(t)) || held_interval));
+            record.actual_initial_sensor_mdot_kg_s=v(1);
         end
         for k=1:numel(targets)
             assert(strcmp(get_param(targets(k).block_path,'SourceFile'),chamber_source), ...
@@ -437,7 +444,8 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         end
         record.post_initialization_source_file_verified=true;
         states=output.get('states');
-        save(fullfile(output_root,'compiled_initial_state_dataset.mat'),'states','-v7.3');
+        state_file='compiled_initial_state_dataset.mat';if held_interval,state_file='compiled_state_dataset.mat';end
+        save(fullfile(output_root,state_file),'states','-v7.3');
         assert(isa(states,'Simulink.SimulationData.Dataset'),'Unexpected state representation.');
         record.dataset_elements=states.numElements;
         for k=1:states.numElements
@@ -461,9 +469,10 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             end
             for j=1:numel(variables)
                 child=node.child(variables{j});series=child.series;t=double(time(series));v=double(values(series));
-                assert(isscalar(t) && t==0 && isscalar(v) && isfinite(v));
+                assert(t(1)==0 && t(end)==duration && isvector(v) && numel(v)==numel(t) && all(isfinite(v)) && ...
+                    ((duration==0 && isscalar(t)) || held_interval));
                 record.ps_controller_initial{end+1}=struct('name',variables{j},'unit',units{j}, ...
-                    'actual',value(simscape.Value(v,series.unit),units{j}),'source_time_s',t, ...
+                    'actual',value(simscape.Value(v(1),series.unit),units{j}),'source_time_s',t(1), ...
                     'tag_names',{child.tagNames},'tag_values',{child.tags});
             end
             record.ps_controller_child_ids=node.childIds;
