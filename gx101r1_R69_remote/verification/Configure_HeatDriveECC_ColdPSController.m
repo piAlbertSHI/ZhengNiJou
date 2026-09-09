@@ -1,5 +1,7 @@
-function contract=Configure_HeatDriveECC_ColdPSController(repo,model)
+function contract=Configure_HeatDriveECC_ColdPSController(repo,model,initial_bias_only)
 % Cold-only PS representation; no imported OP or production model save.
+    if nargin<3,initial_bias_only=false;end
+    assert(islogical(initial_bias_only) && isscalar(initial_bias_only));
     assert(strcmp(get_param(model,'StartTime'),'0') && strcmp(get_param(model,'StopTime'),'0') && ...
         strcmp(get_param(model,'LoadInitialState'),'off') && strcmp(get_param(model,'SaveOperatingPoint'),'off'));
     root=fullfile(repo,'outputs_storage_audit');
@@ -8,6 +10,10 @@ function contract=Configure_HeatDriveECC_ColdPSController(repo,model)
     reference_path=fullfile(root,'sma_derivative_contract_20260909_v3','sma_derivative_contract.json');
     assert(strcmp(file_hash(reference_path),'EE5C16D580693FCA925D24D0DB2A8E021BAC65E36F0A77A8E12AE795070ACEE2'));
     r=jsondecode(fileread(reference_path));
+    if initial_bias_only
+        assert(all(r.commands(3).values(1:2)==0) && all(r.commands(4).values(1:2)==1) && ...
+            r.commands(1).values(1)==r.commands(1).values(2),'Bypass only within the held-reset constant-bias initial interval.');
+    end
     for k=1:numel(r.blocks)
         b=r.blocks(k);keys=fieldnames(b.settings);
         for j=1:numel(keys),assert(isequal(get_param(b.path,keys{j}),b.settings.(keys{j})));end
@@ -56,7 +62,12 @@ function contract=Configure_HeatDriveECC_ColdPSController(repo,model)
     scratch='ecc_ps_controller_mapping';assert(~bdIsLoaded(scratch));new_system(scratch);
     sc=onCleanup(@() close_system(scratch,0));mapped=Map_HeatDriveECC_PhysicalPortHandles(candidate,scratch);
     pressure=mapped(cellfun(@(x) strcmp(x.name,'pressure'),mapped));assert(isscalar(pressure));
-    for k=1:numel(destinations),add_line(model,pressure{1}.handle,destinations(k),'autorouting','on');end
+    driver=pressure{1}.handle;driver_path=candidate;
+    if initial_bias_only
+        driver_path=[model '/ColdSMA_bias_PS'];p=get_param(driver_path,'PortHandles');
+        driver=[p.LConn(:);p.RConn(:)];assert(isscalar(driver));
+    end
+    for k=1:numel(destinations),add_line(model,driver,destinations(k),'autorouting','on');end
     clear sc
     % Preserve the existing pressure logger via its saturation block, not a feedback loop.
     saturation=[model '/SMAPressurePI_Saturation'];p=get_param(saturation,'PortHandles');delete_line(get_param(p.Inport(1),'Line'));
@@ -74,6 +85,7 @@ function contract=Configure_HeatDriveECC_ColdPSController(repo,model)
         'flow_sensor_physical_signal_path',sensor,'physical_connections_unchanged',true, ...
         'physical_connections_before',{before},'physical_connections_after',{after}, ...
         'commands',r.commands,'initial_lag',0,'initial_integral_MPa',0,'stop_time_s',0, ...
+        'initial_bias_only',initial_bias_only,'pressure_driver_path',driver_path, ...
         'c200_state_imported',false,'production_recovery_allowed',false,'controller_representation_changed',true);
 end
 

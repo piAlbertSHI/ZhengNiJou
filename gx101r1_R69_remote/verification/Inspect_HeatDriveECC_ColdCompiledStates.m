@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -18,6 +18,8 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<18,analytic_derivative=false;end
     if nargin<19,duration=0;end
     if nargin<20,ps_controller=false;end
+    if nargin<21,initial_bias_only=false;end
+    assert(islogical(initial_bias_only) && isscalar(initial_bias_only) && (~initial_bias_only || ps_controller));
     assert(islogical(ps_controller) && isscalar(ps_controller) && ...
         (~ps_controller || (projection && ~initial_derivative && ~analytic_derivative && duration==0)), ...
         'PS controller requires its own cold initialization-only diagnostic.');
@@ -169,6 +171,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.initial_pressure_derivative_requested=initial_derivative;
     record.analytic_pressure_derivative_requested=analytic_derivative;
     record.ps_controller_requested=ps_controller;
+    record.initial_bias_only_requested=initial_bias_only;
     record.diagnostic_stop_time_s=duration;
     record.initialization_only=duration==0;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
@@ -310,7 +313,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             record.analytic_pressure_derivative_contract=Configure_HeatDriveECC_ColdPressureDerivative(repo,model);
         end
         if ps_controller
-            record.ps_controller_contract=Configure_HeatDriveECC_ColdPSController(repo,model);
+            record.ps_controller_contract=Configure_HeatDriveECC_ColdPSController(repo,model,initial_bias_only);
         end
         record.stage='initialization_state_logging';record.simulation_run=true;
         if capture_runtime
