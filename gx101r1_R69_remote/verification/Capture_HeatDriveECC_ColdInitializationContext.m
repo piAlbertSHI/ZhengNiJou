@@ -25,6 +25,19 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
     record.normalize_using_nominal_values=get_param(model,'SimscapeNormalizeSystem');
     record.global_fixed_step=get_param(model,'FixedStep');
     converter=[model '/SMAPressurePI_SimulinkPS'];
+    candidate=[model '/ColdSMAPSController'];
+    if getSimulinkBlockHandle(candidate)>0
+        assert(getSimulinkBlockHandle(converter)<0 && strcmp(get_param(model,'StopTime'),'0'));
+        record.pressure_converter=struct('representation','physical_signal_controller', ...
+            'source_file',get_param(candidate,'SourceFile'),'StopTime',get_param(model,'StopTime'));
+        record.ps_controller_parameters=struct();
+        keys={'normalization','tau','kp','ki','initial_lag','initial_integral', ...
+            'integral_min','integral_max','pressure_min','pressure_max'};
+        for j=1:numel(keys)
+            record.ps_controller_parameters.(keys{j})=get_param(candidate,keys{j});
+            record.ps_controller_parameters.([keys{j} '_unit'])=get_param(candidate,[keys{j} '_unit']);
+        end
+    else
     record.pressure_converter=struct('Unit',get_param(converter,'Unit'), ...
         'FilteringAndDerivatives',get_param(converter,'FilteringAndDerivatives'), ...
         'UdotUserProvided',get_param(converter,'UdotUserProvided'),'StopTime',get_param(model,'StopTime'));
@@ -41,6 +54,7 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
             record.pressure_converter.chart_script=chart.Script;
         end
         record.pressure_converter.derivative_source=source;
+    end
     end
     record.global_solver_configuration=struct('Solver',get_param(model,'Solver'), ...
         'SolverType',get_param(model,'SolverType'),'MaxStep',get_param(model,'MaxStep'), ...

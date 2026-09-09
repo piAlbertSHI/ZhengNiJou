@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -17,6 +17,10 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<17,initial_derivative=false;end
     if nargin<18,analytic_derivative=false;end
     if nargin<19,duration=0;end
+    if nargin<20,ps_controller=false;end
+    assert(islogical(ps_controller) && isscalar(ps_controller) && ...
+        (~ps_controller || (projection && ~initial_derivative && ~analytic_derivative && duration==0)), ...
+        'PS controller requires its own cold initialization-only diagnostic.');
     assert(islogical(analytic_derivative) && isscalar(analytic_derivative) && ...
         (~analytic_derivative || (projection && ~initial_derivative)),'Separate analytic derivative diagnostic required.');
     assert(isscalar(duration) && (duration==0 || (analytic_derivative && duration==.2)), ...
@@ -164,6 +168,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.projection_requested=projection;
     record.initial_pressure_derivative_requested=initial_derivative;
     record.analytic_pressure_derivative_requested=analytic_derivative;
+    record.ps_controller_requested=ps_controller;
     record.diagnostic_stop_time_s=duration;
     record.initialization_only=duration==0;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
@@ -304,6 +309,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         if analytic_derivative
             record.analytic_pressure_derivative_contract=Configure_HeatDriveECC_ColdPressureDerivative(repo,model);
         end
+        if ps_controller
+            record.ps_controller_contract=Configure_HeatDriveECC_ColdPSController(repo,model);
+        end
         record.stage='initialization_state_logging';record.simulation_run=true;
         if capture_runtime
             assignin('base','cold_initialization_context',{});
@@ -360,6 +368,19 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             record.states{end+1}=entry;
         end
         record.stage='read_node_metadata';log=output.get('simlog');record.node_metadata={};
+        if ps_controller
+            node=log.child('ColdSMAPSController');record.ps_controller_initial={};
+            variables={'mdot','target','bias','enable','reset','pressure','lag','integral'};
+            units={'kg/s','kg/s','MPa','1','1','MPa','1','MPa'};
+            for j=1:numel(variables)
+                child=node.child(variables{j});series=child.series;t=double(time(series));v=double(values(series));
+                assert(isscalar(t) && t==0 && isscalar(v) && isfinite(v));
+                record.ps_controller_initial{end+1}=struct('name',variables{j},'unit',units{j}, ...
+                    'actual',value(simscape.Value(v,series.unit),units{j}),'source_time_s',t, ...
+                    'tag_names',{child.tagNames},'tag_values',{child.tags});
+            end
+            record.ps_controller_child_ids=node.childIds;
+        end
         if momentum_buffers
             record.buffer_momentum_initial={};
             variables={'mdot_A','rho_port','dynamic_pressure','p_A','rho_I','level'};
