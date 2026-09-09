@@ -36,9 +36,10 @@ def component_inventory_preserved(rows, blocks):
     return all(r['isDifferential'] and r['isRetained'] for r in rows if r['variable_name'] in ('stored_mass', 'stored_energy'))
 
 
-def audit(repo):
+def audit(repo, specific_inventory=False):
     records = []; combined = []; files = []
-    for label, folder, producer in CASES:
+    cases = [('specific_inventory', 'cold_compiled_states_specific_inventory_20260909', '2b0972d717c0230f4e500fc6e2df502508796724')] if specific_inventory else CASES
+    for label, folder, producer in cases:
         root = repo/'outputs_storage_audit'/folder
         source = root/'compiled_states_inspection.json'; record = read(source)
         if (not record['inspection_pass'] or not record['inspector_commit'].startswith(producer)
@@ -52,6 +53,19 @@ def audit(repo):
                     or not record['component_inventory_priority_high']):
                 raise ValueError('Ambiguous variant source identity')
             files += [library, root/'component_build/+ecc_inventory_priority/conservative_chamber.ssc']
+        if label == 'specific_inventory':
+            library = root/'component_build/ecc_inventory_specific_lib.slx'
+            component = root/'component_build/+ecc_inventory_specific/conservative_chamber.ssc'
+            original = repo/'verification/simscape_inventory/+ecc_inventory/conservative_chamber.ssc'
+            expected = original.read_text(encoding='utf-8').replace('stored_mass == volume * rho_I;', 'rho_I == stored_mass / volume;')
+            expected = expected.replace('stored_energy == stored_mass * u_I;', 'u_I == stored_energy / stored_mass;')
+            if (Path(record['loaded_chamber_library']).resolve() != library.resolve() or sha256(library) != record['loaded_library_sha256']
+                    or record['chamber_source_file'] != 'ecc_inventory_specific.conservative_chamber'
+                    or record['component_inventory_priority_high'] or record['block_temperature_pressure_priority_low']
+                    or record['inventory_formulation'] != 'specific_inventory' or not record['post_initialization_source_file_verified']
+                    or component.read_text(encoding='utf-8') != expected):
+                raise ValueError('Specific inventory trial identity or minimal equation change differs')
+            files += [library, component, original]
         rows = [dict(case=label, block_name=r['block_name'], variable_name=r['variable_name'], **decode_tags(r)) for r in record['node_metadata']]
         if len(rows) != 24 or {(r['block_name'], r['variable_name']) for r in rows} != {(b, v) for b in CHAMBERS | BUFFERS for v in VARIABLES}:
             raise ValueError('Incomplete six-component metadata')
@@ -68,15 +82,18 @@ def audit(repo):
     return dict(schema='heatdrive_ecc_compiled_inventory_state_audit_v1', evidence_audit_pass=True, cases=records,
                 all_1020_solver_state_entries_identified=False, selected_24_variable_tags_exported=True,
                 priority_change_is_a_verified_repair=False, full_device_first_law_verified=False,
+                specific_inventory_compiled_gate_pass=bool(specific_inventory and all(
+                    r['chamber_inventory_differential_gate'] and r['buffer_inventory_differential_gate'] for r in records)),
                 production_recovery_allowed=False, table4_reproduction_claim=False,
                 input_sha256={str(p.relative_to(repo)): sha256(p) for p in files}), combined
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__); parser.add_argument('--output-root', type=Path, required=True)
+    parser.add_argument('--specific-inventory', action='store_true')
     args = parser.parse_args()
     if args.output_root.exists(): raise FileExistsError('Never overwrite evidence')
-    result, rows = audit(Path(__file__).resolve().parents[1]); args.output_root.mkdir(parents=True)
+    result, rows = audit(Path(__file__).resolve().parents[1], args.specific_inventory); args.output_root.mkdir(parents=True)
     (args.output_root/'compiled_inventory_state_audit.json').write_text(json.dumps(result, indent=2)+'\n', encoding='utf-8')
     with (args.output_root/'compiled_inventory_states.csv').open('w', newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0])); writer.writeheader(); writer.writerows(rows)

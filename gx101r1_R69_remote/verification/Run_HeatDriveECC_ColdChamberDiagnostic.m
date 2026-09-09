@@ -1,4 +1,4 @@
-function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers)
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation)
 % Authorized independent cold diagnostic. Never import or export a recovery OP.
     if nargin<3, duration=10; end
     if nargin<4, scale_inventory=false; end
@@ -6,6 +6,11 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     if nargin<6, buffer_mass_targets=false; end
     if nargin<7, pipe_energy_targets=false; end
     if nargin<8, conservative_buffers=false; end
+    if nargin<9, formulation='explicit'; end
+    assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown chamber formulation.');
+    specific_inventory=strcmp(formulation,'specific_inventory');
+    assert(~specific_inventory || (scale_inventory && conservative_buffers), ...
+        'Specific inventory trial requires the complete cold inventory contract.');
     assert(islogical(conservative_buffers) && isscalar(conservative_buffers) && ...
         (~conservative_buffers || (pipe_energy_targets && buffer_mass_targets && buffer_mass_guess)), ...
         'Conservative buffers require the complete independent cold inventory contract.');
@@ -14,7 +19,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     assert(islogical(buffer_mass_targets) && isscalar(buffer_mass_targets) && ...
         (~buffer_mass_targets || buffer_mass_guess),'Buffer targets require the physical cold mass values.');
     assert(islogical(pipe_energy_targets) && isscalar(pipe_energy_targets),'Require a scalar pipe initial-state choice.');
-    assert(ismember(duration,[0.01 10]), 'Only topology smoke or one full cycle is authorized here.');
+    assert(ismember(duration,[0.01 10]) || (specific_inventory && duration==0.2), ...
+        'Only topology smoke, the specific inventory onset probe, or one full cycle is supported.');
     assert(~isfolder(output_root), 'Do not overwrite diagnostic evidence.');
     [code,commit]=system('git rev-parse HEAD'); assert(code==0,'Cannot record source.');
     [code,dirty]=system('git status --porcelain'); assert(code==0 && isempty(strtrim(dirty)),'Commit source first.');
@@ -34,7 +40,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'new_inventory_initialization','native_cold_t0_mass_energy_high_targets', ...
         'new_inventory_nominal_scaling',scale_inventory,'physical_buffer_mass_guess',buffer_mass_guess, ...
         'physical_buffer_mass_high_targets',buffer_mass_targets,'physical_pipe_energy_high_targets',pipe_energy_targets, ...
-        'conservative_buffers',conservative_buffers);
+        'conservative_buffers',conservative_buffers,'inventory_formulation',formulation);
     try
         contract=jsondecode(fileread(fullfile(repo,'verification','c200_mainline_freeze_contract.json')));
         raw=fullfile(repo,contract.result_relative_path); op=fullfile(repo,contract.checkpoint_relative_path);
@@ -46,9 +52,32 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         overrides.simulation.persist_model_configuration=false;
         overrides.simulation.resume_checkpoint_path='';
         model_hash=file_hash(overrides.model_path);
+        package='ecc_inventory';source_folder='simscape_inventory';
+        if specific_inventory
+            audit_path=fullfile(repo,'outputs_storage_audit','compiled_specific_inventory_audit_20260909', ...
+                'compiled_inventory_state_audit.json');
+            compiled_audit=jsondecode(fileread(audit_path));
+            assert(compiled_audit.evidence_audit_pass && compiled_audit.specific_inventory_compiled_gate_pass && ...
+                ~compiled_audit.production_recovery_allowed,'Require passed compiled inventory coordinate gate.');
+            original=fileread(fullfile(repo,'verification','simscape_inventory','+ecc_inventory','conservative_chamber.ssc'));
+            expected=strrep(original,'stored_mass == volume * rho_I;','rho_I == stored_mass / volume;');
+            expected=strrep(expected,'stored_energy == stored_mass * u_I;','u_I == stored_energy / stored_mass;');
+            variant=fullfile(repo,'verification','simscape_inventory_specific','+ecc_inventory_specific','conservative_chamber.ssc');
+            compiled_source=fullfile(repo,'outputs_storage_audit','cold_compiled_states_specific_inventory_20260909', ...
+                'component_build','+ecc_inventory_specific','conservative_chamber.ssc');
+            assert(strcmp(strrep(expected,sprintf('\r\n'),newline),strrep(fileread(variant),sprintf('\r\n'),newline)) && ...
+                strcmp(file_hash(variant),file_hash(compiled_source)),'Chamber formulation differs from compiled-gate source.');
+            record.compiled_inventory_gate_sha256=file_hash(audit_path);
+            package='ecc_inventory_specific';source_folder='simscape_inventory_specific';
+        end
+        chamber_source=[package '.conservative_chamber'];library_name=[package '_lib'];
+        overrides.branch.independent_conservative_chamber_library=library_name;
         build=fullfile(output_root,'component_build'); mkdir(build);
-        copyfile(fullfile(repo,'verification','simscape_inventory','+ecc_inventory'),fullfile(build,'+ecc_inventory'));
-        cd(build); ssc_build('ecc_inventory'); addpath(build); load_system('ecc_inventory_lib'); cd(repo);
+        copyfile(fullfile(repo,'verification',source_folder,['+' package]),fullfile(build,['+' package]));
+        cd(build); ssc_build(package); addpath(build); load_system(library_name); cd(repo);
+        assert(strcmp(get_param(library_name,'FileName'),fullfile(build,[library_name '.slx'])),'Wrong chamber library loaded.');
+        record.chamber_source_file=chamber_source;
+        record.chamber_library_sha256=file_hash(fullfile(build,[library_name '.slx']));
         if conservative_buffers
             component_audit=jsondecode(fileread(fullfile(repo,'outputs_storage_audit', ...
                 'conservative_buffer_audit_20260909_v2','conservative_buffer_audit.json')));
@@ -70,7 +99,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             if strcmp(name,'conservative')
                 changed={[model '/SMA_PumpInletConnectingPipeVolume'],[model '/SMA_PumpOutletConnectingPipeVolume']};
                 for k=1:2
-                    assert(strcmp(get_param(changed{k},'SourceFile'),'ecc_inventory.conservative_chamber'), ...
+                    assert(strcmp(get_param(changed{k},'SourceFile'),chamber_source), ...
                         'Wrong diagnostic component.');
                 end
                 prior=load(fullfile(output_root,'native','observations.mat'),'native');
@@ -126,7 +155,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 end
                 if pipe_energy_targets
                     [cold_public_targets,targets]=Build_HeatDriveECC_ColdInventoryTargets(model,prior.native, ...
-                        options.branch.sma_pump_manifold_volume_m3,buffer_records);
+                        options.branch.sma_pump_manifold_volume_m3,buffer_records,chamber_source);
                     write_json(fullfile(arm,'public_inventory_targets.json'),struct('targets',{targets}, ...
                         'source_sha256',file_hash(fullfile(output_root,'native','observations.mat')), ...
                         'has_private_data',hasPrivateData(cold_public_targets),'source_time_s',0));
@@ -172,6 +201,24 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 Export_HeatDriveECC_FailedColdObservations(output,model,metadata, ...
                     fullfile(arm,'failed_public_observations.mat'));
                 error('HeatDriveECC:ColdDiagnosticSimulationFailed','%s',failure_message);
+            end
+            if specific_inventory && strcmp(name,'conservative')
+                tags=cell(1,24);tag_count=0;
+                for k=1:numel(changed)
+                    assert(strcmp(get_param(changed{k},'SourceFile'),chamber_source),'Chamber source changed during trajectory.');
+                end
+                for block=[changed(:);buffer_paths(:)].'
+                    block_name=extractAfter(block{1},[model '/']);parent=output.simlog.child(block_name);
+                    for variable={'stored_mass','stored_energy','T_I','p_I'}
+                        node=parent.child(variable{1});
+                        tag_count=tag_count+1;
+                        tags{tag_count}=struct('block_name',block_name,'variable_name',variable{1}, ...
+                            'tag_names',{node.tagNames},'tag_values',{node.tags});
+                    end
+                end
+                assert(tag_count==24,'Incomplete compiled inventory tag coverage.');
+                write_json(fullfile(arm,'compiled_inventory_tags.json'),struct('node_metadata',{tags}, ...
+                    'chamber_source_file',chamber_source,'post_simulation_source_verified',true));
             end
             native=Extract_HeatDriveECC_NativeStorageTraces(output.simlog,model,false,changed,buffer_paths);
             [source_traces,boundary_metadata]=Extract_HeatDriveECC_BoundaryTraces(output.simlog,model);
