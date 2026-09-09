@@ -1,14 +1,18 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
     if nargin<5,formulation='explicit';end
     if nargin<6,consistency_tolerance=[];end
+    if nargin<7,residual_tolerance=[];end
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown inventory formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
     assert(isempty(consistency_tolerance) || (specific_inventory && isscalar(consistency_tolerance) && ...
         isfinite(consistency_tolerance) && consistency_tolerance==1e-9), ...
         'Only the declared 1e-9 consistency trial is supported.');
+    assert(isempty(residual_tolerance) || (specific_inventory && isempty(consistency_tolerance) && ...
+        isscalar(residual_tolerance) && isfinite(residual_tolerance) && residual_tolerance==1e-9), ...
+        'Residual-only trial must not also change state-based consistency parameters.');
     assert(~specific_inventory || (~prefer_inventory && ~component_priorities), ...
         'Specific inventory trial must not also change declaration priorities.');
     assert(islogical(prefer_inventory) && isscalar(prefer_inventory),'Require explicit inventory priority choice.');
@@ -81,6 +85,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.component_inventory_priority_high=component_priorities;
     record.inventory_formulation=formulation;
     record.consistency_tolerance_override=consistency_tolerance;
+    record.residual_tolerance_override=residual_tolerance;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
     record.chamber_package_resolution=evalc('which(chamber_source,''-all'')');
     record.chamber_source_file=chamber_source;
@@ -98,6 +103,10 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             assert(strcmp(before.ConsistencyTolSource,'GLOBAL') && strcmp(before.ConsistencyTolFactor,'0.001'), ...
                 'Unexpected baseline consistency settings.');
             set_param(solvers{1},'ConsistencyTolSource','LOCAL','ConsistencyAbsTol','1e-9','ConsistencyRelTol','1e-9');
+        end
+        if ~isempty(residual_tolerance)
+            assert(strcmp(before.ResidualTolerance,'0.001'),'Unexpected baseline residual tolerance.');
+            set_param(solvers{1},'ResidualTolerance','1e-9');
         end
         after=struct();for k=1:numel(names),after.(names{k})=get_param(solvers{1},names{k});end
         record.consistency_settings_after=after;
