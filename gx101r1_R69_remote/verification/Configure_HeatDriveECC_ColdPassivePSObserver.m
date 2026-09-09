@@ -1,0 +1,90 @@
+function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,removal)
+% Add a non-driving PS observer to the qualified original pressure input.
+    assert(strcmp(get_param(model,'StartTime'),'0') && strcmp(get_param(model,'StopTime'),'0') && ...
+        strcmp(get_param(model,'LoadInitialState'),'off') && strcmp(get_param(model,'SaveOperatingPoint'),'off'));
+    assert(removal.only_expected_blocks_removed && removal.allowed_stop_time_s==0 && ~removal.candidate_ps_added);
+    root=fullfile(repo,'outputs_storage_audit');
+    qualified=fullfile(root,'ps_controller_pair_audit_20260909','controller_pair_audit.json');
+    assert(strcmp(file_hash(qualified),'B0B7A15859E885325B9317722BA0B4A222226F9805DFA6AC69AF98D7C8A68C4C'));
+    reference_path=fullfile(root,'sma_derivative_contract_20260909_v3','sma_derivative_contract.json');
+    assert(strcmp(file_hash(reference_path),'EE5C16D580693FCA925D24D0DB2A8E021BAC65E36F0A77A8E12AE795070ACEE2'));
+    r=jsondecode(fileread(reference_path));
+    audit_path=fullfile(root,'initial_flux_pressure_audit_20260909_v2','initial_flux_pressure_audit.json');
+    assert(strcmp(file_hash(audit_path),'25BD6933EF469E29F77474659B0D8F74027B890D8E3B80910660559E9CA50B4D'));
+    a=jsondecode(fileread(audit_path));assert(a.strict_initial_coordinate_match && a.constraints.initial_flux_pressure_consistency_pass);
+    trial=fullfile(root,'specific_inventory_projection_initial_flux_20260909');
+    evidence=jsondecode(fileread(fullfile(trial,'compiled_states_inspection.json')));raw=fullfile(trial,'observations.mat');
+    assert(evidence.inspection_pass && strcmp(file_hash(raw),evidence.observations_sha256));
+    data=load(raw,'signals');signal=data.signals.mass_flow_sma_stage13_kgps;
+    assert(isscalar(signal.time_s) && signal.time_s==0 && isscalar(signal.values) && ...
+        isfinite(signal.values) && signal.values==a.measured_flow_signal_initial_kg_s);
+    source=fullfile(repo,'verification','simscape_sma_controller','+ecc_sma_controller','pressure_controller.ssc');
+    source_hash=file_hash(source);assert(strcmp(source_hash,'EB6AC72398E21E9069674744E1F1ECE1D8133E4729D23E42FDE3AC5C332AEA71'));
+    build=fullfile(root,'ps_controller_equivalence_20260909_v2','component_build');
+    assert(strcmp(file_hash(fullfile(build,'+ecc_sma_controller','pressure_controller.ssc')),source_hash));
+    addpath(build);library=fullfile(build,'ecc_sma_controller_lib.slx');load_system(library);
+    lib=find_system('ecc_sma_controller_lib','SearchDepth',1,'Type','Block');assert(isscalar(lib));
+    converter=removal.pressure_converter;
+    assert(strcmp(input_source(converter,1),removal.pressure_value_source) && ...
+        strcmp(input_source(converter,2),removal.pressure_derivative_source));
+    before=destinations(converter);observer=[model '/ColdSMAPassiveObserver'];add_block(lib{1},observer);
+    names={'target','enable','reset'};units={'kg/s','1','1'};
+    for k=1:3
+        c=r.commands(k+1);v=slResolve(c.variable,c.block);
+        assert(isequal(v.Time(:),c.time_s(:)) && isequal(v.Data(:),c.values(:)));
+        ps=[model '/ColdObserver_' names{k} '_PS'];
+        add_block('nesl_utility/Simulink-PS Converter',ps,'Unit',units{k},'UdotUserProvided','1');
+        assert(strcmp(get_param(ps,'FilteringAndDerivatives'),'provide'));
+        wire(model,c.block,1,ps,1);d=zeros(size(c.values(:)));
+        if strcmp(c.interpolate,'on'),d=[diff(c.values(:))./diff(c.time_s(:));0];end
+        variable=['cold_observer_' names{k} '_derivative'];assignin('base',variable,timeseries(d,c.time_s(:)));
+        db=[ps '_Derivative'];add_block('simulink/Sources/From Workspace',db,'VariableName',variable, ...
+            'Interpolate','off','OutputAfterFinalValue','Holding final value');wire(model,db,1,ps,2);
+        simscape.addConnection(ps,only_port(ps),observer,names{k});
+    end
+    mdot=[model '/ColdObserver_mdot_PS'];constant=[mdot '_Value'];zero=[mdot '_Derivative'];
+    add_block('nesl_utility/Simulink-PS Converter',mdot,'Unit','kg/s','UdotUserProvided','1');
+    add_block('simulink/Sources/Constant',constant,'Value',num2str(signal.values,17));
+    add_block('simulink/Sources/Constant',zero,'Value','0');
+    wire(model,constant,1,mdot,1);wire(model,zero,1,mdot,2);simscape.addConnection(mdot,only_port(mdot),observer,'mdot');
+    simscape.addConnection(converter,only_port(converter),observer,'bias');
+    outputs={'pressure','lag','integral'};output_units={'MPa','1','MPa'};
+    for k=1:3
+        out=[model '/ColdObserver_' outputs{k} '_Output'];
+        add_block('nesl_utility/PS-Simulink Converter',out,'Unit',output_units{k});
+        simscape.addConnection(observer,outputs{k},out,only_port(out));
+        logger=[out '_Log'];add_block('simulink/Sinks/To Workspace',logger, ...
+            'VariableName',['cold_observer_' outputs{k}],'SaveFormat','Timeseries');wire(model,out,1,logger,1);
+    end
+    after=destinations(converter);
+    assert(isequal(sort(after),sort([before;{observer}])) && ...
+        strcmp(input_source(converter,1),removal.pressure_value_source) && ...
+        strcmp(input_source(converter,2),removal.pressure_derivative_source),'Pressure actuator path changed.');
+    contract=struct('schema','heatdrive_ecc_cold_passive_ps_observer_v1','observer_path',observer, ...
+        'component_sha256',source_hash,'library_path',library,'library_sha256',file_hash(library), ...
+        'qualification_sha256',file_hash(qualified),'reference_sha256',file_hash(reference_path), ...
+        'flow_audit_path',audit_path,'flow_audit_sha256',file_hash(audit_path), ...
+        'flow_observations_path',raw,'flow_observations_sha256',file_hash(raw),'frozen_mdot_kg_s',signal.values, ...
+        'commands',r.commands,'pressure_converter',converter,'pressure_value_source',removal.pressure_value_source, ...
+        'pressure_derivative_source',removal.pressure_derivative_source,'pressure_destinations_before',{before}, ...
+        'pressure_destinations_after',{after},'observer_drives_pump',false,'separate_solver_added',false, ...
+        'allowed_stop_time_s',0,'production_recovery_allowed',false,'c200_state_imported',false);
+end
+function rows=destinations(block)
+    c=get_param(block,'PortConnectivity');c=c(startsWith({c.Type},{'LConn','RConn'}));assert(isscalar(c));
+    rows=arrayfun(@(h) getfullname(get_param(h,'Parent')),c.DstPort(:),'UniformOutput',false);
+end
+function wire(model,source,si,destination,di)
+    s=get_param(source,'PortHandles');d=get_param(destination,'PortHandles');add_line(model,s.Outport(si),d.Inport(di));
+end
+function source=input_source(block,index)
+    p=get_param(block,'PortHandles');line=get_param(p.Inport(index),'Line');assert(line>0);source=getfullname(get_param(line,'SrcBlockHandle'));
+end
+function name=only_port(block)
+    p=simscape.connectionPortProperties(block);assert(isscalar(p));name=p.Name;
+end
+function hash=file_hash(file)
+    d=java.security.MessageDigest.getInstance('SHA-256');fid=fopen(file,'rb');assert(fid>=0);c=onCleanup(@() fclose(fid));
+    while ~feof(fid),d.update(fread(fid,8*1024*1024,'*uint8'));end
+    hash=upper(reshape(dec2hex(typecast(d.digest(),'uint8'),2).',1,[]));
+end

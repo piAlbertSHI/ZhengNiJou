@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -24,6 +24,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<24,constant_bias_derivative=false;end
     if nargin<25,bias_value_path=false;end
     if nargin<26,remove_inactive_controller=false;end
+    if nargin<27,passive_ps_observer=false;end
+    assert(islogical(passive_ps_observer) && isscalar(passive_ps_observer) && ...
+        (~passive_ps_observer || remove_inactive_controller),'Passive observer requires the qualified inactive-controller removal.');
     assert(islogical(remove_inactive_controller) && isscalar(remove_inactive_controller) && ...
         (~remove_inactive_controller || bias_value_path),'Inactive controller removal requires the bounded bias-value path.');
     assert(islogical(bias_value_path) && isscalar(bias_value_path) && ...
@@ -195,6 +198,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.constant_bias_derivative_requested=constant_bias_derivative;
     record.bias_value_path_requested=bias_value_path;
     record.remove_inactive_controller_requested=remove_inactive_controller;
+    record.passive_ps_observer_requested=passive_ps_observer;
     record.diagnostic_stop_time_s=duration;
     record.initialization_only=duration==0;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
@@ -338,6 +342,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         if remove_inactive_controller
             record.inactive_controller_removal_contract=Configure_HeatDriveECC_ColdInactiveControllerRemoval(model,record.pressure_value_path_contract);
         end
+        if passive_ps_observer
+            record.passive_ps_observer_contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,record.inactive_controller_removal_contract);
+        end
         if analytic_derivative
             record.analytic_pressure_derivative_contract=Configure_HeatDriveECC_ColdPressureDerivative(repo,model);
         end
@@ -408,8 +415,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             record.states{end+1}=entry;
         end
         record.stage='read_node_metadata';log=output.get('simlog');record.node_metadata={};
-        if ps_controller
-            node=log.child('ColdSMAPSController');record.ps_controller_initial={};
+        if ps_controller || passive_ps_observer
+            node_name='ColdSMAPSController';if passive_ps_observer,node_name='ColdSMAPassiveObserver';end
+            node=log.child(node_name);record.ps_controller_initial={};
             variables={'mdot','target','bias','enable','reset','pressure','lag','integral'};
             units={'kg/s','kg/s','MPa','1','1','MPa','1','MPa'};
             for j=1:numel(variables)
