@@ -40,5 +40,22 @@ class CompiledInventoryStateTests(unittest.TestCase):
         expected = expected.replace("stored_energy = {160, 'J'};", "stored_energy = {value = {160, 'J'}, priority = priority.high};")
         self.assertEqual(expected, b)
 
+    def test_specific_variant_only_rewrites_inventory_relations(self):
+        root = Path(__file__).resolve().parent
+        original = (root/'simscape_inventory/+ecc_inventory/conservative_chamber.ssc').read_text(encoding='utf-8')
+        variant = (root/'simscape_inventory_specific/+ecc_inventory_specific/conservative_chamber.ssc').read_text(encoding='utf-8')
+        expected = original.replace('stored_mass == volume * rho_I;', 'rho_I == stored_mass / volume;')
+        expected = expected.replace('stored_energy == stored_mass * u_I;', 'u_I == stored_energy / stored_mass;')
+        self.assertEqual(expected, variant)
+
+    def test_specific_inventory_equivalence_on_positive_mass_domain(self):
+        for volume in (1e-6, 1.6084954386379741e-6, 1e-4):
+            for rho in (700., 997., 1100.):
+                for u in (-1e4, 0., 1e5):
+                    mass = volume*rho
+                    energy = mass*u
+                    self.assertAlmostEqual(mass/volume, rho, places=10)
+                    self.assertAlmostEqual(energy/mass, u, places=9)
+
 
 if __name__ == '__main__': unittest.main()

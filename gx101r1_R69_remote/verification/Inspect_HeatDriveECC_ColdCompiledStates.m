@@ -1,7 +1,12 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
+    if nargin<5,formulation='explicit';end
+    assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown inventory formulation.');
+    specific_inventory=strcmp(formulation,'specific_inventory');
+    assert(~specific_inventory || (~prefer_inventory && ~component_priorities), ...
+        'Specific inventory trial must not also change declaration priorities.');
     assert(islogical(prefer_inventory) && isscalar(prefer_inventory),'Require explicit inventory priority choice.');
     assert(islogical(component_priorities) && isscalar(component_priorities) && ...
         (~component_priorities || prefer_inventory),'Component priority trial requires matching block priorities.');
@@ -24,26 +29,35 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     raw=fullfile(repo,frozen.result_relative_path);op=fullfile(repo,frozen.checkpoint_relative_path);
     assert(strcmp(file_hash(raw),frozen.result_sha256) && strcmp(file_hash(op),frozen.checkpoint_sha256),'C200 changed.');
     addpath(fullfile(source,'buffer_component_build'));
-    if ~component_priorities,addpath(fullfile(source,'component_build'));end
+    if ~component_priorities && ~specific_inventory,addpath(fullfile(source,'component_build'));end
     assert(strcmp(file_hash(fullfile(source,'component_build','+ecc_inventory','conservative_chamber.ssc')), ...
         file_hash(fullfile(repo,'verification','simscape_inventory','+ecc_inventory','conservative_chamber.ssc'))),'Chamber source changed.');
-    if component_priorities
+    if component_priorities || specific_inventory
+        if component_priorities
         variant=fullfile(repo,'verification','simscape_inventory_priorities','+ecc_inventory_priority','conservative_chamber.ssc');
+        package='ecc_inventory_priority';
         original_text=fileread(fullfile(repo,'verification','simscape_inventory','+ecc_inventory','conservative_chamber.ssc'));
         expected_text=strrep(original_text,'priority = priority.high','priority = priority.low');
         expected_text=strrep(expected_text,"stored_mass = {0.0016, 'kg'};", ...
             "stored_mass = {value = {0.0016, 'kg'}, priority = priority.high};");
         expected_text=strrep(expected_text,"stored_energy = {160, 'J'};", ...
             "stored_energy = {value = {160, 'J'}, priority = priority.high};");
-        assert(strcmp(strrep(expected_text,sprintf('\r\n'),sprintf('\n')), ...
-            strrep(fileread(variant),sprintf('\r\n'),sprintf('\n'))),'Variant changed more than four declaration priorities.');
+        else
+            package='ecc_inventory_specific';
+            variant=fullfile(repo,'verification','simscape_inventory_specific',['+' package],'conservative_chamber.ssc');
+            original_text=fileread(fullfile(repo,'verification','simscape_inventory','+ecc_inventory','conservative_chamber.ssc'));
+            expected_text=strrep(original_text,'stored_mass == volume * rho_I;', 'rho_I == stored_mass / volume;');
+            expected_text=strrep(expected_text,'stored_energy == stored_mass * u_I;', 'u_I == stored_energy / stored_mass;');
+        end
+        assert(strcmp(strrep(expected_text,sprintf('\r\n'),newline), ...
+            strrep(fileread(variant),sprintf('\r\n'),newline)),'Variant differs from the declared minimal transformation.');
         build=fullfile(output_root,'component_build');mkdir(build);
-        copyfile(fileparts(variant),fullfile(build,'+ecc_inventory_priority'));
-        old=pwd;cc=onCleanup(@() cd(old));cd(build);ssc_build('ecc_inventory_priority');cd(old);clear cc
+        copyfile(fileparts(variant),fullfile(build,['+' package]));
+        old=pwd;cc=onCleanup(@() cd(old));cd(build);ssc_build(package);cd(old);clear cc
         addpath(build);
     end
-    if component_priorities
-        library_name='ecc_inventory_priority_lib';chamber_source='ecc_inventory_priority.conservative_chamber';
+    if component_priorities || specific_inventory
+        library_name=[package '_lib'];chamber_source=[package '.conservative_chamber'];
         selected_library=fullfile(build,[library_name '.slx']);
     else
         library_name='ecc_inventory_lib';chamber_source='ecc_inventory.conservative_chamber';
@@ -61,6 +75,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         'source_native_sha256',file_hash(original),'states',{{}},'stage','build','error_message','');
     record.block_temperature_pressure_priority_low=prefer_inventory;
     record.component_inventory_priority_high=component_priorities;
+    record.inventory_formulation=formulation;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
     record.chamber_package_resolution=evalc('which(chamber_source,''-all'')');
     record.chamber_source_file=chamber_source;
@@ -106,6 +121,11 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         input=Simulink.SimulationInput(model);input=input.setVariable('cold_public_targets',cold_public_targets);
         input=input.setModelParameter('CaptureErrors','on');output=sim(input);
         assert(isempty(output.ErrorMessage),output.ErrorMessage);
+        for k=1:numel(targets)
+            assert(strcmp(get_param(targets(k).block_path,'SourceFile'),chamber_source), ...
+                'Actual chamber source changed during initialization.');
+        end
+        record.post_initialization_source_file_verified=true;
         states=output.get('states');
         save(fullfile(output_root,'compiled_initial_state_dataset.mat'),'states','-v7.3');
         assert(isa(states,'Simulink.SimulationData.Dataset'),'Unexpected state representation.');
