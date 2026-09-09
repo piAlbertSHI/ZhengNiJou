@@ -1,7 +1,7 @@
 import copy
 import unittest
 from pathlib import Path
-from Audit_HeatDriveECC_ColdInitializationPhases import check_callbacks, check_phases, target_map, check_buffer_nominals, check_momentum_rows, audit
+from Audit_HeatDriveECC_ColdInitializationPhases import check_callbacks, check_phases, target_map, check_buffer_nominals, check_momentum_rows, check_regularization, RUNTIME_BASE, audit
 
 
 class ColdInitializationPhasesTests(unittest.TestCase):
@@ -99,6 +99,21 @@ class ColdInitializationPhasesTests(unittest.TestCase):
         c, rows = self.momentum_fixture(); c[0]['port_area_m2'] = .0001
         with self.assertRaises(ValueError): check_momentum_rows(c, rows)
         with self.assertRaises(ValueError): audit(None, scaling_mode=True, momentum=True)
+
+    def regularization_fixture(self):
+        return dict(disable_regularization_requested=True,runtime_solver_options_before=RUNTIME_BASE,
+            runtime_solver_options_after=dict(RUNTIME_BASE,ResolveIndetEquations='off'),
+            runtime_callbacks=[dict(runtime_solver_options=dict(RUNTIME_BASE,ResolveIndetEquations='off')) for _ in range(3)],
+            momentum_buffers_requested=False,normal_mode_requested=False,buffer_nominal_scaling_requested=False,
+            global_tolerance_override=False,consistency_tolerance_override=[],residual_tolerance_override=[])
+
+    def test_regularization_runtime_visible_and_isolated(self):
+        r=self.regularization_fixture();check_regularization(r)
+        r['runtime_callbacks'][0]['runtime_solver_options']['ResolveIndetEquations']='on'
+        with self.assertRaises(ValueError):check_regularization(r)
+        r=self.regularization_fixture();r['runtime_solver_options_after']['DoFixedCost']='on'
+        with self.assertRaises(ValueError):check_regularization(r)
+        with self.assertRaises(ValueError):audit(None,momentum=True,regularization=True)
 
 
 if __name__ == '__main__': unittest.main()

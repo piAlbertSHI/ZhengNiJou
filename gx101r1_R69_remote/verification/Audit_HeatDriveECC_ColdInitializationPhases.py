@@ -19,6 +19,20 @@ SCALING_CASES = [('buffer_nominals', 'specific_inventory_initial_buffer_nominals
                  ('all_target_tags', 'specific_inventory_all_target_tags_20260909', '94b7920'),
                  ('normal', 'specific_inventory_initial_normal_mode_20260909', 'ec465e8')]
 MOMENTUM_CASES = [('momentum', 'specific_inventory_momentum_initial_20260909', '21d9098ec5a630f6d70732e87418f5fa483bc605')]
+REGULARIZATION_CASES = [('regularization_off', 'specific_inventory_regularization_off_initial_20260909', 'dada2c67fdb4d29b93c45a6662238fc6313769c3')]
+RUNTIME_BASE = dict(ResolveIndetEquations='on', DoFixedCost='off', ComputeImpulses='off',
+                    ImpulseIterations='2', IndexReductionMethod='DerivativeReplacement', DoDC='off')
+
+
+def check_regularization(record):
+    expected = dict(RUNTIME_BASE, ResolveIndetEquations='off')
+    if (not record['disable_regularization_requested'] or record['runtime_solver_options_before'] != RUNTIME_BASE
+            or record['runtime_solver_options_after'] != expected or any(record[k] for k in
+                ('momentum_buffers_requested','normal_mode_requested','buffer_nominal_scaling_requested',
+                 'global_tolerance_override','consistency_tolerance_override','residual_tolerance_override'))):
+        raise ValueError('Regularization-only experiment changed another factor')
+    if len(record['runtime_callbacks']) != 3 or any(c['runtime_solver_options'] != expected for c in record['runtime_callbacks']):
+        raise ValueError('Runtime regularization state differs from the declared experiment')
 
 
 def check_momentum_rows(contracts, rows):
@@ -104,8 +118,8 @@ def check_buffer_nominals(record, targets):
                 raise ValueError('Runtime nominal value differs')
 
 
-def audit(repo, scaling_mode=False, momentum=False):
-    if scaling_mode and momentum: raise ValueError('Do not mix experiment contracts')
+def audit(repo, scaling_mode=False, momentum=False, regularization=False):
+    if sum((scaling_mode,momentum,regularization)) > 1: raise ValueError('Do not mix experiment contracts')
     targets_path = repo/'outputs_storage_audit/conservative_buffer_coupled_cycle_20260909/conservative/public_inventory_targets.json'
     targets_record = read(targets_path); targets = targets_record['targets']
     if len(targets) != 204 or targets_record['has_private_data'] or targets_record['source_time_s'] != 0:
@@ -119,7 +133,7 @@ def audit(repo, scaling_mode=False, momentum=False):
     expected_component = original.read_text(encoding='utf-8').replace('stored_mass == volume * rho_I;', 'rho_I == stored_mass / volume;')
     expected_component = expected_component.replace('stored_energy == stored_mass * u_I;', 'u_I == stored_energy / stored_mass;')
     files = [targets_path, native, baseline_path, original]; results = []; rows = []
-    cases = MOMENTUM_CASES if momentum else (SCALING_CASES if scaling_mode else CASES)
+    cases = REGULARIZATION_CASES if regularization else (MOMENTUM_CASES if momentum else (SCALING_CASES if scaling_mode else CASES))
     for name, folder, producer in cases:
         root = repo/'outputs_storage_audit'/folder; path = root/'compiled_states_inspection.json'; r = read(path)
         if (not r['inspector_commit'].startswith(producer) or not r['inspection_pass'] or not r['initialization_only']
@@ -129,9 +143,10 @@ def audit(repo, scaling_mode=False, momentum=False):
                 or r['inventory_formulation'] != 'specific_inventory' or r['component_inventory_priority_high']):
             raise ValueError('Wrong runtime context evidence')
         global_tolerances = {'RelTol': '1e-10', 'AbsTol': '1e-12'} if name == 'global' else {'RelTol': '1e-2', 'AbsTol': '1e-3'}
-        check_settings('default' if scaling_mode or momentum or name == 'global' else 'tight', r['consistency_settings_before'], r['consistency_settings_after'])
+        check_settings('default' if scaling_mode or momentum or regularization or name == 'global' else 'tight', r['consistency_settings_before'], r['consistency_settings_after'])
         check_callbacks(r['runtime_callbacks'], targets, r['consistency_settings_after'], global_tolerances, 'normal' if name == 'normal' else 'accelerator')
         if name == 'buffer_nominals': check_buffer_nominals(r, targets)
+        if regularization: check_regularization(r)
         momentum_evidence = None
         if momentum:
             if (not r['momentum_buffers_requested'] or r['normal_mode_requested'] or r['buffer_nominal_scaling_requested']
@@ -163,7 +178,7 @@ def audit(repo, scaling_mode=False, momentum=False):
         tagged = [dict(block_name=t['block_name'], variable_name=t['variable_name'], **decode_tags(t)) for t in r['node_metadata']]
         compiled = component_inventory_preserved(tagged, CHAMBERS | BUFFERS)
         target_classification = None
-        if (scaling_mode and name != 'buffer_nominals') or momentum:
+        if (scaling_mode and name != 'buffer_nominals') or momentum or regularization:
             classified = [dict(priority=t['priority'], **decode_tags(t)) for t in r['initial_coordinates']]
             target_classification = {p: dict(count=sum(t['priority'] == p for t in classified),
                 retained_differential_count=sum(t['priority'] == p and t['isRetained'] and t['isDifferential'] for t in classified)) for p in ('High', 'Low')}
@@ -199,9 +214,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__); parser.add_argument('--output-root', type=Path, required=True)
     parser.add_argument('--scaling-mode', action='store_true')
     parser.add_argument('--momentum', action='store_true')
+    parser.add_argument('--regularization-off', action='store_true')
     args = parser.parse_args()
     if args.output_root.exists(): raise FileExistsError('Never overwrite evidence')
-    result, rows = audit(Path(__file__).resolve().parents[1], args.scaling_mode, args.momentum); args.output_root.mkdir(parents=True)
+    result, rows = audit(Path(__file__).resolve().parents[1], args.scaling_mode, args.momentum, args.regularization_off); args.output_root.mkdir(parents=True)
     (args.output_root/'initialization_phases_audit.json').write_text(json.dumps(result, indent=2, allow_nan=False)+'\n', encoding='utf-8')
     with (args.output_root/'initial_coordinates.csv').open('w', newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0])); writer.writeheader(); writer.writerows(rows)

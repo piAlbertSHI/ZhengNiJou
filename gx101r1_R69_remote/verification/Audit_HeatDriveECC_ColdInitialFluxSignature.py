@@ -44,6 +44,37 @@ def quantity(value, unit, target_unit):
     return result
 
 
+def plot_signature(rows, folder):
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    groups=[('Pipe (TL)','Pipes (67)','#007a87','o'),('Thermal Mass','Solids (46)','#c1274c','^'),
+            ('Constant Volume Chamber (TL)','Chambers (2)','#343434','s'),
+            ('Conservative Buffer (TL)','Buffers (4)','#287d3c','D')]
+    with plt.rc_context({'font.family':'Arial','font.size':9,'pdf.fonttype':42,'axes.spines.top':False,'axes.spines.right':False}):
+        fig,axes=plt.subplots(1,2,figsize=(8.5,3.8),layout='constrained',gridspec_kw={'width_ratios':[1.15,1]})
+        axes[0].plot([-35,35],[-35,35],color='.5',lw=1,ls='--',zorder=0)
+        for k,(kind,label,color,marker) in enumerate(groups):
+            selected=[r for r in rows if r['inventory']=='energy' and r['kind']==kind]
+            axes[0].scatter([r['expected_delta']*1e6 for r in selected],[r['delta']*1e6 for r in selected],
+                            s=24,color=color,marker=marker,alpha=.7,label=label)
+            error=max(abs(r['residual']) for r in selected)
+            axes[1].hlines(k,1e-16,error,color=color,lw=1.2)
+            axes[1].scatter(error,k,color=color,marker=marker,s=28,zorder=3)
+        axes[0].set(xlabel=r'$20\ \mu$s $\times\ Q_{net}(0)$ ($\mu$J)',ylabel=r'Actual $E(0)-E_{target}$ ($\mu$J)',xlim=(-35,35),ylim=(-35,35))
+        axes[0].set_aspect('equal',adjustable='box');axes[0].legend(frameon=False,fontsize=8,loc='upper left')
+        axes[0].set_title('(a) Initial energy displacement',loc='left',fontsize=10)
+        axes[1].set_xscale('log');axes[1].set_xlim(1e-16,4e-8)
+        axes[1].set_yticks(range(4),[g[1] for g in groups]);axes[1].set_ylim(-.6,3.9)
+        axes[1].axvline(1e-8,color='#c1274c',ls='--',lw=1)
+        axes[1].text(7e-9,3.5,'Diagnostic limit',ha='right',va='center',fontsize=8)
+        axes[1].set_xlabel(r'Maximum $|\Delta E-20\ \mu s\ Q_{net}(0)|$ (J)')
+        axes[1].set_title('(b) Residual by storage class',loc='left',fontsize=10)
+        for ax in axes:ax.grid(axis='x',color='.9',lw=.5);ax.set_axisbelow(True)
+        for suffix in ('png','pdf'):fig.savefig(folder/('FigI01_initial_flux_signature.'+suffix),dpi=300)
+        plt.close(fig)
+
+
 def audit(repo):
     root = repo/'outputs_storage_audit'/EXPERIMENT
     execution_path = root/'cold_chamber_execution.json'; execution = read(execution_path)
@@ -155,6 +186,14 @@ def audit(repo):
         p=repo/frozen[key+'_relative_path']
         if sha256(p)!=frozen[key+'_sha256']: raise ValueError('C200 authority changed')
         files.append(p)
+    previous_path=repo/'outputs_storage_audit/specific_inventory_cold_onset_audit_20260909/cold_buffer_coupled_audit.json'
+    previous=read(previous_path)
+    if not previous['evidence_audit_pass'] or previous['execution_commit']!=PRODUCER or previous['strict_initial_coordinate_match']:
+        raise ValueError('Require the previously audited, strictly rejected onset trajectory')
+    for p in files:
+        if previous['input_sha256'].get(str(p.relative_to(repo)))!=sha256(p):
+            raise ValueError('Input differs from the prior audited trajectory: '+str(p))
+    files.append(previous_path)
     return dict(schema='heatdrive_ecc_cold_initial_flux_signature_v1',evidence_audit_pass=True,
         execution_commit=PRODUCER, post_hoc_hypothesis=True, inventory_groups=grouped,
         storage_classes=dict(Counter(r['kind'] for r in rows if r['inventory']=='energy')),
@@ -167,12 +206,14 @@ def audit(repo):
 
 if __name__ == '__main__':
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--output-root',type=Path,required=True)
+    parser.add_argument('--plots',action='store_true')
     args=parser.parse_args()
     if args.output_root.exists(): raise FileExistsError('Never overwrite diagnosis')
     result,rows=audit(Path(__file__).resolve().parents[1]);args.output_root.mkdir(parents=True)
     (args.output_root/'initial_flux_signature.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n',encoding='utf-8')
     with (args.output_root/'initial_inventory_shift.csv').open('w',newline='',encoding='utf-8') as f:
         writer=csv.DictWriter(f,fieldnames=list(rows[0]));writer.writeheader();writer.writerows(rows)
+    if args.plots:plot_signature(rows,args.output_root)
     print(json.dumps({k:v for k,v in result.items() if k not in ('input_sha256','pipe_properties')},indent=2))
     # A diagnostic signature is not a repaired initial-condition gate.
     raise SystemExit(0 if all(r['signature_within_limit'] for r in result['inventory_groups'].values()) else 1)
