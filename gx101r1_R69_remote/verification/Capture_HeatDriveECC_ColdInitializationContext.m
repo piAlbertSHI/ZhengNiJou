@@ -74,6 +74,15 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
                 'value',get_param(p,[name{1} '_nominal_value']),'unit',get_param(p,[name{1} '_nominal_unit']));
         end
     end
+    record.chamber_nominals={};
+    for block={'SMA_PumpInletConnectingPipeVolume','SMA_PumpOutletConnectingPipeVolume'}
+        p=[model '/' block{1}];
+        for key={'stored_mass','stored_energy'}
+            name=key{1};record.chamber_nominals{end+1}=struct('block_path',p,'state_name',name, ...
+                'specify',get_param(p,[name '_nominal_specify']),'value',get_param(p,[name '_nominal_value']), ...
+                'unit',get_param(p,[name '_nominal_unit']));
+        end
+    end
     history=evalin('base','cold_initialization_context');history{end+1}=record;
     assignin('base','cold_initialization_context',history);
 end
