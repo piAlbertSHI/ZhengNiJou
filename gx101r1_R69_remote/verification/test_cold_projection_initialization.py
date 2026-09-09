@@ -60,5 +60,43 @@ class ColdProjectionTests(unittest.TestCase):
         for forbidden in ('save_system(', 'delete_line(', "'FilteringAndDerivatives','filter'"):
             self.assertNotIn(forbidden,source)
 
+    def tight_fixture(self):
+        r,t=self.fixture()
+        r.update(tight_actuation_tolerance_trial=True,actuate_ps_output_requested=True,
+                 diagnostic_stop_time_s=0,global_tolerances=dict(TOLERANCES),
+                 global_tolerances_after=dict(RelTol='1e-10',AbsTol='1e-12'),
+                 global_tolerance_override=True,initial_pressure_derivative_requested=True,
+                 initial_pressure_derivative_contract=dict(derivative_source='constant'))
+        start=copy.deepcopy(r['runtime_callbacks'][0]);start['stage']='StartFcn'
+        r['runtime_callbacks'].insert(1,start)
+        for callback in r['runtime_callbacks']:
+            callback.update(r['global_tolerances_after'])
+            callback['pressure_converter']=dict(Unit='MPa',FilteringAndDerivatives='provide',
+                UdotUserProvided='1',StopTime='0',derivative_source='constant')
+        return r,t
+
+    def test_tight_initial_actuation_contract(self):
+        r,t=self.tight_fixture();check_runtime(r,t,'tight_actuation')
+
+    def test_tight_trial_requires_explicit_bounded_actuation(self):
+        for key,value in [('tight_actuation_tolerance_trial',False),('actuate_ps_output_requested',False),
+                          ('diagnostic_stop_time_s',.01),('global_tolerance_override',False),
+                          ('global_tolerances',dict(RelTol='1e-6',AbsTol='1e-8')),
+                          ('half_step_requested',True),('initial_pressure_derivative_requested',False)]:
+            with self.subTest(key=key):
+                r,t=self.tight_fixture();r[key]=value
+                with self.assertRaises(ValueError):check_runtime(r,t,'tight_actuation')
+
+    def test_tight_callback_tolerances_must_match(self):
+        for index in range(3):
+            for key,value in TOLERANCES.items():
+                r,t=self.tight_fixture();r['runtime_callbacks'][index][key]=value
+                with self.assertRaises(ValueError):check_runtime(r,t,'tight_actuation')
+
+    def test_tight_profile_cannot_enter_baseline_or_unknown_case(self):
+        for case in ('implicit','projection','derivative','unregistered'):
+            r,t=self.tight_fixture()
+            with self.assertRaises(ValueError):check_runtime(r,t,case)
+
 
 if __name__=='__main__':unittest.main()

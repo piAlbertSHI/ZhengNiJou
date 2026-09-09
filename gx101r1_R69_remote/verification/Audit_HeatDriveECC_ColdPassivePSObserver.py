@@ -92,26 +92,44 @@ def audit(repo):
     if sha256(flow_path) != '25BD6933EF469E29F77474659B0D8F74027B890D8E3B80910660559E9CA50B4D':
         raise ValueError('Frozen input qualification changed')
     cases = [('shared', 'specific_inventory_passive_ps_original_converter_initial_20260909',
-              '6dfcb4b7792bfba183da39f53390b77033c8432f', False, False, False),
+              '6dfcb4b7792bfba183da39f53390b77033c8432f', False, False, False, False),
              ('separate', 'specific_inventory_passive_ps_separate_network_initial_20260909',
-              'd9a6a4a011989bb4ef1a1c02b595a286715278b9', True, False, False),
+              'd9a6a4a011989bb4ef1a1c02b595a286715278b9', True, False, False, False),
              ('live_flow', 'specific_inventory_passive_ps_live_flow_initial_20260909',
-              '1d0c35c7018e3f784aa2385d7d3e61da43c72c32', True, True, False),
+              '1d0c35c7018e3f784aa2385d7d3e61da43c72c32', True, True, False, False),
              ('initial_actuation', 'specific_inventory_separate_ps_actuation_initial_20260909',
-              '1b09b41bab2413ede514e95e9a4175bab709b026', True, True, True)]
+              '1b09b41bab2413ede514e95e9a4175bab709b026', True, True, True, False),
+             ('tight_initial_actuation', 'specific_inventory_separate_ps_actuation_tight_initial_20260909',
+              '363909a37ad1ecd9c31f41e0c536b964d0d9490c', True, True, True, True)]
     files = [reference_path, native, command_path, qualified_path, flow_path]; results = []; rows = []
-    for label, folder, producer, separate, live, actuate in cases:
+    base_actuation = None; tight_comparison = None
+    for label, folder, producer, separate, live, actuate, tight in cases:
         case_root = root/folder; path = case_root/'compiled_states_inspection.json'; r = read(path)
         if (r['inspector_commit'] != producer or not r['passive_ps_observer_requested']
                 or r.get('separate_observer_network_requested', False) != separate
                 or r.get('live_observer_flow_requested', False) != live
                 or r.get('actuate_ps_output_requested', False) != actuate
+                or r.get('tight_actuation_tolerance_trial', False) != tight
                 or not r['remove_inactive_controller_requested'] or not r['bias_value_path_requested']
                 or not r['initialization_only'] or r['diagnostic_stop_time_s'] != 0 or r['inventory_formulation'] != 'specific_inventory'
                 or any(r[k] for k in ('ps_controller_requested', 'analytic_pressure_derivative_requested',
                     'c200_state_imported', 'failed_terminal_state_imported', 'checkpoint_saved', 'production_recovery_allowed'))):
             raise ValueError('Wrong passive observer experiment')
-        check_runtime(r, targets, 'derivative'); check_derivative(r['initial_pressure_derivative_contract'])
+        check_runtime(r, targets, 'tight_actuation' if tight else 'derivative'); check_derivative(r['initial_pressure_derivative_contract'])
+        if tight:
+            if any(x['algebraic_loop_options'] != dict(solver='Auto', diagnostic='warning') for x in r['runtime_callbacks']):
+                raise ValueError('Unexpected algebraic-loop configuration')
+            if base_actuation is None:
+                raise ValueError('Missing baseline numerical comparison')
+            current = {x['path']: x['actual'] for x in r['initial_coordinates']}
+            previous = {x['path']: x['actual'] for x in base_actuation['initial_coordinates']}
+            tight_comparison = dict(initial_coordinate_keys_identical=set(current) == set(previous),
+                initial_coordinate_values_identical=current == previous,
+                actual_sensor_flow_identical=r['actual_initial_sensor_mdot_kg_s'] == base_actuation['actual_initial_sensor_mdot_kg_s'],
+                observer_initial_values_identical=r['ps_controller_initial'] == base_actuation['ps_controller_initial'],
+                baseline_tolerances=base_actuation['global_tolerances_after'], tightened_tolerances=r['global_tolerances_after'])
+        elif actuate:
+            base_actuation = r
         check_value_edge(r['pressure_value_path_contract'])
         check_inactive_removal(r['inactive_controller_removal_contract'], r['pressure_value_path_contract'])
         c = r['passive_ps_observer_contract']; check_topology(c, separate)
@@ -186,6 +204,7 @@ def audit(repo):
                             observer_initial_values_pass=True if separate else None, separate_solver=separate,
                             live_flow_input=live,
                             controller_drives_pump=actuate, actual_sensor_flow_kg_s=r.get('actual_initial_sensor_mdot_kg_s'),
+                            global_tolerance_profile=r['global_tolerances_after'],
                             pressure_difference_residual_MPa=pressure_residual,
                             discontinuous_algebraic_loop_warning_nodes=warning_nodes,
                             production_recovery_allowed=False))
@@ -196,7 +215,8 @@ def audit(repo):
         if sha256(p) != freeze[key+'_sha256']:
             raise ValueError('C200 benchmark changed')
         files.append(p)
-    return dict(schema='heatdrive_ecc_cold_passive_ps_network_audit_v4', evidence_audit_pass=True, cases=results,
+    return dict(schema='heatdrive_ecc_cold_passive_ps_network_audit_v5', evidence_audit_pass=True, cases=results,
+                tight_global_tolerance_comparison=tight_comparison,
                 separated_passive_initialization_pass=True, compiled_inventory_gate_all_completed_cases=True,
                 live_flow_passive_initialization_pass=True,
                 ps_output_initial_actuation_strict_pass=results[-1]['coordinate_audit']['strict_initial_coordinate_gate'],

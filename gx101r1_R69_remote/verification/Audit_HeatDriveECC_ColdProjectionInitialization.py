@@ -41,16 +41,25 @@ def check_derivative(c):
 
 
 def check_runtime(r, targets, case):
+    if case not in ('implicit', 'projection', 'derivative', 'tight_actuation'):
+        raise ValueError('Unknown numerical contract')
+    tight = case == 'tight_actuation'
+    derivative = case in ('derivative', 'tight_actuation')
+    tolerances = dict(RelTol='1e-10', AbsTol='1e-12') if tight else TOLERANCES
+    if tight and (not r.get('tight_actuation_tolerance_trial') or not r.get('actuate_ps_output_requested')
+                  or r.get('diagnostic_stop_time_s') != 0 or r.get('global_tolerances') != TOLERANCES):
+        raise ValueError('Tight tolerances only qualify the declared initial-actuation trial')
     projection = case != 'implicit'
     settings = dict(BASE, UseLocalSolver='off')
     runtime = dict(RUNTIME_BASE, IndexReductionMethod='Projection') if projection else RUNTIME_BASE
     if (not r['global_implicit_requested'] or r.get('projection_requested', False) != projection
-            or r.get('initial_pressure_derivative_requested', False) != (case == 'derivative')
-            or r['global_solver_configuration'] != GLOBAL or r['global_tolerances_after'] != TOLERANCES
+            or r.get('initial_pressure_derivative_requested', False) != derivative
+            or r['global_solver_configuration'] != GLOBAL or r['global_tolerances_after'] != tolerances
+            or r['global_tolerance_override'] != tight
             or r['consistency_settings_before'] != BASE or r['consistency_settings_after'] != settings
             or r['runtime_solver_options_before'] != RUNTIME_BASE or r['runtime_solver_options_after'] != runtime
             or any(r[k] for k in ('half_step_requested', 'disable_regularization_requested', 'momentum_buffers_requested',
-                                 'normal_mode_requested', 'buffer_nominal_scaling_requested', 'global_tolerance_override',
+                                 'normal_mode_requested', 'buffer_nominal_scaling_requested',
                                  'consistency_tolerance_override', 'residual_tolerance_override'))):
         raise ValueError('Global Projection experiment changed another factor')
     stages = ['InitFcn', 'StopFcn'] if case == 'projection' else ['InitFcn', 'StartFcn', 'StopFcn']
@@ -58,13 +67,13 @@ def check_runtime(r, targets, case):
         raise ValueError('Unexpected failure/success callback sequence')
     for c in r['runtime_callbacks']:
         if (c['solver_settings'] != settings or c['runtime_solver_options'] != runtime
-                or c['global_solver_configuration'] != GLOBAL or {k: c[k] for k in TOLERANCES} != TOLERANCES
+                or c['global_solver_configuration'] != GLOBAL or {k: c[k] for k in tolerances} != tolerances
                 or target_map(c['targets']) != target_map(targets) or c['has_private_data']
                 or c['LoadInitialState'] != 'off' or c['SimscapeUseOperatingPoints'] != 'on'
                 or c['mode'] != 'accelerator'
                 or c['simulation_status'] != ('terminating' if c['stage'] == 'StopFcn' else 'initializing')):
             raise ValueError('Actual callback configuration or public targets changed')
-        if case == 'derivative':
+        if derivative:
             p = c['pressure_converter']
             if (p['Unit'] != 'MPa' or p['FilteringAndDerivatives'] != 'provide' or p['UdotUserProvided'] != '1'
                     or p['StopTime'] != '0' or p['derivative_source'] != r['initial_pressure_derivative_contract']['derivative_source']):

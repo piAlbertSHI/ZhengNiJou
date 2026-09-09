@@ -1336,3 +1336,22 @@ C200 结果/OP 和 canonical 哈希保持不变，未运行长循环，未放宽
 
 - [第 25 节：真实流量、实际驱动、超限明细、警告、哈希与验证命令](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
 - [实际驱动拒绝证据审核 JSON](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/ps_live_flow_actuation_rejected_audit_20260909/passive_ps_network_audit.json)
+
+## 78. 收紧容差无改善，保留独立冷态拒绝证据
+
+独立冷态分支继续工作，C200仍是冻结性能基准，未导入当前结构不同的模型。
+实验提交 `363909a` 将实际PS驱动方案的全局RelTol/AbsTol单独收紧为 `1e-10/1e-12`，
+MATLAB自然退出0，但204项实际初态与原容差试验逐项完全相同，仍为157通过、47失败（1项High）。
+不连续代数环警告未消失。因此该方案仍被拒绝，不能进入长循环、恢复或Table4复现链。
+
+只读R2025b参数探针显示一致性容差源为GLOBAL，枚举为LOCAL/GLOBAL；
+目前没有证据把失败归因于旧式残差算法。下一步针对直接馈通与一致压力导数做预先声明的结构诊断，
+不继续盲目收紧全局容差，不修改初值或放宽科学门禁。
+关于现代状态型和历史残差型算法的区别，参见 [MathWorks Solver Configuration](https://www.mathworks.com/help/simscape/ref/solverconfiguration.html)。
+
+384项代码回归通过；原始证据与审核包合计约24.01 MiB，C200哈希重新核验未变。
+本轮成果是排除一个无效修复方案并补齐可复核证据，不是完成连接腔闭环修复。
+完整反馈、正时间守恒及七项主目标仍未完成。
+
+- [研究笔记第26节：配置对照、严格拒绝、哈希、存储与运行命令](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
+- [收紧容差后的拒绝证据审核JSON](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/ps_actuation_global_tolerance_rejected_audit_20260909/passive_ps_network_audit.json)
