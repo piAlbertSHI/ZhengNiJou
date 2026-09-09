@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -13,9 +13,12 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<13,disable_regularization=false;end
     if nargin<14,half_step=false;end
     if nargin<15,global_implicit=false;end
+    if nargin<16,projection=false;end
     assert(islogical(capture_runtime) && isscalar(capture_runtime),'Require explicit callback capture choice.');
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown inventory formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
+    assert(islogical(projection) && isscalar(projection) && (~projection || global_implicit), ...
+        'Projection diagnostic must use the declared global implicit configuration.');
     assert(islogical(global_implicit) && isscalar(global_implicit) && (~global_implicit || ...
         (specific_inventory && capture_runtime && ~half_step && ~disable_regularization && ~momentum_buffers && ...
         ~normal_mode && ~scale_buffers && ~tighten_global && isempty(consistency_tolerance) && isempty(residual_tolerance))), ...
@@ -148,6 +151,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.disable_regularization_requested=disable_regularization;
     record.half_step_requested=half_step;
     record.global_implicit_requested=global_implicit;
+    record.projection_requested=projection;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
     record.chamber_package_resolution=evalc('which(chamber_source,''-all'')');
     record.chamber_source_file=chamber_source;
@@ -164,6 +168,10 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             assert(strcmp(runtime_before.ResolveIndetEquations,'on') && strcmp(get_param(solvers{1},'UseLocalSolver'),'on'), ...
                 'Require the known local-solver regularization baseline.');
             set_param(solvers{1},'ResolveIndetEquations','off');
+        end
+        if projection
+            assert(strcmp(runtime_before.IndexReductionMethod,'DerivativeReplacement'),'Unexpected index reduction baseline.');
+            set_param(solvers{1},'IndexReductionMethod','Projection');
         end
         runtime_after=struct();
         for k=1:numel(runtime_names),runtime_after.(runtime_names{k})=get_param(solvers{1},runtime_names{k});end
