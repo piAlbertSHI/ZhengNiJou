@@ -43,6 +43,10 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
             'value_source',getfullname(get_param(line,'SrcBlockHandle')));
     end
     record.global_fixed_step=get_param(model,'FixedStep');
+    record.output_sampling_settings=struct();
+    for key={'OutputOption','OutputTimes','Refine','Decimation','SimscapeLogDecimation','SimscapeLogLimitData'}
+        record.output_sampling_settings.(key{1})=get_param(model,key{1});
+    end
     record.algebraic_loop_options=struct('solver',get_param(model,'AlgebraicLoopSolver'), ...
         'diagnostic',get_param(model,'AlgebraicLoopMsg'));
     record.original_control_state_blocks_present=struct( ...

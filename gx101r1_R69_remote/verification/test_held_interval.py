@@ -51,3 +51,10 @@ class HeldIntervalTests(unittest.TestCase):
         check_held_contract(c)
         c['constant_interval_end_exclusive_s']=.05001
         with self.assertRaises(ValueError):check_held_contract(c)
+
+    def test_step_trial_is_separate_from_physics_and_tolerance_overrides(self):
+        source=(Path(__file__).parent/'Inspect_HeatDriveECC_ColdCompiledStates.m').read_text(encoding='utf-8')
+        self.assertIn('if nargin<33,held_max_step=[];end',source)
+        self.assertIn('ismember(held_max_step,[.0005,.00025]) && ~tighten_global && ~half_step',source)
+        self.assertIn("set_param(model,'MaxStep',num2str(held_max_step,'%.17g'))",source)
+        self.assertIn('record.output_sampling_settings',source)

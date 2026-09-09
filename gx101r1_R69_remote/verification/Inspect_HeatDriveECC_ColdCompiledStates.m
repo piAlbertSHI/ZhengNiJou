@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -30,7 +30,11 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<30,actuate_ps_output=false;end
     if nargin<31,algebraic_structure_only=false;end
     if nargin<32,external_lag=false;end
+    if nargin<33,held_max_step=[];end
     held_interval=external_lag && duration==.04;
+    assert(isempty(held_max_step) || (held_interval && isnumeric(held_max_step) && isscalar(held_max_step) && ...
+        ismember(held_max_step,[.0005,.00025]) && ~tighten_global && ~half_step), ...
+        'Only the declared held-interval global-step convergence trial is allowed.');
     assert(islogical(external_lag) && isscalar(external_lag) && ...
         (~external_lag || (actuate_ps_output && ~tighten_global && (duration==0 || held_interval) && capture_runtime)), ...
         'External lag requires a separate cold-only actual-actuation diagnostic.');
@@ -222,6 +226,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.algebraic_structure_only=algebraic_structure_only;
     record.external_lag_requested=external_lag;
     record.held_interval_requested=held_interval;
+    record.held_max_step_override_s=held_max_step;
     record.diagnostic_stop_time_s=duration;
     record.initialization_only=duration==0;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
@@ -353,10 +358,15 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         if global_implicit
             assert(strcmp(get_param(model,'Solver'),'ode3'),'Unexpected baseline global solver.');
             set_param(model,'SolverType','Variable-step','Solver','ode15s','MaxStep','0.001','InitialStep','auto');
+            if ~isempty(held_max_step),set_param(model,'MaxStep',num2str(held_max_step,'%.17g'));end
         end
         record.global_solver_configuration=struct('Solver',get_param(model,'Solver'), ...
             'SolverType',get_param(model,'SolverType'),'MaxStep',get_param(model,'MaxStep'), ...
             'InitialStep',get_param(model,'InitialStep'));
+        record.output_sampling_settings=struct();
+        for key={'OutputOption','OutputTimes','Refine','Decimation','SimscapeLogDecimation','SimscapeLogLimitData'}
+            record.output_sampling_settings.(key{1})=get_param(model,key{1});
+        end
         if initial_derivative
             record.initial_pressure_derivative_contract=Configure_HeatDriveECC_ColdInitialPressureDerivative(model);
         end
@@ -402,7 +412,8 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         end
         record.stage='initialization_state_logging';record.simulation_run=true;
         input=Simulink.SimulationInput(model);input=input.setVariable('cold_public_targets',cold_public_targets);
-        input=input.setModelParameter('CaptureErrors','on');output=sim(input);
+        input=input.setModelParameter('CaptureErrors','on');simulation_clock=tic;output=sim(input);
+        record.simulation_wall_seconds=toc(simulation_clock);
         if capture_runtime,record.runtime_callbacks=evalin('base','cold_initialization_context');end
         if duration>0 || export_initial_flux
             record.stage='export_onset_observations';
