@@ -1,10 +1,14 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
     if nargin<5,formulation='explicit';end
+    if nargin<6,consistency_tolerance=[];end
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown inventory formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
+    assert(isempty(consistency_tolerance) || (specific_inventory && isscalar(consistency_tolerance) && ...
+        isfinite(consistency_tolerance) && consistency_tolerance==1e-9), ...
+        'Only the declared 1e-9 consistency trial is supported.');
     assert(~specific_inventory || (~prefer_inventory && ~component_priorities), ...
         'Specific inventory trial must not also change declaration priorities.');
     assert(islogical(prefer_inventory) && isscalar(prefer_inventory),'Require explicit inventory priority choice.');
@@ -76,12 +80,27 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.block_temperature_pressure_priority_low=prefer_inventory;
     record.component_inventory_priority_high=component_priorities;
     record.inventory_formulation=formulation;
+    record.consistency_tolerance_override=consistency_tolerance;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
     record.chamber_package_resolution=evalc('which(chamber_source,''-all'')');
     record.chamber_source_file=chamber_source;
     try
         [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(config.options);
         mc=onCleanup(@() close_system(model,0));
+        solvers=find_system(model,'LookUnderMasks','all','FollowLinks','on','MaskType','Solver Configuration');
+        assert(isscalar(solvers),'Require the single coupled physical solver.');
+        names={'ConsistencyTolSource','ConsistencyAbsTol','ConsistencyRelTol','ConsistencyTolFactor', ...
+            'ResidualTolerance','UseLocalSolver','LocalSolverChoice','LocalSolverSampleTime'};
+        before=struct();for k=1:numel(names),before.(names{k})=get_param(solvers{1},names{k});end
+        record.consistency_settings_before=before;
+        record.global_tolerances=struct('RelTol',get_param(model,'RelTol'),'AbsTol',get_param(model,'AbsTol'));
+        if ~isempty(consistency_tolerance)
+            assert(strcmp(before.ConsistencyTolSource,'GLOBAL') && strcmp(before.ConsistencyTolFactor,'0.001'), ...
+                'Unexpected baseline consistency settings.');
+            set_param(solvers{1},'ConsistencyTolSource','LOCAL','ConsistencyAbsTol','1e-9','ConsistencyRelTol','1e-9');
+        end
+        after=struct();for k=1:numel(names),after.(names{k})=get_param(solvers{1},names{k});end
+        record.consistency_settings_after=after;
         prior=load(original,'native');
         targets=jsondecode(fileread(fullfile(source,'conservative','cold_inventory_targets.json')));
         for k=1:numel(targets)
@@ -140,6 +159,17 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             record.states{end+1}=entry;
         end
         record.stage='read_node_metadata';log=output.get('simlog');record.node_metadata={};
+        record.initial_coordinates=cell(size(public_targets));
+        for k=1:numel(public_targets)
+            t=public_targets{k};node=simscape.logging.findNode(log,t.block_path);
+            series=node.child(t.state_name).series;
+            times=double(time(series));observed=double(values(series));
+            assert(isscalar(times) && times==0 && isscalar(observed) && isfinite(observed), ...
+                'Require exactly one finite actual t=0 sample per public target.');
+            actual=value(simscape.Value(observed,series.unit),t.unit);
+            record.initial_coordinates{k}=struct('path',t.path,'priority',t.priority,'unit',t.unit, ...
+                'expected',t.value,'actual',actual,'source_time_s',times,'native_value',observed,'native_unit',series.unit);
+        end
         for block={'SMA_PumpInletConnectingPipeVolume','SMA_PumpOutletConnectingPipeVolume', ...
                 'ColdFluidBuffer','HotFluidBuffer','SHEXFluidBuffer','SMAHotFluidBuffer'}
             parent=log.child(block{1});
