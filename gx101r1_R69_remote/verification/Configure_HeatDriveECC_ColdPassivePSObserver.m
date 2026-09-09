@@ -1,9 +1,11 @@
-function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,removal,separate_network)
+function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,removal,separate_network,live_flow)
 % Add a non-driving PS observer to the qualified original pressure input.
     assert(strcmp(get_param(model,'StartTime'),'0') && strcmp(get_param(model,'StopTime'),'0') && ...
         strcmp(get_param(model,'LoadInitialState'),'off') && strcmp(get_param(model,'SaveOperatingPoint'),'off'));
     assert(removal.only_expected_blocks_removed && removal.allowed_stop_time_s==0 && ~removal.candidate_ps_added);
     if nargin<4,separate_network=false;end
+    if nargin<5,live_flow=false;end
+    assert(islogical(live_flow) && isscalar(live_flow) && (~live_flow || separate_network));
     assert(islogical(separate_network) && isscalar(separate_network));
     root=fullfile(repo,'outputs_storage_audit');
     qualified=fullfile(root,'ps_controller_pair_audit_20260909','controller_pair_audit.json');
@@ -45,10 +47,19 @@ function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,remova
         simscape.addConnection(ps,only_port(ps),observer,names{k});
     end
     mdot=[model '/ColdObserver_mdot_PS'];constant=[mdot '_Value'];zero=[mdot '_Derivative'];
-    add_block('nesl_utility/Simulink-PS Converter',mdot,'Unit','kg/s','UdotUserProvided','1');
-    add_block('simulink/Sources/Constant',constant,'Value',num2str(signal.values,17));
-    add_block('simulink/Sources/Constant',zero,'Value','0');
-    wire(model,constant,1,mdot,1);wire(model,zero,1,mdot,2);simscape.addConnection(mdot,only_port(mdot),observer,'mdot');
+    flow_source=constant;flow_mode='frozen_initial';flow_derivatives='1';
+    if live_flow
+        flow_source=[model '/FlowSensor_SMA_stage13_loop_PS'];flow_mode='live_simulink_bridge';flow_derivatives='0';
+        assert(strcmp(get_param(flow_source,'Unit'),'kg/s'));
+        add_block('nesl_utility/Simulink-PS Converter',mdot,'Unit','kg/s','FilteringAndDerivatives','provide','UdotUserProvided','0');
+        wire(model,flow_source,1,mdot,1);
+    else
+        add_block('nesl_utility/Simulink-PS Converter',mdot,'Unit','kg/s','UdotUserProvided','1');
+        add_block('simulink/Sources/Constant',constant,'Value',num2str(signal.values,17));
+        add_block('simulink/Sources/Constant',zero,'Value','0');
+        wire(model,constant,1,mdot,1);wire(model,zero,1,mdot,2);
+    end
+    simscape.addConnection(mdot,only_port(mdot),observer,'mdot');
     solver_contract=struct();bias_driver=converter;
     if separate_network
         bias_driver=[model '/ColdObserver_bias_PS'];
@@ -88,6 +99,7 @@ function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,remova
         'pressure_derivative_source',removal.pressure_derivative_source,'pressure_destinations_before',{before}, ...
         'pressure_destinations_after',{after},'observer_drives_pump',false,'separate_solver_added',separate_network, ...
         'observer_bias_driver',bias_driver,'observer_solver_contract',solver_contract, ...
+        'flow_input_mode',flow_mode,'flow_value_source',flow_source,'provided_flow_derivatives',flow_derivatives, ...
         'allowed_stop_time_s',0,'production_recovery_allowed',false,'c200_state_imported',false);
 end
 function rows=destinations(block)
