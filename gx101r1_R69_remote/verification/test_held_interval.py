@@ -62,8 +62,9 @@ class HeldIntervalTests(unittest.TestCase):
 
     def test_step_audit_changes_only_declared_maximum(self):
         baseline=dict(Solver='ode15s',SolverType='Variable-step',MaxStep='0.001',InitialStep='auto')
-        changed=expected_solver(baseline,'halfstep')
-        self.assertEqual(float(changed.pop('MaxStep')),.0005)
-        self.assertEqual(changed,{k:v for k,v in baseline.items() if k!='MaxStep'})
+        for case,step in [('halfstep',.0005),('quarterstep',.00025)]:
+            changed=expected_solver(baseline,case)
+            self.assertEqual(float(changed.pop('MaxStep')),step)
+            self.assertEqual(changed,{k:v for k,v in baseline.items() if k!='MaxStep'})
         self.assertEqual(baseline['MaxStep'],'0.001')
         with self.assertRaises(ValueError):expected_solver(baseline,'unregistered')

@@ -1422,3 +1422,22 @@ C200哈希不变；391项回归通过，必要结果包约0.266 MiB。
 
 - [半步长守恒审核JSON](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_halfstep_audit_20260910/held_interval_audit.json)
 - [研究笔记第30节：逐项残差、哈希和复核命令](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
+
+### 82.1 第三档步长结果与后续边界
+
+提交 `5d014f3` 的0.25ms试验也已自然退出0，实际161点，初始化204/204及零代数环仍通过。
+最大质量残差降至6.8561e-14kg，最大能量残差降至3.3437e-8J，仍超原门禁。
+SMAHotFluidBuffer的能量项已通过，但其质量项未通过；六组件两项同时通过数仍为2。
+四个主要失败组件的残差衰减指数约1.03--1.05，只是经验趋势，不是ode15s阶次证明。
+不得用外推残差或更宽误差条将本次结果转为通过，也不再无条件继续缩小步长。
+
+下一步针对当前零代数环结构开展固定步长上限下的误差控制对照，
+区分积分误差、DAE一致性/约束误差和导出求积误差；不能套用旧有环结构的容差失败结论。
+主动反馈/切换、完整周期、全系统119个储能组件闭合和Table4成对边界仍未完成。
+
+409项回归及git diff --check通过。三档原始结果和审核包共81文件、106,123,106字节，
+保留为必要收敛证据，无重复raw副本。当前outputs约14.54GiB、outputs_storage_audit约2.89GiB，
+这是两个结果目录的实测占用，不是整个工作区大小。本轮未删除有效恢复基准或失败证据。
+
+- [三档实测对照及逐文件哈希/存储清单](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_step_comparison_20260910/held_step_comparison.json)
+- [第三档逐项守恒审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_quarterstep_audit_20260910/held_interval_audit.json)

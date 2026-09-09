@@ -28,6 +28,7 @@ def sampled_rows(f, dataset, count):
 CASES={
     'baseline':('specific_inventory_hybrid_held_interval_20260910_v2','f01ab7c28f8e85b561f5610301e7f1fdc5183141',.001),
     'halfstep':('specific_inventory_hybrid_held_halfstep_20260910','24c574043c600bb32bea685dfcc79d835f5f8ca0',.0005),
+    'quarterstep':('specific_inventory_hybrid_held_quarterstep_20260910','5d014f3697ba9c356be7f3e867141881707d3017',.00025),
 }
 
 
