@@ -1,0 +1,42 @@
+component pressure_controller
+% Pressure control with the existing lag state supplied from Simulink.
+inputs
+    lag_input = {0, '1'};
+    bias = {0, 'MPa'};
+    enable = {0, '1'};
+    reset = {1, '1'};
+end
+outputs
+    pressure = {0, 'MPa'};
+    lag = {0, '1'};
+    integral = {0, 'MPa'};
+end
+parameters
+    kp = {-.6, 'MPa'};
+    ki = {-10, 'MPa/s'};
+    initial_integral = {0, 'MPa'};
+    integral_min = {-.14733718599999998, 'MPa'};
+    integral_max = {.1, 'MPa'};
+    pressure_min = {-.35, 'MPa'};
+    pressure_max = {.02, 'MPa'};
+end
+components (ExternalAccess = observe)
+    pi_integrator = foundation.signal.linear.integrator( ...
+        reset_method=foundation.enum.IntegratorResetSpec.Rising, ...
+        saturation_spec=foundation.enum.IntegratorSaturationSpec.Both, ...
+        x0=initial_integral, xl=integral_min, xu=integral_max);
+end
+equations
+    assert(integral_min<integral_max)
+    assert(pressure_min<pressure_max)
+    lag == lag_input;
+    pi_integrator.R == reset;
+    if reset > 0
+        pi_integrator.I == {0, 'MPa/s'};
+    else
+        pi_integrator.I == ki*lag;
+    end
+    integral == pi_integrator.O;
+    pressure == min(max(enable*kp*lag+integral+bias,pressure_min),pressure_max);
+end
+end
