@@ -42,7 +42,9 @@ function record=Inspect_HeatDriveECC_SMADerivativeContract(repo,output_root)
             'SMAPressurePI_Saturation','SMAPressurePI_SimulinkPS'}];
         resolve_keys={'Gain','InitialCondition','UpperSaturationLimit','LowerSaturationLimit','UpperLimit','LowerLimit', ...
             'Numerator','Denominator'};
-        for k=1:numel(names)
+        k=1;
+        while k<=numel(names)
+            assert(numel(names)<=64,'Unexpected controller dependency expansion.');
             b=[model '/' names{k}];params=fieldnames(get_param(b,'DialogParameters'));settings=struct();resolved=struct();
             for j=1:numel(params)
                 key=params{j};settings.(key)=get_param(b,key);
@@ -58,9 +60,14 @@ function record=Inspect_HeatDriveECC_SMADerivativeContract(repo,output_root)
                 src=get_param(line,'SrcPortHandle');
                 inputs{j}=struct('index',j,'source_block',getfullname(get_param(line,'SrcBlockHandle')), ...
                     'source_port',get_param(src,'PortNumber'));
+                upstream=inputs{j}.source_block;
+                assert(strcmp(get_param(upstream,'Parent'),model),'Unexpected nonlocal controller dependency.');
+                upstream_name=get_param(upstream,'Name');
+                if ~ismember(upstream_name,names),names{end+1}=upstream_name;end
             end
             record.blocks{k}=struct('path',b,'type',get_param(b,'BlockType'), ...
                 'settings',settings,'resolved',resolved,'inputs',{inputs});
+            k=k+1;
         end
         assert(strcmp(file_hash(canonical),canonical_hash),'Canonical model changed.');
         record.collection_pass=true;clear mc
