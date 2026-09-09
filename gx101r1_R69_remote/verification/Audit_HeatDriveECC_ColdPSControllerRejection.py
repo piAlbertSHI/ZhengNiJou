@@ -1,6 +1,7 @@
 """Audit failed cold PS integrations without promoting missing initial states."""
 import argparse
 import json
+import math
 from pathlib import Path
 from Audit_HeatDriveECC_ColdChamberRejection import read
 from Audit_HeatDriveECC_ColdInitializationPhases import target_map, RUNTIME_BASE
@@ -40,6 +41,42 @@ def check_connections(contract):
     return len(before)
 
 
+def check_constant_derivative_inputs(rows, commands, measured_mdot):
+    prefix = 'heatdrive_ecc_coupled_se21/'
+    names = ('bias', 'target', 'enable', 'reset')
+    expected_paths = [prefix+'ColdSMA_'+name+'_PS' for name in names]+[prefix+'ColdSMA_InitialMdot_PS']
+    if len(rows) != 5 or [x['path'] for x in rows] != expected_paths:
+        raise ValueError('Incomplete PS input converter evidence')
+    for k, (row, unit) in enumerate(zip(rows, ('MPa', 'kg/s', '1', '1', 'kg/s'))):
+        if (row['Unit'] != unit or row['FilteringAndDerivatives'] != 'provide'
+                or row['UdotUserProvided'] != '1' or len(row['inputs']) != 2):
+            raise ValueError('External derivative is not configured')
+        value, derivative = row['inputs']
+        if k < 4:
+            c = commands[k]
+            if (value['type'] != 'FromWorkspace' or value['path'] != c['block']
+                    or value['variable'] != c['variable'] or value['time_s'] != c['time_s']
+                    or value['values'] != c['values'] or value['interpolate'] != c['interpolate']):
+                raise ValueError('Original command changed')
+        elif (value['type'] != 'Constant' or value['path'] != prefix+'ColdSMA_InitialMdot'
+              or float(value['value']) != measured_mdot):
+            raise ValueError('Initial flow input changed')
+        if k in (0, 4):
+            expected = (prefix+'ColdSMA_bias_PS_Derivative' if k == 0 else prefix+'ColdSMA_InitialMdot_Derivative')
+            if derivative['type'] != 'Constant' or derivative['path'] != expected or derivative['value'] != '0':
+                raise ValueError('Wrong constant initial derivative')
+            if k == 0 and derivative['sample_time'] != 'inf':
+                raise ValueError('Bias derivative is not the declared constant-rate source')
+        else:
+            c = commands[k]; t, v = c['time_s'], c['values']
+            d = [(v[j+1]-v[j])/(t[j+1]-t[j]) for j in range(len(t)-1)]+[0.] if c['interpolate'] == 'on' else [0.]*len(t)
+            if (derivative['type'] != 'FromWorkspace' or derivative['interpolate'] != 'off'
+                    or derivative['time_s'] != t or len(derivative['values']) != len(d)
+                    or not all(math.isclose(x, y, rel_tol=1e-12, abs_tol=1e-12) for x, y in zip(d, derivative['values']))):
+                raise ValueError('Other command derivative changed')
+    return True
+
+
 def audit(repo):
     root = repo / 'outputs_storage_audit'
     reference_path = root / 'sma_derivative_contract_20260909_v3/sma_derivative_contract.json'
@@ -53,11 +90,13 @@ def audit(repo):
     if sha256(native) != target_record['source_sha256']:
         raise ValueError('Native cold source changed')
     cases = [('ps_closed_loop', 'specific_inventory_ps_controller_initial_20260909',
-              'a93500ce7c2fd87ac8b347e7195dc246952bb2c4', False, False),
+              'a93500ce7c2fd87ac8b347e7195dc246952bb2c4', False, False, False),
              ('initial_bias_only', 'specific_inventory_ps_bias_only_initial_20260909',
-              '7227ad47911c50c7c4ced13147947a0ba11ef113', True, False),
+              '7227ad47911c50c7c4ced13147947a0ba11ef113', True, False, False),
              ('passive_frozen_flow', 'specific_inventory_ps_frozen_mdot_initial_20260909',
-              '0e4855ee3bd349a34f0edfc608e6929c895f36f7', True, True)]
+              '0e4855ee3bd349a34f0edfc608e6929c895f36f7', True, True, False),
+             ('constant_bias_derivative', 'specific_inventory_ps_constant_bias_derivative_initial_20260909',
+              '5d49e671ac996b4dfd2bdfdded6344bd832a1427', True, True, True)]
     files = [reference_path, target_path, native]
     results = []
     component = repo / 'verification/simscape_sma_controller/+ecc_sma_controller/pressure_controller.ssc'
@@ -65,7 +104,7 @@ def audit(repo):
     if component_hash != 'EB6AC72398E21E9069674744E1F1ECE1D8133E4729D23E42FDE3AC5C332AEA71':
         raise ValueError('Qualified PS component changed')
     files.append(component)
-    for label, folder, commit, bypass, frozen_flow in cases:
+    for label, folder, commit, bypass, frozen_flow, constant_derivative in cases:
         case_root = root / folder
         path = case_root / 'compiled_states_inspection.json'
         r = read(path)
@@ -73,6 +112,7 @@ def audit(repo):
                 or r['source_time_s'] != 0 or not r['ps_controller_requested']
                 or r.get('initial_bias_only_requested', False) != bypass or r['diagnostic_stop_time_s'] != 0
                 or r.get('initial_mdot_probe_requested', False) != frozen_flow
+                or r.get('constant_bias_derivative_requested', False) != constant_derivative
                 or r['source_native_sha256'] != target_record['source_sha256']
                 or r['inventory_formulation'] != 'specific_inventory'):
             raise ValueError('Wrong diagnostic identity')
@@ -83,6 +123,8 @@ def audit(repo):
         c = r['ps_controller_contract']
         if c.get('initial_mdot_probe', False) != frozen_flow:
             raise ValueError('Unexpected controller flow input')
+        if c.get('constant_bias_derivative', False) != constant_derivative:
+            raise ValueError('Unexpected bias derivative source')
         if frozen_flow:
             s = c['initial_mdot_snapshot']
             snapshot_audit = Path(s['audit_path']); snapshot_raw = Path(s['observations_path'])
@@ -111,6 +153,8 @@ def audit(repo):
         if [x['stage'] for x in r['runtime_callbacks']] != ['InitFcn', 'StartFcn', 'StopFcn']:
             raise ValueError('Missing runtime callback evidence')
         for callback in r['runtime_callbacks']:
+            if constant_derivative:
+                check_constant_derivative_inputs(callback['ps_input_converters'], reference['commands'], s['value_kg_s'])
             if (target_map(callback['targets']) != target_map(targets) or callback['has_private_data']
                     or callback['solver_settings'] != settings or callback['runtime_solver_options'] != runtime
                     or callback['global_solver_configuration'] != GLOBAL
@@ -126,6 +170,7 @@ def audit(repo):
                             initial_bias_only=bypass, unchanged_physical_port_records=count,
                             frozen_measured_flow_input=frozen_flow,
                             controller_lag_in_failure_signature=not frozen_flow,
+                            constant_bias_derivative=constant_derivative,
                             preserved_public_target_count=204, actual_initial_coordinates_available=False,
                             strict_initial_coordinate_match=None, accepted_as_recovery=False))
         files += [path, case_root / 'matlab_diary.log', library, canonical]
@@ -137,9 +182,10 @@ def audit(repo):
         if sha256(path) != freeze[key + '_sha256']:
             raise ValueError('Frozen benchmark changed')
         files.append(path)
-    return dict(schema='heatdrive_ecc_cold_ps_rejection_audit_v2', rejection_evidence_audit_pass=True,
+    return dict(schema='heatdrive_ecc_cold_ps_rejection_audit_v3', rejection_evidence_audit_pass=True,
                 cases=results, pressure_expression_bypass_sufficient=False,
                 passive_flow_input_isolation_sufficient=False,
+                constant_bias_derivative_source_sufficient=False,
                 coupled_controller_initialization_pass=False, initial_coordinate_gate=None,
                 trajectory_conservation_verified=False, production_recovery_allowed=False,
                 full_device_first_law_verified=False, table4_reproduction_claim=False,

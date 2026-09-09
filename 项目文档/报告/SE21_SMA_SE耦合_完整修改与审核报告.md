@@ -1254,3 +1254,20 @@ C200 结果/OP 和 canonical 哈希保持不变，未运行长循环，未放宽
 - [第 20 节：实际通量、隔离试验、结果包、哈希和验证命令](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
 - [成功初始通量审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/initial_flux_pressure_audit_20260909_v2/initial_flux_pressure_audit.json)
 - [三次 PS 初始化拒绝证据审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/cold_ps_frozen_flow_rejection_audit_20260909/cold_ps_rejection_audit.json)
+
+## 73. 压力导数来源对照未修复初始化，补齐实际输入合同
+
+读取 R2025b 实际转换器参数，确认外部一阶导数已启用；不存在猜测中的默认开关未打开问题。
+在冻结流量被动 PS 方案上，只将压力 bias 导数由分段源替换为已通过方案使用的零值常量源，
+真实前台进程自然退出 1，两连接腔 M/U 导数仍无法初始化。因此导数来源差异不足以解释失败。
+
+新增三个回调的五路转换器输入合同，独立审核确认实际运行使用 provide/1、零导数常量、原命令序列，
+并保留 1,183 条热流体端口记录、204 项公共初态目标、原容差和 C200 基准哈希。
+363 项测试通过；这只是实现和拒绝证据审核通过，不是模型科学门禁通过。
+提交 `5d49e67` 保存本次受保护的 t=0 试验；必要失败包仅新增约 1.40 MiB，未生成恢复 OP。
+
+下一步审查已通过与失败方案的压力值路径及控制状态依赖在初始化变量消元中的作用；
+不再重复已排除的导数来源试验，不放宽守恒与周期门禁，完整七项目标仍未完成。
+
+- [第 21 节：参数取证、单因素试验、四组拒绝审核与验证命令](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
+- [四组 PS 初始化拒绝证据审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/cold_ps_constant_derivative_rejection_audit_20260909/cold_ps_rejection_audit.json)

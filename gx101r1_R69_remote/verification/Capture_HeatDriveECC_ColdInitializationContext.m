@@ -39,11 +39,14 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
                 line=get_param(p.Inport(j),'Line');assert(line>0);
                 source=getfullname(get_param(line,'SrcBlockHandle'));kind=get_param(source,'BlockType');
                 item=struct('path',source,'type',kind,'sample_time',get_param(source,'SampleTime'));
-                if strcmp(kind,'Constant'),item.value=get_param(source,'Value');
+                if strcmp(kind,'Constant')
+                    item.value=get_param(source,'Value');
                 elseif strcmp(kind,'FromWorkspace')
                     item.variable=get_param(source,'VariableName');item.interpolate=get_param(source,'Interpolate');
                     signal=slResolve(item.variable,source);item.time_s=signal.Time;item.values=signal.Data;
-                else,error('Unexpected cold PS converter input.');end
+                else
+                    error('Unexpected cold PS converter input.');
+                end
                 inputs{end+1}=item; %#ok<AGROW>
             end
             record.ps_input_converters{end+1}=struct('path',block,'Unit',get_param(block,'Unit'), ...
