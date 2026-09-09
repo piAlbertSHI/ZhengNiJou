@@ -22,6 +22,17 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
         'solver_settings',settings,'RelTol',get_param(model,'RelTol'),'AbsTol',get_param(model,'AbsTol'), ...
         'SimscapeUseOperatingPoints',get_param(model,'SimscapeUseOperatingPoints'), ...
         'LoadInitialState',get_param(model,'LoadInitialState'),'targets',{targets},'has_private_data',false);
+    record.normalize_using_nominal_values=get_param(model,'SimscapeNormalizeSystem');
+    record.buffer_nominals=cell(1,8);idx=0;
+    for block={'ColdFluidBuffer','HotFluidBuffer','SHEXFluidBuffer','SMAHotFluidBuffer'}
+        p=[model '/' block{1}];
+        for name={'stored_mass','stored_energy'}
+            idx=idx+1;
+            record.buffer_nominals{idx}=struct('block_path',p,'state_name',name{1}, ...
+                'specify',get_param(p,[name{1} '_nominal_specify']), ...
+                'value',get_param(p,[name{1} '_nominal_value']),'unit',get_param(p,[name{1} '_nominal_unit']));
+        end
+    end
     history=evalin('base','cold_initialization_context');history{end+1}=record;
     assignin('base','cold_initialization_context',history);
 end

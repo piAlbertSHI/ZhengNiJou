@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -7,9 +7,13 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<7,residual_tolerance=[];end
     if nargin<8,capture_runtime=false;end
     if nargin<9,tighten_global=false;end
+    if nargin<10,scale_buffers=false;end
     assert(islogical(capture_runtime) && isscalar(capture_runtime),'Require explicit callback capture choice.');
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown inventory formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
+    assert(islogical(scale_buffers) && isscalar(scale_buffers) && (~scale_buffers || ...
+        (specific_inventory && capture_runtime && ~tighten_global && isempty(consistency_tolerance) && isempty(residual_tolerance))), ...
+        'Buffer nominal trial must not change any tolerance.');
     assert(islogical(tighten_global) && isscalar(tighten_global) && (~tighten_global || ...
         (specific_inventory && capture_runtime && isempty(consistency_tolerance) && isempty(residual_tolerance))), ...
         'Global-only trial requires callback evidence and unchanged local settings.');
@@ -94,6 +98,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.residual_tolerance_override=residual_tolerance;
     record.runtime_callback_capture_requested=capture_runtime;
     record.global_tolerance_override=tighten_global;
+    record.buffer_nominal_scaling_requested=scale_buffers;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
     record.chamber_package_resolution=evalc('which(chamber_source,''-all'')');
     record.chamber_source_file=chamber_source;
@@ -145,6 +150,28 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         end
         set_param(model,'LoadInitialState','off');
         buffers=Apply_HeatDriveECC_ColdConservativeBuffers(model,prior.native);
+        record.normalize_using_nominal_values=get_param(model,'SimscapeNormalizeSystem');
+        record.model_nominal_value_table=get_param(model,'SimscapeNominalValues');
+        record.buffer_nominal_changes={};
+        if scale_buffers
+            assert(strcmp(record.normalize_using_nominal_values,'on'),'Nominal normalization must already be active.');
+            for k=1:numel(buffers)
+                b=buffers{k};
+                for choice={'stored_mass','stored_energy'}
+                    name=choice{1};unit='kg';magnitude=b.initial_mass_kg;
+                    if strcmp(name,'stored_energy'),unit='J';magnitude=b.initial_extended_energy_J;end
+                    assert(isfinite(magnitude) && magnitude>0,'Need positive measured nominal magnitude.');
+                    before=struct('specify',get_param(b.block_path,[name '_nominal_specify']), ...
+                        'value',get_param(b.block_path,[name '_nominal_value']),'unit',get_param(b.block_path,[name '_nominal_unit']));
+                    assert(strcmp(before.specify,'off'),'Unexpected pre-existing buffer scale.');
+                    set_param(b.block_path,[name '_nominal_specify'],'on',[name '_nominal_value'], ...
+                        num2str(magnitude,'%.17g'),[name '_nominal_unit'],unit);
+                    record.buffer_nominal_changes{end+1}=struct('block_path',b.block_path,'state_name',name, ...
+                        'before',before,'nominal_value',magnitude,'unit',unit,'source_time_s',0);
+                end
+            end
+            assert(numel(record.buffer_nominal_changes)==8,'Incomplete buffer scaling coverage.');
+        end
         [cold_public_targets,public_targets]=Build_HeatDriveECC_ColdInventoryTargets(model,prior.native, ...
             options.branch.sma_pump_manifold_volume_m3,buffers,chamber_source);
         expected=jsondecode(fileread(fullfile(source,'conservative','public_inventory_targets.json')));
