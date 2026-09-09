@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -20,6 +20,10 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<20,ps_controller=false;end
     if nargin<21,initial_bias_only=false;end
     if nargin<22,export_initial_flux=false;end
+    if nargin<23,initial_mdot_probe=false;end
+    assert(islogical(initial_mdot_probe) && isscalar(initial_mdot_probe) && ...
+        (~initial_mdot_probe || (ps_controller && initial_bias_only && duration==0 && ~export_initial_flux)), ...
+        'Frozen measured flow is only admissible in the passive t=0 observer diagnostic.');
     assert(islogical(export_initial_flux) && isscalar(export_initial_flux) && ...
         (~export_initial_flux || (duration==0 && initial_derivative && ~ps_controller && ~initial_bias_only)), ...
         'Initial flux export is read-only on the qualified initial-derivative configuration.');
@@ -177,6 +181,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.ps_controller_requested=ps_controller;
     record.initial_bias_only_requested=initial_bias_only;
     record.initial_flux_export_requested=export_initial_flux;
+    record.initial_mdot_probe_requested=initial_mdot_probe;
     record.diagnostic_stop_time_s=duration;
     record.initialization_only=duration==0;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
@@ -318,7 +323,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             record.analytic_pressure_derivative_contract=Configure_HeatDriveECC_ColdPressureDerivative(repo,model);
         end
         if ps_controller
-            record.ps_controller_contract=Configure_HeatDriveECC_ColdPSController(repo,model,initial_bias_only);
+            record.ps_controller_contract=Configure_HeatDriveECC_ColdPSController(repo,model,initial_bias_only,initial_mdot_probe);
         end
         record.stage='initialization_state_logging';record.simulation_run=true;
         if capture_runtime
@@ -358,6 +363,13 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             end
         end
         assert(isempty(output.ErrorMessage),output.ErrorMessage);
+        if initial_mdot_probe
+            signal=output.get('mass_flow_sma_stage13_kgps');
+            if isa(signal,'timeseries'),t=signal.Time;v=signal.Data;
+            else,t=signal.time;v=signal.signals.values;end
+            assert(isscalar(t) && t==0 && isscalar(v) && isfinite(v));
+            record.actual_initial_sensor_mdot_kg_s=v;
+        end
         for k=1:numel(targets)
             assert(strcmp(get_param(targets(k).block_path,'SourceFile'),chamber_source), ...
                 'Actual chamber source changed during initialization.');

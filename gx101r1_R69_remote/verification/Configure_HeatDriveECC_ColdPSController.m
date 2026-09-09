@@ -1,6 +1,8 @@
-function contract=Configure_HeatDriveECC_ColdPSController(repo,model,initial_bias_only)
+function contract=Configure_HeatDriveECC_ColdPSController(repo,model,initial_bias_only,initial_mdot_probe)
 % Cold-only PS representation; no imported OP or production model save.
     if nargin<3,initial_bias_only=false;end
+    if nargin<4,initial_mdot_probe=false;end
+    assert(islogical(initial_mdot_probe) && isscalar(initial_mdot_probe) && (~initial_mdot_probe || initial_bias_only));
     assert(islogical(initial_bias_only) && isscalar(initial_bias_only));
     assert(strcmp(get_param(model,'StartTime'),'0') && strcmp(get_param(model,'StopTime'),'0') && ...
         strcmp(get_param(model,'LoadInitialState'),'off') && strcmp(get_param(model,'SaveOperatingPoint'),'off'));
@@ -51,7 +53,32 @@ function contract=Configure_HeatDriveECC_ColdPSController(repo,model,initial_bia
         simscape.addConnection(ps,only_port(ps),candidate,names{k});
     end
     sensor=[model '/FlowSensor_SMA_stage13_loop_PS'];
-    simscape.addConnection(sensor,only_port(sensor),candidate,'mdot');
+    snapshot=struct();flow_driver=sensor;
+    if initial_mdot_probe
+        audit_path=fullfile(root,'initial_flux_pressure_audit_20260909_v2','initial_flux_pressure_audit.json');
+        assert(strcmp(file_hash(audit_path),'25BD6933EF469E29F77474659B0D8F74027B890D8E3B80910660559E9CA50B4D'));
+        a=jsondecode(fileread(audit_path));
+        assert(a.strict_initial_coordinate_match && a.matching_initial_coordinates==204 && ...
+            a.compiled_inventory_gate && a.constraints.initial_flux_pressure_consistency_pass);
+        trial=fullfile(root,'specific_inventory_projection_initial_flux_20260909');
+        evidence=jsondecode(fileread(fullfile(trial,'compiled_states_inspection.json')));
+        raw=fullfile(trial,'observations.mat');
+        assert(evidence.inspection_pass && strcmp(file_hash(raw),evidence.observations_sha256));
+        data=load(raw,'signals');signal=data.signals.mass_flow_sma_stage13_kgps;
+        assert(isscalar(signal.time_s) && signal.time_s==0 && isscalar(signal.values) && ...
+            isfinite(signal.values) && signal.values==a.measured_flow_signal_initial_kg_s);
+        flow_driver=[model '/ColdSMA_InitialMdot_PS'];
+        add_block('nesl_utility/Simulink-PS Converter',flow_driver,'Unit','kg/s','UdotUserProvided','1');
+        constant=[model '/ColdSMA_InitialMdot'];zero=[constant '_Derivative'];
+        add_block('simulink/Sources/Constant',constant,'Value',num2str(signal.values,17));
+        add_block('simulink/Sources/Constant',zero,'Value','0');
+        wire(model,constant,1,flow_driver,1);wire(model,zero,1,flow_driver,2);
+        snapshot=struct('audit_path',audit_path,'audit_sha256',file_hash(audit_path), ...
+            'observations_path',raw,'observations_sha256',file_hash(raw), ...
+            'signal_name','mass_flow_sma_stage13_kgps','time_s',0,'value_kg_s',signal.values, ...
+            'constant_derivative_kg_s2',0,'valid_duration_s',0,'state_imported',false);
+    end
+    simscape.addConnection(flow_driver,only_port(flow_driver),candidate,'mdot');
     converter=[model '/SMAPressurePI_SimulinkPS'];p=get_param(converter,'PortHandles');
     physical=[p.LConn(:);p.RConn(:)];assert(isscalar(physical));
     connection=get_param(converter,'PortConnectivity');selected=startsWith({connection.Type},{'LConn','RConn'});
@@ -86,6 +113,7 @@ function contract=Configure_HeatDriveECC_ColdPSController(repo,model,initial_bia
         'physical_connections_before',{before},'physical_connections_after',{after}, ...
         'commands',r.commands,'initial_lag',0,'initial_integral_MPa',0,'stop_time_s',0, ...
         'initial_bias_only',initial_bias_only,'pressure_driver_path',driver_path, ...
+        'initial_mdot_probe',initial_mdot_probe,'flow_driver_path',flow_driver,'initial_mdot_snapshot',snapshot, ...
         'c200_state_imported',false,'production_recovery_allowed',false,'controller_representation_changed',true);
 end
 
