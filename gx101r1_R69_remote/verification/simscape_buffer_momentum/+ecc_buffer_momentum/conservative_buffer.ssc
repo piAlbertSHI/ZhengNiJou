@@ -1,0 +1,112 @@
+component conservative_buffer
+% Independent homogeneous buffer with a bottom-port outflow pressure loss.
+% This candidate is not a native Tank energy-model equivalence claim.
+
+nodes
+    A = foundation.thermal_liquid.thermal_liquid; % A:left
+    H = foundation.thermal.thermal; % H:right
+end
+
+parameters
+    tank_area = {0.001, 'm^2'};
+    port_area = {0.01, 'm^2'};
+    p_environment = {1, 'MPa'};
+    gravity = {9.81, 'm/s^2'};
+    reference_temperature = {300, 'K'};
+    auxiliary_depth = {0.001, 'm'};
+end
+
+variables
+    stored_mass = {value = {0.1, 'kg'}, priority = priority.high};
+    stored_energy = {value = {10000, 'J'}, priority = priority.high};
+    T_I = {value = {300, 'K'}, priority = priority.low};
+    p_I = {1, 'MPa'};
+    p_A = {1, 'MPa'};
+    rho_I = {1000, 'kg/m^3'};
+    u_I = {100, 'kJ/kg'};
+    u_port = {100, 'kJ/kg'};
+    rho_port = {1000, 'kg/m^3'};
+    T_port = {300, 'K'};
+    T_node = {300, 'K'};
+    dynamic_pressure = {0, 'Pa'};
+    volume = {0.0001, 'm^3'};
+    level = {0.1, 'm'};
+    fluid_internal_energy = {10000, 'J'};
+    environment_pv_energy = {100, 'J'};
+    gravitational_energy = {0.05, 'J'};
+    auxiliary_energy = {0, 'J'};
+    auxiliary_capacity = {4, 'J/K'};
+end
+
+variables (Access = protected)
+    mdot_A = {0, 'kg/s'};
+    Phi_A = {0, 'W'};
+    Q_H = {0, 'W'};
+end
+
+branches
+    mdot_A : A.mdot -> *;
+    Phi_A : A.Phi -> *;
+    Q_H : H.Q -> *;
+end
+
+equations
+    assert(tank_area > 0)
+    assert(port_area > 0)
+    assert(gravity >= 0)
+    assert(auxiliary_depth >= 0)
+    assert(reference_temperature >= A.T_min)
+    assert(reference_temperature <= A.T_max)
+    p_I == p_environment;
+    rho_I == tablelookup(A.T_TLU, A.p_TLU, A.rho_TLU, T_I, p_I, interpolation = linear, extrapolation = linear);
+    u_I == tablelookup(A.T_TLU, A.p_TLU, A.u_TLU, T_I, p_I, interpolation = linear, extrapolation = linear);
+    volume == stored_mass/rho_I;
+    level == volume/tank_area;
+    A.p + dynamic_pressure == p_environment + rho_I*gravity*level;
+    if mdot_A >= 0
+        dynamic_pressure == {0, 'Pa'};
+    else
+        dynamic_pressure == mdot_A^2/(2*rho_port*port_area^2);
+    end
+    p_A == A.p;
+    H.T == T_I;
+    auxiliary_capacity == tank_area*auxiliary_depth * ...
+        tablelookup(A.T_TLU, A.p_TLU, A.rho_TLU, reference_temperature, p_environment, interpolation = linear, extrapolation = linear) * ...
+        tablelookup(A.T_TLU, A.p_TLU, A.cp_TLU, reference_temperature, p_environment, interpolation = linear, extrapolation = linear);
+    fluid_internal_energy == stored_mass*u_I;
+    environment_pv_energy == p_environment*volume;
+    gravitational_energy == stored_mass*gravity*level/2;
+    auxiliary_energy == auxiliary_capacity*(T_I-reference_temperature);
+    stored_energy == fluid_internal_energy+environment_pv_energy+gravitational_energy+auxiliary_energy;
+    der(stored_mass) == mdot_A;
+    der(stored_energy) == Phi_A+Q_H;
+    u_port == tablelookup(A.T_TLU, A.p_TLU, A.u_TLU, T_I, A.p, interpolation = linear, extrapolation = linear);
+    assert(stored_mass > 0)
+    assert(rho_I > 0)
+    assert(rho_port > 0)
+    assert(T_I >= A.T_min)
+    assert(T_I <= A.T_max)
+    assert(p_environment >= A.p_min)
+    assert(p_environment <= A.p_max)
+    assert(A.p >= A.p_min)
+    assert(A.p <= A.p_max)
+end
+
+components (ExternalAccess = none)
+    convection = foundation.thermal_liquid.port_convection(flow_area = port_area, length_scale = sqrt(4*port_area/pi));
+end
+
+connections
+    connect(A, convection.port)
+end
+
+equations
+    convection.mdot == mdot_A;
+    convection.Phi == Phi_A;
+    convection.u_I == u_port;
+    % Use the upwind port state, as the public Foundation Pipe does.
+    rho_port == convection.rho;
+    T_port == convection.T;
+    T_node == A.T;
+end
+end

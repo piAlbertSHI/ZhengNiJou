@@ -1,5 +1,12 @@
-function record = Run_HeatDriveECC_ConservativeBufferTrial(repo, output_root)
+function record = Run_HeatDriveECC_ConservativeBufferTrial(repo, output_root, momentum_trial)
 % Independent closed-heat and bidirectional-flow candidate qualification.
+    if nargin < 3, momentum_trial = false; end
+    assert(islogical(momentum_trial) && isscalar(momentum_trial), 'Explicit logical trial selector required.');
+    package = 'ecc_buffer'; source_folder = 'simscape_buffer'; port_area = .0001; flow_magnitude = .001;
+    if momentum_trial
+        package = 'ecc_buffer_momentum'; source_folder = 'simscape_buffer_momentum';
+        port_area = .01; flow_magnitude = .1;
+    end
     assert(~isfolder(output_root), 'Do not overwrite a trial.');
     [code, commit] = system('git rev-parse HEAD'); assert(code == 0, 'Cannot record source.');
     [code, dirty] = system('git status --porcelain');
@@ -16,6 +23,8 @@ function record = Run_HeatDriveECC_ConservativeBufferTrial(repo, output_root)
         'error_identifier', '', 'error_message', '', 'production_recovery_allowed', false, ...
         'checkpoint_loaded', false, 'checkpoint_saved', false, 'mainline_model_modified', false, ...
         'auxiliary_capacity_policy', 'constant cold-reference rho*cp*area*0.001; not legacy-equivalent');
+    record.momentum_trial = momentum_trial;
+    record.package = package;
     try
         root = fullfile(repo, 'outputs_storage_audit', 'cold_chamber_public_coordinates_cycle_20260909');
         configuration = fullfile(root, 'native', 'configuration.mat');
@@ -26,10 +35,12 @@ function record = Run_HeatDriveECC_ConservativeBufferTrial(repo, output_root)
         options.branch.independent_conservative_chamber_diagnostic = false;
         record.canonical_model_sha256 = file_hash(options.model_path);
         build = fullfile(output_root, 'component_build'); mkdir(build);
-        copyfile(fullfile(repo, 'verification', 'simscape_buffer', '+ecc_buffer'), fullfile(build, '+ecc_buffer'));
-        cd(build); ssc_build('ecc_buffer'); addpath(build); load_system('ecc_buffer_lib'); cd(repo);
-        lib = find_system('ecc_buffer_lib', 'SearchDepth', 1, 'Type', 'Block');
-        lib = setdiff(lib, {'ecc_buffer_lib'}); assert(isscalar(lib), 'Expected one candidate component.');
+        component = fullfile(repo, 'verification', source_folder, ['+' package], 'conservative_buffer.ssc');
+        record.component_sha256 = file_hash(component);
+        copyfile(fileparts(component), fullfile(build, ['+' package]));
+        cd(build); ssc_build(package); addpath(build); load_system([package '_lib']); cd(repo);
+        lib = find_system([package '_lib'], 'SearchDepth', 1, 'Type', 'Block');
+        lib = setdiff(lib, {[package '_lib']}); assert(isscalar(lib), 'Expected one candidate component.');
         [source, ~] = Build_HeatDriveECC_EighthRound_Simulink_Model(options);
         source_cleanup = onCleanup(@() close_system(source, 0));
         topology = Export_HeatDriveECC_TLConnectivity(source);
@@ -44,7 +55,7 @@ function record = Run_HeatDriveECC_ConservativeBufferTrial(repo, output_root)
         solvers = find_system(source, 'LookUnderMasks', 'all', 'FollowLinks', 'on', 'MaskType', 'Solver Configuration');
         assert(isscalar(solvers), 'Expected one source solver configuration.');
         modes = {'heating', 'cooling', 'inflow', 'outflow'};
-        heat_inputs = [10, -10, 0, 0]; flows = [0, 0, .001, -.001];
+        heat_inputs = [10, -10, 0, 0]; flows = [0, 0, flow_magnitude, -flow_magnitude];
         for k = 1:4
             initial_file = fullfile(repo, 'outputs_storage_audit', 'isolated_tank_step_refinement_20260909', ...
                 sprintf('case_%02d.mat', (k-1)*3+1));
@@ -62,7 +73,7 @@ function record = Run_HeatDriveECC_ConservativeBufferTrial(repo, output_root)
                 new_system(model); model_cleanup = onCleanup(@() close_system(model, 0));
                 tank = [model '/Buffer']; add_block(lib{1}, tank);
                 set_param(tank, 'tank_area', '.001', 'tank_area_unit', 'm^2', ...
-                    'port_area', '.0001', 'port_area_unit', 'm^2', 'gravity', '9.81', 'gravity_unit', 'm/s^2', ...
+                    'port_area', num2str(port_area, '%.17g'), 'port_area_unit', 'm^2', 'gravity', '9.81', 'gravity_unit', 'm/s^2', ...
                     'p_environment', '1', 'p_environment_unit', 'MPa', ...
                     'reference_temperature', num2str(temp, '%.17g'), 'reference_temperature_unit', 'K', ...
                     'auxiliary_depth', '.001', 'auxiliary_depth_unit', 'm', ...
@@ -104,6 +115,9 @@ function record = Run_HeatDriveECC_ConservativeBufferTrial(repo, output_root)
                 names = {'stored_mass', 'stored_energy', 'T_I', 'p_I', 'p_A', 'rho_I', 'u_I', 'u_port', ...
                     'volume', 'level', 'fluid_internal_energy', 'environment_pv_energy', 'gravitational_energy', ...
                     'auxiliary_energy', 'auxiliary_capacity', 'mdot_A', 'Phi_A', 'Q_H'};
+                if momentum_trial
+                    names = [names, {'rho_port', 'T_port', 'T_node', 'dynamic_pressure'}]; %#ok<AGROW>
+                end
                 traces = cell(size(names));
                 for n = 1:numel(names)
                     series = node.child(names{n}).series; t = double(time(series));
@@ -112,7 +126,7 @@ function record = Run_HeatDriveECC_ConservativeBufferTrial(repo, output_root)
                 case_record = struct('source_tank', tank_names{k}, 'source_settings', setting_names{k}, ...
                     'mode', modes{j}, 'initial_source_file', initial_file, 'initial_source_sha256', file_hash(initial_file), ...
                     'initial_temperature_K', temp, 'initial_mass_kg', mass, 'initial_energy_J', energy, ...
-                    'area_m2', area, 'port_area_m2', .0001, 'gravity_m_s2', gravity, 'p_environment_Pa', pressure, ...
+                    'area_m2', area, 'port_area_m2', port_area, 'gravity_m_s2', gravity, 'p_environment_Pa', pressure, ...
                     'auxiliary_depth_m', .001, 'heat_into_buffer_W', heat_inputs(j), 'mass_into_buffer_kg_s', flows(j), ...
                     'fixed_step_s', .001, 'stop_s', .1, 'initial_source_time_s', 0);
                 record_json = jsonencode(case_record); filename = sprintf('case_%02d.mat', numel(record.cases)+1);
@@ -123,6 +137,7 @@ function record = Run_HeatDriveECC_ConservativeBufferTrial(repo, output_root)
             end
         end
         assert(strcmp(file_hash(options.model_path), record.canonical_model_sha256), 'Canonical model changed.');
+        assert(strcmp(file_hash(component), record.component_sha256), 'Candidate source changed during execution.');
         record.collection_pass = numel(record.cases) == 16;
         clear source_cleanup
     catch exception

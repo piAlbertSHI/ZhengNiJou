@@ -19,11 +19,37 @@ from Audit_HeatDriveECC_SegmentedEvidence import sha256, text_field
 
 
 PRODUCER = 'bdc451f3751d0da639d258c8bce4f2cf0f8b5597'
+MOMENTUM_PRODUCER = 'UNEXECUTED'
 ENERGY_LIMIT_J = 1e-8
 MASS_LIMIT_KG = 1e-15
 NAMES = {'stored_mass', 'stored_energy', 'T_I', 'p_I', 'p_A', 'rho_I', 'u_I', 'u_port',
          'volume', 'level', 'fluid_internal_energy', 'environment_pv_energy', 'gravitational_energy',
          'auxiliary_energy', 'auxiliary_capacity', 'mdot_A', 'Phi_A', 'Q_H'}
+MOMENTUM_NAMES = {'rho_port', 'T_port', 'T_node', 'dynamic_pressure'}
+
+
+def dynamic_pressure(mdot, rho_port, area):
+    mdot, rho_port = np.asarray(mdot, dtype=float), np.asarray(rho_port, dtype=float)
+    if (mdot.shape != rho_port.shape or mdot.ndim != 1 or not np.isfinite([mdot, rho_port]).all()
+            or np.any(rho_port <= 0) or not np.isfinite(area) or area <= 0):
+        raise ValueError('Invalid momentum boundary inputs')
+    return np.where(mdot < 0, mdot**2/(2*rho_port*area**2), 0.)
+
+
+def momentum_boundary(table, get, reconstructed, area):
+    pressure = get('p_A', 'Pa')
+    rho = table['rho'](np.column_stack((get('T_port', 'K'), pressure)))
+    pdyn = dynamic_pressure(get('mdot_A', 'kg/s'), rho, area)
+    errors = dict(port_density_kg_m3=float(abs(rho-get('rho_port', 'kg/m^3')).max()),
+                  dynamic_pressure_Pa=float(abs(pdyn-get('dynamic_pressure', 'Pa')).max()),
+                  momentum_balance_Pa=float(abs(pressure+pdyn-reconstructed['port_pressure']).max()))
+    passed = errors['port_density_kg_m3'] <= 1e-7 and max(errors[k] for k in errors if k.endswith('_Pa')) <= 1e-6
+    reconstructed['port_pressure'] -= pdyn
+    reconstructed['u_port'] = table['u'](np.column_stack((get('T_I', 'K'), reconstructed['port_pressure'])))
+    return dict(momentum_boundary_pass=passed, errors=errors,
+                dynamic_pressure_range_Pa=[float(pdyn.min()), float(pdyn.max())],
+                port_vs_internal_density_max_difference_kg_m3=float(abs(rho-get('rho_I', 'kg/m^3')).max()),
+                native_tank_energy_equivalence=False)
 
 
 def inventory(table, temp, mass, pressure, area, gravity, reference_temp, auxiliary_depth):
@@ -46,7 +72,7 @@ def inventory(table, temp, mass, pressure, area, gravity, reference_temp, auxili
                 u_port=table['u'](np.column_stack((temp, port_pressure))))
 
 
-def read_traces(path):
+def read_traces(path, momentum=False):
     with h5py.File(path) as f:
         meta = json.loads(text_field(f['record_json'])); rows = {}
         for ref in f['traces'][:].flat:
@@ -55,17 +81,20 @@ def read_traces(path):
             if name in rows or r['values'].shape != (1, 101) or not np.isfinite(r['values'][:]).all():
                 raise ValueError('Invalid candidate native traces')
             rows[name] = dict(unit=text_field(r['unit']), values=r['values'][:].reshape(-1))
-    if set(rows) != NAMES:
+    if set(rows) != (NAMES | MOMENTUM_NAMES if momentum else NAMES):
         raise ValueError('Incomplete candidate variables')
     return meta, time, rows
 
 
-def audit(repo):
-    root = repo/'outputs_storage_audit/conservative_buffer_trial_20260909'
+def audit(repo, momentum=False):
+    root = repo/'outputs_storage_audit'/('conservative_buffer_momentum_trial_20260909' if momentum else 'conservative_buffer_trial_20260909')
+    producer = MOMENTUM_PRODUCER if momentum else PRODUCER
     execution_path = root/'buffer_trial_execution.json'; execution = read(execution_path)
-    if (not execution['collection_pass'] or execution['execution_commit'] != PRODUCER or len(execution['cases']) != 16 or
+    if (not execution['collection_pass'] or execution['execution_commit'] != producer or len(execution['cases']) != 16 or
             any(execution[k] for k in ('checkpoint_loaded', 'checkpoint_saved', 'mainline_model_modified', 'production_recovery_allowed'))):
         raise ValueError('Wrong isolated buffer scope')
+    if momentum and (not execution['momentum_trial'] or execution['package'] != 'ecc_buffer_momentum'):
+        raise ValueError('Wrong momentum candidate identity')
     native = repo/'outputs_storage_audit'/EXPERIMENT/'native'
     configuration = native/'configuration.mat'; metadata_path = native/'inventory_metadata.json'
     if sha256(configuration) != execution['configuration_sha256']:
@@ -77,19 +106,20 @@ def audit(repo):
     tables = {b['block_path']: energy_tables(b['parameters']) for b in read(metadata_path)['settings_tables']}
     files = [execution_path, root/'matlab_diary.log', configuration, metadata_path, canonical]
     names = ['ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer']
-    modes = {'heating': (10, 0), 'cooling': (-10, 0), 'inflow': (0, .001), 'outflow': (0, -.001)}
+    flow = .1 if momentum else .001
+    modes = {'heating': (10, 0), 'cooling': (-10, 0), 'inflow': (0, flow), 'outflow': (0, -flow)}
     results = []; initial_comparisons = []; seen = set()
     for c in execution['cases']:
         key = c['source_tank'], c['mode']
         if (key in seen or key[0] not in names or key[1] not in modes or c['fixed_step_s'] != .001 or c['stop_s'] != .1 or
                 c['initial_source_time_s'] != 0 or c['area_m2'] != .001 or c['gravity_m_s2'] != 9.81 or
-                c['p_environment_Pa'] != 1e6 or c['auxiliary_depth_m'] != .001 or
+                c['p_environment_Pa'] != 1e6 or c['auxiliary_depth_m'] != .001 or c['port_area_m2'] != (.01 if momentum else .0001) or
                 (c['heat_into_buffer_W'], c['mass_into_buffer_kg_s']) != modes[key[1]]):
             raise ValueError('Unexpected trial matrix')
         seen.add(key); path = root/c['file']; files.append(path)
         if sha256(path) != c['sha256']:
             raise ValueError('Candidate trace hash changed')
-        meta, time, rows = read_traces(path)
+        meta, time, rows = read_traces(path, momentum)
         if meta != {k: v for k, v in c.items() if k not in ('file', 'sha256')}:
             raise ValueError('Raw case identity mismatch')
         initial = Path(c['initial_source_file'])
@@ -116,6 +146,7 @@ def audit(repo):
         actual_energy = get('stored_energy', 'J'); table = tables[c['source_settings']]
         reconstructed = inventory(table, temp, mass, c['p_environment_Pa'], c['area_m2'], c['gravity_m_s2'],
                                   c['initial_temperature_K'], c['auxiliary_depth_m'])
+        momentum_result = momentum_boundary(table, get, reconstructed, c['port_area_m2']) if momentum else None
         aliases = {k: float(abs(v-get(k, 'J')).max()) for k, v in reconstructed['parts'].items()}
         aliases['stored_energy'] = float(abs(reconstructed['total']-actual_energy).max())
         extra_checks = dict(volume=float(abs(reconstructed['volume']-get('volume', 'm^3')).max()),
@@ -147,6 +178,14 @@ def audit(repo):
             heat_input_J=float(np.sum(q[1:]*np.diff(time))), fluid_port_input_J=float(np.sum(phi[1:]*np.diff(time))),
             auxiliary_capacity_J_K=reconstructed['capacity'],
             candidate_component_pass=initial_pass and alias_pass and local['mass_closure_pass'] and local['energy_closure_pass'])
+        if momentum:
+            row['momentum'] = momentum_result
+            row['candidate_component_pass'] &= momentum_result['momentum_boundary_pass']
+            lo, hi = momentum_result['dynamic_pressure_range_Pa']
+            if c['mode'] == 'outflow' and lo <= .01:
+                raise ValueError('Finite outflow must measurably exercise the momentum term')
+            if c['mode'] != 'outflow' and (lo != 0 or hi != 0):
+                raise ValueError('Unexpected inflow or closed-case pressure loss')
         if c['mode'] in ('heating', 'cooling'):
             def total_at(t):
                 return inventory(table, np.array([t]), np.array([mass[0]]), c['p_environment_Pa'], c['area_m2'],
@@ -164,10 +203,16 @@ def audit(repo):
         path = repo/contract[key+'_relative_path']; files.append(path)
         if sha256(path) != contract[key+'_sha256']:
             raise ValueError('C200 authority changed')
-    component = repo/'verification/simscape_buffer/+ecc_buffer/conservative_buffer.ssc'; files.append(component)
-    if sha256(component) != sha256(root/'component_build/+ecc_buffer/conservative_buffer.ssc'):
+    package = 'ecc_buffer_momentum' if momentum else 'ecc_buffer'
+    source_folder = 'simscape_buffer_momentum' if momentum else 'simscape_buffer'
+    component = repo/'verification'/source_folder/('+'+package)/'conservative_buffer.ssc'; files.append(component)
+    built = root/'component_build'/('+'+package)/'conservative_buffer.ssc'; files.append(built)
+    if sha256(component) != sha256(built):
         raise ValueError('Executed component differs from candidate source')
-    result = dict(schema='heatdrive_ecc_conservative_buffer_audit_v1', execution_commit=PRODUCER,
+    if momentum and sha256(component) != execution['component_sha256']:
+        raise ValueError('Executed component hash differs from recorded source')
+    result = dict(schema='heatdrive_ecc_conservative_buffer_audit_v1', execution_commit=producer,
+        momentum_boundary_trial=momentum,
         evidence_computation_pass=True, isolated_component_conservation_pass=all(r['candidate_component_pass'] for r in results),
         cases=results, modes=dict(Counter(r['mode'] for r in results)),
         mass_limit_kg=MASS_LIMIT_KG, energy_limit_J=ENERGY_LIMIT_J,
@@ -182,10 +227,11 @@ def audit(repo):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output-root', type=Path, required=True)
+    parser.add_argument('--momentum', action='store_true')
     args = parser.parse_args()
     if args.output_root.exists():
         raise FileExistsError('Do not overwrite evidence')
-    result, rows = audit(Path(__file__).resolve().parents[1])
+    result, rows = audit(Path(__file__).resolve().parents[1], args.momentum)
     args.output_root.mkdir(parents=True)
     (args.output_root/'conservative_buffer_audit.json').write_text(json.dumps(result, indent=2, allow_nan=False)+'\n', encoding='utf-8')
     with (args.output_root/'initial_coordinates.csv').open('w', newline='', encoding='utf-8') as f:

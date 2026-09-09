@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 from scipy.interpolate import RegularGridInterpolator
 
-from Audit_HeatDriveECC_ConservativeBufferTrial import inventory
+from Audit_HeatDriveECC_ConservativeBufferTrial import inventory, dynamic_pressure, momentum_boundary
 from Audit_HeatDriveECC_ColdCoordinateSmoke import ledger
 
 
@@ -65,6 +65,32 @@ class ConservativeBufferTests(unittest.TestCase):
             self.get([300.], [.1], depth=-.001)
         with self.assertRaises(ValueError):
             self.get([300., 301.], [.1])
+
+    def test_momentum_direction_and_area_scaling(self):
+        actual = dynamic_pressure([.1, 0, -.1], [1000., 1000., 1000.], .01)
+        np.testing.assert_allclose(actual, [0., 0., .05])
+        np.testing.assert_allclose(dynamic_pressure([-.1], [1000.], .02), [.0125])
+
+    def test_momentum_uses_port_density(self):
+        a = dynamic_pressure([-.1], [500.], .01)
+        b = dynamic_pressure([-.1], [1000.], .01)
+        np.testing.assert_allclose(a, 2*b)
+
+    def test_momentum_invalid_inputs(self):
+        for flow, rho, area in [([1.], [0.], .01), ([1.], [1000.], 0), ([1.], [float('nan')], .01),
+                                ([1., 2.], [1000.], .01)]:
+            with self.assertRaises(ValueError): dynamic_pressure(flow, rho, area)
+
+    def test_missing_or_wrong_sign_dynamic_term_rejected(self):
+        data = dict(p_A=np.array([1000999.95]), T_port=np.array([300.]), T_I=np.array([300.]),
+                    rho_port=np.array([1000.]), rho_I=np.array([1000.]), mdot_A=np.array([-.1]),
+                    dynamic_pressure=np.array([.05]))
+        get = lambda name, unit: data[name]
+        self.assertTrue(momentum_boundary(self.table(), get, self.get([300.], [.1]), .01)['momentum_boundary_pass'])
+        data['p_A'] = np.array([1001000.])
+        self.assertFalse(momentum_boundary(self.table(), get, self.get([300.], [.1]), .01)['momentum_boundary_pass'])
+        data['p_A'] = np.array([1001000.05])
+        self.assertFalse(momentum_boundary(self.table(), get, self.get([300.], [.1]), .01)['momentum_boundary_pass'])
 
 
 if __name__ == '__main__':
