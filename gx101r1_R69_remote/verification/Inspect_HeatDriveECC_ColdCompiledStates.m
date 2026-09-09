@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -15,6 +15,12 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<15,global_implicit=false;end
     if nargin<16,projection=false;end
     if nargin<17,initial_derivative=false;end
+    if nargin<18,analytic_derivative=false;end
+    if nargin<19,duration=0;end
+    assert(islogical(analytic_derivative) && isscalar(analytic_derivative) && ...
+        (~analytic_derivative || (projection && ~initial_derivative)),'Separate analytic derivative diagnostic required.');
+    assert(isscalar(duration) && (duration==0 || (analytic_derivative && duration==.2)), ...
+        'Only declared initial/onset diagnostics are allowed.');
     assert(islogical(initial_derivative) && isscalar(initial_derivative) && (~initial_derivative || projection), ...
         'Initial pressure derivative diagnostic requires global Projection.');
     assert(islogical(capture_runtime) && isscalar(capture_runtime),'Require explicit callback capture choice.');
@@ -60,7 +66,8 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     assert(islogical(component_priorities) && isscalar(component_priorities) && ...
         (~component_priorities || prefer_inventory),'Component priority trial requires matching block priorities.');
     assert(~isfolder(output_root),'Never overwrite state inspection evidence.');
-    [code,dirty]=system('git status --porcelain');assert(code==0 && isempty(strtrim(dirty)),'Commit inspector first.');
+    [code,dirty]=system(sprintf('git -C "%s" status --porcelain -- .',repo));
+    assert(code==0 && isempty(strtrim(dirty)),'Commit relevant source first.');
     [code,commit]=system('git rev-parse HEAD');assert(code==0,'Cannot record inspector.');
     mkdir(output_root);diary(fullfile(output_root,'matlab_diary.log'));dc=onCleanup(@() diary('off'));
     generation=Simulink.fileGenControl('getConfig');
@@ -156,6 +163,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.global_implicit_requested=global_implicit;
     record.projection_requested=projection;
     record.initial_pressure_derivative_requested=initial_derivative;
+    record.analytic_pressure_derivative_requested=analytic_derivative;
+    record.diagnostic_stop_time_s=duration;
+    record.initialization_only=duration==0;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
     record.chamber_package_resolution=evalc('which(chamber_source,''-all'')');
     record.chamber_source_file=chamber_source;
@@ -277,7 +287,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         end
         record.fixed_step_after=fixed_step;
         set_param(model,'LoadInitialState','off','SimscapeUseOperatingPoints','on','SimscapeOperatingPoint','cold_public_targets', ...
-            'StartTime','0','StopTime','0','SimulationMode',simulation_mode, ...
+            'StartTime','0','StopTime',num2str(duration,'%.17g'),'SimulationMode',simulation_mode, ...
             'Solver',options.simulation.solver,'FixedStep',num2str(fixed_step,'%.17g'), ...
             'SaveState','on','StateSaveName','states','SaveFormat','Dataset','SaveFinalState','off','SaveOperatingPoint','off', ...
             'ReturnWorkspaceOutputs','on','SimscapeLogType','all','SimscapeLogName','simlog','SimscapeLogLimitData','off');
@@ -291,6 +301,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         if initial_derivative
             record.initial_pressure_derivative_contract=Configure_HeatDriveECC_ColdInitialPressureDerivative(model);
         end
+        if analytic_derivative
+            record.analytic_pressure_derivative_contract=Configure_HeatDriveECC_ColdPressureDerivative(repo,model);
+        end
         record.stage='initialization_state_logging';record.simulation_run=true;
         if capture_runtime
             assignin('base','cold_initialization_context',{});
@@ -303,6 +316,30 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         input=Simulink.SimulationInput(model);input=input.setVariable('cold_public_targets',cold_public_targets);
         input=input.setModelParameter('CaptureErrors','on');output=sim(input);
         if capture_runtime,record.runtime_callbacks=evalin('base','cold_initialization_context');end
+        if duration>0
+            record.stage='export_onset_observations';
+            changed=cellfun(@(t) t.block_path,buffers,'UniformOutput',false);
+            chamber_paths=arrayfun(@(t) t.block_path,targets,'UniformOutput',false);
+            if ~isempty(output.ErrorMessage)
+                metadata=jsondecode(fileread(fullfile(source,'conservative','inventory_metadata.json')));
+                metadata.storage_blocks=num2cell(metadata.storage_blocks);
+                Export_HeatDriveECC_FailedColdObservations(output,model,metadata,fullfile(output_root,'failed_public_observations.mat'));
+            else
+                native=Extract_HeatDriveECC_NativeStorageTraces(output.simlog,model,false,chamber_paths,changed);
+                [source_traces,boundary_metadata]=Extract_HeatDriveECC_BoundaryTraces(output.simlog,model);
+                signals=struct();names=output.who;
+                for k=1:numel(names)
+                    v=output.get(names{k});
+                    if isa(v,'timeseries'),signals.(names{k})=struct('time_s',v.Time,'values',v.Data);
+                    elseif isstruct(v) && isscalar(v) && isfield(v,'time') && isfield(v,'signals') && ...
+                            isscalar(v.signals) && isfield(v.signals,'values')
+                        signals.(names{k})=struct('time_s',v.time,'values',v.signals.values);
+                    end
+                end
+                save(fullfile(output_root,'observations.mat'),'native','source_traces','boundary_metadata','signals','-v7.3');
+                record.observations_sha256=file_hash(fullfile(output_root,'observations.mat'));
+            end
+        end
         assert(isempty(output.ErrorMessage),output.ErrorMessage);
         for k=1:numel(targets)
             assert(strcmp(get_param(targets(k).block_path,'SourceFile'),chamber_source), ...
@@ -345,8 +382,10 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             t=public_targets{k};node=simscape.logging.findNode(log,t.block_path);
             variable_node=node.child(t.state_name);series=variable_node.series;
             times=double(time(series));observed=double(values(series));
-            assert(isscalar(times) && times==0 && isscalar(observed) && isfinite(observed), ...
-                'Require exactly one finite actual t=0 sample per public target.');
+            assert(times(1)==0 && isvector(observed) && all(isfinite(observed)) && ...
+                ((duration==0 && isscalar(times)) || (duration>0 && times(end)==duration)), ...
+                'Require the actual finite t=0 sample and complete diagnostic endpoint.');
+            times=times(1);observed=observed(1);
             actual=value(simscape.Value(observed,series.unit),t.unit);
             record.initial_coordinates{k}=struct('path',t.path,'priority',t.priority,'unit',t.unit, ...
                 'expected',t.value,'actual',actual,'source_time_s',times,'native_value',observed,'native_unit',series.unit, ...

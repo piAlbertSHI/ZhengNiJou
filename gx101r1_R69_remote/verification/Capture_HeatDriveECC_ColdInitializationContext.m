@@ -29,11 +29,17 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
         'FilteringAndDerivatives',get_param(converter,'FilteringAndDerivatives'), ...
         'UdotUserProvided',get_param(converter,'UdotUserProvided'),'StopTime',get_param(model,'StopTime'));
     if strcmp(record.pressure_converter.UdotUserProvided,'1')
-        assert(strcmp(get_param(model,'StopTime'),'0'),'Initial derivative must not enter a trajectory.');
         p=get_param(converter,'PortHandles');line=get_param(p.Inport(2),'Line');
         source=getfullname(get_param(line,'SrcBlockHandle'));
-        assert(strcmp(source,[model '/ColdInitialPressureDerivativeOnly']) && ...
-            strcmp(get_param(source,'Value'),'0'),'Initial derivative source changed.');
+        if strcmp(source,[model '/ColdInitialPressureDerivativeOnly'])
+            assert(strcmp(get_param(model,'StopTime'),'0') && strcmp(get_param(source,'Value'),'0'), ...
+                'Initial derivative must not enter a trajectory.');
+        else
+            assert(strcmp(source,[model '/ColdPressureDerivative']) && ...
+                ismember(str2double(get_param(model,'StopTime')),[0,.2]),'Unknown derivative diagnostic.');
+            chart=find(sfroot,'-isa','Stateflow.EMChart','Path',source);assert(isscalar(chart));
+            record.pressure_converter.chart_script=chart.Script;
+        end
         record.pressure_converter.derivative_source=source;
     end
     record.global_solver_configuration=struct('Solver',get_param(model,'Solver'), ...
