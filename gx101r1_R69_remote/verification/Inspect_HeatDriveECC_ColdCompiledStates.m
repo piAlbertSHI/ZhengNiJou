@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,scale_chambers)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -19,10 +19,6 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<19,duration=0;end
     if nargin<20,ps_controller=false;end
     if nargin<21,initial_bias_only=false;end
-    if nargin<22,scale_chambers=false;end
-    assert(islogical(scale_chambers) && isscalar(scale_chambers) && ...
-        (~scale_chambers || (ps_controller && ~initial_bias_only && duration==0)), ...
-        'Chamber-only nominal trial must keep direct PS control and cold initial targets.');
     assert(islogical(initial_bias_only) && isscalar(initial_bias_only) && (~initial_bias_only || ps_controller));
     assert(islogical(ps_controller) && isscalar(ps_controller) && ...
         (~ps_controller || (projection && ~initial_derivative && ~analytic_derivative && duration==0)), ...
@@ -176,7 +172,6 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.analytic_pressure_derivative_requested=analytic_derivative;
     record.ps_controller_requested=ps_controller;
     record.initial_bias_only_requested=initial_bias_only;
-    record.chamber_nominal_scaling_requested=scale_chambers;
     record.diagnostic_stop_time_s=duration;
     record.initialization_only=duration==0;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
@@ -286,24 +281,6 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             e=expected.targets(idx);assert(isequal(t,e),'Public cold target changed.');
         end
         assignin('base','cold_public_targets',cold_public_targets);
-        if scale_chambers
-            record.chamber_nominal_changes={};
-            for k=1:numel(targets)
-                b=targets(k).block_path;
-                for key={'stored_mass','stored_energy'}
-                    name=key{1};selected=public_targets(cellfun(@(r) strcmp(r.block_path,b) && strcmp(r.state_name,name),public_targets));
-                    assert(isscalar(selected) && selected{1}.value>0);
-                    before=struct('specify',get_param(b,[name '_nominal_specify']), ...
-                        'value',get_param(b,[name '_nominal_value']),'unit',get_param(b,[name '_nominal_unit']));
-                    assert(strcmp(before.specify,'off'),'Unexpected existing chamber nominal override.');
-                    set_param(b,[name '_nominal_specify'],'on',[name '_nominal_value'],num2str(selected{1}.value,'%.17g'), ...
-                        [name '_nominal_unit'],selected{1}.unit);
-                    record.chamber_nominal_changes{end+1}=struct('block_path',b,'state_name',name,'before',before, ...
-                        'nominal_value',selected{1}.value,'unit',selected{1}.unit,'source_time_s',0);
-                end
-            end
-            assert(numel(record.chamber_nominal_changes)==4);
-        end
         simulation_mode=options.simulation.mode;
         if normal_mode
             assert(strcmp(simulation_mode,'accelerator'),'Unexpected baseline execution mode.');
