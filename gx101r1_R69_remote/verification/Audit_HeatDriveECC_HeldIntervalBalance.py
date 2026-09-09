@@ -30,7 +30,8 @@ def balance(time, mass, energy, mass_flow, power):
 
 
 def check_held_contract(c):
-    if (c['allowed_stop_time_s']!=STOP_S or c['constant_interval_end_exclusive_s']!=.05
+    until=c['constant_interval_end_exclusive_s']
+    if (c['allowed_stop_time_s']!=STOP_S or not abs(until-.05)<=4*np.spacing(.05) or not STOP_S<until
             or c['derivative_source']!='heatdrive_ecc_coupled_se21/ColdHeldPressureDerivative'
             or c['first_derivative_MPa_s']!=0 or c['feedback_enable']!=0 or c['reset_held']!=1
             or c['full_cycle_derivative_verified'] or c['production_recovery_allowed']):
@@ -38,5 +39,7 @@ def check_held_contract(c):
     if len(c['commands'])!=3:
         raise ValueError('Missing command proof')
     for row,value,mode in zip(c['commands'],[-1e-6,0,1],['on','off','off']):
-        if row['time_s']!=[0,.05] or row['values']!=[value,value] or row['interpolate']!=mode:
+        time=row['time_s']
+        if (len(time)!=2 or time[0]!=0 or not abs(time[1]-.05)<=4*np.spacing(.05) or not STOP_S<time[1]
+                or row['values']!=[value,value] or row['interpolate']!=mode):
             raise ValueError('A command changes within the held interval')

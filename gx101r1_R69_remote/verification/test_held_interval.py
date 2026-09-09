@@ -42,3 +42,10 @@ class HeldIntervalTests(unittest.TestCase):
         held=(p/'Configure_HeatDriveECC_HybridHeldInterval.m').read_text(encoding='utf-8')
         self.assertIn('seconds==.04',held)
         self.assertIn('8598BB08D314EA1B052C5B4CCE9A9DD7F0E30BE6842E668A038306F58E298C13',held)
+
+    def test_native_one_ulp_boundary_is_not_a_command_change(self):
+        c=self.fixture();c['constant_interval_end_exclusive_s']=.05000000000000001
+        for row in c['commands']:row['time_s'][1]=.05000000000000001
+        check_held_contract(c)
+        c['constant_interval_end_exclusive_s']=.05001
+        with self.assertRaises(ValueError):check_held_contract(c)

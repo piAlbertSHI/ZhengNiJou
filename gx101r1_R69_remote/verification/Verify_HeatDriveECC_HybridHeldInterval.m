@@ -12,7 +12,7 @@ function contract=Verify_HeatDriveECC_HybridHeldInterval(model)
         until=min(until,v.Time(2));
         rows{k}=struct('block',b,'time_s',v.Time(1:2),'values',v.Data(1:2),'interpolate',get_param(b,'Interpolate'));
     end
-    assert(until==.05 && strcmp(rows{1}.interpolate,'on') && ...
+    assert(abs(until-.05)<=4*eps(.05) && stop<until && strcmp(rows{1}.interpolate,'on') && ...
         strcmp(rows{2}.interpolate,'off') && strcmp(rows{3}.interpolate,'off'));
     source=[model '/ColdHeldPressureDerivative'];converter=[model '/SMAPressurePI_SimulinkPS'];
     assert(strcmp(get_param(source,'Value'),'0') && strcmp(get_param(source,'SampleTime'),'inf'));
