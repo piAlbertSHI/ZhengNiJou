@@ -43,6 +43,18 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
             'value_source',getfullname(get_param(line,'SrcBlockHandle')));
     end
     record.global_fixed_step=get_param(model,'FixedStep');
+    record.solver_iteration_options=struct('SolverResetMethod',get_param(model,'SolverResetMethod'), ...
+        'MaxOrder',get_param(model,'MaxOrder'));
+    record.constitutive_discrete_blocks={};
+    for name={'ECC_Constitutive21_SMA_TempDelay','ECC_Constitutive21_SE_TempDelay','ECC_Constitutive21_StateDelay'}
+        path=[model '/' name{1}];
+        if getSimulinkBlockHandle(path)>0
+            sample=get_param(path,'SampleTime');
+            record.constitutive_discrete_blocks{end+1}=struct('path',path,'block_type',get_param(path,'BlockType'), ...
+                'sample_time_expression',sample,'sample_time_s',slResolve(sample,path), ...
+                'initial_condition_expression',get_param(path,'InitialCondition')); %#ok<AGROW>
+        end
+    end
     record.solver_failure_policy=struct('MinStepSizeMsg',get_param(model,'MinStepSizeMsg'), ...
         'MaxConsecutiveMinStep',get_param(model,'MaxConsecutiveMinStep'),'MinStep',get_param(model,'MinStep'));
     record.output_sampling_settings=struct();

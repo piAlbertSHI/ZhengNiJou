@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step,held_error_control,held_error_control_level)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step,held_error_control,held_error_control_level,held_solver_method)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -33,6 +33,10 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<33,held_max_step=[];end
     if nargin<34,held_error_control=false;end
     if nargin<35,held_error_control_level='tight';end
+    if nargin<36,held_solver_method='ode15s';end
+    assert(ischar(held_solver_method) && any(strcmp(held_solver_method,{'ode15s','ode23t'})) && ...
+        (strcmp(held_solver_method,'ode15s') || (held_error_control && strcmp(held_error_control_level,'moderate'))), ...
+        'The one-step solver trial requires the qualified moderate held-interval controls.');
     assert(ischar(held_error_control_level) && any(strcmp(held_error_control_level,{'tight','moderate'})) && ...
         (held_error_control || strcmp(held_error_control_level,'tight')), ...
         'Only predeclared held error-control levels are allowed.');
@@ -237,6 +241,13 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.held_max_step_override_s=held_max_step;
     record.held_error_control_trial=held_error_control;
     record.held_error_control_level=held_error_control_level;
+    record.held_solver_method=held_solver_method;
+    if strcmp(held_solver_method,'ode23t')
+        rejected=fullfile(repo,'outputs_storage_audit','hybrid_held_moderate_control_audit_20260910','held_interval_audit.json');
+        assert(strcmp(file_hash(rejected),'48ECCCA5D663B1F423CA838D5A84F7EECD9A74D59B4564079B4F941FC8E7A2F9'), ...
+            'The moderate NDF rejection evidence changed.');
+        record.held_ndf_rejection_sha256=file_hash(rejected);
+    end
     if held_error_control
         qualified=fullfile(repo,'outputs_storage_audit','hybrid_held_quarterstep_audit_20260910','held_interval_audit.json');
         assert(strcmp(file_hash(qualified),'6C6A9CA6885AFD49693F014F15EC66C2A39C73784A3742E2667AD705BAAAA975'), ...
@@ -388,10 +399,13 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             assert(strcmp(get_param(model,'Solver'),'ode3'),'Unexpected baseline global solver.');
             set_param(model,'SolverType','Variable-step','Solver','ode15s','MaxStep','0.001','InitialStep','auto');
             if ~isempty(held_max_step),set_param(model,'MaxStep',num2str(held_max_step,'%.17g'));end
+            if strcmp(held_solver_method,'ode23t'),set_param(model,'Solver','ode23t');end
         end
         record.global_solver_configuration=struct('Solver',get_param(model,'Solver'), ...
             'SolverType',get_param(model,'SolverType'),'MaxStep',get_param(model,'MaxStep'), ...
             'InitialStep',get_param(model,'InitialStep'));
+        record.solver_iteration_options=struct('SolverResetMethod',get_param(model,'SolverResetMethod'), ...
+            'MaxOrder',get_param(model,'MaxOrder'));
         record.solver_failure_policy_before=struct('MinStepSizeMsg',get_param(model,'MinStepSizeMsg'), ...
             'MaxConsecutiveMinStep',get_param(model,'MaxConsecutiveMinStep'),'MinStep',get_param(model,'MinStep'));
         if held_error_control

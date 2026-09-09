@@ -99,3 +99,10 @@ class HeldIntervalTests(unittest.TestCase):
         self.assertEqual(expected_tolerances(baseline,'moderate_control'),dict(RelTol='1e-6',AbsTol='1e-8'))
         self.assertEqual(baseline,dict(RelTol='1e-2',AbsTol='1e-3'))
         with self.assertRaises(ValueError):expected_tolerances(baseline,'undeclared')
+
+    def test_one_step_solver_is_separate_and_preserves_historical_default(self):
+        source=(Path(__file__).parent/'Inspect_HeatDriveECC_ColdCompiledStates.m').read_text(encoding='utf-8')
+        self.assertIn("if nargin<36,held_solver_method='ode15s';end",source)
+        self.assertIn("held_error_control && strcmp(held_error_control_level,'moderate')",source)
+        self.assertIn("set_param(model,'Solver','ode23t')",source)
+        self.assertIn('48ECCCA5D663B1F423CA838D5A84F7EECD9A74D59B4564079B4F941FC8E7A2F9',source)
