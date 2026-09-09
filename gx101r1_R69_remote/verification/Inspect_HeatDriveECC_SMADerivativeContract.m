@@ -63,7 +63,7 @@ function record=Inspect_HeatDriveECC_SMADerivativeContract(repo,output_root)
                 upstream=inputs{j}.source_block;
                 assert(strcmp(get_param(upstream,'Parent'),model),'Unexpected nonlocal controller dependency.');
                 upstream_name=get_param(upstream,'Name');
-                if ~ismember(upstream_name,names),names{end+1}=upstream_name;end
+                if ~ismember(upstream_name,names),names{end+1}=upstream_name;end %#ok<AGROW>
             end
             record.blocks{k}=struct('path',b,'type',get_param(b,'BlockType'), ...
                 'settings',settings,'resolved',resolved,'inputs',{inputs});
