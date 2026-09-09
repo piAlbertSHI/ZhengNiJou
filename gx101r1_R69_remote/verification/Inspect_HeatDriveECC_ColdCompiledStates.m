@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -23,6 +23,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<23,initial_mdot_probe=false;end
     if nargin<24,constant_bias_derivative=false;end
     if nargin<25,bias_value_path=false;end
+    if nargin<26,remove_inactive_controller=false;end
+    assert(islogical(remove_inactive_controller) && isscalar(remove_inactive_controller) && ...
+        (~remove_inactive_controller || bias_value_path),'Inactive controller removal requires the bounded bias-value path.');
     assert(islogical(bias_value_path) && isscalar(bias_value_path) && ...
         (~bias_value_path || (initial_derivative && ~ps_controller && duration==0 && ~export_initial_flux)), ...
         'Value-edge isolation requires the original initial-derivative controller and t=0 only.');
@@ -191,6 +194,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.initial_mdot_probe_requested=initial_mdot_probe;
     record.constant_bias_derivative_requested=constant_bias_derivative;
     record.bias_value_path_requested=bias_value_path;
+    record.remove_inactive_controller_requested=remove_inactive_controller;
     record.diagnostic_stop_time_s=duration;
     record.initialization_only=duration==0;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
@@ -330,6 +334,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         end
         if bias_value_path
             record.pressure_value_path_contract=Configure_HeatDriveECC_ColdPressureValuePath(repo,model,record.initial_pressure_derivative_contract);
+        end
+        if remove_inactive_controller
+            record.inactive_controller_removal_contract=Configure_HeatDriveECC_ColdInactiveControllerRemoval(model,record.pressure_value_path_contract);
         end
         if analytic_derivative
             record.analytic_pressure_derivative_contract=Configure_HeatDriveECC_ColdPressureDerivative(repo,model);

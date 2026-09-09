@@ -24,6 +24,9 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
         'LoadInitialState',get_param(model,'LoadInitialState'),'targets',{targets},'has_private_data',false);
     record.normalize_using_nominal_values=get_param(model,'SimscapeNormalizeSystem');
     record.global_fixed_step=get_param(model,'FixedStep');
+    record.original_control_state_blocks_present=struct( ...
+        'lag',getSimulinkBlockHandle([model '/SMAPressurePI_ErrorLag'])>0, ...
+        'integral',getSimulinkBlockHandle([model '/SMAPressurePI_Integrator'])>0);
     converter=[model '/SMAPressurePI_SimulinkPS'];
     candidate=[model '/ColdSMAPSController'];
     if getSimulinkBlockHandle(candidate)>0
