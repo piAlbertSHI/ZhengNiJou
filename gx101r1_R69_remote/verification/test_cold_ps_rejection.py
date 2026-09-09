@@ -3,6 +3,19 @@ from Audit_HeatDriveECC_ColdPSControllerRejection import reject_state_promotion,
 
 
 class ColdPSRejectionTests(unittest.TestCase):
+    def test_frozen_flow_has_distinct_failure_signature(self):
+        r = dict(inspection_pass=False, stage='initialization_state_logging', states=[],
+                 c200_state_imported=False, failed_terminal_state_imported=False,
+                 checkpoint_saved=False, production_recovery_allowed=False,
+                 error_message=' '.join(f'SMA_Pump{side}ConnectingPipeVolume.stored_{state}'
+                                        for side in ('Inlet', 'Outlet') for state in ('mass', 'energy')))
+        self.assertEqual(len(reject_state_promotion(r, True)), 4)
+        with self.assertRaises(ValueError):
+            reject_state_promotion(r)
+        r['error_message'] += ' ColdSMAPSController.error_lag.Y'
+        with self.assertRaises(ValueError):
+            reject_state_promotion(r, True)
+
     def test_wrong_error_is_not_an_accepted_rejection(self):
         r = dict(inspection_pass=False, stage='initialization_state_logging', states=[],
                  c200_state_imported=False, failed_terminal_state_imported=False,

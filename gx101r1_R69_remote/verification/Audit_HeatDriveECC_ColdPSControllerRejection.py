@@ -9,17 +9,23 @@ from Audit_HeatDriveECC_ColdProjectionInitialization import GLOBAL, TOLERANCES
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 
 
-def reject_state_promotion(record):
+def reject_state_promotion(record, frozen_flow=False):
     forbidden = ('initial_coordinates', 'ps_controller_initial', 'cached_phase_targets')
     if (record['inspection_pass'] or record['stage'] != 'initialization_state_logging'
             or record['states'] or any(key in record for key in forbidden)
             or any(record[key] for key in ('c200_state_imported', 'failed_terminal_state_imported',
                                           'checkpoint_saved', 'production_recovery_allowed'))):
         raise ValueError('Failed initialization cannot promote states')
-    required = ['ColdSMAPSController.error_lag.Y', 'SMA_PumpInletConnectingPipeVolume.stored_mass',
+    required = ['SMA_PumpInletConnectingPipeVolume.stored_mass',
                 'SMA_PumpInletConnectingPipeVolume.stored_energy',
                 'SMA_PumpOutletConnectingPipeVolume.stored_mass',
                 'SMA_PumpOutletConnectingPipeVolume.stored_energy']
+    lag = 'ColdSMAPSController.error_lag.Y'
+    if frozen_flow:
+        if lag in record['error_message']:
+            raise ValueError('Frozen-flow failure unexpectedly still includes controller lag')
+    else:
+        required.insert(0, lag)
     if not all(s in record['error_message'] for s in required):
         raise ValueError('Failure signature changed')
     return required
@@ -47,9 +53,11 @@ def audit(repo):
     if sha256(native) != target_record['source_sha256']:
         raise ValueError('Native cold source changed')
     cases = [('ps_closed_loop', 'specific_inventory_ps_controller_initial_20260909',
-              'a93500ce7c2fd87ac8b347e7195dc246952bb2c4', False),
+              'a93500ce7c2fd87ac8b347e7195dc246952bb2c4', False, False),
              ('initial_bias_only', 'specific_inventory_ps_bias_only_initial_20260909',
-              '7227ad47911c50c7c4ced13147947a0ba11ef113', True)]
+              '7227ad47911c50c7c4ced13147947a0ba11ef113', True, False),
+             ('passive_frozen_flow', 'specific_inventory_ps_frozen_mdot_initial_20260909',
+              '0e4855ee3bd349a34f0edfc608e6929c895f36f7', True, True)]
     files = [reference_path, target_path, native]
     results = []
     component = repo / 'verification/simscape_sma_controller/+ecc_sma_controller/pressure_controller.ssc'
@@ -57,21 +65,35 @@ def audit(repo):
     if component_hash != 'EB6AC72398E21E9069674744E1F1ECE1D8133E4729D23E42FDE3AC5C332AEA71':
         raise ValueError('Qualified PS component changed')
     files.append(component)
-    for label, folder, commit, bypass in cases:
+    for label, folder, commit, bypass, frozen_flow in cases:
         case_root = root / folder
         path = case_root / 'compiled_states_inspection.json'
         r = read(path)
         if (r['inspector_commit'] != commit or not r['initialization_only']
                 or r['source_time_s'] != 0 or not r['ps_controller_requested']
                 or r.get('initial_bias_only_requested', False) != bypass or r['diagnostic_stop_time_s'] != 0
+                or r.get('initial_mdot_probe_requested', False) != frozen_flow
                 or r['source_native_sha256'] != target_record['source_sha256']
                 or r['inventory_formulation'] != 'specific_inventory'):
             raise ValueError('Wrong diagnostic identity')
-        signature = reject_state_promotion(r)
+        signature = reject_state_promotion(r, frozen_flow)
         for filename in ('observations.mat', 'compiled_initial_state_dataset.mat', 'final_operating_point.mat'):
             if (case_root / filename).exists():
                 raise ValueError('Unexpected state artifact in rejected package')
         c = r['ps_controller_contract']
+        if c.get('initial_mdot_probe', False) != frozen_flow:
+            raise ValueError('Unexpected controller flow input')
+        if frozen_flow:
+            s = c['initial_mdot_snapshot']
+            snapshot_audit = Path(s['audit_path']); snapshot_raw = Path(s['observations_path'])
+            if (sha256(snapshot_audit) != '25BD6933EF469E29F77474659B0D8F74027B890D8E3B80910660559E9CA50B4D'
+                    or sha256(snapshot_audit) != s['audit_sha256'] or sha256(snapshot_raw) != s['observations_sha256']
+                    or s['value_kg_s'] != read(snapshot_audit)['measured_flow_signal_initial_kg_s']
+                    or s['signal_name'] != 'mass_flow_sma_stage13_kgps' or s['time_s'] != 0
+                    or s['constant_derivative_kg_s2'] != 0 or s['valid_duration_s'] != 0 or s['state_imported']
+                    or c['flow_driver_path'] != 'heatdrive_ecc_coupled_se21/ColdSMA_InitialMdot_PS'):
+                raise ValueError('Frozen measured-flow provenance changed')
+            files += [snapshot_audit, snapshot_raw]
         count = check_connections(c)
         driver = 'ColdSMA_bias_PS' if bypass else 'ColdSMAPSController'
         if (c.get('initial_bias_only', False) != bypass or c.get('pressure_driver_path', c['candidate_path'])
@@ -102,6 +124,8 @@ def audit(repo):
         results.append(dict(case=label, inspector_commit=r['inspector_commit'],
                             failure_class='initial_iteration_matrix_failure', failed_derivative_signatures=signature,
                             initial_bias_only=bypass, unchanged_physical_port_records=count,
+                            frozen_measured_flow_input=frozen_flow,
+                            controller_lag_in_failure_signature=not frozen_flow,
                             preserved_public_target_count=204, actual_initial_coordinates_available=False,
                             strict_initial_coordinate_match=None, accepted_as_recovery=False))
         files += [path, case_root / 'matlab_diary.log', library, canonical]
@@ -113,8 +137,9 @@ def audit(repo):
         if sha256(path) != freeze[key + '_sha256']:
             raise ValueError('Frozen benchmark changed')
         files.append(path)
-    return dict(schema='heatdrive_ecc_cold_ps_rejection_audit_v1', rejection_evidence_audit_pass=True,
+    return dict(schema='heatdrive_ecc_cold_ps_rejection_audit_v2', rejection_evidence_audit_pass=True,
                 cases=results, pressure_expression_bypass_sufficient=False,
+                passive_flow_input_isolation_sufficient=False,
                 coupled_controller_initialization_pass=False, initial_coordinate_gate=None,
                 trajectory_conservation_verified=False, production_recovery_allowed=False,
                 full_device_first_law_verified=False, table4_reproduction_claim=False,
