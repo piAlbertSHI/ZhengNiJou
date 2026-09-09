@@ -221,13 +221,14 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         record.initial_coordinates=cell(size(public_targets));
         for k=1:numel(public_targets)
             t=public_targets{k};node=simscape.logging.findNode(log,t.block_path);
-            series=node.child(t.state_name).series;
+            variable_node=node.child(t.state_name);series=variable_node.series;
             times=double(time(series));observed=double(values(series));
             assert(isscalar(times) && times==0 && isscalar(observed) && isfinite(observed), ...
                 'Require exactly one finite actual t=0 sample per public target.');
             actual=value(simscape.Value(observed,series.unit),t.unit);
             record.initial_coordinates{k}=struct('path',t.path,'priority',t.priority,'unit',t.unit, ...
-                'expected',t.value,'actual',actual,'source_time_s',times,'native_value',observed,'native_unit',series.unit);
+                'expected',t.value,'actual',actual,'source_time_s',times,'native_value',observed,'native_unit',series.unit, ...
+                'tag_names',{variable_node.tagNames},'tag_values',{variable_node.tags});
         end
         for block={'SMA_PumpInletConnectingPipeVolume','SMA_PumpOutletConnectingPipeVolume', ...
                 'ColdFluidBuffer','HotFluidBuffer','SHEXFluidBuffer','SMAHotFluidBuffer'}
