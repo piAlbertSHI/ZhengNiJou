@@ -36,11 +36,13 @@ function record=Run_HeatDriveECC_PSControllerEquivalence(repo,output_root)
             end
             commands.(names{k})=struct('time_s',t,'values',v,'interpolate',mode);
             variable=['controller_test_' names{k}];assignin('base',variable,timeseries(v,t));
-            b=[model '/' names{k}];add_block('simulink/Sources/From Workspace',b,'VariableName',variable,'Interpolate',mode);
+            b=[model '/' names{k}];add_block('simulink/Sources/From Workspace',b,'VariableName',variable, ...
+                'Interpolate',mode,'OutputAfterFinalValue','Holding final value');
             ps=[model '/' names{k} '_PS'];add_block('nesl_utility/Simulink-PS Converter',ps,'Unit',units{k},'UdotUserProvided','1');
             wire(model,b,1,ps,1);d=zeros(size(v));if strcmp(mode,'on'),d=[diff(v)./diff(t);0];end
             derivative_variable=[variable '_derivative'];assignin('base',derivative_variable,timeseries(d,t));db=[b '_derivative'];
-            add_block('simulink/Sources/From Workspace',db,'VariableName',derivative_variable,'Interpolate','off');wire(model,db,1,ps,2);
+            add_block('simulink/Sources/From Workspace',db,'VariableName',derivative_variable, ...
+                'Interpolate','off','OutputAfterFinalValue','Holding final value');wire(model,db,1,ps,2);
             simscape.addConnection(ps,only_port(ps),candidate,names{k});
         end
         simscape.addConnection(candidate,'mdot',solver,only_port(solver));
