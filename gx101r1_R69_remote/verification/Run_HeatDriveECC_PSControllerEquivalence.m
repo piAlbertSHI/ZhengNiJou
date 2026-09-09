@@ -1,5 +1,7 @@
-function record=Run_HeatDriveECC_PSControllerEquivalence(repo,output_root)
+function record=Run_HeatDriveECC_PSControllerEquivalence(repo,output_root,gate_reference_reset)
 % Isolated paired controller test, not a coupled-device or recovery test.
+    if nargin<3,gate_reference_reset=false;end
+    assert(islogical(gate_reference_reset) && isscalar(gate_reference_reset));
     assert(~isfolder(output_root),'Do not overwrite paired evidence.');
     [code,dirty]=system(sprintf('git -C "%s" status --porcelain -- .',repo));assert(code==0 && isempty(strtrim(dirty)),'Commit source first.');
     [code,commit]=system('git rev-parse HEAD');assert(code==0);
@@ -10,6 +12,7 @@ function record=Run_HeatDriveECC_PSControllerEquivalence(repo,output_root)
     record=struct('schema','heatdrive_ecc_ps_controller_equivalence_v1','execution_commit',strtrim(commit), ...
         'collection_pass',false,'equivalence_pass',false,'coupled_model_tested',false, ...
         'production_recovery_allowed',false,'error_message','');
+    record.reference_input_gated_during_reset=gate_reference_reset;
     try
         source=fullfile(repo,'outputs_storage_audit','sma_derivative_contract_20260909_v3','sma_derivative_contract.json');
         record.controller_contract_sha256=file_hash(source);
@@ -56,7 +59,16 @@ function record=Run_HeatDriveECC_PSControllerEquivalence(repo,output_root)
         wire(model,[model '/Kp'],1,[model '/EnabledP'],1);wire(model,[model '/enable'],1,[model '/EnabledP'],2);
         add_block('simulink/Continuous/Integrator',[model '/Integral'],'ExternalReset','level','InitialCondition','0', ...
             'LimitOutput','on','LowerSaturationLimit','-.14733718599999998','UpperSaturationLimit','.1');
-        wire(model,[model '/Ki'],1,[model '/Integral'],1);wire(model,[model '/reset'],1,[model '/Integral'],2);
+        if gate_reference_reset
+            assert(isequal(commands.enable.time_s,commands.reset.time_s) && ...
+                all(commands.enable.values+commands.reset.values==1),'Enable must be the exact reset complement.');
+            add_block('simulink/Math Operations/Product',[model '/IntegralInputGate'],'Inputs','**');
+            wire(model,[model '/Ki'],1,[model '/IntegralInputGate'],1);wire(model,[model '/enable'],1,[model '/IntegralInputGate'],2);
+            wire(model,[model '/IntegralInputGate'],1,[model '/Integral'],1);
+        else
+            wire(model,[model '/Ki'],1,[model '/Integral'],1);
+        end
+        wire(model,[model '/reset'],1,[model '/Integral'],2);
         add_block('simulink/Math Operations/Sum',[model '/RawPressure'],'Inputs','+++');
         wire(model,[model '/EnabledP'],1,[model '/RawPressure'],1);wire(model,[model '/Integral'],1,[model '/RawPressure'],2);
         wire(model,[model '/bias'],1,[model '/RawPressure'],3);
@@ -73,9 +85,11 @@ function record=Run_HeatDriveECC_PSControllerEquivalence(repo,output_root)
         add_block('simulink/Sinks/To Workspace',[model '/SaveObservations'],'VariableName','observations','SaveFormat','Timeseries','MaxDataPoints','inf');
         wire(model,[model '/Observations'],1,[model '/SaveObservations'],1);
         save_system(model,fullfile(output_root,[model '.slx']));
-        input=Simulink.SimulationInput(model);input=input.setModelParameter('CaptureErrors','on');output=sim(input);
+        input=Simulink.SimulationInput(model);input=input.setModelParameter('CaptureErrors','on');started=tic;output=sim(input);
+        record.simulation_wall_seconds=toc(started);
         record.simulation_error=output.ErrorMessage;assert(isempty(output.ErrorMessage),output.ErrorMessage);
         observations=output.get('observations');assert(observations.Time(1)==0 && observations.Time(end)==10);
+        record.sample_count=numel(observations.Time);
         data=observations.Data;assert(size(data,2)==6 && all(isfinite(data),'all'));
         differences=abs(data(:,1:3)-data(:,4:6));record.maximum_absolute_errors=max(differences,[],1);
         record.comparison_limits=[1e-7,1e-7,1e-7];record.equivalence_pass=all(record.maximum_absolute_errors<=record.comparison_limits);
