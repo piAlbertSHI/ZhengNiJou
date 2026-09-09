@@ -377,6 +377,13 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         record.global_solver_configuration=struct('Solver',get_param(model,'Solver'), ...
             'SolverType',get_param(model,'SolverType'),'MaxStep',get_param(model,'MaxStep'), ...
             'InitialStep',get_param(model,'InitialStep'));
+        record.solver_failure_policy_before=struct('MinStepSizeMsg',get_param(model,'MinStepSizeMsg'), ...
+            'MaxConsecutiveMinStep',get_param(model,'MaxConsecutiveMinStep'),'MinStep',get_param(model,'MinStep'));
+        if held_error_control
+            set_param(model,'MinStepSizeMsg','error');
+        end
+        record.solver_failure_policy_after=struct('MinStepSizeMsg',get_param(model,'MinStepSizeMsg'), ...
+            'MaxConsecutiveMinStep',get_param(model,'MaxConsecutiveMinStep'),'MinStep',get_param(model,'MinStep'));
         record.output_sampling_settings=struct();
         for key={'OutputOption','OutputTimes','Refine','Decimation','SimscapeLogDecimation','SimscapeLogLimitData'}
             record.output_sampling_settings.(key{1})=get_param(model,key{1});
@@ -424,10 +431,18 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         if held_interval
             record.held_interval_contract=Configure_HeatDriveECC_HybridHeldInterval(repo,model,duration);
         end
+        if held_error_control
+            record.stage='ready_for_held_error_control_simulation';
+            destination=fullfile(output_root,'pre_simulation_inspection.json');
+            assert(~isfile(destination),'Do not overwrite pre-simulation evidence.');
+            fid=fopen(destination,'w','n','UTF-8');assert(fid>=0);fc=onCleanup(@() fclose(fid));
+            fprintf(fid,'%s\n',jsonencode(record,'PrettyPrint',true));clear fc
+        end
         record.stage='initialization_state_logging';record.simulation_run=true;
         input=Simulink.SimulationInput(model);input=input.setVariable('cold_public_targets',cold_public_targets);
         input=input.setModelParameter('CaptureErrors','on');simulation_clock=tic;output=sim(input);
         record.simulation_wall_seconds=toc(simulation_clock);
+        record.simulation_error_message=output.ErrorMessage;
         if capture_runtime,record.runtime_callbacks=evalin('base','cold_initialization_context');end
         if duration>0 || export_initial_flux
             record.stage='export_onset_observations';

@@ -76,3 +76,11 @@ class HeldIntervalTests(unittest.TestCase):
         self.assertIn('6C6A9CA6885AFD49693F014F15EC66C2A39C73784A3742E2667AD705BAAAA975',source)
         self.assertIn('record.held_error_control_trial=held_error_control',source)
         self.assertIn("set_param(model,'RelTol','1e-10','AbsTol','1e-12')",source)
+
+    def test_error_control_stagnation_is_an_error_not_endless_warning(self):
+        source=(Path(__file__).parent/'Inspect_HeatDriveECC_ColdCompiledStates.m').read_text(encoding='utf-8')
+        self.assertIn("set_param(model,'MinStepSizeMsg','error')",source)
+        self.assertNotIn("set_param(model,'MaxConsecutiveMinStep'",source)
+        self.assertIn("'pre_simulation_inspection.json'",source)
+        self.assertLess(source.index("'pre_simulation_inspection.json'"),source.index('output=sim(input)'))
+        self.assertIn('record.simulation_error_message=output.ErrorMessage',source)
