@@ -18,6 +18,7 @@ function record=Inspect_HeatDriveECC_PumpSubnetworkContract(repo,output_root)
     record=struct('schema','heatdrive_ecc_pump_subnetwork_contract_v1','execution_commit',strtrim(commit), ...
         'collection_pass',false,'simulation_run',false,'state_imported',false,'production_recovery_allowed',false, ...
         'configuration_sha256',file_hash(config_path),'canonical_sha256',canonical_hash,'blocks',{{}}, ...
+        'capture_phase','rebuilt geometry before public cold target/PS adapter application', ...
         'equation_sources',{{}},'error_message','');
     try
         [model,~]=Build_HeatDriveECC_EighthRound_Simulink_Model(config.options);mc=onCleanup(@() close_system(model,0));
@@ -27,6 +28,12 @@ function record=Inspect_HeatDriveECC_PumpSubnetworkContract(repo,output_root)
         for k=1:numel(names)
             b=[model '/' names{k}];keys=fieldnames(get_param(b,'DialogParameters'));parameters=struct();
             for j=1:numel(keys),parameters.(keys{j})=get_param(b,keys{j});end
+            resolved=struct();
+            for key={'area','volume'}
+                name=key{1};if ~isfield(parameters,name),continue;end
+                v=slResolve(parameters.(name),b);assert(isnumeric(v) && isscalar(v) && isfinite(v) && v>0);
+                resolved.(name)=struct('value',v,'unit',parameters.([name '_unit']));
+            end
             source='';if strcmp(get_param(b,'BlockType'),'SimscapeBlock'),source=get_param(b,'SourceFile');end
             ports=Map_HeatDriveECC_PhysicalPortHandles(b,scratch);connections=get_param(b,'PortConnectivity');
             for j=1:numel(ports)
@@ -34,7 +41,7 @@ function record=Inspect_HeatDriveECC_PumpSubnetworkContract(repo,output_root)
                 ports{j}.connected_block_paths=arrayfun(@(h) getfullname(h),c.DstBlock(:),'UniformOutput',false);
                 ports{j}.connected_port_handles=c.DstPort(:);
             end
-            record.blocks{end+1}=struct('path',b,'source_file',source,'parameters',parameters,'ports',{ports});
+            record.blocks{end+1}=struct('path',b,'source_file',source,'parameters',parameters,'resolved_geometry',resolved,'ports',{ports});
         end
         clear sc
         folder=fullfile(matlabroot,'toolbox','physmod','simscape','library','m','+foundation','+thermal_liquid');
