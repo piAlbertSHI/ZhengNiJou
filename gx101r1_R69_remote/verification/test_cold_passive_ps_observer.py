@@ -1,5 +1,5 @@
 import unittest
-from Audit_HeatDriveECC_ColdPassivePSObserver import check_topology, check_initial
+from Audit_HeatDriveECC_ColdPassivePSObserver import check_topology, check_initial, check_live_input, check_actuation, summarize_coordinates
 
 
 def topology(separate):
@@ -18,6 +18,44 @@ def topology(separate):
 
 
 class PassiveObserverTests(unittest.TestCase):
+    def test_live_bridge_cannot_fabricate_zero_derivative(self):
+        p = 'heatdrive_ecc_coupled_se21/'
+        c = dict(flow_input_mode='live_simulink_bridge', provided_flow_derivatives='0', flow_value_source=p+'FlowSensor_SMA_stage13_loop_PS')
+        actual = dict(path=p+'ColdObserver_mdot_PS', Unit='kg/s', FilteringAndDerivatives='provide',
+                      UdotUserProvided='0', input_count=1, value_source=c['flow_value_source'])
+        self.assertTrue(check_live_input(c, actual))
+        actual['UdotUserProvided'] = '1'; actual['input_count'] = 2
+        with self.assertRaises(ValueError):
+            check_live_input(c, actual)
+
+    def actuation_fixture(self):
+        c = topology(True); p = 'heatdrive_ecc_coupled_se21/'; driver = p+'ColdObserver_pressure_Output'
+        a = dict(changed_inputs=[dict(destination=x, input=1, before=c['pressure_value_source'], after=driver)
+                 for x in (c['pressure_converter'], p+'SMAPressurePI_Saturation')], pressure_driver=driver,
+                 pressure_converter=c['pressure_converter'], pressure_derivative_source=c['pressure_derivative_source'],
+                 observer_drives_pump=True, initial_feedback_enable=0, initial_reset=1, first_derivative_MPa_s=0,
+                 allowed_stop_time_s=0, full_cycle_derivative_verified=False, c200_state_imported=False, production_recovery_allowed=False)
+        return a, c
+
+    def test_actuation_is_initial_only(self):
+        a, c = self.actuation_fixture(); self.assertTrue(check_actuation(a, c))
+        a['allowed_stop_time_s'] = .1
+        with self.assertRaises(ValueError):
+            check_actuation(a, c)
+
+    def test_actuation_must_update_logging(self):
+        a, c = self.actuation_fixture(); a['changed_inputs'].pop()
+        with self.assertRaises(ValueError):
+            check_actuation(a, c)
+
+    def test_small_high_priority_failure_not_promoted(self):
+        rows = [dict(within_strict_comparison=True, priority='Low', abs_error=0., limit=1e-9),
+                dict(within_strict_comparison=False, priority='High', abs_error=2e-7, limit=7.7e-9)]
+        summary = summarize_coordinates(rows)
+        self.assertFalse(summary['strict_initial_coordinate_gate'])
+        self.assertEqual(summary['matching_initial_coordinates'], 1)
+        self.assertEqual(summary['failed_high_priority'], 1)
+
     def test_two_declared_topologies(self):
         for separate in (False, True):
             self.assertTrue(check_topology(topology(separate), separate))
