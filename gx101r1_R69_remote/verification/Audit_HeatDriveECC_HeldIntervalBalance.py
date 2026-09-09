@@ -1,6 +1,6 @@
 """Variable-step inventory/flux diagnostics for the pre-switch held interval."""
 import numpy as np
-from scipy.integrate import cumulative_trapezoid
+from scipy.integrate import cumulative_trapezoid, cumulative_simpson
 
 STOP_S = .04
 MASS_LIMIT_KG = 1e-15
@@ -18,6 +18,7 @@ def balance(time, mass, energy, mass_flow, power):
     rm=dm-mf;re=de-qe
     # Quadrature comparison is reported separately; no BE identity is assumed for ode15s.
     right_m=np.r_[0,np.cumsum(f[1:]*np.diff(t))];right_e=np.r_[0,np.cumsum(q[1:]*np.diff(t))]
+    simpson_m=cumulative_simpson(f,x=t,initial=0);simpson_e=cumulative_simpson(q,x=t,initial=0)
     return dict(sample_count=len(t),mass_endpoint_change_kg=float(dm[-1]),energy_endpoint_change_J=float(de[-1]),
                 integrated_mass_input_kg=float(mf[-1]),integrated_energy_input_J=float(qe[-1]),
                 mass_max_abs_residual_kg=float(abs(rm).max()),energy_max_abs_residual_J=float(abs(re).max()),
@@ -25,7 +26,11 @@ def balance(time, mass, energy, mass_flow, power):
                 mass_closure_pass=bool(np.all(abs(rm)<=MASS_LIMIT_KG)),energy_closure_pass=bool(np.all(abs(re)<=ENERGY_LIMIT_J)),
                 right_vs_trapezoid_mass_max_kg=float(abs(right_m-mf).max()),
                 right_vs_trapezoid_energy_max_J=float(abs(right_e-qe).max()),
-                integral_scheme='trapezoid on every actual variable-step sample',
+                simpson_mass_max_abs_residual_kg=float(abs(dm-simpson_m).max()),
+                simpson_energy_max_abs_residual_J=float(abs(de-simpson_e).max()),
+                simpson_vs_trapezoid_mass_max_kg=float(abs(simpson_m-mf).max()),
+                simpson_vs_trapezoid_energy_max_J=float(abs(simpson_e-qe).max()),
+                integral_scheme='trapezoid on every exported sample; internal solver mesh not certified',
                 quadrature_convergence_verified=False)
 
 

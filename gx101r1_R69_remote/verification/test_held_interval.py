@@ -9,6 +9,8 @@ class HeldIntervalTests(unittest.TestCase):
         t=np.array([0,.001,.004,.018,.04]);r=balance(t,1+t*t,2+3*t*t,2*t,6*t)
         self.assertTrue(r['mass_closure_pass']);self.assertTrue(r['energy_closure_pass'])
         self.assertFalse(r['quadrature_convergence_verified'])
+        self.assertLess(r['simpson_mass_max_abs_residual_kg'],1e-15)
+        self.assertLess(r['simpson_energy_max_abs_residual_J'],1e-8)
 
     def test_unexplained_inventory_change_fails(self):
         t=np.linspace(0,.04,41);r=balance(t,1+t,2+t,np.zeros_like(t),np.zeros_like(t))

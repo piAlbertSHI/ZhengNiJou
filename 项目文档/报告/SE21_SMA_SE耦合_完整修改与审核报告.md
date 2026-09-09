@@ -1389,3 +1389,21 @@ C200哈希不变；391项回归通过，必要结果包约0.266 MiB。
 
 - [研究笔记第28节：修改内容、等价对照、严格门禁、结果包和运行命令](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
 - [冷态实际驱动审核JSON](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_cold_actuation_audit_20260910/hybrid_cold_audit.json)
+
+## 81. 已推进至40ms，正时间局部守恒尚未通过
+
+在0.05秒首命令边界之前，独立冷态实际运行至0.04秒自然结束。
+恒偏置与enable=0/reset=1通过运行时检查，初态204项和M/U状态门禁保持通过，编译代数环为0。
+采集到119个储能组件及49个源的完整导出历史，当前41点。
+
+正时间余额审核发现：6个替换储能组件中仅ColdFluidBuffer和HotFluidBuffer同时通过原质量/能量门禁。
+两个SMA连接腔、SHEXFluidBuffer和SMAHotFluidBuffer仍超限；最大质量残差约2.91e-13 kg，
+最大能量残差约1.42e-7 J，原阈值分别为1e-15 kg和1e-8 J，没有放宽。
+对同一数据换用Simpson求积仍未通过，不能简单归因为梯形积分公式。
+
+本轮结果保留为拒绝诊断，不进入恢复或长循环链。下一步先验证步长/容差收敛，再推进首次反馈切换。
+数据覆盖完整不等于完整系统余额已审核，本次局部余额实际仅审核6个替换组件。
+404项回归通过、C200哈希未变，新增必要证据约28.20 MiB；完整七项主目标仍未完成。
+
+- [研究笔记第29节：有界扩展、前置修正、逐项残差、哈希和复核命令](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
+- [40ms守恒审核JSON](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_interval_audit_20260910_v2/held_interval_audit.json)
