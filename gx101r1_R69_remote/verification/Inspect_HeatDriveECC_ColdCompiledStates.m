@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step,held_error_control)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step,held_error_control,held_error_control_level)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -32,6 +32,10 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<32,external_lag=false;end
     if nargin<33,held_max_step=[];end
     if nargin<34,held_error_control=false;end
+    if nargin<35,held_error_control_level='tight';end
+    assert(ischar(held_error_control_level) && any(strcmp(held_error_control_level,{'tight','moderate'})) && ...
+        (held_error_control || strcmp(held_error_control_level,'tight')), ...
+        'Only predeclared held error-control levels are allowed.');
     held_interval=external_lag && duration==.04;
     assert(islogical(held_error_control) && isscalar(held_error_control) && ...
         (~held_error_control || (held_interval && isequal(held_max_step,.00025) && ~tighten_global)), ...
@@ -232,6 +236,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.held_interval_requested=held_interval;
     record.held_max_step_override_s=held_max_step;
     record.held_error_control_trial=held_error_control;
+    record.held_error_control_level=held_error_control_level;
     if held_error_control
         qualified=fullfile(repo,'outputs_storage_audit','hybrid_held_quarterstep_audit_20260910','held_interval_audit.json');
         assert(strcmp(file_hash(qualified),'6C6A9CA6885AFD49693F014F15EC66C2A39C73784A3742E2667AD705BAAAA975'), ...
@@ -240,6 +245,12 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         assert(q.evidence_audit_pass && q.initial_coordinate_audit.strict_initial_coordinate_gate && ...
             q.compiled_algebraic_loops==0 && ~q.local_balance_gate && ~q.production_recovery_allowed);
         record.held_error_control_reference_sha256=file_hash(qualified);
+        if strcmp(held_error_control_level,'moderate')
+            rejected=fullfile(repo,'outputs_storage_audit','hybrid_held_error_control_audit_20260910','held_error_control_audit.json');
+            assert(strcmp(file_hash(rejected),'0788BA8C9DC025CA20F61894581DE40E3CEF283EE75214AF6C4E2FCD4CAA5B50'), ...
+                'The tight-control rejection evidence changed.');
+            record.held_tight_control_rejection_sha256=file_hash(rejected);
+        end
     end
     record.diagnostic_stop_time_s=duration;
     record.initialization_only=duration==0;
@@ -283,7 +294,11 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         if tighten_global || held_error_control
             assert(strcmp(record.global_tolerances.RelTol,'1e-2') && strcmp(record.global_tolerances.AbsTol,'1e-3'), ...
                 'Unexpected global baseline tolerances.');
-            set_param(model,'RelTol','1e-10','AbsTol','1e-12');
+            if held_error_control && strcmp(held_error_control_level,'moderate')
+                set_param(model,'RelTol','1e-6','AbsTol','1e-8');
+            else
+                set_param(model,'RelTol','1e-10','AbsTol','1e-12');
+            end
         end
         record.global_tolerances_after=struct('RelTol',get_param(model,'RelTol'),'AbsTol',get_param(model,'AbsTol'));
         if ~isempty(consistency_tolerance)

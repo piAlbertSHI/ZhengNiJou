@@ -84,3 +84,10 @@ class HeldIntervalTests(unittest.TestCase):
         self.assertIn("'pre_simulation_inspection.json'",source)
         self.assertLess(source.index("'pre_simulation_inspection.json'"),source.index('output=sim(input)'))
         self.assertIn('record.simulation_error_message=output.ErrorMessage',source)
+
+    def test_moderate_level_is_explicit_and_retains_tight_rejection(self):
+        source=(Path(__file__).parent/'Inspect_HeatDriveECC_ColdCompiledStates.m').read_text(encoding='utf-8')
+        self.assertIn("if nargin<35,held_error_control_level='tight';end",source)
+        self.assertIn("{'tight','moderate'}",source)
+        self.assertIn('0788BA8C9DC025CA20F61894581DE40E3CEF283EE75214AF6C4E2FCD4CAA5B50',source)
+        self.assertIn("set_param(model,'RelTol','1e-6','AbsTol','1e-8')",source)
