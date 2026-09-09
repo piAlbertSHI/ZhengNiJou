@@ -37,17 +37,18 @@ function record=Inspect_HeatDriveECC_SMADerivativeContract(repo,output_root)
             record.commands{k}=struct('block',b,'variable',variables{k},'time_s',v.Time,'values',v.Data, ...
                 'interpolate',get_param(b,'Interpolate'),'sample_time',get_param(b,'SampleTime'));
         end
-        names=[command_blocks,{'SMAPressurePI_ErrorSum','SMAPressurePI_Kp','SMAPressurePI_Ki', ...
+        names=[command_blocks,{'SMAPressurePI_ErrorSum','SMAPressurePI_ErrorLag','SMAPressurePI_Kp','SMAPressurePI_Ki', ...
             'SMAPressurePEnableProduct','SMAPressurePI_Integrator','SMAPressurePI_BiasSum', ...
             'SMAPressurePI_Saturation','SMAPressurePI_SimulinkPS'}];
-        resolve_keys={'Gain','InitialCondition','UpperSaturationLimit','LowerSaturationLimit','UpperLimit','LowerLimit'};
+        resolve_keys={'Gain','InitialCondition','UpperSaturationLimit','LowerSaturationLimit','UpperLimit','LowerLimit', ...
+            'Numerator','Denominator'};
         for k=1:numel(names)
             b=[model '/' names{k}];params=fieldnames(get_param(b,'DialogParameters'));settings=struct();resolved=struct();
             for j=1:numel(params)
                 key=params{j};settings.(key)=get_param(b,key);
                 if ismember(key,resolve_keys)
                     val=slResolve(settings.(key),b);
-                    assert(isnumeric(val) && isscalar(val) && isfinite(val),'Require finite actual controller constants.');
+                    assert(isnumeric(val) && isvector(val) && all(isfinite(val)),'Require finite actual controller constants.');
                     resolved.(key)=val;
                 end
             end
