@@ -2,6 +2,7 @@ import unittest
 from pathlib import Path
 import numpy as np
 from Audit_HeatDriveECC_HeldIntervalBalance import balance, check_held_contract
+from Audit_HeatDriveECC_HybridHeldResult import expected_solver
 
 
 class HeldIntervalTests(unittest.TestCase):
@@ -58,3 +59,11 @@ class HeldIntervalTests(unittest.TestCase):
         self.assertIn('ismember(held_max_step,[.0005,.00025]) && ~tighten_global && ~half_step',source)
         self.assertIn("set_param(model,'MaxStep',num2str(held_max_step,'%.17g'))",source)
         self.assertIn('record.output_sampling_settings',source)
+
+    def test_step_audit_changes_only_declared_maximum(self):
+        baseline=dict(Solver='ode15s',SolverType='Variable-step',MaxStep='0.001',InitialStep='auto')
+        changed=expected_solver(baseline,'halfstep')
+        self.assertEqual(float(changed.pop('MaxStep')),.0005)
+        self.assertEqual(changed,{k:v for k,v in baseline.items() if k!='MaxStep'})
+        self.assertEqual(baseline['MaxStep'],'0.001')
+        with self.assertRaises(ValueError):expected_solver(baseline,'unregistered')

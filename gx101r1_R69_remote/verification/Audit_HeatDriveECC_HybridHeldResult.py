@@ -25,18 +25,35 @@ def sampled_rows(f, dataset, count):
     return rows,grid
 
 
-def audit(repo):
-    root=repo/'outputs_storage_audit/specific_inventory_hybrid_held_interval_20260910_v2'
+CASES={
+    'baseline':('specific_inventory_hybrid_held_interval_20260910_v2','f01ab7c28f8e85b561f5610301e7f1fdc5183141',.001),
+    'halfstep':('specific_inventory_hybrid_held_halfstep_20260910','24c574043c600bb32bea685dfcc79d835f5f8ca0',.0005),
+}
+
+
+def expected_solver(baseline,case):
+    if case not in CASES:raise ValueError('Undeclared step experiment')
+    result=dict(baseline)
+    if case!='baseline':result['MaxStep']=format(CASES[case][2],'.17g')
+    return result
+
+
+def audit(repo,case='baseline'):
+    folder,producer,step=CASES[case]
+    root=repo/'outputs_storage_audit'/folder
     path=root/'compiled_states_inspection.json';raw=root/'observations.mat';r=read(path)
     basepath=repo/'outputs_storage_audit/specific_inventory_hybrid_lag_actuation_initial_20260910/compiled_states_inspection.json';base=read(basepath)
     if sha256(basepath)!='336F1F98136D664830BEC1528101EB2DF678E3F967F08E37AB80D00160FB8A3D':raise ValueError('Initial baseline changed')
-    if (r['inspector_commit']!='f01ab7c28f8e85b561f5610301e7f1fdc5183141' or not r['inspection_pass']
+    if (r['inspector_commit']!=producer or not r['inspection_pass']
             or r['stage']!='complete' or not r['held_interval_requested'] or not r['external_lag_requested']
             or not r['simulation_run'] or r['initialization_only'] or r['diagnostic_stop_time_s']!=STOP_S
             or sha256(raw)!=r['observations_sha256'] or any(r[k] for k in
                 ('c200_state_imported','failed_terminal_state_imported','production_recovery_allowed','checkpoint_saved'))):
         raise ValueError('Wrong held-interval experiment')
-    for key in ('global_tolerances_after','global_solver_configuration','consistency_settings_after',
+    expected=expected_solver(base['global_solver_configuration'],case)
+    if r['global_solver_configuration']!=expected or (case!='baseline' and r['held_max_step_override_s']!=step):
+        raise ValueError('Declared global maximum step differs')
+    for key in ('global_tolerances_after','consistency_settings_after',
                 'runtime_solver_options_after','passive_ps_observer_contract','ps_initial_actuation_contract',
                 'source_native_sha256','inventory_formulation'):
         if r[key]!=base[key]:raise ValueError('Changed initial assembly or physics: '+key)
@@ -46,7 +63,12 @@ def audit(repo):
         raise ValueError('Incomplete runtime callbacks')
     for c in cb:
         check_held_contract(c['held_interval_contract'])
-        for key in ('targets','solver_settings','global_solver_configuration','RelTol','AbsTol','runtime_solver_options',
+        if c['global_solver_configuration']!=expected:raise ValueError('Actual callback maximum step differs')
+        if case!='baseline':
+            sampling=dict(OutputOption='RefineOutputTimes',OutputTimes='[]',Refine='1',Decimation='1',SimscapeLogDecimation=1,SimscapeLogLimitData='off')
+            if c['output_sampling_settings']!=sampling or r['output_sampling_settings']!=sampling:
+                raise ValueError('Output sample settings differ')
+        for key in ('targets','solver_settings','RelTol','AbsTol','runtime_solver_options',
                     'LoadInitialState','has_private_data','external_controller_lag','passive_observer_solver','passive_observer_flow_input'):
             if c[key]!=base['runtime_callbacks'][0][key]:raise ValueError('Runtime setting changed: '+key)
         converter=c['pressure_converter']
@@ -84,7 +106,9 @@ def audit(repo):
         if sha256(p)!=freeze[key+'_sha256']:raise ValueError('C200 changed')
         files.append(p)
     passed=sum(x['mass_closure_pass'] and x['energy_closure_pass'] for x in results)
-    return dict(evidence_audit_pass=True,initial_coordinate_audit=initial,compiled_inventory_gate=inventory,
+    return dict(evidence_audit_pass=True,numerical_case=case,global_max_step_s=step,
+                output_sampling_settings=r.get('output_sampling_settings'),simulation_wall_seconds=r.get('simulation_wall_seconds'),
+                initial_coordinate_audit=initial,compiled_inventory_gate=inventory,
                 compiled_algebraic_loops=0,observed_interval_s=[0,STOP_S],exported_sample_count=len(t),
                 native_storage_count=119,native_leaf_count=1258,source_count=49,source_leaf_count=162,
                 storage_components_with_local_balance_audited=6,passing_local_balances=passed,
@@ -95,9 +119,10 @@ def audit(repo):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output-root',type=Path,required=True);args=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output-root',type=Path,required=True)
+    p.add_argument('--case',choices=CASES,default='baseline');args=p.parse_args()
     if args.output_root.exists():raise FileExistsError('Never overwrite evidence')
-    result,rows=audit(Path(__file__).resolve().parents[1]);args.output_root.mkdir(parents=True)
+    result,rows=audit(Path(__file__).resolve().parents[1],args.case);args.output_root.mkdir(parents=True)
     (args.output_root/'held_interval_audit.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n',encoding='utf-8')
     with (args.output_root/'initial_coordinates.csv').open('x',newline='',encoding='utf-8') as f:
         w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
