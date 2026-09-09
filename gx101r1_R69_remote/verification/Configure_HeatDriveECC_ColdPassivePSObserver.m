@@ -64,7 +64,7 @@ function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,remova
     end
     mdot=[model '/ColdObserver_mdot_PS'];constant=[mdot '_Value'];zero=[mdot '_Derivative'];
     flow_source=constant;flow_mode='frozen_initial';flow_derivatives='1';
-    observer_input='mdot';flow_unit='kg/s';
+    observer_input='mdot';
     if external_lag
         flow_mode='live_external_lag';flow_derivatives='0';flow_unit='1';observer_input='lag_input';
         sum_block=[model '/ColdObserver_ErrorSum'];norm_block=[model '/ColdObserver_ErrorNormalizer'];

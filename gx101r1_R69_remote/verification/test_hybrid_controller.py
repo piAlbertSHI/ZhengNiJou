@@ -1,5 +1,7 @@
 import unittest
+import copy
 from pathlib import Path
+from Audit_HeatDriveECC_HybridColdActuation import check_hybrid_runtime
 
 ROOT = Path(__file__).parent
 
@@ -42,6 +44,43 @@ class HybridControllerTests(unittest.TestCase):
         self.assertIn('if nargin<32,external_lag=false;end',inspector)
         self.assertIn('actuate_ps_output && ~tighten_global && duration==0 && capture_runtime',inspector)
         self.assertIn("record.pre_simulation_compile_callbacks=evalin('base','cold_initialization_context')",inspector)
+
+    def runtime_fixture(self):
+        p='heatdrive_ecc_coupled_se21/';lag=p+'ColdObserver_ErrorLag'
+        c=dict(external_lag=True,flow_input_mode='live_external_lag',flow_value_source=lag,provided_flow_derivatives='0',
+               hybrid_contract=dict(lag_path=lag,lag_numerator='1',lag_denominator='[.002 1]',normalization='1',
+                                    additional_lag_state_added=False,original_internal_lag_removed=True),
+               observer_solver_contract=dict(settings=dict(UseLocalSolver='off')))
+        callback=dict(passive_observer_flow_input=dict(path=p+'ColdObserver_mdot_PS',Unit='1',FilteringAndDerivatives='provide',
+                      UdotUserProvided='0',input_count=1,value_source=lag),
+                      external_controller_lag=dict(path=lag,block_type='TransferFcn',numerator='1',denominator='[.002 1]',
+                                                  input_source=p+'ColdObserver_ErrorNormalizer'),
+                      passive_observer_solver=dict(copied_settings_identical=True,settings=dict(UseLocalSolver='off')),
+                      pressure_converter=dict(value_source=p+'ColdObserver_pressure_Output'))
+        expected=dict(lag_input=(0.,'1'),bias=(-1e-6,'MPa'),enable=(0.,'1'),reset=(1.,'1'),
+                      pressure=(-1e-6,'MPa'),lag=(0.,'1'),integral=(0.,'MPa'))
+        return dict(passive_ps_observer_contract=c,actual_initial_sensor_mdot_kg_s=-6e-10,
+                    ps_controller_child_ids=['pi_integrator'],states=[dict(block_path=[lag],time_s=0)],
+                    runtime_callbacks=[copy.deepcopy(callback)],
+                    pre_simulation_compile_callbacks=[dict(copy.deepcopy(callback),stage='InitFcn',simulation_status='updating') for _ in range(2)],
+                    ps_initial_actuation_contract=dict(pressure_driver=p+'ColdObserver_pressure_Output'),
+                    algebraic_structure=dict(loop_count=0,loops=[],simulation_run=False),
+                    ps_controller_initial=[dict(name=k,actual=v,unit=u,source_time_s=0) for k,(v,u) in expected.items()])
+
+    def test_hybrid_runtime_contract(self):
+        check_hybrid_runtime(self.runtime_fixture())
+
+    def test_extra_state_loop_or_filter_rejected(self):
+        for change in ('duplicate','internal','loop','filter','coefficient','initial'):
+            r=self.runtime_fixture()
+            if change=='duplicate':r['states']*=2
+            elif change=='internal':r['ps_controller_child_ids'].append('error_lag')
+            elif change=='loop':r['algebraic_structure']['loop_count']=1
+            elif change=='filter':r['runtime_callbacks'][0]['passive_observer_flow_input']['FilteringAndDerivatives']='filter'
+            elif change=='coefficient':r['runtime_callbacks'][0]['external_controller_lag']['denominator']='[.004 1]'
+            else:r['ps_controller_initial'][0]['actual']=.01
+            with self.subTest(change=change):
+                with self.assertRaises(ValueError):check_hybrid_runtime(r)
 
 
 if __name__ == '__main__':
