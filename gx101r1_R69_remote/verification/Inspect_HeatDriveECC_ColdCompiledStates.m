@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -11,9 +11,14 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<11,normal_mode=false;end
     if nargin<12,momentum_buffers=false;end
     if nargin<13,disable_regularization=false;end
+    if nargin<14,half_step=false;end
     assert(islogical(capture_runtime) && isscalar(capture_runtime),'Require explicit callback capture choice.');
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown inventory formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
+    assert(islogical(half_step) && isscalar(half_step) && (~half_step || ...
+        (specific_inventory && capture_runtime && ~disable_regularization && ~momentum_buffers && ~normal_mode && ...
+        ~scale_buffers && ~tighten_global && isempty(consistency_tolerance) && isempty(residual_tolerance))), ...
+        'Half-step diagnostic must retain physics, targets, priorities and all other solver options.');
     assert(islogical(disable_regularization) && isscalar(disable_regularization) && (~disable_regularization || ...
         (specific_inventory && capture_runtime && ~momentum_buffers && ~normal_mode && ~scale_buffers && ~tighten_global && ...
         isempty(consistency_tolerance) && isempty(residual_tolerance))), ...
@@ -136,6 +141,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.momentum_buffers_requested=momentum_buffers;
     record.momentum_contract=momentum_contract;
     record.disable_regularization_requested=disable_regularization;
+    record.half_step_requested=half_step;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
     record.chamber_package_resolution=evalc('which(chamber_source,''-all'')');
     record.chamber_source_file=chamber_source;
@@ -160,6 +166,10 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             'ResidualTolerance','UseLocalSolver','LocalSolverChoice','LocalSolverSampleTime'};
         before=struct();for k=1:numel(names),before.(names{k})=get_param(solvers{1},names{k});end
         record.consistency_settings_before=before;
+        if half_step
+            assert(strcmp(before.LocalSolverSampleTime,'0.001'),'Unexpected baseline local step.');
+            set_param(solvers{1},'LocalSolverSampleTime','0.0005');
+        end
         record.global_tolerances=struct('RelTol',get_param(model,'RelTol'),'AbsTol',get_param(model,'AbsTol'));
         if tighten_global
             assert(strcmp(record.global_tolerances.RelTol,'1e-2') && strcmp(record.global_tolerances.AbsTol,'1e-3'), ...
@@ -237,9 +247,16 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             simulation_mode='normal';
         end
         record.execution_mode=simulation_mode;
+        fixed_step=options.simulation.fixed_step_s;
+        record.fixed_step_before=fixed_step;
+        if half_step
+            assert(fixed_step==.001,'Unexpected baseline global fixed step.');
+            fixed_step=.0005;
+        end
+        record.fixed_step_after=fixed_step;
         set_param(model,'LoadInitialState','off','SimscapeUseOperatingPoints','on','SimscapeOperatingPoint','cold_public_targets', ...
             'StartTime','0','StopTime','0','SimulationMode',simulation_mode, ...
-            'Solver',options.simulation.solver,'FixedStep',num2str(options.simulation.fixed_step_s,'%.17g'), ...
+            'Solver',options.simulation.solver,'FixedStep',num2str(fixed_step,'%.17g'), ...
             'SaveState','on','StateSaveName','states','SaveFormat','Dataset','SaveFinalState','off','SaveOperatingPoint','off', ...
             'ReturnWorkspaceOutputs','on','SimscapeLogType','all','SimscapeLogName','simlog','SimscapeLogLimitData','off');
         record.stage='initialization_state_logging';record.simulation_run=true;
