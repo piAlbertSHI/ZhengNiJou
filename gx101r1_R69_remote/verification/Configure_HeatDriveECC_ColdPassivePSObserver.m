@@ -1,8 +1,10 @@
-function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,removal)
+function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,removal,separate_network)
 % Add a non-driving PS observer to the qualified original pressure input.
     assert(strcmp(get_param(model,'StartTime'),'0') && strcmp(get_param(model,'StopTime'),'0') && ...
         strcmp(get_param(model,'LoadInitialState'),'off') && strcmp(get_param(model,'SaveOperatingPoint'),'off'));
     assert(removal.only_expected_blocks_removed && removal.allowed_stop_time_s==0 && ~removal.candidate_ps_added);
+    if nargin<4,separate_network=false;end
+    assert(islogical(separate_network) && isscalar(separate_network));
     root=fullfile(repo,'outputs_storage_audit');
     qualified=fullfile(root,'ps_controller_pair_audit_20260909','controller_pair_audit.json');
     assert(strcmp(file_hash(qualified),'B0B7A15859E885325B9317722BA0B4A222226F9805DFA6AC69AF98D7C8A68C4C'));
@@ -47,7 +49,23 @@ function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,remova
     add_block('simulink/Sources/Constant',constant,'Value',num2str(signal.values,17));
     add_block('simulink/Sources/Constant',zero,'Value','0');
     wire(model,constant,1,mdot,1);wire(model,zero,1,mdot,2);simscape.addConnection(mdot,only_port(mdot),observer,'mdot');
-    simscape.addConnection(converter,only_port(converter),observer,'bias');
+    solver_contract=struct();bias_driver=converter;
+    if separate_network
+        bias_driver=[model '/ColdObserver_bias_PS'];
+        add_block('nesl_utility/Simulink-PS Converter',bias_driver,'Unit','MPa','UdotUserProvided','1');
+        wire(model,removal.pressure_value_source,1,bias_driver,1);
+        wire(model,removal.pressure_derivative_source,1,bias_driver,2);
+        solvers=find_system(model,'LookUnderMasks','all','FollowLinks','on','MaskType','Solver Configuration');
+        assert(isscalar(solvers));isolated=[model '/ColdObserver_Solver'];add_block(solvers{1},isolated);
+        parameters=fieldnames(get_param(solvers{1},'DialogParameters'));settings=struct();
+        for k=1:numel(parameters)
+            settings.(parameters{k})=get_param(solvers{1},parameters{k});
+            assert(isequal(get_param(isolated,parameters{k}),settings.(parameters{k})));
+        end
+        simscape.addConnection(observer,'mdot',isolated,only_port(isolated));
+        solver_contract=struct('original_path',solvers{1},'observer_path',isolated,'settings',settings,'copied_settings_identical',true);
+    end
+    simscape.addConnection(bias_driver,only_port(bias_driver),observer,'bias');
     outputs={'pressure','lag','integral'};output_units={'MPa','1','MPa'};
     for k=1:3
         out=[model '/ColdObserver_' outputs{k} '_Output'];
@@ -57,7 +75,8 @@ function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,remova
             'VariableName',['cold_observer_' outputs{k}],'SaveFormat','Timeseries');wire(model,out,1,logger,1);
     end
     after=destinations(converter);
-    assert(isequal(sort(after),sort([before;{observer}])) && ...
+    expected=before;if ~separate_network,expected=[before;{observer}];end
+    assert(isequal(sort(after),sort(expected)) && ...
         strcmp(input_source(converter,1),removal.pressure_value_source) && ...
         strcmp(input_source(converter,2),removal.pressure_derivative_source),'Pressure actuator path changed.');
     contract=struct('schema','heatdrive_ecc_cold_passive_ps_observer_v1','observer_path',observer, ...
@@ -67,7 +86,8 @@ function contract=Configure_HeatDriveECC_ColdPassivePSObserver(repo,model,remova
         'flow_observations_path',raw,'flow_observations_sha256',file_hash(raw),'frozen_mdot_kg_s',signal.values, ...
         'commands',r.commands,'pressure_converter',converter,'pressure_value_source',removal.pressure_value_source, ...
         'pressure_derivative_source',removal.pressure_derivative_source,'pressure_destinations_before',{before}, ...
-        'pressure_destinations_after',{after},'observer_drives_pump',false,'separate_solver_added',false, ...
+        'pressure_destinations_after',{after},'observer_drives_pump',false,'separate_solver_added',separate_network, ...
+        'observer_bias_driver',bias_driver,'observer_solver_contract',solver_contract, ...
         'allowed_stop_time_s',0,'production_recovery_allowed',false,'c200_state_imported',false);
 end
 function rows=destinations(block)

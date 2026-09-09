@@ -3,6 +3,16 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
     assert(any(strcmp(stage,{'InitFcn','StartFcn','StopFcn'})),'Unknown capture stage.');
     assert(strcmp(get_param(model,'SimscapeOperatingPoint'),'cold_public_targets'),'Unexpected public target variable.');
     blocks=find_system(model,'LookUnderMasks','all','FollowLinks','on','MaskType','Solver Configuration');
+    isolated=[model '/ColdObserver_Solver'];observer_solver=struct();
+    if any(strcmp(blocks,isolated))
+        assert(numel(blocks)==2 && getSimulinkBlockHandle([model '/ColdSMAPassiveObserver'])>0);
+        blocks=blocks(~strcmp(blocks,isolated));keys=fieldnames(get_param(isolated,'DialogParameters'));settings=struct();
+        for k=1:numel(keys)
+            settings.(keys{k})=get_param(isolated,keys{k});
+            assert(isequal(settings.(keys{k}),get_param(blocks{1},keys{k})),'Observer solver configuration changed.');
+        end
+        observer_solver=struct('path',isolated,'settings',settings,'copied_settings_identical',true);
+    end
     assert(isscalar(blocks),'Expected one coupled solver.');
     names={'ConsistencyTolSource','ConsistencyAbsTol','ConsistencyRelTol','ConsistencyTolFactor', ...
         'ResidualTolerance','UseLocalSolver','LocalSolverChoice','LocalSolverSampleTime'};
@@ -23,6 +33,7 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
         'SimscapeUseOperatingPoints',get_param(model,'SimscapeUseOperatingPoints'), ...
         'LoadInitialState',get_param(model,'LoadInitialState'),'targets',{targets},'has_private_data',false);
     record.normalize_using_nominal_values=get_param(model,'SimscapeNormalizeSystem');
+    record.passive_observer_solver=observer_solver;
     record.global_fixed_step=get_param(model,'FixedStep');
     record.original_control_state_blocks_present=struct( ...
         'lag',getSimulinkBlockHandle([model '/SMAPressurePI_ErrorLag'])>0, ...
