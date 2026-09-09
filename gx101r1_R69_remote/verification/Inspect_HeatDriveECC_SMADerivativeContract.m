@@ -1,7 +1,8 @@
 function record=Inspect_HeatDriveECC_SMADerivativeContract(repo,output_root)
 % Export the rebuilt controller contract without simulation or state import.
     assert(~isfolder(output_root),'Never overwrite controller evidence.');
-    [code,dirty]=system('git status --porcelain');assert(code==0 && isempty(strtrim(dirty)),'Commit inspector first.');
+    [code,dirty]=system(sprintf('git -C "%s" status --porcelain -- .',repo));
+    assert(code==0 && isempty(strtrim(dirty)),'Commit relevant source first.');
     [code,commit]=system('git rev-parse HEAD');assert(code==0,'Cannot record producer.');
     source=fullfile(repo,'outputs_storage_audit','conservative_buffer_coupled_cycle_20260909');
     config_path=fullfile(source,'conservative','configuration.mat');
@@ -19,6 +20,7 @@ function record=Inspect_HeatDriveECC_SMADerivativeContract(repo,output_root)
     record=struct('schema','heatdrive_ecc_sma_derivative_contract_v1','producer_commit',strtrim(commit), ...
         'collection_pass',false,'simulation_run',false,'state_imported',false,'model_saved',false, ...
         'production_recovery_allowed',false,'configuration_sha256',file_hash(config_path), ...
+        'clean_source_scope','gx101r1_R69_remote', ...
         'canonical_sha256',canonical_hash,'commands',{{}},'blocks',{{}},'error_message','');
     try
         [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(prior.options);
