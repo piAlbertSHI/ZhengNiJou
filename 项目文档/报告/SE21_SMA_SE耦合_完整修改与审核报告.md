@@ -1462,3 +1462,27 @@ C200两项哈希重新核验未变。两个必要失败原始包合计9,197,770�
 
 - [完整失败证据审核与初态结果](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_error_control_audit_20260910/held_error_control_audit.json)
 - [研究笔记第31节：两次执行、哈希、复核命令与证据边界](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
+
+## 84. 中间误差控制可推进，但持续累积的余额误差仍未解决
+
+提交 `829fad4` 固定MaxStep=.00025s，使用预先声明的RelTol=1e-6、AbsTol=1e-8，
+保留MinStepSizeMsg=error和全部原科学门禁。前台MATLAB自行退出0，取得401个非均匀导出时刻，
+完整覆盖0--0.04s；204项初态、零代数环和6组件M/U状态门禁通过。
+这表明该中间设置没有出现上一轮几乎零时刻的步长塌缩，但不是全局误差控制修复成功。
+
+六组件仍仅ColdFluidBuffer、HotFluidBuffer同时通过质量/能量门禁。
+最大质量残差5.5605e-14kg、最大能量残差2.7166e-8J，均超限；
+SMAHotFluidBuffer仅能量项通过。失败结果继续隔离，不产生恢复点或进入长周期。
+
+新残差定位工具显示入口连接腔首间隔残差约1.72e-19kg，1ms时约1.19e-15kg，
+40ms时约4.30e-14kg，属于随时间持续积累的误差，不支持“只有初态跳变”的解释。
+但这还不能区分求解器动态误差、DAE约束投影及变量尺度影响，不能宣称唯一根因。
+下一步先核对约束余额与库存变化尺度，再选择受控数值修正，不按容差序列无限试错。
+
+419项回归通过，MATLAB checkcode入口0条消息；C200两项哈希复核未变。
+本轮必要原始/审核/定位包合计58,142,366 bytes、29文件，无重复长周期raw。
+完整七项目标仍未完成，后续主动反馈与全周期必须继续受原科学门禁约束。
+
+- [中间容差的完整审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_moderate_control_audit_20260910/held_interval_audit.json)
+- [逐组件残差时间定位](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_moderate_residual_localization_20260910/residual_localization.json)
+- [研究笔记第32节](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)

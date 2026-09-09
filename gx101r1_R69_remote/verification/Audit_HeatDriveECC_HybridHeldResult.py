@@ -29,6 +29,7 @@ CASES={
     'baseline':('specific_inventory_hybrid_held_interval_20260910_v2','f01ab7c28f8e85b561f5610301e7f1fdc5183141',.001),
     'halfstep':('specific_inventory_hybrid_held_halfstep_20260910','24c574043c600bb32bea685dfcc79d835f5f8ca0',.0005),
     'quarterstep':('specific_inventory_hybrid_held_quarterstep_20260910','5d014f3697ba9c356be7f3e867141881707d3017',.00025),
+    'moderate_control':('specific_inventory_hybrid_held_moderate_control_20260910','829fad4d05b21d5a18a6d41d15824376819d6ce8',.00025),
 }
 
 
@@ -37,6 +38,11 @@ def expected_solver(baseline,case):
     result=dict(baseline)
     if case!='baseline':result['MaxStep']=format(CASES[case][2],'.17g')
     return result
+
+
+def expected_tolerances(baseline,case):
+    if case not in CASES:raise ValueError('Undeclared tolerance experiment')
+    return dict(RelTol='1e-6',AbsTol='1e-8') if case=='moderate_control' else dict(baseline)
 
 
 def audit(repo,case='baseline'):
@@ -52,9 +58,17 @@ def audit(repo,case='baseline'):
                 ('c200_state_imported','failed_terminal_state_imported','production_recovery_allowed','checkpoint_saved'))):
         raise ValueError('Wrong held-interval experiment')
     expected=expected_solver(base['global_solver_configuration'],case)
+    tolerances=expected_tolerances(base['global_tolerances_after'],case)
+    if r['global_tolerances_after']!=tolerances:raise ValueError('Global error controls differ')
+    if case=='moderate_control':
+        policy=dict(MinStepSizeMsg='error',MaxConsecutiveMinStep='1',MinStep='auto')
+        if (not r['held_error_control_trial'] or r['held_error_control_level']!='moderate'
+                or r['solver_failure_policy_after']!=policy
+                or r['held_tight_control_rejection_sha256']!='0788BA8C9DC025CA20F61894581DE40E3CEF283EE75214AF6C4E2FCD4CAA5B50'):
+            raise ValueError('Undeclared moderate-control provenance or failure policy')
     if r['global_solver_configuration']!=expected or (case!='baseline' and r['held_max_step_override_s']!=step):
         raise ValueError('Declared global maximum step differs')
-    for key in ('global_tolerances_after','consistency_settings_after',
+    for key in ('consistency_settings_after',
                 'runtime_solver_options_after','passive_ps_observer_contract','ps_initial_actuation_contract',
                 'source_native_sha256','inventory_formulation'):
         if r[key]!=base[key]:raise ValueError('Changed initial assembly or physics: '+key)
@@ -65,11 +79,13 @@ def audit(repo,case='baseline'):
     for c in cb:
         check_held_contract(c['held_interval_contract'])
         if c['global_solver_configuration']!=expected:raise ValueError('Actual callback maximum step differs')
+        if {k:c[k] for k in tolerances}!=tolerances:raise ValueError('Actual callback tolerances differ')
+        if case=='moderate_control' and c['solver_failure_policy']!=policy:raise ValueError('Actual failure action differs')
         if case!='baseline':
             sampling=dict(OutputOption='RefineOutputTimes',OutputTimes='[]',Refine='1',Decimation='1',SimscapeLogDecimation=1,SimscapeLogLimitData='off')
             if c['output_sampling_settings']!=sampling or r['output_sampling_settings']!=sampling:
                 raise ValueError('Output sample settings differ')
-        for key in ('targets','solver_settings','RelTol','AbsTol','runtime_solver_options',
+        for key in ('targets','solver_settings','runtime_solver_options',
                     'LoadInitialState','has_private_data','external_controller_lag','passive_observer_solver','passive_observer_flow_input'):
             if c[key]!=base['runtime_callbacks'][0][key]:raise ValueError('Runtime setting changed: '+key)
         converter=c['pressure_converter']
@@ -102,12 +118,20 @@ def audit(repo,case='baseline'):
                 raise ValueError('Actual held pressure or integral changed')
     freeze_path=repo/'verification/c200_mainline_freeze_contract.json';freeze=read(freeze_path)
     files=[path,raw,basepath,targetpath,native,freeze_path,root/'compiled_state_dataset.mat',root/'matlab_diary.log']
+    if case=='moderate_control':
+        prepath=root/'pre_simulation_inspection.json';pre=read(prepath)
+        if pre['simulation_run'] or pre['global_tolerances_after']!=tolerances or pre['solver_failure_policy_after']!=policy:
+            raise ValueError('Moderate-control pre-simulation configuration differs')
+        rejected=repo/'outputs_storage_audit/hybrid_held_error_control_audit_20260910/held_error_control_audit.json'
+        if sha256(rejected)!=r['held_tight_control_rejection_sha256']:raise ValueError('Tight-control evidence changed')
+        files.extend([prepath,rejected])
     for key in ('result','checkpoint'):
         p=repo/freeze[key+'_relative_path']
         if sha256(p)!=freeze[key+'_sha256']:raise ValueError('C200 changed')
         files.append(p)
     passed=sum(x['mass_closure_pass'] and x['energy_closure_pass'] for x in results)
     return dict(evidence_audit_pass=True,numerical_case=case,global_max_step_s=step,
+                global_tolerances=tolerances,solver_failure_policy=r.get('solver_failure_policy_after'),
                 output_sampling_settings=r.get('output_sampling_settings'),simulation_wall_seconds=r.get('simulation_wall_seconds'),
                 initial_coordinate_audit=initial,compiled_inventory_gate=inventory,
                 compiled_algebraic_loops=0,observed_interval_s=[0,STOP_S],exported_sample_count=len(t),

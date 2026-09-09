@@ -2,7 +2,7 @@ import unittest
 from pathlib import Path
 import numpy as np
 from Audit_HeatDriveECC_HeldIntervalBalance import balance, check_held_contract
-from Audit_HeatDriveECC_HybridHeldResult import expected_solver
+from Audit_HeatDriveECC_HybridHeldResult import expected_solver, expected_tolerances
 
 
 class HeldIntervalTests(unittest.TestCase):
@@ -91,3 +91,11 @@ class HeldIntervalTests(unittest.TestCase):
         self.assertIn("{'tight','moderate'}",source)
         self.assertIn('0788BA8C9DC025CA20F61894581DE40E3CEF283EE75214AF6C4E2FCD4CAA5B50',source)
         self.assertIn("set_param(model,'RelTol','1e-6','AbsTol','1e-8')",source)
+
+    def test_moderate_audit_does_not_change_existing_step_tolerances(self):
+        baseline=dict(RelTol='1e-2',AbsTol='1e-3')
+        for case in ('baseline','halfstep','quarterstep'):
+            self.assertEqual(expected_tolerances(baseline,case),baseline)
+        self.assertEqual(expected_tolerances(baseline,'moderate_control'),dict(RelTol='1e-6',AbsTol='1e-8'))
+        self.assertEqual(baseline,dict(RelTol='1e-2',AbsTol='1e-3'))
+        with self.assertRaises(ValueError):expected_tolerances(baseline,'undeclared')
