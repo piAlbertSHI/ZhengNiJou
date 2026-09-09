@@ -203,6 +203,27 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         plugin=get_param(model,'SimscapePlugin');
         record.plugin_class=class(plugin);record.plugin_display=evalc('disp(plugin)');
         if isobject(plugin),record.plugin_methods=methods(plugin);record.plugin_properties=properties(plugin);end
+        if capture_runtime
+            record.stage='cached_public_initialization_phases';record.cached_phase_targets={};
+            count_before=numel(evalin('base','cold_initialization_context'));
+            % R2025b calls the target phase Prestart; Target is its R2026a name.
+            for phase={'Prestart','Start'}
+                cached=simscape.op.create(model,phase{1},true);
+                values_only=cell(size(public_targets));
+                for k=1:numel(public_targets)
+                    t=public_targets{k};target=get(cached,t.path);
+                    assert(isa(target,'simscape.op.Target'),'Missing cached public target.');
+                    values_only{k}=struct('path',t.path,'unit',t.unit,'value',value(target.Value,t.unit), ...
+                        'priority',char(string(target.Priority)));
+                end
+                record.cached_phase_targets{end+1}=struct('phase',phase{1},'cache_requested',true, ...
+                    'public_targets',{values_only},'private_payload_exported',false);
+                clear cached
+            end
+            assert(numel(evalin('base','cold_initialization_context'))==count_before, ...
+                'Cached phase extraction must not initialize or simulate again.');
+            record.cached_extraction_added_callbacks=false;
+        end
         record.stage='verify_frozen_authority';
         assert(strcmp(file_hash(canonical),canonical_hash) && strcmp(file_hash(raw),frozen.result_sha256) && ...
             strcmp(file_hash(op),frozen.checkpoint_sha256),'Frozen model or authority changed.');
