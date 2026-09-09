@@ -1,9 +1,11 @@
-function records = Apply_HeatDriveECC_ColdConservativeBuffers(model, native)
+function records = Apply_HeatDriveECC_ColdConservativeBuffers(model, native, library)
 % Replace only four root buffers, preserving actual physical port geometry.
-    assert(bdIsLoaded('ecc_buffer_coupled_lib'), 'Build aligned candidate library before replacement.');
+    if nargin < 3, library = 'ecc_buffer_coupled_lib'; end
+    assert(any(strcmp(library, {'ecc_buffer_coupled_lib','ecc_buffer_momentum_lib'})), 'Unqualified buffer library.');
+    assert(bdIsLoaded(library), 'Build aligned candidate library before replacement.');
     assert(strcmp(get_param(model, 'LoadInitialState'), 'off'), 'Independent cold replacement only.');
-    lib = find_system('ecc_buffer_coupled_lib', 'SearchDepth', 1, 'Type', 'Block');
-    lib = setdiff(lib, {'ecc_buffer_coupled_lib'}); assert(isscalar(lib), 'Expected one buffer component.');
+    lib = find_system(library, 'SearchDepth', 1, 'Type', 'Block');
+    lib = setdiff(lib, {library}); assert(isscalar(lib), 'Expected one buffer component.');
     scratch='ecc_buffer_port_scratch';assert(~bdIsLoaded(scratch),'Scratch model is in use.');
     new_system(scratch);scratch_cleanup=onCleanup(@() close_system(scratch,0));
     records = {};
@@ -58,6 +60,7 @@ function records = Apply_HeatDriveECC_ColdConservativeBuffers(model, native)
                 'Physical port connectivity changed.');
         end
         records{end+1}=struct('block_path',path,'original_parameters',parameters, ...
+            'candidate_source_file',get_param(path,'SourceFile'), ...
             'original_conserving_ports',{ports_before},'removed_unconnected_outputs',{removed_outputs}, ...
             'tank_area_m2',area,'port_area_m2',port_area,'inlet_height_m',height,'gravity_m_s2',gravity, ...
             'p_environment_Pa',pressure,'reference_temperature_K',temp,'initial_mass_kg',mass, ...

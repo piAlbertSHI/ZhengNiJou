@@ -24,7 +24,11 @@ function [point,records]=Build_HeatDriveECC_ColdInventoryTargets(model,native,ch
                     add(p,'mass','kg','High');add(p,'T_I','K','High');add(p,'level','m','Low');
                 else
                     b=buffers(cellfun(@(r) strcmp(r.block_path,p),buffers));assert(isscalar(b),'Duplicate buffer target.');
-                    assert(strcmp(get_param(p,'SourceFile'),'ecc_buffer_coupled.conservative_buffer'),'Wrong candidate buffer.');
+                    buffer_source='ecc_buffer_coupled.conservative_buffer';
+                    if isfield(b{1},'candidate_source_file'),buffer_source=b{1}.candidate_source_file;end
+                    assert(any(strcmp(buffer_source,{'ecc_buffer_coupled.conservative_buffer', ...
+                        'ecc_buffer_momentum.conservative_buffer'})) && strcmp(get_param(p,'SourceFile'),buffer_source), ...
+                        'Wrong candidate buffer.');
                     add_value(p,'stored_mass','kg','High',b{1}.initial_mass_kg);
                     add_value(p,'stored_energy','J','High',b{1}.initial_extended_energy_J);
                     add(p,'T_I','K','Low');add(p,'level','m','Low');

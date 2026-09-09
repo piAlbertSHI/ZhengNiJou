@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -9,9 +9,14 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<9,tighten_global=false;end
     if nargin<10,scale_buffers=false;end
     if nargin<11,normal_mode=false;end
+    if nargin<12,momentum_buffers=false;end
     assert(islogical(capture_runtime) && isscalar(capture_runtime),'Require explicit callback capture choice.');
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown inventory formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
+    assert(islogical(momentum_buffers) && isscalar(momentum_buffers) && (~momentum_buffers || ...
+        (specific_inventory && capture_runtime && ~normal_mode && ~scale_buffers && ~tighten_global && ...
+        isempty(consistency_tolerance) && isempty(residual_tolerance))), ...
+        'Momentum-only trial must retain the baseline solver, targets and scaling.');
     assert(islogical(normal_mode) && isscalar(normal_mode) && (~normal_mode || ...
         (specific_inventory && capture_runtime && ~scale_buffers && ~tighten_global && ...
         isempty(consistency_tolerance) && isempty(residual_tolerance))), ...
@@ -86,7 +91,25 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         library_name='ecc_inventory_lib';chamber_source='ecc_inventory.conservative_chamber';
         selected_library=fullfile(source,'component_build','ecc_inventory_lib.slx');
     end
-    load_system(selected_library);load_system('ecc_buffer_coupled_lib');
+    buffer_library='ecc_buffer_coupled_lib';momentum_contract=struct();
+    if momentum_buffers
+        audit_path=fullfile(repo,'outputs_storage_audit','conservative_buffer_momentum_audit_20260909','conservative_buffer_audit.json');
+        qualified=jsondecode(fileread(audit_path));
+        assert(qualified.isolated_component_conservation_pass && qualified.momentum_boundary_trial && ...
+            ~qualified.production_recovery_allowed && numel(qualified.cases)==16,'Require isolated momentum qualification.');
+        buffer_library='ecc_buffer_momentum_lib';
+        buffer_build=fullfile(repo,'outputs_storage_audit','conservative_buffer_momentum_trial_20260909','component_build');
+        buffer_component=fullfile(repo,'verification','simscape_buffer_momentum','+ecc_buffer_momentum','conservative_buffer.ssc');
+        buffer_source=fullfile(buffer_build,'+ecc_buffer_momentum','conservative_buffer.ssc');
+        assert(strcmp(file_hash(buffer_component),file_hash(buffer_source)),'Qualified buffer source changed.');
+        addpath(buffer_build);load_system(fullfile(buffer_build,[buffer_library '.slx']));
+        assert(strcmp(get_param(buffer_library,'FileName'),fullfile(buffer_build,[buffer_library '.slx'])),'Wrong buffer library loaded.');
+        momentum_contract=struct('audit_path',audit_path,'audit_sha256',file_hash(audit_path), ...
+            'component_path',buffer_component,'component_sha256',file_hash(buffer_component), ...
+            'library_path',fullfile(buffer_build,[buffer_library '.slx']), ...
+            'library_sha256',file_hash(fullfile(buffer_build,[buffer_library '.slx'])));
+    end
+    load_system(selected_library);load_system(buffer_library);
     assert(strcmp(get_param(library_name,'FileName'),selected_library),'A different component library is loaded.');
     config=load(fullfile(source,'conservative','configuration.mat'),'options');
     config.options.simulation.persist_model_configuration=false;
@@ -105,6 +128,8 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.global_tolerance_override=tighten_global;
     record.buffer_nominal_scaling_requested=scale_buffers;
     record.normal_mode_requested=normal_mode;
+    record.momentum_buffers_requested=momentum_buffers;
+    record.momentum_contract=momentum_contract;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
     record.chamber_package_resolution=evalc('which(chamber_source,''-all'')');
     record.chamber_source_file=chamber_source;
@@ -155,7 +180,8 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
                 'mass_specify','on','mass_priority','High');
         end
         set_param(model,'LoadInitialState','off');
-        buffers=Apply_HeatDriveECC_ColdConservativeBuffers(model,prior.native);
+        buffers=Apply_HeatDriveECC_ColdConservativeBuffers(model,prior.native,buffer_library);
+        if momentum_buffers,record.buffer_replacement_contracts=buffers;end
         record.normalize_using_nominal_values=get_param(model,'SimscapeNormalizeSystem');
         record.model_nominal_value_table=get_param(model,'SimscapeNominalValues');
         record.buffer_nominal_changes={};
@@ -230,6 +256,23 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             record.states{end+1}=entry;
         end
         record.stage='read_node_metadata';log=output.get('simlog');record.node_metadata={};
+        if momentum_buffers
+            record.buffer_momentum_initial={};
+            variables={'mdot_A','rho_port','dynamic_pressure','p_A','rho_I','level'};
+            units={'kg/s','kg/m^3','Pa','Pa','kg/m^3','m'};
+            for k=1:numel(buffers)
+                b=buffers{k};node=simscape.logging.findNode(log,b.block_path);
+                assert(strcmp(get_param(b.block_path,'SourceFile'),'ecc_buffer_momentum.conservative_buffer'), ...
+                    'Actual momentum buffer source changed.');
+                row=struct('block_path',b.block_path,'source_time_s',0);
+                for j=1:numel(variables)
+                    series=node.child(variables{j}).series;t=double(time(series));v=double(values(series));
+                    assert(isscalar(t) && t==0 && isscalar(v) && isfinite(v),'Require finite t=0 momentum coordinates.');
+                    row.(variables{j})=value(simscape.Value(v,series.unit),units{j});
+                end
+                record.buffer_momentum_initial{end+1}=row;
+            end
+        end
         record.initial_coordinates=cell(size(public_targets));
         for k=1:numel(public_targets)
             t=public_targets{k};node=simscape.logging.findNode(log,t.block_path);
@@ -276,6 +319,12 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             record.cached_extraction_added_callbacks=false;
         end
         record.stage='verify_frozen_authority';
+        if momentum_buffers
+            assert(strcmp(file_hash(momentum_contract.component_path),momentum_contract.component_sha256) && ...
+                strcmp(file_hash(momentum_contract.library_path),momentum_contract.library_sha256) && ...
+                strcmp(file_hash(momentum_contract.audit_path),momentum_contract.audit_sha256), ...
+                'Momentum prerequisite changed during initialization.');
+        end
         assert(strcmp(file_hash(canonical),canonical_hash) && strcmp(file_hash(raw),frozen.result_sha256) && ...
             strcmp(file_hash(op),frozen.checkpoint_sha256),'Frozen model or authority changed.');
         record.inspection_pass=true;record.stage='complete';

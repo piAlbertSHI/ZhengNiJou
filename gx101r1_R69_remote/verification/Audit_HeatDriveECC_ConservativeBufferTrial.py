@@ -19,7 +19,7 @@ from Audit_HeatDriveECC_SegmentedEvidence import sha256, text_field
 
 
 PRODUCER = 'bdc451f3751d0da639d258c8bce4f2cf0f8b5597'
-MOMENTUM_PRODUCER = 'UNEXECUTED'
+MOMENTUM_PRODUCER = '999d0308c267a1bd55343e173099deea819e791d'
 ENERGY_LIMIT_J = 1e-8
 MASS_LIMIT_KG = 1e-15
 NAMES = {'stored_mass', 'stored_energy', 'T_I', 'p_I', 'p_A', 'rho_I', 'u_I', 'u_port',
