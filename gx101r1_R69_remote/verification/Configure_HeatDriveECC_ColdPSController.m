@@ -1,7 +1,10 @@
-function contract=Configure_HeatDriveECC_ColdPSController(repo,model,initial_bias_only,initial_mdot_probe)
+function contract=Configure_HeatDriveECC_ColdPSController(repo,model,initial_bias_only,initial_mdot_probe,constant_bias_derivative)
 % Cold-only PS representation; no imported OP or production model save.
     if nargin<3,initial_bias_only=false;end
     if nargin<4,initial_mdot_probe=false;end
+    if nargin<5,constant_bias_derivative=false;end
+    assert(islogical(constant_bias_derivative) && isscalar(constant_bias_derivative) && ...
+        (~constant_bias_derivative || (initial_mdot_probe && initial_bias_only)));
     assert(islogical(initial_mdot_probe) && isscalar(initial_mdot_probe) && (~initial_mdot_probe || initial_bias_only));
     assert(islogical(initial_bias_only) && isscalar(initial_bias_only));
     assert(strcmp(get_param(model,'StartTime'),'0') && strcmp(get_param(model,'StopTime'),'0') && ...
@@ -45,11 +48,19 @@ function contract=Configure_HeatDriveECC_ColdPSController(repo,model,initial_bia
         assert(isequal(v.Time(:),c.time_s(:)) && isequal(v.Data(:),c.values(:)));
         ps=[model '/ColdSMA_' names{k} '_PS'];
         add_block('nesl_utility/Simulink-PS Converter',ps,'Unit',units{k},'UdotUserProvided','1');
+        assert(strcmp(get_param(ps,'FilteringAndDerivatives'),'provide'));
         wire(model,c.block,1,ps,1);d=zeros(size(c.values(:)));
         if strcmp(c.interpolate,'on'),d=[diff(c.values(:))./diff(c.time_s(:));0];end
         variable=['cold_sma_ps_' names{k} '_derivative'];assignin('base',variable,timeseries(d,c.time_s(:)));
-        db=[ps '_Derivative'];add_block('simulink/Sources/From Workspace',db,'VariableName',variable, ...
-            'Interpolate','off','OutputAfterFinalValue','Holding final value');wire(model,db,1,ps,2);
+        db=[ps '_Derivative'];
+        if constant_bias_derivative && strcmp(names{k},'bias')
+            assert(c.time_s(1)==0 && d(1)==0 && c.values(1)==c.values(2));
+            add_block('simulink/Sources/Constant',db,'Value','0','SampleTime','inf');
+        else
+            add_block('simulink/Sources/From Workspace',db,'VariableName',variable, ...
+                'Interpolate','off','OutputAfterFinalValue','Holding final value');
+        end
+        wire(model,db,1,ps,2);
         simscape.addConnection(ps,only_port(ps),candidate,names{k});
     end
     sensor=[model '/FlowSensor_SMA_stage13_loop_PS'];
@@ -114,6 +125,7 @@ function contract=Configure_HeatDriveECC_ColdPSController(repo,model,initial_bia
         'commands',r.commands,'initial_lag',0,'initial_integral_MPa',0,'stop_time_s',0, ...
         'initial_bias_only',initial_bias_only,'pressure_driver_path',driver_path, ...
         'initial_mdot_probe',initial_mdot_probe,'flow_driver_path',flow_driver,'initial_mdot_snapshot',snapshot, ...
+        'constant_bias_derivative',constant_bias_derivative, ...
         'c200_state_imported',false,'production_recovery_allowed',false,'controller_representation_changed',true);
 end
 

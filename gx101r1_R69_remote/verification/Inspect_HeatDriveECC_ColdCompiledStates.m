@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -21,6 +21,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<21,initial_bias_only=false;end
     if nargin<22,export_initial_flux=false;end
     if nargin<23,initial_mdot_probe=false;end
+    if nargin<24,constant_bias_derivative=false;end
+    assert(islogical(constant_bias_derivative) && isscalar(constant_bias_derivative) && ...
+        (~constant_bias_derivative || initial_mdot_probe),'Constant bias derivative requires the frozen-flow t=0 diagnostic.');
     assert(islogical(initial_mdot_probe) && isscalar(initial_mdot_probe) && ...
         (~initial_mdot_probe || (ps_controller && initial_bias_only && duration==0 && ~export_initial_flux)), ...
         'Frozen measured flow is only admissible in the passive t=0 observer diagnostic.');
@@ -182,6 +185,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.initial_bias_only_requested=initial_bias_only;
     record.initial_flux_export_requested=export_initial_flux;
     record.initial_mdot_probe_requested=initial_mdot_probe;
+    record.constant_bias_derivative_requested=constant_bias_derivative;
     record.diagnostic_stop_time_s=duration;
     record.initialization_only=duration==0;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
@@ -323,7 +327,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             record.analytic_pressure_derivative_contract=Configure_HeatDriveECC_ColdPressureDerivative(repo,model);
         end
         if ps_controller
-            record.ps_controller_contract=Configure_HeatDriveECC_ColdPSController(repo,model,initial_bias_only,initial_mdot_probe);
+            record.ps_controller_contract=Configure_HeatDriveECC_ColdPSController(repo,model,initial_bias_only,initial_mdot_probe,constant_bias_derivative);
         end
         record.stage='initialization_state_logging';record.simulation_run=true;
         if capture_runtime

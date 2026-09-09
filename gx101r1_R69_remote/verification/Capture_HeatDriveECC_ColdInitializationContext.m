@@ -30,6 +30,26 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
         assert(getSimulinkBlockHandle(converter)<0 && strcmp(get_param(model,'StopTime'),'0'));
         record.pressure_converter=struct('representation','physical_signal_controller', ...
             'source_file',get_param(candidate,'SourceFile'),'StopTime',get_param(model,'StopTime'));
+        record.ps_input_converters={};
+        names={'ColdSMA_bias_PS','ColdSMA_target_PS','ColdSMA_enable_PS','ColdSMA_reset_PS','ColdSMA_InitialMdot_PS'};
+        for k=1:numel(names)
+            block=[model '/' names{k}];if getSimulinkBlockHandle(block)<0,continue;end
+            p=get_param(block,'PortHandles');inputs={};
+            for j=1:numel(p.Inport)
+                line=get_param(p.Inport(j),'Line');assert(line>0);
+                source=getfullname(get_param(line,'SrcBlockHandle'));kind=get_param(source,'BlockType');
+                item=struct('path',source,'type',kind,'sample_time',get_param(source,'SampleTime'));
+                if strcmp(kind,'Constant'),item.value=get_param(source,'Value');
+                elseif strcmp(kind,'FromWorkspace')
+                    item.variable=get_param(source,'VariableName');item.interpolate=get_param(source,'Interpolate');
+                    signal=slResolve(item.variable,source);item.time_s=signal.Time;item.values=signal.Data;
+                else,error('Unexpected cold PS converter input.');end
+                inputs{end+1}=item; %#ok<AGROW>
+            end
+            record.ps_input_converters{end+1}=struct('path',block,'Unit',get_param(block,'Unit'), ...
+                'FilteringAndDerivatives',get_param(block,'FilteringAndDerivatives'), ...
+                'UdotUserProvided',get_param(block,'UdotUserProvided'),'inputs',{inputs});
+        end
         record.ps_controller_parameters=struct();
         keys={'normalization','tau','kp','ki','initial_lag','initial_integral', ...
             'integral_min','integral_max','pressure_min','pressure_max'};
