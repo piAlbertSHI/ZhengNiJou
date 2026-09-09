@@ -1,0 +1,50 @@
+component pressure_controller
+% SMA Pressure Controller (PS)
+% Independent numeric-equivalence candidate, not a production replacement.
+inputs
+    mdot = {0, 'kg/s'};
+    target = {0, 'kg/s'};
+    bias = {0, 'MPa'};
+    enable = {0, '1'};
+    reset = {1, '1'};
+end
+outputs
+    pressure = {0, 'MPa'};
+    lag = {0, '1'};
+    integral = {0, 'MPa'};
+end
+parameters
+    normalization = {1, 's/kg'};
+    tau = {.002, 's'};
+    kp = {-.6, 'MPa'};
+    ki = {-10, 'MPa/s'};
+    initial_lag = {0, '1'};
+    initial_integral = {0, 'MPa'};
+    integral_min = {-.14733718599999998, 'MPa'};
+    integral_max = {.1, 'MPa'};
+    pressure_min = {-.35, 'MPa'};
+    pressure_max = {.02, 'MPa'};
+end
+components (ExternalAccess = observe)
+    error_lag = foundation.signal.linear.transfer_function(T=tau, y0=initial_lag);
+    pi_integrator = foundation.signal.linear.integrator( ...
+        reset_method=foundation.enum.IntegratorResetSpec.Rising, ...
+        saturation_spec=foundation.enum.IntegratorSaturationSpec.Both, ...
+        x0=initial_integral, xl=integral_min, xu=integral_max);
+end
+equations
+    assert(tau>0)
+    assert(integral_min<integral_max)
+    assert(pressure_min<pressure_max)
+    error_lag.U == normalization*(target+mdot);
+    lag == error_lag.Y;
+    pi_integrator.R == reset;
+    if reset > 0
+        pi_integrator.I == {0, 'MPa/s'};
+    else
+        pi_integrator.I == ki*lag;
+    end
+    integral == pi_integrator.O;
+    pressure == min(max(enable*kp*lag+integral+bias,pressure_min),pressure_max);
+end
+end
