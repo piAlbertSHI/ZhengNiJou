@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -14,6 +14,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<14,half_step=false;end
     if nargin<15,global_implicit=false;end
     if nargin<16,projection=false;end
+    if nargin<17,initial_derivative=false;end
+    assert(islogical(initial_derivative) && isscalar(initial_derivative) && (~initial_derivative || projection), ...
+        'Initial pressure derivative diagnostic requires global Projection.');
     assert(islogical(capture_runtime) && isscalar(capture_runtime),'Require explicit callback capture choice.');
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown inventory formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
@@ -152,6 +155,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.half_step_requested=half_step;
     record.global_implicit_requested=global_implicit;
     record.projection_requested=projection;
+    record.initial_pressure_derivative_requested=initial_derivative;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
     record.chamber_package_resolution=evalc('which(chamber_source,''-all'')');
     record.chamber_source_file=chamber_source;
@@ -284,6 +288,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         record.global_solver_configuration=struct('Solver',get_param(model,'Solver'), ...
             'SolverType',get_param(model,'SolverType'),'MaxStep',get_param(model,'MaxStep'), ...
             'InitialStep',get_param(model,'InitialStep'));
+        if initial_derivative
+            record.initial_pressure_derivative_contract=Configure_HeatDriveECC_ColdInitialPressureDerivative(model);
+        end
         record.stage='initialization_state_logging';record.simulation_run=true;
         if capture_runtime
             assignin('base','cold_initialization_context',{});

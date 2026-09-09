@@ -24,6 +24,18 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
         'LoadInitialState',get_param(model,'LoadInitialState'),'targets',{targets},'has_private_data',false);
     record.normalize_using_nominal_values=get_param(model,'SimscapeNormalizeSystem');
     record.global_fixed_step=get_param(model,'FixedStep');
+    converter=[model '/SMAPressurePI_SimulinkPS'];
+    record.pressure_converter=struct('Unit',get_param(converter,'Unit'), ...
+        'FilteringAndDerivatives',get_param(converter,'FilteringAndDerivatives'), ...
+        'UdotUserProvided',get_param(converter,'UdotUserProvided'),'StopTime',get_param(model,'StopTime'));
+    if strcmp(record.pressure_converter.UdotUserProvided,'1')
+        assert(strcmp(get_param(model,'StopTime'),'0'),'Initial derivative must not enter a trajectory.');
+        p=get_param(converter,'PortHandles');line=get_param(p.Inport(2),'Line');
+        source=getfullname(get_param(line,'SrcBlockHandle'));
+        assert(strcmp(source,[model '/ColdInitialPressureDerivativeOnly']) && ...
+            strcmp(get_param(source,'Value'),'0'),'Initial derivative source changed.');
+        record.pressure_converter.derivative_source=source;
+    end
     record.global_solver_configuration=struct('Solver',get_param(model,'Solver'), ...
         'SolverType',get_param(model,'SolverType'),'MaxStep',get_param(model,'MaxStep'), ...
         'InitialStep',get_param(model,'InitialStep'));
