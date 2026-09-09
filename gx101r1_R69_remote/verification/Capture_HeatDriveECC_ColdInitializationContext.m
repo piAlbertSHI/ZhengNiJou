@@ -64,6 +64,8 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
     record.pressure_converter=struct('Unit',get_param(converter,'Unit'), ...
         'FilteringAndDerivatives',get_param(converter,'FilteringAndDerivatives'), ...
         'UdotUserProvided',get_param(converter,'UdotUserProvided'),'StopTime',get_param(model,'StopTime'));
+    p=get_param(converter,'PortHandles');line=get_param(p.Inport(1),'Line');assert(line>0);
+    record.pressure_converter.value_source=getfullname(get_param(line,'SrcBlockHandle'));
     if strcmp(record.pressure_converter.UdotUserProvided,'1')
         p=get_param(converter,'PortHandles');line=get_param(p.Inport(2),'Line');
         source=getfullname(get_param(line,'SrcBlockHandle'));
