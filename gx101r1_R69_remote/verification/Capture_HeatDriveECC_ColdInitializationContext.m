@@ -23,6 +23,11 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
         'SimscapeUseOperatingPoints',get_param(model,'SimscapeUseOperatingPoints'), ...
         'LoadInitialState',get_param(model,'LoadInitialState'),'targets',{targets},'has_private_data',false);
     record.normalize_using_nominal_values=get_param(model,'SimscapeNormalizeSystem');
+    runtime_names={'ResolveIndetEquations','DoFixedCost','ComputeImpulses','ImpulseIterations','IndexReductionMethod','DoDC'};
+    record.runtime_solver_options=struct();
+    for k=1:numel(runtime_names)
+        record.runtime_solver_options.(runtime_names{k})=get_param(blocks{1},runtime_names{k});
+    end
     record.buffer_nominals=cell(1,8);idx=0;
     for block={'ColdFluidBuffer','HotFluidBuffer','SHEXFluidBuffer','SMAHotFluidBuffer'}
         p=[model '/' block{1}];

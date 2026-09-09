@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -10,9 +10,14 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<10,scale_buffers=false;end
     if nargin<11,normal_mode=false;end
     if nargin<12,momentum_buffers=false;end
+    if nargin<13,disable_regularization=false;end
     assert(islogical(capture_runtime) && isscalar(capture_runtime),'Require explicit callback capture choice.');
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown inventory formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
+    assert(islogical(disable_regularization) && isscalar(disable_regularization) && (~disable_regularization || ...
+        (specific_inventory && capture_runtime && ~momentum_buffers && ~normal_mode && ~scale_buffers && ~tighten_global && ...
+        isempty(consistency_tolerance) && isempty(residual_tolerance))), ...
+        'Regularization-only diagnostic must retain all targets, physics, tolerances and scaling.');
     assert(islogical(momentum_buffers) && isscalar(momentum_buffers) && (~momentum_buffers || ...
         (specific_inventory && capture_runtime && ~normal_mode && ~scale_buffers && ~tighten_global && ...
         isempty(consistency_tolerance) && isempty(residual_tolerance))), ...
@@ -130,6 +135,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.normal_mode_requested=normal_mode;
     record.momentum_buffers_requested=momentum_buffers;
     record.momentum_contract=momentum_contract;
+    record.disable_regularization_requested=disable_regularization;
     record.loaded_chamber_library=selected_library;record.loaded_library_sha256=file_hash(selected_library);
     record.chamber_package_resolution=evalc('which(chamber_source,''-all'')');
     record.chamber_source_file=chamber_source;
@@ -138,6 +144,18 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         mc=onCleanup(@() close_system(model,0));
         solvers=find_system(model,'LookUnderMasks','all','FollowLinks','on','MaskType','Solver Configuration');
         assert(isscalar(solvers),'Require the single coupled physical solver.');
+        runtime_names={'ResolveIndetEquations','DoFixedCost','ComputeImpulses','ImpulseIterations','IndexReductionMethod','DoDC'};
+        runtime_before=struct();
+        for k=1:numel(runtime_names),runtime_before.(runtime_names{k})=get_param(solvers{1},runtime_names{k});end
+        record.runtime_solver_options_before=runtime_before;
+        if disable_regularization
+            assert(strcmp(runtime_before.ResolveIndetEquations,'on') && strcmp(get_param(solvers{1},'UseLocalSolver'),'on'), ...
+                'Require the known local-solver regularization baseline.');
+            set_param(solvers{1},'ResolveIndetEquations','off');
+        end
+        runtime_after=struct();
+        for k=1:numel(runtime_names),runtime_after.(runtime_names{k})=get_param(solvers{1},runtime_names{k});end
+        record.runtime_solver_options_after=runtime_after;
         names={'ConsistencyTolSource','ConsistencyAbsTol','ConsistencyRelTol','ConsistencyTolFactor', ...
             'ResidualTolerance','UseLocalSolver','LocalSolverChoice','LocalSolverSampleTime'};
         before=struct();for k=1:numel(names),before.(names{k})=get_param(solvers{1},names{k});end
