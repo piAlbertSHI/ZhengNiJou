@@ -68,3 +68,11 @@ class HeldIntervalTests(unittest.TestCase):
             self.assertEqual(changed,{k:v for k,v in baseline.items() if k!='MaxStep'})
         self.assertEqual(baseline['MaxStep'],'0.001')
         with self.assertRaises(ValueError):expected_solver(baseline,'unregistered')
+
+    def test_error_control_trial_is_bounded_and_has_rejection_provenance(self):
+        source=(Path(__file__).parent/'Inspect_HeatDriveECC_ColdCompiledStates.m').read_text(encoding='utf-8')
+        self.assertIn('if nargin<34,held_error_control=false;end',source)
+        self.assertIn('held_interval && isequal(held_max_step,.00025) && ~tighten_global',source)
+        self.assertIn('6C6A9CA6885AFD49693F014F15EC66C2A39C73784A3742E2667AD705BAAAA975',source)
+        self.assertIn('record.held_error_control_trial=held_error_control',source)
+        self.assertIn("set_param(model,'RelTol','1e-10','AbsTol','1e-12')",source)
