@@ -47,6 +47,11 @@ function record=Profile_HeatDriveECC_DeclaredHeldFailure(model,output_root,profi
     record.capture_pass=record.api_returned && record.data_file_exists && ...
         isequal(record.settings_after,expected) && ...
         strcmp(record.AutoScaleAbsTol_before,record.AutoScaleAbsTol_after);
-    record.sdi=Export_HeatDriveECC_ProfilerSDI(model,output_root,ids_before);
+    try
+        record.sdi=Export_HeatDriveECC_ProfilerSDI(model,output_root,ids_before);
+    catch ME
+        record.sdi=struct('export_pass',false,'error_message',ME.message, ...
+            'error_report',getReport(ME,'extended','hyperlinks','off'));
+    end
     record.capture_pass=record.capture_pass && record.sdi.export_pass;
 end
