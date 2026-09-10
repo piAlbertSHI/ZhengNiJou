@@ -2628,3 +2628,13 @@ Eq.9/Eq.10 CSV。合同schema为`heatdrive_ecc_control_volume_contract_v2`，包
 输出outputs_storage_audit/paired_table4_endpoint_audit_20260911，文本和JSON/MAT均记录
 `claim=not yet reproduced`。由于成对端点尚不存在，系统没有检查或构造共同参数合同、共同窗口
 或定量误差；这正是预期的保护行为。paired Table 4仍禁止运行，C200及所有失败诊断包不变。
+## 136. 独立冷态拓扑烟测的运行层拒绝（2026-09-11）
+
+在已提交的独立诊断分支上启动唯一输出目录
+`outputs/cold_chamber_smoke_20260911`，运行时长为0.01 s，未导入C200或任何失败状态。
+`ssc_build`及模型编译完成，并生成native初始观测、连接性和配置证据；实际`sim`随后报告
+“初始状态是一致的，但可能偏离指定的条件”，在合理等待后未返回，因而由外层中止。
+
+该包没有`record.mat`、checkpoint或生产Operating Point，不能作为物理通过、恢复源或outer solve
+候选点。该事件仅说明当前独立冷态烟测仍有初始化/运行时响应问题；不证明物性越域、局部方程无根
+或完整网络机制失败。C200冻结合同、失败包拒绝合同和生产门禁保持不变。
