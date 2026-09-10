@@ -2570,3 +2570,14 @@ C200/C240权威结果仍由各自合同和正式结果目录管理，不能用�
 
 后续清理必须先保留摘要、输入合同、失败原因、哈希和可复核脚本，再对已淘汰raw提出候选；
 不得删除C200/C240有效恢复参考、唯一失败根因原始包或用户已有Agent6目录。该审计不改变科学门禁。
+## 131. Outer solve前置保护复核（2026-09-11）
+
+复核Run_HeatDriveECC_Table4_OuterSolve.m：候选点只有同时满足机制、周期稳态、流量、
+相变、能量、可观测性和系统能量门禁时才设置`admissible=true`；失败候选写入
+rejection marker，不进入bracketing/interpolation，且恢复只允许合同指定的authority路径。
+当前模型尚未通过固定Tc冷态前置门禁，因此没有运行任何候选点，没有生成候选插值或恢复状态。
+
+执行verification/Test_HeatDriveECC_RuntimeStudyGuard.m，MATLAB自然退出0并输出
+`RUNTIME_STUDY_GUARD_PASS=1`：未经授权的旧runtime研究合同被拒绝，且没有创建输出目录。
+这证明保护逻辑有效，不证明outer solve已有物理候选点或Table4端点。C200继续冻结，
+outer solve保持待命而非提前运行。
