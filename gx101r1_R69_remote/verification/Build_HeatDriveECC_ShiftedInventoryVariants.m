@@ -1,5 +1,7 @@
-function contract=Build_HeatDriveECC_ShiftedInventoryVariants(repo,build)
+function contract=Build_HeatDriveECC_ShiftedInventoryVariants(repo,build,formulation)
 % Generate an exact constant-coordinate translation of two protected sources.
+    if nargin<3,formulation='aliased';end
+    assert(ismember(formulation,{'aliased','intermediates'}));
     assert(~isfolder(build),'Never overwrite a component build.');
     mkdir(build);
     names={'chamber','buffer'};
@@ -24,12 +26,41 @@ function contract=Build_HeatDriveECC_ShiftedInventoryVariants(repo,build)
         candidate=replace_once(candidate,sprintf('equations\n'),sprintf(['equations\n' ...
             '    stored_mass == mass_reference + mass_delta;\n' ...
             '    stored_energy == energy_reference + energy_delta;\n']),true);
-        package=['ecc_shifted_' names{k}];folder=fullfile(build,['+' package]);mkdir(folder);
+        package=['ecc_shifted_' names{k}];
+        if strcmp(formulation,'intermediates')
+            % Remove absolute aliases from the variable list; keep them observable.
+            terms=sprintf(['intermediates (ExternalAccess = observe)\n' ...
+                '    stored_mass = mass_reference + mass_delta;\n' ...
+                '    stored_energy = energy_reference + energy_delta;\n']);
+            for name={'stored_mass','stored_energy','rho_I','u_I'}
+                declaration=regexp(candidate,['(?m)^    ' name{1} ' = [^\r\n]*\n'],'match');
+                assert(isscalar(declaration));candidate=replace_once(candidate,declaration{1},'');
+            end
+            for name={'rho_I','u_I'}
+                equation=regexp(candidate,['(?m)^    ' name{1} ' == tablelookup[^\r\n]*\n'],'match');
+                assert(isscalar(equation));candidate=replace_once(candidate,equation{1},'');
+                terms=[terms strrep(equation{1},' == ',' = ')]; %#ok<AGROW>
+            end
+            terms=[terms sprintf('end\n\n')];
+            candidate=replace_once(candidate,sprintf('    stored_mass == mass_reference + mass_delta;\n'),'');
+            candidate=replace_once(candidate,sprintf('    stored_energy == energy_reference + energy_delta;\n'),'');
+            candidate=replace_once(candidate,sprintf('variables (Access = protected)\n'), ...
+                [terms sprintf('variables (Access = protected)\n')]);
+            if k==2
+                % In this fixture the origins equal the original High M/E targets.
+                candidate=replace_once(candidate,"mass_delta = {0, 'kg'};", ...
+                    "mass_delta = {value = {0, 'kg'}, priority = priority.high};");
+                candidate=replace_once(candidate,"energy_delta = {0, 'J'};", ...
+                    "energy_delta = {value = {0, 'J'}, priority = priority.high};");
+            end
+            package=['ecc_increment_' names{k}];
+        end
+        folder=fullfile(build,['+' package]);mkdir(folder);
         out=fullfile(folder,['conservative_' names{k} '.ssc']);
         fid=fopen(out,'w');assert(fid>=0);fprintf(fid,'%s',candidate);fclose(fid);
         contract{k}=struct('kind',names{k},'package',package,'source',file, ...
             'source_sha256',hashes{k},'generated_source',out,'generated_sha256',file_hash(out), ...
-            'physical_equations_changed',false,'coordinate_origin_constant',true);
+            'physical_equations_changed',false,'coordinate_origin_constant',true,'formulation',formulation);
         cd(build);ssc_build(package);
     end
 end

@@ -1,7 +1,9 @@
-function record=Probe_HeatDriveECC_ShiftedInventory(repo,out,fixture_kind)
+function record=Probe_HeatDriveECC_ShiftedInventory(repo,out,fixture_kind,formulation)
 % Independent water fixtures. No production model or checkpoint is loaded.
     if nargin<3,fixture_kind='closed';end
+    if nargin<4,formulation='aliased';end
     assert(ismember(fixture_kind,{'closed','flow'}),'Only declared component fixtures are allowed.');
+    assert(ismember(formulation,{'aliased','intermediates'}));
     assert(~isfolder(out),'Never overwrite evidence.');
     [status,dirty]=system(sprintf('git -C "%s" status --porcelain -- .',repo));
     assert(status==0 && isempty(strtrim(dirty)),'Commit relevant code first.');
@@ -16,8 +18,9 @@ function record=Probe_HeatDriveECC_ShiftedInventory(repo,out,fixture_kind)
         'error_message','','production_recovery_allowed',false,'main_model_run',false, ...
         'cold_main_targets_verified',false,'checkpoint_loaded',false,'checkpoint_saved',false);
     record.fixture_kind=fixture_kind;
+    record.formulation=formulation;
     try
-        build=fullfile(out,'build');record.variants=Build_HeatDriveECC_ShiftedInventoryVariants(repo,build);
+        build=fullfile(out,'build');record.variants=Build_HeatDriveECC_ShiftedInventoryVariants(repo,build,formulation);
         sources={'simscape_inventory_specific/+ecc_inventory_specific','simscape_buffer_coupled/+ecc_buffer_coupled'};
         packages={'ecc_inventory_specific','ecc_buffer_coupled'};kinds={'chamber','buffer'};
         for k=1:2
@@ -32,12 +35,16 @@ function record=Probe_HeatDriveECC_ShiftedInventory(repo,out,fixture_kind)
             origin=[];
             for shifted=[false true]
                 package=packages{k};if shifted,package=['ecc_shifted_' kinds{k}];end
+                if shifted && strcmp(formulation,'intermediates'),package=['ecc_increment_' kinds{k}];end
                 lib=[package '_lib'];load_system(lib);
                 blocks=find_system(lib,'SearchDepth',1,'Type','Block');blocks=setdiff(blocks,{lib});assert(isscalar(blocks));
                 model='ecc_shifted_inventory_probe';assert(~bdIsLoaded(model));new_system(model);
                 mc=onCleanup(@() close_system(model,0));
                 component=[model '/Inventory'];add_block(blocks{1},component);
                 if shifted
+                    if strcmp(formulation,'intermediates') && k==2
+                        assert(isequal(origin,[.1 10000]),'Increment targets require the unchanged fixture origins.');
+                    end
                     set_param(component,'mass_reference',num2str(origin(1),'%.17g'),'mass_reference_unit','kg', ...
                         'energy_reference',num2str(origin(2),'%.17g'),'energy_reference_unit','J');
                 end
@@ -84,10 +91,16 @@ function record=Probe_HeatDriveECC_ShiftedInventory(repo,out,fixture_kind)
                 end
                 if ~shifted,origin=[traces{1}.values(1) traces{2}.values(1)];end
                 states=output.get('states');state_names=cell(1,states.numElements);
-                for n=1:states.numElements,s=states.getElement(n);state_names{n}=s.Name;end
+                state_values=cell(size(state_names));
+                for n=1:states.numElements
+                    s=states.getElement(n);state_names{n}=s.Name;v=s.Values;
+                    assert(isa(v,'timeseries'));
+                    state_values{n}=struct('name',s.Name,'label',s.Label,'time_s',v.Time,'data',v.Data,'unit',v.DataInfo.Units);
+                end
                 file=sprintf('case_%02d.mat',numel(record.cases)+1);save(fullfile(out,file),'states','traces','-v7.3');
                 record.cases{end+1}=struct('kind',kinds{k},'shifted',shifted,'heat_W',heat, ...
                     'flow_kg_s',flow,'origin_kg_J',origin,'state_names',{state_names},'traces',{traces},'file',file, ...
+                    'state_values',{state_values}, ...
                     'solver',get_param(model,'Solver'),'max_step_s',str2double(get_param(model,'MaxStep')), ...
                     'rel_tol',str2double(get_param(model,'RelTol')),'abs_tol',str2double(get_param(model,'AbsTol')), ...
                     'local_solver',get_param([model '/Solver'],'UseLocalSolver'));
