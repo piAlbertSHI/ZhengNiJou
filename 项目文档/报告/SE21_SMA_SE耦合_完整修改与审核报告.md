@@ -2012,3 +2012,20 @@ partial_evidence_audit_pass仅表示残存证据可审核；science_gate_pass仍
 该MATLAB改动尚未执行验证；现有504项Python回归通过，新审计已对真实档案执行通过。
 下一步需查明profiler为何未生成DataFullFile，并限制SDI值物化范围，再决定诊断执行方案；
 不把本次证据恢复当作斜坡失败修复，也不放宽原科学门禁。
+
+## 100. profiler失败生命周期的独立实测（2026-09-10）
+
+使用Probe_HeatDriveECC_ProfilerFailureLifecycle.m创建独立Clock/Integrator/Assertion模型，
+在0.1s故意触发断言，沿用SaveStates、SaveSimscapeStates、SaveJacobian和DataFullFile选项。
+前台会话9177自然退出0：这是捕获异常的诊断程序成功结束，不是模拟成功。
+API返回false，异常标识Simulink:blocks:AssertionAssert，指定solver_profile.mat未生成。
+因此R2025b的该API至少对这类仿真异常不自动保留指定结果文件；
+不能仅因真实模型缺文件就归因于UI恢复或进程中断，也不能将本断言异常等同于真实模型异常。
+真实模型的API异常仍未知，先保存API结果的修改可防止下一次再次失去该证据。
+
+结果outputs_storage_audit/profiler_failure_lifecycle_20260910/lifecycle.json的SHA-256：
+DB68F88F089E8004FA82B113E1CB215980AE3E8CF25C4313191350386B1ED8F2。
+MATLAB checkcode对新增探针和修改后的Profile_HeatDriveECC_DeclaredHeldFailure.m均无诊断输出。
+未运行耦合模型，未加载C200/失败OP，未放宽门禁。
+下一步需验证异常后内存诊断是否可导出，或采用独立的事件局部诊断途径；
+不能再次依赖profileModel异常后自动生成DataFullFile，也不能假定SDI包含完整Jacobian。
