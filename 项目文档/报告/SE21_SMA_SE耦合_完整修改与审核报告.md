@@ -2251,3 +2251,24 @@ Export_HeatDriveECC_FailedColdObservations不再于每个库存组件循环内�
 504项现有Python回归通过。新证据在outputs_storage_audit/failure_exporter_probe_20260911。
 没有修改模拟方程或重跑完整网络，也没有删除旧失败证据。后续长诊断将记录实际收集开销，
 若耗时仍主要来自逐节点查找，应据测量进一步处理，不凭此改动估算已释放时间或空间。
+
+## 114. 同刻热门控跃迁的源码与参数证据（2026-09-11）
+
+扩大排查后发现初始调度在initial_switch_end_t处直接将sma_hold_gate_values(end)改为active，
+而configure_dynamic_thermal_gate_group将FromWorkspace设为Interpolate=off。
+因此除了阀开启结束和压力斜率变化，还存在SMA hold热门控的阶跃。
+配置MAT中stage_command_ramp_s=0.15000000000000002，active=1e6、inactive=1e-6，
+对应初始切换结束约0.1s及1e12幅值比。注意branch字段历史命名为G_W_per_K，
+实际转换器单位是W/(K*m)，应核对几何后才能解释为总热导，不能混用两种单位。
+原SDI最后已记录的SMA Hold/Cooldown命令均1e-6，SE Hold约0.06214431134；
+没有右侧命令样本，阶跃推断来自配置加源码，而非虚构观测。
+
+读取配置的MATLAB会话74972先打印数值，随后关闭时std::terminate退出1；
+栈含threadpool shutdown及ddux，未运行模型，不能当成物理失败或成功退出。
+先尝试scipy读取因v7.3格式不支持退出，再用h5py直接读取相同字段，独立确认三项数值。
+崩溃日志保留为outputs_storage_audit/matlab_shutdown_crash_39356_20260911.txt，未重启同一任务重试。
+热门控档案结果outputs_storage_audit/onset_thermal_gate_archive_20260911/onset_valve_archive.json。
+
+下一步优先隔离热门控跃迁对全网络的影响，例如在独立诊断中只延后该事件以分离因果，
+不能把改变热门控后容易通过的结果替代原物理合同，也不能直接降低active值后宣称修复。
+完整系统故障尚未解决，C200及恢复状态未动。

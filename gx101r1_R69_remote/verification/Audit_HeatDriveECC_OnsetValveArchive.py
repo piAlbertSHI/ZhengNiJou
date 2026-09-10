@@ -21,6 +21,8 @@ def build(repo):
     prefix = 'heatdrive_ecc_coupled_se21.'
     pressure = prefix+'SMAPressurePI_SimulinkPS_output0'
     names = [pressure]+[prefix+f'SMAValveCmdPS{k}_output0' for k in range(1, 7)]
+    names.extend(prefix+name for name in ('SE.HoldThermalGateCommandPS_output0',
+                 'SMA.HoldThermalGateCommandPS_output0', 'SMA.CooldownThermalGateCommandPS_output0'))
     for valve in ('SMA_V1_SHEX_to_pump', 'SMA_V2_HHEX_to_pump', 'SMA_V3_pump_to_heat_path',
                   'SMA_V4_pump_to_cool_path', 'SMA_V5_SMA_to_SHEX', 'SMA_V6_SMA_to_HHEX'):
         names.extend(prefix+valve+'.'+field for field in ('L', 'valve_area', 'mdot_A'))
