@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step,held_error_control,held_error_control_level,held_solver_method,held_split_tolerances,held_profiler)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step,held_error_control,held_error_control_level,held_solver_method,held_split_tolerances,held_profiler,held_robust_reset)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -36,6 +36,11 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<36,held_solver_method='ode15s';end
     if nargin<37,held_split_tolerances=false;end
     if nargin<38,held_profiler=false;end
+    if nargin<39,held_robust_reset=false;end
+    assert(islogical(held_robust_reset) && isscalar(held_robust_reset) && (~held_robust_reset || ...
+        (held_error_control && strcmp(held_solver_method,'ode23t') && strcmp(held_error_control_level,'moderate') && ...
+        ~held_split_tolerances && ~held_profiler)), ...
+        'Robust reset is an isolated moderate held-interval trial without other changes.');
     assert(islogical(held_profiler) && isscalar(held_profiler) && (~held_profiler || ...
         (held_error_control && strcmp(held_solver_method,'ode23t') && strcmp(held_error_control_level,'moderate'))), ...
         'Profiling is limited to the qualified one-step held diagnostics.');
@@ -253,6 +258,16 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.held_solver_method=held_solver_method;
     record.held_split_tolerances=held_split_tolerances;
     record.held_profiler_requested=held_profiler;
+    record.held_robust_reset_requested=held_robust_reset;
+    if held_robust_reset
+        evidence=fullfile(repo,'outputs_storage_audit','hybrid_held_profiler_reset_association_audit_20260910','profiler_diagnostics_audit.json');
+        assert(strcmp(file_hash(evidence),'A7C46FF8CD4D6C611DFD1D8F30B2BA3EA6613FB0492D02F199A1E7DCC2C58732'), ...
+            'Require the preserved reset-associated defect diagnosis before this trial.');
+        diagnosis=jsondecode(fileread(evidence));
+        assert(diagnosis.evidence_audit_pass && diagnosis.jacobian_update_count==40 && ...
+            diagnosis.passing_local_balances==2 && ~diagnosis.production_recovery_allowed);
+        record.reset_diagnostic_evidence_sha256=file_hash(evidence);
+    end
     record.profiler_capture_pass=false;
     if held_profiler
         rejected=fullfile(repo,'outputs_storage_audit','hybrid_held_split_failure_audit_20260910','held_split_failure_audit.json');
@@ -443,6 +458,10 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         record.global_solver_configuration=struct('Solver',get_param(model,'Solver'), ...
             'SolverType',get_param(model,'SolverType'),'MaxStep',get_param(model,'MaxStep'), ...
             'InitialStep',get_param(model,'InitialStep'));
+        if held_robust_reset
+            assert(strcmp(get_param(model,'SolverResetMethod'),'Fast'),'Unexpected reset baseline.');
+            set_param(model,'SolverResetMethod','Robust');
+        end
         record.solver_iteration_options=struct('SolverResetMethod',get_param(model,'SolverResetMethod'), ...
             'MaxOrder',get_param(model,'MaxOrder'));
         record.solver_failure_policy_before=struct('MinStepSizeMsg',get_param(model,'MinStepSizeMsg'), ...
