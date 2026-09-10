@@ -1762,7 +1762,7 @@ M_scale为固定正值，在独立试验中等于初始质量。此为链式法�
 
 可记录中间表达式的官方语义见[Using Intermediate Terms in Equations](https://www.mathworks.com/help/simscape/lang/using-intermediate-terms-in-equations.html)。
 
-## 93. 修正主网的204项零时刻初态通过，尚未运行新40ms窗口
+## 93. 修正主网的204项零时刻初态通过（当时尚未运行新40ms窗口）
 
 生产者提交 `e132f0b` 在独立冷态分支中替换六个库存组件，不向修正模型导入C200或任何旧OP。
 原冻结模型、C200 raw及OP的SHA在运行前后及独立审核中均保持一致。
@@ -1816,3 +1816,43 @@ M_scale为固定正值，在独立试验中等于初始质量。此为链式法�
 | [2016综述](<C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/综述和science/A review of elastocaloric cooling___Materials, cycles and system integrations.pdf>) | 2-6页材料；9-10页系统；16-18页回热 | 术语及系统边界 |
 | [Qian博士论文](<C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/综述和science/qian  博士论文.pdf>) | 92-110页附近回热；131页后原型 | 背景追溯，不作定量替代 |
 | [2017整机优化](<C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/性能优化/Modeling_and_analysis_of_an_integrated_solid_state_elastocaloric_heat_pumping_system1.pdf>) | 5-12页动态模型；15-19页优化 | 控制体与约束优化依据 |
+
+## 94. 新坐标主网40ms已运行，严格守恒仍未通过
+
+本轮基于第93节冻结初态资格开展实际40ms试验，生产者为b316e6c。
+新入口只开放t=0或40ms，必须核验strict初态包B78B380C...与零时刻原始记录D10DC357...。
+不导入任何旧OP；原C200仍冻结。求解器ode23t、RelTol=1e-6、AbsTol=1e-8、MaxStep=250us不变。
+真实前台会话68876自然退出0，入口checkcode无消息；sim调用79.7341s，整个进程含构建和导出约24分钟。
+本轮没有定时器、后台监控、超时重启或重复启动。
+
+204项物理初态再次全部通过，零代数环，1276库存叶节点与162边界源覆盖不变。
+导出162个共同采样时刻，六组件12份保存坐标完整，按标称值还原与日志一致。
+由z/energy_delta重建的M/E与物理日志逐点相同；运行回调除声明的窗口/导数源变化外均与初态相同。
+
+原门禁仍为累计质量残差<=1e-15kg、累计能量残差<=1e-8J，逐个导出样本采用梯形积分：
+
+| 组件 | 最大质量残差 kg | 最大能量残差 J | 联合门禁 |
+|---|---:|---:|---|
+| Cold buffer | 6.85756e-18 | 2.51612e-10 | 通过 |
+| Hot buffer | 6.85756e-18 | 3.41336e-10 | 通过 |
+| SHEX buffer | 2.58767e-14 | 1.26345e-8 | 失败，两项均超限 |
+| SMAHot buffer | 1.39081e-14 | 3.58549e-9 | 失败，质量超限 |
+| inlet连接腔 | 2.00153e-14 | 7.84775e-9 | 失败，质量超限 |
+| outlet连接腔 | 1.97594e-14 | 9.01919e-9 | 失败，质量超限 |
+
+质量2/6、能量5/6、联合2/6。Cold/Hot质量残差较原5.10048e-16kg明显降低，但整体门禁没有改善。
+增量mass_delta与energy_delta分析排除了绝对库存相减是其余超限的主要解释：四个失败质量增量残差仍为
+1.39e-14至2.59e-14kg。按名义1ms时刻分组，绝大多数逐步缺陷位于网格后的首个区间，
+并具有右矩形首步的拟合特征。此次没有取得新模型profiler reset事件，不能宣称已证实真实重启时刻或内部公式。
+混合积分拟合只作为诊断，不替换梯形门禁，也不把小拟合残差当守恒通过。
+
+本轮491项Python回归通过。新增原始证据30文件42,810,440bytes，审核64,976bytes、分析18,447bytes，
+共42,893,863bytes（约40.91MiB）；不复制旧raw/OP，不删失败证据，不触碰Agent6。
+
+下一步优先解决已有解析重启试验的事件侧采样歧义，再选择有证据支持的步长/接口方案。
+不盲目重跑原设置、不降低门禁、不用伪零导数或滤波器绕过物理接口，失败终态不传播。
+完整周期、Tc outer solve、敏感性、成对Table4端点、全系统trade-off和独立validation仍未完成。
+
+- [40ms逐组件审核及30文件哈希清单](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/nonlinear_cold_held_audit_20260910/nonlinear_cold_held_audit.json)
+- [增量坐标失败分析](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/nonlinear_cold_held_failure_20260910/nonlinear_held_failure_analysis.json)
+- [研究笔记第42节：命令、失败诊断与哈希](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
