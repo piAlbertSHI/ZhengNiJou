@@ -2172,3 +2172,18 @@ pump_onset_right_consistency_20260910的pump_local_initialization.json。
 证据不支持“在固定这些外部通量时右侧泵/双腔局部必然无解”，但不能排除外部网络耦合使约束改变，
 也没有取得编译DAE的整体Jacobian。下一步应检查边界联立及事件初始化，不把局部根当恢复OP。
 两个结果均production_recovery_allowed=false，完整模型失败仍未修复，C200未改动。
+
+## 109. 原始SDI揭示阀开启末端与压力斜坡重合（2026-09-10）
+
+不重跑仿真，解码原profiler档案的42976字节复合记录；用独立失败MAT压力轨迹逐样本校验
+偏移与时间轴，压力完全一致。仅输出小JSON，没有解压或复制452MB复合数据。
+0.099–0.1s共117样本，SMA阀命令1/3/5从0.9799999999999998升到0.9999999999999997；
+2/4/6保持0，泵压力保持-1e-6MPa。阀命令的SDI单位标签显示MPa，暂视为未核实元数据，
+不把这些原始数值解释成压力单位。
+
+因此最后一毫秒并非所有外部命令都固定；阀开启末端与压力斜坡起点重合。
+源代码也存在depressurize_end_t、valve_switch_end_t、transition_end_t的三段调度，
+下一步需将实际阀开度边界/限幅与压力导数联合纳入事件测试，而非重复纯压力链测试。
+当前档案无失败右侧迭代，尚不能声称阀切换是根因或完整网络无解。
+结果outputs_storage_audit/onset_valve_archive_20260910/onset_valve_archive.json，
+审核代码Audit_HeatDriveECC_OnsetValveArchive.py。旧轨迹、门禁及C200保持不变。
