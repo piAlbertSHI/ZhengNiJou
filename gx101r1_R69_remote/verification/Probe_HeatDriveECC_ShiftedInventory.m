@@ -3,7 +3,7 @@ function record=Probe_HeatDriveECC_ShiftedInventory(repo,out,fixture_kind,formul
     if nargin<3,fixture_kind='closed';end
     if nargin<4,formulation='aliased';end
     assert(ismember(fixture_kind,{'closed','flow'}),'Only declared component fixtures are allowed.');
-    assert(ismember(formulation,{'aliased','intermediates'}));
+    assert(ismember(formulation,{'aliased','intermediates','nonlinear_mass'}));
     assert(~isfolder(out),'Never overwrite evidence.');
     [status,dirty]=system(sprintf('git -C "%s" status --porcelain -- .',repo));
     assert(status==0 && isempty(strtrim(dirty)),'Commit relevant code first.');
@@ -36,17 +36,21 @@ function record=Probe_HeatDriveECC_ShiftedInventory(repo,out,fixture_kind,formul
             for shifted=[false true]
                 package=packages{k};if shifted,package=['ecc_shifted_' kinds{k}];end
                 if shifted && strcmp(formulation,'intermediates'),package=['ecc_increment_' kinds{k}];end
+                if shifted && strcmp(formulation,'nonlinear_mass'),package=['ecc_nonlinear_' kinds{k}];end
                 lib=[package '_lib'];load_system(lib);
                 blocks=find_system(lib,'SearchDepth',1,'Type','Block');blocks=setdiff(blocks,{lib});assert(isscalar(blocks));
                 model='ecc_shifted_inventory_probe';assert(~bdIsLoaded(model));new_system(model);
                 mc=onCleanup(@() close_system(model,0));
                 component=[model '/Inventory'];add_block(blocks{1},component);
                 if shifted
-                    if strcmp(formulation,'intermediates') && k==2
+                    if ~strcmp(formulation,'aliased') && k==2
                         assert(isequal(origin,[.1 10000]),'Increment targets require the unchanged fixture origins.');
                     end
                     set_param(component,'mass_reference',num2str(origin(1),'%.17g'),'mass_reference_unit','kg', ...
                         'energy_reference',num2str(origin(2),'%.17g'),'energy_reference_unit','J');
+                    if strcmp(formulation,'nonlinear_mass')
+                        set_param(component,'mass_scale',num2str(origin(1),'%.17g'),'mass_scale_unit','kg');
+                    end
                 end
                 add_block('fl_lib/Thermal Liquid/Utilities/Thermal Liquid Settings (TL)',[model '/Fluid']);
                 add_block('nesl_utility/Solver Configuration',[model '/Solver'],'UseLocalSolver','off');
@@ -83,6 +87,9 @@ function record=Probe_HeatDriveECC_ShiftedInventory(repo,out,fixture_kind,formul
                 units={'kg','J','K','Pa','kg/m^3','J/kg','kg/s','W','W'};
                 if k==1,names=[names {'mdot_B','Phi_B'}];units=[units {'kg/s','W'}];end %#ok<AGROW>
                 if shifted,names=[names {'mass_delta','energy_delta'}];units=[units {'kg','J'}];end %#ok<AGROW>
+                if shifted && strcmp(formulation,'nonlinear_mass')
+                    names=[names {'mass_coordinate'}];units=[units {'1'}]; %#ok<AGROW>
+                end
                 traces=cell(size(names));
                 for n=1:numel(names)
                     series=node.child(names{n}).series;
