@@ -9,6 +9,8 @@ import h5py
 import numpy as np
 import pyarrow.parquet as pq
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
+from Audit_HeatDriveECC_C201Horizon import named_rows
+from Audit_HeatDriveECC_ColdCoordinateSmoke import scalar_series
 
 
 def build(repo):
@@ -19,6 +21,9 @@ def build(repo):
     prefix = 'heatdrive_ecc_coupled_se21.'
     pressure = prefix+'SMAPressurePI_SimulinkPS_output0'
     names = [pressure]+[prefix+f'SMAValveCmdPS{k}_output0' for k in range(1, 7)]
+    for valve in ('SMA_V1_SHEX_to_pump', 'SMA_V2_HHEX_to_pump', 'SMA_V3_pump_to_heat_path',
+                  'SMA_V4_pump_to_cool_path', 'SMA_V5_SMA_to_SHEX', 'SMA_V6_SMA_to_HHEX'):
+        names.extend(prefix+valve+'.'+field for field in ('L', 'valve_area', 'mdot_A'))
     with zipfile.ZipFile(path) as z:
         metadata = json.loads(z.read('runs/sdi_signal_data4.json'))
         selected = []
@@ -44,6 +49,21 @@ def build(repo):
         s = f['signals/cold_observer_pressure']
         if not np.array_equal(t, s['time_s'][()].ravel()) or not np.array_equal(values[:, 0], s['values'][()].ravel()):
             raise ValueError('Independent pressure decoder cross-check failed')
+        native = named_rows(f, f['native'])
+        columns = {name: values[:, j] for j, name in enumerate(names)}
+        flow_checks = []
+        for chamber, port, valves, sign in (
+            ('SMA_PumpInletConnectingPipeVolume', 'A', ('SMA_V1_SHEX_to_pump', 'SMA_V2_HHEX_to_pump'), 1),
+            ('SMA_PumpOutletConnectingPipeVolume', 'B', ('SMA_V3_pump_to_heat_path', 'SMA_V4_pump_to_cool_path'), -1)):
+            row = native['heatdrive_ecc_coupled_se21/'+chamber, 'mdot_'+port]
+            if not np.array_equal(t, np.asarray(row['time_s']).ravel()):
+                raise ValueError('Different native time grid')
+            expected = scalar_series(row, 'kg/s')
+            actual = sign*sum(columns[prefix+valve+'.mdot_A'] for valve in valves)
+            maximum = float(np.max(abs(actual-expected)))
+            if maximum > 1e-12:
+                raise ValueError('External manifold mass balance mismatch')
+            flow_checks.append(dict(chamber=chamber, maximum_residual_kg_s=maximum, limit_kg_s=1e-12))
     if not np.isfinite(values).all() or t[-1] != .1:
         raise ValueError('Invalid prefix')
     window = t >= .099
@@ -54,6 +74,7 @@ def build(repo):
     return dict(archive_sha256=sha256(path), decoder_pressure_crosscheck_pass=True,
                 last_observed_time_s=float(t[-1]), window_start_s=.099, samples=int(window.sum()),
                 signals=rows, right_event_iteration_observed=False, units_independently_verified=False,
+                manifold_flow_crosschecks=flow_checks,
                 complete_network_consistency_verified=False, production_recovery_allowed=False)
 
 

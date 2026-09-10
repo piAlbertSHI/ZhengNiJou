@@ -2187,3 +2187,19 @@ pump_onset_right_consistency_20260910的pump_local_initialization.json。
 当前档案无失败右侧迭代，尚不能声称阀切换是根因或完整网络无解。
 结果outputs_storage_audit/onset_valve_archive_20260910/onset_valve_archive.json，
 审核代码Audit_HeatDriveECC_OnsetValveArchive.py。旧轨迹、门禁及C200保持不变。
+
+## 110. 阀物理开度与两腔外侧流量交叉核验（2026-09-10）
+
+在同一已固定SHA的SDI复合记录中增加六阀L、valve_area和mdot_A的读取。
+阀1/3/5的L与原始命令一致，在末样本接近1；面积从2.359262605051507e-5到2.4015e-5，
+阀2/4/6的面积保持2.4015e-11。面积字段的元数据单位为m^2；没有对可疑的命令标签作换算。
+阀口流量则与独立MAT中的两腔外侧kg/s流量作全时序连接守恒校验：
+入口腔A口=V1.A+V2.A，出口腔B口=-(V3.A+V4.A)，两项最大残差均为0。
+这增强了解码偏移、方向和外部流量归属的证据，未见已记录左侧的质量接线错误。
+
+旧局部阀参数合同显示线性阀特性、smoothing_factor=0.01，但它不是此次失败模型的重新参数快照，
+不能直接用旧参数宣称当前阀在0.1s触发了某种内部零交叉。
+本次仅看到开启末端及面积平台，没有失败右迭代。下一步应取得当前阀参数/零交叉定义，
+或在实际泵/双腔/阀组合中做联合事件动态试验；不把平台相关性当作根因。
+结果outputs_storage_audit/onset_valve_manifold_audit_20260910/onset_valve_archive.json。
+本轮没有仿真、恢复或物理参数修改，完整系统科学门禁仍未通过。
