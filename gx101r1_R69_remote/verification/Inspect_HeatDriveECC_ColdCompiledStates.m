@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step,held_error_control,held_error_control_level,held_solver_method)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step,held_error_control,held_error_control_level,held_solver_method,held_split_tolerances)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -34,6 +34,11 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<34,held_error_control=false;end
     if nargin<35,held_error_control_level='tight';end
     if nargin<36,held_solver_method='ode15s';end
+    if nargin<37,held_split_tolerances=false;end
+    assert(islogical(held_split_tolerances) && isscalar(held_split_tolerances) && ...
+        (~held_split_tolerances || (held_error_control && strcmp(held_error_control_level,'moderate') && ...
+        strcmp(held_solver_method,'ode23t'))), ...
+        'Separated consistency tolerances are limited to the qualified one-step held diagnostic.');
     assert(ischar(held_solver_method) && any(strcmp(held_solver_method,{'ode15s','ode23t'})) && ...
         (strcmp(held_solver_method,'ode15s') || (held_error_control && strcmp(held_error_control_level,'moderate'))), ...
         'The one-step solver trial requires the qualified moderate held-interval controls.');
@@ -242,6 +247,13 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.held_error_control_trial=held_error_control;
     record.held_error_control_level=held_error_control_level;
     record.held_solver_method=held_solver_method;
+    record.held_split_tolerances=held_split_tolerances;
+    if held_split_tolerances
+        rejected=fullfile(repo,'outputs_storage_audit','hybrid_held_ode23t_audit_20260910','held_interval_audit.json');
+        assert(strcmp(file_hash(rejected),'BB1136088658C84AD15F6A369FF087C617D2F5349F1EE00B0FAEECCFED0F1C21'), ...
+            'The one-step rejection evidence changed.');
+        record.held_one_step_rejection_sha256=file_hash(rejected);
+    end
     if strcmp(held_solver_method,'ode23t')
         rejected=fullfile(repo,'outputs_storage_audit','hybrid_held_moderate_control_audit_20260910','held_interval_audit.json');
         assert(strcmp(file_hash(rejected),'48ECCCA5D663B1F423CA838D5A84F7EECD9A74D59B4564079B4F941FC8E7A2F9'), ...
@@ -305,7 +317,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         if tighten_global || held_error_control
             assert(strcmp(record.global_tolerances.RelTol,'1e-2') && strcmp(record.global_tolerances.AbsTol,'1e-3'), ...
                 'Unexpected global baseline tolerances.');
-            if held_error_control && strcmp(held_error_control_level,'moderate')
+            if held_error_control && strcmp(held_error_control_level,'moderate') && ~held_split_tolerances
                 set_param(model,'RelTol','1e-6','AbsTol','1e-8');
             else
                 set_param(model,'RelTol','1e-10','AbsTol','1e-12');
@@ -320,6 +332,11 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         if ~isempty(residual_tolerance)
             assert(strcmp(before.ResidualTolerance,'0.001'),'Unexpected baseline residual tolerance.');
             set_param(solvers{1},'ResidualTolerance','1e-9');
+        end
+        if held_split_tolerances
+            assert(strcmp(before.ConsistencyTolSource,'GLOBAL') && strcmp(before.ConsistencyTolFactor,'0.001'), ...
+                'Unexpected consistency baseline for the separated-control diagnostic.');
+            set_param(solvers{1},'ConsistencyTolSource','LOCAL','ConsistencyAbsTol','1e-8','ConsistencyRelTol','1e-6');
         end
         after=struct();for k=1:numel(names),after.(names{k})=get_param(solvers{1},names{k});end
         record.consistency_settings_after=after;

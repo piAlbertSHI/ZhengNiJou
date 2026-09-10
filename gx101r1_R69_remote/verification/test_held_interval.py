@@ -124,3 +124,10 @@ class HeldIntervalTests(unittest.TestCase):
         check_discrete_constitutive_blocks(c)
         rows[0]['sample_time_s']=.0005
         with self.assertRaises(ValueError):check_discrete_constitutive_blocks(c)
+
+    def test_split_tolerances_keep_previously_runnable_consistency_values(self):
+        source=(Path(__file__).parent/'Inspect_HeatDriveECC_ColdCompiledStates.m').read_text(encoding='utf-8')
+        self.assertIn('if nargin<37,held_split_tolerances=false;end',source)
+        self.assertIn("'ConsistencyTolSource','LOCAL','ConsistencyAbsTol','1e-8','ConsistencyRelTol','1e-6'",source)
+        self.assertIn('BB1136088658C84AD15F6A369FF087C617D2F5349F1EE00B0FAEECCFED0F1C21',source)
+        self.assertIn("strcmp(held_error_control_level,'moderate') && ~held_split_tolerances",source)
