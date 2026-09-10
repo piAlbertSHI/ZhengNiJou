@@ -48,14 +48,15 @@ def audit(repo,case='quarterstep'):
     if not proof['bounded_held_trial_eligible']:
         raise ValueError('Cold initial prerequisite failed independent re-audit')
     root=repo/'outputs_storage_audit'
-    if case not in ('quarterstep','20us'):raise ValueError('Undeclared nonlinear step trial')
-    folder=root/('nonlinear_inventory_cold_held_20260910' if case=='quarterstep' else 'nonlinear_inventory_cold_held_20us_20260910')
+    if case not in ('quarterstep','20us','10us'):raise ValueError('Undeclared nonlinear step trial')
+    folder=root/('nonlinear_inventory_cold_held_20260910' if case=='quarterstep' else f'nonlinear_inventory_cold_held_{case}_20260910')
     path=folder/'compiled_states_inspection.json';r=read(path)
     initial_path=root/'nonlinear_inventory_cold_initial_20260910/compiled_states_inspection.json'
     initial=read(initial_path)
     if sha256(initial_path)!='D10DC35770D3B635DC975F17C4F529FB2CCCBBD187286E60C408F751BA6B55F9':
         raise ValueError('Cold initial record changed')
     producer='b316e6c1a8096d0309bdc43e95a0df015afd4da1' if case=='quarterstep' else '6ac31f3112d4d56c07208a984887a2643d22c993'
+    if case=='10us':producer='ecefc8c4df3a599b34ce013cd9e45cf9939be541'
     if (r['inspector_commit']!=producer or not r['inspection_pass']
             or r['stage']!='complete' or r['simulation_error_message'] or r['diagnostic_stop_time_s']!=.04
             or r['initialization_only'] or not r['held_interval_requested'] or not r['nonlinear_inventory_requested']
@@ -78,14 +79,23 @@ def audit(repo,case='quarterstep'):
             if sha256(Path(new[field]))!=new[hash_field]:raise ValueError('Source/library hash differs')
         reverse_source(Path(new['generated_source']).read_text(),Path(new['source']).read_text(),new['kind'],True)
     max_step=None
-    if case=='20us':
-        max_step='2.0000000000000002e-05'
+    if case in ('20us','10us'):
+        step=.00002 if case=='20us' else .00001
+        max_step='2.0000000000000002e-05' if case=='20us' else '1.0000000000000001e-05'
         event_path=root/'reset_event_sides_audit_20260910/reset_event_sides_audit.json'
         if (sha256(event_path)!='98403BAC66D1AFF1707B6247EE20A198E17B532C49F10A604C7334BCE2A1CF80'
                 or r['nonlinear_event_side_qualification_sha256']!=sha256(event_path)
-                or r['held_max_step_override_s']!=.00002):raise ValueError('Fine-step event qualification changed')
+                or r['held_max_step_override_s']!=step):raise ValueError('Fine-step event qualification changed')
         from Audit_HeatDriveECC_ResetEventSides import build as event_audit
         if event_audit(repo)!=read(event_path):raise ValueError('Event-side evidence failed independent recomputation')
+        if case=='10us':
+            coarse=root/'nonlinear_cold_held_20us_audit_20260910/nonlinear_cold_held_audit.json'
+            commands=root/'sma_derivative_contract_20260909_v3/sma_derivative_contract.json'
+            if (sha256(coarse)!='30199AFE974AF13D6EA30CF7D10B6BB8E43F985518E096E9592413C8CA5D51AB'
+                    or not read(coarse)['local_balance_gate']
+                    or sha256(commands)!='EE5C16D580693FCA925D24D0DB2A8E021BAC65E36F0A77A8E12AE795070ACEE2'
+                    or r['actual_command_schedule']!=read(commands)['commands']):
+                raise ValueError('Coarse qualification or actual complete commands changed')
     expected_solver=deepcopy(initial['global_solver_configuration'])
     if max_step is not None:expected_solver['MaxStep']=max_step
     if r['global_solver_configuration']!=expected_solver:raise ValueError('Wrong step configuration')
@@ -160,7 +170,7 @@ def audit(repo,case='quarterstep'):
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output-root',required=True,type=Path)
-    parser.add_argument('--case',choices=('quarterstep','20us'),default='quarterstep');args=parser.parse_args()
+    parser.add_argument('--case',choices=('quarterstep','20us','10us'),default='quarterstep');args=parser.parse_args()
     if args.output_root.exists():raise FileExistsError('Never overwrite evidence')
     result=audit(Path(__file__).resolve().parents[1],args.case);args.output_root.mkdir(parents=True)
     (args.output_root/'nonlinear_cold_held_audit.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n',encoding='utf-8')

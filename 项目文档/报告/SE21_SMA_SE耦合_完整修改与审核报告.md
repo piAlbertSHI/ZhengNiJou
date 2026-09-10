@@ -1902,3 +1902,45 @@ quadrature_convergence_verified、full_solver_error_weights_verified、periodic_
 - [20us六组件审核与30文件哈希清单](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/nonlinear_cold_held_20us_audit_20260910/nonlinear_cold_held_audit.json)
 - [直接事件侧观测审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/reset_event_sides_audit_20260910/reset_event_sides_audit.json)
 - [研究笔记第43节：复核命令和证据边界](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
+
+## 96. 10us复核通过，实际指令变化边界已校正
+
+更正此前表述：0.05s只是旧保守合同使用的第二个数据节点，并非实际变化点。
+本轮先审完整指令档，再于重建模型读取四组完整实际timeseries，逐项确认与冻结档案一致：
+
+- 0--0.10000000000000002s：偏压-1e-6MPa，反馈关闭、reset保持，压力导数为0。
+- 0.10000000000000002--0.15000000000000002s：偏压线性下降，斜率-4.90992782MPa/s，反馈仍关闭、reset保持。
+- 0.15000000000000002s：反馈启用、reset释放。原始压力的变化包含kp*lag项，必须处理实际状态和饱和，不能补零导数绕过。
+
+以上是实际指令表与方程边界，物理仿真仍仅验证到0.04s，没有因边界校正自动延长运行。
+新增指令分析器区分线性插值段起点与保持型信号的跳变时刻，忽略相同值的冗余数据节点。
+
+20us通过后，生产者ecefc8c仅把最大步长减半为10us，并增加只读完整指令抓取。
+真实前台会话84340自然退出0；checkcode无消息，sim调用89.1726268s，整个进程约52分钟包含构建和大规模导出。
+不导入旧OP，不改容差、目标、控制器或物理参数。4038共同采样时刻、204初态、12坐标身份、零环均通过。
+
+| 组件 | 10us质量残差 kg | 10us能量残差 J | 联合门禁 |
+|---|---:|---:|---|
+| inlet连接腔 | 3.05546e-17 | 1.19931e-11 | 通过 |
+| outlet连接腔 | 3.01633e-17 | 1.37762e-11 | 通过 |
+| Cold buffer | 6.93654e-18 | 8.31906e-13 | 通过 |
+| Hot buffer | 6.93654e-18 | 2.33638e-12 | 通过 |
+| SHEX buffer | 4.62308e-17 | 2.28002e-11 | 通过 |
+| SMAHot buffer | 2.79244e-17 | 6.35086e-12 | 通过 |
+
+原梯形门禁1e-15kg/1e-8J没有改变。六组件20/10us的末端库存变化和累计输入差异均低于该量纲门限，
+最大末端质量变化差9.71445e-17kg、能量变化差5.09317e-11J。
+这证明短窗口两步长的末端稳定，不证明全系统、渐近误差阶或整个周期收敛。
+10us网格最短间隔1.22298e-16s，最大/最小间隔比8.17675e10；Simpson对照有数值稳定性疑问，
+保留其原数值，不把它当独立收敛证明，quadrature_independence_proven仍false。
+
+下一步采用已核实的完整指令表建立0.1s线性偏压段的真实导数接口及独立资格，
+随后才逐步跨越0.15s反馈事件。不能沿用旧零导数，也不能把本短窗口当作生产恢复点。
+主目标的完整周期、全控制体闭合、Tc搜索、敏感性、成对Table4端点和论文最终图表仍未完成。
+
+501项回归通过。新增原始30文件281,598,940bytes，三份审核98,943bytes，总281,697,883bytes，
+约268.65MiB。无旧raw/OP复制，无删除，Agent6未动，C200继续由前置审核验证哈希。
+
+- [10us六组件审核及文件清单](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/nonlinear_cold_held_10us_audit_20260910/nonlinear_cold_held_audit.json)
+- [20/10us比较与实际完整指令表审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/held_refinement_20260910/held_refinement_audit.json)
+- [研究笔记第44节：复核及哈希](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
