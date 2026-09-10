@@ -1856,3 +1856,49 @@ M_scale为固定正值，在独立试验中等于初始质量。此为链式法�
 - [40ms逐组件审核及30文件哈希清单](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/nonlinear_cold_held_audit_20260910/nonlinear_cold_held_audit.json)
 - [增量坐标失败分析](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/nonlinear_cold_held_failure_20260910/nonlinear_held_failure_analysis.json)
 - [研究笔记第42节：命令、失败诊断与哈希](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
+
+## 95. 事件侧观测澄清，20us下六组件40ms守恒通过
+
+本轮先处理第94节指向的解析试验问题，没有直接盲目缩步。
+新增独立小模型直接记录零阶保持器输出的离散时间标签与实际采到的Clock值。
+20us下两者最大差2.04697e-16s；10us下8.15320e-17s。不能将离散时间标签或floor(t/T+epsilon)
+强行当作连续日志中每个邻近事件样本的左右侧。
+
+以实际保持的Clock值定位采样发生时刻，对完整通量重建，两组误差均为0。
+用实测分段保持源解析积分，库存误差分别1.48417e-8和3.71043e-9，减半步长后误差比4.00000066。
+20us的新观测试验与旧20us试验的时间、库存、通量轨迹逐点相同；旧floor偏置审核失败证据仍保留。
+这是新的观测证据，不是放宽原通量比较2e-15门限；实际与名义采样时刻所对应的解析库存差仅2.22e-16。
+官方[零阶保持器说明](https://www.mathworks.com/help/simulink/slref/zeroorderhold.html)支持其采样保持语义；
+上述数值时间差来自本地实测，不归因于未核实的内部调度算法。
+
+冻结该独立资格后，生产者6ac31f3运行实际耦合20us/40ms冷态试验，仅改变MaxStep，
+其余控制、目标、几何、nominal和求解容差不变，禁止旧OP导入。
+会话20908自然退出0；sim调用76.333541s，整体约35分钟包含构建/导出/哈希，不混报。
+入口checkcode无消息，204目标再次通过、零环、12份坐标历史数值身份通过。
+0--40ms共2023个采样时刻，119库存组件1276叶及49边界源162叶全部保留。
+
+原累计梯形门禁：质量<=1e-15kg，能量<=1e-8J，未改变：
+
+| 组件 | 最大质量残差 kg | 最大能量残差 J | 联合门禁 |
+|---|---:|---:|---|
+| inlet连接腔 | 1.21746e-16 | 4.77505e-11 | 通过 |
+| outlet连接腔 | 1.20197e-16 | 5.48713e-11 | 通过 |
+| Cold buffer | 6.93585e-18 | 1.94889e-12 | 通过 |
+| Hot buffer | 6.93585e-18 | 3.81594e-12 | 通过 |
+| SHEX buffer | 1.63931e-16 | 8.03468e-11 | 通过 |
+| SMAHot buffer | 9.13489e-17 | 2.26815e-11 | 通过 |
+
+结论是六组件在40ms恒定指令窗口内联合6/6通过，不是完整系统一阶闭合、完整周期或Table4复现。
+quadrature_convergence_verified、full_solver_error_weights_verified、periodic_state_audited仍false，
+没有生产检查点，production_recovery_allowed=false。250us失败证据继续保留，不覆盖。
+
+下一步必须继续资格验证：确认细步长/积分收敛，并对首个指令切换及完整动态压力接口建立真实导数合同，
+不能把只在0--40ms成立的零导数延长到切换之后。完成动态与全控制体门禁后才进入冷态完整周期、
+稳态、Tc搜索、正交敏感性与成对Table4端点。主目标未缩减。
+
+495项回归通过；本轮原始30文件161,472,619bytes，加解析试验/审核与耦合审核共162,196,340bytes，
+约154.68MiB。未复制旧raw/OP，未删除受保护结果，Agent6未动。C200重新核验哈希保持冻结。
+
+- [20us六组件审核与30文件哈希清单](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/nonlinear_cold_held_20us_audit_20260910/nonlinear_cold_held_audit.json)
+- [直接事件侧观测审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/reset_event_sides_audit_20260910/reset_event_sides_audit.json)
+- [研究笔记第43节：复核命令和证据边界](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)

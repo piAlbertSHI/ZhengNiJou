@@ -14,7 +14,7 @@ from Audit_HeatDriveECC_HybridHeldResult import sampled_rows
 from Audit_HeatDriveECC_HeldIntervalBalance import balance, check_held_contract
 
 
-def check_callbacks(current, initial, held):
+def check_callbacks(current, initial, held, max_step=None):
     check_held_contract(held)
     if (held['state_imported'] or held['qualification_sha256']!='8598BB08D314EA1B052C5B4CCE9A9DD7F0E30BE6842E668A038306F58E298C13'
             or sha256(Path(held['qualification_path']))!=held['qualification_sha256']):
@@ -24,6 +24,7 @@ def check_callbacks(current, initial, held):
         raise ValueError('Missing runtime phases')
     for actual, prior in zip(current, initial):
         expected=deepcopy(prior)
+        if max_step is not None:expected['global_solver_configuration']['MaxStep']=max_step
         expected['pressure_converter']['StopTime']='0.04'
         expected['pressure_converter']['derivative_source']=held['derivative_source']
         expected['held_interval_contract']=captured
@@ -42,18 +43,20 @@ def coordinate_identity(time, saved, actual, nominal):
     return float(np.max(np.abs(data*nominal-actual)))
 
 
-def audit(repo):
+def audit(repo,case='quarterstep'):
     proof=initial_audit(repo)
     if not proof['bounded_held_trial_eligible']:
         raise ValueError('Cold initial prerequisite failed independent re-audit')
     root=repo/'outputs_storage_audit'
-    folder=root/'nonlinear_inventory_cold_held_20260910'
+    if case not in ('quarterstep','20us'):raise ValueError('Undeclared nonlinear step trial')
+    folder=root/('nonlinear_inventory_cold_held_20260910' if case=='quarterstep' else 'nonlinear_inventory_cold_held_20us_20260910')
     path=folder/'compiled_states_inspection.json';r=read(path)
     initial_path=root/'nonlinear_inventory_cold_initial_20260910/compiled_states_inspection.json'
     initial=read(initial_path)
     if sha256(initial_path)!='D10DC35770D3B635DC975F17C4F529FB2CCCBBD187286E60C408F751BA6B55F9':
         raise ValueError('Cold initial record changed')
-    if (r['inspector_commit']!='b316e6c1a8096d0309bdc43e95a0df015afd4da1' or not r['inspection_pass']
+    producer='b316e6c1a8096d0309bdc43e95a0df015afd4da1' if case=='quarterstep' else '6ac31f3112d4d56c07208a984887a2643d22c993'
+    if (r['inspector_commit']!=producer or not r['inspection_pass']
             or r['stage']!='complete' or r['simulation_error_message'] or r['diagnostic_stop_time_s']!=.04
             or r['initialization_only'] or not r['held_interval_requested'] or not r['nonlinear_inventory_requested']
             or not r['simulation_run'] or any(r[k] for k in ('production_recovery_allowed','checkpoint_saved',
@@ -74,11 +77,23 @@ def audit(repo):
         for field,hash_field in [('source','source_sha256'),('generated_source','generated_sha256'),('library_path','library_sha256')]:
             if sha256(Path(new[field]))!=new[hash_field]:raise ValueError('Source/library hash differs')
         reverse_source(Path(new['generated_source']).read_text(),Path(new['source']).read_text(),new['kind'],True)
-    for k in ('global_solver_configuration','global_tolerances_after','consistency_settings_after',
+    max_step=None
+    if case=='20us':
+        max_step='2.0000000000000002e-05'
+        event_path=root/'reset_event_sides_audit_20260910/reset_event_sides_audit.json'
+        if (sha256(event_path)!='98403BAC66D1AFF1707B6247EE20A198E17B532C49F10A604C7334BCE2A1CF80'
+                or r['nonlinear_event_side_qualification_sha256']!=sha256(event_path)
+                or r['held_max_step_override_s']!=.00002):raise ValueError('Fine-step event qualification changed')
+        from Audit_HeatDriveECC_ResetEventSides import build as event_audit
+        if event_audit(repo)!=read(event_path):raise ValueError('Event-side evidence failed independent recomputation')
+    expected_solver=deepcopy(initial['global_solver_configuration'])
+    if max_step is not None:expected_solver['MaxStep']=max_step
+    if r['global_solver_configuration']!=expected_solver:raise ValueError('Wrong step configuration')
+    for k in ('global_tolerances_after','consistency_settings_after',
               'runtime_solver_options_after','output_sampling_settings','solver_failure_policy_after',
               'solver_iteration_options','source_native_sha256','inventory_formulation'):
         if r[k]!=initial[k]:raise ValueError('Changed diagnostic configuration: '+k)
-    check_callbacks(r['runtime_callbacks'],initial['runtime_callbacks'],r['held_interval_contract'])
+    check_callbacks(r['runtime_callbacks'],initial['runtime_callbacks'],r['held_interval_contract'],max_step)
     if r['cached_phase_targets']!=initial['cached_phase_targets'] or r['cached_extraction_added_callbacks']:
         raise ValueError('Cached initial targets changed')
     if r['algebraic_structure']['loop_count']!=0:raise ValueError('New algebraic loop')
@@ -144,8 +159,9 @@ def audit(repo):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--output-root',required=True,type=Path);args=parser.parse_args()
+    parser.add_argument('--output-root',required=True,type=Path)
+    parser.add_argument('--case',choices=('quarterstep','20us'),default='quarterstep');args=parser.parse_args()
     if args.output_root.exists():raise FileExistsError('Never overwrite evidence')
-    result=audit(Path(__file__).resolve().parents[1]);args.output_root.mkdir(parents=True)
+    result=audit(Path(__file__).resolve().parents[1],args.case);args.output_root.mkdir(parents=True)
     (args.output_root/'nonlinear_cold_held_audit.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n',encoding='utf-8')
     print(json.dumps({k:v for k,v in result.items() if k not in ('initial_comparisons','coordinate_identity','files')},indent=2))
