@@ -2619,3 +2619,12 @@ Eq.9/Eq.10 CSV。合同schema为`heatdrive_ecc_control_volume_contract_v2`，包
 并明确泵`power_spec=none`不等于已测电功。
 
 这是边界和采样合同证据，不是运行结果、周期稳态或实验验证证据；C200、失败包和恢复状态未改动。
+## 135. paired Table 4 入口严格拒绝审核（2026-09-11）
+
+执行Audit_HeatDriveECC_PairedTable4Endpoints.m的只读入口，未运行仿真、未读取失败候选作为端点。
+结果为`roots=0 contract=0 quantitative=0 strict=0`，MATLAB自然退出0；两个明确原因是
+`zero_load: no accepted zero_load root`和`zero_lift: no accepted zero_lift root`。
+
+输出outputs_storage_audit/paired_table4_endpoint_audit_20260911，文本和JSON/MAT均记录
+`claim=not yet reproduced`。由于成对端点尚不存在，系统没有检查或构造共同参数合同、共同窗口
+或定量误差；这正是预期的保护行为。paired Table 4仍禁止运行，C200及所有失败诊断包不变。
