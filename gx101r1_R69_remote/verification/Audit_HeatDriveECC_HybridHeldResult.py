@@ -30,19 +30,33 @@ CASES={
     'halfstep':('specific_inventory_hybrid_held_halfstep_20260910','24c574043c600bb32bea685dfcc79d835f5f8ca0',.0005),
     'quarterstep':('specific_inventory_hybrid_held_quarterstep_20260910','5d014f3697ba9c356be7f3e867141881707d3017',.00025),
     'moderate_control':('specific_inventory_hybrid_held_moderate_control_20260910','829fad4d05b21d5a18a6d41d15824376819d6ce8',.00025),
+    'ode23t':('specific_inventory_hybrid_held_ode23t_after_restart_20260910','71c386522bc14dd69bf1255bc939ba511d2c71d6',.00025),
 }
+CONTROL_CASES={'moderate_control','ode23t'}
 
 
 def expected_solver(baseline,case):
     if case not in CASES:raise ValueError('Undeclared step experiment')
     result=dict(baseline)
     if case!='baseline':result['MaxStep']=format(CASES[case][2],'.17g')
+    if case=='ode23t':result['Solver']='ode23t'
     return result
 
 
 def expected_tolerances(baseline,case):
     if case not in CASES:raise ValueError('Undeclared tolerance experiment')
-    return dict(RelTol='1e-6',AbsTol='1e-8') if case=='moderate_control' else dict(baseline)
+    return dict(RelTol='1e-6',AbsTol='1e-8') if case in CONTROL_CASES else dict(baseline)
+
+
+def check_discrete_constitutive_blocks(callback):
+    names=('SMA_TempDelay','SE_TempDelay','StateDelay')
+    initials=('sma_constitutive_T21_initial','se_constitutive_T21_initial','constitutive_state21_initial')
+    expected=[dict(path='heatdrive_ecc_coupled_se21/ECC_Constitutive21_'+name,block_type='UnitDelay',
+        sample_time_expression='constitutive_sample_time_s',sample_time_s=.001,initial_condition_expression=initial)
+        for name,initial in zip(names,initials)]
+    if callback['constitutive_discrete_blocks']!=expected:raise ValueError('Constitutive memory or sampling changed')
+    if callback['solver_iteration_options']!=dict(SolverResetMethod='Fast',MaxOrder=5):
+        raise ValueError('Unexpected additional solver-option change')
 
 
 def audit(repo,case='baseline'):
@@ -60,7 +74,7 @@ def audit(repo,case='baseline'):
     expected=expected_solver(base['global_solver_configuration'],case)
     tolerances=expected_tolerances(base['global_tolerances_after'],case)
     if r['global_tolerances_after']!=tolerances:raise ValueError('Global error controls differ')
-    if case=='moderate_control':
+    if case in CONTROL_CASES:
         policy=dict(MinStepSizeMsg='error',MaxConsecutiveMinStep='1',MinStep='auto')
         if (not r['held_error_control_trial'] or r['held_error_control_level']!='moderate'
                 or r['solver_failure_policy_after']!=policy
@@ -80,7 +94,8 @@ def audit(repo,case='baseline'):
         check_held_contract(c['held_interval_contract'])
         if c['global_solver_configuration']!=expected:raise ValueError('Actual callback maximum step differs')
         if {k:c[k] for k in tolerances}!=tolerances:raise ValueError('Actual callback tolerances differ')
-        if case=='moderate_control' and c['solver_failure_policy']!=policy:raise ValueError('Actual failure action differs')
+        if case in CONTROL_CASES and c['solver_failure_policy']!=policy:raise ValueError('Actual failure action differs')
+        if case=='ode23t':check_discrete_constitutive_blocks(c)
         if case!='baseline':
             sampling=dict(OutputOption='RefineOutputTimes',OutputTimes='[]',Refine='1',Decimation='1',SimscapeLogDecimation=1,SimscapeLogLimitData='off')
             if c['output_sampling_settings']!=sampling or r['output_sampling_settings']!=sampling:
@@ -118,13 +133,20 @@ def audit(repo,case='baseline'):
                 raise ValueError('Actual held pressure or integral changed')
     freeze_path=repo/'verification/c200_mainline_freeze_contract.json';freeze=read(freeze_path)
     files=[path,raw,basepath,targetpath,native,freeze_path,root/'compiled_state_dataset.mat',root/'matlab_diary.log']
-    if case=='moderate_control':
+    if case in CONTROL_CASES:
         prepath=root/'pre_simulation_inspection.json';pre=read(prepath)
         if pre['simulation_run'] or pre['global_tolerances_after']!=tolerances or pre['solver_failure_policy_after']!=policy:
             raise ValueError('Moderate-control pre-simulation configuration differs')
         rejected=repo/'outputs_storage_audit/hybrid_held_error_control_audit_20260910/held_error_control_audit.json'
         if sha256(rejected)!=r['held_tight_control_rejection_sha256']:raise ValueError('Tight-control evidence changed')
         files.extend([prepath,rejected])
+        if case=='ode23t':
+            ndf=repo/'outputs_storage_audit/hybrid_held_moderate_control_audit_20260910/held_interval_audit.json'
+            if (r['held_solver_method']!='ode23t' or r['held_ndf_rejection_sha256']!=sha256(ndf)
+                    or sha256(ndf)!='48ECCCA5D663B1F423CA838D5A84F7EECD9A74D59B4564079B4F941FC8E7A2F9'
+                    or pre['global_solver_configuration']!=expected):
+                raise ValueError('NDF comparison or actual solver declaration differs')
+            files.append(ndf)
     for key in ('result','checkpoint'):
         p=repo/freeze[key+'_relative_path']
         if sha256(p)!=freeze[key+'_sha256']:raise ValueError('C200 changed')

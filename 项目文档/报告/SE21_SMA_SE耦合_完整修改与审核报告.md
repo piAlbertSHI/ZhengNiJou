@@ -1486,3 +1486,29 @@ SMAHotFluidBuffer仅能量项通过。失败结果继续隔离，不产生恢复
 - [中间容差的完整审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_moderate_control_audit_20260910/held_interval_audit.json)
 - [逐组件残差时间定位](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_moderate_residual_localization_20260910/residual_localization.json)
 - [研究笔记第32节](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
+
+## 85. 代数余额检查与单步隐式方法对照
+
+已用保存的参考物性表、几何和当前轨迹检查6个替换组件的库存定义。
+入口连接腔M-rho*V约2.17e-19kg，U-M*u约9.32e-12J，明显小于相应动态余额误差。
+buffer的pV、重力及辅助热容能量项已分别核对，不能把主要能量残差解释为漏记这些项。
+但buffer质量定义差异最高约1.15e-14kg，仍需保留，不可宣称所有代数约束都已严格通过。
+物性/几何来自既有参考快照，不是本次全量运行时参数导出。
+
+基于连续/离散混合结构，提交 `71c3865` 仅将中间容差诊断的积分器由ode15s换为ode23t，
+保留所有物理初值、本构/PI状态、0.25ms上限、1e-6/1e-8容差及异常自行退出策略。
+首次进程因Windows更新计划重启中断，无科学结果；系统事件和中断文件已保存。
+核实中断与重启后才在新目录按相同配置重新运行，没有使用中断状态或旧OP。
+
+新试验自行退出0、完成40ms，204项初态及零代数环通过，三个本构Unit Delay仍为1ms。
+能量项5/6通过（两个连接腔已通过），质量项仍2/6通过；SHEX能量残差约1.2933e-8J，
+最大质量残差约2.6436e-14kg。两项同时通过仍2/6，因此不能转入恢复或长周期。
+改变积分方法有改善，但不是闭合修复或唯一根因证明。
+
+426项回归通过，C200哈希未变。本轮原始、中断、审核和代数分析共53文件41,404,370字节，
+没有重复长周期raw。下一步将全局积分容差与Simscape一致性容差分开控制，
+检验此前收紧全局容差时连带收紧一致性要求的影响，不放宽科学门禁。
+
+- [单步方法完整审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_ode23t_audit_20260910/held_interval_audit.json)
+- [库存代数余额](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_algebraic_residuals_20260910/algebraic_residuals.json)
+- [研究笔记第33节：系统中断、数值对照、哈希与命令](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)

@@ -2,7 +2,7 @@ import unittest
 from pathlib import Path
 import numpy as np
 from Audit_HeatDriveECC_HeldIntervalBalance import balance, check_held_contract
-from Audit_HeatDriveECC_HybridHeldResult import expected_solver, expected_tolerances
+from Audit_HeatDriveECC_HybridHeldResult import expected_solver, expected_tolerances, check_discrete_constitutive_blocks
 
 
 class HeldIntervalTests(unittest.TestCase):
@@ -106,3 +106,21 @@ class HeldIntervalTests(unittest.TestCase):
         self.assertIn("held_error_control && strcmp(held_error_control_level,'moderate')",source)
         self.assertIn("set_param(model,'Solver','ode23t')",source)
         self.assertIn('48ECCCA5D663B1F423CA838D5A84F7EECD9A74D59B4564079B4F941FC8E7A2F9',source)
+
+    def test_one_step_audit_keeps_moderate_tolerances_and_same_step(self):
+        base=dict(Solver='ode15s',SolverType='Variable-step',MaxStep='0.001',InitialStep='auto')
+        r=expected_solver(base,'ode23t')
+        self.assertEqual(r['Solver'],'ode23t');self.assertEqual(float(r['MaxStep']),.00025)
+        self.assertEqual(expected_tolerances({},'ode23t'),dict(RelTol='1e-6',AbsTol='1e-8'))
+        self.assertEqual(base['Solver'],'ode15s')
+
+    def test_constitutive_memory_cannot_be_removed_or_retimed(self):
+        names=('SMA_TempDelay','SE_TempDelay','StateDelay')
+        initials=('sma_constitutive_T21_initial','se_constitutive_T21_initial','constitutive_state21_initial')
+        rows=[dict(path='heatdrive_ecc_coupled_se21/ECC_Constitutive21_'+n,block_type='UnitDelay',
+            sample_time_expression='constitutive_sample_time_s',sample_time_s=.001,initial_condition_expression=i)
+            for n,i in zip(names,initials)]
+        c=dict(constitutive_discrete_blocks=rows,solver_iteration_options=dict(SolverResetMethod='Fast',MaxOrder=5))
+        check_discrete_constitutive_blocks(c)
+        rows[0]['sample_time_s']=.0005
+        with self.assertRaises(ValueError):check_discrete_constitutive_blocks(c)
