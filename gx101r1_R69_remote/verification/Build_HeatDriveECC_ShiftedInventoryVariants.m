@@ -29,19 +29,20 @@ function contract=Build_HeatDriveECC_ShiftedInventoryVariants(repo,build,formula
         package=['ecc_shifted_' names{k}];
         if strcmp(formulation,'intermediates')
             % Remove absolute aliases from the variable list; keep them observable.
-            terms=sprintf(['intermediates (ExternalAccess = observe)\n' ...
+            term_header=sprintf(['intermediates (ExternalAccess = observe)\n' ...
                 '    stored_mass = mass_reference + mass_delta;\n' ...
                 '    stored_energy = energy_reference + energy_delta;\n']);
             for name={'stored_mass','stored_energy','rho_I','u_I'}
                 declaration=regexp(candidate,['(?m)^    ' name{1} ' = [^\r\n]*\n'],'match');
                 assert(isscalar(declaration));candidate=replace_once(candidate,declaration{1},'');
             end
-            for name={'rho_I','u_I'}
-                equation=regexp(candidate,['(?m)^    ' name{1} ' == tablelookup[^\r\n]*\n'],'match');
+            lookup_names={'rho_I','u_I'};lookup_terms=cell(1,2);
+            for n=1:2
+                equation=regexp(candidate,['(?m)^    ' lookup_names{n} ' == tablelookup[^\r\n]*\n'],'match');
                 assert(isscalar(equation));candidate=replace_once(candidate,equation{1},'');
-                terms=[terms strrep(equation{1},' == ',' = ')]; %#ok<AGROW>
+                lookup_terms{n}=strrep(equation{1},' == ',' = ');
             end
-            terms=[terms sprintf('end\n\n')];
+            terms=[term_header lookup_terms{:} sprintf('end\n\n')];
             candidate=replace_once(candidate,sprintf('    stored_mass == mass_reference + mass_delta;\n'),'');
             candidate=replace_once(candidate,sprintf('    stored_energy == energy_reference + energy_delta;\n'),'');
             candidate=replace_once(candidate,sprintf('variables (Access = protected)\n'), ...
