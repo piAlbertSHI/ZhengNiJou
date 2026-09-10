@@ -1761,3 +1761,58 @@ M_scale为固定正值，在独立试验中等于初始质量。此为链式法�
 - [研究笔记第40节：推导、进程失败、复核命令和哈希](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
 
 可记录中间表达式的官方语义见[Using Intermediate Terms in Equations](https://www.mathworks.com/help/simscape/lang/using-intermediate-terms-in-equations.html)。
+
+## 93. 修正主网的204项零时刻初态通过，尚未运行新40ms窗口
+
+生产者提交 `e132f0b` 在独立冷态分支中替换六个库存组件，不向修正模型导入C200或任何旧OP。
+原冻结模型、C200 raw及OP的SHA在运行前后及独立审核中均保持一致。
+
+本轮不再只是水介质小电路：实际构建完整SMA-SE主网，保留两种流体、原几何、热容及控制器配置。
+六组件的12个M/E目标映射为零值z/energy_delta High目标，其余192项目标原样保留。
+连接腔标称尺度沿用原M/E库存，buffer沿用1kg/1J；z标称值为原质量标称值除以M_scale。
+只在z=0处核对该尺度映射，不把相同RelTol/AbsTol参数冒充整个非线性模型误差权重相同。
+替换前后逐项比较热流体与热域的端口顶点、物理线网和层级连接，全部保持一致。
+
+真实前台会话89299自然退出0，三个入口checkcode均为0。总进程含构建、编译、导出和哈希等待；
+66.3843s仅为sim调用时间。StartTime=StopTime=0，入口明确禁止本新分支直接运行40ms或循环段。
+日志中的time/OperatingPoint提示原样保留，使用的是公开零时刻目标对象，不是历史状态恢复。
+
+独立审核结果：
+
+- 204/204物理初态通过原严格比较：125项High、79项Low；最大温度误差5.685e-14K。
+- 三个运行回调各204项目标、Prestart/Start缓存目标齐全，未增加隐式初始化回调。
+- 除已声明的库存坐标/标称值、窗口与导数源命名差异外，控制器和其余运行配置与原基线逐字段相同。
+- 六组件共12个新CSTATE数值按实际标称值还原后与物理日志一致；894个Dataset条目不等于894个独立微分状态。
+- 原1258个库存叶节点全部保留，仅新增18个坐标/增量叶节点，总计1276；边界源仍162个。
+- 零代数环、连接关系保持、无私有状态导入；尚未审核任何有限窗口守恒或周期稳态。
+
+因此 `strict_initial_coordinate_gate=true`、`bounded_held_trial_eligible=true`，但
+`finite_window_conservation_audited=false`、`production_recovery_allowed=false`、`Table4`复现仍false。
+下一步先以本冷态配置进行原250us/40ms有界对照，再检查所有六组件的累计质量/能量余额。
+只有该阶段证据支持后才考虑事件侧取样、细步长和完整周期；不跳过门禁启动Tc搜索或参数敏感性。
+
+486项Python回归通过。原始与两轮审核32文件共32,888,604bytes（约31.37MiB），完整清单另75,583bytes。
+无大型raw/检查点复制，无删除，Agent6未动。既有失败证据不覆盖，也不传播到恢复链。
+
+- [初态严格审核、32文件清单、10份PDF的位置和SHA](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/nonlinear_cold_initial_package_20260910/nonlinear_cold_initial_audit.json)
+- [研究笔记第41节：映射、哈希与可运行复核命令](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
+
+### 93.1 负责人文献定位表
+
+本轮核实下列10份PDF均存在、可读取，并记录长度与SHA。页码/图号沿用
+[既有逐页索引](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-03_Qian本地文献精确定位与模型映射.md)，
+未在本轮重复阅读正文。页码从PDF第一页计数；Zotero完整检索仍未证明完成。
+索引中旧C246机制与性能结论已加历史模型警示，不能用于宣称本修正主网通过周期门禁。
+
+| 文献及可打开文件 | 对照位置 | 使用边界 |
+|---|---|---|
+| [Qian 2019, Energy](<C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/A heat driven elastocaloric cooling system..pdf>) | PDF3-4 Fig.1；5页Eq.1-10；6页Table2；16-17页Table4 | 唯一单效定量合同，必须求成对端点 |
+| [Tan 2020, Energy](<C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/[西安交通大学]Thermodynamic cycle analysis of heat driven elastocaloric.pdf>) | 6页Eq.1-2；7-9页Eq.5-16；18-20页Fig.9-10 | 机械兼容、相变与COP权衡，不提供PI增益 |
+| [Qian 2015, IJR56](<C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/（3）Thermodynamics cycle analysis and numerical modeling of thermoelastic cooling systems.pdf>) | 6-9页控制体/回路；10页周期稳态 | 完整流体与储热体边界，不只固体能量 |
+| [Qian 2017, Energy141](<C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/2017）Numerical_modeling_of_an_active_elastocaloric_regenerator_refrigerator_with_phase_transformation_kinetics_and_the_matching_principle_for_materials.pdf>) | 5-6页离散/稳态；9-10页Eq.21-26、Fig.11 | 动力学和匹配原则，不混用材料参数 |
+| [Qian 2015, IJR55](<C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/2014.8钱苏昕（固态冷却高效热回收循环的研究）Study on high efficient heat recovery cycle for solid-state cooling.pdf>) | 3-4页Fig.1-2；6-8页回热；13-17页参数影响 | 回热与附件库存敏感性，不移植其拓扑 |
+| [Qian 2023, ATE219](<C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/(Good)Thermodynamics of elastocaloric cooling and heat pump cycles.pdf>) | 3页Fig.1/Table1；4-5页COP；9-12页比较 | 区分材料、循环、系统边界 |
+| [Qian 2021, Applied Energy298](<C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/②Cascade utilization of low-grade thermal energy by coupled elastocaloric power and cooling cycle.pdf>) | 4-5页拓扑；10-13页性能 | 级联扩展参考，不覆盖2019单效合同 |
+| [2016综述](<C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/综述和science/A review of elastocaloric cooling___Materials, cycles and system integrations.pdf>) | 2-6页材料；9-10页系统；16-18页回热 | 术语及系统边界 |
+| [Qian博士论文](<C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/综述和science/qian  博士论文.pdf>) | 92-110页附近回热；131页后原型 | 背景追溯，不作定量替代 |
+| [2017整机优化](<C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/性能优化/Modeling_and_analysis_of_an_integrated_solid_state_elastocaloric_heat_pumping_system1.pdf>) | 5-12页动态模型；15-19页优化 | 控制体与约束优化依据 |
