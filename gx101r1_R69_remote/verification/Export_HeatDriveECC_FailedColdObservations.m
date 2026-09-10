@@ -5,8 +5,9 @@ function record=Export_HeatDriveECC_FailedColdObservations(output,model,metadata
         'production_recovery_allowed',false,'valid_simulation',false, ...
         'error_message',output.ErrorMessage,'native_read_errors',{{}}, ...
         'signals_count',0,'native_leaf_count',0);
-    signals=struct(); native={}; names=output.who;
+    started=tic;signals=struct(); native={}; names=output.who;
     for k=1:numel(names)
+        if any(strcmp(names{k},{'simlog','states'})),continue;end
         v=output.get(names{k});
         if isa(v,'timeseries')
             signals.(names{k})=struct('time_s',v.Time,'values',v.Data);
@@ -15,10 +16,14 @@ function record=Export_HeatDriveECC_FailedColdObservations(output,model,metadata
             signals.(names{k})=struct('time_s',v.time,'values',v.signals.values);
         end
     end
+    try
+        log=output.get('simlog');
+    catch ME
+        log=[];record.simlog_read_error=ME.message;
+    end
     for k=1:numel(metadata.storage_blocks)
         block=metadata.storage_blocks{k};
         try
-            log=output.get('simlog');
             node=simscape.logging.findNode(log,block.block_path);
             assert(~isempty(node),'No node in failed log.'); leaves=node.childIds;
             for j=1:numel(leaves)
@@ -34,6 +39,7 @@ function record=Export_HeatDriveECC_FailedColdObservations(output,model,metadata
         end
     end
     record.model=model; record.signals_count=numel(fieldnames(signals));record.native_leaf_count=numel(native);
+    record.collection_seconds=toc(started);
     save(destination,'signals','native','record','-v7.3');
     fprintf('FAILED_PUBLIC_OBSERVATIONS signals=%d native=%d valid=0\n',record.signals_count,record.native_leaf_count);
 end

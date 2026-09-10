@@ -2237,3 +2237,17 @@ pump_onset_right_consistency_20260910的pump_local_initialization.json。
 失败审核通过仅指证据完整，complete_ramp_verified和production_recovery_allowed均false。
 下一步应转向实际物理网络的联合事件约束与求解器重初始化，不能继续把观察器回送单独当作根因；
 同时需改进重复轨迹导出开销，保留诊断所需数据而不反复物化全部日志。
+
+## 113. 失败日志导出缓存与真实小日志验证（2026-09-11）
+
+Export_HeatDriveECC_FailedColdObservations不再于每个库存组件循环内重复获取simlog，
+改为一次获取并复用；通用信号扫描跳过已知非信号载荷simlog和states。
+缺日志时仍保留可读取信号及错误信息，不把失败数据改成valid。
+新增collection_seconds区分叶数据收集开销，但不包含最后MAT保存时间。
+
+会话95729以独立Simscape积分组件运行1ms生成真实日志，自然退出0；
+一个输出信号及3个叶节点的时间和值与原始日志逐项一致，valid_simulation仍false。
+小日志收集0.0371587秒，不宣称已测得完整模型加速；缺日志异常路径尚未用运行夹具覆盖。
+504项现有Python回归通过。新证据在outputs_storage_audit/failure_exporter_probe_20260911。
+没有修改模拟方程或重跑完整网络，也没有删除旧失败证据。后续长诊断将记录实际收集开销，
+若耗时仍主要来自逐节点查找，应据测量进一步处理，不凭此改动估算已释放时间或空间。
