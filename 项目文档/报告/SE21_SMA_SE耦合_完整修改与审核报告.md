@@ -2430,3 +2430,21 @@ Simpson单步积分与梯形差异最大的区间，提取原始三点，用80�
 逐项保留时间、通量、权重和Decimal结果；518项回归通过。
 当前实际模型仍在联合延迟后的0.12s失败；下一步返回错开事件的诊断主线，
 不把本积分算法取证替代完整周期、outer solve或Table4严格门禁。
+
+## 122. 错开事件诊断：故障跟随压力启动而非热门控跃迁（2026-09-11）
+
+将压力值及导数启动固定在0.12s，并把SMA Hold热门控从原0.1s进一步延迟到0.13s；
+其它参数、初态、求解器和门禁不变。MATLAB会话81465单次启动、自然退出1，
+simulation_wall_seconds=110.6113854仅表示记录字段，不代表完整墙钟耗时。
+
+结果仍在0.11999999999870169s失败，最小步长4.26326E-16。此时压力启动已到0.12s，
+热门控0.13s尚未激活。因此在这组诊断条件下，故障时刻跟随压力启动而不是热门控切换。
+这比联合延迟试验进一步缩小了因果范围，但不是完整根因证明：压力启动可能与其它未延迟
+的阀/网络事件或一致性约束共同触发。
+
+审计verification/Audit_HeatDriveECC_StaggeredDelayFailure.py通过；结果目录
+outputs_storage_audit/nonlinear_ramp_staggered_delay_20260911共199911722字节，
+逐文件哈希在outputs_storage_audit/staggered_delay_failure_audit_20260911/staggered_delay_failure.json。
+审计明确inspection_pass=false、无检查点、production_recovery_allowed=false；
+初态与事件右侧的完整质量/能量审核仍待完成，不能把这项因果定位写成物理门禁通过。
+C200继续冻结，后续优先审核压力启动时刻的泵/管路局部残差及事件左右侧状态。
