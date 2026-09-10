@@ -1625,3 +1625,42 @@ Python按完整块路径及完整变量命名空间匹配1258项库存叶节点�
 - [物理数据、204项初态及六组件余额审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_profiler_sdi_audit_20260910/profiler_sdi_audit.json)
 - [独立MATLAB归档重载审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_profiler_sdi_audit_20260910/sdi_archive_reload.json)
 - [研究笔记第37节：数据包、逐项残差、哈希与复核命令](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
+
+## 90. 定位reset关联缺陷，Robust单因素对照未改善守恒
+
+补查R2025b归档类的方法后，发现内部命名空间中的public只读getter可返回Profiler诊断表及
+827项状态记录。此前仅检查公开属性，不能据此认定载荷完全不可读。本轮增加版本锁定的提取器，
+只读第89节归档，记录实现文件与输入哈希，不绕过private访问、不修改原归档、不重跑模型。
+这是未文档化的版本专用接口，不是稳定官方API；完整矩阵和实际误差权重仍未取得。
+
+40次Jacobian更新中保存了36条分析记录，全部将“热端换热器/SMAHotPipe.u_I”列为限制状态。
+0.024、0.029、0.033、0.034s四次更新没有对应分析记录，不能把36条当成40个完整矩阵。
+12项M/U库存状态及该限制状态与独立物理数据在各自保存时刻对齐，按记录的尺度换算后逐值相同。
+827项Profiler记录存在时间压缩，本次13项对应核对不等于全模型状态或误差权重完整认证。
+
+Profiler的reset来源实际是SEStage4ViscosityExp、SEStage2ViscosityRatioDelta、
+SEStage4EndpointViscosityDelta三个黏度计算块，分别记录40、40、39次discreteDerivative事件，
+另有模型t=0初始reset。不是已证实由三个本构延迟块直接触发，不能混淆来源归因与采样关联。
+在160个积分区间中，40个reset后首步集中了四个质量失败组件96.74%--99.94%的绝对步间缺陷。
+这是定位线索，不是reset导致不守恒的因果证明；所有缺陷均保留，原累计门禁未变。
+
+据此，提交 `1ebc485` 仅增加独立Fast→Robust数值对照。真实MATLAB前台会话44364只启动一次，
+同一会话等到自然退出0，未设置定时器、重启任务或中止健康进程。实际三个回调逐字段确认
+只有SolverResetMethod变为Robust（另补齐AutoScaleAbsTol只读字段）；全部物理目标、控制器
+记忆、ode23t、1e-6/1e-8、0.25ms上限及40ms窗口不变。
+
+结果：204项初态、编译库存及零代数环通过；六组件的质量/能量最大残差与Fast对照全部相同，
+质量2/6、能量5/6、联合2/6。Robust未改善此配置，不提升为生产默认，不进入恢复链。
+仿真调用67.8158s不是含构建/编译/导出的整个进程时间。459项回归通过，入口checkcode为0。
+本轮取证和对照共31文件42,704,695 bytes，无生产OP/长周期raw，无删除，Agent6未触碰。
+
+下一步围绕reset时刻的左右极限通量、库存连续性及积分窗口作事件级取证，区分观测取样与
+求解离散误差；不能直接删去首步残差、改用另一积分式冒充通过或继续重复Robust对照。
+完整SMA-SE周期、全系统闭合、Tc外层求解、参数敏感性和Table4成对审核仍受门禁阻挡，目标未完成。
+
+- [限制状态、来源归因与逐步缺陷审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_profiler_reset_association_audit_20260910/profiler_diagnostics_audit.json)
+- [Robust独立冷态结果审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_robust_reset_audit_20260910/held_interval_audit.json)
+- [研究笔记第38节：证据边界、数据包及执行命令](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
+
+官方依据：[Solver reset method](https://www.mathworks.com/help/simulink/gui/solverresetmethod.html)说明Robust在reset时重算Jacobian；
+[Profiler分析说明](https://www.mathworks.com/help/simulink/ug/jacobian-loggin-and-analysis.html)将限制状态列为更新的可能来源，不作为唯一根因证明。

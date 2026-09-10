@@ -2,9 +2,19 @@ import unittest
 from pathlib import Path
 import numpy as np
 from Audit_HeatDriveECC_ProfilerDiagnostics import history,matching_times,state_identity,inaccurate_rows,reset_interval_defects
+from Audit_HeatDriveECC_HybridHeldResult import check_robust_callbacks,expected_solver,expected_tolerances
 
 
 class ProfilerDiagnosticsTests(unittest.TestCase):
+    def test_robust_comparison_rejects_other_changes(self):
+        old=[dict(solver_iteration_options=dict(SolverResetMethod='Fast',MaxOrder=5),RelTol='1e-6') for _ in range(3)]
+        new=[dict(solver_iteration_options=dict(SolverResetMethod='Robust',MaxOrder=5),RelTol='1e-6',AutoScaleAbsTol='on') for _ in range(3)]
+        check_robust_callbacks(new,old)
+        new[0]['RelTol']='1e-5'
+        with self.assertRaises(ValueError):check_robust_callbacks(new,old)
+        self.assertEqual(expected_solver(dict(Solver='ode15s',MaxStep='0.001'),'robust_reset'),dict(Solver='ode23t',MaxStep='0.00025000000000000001'))
+        self.assertEqual(expected_tolerances({},'robust_reset'),dict(RelTol='1e-6',AbsTol='1e-8'))
+
     def test_reset_trial_is_separate_and_requires_diagnosed_evidence(self):
         source=(Path(__file__).parent/'Inspect_HeatDriveECC_ColdCompiledStates.m').read_text(encoding='utf-8')
         self.assertIn('if nargin<39,held_robust_reset=false;end',source)

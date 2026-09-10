@@ -2,6 +2,7 @@
 import argparse
 import csv
 import json
+from copy import deepcopy
 from pathlib import Path
 import h5py
 import numpy as np
@@ -31,15 +32,17 @@ CASES={
     'quarterstep':('specific_inventory_hybrid_held_quarterstep_20260910','5d014f3697ba9c356be7f3e867141881707d3017',.00025),
     'moderate_control':('specific_inventory_hybrid_held_moderate_control_20260910','829fad4d05b21d5a18a6d41d15824376819d6ce8',.00025),
     'ode23t':('specific_inventory_hybrid_held_ode23t_after_restart_20260910','71c386522bc14dd69bf1255bc939ba511d2c71d6',.00025),
+    'robust_reset':('specific_inventory_hybrid_held_robust_reset_20260910','1ebc48519970e0c272097c77f3ae755500a128b9',.00025),
 }
-CONTROL_CASES={'moderate_control','ode23t'}
+CONTROL_CASES={'moderate_control','ode23t','robust_reset'}
+ONE_STEP_CASES={'ode23t','robust_reset'}
 
 
 def expected_solver(baseline,case):
     if case not in CASES:raise ValueError('Undeclared step experiment')
     result=dict(baseline)
     if case!='baseline':result['MaxStep']=format(CASES[case][2],'.17g')
-    if case=='ode23t':result['Solver']='ode23t'
+    if case in ONE_STEP_CASES:result['Solver']='ode23t'
     return result
 
 
@@ -48,15 +51,24 @@ def expected_tolerances(baseline,case):
     return dict(RelTol='1e-6',AbsTol='1e-8') if case in CONTROL_CASES else dict(baseline)
 
 
-def check_discrete_constitutive_blocks(callback):
+def check_discrete_constitutive_blocks(callback,reset_method='Fast'):
+    if reset_method not in ('Fast','Robust'):raise ValueError('Undeclared reset method')
     names=('SMA_TempDelay','SE_TempDelay','StateDelay')
     initials=('sma_constitutive_T21_initial','se_constitutive_T21_initial','constitutive_state21_initial')
     expected=[dict(path='heatdrive_ecc_coupled_se21/ECC_Constitutive21_'+name,block_type='UnitDelay',
         sample_time_expression='constitutive_sample_time_s',sample_time_s=.001,initial_condition_expression=initial)
         for name,initial in zip(names,initials)]
     if callback['constitutive_discrete_blocks']!=expected:raise ValueError('Constitutive memory or sampling changed')
-    if callback['solver_iteration_options']!=dict(SolverResetMethod='Fast',MaxOrder=5):
+    if callback['solver_iteration_options']!=dict(SolverResetMethod=reset_method,MaxOrder=5):
         raise ValueError('Unexpected additional solver-option change')
+
+
+def check_robust_callbacks(current,previous):
+    if len(current)!=3 or len(previous)!=3:raise ValueError('Incomplete reset trial callbacks')
+    for new,old in zip(current,previous):
+        expected=deepcopy(old);expected['AutoScaleAbsTol']='on'
+        expected['solver_iteration_options']['SolverResetMethod']='Robust'
+        if new!=expected:raise ValueError('Reset trial changed another runtime setting')
 
 
 def audit(repo,case='baseline'):
@@ -95,7 +107,7 @@ def audit(repo,case='baseline'):
         if c['global_solver_configuration']!=expected:raise ValueError('Actual callback maximum step differs')
         if {k:c[k] for k in tolerances}!=tolerances:raise ValueError('Actual callback tolerances differ')
         if case in CONTROL_CASES and c['solver_failure_policy']!=policy:raise ValueError('Actual failure action differs')
-        if case=='ode23t':check_discrete_constitutive_blocks(c)
+        if case in ONE_STEP_CASES:check_discrete_constitutive_blocks(c,'Robust' if case=='robust_reset' else 'Fast')
         if case!='baseline':
             sampling=dict(OutputOption='RefineOutputTimes',OutputTimes='[]',Refine='1',Decimation='1',SimscapeLogDecimation=1,SimscapeLogLimitData='off')
             if c['output_sampling_settings']!=sampling or r['output_sampling_settings']!=sampling:
@@ -140,13 +152,25 @@ def audit(repo,case='baseline'):
         rejected=repo/'outputs_storage_audit/hybrid_held_error_control_audit_20260910/held_error_control_audit.json'
         if sha256(rejected)!=r['held_tight_control_rejection_sha256']:raise ValueError('Tight-control evidence changed')
         files.extend([prepath,rejected])
-        if case=='ode23t':
+        if case in ONE_STEP_CASES:
             ndf=repo/'outputs_storage_audit/hybrid_held_moderate_control_audit_20260910/held_interval_audit.json'
             if (r['held_solver_method']!='ode23t' or r['held_ndf_rejection_sha256']!=sha256(ndf)
                     or sha256(ndf)!='48ECCCA5D663B1F423CA838D5A84F7EECD9A74D59B4564079B4F941FC8E7A2F9'
                     or pre['global_solver_configuration']!=expected):
                 raise ValueError('NDF comparison or actual solver declaration differs')
             files.append(ndf)
+        if case=='robust_reset':
+            diagnosis=repo/'outputs_storage_audit/hybrid_held_profiler_reset_association_audit_20260910/profiler_diagnostics_audit.json'
+            prior_path=repo/'outputs_storage_audit/specific_inventory_hybrid_held_ode23t_after_restart_20260910/compiled_states_inspection.json'
+            if (sha256(diagnosis)!='A7C46FF8CD4D6C611DFD1D8F30B2BA3EA6613FB0492D02F199A1E7DCC2C58732'
+                    or r['reset_diagnostic_evidence_sha256']!=sha256(diagnosis)
+                    or sha256(prior_path)!='32E1A6091A04A3150CBF6E23C101C65429E0D4B98181321A3EFA5ED29CFF352F'
+                    or not r['held_robust_reset_requested'] or r['held_profiler_requested'] or r['held_split_tolerances']
+                    or pre['solver_iteration_options']!=dict(SolverResetMethod='Robust',MaxOrder=5)
+                    or r['solver_iteration_options']!=pre['solver_iteration_options']):
+                raise ValueError('Undeclared reset trial or changed evidence')
+            check_robust_callbacks(cb,read(prior_path)['runtime_callbacks'])
+            files.extend([diagnosis,prior_path])
     for key in ('result','checkpoint'):
         p=repo/freeze[key+'_relative_path']
         if sha256(p)!=freeze[key+'_sha256']:raise ValueError('C200 changed')
@@ -155,6 +179,7 @@ def audit(repo,case='baseline'):
     return dict(evidence_audit_pass=True,numerical_case=case,global_max_step_s=step,
                 global_tolerances=tolerances,solver_failure_policy=r.get('solver_failure_policy_after'),
                 output_sampling_settings=r.get('output_sampling_settings'),simulation_wall_seconds=r.get('simulation_wall_seconds'),
+                solver_iteration_options=r.get('solver_iteration_options'),
                 initial_coordinate_audit=initial,compiled_inventory_gate=inventory,
                 compiled_algebraic_loops=0,observed_interval_s=[0,STOP_S],exported_sample_count=len(t),
                 native_storage_count=119,native_leaf_count=1258,source_count=49,source_leaf_count=162,
