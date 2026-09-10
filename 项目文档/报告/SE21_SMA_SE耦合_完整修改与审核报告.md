@@ -2388,3 +2388,22 @@ quadrature_convergence_verified=false、full_device_first_law_verified=false、s
 新增区间参数回归覆盖默认拒绝、显式区间、错误端点及非有限/逆序区间；512项测试通过。
 下一步应先核对高度非均匀网格上的积分对照，再推进错开事件的独立诊断，
 不得用本次局部积分检查替代生产周期门禁。没有删除或复制大结果包，C200不变。
+
+## 120. 非均匀网格积分分歧的常量及偏移不变性诊断（2026-09-11）
+
+新增verification/Audit_HeatDriveECC_QuadratureConditioning.py，直接使用相同原始时间网格，
+对六库存、两个窗口、质量流及热功率共24项检查。未重跑MATLAB，未删点或重采样。
+本地SciPy版本1.17.1，已查看实际安装的非等距累计Simpson实现。
+
+实测最大相邻步长比81767482596.22694；例如入口连接腔记录的
+0.006989999999999878、0.006999999999999878、0.007s构成三点，
+两步长分别约1e-5和1.22298e-16s。这不是均匀采样网格。
+然而相同网格上的单位常量积分最大误差为0；真实通量减去初值积分再加回解析常量项，
+与直接Simpson结果的最大差异仅1.71973e-20kg和2.75484e-13J，远小于第119节分歧。
+因此不能将分歧简单归因为常量项浮点相消；也没有证据据此认定SciPy实现错误。
+
+高度不均匀网格与非恒定通量如何共同影响三点积分仍需局部取证，不能据本检查
+宣称梯形法已经独立收敛、Simpson可忽略或模型整体守恒通过。原始数据、阈值、失败证据
+均未改变，quadrature_convergence_verified=false，production_recovery_allowed=false。
+证据outputs_storage_audit/joint_delay_quadrature_conditioning_20260911/conditioning.json；
+包含原始MAT哈希、逐项步长比、常量误差和偏移不变性差异。515项回归通过。
