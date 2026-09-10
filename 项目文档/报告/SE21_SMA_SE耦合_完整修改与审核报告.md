@@ -1664,3 +1664,52 @@ SEStage4EndpointViscosityDelta三个黏度计算块，分别记录40、40、39�
 
 官方依据：[Solver reset method](https://www.mathworks.com/help/simulink/gui/solverresetmethod.html)说明Robust在reset时重算Jacobian；
 [Profiler分析说明](https://www.mathworks.com/help/simulink/ug/jacobian-loggin-and-analysis.html)将限制状态列为更新的可能来源，不作为唯一根因证明。
+
+## 91. reset首步、TR-BDF2接口失败与平移库存独立对照
+
+2026-09-10，继续在 `codex/conservative-chamber-cold-diagnostic` 工作，未使用C200或失败状态恢复，
+未替换生产组件。原耦合40ms窗口仍只有六组件联合2/6通过，不能宣称已修复完整模型。
+
+本轮完成的工作与结果：
+
+1. 对已有通量作只读重放。reset后首步的缺陷与右矩形和梯形积分差高度一致；混合更新加上
+   float64舍入可逐值复现12条库存轨迹中的11条，另一条能量最大差2.274e-13J。
+   这不是新仿真，也不能用混合积分公式替代原质量/能量门禁。
+2. 独立解析模型中，ode23t采样输入最大误差约2.50e-6，Robust没有改善；ode23tb降至约3.77e-15。
+   然而实际耦合ode23tb试验在开始有效积分前因60个Simulink-PS转换器导数合同不足而退出1，
+   包括42个分段常值和18个连续输入。无有效轨迹、无204项实际初态通过证明、无可恢复OP。
+   没有用零导数或额外滤波掩盖接口问题。
+3. 20us解析试验保存的最大误差为1.48417e-8，但独立通量审核失败：在
+   0.013999999999999756s记录了事件前值，审核式按事件后值计算，两者相差0.001。
+   该事件左右侧取样尚未解决，不将它作为缩小耦合模型步长的通过依据。
+4. 新增只改变坐标的独立组件生成器：M=M_ref+deltaM、E=E_ref+deltaE，参考值保持常数。
+   Python反变换逐字核对确认原物理方程完整保留，包括buffer的流体内能、环境pV、重力和辅助热容项。
+   原源文件未改；没有重新定义物理库存、容差或目标。
+5. 完成封闭正负1W及双向1e-6kg/s流量对照，共16个独立水介质案例，均通过质量1e-15kg、
+   能量1e-8J的原局部阈值。JSON与8+8个MAT中的单位、时间及数值逐项相同。
+   封闭加热下，连接腔能量残差从9.46e-13J降至1.94e-14J，buffer从1.37e-10J降至9.03e-13J。
+6. **推广门禁未通过。** 八个平移案例均保存energy_delta，但均未保存mass_delta；流动对照也如此。
+   保存状态名单不能证明全部内部积分坐标，更不能证明主模型质量舍入问题已经修复。
+   因此 `coupled_replacement_qualified=false`，尚未把该组件接入完整冷态模型。
+
+运行纪律与异常：封闭和流动试验分别只启动一次，同一前台会话自然退出0；没有定时器、
+后台监视器或中途重启。独立checkcode进程在输出4条数组增长提示后，于MATLAB退出阶段发生
+std::terminate/ddux崩溃，退出1，崩溃文件已保留；底层运行时根因未证明，不能归因为科学模型失败。
+随后有目的地运行的流动对照checkcode为0条消息，正常退出0。所有相关前台会话均已结束。
+
+结果包为原位文件清单，不重复打包大型raw。65文件共12,092,496bytes（约11.53MiB），
+清单本身另18,951bytes；本轮未删除文件，无新生产OP/长周期raw，Agent6未触碰。
+代码提交 `22da184`、`09fc269`、`e28865c`、`35b8e3d` 对应首步分析、解析/接口试验及两组平移对照。
+本轮最终475项Python回归测试通过，包括非法重放输入、质量漂移失败及事件取样失败不得提升为通过的测试。
+
+下一步：先解决并实测质量增量坐标的编译保留问题，同时核对事件左右侧取样。
+初始化priority只是初始化目标，不能当作强制微分状态选择开关。
+取得独立证据后才允许重新验证完整冷态204项目标与40ms联合门禁；再推进主动控制、完整周期、
+系统一阶闭合和Table4成对审核。完整七项目标尚未完成。
+
+- [完整结果清单、SHA-256、事件取样失败记录](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/reset_coordinate_package_20260910/reset_coordinate_package.json)
+- [16案例逐项余额与坐标保留审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/shifted_inventory_fixture_audit_20260910/shifted_inventory_probe_audit.json)
+- [研究笔记第39节：代码、复核命令与关键哈希](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
+
+官方语义依据：[变量声明](https://www.mathworks.com/help/simscape/lang/variables.html)与
+[初始化优先级](https://www.mathworks.com/help/simscape/ug/block-level-variable-initialization.html)。
