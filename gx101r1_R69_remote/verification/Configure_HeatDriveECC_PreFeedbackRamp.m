@@ -11,12 +11,20 @@ function contract=Configure_HeatDriveECC_PreFeedbackRamp(repo,model,commands)
     source=[model '/ColdInitialPressureDerivativeOnly'];converter=[model '/SMAPressurePI_SimulinkPS'];
     p=get_param(converter,'PortHandles');assert(numel(p.Inport)==2);
     assert(strcmp(getfullname(get_param(get_param(p.Inport(2),'Line'),'SrcBlockHandle')),source));
-    delete_line(get_param(p.Inport(2),'Line'));delete_block(source);
+    bias=[model '/ColdObserver_bias_PS'];bp=get_param(bias,'PortHandles');
+    assert(numel(bp.Inport)==2 && ...
+        strcmp(getfullname(get_param(get_param(bp.Inport(2),'Line'),'SrcBlockHandle')),source));
+    % Remove both branches explicitly; do not depend on block auto-connection.
+    delete_line(get_param(p.Inport(2),'Line'));
+    remaining=get_param(bp.Inport(2),'Line');
+    if remaining~=-1,delete_line(remaining);end
+    delete_block(source);
     source=[model '/ColdPreFeedbackPressureDerivative'];
     assignin('base','cold_pre_feedback_dp',timeseries(c.derivative_MPa_s,c.time_s));
     add_block('simulink/Sources/From Workspace',source,'VariableName','cold_pre_feedback_dp', ...
         'Interpolate','off','OutputAfterFinalValue','Holding final value');
     s=get_param(source,'PortHandles');add_line(model,s.Outport(1),p.Inport(2));
+    add_line(model,s.Outport(1),bp.Inport(2));
     sink=[model '/ColdPreFeedbackDerivativeLog'];
     add_block('simulink/Sinks/To Workspace',sink,'VariableName','cold_pre_feedback_derivative_MPa_s', ...
         'SaveFormat','Timeseries','MaxDataPoints','inf');

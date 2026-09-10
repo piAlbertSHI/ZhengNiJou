@@ -2044,3 +2044,20 @@ TJacobian、TMass、TFactor、CondNum、Stiffness、LimitingStateTable，未验�
 本轮没有运行真实耦合模型，没有改动C200或生成恢复状态。工具接口检查未发现明确的
 异常会话取回入口，不能把未发现入口等同于证明不存在。后续应优先围绕实际斜坡值/导数
 及事件一致性建立局部诊断，不继续假定profileModel能在失败后自动给出矩阵。
+
+## 102. 双入口导数接线审核与被否定的断线假设（2026-09-10）
+
+代码检查发现旧导数Constant同时驱动泵入口及观察器bias入口，而斜坡替换只显式重接前者。
+初步怀疑后者断开，但真实Simulink接线fixture否定了“必然断开”的断言：会话13929退出1，
+原因是诊断断言失败而不是模型求解失败。保留其输出目录，不将该假设写成根因。
+会话61656记录残留支路实际自动连接到新Constant；这仅证明该fixture的自动接线行为。
+不能据此断言原完整模型接线错误，也不能证明其右侧事件一致性。
+
+为消除隐式依赖，Configure_HeatDriveECC_PreFeedbackRamp现在明确断开两个导数支路后重接，
+Verify_HeatDriveECC_PreFeedbackRamp同时检查bias值来自原命令、两个入口来自同一导数源，
+以及bias转换器的MPa单位和provide/一阶导数配置。未更改命令、斜率、状态或容差。
+显式重接fixture会话55889自然退出0，结果在
+outputs_storage_audit/shared_derivative_explicit_20260910/shared_derivative_deletion.json。
+两处修改的MATLAB checkcode无诊断，504项Python回归通过；完整模型构建/运行尚未重新验证。
+本项是接线确定性和审核覆盖增强，不是已证明的0.1s失败修复。下一步完整拓扑烟测应先验证
+双入口合同，再决定是否需要事件局部试验，不把本次窄测试替代完整物理验收。

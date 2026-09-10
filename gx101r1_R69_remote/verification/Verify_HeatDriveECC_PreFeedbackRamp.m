@@ -19,6 +19,13 @@ function contract=Verify_HeatDriveECC_PreFeedbackRamp(model)
     ports=get_param(converter,'PortHandles');assert(numel(ports.Inport)==2);
     assert(strcmp(getfullname(get_param(get_param(ports.Inport(1),'Line'),'SrcBlockHandle')),[model '/ColdObserver_pressure_Output']));
     assert(strcmp(getfullname(get_param(get_param(ports.Inport(2),'Line'),'SrcBlockHandle')),source));
+    bias=[model '/ColdObserver_bias_PS'];bp=get_param(bias,'PortHandles');
+    assert(strcmp(get_param(bias,'Unit'),'MPa') && ...
+        strcmp(get_param(bias,'FilteringAndDerivatives'),'provide') && ...
+        strcmp(get_param(bias,'UdotUserProvided'),'1') && numel(bp.Inport)==2);
+    assert(strcmp(getfullname(get_param(get_param(bp.Inport(1),'Line'),'SrcBlockHandle')), ...
+        [model '/SMAPressureBiasFromWorkspace']));
+    assert(strcmp(getfullname(get_param(get_param(bp.Inport(2),'Line'),'SrcBlockHandle')),source));
     observer=[model '/ColdSMAPassiveObserver'];
     assert(strcmp(get_param(observer,'SourceFile'),'ecc_sma_hybrid.pressure_controller') && ...
         strcmp(get_param(observer,'initial_integral'),'0'));
