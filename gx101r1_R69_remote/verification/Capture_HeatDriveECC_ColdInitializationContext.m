@@ -33,6 +33,7 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
         'SimscapeUseOperatingPoints',get_param(model,'SimscapeUseOperatingPoints'), ...
         'LoadInitialState',get_param(model,'LoadInitialState'),'targets',{targets},'has_private_data',false);
     record.normalize_using_nominal_values=get_param(model,'SimscapeNormalizeSystem');
+    record.AutoScaleAbsTol=get_param(model,'AutoScaleAbsTol');
     record.passive_observer_solver=observer_solver;
     observer_flow=[model '/ColdObserver_mdot_PS'];
     if getSimulinkBlockHandle(observer_flow)>0

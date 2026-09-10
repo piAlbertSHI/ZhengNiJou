@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step,held_error_control,held_error_control_level,held_solver_method,held_split_tolerances)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step,held_error_control,held_error_control_level,held_solver_method,held_split_tolerances,held_profiler)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -35,6 +35,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<35,held_error_control_level='tight';end
     if nargin<36,held_solver_method='ode15s';end
     if nargin<37,held_split_tolerances=false;end
+    if nargin<38,held_profiler=false;end
+    assert(islogical(held_profiler) && isscalar(held_profiler) && (~held_profiler || held_split_tolerances), ...
+        'Profiling is limited to the declared split-tolerance failure.');
     assert(islogical(held_split_tolerances) && isscalar(held_split_tolerances) && ...
         (~held_split_tolerances || (held_error_control && strcmp(held_error_control_level,'moderate') && ...
         strcmp(held_solver_method,'ode23t'))), ...
@@ -248,6 +251,14 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.held_error_control_level=held_error_control_level;
     record.held_solver_method=held_solver_method;
     record.held_split_tolerances=held_split_tolerances;
+    record.held_profiler_requested=held_profiler;
+    record.profiler_capture_pass=false;
+    if held_profiler
+        rejected=fullfile(repo,'outputs_storage_audit','hybrid_held_split_failure_audit_20260910','held_split_failure_audit.json');
+        assert(strcmp(file_hash(rejected),'4A398B9E07CA55B2A84FEBBF440A601274BBE0102624AE0383AC39E3C6002370'), ...
+            'The split-tolerance failure evidence changed.');
+        record.profiled_failure_sha256=file_hash(rejected);
+    end
     if held_split_tolerances
         rejected=fullfile(repo,'outputs_storage_audit','hybrid_held_ode23t_audit_20260910','held_interval_audit.json');
         assert(strcmp(file_hash(rejected),'BB1136088658C84AD15F6A369FF087C617D2F5349F1EE00B0FAEECCFED0F1C21'), ...
@@ -484,6 +495,11 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             fid=fopen(destination,'w','n','UTF-8');assert(fid>=0);fc=onCleanup(@() fclose(fid));
             fprintf(fid,'%s\n',jsonencode(record,'PrettyPrint',true));clear fc
         end
+        if held_profiler
+            record.stage='profile_declared_failure';record.simulation_run=true;
+            record.profiler=Profile_HeatDriveECC_DeclaredHeldFailure(model,output_root);
+            record.runtime_callbacks=evalin('base','cold_initialization_context');
+        else
         record.stage='initialization_state_logging';record.simulation_run=true;
         input=Simulink.SimulationInput(model);input=input.setVariable('cold_public_targets',cold_public_targets);
         input=input.setModelParameter('CaptureErrors','on');simulation_clock=tic;output=sim(input);
@@ -628,6 +644,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             record.cached_extraction_added_callbacks=false;
         end
         end
+        end
         record.stage='verify_frozen_authority';
         if momentum_buffers
             assert(strcmp(file_hash(momentum_contract.component_path),momentum_contract.component_sha256) && ...
@@ -637,7 +654,12 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         end
         assert(strcmp(file_hash(canonical),canonical_hash) && strcmp(file_hash(raw),frozen.result_sha256) && ...
             strcmp(file_hash(op),frozen.checkpoint_sha256),'Frozen model or authority changed.');
-        record.inspection_pass=true;record.stage='complete';
+        if held_profiler
+            record.profiler_capture_pass=record.profiler.capture_pass;
+            record.stage='profiler_capture_complete';
+        else
+            record.inspection_pass=true;record.stage='complete';
+        end
         clear mc
     catch ME
         record.error_message=ME.message;record.error_report=getReport(ME,'extended','hyperlinks','off');
@@ -645,7 +667,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     fid=fopen(fullfile(output_root,'compiled_states_inspection.json'),'w','n','UTF-8');assert(fid>=0);fc=onCleanup(@() fclose(fid));
     fprintf(fid,'%s\n',jsonencode(record,'PrettyPrint',true));clear fc
     fprintf('%s\n',jsonencode(struct('inspection_pass',record.inspection_pass,'stage',record.stage, ...
-        'output_root',output_root,'production_recovery_allowed',false)));assert(record.inspection_pass,'Compiled-state inspection failed.');
+        'profiler_capture_pass',record.profiler_capture_pass, ...
+        'output_root',output_root,'production_recovery_allowed',false)));
+    assert(record.inspection_pass || (held_profiler && record.profiler_capture_pass),'Compiled-state inspection or profiler capture failed.');
 end
 
 function hash=file_hash(file)
