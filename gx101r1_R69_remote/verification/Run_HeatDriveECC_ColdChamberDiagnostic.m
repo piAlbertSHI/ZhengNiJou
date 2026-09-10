@@ -23,7 +23,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'Only topology smoke, the specific inventory onset probe, or one full cycle is supported.');
     assert(~isfolder(output_root), 'Do not overwrite diagnostic evidence.');
     [code,commit]=system('git rev-parse HEAD'); assert(code==0,'Cannot record source.');
-    [code,dirty]=system('git status --porcelain'); assert(code==0 && isempty(strtrim(dirty)),'Commit source first.');
+    % Ignore unrelated untracked user directories; tracked source must remain committed.
+    [code,dirty]=system('git status --porcelain --untracked-files=no'); assert(code==0 && isempty(strtrim(dirty)),'Commit tracked source first.');
     mkdir(output_root); diary(fullfile(output_root,'matlab_diary.log'));
     diary_cleanup=onCleanup(@() diary('off'));
     old=pwd; oldpath=path; path_cleanup=onCleanup(@() restore_path(old,oldpath));
