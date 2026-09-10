@@ -2581,3 +2581,18 @@ rejection marker，不进入bracketing/interpolation，且恢复只允许合同�
 `RUNTIME_STUDY_GUARD_PASS=1`：未经授权的旧runtime研究合同被拒绝，且没有创建输出目录。
 这证明保护逻辑有效，不证明outer solve已有物理候选点或Table4端点。C200继续冻结，
 outer solve保持待命而非提前运行。
+## 132. L8敏感性设计预检（2026-09-11）
+
+执行Run_HeatDriveECC_Table4_Sensitivity.m的`preflight_only=true`模式，未运行候选仿真。
+第一次输出位置被程序路径合同拒绝（outputs_storage_audit不属于允许的outputs根），
+未生成候选；随后改用隔离目录outputs/table4_L8_sensitivity_preflight_20260911，
+MATLAB自然退出0并输出`SENSITIVITY_PREFLIGHT_STOP runs=8 passed=1`。
+
+8个L8设计点、8/8 contract_pass，六个因子为UA、端点热容、SE buffer、流体库存、
+回热利用率和相变潜热。示例低水平倍率为UA/端点容量0.95、SE buffer/流体库存0.90、
+回热利用率0.97、潜热0.95；设计文件和预检CSV/MAT均已保存。
+
+本轮只证明设计合同和参数扰动域可解析，不证明任何候选点的周期稳态、机制、流量、相变、
+能量或Eq.9/Eq.10门禁；未生成candidate record、OP或插值数据。固定Tc完整冷态前置门禁
+仍未通过，因此L8候选运行保持禁止。输出目录为outputs/table4_L8_sensitivity_preflight_20260911，
+C200及恢复状态未改动。
