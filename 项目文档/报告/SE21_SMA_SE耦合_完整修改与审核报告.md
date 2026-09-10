@@ -2463,3 +2463,16 @@ C200继续冻结，后续优先审核压力启动时刻的泵/管路局部残差
 因此不能把局部残差通过写成模型初始化修复。结果仍标记trajectory_conservation_verified=false、
 production_recovery_allowed=false、table4_reproduction_claim=false；仅作为压力启动调查的
 局部一致性证据。联合/错开失败包保持隔离，C200唯一恢复参考不变。
+
+## 124. C200主线冻结复核（2026-09-11）
+
+重新读取verification/c200_mainline_freeze_contract.json并按合同相对路径计算SHA-256：
+physical_simscape_result.mat为
+0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD，
+final_operating_point.mat为
+FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816；
+二者均与冻结合同完全一致。合同仍明确C200是纸面性能基准而非当前模型可恢复状态，
+strict_table4_reproduction=false，当前模型必须重新冷启动并通过严格运行门禁。
+
+本轮诊断未写入C200结果、未改变热容、buffer、本构、温度、相分数或独立路线PI记忆，
+失败诊断包仍不得恢复或插值。工作树仅保留用户已有的Agent6未跟踪目录，未触碰。
