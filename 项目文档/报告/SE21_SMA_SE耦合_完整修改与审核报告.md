@@ -2490,3 +2490,22 @@ failed_public_observations.mat为8BCAB45DF57E9D8B6359D8D29FE0AA35F46CC4155BB1B9A
 quadrature_convergence_verified=false；simulation_pass、full_device_first_law_verified及
 production_recovery_allowed均为false。该审核只证明导出前缀的局部梯形残差，不证明完整网络、
 事件右侧或周期稳态。失败包继续隔离，C200不变。
+## 126. SMA-SE统一控制体表与Eq.9/Eq.10采样合同（2026-09-11）
+
+以下边界合同供后续outer solve和paired端点共用；“局部通过”不代表整机第一定律通过。
+
+| 控制体 | 质量边界 | 能量边界 | 必测信号/功 | Eq.9窗口 | Eq.10质量基准 | 当前状态 |
+|---|---|---|---|---|---|---|
+| CHEX传感器/储库 | 传感器无工质通量，储库质量不入流体账本 | CHEX端口与储库交换热 | `T_CHEX`、端口热流 | 同一末周期完整相位 | SMA/SE有效质量，不含传感器 | 完整独立观测未闭合 |
+| SHEX流体 | 入口/出口及SHEX buffer库存变化 | source-to-sink、sink storage、sink-to-fluid | `mdot`、`Q_SHEX_source_to_sink`、`T_SHEX` | 共同末周期相位 | SHEX实际有效质量 | 源支路已测，下游仍缺 |
+| HHEX流体 | 入口/出口及HHEX buffer | 固体到流体对流及散热 | `mdot`、HHEX热流、温度 | 与SHEX同周期同相位 | HHEX有效质量 | 完整闭合未证实 |
+| CHEX流体 | 入口/出口及冷端buffer | 流体与CHEX储库交换热 | `mdot`、CHEX热流、温度 | 与Eq.9相同 | CHEX有效质量 | 不与传感器重复计量 |
+| SMA固体 | 无流体质量穿过；相变基准为有效SMA质量 | 显热、潜热/本构储能、流体对流 | `T_SMA`、相分数、固体能量 | 末周期完整相位 | `m_SMA` | C240固体残差通过 |
+| SE固体 | 无流体质量穿过；有效SE质量固定 | 显热/本构储能与流体对流 | `T_SE`、状态、SE能量 | 与SMA同一周期 | `m_SE` | 整机热流未闭合 |
+| buffers | 各入口/出口质量及储存变化 | 储能变化与进出焓流 | `stored_mass`、`stored_energy`、端口流量/功 | 各末周期分别积分 | 各buffer实际库存 | 局部梯形通过，Simpson待解释 |
+| 管路/连接腔 | 两端质量流；定容腔显式库存变化 | 焓流、压降/压力体积功、壁面储能 | 两端流量、焓流、压力、温度 | 事件左右侧分开 | 实际管路/腔室库存 | 局部压力重建通过 |
+| 泵功 | 泵不创造质量；入口/出口必须闭合 | 液压泵功、电功或明确`power_spec=none` | 压力、流量、泵功 | 与Eq.9同一末周期 | 通过泵的实际质量流 | `none`不等于已测电功 |
+
+Eq.9正式窗口是末周期完整相位，起止点必须存在于原始时间数组；质量基准固定为有效SMA/SE质量。
+Eq.10的SCP分母使用同一质量和同一周期窗口，不把buffer、传感器或泵电功隐式移入分母。
+缺失任一边界的候选点只能生成rejected diagnostic package，禁止进入outer solve插值、恢复链或paired Table4。
