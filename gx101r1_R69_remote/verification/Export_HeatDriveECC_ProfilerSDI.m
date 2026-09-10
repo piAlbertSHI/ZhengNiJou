@@ -35,6 +35,7 @@ function record=Export_HeatDriveECC_ProfilerSDI(model,output_root,ids_before)
         Simulink.sdi.exportRun(created(i),'to','file','filename',archive);
         row.archive_file=archive;row.archive_sha256=file_hash(archive);info=dir(archive);row.archive_bytes=info.bytes;
         row.exported=true;
+        run_signals=cell(1,run.SignalCount);
         for j=1:run.SignalCount
             sig=run.getSignalByIndex(j);meta=metadata{j};
             try
@@ -42,8 +43,8 @@ function record=Export_HeatDriveECC_ProfilerSDI(model,output_root,ids_before)
                 if isa(v,'timeseries') && isnumeric(v.Data) && isreal(v.Data) && ~isempty(v.Time) && ...
                         numel(v.Data)==numel(v.Time)
                     meta.run_id=row.run_id;meta.time_s=double(v.Time(:));meta.values=double(v.Data(:));
-                    meta.value_class=class(v.Data);signals{end+1}=meta;
                     row.scalar_count=row.scalar_count+1;
+                    meta.value_class=class(v.Data);run_signals{row.scalar_count}=meta;
                 else
                     row.non_scalar_or_empty_count=row.non_scalar_or_empty_count+1;
                 end
@@ -51,6 +52,7 @@ function record=Export_HeatDriveECC_ProfilerSDI(model,output_root,ids_before)
                 row.unreadable_signals{end+1}=struct('index',j,'name',meta.name,'error',ME.message);
             end
         end
+        signals=[signals run_signals(1:row.scalar_count)]; %#ok<AGROW>
         row.signal_metadata=metadata;record.runs{end+1}=row;
     end
     record.scalar_signal_count=numel(signals);record.owned_run_count=owned_count;

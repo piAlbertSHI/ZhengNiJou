@@ -3,6 +3,15 @@ from pathlib import Path
 
 
 class ProfilerSDISourceTests(unittest.TestCase):
+    def test_archive_reload_is_read_only_and_requires_empty_session(self):
+        source=(Path(__file__).parent/'Audit_HeatDriveECC_SDIArchiveReload.m').read_text(encoding='utf-8')
+        self.assertLess(source.index('assert(isempty(before)'),source.index('Simulink.sdi.load(archive)'))
+        for forbidden in ('Simulink.sdi.clear','deleteRun','sim(','load_system(','profileModel('):
+            self.assertNotIn(forbidden,source)
+        self.assertIn('numel(required)==1420',source)
+        self.assertIn('isequal(double(v.Data(:)),old.values)',source)
+        self.assertIn("'production_recovery_allowed',false",source)
+
     def test_only_new_owned_runs_are_exported_without_clear(self):
         source=(Path(__file__).parent/'Export_HeatDriveECC_ProfilerSDI.m').read_text(encoding='utf-8')
         self.assertIn("setdiff(ids_after,ids_before,'stable')",source)

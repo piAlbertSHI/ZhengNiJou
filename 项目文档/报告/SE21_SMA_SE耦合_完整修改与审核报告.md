@@ -1595,3 +1595,33 @@ solver_profile.mat。实际AutoScaleAbsTol在调用前后及三个运行回调�
 - [失败Profiler证据审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_profiler_failure_audit_20260910/held_profiler_failure_audit.json)
 - [可运行对照Profiler审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_profiler_reference_audit_20260910/held_profiler_reference_audit.json)
 - [研究笔记第36节：命令、载荷缺口和哈希](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
+
+## 89. SDI物理数据导出和独立重载已通过，守恒仍未通过
+
+生产代码提交 `99be5bf` 仅增加Profiler同进程SDI导出和异常保护，保持第85节可运行冷态对照的
+物理目标、ode23t容差和40ms窗口。真实前台进程只启动一次并自然退出0，没有重置或导入旧OP。
+识别出的本次新run含5414条信号，5409条为标量；另5条为向量时间序列，并非缺失数据。
+没有清空SDI、删除旧run或导出不相关模型。Profiler原会话仍不能直接保存Simscape Node，
+现用独立mldatx归档和标量MAT交付物理轨迹，不宣称原会话文件已补齐所有状态。
+
+Python按完整块路径及完整变量命名空间匹配1258项库存叶节点和162项源边界信号，
+全部覆盖0--0.04s的161个时刻。单位对齐后，这1420组时间/物理数组与第85节参考逐值相同，
+204项冷态初值全部通过。43条受控热流源温差的deltaK/K映射依据原生组件的Conversion=relative
+定义，仅对该类组件的T变量作数值不变映射，不推广至绝对温度或摄氏温标。
+
+另一个全新MATLAB进程仅重载mldatx归档，不加载模型、不仿真，自然退出0；重新读取1420条
+物理信号，与标量MAT中的名称、完整块路径、单位、时间及数值完全一致。数据交付缺口已修复。
+但是原门禁未改变：质量2/6、能量5/6、联合2/6；SHEX最大质量/能量残差仍分别为
+2.643599e-14kg和1.293326e-8J。数据可读取和退出0均不能替代科学门禁通过。
+
+本轮451项回归通过，导出和重载脚本最新checkcode均0条消息；初次导出代码的cell增长提示
+已通过预分配消除，没有为此再次仿真。新增原始与审核包30文件、61,050,993 bytes，未生成
+长周期raw或生产OP，未删除受保护资料，Agent6未触碰。C200仅保留为冻结基准，不是修改模型恢复源。
+
+下一步仍须取得并分析支持接口可提供的实际状态/矩阵证据，定位近零时刻奇异性或余额误差；
+当前尚未分析40次Jacobian更新的具体矩阵，也未核实全模型状态/误差权重。不能凭计数认定根因，
+不能盲试容差或转入长周期。完整周期、全系统一阶闭合和Table4成对审核均未完成，七项目标继续。
+
+- [物理数据、204项初态及六组件余额审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_profiler_sdi_audit_20260910/profiler_sdi_audit.json)
+- [独立MATLAB归档重载审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_profiler_sdi_audit_20260910/sdi_archive_reload.json)
+- [研究笔记第37节：数据包、逐项残差、哈希与复核命令](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
