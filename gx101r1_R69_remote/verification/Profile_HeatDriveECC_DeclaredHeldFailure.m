@@ -1,17 +1,19 @@
 function record=Profile_HeatDriveECC_DeclaredHeldFailure(model,output_root,profile_case)
 % Capture one declared failed configuration; no repair, restart, or OP export.
     if nargin<3,profile_case='split';end
-    assert(any(strcmp(profile_case,{'split','moderate'})),'Undeclared profiling case.');
+    assert(any(strcmp(profile_case,{'split','moderate','ramp'})),'Undeclared profiling case.');
     expected=struct('Solver','ode23t','RelTol','1e-10','AbsTol','1e-12', ...
         'MinStepSizeMsg','error','MaxConsecutiveMinStep','1','MinStep','auto', ...
         'LoadInitialState','off','SaveOperatingPoint','off');
-    if strcmp(profile_case,'moderate'),expected.RelTol='1e-6';expected.AbsTol='1e-8';end
+    if any(strcmp(profile_case,{'moderate','ramp'})),expected.RelTol='1e-6';expected.AbsTol='1e-8';end
     keys=fieldnames(expected);
     for k=1:numel(keys)
         assert(strcmp(get_param(model,keys{k}),expected.(keys{k})),'Unexpected profiling configuration.');
     end
-    assert(str2double(get_param(model,'StartTime'))==0 && str2double(get_param(model,'StopTime'))==.04 && ...
-        str2double(get_param(model,'MaxStep'))==.00025,'Profiling may not extend the held window.');
+    stop=.04;step=.00025;
+    if strcmp(profile_case,'ramp'),stop=.14;step=.00001;Verify_HeatDriveECC_PreFeedbackRamp(model);end
+    assert(str2double(get_param(model,'StartTime'))==0 && str2double(get_param(model,'StopTime'))==stop && ...
+        str2double(get_param(model,'MaxStep'))==step,'Profiling must reproduce the declared window.');
     destination=fullfile(output_root,'solver_profile.mat');
     assert(~isfile(destination),'Do not overwrite profiler evidence.');
     record=struct('profile_case',profile_case,'capture_pass',false,'api_returned',false,'data_file',destination, ...

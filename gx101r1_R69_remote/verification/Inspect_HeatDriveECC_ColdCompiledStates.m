@@ -46,7 +46,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     nonlinear_fine=nonlinear_held && isscalar(held_max_step) && ismember(held_max_step,[.00002,.00001]);
     assert(~nonlinear_inventory || ((nonlinear_initial || nonlinear_held) && held_error_control && ...
         strcmp(held_error_control_level,'moderate') && strcmp(held_solver_method,'ode23t') && ...
-        ~held_split_tolerances && ~held_profiler && ~held_robust_reset && ~algebraic_structure_only), ...
+        ~held_split_tolerances && (~held_profiler || pre_feedback) && ~held_robust_reset && ~algebraic_structure_only), ...
         'Nonlinear inventory permits only qualified cold t=0 or 40ms diagnostics.');
     if nonlinear_held
         initial_audit=fullfile(repo,'outputs_storage_audit','nonlinear_cold_initial_strict_audit_20260910','nonlinear_cold_initial_audit.json');
@@ -319,7 +319,11 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             ~probe.coupled_conservation_pass && ~probe.production_recovery_allowed);
         record.analytic_reset_probe_sha256=file_hash(evidence);
     end
-    if held_profiler
+    if held_profiler && pre_feedback
+        rejected=fullfile(repo,'outputs_storage_audit','pre_feedback_failure_audit_20260910','pre_feedback_failure_audit.json');
+        assert(strcmp(file_hash(rejected),'1C399A227A8DD89422D6B8FFA97BEAE528FCC3A91E57901ACE87BF7D26041829'));
+        record.ramp_failure_qualification_sha256=file_hash(rejected);
+    elseif held_profiler
         rejected=fullfile(repo,'outputs_storage_audit','hybrid_held_split_failure_audit_20260910','held_split_failure_audit.json');
         assert(strcmp(file_hash(rejected),'4A398B9E07CA55B2A84FEBBF440A601274BBE0102624AE0383AC39E3C6002370'), ...
             'The split-tolerance failure evidence changed.');
@@ -606,6 +610,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         if held_profiler
             record.stage='profile_declared_failure';record.simulation_run=true;
             profile_case='moderate';if held_split_tolerances,profile_case='split';end
+            if pre_feedback,profile_case='ramp';end
             record.profiler=Profile_HeatDriveECC_DeclaredHeldFailure(model,output_root,profile_case);
             record.runtime_callbacks=evalin('base','cold_initialization_context');
         else
