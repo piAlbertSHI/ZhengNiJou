@@ -1713,3 +1713,51 @@ std::terminate/ddux崩溃，退出1，崩溃文件已保留；底层运行时根
 
 官方语义依据：[变量声明](https://www.mathworks.com/help/simscape/lang/variables.html)与
 [初始化优先级](https://www.mathworks.com/help/simscape/ug/block-level-variable-initialization.html)。
+
+## 92. 非线性质量坐标取得独立组件证据，尚未接入耦合主网
+
+第91节之后，先只读重载16份原试验Dataset，未加载或仿真模型。数据确认：旧平移buffer保存的
+stored_mass仍为约0.1kg的绝对值，连接腔保存绝对rho_I；energy_delta则是接近零的增量。
+这些CSTATE输出还可能包含代数变量，不将保存名称当作完整独立微分状态向量的证明。
+
+先将绝对M/E及rho/u改为可记录的intermediates，原物理方程不变。buffer原M/E High目标等价地
+转为delta=0、原点=原库存；原T/p目标不改。此变体完成8个双向流动案例，仍没有保存mass_delta，
+因此没有直接推广。两次准备阶段非零退出分别是代码检查AGROW与文本替换类型错误，均在实际仿真前，
+已分析、修正并留存记录，未从失败输出继承任何状态。
+
+进一步增加严格可逆坐标：
+
+```
+M = M_ref + M_scale*sinh(z)
+M_scale*cosh(z)*der(z) = sum(mdot)
+E = E_ref + energy_delta
+der(energy_delta) = sum(Phi) + Q
+```
+
+M_scale为固定正值，在独立试验中等于初始质量。此为链式法则下的坐标变换，不是近似质量公式，
+不增加或删除物理蓄热项。原源文件保留；独立Python反变换逐字重建原源码，确认几何、流体查表、
+端口对流、辅助热容、环境pV及重力项未变。有效数值误差尺度仍可能因坐标而改变，不能宣称数值算法完全相同。
+
+真实ode23t双向流量试验8案例自然退出0，checkcode为0条消息；四个候选均保存从0开始的z和energy_delta，
+其数值与物理日志逐值相同。连接腔末端z约±2.49464e-5，buffer约±4.0e-7。
+八个成对案例通过原质量1e-15kg、能量1e-8J局部门禁；候选质量库存残差不超过6.923e-18kg，
+能量残差不超过2.657e-12J。增量相对已知常流量解析积分的误差约2.65e-23至9.93e-23kg。
+初始M/E/p差为0，连接腔T差为0，buffer T差1.71e-13K，没有重置或转移生产状态。
+
+结论严格限定为 `nonlinear_flow_fixture_pass=true`、四个近零质量坐标数值身份通过。
+完整独立微分向量、主网两种流体的初态映射、有效误差权重及原40ms六组件联合门禁仍未验证，
+所以 `coupled_model_pass=false`，不进入生产恢复链，不运行Tc outer solve或Table4端点搜索。
+第91节旧仿射变体的失败标记保留，不能用新变体的结果覆盖旧证据。
+
+480项Python回归通过。新增原始、失败及审核证据43文件17,224,158bytes（约16.43MiB），
+资格包清单另30,478bytes；无长周期raw/OP复制，无删除，Agent6未触碰。
+诊断代码生产者提交为 `3d5be15`；所有实际进程均使用原会话等待至自然退出。
+
+下一步首先在独立冷态主网建立M/E目标到z/energy_delta的明确映射与尺度合同，逐项核对204个物理目标，
+再运行原250us、40ms有界对照。只有该层通过后才考虑事件取样/步长验证和完整周期，不能从本组件试验
+直接跳到Qian复现、全系统COP或敏感性计算。
+
+- [独立资格报告、逐案例数据及43文件哈希清单](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/nonlinear_mass_qualification_package_20260910/nonlinear_mass_probe_audit.json)
+- [研究笔记第40节：推导、进程失败、复核命令和哈希](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
+
+可记录中间表达式的官方语义见[Using Intermediate Terms in Equations](https://www.mathworks.com/help/simscape/lang/using-intermediate-terms-in-equations.html)。
