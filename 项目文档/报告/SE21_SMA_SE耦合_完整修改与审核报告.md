@@ -2407,3 +2407,26 @@ quadrature_convergence_verified=false、full_device_first_law_verified=false、s
 均未改变，quadrature_convergence_verified=false，production_recovery_allowed=false。
 证据outputs_storage_audit/joint_delay_quadrature_conditioning_20260911/conditioning.json；
 包含原始MAT哈希、逐项步长比、常量误差和偏移不变性差异。515项回归通过。
+
+## 121. 高精度三点复算定位Simpson局部插值放大（2026-09-11）
+
+新增verification/Audit_HeatDriveECC_QuadratureStencil.py，对24组通量/窗口中
+Simpson单步积分与梯形差异最大的区间，提取原始三点，用80位Decimal算术
+独立积分Lagrange二次多项式。输入使用原float64精确转换值，不改时间或通量。
+最大绝对权重放大约1.37253e10；24组三点复算与SciPy单步结果最大差异约1.05665e-13
+（各项单位分别是kg或J，不能把这个跨量纲最大值当物理残差）。
+
+具体例子：SHEXFluidBuffer全前缀的0.08698999999999807、0.08699999999999806、
+0.08700000000000001s三点，功率为-0.0778311645334637、-0.07783117023922763、
+-0.07783131479918606W。首区间梯形积分-7.783116738631549e-7J，
+二次插值积分却为+0.0012392982117652086J。后两个积分权重约+8578.28500951s、
+-8578.28500284s，放大近重合样本间的微小变化；SciPy与80位结果仅差3.21889e-14J。
+因此该局部差异不是简单浮点求和错误，而是同一二次插值多项式本身产生的强烈过冲。
+
+这解释了一个已定位的大幅局部积分异常，不能声称所有误差均已解释；也不能据此
+把梯形结果提升为已收敛。后续对事件/近重合样本不应无条件使用跨三点二次插值作
+独立守恒判据。原Simpson数值继续保留为诊断，未修改门禁、未删点、未重跑仿真。
+证据outputs_storage_audit/joint_delay_quadrature_stencils_20260911/stencils.json，
+逐项保留时间、通量、权重和Decimal结果；518项回归通过。
+当前实际模型仍在联合延迟后的0.12s失败；下一步返回错开事件的诊断主线，
+不把本积分算法取证替代完整周期、outer solve或Table4严格门禁。
