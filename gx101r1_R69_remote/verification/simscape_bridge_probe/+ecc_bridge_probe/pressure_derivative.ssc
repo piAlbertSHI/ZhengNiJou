@@ -1,0 +1,16 @@
+component pressure_derivative
+% Index-reduction diagnostic consumer, not a production component.
+inputs
+    p = {0, 'MPa'};
+end
+outputs
+    dp = {0, 'MPa/s'};
+end
+variables
+    constrained_pressure = {0, 'MPa'};
+end
+equations
+    constrained_pressure == p;
+    dp == constrained_pressure.der;
+end
+end

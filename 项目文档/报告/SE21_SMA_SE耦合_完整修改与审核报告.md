@@ -2136,3 +2136,19 @@ SMAPressurePI_Integrator，因此本次不能直接修复或解释完整模型�
 结果outputs_storage_audit/pre_feedback_bridge_no_reference_reset_20260910/bridge_probe.json，
 SHA-256为01969284386D517EAA47D4736CD1D76493011BFEF143553D0BB7857C09B3FC9F。
 旧失败证据保持原样；完整耦合模型和C200未修改。
+
+## 107. 显式一阶导数需求的局部转换链通过（2026-09-10）
+
+新增仅用于诊断的pressure_derivative.ssc：约束内部压力等于输入，并输出其时间导数，
+以使转换链实际面对一阶导数需求，而不是只验证压力值或积分。仍使用无参考level-reset干扰的
+控制器夹具、原命令和10us/ode23t配置，不改完整装置。
+会话84485自然退出0，到达0.14s，14739样本，无仿真错误。
+区间导数最大误差8.881784197001252e-16MPa/s，小于预设1e-10门禁；
+参考压力误差2.7755575615628914e-17MPa。节点±1e-12s内1个样本不用于区间导数门禁。
+随后只读会话92567确认该样本在0.099999999999993927s，导数0，是斜坡节点前的合法值，
+并非右侧导数错误证据。没有精确节点左右同刻采样，因此exact_event_side_verified仍false。
+
+结果outputs_storage_audit/pre_feedback_derivative_consumer_20260910/bridge_probe.json和原始MAT保留。
+pressure_derivative_consumption_verified仅指该显式导数消费者，不代表真实流体网络的高阶约束，
+也不证明完整模型0.1s故障已修复。下一步进入实际泵/连接腔局部物理网络，核对库存约束与
+流量响应，而非继续重复已通过的纯信号接口试验。未生成生产恢复点，C200未改动。

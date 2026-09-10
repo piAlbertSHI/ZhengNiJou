@@ -1,6 +1,8 @@
-function record=Probe_HeatDriveECC_PreFeedbackBridge(repo,out,remove_reference_reset)
+function record=Probe_HeatDriveECC_PreFeedbackBridge(repo,out,remove_reference_reset,derivative_consumer)
 % Replay qualified controller with a separate unfiltered pressure bridge.
     if nargin<3,remove_reference_reset=false;end
+    if nargin<4,derivative_consumer=false;end
+    assert(~derivative_consumer || remove_reference_reset);
     assert(~isfolder(out));mkdir(out);
     source=fullfile(repo,'outputs_storage_audit','hybrid_controller_equivalence_20260910');
     oldpath=path;pc=onCleanup(@() path(oldpath));addpath(fullfile(source,'component_build'));
@@ -9,7 +11,10 @@ function record=Probe_HeatDriveECC_PreFeedbackBridge(repo,out,remove_reference_r
         fullfile(build,'+ecc_bridge_probe'));
     cd(build);ssc_build('ecc_bridge_probe');addpath(build);cd(repo);
     load_system('ecc_bridge_probe_lib');
-    blocks=find_system('ecc_bridge_probe_lib','SearchDepth',1,'Type','Block');assert(isscalar(blocks));
+    blocks=find_system('ecc_bridge_probe_lib','SearchDepth',1,'Type','Block');
+    component='ecc_bridge_probe.pressure_integral';
+    if derivative_consumer,component='ecc_bridge_probe.pressure_derivative';end
+    blocks=blocks(cellfun(@(b) strcmp(get_param(b,'SourceFile'),component),blocks));assert(isscalar(blocks));
     d=load(fullfile(source,'paired_observations.mat'),'commands');names=fieldnames(d.commands);
     for k=1:numel(names)
         c=d.commands.(names{k});variable=['controller_test_' names{k}];
@@ -44,10 +49,12 @@ function record=Probe_HeatDriveECC_PreFeedbackBridge(repo,out,remove_reference_r
     add_line(model,'pressure_output/1','PressureBridge/1');
     add_line(model,'bias_derivative/1','PressureBridge/2');
     consumer=[model '/IntegralConsumer'];add_block(blocks{1},consumer);
-    sink=[model '/BridgeOutput'];add_block('nesl_utility/PS-Simulink Converter',sink,'Unit','MPa*s');
+    output_unit='MPa*s';output_port='q';
+    if derivative_consumer,output_unit='MPa/s';output_port='dp';end
+    sink=[model '/BridgeOutput'];add_block('nesl_utility/PS-Simulink Converter',sink,'Unit',output_unit);
     solver=[model '/BridgeSolver'];add_block([model '/Solver'],solver);
     simscape.addConnection(bridge,port(bridge),consumer,'p');
-    simscape.addConnection(consumer,'q',sink,port(sink));
+    simscape.addConnection(consumer,output_port,sink,port(sink));
     simscape.addConnection(bridge,port(bridge),solver,port(solver));
     add_block('simulink/Sinks/To Workspace',[model '/BridgeLog'], ...
         'VariableName','bridge_pressure','SaveFormat','Timeseries','MaxDataPoints','inf');
@@ -56,6 +63,7 @@ function record=Probe_HeatDriveECC_PreFeedbackBridge(repo,out,remove_reference_r
     output=sim(input);record=struct('simulation_error',output.ErrorMessage, ...
         'full_fluid_network_tested',false,'production_recovery_allowed',false,'bridge_pass',false);
     record.reference_level_reset_removed=remove_reference_reset;
+    record.derivative_consumer=derivative_consumer;
     if isempty(output.ErrorMessage)
         observations=output.get('observations');bridge_pressure=output.get('bridge_pressure');
         c=d.commands.bias;slope=diff(c.values)./diff(c.time_s);first=find(slope~=0,1);
@@ -67,6 +75,19 @@ function record=Probe_HeatDriveECC_PreFeedbackBridge(repo,out,remove_reference_r
             record.max_integral_error_MPa_s<=1e-7 && record.max_controller_pair_error_MPa<=1e-7;
         record.diagnostic_integrator_added_only_to_fixture=true;
         record.pressure_derivative_consumption_verified=false;
+        if derivative_consumer
+            record=rmfield(record,'max_integral_error_MPa_s');
+            expected_dp=zeros(size(t));expected_dp(t>c.time_s(first))=slope(first);
+            away=abs(t-c.time_s(first))>1e-12;
+            record.excluded_event_samples=sum(~away);
+            record.max_derivative_error_MPa_s=max(abs(bridge_pressure.Data(away)-expected_dp(away)));
+            record.bridge_pass=record.last_time_s==.14 && ...
+                all(isfinite(bridge_pressure.Data),'all') && record.max_derivative_error_MPa_s<=1e-10 && ...
+                record.max_controller_pair_error_MPa<=1e-7;
+            record.diagnostic_integrator_added_only_to_fixture=false;
+            record.pressure_derivative_consumption_verified=record.bridge_pass;
+            record.exact_event_side_verified=false;
+        end
         save(fullfile(out,'bridge_observations.mat'),'observations','bridge_pressure','-v7.3');
     end
     fid=fopen(fullfile(out,'bridge_probe.json'),'w','n','UTF-8');assert(fid>=0);
