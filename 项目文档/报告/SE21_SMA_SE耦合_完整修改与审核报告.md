@@ -2543,3 +2543,16 @@ Eq.10的SCP分母使用同一质量和同一周期窗口，不把buffer、传感
 production_recovery_allowed和table4_reproduction_claim均保持false。输出
 outputs_storage_audit/pump_staggered_right_20260911/pump_local_initialization.json，
 失败包和C200继续隔离。
+## 129. 失败候选点统一拒绝合同（2026-09-11）
+
+新增verification/Audit_HeatDriveECC_RejectedDiagnosticPackage.py，统一审核近期四个失败包：
+`nonlinear_ramp_hold_gate_delay_20260911`、`nonlinear_ramp_pressure_delay_20260911`、
+`nonlinear_ramp_joint_delay_20260911`和`nonlinear_ramp_staggered_delay_20260911`。
+四包均满足五项硬拒绝字段：`inspection_pass=false`、`checkpoint_saved=false`、
+`production_recovery_allowed=false`、`c200_state_imported=false`、
+`failed_terminal_state_imported=false`；均有求解器错误，未发现checkpoint文件或已提升状态。
+
+每包都生成逐文件SHA-256清单，分别为各包目录下的`*_rejected_audit.json`。
+合同明确`interpolation_eligible=false`，因此这些失败点不能进入outer solve插值、恢复链、
+paired端点或Table4。该脚本是候选点的前置拒绝门，不等于任何候选点的物理通过。
+520项Python回归通过。C200冻结合同和全部恢复状态保持不变。
