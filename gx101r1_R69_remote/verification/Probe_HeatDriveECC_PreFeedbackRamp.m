@@ -8,8 +8,10 @@ function report=Probe_HeatDriveECC_PreFeedbackRamp(repo,out)
     cleanup=onCleanup(@() close_system(model,0));
     assignin('base','probe_bias_ramp',timeseries(contract.bias_MPa,contract.time_s));
     assignin('base','probe_bias_derivative',timeseries(contract.derivative_MPa_s,contract.time_s));
-    add_block('simulink/Sources/From Workspace',[model '/Bias'],'VariableName','probe_bias_ramp','Interpolate','on');
-    add_block('simulink/Sources/From Workspace',[model '/Slope'],'VariableName','probe_bias_derivative','Interpolate','off');
+    add_block('simulink/Sources/From Workspace',[model '/Bias'],'VariableName','probe_bias_ramp', ...
+        'Interpolate','on','OutputAfterFinalValue','Holding final value');
+    add_block('simulink/Sources/From Workspace',[model '/Slope'],'VariableName','probe_bias_derivative', ...
+        'Interpolate','off','OutputAfterFinalValue','Holding final value');
     add_block('simulink/Sinks/Out1',[model '/BiasOut']);
     add_block('simulink/Sinks/Out1',[model '/SlopeOut'],'Port','2');
     add_block('simulink/Continuous/Integrator',[model '/IntegratedSlope'],'InitialCondition','-1e-6');
