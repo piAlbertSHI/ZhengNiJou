@@ -1,4 +1,5 @@
 from copy import deepcopy
+from pathlib import Path
 import unittest
 from Audit_HeatDriveECC_NonlinearColdInitial import target_translation,unchanged_runtime_context
 
@@ -25,6 +26,14 @@ def fixture():
 
 
 class NonlinearColdInitialTests(unittest.TestCase):
+    def test_held_entry_requires_frozen_strict_initial_evidence(self):
+        source=(Path(__file__).parent/'Inspect_HeatDriveECC_ColdCompiledStates.m').read_text(encoding='utf-8')
+        self.assertIn('nonlinear_held=nonlinear_inventory && external_lag && duration==.04;',source)
+        self.assertIn('B78B380C37F30077A9189F8EFBBB3E9CB4B85C2413B1C07D21C9D15B591F2E66',source)
+        self.assertIn('initial_proof.strict_matching_count==204',source)
+        self.assertIn('~initial_proof.production_recovery_allowed',source)
+        self.assertIn('record.nonlinear_initial_qualification_sha256=file_hash(initial_audit)',source)
+
     def test_204_targets_map_without_physical_changes(self):
         r=target_translation(*fixture())
         self.assertEqual((r['translated'],r['unchanged']),(12,192))
