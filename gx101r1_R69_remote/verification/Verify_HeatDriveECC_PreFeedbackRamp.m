@@ -17,7 +17,12 @@ function contract=Verify_HeatDriveECC_PreFeedbackRamp(model)
     assert(strcmp(get_param(converter,'Unit'),'MPa') && strcmp(get_param(converter,'FilteringAndDerivatives'),'provide') && ...
         strcmp(get_param(converter,'UdotUserProvided'),'1'));
     ports=get_param(converter,'PortHandles');assert(numel(ports.Inport)==2);
-    assert(strcmp(getfullname(get_param(get_param(ports.Inport(1),'Line'),'SrcBlockHandle')),[model '/ColdObserver_pressure_Output']));
+    marker=get_param(converter,'UserData');
+    direct=isequal(marker,'cold_pre_feedback_direct_bias_v1');
+    assert(isempty(marker) || direct,'Unknown pressure-path marker.');
+    value_source=[model '/ColdObserver_pressure_Output'];
+    if direct,value_source=[model '/SMAPressureBiasFromWorkspace'];end
+    assert(strcmp(getfullname(get_param(get_param(ports.Inport(1),'Line'),'SrcBlockHandle')),value_source));
     assert(strcmp(getfullname(get_param(get_param(ports.Inport(2),'Line'),'SrcBlockHandle')),source));
     bias=[model '/ColdObserver_bias_PS'];bp=get_param(bias,'PortHandles');
     assert(strcmp(get_param(bias,'Unit'),'MPa') && ...
@@ -30,4 +35,9 @@ function contract=Verify_HeatDriveECC_PreFeedbackRamp(model)
     assert(strcmp(get_param(observer,'SourceFile'),'ecc_sma_hybrid.pressure_controller') && ...
         strcmp(get_param(observer,'initial_integral'),'0'));
     contract.derivative_source=source;
+    if direct
+        contract.direct_bias_diagnostic=true;
+        contract.value_source=value_source;
+        contract.equivalence_scope='feedback disabled, integral held zero, unsaturated bias, t<=0.14s only';
+    end
 end

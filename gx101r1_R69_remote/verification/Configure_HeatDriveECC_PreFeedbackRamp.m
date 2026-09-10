@@ -1,5 +1,7 @@
-function contract=Configure_HeatDriveECC_PreFeedbackRamp(repo,model,commands)
+function contract=Configure_HeatDriveECC_PreFeedbackRamp(repo,model,commands,direct_bias)
 % Change the derivative branch only, never the pressure value or state paths.
+    if nargin<4,direct_bias=false;end
+    assert(islogical(direct_bias) && isscalar(direct_bias));
     assert(strcmp(get_param(model,'StopTime'),'0'));
     proof=fullfile(repo,'outputs_storage_audit','pre_feedback_ramp_audit_20260910','pre_feedback_ramp_audit.json');
     assert(strcmp(hash_file(proof),'2B7B49C81DC82F2F4F114E3FDB6086EF25AE3D4EC816FFBB26AF1134327992BF'));
@@ -29,6 +31,15 @@ function contract=Configure_HeatDriveECC_PreFeedbackRamp(repo,model,commands)
     add_block('simulink/Sinks/To Workspace',sink,'VariableName','cold_pre_feedback_derivative_MPa_s', ...
         'SaveFormat','Timeseries','MaxDataPoints','inf');
     d=get_param(sink,'PortHandles');add_line(model,s.Outport(1),d.Inport(1));
+    if direct_bias
+        assert(isempty(get_param(converter,'UserData')),'Do not overwrite an existing contract marker.');
+        before=getfullname(get_param(get_param(p.Inport(1),'Line'),'SrcBlockHandle'));
+        assert(strcmp(before,[model '/ColdObserver_pressure_Output']));
+        delete_line(get_param(p.Inport(1),'Line'));
+        b=get_param([model '/SMAPressureBiasFromWorkspace'],'PortHandles');
+        add_line(model,b.Outport(1),p.Inport(1));
+        set_param(converter,'UserData','cold_pre_feedback_direct_bias_v1');
+    end
     set_param(model,'StopTime','0.14');contract=Verify_HeatDriveECC_PreFeedbackRamp(model);
     contract.qualification_sha256=hash_file(proof);
 end
