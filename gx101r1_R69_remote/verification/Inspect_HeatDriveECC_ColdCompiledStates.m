@@ -40,7 +40,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<40,nonlinear_inventory=false;end
     assert(islogical(nonlinear_inventory) && isscalar(nonlinear_inventory));
     nonlinear_initial=nonlinear_inventory && external_lag && duration==0;
-    nonlinear_held=nonlinear_inventory && external_lag && duration==.04;
+    pre_feedback=nonlinear_inventory && external_lag && duration==.14;
+    nonlinear_held=nonlinear_inventory && external_lag && (duration==.04 || pre_feedback);
+    assert(~pre_feedback || isequal(held_max_step,.00001),'Ramp trial requires the qualified 10us configuration.');
     nonlinear_fine=nonlinear_held && isscalar(held_max_step) && ismember(held_max_step,[.00002,.00001]);
     assert(~nonlinear_inventory || ((nonlinear_initial || nonlinear_held) && held_error_control && ...
         strcmp(held_error_control_level,'moderate') && strcmp(held_solver_method,'ode23t') && ...
@@ -89,7 +91,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     assert(ischar(held_error_control_level) && any(strcmp(held_error_control_level,{'tight','moderate'})) && ...
         (held_error_control || strcmp(held_error_control_level,'tight')), ...
         'Only predeclared held error-control levels are allowed.');
-    held_interval=external_lag && duration==.04;
+    held_interval=external_lag && (duration==.04 || pre_feedback);
     assert(islogical(held_error_control) && isscalar(held_error_control) && ...
         (~held_error_control || ((held_interval || nonlinear_initial) && (isequal(held_max_step,.00025) || nonlinear_fine) && ~tighten_global)), ...
         'Global error-control trial is limited to the declared quarter-step held interval.');
@@ -588,7 +590,11 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
                     'interpolate',get_param(b,'Interpolate'),'sample_time',get_param(b,'SampleTime'), ...
                     'time_s',command.Time,'values',command.Data);
             end
-            record.held_interval_contract=Configure_HeatDriveECC_HybridHeldInterval(repo,model,duration);
+            if pre_feedback
+                record.pre_feedback_ramp_contract=Configure_HeatDriveECC_PreFeedbackRamp(repo,model,record.actual_command_schedule);
+            else
+                record.held_interval_contract=Configure_HeatDriveECC_HybridHeldInterval(repo,model,duration);
+            end
         end
         if held_error_control
             record.stage='ready_for_held_error_control_simulation';
@@ -654,12 +660,22 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         assert(isa(states,'Simulink.SimulationData.Dataset'),'Unexpected state representation.');
         record.dataset_elements=states.numElements;
         if nonlinear_inventory,record.nonlinear_coordinate_states={};end
+        if pre_feedback,record.state_time_grids={};end
         for k=1:states.numElements
             s=states.getElement(k);v=s.Values;
             entry=struct('index',k,'name',s.Name,'class',class(s),'block_path',{s.BlockPath.convertToCell}, ...
                 'values_class',class(v),'properties',{properties(s)});
             if isa(v,'timeseries')
-                entry.value_size=size(v.Data);entry.time_s=v.Time;entry.data_info=evalc('disp(v.DataInfo)');
+                entry.value_size=size(v.Data);entry.data_info=evalc('disp(v.DataInfo)');
+                if pre_feedback
+                    grid_index=find(cellfun(@(t) isequal(t,v.Time),record.state_time_grids),1);
+                    if isempty(grid_index)
+                        record.state_time_grids{end+1}=v.Time;grid_index=numel(record.state_time_grids);
+                    end
+                    entry.time_grid_index=grid_index;
+                else
+                    entry.time_s=v.Time;
+                end
             end
             record.states{end+1}=entry;
             if nonlinear_inventory && (endsWith(s.Name,'.mass_coordinate') || endsWith(s.Name,'.energy_delta'))
