@@ -2556,3 +2556,17 @@ outputs_storage_audit/pump_staggered_right_20260911/pump_local_initialization.js
 合同明确`interpolation_eligible=false`，因此这些失败点不能进入outer solve插值、恢复链、
 paired端点或Table4。该脚本是候选点的前置拒绝门，不等于任何候选点的物理通过。
 520项Python回归通过。C200冻结合同和全部恢复状态保持不变。
+## 130. 输出存储只读审计与清理边界（2026-09-11）
+
+新增verification/Audit_HeatDriveECC_OutputInventory.py，递归盘点outputs_storage_audit，
+不删除、不移动、不改写任何结果。当前清单覆盖381个目录、总计约5.130GiB，
+本清单检测到0个命名为final_operating_point.mat、operating_point.mat或checkpoint.mat的文件；
+C200/C240权威结果仍由各自合同和正式结果目录管理，不能用该命名扫描替代合同审计。
+
+当前最大目录为失败profiler约0.507GiB，其次是历史保守缓冲/公共坐标/10us诊断包；
+近期四个事件失败包分别约0.161--0.186GiB，均有失败证据，不能直接删除。
+清单文件outputs_storage_audit/output_inventory_20260911.json记录目录、字节数、文件数、
+是否含编译记录、checkpoint命名文件和审计/manifest线索。delete_count=0。
+
+后续清理必须先保留摘要、输入合同、失败原因、哈希和可复核脚本，再对已淘汰raw提出候选；
+不得删除C200/C240有效恢复参考、唯一失败根因原始包或用户已有Agent6目录。该审计不改变科学门禁。
