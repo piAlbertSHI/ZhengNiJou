@@ -49,6 +49,13 @@ function record=Profile_HeatDriveECC_DeclaredHeldFailure(model,output_root,profi
     record.capture_pass=record.api_returned && record.data_file_exists && ...
         isequal(record.settings_after,expected) && ...
         strcmp(record.AutoScaleAbsTol_before,record.AutoScaleAbsTol_after);
+    % Preserve the API outcome before potentially expensive SDI materialization.
+    api_record=fullfile(output_root,'profiler_api_outcome.json');
+    assert(~isfile(api_record),'Do not overwrite profiler API evidence.');
+    fid=fopen(api_record,'w');assert(fid>=0);
+    cleanup=onCleanup(@() fclose(fid));
+    fprintf(fid,'%s\n',jsonencode(record,PrettyPrint=true));
+    clear cleanup
     try
         record.sdi=Export_HeatDriveECC_ProfilerSDI(model,output_root,ids_before);
     catch ME

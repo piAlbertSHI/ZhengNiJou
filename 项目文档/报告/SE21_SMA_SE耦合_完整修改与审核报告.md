@@ -1991,3 +1991,24 @@ sim调用176.078153s，整个过程约75分钟还包括失败日志导出；不�
 
 - [失败审核、原始文件哈希与诊断边界](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/pre_feedback_failure_audit_20260910/pre_feedback_failure_audit.json)
 - [研究笔记第46节：复核方式](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
+
+## 99. UI恢复后：不完整profiler档案的只读取证（2026-09-10）
+
+恢复工作前，历史检查返回 HISTORY_CHECK_OK，线程019e9312-444b-7090-a68e-0888598c1598。
+系统未发现仍在运行的MATLAB。原会话96207的终端退出码未知，不将其记为成功或已知退出1。
+SDI档案内部运行元数据独立记录DiagnosticError，停止于0.10000000000000037s，目标0.14s；
+求解器仍是ode23t，最大步长10us。solver_profile.mat、最终inspection JSON和scalar MAT均缺失。
+因此profiler采集不完整，不能宣称获得了失败右侧迭代或完整Jacobian。
+
+直接读取ZIP/Parquet，不解压或复制大型数据。542,756,408字节档案CRC通过，SHA-256为
+DCE6D36213AAD270147F658031F3920D13D64FCAE7B9BC9994FEDA2D223C56D1。
+档案登记12903信号；选取压力和外供导数，各10529样本，与上次失败的公开MAT时序和值逐项完全一致。
+末样本仍仅为0.1s左侧，不能据此判断右侧导数正确性。此次没有重跑物理模型，没有生成恢复点。
+
+新增只读审核脚本Audit_HeatDriveECC_PartialRampProfile.py，结果为
+outputs_storage_audit/partial_ramp_profile_audit_20260910/partial_ramp_profile_audit.json。
+partial_evidence_audit_pass仅表示残存证据可审核；science_gate_pass仍为false。
+同时调整profiler记录顺序：SDI批量导出前保存profiler_api_outcome.json，以保留API返回或异常信息。
+该MATLAB改动尚未执行验证；现有504项Python回归通过，新审计已对真实档案执行通过。
+下一步需查明profiler为何未生成DataFullFile，并限制SDI值物化范围，再决定诊断执行方案；
+不把本次证据恢复当作斜坡失败修复，也不放宽原科学门禁。
