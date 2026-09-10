@@ -2061,3 +2061,22 @@ outputs_storage_audit/shared_derivative_explicit_20260910/shared_derivative_dele
 两处修改的MATLAB checkcode无诊断，504项Python回归通过；完整模型构建/运行尚未重新验证。
 本项是接线确定性和审核覆盖增强，不是已证明的0.1s失败修复。下一步完整拓扑烟测应先验证
 双入口合同，再决定是否需要事件局部试验，不把本次窄测试替代完整物理验收。
+
+## 103. 完整模型双入口拓扑编译通过（2026-09-10）
+
+为Inspect_HeatDriveECC_ColdCompiledStates新增显式ramp_topology_only末参数，
+仅允许0.14s预反馈配置且禁止同时运行profiler。该路径构建全部真实组件，配置斜坡后执行
+SimulationCommand=update及双入口验证，不调用sim、不推进轨迹、不导出恢复OP。
+首次会话11809被源码未提交门禁拦截（退出1，未开始构建）；提交后只启动一次会话62753，
+等待自然退出0。构建来源72f94259e37ead07151e9ce79a4e3a5e6b26c64b。
+
+最终记录inspection_pass=true、ramp_topology_compile_pass=true、simulation_run=false、
+complete_ramp_verified=false、checkpoint_saved=false、c200_state_imported=false。
+构建前代数结构检查未发现代数环；斜坡配置后的update及双入口检查通过。
+结束时仍执行原冻结文件哈希核验，未修改C200。全部本轮证据2,183,896字节，未保存大型轨迹。
+
+记录outputs_storage_audit/nonlinear_ramp_dual_input_topology_20260910/compiled_states_inspection.json，
+SHA-256为722C2BB930C7F964A1564E8395BE2D75D4A91C78DDBBA2D801942CFA421247FC。
+这消除了新显式接线无法在真实模型编译的疑问，但不能证明0.1s事件可跨越。
+下一步应使用相同控制器/转换器的局部动态试验隔离值与导数的事件行为，
+再决定完整模型诊断；不因编译通过就重复长仿真或启动outer solve。
