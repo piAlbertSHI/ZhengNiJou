@@ -2596,3 +2596,13 @@ MATLAB自然退出0并输出`SENSITIVITY_PREFLIGHT_STOP runs=8 passed=1`。
 能量或Eq.9/Eq.10门禁；未生成candidate record、OP或插值数据。固定Tc完整冷态前置门禁
 仍未通过，因此L8候选运行保持禁止。输出目录为outputs/table4_L8_sensitivity_preflight_20260911，
 C200及恢复状态未改动。
+## 133. L8敏感性预检包独立审核（2026-09-11）
+
+新增verification/Audit_HeatDriveECC_SensitivityPreflight.py，对
+outputs/table4_L8_sensitivity_preflight_20260911执行只读包审核。结果为8/8设计行、
+8/8 contract_pass，candidate_files_found=0、interpolation_files_found=0、physical_runs=0；
+`interpolation_eligible=false`且`production_recovery_allowed=false`。
+
+审核同时对设计CSV、预检CSV和MAT生成SHA-256清单，结果位于
+outputs_storage_audit/L8_sensitivity_preflight_audit_20260911.json。该包仅证明正交设计
+合同可解析，未产生任何周期结果；L8候选运行继续受固定Tc前置门禁保护。
