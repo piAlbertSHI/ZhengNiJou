@@ -43,7 +43,9 @@ def central_jacobian(function, x, step):
     return np.column_stack(columns)
 
 
-def analyze(repo):
+def analyze(repo, onset_side=None):
+    if onset_side not in (None, 'left', 'right'):
+        raise ValueError('Unknown event side')
     root = repo/'outputs_storage_audit'
     contract_path = root/'pump_subnetwork_contract_20260909_v2/pump_subnetwork_contract.json'
     c = read(contract_path)
@@ -122,6 +124,35 @@ def analyze(repo):
             fluxes.append(dict(block_path=path, outer_port=outer,
                                mdot_kg_s=initial('mdot_'+outer, 'kg/s'),
                                Phi_W=initial('Phi_'+outer, 'W'), Q_H_W=initial('Q_H', 'W')))
+    prescribed_rate = 0.
+    if onset_side is not None:
+        from Audit_HeatDriveECC_ColdChamberStateCoordinates import bilinear_gradient
+        from Analyze_HeatDriveECC_ChamberPressureCoordinates import inventory_jacobian
+        raw = root/'nonlinear_pre_feedback_ramp_20260910/failed_public_observations.mat'
+        if sha256(raw) != '4342D0B6ABC0DC06804886D83DDE8FA0C75D84B5DE37D98C5ACCC2512ABE24BE':
+            raise ValueError('Onset evidence changed')
+        fluxes = []
+        with h5py.File(raw) as f:
+            native = named_rows(f, f['native'])
+            for i, (row, outer) in enumerate(zip(rows, ('A', 'B'))):
+                path = row['block_path']
+                def final(name, unit):
+                    if float(np.asarray(native[path, name]['time_s']).ravel()[-1]) != .1:
+                        raise ValueError('Require last observed left sample at 0.1s')
+                    return float(scalar_series(native[path, name], unit)[-1])
+                p[i], temp[i], u[i] = final('p_I', 'Pa'), final('T_I', 'K'), final('u_I', 'J/kg')
+                rho = float(table['rho']([[temp[i], p[i]]])[0])
+                rho_t, rho_p = (float(v[0]) for v in bilinear_gradient(table['rho'], [temp[i]], [p[i]]))
+                u_t, u_p = (float(v[0]) for v in bilinear_gradient(table['u'], [temp[i]], [p[i]]))
+                derivative[i] = np.linalg.inv(inventory_jacobian(rho, u[i], rho_t, rho_p, u_t, u_p, row['volume_m3']))[1]
+                fluxes.append(dict(block_path=path, outer_port=outer, mdot_kg_s=final('mdot_'+outer, 'kg/s'),
+                                   Phi_W=final('Phi_'+outer, 'W'), Q_H_W=final('Q_H', 'W')))
+        if onset_side == 'right':
+            ts, vs = np.asarray(commands[0]['time_s']), np.asarray(commands[0]['values'])
+            first = np.flatnonzero(np.diff(vs) != 0)[0]
+            if abs(ts[first]-.1)>1e-15:
+                raise ValueError('Unexpected ramp onset')
+            prescribed_rate = float((vs[first+1]-vs[first])/(ts[first+1]-ts[first])*1e6)
     mass_outer = np.array([r['mdot_kg_s'] for r in fluxes])
     energy_outer = np.array([r['Phi_W']+r['Q_H_W'] for r in fluxes])
     qscale, uscale, p_rate_scale = .001, 1000., 1e6
@@ -134,7 +165,7 @@ def analyze(repo):
                              port_flux(table, -q, node_t[1], p[1], pump_u, gp)])
         mdot = mass_outer+[-q, q]; udot = energy_outer+chamber_phi
         pdot = derivative[:, 0]*mdot+derivative[:, 1]*udot
-        residual = np.r_[chamber_phi+pump_phi, pump_phi.sum(), (pdot[1]-pdot[0])/p_rate_scale]
+        residual = np.r_[chamber_phi+pump_phi, pump_phi.sum(), (pdot[1]-pdot[0]-prescribed_rate)/p_rate_scale]
         if details:
             return dict(mdot_A_pump_kg_s=float(q), node_temperature_K=node_t.tolist(), pump_common_u_J_kg=pump_u,
                         chamber_Mdot_kg_s=mdot.tolist(), chamber_Udot_W=udot.tolist(), chamber_pdot_Pa_s=pdot.tolist(),
@@ -167,10 +198,12 @@ def analyze(repo):
                 variable_scales=dict(flow_kg_s=qscale, temperature_K=1., internal_energy_J_kg=uscale),
                 pressure_rate_scale_Pa_s=p_rate_scale, thermal_energy_scale_W=1.,
                 k_cv_kg_m_s=k_cv, pump_port_conductance_kg_s=gp, chamber_port_conductance_kg_s=gc,
-                actual_power_spec='none', actual_pressure_derivative_Pa_s=0., result=evaluate(result.x, True),
+                actual_power_spec='none', actual_pressure_derivative_Pa_s=prescribed_rate, result=evaluate(result.x, True),
                 jacobian_refinements=spectra, additional_initial_guesses=starts,
                 diagnostic_row_equilibration_applied_to_simscape=False,
-                scope='local four-equation reconstruction with fixed native t=0 external port fluxes',
+                scope=('local four-equation reconstruction with fixed native t=0 external port fluxes' if onset_side is None
+                       else 'conditional onset residual with fixed observed left-side outer fluxes'),
+                onset_side=onset_side,
                 whole_network_boundary_coupling_tested=False, actual_compiled_DAE_matrix_extracted=False,
                 failed_model_initialization_repaired=False, trajectory_conservation_verified=False,
                 production_recovery_allowed=False, table4_reproduction_claim=False,
@@ -180,10 +213,11 @@ def analyze(repo):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__); parser.add_argument('--output-root', type=Path, required=True)
+    parser.add_argument('--onset-side', choices=('left', 'right'))
     args = parser.parse_args()
     if args.output_root.exists():
         raise FileExistsError('Never overwrite evidence')
-    result = analyze(Path(__file__).resolve().parents[1]); args.output_root.mkdir(parents=True)
+    result = analyze(Path(__file__).resolve().parents[1], args.onset_side); args.output_root.mkdir(parents=True)
     (args.output_root/'pump_local_initialization.json').write_text(json.dumps(result, indent=2, allow_nan=False)+'\n', encoding='utf-8')
     print(json.dumps({k: v for k, v in result.items() if k not in ('input_sha256', 'equation_source_sha256')}, indent=2))
     raise SystemExit(0 if result['local_residual_pass'] else 1)
