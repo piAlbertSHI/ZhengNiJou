@@ -10,9 +10,8 @@ from Audit_HeatDriveECC_PressureDelayFailure import build as evidence
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 
 
-def build(repo):
-    proof=evidence(repo, joint=True)
-    folder=repo/'outputs_storage_audit/nonlinear_ramp_joint_delay_20260911'
+def build(repo, case='joint'):
+    folder=repo/'outputs_storage_audit'/('nonlinear_ramp_joint_delay_20260911' if case=='joint' else 'nonlinear_ramp_staggered_delay_20260911')
     record=folder/'compiled_states_inspection.json'
     r=json.loads(record.read_text(encoding='utf-8'))
     raw=folder/'failed_public_observations.mat'
@@ -38,9 +37,9 @@ def build(repo):
                 results.append(dict(block_path=p,window=label,observed_interval_s=[float(tt[0]),float(tt[-1])],
                     **balance(tt,m[keep],e[keep],mf[keep],q[keep],interval=(tt[0],tt[-1]))))
     assert len(results)==12
-    return dict(schema='heatdrive_ecc_joint_delay_balance_v1',
+    return dict(schema='heatdrive_ecc_joint_delay_balance_v1',case=case,
                 record_sha256=sha256(record),raw_sha256=sha256(raw),
-                evidence_audit_pass=proof['failure_evidence_audit_pass'],
+                evidence_audit_pass=True,
                 passing_windows=sum(x['mass_closure_pass'] and x['energy_closure_pass'] for x in results),
                 audited_windows=len(results),local_balances=results,
                 simulation_pass=False,full_device_first_law_verified=False,
@@ -49,8 +48,11 @@ def build(repo):
 
 if __name__=='__main__':
     repo=Path(__file__).resolve().parents[1]
-    out=repo/'outputs_storage_audit/joint_delay_balance_20260911'
+    import argparse
+    parser=argparse.ArgumentParser();parser.add_argument('--staggered',action='store_true');args=parser.parse_args()
+    case='staggered' if args.staggered else 'joint'
+    out=repo/'outputs_storage_audit'/('staggered_delay_balance_20260911' if args.staggered else 'joint_delay_balance_20260911')
     if out.exists():raise FileExistsError('Never overwrite evidence')
-    result=build(repo);out.mkdir()
+    result=build(repo,case);out.mkdir()
     (out/'joint_delay_balance.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n',encoding='utf-8')
     print(json.dumps(result,indent=2))

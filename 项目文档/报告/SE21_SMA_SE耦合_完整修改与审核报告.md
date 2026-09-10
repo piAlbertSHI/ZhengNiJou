@@ -2476,3 +2476,17 @@ strict_table4_reproduction=false，当前模型必须重新冷启动并通过严
 
 本轮诊断未写入C200结果、未改变热容、buffer、本构、温度、相分数或独立路线PI记忆，
 失败诊断包仍不得恢复或插值。工作树仅保留用户已有的Agent6未跟踪目录，未触碰。
+
+## 125. 错开事件包的局部质量/能量平衡（2026-09-11）
+
+将六库存、完整导出前缀及原事件后窗口审核器应用到
+nonlinear_ramp_staggered_delay_20260911，共12个窗口，12/12的导出网格梯形残差满足
+1e-15kg和1e-8J阈值。错开包记录SHA-256：compiled_states_inspection.json为
+57D2BD6A0D684F97C54E2966030EEB69F4267AAFEC192B2EFAD2B75A9B87B9A2，
+failed_public_observations.mat为8BCAB45DF57E9D8B6359D8D29FE0AA35F46CC4155BB1B9AA0E356D2EB9A24A6B。
+
+由于错开热门控的变化发生在0.13s，而求解器在0.12s终止，观测到的0至0.12s包与联合延迟
+包的局部平衡记录相同是预期的；它不是一条新的右侧有效轨迹。Simpson/非均匀网格分歧仍保留，
+quadrature_convergence_verified=false；simulation_pass、full_device_first_law_verified及
+production_recovery_allowed均为false。该审核只证明导出前缀的局部梯形残差，不证明完整网络、
+事件右侧或周期稳态。失败包继续隔离，C200不变。
