@@ -48,7 +48,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     assert(islogical(hold_gate_delay) && isscalar(hold_gate_delay) && ...
         (~hold_gate_delay || (pre_feedback && pre_feedback_direct_bias && ~held_profiler)));
     assert(islogical(pressure_onset_delay) && isscalar(pressure_onset_delay) && ...
-        (~pressure_onset_delay || (pre_feedback && pre_feedback_direct_bias && ~held_profiler && ~hold_gate_delay)));
+        (~pressure_onset_delay || (pre_feedback && pre_feedback_direct_bias && ~held_profiler)));
     assert(islogical(pre_feedback_direct_bias) && isscalar(pre_feedback_direct_bias) && ...
         (~pre_feedback_direct_bias || (pre_feedback && ~held_profiler)));
     assert(islogical(ramp_topology_only) && isscalar(ramp_topology_only) && ...
@@ -611,6 +611,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
                 if pressure_onset_delay
                     record.pre_feedback_ramp_contract=Configure_HeatDriveECC_PressureOnsetDelay(model);
                 end
+                record.joint_pressure_hold_delay_diagnostic=pressure_onset_delay && hold_gate_delay;
                 if hold_gate_delay
                     record.hold_gate_delay_contract=Configure_HeatDriveECC_HoldGateDelay(model);
                 end
