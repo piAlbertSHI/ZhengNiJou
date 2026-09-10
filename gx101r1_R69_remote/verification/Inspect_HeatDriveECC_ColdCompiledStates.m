@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step,held_error_control,held_error_control_level,held_solver_method,held_split_tolerances,held_profiler,held_robust_reset,nonlinear_inventory,ramp_topology_only,pre_feedback_direct_bias,hold_gate_delay,pressure_onset_delay)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step,held_error_control,held_error_control_level,held_solver_method,held_split_tolerances,held_profiler,held_robust_reset,nonlinear_inventory,ramp_topology_only,pre_feedback_direct_bias,hold_gate_delay,pressure_onset_delay,hold_event_time)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -42,6 +42,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<42,pre_feedback_direct_bias=false;end
     if nargin<43,hold_gate_delay=false;end
     if nargin<44,pressure_onset_delay=false;end
+    if nargin<45,hold_event_time=.12;end
+    assert(isscalar(hold_event_time) && any(hold_event_time==[.12 .13]) && ...
+        (hold_event_time==.12 || (hold_gate_delay && pressure_onset_delay)));
     assert(islogical(nonlinear_inventory) && isscalar(nonlinear_inventory));
     nonlinear_initial=nonlinear_inventory && external_lag && duration==0;
     pre_feedback=nonlinear_inventory && external_lag && duration==.14;
@@ -613,7 +616,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
                 end
                 record.joint_pressure_hold_delay_diagnostic=pressure_onset_delay && hold_gate_delay;
                 if hold_gate_delay
-                    record.hold_gate_delay_contract=Configure_HeatDriveECC_HoldGateDelay(model);
+                    record.hold_gate_delay_contract=Configure_HeatDriveECC_HoldGateDelay(model,hold_event_time);
                 end
             else
                 record.held_interval_contract=Configure_HeatDriveECC_HybridHeldInterval(repo,model,duration);
