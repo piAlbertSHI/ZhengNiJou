@@ -8,7 +8,26 @@ function contract=Verify_HeatDriveECC_PreFeedbackRamp(model)
         b=[model '/' names{k}];variable=get_param(b,'VariableName');v=slResolve(variable,b);
         commands{k}=struct('block',b,'time_s',v.Time,'values',v.Data,'interpolate',get_param(b,'Interpolate'));
     end
-    contract=Build_HeatDriveECC_PreFeedbackRamp(commands,.14);
+    b=[model '/' names{1}];delay=get_param(b,'UserData');onset=.1;
+    if ~isempty(delay)
+        assert(isstruct(delay) && strcmp(delay.schema,'cold_pressure_onset_delay_v1'));
+        assert(strcmp(get_param(b,'VariableName'),'cold_pressure_onset_delayed'));
+        original=slResolve(delay.original_variable,b);old=commands;
+        old{1}.time_s=original.Time;old{1}.values=original.Data;
+        reference=Build_HeatDriveECC_PreFeedbackRamp(old,.14);
+        expected_t=reference.time_s(:);expected_v=reference.bias_MPa(:);
+        expected_t(end-1)=.12;
+        expected_v(end)=expected_v(end-1)+reference.ramp_slope_MPa_s*(expected_t(end)-.12);
+        assert(isequal(commands{1}.time_s(:),expected_t) && isequal(commands{1}.values(:),expected_v));
+        onset=.12;
+    end
+    contract=Build_HeatDriveECC_PreFeedbackRamp(commands,.14,onset);
+    if onset==.12
+        assert(abs(contract.ramp_slope_MPa_s-reference.ramp_slope_MPa_s)<1e-14);
+        contract.pressure_onset_delayed=true;
+        contract.original_ramp_start_s=reference.ramp_start_s;
+        contract.original_bias_variable=delay.original_variable;
+    end
     source=[model '/ColdPreFeedbackPressureDerivative'];converter=[model '/SMAPressurePI_SimulinkPS'];
     assert(strcmp(get_param(source,'BlockType'),'FromWorkspace') && strcmp(get_param(source,'Interpolate'),'off') && ...
         strcmp(get_param(source,'OutputAfterFinalValue'),'Holding final value'));

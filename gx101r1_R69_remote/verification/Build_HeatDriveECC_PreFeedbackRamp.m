@@ -1,5 +1,7 @@
-function contract=Build_HeatDriveECC_PreFeedbackRamp(commands,stop)
+function contract=Build_HeatDriveECC_PreFeedbackRamp(commands,stop,onset)
 % Exact command slope only while feedback is disabled and reset is held.
+    if nargin<3,onset=.1;end
+    assert(isscalar(onset) && any(onset==[.1 .12]));
     assert(stop==.14,'Only the predeclared pre-feedback ramp diagnostic is allowed.');
     if iscell(commands),commands=[commands{:}];end
     suffixes={'SMAPressureBiasFromWorkspace','SMAFlowTargetFromWorkspace', ...
@@ -21,7 +23,7 @@ function contract=Build_HeatDriveECC_PreFeedbackRamp(commands,stop)
         assert(stop<tt(first),'Do not cross feedback/reset transition.');
     end
     slopes=diff(v)./diff(t);first=find(slopes~=0,1);assert(~isempty(first));
-    assert(abs(t(first)-.1)<1e-15 && t(first)<stop && stop<t(first+1));
+    assert(abs(t(first)-onset)<1e-15 && t(first)<stop && stop<t(first+1));
     assert(all(v(1:first)==-1e-6) && v(first+1)>-.35 && v(first+1)<.02);
     assert(all(boundaries==t(first+1)) && abs(t(first+1)-.15)<1e-15);
     % Include the right bracketing bias sample without authorizing its event.
