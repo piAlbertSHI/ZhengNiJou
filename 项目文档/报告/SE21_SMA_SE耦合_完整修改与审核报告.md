@@ -1944,3 +1944,26 @@ quadrature_convergence_verified、full_solver_error_weights_verified、periodic_
 - [10us六组件审核及文件清单](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/nonlinear_cold_held_10us_audit_20260910/nonlinear_cold_held_audit.json)
 - [20/10us比较与实际完整指令表审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/held_refinement_20260910/held_refinement_audit.json)
 - [研究笔记第44节：复核及哈希](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
+
+## 97. 反馈前偏压导数源独立验证，尚未接入主网
+
+新增Build_HeatDriveECC_PreFeedbackRamp.m从已抓取的完整实际指令构造0--0.14s合同。
+仅在反馈关闭、reset保持、偏压处于饱和限内时允许使用分段偏压斜率；明确拒绝0.15s及以后。
+没有新增滤波、没有改偏压值，也没有把零导数延长到0.1s之后。
+
+独立Simulink探针分别使用线性插值的值源和零阶保持的斜率源，另设积分器仅供数值诊断。
+首次会话20712因关闭插值时默认末值外推不兼容而退出1；这是源配置失败，不是耦合求解失败。
+明确设置Holding final value后，会话68422自然退出0，两个入口checkcode无消息，得到7017样本。
+失败与修正记录均保留在审核中，没有盲目重启或放宽物理门禁。
+
+独立审核：偏压值误差2.77556e-17MPa，斜率误差0，source_value_and_slope_pass=true。
+辅助积分与解析偏压的最大差1.33590e-7MPa，auxiliary_integration_precision_qualified=false；
+不能把接口值/导数一致性当作积分精度或物理守恒证明。
+
+本轮未运行扩展后的耦合主网，当前物理资格仍是0--40ms六组件通过。
+下一步才将该有界分支接到原压力导数端口，保留实际压力值路径，并审核0.1s斜率变化后的物理余额；
+0.15s反馈启用事件需另行处理，不允许自动外推。
+504项回归通过，新增原始824,136bytes、审核3,170bytes；未复制大型数据、未修改C200，Agent6未动。
+
+- [偏压导数源审核及两次进程结果](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/pre_feedback_ramp_audit_20260910/pre_feedback_ramp_audit.json)
+- [研究笔记第45节：边界、复核命令和SHA](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
