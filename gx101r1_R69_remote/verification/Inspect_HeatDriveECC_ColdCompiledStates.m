@@ -41,7 +41,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     assert(islogical(nonlinear_inventory) && isscalar(nonlinear_inventory));
     nonlinear_initial=nonlinear_inventory && external_lag && duration==0;
     nonlinear_held=nonlinear_inventory && external_lag && duration==.04;
-    nonlinear_fine=nonlinear_held && isequal(held_max_step,.00002);
+    nonlinear_fine=nonlinear_held && isscalar(held_max_step) && ismember(held_max_step,[.00002,.00001]);
     assert(~nonlinear_inventory || ((nonlinear_initial || nonlinear_held) && held_error_control && ...
         strcmp(held_error_control_level,'moderate') && strcmp(held_solver_method,'ode23t') && ...
         ~held_split_tolerances && ~held_profiler && ~held_robust_reset && ~algebraic_structure_only), ...
@@ -62,6 +62,13 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         event_proof=jsondecode(fileread(event_audit));
         assert(event_proof.event_side_evidence_pass && event_proof.isolated_coupled_20us_trial_eligible && ...
             event_proof.instrumented_20us_trajectory_identical_to_archived && ~event_proof.production_recovery_allowed);
+        if held_max_step==.00001
+            coarse_audit=fullfile(repo,'outputs_storage_audit','nonlinear_cold_held_20us_audit_20260910','nonlinear_cold_held_audit.json');
+            assert(strcmp(file_hash(coarse_audit),'30199AFE974AF13D6EA30CF7D10B6BB8E43F985518E096E9592413C8CA5D51AB'));
+            coarse_proof=jsondecode(fileread(coarse_audit));
+            assert(coarse_proof.local_balance_gate && coarse_proof.passing_joint_balances==6 && ...
+                ~coarse_proof.production_recovery_allowed);
+        end
     end
     assert(islogical(held_robust_reset) && isscalar(held_robust_reset) && (~held_robust_reset || ...
         (held_error_control && strcmp(held_solver_method,'ode23t') && strcmp(held_error_control_level,'moderate') && ...
@@ -570,6 +577,17 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             assignin('base','cold_initialization_context',{});
         end
         if held_interval
+            names={'SMAPressureBiasFromWorkspace','SMAFlowTargetFromWorkspace', ...
+                'SMAPressureFeedbackEnableFromWorkspace','SMAPressureFeedbackResetFromWorkspace'};
+            record.actual_command_schedule=cell(1,numel(names));
+            for j=1:numel(names)
+                b=[model '/' names{j}];variable=get_param(b,'VariableName');command=slResolve(variable,b);
+                assert(isa(command,'timeseries') && isvector(command.Data) && ...
+                    numel(command.Time)==numel(command.Data) && all(isfinite(command.Time)) && all(isfinite(command.Data)));
+                record.actual_command_schedule{j}=struct('block',b,'variable',variable, ...
+                    'interpolate',get_param(b,'Interpolate'),'sample_time',get_param(b,'SampleTime'), ...
+                    'time_s',command.Time,'values',command.Data);
+            end
             record.held_interval_contract=Configure_HeatDriveECC_HybridHeldInterval(repo,model,duration);
         end
         if held_error_control
