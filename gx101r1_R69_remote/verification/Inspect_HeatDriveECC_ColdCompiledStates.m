@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step,held_error_control,held_error_control_level,held_solver_method,held_split_tolerances,held_profiler,held_robust_reset)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step,held_error_control,held_error_control_level,held_solver_method,held_split_tolerances,held_profiler,held_robust_reset,nonlinear_inventory)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -37,6 +37,13 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<37,held_split_tolerances=false;end
     if nargin<38,held_profiler=false;end
     if nargin<39,held_robust_reset=false;end
+    if nargin<40,nonlinear_inventory=false;end
+    assert(islogical(nonlinear_inventory) && isscalar(nonlinear_inventory));
+    nonlinear_initial=nonlinear_inventory && external_lag && duration==0;
+    assert(~nonlinear_inventory || (nonlinear_initial && held_error_control && ...
+        strcmp(held_error_control_level,'moderate') && strcmp(held_solver_method,'ode23t') && ...
+        ~held_split_tolerances && ~held_profiler && ~held_robust_reset && ~algebraic_structure_only), ...
+        'Nonlinear inventory is initially restricted to the independent t=0 qualification.');
     assert(islogical(held_robust_reset) && isscalar(held_robust_reset) && (~held_robust_reset || ...
         (held_error_control && strcmp(held_solver_method,'ode23t') && strcmp(held_error_control_level,'moderate') && ...
         ~held_split_tolerances && ~held_profiler)), ...
@@ -58,9 +65,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         'Only predeclared held error-control levels are allowed.');
     held_interval=external_lag && duration==.04;
     assert(islogical(held_error_control) && isscalar(held_error_control) && ...
-        (~held_error_control || (held_interval && isequal(held_max_step,.00025) && ~tighten_global)), ...
+        (~held_error_control || ((held_interval || nonlinear_initial) && isequal(held_max_step,.00025) && ~tighten_global)), ...
         'Global error-control trial is limited to the declared quarter-step held interval.');
-    assert(isempty(held_max_step) || (held_interval && isnumeric(held_max_step) && isscalar(held_max_step) && ...
+    assert(isempty(held_max_step) || ((held_interval || nonlinear_initial) && isnumeric(held_max_step) && isscalar(held_max_step) && ...
         ismember(held_max_step,[.0005,.00025]) && ~tighten_global && ~half_step), ...
         'Only the declared held-interval global-step convergence trial is allowed.');
     assert(islogical(external_lag) && isscalar(external_lag) && ...
@@ -101,6 +108,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     assert(islogical(capture_runtime) && isscalar(capture_runtime),'Require explicit callback capture choice.');
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown inventory formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
+    assert(~nonlinear_inventory || specific_inventory,'Nonlinear transformation requires the qualified specific-inventory baseline.');
     assert(islogical(projection) && isscalar(projection) && (~projection || global_implicit), ...
         'Projection diagnostic must use the declared global implicit configuration.');
     assert(islogical(global_implicit) && isscalar(global_implicit) && (~global_implicit || ...
@@ -261,6 +269,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     record.held_split_tolerances=held_split_tolerances;
     record.held_profiler_requested=held_profiler;
     record.held_robust_reset_requested=held_robust_reset;
+    record.nonlinear_inventory_requested=nonlinear_inventory;
     if held_robust_reset
         evidence=fullfile(repo,'outputs_storage_audit','hybrid_held_profiler_reset_association_audit_20260910','profiler_diagnostics_audit.json');
         assert(strcmp(file_hash(evidence),'A7C46FF8CD4D6C611DFD1D8F30B2BA3EA6613FB0492D02F199A1E7DCC2C58732'), ...
@@ -440,6 +449,19 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             t=public_targets{k};idx=find(strcmp({expected.targets.path},t.path));assert(isscalar(idx),'Wrong target path.');
             e=expected.targets(idx);assert(isequal(t,e),'Public cold target changed.');
         end
+        runtime_targets=public_targets;
+        if nonlinear_inventory
+            record.stage='apply_nonlinear_cold_coordinates';
+            [cold_public_targets,runtime_targets,record.nonlinear_inventory_contract]= ...
+                Apply_HeatDriveECC_NonlinearColdInventory(repo,model,public_targets,output_root);
+            record.prior_chamber_source_file=chamber_source;
+            chamber_source='ecc_nonlinear_chamber.conservative_chamber';
+            record.chamber_source_file=chamber_source;
+            record.prior_chamber_library=selected_library;
+            record.loaded_chamber_library=record.nonlinear_inventory_contract.variants{1}.library_path;
+            record.loaded_library_sha256=file_hash(record.loaded_chamber_library);
+            record.chamber_package_resolution=evalc('which(chamber_source,''-all'')');
+        end
         assignin('base','cold_public_targets',cold_public_targets);
         simulation_mode=options.simulation.mode;
         if normal_mode
@@ -509,7 +531,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         end
         if capture_runtime
             assignin('base','cold_initialization_context',{});
-            assignin('base','cold_public_target_records',public_targets);
+            assignin('base','cold_public_target_records',runtime_targets);
             for callback={'InitFcn','StartFcn','StopFcn'}
                 assert(isempty(strtrim(get_param(model,callback{1}))),'Do not replace an existing model callback.');
                 set_param(model,callback{1},sprintf('Capture_HeatDriveECC_ColdInitializationContext(''%s'',''%s'');',model,callback{1}));
@@ -548,9 +570,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         record.simulation_wall_seconds=toc(simulation_clock);
         record.simulation_error_message=output.ErrorMessage;
         if capture_runtime,record.runtime_callbacks=evalin('base','cold_initialization_context');end
-        if duration>0 || export_initial_flux
+        if duration>0 || export_initial_flux || nonlinear_inventory
             record.stage='export_onset_observations';
-            if export_initial_flux,record.stage='export_initial_flux_observations';end
+            if export_initial_flux || nonlinear_initial,record.stage='export_initial_flux_observations';end
             changed=cellfun(@(t) t.block_path,buffers,'UniformOutput',false);
             chamber_paths=arrayfun(@(t) t.block_path,targets,'UniformOutput',false);
             if ~isempty(output.ErrorMessage)
@@ -592,6 +614,7 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         save(fullfile(output_root,state_file),'states','-v7.3');
         assert(isa(states,'Simulink.SimulationData.Dataset'),'Unexpected state representation.');
         record.dataset_elements=states.numElements;
+        if nonlinear_inventory,record.nonlinear_coordinate_states={};end
         for k=1:states.numElements
             s=states.getElement(k);v=s.Values;
             entry=struct('index',k,'name',s.Name,'class',class(s),'block_path',{s.BlockPath.convertToCell}, ...
@@ -600,6 +623,11 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
                 entry.value_size=size(v.Data);entry.time_s=v.Time;entry.data_info=evalc('disp(v.DataInfo)');
             end
             record.states{end+1}=entry;
+            if nonlinear_inventory && (endsWith(s.Name,'.mass_coordinate') || endsWith(s.Name,'.energy_delta'))
+                assert(isa(v,'timeseries'));
+                record.nonlinear_coordinate_states{end+1}=struct('name',s.Name,'label',s.Label, ...
+                    'block_path',{s.BlockPath.convertToCell},'time_s',v.Time,'data',v.Data,'unit',v.DataInfo.Units);
+            end
         end
         record.stage='read_node_metadata';log=output.get('simlog');record.node_metadata={};
         if ps_controller || passive_ps_observer
@@ -670,9 +698,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             % R2025b calls the target phase Prestart; Target is its R2026a name.
             for phase={'Prestart','Start'}
                 cached=simscape.op.create(model,phase{1},true);
-                values_only=cell(size(public_targets));
-                for k=1:numel(public_targets)
-                    t=public_targets{k};target=get(cached,t.path);
+                values_only=cell(size(runtime_targets));
+                for k=1:numel(runtime_targets)
+                    t=runtime_targets{k};target=get(cached,t.path);
                     assert(isa(target,'simscape.op.Target'),'Missing cached public target.');
                     values_only{k}=struct('path',t.path,'unit',t.unit,'value',value(target.Value,t.unit), ...
                         'priority',char(string(target.Priority)));

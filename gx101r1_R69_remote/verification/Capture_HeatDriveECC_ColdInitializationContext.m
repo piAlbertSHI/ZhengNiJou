@@ -144,7 +144,9 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
     record.buffer_nominals=cell(1,8);idx=0;
     for block={'ColdFluidBuffer','HotFluidBuffer','SHEXFluidBuffer','SMAHotFluidBuffer'}
         p=[model '/' block{1}];
-        for name={'stored_mass','stored_energy'}
+        inventory_names={'stored_mass','stored_energy'};
+        if startsWith(get_param(p,'SourceFile'),'ecc_nonlinear_'),inventory_names={'mass_coordinate','energy_delta'};end
+        for name=inventory_names
             idx=idx+1;
             record.buffer_nominals{idx}=struct('block_path',p,'state_name',name{1}, ...
                 'specify',get_param(p,[name{1} '_nominal_specify']), ...
@@ -154,7 +156,9 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
     record.chamber_nominals={};
     for block={'SMA_PumpInletConnectingPipeVolume','SMA_PumpOutletConnectingPipeVolume'}
         p=[model '/' block{1}];
-        for key={'stored_mass','stored_energy'}
+        inventory_names={'stored_mass','stored_energy'};
+        if startsWith(get_param(p,'SourceFile'),'ecc_nonlinear_'),inventory_names={'mass_coordinate','energy_delta'};end
+        for key=inventory_names
             name=key{1};record.chamber_nominals{end+1}=struct('block_path',p,'state_name',name, ...
                 'specify',get_param(p,[name '_nominal_specify']),'value',get_param(p,[name '_nominal_value']), ...
                 'unit',get_param(p,[name '_nominal_unit']));
