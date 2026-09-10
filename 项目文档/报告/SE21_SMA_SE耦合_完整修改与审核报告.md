@@ -2526,3 +2526,20 @@ Eq.10的SCP分母使用同一质量和同一周期窗口，不把buffer、传感
 该矩阵是当前工作状态，不是完成声明。任何失败点只保留诊断证据，不能插值、恢复或传播到
 主线。外部结果若未同时满足当前模型的周期、流量、相变、局部控制体和全系统能量门禁，
 不得改写为`validated`或`reproduced`。
+## 128. 错开包0.12s右侧泵/连接腔局部重建（2026-09-11）
+
+扩展Analyze_HeatDriveECC_PumpLocalInitialization.py以只读接收已审计失败包，
+对nonlinear_ramp_staggered_delay_20260911的末端观测执行四方程局部重建。
+该末端处于压力启动后的0.12s附近，热门控仍被延迟到0.13s；没有导入OP或改变Simscape状态。
+
+根求解成功，缩放残差为[0,-4.440892098500626e-16,-4.440892098500626e-16,0]，
+两个额外初值最大残差均4.440892098500626e-16，解差8.18e-14和8.58e-14。
+雅可比秩4，未平衡条件数约1.58295e6，行平衡条件数约9.12166；
+三种差分步长结果稳定。重建压力速率差为-4909927.82Pa/s，与延迟压力斜率合同一致。
+
+结论是：在观测外部通量固定的条件下，0.12s右侧局部四方程仍有一致根，
+不能把当前故障简单归因为局部标量方程无解或物性表越域。但这不是完整网络DAE矩阵、
+事件右侧全轨迹、周期守恒或生产门禁证据；trajectory_conservation_verified、
+production_recovery_allowed和table4_reproduction_claim均保持false。输出
+outputs_storage_audit/pump_staggered_right_20260911/pump_local_initialization.json，
+失败包和C200继续隔离。

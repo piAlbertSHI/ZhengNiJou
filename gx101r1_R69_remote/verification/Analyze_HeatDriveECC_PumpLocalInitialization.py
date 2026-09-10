@@ -43,7 +43,7 @@ def central_jacobian(function, x, step):
     return np.column_stack(columns)
 
 
-def analyze(repo, onset_side=None):
+def analyze(repo, onset_side=None, onset_folder=None):
     if onset_side not in (None, 'left', 'right'):
         raise ValueError('Unknown event side')
     root = repo/'outputs_storage_audit'
@@ -128,17 +128,21 @@ def analyze(repo, onset_side=None):
     if onset_side is not None:
         from Audit_HeatDriveECC_ColdChamberStateCoordinates import bilinear_gradient
         from Analyze_HeatDriveECC_ChamberPressureCoordinates import inventory_jacobian
-        raw = root/'nonlinear_pre_feedback_ramp_20260910/failed_public_observations.mat'
-        if sha256(raw) != '4342D0B6ABC0DC06804886D83DDE8FA0C75D84B5DE37D98C5ACCC2512ABE24BE':
+        folder = root/'nonlinear_pre_feedback_ramp_20260910' if onset_folder is None else Path(onset_folder).resolve()
+        raw = folder/'failed_public_observations.mat'
+        if onset_folder is None and sha256(raw) != '4342D0B6ABC0DC06804886D83DDE8FA0C75D84B5DE37D98C5ACCC2512ABE24BE':
             raise ValueError('Onset evidence changed')
+        onset_record = None if onset_folder is None else read(folder/'compiled_states_inspection.json')
         fluxes = []
         with h5py.File(raw) as f:
             native = named_rows(f, f['native'])
             for i, (row, outer) in enumerate(zip(rows, ('A', 'B'))):
                 path = row['block_path']
                 def final(name, unit):
-                    if float(np.asarray(native[path, name]['time_s']).ravel()[-1]) != .1:
-                        raise ValueError('Require last observed left sample at 0.1s')
+                    observed_time=float(np.asarray(native[path, name]['time_s']).ravel()[-1])
+                    required_time=.1 if onset_record is None else float(observed_time)
+                    if not np.isclose(observed_time,required_time,rtol=0,atol=2e-12):
+                        raise ValueError('Unexpected last observed onset-side time')
                     return float(scalar_series(native[path, name], unit)[-1])
                 p[i], temp[i], u[i] = final('p_I', 'Pa'), final('T_I', 'K'), final('u_I', 'J/kg')
                 rho = float(table['rho']([[temp[i], p[i]]])[0])
@@ -148,11 +152,15 @@ def analyze(repo, onset_side=None):
                 fluxes.append(dict(block_path=path, outer_port=outer, mdot_kg_s=final('mdot_'+outer, 'kg/s'),
                                    Phi_W=final('Phi_'+outer, 'W'), Q_H_W=final('Q_H', 'W')))
         if onset_side == 'right':
-            ts, vs = np.asarray(commands[0]['time_s']), np.asarray(commands[0]['values'])
-            first = np.flatnonzero(np.diff(vs) != 0)[0]
-            if abs(ts[first]-.1)>1e-15:
-                raise ValueError('Unexpected ramp onset')
-            prescribed_rate = float((vs[first+1]-vs[first])/(ts[first+1]-ts[first])*1e6)
+            if onset_record is None:
+                ts, vs = np.asarray(commands[0]['time_s']), np.asarray(commands[0]['values'])
+                first = np.flatnonzero(np.diff(vs) != 0)[0]
+                if abs(ts[first]-.1)>1e-15: raise ValueError('Unexpected ramp onset')
+                prescribed_rate = float((vs[first+1]-vs[first])/(ts[first+1]-ts[first])*1e6)
+            else:
+                c=onset_record['pre_feedback_ramp_contract']; tt=np.asarray(c['time_s']);vv=np.asarray(c['bias_MPa'])
+                first=np.flatnonzero(np.diff(vv)!=0)[0]
+                prescribed_rate=float((vv[first+1]-vv[first])/(tt[first+1]-tt[first])*1e6)
     mass_outer = np.array([r['mdot_kg_s'] for r in fluxes])
     energy_outer = np.array([r['Phi_W']+r['Q_H_W'] for r in fluxes])
     qscale, uscale, p_rate_scale = .001, 1000., 1e6
@@ -203,7 +211,7 @@ def analyze(repo, onset_side=None):
                 diagnostic_row_equilibration_applied_to_simscape=False,
                 scope=('local four-equation reconstruction with fixed native t=0 external port fluxes' if onset_side is None
                        else 'conditional onset residual with fixed observed left-side outer fluxes'),
-                onset_side=onset_side,
+                onset_side=onset_side,onset_folder=None if onset_folder is None else str(folder),
                 whole_network_boundary_coupling_tested=False, actual_compiled_DAE_matrix_extracted=False,
                 failed_model_initialization_repaired=False, trajectory_conservation_verified=False,
                 production_recovery_allowed=False, table4_reproduction_claim=False,
@@ -214,10 +222,11 @@ def analyze(repo, onset_side=None):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__); parser.add_argument('--output-root', type=Path, required=True)
     parser.add_argument('--onset-side', choices=('left', 'right'))
+    parser.add_argument('--onset-folder', type=Path)
     args = parser.parse_args()
     if args.output_root.exists():
         raise FileExistsError('Never overwrite evidence')
-    result = analyze(Path(__file__).resolve().parents[1], args.onset_side); args.output_root.mkdir(parents=True)
+    result = analyze(Path(__file__).resolve().parents[1], args.onset_side, args.onset_folder); args.output_root.mkdir(parents=True)
     (args.output_root/'pump_local_initialization.json').write_text(json.dumps(result, indent=2, allow_nan=False)+'\n', encoding='utf-8')
     print(json.dumps({k: v for k, v in result.items() if k not in ('input_sha256', 'equation_source_sha256')}, indent=2))
     raise SystemExit(0 if result['local_residual_pass'] else 1)
