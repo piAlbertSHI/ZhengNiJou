@@ -2364,3 +2364,27 @@ verification/Audit_HeatDriveECC_PressureDelayFailure.py --joint审核通过失�
 下一步先审计新增区间平衡，再将两事件设置为不同触发时刻以区分其独立影响，
 或获取完整网络的事件右侧残差；不把诊断调度替代生产调度，不放宽门禁。
 inspection_pass=false，未保存检查点，production_recovery_allowed=false；C200冻结不动。
+
+## 119. 联合延迟失败前缀的六库存平衡审核（2026-09-11）
+
+新增verification/Audit_HeatDriveECC_JointDelayBalance.py，复用原库存积分计算器，
+仅增加显式区间参数；默认0至0.04s及1e-15kg、1e-8J阈值不变。
+未运行新仿真。基于已有failed_public_observations.mat的对齐实际网格，
+分别审核六库存的完整导出前缀及原事件之后区间，共12个窗口。
+
+完整前缀[0,0.11999999999870126]s含12600点；新增区间实际是
+[0.10000999999999845,0.11999999999870126]s、2116点，未插入0.1s端点。
+梯形积分12/12窗口同时满足原质量/能量阈值。完整前缀最大质量残差1.73698e-16kg、
+能量残差2.16705e-10J；新增区间分别9.62047e-18kg、5.85929e-12J。
+
+必须同时披露：Simpson对照最大残差分别达到6.17720e-9kg、0.00305339J，
+新增区间也达到1.68932e-9kg、0.000835056J，与梯形结果明显分歧。
+本次未独立证明分歧来源，不将其隐藏或自动解释为物理错误，也不据梯形结果声称积分收敛。
+quadrature_convergence_verified=false、full_device_first_law_verified=false、simulation_pass=false。
+结论仅为六库存导出网格上的梯形残差通过，不覆盖全系统，也不覆盖新事件右侧。
+
+审计文件outputs_storage_audit/joint_delay_balance_20260911/joint_delay_balance.json；
+原始MAT SHA-256为E542EB11A4800B61538E06008E47116AFFDB00EE9E3B191022DC780D92E520B9。
+新增区间参数回归覆盖默认拒绝、显式区间、错误端点及非有限/逆序区间；512项测试通过。
+下一步应先核对高度非均匀网格上的积分对照，再推进错开事件的独立诊断，
+不得用本次局部积分检查替代生产周期门禁。没有删除或复制大结果包，C200不变。

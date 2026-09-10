@@ -7,10 +7,12 @@ MASS_LIMIT_KG = 1e-15
 ENERGY_LIMIT_J = 1e-8
 
 
-def balance(time, mass, energy, mass_flow, power):
+def balance(time, mass, energy, mass_flow, power, *, interval=(0, STOP_S)):
     t,m,e,f,q=[np.asarray(a,dtype=float) for a in (time,mass,energy,mass_flow,power)]
+    if len(interval)!=2 or not np.isfinite(interval).all() or interval[0]>=interval[1]:
+        raise ValueError('Require explicit finite increasing interval')
     if (t.ndim!=1 or len(t)<2 or any(a.shape!=t.shape for a in (m,e,f,q)) or
-            not np.isfinite([t,m,e,f,q]).all() or t[0]!=0 or t[-1]!=STOP_S or
+            not np.isfinite([t,m,e,f,q]).all() or t[0]!=interval[0] or t[-1]!=interval[1] or
             np.any(np.diff(t)<=0) or np.any(m<=0)):
         raise ValueError('Require complete, aligned, finite actual variable-step history')
     dm=m-m[0];de=e-e[0]
