@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step,held_error_control,held_error_control_level,held_solver_method,held_split_tolerances,held_profiler,held_robust_reset,nonlinear_inventory,ramp_topology_only,pre_feedback_direct_bias)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step,held_error_control,held_error_control_level,held_solver_method,held_split_tolerances,held_profiler,held_robust_reset,nonlinear_inventory,ramp_topology_only,pre_feedback_direct_bias,hold_gate_delay)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -40,9 +40,12 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<40,nonlinear_inventory=false;end
     if nargin<41,ramp_topology_only=false;end
     if nargin<42,pre_feedback_direct_bias=false;end
+    if nargin<43,hold_gate_delay=false;end
     assert(islogical(nonlinear_inventory) && isscalar(nonlinear_inventory));
     nonlinear_initial=nonlinear_inventory && external_lag && duration==0;
     pre_feedback=nonlinear_inventory && external_lag && duration==.14;
+    assert(islogical(hold_gate_delay) && isscalar(hold_gate_delay) && ...
+        (~hold_gate_delay || (pre_feedback && pre_feedback_direct_bias && ~held_profiler)));
     assert(islogical(pre_feedback_direct_bias) && isscalar(pre_feedback_direct_bias) && ...
         (~pre_feedback_direct_bias || (pre_feedback && ~held_profiler)));
     assert(islogical(ramp_topology_only) && isscalar(ramp_topology_only) && ...
@@ -602,6 +605,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             end
             if pre_feedback
                 record.pre_feedback_ramp_contract=Configure_HeatDriveECC_PreFeedbackRamp(repo,model,record.actual_command_schedule,pre_feedback_direct_bias);
+                if hold_gate_delay
+                    record.hold_gate_delay_contract=Configure_HeatDriveECC_HoldGateDelay(model);
+                end
             else
                 record.held_interval_contract=Configure_HeatDriveECC_HybridHeldInterval(repo,model,duration);
             end

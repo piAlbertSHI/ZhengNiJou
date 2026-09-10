@@ -166,6 +166,10 @@ function Capture_HeatDriveECC_ColdInitializationContext(model,stage)
                 'unit',get_param(p,[name '_nominal_unit']));
         end
     end
+    gate=[model '/SMA/HoldThermalGateCommandFromWorkspace'];
+    if strcmp(get_param(gate,'VariableName'),'cold_hold_gate_delayed_diagnostic')
+        record.hold_gate_delay_contract=Verify_HeatDriveECC_HoldGateDelay(model);
+    end
     history=evalin('base','cold_initialization_context');history{end+1}=record;
     assignin('base','cold_initialization_context',history);
 end
