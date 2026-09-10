@@ -1564,3 +1564,34 @@ Jacobian更新证据；不得把这种有新增观测的取证等同于无依据
 
 - [库存尺度与条件数结果](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_inventory_conditioning_20260910/inventory_conditioning.json)
 - [研究笔记第35节：计算公式、官方依据、哈希及复核](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
+
+## 88. Solver Profiler取证：摘要已取得，完整状态归档仍缺失
+
+提交 `0bc787b` 给已声明的分离容差失败配置增加Profiler观测，不改变物理初值或错误退出策略。
+进程自然退出1，同一1.584348158130581e-301s奇异迭代矩阵错误复现，API抛错且未生成
+solver_profile.mat。实际AutoScaleAbsTol在调用前后及三个运行回调均为on；这补齐了该配置的
+实测字段，但不能反推未记录该字段的所有历史运行。
+
+完成失败诊断和证据审核后，提交 `a3a2499` 才允许剖析第85节已能完成40ms的ode23t参考设置。
+它是已知余额不通过的对照，不是宣称通过的修复。该独立进程自然退出0，API摘要记录160步、
+40次reset、40次Jacobian更新、0次solver exception和0次过零；窗口仍为0--0.04s。
+实际全局容差1e-6/1e-8、GLOBAL一致性来源及所有物理/控制器回调均与参考一致，
+唯一新增回调字段是只读AutoScaleAbsTol=on。
+
+本次得到164,820-byte Profiler会话包，但保存和再次加载时均出现Simscape日志为空/不能写入的
+警告，提示数据位于SDI。包的公开属性只提供Version/Model/Date，不提供内部数据。
+所以当前只核实了摘要、归档存在和哈希，没有逐个分析40个Jacobian，也没有核实完整Simscape
+状态载荷；SaveStates/SaveJacobian/SaveSimscapeStates=on是请求，不等于载荷完整证明。
+0次solver exception更不是六组件守恒通过。本次未单独重做初态或质量/能量余额审核。
+
+下一步修复观测数据交付：在同一MATLAB进程内识别本次新建SDI run并显式导出，只保存相关run，
+不清空其他运行记录；再检查完整性和原物理余额，结合Profiler支持的分析入口核查矩阵。
+在数据未补齐前不凭摘要改变物理方程、不授权生产恢复、不宣称全系统闭合或Table4复现。
+
+443项回归通过；入口及Profiler helper的checkcode为0，回调原有一条无效抑制提示已移除，
+回调复查为0。C200输入哈希复核未变。两次必要取证及审核共51文件、1,405,234 bytes，
+没有新增长周期raw或OP，Agent6未触碰。七项目标仍进行中。
+
+- [失败Profiler证据审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_profiler_failure_audit_20260910/held_profiler_failure_audit.json)
+- [可运行对照Profiler审核](C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/hybrid_held_profiler_reference_audit_20260910/held_profiler_reference_audit.json)
+- [研究笔记第36节：命令、载荷缺口和哈希](C:/Users/86182/Desktop/正逆耦合/项目文档/研究笔记/2026-09-09_连接腔微分状态取证与优先级试验.md)
