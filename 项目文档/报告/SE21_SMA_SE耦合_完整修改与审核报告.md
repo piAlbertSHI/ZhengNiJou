@@ -2029,3 +2029,18 @@ MATLAB checkcode对新增探针和修改后的Profile_HeatDriveECC_DeclaredHeldF
 未运行耦合模型，未加载C200/失败OP，未放宽门禁。
 下一步需验证异常后内存诊断是否可导出，或采用独立的事件局部诊断途径；
 不能再次依赖profileModel异常后自动生成DataFullFile，也不能假定SDI包含完整Jacobian。
+
+## 101. 事件前正常落盘的对照试验（2026-09-10）
+
+在同一独立fixture将停止时间设为0.09s，早于0.1s断言事件；这是工具生命周期对照，
+不是缩短真实模型的科学验收窗口。会话43820自然退出0，API成功返回，结果文件可加载。
+记录91步、1次Jacobian更新（t=0），模型身份为ecc_profiler_lifecycle_fixture。
+读取使用既有R2025b专用sessionData getter；JacobianInfo公开属性只有JacobianTimes、
+TJacobian、TMass、TFactor、CondNum、Stiffness、LimitingStateTable，未验证原始矩阵。
+故正常落盘可以提供事件前诊断基线，但不能声称解决异常后数据提取或获得完整矩阵。
+
+结果outputs_storage_audit/profiler_pre_event_lifecycle_20260910/lifecycle.json，SHA-256：
+9EB52E62FCAABA5A054E7DD3FC0AA1559C8B9E7F27FF7F191344E9EC551E8A9F。
+本轮没有运行真实耦合模型，没有改动C200或生成恢复状态。工具接口检查未发现明确的
+异常会话取回入口，不能把未发现入口等同于证明不存在。后续应优先围绕实际斜坡值/导数
+及事件一致性建立局部诊断，不继续假定profileModel能在失败后自动给出矩阵。
