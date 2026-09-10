@@ -2606,3 +2606,16 @@ outputs/table4_L8_sensitivity_preflight_20260911执行只读包审核。结果�
 审核同时对设计CSV、预检CSV和MAT生成SHA-256清单，结果位于
 outputs_storage_audit/L8_sensitivity_preflight_audit_20260911.json。该包仅证明正交设计
 合同可解析，未产生任何周期结果；L8候选运行继续受固定Tc前置门禁保护。
+## 134. 统一控制体合同实际生成与断言（2026-09-11）
+
+实际执行verification/Build_HeatDriveECC_ControlVolumeContract.m，固定Tc=276.95K、
+周期声明200，仅生成合同文件，未启动仿真。MATLAB自然退出0并输出
+`CONTROL_VOLUME_CONTRACT_PASS=1`。
+
+生成文件outputs_storage_audit/control_volume_contract_20260911：JSON、CSV、Markdown及
+Eq.9/Eq.10 CSV。合同schema为`heatdrive_ecc_control_volume_contract_v2`，包含10个控制体行、
+10个方程/指标行，Qian窗口为最后10个完整周期，Eq.10有效SE质量为
+0.04181683646625444kg。合同显式列出CHEX/SHEX/HHEX、SMA/SE、buffer、有限管路/连接腔和泵功，
+并明确泵`power_spec=none`不等于已测电功。
+
+这是边界和采样合同证据，不是运行结果、周期稳态或实验验证证据；C200、失败包和恢复状态未改动。
