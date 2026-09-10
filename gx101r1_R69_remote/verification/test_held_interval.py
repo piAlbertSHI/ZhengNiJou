@@ -104,7 +104,7 @@ class HeldIntervalTests(unittest.TestCase):
         source=(Path(__file__).parent/'Inspect_HeatDriveECC_ColdCompiledStates.m').read_text(encoding='utf-8')
         self.assertIn("if nargin<36,held_solver_method='ode15s';end",source)
         self.assertIn("held_error_control && strcmp(held_error_control_level,'moderate')",source)
-        self.assertIn("set_param(model,'Solver','ode23t')",source)
+        self.assertIn("any(strcmp(held_solver_method,{'ode23t','ode23tb'})),set_param(model,'Solver',held_solver_method)",source)
         self.assertIn('48ECCCA5D663B1F423CA838D5A84F7EECD9A74D59B4564079B4F941FC8E7A2F9',source)
 
     def test_one_step_audit_keeps_moderate_tolerances_and_same_step(self):

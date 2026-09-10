@@ -1,10 +1,13 @@
-function report=Probe_HeatDriveECC_ODE23tReset(out)
+function report=Probe_HeatDriveECC_ODE23tReset(out,solver)
 % An exactly integrable ODE tests reset startup behavior, not physical validity.
     assert(~isfolder(out),'Never overwrite probe evidence.');
+    if nargin<2,solver='ode23t';end
+    assert(any(strcmp(solver,{'ode23t','ode23tb'})),'Only declared implicit-method probes are allowed.');
     cases={{'continuous','Fast','auto'},{'sampled','Fast','auto'}, ...
         {'sampled','Robust','auto'},{'sampled','Fast','1e-6'}};
+    if strcmp(solver,'ode23tb'),cases=cases(1:2);end
     report=struct('matlab_release',version('-release'),'case_results',{{}}, ...
-        'actual_coupled_model_tested',false,'production_recovery_allowed',false);
+        'solver',solver,'actual_coupled_model_tested',false,'production_recovery_allowed',false);
     for k=1:numel(cases)
         c=cases{k};model=['ecc_ode23t_reset_probe_' num2str(k)];
         assert(~bdIsLoaded(model));new_system(model);cleanup=onCleanup(@() close_system(model,0));
@@ -25,7 +28,7 @@ function report=Probe_HeatDriveECC_ODE23tReset(out)
             add_line(model,'NoSampledFlux/1','Flux/3');
         end
         add_line(model,'Flux/1','Inventory/1');add_line(model,'Inventory/1','y/1');add_line(model,'Flux/1','f/1');
-        set_param(model,'SolverType','Variable-step','Solver','ode23t','SolverResetMethod',c{2}, ...
+        set_param(model,'SolverType','Variable-step','Solver',solver,'SolverResetMethod',c{2}, ...
             'InitialStep',c{3},'MaxStep','.00025','RelTol','1e-6','AbsTol','1e-8', ...
             'AutoScaleAbsTol','on','StartTime','0','StopTime','.04', ...
             'OutputOption','RefineOutputTimes','Refine','1','Decimation','1', ...
