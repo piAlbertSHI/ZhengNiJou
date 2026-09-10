@@ -1,4 +1,4 @@
-function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step,held_error_control,held_error_control_level,held_solver_method,held_split_tolerances,held_profiler,held_robust_reset,nonlinear_inventory)
+function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_inventory,component_priorities,formulation,consistency_tolerance,residual_tolerance,capture_runtime,tighten_global,scale_buffers,normal_mode,momentum_buffers,disable_regularization,half_step,global_implicit,projection,initial_derivative,analytic_derivative,duration,ps_controller,initial_bias_only,export_initial_flux,initial_mdot_probe,constant_bias_derivative,bias_value_path,remove_inactive_controller,passive_ps_observer,separate_observer_network,live_observer_flow,actuate_ps_output,algebraic_structure_only,external_lag,held_max_step,held_error_control,held_error_control_level,held_solver_method,held_split_tolerances,held_profiler,held_robust_reset,nonlinear_inventory,ramp_topology_only)
 % Read actual rebuilt cold state metadata; never import a production ModelOP.
     if nargin<3,prefer_inventory=false;end
     if nargin<4,component_priorities=false;end
@@ -38,9 +38,12 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<38,held_profiler=false;end
     if nargin<39,held_robust_reset=false;end
     if nargin<40,nonlinear_inventory=false;end
+    if nargin<41,ramp_topology_only=false;end
     assert(islogical(nonlinear_inventory) && isscalar(nonlinear_inventory));
     nonlinear_initial=nonlinear_inventory && external_lag && duration==0;
     pre_feedback=nonlinear_inventory && external_lag && duration==.14;
+    assert(islogical(ramp_topology_only) && isscalar(ramp_topology_only) && ...
+        (~ramp_topology_only || (pre_feedback && ~held_profiler)));
     nonlinear_held=nonlinear_inventory && external_lag && (duration==.04 || pre_feedback);
     assert(~pre_feedback || isequal(held_max_step,.00001),'Ramp trial requires the qualified 10us configuration.');
     nonlinear_fine=nonlinear_held && isscalar(held_max_step) && ismember(held_max_step,[.00002,.00001]);
@@ -607,7 +610,15 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
             fid=fopen(destination,'w','n','UTF-8');assert(fid>=0);fc=onCleanup(@() fclose(fid));
             fprintf(fid,'%s\n',jsonencode(record,'PrettyPrint',true));clear fc
         end
-        if held_profiler
+        if ramp_topology_only
+            record.stage='ramp_topology_compile';record.simulation_run=false;
+            record.ramp_topology_only=true;
+            set_param(model,'SimulationCommand','update');
+            record.pre_feedback_ramp_contract=Verify_HeatDriveECC_PreFeedbackRamp(model);
+            record.runtime_callbacks=evalin('base','cold_initialization_context');
+            record.ramp_topology_compile_pass=true;
+            record.complete_ramp_verified=false;
+        elseif held_profiler
             record.stage='profile_declared_failure';record.simulation_run=true;
             profile_case='moderate';if held_split_tolerances,profile_case='split';end
             if pre_feedback,profile_case='ramp';end
