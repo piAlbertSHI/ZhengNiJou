@@ -36,8 +36,9 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
     if nargin<36,held_solver_method='ode15s';end
     if nargin<37,held_split_tolerances=false;end
     if nargin<38,held_profiler=false;end
-    assert(islogical(held_profiler) && isscalar(held_profiler) && (~held_profiler || held_split_tolerances), ...
-        'Profiling is limited to the declared split-tolerance failure.');
+    assert(islogical(held_profiler) && isscalar(held_profiler) && (~held_profiler || ...
+        (held_error_control && strcmp(held_solver_method,'ode23t') && strcmp(held_error_control_level,'moderate'))), ...
+        'Profiling is limited to the qualified one-step held diagnostics.');
     assert(islogical(held_split_tolerances) && isscalar(held_split_tolerances) && ...
         (~held_split_tolerances || (held_error_control && strcmp(held_error_control_level,'moderate') && ...
         strcmp(held_solver_method,'ode23t'))), ...
@@ -258,6 +259,16 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         assert(strcmp(file_hash(rejected),'4A398B9E07CA55B2A84FEBBF440A601274BBE0102624AE0383AC39E3C6002370'), ...
             'The split-tolerance failure evidence changed.');
         record.profiled_failure_sha256=file_hash(rejected);
+        if ~held_split_tolerances
+            rejected=fullfile(repo,'outputs_storage_audit','hybrid_held_profiler_failure_audit_20260910','held_profiler_failure_audit.json');
+            assert(strcmp(file_hash(rejected),'790C79509A3DD4173A3DF3707D327A7F39E5C7744D8914B720AF5860238819D9'), ...
+                'Failed tight-control profiler evidence changed.');
+            record.failed_profiler_evidence_sha256=file_hash(rejected);
+            qualified=fullfile(repo,'outputs_storage_audit','hybrid_held_ode23t_audit_20260910','held_interval_audit.json');
+            assert(strcmp(file_hash(qualified),'BB1136088658C84AD15F6A369FF087C617D2F5349F1EE00B0FAEECCFED0F1C21'), ...
+                'Runnable held reference changed.');
+            record.runnable_profile_reference_sha256=file_hash(qualified);
+        end
     end
     if held_split_tolerances
         rejected=fullfile(repo,'outputs_storage_audit','hybrid_held_ode23t_audit_20260910','held_interval_audit.json');
@@ -497,7 +508,8 @@ function record=Inspect_HeatDriveECC_ColdCompiledStates(repo,output_root,prefer_
         end
         if held_profiler
             record.stage='profile_declared_failure';record.simulation_run=true;
-            record.profiler=Profile_HeatDriveECC_DeclaredHeldFailure(model,output_root);
+            profile_case='moderate';if held_split_tolerances,profile_case='split';end
+            record.profiler=Profile_HeatDriveECC_DeclaredHeldFailure(model,output_root,profile_case);
             record.runtime_callbacks=evalin('base','cold_initialization_context');
         else
         record.stage='initialization_state_logging';record.simulation_run=true;
