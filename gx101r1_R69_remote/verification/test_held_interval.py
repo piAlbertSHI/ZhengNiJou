@@ -75,7 +75,7 @@ class HeldIntervalTests(unittest.TestCase):
         self.assertIn('(held_interval || nonlinear_initial) && isequal(held_max_step,.00025) && ~tighten_global',source)
         self.assertIn('nonlinear_initial=nonlinear_inventory && external_lag && duration==0',source)
         self.assertIn('if nargin<40,nonlinear_inventory=false;end',source)
-        self.assertIn('Nonlinear inventory is initially restricted to the independent t=0 qualification',source)
+        self.assertIn('Nonlinear inventory permits only qualified cold t=0 or 40ms diagnostics',source)
         self.assertIn('6C6A9CA6885AFD49693F014F15EC66C2A39C73784A3742E2667AD705BAAAA975',source)
         self.assertIn('record.held_error_control_trial=held_error_control',source)
         self.assertIn("set_param(model,'RelTol','1e-10','AbsTol','1e-12')",source)
