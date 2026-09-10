@@ -56,7 +56,7 @@ class HeldIntervalTests(unittest.TestCase):
     def test_step_trial_is_separate_from_physics_and_tolerance_overrides(self):
         source=(Path(__file__).parent/'Inspect_HeatDriveECC_ColdCompiledStates.m').read_text(encoding='utf-8')
         self.assertIn('if nargin<33,held_max_step=[];end',source)
-        self.assertIn('ismember(held_max_step,[.0005,.00025]) && ~tighten_global && ~half_step',source)
+        self.assertIn('(ismember(held_max_step,[.0005,.00025]) || nonlinear_fine) && ~tighten_global && ~half_step',source)
         self.assertIn("set_param(model,'MaxStep',num2str(held_max_step,'%.17g'))",source)
         self.assertIn('record.output_sampling_settings',source)
 
@@ -72,7 +72,9 @@ class HeldIntervalTests(unittest.TestCase):
     def test_error_control_trial_is_bounded_and_has_rejection_provenance(self):
         source=(Path(__file__).parent/'Inspect_HeatDriveECC_ColdCompiledStates.m').read_text(encoding='utf-8')
         self.assertIn('if nargin<34,held_error_control=false;end',source)
-        self.assertIn('(held_interval || nonlinear_initial) && isequal(held_max_step,.00025) && ~tighten_global',source)
+        self.assertIn('(held_interval || nonlinear_initial) && (isequal(held_max_step,.00025) || nonlinear_fine) && ~tighten_global',source)
+        self.assertIn('nonlinear_fine=nonlinear_held && isequal(held_max_step,.00002)',source)
+        self.assertIn('98403BAC66D1AFF1707B6247EE20A198E17B532C49F10A604C7334BCE2A1CF80',source)
         self.assertIn('nonlinear_initial=nonlinear_inventory && external_lag && duration==0',source)
         self.assertIn('if nargin<40,nonlinear_inventory=false;end',source)
         self.assertIn('Nonlinear inventory permits only qualified cold t=0 or 40ms diagnostics',source)
