@@ -1,0 +1,16 @@
+component pressure_integral
+% Diagnostic consumer only; never inserted into the coupled plant.
+inputs
+    p = {0, 'MPa'};
+end
+outputs
+    q = {0, 'MPa*s'};
+end
+variables
+    accumulated = {value = {0, 'MPa*s'}, priority = priority.high};
+end
+equations
+    accumulated.der == p;
+    q == accumulated;
+end
+end
