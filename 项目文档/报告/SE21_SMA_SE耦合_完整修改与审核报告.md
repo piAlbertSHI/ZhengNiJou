@@ -2119,3 +2119,20 @@ bridge_probe.json SHA-256为5C05826F93560B8E93943CE6A9FB1D1EE383AF63864C71E05EB3
 审计代码Audit_HeatDriveECC_BridgeIntegral.m；结果位于
 outputs_storage_audit/bridge_integral_quadrature_audit_20260910/integral_error_audit.json。
 输入MAT SHA-256为FE3106FEF73315AF3ECD1A9B154DFD9B9C5EB553F837F37CC92CC943040CEFD9。
+
+## 106. 单因素对照定位夹具参考reset的积分误差影响（2026-09-10）
+
+仅在reset=1且enable=0的0–0.14s窗口，将比较用参考Integral替换为严格输出0；
+候选控制器、压力桥接、诊断消费者、命令、求解器和容差不变。程序先检查reset保持到0.14s以后，
+该替代不得用于reset释放后的周期或生产模型。会话87760自然退出0，14008样本，完整运行到0.14s。
+积分误差从8.227422993514755e-7降至2.926595597807502e-13MPa*s，原1e-7门禁通过；
+压力对比误差仍为2.7755575615628914e-17MPa，支持参考level-reset导致夹具一阶积分退化。
+没有直接观测内部reset次数，因果解释限于这个单因素夹具对照，不能泛化为所有求解器行为。
+
+真实冷态分支的Configure_HeatDriveECC_ColdInactiveControllerRemoval已经删除原
+SMAPressurePI_Integrator，因此本次不能直接修复或解释完整模型的0.1s故障。
+但它去除了一个独立的夹具误差来源，使后续具有真实导数需求的局部负载试验不再受该参考状态干扰。
+压力外供导数在真实泵需求中的正确性仍未验证，不能启动outer solve或生产恢复。
+结果outputs_storage_audit/pre_feedback_bridge_no_reference_reset_20260910/bridge_probe.json，
+SHA-256为01969284386D517EAA47D4736CD1D76493011BFEF143553D0BB7857C09B3FC9F。
+旧失败证据保持原样；完整耦合模型和C200未修改。

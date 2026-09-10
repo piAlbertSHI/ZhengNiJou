@@ -1,5 +1,6 @@
-function record=Probe_HeatDriveECC_PreFeedbackBridge(repo,out)
+function record=Probe_HeatDriveECC_PreFeedbackBridge(repo,out,remove_reference_reset)
 % Replay qualified controller with a separate unfiltered pressure bridge.
+    if nargin<3,remove_reference_reset=false;end
     assert(~isfolder(out));mkdir(out);
     source=fullfile(repo,'outputs_storage_audit','hybrid_controller_equivalence_20260910');
     oldpath=path;pc=onCleanup(@() path(oldpath));addpath(fullfile(source,'component_build'));
@@ -19,6 +20,22 @@ function record=Probe_HeatDriveECC_PreFeedbackBridge(repo,out)
     end
     model='ecc_sma_controller_equivalence';assert(~bdIsLoaded(model));
     load_system(fullfile(source,[model '.slx']));mc=onCleanup(@() close_system(model,0));
+    if remove_reference_reset
+        reset=d.commands.reset;enable=d.commands.enable;
+        assert(all(reset.values(reset.time_s<=.14)==1) && ...
+            all(enable.values(enable.time_s<=.14)==0));
+        assert(reset.time_s(find(reset.values~=1,1))>.14);
+        block=[model '/Integral'];p=get_param(block,'PortHandles');
+        line=get_param(p.Outport(1),'Line');destinations=get_param(line,'DstPortHandle');
+        position=get_param(block,'Position');delete_block(block);
+        add_block('simulink/Sources/Constant',block,'Value','0','Position',position);
+        p=get_param(block,'PortHandles');
+        for k=1:numel(destinations)
+            oldline=get_param(destinations(k),'Line');
+            if oldline~=-1,delete_line(oldline);end
+        end
+        for k=1:numel(destinations),add_line(model,p.Outport(1),destinations(k));end
+    end
     set_param(model,'Solver','ode23t','MaxStep','0.00001','RelTol','1e-6','AbsTol','1e-8', ...
         'StopTime','0.14','MinStepSizeMsg','error','MaxConsecutiveMinStep','1');
     bridge=[model '/PressureBridge'];
@@ -38,6 +55,7 @@ function record=Probe_HeatDriveECC_PreFeedbackBridge(repo,out)
     input=Simulink.SimulationInput(model);input=input.setModelParameter('CaptureErrors','on');
     output=sim(input);record=struct('simulation_error',output.ErrorMessage, ...
         'full_fluid_network_tested',false,'production_recovery_allowed',false,'bridge_pass',false);
+    record.reference_level_reset_removed=remove_reference_reset;
     if isempty(output.ErrorMessage)
         observations=output.get('observations');bridge_pressure=output.get('bridge_pressure');
         c=d.commands.bias;slope=diff(c.values)./diff(c.time_s);first=find(slope~=0,1);
