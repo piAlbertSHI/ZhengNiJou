@@ -2,6 +2,7 @@ function contract=Build_HeatDriveECC_ShiftedInventoryVariants(repo,build,formula
 % Generate an exact constant-coordinate translation of two protected sources.
     if nargin<3,formulation='aliased';end
     assert(ismember(formulation,{'aliased','intermediates'}));
+    assert(isequal(replace_once('aOLDz',"OLD","NEW"),'aNEWz'),'Scalar text replacement regression.');
     assert(~isfolder(build),'Never overwrite a component build.');
     mkdir(build);
     names={'chamber','buffer'};
@@ -68,6 +69,8 @@ end
 
 function result=replace_once(text,old,new,first_only)
     if nargin<4,first_only=false;end
+    assert(ischar(text) && (isrow(text) || isempty(text)),'Expected one source text buffer.');
+    old=char(old);new=char(new);
     locations=strfind(text,old);
     if first_only,assert(~isempty(locations));else,assert(isscalar(locations),'Unexpected source structure.');end
     i=locations(1);result=[text(1:i-1) new text(i+length(old):end)];
