@@ -2203,3 +2203,16 @@ pump_onset_right_consistency_20260910的pump_local_initialization.json。
 或在实际泵/双腔/阀组合中做联合事件动态试验；不把平台相关性当作根因。
 结果outputs_storage_audit/onset_valve_manifold_audit_20260910/onset_valve_archive.json。
 本轮没有仿真、恢复或物理参数修改，完整系统科学门禁仍未通过。
+
+## 111. 已保存阀零交叉通道未显示左侧切换（2026-09-10）
+
+只读解码同一SDI中的7200字节复合统计流，读取六阀各4个values及4个crossings通道，共48项。
+0.099–0.1s已记录窗口中，24个values通道均无符号变化，24个crossings通道均为0。
+因此不能把第109–110节的面积平台直接等同为已观测零交叉事件。
+通道对应的内部谓词定义尚未核实，失败右侧迭代仍没有记录，不能进一步宣称阀不可能参与故障。
+
+结果outputs_storage_audit/onset_zero_crossings_20260910/onset_zero_crossings.json，
+脚本Audit_HeatDriveECC_OnsetZeroCrossings.py，原SDI SHA继续固定，无仿真或数据重写。
+下一步应采取有明确物理等价范围的单因素完整网络诊断，例如仅在反馈关闭/reset保持的限定窗口
+比较原偏置直接驱动与观察器压力回送，判断跨网络接口是否参与事件一致性问题；
+不能扩展该等价关系到反馈开启后的周期，也不能用短窗结果授权生产恢复。
