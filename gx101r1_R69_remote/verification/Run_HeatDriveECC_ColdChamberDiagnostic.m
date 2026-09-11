@@ -19,8 +19,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     assert(islogical(buffer_mass_targets) && isscalar(buffer_mass_targets) && ...
         (~buffer_mass_targets || buffer_mass_guess),'Buffer targets require the physical cold mass values.');
     assert(islogical(pipe_energy_targets) && isscalar(pipe_energy_targets),'Require a scalar pipe initial-state choice.');
-    assert(ismember(duration,[0.01 10]) || (specific_inventory && duration==0.2), ...
-        'Only topology smoke, the specific inventory onset probe, or one full cycle is supported.');
+    assert(ismember(duration,[0.01 0.2 10]), ...
+        'Only topology smoke, the onset probe, or one full cycle is supported.');
     assert(~isfolder(output_root), 'Do not overwrite diagnostic evidence.');
     [code,commit]=system('git rev-parse HEAD'); assert(code==0,'Cannot record source.');
     % Ignore unrelated untracked user directories; tracked source must remain committed.
