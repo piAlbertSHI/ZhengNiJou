@@ -55,14 +55,14 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         overrides.cycle_count=1; overrides.simulation.stop_time_s=duration;
         overrides.simulation.persist_model_configuration=false;
         overrides.simulation.resume_checkpoint_path='';
-        % The independent cold-start arm uses the lower valid liquid-table
-        % datum. The frozen production datum (1 MPa) reproducibly triggers
-        % the native Simscape pressure ceiling at t=0, while 0.5 MPa passes
-        % the same update/simulation smoke without altering C200.
-        overrides.branch.network_absolute_pressure_MPa=0.5;
+        % The independent cold-start arm uses a qualified mid-window datum.
+        % The frozen production datum (1 MPa) triggers the native Simscape
+        % pressure ceiling at t=0; 0.75 MPa passes the onset probe and keeps
+        % enough margin above the lower pressure bound without altering C200.
+        overrides.branch.network_absolute_pressure_MPa=0.75;
         overrides.branch.network_absolute_pressure_source=[ ...
-            'independent cold diagnostic datum; 0.5 MPa passed the native ', ...
-            'Simscape t=0 pressure smoke, while frozen C200 1 MPa did not'];
+            'independent cold diagnostic datum; 0.75 MPa passed the native ', ...
+            'Simscape 0.2 s pressure smoke, while frozen C200 1 MPa did not'];
         record.diagnostic_network_absolute_pressure_MPa= ...
             overrides.branch.network_absolute_pressure_MPa;
         record.diagnostic_network_absolute_pressure_source= ...
