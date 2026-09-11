@@ -2638,3 +2638,42 @@ Eq.9/Eq.10 CSV。合同schema为`heatdrive_ecc_control_volume_contract_v2`，包
 该包没有`record.mat`、checkpoint或生产Operating Point，不能作为物理通过、恢复源或outer solve
 候选点。该事件仅说明当前独立冷态烟测仍有初始化/运行时响应问题；不证明物性越域、局部方程无根
 或完整网络机制失败。C200冻结合同、失败包拒绝合同和生产门禁保持不变。
+
+## 137. 冷态压力域根因定位与独立修正（2026-09-11）
+
+为区分“初始压力配置错误”和“运行时压力轨迹越界”，在不改变C200模型、热容、buffer、
+本构、温度、相分数或PI记忆的前提下，新增只读构建诊断
+`verification/Diagnose_HeatDriveECC_ColdPressureAtBuild.m`。模型编译后的实际参数显示：
+所有Pipe(TL)的`p0/p_nominal`及四个液体buffer的`tank_pressure`均为1 MPa，
+压力源命令为`-3.0e-5 MPa`；因此不是遗漏p0赋值。独立实测进一步表明，冻结C200的
+1 MPa冷启动在`t=0`触发Simscape液体压力上限断言，而0.5 MPa虽通过`t=0.01 s`，
+却在`t=0.111 s`跌破下限。0.75 MPa通过`t=0.2 s` onset probe，故仅将0.75 MPa
+写入独立冷态诊断支路，未修改生产默认值或C200冻结合同。
+
+对应实现提交为`887ad0a`和`492ad39`，随后以`5fc521a`允许显式0.2 s onset probe。
+完整10 s运行在0.75 MPa下未触发新的断言，但因刚性求解进入超过一小时的无自然返回状态，
+已保留输出目录`outputs/cold_chamber_diagnostic_0p75_20260911`并中止该试验；该目录
+不作为成功证据。它证明不能把“未触发断言”误写成完整周期通过。
+
+## 138. 独立冷态0.2 s双臂onset probe通过（2026-09-11）
+
+按独立库存合同运行`outputs/cold_chamber_onset_specific_0p75_20260911`，使用normal
+仿真模式、0.75 MPa独立诊断压力、specific-inventory conservative chamber、四个
+buffer质量高优先级目标和六个连接腔的质量/能量初值。native与conservative两臂均自然
+完成，MATLAB返回`collection_pass=true`，对应观测哈希为：
+
+| arm | native trace | source count | observations SHA-256 |
+|---|---:|---:|---|
+| native | 1240 | 49 | `D034D3C4086C910C60ED902928B7F827F88BA473B2DD4D8E0A191CB7FA29A1D2` |
+| conservative | 1258 | 49 | `DD38B948A80DA436A186BC1976BD8F859325BD1FF03E6C53AAE1194DE389DB20` |
+
+结果包审核`outputs_storage_audit/cold_onset_probe_audit_20260911.json`确认所需配置、连接性、
+观测和compiled inventory tags均存在，两个观测哈希与执行JSON一致。包明确标记
+`production_recovery_allowed=false`、`periodic_steady_state=false`、
+`full_device_first_law_verified=false`、`table4_reproduction_claim=false`，且不含
+checkpoint或Operating Point。因此这是一项初始化/早期压力域通过，不是完整周期、稳态、
+Table 4复现或恢复资格。
+
+当前下一步是把0.75 MPa支路的压力控制改造成可跨10 s阶段切换的有界实验路线，先以短窗口
+定位`t=0.2 s`之后的压力下限事件，再重新尝试完整周期；只有native/conservative双臂的
+全10 s观测、流量/压力/能量门禁均通过后，才允许进入SMA-SE正逆耦合周期和outer solve。

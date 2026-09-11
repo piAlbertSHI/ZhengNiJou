@@ -374,6 +374,9 @@ Add-Entry 'PowerShell package auditor' (Join-Path $repoRoot 'verification\Audit_
 Add-Entry 'Superseded raw cleanup script' (Join-Path $repoRoot 'verification\Prune_Superseded_HeatDriveECC_Raw.ps1')
 Add-Entry 'Rejected candidate compactor' (Join-Path $repoRoot 'verification\Compact_HeatDriveECC_RejectedCandidate.ps1')
 Add-Entry 'Output storage manager' (Join-Path $repoRoot 'verification\Manage_HeatDriveECC_OutputStorage.ps1')
+Add-Entry 'Independent cold onset probe audit source' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_ColdOnsetProbe.py')
+Add-Entry 'Independent cold onset probe audit result' `
+    (Join-Path $AuditRoot 'cold_onset_probe_audit_20260911.json') $false 'diagnostic_not_recovery'
 Add-Entry 'Long-task discipline' (Join-Path $WorkspaceRoot '项目文档\研究笔记\长任务运行纪律.md')
 Add-Entry 'Complete modification report' (Join-Path $WorkspaceRoot '项目文档\报告\SE21_SMA_SE耦合_完整修改与审核报告.md')
 Add-Entry 'Eighth-stage strict audit report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第八阶段完整实施与严格审核报告.md')
