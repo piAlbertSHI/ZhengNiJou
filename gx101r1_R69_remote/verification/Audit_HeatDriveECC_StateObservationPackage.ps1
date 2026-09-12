@@ -14,14 +14,44 @@ if ($contract.schema -ne 'heatdrive_ecc_runtime_state_observation_diagnostic_v1'
     throw 'Runtime C200 must remain a mechanism-valid, nonperiodic observation, not an authority.'
 }
 $hashes = @{}
-foreach ($kind in @('result','checkpoint','observation')) {
+foreach ($kind in @('observation')) {
     $path = [IO.Path]::GetFullPath((Join-Path $repo $contract."${kind}_relative_path"))
     if (-not $path.StartsWith($repo + [IO.Path]::DirectorySeparatorChar,
             [StringComparison]::OrdinalIgnoreCase)) { throw 'Observation artifact escapes repository.' }
     $hash = (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash
     if ($hash -ne $contract."${kind}_sha256") { throw "Observation $kind hash mismatch." }
     $hashes[$path] = $hash
-    if ($kind -eq 'result') { $resultDir = Split-Path -Parent $path }
+}
+$resultPath = [IO.Path]::GetFullPath((Join-Path $repo $contract.result_relative_path))
+$checkpointPath = [IO.Path]::GetFullPath((Join-Path $repo $contract.checkpoint_relative_path))
+$resultDir = Split-Path -Parent $resultPath
+$retirementPlan = [IO.Path]::GetFullPath((Join-Path $repo $contract.raw_retirement.retirement_plan_relative_path))
+$retirementReceipt = [IO.Path]::GetFullPath((Join-Path $repo $contract.raw_retirement.retirement_receipt_relative_path))
+if (-not $contract.raw_retirement.approved -or $contract.raw_retirement.result_raw_preserved -or
+        $contract.raw_retirement.checkpoint_preserved -or
+        -not $contract.raw_retirement.internal_state_observation_preserved -or
+        (Test-Path -LiteralPath $resultPath) -or (Test-Path -LiteralPath $checkpointPath) -or
+        -not (Test-Path -LiteralPath $retirementPlan -PathType Leaf) -or
+        -not (Test-Path -LiteralPath $retirementReceipt -PathType Leaf)) {
+    throw 'Runtime C200 raw retirement state does not match its contract.'
+}
+$receipt = Get-Content -LiteralPath $retirementReceipt -Raw | ConvertFrom-Json
+$plan = Get-Content -LiteralPath $retirementPlan -Raw | ConvertFrom-Json
+if ($plan.schema -ne 'heatdrive_ecc_runtime_observation_raw_retirement_plan_v1' -or
+        -not $plan.apply -or $plan.targets.Count -ne 2 -or
+        $plan.production_recovery_allowed -or $plan.table4_reproduction_claim -or
+        $receipt.schema -ne 'heatdrive_ecc_runtime_observation_raw_retirement_receipt_v1' -or
+        $receipt.production_recovery_allowed -or $receipt.targets.Count -ne 2) {
+    throw 'Runtime C200 retirement receipt is invalid.'
+}
+foreach ($expected in @(
+        @{path=$resultPath; bytes=[long]$contract.result_bytes; sha256=$contract.result_sha256},
+        @{path=$checkpointPath; bytes=[long]$contract.checkpoint_bytes; sha256=$contract.checkpoint_sha256})) {
+    $match = @($receipt.targets | Where-Object {
+        [IO.Path]::GetFullPath($_.path) -eq $expected.path -and
+        [long]$_.bytes -eq $expected.bytes -and $_.sha256 -eq $expected.sha256
+    })
+    if ($match.Count -ne 1) { throw 'Retired runtime C200 identity mismatch.' }
 }
 $energy = Get-Content -LiteralPath (Join-Path $resultDir 'system_energy_audit.json') -Raw | ConvertFrom-Json
 $completion = Get-Content -LiteralPath (Join-Path $resultDir 'observation_completion.json') -Raw | ConvertFrom-Json
@@ -63,7 +93,7 @@ if ($snapshot.simulation_commit -ne $expectedSimulation -or
     throw 'Source snapshot provenance mismatch.'
 }
 $chain = Split-Path -Parent $resultDir
-$required = @($contractPath) + @($hashes.Keys) + @(
+$required = @($contractPath) + @($hashes.Keys) + @($retirementPlan,$retirementReceipt) + @(
     'physical_validation_report.txt','cycle_physical_summary.csv','qian2019_table2_table4_parameter_contract.csv',
     'system_energy_audit.json','observation_completion.json','internal_state_drift.json',
     'internal_state_coverage.json','terminal_state_comparison.json'
@@ -84,12 +114,14 @@ $manifest = foreach ($path in $required) {
 }
 $manifest | Export-Csv -LiteralPath (Join-Path $release 'result_package_manifest.csv') -NoTypeInformation -Encoding utf8
 $result = [ordered]@{
-    schema='heatdrive_ecc_state_observation_package_v1'; generated_at=(Get-Date).ToString('o')
+    schema='heatdrive_ecc_state_observation_compact_package_v2'; generated_at=(Get-Date).ToString('o')
     package_pass=$true; required_count=@($required).Count; source_commit=$snapshot.source_commit
     simulation_commit=$expectedSimulation; mechanism_pass=$true; thermal_mass_pass=$true
     declared_periodic_gate_pass=$false; complete_internal_state_periodicity_verified=$false
     steady_parameter_study_allowed=$false; checkpoint_recovery_authorized=$false
-    strict_table4_reproduction=$false
+    strict_table4_reproduction=$false; raw_result_preserved=$false
+    checkpoint_preserved=$false; unique_internal_state_observation_preserved=$true
+    retired_bytes=[long]$contract.result_bytes + [long]$contract.checkpoint_bytes
 }
 $result | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $release 'package_audit.json') -Encoding utf8
 $result | ConvertTo-Json

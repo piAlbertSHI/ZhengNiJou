@@ -377,8 +377,42 @@ Add-Entry 'Output storage manager' (Join-Path $repoRoot 'verification\Manage_Hea
 Add-Entry 'Independent cold onset probe audit source' (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_ColdOnsetProbe.py')
 Add-Entry 'Independent cold onset probe audit result' `
     (Join-Path $AuditRoot 'cold_onset_probe_audit_20260911.json') $false 'diagnostic_not_recovery'
+$stateObservationPackage = (& (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_StateObservationPackage.ps1')) |
+    ConvertFrom-Json
+if (-not $stateObservationPackage.package_pass -or
+        $stateObservationPackage.raw_result_preserved -or
+        $stateObservationPackage.checkpoint_preserved -or
+        -not $stateObservationPackage.unique_internal_state_observation_preserved) {
+    throw 'Compacted runtime C200 state-observation package failed.'
+}
+$stateObservationRelease = Join-Path $AuditRoot 'runtime_observation_c200_release_20260906'
+foreach ($name in @('package_audit.json','result_package_manifest.csv')) {
+    Add-Entry "Compacted runtime C200 package $name" (Join-Path $stateObservationRelease $name) $true 'diagnostic_not_recovery'
+}
+$runtimeRetirementRoot = Join-Path $AuditRoot 'runtime_observation_c200_retirement_20260912'
+foreach ($name in @('retirement_plan.json','retirement_receipt.json')) {
+    Add-Entry "Runtime C200 raw retirement $name" (Join-Path $runtimeRetirementRoot $name) $true 'hash_retired_non_authority'
+}
+$coldRetirementRoot = Join-Path $AuditRoot 'superseded_cold_raw_retirement_20260912'
+foreach ($name in @('retirement_plan.json','retirement_receipt.json')) {
+    Add-Entry "Superseded cold raw retirement $name" (Join-Path $coldRetirementRoot $name) $true 'hash_retired_replaced_diagnostic'
+}
+$governanceRoot = Join-Path $AuditRoot 'workspace_governance_20260912'
+foreach ($name in @('workspace_governance_summary.json','workspace_directory_classification.csv',
+        'git_commits_since_c200_freeze.csv')) {
+    Add-Entry "Workspace governance $name" (Join-Path $governanceRoot $name) $true 'governance_inventory'
+}
+foreach ($name in @('Audit_HeatDriveECC_WorkspaceGovernance.ps1',
+        'Retire_HeatDriveECC_RuntimeObservationRaw.ps1',
+        'Retire_HeatDriveECC_SupersededColdRaw.ps1',
+        'Audit_HeatDriveECC_StateObservationPackage.ps1',
+        'runtime_observation_c200_diagnostic_contract.json')) {
+    Add-Entry "Workspace governance source $name" (Join-Path $repoRoot "verification\$name")
+}
 Add-Entry 'Long-task discipline' (Join-Path $WorkspaceRoot '项目文档\研究笔记\长任务运行纪律.md')
 Add-Entry 'Complete modification report' (Join-Path $WorkspaceRoot '项目文档\报告\SE21_SMA_SE耦合_完整修改与审核报告.md')
+Add-Entry 'Consolidated modification and workspace-governance report' `
+    (Join-Path $WorkspaceRoot '项目文档\报告\2026-09-12_前期修改汇总与工作区治理报告.md')
 Add-Entry 'Eighth-stage strict audit report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第八阶段完整实施与严格审核报告.md')
 Add-Entry 'Ninth-stage SHEX and literature report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第九阶段SHEX控制体与文献对标报告.md')
 Add-Entry 'Tenth-stage C242 direct SHEX and storage report' (Join-Path $WorkspaceRoot '项目文档\报告\SMA-SE正逆耦合_第十阶段C242原生SHEX闭合与存储治理报告.md')
@@ -756,6 +790,10 @@ $summary = [ordered]@{
     strict_table4_reproduction = 0
     paired_table4_endpoint_pass = 0
     heat_driven_system_COP_available = 0
+    runtime_c200_observation_raw_retired = -not [bool]$stateObservationPackage.raw_result_preserved
+    runtime_c200_observation_checkpoint_retired = -not [bool]$stateObservationPackage.checkpoint_preserved
+    runtime_c200_unique_internal_observation_preserved = [bool]$stateObservationPackage.unique_internal_state_observation_preserved
+    runtime_c200_retired_bytes = [int64]$stateObservationPackage.retired_bytes
     shex_c242_cycles = $shexC242Contract.completed_cycles
     shex_c242_mechanism_pass = [bool]$shexC242Contract.mechanism_pass
     shex_c242_periodic_steady_state = [bool]$shexC242Contract.periodic_steady_state

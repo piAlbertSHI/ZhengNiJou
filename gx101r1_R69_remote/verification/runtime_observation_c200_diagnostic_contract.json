@@ -8,6 +8,7 @@
   "result_bytes": 5016765753,
   "checkpoint_relative_path": "outputs/qian_runtime_state_observation_from180_20260906/qian2019_table2_table4_simscape_200cycle_20260906_030358/final_operating_point.mat",
   "checkpoint_sha256": "2EC167BD44DE604438CB330C0AFB7389BA9F280D24EB011DB43D7668E44DE79D",
+  "checkpoint_bytes": 3826305,
   "observation_relative_path": "outputs/qian_runtime_state_observation_from180_20260906/qian2019_table2_table4_simscape_200cycle_20260906_030358/internal_state_observation.mat",
   "observation_sha256": "0F165903FAADDD6709628E599E2F36F69C22123A5294B94338B2FC4162353AD5",
   "observation_bytes": 726180958,
@@ -25,8 +26,17 @@
   "recovery_policy": {
     "state_recovery_allowed": false,
     "failed_results_may_resume": false,
-    "preserve_result_and_checkpoint_for_audit": true,
-    "reason": "Observation only; full state coverage/physical semantics and final OP round trip still need audit. Frozen C180 remains the authorized source."
+    "preserve_result_and_checkpoint_for_audit": false,
+    "reason": "Observation only. Unique internal-state traces and scalar audits are retained; the duplicated physical time series and recovery-prohibited OP are hash-retired. Frozen C180 remains the authorized diagnostic source."
+  },
+  "raw_retirement": {
+    "approved": true,
+    "result_raw_preserved": false,
+    "checkpoint_preserved": false,
+    "internal_state_observation_preserved": true,
+    "retirement_plan_relative_path": "outputs_storage_audit/runtime_observation_c200_retirement_20260912/retirement_plan.json",
+    "retirement_receipt_relative_path": "outputs_storage_audit/runtime_observation_c200_retirement_20260912/retirement_receipt.json",
+    "reason": "The runtime C200 package is nonperiodic, non-authoritative and recovery-prohibited. Retain the unique internal-state observation, scalar gate files, reports, figures, hashes and source snapshot."
   },
   "wrapper_exit_note": "Simulation completed, mechanism/thermal/mass passed. Original wrapper incorrectly asserted production_pass as an energy-only gate after STOP; stderr retained as evidence. Nonperiodic status is not an energy/mass failure.",
   "authority_note": "Runtime observation C200 is not the frozen paper C200 authority."

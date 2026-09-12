@@ -2677,3 +2677,27 @@ Table 4复现或恢复资格。
 当前下一步是把0.75 MPa支路的压力控制改造成可跨10 s阶段切换的有界实验路线，先以短窗口
 定位`t=0.2 s`之后的压力下限事件，再重新尝试完整周期；只有native/conservative双臂的
 全10 s观测、流量/压力/能量门禁均通过后，才允许进入SMA-SE正逆耦合周期和outer solve。
+
+## 139. 前期修改总账与受控存储治理（2026-09-12）
+
+新增独立总报告`项目文档/报告/2026-09-12_前期修改汇总与工作区治理报告.md`，集中索引
+C200冻结以来383个提交、第八至第四十三阶段报告、主要生产代码、文献对照、图集、验证命令、
+当前通过/未通过门禁和后续工作。完整提交hash、日期、subject已机械导出到
+`outputs_storage_audit/workspace_governance_20260912/git_commits_since_c200_freeze.csv`；
+523个一级结果/审核目录的字节数、checkpoint数、分类、保留理由和建议动作写入同目录CSV/JSON。
+
+冻结C200和runtime C180的raw/OP共四个保护文件重新计算SHA-256，均与合同一致。随后对
+runtime观测C200的非权威完整物理时序和禁止恢复OP执行哈希约束退役，删除2项
+`5,020,592,058`字节；唯一内部状态观测`726,180,958`字节、73组/1376坐标的标量审核、
+图、日志、报告和源码快照全部保留。紧凑包重新审核为`package_pass=true`，且明确
+raw result=false、checkpoint=false、recovery=false。
+
+对被最新0.75MPa双臂onset包替代的六个早期冷态目录，删除7份旧时序及14个可再生
+cache/codegen目录，共21项`205,632,360`字节；各配置、连接性、库存metadata、执行JSON、
+日志、原SHA-256和退役回执保留。最新通过的native/conservative两份onset观测未删除。
+本轮总计释放`5,226,224,418`字节（`4.867301GiB`），代码库由约`19.9224GiB`降至
+`15.055333GiB`，其中outputs为`9.910586GiB`。仍被脚本直接引用的profiler SDI、
+C201原生账本和事件左右侧失败包本轮保留，不按体积盲删；用户`Agent6/`目录未触碰。
+
+本节只说明记录和存储治理，不改变科学门禁：strict Table4、paired endpoints、完整设备第一律、
+system COP和独立实验validation仍未完成。下一步仍是0.75MPa独立连接腔支路的完整10s有界路线。
