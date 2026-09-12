@@ -77,7 +77,7 @@ def local_buffer_ledger(rows, path, table, contract):
                 alias_errors=aliases, stored_energy_reconstruction_max_error_J=energy_error)
 
 
-def load_rows(folder, expected):
+def load_rows(folder, expected, stop_time):
     with h5py.File(folder / "observations.mat") as handle:
         rows = named_rows(handle, handle["native"])
         if len(rows) != expected:
@@ -89,7 +89,7 @@ def load_rows(folder, expected):
                 time = candidate
             if not np.array_equal(candidate, time) or not np.isfinite(row["values"][:]).all():
                 raise ValueError("Nonidentical or nonfinite diagnostic grid")
-        validate_grid(time, 0, 0.2, 0.001)
+        validate_grid(time, 0, stop_time, 0.001)
         materialized = {key: {"unit": text_field(row["unit"]),
                               "time_s": row["time_s"][:].reshape(-1),
                               "values": row["values"][:].reshape(-1)}
@@ -201,9 +201,9 @@ def local_inventory(folder, rows, assignment):
                 max_abs_flow_kg_s=max(r["max_abs_flow_kg_s"] for r in diagnostics))
 
 
-def arm(root, arm_name, expected, assignment=None):
+def arm(root, arm_name, expected, stop_time, assignment=None):
     folder = root / arm_name
-    rows, time = load_rows(folder, expected)
+    rows, time = load_rows(folder, expected, stop_time)
     if assignment is None:
         assignment, count = resolve_domains(read_json(folder / "tl_connectivity.json"))
         if count != 2:
@@ -232,23 +232,24 @@ def compare_runs(low, high):
                 endpoint_shift_max_MPa=float(max(r["end_delta_MPa"] for r in deltas)))
 
 
-def audit(repo, low_root, high_root):
+def audit(repo, low_root, high_root, stop_time):
     low_record = read_json(low_root / "cold_chamber_execution.json")
     high_record = read_json(high_root / "cold_chamber_execution.json")
     for record, expected in ((low_record, 0.75), (high_record, 0.85)):
-        if (not record["collection_pass"] or record["stop_time_s"] != 0.2 or record["diagnostic_network_absolute_pressure_MPa"] != expected
+        if (not record["collection_pass"] or record["stop_time_s"] != stop_time or record["diagnostic_network_absolute_pressure_MPa"] != expected
                 or record["c200_state_imported"] or record["checkpoint_saved"] or record["production_recovery_allowed"]
                 or record["periodic_steady_state"] or record["full_device_first_law_verified"]):
             raise ValueError("Diagnostic scope or execution contract failed")
-    low_native = arm(low_root, "native", EXPECTED_NATIVE)
-    high_native = arm(high_root, "native", EXPECTED_NATIVE)
-    low = arm(low_root, "conservative", EXPECTED_CONSERVATIVE, low_native["assignment"])
-    high = arm(high_root, "conservative", EXPECTED_CONSERVATIVE, high_native["assignment"])
+    low_native = arm(low_root, "native", EXPECTED_NATIVE, stop_time)
+    high_native = arm(high_root, "native", EXPECTED_NATIVE, stop_time)
+    low = arm(low_root, "conservative", EXPECTED_CONSERVATIVE, stop_time, low_native["assignment"])
+    high = arm(high_root, "conservative", EXPECTED_CONSERVATIVE, stop_time, high_native["assignment"])
     topology = topology_check(read_json(low_root / "native/tl_connectivity.json"),
                               read_json(low_root / "conservative/tl_connectivity.json"),
                               "ecc_inventory_specific.conservative_chamber")
     return dict(schema="heatdrive_ecc_cold_pressure_envelope_v1", diagnostic_only=True,
-                low_datum_MPa=0.75, high_datum_MPa=0.85, stop_time_s=0.2, sample_count=201,
+                low_datum_MPa=0.75, high_datum_MPa=0.85, stop_time_s=stop_time,
+                sample_count=round(stop_time / 0.001) + 1,
                 topology=topology, native=dict(low=low_native["pressure"], high=high_native["pressure"],
                     pair_comparison=compare_runs(low_native, high_native)),
                 conservative=dict(low=low["pressure"], high=high["pressure"],
@@ -265,11 +266,14 @@ def main():
     parser.add_argument("--repo", type=Path, required=True)
     parser.add_argument("--low-root", type=Path, required=True)
     parser.add_argument("--high-root", type=Path, required=True)
+    parser.add_argument("--stop-time", type=float, default=0.2)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError("Do not overwrite diagnostic evidence")
-    result = audit(args.repo, args.low_root, args.high_root)
+    if args.stop_time not in (0.2, 1.0):
+        raise ValueError("This audit supports only the 0.2 s onset and 1.0 s preflight windows")
+    result = audit(args.repo, args.low_root, args.high_root, args.stop_time)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
     rows = []
