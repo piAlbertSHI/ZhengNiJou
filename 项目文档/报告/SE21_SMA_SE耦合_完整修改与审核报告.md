@@ -2820,6 +2820,24 @@ Operating Point/checkpoint和`Agent6/`均未触碰。
 有效候选；审计JSON保留其失败门禁和哈希，可用于报告复核。该动作只降低重复原始数据占用，
 不改变模型、门禁、恢复链或任何物理状态。
 
+## 145. 本轮治理后最终复核（2026-09-13）
+
+退役脚本复核返回`already_retired=true`、8个目标文件、`1,327,618,126`字节，四个淘汰
+目录中两臂原始时序均为0，`cold_chamber_execution.json`和退役标记仍在；
+`120/225`、`125/225`两个保留目录各仍有native/conservative两份原始观测。随后执行
+`Manage_HeatDriveECC_OutputStorage.ps1`的只读模式，输出为`candidate_count=0`、
+`candidate_GB=0`、`before_GB=after_GB=10.657`，没有第二次自动删除。
+
+执行`Audit_HeatDriveECC_WorkspaceGovernance.ps1`后，C200/C180四个保护文件全部通过SHA-256，
+当前分支为`codex/conservative-chamber-cold-diagnostic`，HEAD为
+`5c6779e9438610480e1f0018e76d43a3f86b09df`，台账覆盖C200冻结后的397个提交和540个目录，
+分类总量为`15.792870 GiB`；用户已有`Agent6/`仍未触碰。执行
+`Audit_FinalHeatDriveECC_Package.ps1`自然退出0，required/present/missing为`482/488/0`。
+
+最终包审计同时确认：C200机制和周期状态为真，但`strict_table4_reproduction=0`、
+`paired_table4_endpoint_pass=0`、`heat_driven_system_COP_available=0`，完整设备第一律仍为假。
+因此本轮完成的是证据汇总、失败诊断隔离、哈希锁定和空间治理，不是Table 4复现或实验验证。
+
 ## 139. 前期修改总账与受控存储治理（2026-09-12）
 
 新增独立总报告`项目文档/报告/2026-09-12_前期修改汇总与工作区治理报告.md`，集中索引
