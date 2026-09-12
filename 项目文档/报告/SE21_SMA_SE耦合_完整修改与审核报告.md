@@ -2678,6 +2678,32 @@ Table 4复现或恢复资格。
 定位`t=0.2 s`之后的压力下限事件，再重新尝试完整周期；只有native/conservative双臂的
 全10 s观测、流量/压力/能量门禁均通过后，才允许进入SMA-SE正逆耦合周期和outer solve。
 
+## 140. 独立冷态压力包络扩展至0.85 MPa（2026-09-12）
+
+为增加冷态压力下限裕度，在不读取或改写C200恢复状态的前提下，新增允许值受限的独立诊断
+压力参数，仅允许0.75和0.85 MPa；生产模型默认值、热容、buffer、本构、温度、相分数和PI
+路线记忆均未改变。`outputs/cold_chamber_onset_specific_0p85_20260912`在0--0.2 s
+normal仿真中native/conservative两臂均自然退出，`collection_pass=true`，native为1240条、
+conservative为1258条原生观测，执行提交为`4ff2fc5`，且未生成OP、checkpoint或恢复合同。
+
+新增`verification/Audit_HeatDriveECC_ColdPressureEnvelope.py`对0.75/0.85 MPa两组结果进行
+逐元件只读比较。73个流体库存元件的`p_I`以及守恒臂4个buffer的`p_A`均在实际物性域
+0.45--5 MPa内；native的全局最小/最大压力分别为0.509488--0.755481 MPa（0.75 MPa）和
+0.609489--0.855481 MPa（0.85 MPa），守恒臂为0.509492--0.755480 MPa和
+0.609493--0.855480 MPa。最小下限裕度由约0.05949 MPa提高至约0.15949 MPa，端点增量
+为0.100000--0.100001 MPa，表明该独立冷态数据点确实移动了压力包络而非改写了生产冻结点。
+
+同一审计对两个连接腔和四个守恒buffer使用每个0.001 s样本的右端BE库存计算。两组均通过
+局部质量和能量门禁；两组中的最大质量残差分别为`4.49783e-16`和`4.57743e-16 kg`，
+最大能量残差分别为`6.86171e-11`和`4.83755e-11 J`，最大局部流量约`6.37421e-4 kg/s`。
+这证明0.85 MPa短窗的初始化、局部库存别名和压力域是可审核的，但只覆盖0.2 s onset，
+不证明完整10 s四阶段切换、mechanism、periodic steady state、Table 4端点或完整系统第一律。
+
+因此0.85 MPa包的`production_recovery_allowed=false`、`periodic_steady_state=false`、
+`full_device_first_law_verified=false`和`table4_reproduction_claim=false`全部保留。下一步
+是仅在该独立压力合同下继续更长但仍不导出恢复状态的冷态试验，先观察跨阶段压力是否保持在
+物性域，再决定是否允许完整10 s；任何失败轨迹均只能作为诊断，不得进入主线恢复或outer solve。
+
 ## 139. 前期修改总账与受控存储治理（2026-09-12）
 
 新增独立总报告`项目文档/报告/2026-09-12_前期修改汇总与工作区治理报告.md`，集中索引
