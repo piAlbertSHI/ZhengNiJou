@@ -2750,6 +2750,58 @@ specific-inventory守恒腔、四个守恒buffer和同一0.001 s局部BE步长�
 针对SE阶段峰值和native/守恒初值偏差分别做控制命令/初始化时间定位；不放宽门禁、不把
 失败轨迹插值或传播到C200、outer solve或Table 4端点。
 
+## 143. 0.85 MPa独立冷态SE增益调参第五组审核（2026-09-13）
+
+在不导入C200动态状态、不写入Operating Point或checkpoint的前提下，继续使用独立
+specific-inventory冷态合同运行`outputs/cold_chamber_fullcycle_tuned125_225_10s_0p85_20260912`。
+本组设置为SE stage-2初始/最终压力PI增益`-125/-125`、stage-4初始/最终增益
+`-225/-225`。MATLAB自然退出并返回：`collection_pass=true`、`completed_arms=2`、
+`production_recovery_allowed=false`；执行提交为`800ada7f9d1a56039c271cd037fb7b14acfbcbc7`。
+native/conservative观测数为1240/1258，观测SHA-256分别为
+`DD260998431ED7864EB29D3EAAFD6A964EB44136EE28872BDBE1452439500040`和
+`5D503D3C8F4DA608ABF4D5018069AAD0C0A265D94854A717D93B9394C62EDA95`。
+
+严格审核输出位于`outputs_storage_audit/cold_fullcycle_tuned125_225_0p85_20260913_v2`。
+拓扑、属性表、源/库存端口功率恒等式均通过，SMA四阶段流量也通过；但该包仍不是可接受
+候选点，原因如下：
+
+| 门禁/指标 | 125/225结果 | 结论 |
+|---|---:|---|
+| SE stage-2 RMS相对流量误差 | `0.050006784078356945` | 失败，略高于`0.05` |
+| SE stage-4 RMS相对流量误差 | `0.04961546888623238` | 通过 |
+| SE stage-2最大相对误差 | `0.08555092346345428` | 记录，不替代RMS门禁 |
+| 守恒buffer最大质量残差 | `2.105954299835844e-15 kg` | 失败，高于`1e-15 kg` |
+| 初值严格配对 | High `75/125`，Low `50/79` | 失败 |
+| SMA固体能量门禁 | residual fraction `2.3899220812413e-4` | 通过 |
+| SE固体能量门禁 | residual fraction `1.3256451343147347e-4` | 通过 |
+| performance窗口 | `0--10 s`，仅1个周期 | 非Qian末10周期窗口 |
+| SCP（诊断量） | `0.1671783939620068 W/g` | 仅诊断，不作Table 4结果 |
+
+因此本组标记为`rejected diagnostic package`：`declared_window_numerical_gates_pass=false`、
+`local_inventory_conservation_pass=false`、`strict_initial_coordinate_match=false`、
+`periodic_steady_state=false`、`full_device_first_law_verified=false`、
+`production_recovery_allowed=false`和`table4_reproduction_claim=false`。本组不得进入
+outer-solve插值、恢复链、paired端点或Table 4审核。
+
+五组10 s调参的趋势审核如下（均为独立冷态、0.85 MPa、1周期诊断；不是五个有效候选点）：
+
+| stage-2 Kp | stage-4 Kp | SE-2 RMS | SE-4 RMS | 主要结果 |
+|---:|---:|---:|---:|---|
+| `-70` | `-160` | `0.0698391` | `0.0579977` | 两阶段失败，消除高频饱和抖振 |
+| `-100` | `-220` | `0.0575006` | `0.0501737` | 两阶段失败 |
+| `-110` | `-255` | `0.0542605` | `0.313703` | stage-4饱和振荡恢复 |
+| `-120` | `-225` | `0.0513518` | `0.0496158` | stage-4通过，stage-2失败 |
+| `-125` | `-225` | `0.0500068` | `0.0496155` | stage-2仍失败约`6.8e-6` |
+
+这组数据支持一个受限诊断判断：stage-2控制增益继续提高时，RMS误差接近但尚未通过，
+而stage-4在`-225`附近比`-255`稳定；它不能证明通过任意增益即可得到周期稳态，也不能
+替代对SE保持管初值、buffer浮点残差和完整多周期状态的独立修正。下一步应先定位
+stage-2误差是否由阶段切换瞬态、PI初值或连接腔初始化造成，再决定是否进行新的受控诊断；
+不得放宽`0.05`或`1e-15 kg`门限，不得将失败轨迹传播到C200主线。
+
+本轮同时将审核器生产者登记补丁提交为`b23e0c4`（`Register fifth cold diagnostic producer`），
+确保以后复核该包时能验证其执行提交，而不是因为审计器未识别而产生假阴性或假阳性。
+
 ## 139. 前期修改总账与受控存储治理（2026-09-12）
 
 新增独立总报告`项目文档/报告/2026-09-12_前期修改汇总与工作区治理报告.md`，集中索引
