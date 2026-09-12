@@ -30,6 +30,7 @@ CYCLE_EXPERIMENT = 'conservative_buffer_coupled_cycle_20260909'
 SPECIFIC_PRODUCER = '7408b1deda367f2d5324bd75e66ab593114cc459'
 SPECIFIC_EXPERIMENT = 'specific_inventory_cold_onset_20260909'
 FULL_SPECIFIC_085_PRODUCER = '0234f91a5bc86767abf87dd8d3040d362c6461c9'
+FULL_SPECIFIC_TUNED_085_PRODUCER = '728f013ae3037f63473559567eed0fc921396312'
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
 
 
@@ -189,13 +190,13 @@ def cycle_arm(folder, assignment, contracts):
 def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None):
     if experiment_root is not None:
         root = Path(experiment_root).resolve()
-        producer = FULL_SPECIFIC_085_PRODUCER
+        producer = {FULL_SPECIFIC_085_PRODUCER, FULL_SPECIFIC_TUNED_085_PRODUCER}
     else:
         if full_cycle and specific_onset: raise ValueError('Onset probe is not a full cycle')
         root = repo/'outputs_storage_audit'/(SPECIFIC_EXPERIMENT if specific_onset else CYCLE_EXPERIMENT if full_cycle else EXPERIMENT)
         producer = SPECIFIC_PRODUCER if specific_onset else CYCLE_PRODUCER if full_cycle else PRODUCER
     execution = read(root/'cold_chamber_execution.json'); stop = 10 if full_cycle else .2 if specific_onset else .01
-    if (execution['execution_commit'] != producer or not execution['collection_pass'] or not execution['conservative_buffers']
+    if (execution['execution_commit'] not in producer or not execution['collection_pass'] or not execution['conservative_buffers']
             or execution['start_time_s'] != 0 or execution['stop_time_s'] != stop
             or any(execution[k] for k in ('c200_state_imported', 'checkpoint_saved', 'production_recovery_allowed'))
             or [c['arm'] for c in execution['cases']] != ['native', 'conservative']):
@@ -324,7 +325,7 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None):
         r['local_chamber_gate']['mass_closure_pass'] and r['local_chamber_gate']['energy_closure_pass'] for r in chambers)
     numerical_pass = bool(local_pass and strict and all(r['passed'] for r in kcls) and (not specific_onset or compiled_gate))
     result = dict(schema='heatdrive_ecc_cold_buffer_coupled_audit_v2', evidence_audit_pass=True,
-        execution_commit=producer, stop_time_s=stop, samples=round(stop/.001)+1, buffers=local, chambers=chambers,
+        execution_commit=execution['execution_commit'], stop_time_s=stop, samples=round(stop/.001)+1, buffers=local, chambers=chambers,
         topology_edges_and_domain_assignment_identical=True, property_tables_identical=True,
         source_storage_port_checks=kcls, local_inventory_conservation_pass=local_pass,
         strict_initial_coordinate_match=strict, initial_matching_counts={p: sum(r['within_strict_comparison'] for r in comparisons if r['priority'] == p) for p in ('High', 'Low')},
