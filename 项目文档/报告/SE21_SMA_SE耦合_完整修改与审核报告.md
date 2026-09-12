@@ -2802,6 +2802,24 @@ stage-2误差是否由阶段切换瞬态、PI初值或连接腔初始化造成�
 本轮同时将审核器生产者登记补丁提交为`b23e0c4`（`Register fifth cold diagnostic producer`），
 确保以后复核该包时能验证其执行提交，而不是因为审计器未识别而产生假阴性或假阳性。
 
+## 144. 冷态调参原始时序受控退役（2026-09-13）
+
+在完成第五组结果审核并确认没有HeatDriveECC MATLAB进程引用目标后，执行新增脚本
+`verification/Retire_HeatDriveECC_SupersededColdTuningRaw.ps1 -Apply`。脚本只允许命中四个
+明确的已淘汰目录：未调参、`70/160`、`100/220`和`110/255`；每个目录只删除native与
+conservative两份`observations.mat`，共8个文件、`1,327,618,126`字节（`1.236441 GiB`）。
+
+完整保留的内容包括四个目录的`cold_chamber_execution.json`、配置、库存目标、拓扑/连接性、
+日志、代码构建记录、各自严格审核JSON及原始时序SHA-256。每个目录写入
+`SUPERSEDED_RAW_COMPACTED.txt`，总退役计划和逐文件哈希回执位于
+`outputs_storage_audit/superseded_cold_tuning_raw_retirement_20260913`。作为后续诊断参考，
+`120/225`和最新`125/225`两个完整原始包没有删除；C200/C180/C240权威结果、任何
+Operating Point/checkpoint和`Agent6/`均未触碰。
+
+清理后的科学结论不变：四个被退役的轨迹仍是失败/诊断证据，不能因为删除原始时序而变成
+有效候选；审计JSON保留其失败门禁和哈希，可用于报告复核。该动作只降低重复原始数据占用，
+不改变模型、门禁、恢复链或任何物理状态。
+
 ## 139. 前期修改总账与受控存储治理（2026-09-12）
 
 新增独立总报告`项目文档/报告/2026-09-12_前期修改汇总与工作区治理报告.md`，集中索引
