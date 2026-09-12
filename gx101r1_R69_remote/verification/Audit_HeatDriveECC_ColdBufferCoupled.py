@@ -29,6 +29,7 @@ CYCLE_PRODUCER = '6148ebd49c3679821684a0e6206b8661e54fa7fa'
 CYCLE_EXPERIMENT = 'conservative_buffer_coupled_cycle_20260909'
 SPECIFIC_PRODUCER = '7408b1deda367f2d5324bd75e66ab593114cc459'
 SPECIFIC_EXPERIMENT = 'specific_inventory_cold_onset_20260909'
+FULL_SPECIFIC_085_PRODUCER = '0234f91a5bc86767abf87dd8d3040d362c6461c9'
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
 
 
@@ -97,7 +98,9 @@ def buffer_ledger(rows, path, table, contract):
     t = rows[path, 'T_I']['time_s'][:].reshape(-1)
     local = ledger(t, mass, r['total'], get('mdot_A', 'kg/s'), get('Phi_A', 'W')+get('Q_H', 'W'))
     alias_pass = max(errors.values()) <= 1e-8 and all(v['passed'] for v in auxiliary.values())
-    if np.any(get('p_I', 'Pa') != c['p_environment_Pa']) or np.any(get('Q_H', 'W') != 0):
+    # Unit conversion from an MPa trace can produce a sub-nanopascal roundoff;
+    # the physical contract is equality within the declared measurement scale.
+    if np.any(abs(get('p_I', 'Pa') - c['p_environment_Pa']) > 1e-6) or np.any(get('Q_H', 'W') != 0):
         raise ValueError('Unconnected thermal port or constant pressure contract changed')
     return dict(block_path=path, independent_ledger=local, inventory_alias_pass=alias_pass,
                 energy_alias_errors_J=errors, auxiliary_alias_errors=auxiliary,
@@ -183,11 +186,15 @@ def cycle_arm(folder, assignment, contracts):
                 interpretation='One cold cycle, declared lumped storage and native ideal source boundaries only; not full device validation')
 
 
-def audit(repo, full_cycle=False, specific_onset=False):
-    if full_cycle and specific_onset: raise ValueError('Onset probe is not a full cycle')
-    root = repo/'outputs_storage_audit'/(SPECIFIC_EXPERIMENT if specific_onset else CYCLE_EXPERIMENT if full_cycle else EXPERIMENT)
-    producer = SPECIFIC_PRODUCER if specific_onset else CYCLE_PRODUCER if full_cycle else PRODUCER
-    execution = read(root/'cold_chamber_execution.json'); stop = .2 if specific_onset else 10 if full_cycle else .01
+def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None):
+    if experiment_root is not None:
+        root = Path(experiment_root).resolve()
+        producer = FULL_SPECIFIC_085_PRODUCER
+    else:
+        if full_cycle and specific_onset: raise ValueError('Onset probe is not a full cycle')
+        root = repo/'outputs_storage_audit'/(SPECIFIC_EXPERIMENT if specific_onset else CYCLE_EXPERIMENT if full_cycle else EXPERIMENT)
+        producer = SPECIFIC_PRODUCER if specific_onset else CYCLE_PRODUCER if full_cycle else PRODUCER
+    execution = read(root/'cold_chamber_execution.json'); stop = 10 if full_cycle else .2 if specific_onset else .01
     if (execution['execution_commit'] != producer or not execution['collection_pass'] or not execution['conservative_buffers']
             or execution['start_time_s'] != 0 or execution['stop_time_s'] != stop
             or any(execution[k] for k in ('c200_state_imported', 'checkpoint_saved', 'production_recovery_allowed'))
@@ -238,11 +245,13 @@ def audit(repo, full_cycle=False, specific_onset=False):
     contracts = {r['block_path']: r for r in replacement['buffers']}
     if set(contracts) != BUFFERS or len(replacement['buffers']) != 4:
         raise ValueError('Incomplete buffer replacement contract')
+    expected_environment = (execution['diagnostic_network_absolute_pressure_MPa'] * 1e6
+                            if experiment_root is not None else 1e6)
     for c in contracts.values():
         port_contract(c)
         if (c['inlet_height_m'] != 0 or c['initial_source_time_s'] != 0 or c['mainline_recovery_allowed']
-                or c['tank_area_m2'] != .001 or c['port_area_m2'] != .01 or c['auxiliary_depth_m'] != .001
-                or c['gravity_m_s2'] != 9.81 or c['p_environment_Pa'] != 1e6):
+            or c['tank_area_m2'] != .001 or c['port_area_m2'] != .01 or c['auxiliary_depth_m'] != .001
+            or c['gravity_m_s2'] != 9.81 or c['p_environment_Pa'] != expected_environment):
             raise ValueError('Actual buffer geometry differs from declared experiment')
     comparisons = []; local = []; kcls = []
     with h5py.File(root/'native/observations.mat') as a, h5py.File(root/'conservative/observations.mat') as b:
@@ -321,6 +330,7 @@ def audit(repo, full_cycle=False, specific_onset=False):
         strict_initial_coordinate_match=strict, initial_matching_counts={p: sum(r['within_strict_comparison'] for r in comparisons if r['priority'] == p) for p in ('High', 'Low')},
         declared_window_numerical_gates_pass=numerical_pass,
         specific_inventory_onset_probe=specific_onset, trajectory_compiled_inventory_gate=compiled_gate,
+        experiment_root=str(root) if experiment_root is not None else None,
         cold_smoke_numerical_gates_pass=numerical_pass if not full_cycle else None,
         full_cycle_completed=full_cycle, all_mechanism_gates_evaluated=False, full_device_first_law_verified=False,
         production_recovery_allowed=False, table4_reproduction_claim=False,
@@ -332,11 +342,12 @@ def audit(repo, full_cycle=False, specific_onset=False):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__); parser.add_argument('--output-root', type=Path, required=True)
+    parser.add_argument('--experiment-root', type=Path)
     parser.add_argument('--full-cycle', action='store_true')
     parser.add_argument('--specific-onset', action='store_true')
     args = parser.parse_args()
     if args.output_root.exists(): raise FileExistsError('Never overwrite evidence')
-    result, comparisons = audit(Path(__file__).resolve().parents[1], args.full_cycle, args.specific_onset)
+    result, comparisons = audit(Path(__file__).resolve().parents[1], args.full_cycle, args.specific_onset, args.experiment_root)
     args.output_root.mkdir(parents=True)
     (args.output_root/'cold_buffer_coupled_audit.json').write_text(json.dumps(result, indent=2, allow_nan=False)+'\n', encoding='utf-8')
     with (args.output_root/'initial_coordinates.csv').open('w', newline='', encoding='utf-8') as f:

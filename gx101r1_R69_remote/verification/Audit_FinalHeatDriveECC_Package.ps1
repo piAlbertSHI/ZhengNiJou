@@ -385,6 +385,10 @@ Add-Entry 'Independent cold pressure-envelope comparison audit' `
     (Join-Path $AuditRoot 'cold_pressure_envelope_audit_20260912.json') $false 'diagnostic_not_recovery'
 Add-Entry 'Independent cold 1 s pressure-envelope preflight audit' `
     (Join-Path $AuditRoot 'cold_pressure_envelope_audit_1s_0p85_20260912.json') $false 'diagnostic_not_recovery'
+Add-Entry 'Independent cold 10 s full-cycle pressure-envelope audit' `
+    (Join-Path $AuditRoot 'cold_pressure_envelope_audit_10s_0p85_20260912.json') $false 'diagnostic_not_recovery'
+Add-Entry 'Independent cold 10 s full-cycle coupled ledger audit' `
+    (Join-Path $AuditRoot 'cold_fullcycle_audit_0p85_20260912/cold_buffer_coupled_audit.json') $false 'diagnostic_not_recovery'
 $stateObservationPackage = (& (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_StateObservationPackage.ps1')) |
     ConvertFrom-Json
 if (-not $stateObservationPackage.package_pass -or

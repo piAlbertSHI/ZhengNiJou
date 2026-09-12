@@ -299,8 +299,8 @@ def main():
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError("Do not overwrite diagnostic evidence")
-    if args.stop_time not in (0.2, 1.0):
-        raise ValueError("This audit supports only the 0.2 s onset and 1.0 s preflight windows")
+    if args.stop_time not in (0.2, 1.0, 10.0):
+        raise ValueError("This audit supports only the 0.2 s onset, 1.0 s preflight, and 10 s full-cycle windows")
     paired = args.low_root is not None or args.high_root is not None
     single = args.single_root is not None
     if paired == single or (paired and (args.low_root is None or args.high_root is None)):
