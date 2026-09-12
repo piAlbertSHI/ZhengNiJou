@@ -261,11 +261,39 @@ def audit(repo, low_root, high_root, stop_time):
                 production_recovery_allowed=False, table4_reproduction_claim=False)
 
 
+def audit_single(repo, root, datum, stop_time):
+    record = read_json(root / "cold_chamber_execution.json")
+    if (not record["collection_pass"] or record["stop_time_s"] != stop_time
+            or record["diagnostic_network_absolute_pressure_MPa"] != datum
+            or record["c200_state_imported"] or record["checkpoint_saved"]
+            or record["production_recovery_allowed"] or record["periodic_steady_state"]
+            or record["full_device_first_law_verified"]):
+        raise ValueError("Single diagnostic scope or execution contract failed")
+    native = arm(root, "native", EXPECTED_NATIVE, stop_time)
+    conservative = arm(root, "conservative", EXPECTED_CONSERVATIVE, stop_time, native["assignment"])
+    topology = topology_check(read_json(root / "native/tl_connectivity.json"),
+                              read_json(root / "conservative/tl_connectivity.json"),
+                              "ecc_inventory_specific.conservative_chamber")
+    return dict(schema="heatdrive_ecc_cold_pressure_envelope_v1", diagnostic_only=True,
+                single_datum_MPa=datum, stop_time_s=stop_time,
+                sample_count=round(stop_time / 0.001) + 1, topology=topology,
+                native=native["pressure"], conservative=conservative["pressure"],
+                conservative_inventory=conservative["inventory"],
+                pressure_range_gate=native["pressure"]["pressure_range_gate"] and conservative["pressure"]["pressure_range_gate"],
+                local_inventory_gate=conservative["inventory"]["all_local_inventory_gates"],
+                paired_comparison_performed=False,
+                endpoint_comparison_scope="single independent preflight; no cross-datum pairing",
+                full_device_first_law_verified=False, periodic_steady_state=False,
+                production_recovery_allowed=False, table4_reproduction_claim=False)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo", type=Path, required=True)
-    parser.add_argument("--low-root", type=Path, required=True)
-    parser.add_argument("--high-root", type=Path, required=True)
+    parser.add_argument("--low-root", type=Path)
+    parser.add_argument("--high-root", type=Path)
+    parser.add_argument("--single-root", type=Path)
+    parser.add_argument("--datum", type=float)
     parser.add_argument("--stop-time", type=float, default=0.2)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -273,13 +301,26 @@ def main():
         raise FileExistsError("Do not overwrite diagnostic evidence")
     if args.stop_time not in (0.2, 1.0):
         raise ValueError("This audit supports only the 0.2 s onset and 1.0 s preflight windows")
-    result = audit(args.repo, args.low_root, args.high_root, args.stop_time)
+    paired = args.low_root is not None or args.high_root is not None
+    single = args.single_root is not None
+    if paired == single or (paired and (args.low_root is None or args.high_root is None)):
+        raise ValueError("Provide either both --low-root/--high-root or --single-root")
+    if single:
+        if args.datum not in (0.75, 0.85):
+            raise ValueError("Single diagnostic datum must be 0.75 or 0.85 MPa")
+        result = audit_single(args.repo, args.single_root, args.datum, args.stop_time)
+    else:
+        result = audit(args.repo, args.low_root, args.high_root, args.stop_time)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
     rows = []
-    for arm_name in ("low", "high"):
-        for r in result["conservative"][arm_name + "_inventory"]["components"]:
-            rows.append(dict(arm=arm_name, **r))
+    if "conservative_inventory" in result:
+        for r in result["conservative_inventory"]["components"]:
+            rows.append(dict(arm="single", **r))
+    else:
+        for arm_name in ("low", "high"):
+            for r in result["conservative"][arm_name + "_inventory"]["components"]:
+                rows.append(dict(arm=arm_name, **r))
     with args.output.with_suffix(".csv").open("w", encoding="utf-8-sig", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=sorted({k for row in rows for k in row}), extrasaction="ignore")
         writer.writeheader()

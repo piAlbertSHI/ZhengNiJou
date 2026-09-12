@@ -383,6 +383,8 @@ Add-Entry 'Independent cold onset 0.85 MPa package audit' `
     (Join-Path $AuditRoot 'cold_onset_probe_audit_0p85_20260912.json') $false 'diagnostic_not_recovery'
 Add-Entry 'Independent cold pressure-envelope comparison audit' `
     (Join-Path $AuditRoot 'cold_pressure_envelope_audit_20260912.json') $false 'diagnostic_not_recovery'
+Add-Entry 'Independent cold 1 s pressure-envelope preflight audit' `
+    (Join-Path $AuditRoot 'cold_pressure_envelope_audit_1s_0p85_20260912.json') $false 'diagnostic_not_recovery'
 $stateObservationPackage = (& (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_StateObservationPackage.ps1')) |
     ConvertFrom-Json
 if (-not $stateObservationPackage.package_pass -or

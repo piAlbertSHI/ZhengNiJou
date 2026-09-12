@@ -2704,6 +2704,25 @@ conservative为1258条原生观测，执行提交为`4ff2fc5`，且未生成OP�
 是仅在该独立压力合同下继续更长但仍不导出恢复状态的冷态试验，先观察跨阶段压力是否保持在
 物性域，再决定是否允许完整10 s；任何失败轨迹均只能作为诊断，不得进入主线恢复或outer solve。
 
+## 141. 0.85 MPa 独立冷态1 s跨阶段前置审核（2026-09-12）
+
+在0.2 s onset通过后，允许值受限的0.85 MPa独立支路继续到1.0 s，仍采用normal仿真、
+specific-inventory守恒腔、四个守恒buffer和同一0.001 s局部BE步长。native/conservative两臂
+均自然退出，MATLAB返回0，`collection_pass=true`；新包为
+`outputs/cold_chamber_preflight_1s_0p85_20260912`，native/conservative观测数仍为1240/1258，
+未生成OP、checkpoint或生产恢复状态。
+
+`verification/Audit_HeatDriveECC_ColdPressureEnvelope.py --single-root --datum 0.85
+--stop-time 1.0`审核1001个样本。73个`p_I`物理库存状态及守恒臂4个`p_A`均通过0.45--5 MPa
+物性域；六个局部库存元件全部通过质量/能量及别名门禁。全包最大质量残差为
+`4.57743e-16 kg`，最大能量残差为`5.06049e-11 J`，最大流量为`6.37421e-4 kg/s`。
+这说明跨越1 s的当前独立冷态前置轨迹仍在已登记的压力和局部库存范围内，但它仍不是
+完整10 s四阶段周期，也没有机制/periodic/Table 4/完整设备第一律资格。
+
+该结果已写入`outputs_storage_audit/cold_pressure_envelope_audit_1s_0p85_20260912.json`及CSV，
+并纳入最终结果包清单。下一步才启动同一独立合同的10 s双臂整周期；若10 s发生失败，保留
+其日志、配置、连接性、执行合同和哈希作为诊断，不将失败状态传播到C200或outer solve。
+
 ## 139. 前期修改总账与受控存储治理（2026-09-12）
 
 新增独立总报告`项目文档/报告/2026-09-12_前期修改汇总与工作区治理报告.md`，集中索引
