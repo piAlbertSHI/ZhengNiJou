@@ -35,6 +35,7 @@ FULL_SPECIFIC_TUNED100_220_085_PRODUCER = '0360cf4bd445d8e49415e118ad499b53cc820
 FULL_SPECIFIC_TUNED110_255_085_PRODUCER = '3bbfbda56ab5d0800f147cc42c85d649e9069fed'
 FULL_SPECIFIC_TUNED120_225_085_PRODUCER = '6c3d325cb45cc473a3a380d21044674bea5e6bc1'
 FULL_SPECIFIC_TUNED125_225_085_PRODUCER = '800ada7f9d1a56039c271cd037fb7b14acfbcbc7'
+FULL_SPECIFIC_TUNED124_225_085_PRODUCER = '972e512df80844244d1265fe300d29f4d6911c32'
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
 
 
@@ -198,7 +199,8 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None):
                     FULL_SPECIFIC_TUNED100_220_085_PRODUCER,
                     FULL_SPECIFIC_TUNED110_255_085_PRODUCER,
                     FULL_SPECIFIC_TUNED120_225_085_PRODUCER,
-                    FULL_SPECIFIC_TUNED125_225_085_PRODUCER}
+                    FULL_SPECIFIC_TUNED125_225_085_PRODUCER,
+                    FULL_SPECIFIC_TUNED124_225_085_PRODUCER}
     else:
         if full_cycle and specific_onset: raise ValueError('Onset probe is not a full cycle')
         root = repo/'outputs_storage_audit'/(SPECIFIC_EXPERIMENT if specific_onset else CYCLE_EXPERIMENT if full_cycle else EXPERIMENT)
