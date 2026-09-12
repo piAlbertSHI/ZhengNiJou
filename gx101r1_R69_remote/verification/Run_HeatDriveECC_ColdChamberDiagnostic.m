@@ -1,4 +1,4 @@
-function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation)
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa)
 % Authorized independent cold diagnostic. Never import or export a recovery OP.
     if nargin<3, duration=10; end
     if nargin<4, scale_inventory=false; end
@@ -7,6 +7,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     if nargin<7, pipe_energy_targets=false; end
     if nargin<8, conservative_buffers=false; end
     if nargin<9, formulation='explicit'; end
+    if nargin<10, network_absolute_pressure_MPa=0.75; end
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown chamber formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
     assert(~specific_inventory || (scale_inventory && conservative_buffers), ...
@@ -21,6 +22,9 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     assert(islogical(pipe_energy_targets) && isscalar(pipe_energy_targets),'Require a scalar pipe initial-state choice.');
     assert(ismember(duration,[0.01 0.2 10]), ...
         'Only topology smoke, the onset probe, or one full cycle is supported.');
+    assert(isscalar(network_absolute_pressure_MPa) && isfinite(network_absolute_pressure_MPa) && ...
+        ismember(network_absolute_pressure_MPa,[0.75 0.85]), ...
+        'Only the independently qualified 0.75 or 0.85 MPa cold diagnostic datum is supported.');
     assert(~isfolder(output_root), 'Do not overwrite diagnostic evidence.');
     [code,commit]=system('git rev-parse HEAD'); assert(code==0,'Cannot record source.');
     % Ignore unrelated untracked user directories; tracked source must remain committed.
@@ -57,12 +61,12 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         overrides.simulation.resume_checkpoint_path='';
         % The independent cold-start arm uses a qualified mid-window datum.
         % The frozen production datum (1 MPa) triggers the native Simscape
-        % pressure ceiling at t=0; 0.75 MPa passes the onset probe and keeps
-        % enough margin above the lower pressure bound without altering C200.
-        overrides.branch.network_absolute_pressure_MPa=0.75;
+        % pressure ceiling at t=0. The explicit argument is restricted to
+        % independently probed mid-window values and never changes C200.
+        overrides.branch.network_absolute_pressure_MPa=network_absolute_pressure_MPa;
         overrides.branch.network_absolute_pressure_source=[ ...
-            'independent cold diagnostic datum; 0.75 MPa passed the native ', ...
-            'Simscape 0.2 s pressure smoke, while frozen C200 1 MPa did not'];
+            'independent cold diagnostic datum; explicit 0.75/0.85 MPa ', ...
+            'onset qualification; frozen C200 1 MPa did not pass at t=0'];
         record.diagnostic_network_absolute_pressure_MPa= ...
             overrides.branch.network_absolute_pressure_MPa;
         record.diagnostic_network_absolute_pressure_source= ...
