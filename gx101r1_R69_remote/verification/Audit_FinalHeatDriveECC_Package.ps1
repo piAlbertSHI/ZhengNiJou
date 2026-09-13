@@ -409,6 +409,16 @@ foreach ($name in @('native/observations.mat','conservative/observations.mat')) 
 }
 Add-Entry 'Calibrated cold v8 coupled ledger audit' `
     (Join-Path $AuditRoot 'cold_flux_compensated_fullcycle_0p85_20260913_v8/cold_buffer_coupled_audit.json') $true 'diagnostic_rejected'
+Add-Entry 'Calibrated cold v9 execution contract' `
+    (Join-Path $repoRoot 'outputs/cold_chamber_flux_compensated_fullcycle_kp126_225_0p85_20260914_v9/cold_chamber_execution.json') $true 'diagnostic_rejected'
+Add-Entry 'Calibrated cold v9 rejection marker' `
+    (Join-Path $repoRoot 'outputs/cold_chamber_flux_compensated_fullcycle_kp126_225_0p85_20260914_v9/REJECTED_DO_NOT_RESUME.txt') $true 'diagnostic_rejected'
+foreach ($name in @('native/observations.mat','conservative/observations.mat')) {
+    Add-Entry "Calibrated cold v9 $name" `
+        (Join-Path $repoRoot "outputs/cold_chamber_flux_compensated_fullcycle_kp126_225_0p85_20260914_v9/$name") $true 'diagnostic_rejected'
+}
+Add-Entry 'Calibrated cold v9 coupled ledger audit' `
+    (Join-Path $AuditRoot 'cold_flux_compensated_fullcycle_kp126_225_0p85_20260914_v9/cold_buffer_coupled_audit.json') $true 'diagnostic_rejected'
 $stateObservationPackage = (& (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_StateObservationPackage.ps1')) |
     ConvertFrom-Json
 if (-not $stateObservationPackage.package_pass -or

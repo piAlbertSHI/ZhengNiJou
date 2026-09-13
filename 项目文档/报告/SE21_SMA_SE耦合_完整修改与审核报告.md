@@ -3000,3 +3000,20 @@ COP保持未完成。治理台账当前记录C200冻结后`422`个提交、`558`
 `REJECTED_DO_NOT_RESUME.txt`明确禁止恢复；它不能进入C200、outer solve、paired endpoint
 或Table 4。522项Python验证全部通过。本轮没有删除新的科学原始数据，下一次诊断替代它后
 再按哈希和退役合同压缩。
+
+## 153. v9 stage-2流量门禁改善与库存门禁复核（2026-09-14）
+
+仅把独立冷态诊断的SE stage-2压力PI增益改为`-126/-126`，stage-4仍为`-225/-225`，
+其余初值补偿、0.85 MPa和buffer合同不变，完成10 s native/conservative双臂诊断。
+
+v9的SE stage-2 RMS相对流量误差为native `0.04974587346677529`、conservative
+`0.04974599949304344`，首次低于`0.05`；stage-4、初值严格配对、source-port和固体
+能量门禁均通过。
+
+库存仍不合格：native Constant Volume Chamber组端点能量残差约`-1.0131022668 J`，
+Tank组约`-0.0908298426 J`，native总端点源/库存残差约`-1.1039321093 J`；conservative
+Cold/Hot buffer质量残差约`2.4442253777e-15 kg`，超过`1e-15 kg`。所以v9不能成为
+恢复点或Table 4候选，后续应先处理状态-通量一致性和库存残差，而不是继续提高PI增益。
+
+v9结果包位于`outputs_storage_audit/cold_flux_compensated_fullcycle_kp126_225_0p85_20260914_v9/`
+，根目录已写入`REJECTED_DO_NOT_RESUME.txt`。
