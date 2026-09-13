@@ -42,6 +42,7 @@ NONLINEAR_LOCAL_BE_PRODUCER = '1c0af1a8a454d4c187062d872fa6e8b279b6742a'
 INITIAL_FLUX_COMPENSATION_PRODUCERS = {
     'ea8dfcb64f17ecb7221f71e805e8072d39f3d4f5',
     'ca69761aad5e86455f696d344673f66e22b7bb66',
+    '8c796118900ed98e777f0d07aa1108625cbd90cd',
 }
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
 
