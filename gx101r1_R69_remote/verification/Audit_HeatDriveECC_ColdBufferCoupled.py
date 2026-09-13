@@ -37,7 +37,12 @@ FULL_SPECIFIC_TUNED120_225_085_PRODUCER = '6c3d325cb45cc473a3a380d21044674bea5e6
 FULL_SPECIFIC_TUNED125_225_085_PRODUCER = '800ada7f9d1a56039c271cd037fb7b14acfbcbc7'
 FULL_SPECIFIC_TUNED124_225_085_PRODUCER = '56c21bb74016458b8e85861aaba15e8e77633faa'
 NONLINEAR_LOCAL_BE_PRODUCER = '1c0af1a8a454d4c187062d872fa6e8b279b6742a'
-INITIAL_FLUX_COMPENSATION_PRODUCER = 'ea8dfcb64f17ecb7221f71e805e8072d39f3d4f5'
+# The v8 diagnostic was run after the report-only ledger commit. Both commits
+# refer to the same calibrated source implementation and remain auditable.
+INITIAL_FLUX_COMPENSATION_PRODUCERS = {
+    'ea8dfcb64f17ecb7221f71e805e8072d39f3d4f5',
+    'ca69761aad5e86455f696d344673f66e22b7bb66',
+}
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
 
 
@@ -215,7 +220,7 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         if nonlinear_inventory:
             producer = {NONLINEAR_LOCAL_BE_PRODUCER}
         elif initial_flux_compensation:
-            producer = {INITIAL_FLUX_COMPENSATION_PRODUCER}
+            producer = INITIAL_FLUX_COMPENSATION_PRODUCERS
     else:
         if full_cycle and specific_onset: raise ValueError('Onset probe is not a full cycle')
         root = repo/'outputs_storage_audit'/(SPECIFIC_EXPERIMENT if specific_onset else CYCLE_EXPERIMENT if full_cycle else EXPERIMENT)

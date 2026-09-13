@@ -2969,3 +2969,21 @@ MATLAB、不修改检查点、不删除旧数据。只有带固定路径、哈�
 `Retire_*Raw.ps1 -Apply`才允许退役重型时序。当前科学边界不变：C200的机制/周期门禁
 通过，但strict Table 4成对端点、完整设备第一律、完整system COP和独立实验validation
 仍未完成，不能写成“Qian Table 4已复现”或“实验已验证”。
+
+## 151. v8补偿后完整冷态诊断审核（2026-09-13）
+
+在独立冷态连接腔分支中，从冷态重建specific-inventory、conservative-buffer和已校准
+初始通量补偿，运行0.85 MPa、stage-2=`-125`、stage-4=`-225`的完整10 s双臂诊断。
+MATLAB自然退出0，`collection_pass=true`、`completed_arms=2`，没有导入任何C200或历史
+恢复状态。
+
+审核通过项为：拓扑和物性表保持一致，204项初值严格配对High `125/125`、Low `79/79`，
+source-port恒等式通过，SMA/SE固体能量门禁通过。审核拒绝项为：native和conservative
+SE stage-2 RMS相对流量误差分别为`0.050006784078356945`和`0.05000691064819268`，均
+超过`0.05`；stage-4约`0.04961548`通过。native源/库存端点能量残差约`-1.1039700332 J`，
+conservative约`3.8915004552e-10 J`，因此总局部库存门禁失败。v8不是恢复点，不能进入
+生产恢复、outer solve、paired endpoint或Table 4。
+
+结果审计保存在`outputs_storage_audit/cold_flux_compensated_fullcycle_0p85_20260913_v8/`
+并在诊断根目录写入`REJECTED_DO_NOT_RESUME.txt`。该包保留为当前根因证据；后续工作应分别
+处理native库存能量账本和stage-2 PI误差，不得放宽`0.05`或库存门限。
