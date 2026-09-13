@@ -85,8 +85,7 @@ end
 
 function rho=nominal_density(model,path)
     settings=find_system(model,'LookUnderMasks','all','FollowLinks','on','Type','Block');
-    settings=settings(cellfun(@(p) strcmp(get_param(p,'SourceFile'), ...
-        'foundation.thermal_liquid.utilities.thermal_liquid_settings'),settings));
+    settings=settings(cellfun(@has_thermal_liquid_settings_source,settings));
     assert(numel(settings)==2,'Require the two unchanged fluid property tables.');
     index=1;if contains(path,'/SE/'),index=2;end
     block=settings{index};
@@ -95,6 +94,12 @@ function rho=nominal_density(model,path)
     nominal_temperature=str2double(get_param(path,'T_nominal'));
     rho=interp1(double(temperatures(:)),double(densities(:)),nominal_temperature,'linear','extrap');
     assert(isfinite(rho) && rho>0,'Nonfinite nominal pipe density.');
+end
+
+function tf=has_thermal_liquid_settings_source(path)
+    parameters=get_param(path,'ObjectParameters');
+    tf=isfield(parameters,'SourceFile') && strcmp(get_param(path,'SourceFile'), ...
+        'foundation.thermal_liquid.utilities.thermal_liquid_settings');
 end
 
 function result=initial(rows,path,name,unit)
