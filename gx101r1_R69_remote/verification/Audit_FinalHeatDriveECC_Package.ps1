@@ -419,6 +419,12 @@ foreach ($name in @('native/observations.mat','conservative/observations.mat')) 
 }
 Add-Entry 'Calibrated cold v9 coupled ledger audit' `
     (Join-Path $AuditRoot 'cold_flux_compensated_fullcycle_kp126_225_0p85_20260914_v9/cold_buffer_coupled_audit.json') $true 'diagnostic_rejected'
+Add-Entry 'Cold-buffer mass consistency analyzer' `
+    (Join-Path $repoRoot 'verification\Analyze_HeatDriveECC_ColdBufferMassConsistency.py') $true 'diagnostic_rejected'
+Add-Entry 'Cold-buffer mass consistency test' `
+    (Join-Path $repoRoot 'verification\test_cold_buffer_mass_consistency.py') $true 'diagnostic_rejected'
+Add-Entry 'Cold-buffer mass consistency v9 audit' `
+    (Join-Path $AuditRoot 'cold_buffer_mass_consistency_v9_20260914/cold_buffer_mass_consistency.json') $true 'diagnostic_rejected'
 $stateObservationPackage = (& (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_StateObservationPackage.ps1')) |
     ConvertFrom-Json
 if (-not $stateObservationPackage.package_pass -or
