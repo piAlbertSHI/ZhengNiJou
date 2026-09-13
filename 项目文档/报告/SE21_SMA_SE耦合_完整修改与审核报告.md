@@ -3021,8 +3021,9 @@ v9结果包位于`outputs_storage_audit/cold_flux_compensated_fullcycle_kp126_22
 ## 154. v9纳入后的最终审计快照（2026-09-14）
 
 v9已登记到最终包清单，包审计结果为`required/present/missing=500/506/0`，C200冻结结果和
-checkpoint哈希保持通过。当前分支`codex/conservative-chamber-cold-diagnostic`的HEAD为
-`4ec9cf7`；C200冻结后Git治理台账为`425`个提交、`560`个分类目录、`16.412492 GiB`。
+checkpoint哈希保持通过。当前分支为`codex/conservative-chamber-cold-diagnostic`；本次治理
+审计对应提交`09f66c8`，C200冻结后Git治理台账为`426`个提交、`560`个分类目录、
+`16.412492 GiB`。
 输出目录只读存储审计为`11.274 GB`，没有治理合同允许的清理候选；522项Python验证全部通过。
 
 该快照只说明代码、证据包、冻结结果和存储台账可复核，不改变科学结论：C200的机制/周期门禁
