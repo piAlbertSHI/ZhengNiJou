@@ -409,6 +409,10 @@ $coldRetirementRoot = Join-Path $AuditRoot 'superseded_cold_raw_retirement_20260
 foreach ($name in @('retirement_plan.json','retirement_receipt.json')) {
     Add-Entry "Superseded cold raw retirement $name" (Join-Path $coldRetirementRoot $name) $true 'hash_retired_replaced_diagnostic'
 }
+$obsoleteColdRetirementRoot = Join-Path $AuditRoot 'obsolete_cold_observations_retirement_20260913'
+foreach ($name in @('retirement_receipt_20260913_131257.json','retirement_plan_20260913_131257.csv')) {
+    Add-Entry "Obsolete cold observation retirement $name" (Join-Path $obsoleteColdRetirementRoot $name) $true 'hash_retired_replaced_diagnostic'
+}
 $governanceRoot = Join-Path $AuditRoot 'workspace_governance_20260912'
 foreach ($name in @('workspace_governance_summary.json','workspace_directory_classification.csv',
         'git_commits_since_c200_freeze.csv')) {
@@ -417,6 +421,7 @@ foreach ($name in @('workspace_governance_summary.json','workspace_directory_cla
 foreach ($name in @('Audit_HeatDriveECC_WorkspaceGovernance.ps1',
         'Retire_HeatDriveECC_RuntimeObservationRaw.ps1',
         'Retire_HeatDriveECC_SupersededColdRaw.ps1',
+        'Retire_HeatDriveECC_ObsoleteColdDiagnosticObservations.ps1',
         'Audit_HeatDriveECC_StateObservationPackage.ps1',
         'runtime_observation_c200_diagnostic_contract.json')) {
     Add-Entry "Workspace governance source $name" (Join-Path $repoRoot "verification\$name")
