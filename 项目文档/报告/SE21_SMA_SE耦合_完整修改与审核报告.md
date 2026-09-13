@@ -2987,3 +2987,16 @@ conservative约`3.8915004552e-10 J`，因此总局部库存门禁失败。v8不�
 结果审计保存在`outputs_storage_audit/cold_flux_compensated_fullcycle_0p85_20260913_v8/`
 并在诊断根目录写入`REJECTED_DO_NOT_RESUME.txt`。该包保留为当前根因证据；后续工作应分别
 处理native库存能量账本和stage-2 PI误差，不得放宽`0.05`或库存门限。
+
+## 152. 本轮最终数字收口（2026-09-13）
+
+v8纳入最终结果包后，PowerShell包审核仍为`missing=0`，required/present为`495/501`。
+C200的机制与周期门禁保持通过；strict Table 4、成对端点、完整设备第一律和完整system
+COP保持未完成。治理台账当前记录C200冻结后`422`个提交、`558`个分类目录、
+`16.093792 GiB`分类量，四个C200/C180保护文件SHA-256全部通过。
+
+最新存储只读审计为`candidate_count=0`，没有自动删除；`outputs` before/after为
+`10.956 GB`。v8约0.16 GiB双臂10 s原始时序暂时保留作为当前根因证据，并以
+`REJECTED_DO_NOT_RESUME.txt`明确禁止恢复；它不能进入C200、outer solve、paired endpoint
+或Table 4。522项Python验证全部通过。本轮没有删除新的科学原始数据，下一次诊断替代它后
+再按哈希和退役合同压缩。
