@@ -72,6 +72,14 @@ class ColdBufferCoupledTests(unittest.TestCase):
         self.assertIn("'translated_target_count', ...\n                        12*double(nonlinear_inventory)", source)
         self.assertIn("record.nonlinear_buffer_source_file='ecc_nonlinear_buffer.conservative_buffer'", source)
 
+    def test_initial_flux_compensation_is_separate_and_explicit(self):
+        source = (Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
+        self.assertIn('if nargin<13, initial_flux_compensation=false; end', source)
+        self.assertIn('specific_inventory && ~nonlinear_inventory', source)
+        self.assertIn('Build_HeatDriveECC_ColdInitialFluxCompensation(repo,prior.native,targets)', source)
+        with self.assertRaises(ValueError):
+            audit(None, nonlinear_inventory=True, initial_flux_compensation=True)
+
     @patch('Audit_HeatDriveECC_ColdChamberCycle.named_rows')
     def test_nonfinite_or_missing_sample_rejected(self, named):
         rows = self.rows(.01); rows['buffer', 'T_I']['values'][0, 5] = np.nan

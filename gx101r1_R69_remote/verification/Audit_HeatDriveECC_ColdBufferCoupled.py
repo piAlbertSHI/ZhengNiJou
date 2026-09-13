@@ -37,6 +37,7 @@ FULL_SPECIFIC_TUNED120_225_085_PRODUCER = '6c3d325cb45cc473a3a380d21044674bea5e6
 FULL_SPECIFIC_TUNED125_225_085_PRODUCER = '800ada7f9d1a56039c271cd037fb7b14acfbcbc7'
 FULL_SPECIFIC_TUNED124_225_085_PRODUCER = '56c21bb74016458b8e85861aaba15e8e77633faa'
 NONLINEAR_LOCAL_BE_PRODUCER = '1c0af1a8a454d4c187062d872fa6e8b279b6742a'
+INITIAL_FLUX_COMPENSATION_PRODUCER = 'PENDING'
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
 
 
@@ -199,7 +200,10 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False):
                 interpretation='One cold cycle, declared lumped storage and native ideal source boundaries only; not full device validation')
 
 
-def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, nonlinear_inventory=False):
+def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, nonlinear_inventory=False,
+          initial_flux_compensation=False):
+    if nonlinear_inventory and initial_flux_compensation:
+        raise ValueError('Coordinate and initial-flux diagnostics must remain separate')
     if experiment_root is not None:
         root = Path(experiment_root).resolve()
         producer = {FULL_SPECIFIC_085_PRODUCER, FULL_SPECIFIC_TUNED_085_PRODUCER,
@@ -210,6 +214,8 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
                     FULL_SPECIFIC_TUNED124_225_085_PRODUCER}
         if nonlinear_inventory:
             producer = {NONLINEAR_LOCAL_BE_PRODUCER}
+        elif initial_flux_compensation:
+            producer = {INITIAL_FLUX_COMPENSATION_PRODUCER}
     else:
         if full_cycle and specific_onset: raise ValueError('Onset probe is not a full cycle')
         root = repo/'outputs_storage_audit'/(SPECIFIC_EXPERIMENT if specific_onset else CYCLE_EXPERIMENT if full_cycle else EXPERIMENT)
@@ -218,6 +224,7 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
     if (execution['execution_commit'] not in producer or not execution['collection_pass'] or not execution['conservative_buffers']
             or execution['start_time_s'] != 0 or execution['stop_time_s'] != stop
             or bool(execution.get('nonlinear_inventory_coordinates', False)) != nonlinear_inventory
+            or bool(execution.get('initial_flux_compensation', False)) != initial_flux_compensation
             or any(execution[k] for k in ('c200_state_imported', 'checkpoint_saved', 'production_recovery_allowed'))
             or [c['arm'] for c in execution['cases']] != ['native', 'conservative']):
         raise ValueError('Wrong independent cold experiment')
@@ -290,6 +297,37 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
             raise ValueError('Non-native or nonzero-time initialization source')
     if targets['has_private_data'] or len(targets['targets']) != 204 or Counter(t['priority'] for t in targets['targets']) != {'High': 125, 'Low': 79}:
         raise ValueError('Unexpected public initialization target coverage')
+    if initial_flux_compensation:
+        compensation = execution['initial_flux_compensation_contract']
+        runtime = read(root/'conservative/runtime_inventory_targets.json')
+        prerequisite = repo/'outputs_storage_audit/cold_initial_flux_signature_20260909_v2/initial_flux_signature.json'
+        if (compensation['schema'] != 'heatdrive_ecc_cold_initial_flux_compensation_v1'
+                or compensation['diagnostic_prerequisite_sha256'] != sha256(prerequisite)
+                or compensation['hypothesis_step_s'] != 2e-5
+                or compensation['physical_target_count'] != 204
+                or compensation['corrected_high_target_count'] != 125
+                or compensation['unchanged_low_target_count'] != 79
+                or compensation['private_state_imported'] or compensation['solver_internal_step_claimed']
+                or compensation['production_recovery_allowed']
+                or runtime['physical_target_count'] != 204 or runtime['translated_target_count'] != 0
+                or runtime['compensated_high_target_count'] != 125
+                or len(runtime['targets']) != 204):
+            raise ValueError('Initial-flux compensation contract changed')
+        physical = {r['path']: r for r in targets['targets']}
+        runtime_by_path = {r['path']: r for r in runtime['targets']}
+        corrections = {r['path']: r for r in compensation['corrections']}
+        if len(physical) != 204 or len(runtime_by_path) != 204 or len(corrections) != 125:
+            raise ValueError('Incomplete compensated target identities')
+        for path, original in physical.items():
+            candidate = runtime_by_path[path]
+            if original['priority'] == 'High':
+                row = corrections[path]
+                expected = original['value'] - row['subtracted_delta']
+                if (row['physical_value'] != original['value'] or row['runtime_value'] != candidate['value']
+                        or not np.isclose(candidate['value'], expected, rtol=1e-14, atol=1e-300)):
+                    raise ValueError('Compensated High target changed')
+            elif candidate != original:
+                raise ValueError('Low target changed by flux compensation')
     contracts = {r['block_path']: r for r in replacement['buffers']}
     if set(contracts) != BUFFERS or len(replacement['buffers']) != 4:
         raise ValueError('Incomplete buffer replacement contract')
@@ -379,6 +417,7 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         strict_initial_coordinate_match=strict, initial_matching_counts={p: sum(r['within_strict_comparison'] for r in comparisons if r['priority'] == p) for p in ('High', 'Low')},
         declared_window_numerical_gates_pass=numerical_pass,
         nonlinear_inventory_coordinates=nonlinear_inventory,
+        initial_flux_compensation=initial_flux_compensation,
         specific_inventory_onset_probe=specific_onset, trajectory_compiled_inventory_gate=compiled_gate,
         experiment_root=str(root) if experiment_root is not None else None,
         cold_smoke_numerical_gates_pass=numerical_pass if not full_cycle else None,
@@ -396,10 +435,11 @@ if __name__ == '__main__':
     parser.add_argument('--full-cycle', action='store_true')
     parser.add_argument('--specific-onset', action='store_true')
     parser.add_argument('--nonlinear-inventory', action='store_true')
+    parser.add_argument('--initial-flux-compensation', action='store_true')
     args = parser.parse_args()
     if args.output_root.exists(): raise FileExistsError('Never overwrite evidence')
     result, comparisons = audit(Path(__file__).resolve().parents[1], args.full_cycle, args.specific_onset,
-                                args.experiment_root, args.nonlinear_inventory)
+                                args.experiment_root, args.nonlinear_inventory, args.initial_flux_compensation)
     args.output_root.mkdir(parents=True)
     (args.output_root/'cold_buffer_coupled_audit.json').write_text(json.dumps(result, indent=2, allow_nan=False)+'\n', encoding='utf-8')
     with (args.output_root/'initial_coordinates.csv').open('w', newline='', encoding='utf-8') as f:
