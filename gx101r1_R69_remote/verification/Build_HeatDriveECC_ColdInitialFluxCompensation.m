@@ -23,7 +23,7 @@ function [point,runtime_targets,contract]=Build_HeatDriveECC_ColdInitialFluxComp
         physical=physical_targets{k};runtime=physical;
         if strcmp(physical.priority,'High')
             [rate,rate_unit]=target_rate(native,physical);
-            delta=value(simscape.Value(step*rate,rate_unit),physical.unit);
+            delta=value(simscape.Value(rate,rate_unit)*simscape.Value(step,'s'),physical.unit);
             runtime.value=physical.value-delta;
             assert(isfinite(runtime.value),'Nonfinite compensated cold target.');
             corrected=corrected+1;
