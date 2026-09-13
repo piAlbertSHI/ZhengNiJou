@@ -1,4 +1,4 @@
-function [point,runtime_targets,contract]=Build_HeatDriveECC_ColdInitialFluxCompensation(repo,native,physical_targets)
+function [point,runtime_targets,contract]=Build_HeatDriveECC_ColdInitialFluxCompensation(repo,model,native,physical_targets)
 % Precondition public High targets using the measured cold-start flux signature.
     signature_path=fullfile(repo,'outputs_storage_audit','cold_initial_flux_signature_20260909_v2', ...
         'initial_flux_signature.json');
@@ -22,7 +22,7 @@ function [point,runtime_targets,contract]=Build_HeatDriveECC_ColdInitialFluxComp
     for k=1:numel(physical_targets)
         physical=physical_targets{k};runtime=physical;
         if strcmp(physical.priority,'High')
-            [rate,rate_unit]=target_rate(native,physical);
+            [rate,rate_unit]=target_rate(model,native,physical);
             delta=value(simscape.Value(rate,rate_unit)*simscape.Value(step,'s'),physical.unit);
             runtime.value=physical.value-delta;
             assert(isfinite(runtime.value),'Nonfinite compensated cold target.');
@@ -45,11 +45,11 @@ function [point,runtime_targets,contract]=Build_HeatDriveECC_ColdInitialFluxComp
         'solver_internal_step_claimed',false,'production_recovery_allowed',false);
 end
 
-function [rate,unit]=target_rate(native,target)
+function [rate,unit]=target_rate(model,native,target)
     path=target.block_path;mask=get_param(path,'MaskType');name=target.state_name;
     if strcmp(mask,'Pipe (TL)')
         assert(strcmp(name,'u_I'),'Unexpected High pipe target.');
-        rho=initial(native,path,'rho_I','kg/m^3');
+        rho=nominal_density(model,path);
         area=value(simscape.Value(slResolve(get_param(path,'area'),path),get_param(path,'area_unit')),'m^2');
         length=value(simscape.Value(slResolve(get_param(path,'length'),path),get_param(path,'length_unit')),'m');
         mass=rho*area*length;
@@ -81,6 +81,20 @@ function [rate,unit]=target_rate(native,target)
         error('HeatDriveECC:UnknownCompensatedTarget','Unsupported High target: %s/%s',mask,name);
     end
     assert(isfinite(rate),'Nonfinite initial target rate.');
+end
+
+function rho=nominal_density(model,path)
+    settings=find_system(model,'LookUnderMasks','all','FollowLinks','on','Type','Block');
+    settings=settings(cellfun(@(p) strcmp(get_param(p,'SourceFile'), ...
+        'foundation.thermal_liquid.utilities.thermal_liquid_settings'),settings));
+    assert(numel(settings)==2,'Require the two unchanged fluid property tables.');
+    index=1;if contains(path,'/SE/'),index=2;end
+    block=settings{index};
+    temperatures=slResolve(get_param(block,'T_TLU'),block);
+    densities=slResolve(get_param(block,'rho_TLU_4'),block);
+    nominal_temperature=str2double(get_param(path,'T_nominal'));
+    rho=interp1(double(temperatures(:)),double(densities(:)),nominal_temperature,'linear','extrap');
+    assert(isfinite(rho) && rho>0,'Nonfinite nominal pipe density.');
 end
 
 function result=initial(rows,path,name,unit)

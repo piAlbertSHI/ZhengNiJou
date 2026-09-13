@@ -76,7 +76,7 @@ class ColdBufferCoupledTests(unittest.TestCase):
         source = (Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
         self.assertIn('if nargin<13, initial_flux_compensation=false; end', source)
         self.assertIn('specific_inventory && ~nonlinear_inventory', source)
-        self.assertIn('Build_HeatDriveECC_ColdInitialFluxCompensation(repo,prior.native,targets)', source)
+        self.assertIn('Build_HeatDriveECC_ColdInitialFluxCompensation(repo,model,prior.native,targets)', source)
         with self.assertRaises(ValueError):
             audit(None, nonlinear_inventory=True, initial_flux_compensation=True)
 
