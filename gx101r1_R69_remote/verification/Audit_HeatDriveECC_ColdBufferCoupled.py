@@ -301,8 +301,12 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         compensation = execution['initial_flux_compensation_contract']
         runtime = read(root/'conservative/runtime_inventory_targets.json')
         prerequisite = repo/'outputs_storage_audit/cold_initial_flux_signature_20260909_v2/initial_flux_signature.json'
+        calibration = repo/'outputs_storage_audit/cold_flux_compensated_onset_0p85_20260913_v6/cold_buffer_coupled_audit.json'
         if (compensation['schema'] != 'heatdrive_ecc_cold_initial_flux_compensation_v1'
                 or compensation['diagnostic_prerequisite_sha256'] != sha256(prerequisite)
+                or compensation['calibration_reference_sha256'] != sha256(calibration)
+                or Path(compensation['calibration_reference']).resolve() != calibration.resolve()
+                or compensation['pipe_startup_correction_s'] != 3.481406701427476e-9
                 or compensation['hypothesis_step_s'] != 2e-5
                 or compensation['physical_target_count'] != 204
                 or compensation['corrected_high_target_count'] != 125
@@ -322,6 +326,10 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
             candidate = runtime_by_path[path]
             if original['priority'] == 'High':
                 row = corrections[path]
+                startup = 3.481406701427476e-9 if '/SE/HoldPipe_' in row['block_path'] else 0.0
+                if (row['hypothesis_step_s'] != 2e-5 or row['startup_correction_s'] != startup
+                        or row['effective_step_s'] != 2e-5-startup):
+                    raise ValueError('Unapproved flux compensation step')
                 expected = original['value'] - row['subtracted_delta']
                 if (row['physical_value'] != original['value'] or row['runtime_value'] != candidate['value']
                         or not np.isclose(candidate['value'], expected, rtol=1e-14, atol=1e-300)):
