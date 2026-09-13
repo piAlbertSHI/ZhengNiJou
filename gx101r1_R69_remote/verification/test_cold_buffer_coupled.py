@@ -80,6 +80,16 @@ class ColdBufferCoupledTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             audit(None, nonlinear_inventory=True, initial_flux_compensation=True)
 
+    def test_zero_based_offset_buffer_is_explicitly_registered(self):
+        target_builder = (Path(__file__).parent/'Build_HeatDriveECC_ColdInventoryTargets.m').read_text(encoding='utf-8')
+        runner = (Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
+        component = (Path(__file__).parent/'simscape_buffer_coupled_offset'/'+ecc_buffer_coupled_offset'/'conservative_buffer.ssc').read_text(encoding='utf-8')
+        self.assertIn("ecc_buffer_coupled_offset.conservative_buffer", target_builder)
+        self.assertIn("buffer_mass_formulation='direct'", runner)
+        self.assertIn("'zero_based_offset'", runner)
+        self.assertIn('der(mass_offset) == mdot_A;', component)
+        self.assertIn('stored_mass == initial_stored_mass + mass_offset;', component)
+
     @patch('Audit_HeatDriveECC_ColdChamberCycle.named_rows')
     def test_nonfinite_or_missing_sample_rejected(self, named):
         rows = self.rows(.01); rows['buffer', 'T_I']['values'][0, 5] = np.nan
