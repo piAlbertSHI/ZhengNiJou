@@ -1,5 +1,6 @@
 """Cold integration must reject lost signals and incomplete time grids."""
 import copy
+from pathlib import Path
 import unittest
 from unittest.mock import patch
 
@@ -62,6 +63,14 @@ class ColdBufferCoupledTests(unittest.TestCase):
 
     def test_unknown_chamber_source_rejected(self):
         with self.assertRaises(ValueError): topology_check({}, {}, 'unreviewed_component')
+
+    def test_nonlinear_cycle_entry_is_explicit_and_cold_only(self):
+        source = (Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
+        self.assertIn('if nargin<12, nonlinear_inventory=false; end', source)
+        self.assertIn('(~nonlinear_inventory || specific_inventory)', source)
+        self.assertIn('Apply_HeatDriveECC_NonlinearColdInventory(repo,model,targets,output_root)', source)
+        self.assertIn("'translated_target_count', ...\n                        12*double(nonlinear_inventory)", source)
+        self.assertIn("record.nonlinear_buffer_source_file='ecc_nonlinear_buffer.conservative_buffer'", source)
 
     @patch('Audit_HeatDriveECC_ColdChamberCycle.named_rows')
     def test_nonfinite_or_missing_sample_rejected(self, named):

@@ -1,4 +1,4 @@
-function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides)
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory)
 % Authorized independent cold diagnostic. Never import or export a recovery OP.
     if nargin<3, duration=10; end
     if nargin<4, scale_inventory=false; end
@@ -9,6 +9,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     if nargin<9, formulation='explicit'; end
     if nargin<10, network_absolute_pressure_MPa=0.75; end
     if nargin<11, diagnostic_branch_overrides=struct(); end
+    if nargin<12, nonlinear_inventory=false; end
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown chamber formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
     assert(~specific_inventory || (scale_inventory && conservative_buffers), ...
@@ -28,6 +29,9 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'Only the independently qualified 0.75 or 0.85 MPa cold diagnostic datum is supported.');
     assert(isstruct(diagnostic_branch_overrides) && isscalar(diagnostic_branch_overrides), ...
         'Diagnostic branch overrides must be a scalar struct.');
+    assert(islogical(nonlinear_inventory) && isscalar(nonlinear_inventory) && ...
+        (~nonlinear_inventory || specific_inventory), ...
+        'Nonlinear inventory coordinates require the qualified specific-inventory branch.');
     allowed_override_fields = {'se_stage2_pressure_pi_kp_MPa_per_kgps', ...
         'se_stage2_pressure_pi_initial_kp_MPa_per_kgps', ...
         'se_stage4_pressure_pi_kp_MPa_per_kgps', ...
@@ -65,7 +69,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'diagnostic_branch_overrides',diagnostic_branch_overrides, ...
         'new_inventory_nominal_scaling',scale_inventory,'physical_buffer_mass_guess',buffer_mass_guess, ...
         'physical_buffer_mass_high_targets',buffer_mass_targets,'physical_pipe_energy_high_targets',pipe_energy_targets, ...
-        'conservative_buffers',conservative_buffers,'inventory_formulation',formulation);
+        'conservative_buffers',conservative_buffers,'inventory_formulation',formulation, ...
+        'nonlinear_inventory_coordinates',nonlinear_inventory);
     try
         contract=jsondecode(fileread(fullfile(repo,'verification','c200_mainline_freeze_contract.json')));
         raw=fullfile(repo,contract.result_relative_path); op=fullfile(repo,contract.checkpoint_relative_path);
@@ -201,6 +206,17 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     write_json(fullfile(arm,'public_inventory_targets.json'),struct('targets',{targets}, ...
                         'source_sha256',file_hash(fullfile(output_root,'native','observations.mat')), ...
                         'has_private_data',hasPrivateData(cold_public_targets),'source_time_s',0));
+                    runtime_targets=targets;
+                    if nonlinear_inventory
+                        [cold_public_targets,runtime_targets,record.nonlinear_inventory_contract]= ...
+                            Apply_HeatDriveECC_NonlinearColdInventory(repo,model,targets,output_root);
+                        chamber_source='ecc_nonlinear_chamber.conservative_chamber';
+                        record.chamber_source_file=chamber_source;
+                        record.nonlinear_buffer_source_file='ecc_nonlinear_buffer.conservative_buffer';
+                    end
+                    write_json(fullfile(arm,'runtime_inventory_targets.json'),struct('targets',{runtime_targets}, ...
+                        'physical_target_count',numel(targets),'translated_target_count', ...
+                        12*double(nonlinear_inventory),'source_time_s',0));
                     save(fullfile(arm,'cold_public_targets.mat'),'cold_public_targets','-v7.3');
                 end
             end
@@ -245,13 +261,17 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 error('HeatDriveECC:ColdDiagnosticSimulationFailed','%s',failure_message);
             end
             if specific_inventory && strcmp(name,'conservative')
+                inventory_variables={'stored_mass','stored_energy','T_I','p_I'};
+                if nonlinear_inventory
+                    inventory_variables={'mass_coordinate','energy_delta','T_I','p_I'};
+                end
                 tags=cell(1,24);tag_count=0;
                 for k=1:numel(changed)
                     assert(strcmp(get_param(changed{k},'SourceFile'),chamber_source),'Chamber source changed during trajectory.');
                 end
                 for block=[changed(:);buffer_paths(:)].'
                     block_name=extractAfter(block{1},[model '/']);parent=output.simlog.child(block_name);
-                    for variable={'stored_mass','stored_energy','T_I','p_I'}
+                    for variable=inventory_variables
                         node=parent.child(variable{1});
                         tag_count=tag_count+1;
                         tags{tag_count}=struct('block_name',block_name,'variable_name',variable{1}, ...
