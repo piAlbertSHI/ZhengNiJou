@@ -2926,3 +2926,14 @@ v7审核完成后，按固定路径退役v3-v6已替代/失败的6份原始观�
 `outputs_storage_audit/obsolete_cold_observations_retirement_20260913/retirement_receipt_20260913_144704.json`。
 本次代码治理提交包括`ea8dfcb`校准、`5393eec`登记和`7f2e22f`哈希纠正；C200/C180/C240
 及所有恢复状态不变，用户`Agent6/`未触碰。
+
+## 149. 最终包、Git和存储审计收口（2026-09-13）
+
+最终包审核为schema`heatdrive_ecc_final_package_audit_v13`，自然退出0，
+`required/present/missing=490/496/0`。C200的mechanism和periodic门禁通过；strict Table 4、
+成对端点、完整设备第一定律和system COP继续明确为未完成。v7冷态独立诊断204项初值和两臂
+局部守恒通过，但只覆盖0.2 s onset，恢复资格保持false。
+
+清理后工作区治理台账记录C200冻结后417个Git提交、556个分类目录、`15.775067 GiB`分类量；
+`outputs`为`10.638 GB`，通用存储审计`candidate_count=0`，C200/C180哈希全部通过。Python
+全回归`522/522`通过。除用户原有未跟踪`Agent6/`外，项目修改已提交且没有触碰恢复状态。
