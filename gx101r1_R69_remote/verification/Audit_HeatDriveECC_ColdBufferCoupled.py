@@ -36,7 +36,7 @@ FULL_SPECIFIC_TUNED110_255_085_PRODUCER = '3bbfbda56ab5d0800f147cc42c85d649e9069
 FULL_SPECIFIC_TUNED120_225_085_PRODUCER = '6c3d325cb45cc473a3a380d21044674bea5e6bc1'
 FULL_SPECIFIC_TUNED125_225_085_PRODUCER = '800ada7f9d1a56039c271cd037fb7b14acfbcbc7'
 FULL_SPECIFIC_TUNED124_225_085_PRODUCER = '56c21bb74016458b8e85861aaba15e8e77633faa'
-NONLINEAR_LOCAL_BE_PRODUCER = 'PENDING'
+NONLINEAR_LOCAL_BE_PRODUCER = '1c0af1a8a454d4c187062d872fa6e8b279b6742a'
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
 
 
@@ -378,6 +378,7 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         source_storage_port_checks=kcls, local_inventory_conservation_pass=local_pass,
         strict_initial_coordinate_match=strict, initial_matching_counts={p: sum(r['within_strict_comparison'] for r in comparisons if r['priority'] == p) for p in ('High', 'Low')},
         declared_window_numerical_gates_pass=numerical_pass,
+        nonlinear_inventory_coordinates=nonlinear_inventory,
         specific_inventory_onset_probe=specific_onset, trajectory_compiled_inventory_gate=compiled_gate,
         experiment_root=str(root) if experiment_root is not None else None,
         cold_smoke_numerical_gates_pass=numerical_pass if not full_cycle else None,
