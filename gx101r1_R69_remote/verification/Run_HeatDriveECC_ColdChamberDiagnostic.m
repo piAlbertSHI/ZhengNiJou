@@ -1,4 +1,4 @@
-function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation)
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation)
 % Authorized independent cold diagnostic. Never import or export a recovery OP.
     if nargin<3, duration=10; end
     if nargin<4, scale_inventory=false; end
@@ -11,6 +11,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     if nargin<11, diagnostic_branch_overrides=struct(); end
     if nargin<12, nonlinear_inventory=false; end
     if nargin<13, initial_flux_compensation=false; end
+    if nargin<14, buffer_mass_formulation='direct'; end
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown chamber formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
     assert(~specific_inventory || (scale_inventory && conservative_buffers), ...
@@ -36,6 +37,11 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     assert(islogical(initial_flux_compensation) && isscalar(initial_flux_compensation) && ...
         (~initial_flux_compensation || (specific_inventory && ~nonlinear_inventory)), ...
         'Initial-flux compensation requires the linear specific-inventory diagnostic.');
+    buffer_mass_formulation=char(string(buffer_mass_formulation));
+    assert(ismember(buffer_mass_formulation,{'direct','zero_based_offset'}), ...
+        'Unknown cold buffer mass formulation.');
+    assert(~strcmp(buffer_mass_formulation,'zero_based_offset') || conservative_buffers, ...
+        'Zero-based offset mass requires conservative buffers.');
     allowed_override_fields = {'se_stage2_pressure_pi_kp_MPa_per_kgps', ...
         'se_stage2_pressure_pi_initial_kp_MPa_per_kgps', ...
         'se_stage4_pressure_pi_kp_MPa_per_kgps', ...
@@ -75,7 +81,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'physical_buffer_mass_high_targets',buffer_mass_targets,'physical_pipe_energy_high_targets',pipe_energy_targets, ...
         'conservative_buffers',conservative_buffers,'inventory_formulation',formulation, ...
         'nonlinear_inventory_coordinates',nonlinear_inventory, ...
-        'initial_flux_compensation',initial_flux_compensation);
+        'initial_flux_compensation',initial_flux_compensation, ...
+        'buffer_mass_formulation',buffer_mass_formulation);
     try
         contract=jsondecode(fileread(fullfile(repo,'verification','c200_mainline_freeze_contract.json')));
         raw=fullfile(repo,contract.result_relative_path); op=fullfile(repo,contract.checkpoint_relative_path);
@@ -135,12 +142,25 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 'conservative_buffer_audit_20260909_v2','conservative_buffer_audit.json')));
             assert(component_audit.isolated_component_conservation_pass && ~component_audit.production_recovery_allowed, ...
                 'Require independently qualified buffer candidate.');
+            if strcmp(buffer_mass_formulation,'direct')
+                package='ecc_buffer_coupled'; source_folder='simscape_buffer_coupled';
+            else
+                package='ecc_buffer_coupled_offset'; source_folder='simscape_buffer_coupled_offset';
+            end
             original=fileread(fullfile(repo,'verification','simscape_buffer','+ecc_buffer','conservative_buffer.ssc'));
-            aligned=fileread(fullfile(repo,'verification','simscape_buffer_coupled','+ecc_buffer_coupled','conservative_buffer.ssc'));
-            assert(strcmp(strrep(original,'% H:left','% H:right'),aligned),'Aligned component changed more than the port location.');
+            aligned=fileread(fullfile(repo,'verification',source_folder,['+' package],'conservative_buffer.ssc'));
+            if strcmp(buffer_mass_formulation,'direct')
+                assert(strcmp(strrep(original,'% H:left','% H:right'),aligned), ...
+                    'Aligned component changed more than the port location.');
+            else
+                assert(contains(aligned,'mass_offset = {value = {0, ''kg''}, priority = priority.high}') && ...
+                    contains(aligned,'der(mass_offset) == mdot_A;') && ...
+                    contains(aligned,'stored_mass == initial_stored_mass + mass_offset;'), ...
+                    'Offset mass component does not expose the declared zero-based state contract.');
+            end
             buffer_build=fullfile(output_root,'buffer_component_build');mkdir(buffer_build);
-            copyfile(fullfile(repo,'verification','simscape_buffer_coupled','+ecc_buffer_coupled'),fullfile(buffer_build,'+ecc_buffer_coupled'));
-            cd(buffer_build);ssc_build('ecc_buffer_coupled');addpath(buffer_build);load_system('ecc_buffer_coupled_lib');cd(repo);
+            copyfile(fullfile(repo,'verification',source_folder,['+' package]),fullfile(buffer_build,['+' package]));
+            cd(buffer_build);ssc_build(package);addpath(buffer_build);load_system([package '_lib']);cd(repo);
         end
         for kind={'native','conservative'}
             name=kind{1}; arm=fullfile(output_root,name); mkdir(arm);
@@ -200,7 +220,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 end
                 if conservative_buffers
                     set_param(model,'LoadInitialState','off');
-                    buffer_records=Apply_HeatDriveECC_ColdConservativeBuffers(model,prior.native);
+                    buffer_records=Apply_HeatDriveECC_ColdConservativeBuffers(model,prior.native, ...
+                        [package '_lib'],buffer_mass_formulation);
                     buffer_paths=cellfun(@(b) b.block_path,buffer_records,'UniformOutput',false);
                     write_json(fullfile(arm,'buffer_replacement_contract.json'),struct('buffers',{buffer_records}, ...
                         'source_sha256',file_hash(fullfile(output_root,'native','observations.mat')),'source_time_s',0));
@@ -328,7 +349,8 @@ function metadata=export_metadata(model,changed,buffer_paths)
     types={'Pipe (TL)','Tank (TL)','Constant Volume Chamber (TL)','Thermal Mass','Conservative Buffer (TL)'};
     modes={'dynamic_compressibility','inertia','mass_type','p_nominal','p_nominal_unit','T_nominal','T_nominal_unit','num_ports','num_inlet','volume_spec'};
     params={'area','length','volume','mass','sp_heat','tank_area','g','inlet_height_A', ...
-        'port_area','p_environment','gravity','reference_temperature','auxiliary_depth'};
+        'port_area','p_environment','gravity','reference_temperature','auxiliary_depth', ...
+        'initial_stored_mass'};
     for kind=1:5
         blocks=find_system(model,'LookUnderMasks','all','FollowLinks','on','Type','Block','MaskType',types{kind});
         if kind==3, blocks=[blocks(:);changed(:)]; end
@@ -341,7 +363,7 @@ function metadata=export_metadata(model,changed,buffer_paths)
             names=fieldnames(dialog);
             for j=1:numel(names)
                 n=names{j};
-                if ~isempty(regexp(n,'^(p_I|T_I|u_I|mass|stored_mass|stored_energy|level)(_|$)','once'))
+                if ~isempty(regexp(n,'^(p_I|T_I|u_I|mass|stored_mass|initial_stored_mass|stored_energy|level)(_|$)','once'))
                     row.initialization_parameters.(n)=get_param(p,n);
                 end
             end
