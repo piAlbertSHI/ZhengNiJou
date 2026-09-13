@@ -62,14 +62,14 @@ function [rate,unit]=target_rate(native,target)
         cp=value(simscape.Value(slResolve(get_param(path,'sp_heat'),path),get_param(path,'sp_heat_unit')),'J/(kg*K)');
         rate=initial(native,path,'Q','W')/(mass*cp);
         unit='K/s';
-    elseif strcmp(mask,'Conservative Buffer (TL)')
+    elseif contains(mask,'Buffer')
         if strcmp(name,'stored_mass')
             rate=initial(native,path,'mdot_A','kg/s');unit='kg/s';
         else
             assert(strcmp(name,'stored_energy'),'Unexpected High buffer target.');
             rate=initial(native,path,'Phi_A','W')+initial(native,path,'Q_H','W');unit='W';
         end
-    elseif strcmp(mask,'Constant Volume Chamber (TL)')
+    elseif contains(mask,'Chamber')
         if strcmp(name,'stored_mass')
             rate=initial(native,path,'mdot_A','kg/s')+initial(native,path,'mdot_B','kg/s');unit='kg/s';
         else
