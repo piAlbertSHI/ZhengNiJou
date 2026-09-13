@@ -2838,6 +2838,49 @@ Operating Point/checkpoint和`Agent6/`均未触碰。
 `paired_table4_endpoint_pass=0`、`heat_driven_system_COP_available=0`，完整设备第一律仍为假。
 因此本轮完成的是证据汇总、失败诊断隔离、哈希锁定和空间治理，不是Table 4复现或实验验证。
 
+## 146. 相邻124/225冷态诊断与误差趋势复核（2026-09-13）
+
+为判断125/225的stage-2边界失败是否来自离散调参偶然性，只新增一个相邻单因素点：
+stage-2压力PI增益`-124/-124`，stage-4保持`-225/-225`。独立冷态双臂任务在提交
+`56c21bb74016458b8e85861aaba15e8e77633faa`上自然退出，执行合同返回
+`collection_pass=true`、`completed_arms=2`；native/conservative观测SHA-256分别为
+`33595F8BE38391C2AE18A9DB0AFCAE20108CC2F74E6B5458B89D15042A98815D`和
+`C37CD4B85E2D24BAE7B86906CF3CAE1E7FDD64EB624FDE96F152F3C25054BB0B`。
+
+严格审核位于`outputs_storage_audit/cold_fullcycle_tuned124_225_0p85_20260913`。124/225的
+SE stage-2 RMS相对流量误差为native `0.05027033646535186`、conservative
+`0.05027049400628542`，均高于`0.05`；stage-4 conservative为
+`0.04961556224941161`并通过。与125/225的stage-2 `0.05000694080006056`相比，124/225
+误差更大，说明当前局部趋势是增益从124到125时误差平滑下降，而不是125点审核噪声。
+该结论只支持保留125/225作为当前最佳诊断对照，不足以授权失败点进入恢复链。
+
+压力包络审计自然退出0，所有受审压力坐标仍在0.45--5 MPa物性域；但Cold/Hot buffer的
+最大局部质量残差均为`2.3626933742804113e-15 kg`，端点残差为
+`+/-1.2072862241169213e-15 kg`，故`local_inventory_conservation_pass=false`。
+使用`numpy.longdouble`对原始流量重新执行同一BE库存积分后残差未降低，排除了审核器普通
+双精度`cumsum`舍入作为主因；当前证据更符合求解器离散轨迹与被测状态之间的微小不一致。
+因此不放宽`1e-15 kg`门限，也不把该失败改写为数值通过。
+
+初值严格配对仍为High `75/125`、Low `50/79`。失败项按元件分组为42个SE HoldPipe坐标、
+21个SE NodeMass温度、3个buffer、6个连接腔坐标、4个SMA相关坐标和3个热交换器坐标。
+这证明流量增益、局部库存和初始化配对是三个独立问题；继续盲目逐点增加PI增益不能解决后
+两项。124/225继续标记为`rejected diagnostic package`，不生成Operating Point、checkpoint
+或恢复合同，不进入outer solve、paired端点或Table 4审核。
+
+## 147. 124/225淘汰原始时序受控退役（2026-09-13）
+
+在报告固定全部标量、原始哈希和失败原因后，执行
+`verification/Retire_HeatDriveECC_SupersededCold124Raw.ps1 -Apply`。脚本严格校验执行提交、
+两臂观测哈希、`collection_pass=true`、无Operating Point/checkpoint、无恢复资格、无活动
+HeatDriveECC MATLAB，并确认120/225和125/225各自仍保留两份完整原始观测。随后只删除
+124/225的两份`observations.mat`，共`331,845,546`字节（`0.309055 GiB`）。
+
+逐文件路径、字节数和删除前SHA-256记录在
+`outputs_storage_audit/superseded_cold124_raw_retirement_20260913/retirement_receipt.json`；
+原目录保留`cold_chamber_execution.json`、配置、库存目标、连接性、日志、摘要和
+`SUPERSEDED_RAW_COMPACTED.txt`。该删除不改变124/225的失败结论，也未触碰C200/C180/C240、
+任何恢复状态、125/225最佳诊断原始量或用户`Agent6/`目录。
+
 ## 139. 前期修改总账与受控存储治理（2026-09-12）
 
 新增独立总报告`项目文档/报告/2026-09-12_前期修改汇总与工作区治理报告.md`，集中索引
