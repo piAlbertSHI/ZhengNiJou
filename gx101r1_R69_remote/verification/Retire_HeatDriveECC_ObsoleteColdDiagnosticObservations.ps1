@@ -25,7 +25,11 @@ $targets = @(
     [pscustomobject]@{ root='cold_chamber_flux_compensated_onset_0p85_20260913_v2'; reason='failed before conservative arm; superseded by corrected v3/v4 evidence' },
     [pscustomobject]@{ root='cold_chamber_nonlinear_localbe_onset_0p85_20260913'; reason='nonlinear local-BE mass ledger failed; retain rejection audit, not raw trajectory' },
     [pscustomobject]@{ root='cold_chamber_onset_specific_0p85_20260912'; reason='0.2 s onset preflight superseded by full-cycle cold diagnostics' },
-    [pscustomobject]@{ root='cold_chamber_preflight_1s_0p85_20260912'; reason='1 s preflight superseded by full-cycle cold diagnostics' }
+    [pscustomobject]@{ root='cold_chamber_preflight_1s_0p85_20260912'; reason='1 s preflight superseded by full-cycle cold diagnostics' },
+    [pscustomobject]@{ root='cold_chamber_flux_compensated_onset_0p85_20260913_v3'; reason='superseded by strict-passing calibrated v7 onset evidence' },
+    [pscustomobject]@{ root='cold_chamber_flux_compensated_onset_0p85_20260913_v4'; reason='failed model property-source lookup; retain execution error, not native trajectory' },
+    [pscustomobject]@{ root='cold_chamber_flux_compensated_onset_0p85_20260913_v5'; reason='failed model table discovery assertion; retain execution error, not native trajectory' },
+    [pscustomobject]@{ root='cold_chamber_flux_compensated_onset_0p85_20260913_v6'; reason='calibration trajectory superseded by v7; retain v6 audit JSON as calibration evidence' }
 )
 $rows = foreach ($target in $targets) {
     $root = Join-Path $outputs $target.root

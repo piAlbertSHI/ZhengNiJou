@@ -389,6 +389,16 @@ Add-Entry 'Independent cold 10 s full-cycle pressure-envelope audit' `
     (Join-Path $AuditRoot 'cold_pressure_envelope_audit_10s_0p85_20260912.json') $false 'diagnostic_not_recovery'
 Add-Entry 'Independent cold 10 s full-cycle coupled ledger audit' `
     (Join-Path $AuditRoot 'cold_fullcycle_audit_0p85_20260912/cold_buffer_coupled_audit.json') $false 'diagnostic_not_recovery'
+Add-Entry 'Calibrated cold v6 audit evidence' `
+    (Join-Path $AuditRoot 'cold_flux_compensated_onset_0p85_20260913_v6/cold_buffer_coupled_audit.json') $true 'calibration_not_recovery'
+Add-Entry 'Calibrated cold v7 execution contract' `
+    (Join-Path $repoRoot 'outputs/cold_chamber_flux_compensated_onset_0p85_20260913_v7/cold_chamber_execution.json') $true 'diagnostic_not_recovery'
+foreach ($name in @('native/observations.mat','conservative/observations.mat')) {
+    Add-Entry "Calibrated cold v7 $name" `
+        (Join-Path $repoRoot "outputs/cold_chamber_flux_compensated_onset_0p85_20260913_v7/$name") $true 'diagnostic_not_recovery'
+}
+Add-Entry 'Calibrated cold v7 coupled ledger audit' `
+    (Join-Path $AuditRoot 'cold_flux_compensated_onset_0p85_20260913_v7/cold_buffer_coupled_audit.json') $true 'diagnostic_not_recovery'
 $stateObservationPackage = (& (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_StateObservationPackage.ps1')) |
     ConvertFrom-Json
 if (-not $stateObservationPackage.package_pass -or
@@ -410,7 +420,7 @@ foreach ($name in @('retirement_plan.json','retirement_receipt.json')) {
     Add-Entry "Superseded cold raw retirement $name" (Join-Path $coldRetirementRoot $name) $true 'hash_retired_replaced_diagnostic'
 }
 $obsoleteColdRetirementRoot = Join-Path $AuditRoot 'obsolete_cold_observations_retirement_20260913'
-foreach ($name in @('retirement_receipt_20260913_131257.json','retirement_plan_20260913_131257.csv')) {
+foreach ($name in @('retirement_receipt_20260913_144704.json','retirement_plan_20260913_144704.csv')) {
     Add-Entry "Obsolete cold observation retirement $name" (Join-Path $obsoleteColdRetirementRoot $name) $true 'hash_retired_replaced_diagnostic'
 }
 $governanceRoot = Join-Path $AuditRoot 'workspace_governance_20260912'

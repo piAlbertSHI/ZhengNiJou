@@ -2904,3 +2904,25 @@ C201原生账本和事件左右侧失败包本轮保留，不按体积盲删；�
 
 本节只说明记录和存储治理，不改变科学门禁：strict Table4、paired endpoints、完整设备第一律、
 system COP和独立实验validation仍未完成。下一步仍是0.75MPa独立连接腔支路的完整10s有界路线。
+
+## 148. v4-v7初值补偿诊断与工作区压缩（2026-09-13）
+
+为修正SE管路初始库存的离散启动偏移，补偿器在模型内按两套`Thermal Liquid Settings (TL)`
+物性表和各管路`T_nominal`插值`rho_nominal`。v4/v5因模型属性定位方式错误而自然失败，未
+进入恢复链；修复后模型烟测确认物性表数为2，MATLAB`checkcode=0`、Python耦合测试11项
+通过。v6两臂完成但严格初值为High 104/125、Low 58/79，失败仅集中于21根SE HoldPipe
+的`u_I/T_I`，buffer ledger、源端口和拓扑均通过。
+
+根据v6审计反演的统一`3.481406701427476e-9 s`启动偏移，v7补偿合同增加校准来源及SHA-256。
+v7执行提交`ea8dfcb64f17ecb7221f71e805e8072d39f3d4f5`，独立审计为`evidence_audit_pass=true`、
+`local_inventory_conservation_pass=true`、严格初值High 125/125、Low 79/79；两臂源端口
+误差为`9.59644169684637e-11 W`与`8.694200914760586e-11 W`。但v7只有0.2 s onset，
+`periodic_steady_state=false`、`production_recovery_allowed=false`，不进入10 s恢复、外层
+求根或Table 4声明。
+
+v7审核完成后，按固定路径退役v3-v6已替代/失败的6份原始观测，共`65,255,887`字节。v6
+审计JSON作为校准证据保留，v7两臂原始观测、执行合同、配置、日志、连接性、摘要和哈希
+保留。退役回执为
+`outputs_storage_audit/obsolete_cold_observations_retirement_20260913/retirement_receipt_20260913_144704.json`。
+本次代码治理提交包括`ea8dfcb`校准、`5393eec`登记和`7f2e22f`哈希纠正；C200/C180/C240
+及所有恢复状态不变，用户`Agent6/`未触碰。
