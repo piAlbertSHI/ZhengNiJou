@@ -2937,3 +2937,35 @@ v7审核完成后，按固定路径退役v3-v6已替代/失败的6份原始观�
 清理后工作区治理台账记录C200冻结后419个Git提交、556个分类目录、`15.775067 GiB`分类量；
 `outputs`为`10.638 GB`，通用存储审计`candidate_count=0`，C200/C180哈希全部通过。Python
 全回归`522/522`通过。除用户原有未跟踪`Agent6/`外，项目修改已提交且没有触碰恢复状态。
+
+## 150. 当前分支校正与后续工作入口（2026-09-13）
+
+本节用于校正总报告在后续提交和受控清理后的当前状态，不删除或改写前面的阶段记录。
+当前工作树位于`codex/conservative-chamber-cold-diagnostic`；除用户已有未跟踪目录
+`Agent6/`外没有项目未提交修改，且该目录未被读取、移动、删除或加入Git。C200冻结结果仍
+是唯一论文主线基准，C180仅为限定诊断参考，四个保护文件的合同SHA-256由治理脚本复核
+通过。
+
+恢复权限校正如下：`source_heatflow_c240_recovery_contract.json`明确
+`state_recovery_allowed=false`且已被C242直接SHEX传递审计取代；C242的性能证据又被C243
+模型热控制体结果取代；C243和C246均不得作为状态恢复源，C246还因Solver Configuration
+严格checksum失败撤销恢复资格。后续独立冷态连接腔诊断必须从冷态或该诊断分支自身最后
+通过的检查点启动，不能从这些历史性能包恢复，也不能把失败或未完成轨迹传播到C200、
+outer solve、paired endpoint或Table 4。
+
+负责人复核入口：
+
+```powershell
+cd C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote
+git status --short --branch
+pwsh -File .\verification\Audit_HeatDriveECC_WorkspaceGovernance.ps1
+pwsh -File .\verification\Manage_HeatDriveECC_OutputStorage.ps1
+pwsh -File .\verification\Audit_FinalHeatDriveECC_Package.ps1
+python -m unittest discover -s verification -p "Test_*.py"
+```
+
+治理脚本生成分类CSV、Git提交全量CSV、保护哈希和JSON摘要；包审计是只读审核，不启动
+MATLAB、不修改检查点、不删除旧数据。只有带固定路径、哈希、失败门禁和删除前回执的
+`Retire_*Raw.ps1 -Apply`才允许退役重型时序。当前科学边界不变：C200的机制/周期门禁
+通过，但strict Table 4成对端点、完整设备第一律、完整system COP和独立实验validation
+仍未完成，不能写成“Qian Table 4已复现”或“实验已验证”。
