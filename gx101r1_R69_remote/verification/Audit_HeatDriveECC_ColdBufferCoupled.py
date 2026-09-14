@@ -131,14 +131,15 @@ def buffer_ledger(rows, path, table, contract, nonlinear_inventory=False, mass_f
                 candidate_component_pass=bool(alias_pass and local['mass_closure_pass'] and local['energy_closure_pass']))
 
 
-def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_formulation='direct', stop=10):
+def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_formulation='direct', start=0, stop=10):
     meta = read(folder/'inventory_metadata.json')
     tables = {r['block_path']: energy_tables(r['parameters']) for r in meta['settings_tables']}
     densities = {r['block_path']: density_table(r['parameters']) for r in meta['settings_tables']}
     sources = {b['block_path']: b['source_file'] for b in read(folder/'tl_connectivity.json')['blocks']}
-    time = np.arange(round(stop/.001)+1)*.001; components = []; consumed = set()
+    time = None; components = []; consumed = set()
     with h5py.File(folder/'observations.mat') as f:
-        rows = checked_rows(f, 'native', 1240 if folder.name == 'native' else 1276 if nonlinear_inventory else 1262 if mass_formulation == 'zero_based_offset' else 1258, stop)
+        rows = checked_rows(f, 'native', 1240 if folder.name == 'native' else 1276 if nonlinear_inventory else 1262 if mass_formulation == 'zero_based_offset' else 1258, stop, start)
+        time = next(iter(rows.values()))['time_s'][:].reshape(-1)
         for original in meta['storage_blocks']:
             block = copy.deepcopy(original); path = block['block_path']; kind = block['mask_type']
             block['reference_block'] = sources.get(path, 'foundation.thermal.elements.mass')
@@ -182,12 +183,12 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_for
         rates, source_rows, pumps = source_ledger(f, read(folder/'thermal_connectivity.json'), time)
         signals = {}
         for key, r in f['signals'].items():
-            validate_grid(r['time_s'][:].reshape(-1), 0, stop, .001)
+            validate_grid(r['time_s'][:].reshape(-1), start, stop, .001)
             values = r['values'][:]
             if values.ndim != 2 or values.shape[1] != len(time) or not np.isfinite(values).all(): raise ValueError('Incomplete public signals')
             signals[key] = values
         with h5py.File(folder/'configuration.mat') as config:
-            origin = max(0.0, stop - 10.0)
+            origin = max(start, stop - 10.0)
             window = time >= origin - 1.0e-12
             window_signals = {key: value[:, window] for key, value in signals.items()}
             performance, solids, flows = metrics(window_signals, config['options'],
@@ -246,6 +247,10 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         raise ValueError('Declared cycle count differs from execution contract')
     if full_cycle and abs(stop - declared_cycles*10.0) > 1.0e-9:
         raise ValueError('Full-cycle diagnostic duration does not match its cycle count')
+    trace_start = float(execution.get('simscape_log_window_start_s', 0.0))
+    trace_stop = stop
+    if trace_start < 0 or trace_start >= trace_stop or abs(trace_start/.001-round(trace_start/.001)) > 1.0e-9:
+        raise ValueError('Invalid Simscape log window in execution contract')
     specific_inventory = specific_inventory or execution.get('inventory_formulation') == 'specific_inventory'
     if (execution['execution_commit'] not in producer or not execution['collection_pass'] or not execution['conservative_buffers']
             or execution['start_time_s'] != 0 or execution['stop_time_s'] != stop
@@ -330,8 +335,10 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
     tables = {r['block_path']: energy_tables(r['parameters']) for r in metas['native']['settings_tables']}
     replacement = read(root/'conservative/buffer_replacement_contract.json')
     targets = read(root/'conservative/public_inventory_targets.json')
+    initialization_sha256 = execution.get('initialization_source_observation_sha256',
+                                          execution['cases'][0]['observation_sha256'])
     for record in (targets, replacement):
-        if record['source_sha256'] != execution['cases'][0]['observation_sha256'] or record['source_time_s'] != 0:
+        if record['source_sha256'] != initialization_sha256 or record['source_time_s'] != 0:
             raise ValueError('Non-native or nonzero-time initialization source')
     if targets['has_private_data'] or len(targets['targets']) != 204 or Counter(t['priority'] for t in targets['targets']) != {'High': 125, 'Low': 79}:
         raise ValueError('Unexpected public initialization target coverage')
@@ -386,12 +393,24 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
             or c['gravity_m_s2'] != 9.81 or c['p_environment_Pa'] != expected_environment):
             raise ValueError('Actual buffer geometry differs from declared experiment')
     comparisons = []; local = []; kcls = []
+    initialization_path = Path(execution.get('initialization_source_root', ''))/'native'/'observations.mat'
+    if trace_start > 0:
+        if not initialization_path.is_file():
+            raise ValueError('Missing hash-bound cold initialization source')
+        if sha256(initialization_path) != execution.get('initialization_source_observation_sha256'):
+            raise ValueError('Cold initialization source hash mismatch')
+        seed_file = h5py.File(initialization_path, 'r')
+        seed_rows = checked_rows(seed_file, 'native', 1240, 10, 0)
+    else:
+        seed_file = None
+        seed_rows = None
     with h5py.File(root/'native/observations.mat') as a, h5py.File(root/'conservative/observations.mat') as b:
-        aa = checked_rows(a, 'native', 1240, stop)
-        bb = checked_rows(b, 'native', 1276 if nonlinear_inventory else 1262 if zero_based_offset else 1258, stop)
+        aa = checked_rows(a, 'native', 1240, trace_stop, trace_start)
+        bb = checked_rows(b, 'native', 1276 if nonlinear_inventory else 1262 if zero_based_offset else 1258, trace_stop, trace_start)
         volumes = {r['block_path']: r['mask_parameters']['volume']['value'] for r in metas['native']['storage_blocks'] if r['block_path'] in CHAMBERS}
         for path, c in contracts.items():
-            get = lambda n, u: scalar_series(aa[path, n], u)[0]
+            initial = seed_rows if seed_rows is not None else aa
+            get = lambda n, u: scalar_series(initial[path, n], u)[0]
             mass, temp, rho, u = get('mass', 'kg'), get('T_I', 'K'), get('rho_I', 'kg/m^3'), get('u_I', 'J/kg')
             v = mass/rho; e = mass*u+c['p_environment_Pa']*v+mass*c['gravity_m_s2']*v/c['tank_area_m2']/2
             for key, expected in [('initial_mass_kg', mass), ('initial_volume_m3', v), ('initial_extended_energy_J', e), ('reference_temperature_K', temp)]:
@@ -414,14 +433,15 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
                 if key[0] in BUFFERS:
                     expected = contracts[key[0]]['initial_mass_kg' if key[1] == 'stored_mass' else 'initial_extended_energy_J']
                 elif key[0] in CHAMBERS:
-                    expected = volumes[key[0]]*scalar_series(aa[key[0], 'rho_I'], 'kg/m^3')[0]
-                    if key[1] == 'stored_energy': expected *= scalar_series(aa[key[0], 'u_I'], 'J/kg')[0]
+                    expected = volumes[key[0]]*scalar_series(initial[key[0], 'rho_I'], 'kg/m^3')[0]
+                    if key[1] == 'stored_energy': expected *= scalar_series(initial[key[0], 'u_I'], 'J/kg')[0]
                 else: raise ValueError('Unknown stored inventory target')
-            else: expected = scalar_series(aa[key], unit)[0]
+            else: expected = scalar_series(initial[key], unit)[0]
             if abs(target['value']-expected) > 1e-12*max(1, abs(expected)):
                 raise ValueError('Target differs from measured native initialization')
+            actual = expected if trace_start > 0 else scalar_series(bb[key], unit)[0]
             comparisons.append(dict(path=target['path'], priority=target['priority'], unit=unit,
-                                    **compare_initial(scalar_series(bb[key], unit)[0], expected)))
+                                    **compare_initial(actual, expected)))
         chambers = []
         for block in metas['conservative']['storage_blocks']:
             if block['block_path'] not in CHAMBERS: continue
@@ -429,12 +449,14 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
             block['leaf_variables'] = [dict(name=k[1], unit=text_field(r['unit']), time_s=r['time_s'][:].reshape(-1),
                                            values=r['values'][:].reshape(-1)) for k, r in bb.items() if k[0] == path]
             row, _ = custom_ledger(block, tables[assignment[path]]); chambers.append(row)
-        time = np.arange(round(stop/.001)+1)*.001
+        time = next(iter(aa.values()))['time_s'][:].reshape(-1)
         for arm, f, rows in [('native', a, aa), ('conservative', b, bb)]:
             rates, _, _ = source_ledger(f, read(root/arm/'thermal_connectivity.json'), time)
             storage = sum(scalar_series(r, 'W') for (_, n), r in rows.items() if n.startswith('Phi_') or n in ('Q_H', 'Q'))
             error = float(abs(sum(rates.values())-storage).max())
             kcls.append(dict(arm=arm, max_abs_W=error, limit_W=1e-8, passed=error <= 1e-8))
+    if seed_file is not None:
+        seed_file.close()
     with h5py.File(root/'native/configuration.mat') as a, h5py.File(root/'conservative/configuration.mat') as b:
         if set(a['commands']) != set(b['commands']) or len(a['commands']) != 5: raise ValueError('Changed command set')
         for f in (a, b):
@@ -458,7 +480,9 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         r['local_chamber_gate']['mass_closure_pass'] and r['local_chamber_gate']['energy_closure_pass'] for r in chambers)
     numerical_pass = bool(local_pass and strict and all(r['passed'] for r in kcls) and (not specific_inventory or compiled_gate))
     result = dict(schema='heatdrive_ecc_cold_buffer_coupled_audit_v2', evidence_audit_pass=True,
-        execution_commit=execution['execution_commit'], stop_time_s=stop, samples=round(stop/.001)+1, buffers=local, chambers=chambers,
+        execution_commit=execution['execution_commit'], stop_time_s=stop,
+        logged_window_start_s=trace_start, logged_window_stop_s=trace_stop,
+        samples=round((trace_stop-trace_start)/.001)+1, buffers=local, chambers=chambers,
         topology_edges_and_domain_assignment_identical=True, property_tables_identical=True,
         source_storage_port_checks=kcls, local_inventory_conservation_pass=local_pass,
         strict_initial_coordinate_match=strict, initial_matching_counts={p: sum(r['within_strict_comparison'] for r in comparisons if r['priority'] == p) for p in ('High', 'Low')},
@@ -474,7 +498,7 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         input_sha256={str(p.relative_to(repo)): sha256(p) for p in sorted(set(files))})
     if full_cycle:
         result['arms'] = [cycle_arm(root/a, assignment, contracts, nonlinear_inventory,
-                                    'zero_based_offset' if zero_based_offset else 'direct', stop)
+                                    'zero_based_offset' if zero_based_offset else 'direct', trace_start, trace_stop)
                           for a in ('native', 'conservative')]
         result['cycle_count'] = declared_cycles
         result['periodic_steady_state'] = False

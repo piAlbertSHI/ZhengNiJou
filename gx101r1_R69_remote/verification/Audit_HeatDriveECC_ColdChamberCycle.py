@@ -32,12 +32,12 @@ SOURCE_COUNTS = {'foundation.thermal_liquid.sources.pressure_source': 3,
                  'foundation.thermal.sources.controlled_heat_flow': 43}
 
 
-def checked_rows(f, dataset, count, stop=10):
+def checked_rows(f, dataset, count, stop=10, start=0):
     rows = named_rows(f, f[dataset])
     if len(rows) != count:
         raise ValueError('Incomplete ' + dataset)
     for row in rows.values():
-        validate_grid(row['time_s'][:].reshape(-1), 0, stop, .001)
+        validate_grid(row['time_s'][:].reshape(-1), start, stop, .001)
         if row['values'].shape != (1, round(stop/.001)+1) or not np.isfinite(row['values'][:]).all():
             raise ValueError('Nonfinite or incomplete scalar trace')
     return rows
@@ -103,7 +103,7 @@ def custom_ledger(block, table):
 
 
 def source_ledger(f, thermal, time):
-    rows = checked_rows(f, 'source_traces', 162, stop=float(time[-1]))
+    rows = checked_rows(f, 'source_traces', 162, stop=float(time[-1]), start=float(time[0]))
     nets = {p: net for net in wire_nets(thermal) for p in net}
     references = {b['block_path'] for b in thermal['blocks']
                   if b['source_file'] == 'foundation.thermal.elements.reference'}

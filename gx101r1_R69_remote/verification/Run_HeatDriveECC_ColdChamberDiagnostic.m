@@ -1,4 +1,4 @@
-function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count)
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root)
 % Authorized independent cold diagnostic. Never import or export a recovery OP.
     if nargin<3, duration=10; end
     if nargin<4, scale_inventory=false; end
@@ -13,6 +13,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     if nargin<13, initial_flux_compensation=false; end
     if nargin<14, buffer_mass_formulation='direct'; end
     if nargin<15, cycle_count=1; end
+    if nargin<16, initial_observation_root=''; end
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown chamber formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
     assert(~specific_inventory || (scale_inventory && conservative_buffers), ...
@@ -34,6 +35,16 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     else
         assert(abs(duration - cycle_count*10) <= 1.0e-9, ...
             'The 20-cycle diagnostic must span exactly 200 s.');
+        initial_observation_root=canonical_path(initial_observation_root);
+        initial_observation_path=fullfile(initial_observation_root,'native','observations.mat');
+        initial_execution_path=fullfile(initial_observation_root,'cold_chamber_execution.json');
+        assert(isfolder(initial_observation_root) && isfile(initial_observation_path) && ...
+            isfile(initial_execution_path),'The cold initialization source is incomplete.');
+        seed_record=jsondecode(fileread(initial_execution_path));
+        assert(seed_record.collection_pass && seed_record.stop_time_s==10 && ...
+            seed_record.conservative_buffers && strcmp(seed_record.buffer_mass_formulation,'zero_based_offset') && ...
+            seed_record.initial_flux_compensation && ~seed_record.production_recovery_allowed, ...
+            'The cold initialization source is not the qualified zero-based seed.');
     end
     assert(isscalar(network_absolute_pressure_MPa) && isfinite(network_absolute_pressure_MPa) && ...
         ismember(network_absolute_pressure_MPa,[0.75 0.85]), ...
@@ -92,7 +103,11 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'conservative_buffers',conservative_buffers,'inventory_formulation',formulation, ...
         'nonlinear_inventory_coordinates',nonlinear_inventory, ...
         'initial_flux_compensation',initial_flux_compensation, ...
-        'buffer_mass_formulation',buffer_mass_formulation);
+        'buffer_mass_formulation',buffer_mass_formulation, ...
+        'initialization_source_root','', ...
+        'initialization_source_observation_sha256','', ...
+        'simscape_log_window_start_s',0, ...
+        'simscape_log_window_cycles',min(cycle_count,11));
     try
         contract=jsondecode(fileread(fullfile(repo,'verification','c200_mainline_freeze_contract.json')));
         raw=fullfile(repo,contract.result_relative_path); op=fullfile(repo,contract.checkpoint_relative_path);
@@ -184,7 +199,14 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     assert(strcmp(get_param(changed{k},'SourceFile'),chamber_source), ...
                         'Wrong diagnostic component.');
                 end
-                prior=load(fullfile(output_root,'native','observations.mat'),'native');
+                if cycle_count==1
+                    initial_observation_root=output_root;
+                    initial_observation_path=fullfile(initial_observation_root,'native','observations.mat');
+                end
+                initial_observation_sha256=file_hash(initial_observation_path);
+                record.initialization_source_root=initial_observation_root;
+                record.initialization_source_observation_sha256=initial_observation_sha256;
+                prior=load(initial_observation_path,'native');
                 initial_targets=cell(1,2);
                 for k=1:2
                     rows=prior.native(cellfun(@(r) strcmp(r.block_path,changed{k}),prior.native));
@@ -203,7 +225,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     end
                     initial_targets{k}=struct('block_path',changed{k},'stored_mass_kg',mass, ...
                         'stored_energy_J',mass*u,'source_time_s',0, ...
-                        'source_sha256',file_hash(fullfile(output_root,'native','observations.mat')));
+                        'source_sha256',initial_observation_sha256);
                 end
                 write_json(fullfile(arm,'cold_inventory_targets.json'),initial_targets);
                 if buffer_mass_guess
@@ -219,7 +241,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                         guesses{k}=struct('block_path',p,'old_guess',get_param(p,'mass'), ...
                             'old_unit',get_param(p,'mass_unit'),'new_guess_kg',mass, ...
                             'mass_specify','off','mass_priority','None','source_time_s',0, ...
-                            'source_sha256',file_hash(fullfile(output_root,'native','observations.mat')));
+                            'source_sha256',initial_observation_sha256);
                         set_param(p,'mass',num2str(mass,'%.17g'),'mass_unit','kg');
                         if buffer_mass_targets
                             set_param(p,'mass_specify','on','mass_priority','High');
@@ -234,13 +256,13 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                         [package '_lib'],buffer_mass_formulation);
                     buffer_paths=cellfun(@(b) b.block_path,buffer_records,'UniformOutput',false);
                     write_json(fullfile(arm,'buffer_replacement_contract.json'),struct('buffers',{buffer_records}, ...
-                        'source_sha256',file_hash(fullfile(output_root,'native','observations.mat')),'source_time_s',0));
+                        'source_sha256',initial_observation_sha256,'source_time_s',0));
                 end
                 if pipe_energy_targets
                     [cold_public_targets,targets]=Build_HeatDriveECC_ColdInventoryTargets(model,prior.native, ...
                         options.branch.sma_pump_manifold_volume_m3,buffer_records,chamber_source);
                     write_json(fullfile(arm,'public_inventory_targets.json'),struct('targets',{targets}, ...
-                        'source_sha256',file_hash(fullfile(output_root,'native','observations.mat')), ...
+                        'source_sha256',initial_observation_sha256, ...
                         'has_private_data',hasPrivateData(cold_public_targets),'source_time_s',0));
                     runtime_targets=targets;
                     if nonlinear_inventory
@@ -270,6 +292,9 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 commands.(names{k})=struct('time_s',v.Time,'values',v.Data);
             end
             save(fullfile(arm,'configuration.mat'),'options','commands','-v7.3');
+            log_window_cycles=min(cycle_count,11);
+            log_window_start=max(0,duration-log_window_cycles*10);
+            record.simscape_log_window_start_s=log_window_start;
             set_param(model,'LoadInitialState','off','SimscapeUseOperatingPoints','off', ...
                 'StartTime','0','StopTime',num2str(duration,'%.17g'), ...
                 'Solver',options.simulation.solver,'FixedStep',num2str(options.simulation.fixed_step_s,'%.17g'), ...
@@ -277,6 +302,11 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 'SimscapeLogType','all','SimscapeLogName','simlog','SimscapeLogLimitData','off', ...
                 'SaveFinalState','off','SaveOperatingPoint','off','SaveState','off', ...
                 'SaveTime','off','SaveOutput','off','SignalLogging','off');
+            if cycle_count>1
+                set_param(model,'SimscapeLogLimitData','on', ...
+                    'SimscapeLogDataHistory',num2str(ceil(log_window_cycles*10/ ...
+                    options.simscape.local_solver_sample_time_s)+2));
+            end
             if strcmp(name,'conservative') && pipe_energy_targets
                 assignin('base','cold_public_targets',cold_public_targets);
                 set_param(model,'SimscapeUseOperatingPoints','on','SimscapeOperatingPoint','cold_public_targets');
