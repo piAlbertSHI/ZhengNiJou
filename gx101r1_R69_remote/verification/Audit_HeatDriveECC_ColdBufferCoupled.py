@@ -37,6 +37,7 @@ FULL_SPECIFIC_TUNED120_225_085_PRODUCER = '6c3d325cb45cc473a3a380d21044674bea5e6
 FULL_SPECIFIC_TUNED125_225_085_PRODUCER = '800ada7f9d1a56039c271cd037fb7b14acfbcbc7'
 FULL_SPECIFIC_TUNED124_225_085_PRODUCER = '56c21bb74016458b8e85861aaba15e8e77633faa'
 NONLINEAR_LOCAL_BE_PRODUCER = '1c0af1a8a454d4c187062d872fa6e8b279b6742a'
+ZERO_BASED_OFFSET_PRODUCER = '7f862b8e1060d7c8439779c74414d2f801aba14c'
 # The v8 diagnostic was run after the report-only ledger commit. Both commits
 # refer to the same calibrated source implementation and remain auditable.
 INITIAL_FLUX_COMPENSATION_PRODUCERS = {
@@ -53,6 +54,7 @@ def topology_check(native, candidate, chamber_source='ecc_inventory.conservative
                               'ecc_nonlinear_chamber.conservative_chamber'):
         raise ValueError('Unknown declared chamber source')
     if buffer_source not in ('ecc_buffer_coupled.conservative_buffer',
+                             'ecc_buffer_coupled_offset.conservative_buffer',
                              'ecc_nonlinear_buffer.conservative_buffer'):
         raise ValueError('Unknown declared buffer source')
     if edges(native) != edges(candidate):
@@ -94,8 +96,9 @@ def port_contract(record):
         raise ValueError('Removed connected or unknown output')
 
 
-def buffer_ledger(rows, path, table, contract, nonlinear_inventory=False):
+def buffer_ledger(rows, path, table, contract, nonlinear_inventory=False, mass_formulation='direct'):
     expected_names = NAMES | ({'mass_coordinate', 'mass_delta', 'energy_delta'} if nonlinear_inventory else set())
+    expected_names |= {'mass_offset'} if mass_formulation == 'zero_based_offset' else set()
     if {k[1] for k in rows if k[0] == path} != expected_names:
         raise ValueError('Incomplete buffer native leaves')
     def get(n, u):
@@ -128,14 +131,14 @@ def buffer_ledger(rows, path, table, contract, nonlinear_inventory=False):
                 candidate_component_pass=bool(alias_pass and local['mass_closure_pass'] and local['energy_closure_pass']))
 
 
-def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False):
+def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_formulation='direct'):
     meta = read(folder/'inventory_metadata.json')
     tables = {r['block_path']: energy_tables(r['parameters']) for r in meta['settings_tables']}
     densities = {r['block_path']: density_table(r['parameters']) for r in meta['settings_tables']}
     sources = {b['block_path']: b['source_file'] for b in read(folder/'tl_connectivity.json')['blocks']}
     time = np.arange(10001)*.001; components = []; consumed = set()
     with h5py.File(folder/'observations.mat') as f:
-        rows = checked_rows(f, 'native', 1240 if folder.name == 'native' else 1276 if nonlinear_inventory else 1258)
+        rows = checked_rows(f, 'native', 1240 if folder.name == 'native' else 1276 if nonlinear_inventory else 1262 if mass_formulation == 'zero_based_offset' else 1258)
         for original in meta['storage_blocks']:
             block = copy.deepcopy(original); path = block['block_path']; kind = block['mask_type']
             block['reference_block'] = sources.get(path, 'foundation.thermal.elements.mass')
@@ -153,7 +156,7 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False):
                 if p['area']['unit'] != 'm^2' or p['length']['unit'] != 'm': raise ValueError('Unexpected native pipe geometry units')
                 nominal = float(densities[assignment[path]]([[temp, pressure]])[0])*p['area']['value']*p['length']['value']
             if kind == 'Conservative Buffer (TL)':
-                detail = buffer_ledger(rows, path, table, contracts[path], nonlinear_inventory); c = contracts[path]
+                detail = buffer_ledger(rows, path, table, contracts[path], nonlinear_inventory, mass_formulation); c = contracts[path]
                 get = lambda n, u: scalar_series(rows[path, n], u)
                 mass = get('stored_mass', 'kg')
                 reconstructed = inventory(table, get('T_I', 'K'), mass, c['p_environment_Pa'], c['tank_area_m2'],
@@ -207,7 +210,7 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False):
 
 
 def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, nonlinear_inventory=False,
-          initial_flux_compensation=False):
+          initial_flux_compensation=False, zero_based_offset=False, specific_inventory=False):
     if nonlinear_inventory and initial_flux_compensation:
         raise ValueError('Coordinate and initial-flux diagnostics must remain separate')
     if experiment_root is not None:
@@ -222,15 +225,19 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
             producer = {NONLINEAR_LOCAL_BE_PRODUCER}
         elif initial_flux_compensation:
             producer = INITIAL_FLUX_COMPENSATION_PRODUCERS
+        if zero_based_offset:
+            producer = {ZERO_BASED_OFFSET_PRODUCER}
     else:
         if full_cycle and specific_onset: raise ValueError('Onset probe is not a full cycle')
         root = repo/'outputs_storage_audit'/(SPECIFIC_EXPERIMENT if specific_onset else CYCLE_EXPERIMENT if full_cycle else EXPERIMENT)
         producer = SPECIFIC_PRODUCER if specific_onset else CYCLE_PRODUCER if full_cycle else PRODUCER
     execution = read(root/'cold_chamber_execution.json'); stop = 10 if full_cycle else .2 if specific_onset else .01
+    specific_inventory = specific_inventory or execution.get('inventory_formulation') == 'specific_inventory'
     if (execution['execution_commit'] not in producer or not execution['collection_pass'] or not execution['conservative_buffers']
             or execution['start_time_s'] != 0 or execution['stop_time_s'] != stop
             or bool(execution.get('nonlinear_inventory_coordinates', False)) != nonlinear_inventory
             or bool(execution.get('initial_flux_compensation', False)) != initial_flux_compensation
+            or bool(execution.get('buffer_mass_formulation') == 'zero_based_offset') != zero_based_offset
             or any(execution[k] for k in ('c200_state_imported', 'checkpoint_saved', 'production_recovery_allowed'))
             or [c['arm'] for c in execution['cases']] != ['native', 'conservative']):
         raise ValueError('Wrong independent cold experiment')
@@ -240,7 +247,9 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
     compiled_gate = None
     chamber_source = 'ecc_inventory.conservative_chamber'
     buffer_source = 'ecc_buffer_coupled.conservative_buffer'
-    if specific_onset:
+    if zero_based_offset:
+        buffer_source = 'ecc_buffer_coupled_offset.conservative_buffer'
+    if specific_inventory:
         prereq = repo/'outputs_storage_audit/compiled_specific_inventory_audit_20260909/compiled_inventory_state_audit.json'
         pre = read(prereq)
         component = root/'component_build/+ecc_inventory_specific/conservative_chamber.ssc'
@@ -356,7 +365,7 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
     comparisons = []; local = []; kcls = []
     with h5py.File(root/'native/observations.mat') as a, h5py.File(root/'conservative/observations.mat') as b:
         aa = checked_rows(a, 'native', 1240, stop)
-        bb = checked_rows(b, 'native', 1276 if nonlinear_inventory else 1258, stop)
+        bb = checked_rows(b, 'native', 1276 if nonlinear_inventory else 1262 if zero_based_offset else 1258, stop)
         volumes = {r['block_path']: r['mask_parameters']['volume']['value'] for r in metas['native']['storage_blocks'] if r['block_path'] in CHAMBERS}
         for path, c in contracts.items():
             get = lambda n, u: scalar_series(aa[path, n], u)[0]
@@ -370,7 +379,8 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
                                ('p_environment', 'p_environment_Pa'), ('reference_temperature', 'reference_temperature_K'), ('auxiliary_depth', 'auxiliary_depth_m')]:
                 if not np.isclose(actual[field]['value'], c[key], rtol=1e-14, atol=0):
                     raise ValueError('Actual model geometry does not match contract')
-            local.append(buffer_ledger(bb, path, tables[assignment[path]], c, nonlinear_inventory))
+            local.append(buffer_ledger(bb, path, tables[assignment[path]], c, nonlinear_inventory,
+                                       'zero_based_offset' if zero_based_offset else 'direct'))
         seen = set()
         for target in targets['targets']:
             key = target['block_path'], target['state_name']; unit = target['unit']
@@ -423,7 +433,7 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
     strict = all(r['within_strict_comparison'] for r in comparisons)
     local_pass = all(r['candidate_component_pass'] for r in local) and all(
         r['local_chamber_gate']['mass_closure_pass'] and r['local_chamber_gate']['energy_closure_pass'] for r in chambers)
-    numerical_pass = bool(local_pass and strict and all(r['passed'] for r in kcls) and (not specific_onset or compiled_gate))
+    numerical_pass = bool(local_pass and strict and all(r['passed'] for r in kcls) and (not specific_inventory or compiled_gate))
     result = dict(schema='heatdrive_ecc_cold_buffer_coupled_audit_v2', evidence_audit_pass=True,
         execution_commit=execution['execution_commit'], stop_time_s=stop, samples=round(stop/.001)+1, buffers=local, chambers=chambers,
         topology_edges_and_domain_assignment_identical=True, property_tables_identical=True,
@@ -432,6 +442,7 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         declared_window_numerical_gates_pass=numerical_pass,
         nonlinear_inventory_coordinates=nonlinear_inventory,
         initial_flux_compensation=initial_flux_compensation,
+        zero_based_offset=zero_based_offset,
         specific_inventory_onset_probe=specific_onset, trajectory_compiled_inventory_gate=compiled_gate,
         experiment_root=str(root) if experiment_root is not None else None,
         cold_smoke_numerical_gates_pass=numerical_pass if not full_cycle else None,
@@ -439,7 +450,7 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         production_recovery_allowed=False, table4_reproduction_claim=False,
         input_sha256={str(p.relative_to(repo)): sha256(p) for p in sorted(set(files))})
     if full_cycle:
-        result['arms'] = [cycle_arm(root/a, assignment, contracts, nonlinear_inventory) for a in ('native', 'conservative')]
+        result['arms'] = [cycle_arm(root/a, assignment, contracts, nonlinear_inventory, 'zero_based_offset' if zero_based_offset else 'direct') for a in ('native', 'conservative')]
     return result, comparisons
 
 
@@ -450,10 +461,13 @@ if __name__ == '__main__':
     parser.add_argument('--specific-onset', action='store_true')
     parser.add_argument('--nonlinear-inventory', action='store_true')
     parser.add_argument('--initial-flux-compensation', action='store_true')
+    parser.add_argument('--zero-based-offset', action='store_true')
+    parser.add_argument('--specific-inventory', action='store_true')
     args = parser.parse_args()
     if args.output_root.exists(): raise FileExistsError('Never overwrite evidence')
     result, comparisons = audit(Path(__file__).resolve().parents[1], args.full_cycle, args.specific_onset,
-                                args.experiment_root, args.nonlinear_inventory, args.initial_flux_compensation)
+                                args.experiment_root, args.nonlinear_inventory, args.initial_flux_compensation, args.zero_based_offset,
+                                args.specific_inventory)
     args.output_root.mkdir(parents=True)
     (args.output_root/'cold_buffer_coupled_audit.json').write_text(json.dumps(result, indent=2, allow_nan=False)+'\n', encoding='utf-8')
     with (args.output_root/'initial_coordinates.csv').open('w', newline='', encoding='utf-8') as f:

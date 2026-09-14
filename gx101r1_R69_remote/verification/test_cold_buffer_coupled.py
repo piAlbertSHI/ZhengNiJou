@@ -90,6 +90,13 @@ class ColdBufferCoupledTests(unittest.TestCase):
         self.assertIn('der(mass_offset) == mdot_A;', component)
         self.assertIn('stored_mass == initial_stored_mass + mass_offset;', component)
 
+    def test_zero_based_offset_audit_contract_is_explicit(self):
+        source = (Path(__file__).parent/'Audit_HeatDriveECC_ColdBufferCoupled.py').read_text(encoding='utf-8')
+        self.assertIn("ecc_buffer_coupled_offset.conservative_buffer", source)
+        self.assertIn("ZERO_BASED_OFFSET_PRODUCER", source)
+        self.assertIn("--zero-based-offset", source)
+        self.assertIn("mass_formulation == 'zero_based_offset'", source)
+
     @patch('Audit_HeatDriveECC_ColdChamberCycle.named_rows')
     def test_nonfinite_or_missing_sample_rejected(self, named):
         rows = self.rows(.01); rows['buffer', 'T_I']['values'][0, 5] = np.nan
