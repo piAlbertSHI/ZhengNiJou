@@ -30,6 +30,8 @@ $targets = @(
     [pscustomobject]@{ root='cold_chamber_flux_compensated_onset_0p85_20260913_v4'; reason='failed model property-source lookup; retain execution error, not native trajectory' },
     [pscustomobject]@{ root='cold_chamber_flux_compensated_onset_0p85_20260913_v5'; reason='failed model table discovery assertion; retain execution error, not native trajectory' },
     [pscustomobject]@{ root='cold_chamber_flux_compensated_onset_0p85_20260913_v6'; reason='calibration trajectory superseded by v7; retain v6 audit JSON as calibration evidence' }
+    [pscustomobject]@{ root='cold_chamber_mass_offset_fullcycle_kp126_225_0p85_20260914_v10'; reason='failed before conservative arm; source whitelist omission diagnosed and superseded by v12' }
+    [pscustomobject]@{ root='cold_chamber_mass_offset_fullcycle_kp126_225_0p85_20260914_v11'; reason='failed before conservative simulation; offset target-compensation mask omission diagnosed and superseded by v12' }
 )
 $rows = foreach ($target in $targets) {
     $root = Join-Path $outputs $target.root
