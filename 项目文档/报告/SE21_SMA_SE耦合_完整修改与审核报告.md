@@ -3091,7 +3091,7 @@ High `125/125`、Low `79/79`。四个缓冲区质量残差最大分别为`2.8636
 
 数据治理方面，v10/v11两份失败native观测依据退役计划和SHA-256回执删除，共
 `330,474,298`字节；v12原始双臂观测、合同和审计仍保留。最终包审核为
-`required/present/missing=508/514/0`，治理台账为C200冻结后`437`个提交、`566`个分类
+`required/present/missing=515/521/0`，治理台账为C200冻结后`439`个提交、`566`个分类
 目录、`16.733474 GiB`分类量；`outputs`只读审计约`11.594 GB`且无进一步候选。C200冻结
 哈希仍为结果`0BEE740B...FEAB97DD`、checkpoint`FA116BB3...EBAAF4816`，科学结论保持：
 mechanism/periodic通过，但strict Table 4、成对端点、完整设备第一律、system COP和独立
