@@ -449,6 +449,14 @@ foreach ($name in @('native/observations.mat','conservative/observations.mat')) 
 }
 Add-Entry 'Zero-based cold buffer v12 coupled ledger audit' `
     (Join-Path $AuditRoot 'cold_buffer_mass_offset_fullcycle_v12b_20260914/cold_buffer_coupled_audit.json') $true 'diagnostic_rejected'
+Add-Entry 'Zero-based cold buffer v13 execution contract' `
+    (Join-Path $repoRoot 'outputs/cold_chamber_mass_offset_fullcycle_kp126_225_0p85_20260914_v13/cold_chamber_execution.json') $true 'diagnostic_seed_not_recovery'
+foreach ($name in @('native/observations.mat','conservative/observations.mat')) {
+    Add-Entry "Zero-based cold buffer v13 $name" `
+        (Join-Path $repoRoot "outputs/cold_chamber_mass_offset_fullcycle_kp126_225_0p85_20260914_v13/$name") $true 'diagnostic_seed_not_recovery'
+}
+Add-Entry 'Zero-based cold buffer v13 coupled ledger audit' `
+    (Join-Path $AuditRoot 'cold_buffer_mass_offset_fullcycle_v13_20260914/cold_buffer_coupled_audit.json') $true 'diagnostic_seed_not_recovery'
 $stateObservationPackage = (& (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_StateObservationPackage.ps1')) |
     ConvertFrom-Json
 if (-not $stateObservationPackage.package_pass -or

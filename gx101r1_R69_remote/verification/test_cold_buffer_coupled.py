@@ -90,6 +90,12 @@ class ColdBufferCoupledTests(unittest.TestCase):
         self.assertIn('der(mass_offset) == mdot_A;', component)
         self.assertIn('stored_mass == initial_stored_mass + mass_offset;', component)
 
+    def test_multi_cycle_cold_runner_is_explicitly_bounded(self):
+        source = (Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
+        self.assertIn('ismember(cycle_count,[1 20])', source)
+        self.assertIn('The 20-cycle diagnostic must span exactly 200 s.', source)
+        self.assertIn("overrides.cycle_count=cycle_count", source)
+
     def test_zero_based_offset_audit_contract_is_explicit(self):
         source = (Path(__file__).parent/'Audit_HeatDriveECC_ColdBufferCoupled.py').read_text(encoding='utf-8')
         self.assertIn("ecc_buffer_coupled_offset.conservative_buffer", source)

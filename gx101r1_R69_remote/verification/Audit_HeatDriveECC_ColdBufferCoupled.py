@@ -131,14 +131,14 @@ def buffer_ledger(rows, path, table, contract, nonlinear_inventory=False, mass_f
                 candidate_component_pass=bool(alias_pass and local['mass_closure_pass'] and local['energy_closure_pass']))
 
 
-def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_formulation='direct'):
+def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_formulation='direct', stop=10):
     meta = read(folder/'inventory_metadata.json')
     tables = {r['block_path']: energy_tables(r['parameters']) for r in meta['settings_tables']}
     densities = {r['block_path']: density_table(r['parameters']) for r in meta['settings_tables']}
     sources = {b['block_path']: b['source_file'] for b in read(folder/'tl_connectivity.json')['blocks']}
-    time = np.arange(10001)*.001; components = []; consumed = set()
+    time = np.arange(round(stop/.001)+1)*.001; components = []; consumed = set()
     with h5py.File(folder/'observations.mat') as f:
-        rows = checked_rows(f, 'native', 1240 if folder.name == 'native' else 1276 if nonlinear_inventory else 1262 if mass_formulation == 'zero_based_offset' else 1258)
+        rows = checked_rows(f, 'native', 1240 if folder.name == 'native' else 1276 if nonlinear_inventory else 1262 if mass_formulation == 'zero_based_offset' else 1258, stop)
         for original in meta['storage_blocks']:
             block = copy.deepcopy(original); path = block['block_path']; kind = block['mask_type']
             block['reference_block'] = sources.get(path, 'foundation.thermal.elements.mass')
@@ -182,12 +182,16 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_for
         rates, source_rows, pumps = source_ledger(f, read(folder/'thermal_connectivity.json'), time)
         signals = {}
         for key, r in f['signals'].items():
-            validate_grid(r['time_s'][:].reshape(-1), 0, 10, .001)
+            validate_grid(r['time_s'][:].reshape(-1), 0, stop, .001)
             values = r['values'][:]
-            if values.ndim != 2 or values.shape[1] != 10001 or not np.isfinite(values).all(): raise ValueError('Incomplete public signals')
+            if values.ndim != 2 or values.shape[1] != len(time) or not np.isfinite(values).all(): raise ValueError('Incomplete public signals')
             signals[key] = values
         with h5py.File(folder/'configuration.mat') as config:
-            performance, solids, flows = metrics(signals, config['options'], time, origin=0)
+            origin = max(0.0, stop - 10.0)
+            window = time >= origin - 1.0e-12
+            window_signals = {key: value[:, window] for key, value in signals.items()}
+            performance, solids, flows = metrics(window_signals, config['options'],
+                                                 time[window], origin=origin)
         storage = sum(scalar_series(r, 'W') for (_, n), r in rows.items() if n.startswith('Phi_') or n in ('Q_H', 'Q'))
         kcl = sum(rates.values())-storage
     endpoint = sum(r['energy_endpoint_change_J']+r.get('pressure_volume_work_J', 0) for r in components)
@@ -198,7 +202,7 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_for
     groups = {kind: dict(count=sum(r['mask_type'] == kind for r in components),
                         endpoint_energy_residual_J=sum(r['endpoint_energy_residual_J_end'] for r in components if r['mask_type'] == kind))
               for kind in sorted({r['mask_type'] for r in components})}
-    return dict(arm=folder.name, storage_count=119, source_count=49, samples=10001, omitted_intervals=0,
+    return dict(arm=folder.name, storage_count=119, source_count=49, samples=len(time), omitted_intervals=0,
                 components=components, component_groups=groups, source_rows=source_rows, pumps=pumps,
                 source_ledger={k: integral_summary(v, time) for k, v in rates.items()},
                 source_stages=stage_totals({k: np.r_[0, np.cumsum(v[1:]*np.diff(time))] for k, v in rates.items()}),
@@ -210,7 +214,8 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_for
 
 
 def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, nonlinear_inventory=False,
-          initial_flux_compensation=False, zero_based_offset=False, specific_inventory=False):
+          initial_flux_compensation=False, zero_based_offset=False, specific_inventory=False,
+          duration_s=None, cycle_count=None):
     if nonlinear_inventory and initial_flux_compensation:
         raise ValueError('Coordinate and initial-flux diagnostics must remain separate')
     if experiment_root is not None:
@@ -231,7 +236,16 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         if full_cycle and specific_onset: raise ValueError('Onset probe is not a full cycle')
         root = repo/'outputs_storage_audit'/(SPECIFIC_EXPERIMENT if specific_onset else CYCLE_EXPERIMENT if full_cycle else EXPERIMENT)
         producer = SPECIFIC_PRODUCER if specific_onset else CYCLE_PRODUCER if full_cycle else PRODUCER
-    execution = read(root/'cold_chamber_execution.json'); stop = 10 if full_cycle else .2 if specific_onset else .01
+    execution = read(root/'cold_chamber_execution.json')
+    default_stop = 10 if full_cycle else .2 if specific_onset else .01
+    stop = float(default_stop if duration_s is None else duration_s)
+    if stop <= 0 or abs(stop/.001 - round(stop/.001)) > 1.0e-9:
+        raise ValueError('Diagnostic duration must be an integer number of 1 ms samples')
+    declared_cycles = int(execution.get('cycle_count', round(stop/10)))
+    if cycle_count is not None and declared_cycles != int(cycle_count):
+        raise ValueError('Declared cycle count differs from execution contract')
+    if full_cycle and abs(stop - declared_cycles*10.0) > 1.0e-9:
+        raise ValueError('Full-cycle diagnostic duration does not match its cycle count')
     specific_inventory = specific_inventory or execution.get('inventory_formulation') == 'specific_inventory'
     if (execution['execution_commit'] not in producer or not execution['collection_pass'] or not execution['conservative_buffers']
             or execution['start_time_s'] != 0 or execution['stop_time_s'] != stop
@@ -459,7 +473,11 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         production_recovery_allowed=False, table4_reproduction_claim=False,
         input_sha256={str(p.relative_to(repo)): sha256(p) for p in sorted(set(files))})
     if full_cycle:
-        result['arms'] = [cycle_arm(root/a, assignment, contracts, nonlinear_inventory, 'zero_based_offset' if zero_based_offset else 'direct') for a in ('native', 'conservative')]
+        result['arms'] = [cycle_arm(root/a, assignment, contracts, nonlinear_inventory,
+                                    'zero_based_offset' if zero_based_offset else 'direct', stop)
+                          for a in ('native', 'conservative')]
+        result['cycle_count'] = declared_cycles
+        result['periodic_steady_state'] = False
     return result, comparisons
 
 
@@ -472,11 +490,13 @@ if __name__ == '__main__':
     parser.add_argument('--initial-flux-compensation', action='store_true')
     parser.add_argument('--zero-based-offset', action='store_true')
     parser.add_argument('--specific-inventory', action='store_true')
+    parser.add_argument('--duration-s', type=float)
+    parser.add_argument('--cycle-count', type=int)
     args = parser.parse_args()
     if args.output_root.exists(): raise FileExistsError('Never overwrite evidence')
     result, comparisons = audit(Path(__file__).resolve().parents[1], args.full_cycle, args.specific_onset,
                                 args.experiment_root, args.nonlinear_inventory, args.initial_flux_compensation, args.zero_based_offset,
-                                args.specific_inventory)
+                                args.specific_inventory, args.duration_s, args.cycle_count)
     args.output_root.mkdir(parents=True)
     (args.output_root/'cold_buffer_coupled_audit.json').write_text(json.dumps(result, indent=2, allow_nan=False)+'\n', encoding='utf-8')
     with (args.output_root/'initial_coordinates.csv').open('w', newline='', encoding='utf-8') as f:
