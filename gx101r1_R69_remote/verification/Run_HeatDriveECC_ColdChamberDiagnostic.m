@@ -459,6 +459,9 @@ function hash=file_hash(file)
     while ~feof(fid),digest.update(fread(fid,8*1024*1024,'*uint8'));end
     hash=upper(reshape(dec2hex(typecast(digest.digest(),'uint8'),2).',1,[]));
 end
+function value=canonical_path(path)
+    value=char(java.io.File(path).getCanonicalPath());
+end
 function restore_path(folder,oldpath)
     cd(folder);path(oldpath);
 end
