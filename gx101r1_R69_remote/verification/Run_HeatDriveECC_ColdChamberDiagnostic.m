@@ -301,7 +301,11 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 end
                 for block=[changed(:);buffer_paths(:)].'
                     block_name=extractAfter(block{1},[model '/']);parent=output.simlog.child(block_name);
-                    for variable=inventory_variables
+                    variables=inventory_variables;
+                    if strcmp(buffer_mass_formulation,'zero_based_offset') && ismember(block{1},buffer_paths)
+                        variables={'mass_offset','stored_energy','T_I','p_I'};
+                    end
+                    for variable=variables
                         node=parent.child(variable{1});
                         tag_count=tag_count+1;
                         tags{tag_count}=struct('block_name',block_name,'variable_name',variable{1}, ...
@@ -363,7 +367,7 @@ function metadata=export_metadata(model,changed,buffer_paths)
             names=fieldnames(dialog);
             for j=1:numel(names)
                 n=names{j};
-                if ~isempty(regexp(n,'^(p_I|T_I|u_I|mass|stored_mass|initial_stored_mass|stored_energy|level)(_|$)','once'))
+                if ~isempty(regexp(n,'^(p_I|T_I|u_I|mass|mass_offset|stored_mass|initial_stored_mass|stored_energy|level)(_|$)','once'))
                     row.initialization_parameters.(n)=get_param(p,n);
                 end
             end

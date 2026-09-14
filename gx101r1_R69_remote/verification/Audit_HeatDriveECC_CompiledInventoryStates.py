@@ -29,11 +29,13 @@ def decode_tags(row):
     return result
 
 
-def component_inventory_preserved(rows, blocks):
-    expected = {(b, v) for b in blocks for v in VARIABLES}
+def component_inventory_preserved(rows, blocks, variables=VARIABLES,
+                                  differential_variables=('stored_mass', 'stored_energy')):
+    expected = {(b, v) for b in blocks for v in variables}
     actual = {(r['block_name'], r['variable_name']) for r in rows}
     if len(rows) != len(expected) or actual != expected: raise ValueError('Incomplete component metadata')
-    return all(r['isDifferential'] and r['isRetained'] for r in rows if r['variable_name'] in ('stored_mass', 'stored_energy'))
+    return all(r['isDifferential'] and r['isRetained'] for r in rows
+               if r['variable_name'] in differential_variables)
 
 
 def audit(repo, specific_inventory=False):

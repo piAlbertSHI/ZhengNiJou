@@ -290,6 +290,15 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
             compiled_gate = ({(r['block_name'], r['variable_name']) for r in tag_rows} == expected
                              and all(r['isDifferential'] and r['isRetained'] for r in tag_rows
                                      if r['variable_name'] in ('mass_coordinate', 'energy_delta')))
+        elif zero_based_offset:
+            chamber_names = {p.removeprefix(ROOT) for p in CHAMBERS}
+            buffer_names = {p.removeprefix(ROOT) for p in BUFFERS}
+            compiled_gate = (component_inventory_preserved(
+                                [r for r in tag_rows if r['block_name'] in chamber_names], chamber_names) and
+                             component_inventory_preserved(
+                                [r for r in tag_rows if r['block_name'] in buffer_names], buffer_names,
+                                variables={'mass_offset', 'stored_energy', 'T_I', 'p_I'},
+                                differential_variables=('mass_offset', 'stored_energy')))
         else:
             compiled_gate = component_inventory_preserved(tag_rows, {p.removeprefix(ROOT) for p in BUFFERS | CHAMBERS})
     assignment = topology_check(read(root/'native/tl_connectivity.json'), read(root/'conservative/tl_connectivity.json'),

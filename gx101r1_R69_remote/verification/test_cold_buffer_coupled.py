@@ -96,6 +96,7 @@ class ColdBufferCoupledTests(unittest.TestCase):
         self.assertIn("ZERO_BASED_OFFSET_PRODUCER", source)
         self.assertIn("--zero-based-offset", source)
         self.assertIn("mass_formulation == 'zero_based_offset'", source)
+        self.assertIn("differential_variables=('mass_offset', 'stored_energy')", source)
 
     @patch('Audit_HeatDriveECC_ColdChamberCycle.named_rows')
     def test_nonfinite_or_missing_sample_rejected(self, named):
