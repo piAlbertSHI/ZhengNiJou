@@ -304,8 +304,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 'SaveTime','off','SaveOutput','off','SignalLogging','off');
             if cycle_count>1
                 set_param(model,'SimscapeLogLimitData','on', ...
-                    'SimscapeLogDataHistory',num2str(ceil(log_window_cycles*10/ ...
-                    options.simscape.local_solver_sample_time_s)+2));
+                    'SimscapeLogDataHistory',ceil(log_window_cycles*10/ ...
+                    options.simscape.local_solver_sample_time_s)+2);
             end
             if strcmp(name,'conservative') && pipe_energy_targets
                 assignin('base','cold_public_targets',cold_public_targets);
