@@ -81,7 +81,8 @@ function [rate,unit]=target_rate(model,native,target)
         cp=value(simscape.Value(slResolve(get_param(path,'sp_heat'),path),get_param(path,'sp_heat_unit')),'J/(kg*K)');
         rate=initial(native,path,'Q','W')/(mass*cp);
         unit='K/s';
-    elseif contains(mask,'Buffer')
+    elseif contains(mask,'Buffer') || strcmp(get_param(path,'SourceFile'), ...
+            'ecc_buffer_coupled_offset.conservative_buffer')
         if strcmp(name,'stored_mass')
             rate=initial(native,path,'mdot_A','kg/s');unit='kg/s';
         else
