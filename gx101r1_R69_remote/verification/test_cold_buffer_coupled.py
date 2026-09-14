@@ -95,6 +95,8 @@ class ColdBufferCoupledTests(unittest.TestCase):
         self.assertIn('ismember(cycle_count,[1 20])', source)
         self.assertIn('The 20-cycle diagnostic must span exactly 200 s.', source)
         self.assertIn("overrides.cycle_count=cycle_count", source)
+        self.assertIn("ismember(simulation_mode,{'normal','accelerator'})", source)
+        self.assertIn("log_window_cycles=min(cycle_count,2)", source)
 
     def test_zero_based_offset_audit_contract_is_explicit(self):
         source = (Path(__file__).parent/'Audit_HeatDriveECC_ColdBufferCoupled.py').read_text(encoding='utf-8')
