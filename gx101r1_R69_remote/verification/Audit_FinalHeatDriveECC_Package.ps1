@@ -423,6 +423,20 @@ Add-Entry 'Cold-buffer mass consistency analyzer' `
     (Join-Path $repoRoot 'verification\Analyze_HeatDriveECC_ColdBufferMassConsistency.py') $true 'diagnostic_rejected'
 Add-Entry 'Cold-buffer mass consistency test' `
     (Join-Path $repoRoot 'verification\test_cold_buffer_mass_consistency.py') $true 'diagnostic_rejected'
+Add-Entry 'Zero-based buffer replacement source' `
+    (Join-Path $repoRoot 'verification\Apply_HeatDriveECC_ColdConservativeBuffers.m') $true 'diagnostic_rejected'
+Add-Entry 'Zero-based cold diagnostic runner source' `
+    (Join-Path $repoRoot 'verification\Run_HeatDriveECC_ColdChamberDiagnostic.m') $true 'diagnostic_rejected'
+Add-Entry 'Cold inventory target builder source' `
+    (Join-Path $repoRoot 'verification\Build_HeatDriveECC_ColdInventoryTargets.m') $true 'diagnostic_rejected'
+Add-Entry 'Cold initial-flux compensation source' `
+    (Join-Path $repoRoot 'verification\Build_HeatDriveECC_ColdInitialFluxCompensation.m') $true 'diagnostic_rejected'
+Add-Entry 'Zero-based cold buffer coupled audit source' `
+    (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_ColdBufferCoupled.py') $true 'diagnostic_rejected'
+Add-Entry 'Zero-based cold buffer coupled audit test' `
+    (Join-Path $repoRoot 'verification\test_cold_buffer_coupled.py') $true 'diagnostic_rejected'
+Add-Entry 'Zero-based conservative buffer Simscape source' `
+    (Join-Path $repoRoot 'verification\simscape_buffer_coupled_offset\+ecc_buffer_coupled_offset\conservative_buffer.ssc') $true 'diagnostic_rejected'
 Add-Entry 'Cold-buffer mass consistency v9 audit' `
     (Join-Path $AuditRoot 'cold_buffer_mass_consistency_v9_20260914/cold_buffer_mass_consistency.json') $true 'diagnostic_rejected'
 Add-Entry 'Zero-based cold buffer v12 execution contract' `
