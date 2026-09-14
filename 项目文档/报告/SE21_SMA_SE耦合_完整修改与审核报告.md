@@ -3061,3 +3061,38 @@ Kahan约`2.4711135915e-15 kg`，long-double没有改善；最大`dm/dt`与右端
 `required/present/missing=503/509/0`，全套Python验证为`524`项通过。新增证据仍是拒绝候选
 的只读诊断，不生成Operating Point、不进入恢复链、不允许插值或outer solve；C200主线及其
 严格Table 4未完成状态保持不变。
+
+## 159. 零基质量状态诊断与严格否决（2026-09-14）
+
+针对v9中Cold/Hot buffer右端点质量残差高于`1e-15 kg`的问题，建立独立冷态零基质量
+状态分支。新组件只保留真实热液体域端口，在组件内部用高优先级微分状态`mass_offset`
+满足`der(mass_offset)=mdot_A`，并代数重建`stored_mass`。该机制不修改C200模型和任何
+恢复状态。相关入口、白名单、补偿器、审计器和测试分别形成提交`a51c962`、`b10eaf9`、
+`7f862b8`、`c8bc380`和`fe34255`。
+
+v10/v11是代码级失败尝试：v10因`Build_HeatDriveECC_ColdInventoryTargets`未登记新
+候选源，v11因初始通量补偿器只按旧MaskType识别buffer；二者均未形成可用双臂结果，
+只保留执行合同和错误日志。v12经修复后MATLAB自然退出0，双臂完整收集通过，执行合同为
+`collection_pass=true`、`production_recovery_allowed=false`、`c200_state_imported=false`。
+
+独立v12审计结果如下：拓扑/物性表/source-port门禁通过，源端口最大误差为native
+`1.0322764865e-10 W`、conservative `1.0550138541e-10 W`；204项初始化目标严格匹配
+High `125/125`、Low `79/79`。四个缓冲区质量残差最大分别为`2.8636489881e-17`、
+`2.8636489881e-17`、`1.1641620827e-17`和`9.4867690092e-18 kg`，能量残差最大分别为
+`4.5645265345e-11`、`9.8225427791e-11`、`2.1782575743e-10`和`1.0059331146e-10 J`，
+局部质量/能量守恒均通过。
+
+严格否决原因也已明确：编译轨迹状态门禁为false，因为新组件的`stored_mass`是代数变量，
+不满足既有生产合同要求的可保留微分质量状态；native全局端点源/库存残差仍为
+`-1.1039321092802084 J`，保守臂为`1.8900436771218665e-9 J`。所以v12只能作为模型级
+诊断，不能成为Operating Point、恢复源、outer solve候选或Table 4证据。结果审计位于
+`outputs_storage_audit/cold_buffer_mass_offset_fullcycle_v12b_20260914/`，拒绝标记位于
+`outputs/cold_chamber_mass_offset_fullcycle_kp126_225_0p85_20260914_v12/`。
+
+数据治理方面，v10/v11两份失败native观测依据退役计划和SHA-256回执删除，共
+`330,474,298`字节；v12原始双臂观测、合同和审计仍保留。最终包审核为
+`required/present/missing=508/514/0`，治理台账为C200冻结后`437`个提交、`566`个分类
+目录、`16.733474 GiB`分类量；`outputs`只读审计约`11.594 GB`且无进一步候选。C200冻结
+哈希仍为结果`0BEE740B...FEAB97DD`、checkpoint`FA116BB3...EBAAF4816`，科学结论保持：
+mechanism/periodic通过，但strict Table 4、成对端点、完整设备第一律、system COP和独立
+实验验证尚未完成。
