@@ -425,6 +425,16 @@ Add-Entry 'Cold-buffer mass consistency test' `
     (Join-Path $repoRoot 'verification\test_cold_buffer_mass_consistency.py') $true 'diagnostic_rejected'
 Add-Entry 'Cold-buffer mass consistency v9 audit' `
     (Join-Path $AuditRoot 'cold_buffer_mass_consistency_v9_20260914/cold_buffer_mass_consistency.json') $true 'diagnostic_rejected'
+Add-Entry 'Zero-based cold buffer v12 execution contract' `
+    (Join-Path $repoRoot 'outputs/cold_chamber_mass_offset_fullcycle_kp126_225_0p85_20260914_v12/cold_chamber_execution.json') $true 'diagnostic_rejected'
+Add-Entry 'Zero-based cold buffer v12 rejection marker' `
+    (Join-Path $repoRoot 'outputs/cold_chamber_mass_offset_fullcycle_kp126_225_0p85_20260914_v12/REJECTED_DO_NOT_RESUME.txt') $true 'diagnostic_rejected'
+foreach ($name in @('native/observations.mat','conservative/observations.mat')) {
+    Add-Entry "Zero-based cold buffer v12 $name" `
+        (Join-Path $repoRoot "outputs/cold_chamber_mass_offset_fullcycle_kp126_225_0p85_20260914_v12/$name") $true 'diagnostic_rejected'
+}
+Add-Entry 'Zero-based cold buffer v12 coupled ledger audit' `
+    (Join-Path $AuditRoot 'cold_buffer_mass_offset_fullcycle_v12b_20260914/cold_buffer_coupled_audit.json') $true 'diagnostic_rejected'
 $stateObservationPackage = (& (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_StateObservationPackage.ps1')) |
     ConvertFrom-Json
 if (-not $stateObservationPackage.package_pass -or
