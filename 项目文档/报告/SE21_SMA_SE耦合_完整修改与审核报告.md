@@ -3138,3 +3138,12 @@ mechanism/periodic通过，但strict Table 4、成对端点、完整设备第一
 `native/observations.mat`执行哈希绑定删除，保留拒绝标记、MATLAB日记、配置/拓扑元数据和所有
 生产/诊断合同。C200、C180、v13及C240之后证据不在退役清单。删除字节数、SHA-256和最终容量
 以对应`outputs_storage_audit/cold20_incomplete_raw_retirement_*/`回执为准。
+
+本轮另按正式拒绝审计清理了4个非线性ramp失败包的原始观测，共`737,053,900`字节；这些包
+均无checkpoint、未提升、未导入C200且不可恢复/插值。拒绝审计JSON、预检、编译状态、日记和
+构建元数据保留，两个缺少同等退役合同的非线性目录保留待后续审核。脚本为
+`verification/Retire_HeatDriveECC_RejectedAuditRaw.ps1`，回执位于
+`outputs_storage_audit/rejected_audit_raw_retirement_20260915_213123/`。
+
+本轮两批合计退役`2,427,502,170`字节（约`2.261 GiB`），复核后`outputs`约
+`11.931 GiB`、`outputs_storage_audit`约`4.464 GiB`，C200两份冻结哈希均通过。
