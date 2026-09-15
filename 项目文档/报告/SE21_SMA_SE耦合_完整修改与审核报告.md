@@ -3147,3 +3147,23 @@ mechanism/periodic通过，但strict Table 4、成对端点、完整设备第一
 
 本轮两批合计退役`2,427,502,170`字节（约`2.261 GiB`），复核后`outputs`约
 `11.931 GiB`、`outputs_storage_audit`约`4.464 GiB`，C200两份冻结哈希均通过。
+
+### 160.4 C200主线冻结与控制体合同复核（2026-09-15）
+
+新增`verification/c200_mainline_recovery_reference_20260915.json`作为当前唯一主线恢复参考
+合同，并将C200物理结果与`final_operating_point.mat`设置为只读。合同保留机制/周期通过状态，
+同时明确strict Table 4、成对端点和完整设备第一律仍未通过；任何当前模型状态导入必须先经过
+严格恢复审核，不得重置热容、buffer、本构、温度、相分数或独立PI路线记忆。
+
+新增控制体合同结构审核脚本，复核10个控制体和10个性能指标，结果为`audit_pass=true`；
+Eq.9/Eq.10均使用末10个完整周期和`0.04181683646625444 kg`有效SE质量。新增SHEX
+sink-to-fluid观测代码完成一次真实MATLAB无仿真update烟测，三个新增块均存在，
+`topology_update_pass=true`。该烟测只证明拓扑/模型更新，不升级为周期、能量或Table 4证据。
+## 本轮补充：C200主线合同与外层求解门禁（2026-09-15）
+
+C200 已冻结为当前唯一主线恢复参考。补齐连续进度路径后，外层 Table 4 求解入口统一调用
+`Resolve_HeatDriveECC_MainlineAuthority`，不再默认引用已退役的 C246 runtime authority。
+由于当前合同仍明确 `outer_solve_authorized=false`，入口只生成拒绝审计，不启动任何固定 `Tc`
+候选、插值、成对端点或 Table 4 外推。真实 MATLAB 无仿真烟测通过：
+`guarded_not_authorized`，`candidates_started=0`。这只证明门禁行为正确，不改变当前
+strict Table 4、paired endpoint、完整设备第一律和 system COP 尚未完成的结论。

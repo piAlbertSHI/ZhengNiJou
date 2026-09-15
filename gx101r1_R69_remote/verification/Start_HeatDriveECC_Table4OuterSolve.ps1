@@ -68,5 +68,5 @@ $process = Start-Process -FilePath $matlab -ArgumentList @('-batch', $quotedBatc
     effective_minimum_boundary_transition_cycles = [Math]::Max($SegmentCycles, 11)
     target_metric = $TargetMetric
     endpoint_name = if ($TargetMetric -eq 'eq9_lift_K') { 'zero_lift' } else { 'zero_load' }
-    initial_state_policy = 'validated_C246_runtime_recovery_contract_only'
+    initial_state_policy = 'validated_C200_mainline_recovery_reference_only'
 } | ConvertTo-Json -Depth 4

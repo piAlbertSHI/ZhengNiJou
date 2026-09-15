@@ -8,7 +8,7 @@ function authority = Resolve_HeatDriveECC_MainlineAuthority(settings)
     repo_root = fileparts(verification_dir);
     defaults = struct( ...
         'contract_path', fullfile(verification_dir, ...
-            'c200_mainline_freeze_contract.json'), ...
+            'c200_mainline_recovery_reference_20260915.json'), ...
         'verify_checkpoint_hash', true, ...
         'verify_large_result_hash', false);
     settings = merge_structs(defaults, settings);
@@ -17,7 +17,9 @@ function authority = Resolve_HeatDriveECC_MainlineAuthority(settings)
     assert(isfile(contract_path), 'HeatDriveECC:MissingFreezeContract', ...
         'Mainline freeze contract is missing: %s', contract_path);
     contract = jsondecode(fileread(contract_path));
-    assert(strcmp(contract.schema, 'heatdrive_ecc_mainline_freeze_v1'), ...
+    assert(ismember(contract.schema, { ...
+        'heatdrive_ecc_mainline_freeze_v1', ...
+        'heatdrive_ecc_mainline_recovery_reference_v2'}), ...
         'HeatDriveECC:UnsupportedFreezeContract', ...
         'Unsupported mainline freeze schema: %s', contract.schema);
 
@@ -77,7 +79,18 @@ function authority = Resolve_HeatDriveECC_MainlineAuthority(settings)
     authority.mechanism_pass = mechanism_pass;
     authority.periodic_steady_state = periodic_pass;
     authority.strict_table4_reproduction = false;
-    authority.resume_policy = contract.resume_policy;
+    if isfield(contract, 'resume_policy')
+        authority.resume_policy = contract.resume_policy;
+    elseif isfield(contract, 'runtime_import_policy')
+        authority.resume_policy = contract.runtime_import_policy;
+    else
+        authority.resume_policy = struct();
+    end
+    authority.outer_solve_authorized = false;
+    if isfield(contract, 'outer_solve_authorized')
+        authority.outer_solve_authorized = logical( ...
+            contract.outer_solve_authorized);
+    end
 end
 
 function path = resolve_inside_repo(repo_root, relative_path)

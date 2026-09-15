@@ -1,0 +1,49 @@
+{
+  "schema": "heatdrive_ecc_mainline_recovery_reference_v2",
+  "frozen_at": "2026-09-15T21:45:00+08:00",
+  "branch": "codex/conservative-chamber-cold-diagnostic",
+  "authority": "physical_simscape_c200_fixed_tc_276p950K",
+  "completed_cycles": 200,
+  "mechanism_pass": true,
+  "periodic_steady_state": true,
+  "strict_table4_reproduction": false,
+  "paired_table4_endpoints": false,
+  "complete_device_first_law": false,
+  "system_cop": "withheld",
+  "reference_role": "sole_mainline_recovery_reference_artifact",
+  "outer_solve_authorized": false,
+  "result_relative_path": "outputs/qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821/qian2019_table2_table4_simscape_200cycle_20260821_121246/physical_simscape_result.mat",
+  "result_sha256": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD",
+  "checkpoint_relative_path": "outputs/qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821/qian2019_table2_table4_simscape_200cycle_20260821_121246/final_operating_point.mat",
+  "checkpoint_sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816",
+  "validation_report_relative_path": "outputs/qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821/qian2019_table2_table4_simscape_200cycle_20260821_121246/physical_validation_report.txt",
+  "continuation_progress_relative_path": "outputs/qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821/steady_continuation_progress.csv",
+  "performance_window": {
+    "cycles": 10,
+    "time_s": [1900, 2000],
+    "eq9_lift_K": 28.709970099,
+    "eq10_SCP_W_per_g": 0.316480490619,
+    "endpoint_drift_K": 0.0135817579455,
+    "same_phase_temperature_drift_K": 0.167089690701,
+    "same_phase_phase_drift": 0.00755657984079
+  },
+  "preservation": {
+    "final_operating_point_preserved": true,
+    "result_preserved": true,
+    "file_attributes_frozen_readonly": true,
+    "thermal_capacity_reset": false,
+    "buffer_reset": false,
+    "constitutive_reset": false,
+    "temperature_reset": false,
+    "phase_fraction_reset": false,
+    "independent_route_pi_memory_reset": false
+  },
+  "runtime_import_policy": {
+    "sole_authorized_reference": true,
+    "direct_state_import_without_strict_restore_audit": false,
+    "requires_current_model_strict_restore": true,
+    "rejected_results_may_resume": false,
+    "failed_results_may_interpolate": false
+  },
+  "claim_boundary": "This is the sole preserved mainline reference artifact. It is not a strict Table 4 reproduction and does not authorize a current-model state import until a strict restore audit passes."
+}
