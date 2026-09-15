@@ -3096,3 +3096,32 @@ High `125/125`、Low `79/79`。四个缓冲区质量残差最大分别为`2.8636
 哈希仍为结果`0BEE740B...FEAB97DD`、checkpoint`FA116BB3...EBAAF4816`，科学结论保持：
 mechanism/periodic通过，但strict Table 4、成对端点、完整设备第一律、system COP和独立
 实验验证尚未完成。
+
+## 160. 2026-09-15 独立冷态分支修改记录与严格治理收口
+
+本轮没有改写C200，也没有把任何冷态诊断结果传播到生产恢复链。当前唯一生产恢复参考仍由`c200_mainline_freeze_contract.json`绑定：`physical_simscape_result.mat` SHA-256为`0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD`，`final_operating_point.mat` SHA-256为`FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816`。本轮代码变更已提交为`717391a`：零基偏移审计只允许明确的诊断执行提交；conservative臂在公共Simscape工作点初始化时使用normal模式；v14--v21拒绝标记和v16失败合同已加入最终包清单。
+
+这条执行策略只服务于独立冷态诊断，不重置任何C200热容、buffer、本构、温度、相分数或独立PI路线记忆。v13是唯一通过零基状态合同的诊断种子，native观测、conservative观测和执行合同SHA-256分别为`A95E81632B5C7B66E6C9FD503F4AB4C4EEF473FCD476029E7EC166A131175CD4`、`616A61A9A8FA99ED2D9F0908FC45385837AC5A46694D5BFCDD32EDD83071CCB8`和`4C360117EEAF8ED72E6617E5A910EB08CF3F0EF12C1CEEBBBC051B94D8239DD1`；v13仍明确`production_recovery_allowed=false`、`periodic_steady_state=false`。
+
+### 160.1 失败尝试逐项封存
+
+| 目录 | 结果 | 允许用途 |
+|---|---|---|
+| v14 | native观测前中断 | 仅中断证据 |
+| v15 | 缺少`canonical_path`，代码启动失败 | 仅代码失败证据 |
+| v16 | `SimscapeLogDataHistory`要求标量，`collection_pass=false` | 仅执行失败合同 |
+| v17 | 未形成执行合同 | 仅会话中断证据 |
+| v18 | native 20-cycle观测已写出，conservative臂未完成 | 仅未完成观测证据 |
+| v19 | 进入conservative工作点警告后未形成合同 | 仅未完成观测证据 |
+| v20 | native启动阶段结束，未形成观测 | 仅会话中断证据 |
+| v21 | 10 s smoke未形成native观测 | 仅宿主/仿真路径失败证据 |
+
+所有目录均有`REJECTED_DO_NOT_RESUME.txt`，已进入最终包审计；它们不是机制失败结果，也不能作为Operating Point、恢复源、插值点、outer solve候选或Table 4证据。当前证据说明问题发生在长MATLAB/Simscape独立诊断宿主的可持久化执行路径，不能据此宣称模型机制失败或通过；下一步应先完成模型级状态观测/宿主路径修正，并重新得到完整执行合同。
+
+### 160.2 包、Git和存储审计
+
+2026-09-15最终包审计结果为`required=528`、`present=534`、`missing=0`。C200的`mechanism_pass=1`和`periodic_steady_state=1`保持不变；strict Table 4、paired endpoint、完整设备第一律、system COP和独立实验验证仍均不能宣称。工作区治理审计显示当前分支`codex/conservative-chamber-cold-diagnostic`在C200冻结后有448个提交、578个分类目录、18.646544 GiB分类量；outputs只读审计为13.506 GB，`candidate_count=0`、`deleted_GB=0`；`Agent6`未跟踪目录保持原样。当前没有经过哈希绑定、引用关系审查和退役合同确认的可删除对象，因此本轮不强删文件；旧数据清理继续采用“先合同、后删除、再复核”的顺序。
+
+本节的结论边界保持严格：C200是唯一生产恢复基准；v13只能作为独立诊断种子；v14--v21全部被拒绝。论文用语仍限定为`simulated`、`predicted`、`benchmark-consistent`和`not yet reproduced`，不得使用`validated`或`reproduced`。
+
+审计后追加的Git提交`e6628ac`只登记拒绝尝试清单，因此最新治理计数为C200冻结后449个提交；目录数、分类量、C200哈希、包审计和outputs清理候选均未改变。
