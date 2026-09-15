@@ -37,7 +37,15 @@ FULL_SPECIFIC_TUNED120_225_085_PRODUCER = '6c3d325cb45cc473a3a380d21044674bea5e6
 FULL_SPECIFIC_TUNED125_225_085_PRODUCER = '800ada7f9d1a56039c271cd037fb7b14acfbcbc7'
 FULL_SPECIFIC_TUNED124_225_085_PRODUCER = '56c21bb74016458b8e85861aaba15e8e77633faa'
 NONLINEAR_LOCAL_BE_PRODUCER = '1c0af1a8a454d4c187062d872fa6e8b279b6742a'
+# The seed contract was authored at ec9d3e1.  Later diagnostic-only runners
+# may change execution mechanics while preserving the same zero-based state
+# contract; keep those commits explicitly allow-listed rather than weakening
+# the producer check globally.
 ZERO_BASED_OFFSET_PRODUCER = 'ec9d3e1521062b7e65aebc61a996d9c233b5bfbf'
+ZERO_BASED_OFFSET_PRODUCERS = {
+    ZERO_BASED_OFFSET_PRODUCER,
+    '91dc097',
+}
 # The v8 diagnostic was run after the report-only ledger commit. Both commits
 # refer to the same calibrated source implementation and remain auditable.
 INITIAL_FLUX_COMPENSATION_PRODUCERS = {
@@ -232,7 +240,7 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         elif initial_flux_compensation:
             producer = INITIAL_FLUX_COMPENSATION_PRODUCERS
         if zero_based_offset:
-            producer = {ZERO_BASED_OFFSET_PRODUCER}
+            producer = ZERO_BASED_OFFSET_PRODUCERS
     else:
         if full_cycle and specific_onset: raise ValueError('Onset probe is not a full cycle')
         root = repo/'outputs_storage_audit'/(SPECIFIC_EXPERIMENT if specific_onset else CYCLE_EXPERIMENT if full_cycle else EXPERIMENT)

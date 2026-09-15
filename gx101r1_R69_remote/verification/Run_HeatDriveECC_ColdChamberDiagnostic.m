@@ -196,6 +196,14 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             overrides.branch.independent_conservative_chamber_diagnostic=strcmp(name,'conservative');
             [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(overrides);
             model_cleanup=onCleanup(@() close_system(model,0));
+            arm_simulation_mode=simulation_mode;
+            % The conservative arm initializes public Simscape operating
+            % points. Keep that diagnostic arm in normal mode because
+            % accelerator startup cannot guarantee a time-origin-compatible
+            % operating point; the native arm remains accelerated.
+            if strcmp(name,'conservative') && pipe_energy_targets
+                arm_simulation_mode='normal';
+            end
             changed={};buffer_records={};buffer_paths={};
             if strcmp(name,'conservative')
                 changed={[model '/SMA_PumpInletConnectingPipeVolume'],[model '/SMA_PumpOutletConnectingPipeVolume']};
@@ -302,7 +310,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             set_param(model,'LoadInitialState','off','SimscapeUseOperatingPoints','off', ...
                 'StartTime','0','StopTime',num2str(duration,'%.17g'), ...
                 'Solver',options.simulation.solver,'FixedStep',num2str(options.simulation.fixed_step_s,'%.17g'), ...
-                'SimulationMode',simulation_mode,'ReturnWorkspaceOutputs','on', ...
+                'SimulationMode',arm_simulation_mode,'ReturnWorkspaceOutputs','on', ...
                 'SimscapeLogType','all','SimscapeLogName','simlog','SimscapeLogLimitData','off', ...
                 'SaveFinalState','off','SaveOperatingPoint','off','SaveState','off', ...
                 'SaveTime','off','SaveOutput','off','SignalLogging','off');
@@ -326,7 +334,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 Export_HeatDriveECC_TLConnectivity(model,'foundation.thermal.thermal'));
             input=Simulink.SimulationInput(model);
             input=input.setModelParameter('CaptureErrors','on', ...
-                'SimulationMode',simulation_mode);
+                'SimulationMode',arm_simulation_mode);
             if strcmp(name,'conservative') && pipe_energy_targets
                 input=input.setVariable('cold_public_targets',cold_public_targets);
             end
@@ -375,7 +383,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 end
             end
             save(fullfile(arm,'observations.mat'),'native','source_traces','boundary_metadata','signals','-v7.3');
-            record.cases{end+1}=struct('arm',name,'topology_update_pass',true, ...
+            record.cases{end+1}=struct('arm',name,'simulation_mode',arm_simulation_mode, ...
+                'topology_update_pass',true, ...
                 'storage_components',numel(metadata.storage_blocks),'native_trace_count',numel(native), ...
                 'source_count',boundary_metadata.source_count,'observation_sha256',file_hash(fullfile(arm,'observations.mat')));
             clear model_cleanup output
