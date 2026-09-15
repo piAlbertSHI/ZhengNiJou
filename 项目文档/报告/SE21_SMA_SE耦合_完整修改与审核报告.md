@@ -3174,3 +3174,8 @@ strict Table 4、paired endpoint、完整设备第一律和 system COP 尚未完
 `341,987,057` bytes；编译检查、预仿真检查、MATLAB 日志、模型元数据和删除回执保留。
 `Manage_HeatDriveECC_OutputStorage.ps1` 已兼容 Windows PowerShell 5.1 与 pwsh；两种 shell
 只读审计均为 `candidate_count=0`。C200/C180 主线和关键诊断原始证据未被触碰。
+
+L8/局部 OAT 敏感性入口也已绑定 C200 合同的
+`sensitivity_run_authorized=false`。合同预检仍可执行，但物理候选不会在当前完整设备
+第一律未完成的状态下启动；MATLAB 烟测确认 `candidates_started=0`。因此当前敏感性结果
+只能作为预检/历史诊断，不能宣称主导因素已由新的物理候选确定。

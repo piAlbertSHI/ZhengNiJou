@@ -91,6 +91,11 @@ function authority = Resolve_HeatDriveECC_MainlineAuthority(settings)
         authority.outer_solve_authorized = logical( ...
             contract.outer_solve_authorized);
     end
+    authority.sensitivity_run_authorized = false;
+    if isfield(contract, 'sensitivity_run_authorized')
+        authority.sensitivity_run_authorized = logical( ...
+            contract.sensitivity_run_authorized);
+    end
 end
 
 function path = resolve_inside_repo(repo_root, relative_path)
