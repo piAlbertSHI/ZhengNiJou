@@ -3125,3 +3125,16 @@ mechanism/periodic通过，但strict Table 4、成对端点、完整设备第一
 本节的结论边界保持严格：C200是唯一生产恢复基准；v13只能作为独立诊断种子；v14--v21全部被拒绝。论文用语仍限定为`simulated`、`predicted`、`benchmark-consistent`和`not yet reproduced`，不得使用`validated`或`reproduced`。
 
 审计后追加的Git提交`e6628ac`只登记拒绝尝试清单，因此最新治理计数为C200冻结后449个提交；目录数、分类量、C200哈希、包审计和outputs清理候选均未改变。
+
+### 160.3 当前代码变更与历史数据治理补充（2026-09-15）
+
+当前工作树新增了SHEX sink-to-fluid热流观测代码，目标拓扑为
+`HotSinkFluidLink RConn -> SHEXFluidHeatFlowSensor -> HotPipe LConn(2)`，并导出
+`shex_fluid_heat_flow_W`。该代码只用于补齐下游能量观测，未改变Thermal Liquid主流体守恒连接；
+由于本轮没有找到可用的模型update烟测JSON，代码状态保持为“待烟测”，不能作为已验证模型证据。
+
+新增退役脚本
+`verification/Retire_HeatDriveECC_Cold20IncompleteRaw.ps1`，对v18/v19已拒绝冷态诊断的原始
+`native/observations.mat`执行哈希绑定删除，保留拒绝标记、MATLAB日记、配置/拓扑元数据和所有
+生产/诊断合同。C200、C180、v13及C240之后证据不在退役清单。删除字节数、SHA-256和最终容量
+以对应`outputs_storage_audit/cold20_incomplete_raw_retirement_*/`回执为准。

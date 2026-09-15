@@ -1568,6 +1568,9 @@ function configure_shex_boundary(model_name)
     if exist_block(shex_source) && exist_block(shex_mass)
         add_shex_source_heat_flow_observability(shex_source);
     end
+    if exist_block(shex_fluid_link) && exist_block(shex_hot_pipe)
+        add_shex_fluid_heat_flow_observability(shex_fluid_link, shex_hot_pipe);
+    end
 end
 
 function add_shex_source_heat_flow_observability(source_path)
@@ -1601,6 +1604,46 @@ function add_shex_source_heat_flow_observability(source_path)
         'MakeNameUnique', 'off', 'VariableName', ...
         'shex_source_heat_flow_W', 'SaveFormat', 'Structure With Time', ...
         'Position', [820 220 1035 260]);
+    add_required_line_handle(parent, source_port, ...
+        get_port(sensor_path, 'LConn', 1));
+    add_required_line_handle(parent, get_port(sensor_path, 'RConn', 2), ...
+        downstream_port);
+    add_required_line_handle(parent, get_port(sensor_path, 'RConn', 1), ...
+        get_port(ps_path, 'LConn', 1));
+    add_required_line_handle(parent, get_port(ps_path, 'Outport', 1), ...
+        get_port(workspace_path, 'Inport', 1));
+end
+
+function add_shex_fluid_heat_flow_observability(shex_fluid_link, hot_pipe)
+% Measure the heat flow from the SHEX sink into the downstream hot fluid.
+% The sensor is inserted on the existing link RConn -> HotPipe LConn(2)
+% branch and does not touch the Thermal Liquid conserving path.
+    parent = get_param(shex_fluid_link, 'Parent');
+    sensor_path = [parent '/SHEXFluidHeatFlowSensor'];
+    ps_path = [parent '/SHEXFluidHeatFlowPS'];
+    workspace_path = [parent '/ToWorkspace_shex_fluid_heat_flow_W'];
+
+    % Remove a prior diagnostic insertion before restoring the named native
+    % connection. This makes repeated model construction idempotent.
+    delete_block_if_present_with_lines(workspace_path);
+    delete_block_if_present_with_lines(ps_path);
+    delete_block_if_present_with_lines(sensor_path);
+    source_port = get_port(shex_fluid_link, 'RConn', 1);
+    downstream_port = get_port(hot_pipe, 'LConn', 2);
+    delete_line_at_port(source_port);
+    delete_line_at_port(downstream_port);
+
+    add_block(sprintf('fl_lib/Thermal/Thermal Sensors/Heat Flow Rate\nSensor'), ...
+        sensor_path, 'MakeNameUnique', 'off', ...
+        'Position', [680 410 730 450]);
+    add_block('nesl_utility/PS-Simulink Converter', ps_path, ...
+        'MakeNameUnique', 'off', 'VectorFormat', '1-D array', ...
+        'Unit', 'W', 'Position', [760 419 790 441]);
+    add_block('simulink/Sinks/To Workspace', workspace_path, ...
+        'MakeNameUnique', 'off', 'VariableName', ...
+        'shex_fluid_heat_flow_W', 'SaveFormat', 'Structure With Time', ...
+        'Position', [820 405 1035 445]);
+
     add_required_line_handle(parent, source_port, ...
         get_port(sensor_path, 'LConn', 1));
     add_required_line_handle(parent, get_port(sensor_path, 'RConn', 2), ...
