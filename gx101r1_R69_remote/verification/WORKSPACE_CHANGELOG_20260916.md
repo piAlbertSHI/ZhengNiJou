@@ -103,3 +103,22 @@ Before any output deletion, the storage manager must generate an audit-only
 candidate list; only explicitly rejected or superseded raw artifacts may then
 be applied for cleanup. No cleanup is allowed to remove the frozen C200/C180
 dependencies or any result that has not been assigned a replacement contract.
+
+## Round-two classification
+
+`Audit_HeatDriveECC_WorkspaceGovernance.ps1` completed at
+`outputs_storage_audit/workspace_governance_20260916_round2/`: 606 directories,
+`16.068887 GiB` classified, C200/C180 hash checks passed, and
+`untracked_Agent6_untouched=true`. The standard output-storage manager found
+zero new candidates. The specialized retirement contracts were rechecked and
+reported their targets already retired: 8 cold-tuning files (`1.236441 GiB`),
+2 rejected 124/225 files (`0.309055 GiB`), and the 2 non-authoritative runtime
+physical/OP files (`5,020,592,058` bytes). The C40/C60 prefix retirement audit
+also completed with a passing compact recovery package and no production or
+Table 4 promotion.
+
+No additional deletion was applied in this round. The largest remaining
+diagnostic raw packages (v13, 120/225, and 125/225) remain explicit dependencies
+of the existing cold-state comparison reports and therefore require a new
+replacement contract before removal. Historical directories without an exact
+retirement contract remain classified as pending review.
