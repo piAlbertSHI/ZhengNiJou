@@ -139,3 +139,21 @@ The compatibility fix strips the legacy non-state configurability metadata and
 rebinds only the prior options' model-path metadata to the verified worktree
 model; no plant or state parameter is relaxed, and no Operating Point is
 imported by the audit.
+
+## Round-three audit-only decision (2026-09-16 04:43)
+
+After confirming that no MATLAB process referenced `gx101r1_R69_remote/outputs`,
+`Manage_HeatDriveECC_OutputStorage.ps1` was run in audit-only mode. The output
+root was `11.932 GiB`; `candidate_count=0`, so no deletion was applied. The
+candidate CSV and summary receipt are:
+
+- `outputs_storage_audit/cleanup_candidates_20260916_044231.csv`
+- `outputs_storage_audit/cleanup_summary_20260916_044231.txt`
+
+`Audit_HeatDriveECC_WorkspaceGovernance.ps1` then produced
+`outputs_storage_audit/workspace_governance_20260916_round3/` with 608
+directories and `16.069150 GiB` classified. C200/C180 authority hashes pass and
+`Agent6` remains untouched. The no-op cleanup is intentional: v13, 120/225,
+and 125/225 still have report dependencies and no hash-bound replacement
+package, while the explicit raw retirement receipts already show their listed
+targets as absent.
