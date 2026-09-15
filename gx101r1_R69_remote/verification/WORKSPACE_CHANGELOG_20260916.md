@@ -80,3 +80,26 @@ periodic gates, so it is diagnostic evidence only and is rejected for
 recovery or Table 4 use. Its strict evidence contract is
 `outputs_storage_audit/c200_control_volume_evidence_v8_20260916/`; the raw
 MAT and dense probe data are eligible for retirement after hashing.
+
+## Pre-cleanup Git and workspace consolidation
+
+The current branch remains `codex/conservative-chamber-cold-diagnostic`.
+The next tracked change records the segment-observation/checkpoint-merge
+implementation in `Run_HeatDriveECC_EighthRound_Simulink_Cycles.m` and the
+corresponding modification summary in
+`项目文档/报告/2026-09-16_前序修改汇总与工作区治理.md`.
+
+The working tree also contains an uncommitted binary change to
+`heatdrive_ecc_coupled_se21.slx` (current SHA-256
+`77E2ACD5B983A0BA72DFB72D3AD106F4D0BC524C2EC56C79C096EEBB5DA88599`; Git
+baseline object `7b7afea69c0ff1b547592f96f02498e3f487aa33`). It is deliberately
+left unstaged because the diagnostic probe contract says instrumentation is
+in-memory only and no provenance currently explains a saved-model change.
+The file is preserved, not reverted or overwritten. `Agent6/` remains outside
+the repository and untouched.
+
+The authoritative C200 hashes and the v8 rejection boundary remain unchanged.
+Before any output deletion, the storage manager must generate an audit-only
+candidate list; only explicitly rejected or superseded raw artifacts may then
+be applied for cleanup. No cleanup is allowed to remove the frozen C200/C180
+dependencies or any result that has not been assigned a replacement contract.
