@@ -116,7 +116,6 @@ def main() -> int:
             "physical/buffer_inventory_mass_kg",
             "physical/buffer_inventory_internal_energy_J",
             "physical/buffer_port_mdot_A_kgps",
-            "physical/buffer_port_mdot_B_kgps",
         ])
         pipe_required = _presence(h5, [
             "physical/pipe_inventory_names",
@@ -128,8 +127,8 @@ def main() -> int:
             "physical/manifold_inventory_internal_energy_J",
             "physical/pipe_port_mdot_A_kgps",
             "physical/pipe_port_mdot_B_kgps",
-            "physical/pipe_port_enthalpy_A_W",
-            "physical/pipe_port_enthalpy_B_W",
+            "physical/pipe_port_energy_A_W",
+            "physical/pipe_port_energy_B_W",
         ])
         pump_required = _finite_presence(h5, [
             "physical/pump_pressure_port_A_MPa",
@@ -254,7 +253,6 @@ def main() -> int:
                     "physical/buffer_inventory_mass_kg",
                     "physical/buffer_inventory_internal_energy_J",
                     "physical/buffer_port_mdot_A_kgps",
-                    "physical/buffer_port_mdot_B_kgps",
                 ]),
                 "missing_required_state": [] if all(buffer_required.values()) else [
                     "buffer inventory/port mass-flow ledger",
@@ -274,8 +272,8 @@ def main() -> int:
                     "physical/manifold_inventory_internal_energy_J",
                     "physical/pipe_port_mdot_A_kgps",
                     "physical/pipe_port_mdot_B_kgps",
-                    "physical/pipe_port_enthalpy_A_W",
-                    "physical/pipe_port_enthalpy_B_W",
+                    "physical/pipe_port_energy_A_W",
+                    "physical/pipe_port_energy_B_W",
                 ]),
                 "missing_required_state": [] if all(pipe_required.values()) else [
                     "pipe/manifold port mass/enthalpy ledger",
