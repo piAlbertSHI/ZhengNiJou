@@ -3223,3 +3223,11 @@ Point。审计覆盖 `2,000,001` 个时间样本，并把配置字段、静态�
 同时更新 `Run_HeatDriveECC_Table4_OuterSolve.m` 的拒绝包字段；真实 MATLAB guard 烟测
 `OUTER_GUARD_CONTROL_VOLUME_PASS=1 candidates_started=0 complete=0 conflict=1`，
 生成的 guard 明确记录控制体证据路径、完整性和 periodic 冲突，不再只记录一个笼统的未授权状态。
+
+## 162. 2026-09-16 控制体观测层实施
+
+本轮在 C200 冻结主线之外完成独立控制体观测层扩展，并用真实 1-cycle Simscape 烟测验证字段落盘。
+新增了 SHEX/HHEX/CHEX 流体字段、逐 buffer/Pipe/连接腔库存、Tank/Pipe 端口质量流量、Pipe 原生焓流候选和泵端压力候选；严格审计现在要求新增时序字段全为有限值，不能以字段存在或静态配置冒充测量。
+
+v4 烟测中 SHEX/HHEX/CHEX 流体观测通过，但 buffer B 端口、管路两端焓流和泵压力交叉核对仍为 NaN；因此 buffers、pipes/manifolds、pumps 仍是 `partial`，`outer_solve_eligible=false`、`paired_table4_eligible=false`。该 1-cycle 结果的机制、周期和 Table 4 门禁均失败，不能作为恢复或物理候选输入。详细记录见
+`项目文档/报告/2026-09-16_控制体观测层实施与审核.md`。

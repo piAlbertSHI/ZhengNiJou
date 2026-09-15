@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any
 
 import h5py
+import numpy as np
 
 
 def _sha256(path: Path) -> str:
@@ -42,6 +43,29 @@ def _scalar(h5: h5py.File, path: str) -> float | None:
 
 def _presence(h5: h5py.File, paths: list[str]) -> dict[str, bool]:
     return {path: path in h5 for path in paths}
+
+
+def _finite_presence(h5: h5py.File, paths: list[str]) -> dict[str, bool]:
+    """Require a time-resolved numeric dataset to contain only finite values."""
+    result: dict[str, bool] = {}
+    for path in paths:
+        if path not in h5 or not isinstance(h5[path], h5py.Dataset):
+            result[path] = False
+            continue
+        dataset = h5[path]
+        if dataset.dtype.kind in "SUO":
+            result[path] = True
+            continue
+        finite = True
+        if dataset.chunks:
+            for selection in dataset.iter_chunks():
+                if not np.isfinite(dataset[selection]).all():
+                    finite = False
+                    break
+        else:
+            finite = bool(np.isfinite(dataset[()]).all())
+        result[path] = finite
+    return result
 
 
 def _status(present: dict[str, bool], *, configured_only: bool = False) -> str:
@@ -86,6 +110,31 @@ def main() -> int:
     with h5py.File(result_path, "r") as h5:
         physical = h5["physical"]
         sample_count = int(physical["time_s"].shape[-1])
+        buffer_required = _presence(h5, [
+            "physical/buffer_inventory_names",
+        ]) | _finite_presence(h5, [
+            "physical/buffer_inventory_mass_kg",
+            "physical/buffer_inventory_internal_energy_J",
+            "physical/buffer_port_mdot_A_kgps",
+            "physical/buffer_port_mdot_B_kgps",
+        ])
+        pipe_required = _presence(h5, [
+            "physical/pipe_inventory_names",
+            "physical/manifold_inventory_names",
+        ]) | _finite_presence(h5, [
+            "physical/pipe_inventory_mass_kg",
+            "physical/pipe_inventory_internal_energy_J",
+            "physical/manifold_inventory_mass_kg",
+            "physical/manifold_inventory_internal_energy_J",
+            "physical/pipe_port_mdot_A_kgps",
+            "physical/pipe_port_mdot_B_kgps",
+            "physical/pipe_port_enthalpy_A_W",
+            "physical/pipe_port_enthalpy_B_W",
+        ])
+        pump_required = _finite_presence(h5, [
+            "physical/pump_pressure_port_A_MPa",
+            "physical/pump_pressure_port_B_MPa",
+        ])
         evidence = {
             "CHEX_sensor_and_boundary": {
                 "status": _status(_presence(h5, [
@@ -108,12 +157,15 @@ def main() -> int:
                     "physical/SHEX_T_K",
                     "physical/SHEX_buffer_T_K",
                     "physical/Q_SHEX_source_to_sink_W",
+                ]) | _finite_presence(h5, [
+                    "physical/Q_SHEX_fluid_W",
                     "physical/SHEX_mdot_kgps",
                 ])),
                 "time_resolved_signals": _presence(h5, [
                     "physical/SHEX_T_K",
                     "physical/SHEX_buffer_T_K",
                     "physical/Q_SHEX_source_to_sink_W",
+                    "physical/Q_SHEX_fluid_W",
                     "physical/SHEX_mdot_kgps",
                 ]),
                 "configured_signals": _presence(h5, [
@@ -125,14 +177,17 @@ def main() -> int:
                 "status": _status(_presence(h5, [
                     "physical/HHEX_T_K",
                     "physical/HHEX_buffer_T_K",
+                ]) | _finite_presence(h5, [
                     "physical/Q_HHEX_fluid_W",
-                    "physical/HHEX_mdot_kgps",
+                    "physical/HHEX_mdot_SE_kgps",
+                    "physical/HHEX_mdot_SMA_kgps",
                 ])),
                 "time_resolved_signals": _presence(h5, [
                     "physical/HHEX_T_K",
                     "physical/HHEX_buffer_T_K",
                     "physical/Q_HHEX_fluid_W",
-                    "physical/HHEX_mdot_kgps",
+                    "physical/HHEX_mdot_SE_kgps",
+                    "physical/HHEX_mdot_SMA_kgps",
                 ]),
                 "configured_signals": _presence(h5, [
                     "options/output/Q_the_sma_boundary_W",
@@ -142,13 +197,14 @@ def main() -> int:
             "CHEX_fluid": {
                 "status": _status(_presence(h5, [
                     "physical/CHEX_T_K",
+                ]) | _finite_presence(h5, [
                     "physical/Q_CHEX_fluid_W",
-                    "physical/CHEX_mdot_kgps",
+                    "physical/CHEX_mdot_SE_kgps",
                 ])),
                 "time_resolved_signals": _presence(h5, [
                     "physical/CHEX_T_K",
                     "physical/Q_CHEX_fluid_W",
-                    "physical/CHEX_mdot_kgps",
+                    "physical/CHEX_mdot_SE_kgps",
                 ]),
                 "configured_signals": _presence(h5, [
                     "options/output/SE_CHEX_Q_21",
@@ -188,33 +244,53 @@ def main() -> int:
                 ]),
             },
             "buffers": {
-                "status": "partial",
+                "status": _status(buffer_required),
                 "time_resolved_signals": _presence(h5, [
                     "physical/SHEX_buffer_T_K",
                     "physical/HHEX_buffer_T_K",
                     "physical/CHEX_buffer_T_K",
                     "physical/SMA_HHEX_buffer_T_K",
+                    "physical/buffer_inventory_names",
+                    "physical/buffer_inventory_mass_kg",
+                    "physical/buffer_inventory_internal_energy_J",
+                    "physical/buffer_port_mdot_A_kgps",
+                    "physical/buffer_port_mdot_B_kgps",
                 ]),
-                "missing_required_state": [
-                    "buffer mass or enthalpy state",
-                    "buffer inlet/outlet mass flow ledger",
+                "missing_required_state": [] if all(buffer_required.values()) else [
+                    "buffer inventory/port mass-flow ledger",
                 ],
             },
             "pipes_and_manifolds": {
-                "status": "partial",
+                "status": _status(pipe_required),
                 "time_resolved_signals": _presence(h5, [
                     "physical/pressure_command_SMA_MPa",
                     "physical/pressure_command_SE_MPa",
                     "physical/probes",
+                    "physical/pipe_inventory_names",
+                    "physical/pipe_inventory_mass_kg",
+                    "physical/pipe_inventory_internal_energy_J",
+                    "physical/manifold_inventory_names",
+                    "physical/manifold_inventory_mass_kg",
+                    "physical/manifold_inventory_internal_energy_J",
+                    "physical/pipe_port_mdot_A_kgps",
+                    "physical/pipe_port_mdot_B_kgps",
+                    "physical/pipe_port_enthalpy_A_W",
+                    "physical/pipe_port_enthalpy_B_W",
                 ]),
-                "missing_required_state": [
-                    "pipe/manifold inventory state",
-                    "pipe inlet/outlet enthalpy flow",
+                "missing_required_state": [] if all(pipe_required.values()) else [
+                    "pipe/manifold port mass/enthalpy ledger",
                     "pressure-volume work or wall storage",
                 ],
             },
             "pumps": {
-                "status": "partial",
+                "status": _status(_presence(h5, [
+                    "physical/pump_power_SMA_W",
+                    "physical/pump_power_SE_W",
+                    "physical/mdot_SMA_kgps",
+                    "physical/mdot_SE_stage2_in_kgps",
+                    "physical/pressure_command_SMA_MPa",
+                    "physical/pressure_command_SE_MPa",
+                ]) | pump_required),
                 "time_resolved_signals": _presence(h5, [
                     "physical/pump_power_SMA_W",
                     "physical/pump_power_SE_W",
@@ -222,8 +298,10 @@ def main() -> int:
                     "physical/mdot_SE_stage2_in_kgps",
                     "physical/pressure_command_SMA_MPa",
                     "physical/pressure_command_SE_MPa",
+                    "physical/pump_pressure_port_A_MPa",
+                    "physical/pump_pressure_port_B_MPa",
                 ]),
-                "missing_required_state": [
+                "missing_required_state": [] if all(pump_required.values()) else [
                     "pump inlet/outlet pressure ports for hydraulic power cross-check",
                 ],
             },
