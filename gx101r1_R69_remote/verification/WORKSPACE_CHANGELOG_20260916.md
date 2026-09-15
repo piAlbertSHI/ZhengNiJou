@@ -54,6 +54,13 @@ targets are absent, while the frozen C200 hashes remain
 `0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD` and
 `FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD5DD7D17DA7F798EBAAF4816`.
 
+The post-cleanup workspace classification is recorded under
+`outputs_storage_audit/workspace_governance_20260916_post_cleanup/`: 599
+directories and `16.068590 GiB` classified, with both C200 and C180 authority
+hash sets passing and `untracked_Agent6_untouched=true`. The governance script
+was made runtime-compatible by using URI-based relative paths instead of a
+runtime-dependent static `GetRelativePath` call.
+
 ## Gate still open
 
 The remaining control-volume deficiency is the pump inlet/outlet pressure

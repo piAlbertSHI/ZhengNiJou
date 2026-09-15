@@ -36,6 +36,14 @@ function Get-DirectoryBytes([string]$Path) {
     return $total
 }
 
+function Get-WorkspaceRelativePath([string]$BasePath, [string]$Path) {
+    $baseFull = [IO.Path]::GetFullPath([string]$BasePath)
+    $pathFull = [IO.Path]::GetFullPath([string]$Path)
+    $baseUri = New-Object System.Uri -ArgumentList ($baseFull.TrimEnd('\') + '\')
+    $pathUri = New-Object System.Uri -ArgumentList $pathFull
+    return [Uri]::UnescapeDataString($baseUri.MakeRelativeUri($pathUri).ToString()).Replace('/', '\')
+}
+
 $c200 = Read-Contract 'c200_mainline_freeze_contract.json'
 $c180 = Read-Contract 'runtime_c180_recovery_contract.json'
 $c200Run = Split-Path -Parent ([IO.Path]::GetFullPath((Join-Path $repo $c200.result_relative_path)))
@@ -95,9 +103,9 @@ $rows = foreach ($root in @($outputs, $storageAudit)) {
             $reason = 'Markers prohibit recovery; raw deletion still requires an exact retirement receipt.'
         }
         [pscustomobject]@{
-            root = [IO.Path]::GetRelativePath($workspace, $root)
+            root = Get-WorkspaceRelativePath $workspace $root
             directory = $directory.Name
-            relative_path = [IO.Path]::GetRelativePath($workspace, $directory.FullName)
+             relative_path = Get-WorkspaceRelativePath $workspace $directory.FullName
             classification = $classification
             action = $action
             bytes = $bytes
@@ -130,7 +138,7 @@ $authorityFiles = foreach ($contract in @($c200, $c180)) {
         [pscustomobject]@{
             contract = $contract.schema
             kind = $kind
-            path = [IO.Path]::GetRelativePath($workspace, $path)
+             path = Get-WorkspaceRelativePath $workspace $path
             exists = Test-Path -LiteralPath $path -PathType Leaf
             bytes = if (Test-Path -LiteralPath $path -PathType Leaf) { (Get-Item -LiteralPath $path).Length } else { 0 }
             actual_sha256 = if (Test-Path -LiteralPath $path -PathType Leaf) { (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash } else { '' }
