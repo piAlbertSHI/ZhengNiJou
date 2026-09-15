@@ -163,3 +163,20 @@ with `git worktree remove --force` after confirming no MATLAB process was
 active. The current `tmp/c200_c201_worktree_v2` worktree is retained because
 it is the active contract-compatible diagnostic copy. No result, checkpoint,
 model, or scientific evidence was deleted.
+
+## Round-four pre-cleanup Git checkpoint
+
+The preceding implementation and governance work was reconciled before a new
+storage pass. The branch is `codex/conservative-chamber-cold-diagnostic` at
+`00f4e92`, and no tracked script change is uncommitted. The sole repository
+artifact intentionally left unstaged is the unexplained binary change to
+`gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx` (SHA-256
+`77E2ACD5B983A0BA72DFB72D3AD106F4D0BC524C2EC56C79C096EEBB5DA88599`; tracked
+baseline object `7b7afea69c0ff1b547592f96f02498e3f487aa33`). It is preserved and
+neither reverted nor committed. `Agent6/` remains outside repository scope and
+untouched.
+
+This checkpoint precedes the next audit-only storage classification. Deletion
+requires an explicit rejection/supersession contract, no active MATLAB
+reference, preserved authority hashes, and a receipt; age, size, or directory
+name alone is insufficient.
