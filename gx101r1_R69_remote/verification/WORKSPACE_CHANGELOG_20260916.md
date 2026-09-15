@@ -157,3 +157,9 @@ directories and `16.069150 GiB` classified. C200/C180 authority hashes pass and
 and 125/225 still have report dependencies and no hash-bound replacement
 package, while the explicit raw retirement receipts already show their listed
 targets as absent.
+
+The duplicate detached worktree `tmp/c200_continuation_worktree` was retired
+with `git worktree remove --force` after confirming no MATLAB process was
+active. The current `tmp/c200_c201_worktree_v2` worktree is retained because
+it is the active contract-compatible diagnostic copy. No result, checkpoint,
+model, or scientific evidence was deleted.
