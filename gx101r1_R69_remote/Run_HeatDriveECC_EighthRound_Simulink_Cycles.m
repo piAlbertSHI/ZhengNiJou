@@ -247,6 +247,8 @@ function [sim_in, context] = configure_checkpoint_resume(sim_in, model_name, opt
         checkpoint_contract(model_name, options), transition_fields);
     saved_contract = normalize_controller_retune_contract( ...
         checkpoint.checkpoint_meta.contract);
+    saved_contract = normalize_checkpoint_compatibility_contract( ...
+        saved_contract);
     if ~isfield(saved_contract, 'solid')
         % C200 predates the explicit solid sub-contract. Recover its exact
         % baseline value from the checkpoint-bound prior physical result.
@@ -258,10 +260,15 @@ function [sim_in, context] = configure_checkpoint_resume(sim_in, model_name, opt
         error('Run:EighthRound:CheckpointContractMismatch', ...
             'Model, solver, material, geometry, route, or thermal contract changed.');
     end
+    prior_options = prior.options;
+    % The prior result may retain the original repository path while a
+    % strict diagnostic runs in an isolated worktree.  Rebind only this
+    % path metadata; the file hash remains part of the immutable contract.
+    prior_options.model_path = options.model_path;
     prior_contract = normalize_checkpoint_transition( ...
+        normalize_checkpoint_compatibility_contract( ...
         normalize_controller_retune_contract( ...
-        checkpoint_contract(model_name, prior.options)), ...
-        transition_fields);
+        checkpoint_contract(model_name, prior_options))), transition_fields);
     if ~isequaln(prior_contract, expected)
         error('Run:EighthRound:PriorResultContractMismatch', ...
             'Prior physical result parameters do not match the checkpoint contract.');
@@ -608,6 +615,15 @@ function contract = normalize_controller_retune_contract(contract)
         % parameter before this contract field was made explicit.
         contract.system.cold_boundary_temperature_configurability = ...
             'compiletime';
+    end
+end
+
+function contract = normalize_checkpoint_compatibility_contract(contract)
+% Remove legacy metadata that is not a plant or state compatibility field.
+    if isfield(contract, 'system')
+        contract.system = rmfield_if_present(contract.system, ...
+            {'cold_boundary_temperature_configurability_source', ...
+            'cold_boundary_temperature_configurability'});
     end
 end
 

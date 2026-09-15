@@ -122,3 +122,20 @@ diagnostic raw packages (v13, 120/225, and 125/225) remain explicit dependencies
 of the existing cold-state comparison reports and therefore require a new
 replacement contract before removal. Historical directories without an exact
 retirement contract remain classified as pending review.
+
+## C200->C201 contract audit
+
+The canonical model in the main worktree has an unexplained uncommitted binary
+change and therefore cannot be used for strict C200 continuation. An isolated
+worktree at `tmp/c200_continuation_worktree` uses the model from Git `4df0ab9`,
+whose SHA-256 matches the C200 checkpoint:
+`f1d07fde12f442afb2f735d5a9a833269cf433437896e2096f23ae984575ea5e`.
+
+The new read-only `Audit_HeatDriveECC_CheckpointContract.m` completed a
+checkpoint/current, prior/current, and time-continuity comparison with all three
+passing. The JSON result is
+`outputs_storage_audit/checkpoint_contract_diff_c200_c201_20260916.json`.
+The compatibility fix strips the legacy non-state configurability metadata and
+rebinds only the prior options' model-path metadata to the verified worktree
+model; no plant or state parameter is relaxed, and no Operating Point is
+imported by the audit.
