@@ -438,7 +438,43 @@ function [total_W, pressure_A_MPa, pressure_B_MPa, names, child_names] = ...
         [pressure_B_MPa(:, idx), ~] = ...
             read_optional_simscape_candidates(sim_out, model_name, ...
             names{idx}, {'p_B', 'P_B', 'p'}, time_s, 'MPa');
+        [probe_A, probe_B, probe_available] = ...
+            read_diagnostic_pump_pressure_pair(sim_out, names{idx}, time_s);
+        if probe_available && ...
+                (all(~isfinite(pressure_A_MPa(:, idx))) || ...
+                all(~isfinite(pressure_B_MPa(:, idx))))
+            pressure_A_MPa(:, idx) = probe_A;
+            pressure_B_MPa(:, idx) = probe_B;
+        end
     end
+end
+
+function [pressure_A, pressure_B, available] = ...
+        read_diagnostic_pump_pressure_pair(sim_out, source_name, time_s)
+% Use only explicitly instrumented diagnostic workspace probes as a fallback.
+    pressure_A = NaN(numel(time_s), 1);
+    pressure_B = NaN(numel(time_s), 1);
+    available = false;
+    prefix = '';
+    if contains(source_name, 'SMA Pressure Source')
+        prefix = 'sma';
+    elseif contains(source_name, 'SE_Stage2_PistonPressureSource')
+        prefix = 'se_stage2';
+    elseif contains(source_name, 'SE_Stage4_PistonPressureSource')
+        prefix = 'se_stage4';
+    end
+    if isempty(prefix)
+        return;
+    end
+    names = sim_out.who;
+    name_A = sprintf('pump_pressure_%s_port_a_MPa', prefix);
+    name_B = sprintf('pump_pressure_%s_port_b_MPa', prefix);
+    if ~all(ismember({name_A, name_B}, names))
+        return;
+    end
+    pressure_A = read_on_grid(sim_out, name_A, time_s, 'linear');
+    pressure_B = read_on_grid(sim_out, name_B, time_s, 'linear');
+    available = all(isfinite(pressure_A)) && all(isfinite(pressure_B));
 end
 
 function [values, selected_name] = read_optional_simscape_candidates( ...

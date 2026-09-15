@@ -70,3 +70,13 @@ not `p_A` or `p_B`. Commands or a duplicated proxy pressure are not valid
 substitutes. The next permitted diagnostic is an independent cold model with
 named two-port pressure sensors, followed by a one-cycle smoke and strict
 re-audit.
+
+## v8 follow-up
+
+The v8 diagnostic completed that permitted pressure-probe smoke. All three
+pressure sources now have finite named A/B signals, and the hydraulic-power
+cross-check is complete. The one-cycle run still fails the mechanism and
+periodic gates, so it is diagnostic evidence only and is rejected for
+recovery or Table 4 use. Its strict evidence contract is
+`outputs_storage_audit/c200_control_volume_evidence_v8_20260916/`; the raw
+MAT and dense probe data are eligible for retirement after hashing.
