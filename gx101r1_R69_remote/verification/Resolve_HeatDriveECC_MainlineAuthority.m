@@ -31,6 +31,21 @@ function authority = Resolve_HeatDriveECC_MainlineAuthority(settings)
         contract.validation_report_relative_path);
     progress_path = resolve_inside_repo(repo_root, ...
         contract.continuation_progress_relative_path);
+    evidence_path = '';
+    evidence_complete = false;
+    evidence_conflict = false;
+    if isfield(contract, 'control_volume_evidence_relative_path')
+        evidence_path = resolve_inside_repo(repo_root, ...
+            contract.control_volume_evidence_relative_path);
+        assert(isfile(evidence_path), ...
+            'HeatDriveECC:MissingControlVolumeEvidence', ...
+            'Control-volume evidence is missing: %s', evidence_path);
+        evidence = jsondecode(fileread(evidence_path));
+        evidence_complete = logical(get_json_bool(evidence, ...
+            'all_required_control_volume_observations_complete', false));
+        evidence_conflict = logical(get_json_bool(evidence, ...
+            'periodic_steady_state_evidence.conflict_detected', false));
+    end
     required = {result_path, checkpoint_path, report_path, progress_path};
     assert(all(cellfun(@isfile, required)), ...
         'HeatDriveECC:MissingFrozenArtifact', ...
@@ -73,6 +88,9 @@ function authority = Resolve_HeatDriveECC_MainlineAuthority(settings)
     authority.checkpoint_path = checkpoint_path;
     authority.report_path = report_path;
     authority.progress_path = progress_path;
+    authority.control_volume_evidence_path = evidence_path;
+    authority.control_volume_observations_complete = evidence_complete;
+    authority.control_volume_evidence_conflict_detected = evidence_conflict;
     authority.result_sha256 = contract.result_sha256;
     authority.checkpoint_sha256 = contract.checkpoint_sha256;
     authority.completed_cycles = contract.completed_cycles;
@@ -88,13 +106,35 @@ function authority = Resolve_HeatDriveECC_MainlineAuthority(settings)
     end
     authority.outer_solve_authorized = false;
     if isfield(contract, 'outer_solve_authorized')
-        authority.outer_solve_authorized = logical( ...
-            contract.outer_solve_authorized);
+        requested = logical(contract.outer_solve_authorized);
+        if requested && (~evidence_complete || evidence_conflict)
+            error('HeatDriveECC:OuterSolveControlVolumeGate', ...
+                ['outer_solve_authorized=true requires complete, ', ...
+                 'non-conflicting control-volume evidence.']);
+        end
+        authority.outer_solve_authorized = requested && ...
+            evidence_complete && ~evidence_conflict;
     end
     authority.sensitivity_run_authorized = false;
     if isfield(contract, 'sensitivity_run_authorized')
         authority.sensitivity_run_authorized = logical( ...
             contract.sensitivity_run_authorized);
+    end
+end
+
+function value = get_json_bool(root, dotted_name, default_value)
+    parts = strsplit(dotted_name, '.');
+    value = root;
+    for idx = 1:numel(parts)
+        name = parts{idx};
+        if ~isstruct(value) || ~isfield(value, name)
+            value = default_value;
+            return;
+        end
+        value = value.(name);
+    end
+    if ~(islogical(value) || (isnumeric(value) && isscalar(value)))
+        value = default_value;
     end
 end
 

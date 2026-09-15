@@ -19,6 +19,9 @@
   "checkpoint_sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816",
   "validation_report_relative_path": "outputs/qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821/qian2019_table2_table4_simscape_200cycle_20260821_121246/physical_validation_report.txt",
   "continuation_progress_relative_path": "outputs/qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821/steady_continuation_progress.csv",
+  "control_volume_evidence_relative_path": "outputs_storage_audit/c200_control_volume_evidence_20260915.json",
+  "control_volume_observations_complete": false,
+  "control_volume_evidence_conflict_detected": true,
   "performance_window": {
     "cycles": 10,
     "time_s": [1900, 2000],

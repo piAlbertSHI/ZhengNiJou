@@ -3183,3 +3183,39 @@ L8/局部 OAT 敏感性入口也已绑定 C200 合同的
 最新 C200 L8 预检 `qian_table4_L8_sensitivity_preflight_c200_20260915` 已完成：8/8 设计点
 合同通过，UA 与 natural-gate 合同均通过，声明字段数为 27。该预检只验证设计/合同完整性，
 不生成物理轨迹，不改变 C200 恢复参考，也不能支持温跨或 SCP 主导因素的物理结论。
+
+## 161. C200 控制体实际观测证据与 outer-solve 二次门禁（2026-09-15）
+
+在第126节控制体结构合同基础上，新增只读审计器
+`verification/Audit_HeatDriveECC_C200ControlVolumeEvidence.py`，直接以 MATLAB 7.3 HDF5
+形式读取冻结 C200 `physical_simscape_result.mat` 的元数据和信号路径，不加载或改写 Operating
+Point。审计覆盖 `2,000,001` 个时间样本，并把配置字段、静态摘要和时间分辨率端口严格分开。
+
+实际观测结论如下：
+
+| 控制体 | 实际状态 | 主要证据/缺口 |
+|---|---|---|
+| CHEX传感器/固定边界 | `complete`（传感器层） | `CHEX_T_K`、`Q_CHEX_reservoir_to_hx_W`存在；`finite_mass_authoritative=false`，边界是 fixed reservoir temperature |
+| SMA、SE固体 | `complete` | 温度、相分数、本构/管路热流和固体时序信号存在 |
+| SHEX/HHEX/CHEX下游流体 | `partial` | 有换热器温度/部分配置量，但缺完整时间分辨率的流量和 source-to-fluid 热流 |
+| buffers | `partial` | 有 buffer 温度，没有库存质量/焓和进出流量账本 |
+| 管路/连接腔 | `partial` | 有压力命令和探针，没有管路库存、焓流及压力-体积功/壁储能 |
+| 泵 | `partial` | 有泵功、部分流量和压力命令，没有入口/出口压力端口的液压功交叉核对 |
+
+机器结果为 `outputs_storage_audit/c200_control_volume_evidence_20260915.json`：
+`all_required_control_volume_observations_complete=false`、缺失集合为
+`SHEX_fluid/HHEX_fluid/CHEX_fluid/buffers/pipes_and_manifolds/pumps`，
+`outer_solve_eligible=false`、`paired_table4_eligible=false`。因此第八点第2项已经从“结构合同”推进到
+“实际观测清单”，但整机控制体仍未闭合。
+
+同时发现一个必须保留的证据冲突：冻结 MAT 内部
+`summary/performance/periodic_steady_state=0`，而同目录 `physical_validation_report.txt`
+和 C200 recovery contract 的末10周期审核均记录 periodic=1。审计结果明确保存
+`mat_summary_flag=false`、`validation_report_flag=true`、`freeze_contract_flag=true`、
+`conflict_detected=true`，没有擅自覆盖任何来源。该冲突不改变冻结文件哈希，但在冲突解释完成前，
+不得将 C200 作为当前模型状态导入依据；现有“性能基准冻结”用途保持不变。
+
+`Resolve_HeatDriveECC_MainlineAuthority.m` 已读取该证据包：即使未来有人误将
+`outer_solve_authorized` 改为 `true`，只要控制体观测不完整或 periodic 字段冲突，入口都会硬拒绝；
+本轮 MATLAB authority 烟测结果为 `outer=0 evidence_complete=0 conflict=1 periodic=1 cycles=200`。
+没有启动候选仿真、插值、paired endpoint 或 Table 4 strict audit。
