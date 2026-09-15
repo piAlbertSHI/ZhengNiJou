@@ -17,6 +17,18 @@ if ($outputRootResolved -ne $expectedRoot) {
     throw "Refusing to manage a path other than the repository outputs root: $outputRootResolved"
 }
 
+function Get-RelativePath([string]$BasePath, [string]$Path) {
+    if ([string]::IsNullOrWhiteSpace($BasePath) -or
+            [string]::IsNullOrWhiteSpace($Path)) {
+        throw "Relative-path inputs cannot be empty. Base='$BasePath' Path='$Path'"
+    }
+    $baseFull = [IO.Path]::GetFullPath([string]$BasePath)
+    $pathFull = [IO.Path]::GetFullPath([string]$Path)
+    $baseUri = New-Object System.Uri -ArgumentList ($baseFull.TrimEnd('\') + '\')
+    $pathUri = New-Object System.Uri -ArgumentList $pathFull
+    return [Uri]::UnescapeDataString($baseUri.MakeRelativeUri($pathUri).ToString()).Replace('/', '\')
+}
+
 $running = @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object {
     $_.Name -match '(?i)^matlab(?:\.exe)?$' -and
     ($_.CommandLine -match [regex]::Escape($outputRootResolved) -or
@@ -32,12 +44,10 @@ if (-not (Test-Path -LiteralPath $freezeContractPath -PathType Leaf)) {
 }
 $freezeContract = Get-Content -LiteralPath $freezeContractPath -Raw |
     ConvertFrom-Json
-$authorityResult = [System.IO.Path]::GetRelativePath(
-    $outputRootResolved,
-    (Join-Path $repoRoot $freezeContract.result_relative_path))
-$authorityCheckpoint = [System.IO.Path]::GetRelativePath(
-    $outputRootResolved,
-    (Join-Path $repoRoot $freezeContract.checkpoint_relative_path))
+$authorityResult = Get-RelativePath $outputRootResolved `
+    (Join-Path $repoRoot $freezeContract.result_relative_path)
+$authorityCheckpoint = Get-RelativePath $outputRootResolved `
+    (Join-Path $repoRoot $freezeContract.checkpoint_relative_path)
 $authorityRun = Split-Path -Parent $authorityResult
 $preserveRawPaths = @(
     $authorityResult,
@@ -56,7 +66,7 @@ if (Test-Path -LiteralPath (Join-Path $prefixArchiveRoot 'archive_verification.j
                 [StringComparison]::OrdinalIgnoreCase) -or -not (Test-Path -LiteralPath $replacement -PathType Leaf)) {
             throw 'A retained prefix archive lost its required raw dependency.'
         }
-        $preserveRawPaths += [IO.Path]::GetRelativePath($outputRootResolved,$replacement)
+        $preserveRawPaths += Get-RelativePath $outputRootResolved $replacement
     }
     if ($Apply) {
         $archiveAudit = & python -X utf8 (Join-Path $PSScriptRoot 'Archive_HeatDriveECC_RawPrefixes.py') --verify
@@ -83,16 +93,14 @@ if (Test-Path -LiteralPath $runtimeEvidenceContractPath -PathType Leaf) {
     }
     if (-not ($runtimeEvidenceContract.PSObject.Properties.Name -contains 'raw_preserved') -or
             $runtimeEvidenceContract.raw_preserved) {
-        $preserveRawPaths += [System.IO.Path]::GetRelativePath(
-            $outputRootResolved,
-            (Join-Path $repoRoot $runtimeEvidenceContract.result_relative_path))
+        $preserveRawPaths += Get-RelativePath $outputRootResolved `
+            (Join-Path $repoRoot $runtimeEvidenceContract.result_relative_path)
     } elseif ($Apply) {
         $baseline = (& (Join-Path $PSScriptRoot 'Audit_HeatDriveECC_RuntimeBaselinePackage.ps1')) | ConvertFrom-Json
         if (-not $baseline.package_pass) { throw 'Replacement baseline failed; C246 cannot be retired.' }
     }
-    $preserveRawPaths += [System.IO.Path]::GetRelativePath(
-        $outputRootResolved,
-        (Join-Path $repoRoot $runtimeEvidenceContract.checkpoint_relative_path))
+    $preserveRawPaths += Get-RelativePath $outputRootResolved `
+        (Join-Path $repoRoot $runtimeEvidenceContract.checkpoint_relative_path)
 }
 $largeProbeNames = @(
     'stage_temperature_probes_50samples.csv'
@@ -102,10 +110,6 @@ $rawNames = @(
     'final_operating_point.mat',
     'source_heat_flow_reaudit.mat'
 )
-
-function Get-RelativePath([string]$Path) {
-    return [System.IO.Path]::GetRelativePath($outputRootResolved, $Path)
-}
 
 function Test-PreservedRaw([string]$RelativePath) {
     foreach ($path in $preserveRawPaths) {
@@ -132,7 +136,7 @@ function Test-ReviewedDiscard([string]$Path) {
 
 $allFiles = @(Get-ChildItem -LiteralPath $outputRootResolved -File -Recurse -Force)
 $rows = foreach ($file in $allFiles) {
-    $relative = Get-RelativePath $file.FullName
+    $relative = Get-RelativePath $outputRootResolved $file.FullName
     $isRaw = $rawNames -contains $file.Name
     $isDenseProbe = $largeProbeNames -contains $file.Name
     $isLegacyFigure = $relative -match '(?i)(^|\\)figures\\'

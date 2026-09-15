@@ -3167,3 +3167,10 @@ C200 已冻结为当前唯一主线恢复参考。补齐连续进度路径后，
 候选、插值、成对端点或 Table 4 外推。真实 MATLAB 无仿真烟测通过：
 `guarded_not_authorized`，`candidates_started=0`。这只证明门禁行为正确，不改变当前
 strict Table 4、paired endpoint、完整设备第一律和 system COP 尚未完成的结论。
+
+## 工作区治理补充（2026-09-15）
+
+对两份明确 solver-failure 的 nonlinear ramp 原始观测执行哈希绑定退役，共删除
+`341,987,057` bytes；编译检查、预仿真检查、MATLAB 日志、模型元数据和删除回执保留。
+`Manage_HeatDriveECC_OutputStorage.ps1` 已兼容 Windows PowerShell 5.1 与 pwsh；两种 shell
+只读审计均为 `candidate_count=0`。C200/C180 主线和关键诊断原始证据未被触碰。
