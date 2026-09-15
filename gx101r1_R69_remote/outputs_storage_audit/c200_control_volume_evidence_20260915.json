@@ -1,0 +1,154 @@
+{
+  "schema": "heatdrive_ecc_c200_control_volume_evidence_v1",
+  "result_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\physical_simscape_result.mat",
+  "result_sha256": "0bee740b0b1298b939f5644fd6bee44296ae1d7ba121a5c5e7c55573feab97dd",
+  "contract_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\control_volume_contract_20260911\\control_volume_contract.json",
+  "contract_sha256": "a2affeee6e01bfb0a64bb285eb096075812a721f8c41ad75a0ff5d83ede313de",
+  "contract_schema": "heatdrive_ecc_control_volume_contract_v2",
+  "freeze_contract_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\c200_mainline_recovery_reference_20260915.json",
+  "freeze_contract_sha256": "3b2f9d75df3832606f00e83d3e9e423132d2c51707f8ce8e08fa0707286aed63",
+  "time_resolved_sample_count": 2000001,
+  "control_volume_evidence": {
+    "CHEX_sensor_and_boundary": {
+      "status": "complete",
+      "time_resolved_signals": {
+        "physical/CHEX_T_K": true,
+        "physical/Q_CHEX_reservoir_to_hx_W": true
+      },
+      "finite_mass_authoritative": false,
+      "boundary_mode": "fixed_reservoir_temperature"
+    },
+    "SHEX_fluid": {
+      "status": "partial",
+      "time_resolved_signals": {
+        "physical/SHEX_T_K": true,
+        "physical/SHEX_buffer_T_K": true,
+        "physical/Q_SHEX_source_to_sink_W": false,
+        "physical/SHEX_mdot_kgps": false
+      },
+      "configured_signals": {
+        "options/output/Q_shex_boundary_W": true,
+        "options/output/SMA_SHEX_mdot": true
+      }
+    },
+    "HHEX_fluid": {
+      "status": "partial",
+      "time_resolved_signals": {
+        "physical/HHEX_T_K": true,
+        "physical/HHEX_buffer_T_K": true,
+        "physical/Q_HHEX_fluid_W": false,
+        "physical/HHEX_mdot_kgps": false
+      },
+      "configured_signals": {
+        "options/output/Q_the_sma_boundary_W": true,
+        "options/output/Q_the_se_boundary_W": true
+      }
+    },
+    "CHEX_fluid": {
+      "status": "partial",
+      "time_resolved_signals": {
+        "physical/CHEX_T_K": true,
+        "physical/Q_CHEX_fluid_W": false,
+        "physical/CHEX_mdot_kgps": false
+      },
+      "configured_signals": {
+        "options/output/SE_CHEX_Q_21": true,
+        "options/output/SE_CHEX_mdot": true
+      }
+    },
+    "SMA_solid": {
+      "status": "complete",
+      "time_resolved_signals": {
+        "physical/SMA_T_21_K": true,
+        "physical/xM_SMA_21": true,
+        "physical/Q_SMA_constitutive_21_W": true,
+        "physical/Q_SMA_hold_pipe_to_solid_21_W": true,
+        "physical/Q_SMA_cooldown_pipe_to_solid_21_W": true
+      }
+    },
+    "SE_solid": {
+      "status": "complete",
+      "time_resolved_signals": {
+        "physical/SE_T_21_K": true,
+        "physical/xM_SE_21": true,
+        "physical/Q_SE_constitutive_21_W": true,
+        "physical/Q_SE_hold_pipe_to_solid_21_W": true,
+        "physical/Q_SE_cooldown_pipe_to_solid_21_W": true
+      }
+    },
+    "buffers": {
+      "status": "partial",
+      "time_resolved_signals": {
+        "physical/SHEX_buffer_T_K": true,
+        "physical/HHEX_buffer_T_K": true,
+        "physical/CHEX_buffer_T_K": true,
+        "physical/SMA_HHEX_buffer_T_K": true
+      },
+      "missing_required_state": [
+        "buffer mass or enthalpy state",
+        "buffer inlet/outlet mass flow ledger"
+      ]
+    },
+    "pipes_and_manifolds": {
+      "status": "partial",
+      "time_resolved_signals": {
+        "physical/pressure_command_SMA_MPa": true,
+        "physical/pressure_command_SE_MPa": true,
+        "physical/probes": true
+      },
+      "missing_required_state": [
+        "pipe/manifold inventory state",
+        "pipe inlet/outlet enthalpy flow",
+        "pressure-volume work or wall storage"
+      ]
+    },
+    "pumps": {
+      "status": "partial",
+      "time_resolved_signals": {
+        "physical/pump_power_SMA_W": true,
+        "physical/pump_power_SE_W": true,
+        "physical/mdot_SMA_kgps": true,
+        "physical/mdot_SE_stage2_in_kgps": true,
+        "physical/pressure_command_SMA_MPa": true,
+        "physical/pressure_command_SE_MPa": true
+      },
+      "missing_required_state": [
+        "pump inlet/outlet pressure ports for hydraulic power cross-check"
+      ]
+    }
+  },
+  "performance_window": {
+    "qian_window_cycles": 10.0,
+    "qian_window_start_s": 1900.0,
+    "qian_window_end_s": 2000.0,
+    "eq9_lift_K": 28.70997009896983,
+    "eq10_SCP_W_per_g": 0.31648049061944167,
+    "eq10_sensor_consistency_pass": true,
+    "mat_summary_periodic_steady_state": false,
+    "strict_table4_pass": false
+  },
+  "periodic_steady_state_evidence": {
+    "mat_summary_flag": false,
+    "validation_report_flag": true,
+    "freeze_contract_flag": true,
+    "conflict_detected": true
+  },
+  "provenance": {
+    "authority": "physical_simscape_to_workspace_logs",
+    "model_name": "heatdrive_ecc_coupled_se21",
+    "continuous_full_cycle_simulation": false,
+    "legacy_surrogate_used_for_results": false
+  },
+  "all_required_control_volume_observations_complete": false,
+  "missing_for_outer_solve": [
+    "CHEX_fluid",
+    "HHEX_fluid",
+    "SHEX_fluid",
+    "buffers",
+    "pipes_and_manifolds",
+    "pumps"
+  ],
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "claim_boundary": "Measured-signal inventory only. Static configuration and local solid balances do not prove complete device first-law closure."
+}
