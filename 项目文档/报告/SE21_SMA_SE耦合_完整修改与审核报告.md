@@ -3179,3 +3179,7 @@ L8/局部 OAT 敏感性入口也已绑定 C200 合同的
 `sensitivity_run_authorized=false`。合同预检仍可执行，但物理候选不会在当前完整设备
 第一律未完成的状态下启动；MATLAB 烟测确认 `candidates_started=0`。因此当前敏感性结果
 只能作为预检/历史诊断，不能宣称主导因素已由新的物理候选确定。
+
+最新 C200 L8 预检 `qian_table4_L8_sensitivity_preflight_c200_20260915` 已完成：8/8 设计点
+合同通过，UA 与 natural-gate 合同均通过，声明字段数为 27。该预检只验证设计/合同完整性，
+不生成物理轨迹，不改变 C200 恢复参考，也不能支持温跨或 SCP 主导因素的物理结论。
