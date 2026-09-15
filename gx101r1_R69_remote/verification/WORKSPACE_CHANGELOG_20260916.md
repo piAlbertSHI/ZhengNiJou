@@ -180,3 +180,26 @@ This checkpoint precedes the next audit-only storage classification. Deletion
 requires an explicit rejection/supersession contract, no active MATLAB
 reference, preserved authority hashes, and a receipt; age, size, or directory
 name alone is insufficient.
+
+## Round-four storage cleanup receipt
+
+After the pre-cleanup Git checkpoint, the standard output manager and workspace
+governance audit were rerun. No MATLAB process referenced the outputs root.
+The standard manager again found zero automatic candidates. A dedicated
+contract, `Retire_HeatDriveECC_RejectedColdFullcycleRaw.ps1`, then retired only
+the six native/conservative `observations.mat` files from the rejected,
+checkpoint-free v8/v9/v12 cold packages. The audit pass recorded all six
+SHA-256 values before deletion; the apply pass rechecked them and wrote
+`outputs_storage_audit/rejected_cold_fullcycle_raw_retirement_20260916/retirement_receipt.json`.
+
+Deleted bytes: `995,933,748` (`0.927 GiB`). Execution contracts, rejection
+markers, configuration/connectivity/inventory metadata, diaries, public target
+files, and scalar audit evidence remain. C200/C180, v13, 120/225, and 125/225
+were excluded by contract. The prior v18/v19 dense-observation retirement was
+confirmed by its existing applied receipt; no duplicate deletion was attempted.
+
+The post-cleanup output root is `11.004 GiB`, the standard candidate count is
+zero, the round-five governance snapshot is
+`outputs_storage_audit/workspace_governance_20260916_round5/`, and all frozen
+authority hashes pass. `Agent6/` remains untouched and outside repository
+scope.
