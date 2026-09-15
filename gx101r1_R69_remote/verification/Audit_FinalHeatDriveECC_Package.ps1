@@ -457,6 +457,23 @@ foreach ($name in @('native/observations.mat','conservative/observations.mat')) 
 }
 Add-Entry 'Zero-based cold buffer v13 coupled ledger audit' `
     (Join-Path $AuditRoot 'cold_buffer_mass_offset_fullcycle_v13_20260914/cold_buffer_coupled_audit.json') $true 'diagnostic_seed_not_recovery'
+# Incomplete 20-cycle attempts are retained as rejection evidence.  Their
+# markers are required so a package audit cannot silently treat a dropped
+# MATLAB session as an absent experiment.
+foreach ($attempt in @(
+        'outputs/cold_chamber_mass_offset_20cycle_kp126_225_0p85_20260914_v14',
+        'outputs/cold_chamber_mass_offset_20cycle_kp126_225_0p85_20260914_v15',
+        'outputs/cold_chamber_mass_offset_20cycle_kp126_225_0p85_20260914_v16',
+        'outputs/cold_chamber_mass_offset_20cycle_kp126_225_0p85_20260914_v17',
+        'outputs/cold_chamber_mass_offset_20cycle_kp126_225_0p85_20260914_v18',
+        'outputs/cold_chamber_mass_offset_20cycle_kp126_225_0p85_20260914_v19',
+        'outputs/cold_chamber_mass_offset_20cycle_kp126_225_0p85_20260914_v20',
+        'outputs/cold_chamber_mass_offset_10s_smoke_20260915_v21')) {
+    Add-Entry "Rejected independent cold attempt $attempt" `
+        (Join-Path $repoRoot "$attempt/REJECTED_DO_NOT_RESUME.txt") $true 'diagnostic_rejected'
+}
+Add-Entry 'Rejected independent cold v16 execution contract' `
+    (Join-Path $repoRoot 'outputs/cold_chamber_mass_offset_20cycle_kp126_225_0p85_20260914_v16/cold_chamber_execution.json') $true 'diagnostic_rejected'
 $stateObservationPackage = (& (Join-Path $repoRoot 'verification\Audit_HeatDriveECC_StateObservationPackage.ps1')) |
     ConvertFrom-Json
 if (-not $stateObservationPackage.package_pass -or
