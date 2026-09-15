@@ -3219,3 +3219,7 @@ Point。审计覆盖 `2,000,001` 个时间样本，并把配置字段、静态�
 `outer_solve_authorized` 改为 `true`，只要控制体观测不完整或 periodic 字段冲突，入口都会硬拒绝；
 本轮 MATLAB authority 烟测结果为 `outer=0 evidence_complete=0 conflict=1 periodic=1 cycles=200`。
 没有启动候选仿真、插值、paired endpoint 或 Table 4 strict audit。
+
+同时更新 `Run_HeatDriveECC_Table4_OuterSolve.m` 的拒绝包字段；真实 MATLAB guard 烟测
+`OUTER_GUARD_CONTROL_VOLUME_PASS=1 candidates_started=0 complete=0 conflict=1`，
+生成的 guard 明确记录控制体证据路径、完整性和 periodic 冲突，不再只记录一个笼统的未授权状态。
