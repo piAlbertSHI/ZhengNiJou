@@ -227,3 +227,24 @@ Round-six governance reports 615 classified directories and `15.144344 GiB`,
 with all frozen C200/C180 authority hashes passing. The active isolated
 worktree, successful v4 raw package, unresolved main-worktree SLX modification,
 and `Agent6/` were not deleted or altered.
+
+## v4 strict audit and seed rejection
+
+The exact v4 producer commit is now admitted only by the zero-based-offset
+producer set. Source provenance showed that its runner, replacement helpers and
+physical components are unchanged from `717391a`; the only change relative to
+the accepted `91dc097` runner is conservative-arm normal-mode execution for a
+public Simscape Operating Point. The initial-flux calibration path check also
+accepts only this producer's hash-identical isolated-worktree mirror. No
+producer prefix, numerical tolerance or recovery flag was relaxed.
+
+The read-only audit at
+`outputs_storage_audit/cold_chamber_control_volume_seed_20260916_v4/` passes
+evidence, local inventory, compiled-state, initial-coordinate and source-port
+checks. It does not pass the strict seed decision: both arms fail SE stage 2
+and stage 4 selected-flow gates, no independent pressure gate was evaluated,
+and the complete mechanism gate set is absent. `Classify_HeatDriveECC_ColdSeedAudit.py`
+wrote `strict_seed_decision.json` and the raw package's
+`REJECTED_DO_NOT_RESUME.txt`; the raw remains retained as failure evidence.
+The decision keeps 20-cycle continuation, production recovery, outer solve,
+sensitivity and paired Table 4 disabled.

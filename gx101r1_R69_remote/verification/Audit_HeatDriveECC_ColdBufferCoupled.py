@@ -42,9 +42,16 @@ NONLINEAR_LOCAL_BE_PRODUCER = '1c0af1a8a454d4c187062d872fa6e8b279b6742a'
 # contract; keep those commits explicitly allow-listed rather than weakening
 # the producer check globally.
 ZERO_BASED_OFFSET_PRODUCER = 'ec9d3e1521062b7e65aebc61a996d9c233b5bfbf'
+CONTROL_VOLUME_SEED_PRODUCER = 'c7e028d8a02b694f7b1e021acf6d0e880e2ece8d'
 ZERO_BASED_OFFSET_PRODUCERS = {
     ZERO_BASED_OFFSET_PRODUCER,
     '91dc097',
+    # The six runner/component/initialization sources at this execution
+    # commit are byte-identical to 717391a. Relative to the already accepted
+    # 91dc097 source, 717391a only forces the conservative public-OP arm to
+    # normal mode and records the per-arm mode; it does not change equations,
+    # targets, or state initialization.
+    CONTROL_VOLUME_SEED_PRODUCER,
 }
 # The v8 diagnostic was run after the report-only ledger commit. Both commits
 # refer to the same calibrated source implementation and remain auditable.
@@ -54,6 +61,29 @@ INITIAL_FLUX_COMPENSATION_PRODUCERS = {
     '8c796118900ed98e777f0d07aa1108625cbd90cd',
 }
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
+
+
+def calibration_reference_matches(execution_commit, declared, canonical):
+    declared, canonical = Path(declared), Path(canonical)
+    if declared.resolve() == canonical.resolve():
+        return True
+    # c7e028d ran in a contract-compatible isolated worktree whose audit
+    # prerequisites were verified copies. Bind the exception to that exact
+    # producer and artifact tail; the caller still requires the canonical
+    # content hash, and verifies the mirror too when it remains present.
+    return (execution_commit == CONTROL_VOLUME_SEED_PRODUCER
+            and declared.parts[-3:] == canonical.parts[-3:])
+
+
+def evidence_path_key(path, repo, experiment_root=None):
+    path, repo = Path(path).resolve(), Path(repo).resolve()
+    try:
+        return str(path.relative_to(repo))
+    except ValueError:
+        if experiment_root is None:
+            raise
+        root = Path(experiment_root).resolve()
+        return str(Path('experiment_root') / path.relative_to(root))
 
 
 def topology_check(native, candidate, chamber_source='ecc_inventory.conservative_chamber',
@@ -355,10 +385,14 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         runtime = read(root/'conservative/runtime_inventory_targets.json')
         prerequisite = repo/'outputs_storage_audit/cold_initial_flux_signature_20260909_v2/initial_flux_signature.json'
         calibration = repo/'outputs_storage_audit/cold_flux_compensated_onset_0p85_20260913_v6/cold_buffer_coupled_audit.json'
+        declared_calibration = Path(compensation['calibration_reference'])
+        declared_calibration_hash_pass = (not declared_calibration.exists()
+            or sha256(declared_calibration) == compensation['calibration_reference_sha256'])
         if (compensation['schema'] != 'heatdrive_ecc_cold_initial_flux_compensation_v1'
                 or compensation['diagnostic_prerequisite_sha256'] != sha256(prerequisite)
                 or compensation['calibration_reference_sha256'] != sha256(calibration)
-                or Path(compensation['calibration_reference']).resolve() != calibration.resolve()
+                or not calibration_reference_matches(execution['execution_commit'], declared_calibration, calibration)
+                or not declared_calibration_hash_pass
                 or compensation['pipe_startup_correction_s'] != 3.481406701427476e-9
                 or compensation['hypothesis_step_s'] != 2e-5
                 or compensation['physical_target_count'] != 204
@@ -503,7 +537,8 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         cold_smoke_numerical_gates_pass=numerical_pass if not full_cycle else None,
         full_cycle_completed=full_cycle, all_mechanism_gates_evaluated=False, full_device_first_law_verified=False,
         production_recovery_allowed=False, table4_reproduction_claim=False,
-        input_sha256={str(p.relative_to(repo)): sha256(p) for p in sorted(set(files))})
+        input_sha256={evidence_path_key(p, repo, root if experiment_root is not None else None): sha256(p)
+                      for p in sorted(set(files))})
     if full_cycle:
         result['arms'] = [cycle_arm(root/a, assignment, contracts, nonlinear_inventory,
                                     'zero_based_offset' if zero_based_offset else 'direct', trace_start, trace_stop)

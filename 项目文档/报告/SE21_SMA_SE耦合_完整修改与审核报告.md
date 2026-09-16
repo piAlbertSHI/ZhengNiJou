@@ -3259,3 +3259,27 @@ checkpoint缺失、活动进程引用和C200/C180四份权威哈希。回执位�
 `15.144344 GiB`，C200/C180权威哈希全部通过。活动隔离worktree和v4原始包继续保留；冻结C200
 仍是唯一论文性能基准，当前模型Operating Point恢复仍未获授权，outer solve、正式sensitivity、
 paired Table 4和最终复现声明继续关闭。
+
+v4严格审核前另完成producer来源核对。`c7e028d`的冷态runner、buffer替换、初始通量补偿、
+库存目标、零基buffer组件和specific-inventory腔体源与`717391a`逐文件一致；相对已接受的
+零基执行源`91dc097`，后续仅把使用公共Simscape Operating Point的conservative臂固定为
+normal mode并记录实际模式，不改变组件方程、初始化坐标、目标或补偿关系。因此只把完整
+`c7e028d8a02b694f7b1e021acf6d0e880e2ece8d`加入`ZERO_BASED_OFFSET_PRODUCERS`，没有放宽
+producer匹配、数值容限或恢复权限。
+
+首次严格审核随后在initial-flux来源路径门禁停止。补偿常数、`204/125/79`目标计数、布尔边界和
+前置/标定SHA-256均一致，唯一差异是执行合同记录隔离worktree内的已验证审计副本绝对路径，
+而审核器只接受主工作树绝对路径。修复只对完整`c7e028d...`producer和相同末三级相对路径生效，
+仍要求声明哈希等于canonical哈希，并在镜像存在时重新计算镜像哈希；未修改任何物理或数值门禁。
+
+第二次审核已完成主要计算，但旧`input_sha256`序列化假定实验文件必定位于仓库根目录内，无法处理
+同级受治理`tmp/`包。现改为仓库前置文件使用仓库相对键、实验文件使用
+`experiment_root/<relative path>`键；两者以外的路径仍拒绝，文件内容仍逐项计算SHA-256。
+
+v4完整只读审核显示：证据完整性、局部库存守恒、编译轨迹状态、204项初值和两臂source-port
+门禁均通过；SMA/SE相分数保持`[0,1]`且固体能量门禁通过。但两臂SE stage 2/4流量门禁均失败，
+RMS相对误差约为`0.341/0.313`；独立压力门禁未在该审核中形成，且
+`all_mechanism_gates_evaluated=false`。native全局端点源减库存残差为
+`-1.0716556489742288 J`，conservative为`2.313640834472608e-9 J`。因此v4被明确拒绝为
+20-cycle种子，保留raw作最新控制体失败证据，但不得用于恢复、outer solve、sensitivity或
+paired Table 4。

@@ -6,7 +6,15 @@ from unittest.mock import patch
 
 import numpy as np
 
-from Audit_HeatDriveECC_ColdBufferCoupled import port_contract, audit, topology_check
+from Audit_HeatDriveECC_ColdBufferCoupled import (
+    CONTROL_VOLUME_SEED_PRODUCER,
+    ZERO_BASED_OFFSET_PRODUCERS,
+    audit,
+    calibration_reference_matches,
+    evidence_path_key,
+    port_contract,
+    topology_check,
+)
 from Audit_HeatDriveECC_ColdChamberCycle import checked_rows
 
 
@@ -105,6 +113,28 @@ class ColdBufferCoupledTests(unittest.TestCase):
         self.assertIn("--zero-based-offset", source)
         self.assertIn("mass_formulation == 'zero_based_offset'", source)
         self.assertIn("differential_variables=('mass_offset', 'stored_energy')", source)
+
+    def test_control_volume_seed_producer_is_exactly_allow_listed(self):
+        self.assertIn(CONTROL_VOLUME_SEED_PRODUCER, ZERO_BASED_OFFSET_PRODUCERS)
+        self.assertNotIn('c7e028d', ZERO_BASED_OFFSET_PRODUCERS)
+
+    def test_control_volume_seed_accepts_only_matching_audit_mirror_tail(self):
+        canonical = Path('main/outputs_storage_audit/calibration/cold_buffer_coupled_audit.json')
+        mirror = Path('worktree/outputs_storage_audit/calibration/cold_buffer_coupled_audit.json')
+        wrong = Path('worktree/outputs_storage_audit/other/cold_buffer_coupled_audit.json')
+        self.assertTrue(calibration_reference_matches(CONTROL_VOLUME_SEED_PRODUCER, mirror, canonical))
+        self.assertFalse(calibration_reference_matches(CONTROL_VOLUME_SEED_PRODUCER, wrong, canonical))
+        self.assertFalse(calibration_reference_matches('unreviewed', mirror, canonical))
+
+    def test_external_experiment_evidence_key_is_stable(self):
+        repo = Path.cwd()/'repo'
+        root = Path.cwd()/'tmp'/'experiment'
+        self.assertEqual(evidence_path_key(repo/'verification'/'contract.json', repo, root),
+                         str(Path('verification')/'contract.json'))
+        self.assertEqual(evidence_path_key(root/'native'/'observations.mat', repo, root),
+                         str(Path('experiment_root')/'native'/'observations.mat'))
+        with self.assertRaises(ValueError):
+            evidence_path_key(Path.cwd()/'elsewhere'/'file.mat', repo, root)
 
     @patch('Audit_HeatDriveECC_ColdChamberCycle.named_rows')
     def test_nonfinite_or_missing_sample_rejected(self, named):
