@@ -248,3 +248,9 @@ wrote `strict_seed_decision.json` and the raw package's
 `REJECTED_DO_NOT_RESUME.txt`; the raw remains retained as failure evidence.
 The decision keeps 20-cycle continuation, production recovery, outer solve,
 sensitivity and paired Table 4 disabled.
+
+The round-seven post-audit governance snapshot corresponds to commit
+`1eb702a`: 617 directories, `15.145533 GiB`, 480 commits since C200 freeze,
+all C200/C180 hashes passing, and no standard output cleanup candidates. The
+outputs root remains `11.004 GiB`; the retained v4 audit explains the small
+classified-size increase.
