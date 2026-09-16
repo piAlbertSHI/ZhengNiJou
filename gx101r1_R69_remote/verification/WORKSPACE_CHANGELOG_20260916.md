@@ -203,3 +203,27 @@ zero, the round-five governance snapshot is
 `outputs_storage_audit/workspace_governance_20260916_round5/`, and all frozen
 authority hashes pass. `Agent6/` remains untouched and outside repository
 scope.
+
+## Failed cold seed cleanup and current retained set
+
+The successful dual-arm package
+`tmp/cold_chamber_control_volume_seed_20260916_v4` is retained with both raw
+observations pending strict audit. Its native/conservative observation hashes
+are `50ED667E...94347587` and `E8CC406A...A8B4137B`; it is diagnostic only and
+cannot be used for production recovery.
+
+`Retire_HeatDriveECC_FailedColdSeedAttempts.ps1` classified and retired three
+failed setup attempts only after recording all file hashes and confirming that
+they contain no checkpoint and assert no recovery, periodic, Table 4, or
+full-device first-law status. Lightweight execution, configuration, topology,
+inventory and diary evidence was copied to
+`outputs_storage_audit/failed_cold_seed_retirement_20260916/preserved_metadata/`.
+The applied receipt records `167,662,928` deleted package bytes and `144,777`
+deleted cache bytes. The obsolete renamed audit junction was removed after its
+target was checked; the target audit directory remains intact.
+
+The post-cleanup output manager still reports zero candidates and `11.004 GiB`.
+Round-six governance reports 615 classified directories and `15.144344 GiB`,
+with all frozen C200/C180 authority hashes passing. The active isolated
+worktree, successful v4 raw package, unresolved main-worktree SLX modification,
+and `Agent6/` were not deleted or altered.

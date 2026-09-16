@@ -3231,3 +3231,31 @@ Point。审计覆盖 `2,000,001` 个时间样本，并把配置字段、静态�
 
 v4 烟测中 SHEX/HHEX/CHEX 流体观测通过，但 buffer B 端口、管路两端焓流和泵压力交叉核对仍为 NaN；因此 buffers、pipes/manifolds、pumps 仍是 `partial`，`outer_solve_eligible=false`、`paired_table4_eligible=false`。该 1-cycle 结果的机制、周期和 Table 4 门禁均失败，不能作为恢复或物理候选输入。详细记录见
 `项目文档/报告/2026-09-16_控制体观测层实施与审核.md`。
+
+## 163. 前序修改汇总、Git收口与失败冷态数据退役（2026-09-16）
+
+前序代码、控制体审计、恢复合同、拒绝边界和存储治理已集中记录于
+`项目文档/报告/2026-09-16_前序修改汇总与工作区治理.md`。当前分支为
+`codex/conservative-chamber-cold-diagnostic`；最近提交链覆盖控制体观测扩展、C200实际证据
+审核、v6/v7与v8/v9/v12拒绝raw退役、checkpoint合同审核、重复worktree清理和多轮治理快照。
+主工作树只保留两个明确隔离项：来源未闭合的`heatdrive_ecc_coupled_se21.slx`二进制修改不提交、
+不覆盖、不回退；顶层`Agent6/`不读取、不修改、不清理、不提交。
+
+本轮把冷态控制体种子分为“活动关键结果”和“失败中间数据”。完整双臂v4包
+`tmp/cold_chamber_control_volume_seed_20260916_v4`保留全部raw，native/conservative观测哈希为
+`50ED667E1C51A42E601A2AD7ED199E4DB8320FC73DFBC195B0E8396A94347587`和
+`E8CC406AB4429E1E79CBEA3920B77C26BA7BC2A8DF190006B5205AC4A8B4137B`，等待严格只读审核。
+该包没有导入C200状态、没有checkpoint，且不宣称periodic或完整设备第一律，仍禁止作为恢复源。
+
+初始失败包、只完成native臂的v3，以及缺少冻结权威文件的隔离首轮包均已逐文件记录SHA-256，
+保留执行合同、日记、配置、拓扑和库存元数据后退役。新脚本
+`verification/Retire_HeatDriveECC_FailedColdSeedAttempts.ps1`在应用前验证路径包含关系、失败合同、
+checkpoint缺失、活动进程引用和C200/C180四份权威哈希。回执位于
+`outputs_storage_audit/failed_cold_seed_retirement_20260916/retirement_receipt.json`；删除失败包
+`167,662,928`字节、可再生成Simulink缓存`144,777`字节，合计`167,807,705`字节（`0.1563 GiB`）。
+废弃重命名junction只在精确核对target后删除，真实审计目录未受影响。
+
+清理后`outputs`保持`11.004 GiB`且标准候选数为0。round-six治理快照记录615个分类目录、
+`15.144344 GiB`，C200/C180权威哈希全部通过。活动隔离worktree和v4原始包继续保留；冻结C200
+仍是唯一论文性能基准，当前模型Operating Point恢复仍未获授权，outer solve、正式sensitivity、
+paired Table 4和最终复现声明继续关闭。
