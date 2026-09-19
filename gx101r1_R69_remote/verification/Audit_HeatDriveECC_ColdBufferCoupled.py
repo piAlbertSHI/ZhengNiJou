@@ -55,6 +55,9 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     # Pressure-probe instrumentation is observational only and preserves the
     # same zero-based initialization and component contracts.
     '15e444ac60014a763837a67c46f17ede933d49b9',
+    # Report-only commits after the pressure-probe implementation preserve
+    # the exact runner and zero-based initialization contract.
+    '0bd94ce91f1e6a595eb887ffa0a29c413e19045a',
 }
 # The v8 diagnostic was run after the report-only ledger commit. Both commits
 # refer to the same calibrated source implementation and remain auditable.

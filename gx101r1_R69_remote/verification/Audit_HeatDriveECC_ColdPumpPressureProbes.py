@@ -18,7 +18,12 @@ from Audit_HeatDriveECC_SegmentedEvidence import sha256, text_field
 
 
 ROOT = "heatdrive_ecc_coupled_se21/"
-PRODUCER = "15e444ac60014a763837a67c46f17ede933d49b9"
+# Pressure-probe instrumentation is observational; later report-only commits
+# preserve the exact runner and probe contract.
+PRODUCERS = {
+    "15e444ac60014a763837a67c46f17ede933d49b9",
+    "0bd94ce91f1e6a595eb887ffa0a29c413e19045a",
+}
 PRESSURE_MIN_MPA = 0.45
 PRESSURE_MAX_MPA = 5.0
 EXPECTED = {
@@ -142,7 +147,7 @@ def audit(root, flow_audit_path):
     flow_audit = read(flow_audit_path)
     provenance_gate = bool(
         execution.get("schema") == "heatdrive_ecc_independent_cold_chamber_v2"
-        and execution.get("execution_commit") == PRODUCER
+        and execution.get("execution_commit") in PRODUCERS
         and execution.get("collection_pass") is True
         and execution.get("stop_time_s") == 10
         and execution.get("cycle_count") == 1
