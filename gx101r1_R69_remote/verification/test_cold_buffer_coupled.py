@@ -106,6 +106,12 @@ class ColdBufferCoupledTests(unittest.TestCase):
         self.assertIn("ismember(simulation_mode,{'normal','accelerator'})", source)
         self.assertIn("log_window_cycles=min(cycle_count,2)", source)
 
+    def test_short_cold_window_requires_full_command_coverage(self):
+        source = (Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
+        self.assertIn('abs(v.Time(end)-options.schedule.total_time_s)<=1.0e-9', source)
+        self.assertIn('v.Time(end)>=duration-1.0e-9', source)
+        self.assertNotIn('abs(v.Time(end)-duration)<=1.0e-9', source)
+
     def test_zero_based_offset_audit_contract_is_explicit(self):
         source = (Path(__file__).parent/'Audit_HeatDriveECC_ColdBufferCoupled.py').read_text(encoding='utf-8')
         self.assertIn("ecc_buffer_coupled_offset.conservative_buffer", source)
