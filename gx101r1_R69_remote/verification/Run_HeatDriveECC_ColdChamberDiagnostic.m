@@ -165,10 +165,20 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         overrides.branch.independent_conservative_chamber_library=library_name;
         build=fullfile(output_root,'component_build'); mkdir(build);
         copyfile(fullfile(repo,'verification',source_folder,['+' package]),fullfile(build,['+' package]));
-        cd(build); ssc_build(package); addpath(build); load_system(library_name); cd(repo);
-        assert(strcmp(get_param(library_name,'FileName'),fullfile(build,[library_name '.slx'])),'Wrong chamber library loaded.');
+        library_path=fullfile(build,[library_name '.slx']);
+        cd(build); ssc_build(package); addpath(build);
+        if bdIsLoaded(library_name)
+            close_system(library_name,0);
+        end
+        load_system(library_path); cd(repo);
+        loaded_library_path=get_param(library_name,'FileName');
+        assert(isfile(library_path) && isfile(loaded_library_path) && ...
+            strcmp(file_hash(library_path),file_hash(loaded_library_path)), ...
+            'Wrong chamber library loaded.');
+        record.chamber_library_requested_path=library_path;
+        record.chamber_library_loaded_path=loaded_library_path;
         record.chamber_source_file=chamber_source;
-        record.chamber_library_sha256=file_hash(fullfile(build,[library_name '.slx']));
+        record.chamber_library_sha256=file_hash(library_path);
         if conservative_buffers
             component_audit=jsondecode(fileread(fullfile(repo,'outputs_storage_audit', ...
                 'conservative_buffer_audit_20260909_v2','conservative_buffer_audit.json')));
