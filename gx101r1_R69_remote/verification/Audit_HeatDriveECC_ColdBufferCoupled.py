@@ -52,6 +52,9 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     # normal mode and records the per-arm mode; it does not change equations,
     # targets, or state initialization.
     CONTROL_VOLUME_SEED_PRODUCER,
+    # Pressure-probe instrumentation is observational only and preserves the
+    # same zero-based initialization and component contracts.
+    '15e444ac60014a763837a67c46f17ede933d49b9',
 }
 # The v8 diagnostic was run after the report-only ledger commit. Both commits
 # refer to the same calibrated source implementation and remain auditable.
@@ -59,6 +62,9 @@ INITIAL_FLUX_COMPENSATION_PRODUCERS = {
     'ea8dfcb64f17ecb7221f71e805e8072d39f3d4f5',
     'ca69761aad5e86455f696d344673f66e22b7bb66',
     '8c796118900ed98e777f0d07aa1108625cbd90cd',
+    # Pressure-probe instrumentation is observational only; this exact
+    # committed runner preserves the same initialization and ledger contract.
+    '15e444ac60014a763837a67c46f17ede933d49b9',
 }
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
 

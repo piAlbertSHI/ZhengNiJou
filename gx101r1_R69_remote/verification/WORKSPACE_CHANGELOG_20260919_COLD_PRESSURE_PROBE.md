@@ -25,3 +25,23 @@ boundary needed for the next cold-seed audit.
 The runner must be executed from a clean committed diagnostic worktree because
 its source-contract guard rejects tracked modifications. The unresolved main
 worktree SLX change remains isolated and is not part of this diagnostic.
+
+## Result and strict boundary
+
+The 10 s run `outputs/cold_chamber_pressure_probe_seed_20260919_v8` completed
+both native and conservative arms. Each arm recorded six finite A/B pressure
+signals. The companion full-cycle ledger passed local inventory, initial
+coordinate, source-port, and six selected flow gates; the independent pressure
+audit passed the `0.45--5 MPa` range and hydraulic diagnostic checks.
+
+This is still a rejected diagnostic package: periodic steady state, the full
+mechanism gate set, and full-device first-law closure are not established.
+The native endpoint energy residual is about `-1.104 J`, so
+`seed_eligible=false`. The raw observations remain temporarily retained as
+the current pressure-control-volume evidence and are forbidden as recovery,
+20-cycle, outer-solve, sensitivity, paired-endpoint, or Table 4 input.
+
+Audit outputs:
+
+- `outputs_storage_audit/cold_pressure_probe_audit_20260919_v8_fullcycle/`
+- `outputs_storage_audit/cold_pump_pressure_probe_audit_20260919_v8.json`
