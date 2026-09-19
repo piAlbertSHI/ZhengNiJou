@@ -66,6 +66,18 @@ class ColdBufferCoupledTests(unittest.TestCase):
         checked_rows({'native': None}, 'native', 1, stop=.2)
         with self.assertRaises(ValueError): checked_rows({'native': None}, 'native', 1, stop=.01)
 
+    @patch('Audit_HeatDriveECC_ColdChamberCycle.named_rows')
+    def test_leading_warmup_sample_requires_explicit_window_contract(self, named):
+        t = np.arange(-.001, .011, .001)
+        named.return_value = {('buffer', 'T_I'): {
+            'time_s': t.reshape(1, -1), 'values': np.ones((1, t.size))}}
+        with self.assertRaises(ValueError):
+            checked_rows({'native': None}, 'native', 1, stop=.01, start=0)
+        rows = checked_rows({'native': None}, 'native', 1, stop=.01, start=0,
+                            allow_leading_warmup=True)
+        self.assertEqual(rows['buffer', 'T_I']['time_s'].shape, (1, 11))
+        self.assertAlmostEqual(float(rows['buffer', 'T_I']['time_s'][0, 0]), 0.0)
+
     def test_onset_cannot_be_full_cycle(self):
         with self.assertRaises(ValueError): audit(None, full_cycle=True, specific_onset=True)
 

@@ -32,15 +32,33 @@ SOURCE_COUNTS = {'foundation.thermal_liquid.sources.pressure_source': 3,
                  'foundation.thermal.sources.controlled_heat_flow': 43}
 
 
-def checked_rows(f, dataset, count, stop=10, start=0):
+def checked_rows(f, dataset, count, stop=10, start=0, allow_leading_warmup=False):
     rows = named_rows(f, f[dataset])
     if len(rows) != count:
         raise ValueError('Incomplete ' + dataset)
-    for row in rows.values():
-        validate_grid(row['time_s'][:].reshape(-1), start, stop, .001)
-        if row['values'].shape != (1, round(stop/.001)+1) or not np.isfinite(row['values'][:]).all():
+    expected = round((stop-start)/.001)+1
+    normalized = {}
+    for key, row in rows.items():
+        time = np.asarray(row['time_s'][:], dtype=float).reshape(-1)
+        values = np.asarray(row['values'][:])
+        if (allow_leading_warmup and time.size == expected+1
+                and abs(time[0]-(start-.001)) <= 1e-9
+                and abs(time[-1]-stop) <= 1e-9):
+            time = time[1:]
+            values = values[..., 1:]
+        validate_grid(time, start, stop, .001)
+        if values.shape != (1, expected) or not np.isfinite(values).all():
             raise ValueError('Nonfinite or incomplete scalar trace')
-    return rows
+        if time.size != expected:
+            raise ValueError('Nonuniform or incomplete scalar trace')
+        if time.size != np.asarray(row['time_s'][:]).size:
+            copy_row = dict(row)
+            copy_row['time_s'] = time.reshape(1, -1)
+            copy_row['values'] = values
+            normalized[key] = copy_row
+        else:
+            normalized[key] = row
+    return normalized
 
 
 def tank_endpoint_split(mass, cp, temperature, enthalpy):
@@ -102,8 +120,9 @@ def custom_ledger(block, table):
     return row, history
 
 
-def source_ledger(f, thermal, time):
-    rows = checked_rows(f, 'source_traces', 162, stop=float(time[-1]), start=float(time[0]))
+def source_ledger(f, thermal, time, allow_leading_warmup=False):
+    rows = checked_rows(f, 'source_traces', 162, stop=float(time[-1]), start=float(time[0]),
+                        allow_leading_warmup=allow_leading_warmup)
     nets = {p: net for net in wire_nets(thermal) for p in net}
     references = {b['block_path'] for b in thermal['blocks']
                   if b['source_file'] == 'foundation.thermal.elements.reference'}

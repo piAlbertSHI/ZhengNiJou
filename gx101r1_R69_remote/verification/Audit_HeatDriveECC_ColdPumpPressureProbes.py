@@ -46,7 +46,61 @@ def series(row, name):
     return values, unit
 
 
-def audit_arm(root, arm):
+def normalized_signal(signal, start, stop, allow_leading_warmup):
+    time = np.asarray(signal["time_s"][:], dtype=float).reshape(-1)
+    values = np.asarray(signal["values"][:], dtype=float).reshape(-1)
+    expected = round((stop-start)/.001)+1
+    trimmed = False
+    if (allow_leading_warmup and time.size == round(stop/.001)+1
+            and abs(time[0]) <= 1e-9 and abs(time[-1]-stop) <= 1e-9):
+        first = round(start/.001)
+        time = time[first:first+expected]
+        values = values[first:first+expected]
+        trimmed = True
+    elif (allow_leading_warmup and time.size == expected+1
+            and abs(time[0]-(start-.001)) <= 1e-9
+            and abs(time[-1]-stop) <= 1e-9):
+        time = time[1:]
+        values = values[1:]
+        trimmed = True
+    expected_time = start + np.arange(expected)*.001
+    if (time.size != expected or values.size != expected
+            or not np.allclose(time, expected_time, rtol=0, atol=1e-9)
+            or not np.isfinite(values).all()):
+        raise ValueError("Invalid pressure/source trace time grid")
+    return time, values, trimmed
+
+
+def normalized_rows(handle, dataset, start, stop, allow_leading_warmup):
+    rows = named_rows(handle, handle[dataset])
+    normalized = {}
+    for key, row in rows.items():
+        time = np.asarray(row["time_s"][:], dtype=float).reshape(-1)
+        values = np.asarray(row["values"][:], dtype=float)
+        expected = round((stop-start)/.001)+1
+        if (allow_leading_warmup and time.size == round(stop/.001)+1
+                and abs(time[0]) <= 1e-9 and abs(time[-1]-stop) <= 1e-9):
+            first = round(start/.001)
+            time = time[first:first+expected]
+            values = values[..., first:first+expected]
+        elif (allow_leading_warmup and time.size == expected+1
+                and abs(time[0]-(start-.001)) <= 1e-9
+                and abs(time[-1]-stop) <= 1e-9):
+            time = time[1:]
+            values = values[..., 1:]
+        expected_time = start + np.arange(expected)*.001
+        if (time.size != expected or values.shape != (1, expected)
+                or not np.allclose(time, expected_time, rtol=0, atol=1e-9)
+                or not np.isfinite(values).all()):
+            raise ValueError("Invalid pressure/source trace time grid")
+        copy_row = dict(row)
+        copy_row["time_s"] = time.reshape(1, -1)
+        copy_row["values"] = values
+        normalized[key] = copy_row
+    return normalized
+
+
+def audit_arm(root, arm, start, stop):
     folder = root / arm
     contract = read(folder / "pump_pressure_probe_contract.json")
     names = tuple(contract.get("observation_signal_names", ()))
@@ -61,18 +115,17 @@ def audit_arm(root, arm):
     )
     pressure_records = []
     source_records = []
+    allow_leading_warmup = start > 0
     with h5py.File(folder / "observations.mat", "r") as handle:
         signals = handle["signals"]
         probes = handle["pressure_probe_signals"]
-        source_rows = named_rows(handle, handle["source_traces"])
+        source_rows = normalized_rows(handle, "source_traces", start, stop, allow_leading_warmup)
         signal_gate = True
         for name in expected_names:
             if name not in signals or name not in probes:
                 raise ValueError(f"Missing pressure probe signal: {arm}/{name}")
-            time = np.asarray(signals[name]["time_s"][:], dtype=float).reshape(-1)
-            values = np.asarray(signals[name]["values"][:], dtype=float).reshape(-1)
-            if (time.size != 10001 or not np.array_equal(time, np.arange(10001) * 0.001)
-                    or not np.isfinite(values).all()):
+            time, values, _ = normalized_signal(signals[name], start, stop, allow_leading_warmup)
+            if not np.isfinite(values).all():
                 signal_gate = False
             pressure_mpa = values
             pressure_records.append({
@@ -100,8 +153,10 @@ def audit_arm(root, arm):
             phi_a, phi_a_unit = series(source_rows[source_path, "Phi_A"], "Phi_A")
             phi_b, phi_b_unit = series(source_rows[source_path, "Phi_B"], "Phi_B")
             power, power_unit = series(source_rows[source_path, "power"], "power")
-            pressure_a = np.asarray(signals[name_a]["values"][:], dtype=float).reshape(-1) * 1.0e6
-            pressure_b = np.asarray(signals[name_b]["values"][:], dtype=float).reshape(-1) * 1.0e6
+            _, pressure_a, _ = normalized_signal(signals[name_a], start, stop, allow_leading_warmup)
+            _, pressure_b, _ = normalized_signal(signals[name_b], start, stop, allow_leading_warmup)
+            pressure_a = pressure_a * 1.0e6
+            pressure_b = pressure_b * 1.0e6
             rho_mean = 0.5 * (rho_a + rho_b)
             hydraulic = mdot * (pressure_b - pressure_a) / rho_mean
             port_residual = phi_a + phi_b + power
@@ -145,18 +200,24 @@ def audit_arm(root, arm):
 def audit(root, flow_audit_path):
     execution = read(root / "cold_chamber_execution.json")
     flow_audit = read(flow_audit_path)
+    start = float(execution.get("simscape_log_window_start_s", 0.0))
+    stop = float(execution.get("stop_time_s", 0.0))
+    cycle_count = int(execution.get("cycle_count", 0))
     provenance_gate = bool(
         execution.get("schema") == "heatdrive_ecc_independent_cold_chamber_v2"
         and execution.get("execution_commit") in PRODUCERS
         and execution.get("collection_pass") is True
-        and execution.get("stop_time_s") == 10
-        and execution.get("cycle_count") == 1
+        and execution.get("start_time_s") == 0
+        and stop > 0
+        and cycle_count > 0
+        and abs(stop-cycle_count*10.0) <= 1e-9
+        and 0 <= start < stop
         and execution.get("c200_state_imported") is False
         and execution.get("checkpoint_saved") is False
         and execution.get("production_recovery_allowed") is False
         and [case.get("arm") for case in execution.get("cases", [])] == ["native", "conservative"]
     )
-    arms = [audit_arm(root, arm) for arm in ("native", "conservative")]
+    arms = [audit_arm(root, arm, start, stop) for arm in ("native", "conservative")]
     flow_gate = bool(
         flow_audit.get("evidence_audit_pass") is True
         and flow_audit.get("declared_window_numerical_gates_pass") is True
@@ -174,6 +235,10 @@ def audit(root, flow_audit_path):
         "schema": "heatdrive_ecc_cold_pump_pressure_probe_audit_v1",
         "diagnostic_only": True,
         "execution_commit": execution.get("execution_commit"),
+        "logged_window_start_s": start,
+        "logged_window_stop_s": stop,
+        "cycle_count": cycle_count,
+        "leading_warmup_sample_trimmed": bool(start > 0),
         "provenance_gate": provenance_gate,
         "flow_and_inventory_audit_path": str(flow_audit_path),
         "flow_and_inventory_gate": flow_gate,

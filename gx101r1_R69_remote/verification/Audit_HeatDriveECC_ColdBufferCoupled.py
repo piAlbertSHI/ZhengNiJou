@@ -72,6 +72,28 @@ INITIAL_FLUX_COMPENSATION_PRODUCERS = {
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
 
 
+def stage_totals_window(histories, time):
+    """Partition an absolute logged window into repeated 10 s cycle phases."""
+    time = np.asarray(time, dtype=float).reshape(-1)
+    duration = float(time[-1] - time[0])
+    cycles = int(round(duration / 10.0))
+    if cycles <= 0 or not np.isclose(duration, cycles * 10.0, atol=1e-9, rtol=0):
+        raise ValueError('Logged window is not an integer number of 10 s cycles')
+    rows = []
+    for cycle in range(cycles):
+        ends = [0, 3500, 5000, 8500, 10000]
+        offset = cycle * 10000
+        for a, b in zip(ends[:-1], ends[1:]):
+            ia, ib = offset + a, offset + b
+            rows.append(dict(cycle_index=cycle, start_phase_s=cycle*10 + a*.001,
+                             stop_phase_s=cycle*10 + b*.001,
+                             **{key: float(values[ib] - values[ia]) for key, values in histories.items()}))
+    for key, values in histories.items():
+        if not np.isclose(sum(row[key] for row in rows), values[-1] - values[0], atol=1e-11, rtol=1e-11):
+            raise ValueError('Stage partition omitted or duplicated intervals')
+    return rows
+
+
 def calibration_reference_matches(execution_commit, declared, canonical):
     declared, canonical = Path(declared), Path(canonical)
     if declared.resolve() == canonical.resolve():
@@ -185,7 +207,8 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_for
     sources = {b['block_path']: b['source_file'] for b in read(folder/'tl_connectivity.json')['blocks']}
     time = None; components = []; consumed = set()
     with h5py.File(folder/'observations.mat') as f:
-        rows = checked_rows(f, 'native', 1240 if folder.name == 'native' else 1276 if nonlinear_inventory else 1262 if mass_formulation == 'zero_based_offset' else 1258, stop, start)
+        rows = checked_rows(f, 'native', 1240 if folder.name == 'native' else 1276 if nonlinear_inventory else 1262 if mass_formulation == 'zero_based_offset' else 1258, stop, start,
+                            allow_leading_warmup=start > 0)
         time = next(iter(rows.values()))['time_s'][:].reshape(-1)
         for original in meta['storage_blocks']:
             block = copy.deepcopy(original); path = block['block_path']; kind = block['mask_type']
@@ -224,14 +247,28 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_for
                 row, h = custom_ledger(block, table)
             else:
                 row, h = ledgers(block, table, nominal)
-            row['stages'] = stage_totals(h); components.append(row)
+            row['stages'] = stage_totals_window(h, time); components.append(row)
         if consumed != set(rows) or len(components) != 119 or len({r['block_path'] for r in components}) != 119:
             raise ValueError('Unaccounted storage leaves')
-        rates, source_rows, pumps = source_ledger(f, read(folder/'thermal_connectivity.json'), time)
+        rates, source_rows, pumps = source_ledger(f, read(folder/'thermal_connectivity.json'), time,
+                                                  allow_leading_warmup=start > 0)
         signals = {}
         for key, r in f['signals'].items():
-            validate_grid(r['time_s'][:].reshape(-1), start, stop, .001)
-            values = r['values'][:]
+            signal_time = np.asarray(r['time_s'][:], dtype=float).reshape(-1)
+            values = np.asarray(r['values'][:])
+            expected = len(time)
+            if (signal_time.size == round(stop/.001)+1 and abs(signal_time[0]) <= 1e-9
+                    and abs(signal_time[-1]-stop) <= 1e-9 and start > 0):
+                first = round(start/.001)
+                last = first + expected
+                signal_time = signal_time[first:last]
+                values = values[..., first:last]
+            elif (start > 0 and signal_time.size == expected+1
+                    and abs(signal_time[0]-(start-.001)) <= 1e-9
+                    and abs(signal_time[-1]-stop) <= 1e-9):
+                signal_time = signal_time[1:]
+                values = values[..., 1:]
+            validate_grid(signal_time, start, stop, .001)
             if values.ndim != 2 or values.shape[1] != len(time) or not np.isfinite(values).all(): raise ValueError('Incomplete public signals')
             signals[key] = values
         with h5py.File(folder/'configuration.mat') as config:
@@ -253,7 +290,7 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_for
     return dict(arm=folder.name, storage_count=119, source_count=49, samples=len(time), omitted_intervals=0,
                 components=components, component_groups=groups, source_rows=source_rows, pumps=pumps,
                 source_ledger={k: integral_summary(v, time) for k, v in rates.items()},
-                source_stages=stage_totals({k: np.r_[0, np.cumsum(v[1:]*np.diff(time))] for k, v in rates.items()}),
+                 source_stages=stage_totals_window({k: np.r_[0, np.cumsum(v[1:]*np.diff(time))] for k, v in rates.items()}, time),
                 BE_source_net_energy_J=source_input, actual_endpoint_storage_plus_pdv_J=endpoint,
                 source_minus_actual_endpoint_storage_J=residual, selected_flow_gates=flows,
                 performance=performance, selected_solid_balances=solids, own_actual_initial_inventory_used=True,
@@ -456,8 +493,10 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         seed_file = None
         seed_rows = None
     with h5py.File(root/'native/observations.mat') as a, h5py.File(root/'conservative/observations.mat') as b:
-        aa = checked_rows(a, 'native', 1240, trace_stop, trace_start)
-        bb = checked_rows(b, 'native', 1276 if nonlinear_inventory else 1262 if zero_based_offset else 1258, trace_stop, trace_start)
+        aa = checked_rows(a, 'native', 1240, trace_stop, trace_start,
+                          allow_leading_warmup=trace_start > 0)
+        bb = checked_rows(b, 'native', 1276 if nonlinear_inventory else 1262 if zero_based_offset else 1258,
+                          trace_stop, trace_start, allow_leading_warmup=trace_start > 0)
         volumes = {r['block_path']: r['mask_parameters']['volume']['value'] for r in metas['native']['storage_blocks'] if r['block_path'] in CHAMBERS}
         for path, c in contracts.items():
             initial = seed_rows if seed_rows is not None else aa
@@ -502,7 +541,8 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
             row, _ = custom_ledger(block, tables[assignment[path]]); chambers.append(row)
         time = next(iter(aa.values()))['time_s'][:].reshape(-1)
         for arm, f, rows in [('native', a, aa), ('conservative', b, bb)]:
-            rates, _, _ = source_ledger(f, read(root/arm/'thermal_connectivity.json'), time)
+            rates, _, _ = source_ledger(f, read(root/arm/'thermal_connectivity.json'), time,
+                                        allow_leading_warmup=trace_start > 0)
             storage = sum(scalar_series(r, 'W') for (_, n), r in rows.items() if n.startswith('Phi_') or n in ('Q_H', 'Q'))
             error = float(abs(sum(rates.values())-storage).max())
             kcls.append(dict(arm=arm, max_abs_W=error, limit_W=1e-8, passed=error <= 1e-8))
@@ -553,6 +593,7 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
                                     'zero_based_offset' if zero_based_offset else 'direct', trace_start, trace_stop)
                           for a in ('native', 'conservative')]
         result['cycle_count'] = declared_cycles
+        result['leading_warmup_sample_trimmed'] = bool(trace_start > 0)
         result['periodic_steady_state'] = False
     return result, comparisons
 
