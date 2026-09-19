@@ -86,6 +86,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     mkdir(output_root); diary(fullfile(output_root,'matlab_diary.log'));
     diary_cleanup=onCleanup(@() diary('off'));
     old=pwd; oldpath=path; path_cleanup=onCleanup(@() restore_path(old,oldpath));
+    addpath(repo);
+    addpath(fullfile(repo,'verification'));
     generation=Simulink.fileGenControl('getConfig');
     generation_cleanup=onCleanup(@() Simulink.fileGenControl('setConfig','config',generation));
     Simulink.fileGenControl('set','CacheFolder',fullfile(output_root,'cache'), ...
@@ -111,7 +113,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'initialization_source_root','', ...
         'initialization_source_observation_sha256','', ...
         'simscape_log_window_start_s',0, ...
-        'simscape_log_window_cycles',min(cycle_count,2));
+        'simscape_log_window_cycles',min(cycle_count,2), ...
+        'pressure_probe_contracts',{{}});
     try
         contract=jsondecode(fileread(fullfile(repo,'verification','c200_mainline_freeze_contract.json')));
         raw=fullfile(repo,contract.result_relative_path); op=fullfile(repo,contract.checkpoint_relative_path);
@@ -323,6 +326,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 assignin('base','cold_public_targets',cold_public_targets);
                 set_param(model,'SimscapeUseOperatingPoints','on','SimscapeOperatingPoint','cold_public_targets');
             end
+            pressure_probe_contract=Instrument_HeatDriveECC_PumpPressureProbes(model,arm);
             assert(options.simscape.local_solver_enabled && ...
                 strcmp(options.simscape.local_solver_choice,'NE_BACKWARD_EULER_ADVANCER') && ...
                 options.simscape.local_solver_sample_time_s==.001,'Require the unchanged local BE solver.');
@@ -382,11 +386,25 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     signals.(names{k})=struct('time_s',v.time,'values',v.signals.values);
                 end
             end
-            save(fullfile(arm,'observations.mat'),'native','source_traces','boundary_metadata','signals','-v7.3');
+            probe_names=fieldnames(signals);
+            probe_names=probe_names(startsWith(probe_names,'pump_pressure_'));
+            pressure_probe_signals=struct();
+            for probe_idx=1:numel(probe_names)
+                pressure_probe_signals.(probe_names{probe_idx})=signals.(probe_names{probe_idx});
+            end
+            pressure_probe_contract.simulation_run=true;
+            pressure_probe_contract.observation_signal_names=probe_names;
+            write_json(fullfile(arm,'pump_pressure_probe_contract.json'),pressure_probe_contract);
+            record.pressure_probe_contracts{end+1}=pressure_probe_contract;
+            save(fullfile(arm,'observations.mat'),'native','source_traces','boundary_metadata', ...
+                'signals','pressure_probe_signals','-v7.3');
             record.cases{end+1}=struct('arm',name,'simulation_mode',arm_simulation_mode, ...
                 'topology_update_pass',true, ...
                 'storage_components',numel(metadata.storage_blocks),'native_trace_count',numel(native), ...
-                'source_count',boundary_metadata.source_count,'observation_sha256',file_hash(fullfile(arm,'observations.mat')));
+                'source_count',boundary_metadata.source_count, ...
+                'pressure_probe_count',numel(probe_names), ...
+                'pressure_probe_signal_names',{probe_names}, ...
+                'observation_sha256',file_hash(fullfile(arm,'observations.mat')));
             clear model_cleanup output
         end
         assert(strcmp(file_hash(op),contract.checkpoint_sha256) && strcmp(file_hash(raw),contract.result_sha256) && ...
