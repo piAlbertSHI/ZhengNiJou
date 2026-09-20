@@ -33,6 +33,8 @@ $targets = @(
     [pscustomobject]@{ root='cold_chamber_mass_offset_fullcycle_kp126_225_0p85_20260914_v10'; reason='failed before conservative arm; source whitelist omission diagnosed and superseded by v12' }
     [pscustomobject]@{ root='cold_chamber_mass_offset_fullcycle_kp126_225_0p85_20260914_v11'; reason='failed before conservative simulation; offset target-compensation mask omission diagnosed and superseded by v12' }
     [pscustomobject]@{ root='cold_chamber_pressure_probe_seed_20260919_v8'; reason='one-cycle pressure-probe diagnostic superseded by the completed v9 20-cycle pressure audit; preserve contracts and scalar audits' }
+    [pscustomobject]@{ root='qian_coupled_retuned_cold_seed_20260920_v10'; reason='10 s seed superseded by passing v12 seed; preserve v10 audit and contract, retire dense duplicate observations' }
+    [pscustomobject]@{ root='qian_coupled_retuned_cold_20cycle_20260920_v11'; reason='20-cycle stage-4 flow failure superseded by the closer v13 boundary result; preserve v11 audit and rejection marker' }
 )
 $rows = foreach ($target in $targets) {
     $root = Join-Path $outputs $target.root
