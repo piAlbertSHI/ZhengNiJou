@@ -64,6 +64,9 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     # a436f2a adds the bounded two-cycle preflight horizon only; it does not
     # alter the zero-based state contract or authorize production recovery.
     'a436f2aff6440c71b21973a45a01ed5e1750d69f',
+    # The detached simulation worktree ran the same source before the
+    # main-branch cherry-pick; retain its exact execution identity too.
+    '58049fdec3ad43222c716d508ee01c43cc77f10a',
 }
 # The v8 diagnostic was run after the report-only ledger commit. Both commits
 # refer to the same calibrated source implementation and remain auditable.
