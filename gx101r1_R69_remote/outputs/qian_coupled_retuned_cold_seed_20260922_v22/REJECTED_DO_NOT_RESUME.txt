@@ -1,0 +1,17 @@
+Status: rejected as a production/20-cycle seed; retain as diagnostic evidence only.
+
+The fresh ten-second cold diagnostic used specific-inventory, zero-based-offset,
+initial-flux-compensation, stage-2 Kp=-126, and stage-4 Kp=-225 -> -237 over
+0--10 s. Flow, phase/solid energy, pressure-range, hydraulic, source-port,
+initial-coordinate, and local-mass gates passed in both arms:
+native/conservative SE stage-2 RMS=0.04974587346677529/0.049746046872151506;
+stage-4 RMS=0.04895129578218273/0.04894918166752957.
+
+The native control-volume implementation failed its endpoint energy gate:
+source-minus-storage residual=-1.1024446476437788 J, including constant-volume
+chamber=-1.0131022666363494 J and tank=-0.0893423814417245 J. The conservative
+comparison residual=1.956550477189012e-09 J does not replace the native result.
+
+This package is not a recovery source, 20-cycle input, outer-solve input,
+sensitivity input, paired-endpoint input, or Table 4 input. Do not overwrite
+the execution or audit evidence.
