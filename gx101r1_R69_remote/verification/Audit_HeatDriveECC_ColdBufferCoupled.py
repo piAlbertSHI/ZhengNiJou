@@ -58,6 +58,9 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     # Report-only commits after the pressure-probe implementation preserve
     # the exact runner and zero-based initialization contract.
     '0bd94ce91f1e6a595eb887ffa0a29c413e19045a',
+    # d856090 adds only the explicitly bounded Kp-transition whitelist; the
+    # zero-based state, inventory, and pressure-probe contracts are unchanged.
+    'd85609098cb210962a4bd2ee8966db76d0c614da',
 }
 # The v8 diagnostic was run after the report-only ledger commit. Both commits
 # refer to the same calibrated source implementation and remain auditable.

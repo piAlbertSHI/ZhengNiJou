@@ -143,6 +143,7 @@ class ColdBufferCoupledTests(unittest.TestCase):
     def test_control_volume_seed_producer_is_exactly_allow_listed(self):
         self.assertIn(CONTROL_VOLUME_SEED_PRODUCER, ZERO_BASED_OFFSET_PRODUCERS)
         self.assertNotIn('c7e028d', ZERO_BASED_OFFSET_PRODUCERS)
+        self.assertIn('d85609098cb210962a4bd2ee8966db76d0c614da', ZERO_BASED_OFFSET_PRODUCERS)
 
     def test_control_volume_seed_accepts_only_matching_audit_mirror_tail(self):
         canonical = Path('main/outputs_storage_audit/calibration/cold_buffer_coupled_audit.json')
