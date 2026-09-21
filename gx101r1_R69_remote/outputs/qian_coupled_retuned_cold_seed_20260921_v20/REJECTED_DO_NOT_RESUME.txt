@@ -1,0 +1,13 @@
+Status: rejected diagnostic package; do not resume or propagate.
+
+Reason: the independent cold 10 s preflight used stage-4 Kp -225 -> -240 over 0-10 s.
+The full flow audit failed the strict instantaneous and RMS stage-4 flow gates:
+native RMS=0.06094168305777762, max=0.596899902411534;
+conservative RMS=0.061126826004844946, max=0.6017953361190508.
+
+The pressure-range and hydraulic diagnostics passed, but mechanism_gates_complete,
+periodic_steady_state, production_recovery_allowed, and seed_eligible are false.
+This package is diagnostic evidence only and is not a recovery source, 20-cycle input,
+outer-solve input, sensitivity input, paired-endpoint input, or Table 4 input.
+
+Execution and audit files remain hash-bound to the v20 records. Do not overwrite them.

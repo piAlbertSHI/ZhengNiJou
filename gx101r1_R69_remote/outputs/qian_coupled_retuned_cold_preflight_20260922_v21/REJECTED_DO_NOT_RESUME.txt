@@ -1,0 +1,18 @@
+Status: rejected diagnostic two-cycle preflight; do not resume or propagate.
+
+The execution was a fresh two-cycle diagnostic from the qualified v17 ten-second
+seed. It did not import C200, C180, v18, v19, or v20 state. The stage-4 command
+was held at Kp=-225 for 0--10 s and ramped to Kp=-240 over 10--20 s.
+
+The complete flow audit failed the strict SE stage-2 gate in both arms:
+native RMS=0.054736572696104525, max=0.09201172557540804;
+conservative RMS=0.05473894829888871, max=0.09201585935274947.
+SE stage-4 passed (native RMS=0.03422492185793848,
+conservative RMS=0.03422566775299044), and SMA stages, pressure range,
+hydraulic diagnostics, initial coordinates, local inventory, and phase/solid
+energy gates passed. The native endpoint residual remains -2.7067734642458845 J;
+the conservative comparison residual is 8.375309334951453e-10 J.
+
+The preflight decision is false. This package is diagnostic evidence only and is
+not a recovery source, 20-cycle input, outer-solve input, sensitivity input,
+paired-endpoint input, or Table 4 input. Do not overwrite these files.
