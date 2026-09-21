@@ -1,4 +1,4 @@
-function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root, simulation_mode)
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root, simulation_mode, endpoint_chamber_diagnostic)
 % Authorized independent cold diagnostic. Never import or export a recovery OP.
     if nargin<3, duration=10; end
     if nargin<4, scale_inventory=false; end
@@ -15,8 +15,14 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     if nargin<15, cycle_count=1; end
     if nargin<16, initial_observation_root=''; end
     if nargin<17, simulation_mode='normal'; end
+    if nargin<18, endpoint_chamber_diagnostic=false; end
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown chamber formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
+    assert(islogical(endpoint_chamber_diagnostic) && isscalar(endpoint_chamber_diagnostic), ...
+        'Require a scalar endpoint chamber diagnostic choice.');
+    assert(~endpoint_chamber_diagnostic || (specific_inventory && conservative_buffers && ...
+        ~nonlinear_inventory && islogical(initial_flux_compensation)), ...
+        'Endpoint chamber diagnostic requires the linear specific-inventory contract.');
     assert(~specific_inventory || (scale_inventory && conservative_buffers), ...
         'Specific inventory trial requires the complete cold inventory contract.');
     assert(islogical(conservative_buffers) && isscalar(conservative_buffers) && ...
@@ -46,6 +52,18 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             seed_record.conservative_buffers && strcmp(seed_record.buffer_mass_formulation,'zero_based_offset') && ...
             seed_record.initial_flux_compensation && ~seed_record.production_recovery_allowed, ...
             'The cold initialization source is not the qualified zero-based seed.');
+    end
+    if endpoint_chamber_diagnostic && cycle_count == 1
+        initial_observation_root=canonical_path(initial_observation_root);
+        initial_observation_path=fullfile(initial_observation_root,'native','observations.mat');
+        initial_execution_path=fullfile(initial_observation_root,'cold_chamber_execution.json');
+        assert(isfolder(initial_observation_root) && isfile(initial_observation_path) && ...
+            isfile(initial_execution_path),'Endpoint chamber diagnostic requires a complete t=0 source.');
+        seed_record=jsondecode(fileread(initial_execution_path));
+        assert(seed_record.collection_pass && seed_record.stop_time_s==10 && ...
+            seed_record.conservative_buffers && strcmp(seed_record.buffer_mass_formulation,'zero_based_offset') && ...
+            seed_record.initial_flux_compensation && ~seed_record.production_recovery_allowed, ...
+            'Endpoint chamber source is not the qualified zero-based seed.');
     end
     assert(isscalar(network_absolute_pressure_MPa) && isfinite(network_absolute_pressure_MPa) && ...
         ismember(network_absolute_pressure_MPa,[0.75 0.85]), ...
@@ -141,6 +159,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'new_inventory_nominal_scaling',scale_inventory,'physical_buffer_mass_guess',buffer_mass_guess, ...
         'physical_buffer_mass_high_targets',buffer_mass_targets,'physical_pipe_energy_high_targets',pipe_energy_targets, ...
         'conservative_buffers',conservative_buffers,'inventory_formulation',formulation, ...
+        'endpoint_chamber_diagnostic',endpoint_chamber_diagnostic, ...
         'nonlinear_inventory_coordinates',nonlinear_inventory, ...
         'initial_flux_compensation',initial_flux_compensation, ...
         'buffer_mass_formulation',buffer_mass_formulation, ...
@@ -178,7 +197,23 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         end
         model_hash=file_hash(overrides.model_path);
         package='ecc_inventory';source_folder='simscape_inventory';
-        if specific_inventory
+        if endpoint_chamber_diagnostic
+            audit_path=fullfile(repo,'outputs_storage_audit','compiled_specific_inventory_audit_20260909', ...
+                'compiled_inventory_state_audit.json');
+            compiled_audit=jsondecode(fileread(audit_path));
+            assert(compiled_audit.evidence_audit_pass && compiled_audit.specific_inventory_compiled_gate_pass && ...
+                ~compiled_audit.production_recovery_allowed,'Require passed compiled inventory coordinate gate.');
+            source_variant=fullfile(repo,'verification','simscape_inventory_endpoint', ...
+                '+ecc_inventory_endpoint','conservative_chamber.ssc');
+            source_reference=fullfile(repo,'verification','simscape_inventory_specific', ...
+                '+ecc_inventory_specific','conservative_chamber.ssc');
+            assert(strcmp(strrep(fileread(source_variant),sprintf('\r\n'),newline), ...
+                strrep(fileread(source_reference),sprintf('\r\n'),newline)), ...
+                'Endpoint chamber variant must match the qualified explicit-state equations.');
+            record.compiled_inventory_gate_sha256=file_hash(audit_path);
+            record.endpoint_chamber_source_sha256=file_hash(source_variant);
+            package='ecc_inventory_endpoint';source_folder='simscape_inventory_endpoint';
+        elseif specific_inventory
             audit_path=fullfile(repo,'outputs_storage_audit','compiled_specific_inventory_audit_20260909', ...
                 'compiled_inventory_state_audit.json');
             compiled_audit=jsondecode(fileread(audit_path));
@@ -213,6 +248,9 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         record.chamber_library_loaded_path=loaded_library_path;
         record.chamber_source_file=chamber_source;
         record.chamber_library_sha256=file_hash(library_path);
+        if endpoint_chamber_diagnostic
+            record.endpoint_chamber_library_sha256=file_hash(library_path);
+        end
         if conservative_buffers
             component_audit=jsondecode(fileread(fullfile(repo,'outputs_storage_audit', ...
                 'conservative_buffer_audit_20260909_v2','conservative_buffer_audit.json')));
@@ -240,7 +278,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         end
         for kind={'native','conservative'}
             name=kind{1}; arm=fullfile(output_root,name); mkdir(arm);
-            overrides.branch.independent_conservative_chamber_diagnostic=strcmp(name,'conservative');
+            overrides.branch.independent_conservative_chamber_diagnostic= ...
+                strcmp(name,'conservative') || endpoint_chamber_diagnostic;
             [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(overrides);
             model_cleanup=onCleanup(@() close_system(model,0));
             arm_simulation_mode=simulation_mode;
@@ -248,17 +287,17 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             % points. Keep that diagnostic arm in normal mode because
             % accelerator startup cannot guarantee a time-origin-compatible
             % operating point; the native arm remains accelerated.
-            if strcmp(name,'conservative') && pipe_energy_targets
+            if (strcmp(name,'conservative') || endpoint_chamber_diagnostic) && pipe_energy_targets
                 arm_simulation_mode='normal';
             end
             changed={};buffer_records={};buffer_paths={};
-            if strcmp(name,'conservative')
+            if strcmp(name,'conservative') || endpoint_chamber_diagnostic
                 changed={[model '/SMA_PumpInletConnectingPipeVolume'],[model '/SMA_PumpOutletConnectingPipeVolume']};
                 for k=1:2
                     assert(strcmp(get_param(changed{k},'SourceFile'),chamber_source), ...
                         'Wrong diagnostic component.');
                 end
-                if cycle_count==1
+                if cycle_count==1 && ~endpoint_chamber_diagnostic
                     initial_observation_root=output_root;
                     initial_observation_path=fullfile(initial_observation_root,'native','observations.mat');
                 end
@@ -367,7 +406,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     'SimscapeLogDataHistory',ceil(log_window_cycles*10/ ...
                     options.simscape.local_solver_sample_time_s)+2);
             end
-            if strcmp(name,'conservative') && pipe_energy_targets
+            if (strcmp(name,'conservative') || endpoint_chamber_diagnostic) && pipe_energy_targets
                 assignin('base','cold_public_targets',cold_public_targets);
                 set_param(model,'SimscapeUseOperatingPoints','on','SimscapeOperatingPoint','cold_public_targets');
             end
@@ -384,7 +423,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             input=Simulink.SimulationInput(model);
             input=input.setModelParameter('CaptureErrors','on', ...
                 'SimulationMode',arm_simulation_mode);
-            if strcmp(name,'conservative') && pipe_energy_targets
+            if (strcmp(name,'conservative') || endpoint_chamber_diagnostic) && pipe_energy_targets
                 input=input.setVariable('cold_public_targets',cold_public_targets);
             end
             output=sim(input);
@@ -394,7 +433,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     fullfile(arm,'failed_public_observations.mat'));
                 error('HeatDriveECC:ColdDiagnosticSimulationFailed','%s',failure_message);
             end
-            if specific_inventory && strcmp(name,'conservative')
+            if specific_inventory && (strcmp(name,'conservative') || endpoint_chamber_diagnostic)
                 inventory_variables={'stored_mass','stored_energy','T_I','p_I'};
                 if nonlinear_inventory
                     inventory_variables={'mass_coordinate','energy_delta','T_I','p_I'};

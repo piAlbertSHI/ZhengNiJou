@@ -25,5 +25,16 @@ class ColdChamberTests(unittest.TestCase):
         self.assertIn('assert(isempty(options.simulation.resume_checkpoint_path)',source)
         self.assertIn('assert(~options.simulation.persist_model_configuration',source)
 
+    def test_endpoint_variant_is_equation_identical_and_explicitly_gated(self):
+        root=Path(__file__).parent
+        endpoint=(root/'simscape_inventory_endpoint/+ecc_inventory_endpoint/conservative_chamber.ssc').read_text()
+        specific=(root/'simscape_inventory_specific/+ecc_inventory_specific/conservative_chamber.ssc').read_text()
+        self.assertEqual(endpoint,specific.replace(
+            '% Conservative Inventory Chamber (TL)\n% Diagnostic alternative: differentiate stored mass and energy themselves.',
+            '% Endpoint-contract chamber diagnostic.\n% This isolated variant exposes stored mass and energy as explicit states so\n% endpoint inventories use the same state variables as the differential ledger.'))
+        runner=(root/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text()
+        self.assertIn('endpoint_chamber_diagnostic',runner)
+        self.assertIn('endpoint_chamber_diagnostic && cycle_count == 1',runner)
+
 
 if __name__=='__main__': unittest.main()

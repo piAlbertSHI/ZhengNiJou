@@ -129,6 +129,7 @@ def evidence_path_key(path, repo, experiment_root=None):
 def topology_check(native, candidate, chamber_source='ecc_inventory.conservative_chamber',
                    buffer_source='ecc_buffer_coupled.conservative_buffer'):
     if chamber_source not in ('ecc_inventory.conservative_chamber', 'ecc_inventory_specific.conservative_chamber',
+                              'ecc_inventory_endpoint.conservative_chamber',
                               'ecc_nonlinear_chamber.conservative_chamber'):
         raise ValueError('Unknown declared chamber source')
     if buffer_source not in ('ecc_buffer_coupled.conservative_buffer',
@@ -361,7 +362,25 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
     buffer_source = 'ecc_buffer_coupled.conservative_buffer'
     if zero_based_offset:
         buffer_source = 'ecc_buffer_coupled_offset.conservative_buffer'
-    if specific_inventory:
+    endpoint_chamber_diagnostic = bool(execution.get('endpoint_chamber_diagnostic', False))
+    if endpoint_chamber_diagnostic:
+        if execution.get('inventory_formulation') != 'specific_inventory':
+            raise ValueError('Endpoint chamber diagnostic requires specific inventory formulation')
+        prereq = repo/'outputs_storage_audit/compiled_specific_inventory_audit_20260909/compiled_inventory_state_audit.json'
+        pre = read(prereq)
+        component = root/'component_build/+ecc_inventory_endpoint/conservative_chamber.ssc'
+        reference = (repo/'verification/simscape_inventory_specific/+ecc_inventory_specific/conservative_chamber.ssc').read_text(encoding='utf-8')
+        if (not component.is_file() or component.read_text(encoding='utf-8') != reference
+                or execution.get('chamber_source_file') != 'ecc_inventory_endpoint.conservative_chamber'
+                or execution.get('endpoint_chamber_source_sha256') != sha256(component)
+                or execution.get('endpoint_chamber_library_sha256') != sha256(root/'component_build/ecc_inventory_endpoint_lib.slx')
+                or execution.get('compiled_inventory_gate_sha256') != sha256(prereq)
+                or not pre['specific_inventory_compiled_gate_pass'] or not pre['evidence_audit_pass']
+                or pre['production_recovery_allowed']):
+            raise ValueError('Endpoint chamber source or compiled prerequisite changed')
+        chamber_source = 'ecc_inventory_endpoint.conservative_chamber'
+        specific_inventory = True
+    if specific_inventory and not endpoint_chamber_diagnostic:
         prereq = repo/'outputs_storage_audit/compiled_specific_inventory_audit_20260909/compiled_inventory_state_audit.json'
         pre = read(prereq)
         component = root/'component_build/+ecc_inventory_specific/conservative_chamber.ssc'

@@ -277,7 +277,8 @@ function ensure_sma_pump_manifold_volume(block_path, options, position)
         if isfield(options.branch,'independent_conservative_chamber_library')
             library_name=options.branch.independent_conservative_chamber_library;
         end
-        assert(any(strcmp(library_name,{'ecc_inventory_lib','ecc_inventory_priority_lib','ecc_inventory_specific_lib'})), ...
+        assert(any(strcmp(library_name,{'ecc_inventory_lib','ecc_inventory_priority_lib','ecc_inventory_specific_lib', ...
+            'ecc_inventory_endpoint_lib'})), ...
             'Unknown independent chamber library.');
         assert(bdIsLoaded(library_name), 'Build the diagnostic component library first.');
         if exist_block(block_path)
