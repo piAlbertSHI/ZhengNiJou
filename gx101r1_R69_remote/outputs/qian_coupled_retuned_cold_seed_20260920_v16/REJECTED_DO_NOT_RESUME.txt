@@ -1,0 +1,12 @@
+Status: rejected diagnostic package; do not resume or propagate.
+
+The constant stage-4 Kp=-236 candidate failed the strict instantaneous flow
+gate although its RMS error was below 0.05. Native/conservative stage-4 RMS was
+0.0496346646/0.0496457471 and maximum relative error was
+0.1636665/0.1644477. The later v17 bounded-transition seed supersedes this raw
+candidate and passed the complete ten-second seed gate.
+
+Keep the execution contract, audit evidence, report metrics, and this marker.
+The dense native/conservative observations may be retired under a hash-bound
+receipt. This result is never a recovery, 20-cycle, outer-solve, sensitivity,
+paired-endpoint, or Table 4 input.
