@@ -118,6 +118,14 @@ class ColdBufferCoupledTests(unittest.TestCase):
         self.assertIn("ismember(simulation_mode,{'normal','accelerator'})", source)
         self.assertIn("log_window_cycles=min(cycle_count,2)", source)
 
+    def test_cold_kp_transition_is_explicit_and_first_cycle_bounded(self):
+        source = (Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
+        self.assertIn("'se_stage4_pressure_pi_transition_start_s'", source)
+        self.assertIn("'se_stage4_pressure_pi_transition_duration_s'", source)
+        self.assertIn("'A cold Kp transition requires explicit start, duration, initial Kp, and final Kp.'", source)
+        self.assertIn('transition_end_s <= 10.0', source)
+        self.assertIn("'A cold Kp transition must finish within the first audited 10 s cycle.'", source)
+
     def test_short_cold_window_requires_full_command_coverage(self):
         source = (Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
         self.assertIn('abs(v.Time(end)-options.schedule.total_time_s)<=1.0e-9', source)
