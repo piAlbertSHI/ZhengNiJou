@@ -28,14 +28,14 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         (~buffer_mass_targets || buffer_mass_guess),'Buffer targets require the physical cold mass values.');
     assert(islogical(pipe_energy_targets) && isscalar(pipe_energy_targets),'Require a scalar pipe initial-state choice.');
     assert(isnumeric(cycle_count) && isscalar(cycle_count) && isfinite(cycle_count) && ...
-        cycle_count == round(cycle_count) && ismember(cycle_count,[1 20]), ...
-        'Only the qualified one-cycle or 20-cycle cold diagnostic is supported.');
+        cycle_count == round(cycle_count) && ismember(cycle_count,[1 2 20]), ...
+        'Only the qualified one-cycle, two-cycle preflight, or 20-cycle cold diagnostic is supported.');
     if cycle_count == 1
         assert(ismember(duration,[0.01 0.2 1 10]), ...
             'One-cycle cold diagnostic duration must be 0.01, 0.2, 1, or 10 s.');
     else
         assert(abs(duration - cycle_count*10) <= 1.0e-9, ...
-            'The 20-cycle diagnostic must span exactly 200 s.');
+            'A multi-cycle diagnostic must span exactly cycle_count*10 s.');
         initial_observation_root=canonical_path(initial_observation_root);
         initial_observation_path=fullfile(initial_observation_root,'native','observations.mat');
         initial_execution_path=fullfile(initial_observation_root,'cold_chamber_execution.json');
@@ -108,8 +108,9 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 'A cold Kp transition requires explicit start, duration, initial Kp, and final Kp.');
             transition_end_s = diagnostic_branch_overrides.(start_field) + ...
                 diagnostic_branch_overrides.(duration_field);
-            assert(transition_end_s <= 10.0, ...
-                'A cold Kp transition must finish within the first audited 10 s cycle.');
+            transition_horizon_s = 10.0 * min(cycle_count,2);
+            assert(transition_end_s <= transition_horizon_s, ...
+                'A cold Kp transition must finish within the audited preflight horizon.');
         end
     end
     assert(~isfolder(output_root), 'Do not overwrite diagnostic evidence.');
