@@ -89,7 +89,8 @@ function [rate,unit]=target_rate(model,native,target)
             assert(strcmp(name,'stored_energy'),'Unexpected High buffer target.');
             rate=initial(native,path,'Phi_A','W')+initial(native,path,'Q_H','W');unit='W';
         end
-    elseif contains(mask,'Chamber')
+    elseif contains(mask,'Chamber') || strcmp(get_param(path,'SourceFile'), ...
+            'ecc_inventory_endpoint.conservative_chamber')
         if strcmp(name,'stored_mass')
             rate=initial(native,path,'mdot_A','kg/s')+initial(native,path,'mdot_B','kg/s');unit='kg/s';
         else
