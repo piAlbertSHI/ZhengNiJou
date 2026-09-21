@@ -35,6 +35,8 @@ class ColdChamberTests(unittest.TestCase):
         runner=(root/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text()
         self.assertIn('endpoint_chamber_diagnostic',runner)
         self.assertIn('endpoint_chamber_diagnostic && cycle_count == 1',runner)
+        target_builder=(root/'Build_HeatDriveECC_ColdInventoryTargets.m').read_text()
+        self.assertIn('ecc_inventory_endpoint.conservative_chamber',target_builder)
 
 
 if __name__=='__main__': unittest.main()
