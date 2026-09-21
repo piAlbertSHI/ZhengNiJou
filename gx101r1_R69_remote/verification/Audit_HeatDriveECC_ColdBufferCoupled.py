@@ -61,6 +61,9 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     # d856090 adds only the explicitly bounded Kp-transition whitelist; the
     # zero-based state, inventory, and pressure-probe contracts are unchanged.
     'd85609098cb210962a4bd2ee8966db76d0c614da',
+    # a436f2a adds the bounded two-cycle preflight horizon only; it does not
+    # alter the zero-based state contract or authorize production recovery.
+    'a436f2aff6440c71b21973a45a01ed5e1750d69f',
 }
 # The v8 diagnostic was run after the report-only ledger commit. Both commits
 # refer to the same calibrated source implementation and remain auditable.
