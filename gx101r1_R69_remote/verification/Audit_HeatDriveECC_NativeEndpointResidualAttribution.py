@@ -40,7 +40,7 @@ def selected(row: dict) -> dict:
     return {field: row.get(field) for field in fields}
 
 
-def build(audit_path: Path) -> dict:
+def build(audit_path: Path, scope: str | None = None) -> dict:
     audit = json.loads(audit_path.read_text(encoding="utf-8"))
     arms = {arm["arm"]: arm for arm in audit["arms"]}
     native = arms["native"]
@@ -63,13 +63,28 @@ def build(audit_path: Path) -> dict:
         for row in rows
         if row["mask_type"] == "Tank (TL)"
     )
+    inferred_scope = (
+        f"cycle_count={audit.get('cycle_count')}; "
+        f"window={audit.get('logged_window_start_s')}..{audit.get('logged_window_stop_s')} s"
+    )
+    conservative = arms.get("conservative", {})
     return {
         "schema": "heatdrive_ecc_native_endpoint_residual_attribution_v1",
         "source_audit": str(audit_path),
         "source_audit_sha256": sha256(audit_path),
-        "scope": "v8 one-cycle native/conservative cold diagnostic; evidence only",
+        "scope": scope or inferred_scope,
+        "cycle_count": audit.get("cycle_count"),
+        "logged_window_start_s": audit.get("logged_window_start_s"),
+        "logged_window_stop_s": audit.get("logged_window_stop_s"),
         "native_component_groups": groups,
         "native_selected_components": rows,
+        "native_source_minus_actual_endpoint_storage_J": native.get(
+            "source_minus_actual_endpoint_storage_J"
+        ),
+        "conservative_component_groups": conservative.get("component_groups"),
+        "conservative_source_minus_actual_endpoint_storage_J": conservative.get(
+            "source_minus_actual_endpoint_storage_J"
+        ),
         "native_chamber_max_abs_coefficient_energy_residual_J": coefficient_residual,
         "native_chamber_endpoint_energy_residual_J": endpoint_residual,
         "native_tank_endpoint_energy_residual_J": tank_residual,
@@ -88,10 +103,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--audit", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--scope", default=None)
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError(f"Refusing to overwrite evidence: {args.output}")
-    result = build(args.audit)
+    result = build(args.audit, args.scope)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(json.dumps({
