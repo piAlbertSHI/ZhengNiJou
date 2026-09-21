@@ -47,6 +47,24 @@ if ($Apply -and $running.Count -gt 0) {
     throw 'A MATLAB process references a superseded qian cold package.'
 }
 
+$receiptPath = Join-Path $auditRoot 'retirement_receipt.json'
+if (Test-Path -LiteralPath $receiptPath -PathType Leaf) {
+    $existing = Get-Content -LiteralPath $receiptPath -Raw | ConvertFrom-Json
+    if ($existing.schema -eq 'heatdrive_ecc_superseded_qian_cold_raw_retirement_receipt_v1' -and
+        [bool]$existing.applied) {
+        foreach ($rootName in $targetRoots) {
+            $root = Get-ContainedPath $rootName
+            Require (Test-Path -LiteralPath $root -PathType Container) "Retired root is missing: $root"
+            Require (-not (Get-ChildItem -LiteralPath $root -File -Recurse -Force |
+                Where-Object { $_.Name -eq 'observations.mat' })) "Retired raw still exists: $rootName"
+            Require (Test-Path -LiteralPath (Join-Path $root 'SUPERSEDED_RAW_COMPACTED.txt') -PathType Leaf) `
+                "Retirement marker is missing: $rootName"
+        }
+        $existing | ConvertTo-Json -Depth 8
+        return
+    }
+}
+
 $targets = [Collections.Generic.List[object]]::new()
 foreach ($rootName in $targetRoots) {
     $root = Get-ContainedPath $rootName
@@ -117,7 +135,6 @@ if ($Apply) {
     }
 }
 
-$receiptPath = Join-Path $auditRoot 'retirement_receipt.json'
 $receipt = [ordered]@{
     schema = 'heatdrive_ecc_superseded_qian_cold_raw_retirement_receipt_v1'
     completed_at = (Get-Date).ToString('o')
