@@ -3480,3 +3480,21 @@ SHA-256：`55EE2EC8528ACA85EF4030C0CD8E1E7416ECFFDBCDC8033543FDEB314FFFF84C`。
 审核 SHA-256：`CD25D659E291EC1F69E4AF85FBB16E2FE67A6AD04A9327481DCD647478BB7A86`。
 这只是参数设计和合同预检，不能支持任何主导因素或温跨/SCP 物理结论；只有控制体证据完整、
 outer solve 放行后才可执行真实敏感性候选。
+
+## 170. Paired Table 4 endpoint guard（2026-09-23）
+
+在 zero-load 和 zero-lift 两个合法 root 尚未由机制门禁保护的情况下，运行
+`Audit_HeatDriveECC_PairedTable4Endpoints` 只读审核。结果为：
+
+`roots_available=0`、`paired_contract_pass=0`、`quantitative_pass=0`、`paired_strict_pass=0`。
+
+zero-load summary 状态为 `no_valid_bracket`，zero-lift summary 状态为 `no_valid_bracket`；
+两者都没有 accepted root、共同参数合同、共同窗口或可审计的全部门禁。因此没有创建、拼接或
+传播任何 paired endpoint，也没有运行 strict Table 4 claim。
+
+审核 JSON：
+
+`gx101r1_R69_remote/outputs_storage_audit/paired_table4_endpoint_audit_20260923/paired_table4_endpoint_audit.json`
+
+SHA-256：`E3B176C980995052878EA6A1D914033847E9488908E357952E28AC626FC7A2AE`。
+当前论文边界继续为 `simulated`、`predicted`、`benchmark-consistent`、`not yet reproduced`。
