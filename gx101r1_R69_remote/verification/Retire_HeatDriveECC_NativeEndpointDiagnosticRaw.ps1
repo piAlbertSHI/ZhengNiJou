@@ -1,5 +1,8 @@
 [CmdletBinding(SupportsShouldProcess)]
-param([switch]$Apply)
+param(
+    [switch]$Apply,
+    [string]$TargetRootName = 'qian_coupled_native_endpoint_chamber_diag_20260922_v26'
+)
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -7,7 +10,6 @@ $ErrorActionPreference = 'Stop'
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $outputs = [IO.Path]::GetFullPath((Join-Path $repo 'outputs'))
 $auditRoot = [IO.Path]::GetFullPath((Join-Path $repo 'outputs_storage_audit'))
-$targetRootName = 'qian_coupled_native_endpoint_chamber_diag_20260922_v26'
 $targetRoot = [IO.Path]::GetFullPath((Join-Path $outputs $targetRootName))
 
 function Require([bool]$Condition, [string]$Message) {

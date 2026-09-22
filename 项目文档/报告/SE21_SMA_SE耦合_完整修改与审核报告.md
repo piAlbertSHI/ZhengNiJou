@@ -3287,3 +3287,36 @@ paired Table 4。
 代码提交`1eb702a`后的round-seven治理快照为617个分类目录、`15.145533 GiB`、C200冻结后
 480个提交；C200/C180四份权威哈希全部通过，`outputs`仍为`11.004 GiB`且自动候选数为0。
 新增容量来自保留的v4审核与拒绝决策，不是新的可恢复结果；`Agent6/`继续完全不触碰。
+
+## 164. Native endpoint v27-v29 与当前分支收口（2026-09-22）
+
+本节记录在独立 `codex/native-chamber-endpoint-run` worktree 完成并已
+cherry-pick 到 `codex/native-chamber-endpoint-diagnostic` 的 endpoint 修正，
+不改变 C200/C180 冻结合同，也不授权任何状态恢复。
+
+v27/v28 暴露并修复了 endpoint 观测使用 `stored_mass` 而旧 runner 只接受
+`mass` 的两处别名假设。v29 随后完成 native/conservative 两臂 10 s 真实
+仿真，双臂各 1262 条轨迹、6 个压力 A/B 信号，且未导入 C200 状态。v29 的
+conservative 初始目标来自同一包 native t=0 观测；v22 只作为独立的合格
+endpoint topology/provenance 记录。
+
+v29 的 local inventory、source-port、204 项初始坐标、phase/solid-energy、
+压力范围和非注入液压功门禁通过；SMA stage 1-4 flow 通过，但 SE stage 2/4
+RMS 相对流量误差约 `0.3413/0.3135`，故 `flow_and_inventory_gate=false`。
+最终 `diagnostic_20cycle_seed_eligible=false`、`outer_solve_eligible=false`、
+`paired_table4_eligible=false`，没有启动20-cycle或传播失败机制结果。该包的
+拒绝标记为
+`gx101r1_R69_remote/outputs/qian_coupled_native_endpoint_chamber_diag_20260922_v29/REJECTED_DO_NOT_RESUME.txt`。
+
+为避免旧审核器误判，本轮将 endpoint producer 改为 exact commit 白名单，
+以 v22 合格 native topology 作为 source baseline，同时按 v29 实际 observed
+`stored_mass/stored_energy`、1262轨迹和 endpoint storage counts 审核。相关
+回归测试 `44/44` 通过。当前主分支 HEAD 为 `314a69d`；主工作树仍只保留
+未解释的 SLX 二进制修改与 `Agent6/` 两项隔离状态，二者不纳入提交。
+
+科学边界保持不变：v29 是失败的独立控制体诊断证据，不是恢复源、20-cycle
+输入、outer solve 输入、敏感性输入或 Table 4 端点。v29 两份 dense
+`observations.mat` 已按
+`outputs_storage_audit/native_endpoint_diagnostic_raw_retirement_20260922_205402/retirement_receipt.json`
+完成 hash-bound 退役，共删除 `335,898,846` bytes；合同、拒绝标记、配置、
+拓扑、库存元数据和标量审计保留。下一步继续 SE 流量机理修正。
