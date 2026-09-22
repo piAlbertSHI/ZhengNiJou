@@ -160,8 +160,9 @@ class ColdBufferCoupledTests(unittest.TestCase):
                          str(Path('verification')/'contract.json'))
         self.assertEqual(evidence_path_key(root/'native'/'observations.mat', repo, root),
                          str(Path('experiment_root')/'native'/'observations.mat'))
+        external = Path.cwd().parent.parent/'untrusted_external'/'file.mat'
         with self.assertRaises(ValueError):
-            evidence_path_key(Path.cwd()/'elsewhere'/'file.mat', repo, root)
+            evidence_path_key(external, repo, root)
 
     @patch('Audit_HeatDriveECC_ColdChamberCycle.named_rows')
     def test_nonfinite_or_missing_sample_rejected(self, named):

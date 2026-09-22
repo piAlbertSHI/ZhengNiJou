@@ -137,7 +137,20 @@ def evidence_path_key(path, repo, experiment_root=None):
         if experiment_root is None:
             raise
         root = Path(experiment_root).resolve()
-        return str(Path('experiment_root') / path.relative_to(root))
+        try:
+            return str(Path('experiment_root') / path.relative_to(root))
+        except ValueError:
+            # An isolated worktree may consume the frozen C200 artifact from
+            # the sibling workspace repository. Keep that provenance explicit
+            # without accepting arbitrary external paths.
+            for parent in repo.parents:
+                sibling = parent/'gx101r1_R69_remote'
+                if sibling.is_dir():
+                    try:
+                        return str(Path('workspace_repo') / path.relative_to(sibling))
+                    except ValueError:
+                        continue
+            raise
 
 
 def topology_check(native, candidate, chamber_source='ecc_inventory.conservative_chamber',
