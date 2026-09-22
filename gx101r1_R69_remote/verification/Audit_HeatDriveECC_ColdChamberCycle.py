@@ -30,6 +30,8 @@ ENDPOINT_PRODUCERS = {
     'f5329019943455f59c15d8d9d19c873800417383',
     '213fa7772733f725861747c04e6d62b9ac6993f3',
 }
+ENDPOINT_STORAGE_COUNTS = {"Pipe (TL)": 67, "Conservative Buffer (TL)": 4,
+                           "Constant Volume Chamber (TL)": 2, "Thermal Mass": 46}
 EXPERIMENT = 'cold_chamber_public_coordinates_cycle_20260909'
 SOURCE_COUNTS = {'foundation.thermal_liquid.sources.pressure_source': 3,
                  'foundation.thermal.sources.temperature': 3,
@@ -216,9 +218,9 @@ def source_ledger(f, thermal, time, allow_leading_warmup=False):
     return dict(rates), sources, pumps
 
 
-def audit_arm(folder, assignment, expected_count):
+def audit_arm(folder, assignment, expected_count, storage_counts=EXPECTED_COUNTS):
     meta = read(folder/'inventory_metadata.json')
-    if dict(Counter(b['mask_type'] for b in meta['storage_blocks'])) != EXPECTED_COUNTS:
+    if dict(Counter(b['mask_type'] for b in meta['storage_blocks'])) != storage_counts:
         raise ValueError('Wrong storage component coverage')
     tables = {r['block_path']: energy_tables(r['parameters']) for r in meta['settings_tables']}
     densities = {r['block_path']: density_table(r['parameters']) for r in meta['settings_tables']}
@@ -293,7 +295,7 @@ def audit_arm(folder, assignment, expected_count):
     endpoint = sum(r['energy_endpoint_change_J']+r.get('pressure_volume_work_J', 0) for r in components)
     source_energy = integral_summary(net, time)['BE_energy_J']
     groups = {}
-    for kind in EXPECTED_COUNTS:
+    for kind in storage_counts:
         rows = [r for r in components if r['mask_type'] == kind]
         groups[kind] = dict(count=len(rows), endpoint_energy_residual_J=sum(r['endpoint_energy_residual_J_end'] for r in rows),
                            coefficient_energy_residual_J=sum(r['BE_coefficient_energy_residual_J_end'] for r in rows),
@@ -409,7 +411,8 @@ def audit(repo, evidence_root=None):
             t = a['commands'][name]['time_s'][:].reshape(-1)
             if t[0] != 0 or t[-1] != 10 or np.any(np.diff(t) <= 0):
                 raise ValueError('Command is not a complete real cold cycle')
-    arms = [audit_arm(root/arm, assignment, expected_counts[arm]) for arm in ('native', 'conservative')]
+    storage_counts = ENDPOINT_STORAGE_COUNTS if endpoint else EXPECTED_COUNTS
+    arms = [audit_arm(root/arm, assignment, expected_counts[arm], storage_counts) for arm in ('native', 'conservative')]
     files = [root/'cold_chamber_execution.json', root/'matlab_diary.log', root/'conservative/public_inventory_targets.json', root/'conservative/cold_public_targets.mat']
     for arm in ('native', 'conservative'):
         files.extend(root/arm/n for n in ('configuration.mat', 'observations.mat', 'inventory_metadata.json', 'tl_connectivity.json', 'thermal_connectivity.json'))
