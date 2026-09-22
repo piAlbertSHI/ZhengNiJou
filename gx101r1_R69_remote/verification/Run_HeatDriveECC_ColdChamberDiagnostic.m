@@ -53,6 +53,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             seed_record.initial_flux_compensation && ~seed_record.production_recovery_allowed, ...
             'The cold initialization source is not the qualified zero-based seed.');
     end
+    endpoint_qualified_source_root='';
+    endpoint_qualified_source_observation_sha256='';
     if endpoint_chamber_diagnostic && cycle_count == 1
         initial_observation_root=canonical_path(initial_observation_root);
         initial_observation_path=fullfile(initial_observation_root,'native','observations.mat');
@@ -64,6 +66,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             seed_record.conservative_buffers && strcmp(seed_record.buffer_mass_formulation,'zero_based_offset') && ...
             seed_record.initial_flux_compensation && ~seed_record.production_recovery_allowed, ...
             'Endpoint chamber source is not the qualified zero-based seed.');
+        endpoint_qualified_source_root=initial_observation_root;
+        endpoint_qualified_source_observation_sha256=file_hash(initial_observation_path);
     end
     assert(isscalar(network_absolute_pressure_MPa) && isfinite(network_absolute_pressure_MPa) && ...
         ismember(network_absolute_pressure_MPa,[0.75 0.85]), ...
@@ -165,6 +169,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'buffer_mass_formulation',buffer_mass_formulation, ...
         'initialization_source_root','', ...
         'initialization_source_observation_sha256','', ...
+        'endpoint_chamber_qualified_source_root',endpoint_qualified_source_root, ...
+        'endpoint_chamber_qualified_source_observation_sha256',endpoint_qualified_source_observation_sha256, ...
         'simscape_log_window_start_s',0, ...
         'simscape_log_window_cycles',min(cycle_count,2), ...
         'pressure_probe_contracts',{{}});
@@ -306,6 +312,16 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 if cycle_count==1 && ~endpoint_chamber_diagnostic
                     initial_observation_root=output_root;
                     initial_observation_path=fullfile(initial_observation_root,'native','observations.mat');
+                end
+                if cycle_count==1 && endpoint_chamber_diagnostic && strcmp(name,'conservative')
+                    % The endpoint native arm is the authoritative cold-start
+                    % observation for the paired arm. The qualified v22 seed
+                    % remains a prerequisite, but is not a false provenance
+                    % source for this independently generated initial state.
+                    initial_observation_root=output_root;
+                    initial_observation_path=fullfile(initial_observation_root,'native','observations.mat');
+                    assert(isfile(initial_observation_path), ...
+                        'Endpoint native cold observation is missing.');
                 end
                 initial_observation_sha256=file_hash(initial_observation_path);
                 record.initialization_source_root=initial_observation_root;

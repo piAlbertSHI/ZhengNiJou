@@ -356,7 +356,8 @@ def audit(repo, evidence_root=None):
                for r in a_meta['storage_blocks'] if 'volume' in r['mask_parameters']}
     initial_expected = {}
     with h5py.File(target_observation_root/'observations.mat') as source:
-        source_rows = checked_rows(source, 'native', 1240)
+        source_count = expected_counts['native'] if target_observation_root.resolve() == (root/'native').resolve() else 1240
+        source_rows = checked_rows(source, 'native', source_count)
         for target in targets['targets']:
             key = target['block_path'], target['state_name']; unit = target['unit']
             if key[1] in ('stored_mass', 'stored_energy'):
