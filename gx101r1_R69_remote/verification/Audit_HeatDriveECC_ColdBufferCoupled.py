@@ -546,7 +546,14 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
             raise ValueError('Actual buffer geometry differs from declared experiment')
     comparisons = []; local = []; kcls = []
     initialization_path = Path(execution.get('initialization_source_root', ''))/'native'/'observations.mat'
-    if trace_start > 0:
+    if endpoint_chamber_diagnostic:
+        if not initialization_path.is_file():
+            raise ValueError('Missing hash-bound endpoint cold initialization source')
+        if sha256(initialization_path) != execution.get('initialization_source_observation_sha256'):
+            raise ValueError('Endpoint cold initialization source hash mismatch')
+        seed_file = h5py.File(initialization_path, 'r')
+        seed_rows = checked_rows(seed_file, 'native', 1240, 10, 0)
+    elif trace_start > 0:
         if not initialization_path.is_file():
             raise ValueError('Missing hash-bound cold initialization source')
         if sha256(initialization_path) != execution.get('initialization_source_observation_sha256'):
