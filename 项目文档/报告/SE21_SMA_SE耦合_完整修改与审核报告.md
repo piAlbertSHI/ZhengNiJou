@@ -3394,3 +3394,14 @@ v33 native/conservative 两份 dense `observations.mat` 已完成逐文件 SHA-2
 `outputs` 约 `14.625 GiB`。新的 workspace governance 快照为
 `gx101r1_R69_remote/outputs_storage_audit/workspace_governance_20260923_064348_round27`，
 分类 715 个目录、`18.788239 GiB`，C200/C180 四个权威哈希全部通过，`Agent6` 未触碰。
+
+### 166.6 旧 rejected 冷态 raw 退役
+
+随后新增并运行 `verification/Retire_HeatDriveECC_MarkedDiagnosticRaw.ps1`，仅处理显式
+allowlist 中同时满足“存在 `REJECTED_DO_NOT_RESUME.txt`、无 checkpoint、执行合同禁止恢复和
+非周期”的四个包：v19、v20、v21、v22。八份 native/conservative `observations.mat` 逐文件
+计算 SHA-256 后删除，共 `3,022,832,106` bytes（约 `2.815 GiB`）。回执为
+`gx101r1_R69_remote/outputs_storage_audit/marked_diagnostic_raw_retirement_20260923_065008/retirement_receipt.json`。
+
+每个包保留执行合同、拒绝标记、`RAW_OBSERVATIONS_RETIRED.txt`、MATLAB diary、拓扑/库存元数据、
+标量审计和退役回执；v17、v27、v28 等没有满足该显式合同的目录未被批量删除。
