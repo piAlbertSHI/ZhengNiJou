@@ -3332,3 +3332,53 @@ v30 的执行 JSON、cold-buffer 审计、pressure audit、seed gate 和拒绝�
 当前科学结论仍是：控制体和 SE 机理流量门禁尚未通过，不能宣称 validated、reproduced 或 strict Table 4 reproduction。下一步应针对 SE stage 2/4 流量误差定位连接腔/压力源/边界条件的物理原因，重新建立全新诊断输出，先通过 10 s 双臂 seed gate，再考虑 20-cycle；失败结果继续执行 marker + hash-bound raw retirement。
 
 治理复核：`Manage_HeatDriveECC_OutputStorage.ps1` 于 2026-09-22 23:07 只读运行，`candidate_count=0`，输出树约 `14.288 GiB`，没有自动清理候选。`Audit_HeatDriveECC_WorkspaceGovernance.ps1` 生成 `workspace_governance_20260922_round26`：709 个分类目录、`18.451411 GiB`，C200/C180 权威哈希通过，`Agent6` 未触碰。v30 标量审计保留在独立 endpoint worktree 的 `gx101r1_R69_remote/outputs_storage_audit/qian_native_endpoint_chamber_diag_20260922_v30`，原始观测退役回执位于主工作树的 `gx101r1_R69_remote/outputs_storage_audit/native_endpoint_diagnostic_raw_retirement_20260922_225505`。
+
+## 166. Native paired endpoint v31-v33（2026-09-23）
+
+### 166.1 v31：流量误差修正但 native 端点仍不闭合
+
+v31 在隔离 endpoint worktree 中采用已审计的 v22 流量调参：SE stage 2 `Kp=-126`、SE stage 4
+`Kp=-237`、初值分别为 `-126/-225`，压力缩放 `0.85`，并保持
+`specific_inventory + zero_based_offset + initial_flux_compensation`。双臂 10 s 仿真自然结束。
+两臂 SE stage 2/4 流量 RMS 相对误差分别约为
+`0.0497458735/0.0489512958`（native）和
+`0.0497460469/0.0489491817`（conservative），流量门禁通过；但 native
+endpoint 源减库存残差为 `-1.1024446476 J`，constant-volume chamber 残差为
+`-1.0131022666 J`，故 native 控制体门禁失败。v31 仅保留标量审计、执行合同和拒绝标记，禁止恢复或传播。
+
+### 166.2 v32：显式 paired endpoint chamber 诊断通过 10 s seed gate
+
+新增 `endpoint_all_arms=true` 的显式诊断模式，使 native/conservative 两臂均使用独立
+endpoint chamber 诊断拓扑。该模式只用于验证状态-通量语义，不代表生产模型替换。v32 双臂 10 s
+流量、压力、源端口、库存、204 项初始坐标、相分数和固体能量门禁均通过；native endpoint
+残差为 `1.9565504772e-9 J`，chamber endpoint 残差为 `4.3200998334e-12 J`，Tank 残差为
+`0`，conservative 残差为 `-7.4010131357e-11 J`。严格结果为
+`diagnostic_20cycle_seed_eligible=true`，但 `production_recovery_allowed=false`、
+`outer_solve_eligible=false`、`paired_table4_eligible=false`。v32 只能作为独立 20-cycle
+诊断的初始化包，不得作为 C200 状态恢复源。
+
+### 166.3 v33：20-cycle 诊断完成但末窗口 SE stage 4 未过门禁
+
+以 v32 合格 10 s 诊断包为唯一初始化来源，在 `endpoint_all_arms=true` 模式下完成 20 cycles
+（`stop_time=200 s`），没有导入 C200、没有保存生产 checkpoint，执行合同仍标记
+`production_recovery_allowed=false`。v33 全周期控制体/库存审计中，endpoint 残差为
+`4.3957015805e-10 J`，chamber endpoint 残差为 `1.2837109847e-11 J`，SMA 机制门禁通过，
+SE stage 2 末窗口 RMS 为 `0.0493468369`，但 SE stage 4 为 `0.0503184706`，超过当前
+`0.05` 门限。因此 `flow_and_inventory_gate=false`，pressure range 和 hydraulic diagnostic
+虽然通过，v33 不能作为稳态、恢复、outer solve、敏感性、paired endpoint 或 Table 4 输入。
+
+v33 输出已写入 `REJECTED_DO_NOT_RESUME.txt`。在完成同周期漂移审计后，dense observations
+按逐文件 SHA-256 退役；执行合同、拒绝标记、配置、拓扑、库存元数据、压力/控制体标量审计和
+retirement receipt 保留。该结果不提升 C200 的性能基准，也不改变热容、buffer、本构、温度、
+相分数或独立路线 PI memory 合同。
+
+### 166.4 Git 与后续边界
+
+本轮新增主分支提交：`ad4703c`（v31 producer）、`0e05bf3`（paired endpoint 模式）、
+`f6ef355`（v32 producer）、`93db6a2`（v33 producer）、`52a45b1`（v33 seed topology 绑定）、
+`d699867`（链式 endpoint seed provenance）。这些提交只包含 runner/审核器/producer 白名单，
+不包含实验 raw 数据；受保护的 SLX 二进制修改和 `Agent6/` 仍未触碰。
+
+当前仍不得使用 `validated`、`reproduced` 或 strict Table 4 reproduction。下一步是先完成
+v33 同相温度/端点/相分数漂移审计，再决定新的独立冷态诊断参数；不得在 v33 失败结果上直接
+续算，也不得放宽 SE stage 4 门限。
