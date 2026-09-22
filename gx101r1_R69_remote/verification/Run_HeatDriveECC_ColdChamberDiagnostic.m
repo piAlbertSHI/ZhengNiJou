@@ -290,8 +290,12 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         end
         for kind={'native','conservative'}
             name=kind{1}; arm=fullfile(output_root,name); mkdir(arm);
+            % Keep the native arm as the unmodified hydraulic/thermal
+            % baseline. The endpoint chamber and offset buffers belong only
+            % to the conservative comparison arm; otherwise the diagnostic
+            % changes both arms and cannot localize the chamber effect.
             overrides.branch.independent_conservative_chamber_diagnostic= ...
-                strcmp(name,'conservative') || endpoint_chamber_diagnostic;
+                strcmp(name,'conservative');
             [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(overrides);
             model_cleanup=onCleanup(@() close_system(model,0));
             arm_simulation_mode=simulation_mode;
@@ -299,11 +303,11 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             % points. Keep that diagnostic arm in normal mode because
             % accelerator startup cannot guarantee a time-origin-compatible
             % operating point; the native arm remains accelerated.
-            if (strcmp(name,'conservative') || endpoint_chamber_diagnostic) && pipe_energy_targets
+            if strcmp(name,'conservative') && pipe_energy_targets
                 arm_simulation_mode='normal';
             end
             changed={};buffer_records={};buffer_paths={};
-            if strcmp(name,'conservative') || endpoint_chamber_diagnostic
+            if strcmp(name,'conservative')
                 changed={[model '/SMA_PumpInletConnectingPipeVolume'],[model '/SMA_PumpOutletConnectingPipeVolume']};
                 for k=1:2
                     assert(strcmp(get_param(changed{k},'SourceFile'),chamber_source), ...
@@ -428,7 +432,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     'SimscapeLogDataHistory',ceil(log_window_cycles*10/ ...
                     options.simscape.local_solver_sample_time_s)+2);
             end
-            if (strcmp(name,'conservative') || endpoint_chamber_diagnostic) && pipe_energy_targets
+            if strcmp(name,'conservative') && pipe_energy_targets
                 assignin('base','cold_public_targets',cold_public_targets);
                 set_param(model,'SimscapeUseOperatingPoints','on','SimscapeOperatingPoint','cold_public_targets');
             end
@@ -445,7 +449,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             input=Simulink.SimulationInput(model);
             input=input.setModelParameter('CaptureErrors','on', ...
                 'SimulationMode',arm_simulation_mode);
-            if (strcmp(name,'conservative') || endpoint_chamber_diagnostic) && pipe_energy_targets
+            if strcmp(name,'conservative') && pipe_energy_targets
                 input=input.setVariable('cold_public_targets',cold_public_targets);
             end
             output=sim(input);
@@ -455,7 +459,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     fullfile(arm,'failed_public_observations.mat'));
                 error('HeatDriveECC:ColdDiagnosticSimulationFailed','%s',failure_message);
             end
-            if specific_inventory && (strcmp(name,'conservative') || endpoint_chamber_diagnostic)
+            if specific_inventory && strcmp(name,'conservative')
                 inventory_variables={'stored_mass','stored_energy','T_I','p_I'};
                 if nonlinear_inventory
                     inventory_variables={'mass_coordinate','energy_delta','T_I','p_I'};
