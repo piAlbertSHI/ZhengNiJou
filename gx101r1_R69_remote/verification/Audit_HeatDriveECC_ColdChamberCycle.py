@@ -364,9 +364,13 @@ def audit(repo, evidence_root=None):
         for target in targets['targets']:
             key = target['block_path'], target['state_name']; unit = target['unit']
             if key[1] in ('stored_mass', 'stored_energy'):
-                expected = volumes[key[0]]*scalar_series(source_rows[key[0], 'rho_I'], 'kg/m^3')[0]
-                if key[1] == 'stored_energy':
-                    expected *= scalar_series(source_rows[key[0], 'u_I'], 'J/kg')[0]
+                observed_key = key[0], key[1]
+                if observed_key in source_rows:
+                    expected = scalar_series(source_rows[observed_key], unit)[0]
+                else:
+                    expected = volumes[key[0]]*scalar_series(source_rows[key[0], 'rho_I'], 'kg/m^3')[0]
+                    if key[1] == 'stored_energy':
+                        expected *= scalar_series(source_rows[key[0], 'u_I'], 'J/kg')[0]
             else:
                 expected = scalar_series(source_rows[key], unit)[0]
             initial_expected[key] = expected
@@ -380,10 +384,15 @@ def audit(repo, evidence_root=None):
             expected = initial_expected[key]
             if abs(target['value']-expected) > 1e-12*max(1, abs(expected)):
                 raise ValueError('Target is not measured initialization cold state')
-            current = (volumes[key[0]]*scalar_series(aa[key[0], 'rho_I'], 'kg/m^3')[0]
-                       if key[1] == 'stored_mass' else
-                       volumes[key[0]]*scalar_series(aa[key[0], 'rho_I'], 'kg/m^3')[0]*scalar_series(aa[key[0], 'u_I'], 'J/kg')[0]
-                       if key[1] == 'stored_energy' else scalar_series(aa[key], unit)[0])
+            if key[1] in ('stored_mass', 'stored_energy') and key in aa:
+                current = scalar_series(aa[key], unit)[0]
+            elif key[1] == 'stored_mass':
+                current = volumes[key[0]]*scalar_series(aa[key[0], 'rho_I'], 'kg/m^3')[0]
+            elif key[1] == 'stored_energy':
+                current = (volumes[key[0]]*scalar_series(aa[key[0], 'rho_I'], 'kg/m^3')[0]
+                           * scalar_series(aa[key[0], 'u_I'], 'J/kg')[0])
+            else:
+                current = scalar_series(aa[key], unit)[0]
             if not compare_initial(current, expected)['within_strict_comparison']:
                 raise ValueError('Current native arm does not preserve initialization state')
             comparisons.append(dict(path=target['path'], unit=unit, priority=target['priority'],
