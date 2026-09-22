@@ -3498,3 +3498,14 @@ zero-load summary 状态为 `no_valid_bracket`，zero-lift summary 状态为 `no
 
 SHA-256：`E3B176C980995052878EA6A1D914033847E9488908E357952E28AC626FC7A2AE`。
 当前论文边界继续为 `simulated`、`predicted`、`benchmark-consistent`、`not yet reproduced`。
+
+## 171. 本轮治理收口（2026-09-23）
+
+`Manage_HeatDriveECC_OutputStorage.ps1` audit-only 结果为 `candidate_count=0`，输出树保持约
+`11.81 GiB`。本轮最终治理快照为：
+
+`gx101r1_R69_remote/outputs_storage_audit/workspace_governance_20260923_071110_round29`
+
+分类 723 个目录、`15.973621 GiB`，C200/C180 权威哈希全部通过，当前 HEAD 为 `26e00dd`，
+`Agent6` 未触碰。新增的控制体 evidence、outer guard、L8 preflight 和 paired guard 均为小型
+审计产物，没有物理候选 raw 或恢复点进入工作区。
