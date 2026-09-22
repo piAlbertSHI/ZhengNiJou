@@ -3413,3 +3413,26 @@ allowlist 中同时满足“存在 `REJECTED_DO_NOT_RESUME.txt`、无 checkpoint
 分类 718 个目录、`15.973316 GiB`，C200/C180 权威哈希全部通过，当前 HEAD 为 `a6dcdd9`，
 `Agent6` 未触碰。保留的主要大文件仅为 C200/C180 权威结果、受限运行诊断和明确的审计证据；
 其余 rejected raw 已有逐文件回执，不再占用原始时序数据空间。
+
+## 167. C200 控制体表与 Eq.9/Eq.10 实际证据（2026-09-23）
+
+本轮重新执行控制体结构合同和冻结 C200 实际观测审核。结构层为 `10/10` 控制体、`10/10`
+指标、末 10 个完整周期窗口和 `0.04181683646625444 kg` 有效 SE 质量，结构审核通过。
+
+直接读取 C200 的 `2,000,001` 个时间样本后，实际证据状态为：CHEX 传感器和 SMA/SE 固体
+complete；SHEX/HHEX/CHEX 流体 partial；buffers 和 pipes/manifolds missing；pumps partial。
+因此 `all_required_control_volume_observations_complete=false`、`outer_solve_eligible=false`、
+`paired_table4_eligible=false`。该结果不是意外异常，而是当前 C200 观测层的明确缺口。
+
+C200 的当前性能读数为 Eq.9=`28.70997009896983 K`、Eq.10 SCP=`0.31648049061944167 W/g`，
+窗口为 `1900--2000 s`，CHEX sensor consistency 通过；它仍是冻结 benchmark，不是 strict Table 4
+reproduction。MAT 内 `periodic_steady_state=false` 与 validation report/freeze contract 的 true
+标记存在来源冲突，已全部保留，未擅自覆盖。
+
+详细控制体表、质量/能量边界、Eq.9/Eq.10 采样和后续补齐顺序见：
+
+`项目文档/报告/2026-09-23_C200控制体表与Eq9Eq10证据审核.md`
+
+证据文件：
+
+`gx101r1_R69_remote/outputs_storage_audit/c200_control_volume_evidence_20260923/c200_control_volume_evidence.json`
