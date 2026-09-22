@@ -68,6 +68,20 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     # main-branch cherry-pick; retain its exact execution identity too.
     '58049fdec3ad43222c716d508ee01c43cc77f10a',
 }
+ENDPOINT_CHAMBER_PRODUCERS = {
+    # Isolated endpoint-chamber route after the runner/source allowlists were
+    # completed. This producer remains diagnostic-only and imports no C200 OP.
+    'f5329019943455f59c15d8d9d19c873800417383',
+}
+QUALIFIED_CHAMBER_HEADER = (
+    '% Conservative Inventory Chamber (TL)\n'
+    '% Diagnostic alternative: differentiate stored mass and energy themselves.\n'
+)
+ENDPOINT_CHAMBER_HEADER = (
+    '% Endpoint-contract chamber diagnostic.\n'
+    '% This isolated variant exposes stored mass and energy as explicit states so\n'
+    '% endpoint inventories use the same state variables as the differential ledger.\n'
+)
 # The v8 diagnostic was run after the report-only ledger commit. Both commits
 # refer to the same calibrated source implementation and remain auditable.
 INITIAL_FLUX_COMPENSATION_PRODUCERS = {
@@ -332,6 +346,9 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         root = repo/'outputs_storage_audit'/(SPECIFIC_EXPERIMENT if specific_onset else CYCLE_EXPERIMENT if full_cycle else EXPERIMENT)
         producer = SPECIFIC_PRODUCER if specific_onset else CYCLE_PRODUCER if full_cycle else PRODUCER
     execution = read(root/'cold_chamber_execution.json')
+    endpoint_chamber_diagnostic = bool(execution.get('endpoint_chamber_diagnostic', False))
+    if endpoint_chamber_diagnostic:
+        producer = ENDPOINT_CHAMBER_PRODUCERS
     default_stop = 10 if full_cycle else .2 if specific_onset else .01
     stop = float(default_stop if duration_s is None else duration_s)
     if stop <= 0 or abs(stop/.001 - round(stop/.001)) > 1.0e-9:
@@ -362,7 +379,6 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
     buffer_source = 'ecc_buffer_coupled.conservative_buffer'
     if zero_based_offset:
         buffer_source = 'ecc_buffer_coupled_offset.conservative_buffer'
-    endpoint_chamber_diagnostic = bool(execution.get('endpoint_chamber_diagnostic', False))
     if endpoint_chamber_diagnostic:
         if execution.get('inventory_formulation') != 'specific_inventory':
             raise ValueError('Endpoint chamber diagnostic requires specific inventory formulation')
@@ -370,6 +386,7 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         pre = read(prereq)
         component = root/'component_build/+ecc_inventory_endpoint/conservative_chamber.ssc'
         reference = (repo/'verification/simscape_inventory_specific/+ecc_inventory_specific/conservative_chamber.ssc').read_text(encoding='utf-8')
+        reference = reference.replace(QUALIFIED_CHAMBER_HEADER, ENDPOINT_CHAMBER_HEADER)
         if (not component.is_file() or component.read_text(encoding='utf-8') != reference
                 or execution.get('chamber_source_file') != 'ecc_inventory_endpoint.conservative_chamber'
                 or execution.get('endpoint_chamber_source_sha256') != sha256(component)
