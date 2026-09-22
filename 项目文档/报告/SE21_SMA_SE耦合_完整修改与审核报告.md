@@ -3510,6 +3510,8 @@ SHA-256：`E3B176C980995052878EA6A1D914033847E9488908E357952E28AC626FC7A2AE`。
 `Agent6` 未触碰。新增的控制体 evidence、outer guard、L8 preflight 和 paired guard 均为小型
 审计产物，没有物理候选 raw 或恢复点进入工作区。
 
+本轮报告随后以 `f4c11e7 Record round30 modification and workspace governance` 提交；治理快照中的 `41ca6fd` 是快照生成时点。提交之后仅增加文档记录，没有新增物理结果、恢复点或权威哈希变化。
+
 ## 172. round30 修改、Git 与工作区收口（2026-09-23）
 
 本轮先核对前序提交链和工作树，再执行只读输出清理审计与全工作区分类。当前 HEAD 为 `41ca6fd`；业务代码、审核器、证据合同和前序治理记录没有未提交修改。工作树仅保留受保护的 `gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx` 未解释二进制修改和顶层 `Agent6/` 未跟踪目录，二者未被读取、修改、删除或提交。
