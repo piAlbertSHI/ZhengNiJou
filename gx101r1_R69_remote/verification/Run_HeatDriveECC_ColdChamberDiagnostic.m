@@ -1,4 +1,4 @@
-function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root, simulation_mode, endpoint_chamber_diagnostic)
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root, simulation_mode, endpoint_chamber_diagnostic, endpoint_all_arms)
 % Authorized independent cold diagnostic. Never import or export a recovery OP.
     if nargin<3, duration=10; end
     if nargin<4, scale_inventory=false; end
@@ -16,10 +16,14 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     if nargin<16, initial_observation_root=''; end
     if nargin<17, simulation_mode='normal'; end
     if nargin<18, endpoint_chamber_diagnostic=false; end
+    if nargin<19, endpoint_all_arms=false; end
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown chamber formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
     assert(islogical(endpoint_chamber_diagnostic) && isscalar(endpoint_chamber_diagnostic), ...
         'Require a scalar endpoint chamber diagnostic choice.');
+    assert(islogical(endpoint_all_arms) && isscalar(endpoint_all_arms) && ...
+        (~endpoint_all_arms || endpoint_chamber_diagnostic), ...
+        'Endpoint all-arm mode requires endpoint chamber diagnostics.');
     assert(~endpoint_chamber_diagnostic || (specific_inventory && conservative_buffers && ...
         ~nonlinear_inventory && islogical(initial_flux_compensation)), ...
         'Endpoint chamber diagnostic requires the linear specific-inventory contract.');
@@ -164,6 +168,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'physical_buffer_mass_high_targets',buffer_mass_targets,'physical_pipe_energy_high_targets',pipe_energy_targets, ...
         'conservative_buffers',conservative_buffers,'inventory_formulation',formulation, ...
         'endpoint_chamber_diagnostic',endpoint_chamber_diagnostic, ...
+        'endpoint_all_arms',endpoint_all_arms, ...
         'nonlinear_inventory_coordinates',nonlinear_inventory, ...
         'initial_flux_compensation',initial_flux_compensation, ...
         'buffer_mass_formulation',buffer_mass_formulation, ...
@@ -290,12 +295,13 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         end
         for kind={'native','conservative'}
             name=kind{1}; arm=fullfile(output_root,name); mkdir(arm);
+            use_endpoint_arm=strcmp(name,'conservative') || (endpoint_chamber_diagnostic && endpoint_all_arms);
             % Keep the native arm as the unmodified hydraulic/thermal
             % baseline. The endpoint chamber and offset buffers belong only
             % to the conservative comparison arm; otherwise the diagnostic
             % changes both arms and cannot localize the chamber effect.
             overrides.branch.independent_conservative_chamber_diagnostic= ...
-                strcmp(name,'conservative');
+                use_endpoint_arm;
             [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(overrides);
             model_cleanup=onCleanup(@() close_system(model,0));
             arm_simulation_mode=simulation_mode;
@@ -303,11 +309,11 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             % points. Keep that diagnostic arm in normal mode because
             % accelerator startup cannot guarantee a time-origin-compatible
             % operating point; the native arm remains accelerated.
-            if strcmp(name,'conservative') && pipe_energy_targets
+            if use_endpoint_arm && pipe_energy_targets
                 arm_simulation_mode='normal';
             end
             changed={};buffer_records={};buffer_paths={};
-            if strcmp(name,'conservative')
+            if use_endpoint_arm
                 changed={[model '/SMA_PumpInletConnectingPipeVolume'],[model '/SMA_PumpOutletConnectingPipeVolume']};
                 for k=1:2
                     assert(strcmp(get_param(changed{k},'SourceFile'),chamber_source), ...
@@ -432,7 +438,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     'SimscapeLogDataHistory',ceil(log_window_cycles*10/ ...
                     options.simscape.local_solver_sample_time_s)+2);
             end
-            if strcmp(name,'conservative') && pipe_energy_targets
+            if use_endpoint_arm && pipe_energy_targets
                 assignin('base','cold_public_targets',cold_public_targets);
                 set_param(model,'SimscapeUseOperatingPoints','on','SimscapeOperatingPoint','cold_public_targets');
             end
@@ -449,7 +455,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             input=Simulink.SimulationInput(model);
             input=input.setModelParameter('CaptureErrors','on', ...
                 'SimulationMode',arm_simulation_mode);
-            if strcmp(name,'conservative') && pipe_energy_targets
+            if use_endpoint_arm && pipe_energy_targets
                 input=input.setVariable('cold_public_targets',cold_public_targets);
             end
             output=sim(input);
@@ -459,7 +465,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     fullfile(arm,'failed_public_observations.mat'));
                 error('HeatDriveECC:ColdDiagnosticSimulationFailed','%s',failure_message);
             end
-            if specific_inventory && strcmp(name,'conservative')
+            if specific_inventory && use_endpoint_arm
                 inventory_variables={'stored_mass','stored_energy','T_I','p_I'};
                 if nonlinear_inventory
                     inventory_variables={'mass_coordinate','energy_delta','T_I','p_I'};
