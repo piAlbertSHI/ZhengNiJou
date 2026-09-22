@@ -3320,3 +3320,13 @@ RMS 相对流量误差约 `0.3413/0.3135`，故 `flow_and_inventory_gate=false`�
 `outputs_storage_audit/native_endpoint_diagnostic_raw_retirement_20260922_205402/retirement_receipt.json`
 完成 hash-bound 退役，共删除 `335,898,846` bytes；合同、拒绝标记、配置、
 拓扑、库存元数据和标量审计保留。下一步继续 SE 流量机理修正。
+
+## 165. Native baseline + conservative endpoint v30（2026-09-22）
+
+本轮在隔离 `codex/native-chamber-endpoint-run` worktree 中修正 endpoint 诊断分支：native 臂保持原始物理连接腔/Tank 基线，conservative 臂单独使用 endpoint chamber 与 offset-buffer 变体，避免把 endpoint 替换误施加到两臂。v30 双臂 10 s 真实仿真自然结束，执行合同记录 `c200_state_imported=false`、`checkpoint_saved=false`、`production_recovery_allowed=false`，且没有启动 20-cycle。
+
+v30 严格审核结果：证据完整性、局部库存守恒、204 项初始坐标匹配、source-port 检查、相分数/固体能量和六个压力 A/B 信号均通过；压力范围和非注入液压功诊断也通过。两臂 SMA stage 1-4 流量通过，但 SE stage 2/4 流量门禁失败：native RMS 分别为 `0.3412909554`、`0.3134194717`，conservative RMS 分别为 `0.3412975225`、`0.3135035411`。因此 `flow_and_inventory_gate=false`、`mechanism_gates_complete=false`、`diagnostic_20cycle_seed_eligible=false`、`outer_solve_eligible=false`、`paired_table4_eligible=false`，不得作为恢复源、20-cycle 输入、outer solve、sensitivity、paired endpoint 或 Table 4 输入。
+
+v30 的执行 JSON、cold-buffer 审计、pressure audit、seed gate 和拒绝标记均保留；native/conservative 两份 dense `observations.mat` 已经按原始 SHA-256 写入退役回执并删除，共 `334,140,097` bytes。退役回执为 `outputs_storage_audit/native_endpoint_diagnostic_raw_retirement_20260922_225505/retirement_receipt.json`。退役脚本保留合同、拒绝标记、配置、拓扑、库存元数据和标量审计。审核器的 v30 exact producer 已加入白名单并完成 Python 编译检查；没有修改 C200/C180 冻结合同，也没有触及受保护的 SLX 二进制修改或 `Agent6/`。
+
+当前科学结论仍是：控制体和 SE 机理流量门禁尚未通过，不能宣称 validated、reproduced 或 strict Table 4 reproduction。下一步应针对 SE stage 2/4 流量误差定位连接腔/压力源/边界条件的物理原因，重新建立全新诊断输出，先通过 10 s 双臂 seed gate，再考虑 20-cycle；失败结果继续执行 marker + hash-bound raw retirement。
