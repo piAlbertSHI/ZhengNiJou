@@ -1,0 +1,16 @@
+REJECTED_DO_NOT_RESUME
+
+This v33 paired-endpoint 20-cycle diagnostic is rejected for continuation.
+
+Reason: the final 10 s window SE stage 4 selected-flow RMS relative error is
+0.05031847063982246, above the strict 0.05 gate. The package is not a
+periodic-steady-state certificate and is not eligible for production recovery,
+outer solve, sensitivity, paired endpoints, or Table 4 claims.
+
+The v32 10 s diagnostic package is the only initialization source for this
+run. No C200 state was imported and no production checkpoint was saved.
+
+Retain the execution contract, audit JSON, pressure audit, topology/inventory
+metadata, and the eventual SHA-256 retirement receipt. Do not resume from this
+directory and do not propagate its constitutive, temperature, phase, buffer,
+thermal-capacity, or independent-route PI state.
