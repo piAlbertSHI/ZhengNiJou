@@ -557,7 +557,8 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         seed_file = None
         seed_rows = None
     with h5py.File(root/'native/observations.mat') as a, h5py.File(root/'conservative/observations.mat') as b:
-        aa = checked_rows(a, 'native', 1240, trace_stop, trace_start,
+        native_trace_count = 1262 if endpoint_chamber_diagnostic else 1240
+        aa = checked_rows(a, 'native', native_trace_count, trace_stop, trace_start,
                           allow_leading_warmup=trace_start > 0)
         bb = checked_rows(b, 'native', 1276 if nonlinear_inventory else 1262 if zero_based_offset else 1258,
                           trace_stop, trace_start, allow_leading_warmup=trace_start > 0)
