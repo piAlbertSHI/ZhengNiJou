@@ -75,6 +75,7 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     # v29 only accepts the native cold observation as the conservative-arm
     # initialization source; the qualified v22 package remains separate.
     '213fa7772733f725861747c04e6d62b9ac6993f3',
+    '2839de0436094ae49da25336fb3b36ae6cbb6b3a',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'
