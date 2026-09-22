@@ -3330,3 +3330,5 @@ v30 严格审核结果：证据完整性、局部库存守恒、204 项初始坐
 v30 的执行 JSON、cold-buffer 审计、pressure audit、seed gate 和拒绝标记均保留；native/conservative 两份 dense `observations.mat` 已经按原始 SHA-256 写入退役回执并删除，共 `334,140,097` bytes。退役回执为 `outputs_storage_audit/native_endpoint_diagnostic_raw_retirement_20260922_225505/retirement_receipt.json`。退役脚本保留合同、拒绝标记、配置、拓扑、库存元数据和标量审计。审核器的 v30 exact producer 已加入白名单并完成 Python 编译检查；没有修改 C200/C180 冻结合同，也没有触及受保护的 SLX 二进制修改或 `Agent6/`。
 
 当前科学结论仍是：控制体和 SE 机理流量门禁尚未通过，不能宣称 validated、reproduced 或 strict Table 4 reproduction。下一步应针对 SE stage 2/4 流量误差定位连接腔/压力源/边界条件的物理原因，重新建立全新诊断输出，先通过 10 s 双臂 seed gate，再考虑 20-cycle；失败结果继续执行 marker + hash-bound raw retirement。
+
+治理复核：`Manage_HeatDriveECC_OutputStorage.ps1` 于 2026-09-22 23:07 只读运行，`candidate_count=0`，输出树约 `14.288 GiB`，没有自动清理候选。`Audit_HeatDriveECC_WorkspaceGovernance.ps1` 生成 `workspace_governance_20260922_round26`：709 个分类目录、`18.451411 GiB`，C200/C180 权威哈希通过，`Agent6` 未触碰。v30 标量审计保留在独立 endpoint worktree 的 `gx101r1_R69_remote/outputs_storage_audit/qian_native_endpoint_chamber_diag_20260922_v30`，原始观测退役回执位于主工作树的 `gx101r1_R69_remote/outputs_storage_audit/native_endpoint_diagnostic_raw_retirement_20260922_225505`。
