@@ -410,6 +410,19 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
             raise ValueError('Endpoint chamber source or compiled prerequisite changed')
         chamber_source = 'ecc_inventory_endpoint.conservative_chamber'
         specific_inventory = True
+        tags = read(root/'conservative/compiled_inventory_tags.json')
+        if tags['chamber_source_file'] != execution['chamber_source_file'] or not tags['post_simulation_source_verified']:
+            raise ValueError('Wrong endpoint trajectory source identity')
+        tag_rows = [dict(block_name=r['block_name'], variable_name=r['variable_name'], **decode_tags(r))
+                    for r in tags['node_metadata']]
+        chamber_names = {p.removeprefix(ROOT) for p in CHAMBERS}
+        buffer_names = {p.removeprefix(ROOT) for p in BUFFERS}
+        compiled_gate = (component_inventory_preserved(
+                            [r for r in tag_rows if r['block_name'] in chamber_names], chamber_names) and
+                         component_inventory_preserved(
+                            [r for r in tag_rows if r['block_name'] in buffer_names], buffer_names,
+                            variables={'mass_offset', 'stored_energy', 'T_I', 'p_I'},
+                            differential_variables=('mass_offset', 'stored_energy')))
     if specific_inventory and not endpoint_chamber_diagnostic:
         prereq = repo/'outputs_storage_audit/compiled_specific_inventory_audit_20260909/compiled_inventory_state_audit.json'
         pre = read(prereq)
