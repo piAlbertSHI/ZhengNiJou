@@ -40,7 +40,7 @@ function records = Apply_HeatDriveECC_ColdConservativeBuffers(model, native, lib
         assert(numel(removed_outputs)==3 && isequal(sort(cellfun(@(p) p.name,removed_outputs,'UniformOutput',false)), ...
             {'L_out','T_out','V_out'}) && all(cellfun(@(p) strcmp(p.interface_type,'Output') && ...
             isempty(p.domain) && ~p.connected,removed_outputs)), 'Cannot remove connected or unknown buffer outputs.');
-        temp = observed('T_I','K'); mass = observed('mass','kg'); rho = observed('rho_I','kg/m^3'); u = observed('u_I','J/kg');
+        temp = observed('T_I','K'); mass = observed_any({'mass','stored_mass'},'kg'); rho = observed('rho_I','kg/m^3'); u = observed('u_I','J/kg');
         volume = mass/rho;
         assert(abs(volume-observed('volume','m^3'))<1e-12 && abs(pressure-observed('p_I','Pa'))<1e-6, ...
             'Actual geometry and native cold inventory differ.');
@@ -91,6 +91,17 @@ function records = Apply_HeatDriveECC_ColdConservativeBuffers(model, native, lib
         selected=native(cellfun(@(r) strcmp(r.block_path,path) && strcmp(r.state_name,field),native));
         assert(isscalar(selected) && selected{1}.time_s(1)==0,'Require actual same-run cold initial source.');
         result=value(simscape.Value(selected{1}.values(1),selected{1}.unit),unit);
+    end
+    function result=observed_any(fields,unit)
+        for field_idx=1:numel(fields)
+            selected=native(cellfun(@(r) strcmp(r.block_path,path) && strcmp(r.state_name,fields{field_idx}),native));
+            if isscalar(selected)
+                assert(selected{1}.time_s(1)==0,'Require actual same-run cold initial source.');
+                result=value(simscape.Value(selected{1}.values(1),selected{1}.unit),unit);
+                return;
+            end
+        end
+        error('HeatDriveECC:MissingColdMassTrace','Require mass or stored_mass for the same-run cold initial source.');
     end
 end
 
