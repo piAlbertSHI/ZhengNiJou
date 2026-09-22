@@ -3382,3 +3382,15 @@ retirement receipt 保留。该结果不提升 C200 的性能基准，也不改�
 当前仍不得使用 `validated`、`reproduced` 或 strict Table 4 reproduction。下一步是先完成
 v33 同相温度/端点/相分数漂移审计，再决定新的独立冷态诊断参数；不得在 v33 失败结果上直接
 续算，也不得放宽 SE stage 4 门限。
+
+### 166.5 v33 原始观测退役与治理回执
+
+v33 native/conservative 两份 dense `observations.mat` 已完成逐文件 SHA-256 校验后删除：
+共 `1,725,611,264` bytes（约 `1.607 GiB`）。回执为
+`gx101r1_R69_remote/outputs_storage_audit/native_endpoint_diagnostic_raw_retirement_20260923_064257/retirement_receipt.json`；
+执行合同、拒绝标记、审计 JSON、拓扑/库存元数据和 MATLAB diary 保留。
+
+退役后 `Manage_HeatDriveECC_OutputStorage.ps1` audit-only 结果为 `candidate_count=0`，
+`outputs` 约 `14.625 GiB`。新的 workspace governance 快照为
+`gx101r1_R69_remote/outputs_storage_audit/workspace_governance_20260923_064348_round27`，
+分类 715 个目录、`18.788239 GiB`，C200/C180 四个权威哈希全部通过，`Agent6` 未触碰。
