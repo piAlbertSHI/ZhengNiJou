@@ -606,7 +606,11 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         volumes = {r['block_path']: r['mask_parameters']['volume']['value'] for r in metas['native']['storage_blocks'] if r['block_path'] in CHAMBERS}
         for path, c in contracts.items():
             initial = seed_rows if seed_rows is not None else aa
-            get = lambda n, u: scalar_series(initial[path, n], u)[0]
+            def get(n, u):
+                key = n
+                if n == 'mass' and (path, key) not in initial:
+                    key = 'stored_mass'
+                return scalar_series(initial[path, key], u)[0]
             mass, temp, rho, u = get('mass', 'kg'), get('T_I', 'K'), get('rho_I', 'kg/m^3'), get('u_I', 'J/kg')
             v = mass/rho; e = mass*u+c['p_environment_Pa']*v+mass*c['gravity_m_s2']*v/c['tank_area_m2']/2
             for key, expected in [('initial_mass_kg', mass), ('initial_volume_m3', v), ('initial_extended_energy_J', e), ('reference_temperature_K', temp)]:
