@@ -3436,3 +3436,25 @@ reproduction。MAT 内 `periodic_steady_state=false` 与 validation report/freez
 证据文件：
 
 `gx101r1_R69_remote/outputs_storage_audit/c200_control_volume_evidence_20260923/c200_control_volume_evidence.json`
+
+## 168. C200 authority 更新与 outer-solve guard（2026-09-23）
+
+`c200_mainline_recovery_reference_20260915.json` 已更新为本轮 C200 控制体证据路径，并绑定
+evidence SHA-256：`5A7E304FD3C37FF0568FD7A769FDEF77EE69DFE9FF92C5CB762AEEC0FC96B00C`。
+`Resolve_HeatDriveECC_MainlineAuthority.m` 现在会在读取证据前校验该哈希，防止旧或被替换的
+控制体清单绕过门禁。
+
+MATLAB authority 烟测结果：`evidence=0`、`conflict=1`、`outer=0`、`periodic=1`，冻结
+Operating Point SHA-256 仍为 `FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD5DD7D17DA7F798EBAAF4816`。
+
+随后实际调用 `Run_HeatDriveECC_Table4_OuterSolve`，输出：
+
+`status=guarded_not_authorized, candidates_started=0, candidate_count=0, evidence_complete=0, conflict=1`
+
+guard 文件为：
+
+`gx101r1_R69_remote/outputs_storage_audit/outer_solve_guard_20260923/outer_solve_guard.json`
+
+SHA-256：`55EE2EC8528ACA85EF4030C0CD8E1E7416ECFFDBCDC8033543FDEB314FFFF84C`。
+本轮没有创建任何固定 `Tc` 候选、插值数据、恢复点或 Table 4 端点结果；outer solve 继续关闭，
+直到实际控制体证据完整且周期来源冲突被解决。
