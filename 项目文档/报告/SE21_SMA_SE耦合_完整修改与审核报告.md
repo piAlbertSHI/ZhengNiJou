@@ -3405,3 +3405,11 @@ allowlist 中同时满足“存在 `REJECTED_DO_NOT_RESUME.txt`、无 checkpoint
 
 每个包保留执行合同、拒绝标记、`RAW_OBSERVATIONS_RETIRED.txt`、MATLAB diary、拓扑/库存元数据、
 标量审计和退役回执；v17、v27、v28 等没有满足该显式合同的目录未被批量删除。
+
+### 166.7 清理后最终治理快照
+
+清理后输出树为约 `11.81 GiB`，通用管理器仍为 `candidate_count=0`。最终治理快照为
+`gx101r1_R69_remote/outputs_storage_audit/workspace_governance_20260923_065117_round28`，
+分类 718 个目录、`15.973316 GiB`，C200/C180 权威哈希全部通过，当前 HEAD 为 `a6dcdd9`，
+`Agent6` 未触碰。保留的主要大文件仅为 C200/C180 权威结果、受限运行诊断和明确的审计证据；
+其余 rejected raw 已有逐文件回执，不再占用原始时序数据空间。
