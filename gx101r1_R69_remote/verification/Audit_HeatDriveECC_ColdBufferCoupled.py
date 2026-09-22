@@ -449,16 +449,35 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
                                 differential_variables=('mass_offset', 'stored_energy')))
         else:
             compiled_gate = component_inventory_preserved(tag_rows, {p.removeprefix(ROOT) for p in BUFFERS | CHAMBERS})
-    assignment = topology_check(read(root/'native/tl_connectivity.json'), read(root/'conservative/tl_connectivity.json'),
-                                chamber_source, buffer_source)
+    native_topology = read(root/'native/tl_connectivity.json')
+    conservative_topology = read(root/'conservative/tl_connectivity.json')
+    if endpoint_chamber_diagnostic:
+        # Both endpoint arms intentionally use the diagnostic chamber and the
+        # zero-based buffer. Compare each arm against the qualified native seed
+        # topology so the domain audit does not treat the custom components as
+        # unregistered primitives or silently skip one arm.
+        seed_root = Path(execution['initialization_source_root'])
+        reference_topology = read(seed_root/'native/tl_connectivity.json')
+        native_assignment = topology_check(reference_topology, native_topology,
+                                           chamber_source, buffer_source)
+        conservative_assignment = topology_check(reference_topology, conservative_topology,
+                                                 chamber_source, buffer_source)
+        if native_assignment != conservative_assignment:
+            raise ValueError('Endpoint arm domain assignment differs')
+        assignment = native_assignment
+    else:
+        assignment = topology_check(native_topology, conservative_topology,
+                                    chamber_source, buffer_source)
     if edges(read(root/'native/thermal_connectivity.json')) != edges(read(root/'conservative/thermal_connectivity.json')):
         raise ValueError('Thermal physical edges changed')
     metas = {a: read(root/a/'inventory_metadata.json') for a in ('native', 'conservative')}
     if metas['native']['settings_tables'] != metas['conservative']['settings_tables']:
         raise ValueError('Fluid tables changed')
     for a, meta in metas.items():
+        buffer_mask = 'Conservative Buffer (TL)' if endpoint_chamber_diagnostic else (
+            'Tank (TL)' if a == 'native' else 'Conservative Buffer (TL)')
         expected = {'Pipe (TL)': 67, 'Constant Volume Chamber (TL)': 2, 'Thermal Mass': 46,
-                    'Tank (TL)' if a == 'native' else 'Conservative Buffer (TL)': 4}
+                    buffer_mask: 4}
         if dict(Counter(b['mask_type'] for b in meta['storage_blocks'])) != expected:
             raise ValueError('Incomplete storage coverage')
     tables = {r['block_path']: energy_tables(r['parameters']) for r in metas['native']['settings_tables']}
