@@ -496,6 +496,12 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
             qualified_root_text = (execution.get('endpoint_chamber_qualified_source_root') or
                                    (execution.get('initialization_source_root')
                                     if execution.get('endpoint_all_arms') else ''))
+            if execution.get('endpoint_all_arms') and not execution.get('endpoint_chamber_qualified_source_root'):
+                seed_root = Path(execution.get('initialization_source_root', ''))
+                seed_execution = seed_root / 'cold_chamber_execution.json'
+                if seed_execution.is_file():
+                    seed_record = read(seed_execution)
+                    qualified_root_text = seed_record.get('endpoint_chamber_qualified_source_root', '')
             qualified_root = Path(qualified_root_text)
             if not qualified_root_text or not (qualified_root / 'native/tl_connectivity.json').is_file():
                 raise ValueError('Missing qualified endpoint topology source')
