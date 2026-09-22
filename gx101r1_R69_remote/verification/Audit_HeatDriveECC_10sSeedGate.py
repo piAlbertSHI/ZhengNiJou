@@ -46,6 +46,7 @@ def flow_gate(flow: dict) -> bool:
         and flow.get("local_inventory_conservation_pass") is True
         and flow.get("strict_initial_coordinate_match") is True
         and flow.get("production_recovery_allowed") is False
+        and len(flow.get("arms", [])) == 2
         and all(check.get("passed") for check in flow.get("source_storage_port_checks", []))
         and all(
             item.get("selected_flow_gate") is True

@@ -26,6 +26,7 @@ PRODUCERS = {
     "d85609098cb210962a4bd2ee8966db76d0c614da",
     "a436f2aff6440c71b21973a45a01ed5e1750d69f",
     "58049fdec3ad43222c716d508ee01c43cc77f10a",
+    "f5329019943455f59c15d8d9d19c873800417383",
 }
 PRESSURE_MIN_MPA = 0.45
 PRESSURE_MAX_MPA = 5.0
@@ -227,6 +228,7 @@ def audit(root, flow_audit_path):
         and flow_audit.get("local_inventory_conservation_pass") is True
         and flow_audit.get("strict_initial_coordinate_match") is True
         and flow_audit.get("production_recovery_allowed") is False
+        and len(flow_audit.get("arms", [])) == 2
         and all(check.get("passed") for check in flow_audit.get("source_storage_port_checks", []))
         and all(flow.get("selected_flow_gate")
                 for arm in flow_audit.get("arms", [])

@@ -26,10 +26,48 @@ from Audit_HeatDriveECC_TLDomainInventory import resolve_domains, density_table,
 
 
 PRODUCER = '791b113feccca8a35f80b3c0ca24b4bb4129d894'
+ENDPOINT_PRODUCER = 'f5329019943455f59c15d8d9d19c873800417383'
 EXPERIMENT = 'cold_chamber_public_coordinates_cycle_20260909'
 SOURCE_COUNTS = {'foundation.thermal_liquid.sources.pressure_source': 3,
                  'foundation.thermal.sources.temperature': 3,
                  'foundation.thermal.sources.controlled_heat_flow': 43}
+ROOT = 'heatdrive_ecc_coupled_se21/'
+BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
+
+
+def endpoint_topology(native, conservative):
+    """Check the endpoint arm's chamber-plus-offset-buffer replacement scope."""
+    if edges(native) != edges(conservative):
+        raise ValueError('Physical edges changed')
+    native_projected = endpoint_canonical(native)
+    projected = endpoint_canonical(conservative)
+    if len(projected['blocks']) != len(native_projected['blocks']):
+        raise ValueError('Incomplete endpoint replacement coverage')
+    if {b['block_path']: b['source_file'] for b in native_projected['blocks']} != {b['block_path']: b['source_file'] for b in projected['blocks']}:
+        raise ValueError('Endpoint component topology differs')
+    native_domains, native_count = resolve_domains(native_projected)
+    projected_domains, projected_count = resolve_domains(projected)
+    if native_count != 2 or projected_count != 2 or native_domains != projected_domains:
+        raise ValueError('Fluid domain assignment changed')
+    return dict(physical_edges_identical=True, hydraulic_domains=native_count,
+                domain_assignment_identical=True, replacement_scope='endpoint chambers plus offset buffers')
+
+
+def endpoint_canonical(data):
+    projected = copy.deepcopy(data)
+    seen = set()
+    for block in projected['blocks']:
+        path = block['block_path']
+        if path in CHAMBERS | BUFFERS:
+            if block['source_file'] != ('ecc_inventory_endpoint.conservative_chamber'
+                                         if path in CHAMBERS else 'ecc_buffer_coupled_offset.conservative_buffer'):
+                raise ValueError('Unexpected endpoint replacement class')
+            seen.add(path)
+            block['source_file'] = ('foundation.thermal_liquid.elements.constant_volume_chamber'
+                                    if path in CHAMBERS else 'fluids.thermal_liquid.tanks_accumulators.tank')
+    if seen != CHAMBERS | BUFFERS:
+        raise ValueError('Incomplete endpoint replacement coverage')
+    return projected
 
 
 def checked_rows(f, dataset, count, stop=10, start=0, allow_leading_warmup=False):
@@ -278,10 +316,12 @@ def audit_arm(folder, assignment, expected_count):
                 periodic_steady_state=False, production_recovery_allowed=False, table4_reproduction_claim=False)
 
 
-def audit(repo):
-    root = repo/'outputs_storage_audit'/EXPERIMENT
+def audit(repo, evidence_root=None):
+    root = evidence_root or repo/'outputs_storage_audit'/EXPERIMENT
     execution = read(root/'cold_chamber_execution.json')
-    if (execution['execution_commit'] != PRODUCER or not execution['collection_pass'] or
+    endpoint = bool(execution.get('endpoint_chamber_diagnostic', False))
+    expected_producer = ENDPOINT_PRODUCER if endpoint else PRODUCER
+    if (execution['execution_commit'] != expected_producer or not execution['collection_pass'] or
             execution['start_time_s'] != 0 or execution['stop_time_s'] != 10 or
             any(execution[k] for k in ('c200_state_imported', 'production_recovery_allowed', 'checkpoint_saved')) or
             [r['arm'] for r in execution['cases']] != ['native', 'conservative']):
@@ -290,33 +330,58 @@ def audit(repo):
         if sha256(root/r['arm']/'observations.mat') != r['observation_sha256']:
             raise ValueError('Raw evidence hash mismatch')
     native_topo = read(root/'native/tl_connectivity.json')
-    topo = check_topology(native_topo, read(root/'conservative/tl_connectivity.json'))
+    conservative_topo = read(root/'conservative/tl_connectivity.json')
+    topo = endpoint_topology(native_topo, conservative_topo) if endpoint else check_topology(native_topo, conservative_topo)
     if edges(read(root/'native/thermal_connectivity.json')) != edges(read(root/'conservative/thermal_connectivity.json')):
         raise ValueError('Thermal edges changed')
     a_meta, b_meta = [read(root/arm/'inventory_metadata.json') for arm in ('native', 'conservative')]
     if a_meta['settings_tables'] != b_meta['settings_tables']:
         raise ValueError('Property tables changed between arms')
-    assignment, _ = resolve_domains(native_topo)
+    assignment, _ = resolve_domains(endpoint_canonical(native_topo) if endpoint else native_topo)
     targets = read(root/'conservative/public_inventory_targets.json')
-    if targets['has_private_data'] or targets['source_time_s'] != 0 or targets['source_sha256'] != execution['cases'][0]['observation_sha256']:
+    target_sha = (execution['initialization_source_observation_sha256'] if endpoint
+                  else execution['cases'][0]['observation_sha256'])
+    if targets['has_private_data'] or targets['source_time_s'] != 0 or targets['source_sha256'] != target_sha:
         raise ValueError('Invalid cold target provenance')
     comparisons = []; seen = set()
+    expected_counts = {r['arm']: int(r['native_trace_count']) for r in execution['cases']}
+    if expected_counts != ({'native': 1262, 'conservative': 1262} if endpoint else {'native': 1240, 'conservative': 1242}):
+        raise ValueError('Unexpected trace coverage for experiment mode')
+    target_observation_root = root/'native'
+    if endpoint:
+        target_observation_root = Path(execution['initialization_source_root'])/'native'
+        if sha256(target_observation_root/'observations.mat') != execution['initialization_source_observation_sha256']:
+            raise ValueError('Initialization source observation hash mismatch')
+    volumes = {r['block_path']: r['mask_parameters']['volume']['value']
+               for r in a_meta['storage_blocks'] if 'volume' in r['mask_parameters']}
+    initial_expected = {}
+    with h5py.File(target_observation_root/'observations.mat') as source:
+        source_rows = checked_rows(source, 'native', 1240)
+        for target in targets['targets']:
+            key = target['block_path'], target['state_name']; unit = target['unit']
+            if key[1] in ('stored_mass', 'stored_energy'):
+                expected = volumes[key[0]]*scalar_series(source_rows[key[0], 'rho_I'], 'kg/m^3')[0]
+                if key[1] == 'stored_energy':
+                    expected *= scalar_series(source_rows[key[0], 'u_I'], 'J/kg')[0]
+            else:
+                expected = scalar_series(source_rows[key], unit)[0]
+            initial_expected[key] = expected
     with h5py.File(root/'native/observations.mat') as a, h5py.File(root/'conservative/observations.mat') as b:
-        aa, bb = checked_rows(a, 'native', 1240), checked_rows(b, 'native', 1242)
-        volumes = {r['block_path']: r['mask_parameters']['volume']['value'] for r in a_meta['storage_blocks'] if r['block_path'] in CHAMBERS}
+        aa, bb = checked_rows(a, 'native', expected_counts['native']), checked_rows(b, 'native', expected_counts['conservative'])
         for target in targets['targets']:
             key = target['block_path'], target['state_name']; unit = target['unit']
             if key in seen or target['priority'] not in ('High', 'Low') or target['source_time_s'] != 0:
                 raise ValueError('Duplicate or invalid public target')
             seen.add(key)
-            if key[1] in ('stored_mass', 'stored_energy'):
-                expected = volumes[key[0]]*scalar_series(aa[key[0], 'rho_I'], 'kg/m^3')[0]
-                if key[1] == 'stored_energy':
-                    expected *= scalar_series(aa[key[0], 'u_I'], 'J/kg')[0]
-            else:
-                expected = scalar_series(aa[key], unit)[0]
+            expected = initial_expected[key]
             if abs(target['value']-expected) > 1e-12*max(1, abs(expected)):
-                raise ValueError('Target is not measured native cold initial state')
+                raise ValueError('Target is not measured initialization cold state')
+            current = (volumes[key[0]]*scalar_series(aa[key[0], 'rho_I'], 'kg/m^3')[0]
+                       if key[1] == 'stored_mass' else
+                       volumes[key[0]]*scalar_series(aa[key[0], 'rho_I'], 'kg/m^3')[0]*scalar_series(aa[key[0], 'u_I'], 'J/kg')[0]
+                       if key[1] == 'stored_energy' else scalar_series(aa[key], unit)[0])
+            if not compare_initial(current, expected)['within_strict_comparison']:
+                raise ValueError('Current native arm does not preserve initialization state')
             comparisons.append(dict(path=target['path'], unit=unit, priority=target['priority'],
                 **compare_initial(scalar_series(bb[key], unit)[0], expected)))
     if len(comparisons) != 200 or sum(r['priority'] == 'High' for r in comparisons) != 125:
@@ -331,7 +396,7 @@ def audit(repo):
             t = a['commands'][name]['time_s'][:].reshape(-1)
             if t[0] != 0 or t[-1] != 10 or np.any(np.diff(t) <= 0):
                 raise ValueError('Command is not a complete real cold cycle')
-    arms = [audit_arm(root/arm, assignment, count) for arm, count in (('native', 1240), ('conservative', 1242))]
+    arms = [audit_arm(root/arm, assignment, expected_counts[arm]) for arm in ('native', 'conservative')]
     files = [root/'cold_chamber_execution.json', root/'matlab_diary.log', root/'conservative/public_inventory_targets.json', root/'conservative/cold_public_targets.mat']
     for arm in ('native', 'conservative'):
         files.extend(root/arm/n for n in ('configuration.mat', 'observations.mat', 'inventory_metadata.json', 'tl_connectivity.json', 'thermal_connectivity.json'))
@@ -346,7 +411,7 @@ def audit(repo):
         '+thermal/+sources/temperature.ssc', '+thermal/+sources/controlled_heat_flow.ssc',
         '+thermal_liquid/+sources/pressure_source.ssc')]}
     result = dict(schema='heatdrive_ecc_independent_cold_cycle_ledger_v1', evidence_audit_pass=True,
-        execution_commit=PRODUCER, start_time_s=0, stop_time_s=10, full_cold_cycle_collected=True,
+        execution_commit=ENDPOINT_PRODUCER if endpoint else PRODUCER, start_time_s=0, stop_time_s=10, full_cold_cycle_collected=True,
         topology=topo, strict_initial_coordinate_match=all(r['within_strict_comparison'] for r in comparisons),
         initial_matching_counts={p: sum(r['within_strict_comparison'] for r in comparisons if r['priority'] == p) for p in ('High', 'Low')},
         matched_initial_performance_comparison_allowed=False, arms=arms, all_mechanism_gates_evaluated=False,
@@ -360,10 +425,12 @@ def audit(repo):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output-root', type=Path, required=True)
+    parser.add_argument('--evidence-root', type=Path, default=None,
+                        help='Evidence package root; defaults to the legacy 20260909 package')
     args = parser.parse_args()
     if args.output_root.exists():
         raise FileExistsError('Do not overwrite prior evidence')
-    result, comparisons = audit(Path(__file__).resolve().parents[1])
+    result, comparisons = audit(Path(__file__).resolve().parents[1], args.evidence_root)
     args.output_root.mkdir(parents=True)
     (args.output_root/'cold_cycle_ledger.json').write_text(json.dumps(result, indent=2, allow_nan=False)+'\n', encoding='utf-8')
     with (args.output_root/'initial_coordinates.csv').open('w', newline='', encoding='utf-8') as f:
