@@ -485,21 +485,24 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
     native_topology = read(root/'native/tl_connectivity.json')
     conservative_topology = read(root/'conservative/tl_connectivity.json')
     if endpoint_chamber_diagnostic:
-        # Both endpoint arms intentionally use the diagnostic chamber and the
-        # zero-based buffer. Compare each arm against the qualified native seed
-        # topology so the domain audit does not treat the custom components as
-        # unregistered primitives or silently skip one arm.
-        # The v29 native observation is the actual t=0 initialization source,
-        # but both v29 arms already contain diagnostic replacement components.
-        # Use the separately qualified v22 native topology as the physical
-        # source baseline so domain resolution does not treat custom sources
-        # as foundation primitives. This does not import v22 state.
-        qualified_root = Path(execution['endpoint_chamber_qualified_source_root'])
-        reference_topology = read(qualified_root/'native/tl_connectivity.json')
-        native_assignment = topology_check(reference_topology, native_topology,
-                                           chamber_source, buffer_source)
-        conservative_assignment = topology_check(reference_topology, conservative_topology,
-                                                 chamber_source, buffer_source)
+        native_has_endpoint = any(b['source_file'] == chamber_source
+                                  for b in native_topology['blocks'])
+        if native_has_endpoint:
+            # Retain the v29 both-replacement path for already audited evidence.
+            qualified_root = Path(execution['endpoint_chamber_qualified_source_root'])
+            reference_topology = read(qualified_root/'native/tl_connectivity.json')
+            native_assignment = topology_check(reference_topology, native_topology,
+                                               chamber_source, buffer_source)
+            conservative_assignment = topology_check(reference_topology, conservative_topology,
+                                                     chamber_source, buffer_source)
+        else:
+            # Corrected route: native is the physical baseline; only the
+            # conservative arm receives endpoint chamber and offset buffers.
+            native_assignment, native_domains = resolve_domains(native_topology)
+            conservative_assignment = topology_check(native_topology, conservative_topology,
+                                                     chamber_source, buffer_source)
+            if native_domains != 2:
+                raise ValueError('Native endpoint baseline has wrong domain count')
         if native_assignment != conservative_assignment:
             raise ValueError('Endpoint arm domain assignment differs')
         assignment = native_assignment
@@ -511,9 +514,12 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
     metas = {a: read(root/a/'inventory_metadata.json') for a in ('native', 'conservative')}
     if metas['native']['settings_tables'] != metas['conservative']['settings_tables']:
         raise ValueError('Fluid tables changed')
+    native_has_endpoint = endpoint_chamber_diagnostic and any(
+        b['source_file'] == chamber_source for b in native_topology['blocks'])
     for a, meta in metas.items():
-        buffer_mask = 'Conservative Buffer (TL)' if endpoint_chamber_diagnostic else (
-            'Tank (TL)' if a == 'native' else 'Conservative Buffer (TL)')
+        buffer_mask = ('Conservative Buffer (TL)' if endpoint_chamber_diagnostic and
+                       (a == 'conservative' or native_has_endpoint) else
+                       ('Tank (TL)' if a == 'native' else 'Conservative Buffer (TL)'))
         expected = {'Pipe (TL)': 67, 'Constant Volume Chamber (TL)': 2, 'Thermal Mass': 46,
                     buffer_mask: 4}
         if dict(Counter(b['mask_type'] for b in meta['storage_blocks'])) != expected:
@@ -590,7 +596,9 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         if sha256(initialization_path) != execution.get('initialization_source_observation_sha256'):
             raise ValueError('Endpoint cold initialization source hash mismatch')
         seed_file = h5py.File(initialization_path, 'r')
-        seed_rows = checked_rows(seed_file, 'native', 1240, 10, 0)
+        seed_rows = checked_rows(seed_file, 'native',
+                                 int(next(c['native_trace_count'] for c in execution['cases']
+                                         if c['arm'] == 'native')), 10, 0)
     elif trace_start > 0:
         if not initialization_path.is_file():
             raise ValueError('Missing hash-bound cold initialization source')
@@ -602,10 +610,13 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         seed_file = None
         seed_rows = None
     with h5py.File(root/'native/observations.mat') as a, h5py.File(root/'conservative/observations.mat') as b:
-        native_trace_count = 1262 if endpoint_chamber_diagnostic else 1240
+        native_trace_count = int(next(c['native_trace_count'] for c in execution['cases']
+                                     if c['arm'] == 'native'))
+        conservative_trace_count = int(next(c['native_trace_count'] for c in execution['cases']
+                                            if c['arm'] == 'conservative'))
         aa = checked_rows(a, 'native', native_trace_count, trace_stop, trace_start,
                           allow_leading_warmup=trace_start > 0)
-        bb = checked_rows(b, 'native', 1276 if nonlinear_inventory else 1262 if zero_based_offset else 1258,
+        bb = checked_rows(b, 'native', conservative_trace_count,
                           trace_stop, trace_start, allow_leading_warmup=trace_start > 0)
         volumes = {r['block_path']: r['mask_parameters']['volume']['value'] for r in metas['native']['storage_blocks'] if r['block_path'] in CHAMBERS}
         for path, c in contracts.items():
