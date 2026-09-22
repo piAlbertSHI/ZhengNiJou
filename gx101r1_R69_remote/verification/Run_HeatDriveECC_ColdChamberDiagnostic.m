@@ -354,7 +354,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     for k=1:numel(tanks)
                         p=[model '/' tanks{k}];
                         rows=prior.native(cellfun(@(r) strcmp(r.block_path,p),prior.native));
-                        mass=initial_value(rows,'mass','kg');
+                        mass=initial_value_any(rows,{'mass','stored_mass'},'kg');
                         assert(strcmp(get_param(p,'mass_specify'),'off') && strcmp(get_param(p,'mass_priority'),'None') && ...
                             strcmp(get_param(p,'level_priority'),'High') && strcmp(get_param(p,'T_I_priority'),'High'), ...
                             'Unexpected original buffer initial-state contract.');
@@ -585,6 +585,20 @@ function v=initial_value(rows,name,unit)
     assert(isscalar(selected) && selected{1}.time_s(1)==0,'Require actual native cold initial sample.');
     v=value(simscape.Value(selected{1}.values(1),selected{1}.unit),unit);
     assert(isfinite(v),'Nonfinite cold coordinate.');
+end
+
+function v=initial_value_any(rows,names,unit)
+    for name_idx=1:numel(names)
+        selected=rows(cellfun(@(r) strcmp(r.state_name,names{name_idx}),rows));
+        if isscalar(selected)
+            assert(selected{1}.time_s(1)==0,'Require actual native cold initial sample.');
+            v=value(simscape.Value(selected{1}.values(1),selected{1}.unit),unit);
+            assert(isfinite(v),'Nonfinite cold coordinate.');
+            return;
+        end
+    end
+    error('HeatDriveECC:MissingColdInitialCoordinate', ...
+        'Require one declared native cold initial coordinate.');
 end
 
 function write_json(file,value)
