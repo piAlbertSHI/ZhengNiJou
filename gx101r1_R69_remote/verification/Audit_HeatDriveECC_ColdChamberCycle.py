@@ -397,7 +397,7 @@ def audit(repo, evidence_root=None):
                 raise ValueError('Current native arm does not preserve initialization state')
             comparisons.append(dict(path=target['path'], unit=unit, priority=target['priority'],
                 **compare_initial(scalar_series(bb[key], unit)[0], expected)))
-    if len(comparisons) != 200 or sum(r['priority'] == 'High' for r in comparisons) != 125:
+    if len(comparisons) != 204 or sum(r['priority'] == 'High' for r in comparisons) != 125:
         raise ValueError('Incomplete initialization coordinate coverage')
     with h5py.File(root/'native/configuration.mat') as a, h5py.File(root/'conservative/configuration.mat') as b:
         if set(a['commands']) != set(b['commands']) or len(a['commands']) != 5:
