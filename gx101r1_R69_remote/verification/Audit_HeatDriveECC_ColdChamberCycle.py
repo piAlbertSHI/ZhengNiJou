@@ -31,6 +31,7 @@ ENDPOINT_PRODUCERS = {
     '213fa7772733f725861747c04e6d62b9ac6993f3',
     '2839de0436094ae49da25336fb3b36ae6cbb6b3a',
     '384978570931127d909ddb7e9ca09545e97ffb02',
+    '87668932da81d81a20611380bae2e9f14229383d',
 }
 ENDPOINT_STORAGE_COUNTS = {"Pipe (TL)": 67, "Conservative Buffer (TL)": 4,
                            "Constant Volume Chamber (TL)": 2, "Thermal Mass": 46}
