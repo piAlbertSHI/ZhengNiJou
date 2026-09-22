@@ -26,7 +26,10 @@ from Audit_HeatDriveECC_TLDomainInventory import resolve_domains, density_table,
 
 
 PRODUCER = '791b113feccca8a35f80b3c0ca24b4bb4129d894'
-ENDPOINT_PRODUCER = 'f5329019943455f59c15d8d9d19c873800417383'
+ENDPOINT_PRODUCERS = {
+    'f5329019943455f59c15d8d9d19c873800417383',
+    '213fa7772733f725861747c04e6d62b9ac6993f3',
+}
 EXPERIMENT = 'cold_chamber_public_coordinates_cycle_20260909'
 SOURCE_COUNTS = {'foundation.thermal_liquid.sources.pressure_source': 3,
                  'foundation.thermal.sources.temperature': 3,
@@ -320,8 +323,8 @@ def audit(repo, evidence_root=None):
     root = evidence_root or repo/'outputs_storage_audit'/EXPERIMENT
     execution = read(root/'cold_chamber_execution.json')
     endpoint = bool(execution.get('endpoint_chamber_diagnostic', False))
-    expected_producer = ENDPOINT_PRODUCER if endpoint else PRODUCER
-    if (execution['execution_commit'] != expected_producer or not execution['collection_pass'] or
+    expected_producers = ENDPOINT_PRODUCERS if endpoint else {PRODUCER}
+    if (execution['execution_commit'] not in expected_producers or not execution['collection_pass'] or
             execution['start_time_s'] != 0 or execution['stop_time_s'] != 10 or
             any(execution[k] for k in ('c200_state_imported', 'production_recovery_allowed', 'checkpoint_saved')) or
             [r['arm'] for r in execution['cases']] != ['native', 'conservative']):
@@ -412,7 +415,7 @@ def audit(repo, evidence_root=None):
         '+thermal/+sources/temperature.ssc', '+thermal/+sources/controlled_heat_flow.ssc',
         '+thermal_liquid/+sources/pressure_source.ssc')]}
     result = dict(schema='heatdrive_ecc_independent_cold_cycle_ledger_v1', evidence_audit_pass=True,
-        execution_commit=ENDPOINT_PRODUCER if endpoint else PRODUCER, start_time_s=0, stop_time_s=10, full_cold_cycle_collected=True,
+        execution_commit=execution['execution_commit'], start_time_s=0, stop_time_s=10, full_cold_cycle_collected=True,
         topology=topo, strict_initial_coordinate_match=all(r['within_strict_comparison'] for r in comparisons),
         initial_matching_counts={p: sum(r['within_strict_comparison'] for r in comparisons if r['priority'] == p) for p in ('High', 'Low')},
         matched_initial_performance_comparison_allowed=False, arms=arms, all_mechanism_gates_evaluated=False,

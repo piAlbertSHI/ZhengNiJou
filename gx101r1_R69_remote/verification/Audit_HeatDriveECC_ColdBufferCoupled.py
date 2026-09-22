@@ -72,6 +72,9 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     # Isolated endpoint-chamber route after the runner/source allowlists were
     # completed. This producer remains diagnostic-only and imports no C200 OP.
     'f5329019943455f59c15d8d9d19c873800417383',
+    # v29 only accepts the native cold observation as the conservative-arm
+    # initialization source; the qualified v22 package remains separate.
+    '213fa7772733f725861747c04e6d62b9ac6993f3',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'
