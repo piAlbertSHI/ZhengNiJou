@@ -42,9 +42,13 @@ if (-not [bool]$sourceRecord.collection_pass -or
     [bool]$sourceRecord.production_recovery_allowed) {
     throw 'Initialization source does not satisfy the qualified independent cold diagnostic contract.'
 }
-New-Item -ItemType Directory -Path $OutputRoot -Force | Out-Null
-$stdoutPath = Join-Path $OutputRoot 'matlab_stdout.log'
-$stderrPath = Join-Path $OutputRoot 'matlab_stderr.log'
+$outputParent = Split-Path -Parent $OutputRoot
+New-Item -ItemType Directory -Path $outputParent -Force | Out-Null
+$stdoutTemp = "$OutputRoot.matlab_stdout.tmp"
+$stderrTemp = "$OutputRoot.matlab_stderr.tmp"
+if ((Test-Path -LiteralPath $stdoutTemp) -or (Test-Path -LiteralPath $stderrTemp)) {
+    throw "Refusing to overwrite temporary diagnostic logs for: $OutputRoot"
+}
 $sourceSha = (Get-FileHash -LiteralPath $sourceObservations -Algorithm SHA256).Hash
 $gitHead = (& git -C $repoRoot rev-parse HEAD).Trim()
 
@@ -77,8 +81,6 @@ $contract = [ordered]@{
     stage4_initial_kp = $Stage4InitialKp
     stage4_transition_duration_s = $Stage4TransitionDurationS
 }
-$contract | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $OutputRoot 'launcher_contract.json') -Encoding utf8
-
 function MatlabQuote([string]$Value) { return $Value.Replace("'", "''") }
 $repoM = MatlabQuote $repoRoot
 $outputM = MatlabQuote $OutputRoot
@@ -92,11 +94,25 @@ cd('$repoM'); addpath(genpath(pwd)); overrides=struct(); overrides.se_stage2_pre
 $matlab = 'C:\Program Files\MATLAB\R2025b\bin\matlab.exe'
 if (-not (Test-Path -LiteralPath $matlab -PathType Leaf)) { throw "MATLAB executable not found: $matlab" }
 $started = Get-Date
-& $matlab '-batch' $batch 1> $stdoutPath 2> $stderrPath
+& $matlab '-batch' $batch 1> $stdoutTemp 2> $stderrTemp
 $exitCode = $LASTEXITCODE
+$outputExists = Test-Path -LiteralPath $OutputRoot -PathType Container
+if (-not $outputExists) { New-Item -ItemType Directory -Path $OutputRoot -Force | Out-Null }
+Move-Item -LiteralPath $stdoutTemp -Destination (Join-Path $OutputRoot 'matlab_stdout.log') -Force
+Move-Item -LiteralPath $stderrTemp -Destination (Join-Path $OutputRoot 'matlab_stderr.log') -Force
 $contract.completed_at = (Get-Date).ToString('o')
 $contract.exit_code = $exitCode
 $contract.wall_seconds = ((Get-Date) - $started).TotalSeconds
 $contract | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $OutputRoot 'launcher_contract.json') -Encoding utf8
+if ($exitCode -ne 0 -and -not (Test-Path -LiteralPath (Join-Path $OutputRoot 'REJECTED_DO_NOT_RESUME.txt'))) {
+    @(
+        'status=rejected_launcher_or_model_failure'
+        'production_recovery_allowed=false'
+        'c200_state_imported=false'
+        'checkpoint_saved=false'
+        "exit_code=$exitCode"
+        'do_not_use_as_initialization_source=true'
+    ) | Set-Content -LiteralPath (Join-Path $OutputRoot 'REJECTED_DO_NOT_RESUME.txt') -Encoding utf8
+}
 Write-Output ($contract | ConvertTo-Json -Depth 8)
 exit $exitCode
