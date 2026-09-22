@@ -1,6 +1,7 @@
 """Verify L8 preflight contains design contracts only, not candidate results."""
 import csv
 import json
+import argparse
 from pathlib import Path
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 
@@ -26,7 +27,13 @@ def build(repo, root):
 
 if __name__=='__main__':
     repo=Path(__file__).resolve().parents[1]; root=repo/'outputs/table4_L8_sensitivity_preflight_20260911'
-    out=repo/'outputs_storage_audit/L8_sensitivity_preflight_audit_20260911.json'
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--root', type=Path, default=root)
+    parser.add_argument('--output', type=Path,
+                        default=repo/'outputs_storage_audit/L8_sensitivity_preflight_audit_20260911.json')
+    args = parser.parse_args()
+    root = args.root
+    out = args.output
     if out.exists(): raise FileExistsError('Never overwrite evidence')
     result=build(repo,root);out.write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
     print(json.dumps({k:v for k,v in result.items() if k!='files'},indent=2))

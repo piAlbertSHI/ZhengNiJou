@@ -3458,3 +3458,25 @@ guard 文件为：
 SHA-256：`55EE2EC8528ACA85EF4030C0CD8E1E7416ECFFDBCDC8033543FDEB314FFFF84C`。
 本轮没有创建任何固定 `Tc` 候选、插值数据、恢复点或 Table 4 端点结果；outer solve 继续关闭，
 直到实际控制体证据完整且周期来源冲突被解决。
+
+## 169. L8 敏感性设计 preflight（2026-09-23）
+
+在 `sensitivity_run_authorized=false` 的当前 authority 下，仅运行设计层 preflight，没有启动任何
+物理敏感性候选。六个因子为 UA、端点热容、SE buffer、流体库存、回热利用率和潜热；八点 L8
+设计满足正交/平衡合同。
+
+结果：8/8 `contract_pass`、8/8 `article_UA_contract_pass`、8/8 `natural_gate_contract_pass`；
+`physical_runs=0`、`candidate_files_found=0`、`interpolation_files_found=0`、
+`interpolation_eligible=false`、`production_recovery_allowed=false`。
+
+结果目录：
+
+`gx101r1_R69_remote/outputs/qian_table4_L8_sensitivity_preflight_20260923`
+
+正式审核：
+
+`gx101r1_R69_remote/outputs_storage_audit/L8_sensitivity_preflight_audit_20260923.json`
+
+审核 SHA-256：`CD25D659E291EC1F69E4AF85FBB16E2FE67A6AD04A9327481DCD647478BB7A86`。
+这只是参数设计和合同预检，不能支持任何主导因素或温跨/SCP 物理结论；只有控制体证据完整、
+outer solve 放行后才可执行真实敏感性候选。
