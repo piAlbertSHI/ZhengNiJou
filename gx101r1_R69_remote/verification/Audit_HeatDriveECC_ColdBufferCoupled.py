@@ -493,7 +493,12 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
                                   for b in native_topology['blocks'])
         if native_has_endpoint:
             # Retain the v29 both-replacement path for already audited evidence.
-            qualified_root = Path(execution['endpoint_chamber_qualified_source_root'])
+            qualified_root_text = (execution.get('endpoint_chamber_qualified_source_root') or
+                                   (execution.get('initialization_source_root')
+                                    if execution.get('endpoint_all_arms') else ''))
+            qualified_root = Path(qualified_root_text)
+            if not qualified_root_text or not (qualified_root / 'native/tl_connectivity.json').is_file():
+                raise ValueError('Missing qualified endpoint topology source')
             reference_topology = read(qualified_root/'native/tl_connectivity.json')
             native_assignment = topology_check(reference_topology, native_topology,
                                                chamber_source, buffer_source)
