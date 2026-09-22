@@ -3509,3 +3509,9 @@ SHA-256：`E3B176C980995052878EA6A1D914033847E9488908E357952E28AC626FC7A2AE`。
 分类 723 个目录、`15.973621 GiB`，C200/C180 权威哈希全部通过，当前 HEAD 为 `26e00dd`，
 `Agent6` 未触碰。新增的控制体 evidence、outer guard、L8 preflight 和 paired guard 均为小型
 审计产物，没有物理候选 raw 或恢复点进入工作区。
+
+## 172. round30 修改、Git 与工作区收口（2026-09-23）
+
+本轮先核对前序提交链和工作树，再执行只读输出清理审计与全工作区分类。当前 HEAD 为 `41ca6fd`；业务代码、审核器、证据合同和前序治理记录没有未提交修改。工作树仅保留受保护的 `gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx` 未解释二进制修改和顶层 `Agent6/` 未跟踪目录，二者未被读取、修改、删除或提交。
+
+`Manage_HeatDriveECC_OutputStorage.ps1` audit-only 返回 `candidate_count=0`、`candidate_GB=0`、`deleted_GB=0`，`outputs` 前后均约 `11.81 GiB`。本轮没有绕过哈希绑定退役合同删除历史数据。新治理快照为 `outputs_storage_audit/workspace_governance_20260923_071527_round30/`，记录 `724` 个目录、`15.973913 GiB` 分类量、C200/C180 权威哈希通过和审计 HEAD=`41ca6fd`。详细的前序修改汇总、Git 边界、保留/清理分类和后续门禁见 `项目文档/报告/2026-09-23_修改汇总_Git管理与工作区清理_round30.md`。
