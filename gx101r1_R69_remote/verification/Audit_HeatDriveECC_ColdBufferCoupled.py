@@ -485,8 +485,13 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         # zero-based buffer. Compare each arm against the qualified native seed
         # topology so the domain audit does not treat the custom components as
         # unregistered primitives or silently skip one arm.
-        seed_root = Path(execution['initialization_source_root'])
-        reference_topology = read(seed_root/'native/tl_connectivity.json')
+        # The v29 native observation is the actual t=0 initialization source,
+        # but both v29 arms already contain diagnostic replacement components.
+        # Use the separately qualified v22 native topology as the physical
+        # source baseline so domain resolution does not treat custom sources
+        # as foundation primitives. This does not import v22 state.
+        qualified_root = Path(execution['endpoint_chamber_qualified_source_root'])
+        reference_topology = read(qualified_root/'native/tl_connectivity.json')
         native_assignment = topology_check(reference_topology, native_topology,
                                            chamber_source, buffer_source)
         conservative_assignment = topology_check(reference_topology, conservative_topology,
