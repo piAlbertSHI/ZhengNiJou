@@ -246,8 +246,12 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_for
     densities = {r['block_path']: density_table(r['parameters']) for r in meta['settings_tables']}
     sources = {b['block_path']: b['source_file'] for b in read(folder/'tl_connectivity.json')['blocks']}
     time = None; components = []; consumed = set()
+    source_files = {b['block_path']: b['source_file'] for b in read(folder/'tl_connectivity.json')['blocks']}
+    endpoint_chamber = 'ecc_inventory_endpoint.conservative_chamber' in set(source_files.values())
+    expected_count = (1262 if endpoint_chamber else 1240) if folder.name == 'native' else (
+        1276 if nonlinear_inventory else 1262 if mass_formulation == 'zero_based_offset' else 1258)
     with h5py.File(folder/'observations.mat') as f:
-        rows = checked_rows(f, 'native', 1240 if folder.name == 'native' else 1276 if nonlinear_inventory else 1262 if mass_formulation == 'zero_based_offset' else 1258, stop, start,
+        rows = checked_rows(f, 'native', expected_count, stop, start,
                             allow_leading_warmup=start > 0)
         time = next(iter(rows.values()))['time_s'][:].reshape(-1)
         for original in meta['storage_blocks']:
