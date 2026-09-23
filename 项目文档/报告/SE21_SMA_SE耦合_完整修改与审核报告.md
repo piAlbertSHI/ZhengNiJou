@@ -3579,3 +3579,20 @@ Kp 过渡覆盖单独记录。v32 两臂结果几乎相同：
 单独记录控制过渡结束时间；随后再判断现行跟踪门禁。只有在 Qian 文献和模型的物理合同明确
 需要周期平均输运而非瞬时恒流后，才另行定义 signed transported mass、endpoint inventory
 closure 和反向流比例的输运门禁；在此之前不以任意新阈值替代现行门禁。
+
+## 175. round32 代码、回归与治理收口（2026-09-23）
+
+本轮提交为 `6ddb98d Audit SE flow gate settling semantics`，包含门禁合理性审计器、定向
+回归测试和本报告/round31 记录更新。定向测试、C201 测试、Python 编译检查和 `git diff --check`
+均通过。全量 verification 测试共 `543` 项，其中 `541` 项通过；剩余 `2` 项是既有的
+`test_physical_extraction_move.py` 历史快照比较失败，涉及此前已存在的物理提取/生产驱动差异，
+不在本轮修改范围内，未通过回退或篡改受保护模型来掩盖。
+
+提交后工作树重新核对，仅保留受保护的 `heatdrive_ecc_coupled_se21.slx` 未解释二进制修改和
+顶层 `Agent6/` 未跟踪目录；两者未读取、未修改、未删除、未提交。新的治理快照为：
+
+`gx101r1_R69_remote/outputs_storage_audit/workspace_governance_20260923_120000_round32/`
+
+该快照记录 `734` 个目录、`15.975844 GiB` 分类量、HEAD=`6ddb98d`，C200/C180 四个权威哈希
+全部通过，`untracked_Agent6_untouched=true`。本轮没有删除任何未经 receipt 约束的数据；
+标准清理边界仍为仅保留关键权威结果、紧凑审计回执和明确治理快照。
