@@ -3596,3 +3596,20 @@ closure 和反向流比例的输运门禁；在此之前不以任意新阈值替
 该快照记录 `734` 个目录、`15.975844 GiB` 分类量、HEAD=`6ddb98d`，C200/C180 四个权威哈希
 全部通过，`untracked_Agent6_untouched=true`。本轮没有删除任何未经 receipt 约束的数据；
 标准清理边界仍为仅保留关键权威结果、紧凑审计回执和明确治理快照。
+
+## 176. Qian 文献对流量合同的层级解释（2026-09-23）
+
+对本地 Qian 文献定位报告的交叉核对结果是：Qian 2015 整机文献用于对照完整控制体、边界
+水箱/PID 和周期平均定义；Qian 2019 则在共同末周期窗口、统一 active SE 质量基准下计算
+Eq.9/Eq.10。该证据支持将“阶段内瞬时流量跟踪”与“周期平均输运、端点库存闭合和性能窗口”
+分开审核，但不允许反过来擅自放宽现行跟踪门禁。
+
+因此当前状态明确为：
+
+- 现行 max/RMS 是严格的瞬时控制跟踪诊断；
+- 周期平均 signed transported mass、absolute transported mass、反向流比例和 endpoint
+  inventory closure 是待补齐的系统级输运证据；
+- 两层都通过前，不能授权 20-cycle、outer solve、敏感性、paired endpoint 或 strict
+  Table 4 reproduction；
+- 下一次冷态运行首先让 Kp 过渡在末周期前结束，避免把过渡窗口误称为 settled；随后以相同
+  末周期同时输出两层指标。
