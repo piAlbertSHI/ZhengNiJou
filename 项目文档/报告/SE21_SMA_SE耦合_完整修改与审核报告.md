@@ -3543,3 +3543,39 @@ retirement plan/receipt 和 `REJECTED_DO_NOT_RESUME.txt`。释放 `345119030` by
 `gx101r1_R69_remote/outputs_storage_audit/workspace_governance_20260923_105000_round31/`，
 共 731 个目录、`15.975246 GiB` 分类量，C200/C180 哈希通过，`Agent6` 未触碰；标准输出
 清理器复核为 `candidate_count=0`。后续仅在生成新的文件级 receipt 后退役历史 raw。
+
+## 174. SE 流量门禁的物理合理性复核（2026-09-23）
+
+本轮没有启动新的 MATLAB 长任务，而是对仍保留原始观测的 v32 native/conservative 双臂进行
+只读元审计，检查现行 `SE Stage 2/4` 流量门禁是否真的位于控制器稳态。新增审计器：
+
+`gx101r1_R69_remote/verification/Audit_HeatDriveECC_SEFlowGateReasonableness.py`
+
+审计保持现行 `max_abs_relative_error=0.15`、`RMS=0.05`、`stage_command_ramp=0.15 s` 和
+`se_settled_guard=0.30 s` 不变，同时把瞬时跟踪、平均输运质量、积分质量、反向流比例和
+Kp 过渡覆盖单独记录。v32 两臂结果几乎相同：
+
+- Stage 2：平均流量约 `0.0031453 kg/s`，积分质量误差约 `-1.71%`，RMS 约 `4.975%`，
+  最大瞬时误差约 `8.52%`；
+- Stage 4：平均流量约 `0.0033448 kg/s`，积分质量误差约 `+4.53%`，RMS 约 `4.895%`，
+  最大瞬时误差约 `9.70%`；
+- 两个阶段反向流比例均为 `0`，但执行合同中的 Stage 4 Kp 过渡为 `0--10 s`，因此现行
+  审计窗口（Stage 4 约 `8.801--9.850 s`）被过渡完全覆盖。
+
+结论不是擅自放宽门禁，而是纠正门禁语义：现行 RMS/max 指标可以继续作为严格的瞬时跟踪
+指标，但在 Kp 过渡覆盖整个窗口时，不得标称为 `settled flow`，也不能单独证明周期输运质量。
+当前输运门禁仍为 `not_defined_by_current_contract`；本轮没有把任一失败或临界结果提升为 seed、
+20-cycle、恢复、outer solve 或 Table 4 输入。v39 的 Stage 4 RMS 约 `17.2%` 仍然是跟踪质量
+失败，不能被本元审计“解释通过”。
+
+两臂审计回执及哈希：
+
+- `gx101r1_R69_remote/outputs_storage_audit/se_flow_gate_reasonableness_20260923_v32/native_reasonableness.json`
+  SHA-256 `C95B1AACC87BA9A92B8FF2E87DEA9C80F2D7EE89C05C4507B86950A2A735F15B`；
+- `gx101r1_R69_remote/outputs_storage_audit/se_flow_gate_reasonableness_20260923_v32/conservative_reasonableness.json`
+  SHA-256 `A0BF752496DA040D8D3BB91B63B198548B5DA9FC59D38ECB90E0575F79C281DE`。
+
+下一次物理运行的高层前置条件是：先固定 Kp 或让 Kp 过渡在被审计的末周期之前完成，并
+单独记录控制过渡结束时间；随后再判断现行跟踪门禁。只有在 Qian 文献和模型的物理合同明确
+需要周期平均输运而非瞬时恒流后，才另行定义 signed transported mass、endpoint inventory
+closure 和反向流比例的输运门禁；在此之前不以任意新阈值替代现行门禁。
