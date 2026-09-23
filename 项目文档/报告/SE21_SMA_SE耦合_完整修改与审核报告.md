@@ -3538,3 +3538,8 @@ worktree 的 `outputs` 是主 `outputs` 的 Junction，v39 raw 包的两条逻�
 个物理包；在逐文件 SHA-256 完全相同后退役该 49 文件包，保留 compact audit、seed gate、
 retirement plan/receipt 和 `REJECTED_DO_NOT_RESUME.txt`。释放 `345119030` bytes，回执为
 `gx101r1_R69_remote/outputs_storage_audit/native_endpoint_v39_duplicate_retirement_20260923_104318/retirement_receipt.json`。
+
+清理后治理快照为
+`gx101r1_R69_remote/outputs_storage_audit/workspace_governance_20260923_105000_round31/`，
+共 731 个目录、`15.975246 GiB` 分类量，C200/C180 哈希通过，`Agent6` 未触碰；标准输出
+清理器复核为 `candidate_count=0`。后续仅在生成新的文件级 receipt 后退役历史 raw。
