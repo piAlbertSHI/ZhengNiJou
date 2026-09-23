@@ -3589,11 +3589,11 @@ closure 和反向流比例的输运门禁；在此之前不以任意新阈值替
 不在本轮修改范围内，未通过回退或篡改受保护模型来掩盖。
 
 提交后工作树重新核对，仅保留受保护的 `heatdrive_ecc_coupled_se21.slx` 未解释二进制修改和
-顶层 `Agent6/` 未跟踪目录；两者未读取、未修改、未删除、未提交。新的治理快照为：
+顶层 `Agent6/` 未跟踪目录；两者未读取、未修改、未删除、未提交。提交后最终治理快照为：
 
-`gx101r1_R69_remote/outputs_storage_audit/workspace_governance_20260923_120000_round32/`
+`gx101r1_R69_remote/outputs_storage_audit/workspace_governance_20260923_121000_round32_final/`
 
-该快照记录 `734` 个目录、`15.975844 GiB` 分类量、HEAD=`6ddb98d`，C200/C180 四个权威哈希
+该快照记录 `735` 个目录、`15.976142 GiB` 分类量、HEAD=`f76f857`，C200/C180 四个权威哈希
 全部通过，`untracked_Agent6_untouched=true`。本轮没有删除任何未经 receipt 约束的数据；
 标准清理边界仍为仅保留关键权威结果、紧凑审计回执和明确治理快照。
 
