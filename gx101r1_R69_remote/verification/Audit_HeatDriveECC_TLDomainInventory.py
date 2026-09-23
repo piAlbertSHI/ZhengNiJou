@@ -32,6 +32,15 @@ PRIMITIVES = {
     "fluids.thermal_liquid.pipes_fittings.t_junction": 3,
     "fluids.thermal_liquid.tanks_accumulators.tank": 1,
     "fluids.thermal_liquid.valves.flow_coefficient_valve": 2,
+    # Independent endpoint diagnostics use these explicitly audited
+    # conservative components; their hydraulic port counts are fixed by the
+    # generated connectivity contract.
+    "ecc_buffer_coupled.conservative_buffer": 1,
+    "ecc_buffer_coupled_offset.conservative_buffer": 1,
+    "ecc_inventory.conservative_chamber": 2,
+    "ecc_inventory_specific.conservative_chamber": 2,
+    "ecc_inventory_endpoint.conservative_chamber": 2,
+    "ecc_nonlinear_chamber.conservative_chamber": 2,
 }
 DOMAIN = "foundation.thermal_liquid.thermal_liquid"
 # Absolute implementation-comparison tolerance, declared before comparisons.

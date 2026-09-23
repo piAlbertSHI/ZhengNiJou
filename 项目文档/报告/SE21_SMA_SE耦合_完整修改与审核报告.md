@@ -3517,3 +3517,20 @@ SHA-256：`E3B176C980995052878EA6A1D914033847E9488908E357952E28AC626FC7A2AE`。
 本轮先核对前序提交链和工作树，再执行只读输出清理审计与全工作区分类。当前 HEAD 为 `41ca6fd`；业务代码、审核器、证据合同和前序治理记录没有未提交修改。工作树仅保留受保护的 `gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx` 未解释二进制修改和顶层 `Agent6/` 未跟踪目录，二者未被读取、修改、删除或提交。
 
 `Manage_HeatDriveECC_OutputStorage.ps1` audit-only 返回 `candidate_count=0`、`candidate_GB=0`、`deleted_GB=0`，`outputs` 前后均约 `11.81 GiB`。本轮没有绕过哈希绑定退役合同删除历史数据。新治理快照为 `outputs_storage_audit/workspace_governance_20260923_071527_round30/`，记录 `724` 个目录、`15.973913 GiB` 分类量、C200/C180 权威哈希通过和审计 HEAD=`41ca6fd`。详细的前序修改汇总、Git 边界、保留/清理分类和后续门禁见 `项目文档/报告/2026-09-23_修改汇总_Git管理与工作区清理_round30.md`。
+
+## 173. v39 独立冷态诊断严格拒绝与 round31 收口（2026-09-23）
+
+在不导入 C200/C180 状态的独立 endpoint worktree 中，v39 完成了 10 s native/conservative
+双臂冷态诊断。证据、局部库存守恒、初始坐标匹配、源端口残差、压力范围和液压诊断通过，
+但 SE Stage 4 RMS 分别为 `0.1724279015326537` 和 `0.17218286379230413 kg/s`，超过
+`0.05 kg/s` 门禁；Stage 4 的 mean signed flow 约为 `0.0033486 kg/s`，也未满足目标合同。
+因此 `seed_eligible=false`、`production_recovery_allowed=false`、`outer_solve_eligible=false`、
+`paired_table4_eligible=false`。v39 已写入 `REJECTED_DO_NOT_RESUME.txt`，禁止传播到
+20-cycle、恢复、敏感性或 Table 4。
+
+流量回执为
+`gx101r1_R69_remote/outputs_storage_audit/qian_native_endpoint_chamber_diag_20260923_v39/cold_buffer_audit_10s_full/cold_buffer_coupled_audit.json`；
+压力回执为同目录 `pressure_audit_mainline/pressure_probe_audit.json`；种子门禁为
+`seed_gate.json`。性能数值只作一周期诊断，不能称为 Table 4 复现。三项审计器扩展和本轮
+记录由 round31 提交，受保护 SLX 和 `Agent6/` 继续不纳入 Git。详细修改、证据与清理规则见
+`项目文档/报告/2026-09-23_round31_v39修改汇总_Git与工作区治理.md`。

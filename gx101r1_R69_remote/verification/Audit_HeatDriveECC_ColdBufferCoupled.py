@@ -79,6 +79,9 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     '384978570931127d909ddb7e9ca09545e97ffb02',
     '87668932da81d81a20611380bae2e9f14229383d',
     '7390794f4a36650d0f568931a197d0d8d7a92c2e',
+    # 1e2c9b1 is byte-identical to the endpoint runner at 7390794; the
+    # intervening commits changed only audit/provenance files.
+    '1e2c9b1b4c9effd772af63f1546e2bacfb8df933',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'
@@ -98,6 +101,7 @@ INITIAL_FLUX_COMPENSATION_PRODUCERS = {
     # Pressure-probe instrumentation is observational only; this exact
     # committed runner preserves the same initialization and ledger contract.
     '15e444ac60014a763837a67c46f17ede933d49b9',
+    '1e2c9b1b4c9effd772af63f1546e2bacfb8df933',
 }
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
 
