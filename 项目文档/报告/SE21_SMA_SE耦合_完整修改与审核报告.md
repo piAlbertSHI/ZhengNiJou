@@ -3533,4 +3533,8 @@ SHA-256：`E3B176C980995052878EA6A1D914033847E9488908E357952E28AC626FC7A2AE`。
 压力回执为同目录 `pressure_audit_mainline/pressure_probe_audit.json`；种子门禁为
 `seed_gate.json`。性能数值只作一周期诊断，不能称为 Table 4 复现。三项审计器扩展和本轮
 记录由 round31 提交，受保护 SLX 和 `Agent6/` 继续不纳入 Git。详细修改、证据与清理规则见
-`项目文档/报告/2026-09-23_round31_v39修改汇总_Git与工作区治理.md`。
+`项目文档/报告/2026-09-23_round31_v39修改汇总_Git与工作区治理.md`。由于 endpoint
+worktree 的 `outputs` 是主 `outputs` 的 Junction，v39 raw 包的两条逻辑路径实际为同一
+个物理包；在逐文件 SHA-256 完全相同后退役该 49 文件包，保留 compact audit、seed gate、
+retirement plan/receipt 和 `REJECTED_DO_NOT_RESUME.txt`。释放 `345119030` bytes，回执为
+`gx101r1_R69_remote/outputs_storage_audit/native_endpoint_v39_duplicate_retirement_20260923_104318/retirement_receipt.json`。
