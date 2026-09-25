@@ -71,6 +71,7 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     # persists their observations; initialization/equations/recovery authority
     # remain unchanged.
     'a9535e2582fa6c6d0841dfd3898624690cb50127',
+    '393be6f000d9421c159b8c191f6f2c65ac24c185',
 }
 ENDPOINT_CHAMBER_PRODUCERS = {
     # Isolated endpoint-chamber route after the runner/source allowlists were
@@ -92,6 +93,7 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     # The Stage-4 controller probes are observational and preserve the same
     # endpoint-chamber initialization contract.
     'a9535e2582fa6c6d0841dfd3898624690cb50127',
+    '393be6f000d9421c159b8c191f6f2c65ac24c185',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'
@@ -113,6 +115,7 @@ INITIAL_FLUX_COMPENSATION_PRODUCERS = {
     '15e444ac60014a763837a67c46f17ede933d49b9',
     '1e2c9b1b4c9effd772af63f1546e2bacfb8df933',
     'a9535e2582fa6c6d0841dfd3898624690cb50127',
+    '393be6f000d9421c159b8c191f6f2c65ac24c185',
 }
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
 

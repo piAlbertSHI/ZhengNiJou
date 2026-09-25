@@ -74,7 +74,7 @@ def read_series(group, name: str) -> tuple[np.ndarray, np.ndarray]:
     ).reshape(-1)
 
 
-def audit_arm(path: Path, start: float, stop: float) -> dict:
+def audit_arm(path: Path, start: float, stop: float, blend_weight: float) -> dict:
     with h5py.File(path, "r") as handle:
         signals = handle["signals"]
         probes = handle["stage4_controller_probe_signals"]
@@ -100,10 +100,10 @@ def audit_arm(path: Path, start: float, stop: float) -> dict:
 
         tin = temperatures["stage4_inlet_temperature_delay"]
         tout = temperatures["stage4_outlet_temperature_delay"]
-        # Infer the exact reference viscosity used by the running controller
-        # from its measured endpoint mean and ratio, avoiding a false residual
-        # caused by reproducing the dense lookup grid with another interpolator.
-        mu_ref = float(np.median(current_mean[mask] / current_ratio[mask]))
+        # The reference is a fixed property-table quantity.  Inferring it from
+        # the arithmetic endpoint mean is wrong when this diagnostic deliberately
+        # uses a non-unit blend weight.
+        mu_ref = float(controller_mu(np.array([REFERENCE_T_K]))[0])
         mean_temperature_mu = controller_mu(0.5 * (tin + tout))
         arithmetic = 0.5 * (inlet_mu + outlet_mu)
         geometric = np.sqrt(inlet_mu * outlet_mu)
@@ -149,11 +149,15 @@ def audit_arm(path: Path, start: float, stop: float) -> dict:
                     np.max(np.abs(current_mean - arithmetic))
                 ),
                 "blended_equals_endpoint_mean_max_abs_residual_Pa_s": float(
-                    np.max(np.abs(current_blend - arithmetic))
+                    np.max(np.abs(
+                        current_blend
+                        - (mean_temperature_mu
+                           + blend_weight * (arithmetic - mean_temperature_mu))))
                 ),
-                "ratio_equals_arithmetic_reference_max_abs_residual": float(
-                    np.max(np.abs(current_ratio - current_mean / mu_ref))
+                "ratio_equals_blended_reference_max_abs_residual": float(
+                    np.max(np.abs(current_ratio - current_blend / mu_ref))
                 ),
+                "blend_weight": blend_weight,
             },
             "candidates": result,
         }
@@ -170,7 +174,13 @@ def main() -> int:
         raise FileExistsError("Never overwrite candidate-analysis evidence")
     root = args.experiment_root.resolve()
     execution = json.loads((root / "cold_chamber_execution.json").read_text(encoding="utf-8-sig"))
-    arms = [audit_arm(root / arm / "observations.mat", args.window_start_s, args.window_stop_s)
+    overrides = execution.get("diagnostic_branch_overrides", {})
+    blend_weight = float(overrides.get(
+        "se_stage4_endpoint_viscosity_blend_final", 1.0))
+    if not 0.0 <= blend_weight <= 1.0:
+        raise ValueError("Stage4 endpoint-viscosity blend weight is outside [0,1]")
+    arms = [audit_arm(root / arm / "observations.mat", args.window_start_s,
+                      args.window_stop_s, blend_weight)
             for arm in ("native", "conservative")]
     result = {
         "schema": "heatdrive_ecc_stage4_feedforward_candidate_analysis_v1",

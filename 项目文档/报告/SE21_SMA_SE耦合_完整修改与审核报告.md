@@ -3669,3 +3669,28 @@ seed、20-cycle、outer solve 或 Table 4 证据。
 没有按文件大小强行删除。v47 的执行合同、探针覆盖、控制动态、候选分析和流量/压力审计均留在
 `gx101r1_R69_remote/outputs_storage_audit/stage4_probe_kp50_20260926_v47/`，其诊断状态仍为
 `seed_eligible=false`、`outer_solve_eligible=false`、`table4_reproduction_claim=false`。
+
+## 180. 控制体合同复核、v49 结构诊断与第八节推进（2026-09-26）
+
+本轮继续冻结 C200 主线参考，不重置热容、buffer、本构、温度、相分数或独立路线 PI 记忆。C200
+physical result SHA-256 为 `0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD`，
+`final_operating_point.mat` SHA-256 为 `FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD5DD7D17DA7F798EBAAF4816`。
+冻结合同仍明确 `mechanism=1`、`periodic=1`，但严格 Table 4 reproduction 为 false；当前模型 checksum
+未完成严格 restore，因此 C200 是唯一主线参考，不把不匹配状态直接注入新模型。
+
+现行 `heatdrive_ecc_control_volume_contract_v2` 重新通过结构审核，十个控制体和十个性能/守恒指标均已
+显式列出，Eq.9/Eq.10 使用末十个完整周期窗口，Eq.10 active SE 质量为 `0.04181683646625444 kg`。
+但 v4 冷态实现审核显示 native endpoint residual 为 `-1.0716556489742288 J`，主要来自 Constant Volume
+Chamber/Tank；conservative 臂为 `2.313640834472608e-9 J`。因此合同结构完整不等于 native 物理实现闭合，
+该问题必须在 outer solve 之前修正。
+
+v48 因 runner allowlist 缺失而提前退出，已保留为拒绝包；修复后 v49 完成 10 s 双臂诊断。Stage4
+endpoint viscosity blend 从 1 调为 0.6 后，RMS 流量误差从 `8.2371%` 降至 `6.2695%`，积分质量误差从
+`+6.6219%` 降至 `+3.0239%`，但最大误差仍为 `11.0209%`，故仍未达到 seed eligibility。v49 无反向流、
+无交替振荡，分类保持 `low_gain_slow_tracking_bias`，不得进入 20-cycle、outer solve、敏感性或 paired endpoint。
+
+本轮同时修正候选分析器在非单位 blend 下错误反推参考黏度的问题，并生成 v49 v2 分析回执。完整记录见：
+
+`项目文档/报告/2026-09-26_round35_control_volume_stage4_diagnostic.md`
+
+下一步是新的隔离 10 s distributed/log-mean viscosity closure 诊断，随后才重新判断 20-cycle 播种资格。
