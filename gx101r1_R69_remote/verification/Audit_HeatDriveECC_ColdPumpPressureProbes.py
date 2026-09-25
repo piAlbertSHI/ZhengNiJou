@@ -36,6 +36,9 @@ PRODUCERS = {
     # 724376b changes only audit/provenance/report files; the physical
     # runner and pressure-probe contract remain byte-identical to 1e2c9b1.
     "724376b0368acaef63e3d353542c31eefc2c63c1",
+    # a9535e2 adds observational Stage-4 controller taps only; pressure
+    # probe provenance and the physical runner contract are unchanged.
+    "a9535e2582fa6c6d0841dfd3898624690cb50127",
 }
 PRESSURE_MIN_MPA = 0.45
 PRESSURE_MAX_MPA = 5.0

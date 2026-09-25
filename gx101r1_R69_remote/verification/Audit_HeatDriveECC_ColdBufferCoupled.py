@@ -67,6 +67,10 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     # The detached simulation worktree ran the same source before the
     # main-branch cherry-pick; retain its exact execution identity too.
     '58049fdec3ad43222c716d508ee01c43cc77f10a',
+    # a9535e2 adds only in-memory Stage-4 controller To Workspace taps and
+    # persists their observations; initialization/equations/recovery authority
+    # remain unchanged.
+    'a9535e2582fa6c6d0841dfd3898624690cb50127',
 }
 ENDPOINT_CHAMBER_PRODUCERS = {
     # Isolated endpoint-chamber route after the runner/source allowlists were
@@ -85,6 +89,9 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     # 724376b is byte-identical to the endpoint runner at 1e2c9b1; the
     # intervening round32 commits changed only audit/provenance/report files.
     '724376b0368acaef63e3d353542c31eefc2c63c1',
+    # The Stage-4 controller probes are observational and preserve the same
+    # endpoint-chamber initialization contract.
+    'a9535e2582fa6c6d0841dfd3898624690cb50127',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'
@@ -105,6 +112,7 @@ INITIAL_FLUX_COMPENSATION_PRODUCERS = {
     # committed runner preserves the same initialization and ledger contract.
     '15e444ac60014a763837a67c46f17ede933d49b9',
     '1e2c9b1b4c9effd772af63f1546e2bacfb8df933',
+    'a9535e2582fa6c6d0841dfd3898624690cb50127',
 }
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
 
