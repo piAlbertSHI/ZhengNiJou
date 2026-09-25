@@ -82,6 +82,9 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     # 1e2c9b1 is byte-identical to the endpoint runner at 7390794; the
     # intervening commits changed only audit/provenance files.
     '1e2c9b1b4c9effd772af63f1546e2bacfb8df933',
+    # 724376b is byte-identical to the endpoint runner at 1e2c9b1; the
+    # intervening round32 commits changed only audit/provenance/report files.
+    '724376b0368acaef63e3d353542c31eefc2c63c1',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'

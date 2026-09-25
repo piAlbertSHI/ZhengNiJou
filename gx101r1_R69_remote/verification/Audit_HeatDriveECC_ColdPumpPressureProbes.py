@@ -33,6 +33,9 @@ PRODUCERS = {
     "87668932da81d81a20611380bae2e9f14229383d",
     "7390794f4a36650d0f568931a197d0d8d7a92c2e",
     "1e2c9b1b4c9effd772af63f1546e2bacfb8df933",
+    # 724376b changes only audit/provenance/report files; the physical
+    # runner and pressure-probe contract remain byte-identical to 1e2c9b1.
+    "724376b0368acaef63e3d353542c31eefc2c63c1",
 }
 PRESSURE_MIN_MPA = 0.45
 PRESSURE_MAX_MPA = 5.0
