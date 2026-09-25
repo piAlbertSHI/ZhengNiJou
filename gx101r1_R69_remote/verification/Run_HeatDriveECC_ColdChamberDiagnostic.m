@@ -134,6 +134,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         elseif ismember(field_name,blend_override_fields)
             assert(override_value >= 0.0 && override_value <= 1.0, ...
                 'Stage4 endpoint-viscosity blend overrides must be within [0,1].');
+        elseif ismember(field_name,closure_override_fields)
+            % The closure mode was type-checked above and is not numeric.
         else
             assert(override_value >= 0.0, ...
                 'Cold diagnostic transition times must be nonnegative.');
