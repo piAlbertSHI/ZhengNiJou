@@ -74,7 +74,15 @@ def read_series(group, name: str) -> tuple[np.ndarray, np.ndarray]:
     ).reshape(-1)
 
 
-def audit_arm(path: Path, start: float, stop: float, blend_weight: float) -> dict:
+def finite_correlation(a: np.ndarray, b: np.ndarray) -> float | None:
+    if np.std(a) <= 1.0e-15 or np.std(b) <= 1.0e-15:
+        return None
+    value = float(np.corrcoef(a, b)[0, 1])
+    return value if np.isfinite(value) else None
+
+
+def audit_arm(path: Path, start: float, stop: float, blend_weight: float,
+              closure_mode: str) -> dict:
     with h5py.File(path, "r") as handle:
         signals = handle["signals"]
         probes = handle["stage4_controller_probe_signals"]
@@ -108,6 +116,15 @@ def audit_arm(path: Path, start: float, stop: float, blend_weight: float) -> dic
         arithmetic = 0.5 * (inlet_mu + outlet_mu)
         geometric = np.sqrt(inlet_mu * outlet_mu)
         logarithmic = harmonic_log_mean(inlet_mu, outlet_mu)
+        if closure_mode == "logarithmic_endpoint":
+            expected_current = logarithmic
+        elif closure_mode == "arithmetic_blend":
+            expected_current = mean_temperature_mu + blend_weight * (
+                arithmetic - mean_temperature_mu)
+        else:
+            raise ValueError(f"Unsupported Stage-4 viscosity closure: {closure_mode}")
+        closure_residual = float(np.max(np.abs(
+            current_blend[mask] - expected_current[mask])))
         candidates = {
             "arithmetic_endpoint": arithmetic,
             "geometric_endpoint": geometric,
@@ -124,10 +141,9 @@ def audit_arm(path: Path, start: float, stop: float, blend_weight: float) -> dic
                 "mean_relative_to_arithmetic": float(
                     np.mean(ratio[mask] / (arithmetic[mask] / mu_ref))
                 ),
-                "correlation_with_flow": float(np.corrcoef(ratio[mask], flow[mask])[0, 1]),
-                "correlation_with_pressure_command": float(
-                    np.corrcoef(ratio[mask], pressure[mask])[0, 1]
-                ),
+                "correlation_with_flow": finite_correlation(ratio[mask], flow[mask]),
+                "correlation_with_pressure_command": finite_correlation(
+                    ratio[mask], pressure[mask]),
             }
 
         return {
@@ -145,14 +161,17 @@ def audit_arm(path: Path, start: float, stop: float, blend_weight: float) -> dic
             "reference_temperature_K": REFERENCE_T_K,
             "reference_viscosity_Pa_s": mu_ref,
             "current_formula_checks": {
+                "closure_mode": closure_mode,
+                "closure_max_abs_residual_Pa_s": closure_residual,
+                "closure_formula_gate": bool(closure_residual <= 1.0e-7),
                 "arithmetic_endpoint_max_abs_residual_Pa_s": float(
                     np.max(np.abs(current_mean - arithmetic))
                 ),
-                "blended_equals_endpoint_mean_max_abs_residual_Pa_s": float(
-                    np.max(np.abs(
-                        current_blend
-                        - (mean_temperature_mu
-                           + blend_weight * (arithmetic - mean_temperature_mu))))
+                "blended_equals_endpoint_mean_max_abs_residual_Pa_s": (
+                    float(np.max(np.abs(current_blend - (
+                        mean_temperature_mu + blend_weight *
+                        (arithmetic - mean_temperature_mu)))))
+                    if closure_mode == "arithmetic_blend" else None
                 ),
                 "ratio_equals_blended_reference_max_abs_residual": float(
                     np.max(np.abs(current_ratio - current_blend / mu_ref))
@@ -177,10 +196,12 @@ def main() -> int:
     overrides = execution.get("diagnostic_branch_overrides", {})
     blend_weight = float(overrides.get(
         "se_stage4_endpoint_viscosity_blend_final", 1.0))
+    closure_mode = str(overrides.get(
+        "se_stage4_endpoint_viscosity_closure_mode", "arithmetic_blend"))
     if not 0.0 <= blend_weight <= 1.0:
         raise ValueError("Stage4 endpoint-viscosity blend weight is outside [0,1]")
     arms = [audit_arm(root / arm / "observations.mat", args.window_start_s,
-                      args.window_stop_s, blend_weight)
+                      args.window_stop_s, blend_weight, closure_mode)
             for arm in ("native", "conservative")]
     result = {
         "schema": "heatdrive_ecc_stage4_feedforward_candidate_analysis_v1",
@@ -192,6 +213,8 @@ def main() -> int:
         "outer_solve_eligible": False,
         "paired_table4_eligible": False,
         "table4_reproduction_claim": False,
+        "closure_formula_gate": all(arm["current_formula_checks"]["closure_formula_gate"]
+                                    for arm in arms),
         "arms": arms,
         "input_sha256": {
             "cold_chamber_execution.json": sha256(root / "cold_chamber_execution.json"),
