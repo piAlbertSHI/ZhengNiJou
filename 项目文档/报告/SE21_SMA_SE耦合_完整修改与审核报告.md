@@ -3694,3 +3694,21 @@ endpoint viscosity blend 从 1 调为 0.6 后，RMS 流量误差从 `8.2371%` �
 `项目文档/报告/2026-09-26_round35_control_volume_stage4_diagnostic.md`
 
 下一步是新的隔离 10 s distributed/log-mean viscosity closure 诊断，随后才重新判断 20-cycle 播种资格。
+
+## 181. v50/v51 对数闭合与审计分层（2026-09-26）
+
+v50 首次 preflight 因字符串闭合模式未被旧 override 校验接受而拒绝，v50b 虽完成运行但被发现
+将 `mu_out-mu_in` 错接为对数闭合分母，残差约 `0.9958 Pa s`，已写入 `REJECTED_DO_NOT_RESUME.txt`。
+提交 `43bec65` 修正为 lookup 对数差分/指数端点差分/安全分母的实际拓扑，并补充 Build 直连审计。
+复核发现 endpoint producer allowlist 漏记该精确提交，已按 exact commit 修正并加入回归测试，没有放宽
+为任意前缀或任意来源。
+
+修正后的 v51 10 s 双臂包自然退出且 MATLAB exit code=0；未导入 C200、未保存生产 checkpoint。
+初始坐标、局部库存、源端口和两臂端点能量通过，端点残差约 `3.8e-10 J`；对数闭合残差约
+`1.73e-18 Pa s`。压力范围、液压功诊断和 17/17 Stage4 探针通过，未检测到 1 ms 偶奇交替。
+但 Stage4 末窗口 RMS 相对误差约 `6.666%`、最大误差约 `11.226%`、积分质量误差约 `+3.219%`，
+因此 flow gate 仍失败，动态分类为 `low_gain_slow_tracking_bias`，不得进入 20-cycle、outer solve
+或 Table 4。压力审计总字段 `provenance_gate=false` 的上游原因是 flow gate=false，而非压力范围或
+液压功子门禁失败；本轮将各子门禁分开记录，避免审计语义误判。
+
+详细回执和下一步控制架构见 `项目文档/报告/2026-09-26_round36_v50_v51对数闭合与审计分层.md`。

@@ -94,6 +94,9 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     # endpoint-chamber initialization contract.
     'a9535e2582fa6c6d0841dfd3898624690cb50127',
     '393be6f000d9421c159b8c191f6f2c65ac24c185',
+    # 43bec65 fixes the Stage-4 logarithmic endpoint denominator wiring while
+    # preserving the endpoint-chamber and zero-based cold-start contracts.
+    '43bec659dde7384a5543c96886f89130c2480bd0',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'
