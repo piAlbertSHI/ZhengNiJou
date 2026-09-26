@@ -97,6 +97,9 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     # 43bec65 fixes the Stage-4 logarithmic endpoint denominator wiring while
     # preserving the endpoint-chamber and zero-based cold-start contracts.
     '43bec659dde7384a5543c96886f89130c2480bd0',
+    # a1e2f4a exposes only the signed Stage-4 Ki diagnostic override; plant,
+    # inventory, endpoint-chamber, and recovery contracts are unchanged.
+    'a1e2f4ab55880d4b4087223b9025d0c04385ce98',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'
