@@ -9,7 +9,9 @@ param(
     [double]$Stage4BlendInitial = 1.0,
     [double]$Stage4BlendFinal = 1.0,
     [ValidateSet('arithmetic_blend','logarithmic_endpoint')]
-    [string]$Stage4ViscosityClosure = 'arithmetic_blend'
+    [string]$Stage4ViscosityClosure = 'arithmetic_blend',
+    [ValidateSet(1,2,20)]
+    [int]$DiagnosticCycleCount = 1
 )
 
 Set-StrictMode -Version Latest
@@ -25,6 +27,7 @@ if ([string]::IsNullOrWhiteSpace($InitialObservationRoot)) {
 }
 $OutputRoot = [IO.Path]::GetFullPath($OutputRoot)
 $InitialObservationRoot = [IO.Path]::GetFullPath($InitialObservationRoot)
+$DiagnosticDurationS = if ($DiagnosticCycleCount -eq 1) { 10.0 } else { 10.0 * $DiagnosticCycleCount }
 if ($Stage4BlendInitial -lt 0.0 -or $Stage4BlendInitial -gt 1.0 -or
     $Stage4BlendFinal -lt 0.0 -or $Stage4BlendFinal -gt 1.0) {
     throw 'Stage4 endpoint-viscosity blend weights must be within [0,1].'
@@ -74,8 +77,8 @@ $contract = [ordered]@{
     c200_state_imported = $false
     checkpoint_saved = $false
     production_recovery_allowed = $false
-    duration_s = 10
-    cycle_count = 1
+    duration_s = $DiagnosticDurationS
+    cycle_count = $DiagnosticCycleCount
     network_absolute_pressure_MPa = 0.85
     formulation = 'specific_inventory'
     scale_inventory = $true
@@ -96,6 +99,8 @@ $contract = [ordered]@{
     stage4_endpoint_viscosity_blend_initial = $Stage4BlendInitial
     stage4_endpoint_viscosity_blend_final = $Stage4BlendFinal
     stage4_endpoint_viscosity_closure_mode = $Stage4ViscosityClosure
+    warmup_only_diagnostic = ($DiagnosticCycleCount -gt 1)
+    requires_post_warmup_reaudit = ($DiagnosticCycleCount -gt 1)
 }
 function MatlabQuote([string]$Value) { return $Value.Replace("'", "''") }
 $repoM = MatlabQuote $repoRoot
@@ -109,7 +114,7 @@ $blendInitial = $Stage4BlendInitial.ToString('R', [Globalization.CultureInfo]::I
 $blendFinal = $Stage4BlendFinal.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $closureMode = MatlabQuote $Stage4ViscosityClosure
 $batch = @"
-cd('$repoM'); addpath(genpath(pwd)); overrides=struct(); overrides.se_stage2_pressure_pi_kp_MPa_per_kgps=-126; overrides.se_stage2_pressure_pi_initial_kp_MPa_per_kgps=-126; overrides.se_stage2_pressure_pi_transition_start_s=0; overrides.se_stage2_pressure_pi_transition_duration_s=0; overrides.se_stage4_pressure_pi_kp_MPa_per_kgps=$kp; overrides.se_stage4_pressure_pi_initial_kp_MPa_per_kgps=$initialKp; overrides.se_stage4_pressure_pi_ki_MPa_per_kgps_s=$ki; overrides.se_stage4_pressure_pi_transition_start_s=0; overrides.se_stage4_pressure_pi_transition_duration_s=$transition; overrides.se_stage4_endpoint_viscosity_blend_initial=$blendInitial; overrides.se_stage4_endpoint_viscosity_blend_final=$blendFinal; overrides.se_stage4_endpoint_viscosity_blend_start_s=0; overrides.se_stage4_endpoint_viscosity_blend_duration_s=0; overrides.se_stage4_endpoint_viscosity_closure_mode='$closureMode'; record=Run_HeatDriveECC_ColdChamberDiagnostic('$repoM','$outputM',10,true,true,true,true,true,'specific_inventory',0.85,overrides,false,true,'zero_based_offset',1,'$sourceM','normal',true,true); disp(jsonencode(struct('collection_pass',record.collection_pass,'completed_arms',numel(record.cases),'output_root','$outputM')));
+cd('$repoM'); addpath(genpath(pwd)); overrides=struct(); overrides.se_stage2_pressure_pi_kp_MPa_per_kgps=-126; overrides.se_stage2_pressure_pi_initial_kp_MPa_per_kgps=-126; overrides.se_stage2_pressure_pi_transition_start_s=0; overrides.se_stage2_pressure_pi_transition_duration_s=0; overrides.se_stage4_pressure_pi_kp_MPa_per_kgps=$kp; overrides.se_stage4_pressure_pi_initial_kp_MPa_per_kgps=$initialKp; overrides.se_stage4_pressure_pi_ki_MPa_per_kgps_s=$ki; overrides.se_stage4_pressure_pi_transition_start_s=0; overrides.se_stage4_pressure_pi_transition_duration_s=0; overrides.se_stage4_endpoint_viscosity_blend_initial=$blendInitial; overrides.se_stage4_endpoint_viscosity_blend_final=$blendFinal; overrides.se_stage4_endpoint_viscosity_blend_start_s=0; overrides.se_stage4_endpoint_viscosity_blend_duration_s=0; overrides.se_stage4_endpoint_viscosity_closure_mode='$closureMode'; record=Run_HeatDriveECC_ColdChamberDiagnostic('$repoM','$outputM',$DiagnosticDurationS,true,true,true,true,true,'specific_inventory',0.85,overrides,false,true,'zero_based_offset',$DiagnosticCycleCount,'$sourceM','normal',true,true); disp(jsonencode(struct('collection_pass',record.collection_pass,'completed_arms',numel(record.cases),'output_root','$outputM','cycle_count',record.cycle_count,'warmup_only_diagnostic',($DiagnosticCycleCount>1))));
 "@.Trim()
 $matlab = 'C:\Program Files\MATLAB\R2025b\bin\matlab.exe'
 if (-not (Test-Path -LiteralPath $matlab -PathType Leaf)) { throw "MATLAB executable not found: $matlab" }
