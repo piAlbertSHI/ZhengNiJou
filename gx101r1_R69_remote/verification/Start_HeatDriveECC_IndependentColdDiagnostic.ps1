@@ -4,6 +4,7 @@ param(
     [string]$InitialObservationRoot = '',
     [double]$Stage4Kp = -245,
     [double]$Stage4InitialKp = -225,
+    [double]$Stage4Ki = -255,
     [double]$Stage4TransitionDurationS = 10,
     [double]$Stage4BlendInitial = 1.0,
     [double]$Stage4BlendFinal = 1.0,
@@ -27,6 +28,9 @@ $InitialObservationRoot = [IO.Path]::GetFullPath($InitialObservationRoot)
 if ($Stage4BlendInitial -lt 0.0 -or $Stage4BlendInitial -gt 1.0 -or
     $Stage4BlendFinal -lt 0.0 -or $Stage4BlendFinal -gt 1.0) {
     throw 'Stage4 endpoint-viscosity blend weights must be within [0,1].'
+}
+if ($Stage4Ki -ge 0.0) {
+    throw 'Stage4 Ki must be negative for the signed pressure-error convention.'
 }
 if (-not $OutputRoot.StartsWith($outputsRoot + [IO.Path]::DirectorySeparatorChar,
         [StringComparison]::OrdinalIgnoreCase)) {
@@ -87,6 +91,7 @@ $contract = [ordered]@{
     stage2_initial_kp = -126
     stage4_kp = $Stage4Kp
     stage4_initial_kp = $Stage4InitialKp
+    stage4_ki = $Stage4Ki
     stage4_transition_duration_s = $Stage4TransitionDurationS
     stage4_endpoint_viscosity_blend_initial = $Stage4BlendInitial
     stage4_endpoint_viscosity_blend_final = $Stage4BlendFinal
@@ -98,12 +103,13 @@ $outputM = MatlabQuote $OutputRoot
 $sourceM = MatlabQuote $InitialObservationRoot
 $kp = $Stage4Kp.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $initialKp = $Stage4InitialKp.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
+$ki = $Stage4Ki.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $transition = $Stage4TransitionDurationS.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $blendInitial = $Stage4BlendInitial.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $blendFinal = $Stage4BlendFinal.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $closureMode = MatlabQuote $Stage4ViscosityClosure
 $batch = @"
-cd('$repoM'); addpath(genpath(pwd)); overrides=struct(); overrides.se_stage2_pressure_pi_kp_MPa_per_kgps=-126; overrides.se_stage2_pressure_pi_initial_kp_MPa_per_kgps=-126; overrides.se_stage2_pressure_pi_transition_start_s=0; overrides.se_stage2_pressure_pi_transition_duration_s=0; overrides.se_stage4_pressure_pi_kp_MPa_per_kgps=$kp; overrides.se_stage4_pressure_pi_initial_kp_MPa_per_kgps=$initialKp; overrides.se_stage4_pressure_pi_transition_start_s=0; overrides.se_stage4_pressure_pi_transition_duration_s=$transition; overrides.se_stage4_endpoint_viscosity_blend_initial=$blendInitial; overrides.se_stage4_endpoint_viscosity_blend_final=$blendFinal; overrides.se_stage4_endpoint_viscosity_blend_start_s=0; overrides.se_stage4_endpoint_viscosity_blend_duration_s=0; overrides.se_stage4_endpoint_viscosity_closure_mode='$closureMode'; record=Run_HeatDriveECC_ColdChamberDiagnostic('$repoM','$outputM',10,true,true,true,true,true,'specific_inventory',0.85,overrides,false,true,'zero_based_offset',1,'$sourceM','normal',true,true); disp(jsonencode(struct('collection_pass',record.collection_pass,'completed_arms',numel(record.cases),'output_root','$outputM')));
+cd('$repoM'); addpath(genpath(pwd)); overrides=struct(); overrides.se_stage2_pressure_pi_kp_MPa_per_kgps=-126; overrides.se_stage2_pressure_pi_initial_kp_MPa_per_kgps=-126; overrides.se_stage2_pressure_pi_transition_start_s=0; overrides.se_stage2_pressure_pi_transition_duration_s=0; overrides.se_stage4_pressure_pi_kp_MPa_per_kgps=$kp; overrides.se_stage4_pressure_pi_initial_kp_MPa_per_kgps=$initialKp; overrides.se_stage4_pressure_pi_ki_MPa_per_kgps_s=$ki; overrides.se_stage4_pressure_pi_transition_start_s=0; overrides.se_stage4_pressure_pi_transition_duration_s=$transition; overrides.se_stage4_endpoint_viscosity_blend_initial=$blendInitial; overrides.se_stage4_endpoint_viscosity_blend_final=$blendFinal; overrides.se_stage4_endpoint_viscosity_blend_start_s=0; overrides.se_stage4_endpoint_viscosity_blend_duration_s=0; overrides.se_stage4_endpoint_viscosity_closure_mode='$closureMode'; record=Run_HeatDriveECC_ColdChamberDiagnostic('$repoM','$outputM',10,true,true,true,true,true,'specific_inventory',0.85,overrides,false,true,'zero_based_offset',1,'$sourceM','normal',true,true); disp(jsonencode(struct('collection_pass',record.collection_pass,'completed_arms',numel(record.cases),'output_root','$outputM')));
 "@.Trim()
 $matlab = 'C:\Program Files\MATLAB\R2025b\bin\matlab.exe'
 if (-not (Test-Path -LiteralPath $matlab -PathType Leaf)) { throw "MATLAB executable not found: $matlab" }
