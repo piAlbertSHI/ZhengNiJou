@@ -3929,3 +3929,17 @@ SHA-256=`7784A0993F2DA307AA0E7587C9048A471DB4D5013E48B8B6E6FD85522CE873A7`。
 修订后的后暖机回执为
 `stage4_default_kp160_warmup20_post_audit_20260928_v2.json`；它保持 fail-closed，
 但新增 `periodic_status=not_evaluated_by_cold_runner`，不再把缺失证据写成实测失败。
+
+## 192. Stage4 端点黏度闭合候选的末周期复核（2026-09-28）
+
+将 `Analyze_HeatDriveECC_Stage4FeedforwardCandidates.py` 修正为自动分析最后完整周期，
+避免 20-cycle 输入再次误读第一个周期。对当前末周期严格窗口的 arithmetic endpoint、
+geometric endpoint、logarithmic endpoint 和 arithmetic-temperature-viscosity 四种离线候选
+进行比较：当前 log-mean 公式回算合同通过，但四种候选与流量误差的相关性均约为 `-0.73`，
+与压力命令的相关性均约为 `-0.91`。因此端点黏度闭合形式不是当前低增益慢跟踪偏差的主导来源，
+不继续以更换平均公式代替结构修改。
+
+回执：
+`stage4_default_kp160_warmup20_feedforward_candidates_20260928_v1.json`
+SHA-256=`8D5AAA26BFDA2A1B1F218C2C11B9E8551943ED9C8CA2327554B399B94F27DC51`。
+该回执仍为离线诊断，不授权 seed、恢复、outer solve、敏感性、paired endpoint 或 Table 4。

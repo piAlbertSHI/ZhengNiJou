@@ -82,7 +82,7 @@ def finite_correlation(a: np.ndarray, b: np.ndarray) -> float | None:
 
 
 def audit_arm(path: Path, start: float, stop: float, blend_weight: float,
-              closure_mode: str) -> dict:
+              closure_mode: str, analysis_cycle_index: int) -> dict:
     with h5py.File(path, "r") as handle:
         signals = handle["signals"]
         probes = handle["stage4_controller_probe_signals"]
@@ -148,6 +148,7 @@ def audit_arm(path: Path, start: float, stop: float, blend_weight: float,
 
         return {
             "arm": path.parent.name,
+            "analysis_cycle_index": analysis_cycle_index,
             "window_start_s": float(time[mask][0]),
             "window_stop_s": float(time[mask][-1]),
             "samples": int(mask.sum()),
@@ -193,6 +194,11 @@ def main() -> int:
         raise FileExistsError("Never overwrite candidate-analysis evidence")
     root = args.experiment_root.resolve()
     execution = json.loads((root / "cold_chamber_execution.json").read_text(encoding="utf-8-sig"))
+    cycle_count = int(execution.get("cycle_count", 1))
+    if cycle_count < 1 or abs(float(execution["stop_time_s"]) - cycle_count * 10.0) > 1e-9:
+        raise ValueError("Feedforward analysis requires complete 10 s cycles")
+    analysis_cycle_index = cycle_count - 1
+    cycle_offset = analysis_cycle_index * 10.0
     overrides = execution.get("diagnostic_branch_overrides", {})
     blend_weight = float(overrides.get(
         "se_stage4_endpoint_viscosity_blend_final", 1.0))
@@ -200,13 +206,18 @@ def main() -> int:
         "se_stage4_endpoint_viscosity_closure_mode", "arithmetic_blend"))
     if not 0.0 <= blend_weight <= 1.0:
         raise ValueError("Stage4 endpoint-viscosity blend weight is outside [0,1]")
-    arms = [audit_arm(root / arm / "observations.mat", args.window_start_s,
-                      args.window_stop_s, blend_weight, closure_mode)
+    arms = [audit_arm(root / arm / "observations.mat",
+                      args.window_start_s + cycle_offset,
+                      args.window_stop_s + cycle_offset,
+                      blend_weight, closure_mode, analysis_cycle_index)
             for arm in ("native", "conservative")]
     result = {
         "schema": "heatdrive_ecc_stage4_feedforward_candidate_analysis_v1",
         "diagnostic_only": True,
         "execution_commit": execution.get("execution_commit"),
+        "cycle_count": cycle_count,
+        "analysis_cycle_index": analysis_cycle_index,
+        "analysis_phase_window_s": [args.window_start_s, args.window_stop_s],
         "c200_state_imported": execution.get("c200_state_imported"),
         "production_recovery_allowed": False,
         "seed_eligible": False,
