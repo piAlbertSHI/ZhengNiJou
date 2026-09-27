@@ -3800,3 +3800,17 @@ paired endpoint 或 Table 4 的输入。原始包已写入 `REJECTED_DO_NOT_RESU
 末周期重算仍给出 `low_gain_slow_tracking_bias`，SE stage 4 RMS/max 为 `11.7757%/19.6580%`，
 积分质量误差为 `+0.8295%`，交替采样差异约 `8.77e-8 kg/s`，因此不是离散高增益振荡。修正后的
 诊断回执为 `gx101r1_R69_remote/outputs_storage_audit/stage4_warmup20_controller_dynamics_20260927_v2.json`。
+
+## 187. 暖机后审计合同分层（2026-09-27）
+
+由于原 `ColdWarmupEligibility` 明确只接受“一周期冷态合同”，不能直接用它判定多周期暖机结果，
+新增 `Audit_HeatDriveECC_ColdWarmupPostAudit.py`，单独检查 20-cycle 最后完整周期的 flow、pressure、
+probe、causal/dynamics 索引以及 periodic/first-law 状态。该脚本不复用一周期资格结论，也不改变任何
+生产阈值。
+
+末周期审计回执为
+`gx101r1_R69_remote/outputs_storage_audit/stage4_warmup20_post_audit_20260927_v1.json`：
+execution、pressure、17/17 probe、causal final-cycle 和 dynamics final-cycle 合同均通过；flow gate
+有两项 SE stage 4 失败，`periodic_steady_state=false`，`full_device_first_law_verified=false`，故
+`strict_post_warmup_pass=false`。这一步排除了“因审计工具只支持一周期而误判暖机”的解释，同时保留了
+生产恢复、checkpoint、outer solve、paired endpoint 和 Table 4 的全部禁止状态。

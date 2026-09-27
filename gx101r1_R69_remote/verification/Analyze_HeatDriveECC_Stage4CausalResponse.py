@@ -76,14 +76,15 @@ def remove_linear_trend(values: np.ndarray) -> np.ndarray:
     return values - np.polyval(coefficients, x)
 
 
-def window_slice(time_s: np.ndarray) -> np.ndarray:
-    mask = (time_s >= WINDOW[0]) & (time_s <= WINDOW[1])
+def window_slice(time_s: np.ndarray, offset_s: float = 0.0) -> np.ndarray:
+    mask = (time_s >= WINDOW[0] + offset_s) & (time_s <= WINDOW[1] + offset_s)
     if int(mask.sum()) < 20:
         raise ValueError("Stage-4 causal window is undersampled")
     return mask
 
 
-def audit_arm(observations: Path) -> dict:
+def audit_arm(observations: Path, cycle_offset_s: float = 0.0,
+              cycle_index: int = 0) -> dict:
     with h5py.File(observations, "r") as handle:
         signals = handle["signals"]
         probes = handle["stage4_controller_probe_signals"]
@@ -97,7 +98,7 @@ def audit_arm(observations: Path) -> dict:
         if not np.array_equal(time_s, _):
             raise ValueError("Stage-4 probe grids differ")
         dt = float(np.median(np.diff(time_s)))
-        mask = window_slice(time_s)
+        mask = window_slice(time_s, cycle_offset_s)
         t = time_s[mask]
         q = flow[mask]
         error = q / TARGET_FLOW_KGPS - 1.0
@@ -107,6 +108,8 @@ def audit_arm(observations: Path) -> dict:
         return {
             "observations_sha256": sha256(observations),
             "grid_dt_s": dt,
+            "analysis_cycle_index": int(cycle_index),
+            "analysis_cycle_start_s": float(cycle_offset_s),
             "window": {
                 "start_s": float(t[0]),
                 "stop_s": float(t[-1]),
@@ -176,11 +179,20 @@ def audit_arm(observations: Path) -> dict:
 def audit_experiment(root: Path) -> dict:
     execution = json.loads((root / "cold_chamber_execution.json").read_text(
         encoding="utf-8-sig"))
-    arms = [audit_arm(root / arm / "observations.mat")
+    cycle_count = int(execution.get("cycle_count", 1))
+    if cycle_count < 1:
+        raise ValueError("Execution contract has no complete cycle")
+    analysis_cycle_index = cycle_count - 1
+    cycle_offset_s = 10.0 * analysis_cycle_index
+    arms = [audit_arm(root / arm / "observations.mat", cycle_offset_s,
+                      analysis_cycle_index)
             for arm in ("native", "conservative")]
     return {
         "experiment": root.name,
         "execution_commit": execution.get("execution_commit"),
+        "cycle_count": cycle_count,
+        "analysis_cycle_index": analysis_cycle_index,
+        "analysis_cycle_start_s": cycle_offset_s,
         "diagnostic_branch_overrides": execution.get("diagnostic_branch_overrides", {}),
         "arms": arms,
         "architectural_interpretation": {
