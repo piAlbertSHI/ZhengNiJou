@@ -3836,3 +3836,55 @@ execution、pressure、17/17 probe、causal final-cycle 和 dynamics final-cycle
 这把问题进一步分解为“换阀后压力/流量响应延迟 + 后段超调”，而不是单一的稳态增益偏差。下一次
 结构验证应优先评估有物理依据的 Stage4 预充压/换阀时序或沿程状态前馈方案，并同时报告完整相位
 质量、严格窗口瞬时跟踪和边界瞬态三类指标；不得只用一个窗口平均值替代三者。
+
+## 189. 默认 `-160/-255` 路线 20-cycle 复核与审计合同修正（2026-09-27）
+
+在通过独立 10 s seed gate 的 `Stage2=-126`、`Stage4 Kp=-160`、`Ki=-255`、
+`logarithmic_endpoint` 候选上，从全新冷态完成一次 20-cycle 双臂诊断。执行提交为
+`1d08a59fd91876e7440b7beab27398ef7888d8ce`，墙钟约 `15493.4 s`，退出码为 0；合同确认
+`c200_state_imported=false`、`checkpoint_saved=false`、`production_recovery_allowed=false`。
+该包只作为诊断，不是生产恢复源。
+
+末周期审计（`cycle_index=19`，198--200 s）结果如下：
+
+- 控制体局部库存/能量守恒、204 个初始坐标（High=125、Low=79）和源端存储功率闭合通过，
+  两臂端点残差约 `3.05e-9 J`，压力范围/液压功和 17/17 Stage4 控制探针合同通过；
+- SMA stage 1--4 与 SE stage 2 流量门禁通过；SE stage 4 两臂完全一致，均值
+  `0.003206626 kg/s`，相对均值误差约 `+0.206%`，积分质量误差 `+0.208%`，但瞬时
+  RMS/max 为 `7.2169%/12.1595%`，故严格瞬时流量门禁失败；
+- 末周期动态分类为 `low_gain_slow_tracking_bias`，不是交替采样振荡；活动 SE 驻留时间约
+  `13.041 s`，而当前 1.049 s 评估窗口只占 `8.04%`，故不能以积分质量正确抵消瞬时跟踪失败；
+- `periodic_steady_state=false`、`full_device_first_law_verified=false`，最终
+  `strict_post_warmup_pass=false`，不得进入恢复、outer solve、敏感性、paired endpoint 或
+  Table 4 strict audit。
+
+本轮同时修正了两类审计合同问题：
+
+1. 压力探针审计登记当前只读诊断 producer；
+2. 冷缓冲审计允许通过 junction 复用冻结 C200 文件，但只有外部同名仓库的冻结合同中
+   `result_sha256` 与 `checkpoint_sha256` 同时匹配时，才把路径记录为 `workspace_repo`，不接受
+   任意外部文件。
+
+这些修改只修复 provenance 误拒绝，不改变任何物理数值阈值。最终拒绝包为
+`qian_coupled_stage4_default_kp160_20260927_20cycle/REJECTED_DO_NOT_RESUME.txt`；紧凑回执及
+SHA-256 位于：
+
+- `stage4_default_kp160_warmup20_20260927_v3/cold_buffer_coupled_audit.json`
+  `EBE0BC44F589B36CB0237433ED29EAD488CE300F6447F90248F00E9B157B8BC8`；
+- `stage4_default_kp160_warmup20_pressure_20260927_v1.json`
+  `5771CF2CB690C288210825EBDD416CEAB862A8F5FEEA5735EB9ED8BFEEE9AAC2`；
+- `stage4_default_kp160_warmup20_controller_probes_20260927_v1.json`
+  `DF68EC2B794EB918718F560C7F8C44FE18B6C0F11F4FF825A876E36D8547D0D4`；
+- `stage4_default_kp160_warmup20_causal_response_20260927_v1.json`
+  `3CDED16110F7260DC0BDB361084C295ED8E99A40032CE259C8C7497B75B33D73`；
+- `stage4_default_kp160_warmup20_controller_dynamics_20260927_v1.json`
+  `85DA3824154F7BACF8BF5E8724179B4F620780857AC6C97626292E0A98AE2201`；
+- `stage4_default_kp160_warmup20_boundary_transient_20260927_v1.json`
+  `764132A33BB7F252BF5AB3739439E8325EAAC168DF637156BD1DE1F92EDB5F91`；
+- `stage4_default_kp160_warmup20_post_audit_20260927_v1.json`
+  `9B9AA92CC651CC8C0F37DEAD0204BF87F940E1321A9B5E7B499D8E0B0B5EE855`。
+
+判定：该候选证明 `-160/-255` 比此前 20-cycle `-50/-255` 更接近目标，但尚未建立周期稳态，
+也未解决“短窗口瞬时跟踪 vs 长驻留时间”的结构矛盾。下一步不应继续围绕单一 Kp/Ki 做盲扫，
+而应评估换阀预充压/时序、沿程温度-黏度状态前馈和与输运时间尺度一致的 Stage4 评价合同；
+在新结构候选通过同一套双臂门禁前，继续禁止主线恢复和 Table 4 声明。
