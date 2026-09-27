@@ -191,15 +191,25 @@ def evidence_path_key(path, repo, experiment_root=None):
             return str(Path('experiment_root') / path.relative_to(root))
         except ValueError:
             # An isolated worktree may consume the frozen C200 artifact from
-            # the sibling workspace repository. Keep that provenance explicit
-            # without accepting arbitrary external paths.
-            for parent in repo.parents:
-                sibling = parent/'gx101r1_R69_remote'
-                if sibling.is_dir():
-                    try:
-                        return str(Path('workspace_repo') / path.relative_to(sibling))
-                    except ValueError:
-                        continue
+            # the sibling workspace repository through a junction. Accept it
+            # only when the external tree carries the same freeze contract,
+            # preventing arbitrary external evidence from entering the ledger.
+            local_contract = repo/'verification/c200_mainline_freeze_contract.json'
+            local = json.loads(local_contract.read_text(encoding='utf-8'))
+            for parent in path.parents:
+                if parent.name != 'gx101r1_R69_remote':
+                    continue
+                sibling_contract = parent/'verification/c200_mainline_freeze_contract.json'
+                if not sibling_contract.is_file():
+                    continue
+                sibling = json.loads(sibling_contract.read_text(encoding='utf-8'))
+                if (sibling.get('result_sha256') != local.get('result_sha256') or
+                        sibling.get('checkpoint_sha256') != local.get('checkpoint_sha256')):
+                    continue
+                try:
+                    return str(Path('workspace_repo') / path.relative_to(parent))
+                except ValueError:
+                    continue
             raise
 
 
