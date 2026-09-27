@@ -40,6 +40,9 @@ PRODUCERS = {
     # probe provenance and the physical runner contract are unchanged.
     "a9535e2582fa6c6d0841dfd3898624690cb50127",
     "393be6f000d9421c159b8c191f6f2c65ac24c185",
+    # 737373f adds only read-only Stage-4 boundary diagnostics; the physical
+    # runner and pressure-probe contract are unchanged.
+    "737373fe920d9a7964fcd698aa0be2de19b1698d",
 }
 PRESSURE_MIN_MPA = 0.45
 PRESSURE_MAX_MPA = 5.0
