@@ -100,6 +100,11 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     # a1e2f4a exposes only the signed Stage-4 Ki diagnostic override; plant,
     # inventory, endpoint-chamber, and recovery contracts are unchanged.
     'a1e2f4ab55880d4b4087223b9025d0c04385ce98',
+    # 1ba3a32 adds only the independent 20-cycle warmup launcher contract;
+    # the plant, endpoint chamber, zero-based initialization, and recovery
+    # prohibitions remain unchanged.  Warmup outputs still require a separate
+    # post-warmup audit and never grant production recovery.
+    '1ba3a32ae6fe9f7fe5d3d166c6fa12e740635a9c',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'

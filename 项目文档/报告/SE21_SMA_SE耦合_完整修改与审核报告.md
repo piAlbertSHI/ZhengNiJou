@@ -3761,3 +3761,31 @@ v53 保持 Kp=`-50`、Ki=`-255`，仅使用 `arithmetic_blend=0`。两臂控制�
 因此当前主线仍停在“独立 10 s 冷态诊断未通过，尚未获得 20-cycle seed”阶段。下一步应先补齐
 输运时间尺度合同和沿程状态响应分析，再选择一个有物理依据的结构修改做新的独立双臂冷态验证；
 在此之前不进入 20-cycle、outer solve、敏感性、paired endpoint 或 strict Table 4 reproduction。
+
+## 185. 20-cycle 独立暖机复核与结构层结论（2026-09-27）
+
+为验证“短冷态窗口导致的 Stage4 低估”是否会在不导入 C200 状态的情况下自然消失，
+在隔离 worktree `fixed-stage4-kp237-endpoint` 中，以已审计的 v32 作为只读初始化观测源，
+从全新冷态运行了 20-cycle、200 s 双臂诊断。执行提交为 `1ba3a32`，合同明确记录
+`c200_state_imported=false`、`checkpoint_saved=false`、`production_recovery_allowed=false`、
+`warmup_only_diagnostic=true`；运行自然退出，exit code=0，墙钟约 `19336.2 s`。该包不具备
+任何生产恢复权限。
+
+后暖机窗口的层级审计结果为：
+
+- 控制体本地质量/能量闭合、初始坐标、源端存储端口、编译库存状态均通过；
+- 两臂压力范围和液压功诊断通过，Stage4 观测探针合同 `17/17` 通过；
+- SMA stage 1--4 与 SE stage 2 的选定流量门禁通过；
+- SE stage 4 仍失败：平均流量 `0.00322649 kg/s`，RMS 相对误差 `11.7757%`，最大相对误差
+  `19.6580%`；反向流为零，但 `periodic_steady_state=false`，且 `full_device_first_law_verified=false`。
+
+因此 20-cycle 暖机没有证明原失败只是一次性冷态瞬态，也没有提供恢复、outer solve、敏感性、
+paired endpoint 或 Table 4 的输入。原始包已写入 `REJECTED_DO_NOT_RESUME.txt`；紧凑审计回执保留在
+`gx101r1_R69_remote/outputs_storage_audit/stage4_warmup20_*_20260927_v1`。本轮同时修正了冷缓冲
+审计 allow-list，使 `1ba3a32` 这种仅扩展暖机编排且不改变初始化/方程合同的提交不会被错误报成
+`Wrong independent cold experiment`；该修正不改变任何物理阈值，也不把总审计失败误报为机制失败。
+
+结构结论是：问题不能再按“继续调整 Kp/Ki”处理。活动 SE 驻留时间约 `12.66--13.76 s`，而 Stage4
+目标段有效窗口仅 `1.049 s`；20-cycle 后末窗口仍失败，说明必须先解决沿程温度/黏度状态、液压
+传输和控制器可预见性之间的结构不匹配，或重新定义有物理依据的 Stage4 目标/输运合同。当前主线
+仍冻结在 C200 参考、未获得生产 seed 的状态。
