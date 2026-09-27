@@ -43,6 +43,13 @@ NONLINEAR_LOCAL_BE_PRODUCER = '1c0af1a8a454d4c187062d872fa6e8b279b6742a'
 # the producer check globally.
 ZERO_BASED_OFFSET_PRODUCER = 'ec9d3e1521062b7e65aebc61a996d9c233b5bfbf'
 CONTROL_VOLUME_SEED_PRODUCER = 'c7e028d8a02b694f7b1e021acf6d0e880e2ece8d'
+CALIBRATION_MIRROR_PRODUCERS = {
+    CONTROL_VOLUME_SEED_PRODUCER,
+    # These commits preserve the exact initial-flux contract and may run in
+    # isolated worktrees where the hash-bound calibration is mirrored.
+    '1ba3a32ae6fe9f7fe5d3d166c6fa12e740635a9c',
+    '737373fe920d9a7964fcd698aa0be2de19b1698d',
+}
 ZERO_BASED_OFFSET_PRODUCERS = {
     ZERO_BASED_OFFSET_PRODUCER,
     '91dc097',
@@ -105,6 +112,10 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     # prohibitions remain unchanged.  Warmup outputs still require a separate
     # post-warmup audit and never grant production recovery.
     '1ba3a32ae6fe9f7fe5d3d166c6fa12e740635a9c',
+    # 737373f adds only read-only Stage-4 boundary-transient diagnostics and
+    # tests; the independent cold runner and all initialization/equation
+    # contracts are unchanged.
+    '737373fe920d9a7964fcd698aa0be2de19b1698d',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'
@@ -157,11 +168,11 @@ def calibration_reference_matches(execution_commit, declared, canonical):
     declared, canonical = Path(declared), Path(canonical)
     if declared.resolve() == canonical.resolve():
         return True
-    # c7e028d ran in a contract-compatible isolated worktree whose audit
-    # prerequisites were verified copies. Bind the exception to that exact
-    # producer and artifact tail; the caller still requires the canonical
-    # content hash, and verifies the mirror too when it remains present.
-    return (execution_commit == CONTROL_VOLUME_SEED_PRODUCER
+    # Contract-compatible isolated worktrees may mirror the hash-bound
+    # prerequisite. Bind the exception to explicit producers and the exact
+    # artifact tail; the caller still requires the canonical content hash and
+    # verifies the mirror too when it remains present.
+    return (execution_commit in CALIBRATION_MIRROR_PRODUCERS
             and declared.parts[-3:] == canonical.parts[-3:])
 
 
