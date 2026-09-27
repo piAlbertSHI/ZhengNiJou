@@ -38,7 +38,10 @@ def read_series(group, name: str) -> tuple[np.ndarray, np.ndarray]:
 
 
 def window_metrics(time_s: np.ndarray, flow: np.ndarray,
+                   offset_s: float = 0.0,
                    start: float = WINDOW[0], stop: float = WINDOW[1]) -> dict:
+    start += offset_s
+    stop += offset_s
     mask = (time_s >= start) & (time_s <= stop)
     if int(mask.sum()) < 2:
         raise ValueError("Stage-4 controller window is undersampled")
@@ -66,8 +69,8 @@ def window_metrics(time_s: np.ndarray, flow: np.ndarray,
 
 
 def alternating_mode(time_s: np.ndarray, flow: np.ndarray,
-                     command: np.ndarray) -> dict:
-    mask = (time_s >= 9.84) & (time_s <= 9.90)
+                     command: np.ndarray, offset_s: float = 0.0) -> dict:
+    mask = (time_s >= 9.84 + offset_s) & (time_s <= 9.90 + offset_s)
     indices = np.arange(time_s.size)
     even = mask & (indices % 2 == 0)
     odd = mask & (indices % 2 == 1)
@@ -89,7 +92,8 @@ def alternating_mode(time_s: np.ndarray, flow: np.ndarray,
     }
 
 
-def audit_arm(observations: Path) -> dict:
+def audit_arm(observations: Path, cycle_offset_s: float = 0.0,
+              cycle_index: int = 0) -> dict:
     with h5py.File(observations, "r") as handle:
         group = handle["signals"]
         time_s, flow = read_series(group, "mass_flow_v4_hot_inlet_kgps")
@@ -98,14 +102,16 @@ def audit_arm(observations: Path) -> dict:
             raise ValueError("Flow and pressure-command grids differ")
         if not np.isfinite(flow).all() or not np.isfinite(command).all():
             raise ValueError("Non-finite controller observation")
-        metrics = window_metrics(time_s, flow)
-        mode = alternating_mode(time_s, flow, command)
-        full_mask = (time_s >= 8.5) & (time_s <= 10.0)
+        metrics = window_metrics(time_s, flow, offset_s=cycle_offset_s)
+        mode = alternating_mode(time_s, flow, command, offset_s=cycle_offset_s)
+        full_mask = (time_s >= 8.5 + cycle_offset_s) & (time_s <= 10.0 + cycle_offset_s)
         full_relative = flow[full_mask] / TARGET_KGPS - 1.0
         return {
             "observations_sha256": sha256(observations),
             "grid_samples": int(time_s.size),
             "grid_dt_s": float(np.diff(time_s).min()),
+            "analysis_cycle_index": int(cycle_index),
+            "analysis_cycle_start_s": float(cycle_offset_s),
             "stage4_production_window": metrics,
             "full_stage4_observation": {
                 "mean_flow_kgps": float(flow[full_mask].mean()),
@@ -121,7 +127,13 @@ def audit_experiment(root: Path) -> dict:
     execution = json.loads((root / "cold_chamber_execution.json").read_text(
         encoding="utf-8-sig"))
     overrides = execution.get("diagnostic_branch_overrides", {})
-    rows = [audit_arm(root / arm / "observations.mat")
+    cycle_count = int(execution.get("cycle_count", 1))
+    if cycle_count < 1:
+        raise ValueError("Execution contract has no complete cycle")
+    analysis_cycle_index = cycle_count - 1
+    cycle_offset_s = 10.0 * analysis_cycle_index
+    rows = [audit_arm(root / arm / "observations.mat", cycle_offset_s,
+                      analysis_cycle_index)
             for arm in ("native", "conservative")]
     high_gain = all(row["alternating_mode"]["alternating_mode_detected"]
                     for row in rows)
@@ -132,6 +144,9 @@ def audit_experiment(root: Path) -> dict:
         "schema": "heatdrive_ecc_stage4_controller_dynamics_audit_v1",
         "diagnostic_only": True,
         "execution_commit": execution.get("execution_commit"),
+        "cycle_count": cycle_count,
+        "analysis_cycle_index": analysis_cycle_index,
+        "analysis_cycle_start_s": cycle_offset_s,
         "stage4_kp": overrides.get("se_stage4_pressure_pi_kp_MPa_per_kgps"),
         "stage4_ki": overrides.get("se_stage4_pressure_pi_ki_MPa_per_kgps_s"),
         "arms": rows,

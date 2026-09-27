@@ -3789,3 +3789,14 @@ paired endpoint 或 Table 4 的输入。原始包已写入 `REJECTED_DO_NOT_RESU
 目标段有效窗口仅 `1.049 s`；20-cycle 后末窗口仍失败，说明必须先解决沿程温度/黏度状态、液压
 传输和控制器可预见性之间的结构不匹配，或重新定义有物理依据的 Stage4 目标/输运合同。当前主线
 仍冻结在 C200 参考、未获得生产 seed 的状态。
+
+## 186. 20-cycle 动态诊断的末周期索引修正（2026-09-27）
+
+复核发现旧版 `Audit_HeatDriveECC_Stage4ControllerDynamics.py` 在输入包含 20 个周期时仍固定读取
+第一个 `8.801--9.850 s` 窗口。该诊断不参与生产 gate，但会把暖机前端误报为末周期状态。现已改为
+根据 `cycle_count` 自动选取最后一个完整周期，并在回执中显式记录 `analysis_cycle_index=19`、
+`analysis_cycle_start_s=190.0`；未改变阈值、原始样本或任何恢复权限。
+
+末周期重算仍给出 `low_gain_slow_tracking_bias`，SE stage 4 RMS/max 为 `11.7757%/19.6580%`，
+积分质量误差为 `+0.8295%`，交替采样差异约 `8.77e-8 kg/s`，因此不是离散高增益振荡。修正后的
+诊断回执为 `gx101r1_R69_remote/outputs_storage_audit/stage4_warmup20_controller_dynamics_20260927_v2.json`。
