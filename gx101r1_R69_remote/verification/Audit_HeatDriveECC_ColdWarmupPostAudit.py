@@ -101,7 +101,11 @@ def main() -> int:
                 and experiment.get("analysis_cycle_index") == cycle_index
                 for experiment in dynamics["experiments"])
     )
+    # The independent cold runner writes false without performing a periodic
+    # state audit. Preserve fail-closed authority, but do not mislabel that
+    # absence of evidence as a measured nonperiodic trajectory.
     periodic = bool(flow.get("periodic_steady_state") is True)
+    periodic_status = "verified" if periodic else "not_evaluated_by_cold_runner"
     first_law = bool(flow.get("full_device_first_law_verified") is True)
     failed_flow_gates = [
         {"arm": arm.get("arm"), **gate}
@@ -126,6 +130,8 @@ def main() -> int:
         "causal_final_cycle_contract_pass": causal_cycle_pass,
         "dynamics_final_cycle_contract_pass": dynamics_cycle_pass,
         "periodic_steady_state": periodic,
+        "periodic_steady_state_verified": periodic,
+        "periodic_status": periodic_status,
         "full_device_first_law_verified": first_law,
         "strict_post_warmup_pass": strict_post_warmup_pass,
         "production_recovery_allowed": False,

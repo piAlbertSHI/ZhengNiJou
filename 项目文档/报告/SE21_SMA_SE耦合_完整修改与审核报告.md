@@ -3908,3 +3908,24 @@ Stage4 完整相位、当前严格窗口以及从换阀边界后不同偏移量�
 回执：
 `stage4_default_kp160_warmup20_transport_window_20260927_v1.json`
 SHA-256=`985EE4CAABE85716AD09B274A92F585946E0DBC55706D714A1E17B8E6E010453`。
+
+## 191. 20-cycle 可观测同相位漂移审计（2026-09-28）
+
+复核发现独立冷态 runner 的 `periodic_steady_state=false` 是 fail-closed 的固定合同字段，
+并不代表 runner 已经实际测量周期漂移。为避免审计语义误判，新增
+`Audit_HeatDriveECC_ColdCycleDrift.py`，直接比较第 18 和第 20 个完整周期的同相位观测。
+
+该诊断给出的结果是：SMA 内部温度同相位 RMS `0.0102 K`、SE 内部温度 `0.0194 K`，
+SE Stage4 流量同相位 RMS `1.37e-7 kg/s`，Stage4 路线 PI 记忆同相位 RMS
+`1.13e-4 MPa`；但 SHEX buffer 温度仍有 `0.0673 K` RMS、`0.0925 K` 末端漂移。
+因此当前应表述为“可观测状态接近同相位重复，但完整周期稳态尚未验证”，而不是“已实测
+非周期稳态”。这不会放宽任何流量、能量、机制或 Table 4 门禁；完整后暖机审计仍为
+`strict_post_warmup_pass=false`，因为 SE Stage4 瞬时流量门禁失败且 full-device first-law
+合同尚未形成。
+
+漂移回执：
+`stage4_default_kp160_warmup20_cycle_drift_20260928_v1.json`
+SHA-256=`7784A0993F2DA307AA0E7587C9048A471DB4D5013E48B8B6E6FD85522CE873A7`。
+修订后的后暖机回执为
+`stage4_default_kp160_warmup20_post_audit_20260928_v2.json`；它保持 fail-closed，
+但新增 `periodic_status=not_evaluated_by_cold_runner`，不再把缺失证据写成实测失败。
