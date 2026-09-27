@@ -116,6 +116,9 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     # tests; the independent cold runner and all initialization/equation
     # contracts are unchanged.
     '737373fe920d9a7964fcd698aa0be2de19b1698d',
+    # 1d08a59 changes only read-only diagnostics/provenance; the cold runner,
+    # plant, and launcher remain byte-identical to 1ba3a32.
+    '1d08a59fd91876e7440b7beab27398ef7888d8ce',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'

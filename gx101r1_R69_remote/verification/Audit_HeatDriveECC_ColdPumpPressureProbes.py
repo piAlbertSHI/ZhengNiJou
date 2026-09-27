@@ -43,6 +43,8 @@ PRODUCERS = {
     # 737373f adds only read-only Stage-4 boundary diagnostics; the physical
     # runner and pressure-probe contract are unchanged.
     "737373fe920d9a7964fcd698aa0be2de19b1698d",
+    # 1d08a59 only updates this audit's exact producer allowlist.
+    "1d08a59fd91876e7440b7beab27398ef7888d8ce",
 }
 PRESSURE_MIN_MPA = 0.45
 PRESSURE_MAX_MPA = 5.0
