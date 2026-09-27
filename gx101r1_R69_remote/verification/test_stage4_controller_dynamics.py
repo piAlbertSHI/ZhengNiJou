@@ -30,6 +30,16 @@ class Stage4ControllerDynamicsTest(unittest.TestCase):
         self.assertTrue(alternating_mode(self.time, flow, command)[
             "alternating_mode_detected"])
 
+    def test_multicycle_window_uses_requested_cycle(self):
+        time = np.arange(0.0, 20.001, 0.001)
+        flow = np.full(time.size, 0.0032)
+        flow[(time >= 18.801) & (time <= 19.85)] *= 1.10
+        first = window_metrics(time, flow)
+        second = window_metrics(time, flow, offset_s=10.0)
+        self.assertTrue(first["production_instantaneous_gate_pass"])
+        self.assertFalse(second["production_instantaneous_gate_pass"])
+        self.assertAlmostEqual(second["start_s"], 18.801)
+
 
 if __name__ == "__main__":
     unittest.main()
