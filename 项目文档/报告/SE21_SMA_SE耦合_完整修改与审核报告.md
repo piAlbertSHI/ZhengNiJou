@@ -3814,3 +3814,7 @@ execution、pressure、17/17 probe、causal final-cycle 和 dynamics final-cycle
 有两项 SE stage 4 失败，`periodic_steady_state=false`，`full_device_first_law_verified=false`，故
 `strict_post_warmup_pass=false`。这一步排除了“因审计工具只支持一周期而误判暖机”的解释，同时保留了
 生产恢复、checkpoint、outer solve、paired endpoint 和 Table 4 的全部禁止状态。
+
+末周期窗口选择已加入单元回归：4 tests passed，覆盖动态分析器与因果分析器在 20 s 多周期输入上
+选择第二周期窗口的行为。当前工作树 Git 提交为 `ea987d2`；受保护的 SLX 修改和顶层 `Agent6/`
+仍未加入提交。
