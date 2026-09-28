@@ -2186,6 +2186,15 @@ function configure_se_flow_target_command(model_name)
     end
 
     command_block = [model_name '/SEFlowTargetFromWorkspace'];
+    legacy_cooldown_target = [model_name '/PressurePI_TargetCooldown'];
+    if ~exist_block(legacy_cooldown_target)
+        error('HeatDriveECC:MissingSELegacyCooldownTarget', ...
+            'The legacy cooldown target block is required for explicit zeroing.');
+    end
+    % The full-cycle command below is the single active SE target. The
+    % inherited cooldown constant would otherwise add the same target again
+    % through PressurePI_ErrorSum during Stage 4.
+    set_param(legacy_cooldown_target, 'Value', '0');
     ensure_block('simulink/Sources/From Workspace', command_block, ...
         'VariableName', 'SE_mdot_target_command', ...
         'Interpolate', 'on', ...
