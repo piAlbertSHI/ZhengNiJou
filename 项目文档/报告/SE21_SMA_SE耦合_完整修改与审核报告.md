@@ -4046,3 +4046,38 @@ Stage4 Ki=`-255`、precharge fraction=`0.5`，并保持 Stage4 初始前馈为 1
 
 证据治理回执：
 `gx101r1_R69_remote/outputs_storage_audit/stage4_commutation_precharge50_20260928_10s_manifest.json`。
+
+## 196. Stage4 单一全周期目标合同修复及 10 s 验证（2026-09-28）
+
+对模型生成器和原始 SLX 控制链进行结构解析后发现，`PressurePI_ErrorSum` 使用 `++--`
+四输入：全周期 `SE_mdot_target_command`、遗留 `PressurePI_TargetCooldown`、V1 流量和
+V4 流量。冷态初始化采用 cooldown stage 时，遗留常量也解析为目标流量；全周期命令又在
+Stage4 激活同一目标，导致目标项重复进入误差合同。原有审计检查了独立 PI 记忆连接，
+却没有检查该隐藏的第二目标，因此这是审计覆盖缺口和模型控制合同缺陷，不应继续归因于
+Kp/Ki。
+
+隔离分支提交 `af4f2e09e3cc19ebcf0009e8a5cdb85afd75c770` 做了两项修复：
+
+1. 将遗留 `PressurePI_TargetCooldown` 显式置零，使 `SE_mdot_target_command` 成为唯一
+   全周期 SE 流量目标；
+2. 在模型生成审计中加入单一目标、误差和输入符号及目标源直连门禁。
+
+在不导入 C200、不保存 checkpoint、不替换热容、buffer、本构、温度、相分数或 PI 路线
+记忆的前提下，native/conservative 两臂各运行 1 个 10 s 冷态周期。严格窗口
+`8.801--9.850 s` 的两臂结果一致：平均流量约 `0.003187521 kg/s`（目标
+`0.0032 kg/s`），RMS 相对误差约 `0.6429%`，最大绝对误差约 `1.1934%`，积分质量
+相对误差约 `-0.3895%`，无反向流、无交替振荡，严格瞬时流量门禁通过。边界瞬态审计
+显示门禁未被边界瞬态主导；控制探针 provenance、case、coverage 均通过。
+
+这次结果确认前一候选约 `6%` RMS 偏差的主要来源之一是重复目标项，现行严格入口流量
+门禁并非无依据。与此同时，活跃 SE 库存约 `0.04182 kg`、估算驻留时间约 `13.12 s`，
+而严格窗口只有 `1.049 s`，窗口/驻留比约 `0.07996`；这仍是动态路线记忆证据，不能
+用来放宽瞬时门禁。由于本次只有 1 个周期，periodic steady state、完整首定律和
+20-cycle seed 资格均未验证，故结果只能标记为“控制流量候选通过、生产 seed 未授权”，
+不得称为 validated、reproduced 或 strict Table 4 reproduction。
+
+紧凑回执及哈希见：
+`gx101r1_R69_remote/outputs_storage_audit/stage4_single_target_contract_20260928_10s_retry_manifest.json`。
+下一步是将该结构修复提升到主线后，运行全新 20-cycle 冷态诊断，并首次同时审核周期
+漂移、全装置质量/能量闭合和末周期流量门禁；在这些门禁通过前不进入恢复链、outer solve
+或敏感性分析。

@@ -1,0 +1,69 @@
+{
+  "schema": "stage4_single_target_contract_diagnostic_manifest_v1",
+  "status": "controller_flow_gate_pass_but_not_seed_eligible",
+  "candidate": "remove_duplicate_se_cooldown_target",
+  "execution_commit": "af4f2e09e3cc19ebcf0009e8a5cdb85afd75c770",
+  "raw_evidence": {
+    "isolated_worktree": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260928_10s_retry",
+    "size_bytes_not_recomputed_in_main": true,
+    "cycle_count": 1,
+    "duration_s": 10,
+    "exit_code": 0,
+    "c200_state_imported": false,
+    "checkpoint_saved": false,
+    "do_not_resume": true
+  },
+  "structural_change": {
+    "pressure_error_contract": "single SE_mdot_target_command minus signed V1/V4 flow measurements",
+    "legacy_cooldown_target_value": 0,
+    "duplicate_target_removed": true,
+    "new_static_contract_gate": true,
+    "thermal_and_constitutive_states_reset_or_replaced": false
+  },
+  "strict_stage4_metrics_native_and_conservative": {
+    "mean_kgps": 0.0031875213295,
+    "target_kgps": 0.0032,
+    "rms_relative_error": 0.0064292368,
+    "max_abs_relative_error": 0.0119342742,
+    "integrated_signed_mass_relative_error": -0.0038947943,
+    "reverse_flow_fraction": 0.0,
+    "production_instantaneous_gate": true,
+    "alternating_mode": false,
+    "boundary_transient_dominates_gate": false,
+    "failure_mode": "no_stage4_controller_failure_detected"
+  },
+  "dynamic_context": {
+    "active_se_mass_kg": 0.04181683646625444,
+    "estimated_residence_s": 13.118919731,
+    "strict_window_s": 1.049,
+    "window_to_residence_ratio": 0.079960852,
+    "interpretation": "dynamic route-memory evidence; not a reason to relax the flow gate"
+  },
+  "audit_state": {
+    "controller_probe_provenance_gate": true,
+    "controller_probe_case_gate": true,
+    "controller_probe_coverage_gate": true,
+    "periodic_steady_state_verified": false,
+    "periodic_status": "not_evaluated_from_one_cycle",
+    "production_recovery_allowed": false,
+    "diagnostic_20cycle_seed_eligible": false,
+    "checkpoint_saved": false,
+    "outer_solve_eligible": false,
+    "paired_table4_eligible": false,
+    "table4_reproduction_claim": false
+  },
+  "transport_window_audit": {
+    "status": "not_run",
+    "reason": "the existing transport audit requires a separate flow-audit schema; strict window metrics are independently present in controller_dynamics.json",
+    "gate_relaxed": false
+  },
+  "evidence_sha256": {
+    "boundary_transient.json": "0C207AD7D9C118C9C9FA11EC8552672C1A5152043F69FAC7AFF4224EBE475126",
+    "causal_response.json": "426173A4E9E536C027561B5F0B0B596C3F6ACECE1FC571962A101499113227BD",
+    "cold_chamber_execution.json": "44799CB42F1D0DA724CD9509533A29C5C7085DDDE31E30AC4E72DE240C2B93A0",
+    "controller_dynamics.json": "96DC529D4A621759E637F66C2DC1981E227E6F8DDDB53E9F716040FC7D520627",
+    "controller_probes.json": "72B43A46649AAE8FDB0A1018FA378A5F09BE6261A287292474E230D6F0B6DEE3",
+    "launcher_contract.json": "BAD1433C76B4CD4DE0B7A1D8C37D8F2A0BA65DA462BD5772C25862769FCBCFE2"
+  },
+  "next_action": "promote_structural_fix_to_main_then_run_fresh_20_cycle_cold_diagnostic_with_full_periodic_and_energy_gates"
+}
