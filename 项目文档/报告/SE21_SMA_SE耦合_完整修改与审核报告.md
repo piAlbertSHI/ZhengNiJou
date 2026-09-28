@@ -4017,3 +4017,32 @@ seed、periodic、production/recovery、outer solve、paired endpoint 或 Table 
 换阀期间的压力预充和启用相位，必须同时输出阀开度、压力源 A/B、目标启用、PI 两路线记忆、
 入口流量、出口流量和能量/库存回执。候选若不能在相同门禁下改善入口跟踪且不引入跨路线串扰，
 立即拒绝；在该候选通过前，不进入 20-cycle 生产恢复、outer solve、敏感性或 Table 4。
+
+## 195. Stage4 换阀时序修复与预充诊断（2026-09-28）
+
+上一轮静态合同审计发现，压力换路的过渡逻辑只由 `sma_changed` 触发；在 Stage1->2
+和 Stage3->4 这类 SE 路线发生变化而 SMA 路线不变的切换中，SE 压力状态可能没有进入
+应有的过渡处理。隔离分支 `stage4-phase-local-blend-diagnostic` 对该逻辑进行了结构性修复：
+压力过渡现在由 `sma_changed || se_changed` 触发，并增加显式的 Stage4 commutation
+precharge 参数。该修复不改变热容、buffer、本构、温度、相分数或独立路线 PI 记忆，
+也没有导入 C200 状态。
+
+使用执行提交 `67b0d09a39d9816d0ebc428e6ee15ac026fa89ee`，从已审计冷态观察源启动 native/
+conservative 两臂各 1 个 10 s 诊断周期，参数为 Stage2 Kp=`-126`、Stage4 Kp=`-160`、
+Stage4 Ki=`-255`、precharge fraction=`0.5`，并保持 Stage4 初始前馈为 1、末端为 0。
+程序退出码为 0，但科学结果必须单独审核：两臂结果一致，Stage4 平均流量约
+`0.003375359 kg/s`，严格窗口 RMS 相对误差约 `6.0012%`，最大绝对误差约 `8.2193%`，
+积分质量相对误差约 `5.4844%`，故瞬时流量门禁失败。边界瞬态不主导该窗口失败；流量和
+控制命令的奇偶差异接近零，没有交替振荡。压力探针 provenance、case 和 coverage 合同
+通过，但这不等价于压力数值门禁或 seed gate 通过。
+
+该结果说明：修复了真实的换阀状态机缺陷，但单独加入 50% 预充仍不能解决低增益慢跟踪
+与后段超调。由于本次仅运行一个诊断周期，完整 periodic steady state 未评估；结果不得
+作为 20-cycle seed、恢复状态、outer solve、敏感性、paired endpoint 或 Table 4 输入。
+现有瞬时入口流量门禁仍有物理对象依据，边界审计也未显示系统性误判，因此不应通过继续
+扫 Kp/Ki、任意移动窗口或改写积分门禁来“修复”结果。下一步应上移到模型层，核查
+`V4_hot_inlet`、Stage4 压力源、阀列有效开度、Qian 流量目标以及入口/床层边界的定义和
+时间尺度合同；只有该物理合同审计和对应独立冷态验证通过后，才恢复 20-cycle 主线。
+
+证据治理回执：
+`gx101r1_R69_remote/outputs_storage_audit/stage4_commutation_precharge50_20260928_10s_manifest.json`。

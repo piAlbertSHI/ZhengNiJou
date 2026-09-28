@@ -1,0 +1,49 @@
+{
+  "schema": "stage4_commutation_precharge_diagnostic_manifest_v1",
+  "status": "rejected_scientific_gate",
+  "candidate": "stage4_commutation_timing_fix_precharge_0.5",
+  "execution_commit": "67b0d09a39d9816d0ebc428e6ee15ac026fa89ee",
+  "raw_evidence": {
+    "isolated_worktree": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_commutation_precharge50_20260928_10s",
+    "size_bytes": 350255440,
+    "cycle_count": 1,
+    "exit_code": 0,
+    "do_not_resume": true
+  },
+  "parameters": {
+    "stage2_kp": -126,
+    "stage4_kp": -160,
+    "stage4_ki": -255,
+    "stage4_blend_initial": 1,
+    "stage4_blend_final": 0,
+    "stage4_blend_start_s": 8.5,
+    "stage4_blend_duration_s": 1.5,
+    "stage4_precharge_fraction": 0.5,
+    "c200_state_imported": false
+  },
+  "final_stage4_metrics": {
+    "mean_kgps": 0.003375359056,
+    "rms_relative_error": 0.060012,
+    "max_abs_relative_error": 0.0821931,
+    "integrated_mass_relative_error": 0.0548444,
+    "production_instantaneous_gate": false,
+    "alternating_mode": false,
+    "boundary_transient_dominates_gate": false,
+    "failure_mode": "low_gain_slow_tracking_bias"
+  },
+  "audit_state": {
+    "controller_probe_provenance_gate": true,
+    "controller_probe_case_gate": true,
+    "controller_probe_coverage_gate": true,
+    "periodic_steady_state_verified": false,
+    "production_recovery_allowed": false,
+    "diagnostic_20cycle_seed_eligible": false,
+    "checkpoint_saved": false,
+    "outer_solve_eligible": false,
+    "paired_table4_eligible": false,
+    "table4_reproduction_claim": false
+  },
+  "compact_evidence_dir": "gx101r1_R69_remote/outputs_storage_audit/stage4_commutation_precharge50_20260928_10s",
+  "next_action": "model_level_audit_of_V4_hot_inlet_pressure_source_valve_flow_target_and_Qian_boundary_contract",
+  "retain_strict_flow_gate": true
+}
