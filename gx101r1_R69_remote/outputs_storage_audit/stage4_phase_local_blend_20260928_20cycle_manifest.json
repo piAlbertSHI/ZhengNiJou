@@ -1,0 +1,66 @@
+{
+  "schema": "SE21.compact_storage_manifest.v1",
+  "created_at": "2026-09-28",
+  "status": "rejected_scientific_gate",
+  "candidate": "stage4_phase_local_blend",
+  "raw_evidence": {
+    "isolated_worktree": "C:/Users/86182/.codex/worktrees/stage4-phase-local-blend-diagnostic/正逆耦合/gx101r1_R69_remote/outputs/qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup",
+    "size_bytes": 1821213449,
+    "retention": "retain_isolated_raw_as_current_structural_diagnostic",
+    "do_not_resume": true
+  },
+  "execution_commit": "fb128caaa5b42436df598b8dd5ab41a4d7ce8b23",
+  "source_commits": ["1698561", "7ebbbb1", "fb128ca", "98b1a84"],
+  "parameters": {
+    "stage2_kp": -126,
+    "stage4_kp": -160,
+    "stage4_ki": -255,
+    "blend": "arithmetic_blend",
+    "blend_periodic": true,
+    "blend_start_s": 8.5,
+    "blend_duration_s": 1.5,
+    "cycle_count": 20,
+    "c200_imported": false
+  },
+  "final_cycle": {
+    "stage4_mean_kgps": 0.0032332367019993727,
+    "stage4_rms_relative_error": 0.06571510406795615,
+    "stage4_max_abs_relative_error": 0.11577814897024863,
+    "stage4_integrated_mass_relative_error": 0.01040735643282198,
+    "periodic_steady_state_verified": false,
+    "periodic_status": "not_verifiable_from_partial_observations",
+    "dynamics_class": "low_gain_slow_tracking_bias",
+    "seed_gate_pass": false,
+    "production_recovery_allowed": false,
+    "outer_solve_eligible": false,
+    "paired_table4_eligible": false,
+    "table4_reproduction_claim": false
+  },
+  "drift": {
+    "stage4_flow_same_phase_rms_kgps": 1.2371122386083083e-7,
+    "stage4_pi_same_phase_rms_mpa": 8.955303709881408e-5,
+    "shex_buffer_temperature_same_phase_rms_k": 0.0673104450431656,
+    "shex_buffer_temperature_endpoint_max_k": 0.0924803194207584
+  },
+  "compact_evidence_dir": "gx101r1_R69_remote/outputs_storage_audit/stage4_phase_local_blend_20260928_20cycle",
+  "evidence_sha256": {
+    "stage4_phase_local_blend_20260928_20cycle_boundary.json": "EFFF641E784943AAAC3E3EC397A8AFBE1BFF594E2A4FAAF91DE674D8E9369855",
+    "stage4_phase_local_blend_20260928_20cycle_pressure.json": "35154C6983AF09C41609853640895DB3B5419C76C8DD04804A8E342F0C7C638B",
+    "stage4_phase_local_blend_20260928_20cycle_controller_probes.json": "CB82A3B5C21E3405E5475720FA346708D8751AB8527743E19B6165EC1BDF4833",
+    "stage4_phase_local_blend_20260928_20cycle_causal.json": "5595A53C37E0549E950BA1B35149C637CE43C57B611677911B2EFE687A7B54D6",
+    "stage4_phase_local_blend_20260928_20cycle_dynamics.json": "616860338F116D7AECDD5B551762C1DEBA35A7689C45194C895E473AD17B8206",
+    "stage4_phase_local_blend_20260928_20cycle_cycle_drift.json": "60FF5AA59A458F53223F31ACFE53F4B6A5FEBFC90E8A4A1783E7B5B35586ADC2",
+    "stage4_phase_local_blend_20260928_20cycle_post_audit.json": "7756BCFC9DC399E04BFBF71DE0371D7780203BB1A667F6F09F6CF08559E3CC2F",
+    "stage4_phase_local_blend_20260928_20cycle_transport_window.json": "FBB30B68F65488049F7E3FDE6F510617D78438362401E7FA0B8C8B85F8DDE2B7",
+    "stage4_phase_local_blend_20260928_20cycle_reasonableness_native.json": "DC7A8F71702A6A0BA90CBCDF834711E5A2B6A6ADE2C14237691633B9D9E424D7",
+    "stage4_phase_local_blend_20260928_20cycle_reasonableness_conservative.json": "604E11B602B0D79872CB75ADAF98813FCE6A8B59F6026D78ACF743AB322FF7C2",
+    "cold_chamber_execution.json": "48E2B4D461B48387246A4027D2C14128B58985AC86E9143C79A211A6436B2ACA",
+    "launcher_contract.json": "686EDBC7C9F092A02E88577D2222DB12BE2CA41CCE28E17212AF19CA5258798E"
+  },
+  "gate_reasonableness": {
+    "pointwise_threshold": 0.15,
+    "rms_threshold": 0.05,
+    "decision": "retain_strict_gate",
+    "basis": "window shifts do not improve RMS; late overshoot persists; integrated mass cannot replace instantaneous tracking"
+  }
+}

@@ -3943,3 +3943,49 @@ geometric endpoint、logarithmic endpoint 和 arithmetic-temperature-viscosity �
 `stage4_default_kp160_warmup20_feedforward_candidates_20260928_v1.json`
 SHA-256=`8D5AAA26BFDA2A1B1F218C2C11B9E8551943ED9C8CA2327554B399B94F27DC51`。
 该回执仍为离线诊断，不授权 seed、恢复、outer solve、敏感性、paired endpoint 或 Table 4。
+
+## 193. Stage4 相位局部前馈结构诊断及 20-cycle 复核（2026-09-28）
+
+为验证“固定周期端点黏度混合”是否掩盖了换阀边界的因果时序问题，在隔离诊断分支
+`stage4-phase-local-blend-diagnostic` 中加入了相位局部的周期黏度混合。该候选只改变
+Stage4 前馈取值的相位定位，不改变热容、buffer、SMA/SE 本构、温度、相分数或独立路线
+PI 记忆；源代码提交为 `1698561`，provenance/执行合同提交为 `7ebbbb1`、`fb128ca`、
+`98b1a84`。直接使用长路径运行时首先触发 Windows 260 字符的 Stateflow 构建错误，
+这是启动环境失败，不计为科学失败；改用同一工作树的 `X:` 映射后，执行合同和模型构建
+均正常完成。
+
+20-cycle 诊断包：
+`qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup`，执行提交
+`fb128caaa5b42436df598b8dd5ab41a4d7ce8b23`，raw 约 1.82 GB。该包已写入
+`REJECTED_DO_NOT_RESUME.txt`，raw 只作为隔离结构诊断证据，不得作为恢复源、outer solve、
+敏感性或 Table 4 输入；主工作区仅保留紧凑 JSON 回执和哈希目录
+`gx101r1_R69_remote/outputs_storage_audit/stage4_phase_local_blend_20260928_20cycle`。
+
+末周期结果（native/conservative 两臂一致）：
+
+- SE Stage4 平均流量 `0.0032332367019993727 kg/s`；瞬时相对误差 RMS
+  `0.06571510406795615`，最大绝对误差 `0.11577814897024863`，积分质量相对误差
+  `0.01040735643282198`；严格流量门禁失败，`selected=false`。
+- SMA 各阶段和 SE Stage2 流量、源端口、局部库存守恒、初始坐标匹配、压力范围及液压
+  诊断均通过；压力 provenance 和探针覆盖通过，但 seed gate 仍失败，因为上游流量门禁
+  未通过。动力学分类为 `low_gain_slow_tracking_bias`，不是交替数值振荡。
+- 同相位漂移诊断显示可观测量接近重复，但不能宣称周期稳态：Stage4 流量 RMS
+  `1.2371122386083083e-7 kg/s`，PI 记忆 RMS `8.955303709881408e-5 MPa`，
+  SHEX buffer 温度 RMS `0.0673104450431656 K`、末端最大漂移 `0.0924803194207584 K`。
+  因而 `periodic_steady_state_verified=false`，状态只能写为
+  `not_verifiable_from_partial_observations`。
+- 输运窗口元审计在末周期严格窗口给出 RMS `0.06568405`、最大误差
+  `0.11577815`、积分误差约 `+1.0329%`；从换阀边界后平移窗口不能降低 RMS，后移至
+  `0.8 s` 反而约 `0.07368`。因此现行 `15%` 点值和 `5%` RMS 门禁没有被证明不合理，
+  不能用积分质量误差替代瞬时跟踪，也不能通过任意选窗放宽门禁。
+
+结构结论：相位局部混合使 RMS 相比旧默认候选有所改善，但仍失败，且没有消除“换阀后
+液压/温度-黏度状态响应慢、后段超调”的主矛盾。问题层级已从端点平均公式上移到控制输入
+时序、沿程输运和有效驻留时间不匹配；继续盲扫单一 Kp/Ki 或继续替换闭合平均公式没有
+充分依据。下一结构诊断应优先验证输运时间尺度一致的预充压/因果时序，或沿入口状态的
+温度-黏度前馈，并同时保留边界瞬态、严格瞬时跟踪和积分质量三类指标。该候选未通过
+seed、periodic、production/recovery、outer solve、paired endpoint 或 Table 4，
+不得称为 validated、reproduced 或 strict Table 4 reproduction。
+
+证据治理回执及 SHA-256 清单见：
+`gx101r1_R69_remote/outputs_storage_audit/stage4_phase_local_blend_20260928_20cycle_manifest.json`。
