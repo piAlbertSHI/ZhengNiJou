@@ -1,0 +1,126 @@
+{
+  "schema": "heatdrive_ecc_stage4_causal_response_native_only_v1",
+  "diagnostic_only": true,
+  "collection_complete": false,
+  "missing_arm": "conservative",
+  "execution_metadata_reconstructed": true,
+  "execution": {
+    "schema": "heatdrive_ecc_independent_cold_diagnostic_execution_reconstructed_v1",
+    "execution_commit": "af4f2e09e3cc19ebcf0009e8a5cdb85afd75c770",
+    "cycle_count": 20,
+    "duration_s": 200.0,
+    "c200_state_imported": false,
+    "checkpoint_saved": false,
+    "production_recovery_allowed": false,
+    "collection_pass": false,
+    "completed_arms": [
+      "native"
+    ],
+    "missing_arms": [
+      "conservative"
+    ],
+    "reconstruction_basis": "launcher invocation and completed native observation; original root execution contract was not emitted"
+  },
+  "arm": {
+    "observations_sha256": "4D4340CCAF6CDD36328132C34E8E94D48FBF50A944E8229F2487D3A95C02727A",
+    "grid_dt_s": 0.0010000000000047748,
+    "analysis_cycle_index": 19,
+    "analysis_cycle_start_s": 190.0,
+    "window": {
+      "start_s": 198.80100000000002,
+      "stop_s": 199.85,
+      "duration_s": 1.0489999999999782,
+      "samples": 1050
+    },
+    "transport_time_scale": {
+      "active_se_mass_kg": 0.04181683646625444,
+      "mean_window_flow_kgps": 0.003198135586068983,
+      "estimated_residence_s": 13.075379495606057,
+      "window_to_residence_ratio": 0.08022711695308664,
+      "window_shorter_than_residence": true
+    },
+    "flow_shape": {
+      "mean_kgps": 0.003198135586068983,
+      "rms_relative_error": 0.08090223294729522,
+      "max_abs_relative_error": 0.1325603744393966,
+      "peak_abs_error_time_s": 199.85,
+      "mean_abs_slope_kgps2": 0.0007931125224647346,
+      "reverse_flow_fraction": 0.0
+    },
+    "lagged_correlations": {
+      "pressure_to_flow_error": {
+        "lag_s": -0.42400000000202454,
+        "correlation": 0.9996843912681908,
+        "search_limit_s": 0.5,
+        "boundary_limited": false
+      },
+      "dynamic_feedforward_to_flow_error": {
+        "lag_s": -0.5000000000023874,
+        "correlation": 0.9979771822427591,
+        "search_limit_s": 0.5,
+        "boundary_limited": true
+      },
+      "inlet_temperature_to_flow_error": {
+        "lag_s": -0.42400000000202454,
+        "correlation": 0.9996847617414163,
+        "search_limit_s": 0.5,
+        "boundary_limited": false
+      },
+      "outlet_temperature_to_flow_error": {
+        "lag_s": -0.5000000000023874,
+        "correlation": 0.9979346005773465,
+        "search_limit_s": 0.5,
+        "boundary_limited": true
+      },
+      "integrator_to_flow_error": {
+        "lag_s": -0.5000000000023874,
+        "correlation": 0.9827457596621619,
+        "search_limit_s": 0.5,
+        "boundary_limited": true
+      },
+      "route_integral_to_flow_error": {
+        "lag_s": -0.5000000000023874,
+        "correlation": 0.9827457596621619,
+        "search_limit_s": 0.5,
+        "boundary_limited": true
+      }
+    },
+    "detrended_zero_lag_correlations": {
+      "pressure_to_flow_error": 0.20022267522373102,
+      "dynamic_feedforward_to_flow_error": 0.1672010713328634,
+      "outlet_temperature_to_flow_error": 0.16668621147446966,
+      "integrator_to_flow_error": 0.015674526977099285
+    },
+    "controller_state_ranges": {
+      "pressure_command_MPa": [
+        -0.43552163629540375,
+        -0.29175557566545485
+      ],
+      "dynamic_feedforward": [
+        -0.17365845158224674,
+        -0.1642836277589386
+      ],
+      "integrator_state": [
+        -0.22514456983531664,
+        -0.19446441077037965
+      ],
+      "route_integral": [
+        -0.22514456983531664,
+        -0.19446441077037965
+      ],
+      "inlet_temperature_K": [
+        303.9663019461034,
+        303.99817220421426
+      ],
+      "outlet_temperature_K": [
+        265.82945637164664,
+        270.2510740137964
+      ]
+    }
+  },
+  "production_recovery_allowed": false,
+  "diagnostic_20cycle_seed_eligible": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false
+}

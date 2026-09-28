@@ -1,0 +1,88 @@
+{
+  "schema": "heatdrive_ecc_stage4_boundary_transient_native_only_v1",
+  "diagnostic_only": true,
+  "collection_complete": false,
+  "missing_arm": "conservative",
+  "execution_metadata_reconstructed": true,
+  "execution": {
+    "schema": "heatdrive_ecc_independent_cold_diagnostic_execution_reconstructed_v1",
+    "execution_commit": "af4f2e09e3cc19ebcf0009e8a5cdb85afd75c770",
+    "cycle_count": 20,
+    "duration_s": 200.0,
+    "c200_state_imported": false,
+    "checkpoint_saved": false,
+    "production_recovery_allowed": false,
+    "collection_pass": false,
+    "completed_arms": [
+      "native"
+    ],
+    "missing_arms": [
+      "conservative"
+    ],
+    "reconstruction_basis": "launcher invocation and completed native observation; original root execution contract was not emitted"
+  },
+  "arm": {
+    "observations_sha256": "4D4340CCAF6CDD36328132C34E8E94D48FBF50A944E8229F2487D3A95C02727A",
+    "analysis_cycle_index": 19,
+    "analysis_cycle_start_s": 190.0,
+    "stage4_full_interval": {
+      "start_s": 198.5,
+      "stop_s": 200.0,
+      "samples": 1501,
+      "mean_flow_kgps": 0.00297539281071154,
+      "min_flow_kgps": 3.708117873235949e-12,
+      "max_flow_kgps": 0.004232523711860659,
+      "rms_relative_error": 0.2781420490159137,
+      "max_abs_relative_error": 0.9999999988412132,
+      "signed_mass_g": 4.464214768542096,
+      "reverse_flow_fraction": 0.0
+    },
+    "pre_gate_interval": {
+      "start_s": 198.5,
+      "stop_s": 198.8,
+      "samples": 301,
+      "mean_flow_kgps": 0.0018550196141754118,
+      "min_flow_kgps": 3.708117873235949e-12,
+      "max_flow_kgps": 0.004232523711860659,
+      "rms_relative_error": 0.593661961530597,
+      "max_abs_relative_error": 0.9999999988412132,
+      "signed_mass_g": 0.5569648808283701,
+      "reverse_flow_fraction": 0.0
+    },
+    "strict_gate_interval": {
+      "start_s": 198.80100000000002,
+      "stop_s": 199.85,
+      "samples": 1050,
+      "mean_flow_kgps": 0.003198135586068983,
+      "min_flow_kgps": 0.002792218162140576,
+      "max_flow_kgps": 0.0036241931982060696,
+      "rms_relative_error": 0.08090223294729522,
+      "max_abs_relative_error": 0.1325603744393966,
+      "signed_mass_g": 3.3548341596921896,
+      "reverse_flow_fraction": 0.0
+    },
+    "post_gate_interval": {
+      "start_s": 199.85,
+      "stop_s": 200.0,
+      "samples": 151,
+      "mean_flow_kgps": 0.003664142601569509,
+      "min_flow_kgps": 0.0036241931982060696,
+      "max_flow_kgps": 0.00369968066811288,
+      "rms_relative_error": 0.1452153605692123,
+      "max_abs_relative_error": 0.15615020878527486,
+      "signed_mass_g": 0.5496235959038567,
+      "reverse_flow_fraction": 0.0
+    },
+    "first_continuous_in_band_from_boundary_s": {
+      "within_5pct": 0.6520000000000152,
+      "within_15pct": 0.1220000000000141
+    },
+    "boundary_transient_dominates_gate": false,
+    "production_gate_unchanged": true
+  },
+  "production_recovery_allowed": false,
+  "seed_eligible": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false
+}

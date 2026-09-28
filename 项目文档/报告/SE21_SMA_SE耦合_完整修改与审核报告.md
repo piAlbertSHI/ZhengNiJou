@@ -4081,3 +4081,38 @@ Kp/Ki。
 下一步是将该结构修复提升到主线后，运行全新 20-cycle 冷态诊断，并首次同时审核周期
 漂移、全装置质量/能量闭合和末周期流量门禁；在这些门禁通过前不进入恢复链、outer solve
 或敏感性分析。
+
+## 197. 单一目标合同 20-cycle 执行完整性审计（2026-09-29）
+
+对上一节结构修复进行了全新 `DiagnosticCycleCount=20` 冷态执行，参数保持
+Stage2 Kp=`-126`、Stage4 Kp=`-160`、Stage4 Ki=`-255`、端点黏度混合
+`1 -> 0`（`8.5--10.0 s`），不导入 C200、不保存 checkpoint，也不替换热容、buffer、
+本构、温度、相分数或独立路线 PI 记忆。执行目录为隔离 worktree 中的
+`qian_coupled_stage4_single_target_contract_20260928_20cycle`。
+
+本次首先暴露的是执行/收集层问题，而不是一个可判定的双臂科学失败：native arm 已保存完整
+至 `200.001 s` 的观测，SHA-256=`4D4340CCAF6CDD36328132C34E8E94D48FBF50A944E8229F2487D3A95C02727A`；
+但 conservative arm 的 `observations.mat`、根目录 `cold_chamber_execution.json` 和
+`launcher_contract.json` 均未生成。因此本次运行的 `collection_pass=false`，完整双臂
+mechanism/periodic/seed 门禁没有被评估，不能将其称为 20-cycle 科学拒绝，也不能把 native
+单臂数据升级为恢复源。raw 目录已写入 `ABORTED_BEFORE_TWO_ARM_COLLECTION.txt`，明确禁止
+seed 和 recovery。
+
+对已存在的 native 第 20 周期做只读诊断，严格窗口 `198.801--199.850 s` 给出：均值
+`0.003198135586 kg/s`，RMS 相对误差 `8.0902%`，最大绝对误差 `13.2560%`，积分质量
+相对误差 `-0.0586%`，无反向流和交替采样振荡。边界瞬态不主导严格窗口；最大误差虽低于
+`15%` 点值上限，但 RMS 超过 `5%`，所以现行双门禁仍未显示不合理，且积分质量不能替代
+瞬时入口跟踪。native 同相位观测显示 Stage4 流量 RMS 漂移约 `1.14e-7 kg/s`、路线 PI
+记忆 RMS 漂移约 `1.10e-4 MPa`，但 SHEX buffer 温度 RMS 漂移约 `0.0673 K`、末端漂移
+约 `0.0925 K`；完整周期稳态和首定律仍未验证。
+
+这次失败的高层结论是：上一轮的重复目标修复仍然有效，但长算的两臂收集合同不具备中途
+持久化，运行中断后会留下部分 raw 而没有权威状态。已在主线提交
+`be95c67 Persist per-arm cold diagnostic progress`：每个 arm 保存独立完成合同，并在根目录
+写入 `cold_chamber_progress.json`；这些文件只记录完成边界，不授权任何科学门禁。下一次
+验证必须使用全新输出目录、同一物理参数和新收集合同，先确认 native/conservative 两臂及
+完整 execution contract 均存在，再审核末周期流量、周期漂移、质量/能量闭合和 seed gate；
+在此之前不进入生产恢复、outer solve、敏感性或 Table 4。
+
+紧凑证据、哈希和收集状态见：
+`gx101r1_R69_remote/outputs_storage_audit/stage4_single_target_contract_20260928_20cycle/`。

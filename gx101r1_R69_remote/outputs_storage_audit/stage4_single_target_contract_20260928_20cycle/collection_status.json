@@ -1,0 +1,21 @@
+{
+  "schema": "heatdrive_ecc_stage4_collection_status_v1",
+  "status": "aborted_before_two_arm_collection",
+  "root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260928_20cycle",
+  "execution_commit": "af4f2e09e3cc19ebcf0009e8a5cdb85afd75c770",
+  "cycle_count": 20,
+  "duration_s": 200.0,
+  "completed_arms": [
+    "native"
+  ],
+  "missing_arms": [
+    "conservative"
+  ],
+  "native_observations_sha256": "4D4340CCAF6CDD36328132C34E8E94D48FBF50A944E8229F2487D3A95C02727A",
+  "native_observations_complete_to_s": 200.001,
+  "cold_chamber_execution_present": false,
+  "launcher_contract_present": false,
+  "scientific_gate_evaluated": false,
+  "do_not_use_as_seed": true,
+  "do_not_use_for_recovery": true
+}

@@ -1,0 +1,60 @@
+{
+  "schema": "stage4_single_target_contract_20cycle_collection_manifest_v1",
+  "status": "aborted_before_two_arm_collection",
+  "candidate": "remove_duplicate_se_cooldown_target",
+  "execution_commit": "af4f2e09e3cc19ebcf0009e8a5cdb85afd75c770",
+  "collection_contract_fix_commit": "be95c67",
+  "raw_evidence": {
+    "isolated_worktree": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260928_20cycle",
+    "cycle_count": 20,
+    "duration_s": 200,
+    "c200_state_imported": false,
+    "checkpoint_saved": false,
+    "completed_arms": ["native"],
+    "missing_arms": ["conservative"],
+    "cold_chamber_execution_present": false,
+    "launcher_contract_present": false,
+    "native_observations_sha256": "4D4340CCAF6CDD36328132C34E8E94D48FBF50A944E8229F2487D3A95C02727A",
+    "aborted_marker_sha256": "FD5E3D594F153F4D9BE7C4DD16856D35132EA89CDA6ED0AA886EC83A3C5F2C57"
+  },
+  "native_only_diagnostic": {
+    "strict_window_s": [198.801, 199.85],
+    "mean_flow_kgps": 0.003198135586068983,
+    "target_flow_kgps": 0.0032,
+    "rms_relative_error": 0.08090223294729522,
+    "max_abs_relative_error": 0.1325603744393966,
+    "integrated_signed_mass_relative_error": -0.0005856292623154236,
+    "reverse_flow_fraction": 0.0,
+    "alternating_mode_detected": false,
+    "boundary_transient_dominates_gate": false,
+    "active_se_residence_s": 13.075379495606057,
+    "window_to_residence_ratio": 0.08022711695308664,
+    "periodic_status": "not_verifiable_from_partial_observations",
+    "full_device_first_law_verified": false
+  },
+  "audit_reasonableness": {
+    "pointwise_limit": 0.15,
+    "rms_limit": 0.05,
+    "native_pointwise_pass": true,
+    "native_rms_pass": false,
+    "integrated_mass_not_substitute_for_instantaneous_gate": true,
+    "gate_relaxed": false,
+    "reason": "The strict window is not boundary-transient dominated; RMS failure persists despite acceptable integrated mass and pointwise maximum."
+  },
+  "evidence_sha256": {
+    "collection_status.json": "2A707B616923157F8A76CCB3DD48266F9ACCA9DB3A486E6EFF75263ACA22F054",
+    "native_boundary_transient.json": "34FB43FD5F88499472B475DAD3CCB5EC2394E63E77FF296E49A8160327A282C9",
+    "native_causal_response.json": "3A07E24AAB599063FD65371C6393BD826DE8640BB0B8379D7311A2DE09DCA5D1",
+    "native_controller_dynamics.json": "1A56331D12EA5C9AB470FFDEEBC10A013C5C5D84B9BE21643915DD338FCDDF24",
+    "native_cycle_drift.json": "ED61F90095A2081A9CDF6FAC12DD5A0E875A9544B250F35E2F3685E22A1E7813",
+    "native_probe_coverage.json": "D5F4FCEE7D8719D146267A2E4D30968FDB89E7A29C75E478CDADA81DCD1D56AE"
+  },
+  "decision": {
+    "production_recovery_allowed": false,
+    "diagnostic_20cycle_seed_eligible": false,
+    "outer_solve_eligible": false,
+    "paired_table4_eligible": false,
+    "table4_reproduction_claim": false,
+    "next_action": "rerun from a fresh output root after per-arm progress-contract fix, then require both arms and full execution contract before scientific gates"
+  }
+}
