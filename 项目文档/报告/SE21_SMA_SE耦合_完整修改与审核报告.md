@@ -3989,3 +3989,31 @@ seed、periodic、production/recovery、outer solve、paired endpoint 或 Table 
 
 证据治理回执及 SHA-256 清单见：
 `gx101r1_R69_remote/outputs_storage_audit/stage4_phase_local_blend_20260928_20cycle_manifest.json`。
+
+## 194. Stage4 控制时序与流量门禁静态合同审计（2026-09-28）
+
+对相位局部候选所用的模型生成器、运行参数和验证器进行了跨层静态核对，目的不是为失败
+结果寻找放宽理由，而是判断审计指标是否测错对象或控制合同是否自相矛盾。
+
+审计确认三点：
+
+1. 严格门禁使用的 `mdot_SE_stage4_in_kgps` 来自 `V4_hot_inlet`，该端口直接位于
+   `SE_Stage4_PistonPressureSource` 的路线入口之后；它不是 SE 床层出口信号。因此“床层
+   驻留时间较长”不能直接替代入口流量跟踪门禁。
+2. Stage4 目标流量和独立 Stage4 PI 积分器的启用条件都依赖“Stage4 阀列已打开”且
+   `abs(se_pressure_bias)` 超过 active floor。换阀代码在旧路线关闭、新路线开启期间将
+   SE pressure bias 保持为 `se_switch_pressure_MPa`；当前切换压力为零，所以阀已开始打开
+   时目标和积分器仍保持关闭，直到换阀末段压力偏置才开始爬升。这解释了观测到的
+   “窗口前低流量、随后快速上升及后段超调”现象，属于时序合同问题，不是单纯黏度闭合问题。
+3. 验证器把 SE settled 起点设为 `se_settled_guard_s + fixed_step`，当前 guard 为
+   `0.30 s`，并另行保留 `stage_command_ramp_s` 的边界保护；现有 15% pointwise、5%
+   RMS 双门禁与末周期窗口平移审计共同作用，尚未显示存在系统性误判。不能用积分质量误差
+   替代瞬时入口跟踪，也不能因可观测量近周期重复就宣称 periodic steady state。
+
+附加静态审计回执：
+`gx101r1_R69_remote/outputs_storage_audit/stage4_control_contract_static_audit_20260928.json`。
+
+下一结构候选定义为“独立冷态、无 C200 恢复的 Stage4 换阀预充/因果时序诊断”：只允许改变
+换阀期间的压力预充和启用相位，必须同时输出阀开度、压力源 A/B、目标启用、PI 两路线记忆、
+入口流量、出口流量和能量/库存回执。候选若不能在相同门禁下改善入口跟踪且不引入跨路线串扰，
+立即拒绝；在该候选通过前，不进入 20-cycle 生产恢复、outer solve、敏感性或 Table 4。

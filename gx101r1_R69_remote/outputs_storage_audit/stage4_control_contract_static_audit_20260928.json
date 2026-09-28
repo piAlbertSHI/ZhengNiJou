@@ -1,0 +1,38 @@
+{
+  "schema": "heatdrive_ecc_stage4_control_contract_static_audit_v1",
+  "created_at": "2026-09-28",
+  "candidate_context": "stage4_phase_local_blend_20260928_20cycle",
+  "status": "diagnostic_contract_issue_identified",
+  "source_files": {
+    "profile_builder": "gx101r1_R69_remote/Integrate_HeatDriveECC_Constitutive21_Interface.m",
+    "simulink_builder": "gx101r1_R69_remote/Build_HeatDriveECC_EighthRound_Simulink_Model.m",
+    "exchange_params": "gx101r1_R69_remote/Build_Simulink_Exchange_Params.m",
+    "validator": "gx101r1_R69_remote/Validate_HeatDriveECC_EighthRound_Physics.m"
+  },
+  "findings": [
+    {
+      "id": "flow_gate_signal_location",
+      "finding": "SE Stage4 gate uses mdot_SE_stage4_in_kgps mapped to V4_hot_inlet immediately downstream of the Stage4 piston pressure source; it is not a bed outlet signal.",
+      "implication": "Bed residence time cannot by itself waive the inlet tracking gate."
+    },
+    {
+      "id": "stage4_activation_dead_time",
+      "finding": "SE Stage4 target and Stage4 integrator enable require active valve columns and nonzero pressure bias above the active floor; commutation holds pressure bias at the zero switch pressure until the final ramp.",
+      "implication": "New-valve opening precedes effective target/PI activation, creating a causal dead-time candidate."
+    },
+    {
+      "id": "gate_reasonableness",
+      "finding": "The 0.30 s settled guard, 15% pointwise limit, 5% RMS limit, and final-cycle window shifts were checked together.",
+      "implication": "No evidence supports relaxing the instantaneous gate or replacing it with integrated mass error."
+    }
+  ],
+  "decision": {
+    "retain_flow_gate": true,
+    "allow_c200_recovery": false,
+    "allow_production_recovery": false,
+    "allow_outer_solve": false,
+    "allow_sensitivity": false,
+    "allow_table4_claim": false,
+    "next_diagnostic": "independent_cold_stage4_commutation_precharge_causal_timing"
+  }
+}
