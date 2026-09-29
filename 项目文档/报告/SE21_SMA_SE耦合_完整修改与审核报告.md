@@ -4185,6 +4185,23 @@ CHEX/SHEX/HHEX 的边界统一采用相同质量基准和时间窗口。
 证据；SHEX/HHEX/CHEX 下游流体、buffers、管路库存与三路泵的统一时间分辨率能量账本仍为
 partial。故 `outer_solve_eligible=false`、`paired_table4_eligible=false` 保持不变。
 
+## 202. 三路泵功统一边界审计（2026-09-30）
+
+在同一完整 20-cycle native observation 上扩展泵功控制体审计，覆盖 SMA Stage1/Stage3、
+SE Stage2/Stage4 四个活动路线窗口。四个窗口的压力源与 A/B 压力探针、A/B 质量流量
+均闭合，质量平衡作为主守恒判据；`q_A+q_B` 仅作为密度/可压缩性诊断，不替代质量账本。
+
+按 `P*q_A` 重建的派生液压功均值分别为：SE Stage2 `0.57630 W`、SE Stage4 `1.17174 W`、
+SMA Stage1 `12.88648 W`、SMA Stage3 `11.09572 W`。四路 source `power` 均恒为 `0`，
+说明当前模型的 direct pump-power channel 不可观测；这些数值只能标为 derived hydraulic
+power，不能冒充泵电功或完整整机泵功。
+
+回执为
+`gx101r1_R69_remote/outputs_storage_audit/stage4_single_target_contract_20260929_20cycle_progress_contract_all_pump_work_boundaries.json`，SHA-256 为
+`CAD63843DD035C9EC3295E1264E2C4ADA5905944704E6D1F3ADC2884AFB85237`。该四路局部闭合
+推进了控制体表，但不改变下游 SHEX/HHEX/CHEX 热流、buffer/管路库存和整机第一定律
+尚未闭合的判定；outer solve 与 paired Table4 继续禁止。
+
 紧凑证据、哈希和收集状态见：
 `gx101r1_R69_remote/outputs_storage_audit/stage4_single_target_contract_20260928_20cycle/`。
 
