@@ -4114,6 +4114,38 @@ seed 和 recovery。
 完整 execution contract 均存在，再审核末周期流量、周期漂移、质量/能量闭合和 seed gate；
 在此之前不进入生产恢复、outer solve、敏感性或 Table 4。
 
+## 199. Stage4 settled-core 积分门控与时间轴审计（2026-09-30）
+
+针对 §198 暴露的跨周期路线 PI 记忆漂移，隔离分支依次验证了“Stage2/Stage4 仅在
+settled core 内积分”的结构候选。该候选不导入 C200，不重置或替换热容、buffer、本构、
+温度、相分数或独立路线 PI 记忆。过程中发现两个实现层问题并完成修正：其一，MATLAB
+`interp1` 不接受 logical 采样值；其二，现有模型构建审计错误地假设 P 和 I enable 必须
+共享稀疏阀门 profile 时间轴。修正后，P 通道保持活动，I gate 在固定仿真步长时间轴上
+显式表示 settled 边界，审计在 P 轴上重采样 I gate；这些修正没有放宽科学门禁。
+
+隔离提交链为 `a716fb3`、`f91b31b`、`b72b979`、`1cfc2e1`、`633721b`。最新目录
+`qian_coupled_stage4_fixedgrid_settled_i_auditgrid_20260929_2cycle` 只完成 native arm，
+其 observations SHA-256 为
+`7D48CEF83C4B58C2EF7892768432FA9B7BCBFB2945E6FA1605A75178D6231731`；conservative arm 和
+根 execution contract 未形成，因此该包的 collection/scientific gate 均为 false，已写入
+`REJECTED_INCOMPLETE_TWO_ARM_COLLECTION.txt`，不能被称为双臂科学失败或恢复源。
+
+native 结构诊断显示固定网格 I gate 确实生效：第 1 周期严格窗 RMS 相对误差约 `1.3457%`、
+最大绝对误差约 `4.8741%`；第 2 周期 RMS 约 `14.3375%`、最大绝对误差约 `37.2286%`、
+积分质量相对误差约 `-12.1953%`。与 §198 原始全阶段积分方案第 2 周期 RMS `10.8985%`
+相比，settled-core 候选更差，故拒绝，不进入 20-cycle seed、恢复、outer solve、敏感性、
+paired endpoint 或 Table 4。该结果把问题进一步上移：有效流量目标、泵压源、入口测点、
+沿程输运滞后和路线记忆没有处于同一动态坐标；继续扫描单一 Kp/Ki 或继续调整 settled
+窗口没有充分依据。
+
+### 审计合理性结论
+
+本轮仅修正了审计的类型和时间轴合同，不改变 `15%` 点值与 `5%` RMS 科学门禁。由于
+第 2 周期仍同时出现显著 RMS、最大误差和积分质量缺口，且候选本身比原始方案更差，不能
+将该失败解释为审计误判，也不能用积分质量或窗口移动替代瞬时入口跟踪。下一结构诊断应
+优先闭合“目标流量--压力源 A/B--入口/出口流量--route integral--控制体质量/能量账本”
+的输运延迟合同，再决定是否有资格进入新的双臂 20-cycle。
+
 紧凑证据、哈希和收集状态见：
 `gx101r1_R69_remote/outputs_storage_audit/stage4_single_target_contract_20260928_20cycle/`。
 
