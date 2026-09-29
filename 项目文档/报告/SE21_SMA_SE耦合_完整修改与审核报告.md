@@ -4146,6 +4146,29 @@ paired endpoint 或 Table 4。该结果把问题进一步上移：有效流量�
 优先闭合“目标流量--压力源 A/B--入口/出口流量--route integral--控制体质量/能量账本”
 的输运延迟合同，再决定是否有资格进入新的双臂 20-cycle。
 
+## 200. Stage4 泵功与控制体边界审计（2026-09-30）
+
+对 §198 完整 native observation 执行控制体级 Stage4 泵功审计。审计工具读取
+`SE_Stage4_PistonPressureSource` 的 `P`、`mdot_A/B`、`q_A/B`、`power`，以及同一周期的
+Stage4 A/B 压力探针和 `V4_hot_inlet`；源 trace 与信号原始网格不同，因此只在审计层插值
+到共同观测轴，并显式记录 `source_and_signal_grid_equal=false`。该采样合同修正不改变原始
+数据，也不授予科学门禁。
+
+末周期严格窗 `198.801--199.850 s` 的结果为：`P_source` 与 A/B 压力差最大残差约
+`1.7e-16 MPa`；`mdot_A + mdot_B=0`；`mdot_A + V4_hot_inlet=0`。`q_A+q_B` 约
+`7.16e-10 m^3/s`，这是不同端口密度/可压缩性下的体积流量差，不应被误报为质量守恒失败。
+按源边界合同重建的 `P*q_A` 液压功均值约 `1.1717 W`，但 source `power` 通道严格窗
+恒为 `0 kW`。因此当前模型能够观测压力和质量边界，却没有直接可用的声明泵功；Eq.10
+泵功若使用，必须标为 `derived hydraulic power`，不能把零 source power 当作真实泵功。
+
+### 审计合理性结论
+
+本轮修正了两类可能造成误判的审计假设：不同观测网格不等于物理不闭合；可压缩流体的
+体积流量差不等于质量不守恒。修正后的严格窗质量/压力边界一致性通过，但完整装置首定律、
+热回收和泵功合同仍未完成，所以不允许进入 Table 4 reproduction claim。下一步应将该
+`P*q` 派生泵功正式纳入控制体表和 Eq.10 账本，并对 SMA 泵、SE Stage2、SE Stage4、
+CHEX/SHEX/HHEX 的边界统一采用相同质量基准和时间窗口。
+
 紧凑证据、哈希和收集状态见：
 `gx101r1_R69_remote/outputs_storage_audit/stage4_single_target_contract_20260928_20cycle/`。
 
