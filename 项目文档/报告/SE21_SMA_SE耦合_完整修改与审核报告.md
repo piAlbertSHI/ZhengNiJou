@@ -4244,3 +4244,23 @@ solve、敏感性、paired endpoint 或 Table 4 输入。紧凑执行合同、�
 `gx101r1_R69_remote/outputs_storage_audit/stage4_single_target_contract_20260929_20cycle_progress_contract/`。
 下一阶段应先完成路线 PI 记忆/热液压时序的模型级合同审计，并将 full-device first-law
 与周期门禁作为一体化验收条件；不再对当前控制链做无依据的局部增益扫描。
+
+## 203. 观测热边界可用性审计（2026-09-30）
+
+对完整双臂 20-cycle native observation 执行只读热边界盘点。输入哈希为
+`F7CC0D808CC4DE6301AAD485CFA0AB89B506EB2FA634AAD0E4B5820D15464D38`，末周期窗口为
+`190.0--200.0 s`。所有有效信号共享 `0.001 s` 时间网格。SHEX source/fluid 热流、SMA/SE
+路线质量流、HHEX 两条质量流和 CHEX 质量流均可观测；HHEX/CHEX 流体热流仍缺失。
+
+本构热流在 MAT 中以 `21 x N` 节点矩阵保存。本轮读取器沿节点维求和，修正了将矩阵展平后
+误报为缺失的审计实现问题。SMA 与 SE 本构热流节点和末周期均值约为 `-3.494 W` 与
+`3.495 W`；SHEX source/fluid 热流均值约 `825.906 W`；CHEX 的质量换热功率代理均值约
+`12.604 W`。这些只是可读性和量级证据，不构成整机首定律闭合。
+
+当前审计明确拒绝用配置量代替热流、用 CHEX 质量功率代理代替 CHEX 流体热流、或用缓冲
+温度代替流体库存能量。因此 `full_device_first_law_observable=false`、
+`full_device_first_law_verified=false`、`periodic_steady_state_verified=false`、
+`seed_eligible=false`、`outer_solve_eligible=false`、`paired_table4_eligible=false` 和
+`table4_reproduction_claim=false` 均保持。下一步应在模型级补齐 HHEX/CHEX 流体热流、入口/出口
+焓流、管路/缓冲库存和派生泵功的统一账本，再进行新的双臂冷态诊断；不继续做无依据的单一
+PI 增益扫描。
