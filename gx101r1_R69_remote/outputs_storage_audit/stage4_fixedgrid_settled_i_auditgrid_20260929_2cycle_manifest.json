@@ -1,0 +1,24 @@
+{
+  "schema": "heatdrive_ecc_stage4_settled_integrator_incomplete_collection_manifest_v1",
+  "status": "incomplete_two_arm_collection_and_candidate_rejected",
+  "execution_commit": "633721b45717674d484215eeef6c164f93f43594",
+  "raw_output_root": "C:/Users/86182/.codex/worktrees/stage4-phase-local-blend-diagnostic/正逆耦合/gx101r1_R69_remote/outputs/qian_coupled_stage4_fixedgrid_settled_i_auditgrid_20260929_2cycle",
+  "native_observations_sha256": "7D48CEF83C4B58C2EF7892768432FA9B7BCBFB2945E6FA1605A75178D6231731",
+  "native_arm_complete": true,
+  "conservative_arm_complete": false,
+  "collection_pass": false,
+  "scientific_gate_evaluated": false,
+  "production_recovery_allowed": false,
+  "diagnostic_20cycle_seed_eligible": false,
+  "do_not_use_as_seed": true,
+  "do_not_use_for_recovery": true,
+  "native_only_metrics": {
+    "cycle_1_rms_relative_error": 0.013456712462916012,
+    "cycle_1_max_abs_relative_error": 0.04874110677313093,
+    "cycle_2_rms_relative_error": 0.14337508543960445,
+    "cycle_2_max_abs_relative_error": 0.37228554374371,
+    "cycle_2_integrated_mass_relative_error": -0.12195342157995204
+  },
+  "decision": "reject_settled_core_candidate_and_do_not_promote_to_20cycle",
+  "reason": "The fixed-grid integral gate is active, but cycle-2 tracking is worse than the original full-stage integral route; the two-arm collection contract is also incomplete."
+}
