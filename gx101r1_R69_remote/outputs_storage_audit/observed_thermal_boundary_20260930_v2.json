@@ -1,0 +1,894 @@
+{
+  "schema": "heatdrive_ecc_observed_thermal_boundary_audit_v1",
+  "diagnostic_only": true,
+  "source": "C:\\Users\\86182\\Desktop\\stage4-worktree\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\observations.mat",
+  "observations_sha256": "f7cc0d808cc4de6301aad485cfa0ab89b506eb2fa634aad0e4b5820d15464d38",
+  "cycle_window": {
+    "start_s": 190.0,
+    "stop_s": 200.0
+  },
+  "groups": {
+    "SHEX": {
+      "thermal": {
+        "status": "complete",
+        "requested": [
+          "shex_source_heat_flow_W",
+          "shex_fluid_heat_flow_W"
+        ],
+        "signals": {
+          "shex_source_heat_flow_W": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 825.9063281472985,
+              "rms": 1609.3759562407147,
+              "min": 0.25086695093642275,
+              "max": 4893.174886603254,
+              "integral": 8259.888933055898
+            }
+          },
+          "shex_fluid_heat_flow_W": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 825.9063284338438,
+              "rms": 1632.4113377815618,
+              "min": 0.24870733829448,
+              "max": 6818.050014412263,
+              "integral": 8259.888937590867
+            }
+          }
+        }
+      },
+      "temperature": {
+        "status": "complete",
+        "requested": [
+          "shex_buffer_temp_out",
+          "SHEX_hot_hx_inlet_fluid_temp_out",
+          "SHEX_hot_hx_outlet_fluid_temp_out"
+        ],
+        "signals": {
+          "shex_buffer_temp_out": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 383.9921580520686,
+              "rms": 384.1937249273783,
+              "min": 307.0325667078143,
+              "max": 392.50451210556315,
+              "integral": 3839.9161037477743
+            }
+          },
+          "SHEX_hot_hx_inlet_fluid_temp_out": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 389.6341209048265,
+              "rms": 389.678734255291,
+              "min": 371.08630929517517,
+              "max": 393.0225023900423,
+              "integral": 3896.3378383637637
+            }
+          },
+          "SHEX_hot_hx_outlet_fluid_temp_out": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 383.9921580520686,
+              "rms": 384.1937249273783,
+              "min": 307.0325667078143,
+              "max": 392.50451210556315,
+              "integral": 3839.9161037477743
+            }
+          }
+        }
+      },
+      "mass_flow": {
+        "status": "complete",
+        "requested": [
+          "mass_flow_sma_stage1_route_kgps"
+        ],
+        "signals": {
+          "mass_flow_sma_stage1_route_kgps": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": -0.02494612789955401,
+              "rms": 0.03552763749748924,
+              "min": -0.050790798273081,
+              "max": -9.202034829556418e-12,
+              "integral": -0.24948622494652686
+            }
+          }
+        }
+      }
+    },
+    "HHEX": {
+      "thermal": {
+        "status": "missing",
+        "requested": [
+          "hhex_fluid_heat_flow_W"
+        ],
+        "signals": {
+          "hhex_fluid_heat_flow_W": {
+            "grid": {
+              "present": false,
+              "finite": false,
+              "uniform": false
+            },
+            "final_cycle": {
+              "present": false
+            }
+          }
+        }
+      },
+      "temperature": {
+        "status": "complete",
+        "requested": [
+          "hot_hx_inlet_fluid_temp_out",
+          "hot_hx_outlet_fluid_temp_out",
+          "hhex_sma_branch_inlet_fluid_temp_out",
+          "hhex_sma_branch_outlet_fluid_temp_out"
+        ],
+        "signals": {
+          "hot_hx_inlet_fluid_temp_out": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 304.17251491875413,
+              "rms": 304.17265486143356,
+              "min": 303.7511896170149,
+              "max": 305.1287736455165,
+              "integral": 3041.725272683959
+            }
+          },
+          "hot_hx_outlet_fluid_temp_out": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 305.59562698777745,
+              "rms": 305.61802209868694,
+              "min": 303.1638647779004,
+              "max": 317.7659807915579,
+              "integral": 3055.9578600813875
+            }
+          },
+          "hhex_sma_branch_inlet_fluid_temp_out": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 309.5281786349225,
+              "rms": 309.59730395025684,
+              "min": 304.287000323736,
+              "max": 327.5132596658129,
+              "integral": 3095.2855334015203
+            }
+          },
+          "hhex_sma_branch_outlet_fluid_temp_out": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 313.66781233611255,
+              "rms": 313.9348738540669,
+              "min": 303.5545430206915,
+              "max": 386.2997657265664,
+              "integral": 3136.6846949711685
+            }
+          }
+        }
+      },
+      "mass_flow": {
+        "status": "complete",
+        "requested": [
+          "mass_flow_sma_stage3_route_kgps",
+          "mass_flow_v3_sma_to_hot_kgps"
+        ],
+        "signals": {
+          "mass_flow_sma_stage3_route_kgps": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": -0.025224831197237462,
+              "rms": 0.03595932519187269,
+              "min": -0.054476515368652764,
+              "max": 8.765070110220468e-12,
+              "integral": -0.2522200529691918
+            }
+          },
+          "mass_flow_v3_sma_to_hot_kgps": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 0.000462649956156641,
+              "rms": 0.0012204383372518234,
+              "min": -9.22051218122432e-07,
+              "max": 0.006555488259669313,
+              "integral": 0.004626962179829011
+            }
+          }
+        }
+      }
+    },
+    "CHEX": {
+      "thermal": {
+        "status": "partial",
+        "requested": [
+          "chex_fluid_heat_flow_W",
+          "Qdot_cold_sink_mass_to_hx_pipe_W",
+          "Qdot_cold_sink_mass_to_pipe_W"
+        ],
+        "signals": {
+          "chex_fluid_heat_flow_W": {
+            "grid": {
+              "present": false,
+              "finite": false,
+              "uniform": false
+            },
+            "final_cycle": {
+              "present": false
+            }
+          },
+          "Qdot_cold_sink_mass_to_hx_pipe_W": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 12.603724903634815,
+              "rms": 32.62097768415743,
+              "min": 0.3448131195073074,
+              "max": 101.64460350823356,
+              "integral": 125.99995274632167
+            }
+          },
+          "Qdot_cold_sink_mass_to_pipe_W": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 12.603724903634815,
+              "rms": 32.62097768415743,
+              "min": 0.3448131195073074,
+              "max": 101.64460350823356,
+              "integral": 125.99995274632167
+            }
+          }
+        }
+      },
+      "temperature": {
+        "status": "complete",
+        "requested": [
+          "cold_hx_inlet_fluid_temp_out",
+          "cold_hx_outlet_fluid_temp_out",
+          "cold_sink_temp_out",
+          "cold_buffer_temp_out"
+        ],
+        "signals": {
+          "cold_hx_inlet_fluid_temp_out": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 276.2139317803888,
+              "rms": 276.2139975259288,
+              "min": 275.62549773561176,
+              "max": 276.46648194392407,
+              "integral": 2762.13980023901
+            }
+          },
+          "cold_hx_outlet_fluid_temp_out": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 274.9646902094843,
+              "rms": 274.9807710540895,
+              "min": 265.8294792622435,
+              "max": 276.821249065808,
+              "integral": 2749.6495380189253
+            }
+          },
+          "cold_sink_temp_out": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 276.95000000000005,
+              "rms": 276.94999999999993,
+              "min": 276.95,
+              "max": 276.95,
+              "integral": 2769.499999999999
+            }
+          },
+          "cold_buffer_temp_out": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 276.2980153472877,
+              "rms": 276.2980802070533,
+              "min": 275.6254724892445,
+              "max": 276.46645843361,
+              "integral": 2762.98071996967
+            }
+          }
+        }
+      },
+      "mass_flow": {
+        "status": "complete",
+        "requested": [
+          "mass_flow_v6_sma_to_chip_cold_kgps"
+        ],
+        "signals": {
+          "mass_flow_v6_sma_to_chip_cold_kgps": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 0.0004631473488970077,
+              "rms": 0.0012228896895593703,
+              "min": -1.451501296677452e-07,
+              "max": 0.004232490832461208,
+              "integral": 0.004628237248475665
+            }
+          }
+        }
+      }
+    },
+    "SMA_SE_constitutive": {
+      "thermal": {
+        "status": "complete",
+        "requested": [
+          "ECC_Q_SMA_constitutive_W",
+          "ECC_Q_SE_constitutive_W"
+        ],
+        "signals": {
+          "ECC_Q_SMA_constitutive_W": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": -3.4938468036055164,
+              "rms": 869.1185546434899,
+              "min": -13815.198145878489,
+              "max": 2988.2975834349836,
+              "integral": -34.941961882209625
+            }
+          },
+          "ECC_Q_SE_constitutive_W": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 3.494777529127747,
+              "rms": 223.37994003322058,
+              "min": -896.3813654349261,
+              "max": 2595.45357106017,
+              "integral": 34.95127006911201
+            }
+          }
+        }
+      },
+      "temperature": {
+        "status": "complete",
+        "requested": [
+          "hot_buffer_temp_out",
+          "cold_buffer_temp_out"
+        ],
+        "signals": {
+          "hot_buffer_temp_out": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 304.15501652023687,
+              "rms": 304.1551545635695,
+              "min": 303.75578390019507,
+              "max": 305.1288880459916,
+              "integral": 3041.550272995876
+            }
+          },
+          "cold_buffer_temp_out": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 276.2980153472877,
+              "rms": 276.2980802070533,
+              "min": 275.6254724892445,
+              "max": 276.46645843361,
+              "integral": 2762.98071996967
+            }
+          }
+        }
+      },
+      "mass_flow": {
+        "status": "complete",
+        "requested": [],
+        "signals": {}
+      }
+    },
+    "boundary_and_pump": {
+      "thermal": {
+        "status": "complete",
+        "requested": [
+          "Qdot_cold_sink_mass_to_hx_pipe_W",
+          "Qdot_cold_sink_mass_to_pipe_W"
+        ],
+        "signals": {
+          "Qdot_cold_sink_mass_to_hx_pipe_W": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 12.603724903634815,
+              "rms": 32.62097768415743,
+              "min": 0.3448131195073074,
+              "max": 101.64460350823356,
+              "integral": 125.99995274632167
+            }
+          },
+          "Qdot_cold_sink_mass_to_pipe_W": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 12.603724903634815,
+              "rms": 32.62097768415743,
+              "min": 0.3448131195073074,
+              "max": 101.64460350823356,
+              "integral": 125.99995274632167
+            }
+          }
+        }
+      },
+      "temperature": {
+        "status": "complete",
+        "requested": [
+          "hot_buffer_temp_out",
+          "cold_buffer_temp_out"
+        ],
+        "signals": {
+          "hot_buffer_temp_out": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 304.15501652023687,
+              "rms": 304.1551545635695,
+              "min": 303.75578390019507,
+              "max": 305.1288880459916,
+              "integral": 3041.550272995876
+            }
+          },
+          "cold_buffer_temp_out": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 276.2980153472877,
+              "rms": 276.2980802070533,
+              "min": 275.6254724892445,
+              "max": 276.46645843361,
+              "integral": 2762.98071996967
+            }
+          }
+        }
+      },
+      "mass_flow": {
+        "status": "complete",
+        "requested": [
+          "mass_flow_v4_hot_inlet_kgps",
+          "mass_flow_v1_cold_inlet_kgps"
+        ],
+        "signals": {
+          "mass_flow_v4_hot_inlet_kgps": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 0.0004631595936564068,
+              "rms": 0.0012229011022839714,
+              "min": -1.4515007052825428e-07,
+              "max": 0.004232523711860659,
+              "integral": 0.0046283596887727145
+            }
+          },
+          "mass_flow_v1_cold_inlet_kgps": {
+            "grid": {
+              "present": true,
+              "finite": true,
+              "uniform": true,
+              "sample_count": 200001,
+              "start_s": 0.0,
+              "stop_s": 200.0,
+              "dt_s": 0.001
+            },
+            "final_cycle": {
+              "present": true,
+              "window_samples": 10001,
+              "window_start_s": 190.0,
+              "window_stop_s": 200.0,
+              "window_complete": true,
+              "finite": true,
+              "mean": 0.0004626377113972418,
+              "rms": 0.001220417926329394,
+              "min": -9.22051561476397e-07,
+              "max": 0.006555416160216652,
+              "integral": 0.0046268397395319615
+            }
+          }
+        }
+      }
+    }
+  },
+  "time_grid": {
+    "finite_uniform_grid_count": 29,
+    "distinct_finite_uniform_axes": 1,
+    "single_common_axis": true
+  },
+  "required_time_resolved_boundary_presence": {
+    "SHEX_fluid_heat": true,
+    "HHEX_fluid_heat": false,
+    "CHEX_fluid_heat": false,
+    "SHEX_mass_flow": true,
+    "HHEX_mass_flow_SE_or_SMA": true,
+    "CHEX_mass_flow": true
+  },
+  "full_device_first_law_observable": false,
+  "full_device_first_law_verified": false,
+  "periodic_steady_state_verified": false,
+  "production_recovery_allowed": false,
+  "seed_eligible": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false,
+  "interpretation": "Signal inventory and window statistics only; configured targets are excluded from physical evidence."
+}
