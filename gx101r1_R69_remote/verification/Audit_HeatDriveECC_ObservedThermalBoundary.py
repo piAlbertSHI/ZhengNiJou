@@ -26,10 +26,27 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def read_signal(group: h5py.Group, name: str) -> tuple[np.ndarray, np.ndarray] | None:
-    if name not in group:
+def signal_path(handle: h5py.File, name: str) -> str | None:
+    candidates = [
+        f"signals/{name}",
+        f"thermal_boundary_signals/fields/{name}",
+    ]
+    aliases = {
+        "hhex_fluid_heat_flow_W": "hhex_fluid_heat_flow_W",
+        "chex_fluid_heat_flow_W": "chex_fluid_heat_flow_W",
+        "ECC_Q_SMA_constitutive_W": "sma_constitutive_heat_flow_21_W",
+        "ECC_Q_SE_constitutive_W": "se_constitutive_heat_flow_21_W",
+    }
+    if name in aliases:
+        candidates.append(f"thermal_boundary_signals/fields/{aliases[name]}")
+    return next((path for path in candidates if path in handle), None)
+
+
+def read_signal(handle: h5py.File, name: str) -> tuple[np.ndarray, np.ndarray] | None:
+    path = signal_path(handle, name)
+    if path is None:
         return None
-    signal = group[name]
+    signal = handle[path]
     if "time_s" not in signal or "values" not in signal:
         return None
     time = np.asarray(signal["time_s"][:], dtype=float).reshape(-1)
@@ -139,10 +156,10 @@ def audit(result_path: Path, cycle_start: float, cycle_stop: float, output: Path
         for group_name, categories in names.items():
             all_signals[group_name] = {}
             for category, requested in categories.items():
-                present = {name: name in signals for name in requested}
+                present = {name: signal_path(handle, name) is not None for name in requested}
                 entries = {}
                 for name in requested:
-                    signal = read_signal(signals, name)
+                    signal = read_signal(handle, name)
                     all_signals[group_name][category] = all_signals[group_name].get(category, {})
                     entries[name] = {
                         "grid": finite_grid(signal),
@@ -170,7 +187,8 @@ def audit(result_path: Path, cycle_start: float, cycle_stop: float, output: Path
             "HHEX_mass_flow_SE_or_SMA": "mass_flow_sma_stage3_route_kgps",
             "CHEX_mass_flow": "mass_flow_v6_sma_to_chip_cold_kgps",
         }
-        required_presence = {label: signal in signals for label, signal in thermal_required.items()}
+        required_presence = {label: signal_path(handle, signal) is not None
+                             for label, signal in thermal_required.items()}
         result = {
             "schema": "heatdrive_ecc_observed_thermal_boundary_audit_v1",
             "diagnostic_only": True,

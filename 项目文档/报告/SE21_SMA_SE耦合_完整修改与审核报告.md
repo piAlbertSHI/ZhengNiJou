@@ -4264,3 +4264,20 @@ solve、敏感性、paired endpoint 或 Table 4 输入。紧凑执行合同、�
 `table4_reproduction_claim=false` 均保持。下一步应在模型级补齐 HHEX/CHEX 流体热流、入口/出口
 焓流、管路/缓冲库存和派生泵功的统一账本，再进行新的双臂冷态诊断；不继续做无依据的单一
 PI 增益扫描。
+
+## 204. 冷态观测热边界输出链修正（2026-09-30）
+
+本轮追踪发现，HHEX/CHEX 流体热流并非必然不存在于模型：
+`Extract_HeatDriveECC_PhysicalLogs` 已能从 Simscape 日志读取这些通道，但冷态 runner 过去只
+保存 `output.who`，导致物理日志字段没有进入 `observations.mat`。这属于观测合同丢字段，
+不是把缺失信号用配置量替代的理由。
+
+现已在每个 native/conservative arm 保存 `thermal_boundary_signals`，包含 SHEX/HHEX/CHEX
+热流、HHEX 两条支路热流及显式聚合、buffer 温度、路线质量流、派生液压功和 SMA/SE 21 节点
+本构热流，并记录源字段映射与 `thermal_boundary_extraction_pass`。提取异常只留下错误合同，
+不静默伪造完整证据，也不改变任何物理状态或 PI 记忆。
+
+MATLAB `checkcode` 与 Python 回归审计均通过；旧完整 20-cycle raw 仍保持 HHEX/CHEX fluid
+heat 缺失、`full_device_first_law_observable=false`，没有追溯升级。下一步为全新输出目录的
+10 s native/conservative 短诊断，短诊断未通过前不进入 20-cycle、outer solve、敏感性或
+Table 4。

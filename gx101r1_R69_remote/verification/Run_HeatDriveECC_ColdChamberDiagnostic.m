@@ -538,6 +538,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     signals.(names{k})=struct('time_s',v.time,'values',v.signals.values);
                 end
             end
+            thermal_boundary_signals=extract_observed_thermal_boundaries( ...
+                output,options,model);
             probe_names=fieldnames(signals);
             probe_names=probe_names(startsWith(probe_names,'pump_pressure_'));
             pressure_probe_signals=struct();
@@ -564,7 +566,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             record.stage4_controller_probe_contracts{end+1}= ...
                 stage4_controller_probe_contract;
             save(fullfile(arm,'observations.mat'),'native','source_traces','boundary_metadata', ...
-                'signals','pressure_probe_signals','stage4_controller_probe_signals','-v7.3');
+                'signals','pressure_probe_signals','stage4_controller_probe_signals', ...
+                'thermal_boundary_signals','-v7.3');
             record.cases{end+1}=struct('arm',name,'simulation_mode',arm_simulation_mode, ...
                 'topology_update_pass',true, ...
                 'storage_components',numel(metadata.storage_blocks),'native_trace_count',numel(native), ...
@@ -573,6 +576,10 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 'pressure_probe_signal_names',{probe_names}, ...
                 'stage4_controller_probe_count',numel(controller_probe_names), ...
                 'stage4_controller_probe_signal_names',{controller_probe_names}, ...
+                'thermal_boundary_extraction_pass', ...
+                    thermal_boundary_signals.extraction_pass, ...
+                'thermal_boundary_missing_fields', ...
+                    {thermal_boundary_signals.missing_fields}, ...
                 'observation_sha256',file_hash(fullfile(arm,'observations.mat')));
             arm_completion=struct('schema','heatdrive_ecc_cold_arm_completion_v1', ...
                 'execution_commit',record.execution_commit,'arm',name, ...
@@ -659,6 +666,63 @@ function metadata=export_metadata(model,changed,buffer_paths)
         end
     end
     assert(numel(metadata.storage_blocks)==119 && numel(metadata.settings_tables)==2,'Incomplete storage inventory.');
+end
+
+function observed=extract_observed_thermal_boundaries(sim_out,options,model)
+% Persist a compact physical-log boundary contract alongside public probes.
+% The source traces remain the authority; this group only prevents the
+% cold-run observation package from silently dropping exchanger Q channels.
+    observed=struct('schema','heatdrive_ecc_observed_thermal_boundaries_v1', ...
+        'extraction_pass',false,'source_function','Extract_HeatDriveECC_PhysicalLogs', ...
+        'missing_fields',{{}},'fields',struct());
+    try
+        physical=Extract_HeatDriveECC_PhysicalLogs(sim_out,options,model,false);
+        observed.time_s=physical.time_s;
+        observed.fields=struct();
+        observed.fields.shex_source_heat_flow_W=series(physical,'Q_SHEX_source_to_sink_W');
+        observed.fields.shex_fluid_heat_flow_W=series(physical,'Q_SHEX_sink_to_fluid_W');
+        observed.fields.hhex_se_fluid_heat_flow_W=series(physical,'Q_HHEX_sink_to_SE_fluid_W');
+        observed.fields.hhex_sma_fluid_heat_flow_W=series(physical,'Q_HHEX_sink_to_SMA_fluid_W');
+        observed.fields.hhex_fluid_heat_flow_W=struct('time_s',physical.time_s, ...
+            'values',physical.Q_HHEX_sink_to_SE_fluid_W + ...
+                physical.Q_HHEX_sink_to_SMA_fluid_W);
+        observed.fields.chex_fluid_heat_flow_W=series(physical,'Q_CHEX_sink_to_fluid_W');
+        observed.fields.chex_sensor_native_heat_flow_W=series(physical,'Q_CHEX_sensor_native_W');
+        observed.fields.chex_sink_mass_heat_flow_W=series(physical,'Q_CHEX_sink_mass_W');
+        observed.fields.shex_buffer_temp_K=series(physical,'SHEX_buffer_T_K');
+        observed.fields.hhex_buffer_temp_K=series(physical,'HHEX_buffer_T_K');
+        observed.fields.sma_hhex_buffer_temp_K=series(physical,'SMA_HHEX_buffer_T_K');
+        observed.fields.chex_buffer_temp_K=series(physical,'CHEX_buffer_T_K');
+        observed.fields.shex_mass_flow_kgps=series(physical,'SHEX_mdot_kgps');
+        observed.fields.hhex_se_mass_flow_kgps=series(physical,'HHEX_mdot_SE_kgps');
+        observed.fields.hhex_sma_mass_flow_kgps=series(physical,'HHEX_mdot_SMA_kgps');
+        observed.fields.chex_se_mass_flow_kgps=series(physical,'CHEX_mdot_SE_kgps');
+        observed.fields.pump_power_sma_W=series(physical,'pump_power_SMA_W');
+        observed.fields.pump_power_se_W=series(physical,'pump_power_SE_W');
+        observed.fields.sma_constitutive_heat_flow_21_W=series(physical,'Q_SMA_constitutive_21_W');
+        observed.fields.se_constitutive_heat_flow_21_W=series(physical,'Q_SE_constitutive_21_W');
+        observed.source_field_map=struct( ...
+            'shex_fluid_heat_flow_W','Q_SHEX_sink_to_fluid_W', ...
+            'hhex_fluid_heat_flow_W','Q_HHEX_sink_to_SE_fluid_W + Q_HHEX_sink_to_SMA_fluid_W', ...
+            'chex_fluid_heat_flow_W','Q_CHEX_sink_to_fluid_W', ...
+            'pump_power_sma_W','P*q_A reconstructed by extractor', ...
+            'pump_power_se_W','P*q_A reconstructed by extractor');
+        observed.extraction_pass=true;
+    catch ME
+        observed.error_identifier=ME.identifier;
+        observed.error_message=ME.message;
+        observed.error_report=getReport(ME,'extended','hyperlinks','off');
+        observed.missing_fields={'physical_log_extraction_failed'};
+    end
+end
+
+function value=series(physical,name)
+    if ~isfield(physical,name)
+        error('HeatDriveECC:MissingObservedBoundaryField', ...
+            'Physical extraction did not provide %s.',name);
+    end
+    values=physical.(name);
+    value=struct('time_s',physical.time_s,'values',values);
 end
 
 function v=initial_value(rows,name,unit)
