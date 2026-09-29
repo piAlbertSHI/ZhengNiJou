@@ -1,0 +1,132 @@
+{
+  "schema": "heatdrive_ecc_stage4_boundary_transient_audit_v1",
+  "diagnostic_only": true,
+  "execution_commit": "d683155caed116674a06afc8c4764f79badfd3a9",
+  "cycle_count": 20,
+  "analysis_cycle_index": 19,
+  "arms": [
+    {
+      "observations_sha256": "F7CC0D808CC4DE6301AAD485CFA0AB89B506EB2FA634AAD0E4B5820D15464D38",
+      "analysis_cycle_index": 19,
+      "analysis_cycle_start_s": 190.0,
+      "stage4_full_interval": {
+        "start_s": 198.5,
+        "stop_s": 200.0,
+        "samples": 1501,
+        "mean_flow_kgps": 0.00297539281071154,
+        "min_flow_kgps": 3.708117873235949e-12,
+        "max_flow_kgps": 0.004232523711860659,
+        "rms_relative_error": 0.2781420490159137,
+        "max_abs_relative_error": 0.9999999988412132,
+        "signed_mass_g": 4.464214768542096,
+        "reverse_flow_fraction": 0.0
+      },
+      "pre_gate_interval": {
+        "start_s": 198.5,
+        "stop_s": 198.8,
+        "samples": 301,
+        "mean_flow_kgps": 0.0018550196141754118,
+        "min_flow_kgps": 3.708117873235949e-12,
+        "max_flow_kgps": 0.004232523711860659,
+        "rms_relative_error": 0.593661961530597,
+        "max_abs_relative_error": 0.9999999988412132,
+        "signed_mass_g": 0.5569648808283701,
+        "reverse_flow_fraction": 0.0
+      },
+      "strict_gate_interval": {
+        "start_s": 198.80100000000002,
+        "stop_s": 199.85,
+        "samples": 1050,
+        "mean_flow_kgps": 0.003198135586068983,
+        "min_flow_kgps": 0.002792218162140576,
+        "max_flow_kgps": 0.0036241931982060696,
+        "rms_relative_error": 0.08090223294729522,
+        "max_abs_relative_error": 0.1325603744393966,
+        "signed_mass_g": 3.3548341596921896,
+        "reverse_flow_fraction": 0.0
+      },
+      "post_gate_interval": {
+        "start_s": 199.85,
+        "stop_s": 200.0,
+        "samples": 151,
+        "mean_flow_kgps": 0.003664142601569509,
+        "min_flow_kgps": 0.0036241931982060696,
+        "max_flow_kgps": 0.00369968066811288,
+        "rms_relative_error": 0.1452153605692123,
+        "max_abs_relative_error": 0.15615020878527486,
+        "signed_mass_g": 0.5496235959038567,
+        "reverse_flow_fraction": 0.0
+      },
+      "first_continuous_in_band_from_boundary_s": {
+        "within_5pct": 0.6520000000000152,
+        "within_15pct": 0.1220000000000141
+      },
+      "boundary_transient_dominates_gate": false,
+      "production_gate_unchanged": true
+    },
+    {
+      "observations_sha256": "D96D2790B981A2C51F284B943DC379A33A625A52A906173B3BF0DB431094CBD2",
+      "analysis_cycle_index": 19,
+      "analysis_cycle_start_s": 190.0,
+      "stage4_full_interval": {
+        "start_s": 198.5,
+        "stop_s": 200.0,
+        "samples": 1501,
+        "mean_flow_kgps": 0.00297539281071154,
+        "min_flow_kgps": 3.708117873235949e-12,
+        "max_flow_kgps": 0.004232523711860659,
+        "rms_relative_error": 0.2781420490159137,
+        "max_abs_relative_error": 0.9999999988412132,
+        "signed_mass_g": 4.464214768542096,
+        "reverse_flow_fraction": 0.0
+      },
+      "pre_gate_interval": {
+        "start_s": 198.5,
+        "stop_s": 198.8,
+        "samples": 301,
+        "mean_flow_kgps": 0.0018550196141754118,
+        "min_flow_kgps": 3.708117873235949e-12,
+        "max_flow_kgps": 0.004232523711860659,
+        "rms_relative_error": 0.593661961530597,
+        "max_abs_relative_error": 0.9999999988412132,
+        "signed_mass_g": 0.5569648808283701,
+        "reverse_flow_fraction": 0.0
+      },
+      "strict_gate_interval": {
+        "start_s": 198.80100000000002,
+        "stop_s": 199.85,
+        "samples": 1050,
+        "mean_flow_kgps": 0.003198135586068983,
+        "min_flow_kgps": 0.002792218162140576,
+        "max_flow_kgps": 0.0036241931982060696,
+        "rms_relative_error": 0.08090223294729522,
+        "max_abs_relative_error": 0.1325603744393966,
+        "signed_mass_g": 3.3548341596921896,
+        "reverse_flow_fraction": 0.0
+      },
+      "post_gate_interval": {
+        "start_s": 199.85,
+        "stop_s": 200.0,
+        "samples": 151,
+        "mean_flow_kgps": 0.003664142601569509,
+        "min_flow_kgps": 0.0036241931982060696,
+        "max_flow_kgps": 0.00369968066811288,
+        "rms_relative_error": 0.1452153605692123,
+        "max_abs_relative_error": 0.15615020878527486,
+        "signed_mass_g": 0.5496235959038567,
+        "reverse_flow_fraction": 0.0
+      },
+      "first_continuous_in_band_from_boundary_s": {
+        "within_5pct": 0.6520000000000152,
+        "within_15pct": 0.1220000000000141
+      },
+      "boundary_transient_dominates_gate": false,
+      "production_gate_unchanged": true
+    }
+  ],
+  "production_recovery_allowed": false,
+  "seed_eligible": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false
+}

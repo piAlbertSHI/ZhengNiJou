@@ -1,0 +1,382 @@
+{
+  "schema": "heatdrive_ecc_stage4_cycle_metrics_v1",
+  "diagnostic_only": true,
+  "cycle_count": 20,
+  "arms": [
+    {
+      "arm": "native",
+      "observations_sha256": "F7CC0D808CC4DE6301AAD485CFA0AB89B506EB2FA634AAD0E4B5820D15464D38",
+      "cycles": [
+        {
+          "cycle_index": 0,
+          "mean_flow_kgps": 0.0031875211882379287,
+          "rms_relative_error": 0.0064292462599398765,
+          "max_abs_relative_error": 0.011934269331995595,
+          "integrated_signed_mass_relative_error": -0.003894838473179729,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": true
+        },
+        {
+          "cycle_index": 1,
+          "mean_flow_kgps": 0.0029850691607633695,
+          "rms_relative_error": 0.10898458076706119,
+          "max_abs_relative_error": 0.21212073006696452,
+          "integrated_signed_mass_relative_error": -0.06716042701193492,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 2,
+          "mean_flow_kgps": 0.003105690423651185,
+          "rms_relative_error": 0.0869735438922911,
+          "max_abs_relative_error": 0.16241905096609788,
+          "integrated_signed_mass_relative_error": -0.02947056778463153,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 3,
+          "mean_flow_kgps": 0.0031563152255279733,
+          "rms_relative_error": 0.08170468559751051,
+          "max_abs_relative_error": 0.1424116181918248,
+          "integrated_signed_mass_relative_error": -0.013652027317644921,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 4,
+          "mean_flow_kgps": 0.003178343936625542,
+          "rms_relative_error": 0.08042325794034642,
+          "max_abs_relative_error": 0.13351861714284363,
+          "integrated_signed_mass_relative_error": -0.006769154590023807,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 5,
+          "mean_flow_kgps": 0.003188332952540959,
+          "rms_relative_error": 0.0801105055172661,
+          "max_abs_relative_error": 0.1298281203457683,
+          "integrated_signed_mass_relative_error": -0.0036480585138716215,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 6,
+          "mean_flow_kgps": 0.003192653393148083,
+          "rms_relative_error": 0.080006620090323,
+          "max_abs_relative_error": 0.12868416097962188,
+          "integrated_signed_mass_relative_error": -0.0022982551575173593,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 7,
+          "mean_flow_kgps": 0.0031949981077595384,
+          "rms_relative_error": 0.0800433515225689,
+          "max_abs_relative_error": 0.12960281002757346,
+          "integrated_signed_mass_relative_error": -0.001565641621444236,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 8,
+          "mean_flow_kgps": 0.0031962274562143808,
+          "rms_relative_error": 0.08010688461937518,
+          "max_abs_relative_error": 0.1301795241165251,
+          "integrated_signed_mass_relative_error": -0.001181549611869559,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 9,
+          "mean_flow_kgps": 0.0031968940233271935,
+          "rms_relative_error": 0.08017909066481702,
+          "max_abs_relative_error": 0.1305759323841349,
+          "integrated_signed_mass_relative_error": -0.0009733082493121881,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 10,
+          "mean_flow_kgps": 0.003197265025453626,
+          "rms_relative_error": 0.08025325872164053,
+          "max_abs_relative_error": 0.1308726992966711,
+          "integrated_signed_mass_relative_error": -0.0008574193708803524,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 11,
+          "mean_flow_kgps": 0.003197470225565268,
+          "rms_relative_error": 0.08032721536809262,
+          "max_abs_relative_error": 0.13111087374217312,
+          "integrated_signed_mass_relative_error": -0.000793336675783074,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 12,
+          "mean_flow_kgps": 0.0031979871350168877,
+          "rms_relative_error": 0.08046365002366833,
+          "max_abs_relative_error": 0.1315243794610783,
+          "integrated_signed_mass_relative_error": -0.0006318178898196969,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 13,
+          "mean_flow_kgps": 0.0031980487655271514,
+          "rms_relative_error": 0.08053427925383662,
+          "max_abs_relative_error": 0.13170415740176322,
+          "integrated_signed_mass_relative_error": -0.0006125925178157576,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 14,
+          "mean_flow_kgps": 0.003198088863465431,
+          "rms_relative_error": 0.08060178033085408,
+          "max_abs_relative_error": 0.13186964520339006,
+          "integrated_signed_mass_relative_error": -0.0006000938807558809,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 15,
+          "mean_flow_kgps": 0.003198111411385222,
+          "rms_relative_error": 0.08066676062293805,
+          "max_abs_relative_error": 0.13202337131583097,
+          "integrated_signed_mass_relative_error": -0.0005930776954727879,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 16,
+          "mean_flow_kgps": 0.003198124393636561,
+          "rms_relative_error": 0.08072920181725624,
+          "max_abs_relative_error": 0.13216806362062572,
+          "integrated_signed_mass_relative_error": -0.0005890492063627129,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 17,
+          "mean_flow_kgps": 0.00319812866061366,
+          "rms_relative_error": 0.08078935172982064,
+          "max_abs_relative_error": 0.1323046656856064,
+          "integrated_signed_mass_relative_error": -0.0005877429357478148,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 18,
+          "mean_flow_kgps": 0.003198135687052201,
+          "rms_relative_error": 0.08084680610438333,
+          "max_abs_relative_error": 0.13243599400957673,
+          "integrated_signed_mass_relative_error": -0.0005855729594416159,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 19,
+          "mean_flow_kgps": 0.003198135586068983,
+          "rms_relative_error": 0.08090223294729522,
+          "max_abs_relative_error": 0.1325603744393966,
+          "integrated_signed_mass_relative_error": -0.0005856292623154236,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        }
+      ]
+    },
+    {
+      "arm": "conservative",
+      "observations_sha256": "D96D2790B981A2C51F284B943DC379A33A625A52A906173B3BF0DB431094CBD2",
+      "cycles": [
+        {
+          "cycle_index": 0,
+          "mean_flow_kgps": 0.0031875211882379287,
+          "rms_relative_error": 0.0064292462599398765,
+          "max_abs_relative_error": 0.011934269331995595,
+          "integrated_signed_mass_relative_error": -0.003894838473179729,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": true
+        },
+        {
+          "cycle_index": 1,
+          "mean_flow_kgps": 0.0029850691607633695,
+          "rms_relative_error": 0.10898458076706119,
+          "max_abs_relative_error": 0.21212073006696452,
+          "integrated_signed_mass_relative_error": -0.06716042701193492,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 2,
+          "mean_flow_kgps": 0.003105690423651185,
+          "rms_relative_error": 0.0869735438922911,
+          "max_abs_relative_error": 0.16241905096609788,
+          "integrated_signed_mass_relative_error": -0.02947056778463153,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 3,
+          "mean_flow_kgps": 0.0031563152255279733,
+          "rms_relative_error": 0.08170468559751051,
+          "max_abs_relative_error": 0.1424116181918248,
+          "integrated_signed_mass_relative_error": -0.013652027317644921,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 4,
+          "mean_flow_kgps": 0.003178343936625542,
+          "rms_relative_error": 0.08042325794034642,
+          "max_abs_relative_error": 0.13351861714284363,
+          "integrated_signed_mass_relative_error": -0.006769154590023807,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 5,
+          "mean_flow_kgps": 0.003188332952540959,
+          "rms_relative_error": 0.0801105055172661,
+          "max_abs_relative_error": 0.1298281203457683,
+          "integrated_signed_mass_relative_error": -0.0036480585138716215,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 6,
+          "mean_flow_kgps": 0.003192653393148083,
+          "rms_relative_error": 0.080006620090323,
+          "max_abs_relative_error": 0.12868416097962188,
+          "integrated_signed_mass_relative_error": -0.0022982551575173593,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 7,
+          "mean_flow_kgps": 0.0031949981077595384,
+          "rms_relative_error": 0.0800433515225689,
+          "max_abs_relative_error": 0.12960281002757346,
+          "integrated_signed_mass_relative_error": -0.001565641621444236,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 8,
+          "mean_flow_kgps": 0.0031962274562143808,
+          "rms_relative_error": 0.08010688461937518,
+          "max_abs_relative_error": 0.1301795241165251,
+          "integrated_signed_mass_relative_error": -0.001181549611869559,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 9,
+          "mean_flow_kgps": 0.0031968940233271935,
+          "rms_relative_error": 0.08017909066481702,
+          "max_abs_relative_error": 0.1305759323841349,
+          "integrated_signed_mass_relative_error": -0.0009733082493121881,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 10,
+          "mean_flow_kgps": 0.003197265025453626,
+          "rms_relative_error": 0.08025325872164053,
+          "max_abs_relative_error": 0.1308726992966711,
+          "integrated_signed_mass_relative_error": -0.0008574193708803524,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 11,
+          "mean_flow_kgps": 0.003197470225565268,
+          "rms_relative_error": 0.08032721536809262,
+          "max_abs_relative_error": 0.13111087374217312,
+          "integrated_signed_mass_relative_error": -0.000793336675783074,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 12,
+          "mean_flow_kgps": 0.0031979871350168877,
+          "rms_relative_error": 0.08046365002366833,
+          "max_abs_relative_error": 0.1315243794610783,
+          "integrated_signed_mass_relative_error": -0.0006318178898196969,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 13,
+          "mean_flow_kgps": 0.0031980487655271514,
+          "rms_relative_error": 0.08053427925383662,
+          "max_abs_relative_error": 0.13170415740176322,
+          "integrated_signed_mass_relative_error": -0.0006125925178157576,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 14,
+          "mean_flow_kgps": 0.003198088863465431,
+          "rms_relative_error": 0.08060178033085408,
+          "max_abs_relative_error": 0.13186964520339006,
+          "integrated_signed_mass_relative_error": -0.0006000938807558809,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 15,
+          "mean_flow_kgps": 0.003198111411385222,
+          "rms_relative_error": 0.08066676062293805,
+          "max_abs_relative_error": 0.13202337131583097,
+          "integrated_signed_mass_relative_error": -0.0005930776954727879,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 16,
+          "mean_flow_kgps": 0.003198124393636561,
+          "rms_relative_error": 0.08072920181725624,
+          "max_abs_relative_error": 0.13216806362062572,
+          "integrated_signed_mass_relative_error": -0.0005890492063627129,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 17,
+          "mean_flow_kgps": 0.00319812866061366,
+          "rms_relative_error": 0.08078935172982064,
+          "max_abs_relative_error": 0.1323046656856064,
+          "integrated_signed_mass_relative_error": -0.0005877429357478148,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 18,
+          "mean_flow_kgps": 0.003198135687052201,
+          "rms_relative_error": 0.08084680610438333,
+          "max_abs_relative_error": 0.13243599400957673,
+          "integrated_signed_mass_relative_error": -0.0005855729594416159,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        },
+        {
+          "cycle_index": 19,
+          "mean_flow_kgps": 0.003198135586068983,
+          "rms_relative_error": 0.08090223294729522,
+          "max_abs_relative_error": 0.1325603744393966,
+          "integrated_signed_mass_relative_error": -0.0005856292623154236,
+          "reverse_flow_fraction": 0.0,
+          "production_instantaneous_gate_pass": false
+        }
+      ]
+    }
+  ],
+  "production_recovery_allowed": false,
+  "seed_eligible": false,
+  "table4_reproduction_claim": false
+}

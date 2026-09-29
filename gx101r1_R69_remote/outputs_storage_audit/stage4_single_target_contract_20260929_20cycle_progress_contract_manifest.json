@@ -1,0 +1,94 @@
+{
+  "schema": "stage4_single_target_contract_20cycle_scientific_manifest_v1",
+  "status": "rejected_scientific_gate",
+  "candidate": "remove_duplicate_se_cooldown_target",
+  "execution_commit": "d683155caed116674a06afc8c4764f79badfd3a9",
+  "model_contract_commit": "47004a21a7a1635c3101faba183b49768483a1e8",
+  "collection_contract_commit": "be95c67",
+  "raw_evidence": {
+    "isolated_worktree": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract",
+    "cycle_count": 20,
+    "duration_s": 200,
+    "collection_pass": true,
+    "exit_code": 0,
+    "wall_seconds": 11694.9396707,
+    "c200_state_imported": false,
+    "checkpoint_saved": false,
+    "native_observations_sha256": "F7CC0D808CC4DE6301AAD485CFA0AB89B506EB2FA634AAD0E4B5820D15464D38",
+    "conservative_observations_sha256": "D96D2790B981A2C51F284B943DC379A33A625A52A906173B3BF0DB431094CBD2",
+    "cold_chamber_execution_sha256": "EA27B6264693F5217F04AC6ADA593ED292A7B426EECF00A039AD6102BB4DE543",
+    "launcher_contract_sha256": "F60E3EB067AF5827885C5B42F9C97B2AE129C6D92DEB05FABD661634DEF259CD",
+    "rejected_marker_sha256": "28327257CB036E8CEE39BB94B1890363ECFBE83D2B4B2D987042471110FF12D7"
+  },
+  "strict_stage4_last_cycle": {
+    "window_s": [198.801, 199.85],
+    "native": {
+      "mean_flow_kgps": 0.003198135586068983,
+      "rms_relative_error": 0.08090223294729522,
+      "max_abs_relative_error": 0.1325603744393966,
+      "integrated_signed_mass_relative_error": -0.0005856292623154236,
+      "reverse_flow_fraction": 0.0,
+      "production_instantaneous_gate_pass": false
+    },
+    "conservative": {
+      "mean_flow_kgps": 0.003198135586068983,
+      "rms_relative_error": 0.08090223294729522,
+      "max_abs_relative_error": 0.1325603744393966,
+      "integrated_signed_mass_relative_error": -0.0005856292623154236,
+      "reverse_flow_fraction": 0.0,
+      "production_instantaneous_gate_pass": false
+    },
+    "arms_identical_for_stage4_metrics": true,
+    "alternating_mode_detected": false,
+    "boundary_transient_dominates_gate": false
+  },
+  "cycle_evolution": {
+    "cycle_1_rms_relative_error": 0.0064292462599398765,
+    "cycle_1_gate_pass": true,
+    "cycle_2_rms_relative_error": 0.10898458076706119,
+    "cycle_2_max_abs_relative_error": 0.21212073006696452,
+    "cycle_2_gate_pass": false,
+    "cycle_20_gate_pass": false,
+    "interpretation": "The one-cycle pass does not transfer to the coupled route-memory trajectory; the failure appears from cycle 2 and persists through cycle 20."
+  },
+  "dynamic_context": {
+    "active_se_residence_s": 13.075379495606057,
+    "strict_window_to_residence_ratio": 0.08022711695308664,
+    "pressure_to_flow_error_best_lag_s": -0.424000000002025,
+    "route_integral_to_flow_error_best_lag_s": -0.500000000002387,
+    "failure_mode": "low_gain_slow_tracking_bias"
+  },
+  "periodic_and_energy": {
+    "periodic_status": "not_verifiable_from_partial_observations",
+    "periodic_steady_state_verified": false,
+    "full_device_first_law_verified": false,
+    "same_phase_shex_buffer_temperature_rms_K": 0.06730569130550113,
+    "same_phase_shex_buffer_temperature_endpoint_abs_K": 0.09247326748800333,
+    "same_phase_route_pi_rms_MPa": 0.00011000762397973255
+  },
+  "audit_reasonableness": {
+    "pointwise_limit": 0.15,
+    "rms_limit": 0.05,
+    "both_arms_pointwise_pass": true,
+    "both_arms_rms_pass": false,
+    "boundary_transient_dominates_gate": false,
+    "gate_relaxed": false,
+    "reason": "The RMS failure is present in the strict window after the boundary transient, while integrated mass is near zero error; the existing instantaneous gate measures a distinct requirement and remains justified."
+  },
+  "evidence_sha256": {
+    "boundary_transient.json": "7839C772D0BD7AF1A22A8A465D1CE0E1F2FBEC32C9C32B3825534BBBA6717E9F",
+    "causal_response.json": "63183BA011812B5A44BFD4CABFEA7A7B5677CD5075F04792FEA9F881D58E920D",
+    "controller_dynamics.json": "1BDBCBE4059ED7FB8FFF5DA5AF898BAEDEBFE865C688A64C06DCC5CF00C37570",
+    "controller_probes.json": "9764E859F0C84560F37D5E1F4E34AA072D2F5356AA4ECBAACDCBAF8B712E1EF5",
+    "cycle_drift.json": "01EE13FDD5E6E157614520E9DC8D42246EE2EDC2919DA3B9EC39C71C4AA4F06C",
+    "cycle_metrics.json": "C2BEE0DE1F6537E2B38D1BE18C908925CC87A4912DCAF61DD9733FA1220BD80C"
+  },
+  "decision": {
+    "production_recovery_allowed": false,
+    "diagnostic_20cycle_seed_eligible": false,
+    "outer_solve_eligible": false,
+    "paired_table4_eligible": false,
+    "table4_reproduction_claim": false,
+    "next_action": "model-level route-memory and thermal-hydraulic timing audit; do not blind-scan Kp/Ki or relax the instantaneous flow gate"
+  }
+}

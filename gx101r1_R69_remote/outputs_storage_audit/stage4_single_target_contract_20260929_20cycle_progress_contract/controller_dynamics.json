@@ -1,0 +1,103 @@
+{
+  "schema": "heatdrive_ecc_stage4_controller_dynamics_audit_collection_v1",
+  "diagnostic_only": true,
+  "experiments": [
+    {
+      "schema": "heatdrive_ecc_stage4_controller_dynamics_audit_v1",
+      "diagnostic_only": true,
+      "execution_commit": "d683155caed116674a06afc8c4764f79badfd3a9",
+      "cycle_count": 20,
+      "analysis_cycle_index": 19,
+      "analysis_cycle_start_s": 190.0,
+      "stage4_kp": -160,
+      "stage4_ki": -255,
+      "arms": [
+        {
+          "observations_sha256": "F7CC0D808CC4DE6301AAD485CFA0AB89B506EB2FA634AAD0E4B5820D15464D38",
+          "grid_samples": 200001,
+          "grid_dt_s": 0.0009999999999763531,
+          "analysis_cycle_index": 19,
+          "analysis_cycle_start_s": 190.0,
+          "stage4_production_window": {
+            "start_s": 198.80100000000002,
+            "stop_s": 199.85,
+            "samples": 1050,
+            "mean_flow_kgps": 0.003198135586068983,
+            "rms_relative_error": 0.08090223294729522,
+            "max_abs_relative_error": 0.1325603744393966,
+            "signed_transport_mass_g": 3.3548341596921896,
+            "expected_transport_mass_g": 3.35679999999993,
+            "integrated_signed_mass_relative_error": -0.0005856292623154236,
+            "reverse_flow_fraction": 0.0,
+            "production_instantaneous_gate_pass": false
+          },
+          "full_stage4_observation": {
+            "mean_flow_kgps": 0.00297539281071154,
+            "rms_relative_error": 0.2781420490159137,
+            "max_abs_relative_error": 0.9999999988412132,
+            "reverse_flow_fraction": 0.0
+          },
+          "alternating_mode": {
+            "window_start_s": 199.84,
+            "window_stop_s": 199.9,
+            "flow_even_mean_kgps": 0.0036350647013413738,
+            "flow_odd_mean_kgps": 0.003635087978819725,
+            "command_even_mean_MPa": -0.2872431934436191,
+            "command_odd_mean_MPa": -0.28724005318055307,
+            "flow_even_odd_delta_kgps": 2.3277478351096947e-08,
+            "command_even_odd_delta_MPa": 3.1402630660259945e-06,
+            "alternating_mode_detected": false
+          }
+        },
+        {
+          "observations_sha256": "D96D2790B981A2C51F284B943DC379A33A625A52A906173B3BF0DB431094CBD2",
+          "grid_samples": 200001,
+          "grid_dt_s": 0.0009999999999763531,
+          "analysis_cycle_index": 19,
+          "analysis_cycle_start_s": 190.0,
+          "stage4_production_window": {
+            "start_s": 198.80100000000002,
+            "stop_s": 199.85,
+            "samples": 1050,
+            "mean_flow_kgps": 0.003198135586068983,
+            "rms_relative_error": 0.08090223294729522,
+            "max_abs_relative_error": 0.1325603744393966,
+            "signed_transport_mass_g": 3.3548341596921896,
+            "expected_transport_mass_g": 3.35679999999993,
+            "integrated_signed_mass_relative_error": -0.0005856292623154236,
+            "reverse_flow_fraction": 0.0,
+            "production_instantaneous_gate_pass": false
+          },
+          "full_stage4_observation": {
+            "mean_flow_kgps": 0.00297539281071154,
+            "rms_relative_error": 0.2781420490159137,
+            "max_abs_relative_error": 0.9999999988412132,
+            "reverse_flow_fraction": 0.0
+          },
+          "alternating_mode": {
+            "window_start_s": 199.84,
+            "window_stop_s": 199.9,
+            "flow_even_mean_kgps": 0.0036350647013413738,
+            "flow_odd_mean_kgps": 0.003635087978819725,
+            "command_even_mean_MPa": -0.2872431934436191,
+            "command_odd_mean_MPa": -0.28724005318055307,
+            "flow_even_odd_delta_kgps": 2.3277478351096947e-08,
+            "command_even_odd_delta_MPa": 3.1402630660259945e-06,
+            "alternating_mode_detected": false
+          }
+        }
+      ],
+      "failure_mode": "low_gain_slow_tracking_bias",
+      "production_recovery_allowed": false,
+      "diagnostic_20cycle_seed_eligible": false,
+      "outer_solve_eligible": false,
+      "paired_table4_eligible": false,
+      "table4_reproduction_claim": false
+    }
+  ],
+  "production_recovery_allowed": false,
+  "diagnostic_20cycle_seed_eligible": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false
+}

@@ -1,0 +1,236 @@
+{
+  "schema": "heatdrive_ecc_stage4_causal_response_audit_v1",
+  "diagnostic_only": true,
+  "experiments": [
+    {
+      "experiment": "qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract",
+      "execution_commit": "d683155caed116674a06afc8c4764f79badfd3a9",
+      "cycle_count": 20,
+      "analysis_cycle_index": 19,
+      "analysis_cycle_start_s": 190.0,
+      "diagnostic_branch_overrides": {
+        "se_stage2_pressure_pi_kp_MPa_per_kgps": -126,
+        "se_stage2_pressure_pi_initial_kp_MPa_per_kgps": -126,
+        "se_stage2_pressure_pi_transition_start_s": 0,
+        "se_stage2_pressure_pi_transition_duration_s": 0,
+        "se_stage4_pressure_pi_kp_MPa_per_kgps": -160,
+        "se_stage4_pressure_pi_initial_kp_MPa_per_kgps": -160,
+        "se_stage4_pressure_pi_ki_MPa_per_kgps_s": -255,
+        "se_stage4_pressure_pi_transition_start_s": 0,
+        "se_stage4_pressure_pi_transition_duration_s": 0,
+        "se_stage4_endpoint_viscosity_blend_initial": 1,
+        "se_stage4_endpoint_viscosity_blend_final": 0,
+        "se_stage4_endpoint_viscosity_blend_start_s": 8.5,
+        "se_stage4_endpoint_viscosity_blend_duration_s": 1.5,
+        "se_stage4_endpoint_viscosity_blend_periodic": false,
+        "se_stage4_endpoint_viscosity_closure_mode": "arithmetic_blend",
+        "se_stage4_commutation_precharge_fraction": 0
+      },
+      "arms": [
+        {
+          "observations_sha256": "F7CC0D808CC4DE6301AAD485CFA0AB89B506EB2FA634AAD0E4B5820D15464D38",
+          "grid_dt_s": 0.0010000000000047748,
+          "analysis_cycle_index": 19,
+          "analysis_cycle_start_s": 190.0,
+          "window": {
+            "start_s": 198.80100000000002,
+            "stop_s": 199.85,
+            "duration_s": 1.0489999999999782,
+            "samples": 1050
+          },
+          "transport_time_scale": {
+            "active_se_mass_kg": 0.04181683646625444,
+            "mean_window_flow_kgps": 0.003198135586068983,
+            "estimated_residence_s": 13.075379495606057,
+            "window_to_residence_ratio": 0.08022711695308664,
+            "window_shorter_than_residence": true
+          },
+          "flow_shape": {
+            "mean_kgps": 0.003198135586068983,
+            "rms_relative_error": 0.08090223294729522,
+            "max_abs_relative_error": 0.1325603744393966,
+            "peak_abs_error_time_s": 199.85,
+            "mean_abs_slope_kgps2": 0.0007931125224647346,
+            "reverse_flow_fraction": 0.0
+          },
+          "lagged_correlations": {
+            "pressure_to_flow_error": {
+              "lag_s": -0.42400000000202454,
+              "correlation": 0.9996843912681908,
+              "search_limit_s": 0.5,
+              "boundary_limited": false
+            },
+            "dynamic_feedforward_to_flow_error": {
+              "lag_s": -0.5000000000023874,
+              "correlation": 0.9979771822427591,
+              "search_limit_s": 0.5,
+              "boundary_limited": true
+            },
+            "inlet_temperature_to_flow_error": {
+              "lag_s": -0.42400000000202454,
+              "correlation": 0.9996847617414163,
+              "search_limit_s": 0.5,
+              "boundary_limited": false
+            },
+            "outlet_temperature_to_flow_error": {
+              "lag_s": -0.5000000000023874,
+              "correlation": 0.9979346005773465,
+              "search_limit_s": 0.5,
+              "boundary_limited": true
+            },
+            "integrator_to_flow_error": {
+              "lag_s": -0.5000000000023874,
+              "correlation": 0.9827457596621619,
+              "search_limit_s": 0.5,
+              "boundary_limited": true
+            },
+            "route_integral_to_flow_error": {
+              "lag_s": -0.5000000000023874,
+              "correlation": 0.9827457596621619,
+              "search_limit_s": 0.5,
+              "boundary_limited": true
+            }
+          },
+          "detrended_zero_lag_correlations": {
+            "pressure_to_flow_error": 0.20022267522373102,
+            "dynamic_feedforward_to_flow_error": 0.1672010713328634,
+            "outlet_temperature_to_flow_error": 0.16668621147446966,
+            "integrator_to_flow_error": 0.015674526977099285
+          },
+          "controller_state_ranges": {
+            "pressure_command_MPa": [
+              -0.43552163629540375,
+              -0.29175557566545485
+            ],
+            "dynamic_feedforward": [
+              -0.17365845158224674,
+              -0.1642836277589386
+            ],
+            "integrator_state": [
+              -0.22514456983531664,
+              -0.19446441077037965
+            ],
+            "route_integral": [
+              -0.22514456983531664,
+              -0.19446441077037965
+            ],
+            "inlet_temperature_K": [
+              303.9663019461034,
+              303.99817220421426
+            ],
+            "outlet_temperature_K": [
+              265.82945637164664,
+              270.2510740137964
+            ]
+          }
+        },
+        {
+          "observations_sha256": "D96D2790B981A2C51F284B943DC379A33A625A52A906173B3BF0DB431094CBD2",
+          "grid_dt_s": 0.0010000000000047748,
+          "analysis_cycle_index": 19,
+          "analysis_cycle_start_s": 190.0,
+          "window": {
+            "start_s": 198.80100000000002,
+            "stop_s": 199.85,
+            "duration_s": 1.0489999999999782,
+            "samples": 1050
+          },
+          "transport_time_scale": {
+            "active_se_mass_kg": 0.04181683646625444,
+            "mean_window_flow_kgps": 0.003198135586068983,
+            "estimated_residence_s": 13.075379495606057,
+            "window_to_residence_ratio": 0.08022711695308664,
+            "window_shorter_than_residence": true
+          },
+          "flow_shape": {
+            "mean_kgps": 0.003198135586068983,
+            "rms_relative_error": 0.08090223294729522,
+            "max_abs_relative_error": 0.1325603744393966,
+            "peak_abs_error_time_s": 199.85,
+            "mean_abs_slope_kgps2": 0.0007931125224647346,
+            "reverse_flow_fraction": 0.0
+          },
+          "lagged_correlations": {
+            "pressure_to_flow_error": {
+              "lag_s": -0.42400000000202454,
+              "correlation": 0.9996843912681908,
+              "search_limit_s": 0.5,
+              "boundary_limited": false
+            },
+            "dynamic_feedforward_to_flow_error": {
+              "lag_s": -0.5000000000023874,
+              "correlation": 0.9979771822427591,
+              "search_limit_s": 0.5,
+              "boundary_limited": true
+            },
+            "inlet_temperature_to_flow_error": {
+              "lag_s": -0.42400000000202454,
+              "correlation": 0.9996847617414163,
+              "search_limit_s": 0.5,
+              "boundary_limited": false
+            },
+            "outlet_temperature_to_flow_error": {
+              "lag_s": -0.5000000000023874,
+              "correlation": 0.9979346005773465,
+              "search_limit_s": 0.5,
+              "boundary_limited": true
+            },
+            "integrator_to_flow_error": {
+              "lag_s": -0.5000000000023874,
+              "correlation": 0.9827457596621619,
+              "search_limit_s": 0.5,
+              "boundary_limited": true
+            },
+            "route_integral_to_flow_error": {
+              "lag_s": -0.5000000000023874,
+              "correlation": 0.9827457596621619,
+              "search_limit_s": 0.5,
+              "boundary_limited": true
+            }
+          },
+          "detrended_zero_lag_correlations": {
+            "pressure_to_flow_error": 0.20022267522373102,
+            "dynamic_feedforward_to_flow_error": 0.1672010713328634,
+            "outlet_temperature_to_flow_error": 0.16668621147446966,
+            "integrator_to_flow_error": 0.015674526977099285
+          },
+          "controller_state_ranges": {
+            "pressure_command_MPa": [
+              -0.43552163629540375,
+              -0.29175557566545485
+            ],
+            "dynamic_feedforward": [
+              -0.17365845158224674,
+              -0.1642836277589386
+            ],
+            "integrator_state": [
+              -0.22514456983531664,
+              -0.19446441077037965
+            ],
+            "route_integral": [
+              -0.22514456983531664,
+              -0.19446441077037965
+            ],
+            "inlet_temperature_K": [
+              303.9663019461034,
+              303.99817220421426
+            ],
+            "outlet_temperature_K": [
+              265.82945637164664,
+              270.2510740137964
+            ]
+          }
+        }
+      ],
+      "architectural_interpretation": {
+        "transport_window_is_quasi_steady": false,
+        "reason": "The Stage-4 evaluation window is shorter than the estimated active-SE residence time; this is evidence for a dynamic route-memory problem, not permission to relax the flow gate."
+      }
+    }
+  ],
+  "production_recovery_allowed": false,
+  "diagnostic_20cycle_seed_eligible": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false
+}

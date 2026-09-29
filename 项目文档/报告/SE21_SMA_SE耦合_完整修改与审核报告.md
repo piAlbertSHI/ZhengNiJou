@@ -4116,3 +4116,43 @@ seed 和 recovery。
 
 紧凑证据、哈希和收集状态见：
 `gx101r1_R69_remote/outputs_storage_audit/stage4_single_target_contract_20260928_20cycle/`。
+
+## 198. 单一目标合同完整双臂 20-cycle 科学审核（2026-09-29）
+
+在新增逐臂进度合同后，使用全新输出目录重新执行同一组独立冷态参数。该次执行提交为
+`d683155caed116674a06afc8c4764f79badfd3a9`，结构模型合同为 `47004a2`，未导入 C200，
+未保存 checkpoint，launcher 退出码为 `0`，墙钟约 `11694.94 s`。native 与 conservative
+两臂均完整保存 `200 s` 观测，根 `cold_chamber_execution.json` 的 `collection_pass=true`，
+因此这次具备完整双臂科学审核资格，但不自动获得 seed 资格。
+
+末周期 `cycle_index=19`、严格窗口 `198.801--199.850 s` 的两臂结果完全一致：均值
+`0.003198135586 kg/s`，RMS 相对误差 `8.0902%`，最大绝对误差 `13.2560%`，积分质量
+相对误差 `-0.0586%`，无反向流。控制动力学分类为 `low_gain_slow_tracking_bias`，
+奇偶样本交替振荡为 false；边界瞬态审计两臂均为 false。压力探针 provenance/case/coverage
+均通过，但这只是可观测性合同，不是物理流量门禁。
+
+跨周期结果比单周期结果更有判别力：cycle 1 的 RMS 为 `0.6429%` 且严格门禁通过；cycle 2
+立即升至 `10.8985%`、最大误差 `21.2121%` 并失败，之后至 cycle 20 仍未恢复。也就是说，
+单一目标修复确实消除了重复目标造成的首周期偏差，但没有解决独立路线 PI 记忆与热-液压
+状态在跨周期运行中的耦合漂移，不能把 1-cycle pass 外推为 20-cycle pass。
+
+因果诊断给出活跃 SE 驻留时间约 `13.0754 s`，严格窗口/驻留比约 `0.08023`；压力到流量
+误差的最佳描述性滞后约 `-0.424 s`，路线积分到误差约 `-0.500 s`。同相位漂移在两臂一致：
+Stage4 流量 RMS 约 `1.14e-7 kg/s`、路线 PI 记忆 RMS 约 `1.10e-4 MPa`，但 SHEX buffer
+温度 RMS 约 `0.0673 K`、末端漂移约 `0.0925 K`。当前 runner 仍未完成完整装置首定律合同，
+因此 periodic 状态只能写为 `not_verifiable_from_partial_observations`，不能称为周期稳态。
+
+### 审计合理性结论
+
+本次完整双臂数据没有显示现行流量审计误判：末周期最大误差低于 `15%` 点值限值，但
+RMS 为 `8.09%`，超过 `5%` RMS 限值；而且边界瞬态不主导窗口，积分质量误差接近零不能
+替代瞬时入口跟踪。故保留现行双门禁，不通过移动窗口、只看积分质量或放宽 RMS 来制造通过。
+真正需要上移的是控制/物理结构：路线记忆、换阀时序、沿程温度-黏度响应和有效输运时间尺度
+没有形成共同的跨周期控制合同，而不是继续盲扫单一 Kp/Ki。
+
+最终判定：该完整 20-cycle 包为 `rejected_scientific_gate`，不得作为恢复源、seed、outer
+solve、敏感性、paired endpoint 或 Table 4 输入。紧凑执行合同、五项正式审计、跨周期指标、
+拒绝标记和哈希见：
+`gx101r1_R69_remote/outputs_storage_audit/stage4_single_target_contract_20260929_20cycle_progress_contract/`。
+下一阶段应先完成路线 PI 记忆/热液压时序的模型级合同审计，并将 full-device first-law
+与周期门禁作为一体化验收条件；不再对当前控制链做无依据的局部增益扫描。

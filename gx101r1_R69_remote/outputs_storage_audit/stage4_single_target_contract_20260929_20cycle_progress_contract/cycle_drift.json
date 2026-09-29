@@ -1,0 +1,227 @@
+{
+  "schema": "heatdrive_ecc_cold_cycle_drift_diagnostic_v1",
+  "diagnostic_only": true,
+  "execution_commit": "d683155caed116674a06afc8c4764f79badfd3a9",
+  "cycle_count": 20,
+  "prior_cycle_index": 18,
+  "last_cycle_index": 19,
+  "phase_grid_samples": 10001,
+  "phase_grid_closed_endpoint": true,
+  "observable_periodicity_assessed": true,
+  "periodic_steady_state_verified": false,
+  "periodic_status": "not_verifiable_from_partial_observations",
+  "full_device_first_law_verified": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false,
+  "arms": [
+    {
+      "arm": "native",
+      "observations_sha256": "F7CC0D808CC4DE6301AAD485CFA0AB89B506EB2FA634AAD0E4B5820D15464D38",
+      "fields": {
+        "SMA_temperature_K": {
+          "same_phase_rms": 0.0075456637188389955,
+          "same_phase_max_abs": 0.15344427497188917,
+          "endpoint_max_abs": 0.0008924296380996566,
+          "endpoint_mean_signed": 0.0005547887931432646,
+          "prior_endpoint_mean": 306.8772026031976,
+          "last_endpoint_mean": 306.8777573919907
+        },
+        "SE_temperature_K": {
+          "same_phase_rms": 0.01850404710273421,
+          "same_phase_max_abs": 0.21704625735958416,
+          "endpoint_max_abs": 0.03151370142018095,
+          "endpoint_mean_signed": 0.01144034786439566,
+          "prior_endpoint_mean": 290.49995455837836,
+          "last_endpoint_mean": 290.5113949062428
+        },
+        "SMA_martensite_fraction": {
+          "same_phase_rms": 0.0003679525690793597,
+          "same_phase_max_abs": 0.00736530599561902,
+          "endpoint_max_abs": 1.396736397651921e-07,
+          "endpoint_mean_signed": -1.5096687133202346e-08,
+          "prior_endpoint_mean": 0.9999980424332044,
+          "last_endpoint_mean": 0.9999980273365173
+        },
+        "SE_martensite_fraction": {
+          "same_phase_rms": 0.0005656929384092245,
+          "same_phase_max_abs": 0.010212567425052527,
+          "endpoint_max_abs": 0.00032136553960411193,
+          "endpoint_mean_signed": 2.230773104512958e-05,
+          "prior_endpoint_mean": 0.0014000466977841712,
+          "last_endpoint_mean": 0.0014223544288293009
+        },
+        "SE_stage4_flow_kgps": {
+          "same_phase_rms": 1.1373426630802032e-07,
+          "same_phase_max_abs": 2.9754542134287007e-06,
+          "endpoint_max_abs": 5.46566185641046e-07,
+          "endpoint_mean_signed": 5.46566185641046e-07,
+          "prior_endpoint_mean": 0.003699134101927239,
+          "last_endpoint_mean": 0.00369968066811288
+        },
+        "SE_stage4_route_PI_MPa": {
+          "same_phase_rms": 0.00011000762397973255,
+          "same_phase_max_abs": 0.00025059302472635325,
+          "endpoint_max_abs": 0.00016174468532409447,
+          "endpoint_mean_signed": -0.00016174468532409447,
+          "prior_endpoint_mean": -0.17716107551743165,
+          "last_endpoint_mean": -0.17732282020275575
+        },
+        "cold_buffer_temp_out": {
+          "same_phase_rms": 0.020408648698815406,
+          "same_phase_max_abs": 0.022150987787767917,
+          "endpoint_max_abs": 0.002124800465651333,
+          "endpoint_mean_signed": -0.002124800465651333,
+          "prior_endpoint_mean": 275.73258095342794,
+          "last_endpoint_mean": 275.7304561529623
+        },
+        "hot_buffer_temp_out": {
+          "same_phase_rms": 0.02955460902471612,
+          "same_phase_max_abs": 0.03283804074726504,
+          "endpoint_max_abs": 0.03155803691697656,
+          "endpoint_mean_signed": 0.03155803691697656,
+          "prior_endpoint_mean": 304.0314439940926,
+          "last_endpoint_mean": 304.0630020310096
+        },
+        "shex_buffer_temp_out": {
+          "same_phase_rms": 0.06730569130550113,
+          "same_phase_max_abs": 0.09714970661593725,
+          "endpoint_max_abs": 0.09247326748800333,
+          "endpoint_mean_signed": -0.09247326748800333,
+          "prior_endpoint_mean": 389.51516759688997,
+          "last_endpoint_mean": 389.42269432940196
+        },
+        "sma_hot_buffer_temp_out": {
+          "same_phase_rms": 0.014638430615528256,
+          "same_phase_max_abs": 0.04029547581251336,
+          "endpoint_max_abs": 0.00024400551359349265,
+          "endpoint_mean_signed": 0.00024400551359349265,
+          "prior_endpoint_mean": 307.09608029074195,
+          "last_endpoint_mean": 307.09632429625555
+        },
+        "se_cooldown_inlet_fluid_temp_out": {
+          "same_phase_rms": 0.024466848865462396,
+          "same_phase_max_abs": 0.032831703952808766,
+          "endpoint_max_abs": 0.03155194545735185,
+          "endpoint_mean_signed": 0.03155194545735185,
+          "prior_endpoint_mean": 303.97428723378357,
+          "last_endpoint_mean": 304.0058391792409
+        },
+        "se_cooldown_outlet_fluid_temp_out": {
+          "same_phase_rms": 0.013784446070903003,
+          "same_phase_max_abs": 0.019198584496052717,
+          "endpoint_max_abs": 0.014802709216041876,
+          "endpoint_mean_signed": -0.014802709216041876,
+          "prior_endpoint_mean": 272.3361468242393,
+          "last_endpoint_mean": 272.32134411502324
+        }
+      }
+    },
+    {
+      "arm": "conservative",
+      "observations_sha256": "D96D2790B981A2C51F284B943DC379A33A625A52A906173B3BF0DB431094CBD2",
+      "fields": {
+        "SMA_temperature_K": {
+          "same_phase_rms": 0.0075456637188389955,
+          "same_phase_max_abs": 0.15344427497188917,
+          "endpoint_max_abs": 0.0008924296380996566,
+          "endpoint_mean_signed": 0.0005547887931432646,
+          "prior_endpoint_mean": 306.8772026031976,
+          "last_endpoint_mean": 306.8777573919907
+        },
+        "SE_temperature_K": {
+          "same_phase_rms": 0.01850404710273421,
+          "same_phase_max_abs": 0.21704625735958416,
+          "endpoint_max_abs": 0.03151370142018095,
+          "endpoint_mean_signed": 0.01144034786439566,
+          "prior_endpoint_mean": 290.49995455837836,
+          "last_endpoint_mean": 290.5113949062428
+        },
+        "SMA_martensite_fraction": {
+          "same_phase_rms": 0.0003679525690793597,
+          "same_phase_max_abs": 0.00736530599561902,
+          "endpoint_max_abs": 1.396736397651921e-07,
+          "endpoint_mean_signed": -1.5096687133202346e-08,
+          "prior_endpoint_mean": 0.9999980424332044,
+          "last_endpoint_mean": 0.9999980273365173
+        },
+        "SE_martensite_fraction": {
+          "same_phase_rms": 0.0005656929384092245,
+          "same_phase_max_abs": 0.010212567425052527,
+          "endpoint_max_abs": 0.00032136553960411193,
+          "endpoint_mean_signed": 2.230773104512958e-05,
+          "prior_endpoint_mean": 0.0014000466977841712,
+          "last_endpoint_mean": 0.0014223544288293009
+        },
+        "SE_stage4_flow_kgps": {
+          "same_phase_rms": 1.1373426630802032e-07,
+          "same_phase_max_abs": 2.9754542134287007e-06,
+          "endpoint_max_abs": 5.46566185641046e-07,
+          "endpoint_mean_signed": 5.46566185641046e-07,
+          "prior_endpoint_mean": 0.003699134101927239,
+          "last_endpoint_mean": 0.00369968066811288
+        },
+        "SE_stage4_route_PI_MPa": {
+          "same_phase_rms": 0.00011000762397973255,
+          "same_phase_max_abs": 0.00025059302472635325,
+          "endpoint_max_abs": 0.00016174468532409447,
+          "endpoint_mean_signed": -0.00016174468532409447,
+          "prior_endpoint_mean": -0.17716107551743165,
+          "last_endpoint_mean": -0.17732282020275575
+        },
+        "cold_buffer_temp_out": {
+          "same_phase_rms": 0.020408648698815406,
+          "same_phase_max_abs": 0.022150987787767917,
+          "endpoint_max_abs": 0.002124800465651333,
+          "endpoint_mean_signed": -0.002124800465651333,
+          "prior_endpoint_mean": 275.73258095342794,
+          "last_endpoint_mean": 275.7304561529623
+        },
+        "hot_buffer_temp_out": {
+          "same_phase_rms": 0.02955460902471612,
+          "same_phase_max_abs": 0.03283804074726504,
+          "endpoint_max_abs": 0.03155803691697656,
+          "endpoint_mean_signed": 0.03155803691697656,
+          "prior_endpoint_mean": 304.0314439940926,
+          "last_endpoint_mean": 304.0630020310096
+        },
+        "shex_buffer_temp_out": {
+          "same_phase_rms": 0.06730569130550113,
+          "same_phase_max_abs": 0.09714970661593725,
+          "endpoint_max_abs": 0.09247326748800333,
+          "endpoint_mean_signed": -0.09247326748800333,
+          "prior_endpoint_mean": 389.51516759688997,
+          "last_endpoint_mean": 389.42269432940196
+        },
+        "sma_hot_buffer_temp_out": {
+          "same_phase_rms": 0.014638430615528256,
+          "same_phase_max_abs": 0.04029547581251336,
+          "endpoint_max_abs": 0.00024400551359349265,
+          "endpoint_mean_signed": 0.00024400551359349265,
+          "prior_endpoint_mean": 307.09608029074195,
+          "last_endpoint_mean": 307.09632429625555
+        },
+        "se_cooldown_inlet_fluid_temp_out": {
+          "same_phase_rms": 0.024466848865462396,
+          "same_phase_max_abs": 0.032831703952808766,
+          "endpoint_max_abs": 0.03155194545735185,
+          "endpoint_mean_signed": 0.03155194545735185,
+          "prior_endpoint_mean": 303.97428723378357,
+          "last_endpoint_mean": 304.0058391792409
+        },
+        "se_cooldown_outlet_fluid_temp_out": {
+          "same_phase_rms": 0.013784446070903003,
+          "same_phase_max_abs": 0.019198584496052717,
+          "endpoint_max_abs": 0.014802709216041876,
+          "endpoint_mean_signed": -0.014802709216041876,
+          "prior_endpoint_mean": 272.3361468242393,
+          "last_endpoint_mean": 272.32134411502324
+        }
+      }
+    }
+  ],
+  "input_sha256": {
+    "execution": "EA27B6264693F5217F04AC6ADA593ED292A7B426EECF00A039AD6102BB4DE543"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schema": "heatdrive_ecc_cold_chamber_progress_v1",
+  "execution_commit": "d683155caed116674a06afc8c4764f79badfd3a9",
+  "cycle_count": 20,
+  "stop_time_s": 200,
+  "completed_arms": [
+    "native",
+    "conservative"
+  ],
+  "last_completed_arm": "conservative",
+  "collection_pass": false,
+  "scientific_gate_evaluated": false,
+  "production_recovery_allowed": false,
+  "do_not_use_as_seed": true,
+  "do_not_use_for_recovery": true
+}
