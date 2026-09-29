@@ -4169,6 +4169,22 @@ Stage4 A/B 压力探针和 `V4_hot_inlet`；源 trace 与信号原始网格不�
 `P*q` 派生泵功正式纳入控制体表和 Eq.10 账本，并对 SMA 泵、SE Stage2、SE Stage4、
 CHEX/SHEX/HHEX 的边界统一采用相同质量基准和时间窗口。
 
+## 201. 控制体合同 v2 与 Stage4 实测闭合更新（2026-09-30）
+
+重新运行 `heatdrive_ecc_control_volume_contract_v2` 结构审计，结果为 10 个控制体、10 个
+性能指标、Eq.9/Eq.10 窗口和有效 SE 质量 `0.04181683646625444 kg` 全部存在，
+`audit_pass=true`。该审计的边界仍是“合同结构”，不等同于整机物理首定律。
+
+结合 §200 的完整 20-cycle native 数据，Stage4 泵功控制体已从“只有静态候选”推进到
+“末周期严格窗局部闭合”：压力源 `P` 与 A/B 压力、A/B 质量流量与 `V4_hot_inlet` 均闭合。
+但 source `power` 恒为零，真实可用的泵功只能写成具有明确边界合同的
+`derived hydraulic power = P*q_A`；该窗均值约 `1.1717 W`。这不允许把 Stage4 局部闭合
+扩展为整机首定律，也不允许把零 source power 当作真实电功或机械功。
+
+当前实际控制体矩阵：CHEX 传感器/固定边界、SMA/SE 固体和 Stage4 局部压力/质量边界已有
+证据；SHEX/HHEX/CHEX 下游流体、buffers、管路库存与三路泵的统一时间分辨率能量账本仍为
+partial。故 `outer_solve_eligible=false`、`paired_table4_eligible=false` 保持不变。
+
 紧凑证据、哈希和收集状态见：
 `gx101r1_R69_remote/outputs_storage_audit/stage4_single_target_contract_20260928_20cycle/`。
 
