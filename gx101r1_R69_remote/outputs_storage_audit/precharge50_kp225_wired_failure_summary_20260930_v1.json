@@ -1,0 +1,17 @@
+{
+  "schema": "heatdrive_ecc_stage4_execution_failure_summary_v1",
+  "experiment_root": "X:\\gx101r1_R69_remote\\outputs\\qian_coupled_observed_boundary_precharge50_kp225_wired_20260930_10s_v1",
+  "execution_commit": "7d94298265f9f1d50c67080ebedaa5a7305c02bb",
+  "launcher_exit_code": 1,
+  "wall_seconds": 107.9542318,
+  "c200_state_imported": false,
+  "checkpoint_saved": false,
+  "production_recovery_allowed": false,
+  "error_identifier": "MATLAB:sizeDimensionsMustMatch",
+  "error_location": "Integrate_HeatDriveECC_Constitutive21_Interface>apply_full_cycle_valve_commands line 979",
+  "cause": "Stage4 precharge was formed on the sparse valve-profile time axis while the settled-core integrator enable vector used the fixed gate_t axis.",
+  "scientific_status": "execution_contract_failure_not_scientific_gate_failure",
+  "rejected_do_not_resume": true,
+  "repair": "Compute the precharge activity from stage4_activity_gate on the fixed gate_t axis.",
+  "raw_output_retained": true
+}
