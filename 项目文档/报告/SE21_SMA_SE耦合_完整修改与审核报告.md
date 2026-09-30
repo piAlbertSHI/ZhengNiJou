@@ -4356,3 +4356,10 @@ fail-closed，不再产生不一致的文件异常。
 本轮提交 `6dbaafa`，相关 Python/MATLAB 回归和 `checkcode` 全部通过。下一轮只比较结构
 机制，不开展无合同的参数扫描：先验证离散交替是否被预充/周期混合开关隔离，再用同一控制体
 和窗口合同重新审核 SE 流量、相分数、能量与双臂一致性；seed gate 仍保持关闭。
+
+## 207. Stage4 launcher 参数合同补齐（2026-09-30）
+
+为避免 runner 与 launcher 分叉，独立冷态 launcher 现在显式记录并传递 Stage4 换阀预充比例
+和周期黏度混合开关，且分别进行 `[0,1]` 与布尔类型约束。该修改只完善诊断参数的 provenance，
+没有启动新的 MATLAB 仿真，也没有改变 C200 或任何恢复权限；后续结构实验可以在同一
+execution contract 下复现。
