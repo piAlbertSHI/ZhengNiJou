@@ -461,7 +461,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 end
             end
             names={'L_valve_command','SMA_L_valve_command','SMA_pressure_bias_command', ...
-                'SMA_pressure_feedback_enable_command','SMA_pressure_feedback_reset_command'};
+                'SMA_pressure_feedback_enable_command','SMA_pressure_feedback_reset_command', ...
+                'SE_stage4_pressure_integrator_enable_command'};
             commands=struct();
             for k=1:numel(names)
                 v=evalin('base',names{k}); assert(v.Time(1)==0 && ...
@@ -469,6 +470,12 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     v.Time(end)>=duration-1.0e-9, ...
                     'Require a schedule covering the declared diagnostic window.');
                 commands.(names{k})=struct('time_s',v.Time,'values',v.Data);
+            end
+            if isfield(options.branch,'se_stage4_commutation_precharge_fraction') && ...
+                    options.branch.se_stage4_commutation_precharge_fraction > 0.0
+                precharge_values = commands.SE_stage4_pressure_integrator_enable_command.values;
+                assert(any(precharge_values > 0.0 & precharge_values < 1.0), ...
+                    'Requested Stage4 precharge produced no fractional integrator-enable samples.');
             end
             save(fullfile(arm,'configuration.mat'),'options','commands','-v7.3');
             log_window_cycles=min(cycle_count,2);
