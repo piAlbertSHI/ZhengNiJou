@@ -41,5 +41,19 @@
     "boundary_transient_dominates_gate": false
   },
   "stage4_controller_dynamics_audit_sha256": "D5940418E405E3983739086E26BB84100448F24F156904253F071DE4AB5A0C83",
-  "stage4_boundary_transient_audit_sha256": "085B14E7F3B9A4DEA327C3EE904CBBA389D8668D7840E941E203E3CE28466EEE"
+  "stage4_boundary_transient_audit_sha256": "085B14E7F3B9A4DEA327C3EE904CBBA389D8668D7840E941E203E3CE28466EEE",
+  "stage4_transport_contract": {
+    "strict_window_s": [8.801, 9.85],
+    "active_se_residence_s": 12.416176270195635,
+    "window_to_residence_ratio": 0.08448655827463304,
+    "window_is_quasi_steady": false,
+    "pressure_error_peak_correlation": 0.9708914753999975,
+    "pressure_error_lag_search_boundary_s": -0.5,
+    "integrator_error_peak_correlation": 0.9966418205374217,
+    "route_integral_error_lag_s": -0.15,
+    "interpretation": "Dynamic-memory evidence; not a reason to replace the instantaneous flow gate with a transport-only gate."
+  },
+  "stage4_causal_response_audit_sha256": "158BED65D6795A29BF39350CB517E97F795EA3E9FC80CB89302CCD2F16775B0B",
+  "stage4_transport_window_audit_sha256": "C4937DD8CE911A7202D74FA5B0E3CF9DD1623C3ECE94272B29A66049DE0F7653",
+  "stage4_feedforward_candidate_audit_sha256": "23E77ABB43E646E1E3353CACC94F3D968D01D752573C6E77A0A7F1C06B673A4F"
 }
