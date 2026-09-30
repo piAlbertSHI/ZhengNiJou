@@ -4476,3 +4476,35 @@ outer solve、敏感性或 Table 4。完整结果位于隔离输出和 `outputs_
 因此下一次实验必须重新运行一次真正生效的积分预充诊断；在该结果通过完整 10 s 双臂门禁
 前，仍不得进入 20-cycle、outer solve、敏感性或 Table 4。第 210 节中“审计白名单过严”的
 修正仍然有效，但科学归因以本节为准。
+
+## 212. Stage4 有效积分预充诊断结果（2026-09-30）
+
+按第 211 节修正后重新运行全新输出
+`qian_coupled_observed_boundary_precharge50_kp225_wired_20260930_10s_v3`。执行提交为
+`c7f46db863a1a59b5c79ad1647f226b7d73bfd86`，native/conservative 各完成 10 s，退出码为 `0`；
+C200 导入、checkpoint 保存和生产恢复均为 `false`。两个 configuration contract 均记录
+`23` 个值为 `0.5` 的连续积分门控样本，证明本次积分预充确实生效。
+
+### 门禁结果
+
+- 局部控制体质量/能量账本、`125/125 + 79/79` 初始坐标、source-storage 残差、压力 A/B
+  探针、压力范围和派生液压功诊断：通过；
+- 相分数与固体能量：通过；
+- SE stage 2：两臂 RMS 相对误差约 `5.1047%`，流量门禁仍失败；
+- SE stage 4：native/conservative RMS 约 `6.0607%`，最大绝对误差约 `31.92%`，积分质量
+  相对误差约 `5.217%`，流量门禁仍失败；
+- 严格门内 `9.84--9.85 s` 仍存在两臂离散交替，flow even/odd 差约 `0.001334 kg/s`，
+  pressure-command even/odd 差约 `0.0706 MPa`。边界瞬态仍不主导严格门。
+
+相较 v2，真实积分预充使 Stage4 最大误差和 RMS 有小幅改善，但没有改变失败类别，也没有
+消除门内交替或约 `5.2%` 的阶段平均超量输运。因此现在可以排除“积分预充未生效”这一层
+问题，但不能把预充视为完整控制修复。下一阶段应上移到 Stage4 控制更新率/离散执行、PI
+积分路线记忆与质量流目标的共同动态合同，优先验证控制指令的采样保持/限速和反馈测点语义，
+而不是继续无结构扫描 Kp/Ki。
+
+本轮判定仍为 `diagnostic_20cycle_seed_eligible=false`、`outer_solve_eligible=false`、
+`paired_table4_eligible=false`、`table4_reproduction_claim=false`。未进入 20-cycle 或任何
+生产恢复路径。紧凑摘要为
+`gx101r1_R69_remote/outputs_storage_audit/precharge50_kp225_wired_summary_20260930_v3.json`，
+完整哈希记录见
+`项目文档/修改记录/2026-09-30_Stage4积分预充有效性修正.md`。

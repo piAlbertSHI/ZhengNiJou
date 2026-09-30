@@ -1,0 +1,65 @@
+{
+  "schema": "heatdrive_ecc_precharge50_wired_summary_v2",
+  "generated_at": "2026-09-30T21:19:15+08:00",
+  "execution_commit": "c7f46db863a1a59b5c79ad1647f226b7d73bfd86",
+  "raw_output_root": "X:\\gx101r1_R69_remote\\outputs\\qian_coupled_observed_boundary_precharge50_kp225_wired_20260930_10s_v3",
+  "execution_json_sha256": "822488A5A901C794F1EB9633E94AA8BD42EAEB8DCE5FCCFAB169047906A9ACF2",
+  "c200_state_imported": false,
+  "checkpoint_saved": false,
+  "production_recovery_allowed": false,
+  "cycle_count": 1,
+  "duration_s": 10.0,
+  "stage4_commutation_precharge_fraction": 0.5,
+  "integrator_precharge_effective": true,
+  "integrator_precharge_fractional_samples_per_arm": 23,
+  "arms": [
+    {
+      "arm": "native",
+      "observation_sha256": "845A6F030FFEDFFB4391E9CD4D280C85BF682F66D7C17FD3A7E636912F61EBB1",
+      "se_stage2_rms_relative_error": 0.05104674173953949,
+      "se_stage2_max_abs_relative_error": 0.09254738192090617,
+      "se_stage4_rms_relative_error": 0.06060680991182481,
+      "se_stage4_max_abs_relative_error": 0.31917637213943806,
+      "se_stage4_integrated_mass_relative_error": 0.05216886198471893,
+      "strict_flow_gate": false,
+      "pressure_probe_gate": true
+    },
+    {
+      "arm": "conservative",
+      "observation_sha256": "411D2877DE04AD66FDA72771FAE492D551DE6FD9785791F236F7193FB7959916",
+      "se_stage2_rms_relative_error": 0.05104680318863668,
+      "se_stage2_max_abs_relative_error": 0.09254728474559637,
+      "se_stage4_rms_relative_error": 0.06060989280189309,
+      "se_stage4_max_abs_relative_error": 0.31926166463370187,
+      "se_stage4_integrated_mass_relative_error": 0.0521688870807544,
+      "strict_flow_gate": false,
+      "pressure_probe_gate": true
+    }
+  ],
+  "strict_window_alternation": {
+    "window_s": [9.84, 9.85],
+    "flow_even_odd_delta_kgps": [0.0013344156650268676, 0.0013348203460715625],
+    "command_even_odd_delta_MPa": [0.0706063452680731, 0.0706276761776917],
+    "detected_both_arms": true
+  },
+  "seed_gate": {
+    "flow_and_inventory_gate": false,
+    "phase_bounds_and_solid_energy_gate": true,
+    "pressure_and_hydraulic_gate": true,
+    "diagnostic_20cycle_seed_eligible": false,
+    "outer_solve_eligible": false,
+    "paired_table4_eligible": false,
+    "table4_reproduction_claim": false
+  },
+  "audit_json_sha256": {
+    "cold_buffer": "2F3C8A2C126C1CA48DA25D633EE3E38D138A9E2B360DBE135CC6BC4F2E8A4D39",
+    "pressure": "C419FE3FF23E47913ABA613FE620EE46A120249B92DF4F520B0B324BBF484377",
+    "seed_gate": "6ECD6C5492DB231D2F482ED3B702F1131500DD972F4347CD04A664915151612E",
+    "dynamics": "D43F5CE8308BC64F5DB5BF4A8E202E369F236375DDE4EF9DA617447996FA659C",
+    "causal": "2B3AEC9152BC50A1F56F61A1687FDDAA265FB11EA589C8EEF42CCEB20192967B",
+    "transient": "77563D915B7CF0E4E79C3648281B213FD708B8DC884C4A4F59A103CE598812D4",
+    "transport": "ABD733B7DE0137B63DAC532D280DDDB19C060607245EB71458151A80F348E967",
+    "feedforward": "C74799D40A1BDAF3CD54598BF6B426CC58DACE08D7D832560FA359662B6369AB"
+  },
+  "disposition": "diagnostic_only_rejected_for_20cycle_seed"
+}
