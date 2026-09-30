@@ -4420,3 +4420,40 @@ profile 时间轴生成。现已改为直接使用同一固定网格上的 `stag
 
 紧凑回执：
 `gx101r1_R69_remote/outputs_storage_audit/precharge50_kp225_wired_failure_summary_20260930_v1.json`。
+
+## 210. Stage4 预充电实测结果与审计门禁合理性复核（2026-09-30）
+
+修复固定 `gate_t` 与预充电向量的维度合同后，在全新输出
+`qian_coupled_observed_boundary_precharge50_kp225_wired_20260930_10s_v2` 完成 native/
+conservative 双臂各 10 s 冷态采集。执行提交为
+`3b2718852ba02e6b37fbb4d6fc83a7cbfa16b617`，退出码为 `0`；C200 导入、checkpoint 保存和
+生产恢复均为 `false`。execution JSON SHA-256 为
+`260C708E030F3D95527B738CA94B81441C6D8E5F098A35B95D8B3866848E5F10`。
+
+### 审计层级复核
+
+冷态账本先因只接受历史 producer 白名单而拒绝本次执行。逐项比较确认当前提交只把 Stage4
+预充电诊断对齐到 settled `gate_t` 网格，没有改变冷态库存、buffer、热容、本构、温度、相分数
+或恢复合同。现已将该精确 execution identity 加入冷态 buffer 和压力探针审计的显式白名单；
+仍保留所有流量、压力、局部守恒、初始坐标和相分数阈值。该修正消除的是 provenance false
+negative，不是科学门禁放宽。
+
+### 科学结果
+
+- 控制体账本、`125/125 + 79/79` 初始坐标、source-storage 残差、压力 A/B 探针和派生
+  液压功诊断通过；direct pump electrical power 仍未观测。
+- SE stage 2 RMS 相对误差为约 `5.1047%`，最大绝对误差约 `9.2547%`，流量门禁失败。
+- SE stage 4 RMS 相对误差为约 `6.1002%`，最大绝对误差约 `32.6815%`，积分质量相对
+  误差约 `5.2321%`，流量门禁失败。
+- 在严格门内 `9.84--9.85 s`，两臂均存在离散交替：flow even/odd 差约 `0.001371 kg/s`，
+  pressure-command even/odd 差约 `0.0725 MPa`。`9.85 s` 之后的换阀过渡单独统计，不回溯
+  归因于门内控制器。
+- 真实接线并消费的 `precharge=0.5` 没有改善严格门内失配。因此主问题不再归因于单一换阀
+  初始预充，而应上移为 Stage4 离散执行、积分路线记忆、泵压指令和目标流量之间的共同动态
+  合同问题。当前不应继续盲扫单个 Kp/Ki。
+
+本轮判定：`diagnostic_20cycle_seed_eligible=false`、`outer_solve_eligible=false`、
+`paired_table4_eligible=false`、`table4_reproduction_claim=false`。未进入 20-cycle、恢复、
+outer solve、敏感性或 Table 4。完整结果位于隔离输出和 `outputs_storage_audit`，只保留紧凑
+审计摘要进入主线；详细哈希记录见
+`项目文档/修改记录/2026-09-30_Stage4预充电实测审计与门禁合理性修正.md`。

@@ -48,6 +48,9 @@ PRODUCERS = {
     # Independent cold diagnostics with bounded Stage-4 overrides and
     # observed thermal-boundary extraction; no recovery state is imported.
     "3cda3aab3a6bcee45f67e69403a5bf57e0aef882",
+    # 3b27188 only aligns the Stage-4 precharge diagnostic to the settled
+    # gate-time grid; pressure probes and their contracts are unchanged.
+    "3b2718852ba02e6b37fbb4d6fc83a7cbfa16b617",
 }
 PRESSURE_MIN_MPA = 0.45
 PRESSURE_MAX_MPA = 5.0

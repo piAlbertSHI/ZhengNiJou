@@ -80,11 +80,15 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     # remain unchanged.
     'a9535e2582fa6c6d0841dfd3898624690cb50127',
     '393be6f000d9421c159b8c191f6f2c65ac24c185',
+    # 3b27188 aligns the Stage-4 precharge diagnostic with the settled
+    # gate-time grid without changing the cold-start state contract.
+    '3b2718852ba02e6b37fbb4d6fc83a7cbfa16b617',
 }
 ENDPOINT_CHAMBER_PRODUCERS = {
     # Observed thermal-boundary extraction added after simulation; endpoint
     # sources and initialization are still checked against their hash contracts.
     '3cda3aab3a6bcee45f67e69403a5bf57e0aef882',
+    '3b2718852ba02e6b37fbb4d6fc83a7cbfa16b617',
     # Isolated endpoint-chamber route after the runner/source allowlists were
     # completed. This producer remains diagnostic-only and imports no C200 OP.
     'f5329019943455f59c15d8d9d19c873800417383',
@@ -144,6 +148,7 @@ INITIAL_FLUX_COMPENSATION_PRODUCERS = {
     '15e444ac60014a763837a67c46f17ede933d49b9',
     '1e2c9b1b4c9effd772af63f1546e2bacfb8df933',
     'a9535e2582fa6c6d0841dfd3898624690cb50127',
+    '3b2718852ba02e6b37fbb4d6fc83a7cbfa16b617',
     '393be6f000d9421c159b8c191f6f2c65ac24c185',
 }
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
