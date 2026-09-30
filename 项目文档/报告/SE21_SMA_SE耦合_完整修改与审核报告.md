@@ -4508,3 +4508,8 @@ C200 导入、checkpoint 保存和生产恢复均为 `false`。两个 configurat
 `gx101r1_R69_remote/outputs_storage_audit/precharge50_kp225_wired_summary_20260930_v3.json`，
 完整哈希记录见
 `项目文档/修改记录/2026-09-30_Stage4积分预充有效性修正.md`。
+
+随后又修正了动态审计的措辞：`high_gain_discrete_alternating_instability` 改为
+`discrete_alternating_response_signature`。原始奇偶差阈值和流量门禁未改变；该修正只明确
+表示这是观测到的响应特征，不是已经证明的高增益因果失稳。修正后 dynamics JSON SHA-256 为
+`A98DF3BBF24BE12100C97B081F1D0038BB6CDA8A559D92CBBD0F7648BA6C1CA6`。

@@ -1,4 +1,5 @@
 import unittest
+from pathlib import Path
 
 import numpy as np
 
@@ -29,6 +30,11 @@ class Stage4ControllerDynamicsTest(unittest.TestCase):
         command[mask & (np.arange(self.time.size) % 2 == 1)] = -0.33
         self.assertTrue(alternating_mode(self.time, flow, command)[
             "alternating_mode_detected"])
+
+    def test_alternating_detection_is_not_a_causal_high_gain_claim(self):
+        source = (Path(__file__).parent/'Audit_HeatDriveECC_Stage4ControllerDynamics.py').read_text(encoding='utf-8')
+        self.assertIn('discrete_alternating_response_signature', source)
+        self.assertNotIn('high_gain_discrete_alternating_instability', source)
 
     def test_post_gate_transition_is_not_gate_scoped(self):
         flow = np.full(self.time.size, 0.0032)

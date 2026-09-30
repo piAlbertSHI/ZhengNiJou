@@ -1,7 +1,7 @@
 """Diagnose Stage-4 controller dynamics without changing any production gate.
 
-The audit separates two failure modes that a single RMS number hides:
-sample-to-sample alternating instability and slow scheduled-flow bias.  It
+The audit separates two response signatures that a single RMS number hides:
+sample-to-sample alternating response and slow scheduled-flow bias.  It
 never authorizes a seed, recovery, outer solve, sensitivity run, or Table 4
 claim.  Raw observations remain the source of truth; no smoothing is used for
 the production decision.
@@ -141,9 +141,9 @@ def audit_experiment(root: Path) -> dict:
     rows = [audit_arm(root / arm / "observations.mat", cycle_offset_s,
                       analysis_cycle_index)
             for arm in ("native", "conservative")]
-    high_gain = all(row["alternating_mode"]["alternating_mode_detected"]
-                    for row in rows)
-    low_gain_bias = (not high_gain and any(
+    alternating_response = all(row["alternating_mode"]["alternating_mode_detected"]
+                                for row in rows)
+    slow_tracking_bias = (not alternating_response and any(
         row["stage4_production_window"]["production_instantaneous_gate_pass"] is False
         for row in rows))
     return {
@@ -157,9 +157,9 @@ def audit_experiment(root: Path) -> dict:
         "stage4_ki": overrides.get("se_stage4_pressure_pi_ki_MPa_per_kgps_s"),
         "arms": rows,
         "failure_mode": (
-            "high_gain_discrete_alternating_instability" if high_gain else
-            "low_gain_slow_tracking_bias" if low_gain_bias else
-            "no_stage4_controller_failure_detected"
+            "discrete_alternating_response_signature" if alternating_response else
+            "scheduled_flow_bias_signature" if slow_tracking_bias else
+            "no_stage4_response_signature_detected"
         ),
         "production_recovery_allowed": False,
         "diagnostic_20cycle_seed_eligible": False,
