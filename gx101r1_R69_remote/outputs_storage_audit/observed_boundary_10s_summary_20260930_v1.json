@@ -32,5 +32,14 @@
     "interpretation": "The failed RMS gate is not caused by including the controller transition; transport gate is not substituted for instantaneous tracking."
   },
   "native_flow_reasonableness_audit_sha256": "8616CC9423C5C81B07D793F3605C9F4DF5618DAF34FDC126B57CD8FB11DD9195",
-  "conservative_flow_reasonableness_audit_sha256": "9C636B36D4CFD8E0F84F0699AD52061024C1ED0A8893871D98B33BDF34347332"
+  "conservative_flow_reasonableness_audit_sha256": "9C636B36D4CFD8E0F84F0699AD52061024C1ED0A8893871D98B33BDF34347332",
+  "stage4_controller_dynamics": {
+    "failure_mode": "high_gain_discrete_alternating_instability",
+    "analysis_window_s": [9.84, 9.9],
+    "flow_even_odd_delta_kgps": 0.0021065247178860833,
+    "command_even_odd_delta_MPa": 0.1094441915917022,
+    "boundary_transient_dominates_gate": false
+  },
+  "stage4_controller_dynamics_audit_sha256": "D5940418E405E3983739086E26BB84100448F24F156904253F071DE4AB5A0C83",
+  "stage4_boundary_transient_audit_sha256": "085B14E7F3B9A4DEA327C3EE904CBBA389D8668D7840E941E203E3CE28466EEE"
 }
