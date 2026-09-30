@@ -45,6 +45,9 @@ PRODUCERS = {
     "737373fe920d9a7964fcd698aa0be2de19b1698d",
     # 1d08a59 only updates this audit's exact producer allowlist.
     "1d08a59fd91876e7440b7beab27398ef7888d8ce",
+    # Independent cold diagnostics with bounded Stage-4 overrides and
+    # observed thermal-boundary extraction; no recovery state is imported.
+    "3cda3aab3a6bcee45f67e69403a5bf57e0aef882",
 }
 PRESSURE_MIN_MPA = 0.45
 PRESSURE_MAX_MPA = 5.0

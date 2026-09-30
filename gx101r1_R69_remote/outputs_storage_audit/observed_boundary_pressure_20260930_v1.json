@@ -1,0 +1,322 @@
+{
+  "schema": "heatdrive_ecc_cold_pump_pressure_probe_audit_v1",
+  "diagnostic_only": true,
+  "execution_commit": "3cda3aab3a6bcee45f67e69403a5bf57e0aef882",
+  "logged_window_start_s": 0.0,
+  "logged_window_stop_s": 10.0,
+  "cycle_count": 1,
+  "leading_warmup_sample_trimmed": false,
+  "provenance_gate": true,
+  "flow_and_inventory_audit_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\observed_boundary_coupled_20260930_v1\\cold_buffer_coupled_audit.json",
+  "flow_and_inventory_gate": false,
+  "arms": [
+    {
+      "arm": "native",
+      "probe_contract_gate": true,
+      "probe_signal_gate": true,
+      "pressure_range_gate": true,
+      "pressure_records": [
+        {
+          "signal": "pump_pressure_sma_port_a_MPa",
+          "min_MPa": 0.8497904305880141,
+          "max_MPa": 0.8559868609270226,
+          "start_MPa": 0.8500004999940665,
+          "end_MPa": 0.8557315770582334,
+          "finite": true,
+          "valid_range_MPa": [
+            0.45,
+            5.0
+          ],
+          "gate_pass": true
+        },
+        {
+          "signal": "pump_pressure_sma_port_b_MPa",
+          "min_MPa": 0.6085758690040013,
+          "max_MPa": 0.8509340282105872,
+          "start_MPa": 0.8499994999940664,
+          "end_MPa": 0.6779925122397954,
+          "finite": true,
+          "valid_range_MPa": [
+            0.45,
+            5.0
+          ],
+          "gate_pass": true
+        },
+        {
+          "signal": "pump_pressure_se_stage2_port_a_MPa",
+          "min_MPa": 0.8309826975661615,
+          "max_MPa": 1.2812306616989386,
+          "start_MPa": 0.8509941512414855,
+          "end_MPa": 0.8309857058197127,
+          "finite": true,
+          "valid_range_MPa": [
+            0.45,
+            5.0
+          ],
+          "gate_pass": true
+        },
+        {
+          "signal": "pump_pressure_se_stage2_port_b_MPa",
+          "min_MPa": 0.8507779672780758,
+          "max_MPa": 0.8512677546654926,
+          "start_MPa": 0.8509931512414854,
+          "end_MPa": 0.8509857058197127,
+          "finite": true,
+          "valid_range_MPa": [
+            0.45,
+            5.0
+          ],
+          "gate_pass": true
+        },
+        {
+          "signal": "pump_pressure_se_stage4_port_a_MPa",
+          "min_MPa": 0.83097954429469,
+          "max_MPa": 1.2809461176406618,
+          "start_MPa": 0.8509821716901579,
+          "end_MPa": 0.83097954429469,
+          "finite": true,
+          "valid_range_MPa": [
+            0.45,
+            5.0
+          ],
+          "gate_pass": true
+        },
+        {
+          "signal": "pump_pressure_se_stage4_port_b_MPa",
+          "min_MPa": 0.8509795360887232,
+          "max_MPa": 0.8510254736783213,
+          "start_MPa": 0.8509811716901579,
+          "end_MPa": 0.85097954429469,
+          "finite": true,
+          "valid_range_MPa": [
+            0.45,
+            5.0
+          ],
+          "gate_pass": true
+        }
+      ],
+      "hydraulic_diagnostic_gate": true,
+      "hydraulic_diagnostics": [
+        {
+          "source_path": "heatdrive_ecc_coupled_se21/SMA Pressure Source (TL)",
+          "mdot_unit": "kg/s",
+          "rho_a_unit": "kg/m^3",
+          "rho_b_unit": "kg/m^3",
+          "pressure_unit": "MPa probe converted to Pa",
+          "power_unit": "kW",
+          "hydraulic_formula": "mdot_A*(p_B-p_A)/mean(rho_A,rho_B)",
+          "hydraulic_mean_W": 11.873922261731742,
+          "hydraulic_positive_mean_W": 11.873922261731881,
+          "hydraulic_max_W": 13.295134912693168,
+          "hydraulic_integral_J": 118.74640908727312,
+          "native_power_max_abs_W": 0.0,
+          "source_port_energy_residual_max_abs_W": 0.0,
+          "source_port_energy_residual_limit_W": 1e-10,
+          "finite": true,
+          "zero_native_power": true,
+          "hydraulic_diagnostic_gate": true
+        },
+        {
+          "source_path": "heatdrive_ecc_coupled_se21/SE_Stage2_PistonPressureSource",
+          "mdot_unit": "kg/s",
+          "rho_a_unit": "kg/m^3",
+          "rho_b_unit": "kg/m^3",
+          "pressure_unit": "MPa probe converted to Pa",
+          "power_unit": "kW",
+          "hydraulic_formula": "mdot_A*(p_B-p_A)/mean(rho_A,rho_B)",
+          "hydraulic_mean_W": 0.05950766047112521,
+          "hydraulic_positive_mean_W": 0.05950766047458837,
+          "hydraulic_max_W": 0.9119074531701689,
+          "hydraulic_integral_J": 0.595136112360506,
+          "native_power_max_abs_W": 0.0,
+          "source_port_energy_residual_max_abs_W": 0.0,
+          "source_port_energy_residual_limit_W": 1e-10,
+          "finite": true,
+          "zero_native_power": true,
+          "hydraulic_diagnostic_gate": true
+        },
+        {
+          "source_path": "heatdrive_ecc_coupled_se21/SE_Stage4_PistonPressureSource",
+          "mdot_unit": "kg/s",
+          "rho_a_unit": "kg/m^3",
+          "rho_b_unit": "kg/m^3",
+          "pressure_unit": "MPa probe converted to Pa",
+          "power_unit": "kW",
+          "hydraulic_formula": "mdot_A*(p_B-p_A)/mean(rho_A,rho_B)",
+          "hydraulic_mean_W": 0.12999124560127134,
+          "hydraulic_positive_mean_W": 0.12999124560127154,
+          "hydraulic_max_W": 3.4174284545646487,
+          "hydraulic_integral_J": 1.3000384117324026,
+          "native_power_max_abs_W": 0.0,
+          "source_port_energy_residual_max_abs_W": 0.0,
+          "source_port_energy_residual_limit_W": 1e-10,
+          "finite": true,
+          "zero_native_power": true,
+          "hydraulic_diagnostic_gate": true
+        }
+      ]
+    },
+    {
+      "arm": "conservative",
+      "probe_contract_gate": true,
+      "probe_signal_gate": true,
+      "pressure_range_gate": true,
+      "pressure_records": [
+        {
+          "signal": "pump_pressure_sma_port_a_MPa",
+          "min_MPa": 0.8497904305854318,
+          "max_MPa": 0.8559868609223578,
+          "start_MPa": 0.8500004999910707,
+          "end_MPa": 0.8557315772833497,
+          "finite": true,
+          "valid_range_MPa": [
+            0.45,
+            5.0
+          ],
+          "gate_pass": true
+        },
+        {
+          "signal": "pump_pressure_sma_port_b_MPa",
+          "min_MPa": 0.6085758687583871,
+          "max_MPa": 0.8509340282105872,
+          "start_MPa": 0.8499994999910707,
+          "end_MPa": 0.6779924708716073,
+          "finite": true,
+          "valid_range_MPa": [
+            0.45,
+            5.0
+          ],
+          "gate_pass": true
+        },
+        {
+          "signal": "pump_pressure_se_stage2_port_a_MPa",
+          "min_MPa": 0.8309826975356093,
+          "max_MPa": 1.2811752684684383,
+          "start_MPa": 0.8509941512414855,
+          "end_MPa": 0.8309857058038935,
+          "finite": true,
+          "valid_range_MPa": [
+            0.45,
+            5.0
+          ],
+          "gate_pass": true
+        },
+        {
+          "signal": "pump_pressure_se_stage2_port_b_MPa",
+          "min_MPa": 0.8507779669477713,
+          "max_MPa": 0.8512677008240842,
+          "start_MPa": 0.8509931512414854,
+          "end_MPa": 0.8509857058038935,
+          "finite": true,
+          "valid_range_MPa": [
+            0.45,
+            5.0
+          ],
+          "gate_pass": true
+        },
+        {
+          "signal": "pump_pressure_se_stage4_port_a_MPa",
+          "min_MPa": 0.8309795442975297,
+          "max_MPa": 1.2808907782616188,
+          "start_MPa": 0.8509821716901579,
+          "end_MPa": 0.8309795442975297,
+          "finite": true,
+          "valid_range_MPa": [
+            0.45,
+            5.0
+          ],
+          "gate_pass": true
+        },
+        {
+          "signal": "pump_pressure_se_stage4_port_b_MPa",
+          "min_MPa": 0.8509795360915547,
+          "max_MPa": 0.8510254736872113,
+          "start_MPa": 0.8509811716901579,
+          "end_MPa": 0.8509795442975298,
+          "finite": true,
+          "valid_range_MPa": [
+            0.45,
+            5.0
+          ],
+          "gate_pass": true
+        }
+      ],
+      "hydraulic_diagnostic_gate": true,
+      "hydraulic_diagnostics": [
+        {
+          "source_path": "heatdrive_ecc_coupled_se21/SMA Pressure Source (TL)",
+          "mdot_unit": "kg/s",
+          "rho_a_unit": "kg/m^3",
+          "rho_b_unit": "kg/m^3",
+          "pressure_unit": "MPa probe converted to Pa",
+          "power_unit": "kW",
+          "hydraulic_formula": "mdot_A*(p_B-p_A)/mean(rho_A,rho_B)",
+          "hydraulic_mean_W": 11.873922265147261,
+          "hydraulic_positive_mean_W": 11.8739222651474,
+          "hydraulic_max_W": 13.295134947709363,
+          "hydraulic_integral_J": 118.74640912021843,
+          "native_power_max_abs_W": 0.0,
+          "source_port_energy_residual_max_abs_W": 0.0,
+          "source_port_energy_residual_limit_W": 1e-10,
+          "finite": true,
+          "zero_native_power": true,
+          "hydraulic_diagnostic_gate": true
+        },
+        {
+          "source_path": "heatdrive_ecc_coupled_se21/SE_Stage2_PistonPressureSource",
+          "mdot_unit": "kg/s",
+          "rho_a_unit": "kg/m^3",
+          "rho_b_unit": "kg/m^3",
+          "pressure_unit": "MPa probe converted to Pa",
+          "power_unit": "kW",
+          "hydraulic_formula": "mdot_A*(p_B-p_A)/mean(rho_A,rho_B)",
+          "hydraulic_mean_W": 0.05950754878934402,
+          "hydraulic_positive_mean_W": 0.059507548792807174,
+          "hydraulic_max_W": 0.9119085512508843,
+          "hydraulic_integral_J": 0.5951349954310121,
+          "native_power_max_abs_W": 0.0,
+          "source_port_energy_residual_max_abs_W": 0.0,
+          "source_port_energy_residual_limit_W": 1e-10,
+          "finite": true,
+          "zero_native_power": true,
+          "hydraulic_diagnostic_gate": true
+        },
+        {
+          "source_path": "heatdrive_ecc_coupled_se21/SE_Stage4_PistonPressureSource",
+          "mdot_unit": "kg/s",
+          "rho_a_unit": "kg/m^3",
+          "rho_b_unit": "kg/m^3",
+          "pressure_unit": "MPa probe converted to Pa",
+          "power_unit": "kW",
+          "hydraulic_formula": "mdot_A*(p_B-p_A)/mean(rho_A,rho_B)",
+          "hydraulic_mean_W": 0.12999136418318663,
+          "hydraulic_positive_mean_W": 0.12999136418318685,
+          "hydraulic_max_W": 3.4165623937479714,
+          "hydraulic_integral_J": 1.3000395976642773,
+          "native_power_max_abs_W": 0.0,
+          "source_port_energy_residual_max_abs_W": 0.0,
+          "source_port_energy_residual_limit_W": 1e-10,
+          "finite": true,
+          "zero_native_power": true,
+          "hydraulic_diagnostic_gate": true
+        }
+      ]
+    }
+  ],
+  "pressure_range_gate": true,
+  "hydraulic_diagnostic_gate": true,
+  "mechanism_gates_complete": false,
+  "periodic_steady_state": false,
+  "full_device_first_law_verified": false,
+  "production_recovery_allowed": false,
+  "table4_reproduction_claim": false,
+  "seed_eligible": false,
+  "input_sha256": {
+    "cold_chamber_execution.json": "CD36CEBDDAED7D5A38E13FB7AB606ECBB285402467E57936082B42101F918189",
+    "flow_audit": "46147B5FC0636166504A6A01A3E64F9074AD8C10D95C2EF225B160DB8D6F26FB",
+    "native_observations.mat": "E62CC96C700983A6E2B9DCE2DCFA732F267896332EA84D64989F725DA6A4924B",
+    "conservative_observations.mat": "8CE65ABD22ADB709B63F2C25D93B22A665A03086155016DA2D9F53E3848AC9A1",
+    "native_probe_contract": "787A796198D7E0FD95EB6E0BC84430FD3D4C84FA312B662F9E9F9F1DCFB7B358",
+    "conservative_probe_contract": "ABC2319DCD48AC09208D3C419EEBC18B0FEDD08EEC17D9A2B1C43B5F55399DCD"
+  }
+}

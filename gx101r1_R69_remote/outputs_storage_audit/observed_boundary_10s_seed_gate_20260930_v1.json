@@ -1,0 +1,60 @@
+{
+  "schema": "heatdrive_ecc_10s_seed_gate_v1",
+  "diagnostic_only": true,
+  "flow_and_inventory_gate": false,
+  "phase_bounds_and_solid_energy_gate": true,
+  "pressure_and_hydraulic_gate": false,
+  "phase_rows": [
+    {
+      "arm": "native",
+      "material": "SMA",
+      "all_node_phase_min": 5.538713933056841e-36,
+      "all_node_phase_max": 1.0,
+      "selected_solid_energy_gate": true,
+      "phase_bounds_and_solid_gate_pass": true
+    },
+    {
+      "arm": "native",
+      "material": "SE",
+      "all_node_phase_min": 0.0,
+      "all_node_phase_max": 0.9999999999975343,
+      "selected_solid_energy_gate": true,
+      "phase_bounds_and_solid_gate_pass": true
+    },
+    {
+      "arm": "conservative",
+      "material": "SMA",
+      "all_node_phase_min": 5.538463831007061e-36,
+      "all_node_phase_max": 1.0,
+      "selected_solid_energy_gate": true,
+      "phase_bounds_and_solid_gate_pass": true
+    },
+    {
+      "arm": "conservative",
+      "material": "SE",
+      "all_node_phase_min": 0.0,
+      "all_node_phase_max": 0.9999999999975343,
+      "selected_solid_energy_gate": true,
+      "phase_bounds_and_solid_gate_pass": true
+    }
+  ],
+  "full_cycle_completed": true,
+  "periodic_steady_state": false,
+  "mechanism_gates_complete": false,
+  "diagnostic_20cycle_seed_eligible": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false,
+  "rejection_reasons": [
+    "10 s flow/inventory/initial-coordinate gate failed",
+    "independent pressure/probe/hydraulic gate failed"
+  ],
+  "input_sha256": {
+    "flow_audit": "46147B5FC0636166504A6A01A3E64F9074AD8C10D95C2EF225B160DB8D6F26FB",
+    "pressure_audit": "442E6246643BE62AAA071CB21DDE4FF1A611B56A8112603A4AD1DC03ED45F3B2",
+    "execution": "CD36CEBDDAED7D5A38E13FB7AB606ECBB285402467E57936082B42101F918189",
+    "native_observations": "E62CC96C700983A6E2B9DCE2DCFA732F267896332EA84D64989F725DA6A4924B",
+    "conservative_observations": "8CE65ABD22ADB709B63F2C25D93B22A665A03086155016DA2D9F53E3848AC9A1"
+  }
+}

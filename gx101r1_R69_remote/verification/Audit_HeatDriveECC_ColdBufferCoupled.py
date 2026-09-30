@@ -45,6 +45,7 @@ ZERO_BASED_OFFSET_PRODUCER = 'ec9d3e1521062b7e65aebc61a996d9c233b5bfbf'
 CONTROL_VOLUME_SEED_PRODUCER = 'c7e028d8a02b694f7b1e021acf6d0e880e2ece8d'
 CALIBRATION_MIRROR_PRODUCERS = {
     CONTROL_VOLUME_SEED_PRODUCER,
+    '3cda3aab3a6bcee45f67e69403a5bf57e0aef882',
     # These commits preserve the exact initial-flux contract and may run in
     # isolated worktrees where the hash-bound calibration is mirrored.
     '1ba3a32ae6fe9f7fe5d3d166c6fa12e740635a9c',
@@ -81,6 +82,9 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     '393be6f000d9421c159b8c191f6f2c65ac24c185',
 }
 ENDPOINT_CHAMBER_PRODUCERS = {
+    # Observed thermal-boundary extraction added after simulation; endpoint
+    # sources and initialization are still checked against their hash contracts.
+    '3cda3aab3a6bcee45f67e69403a5bf57e0aef882',
     # Isolated endpoint-chamber route after the runner/source allowlists were
     # completed. This producer remains diagnostic-only and imports no C200 OP.
     'f5329019943455f59c15d8d9d19c873800417383',

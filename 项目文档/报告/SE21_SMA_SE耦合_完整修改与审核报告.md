@@ -4281,3 +4281,49 @@ MATLAB `checkcode` 与 Python 回归审计均通过；旧完整 20-cycle raw 仍
 heat 缺失、`full_device_first_law_observable=false`，没有追溯升级。下一步为全新输出目录的
 10 s native/conservative 短诊断，短诊断未通过前不进入 20-cycle、outer solve、敏感性或
 Table 4。
+
+## 205. 观测边界修正后的 10 s 双臂冷态门禁（2026-09-30）
+
+在全新隔离输出 `qian_coupled_observed_boundary_contract_20260930_10s_v2` 上完成
+native/conservative 两臂各 10 s 冷态采集。执行提交为
+`3cda3aab3a6bcee45f67e69403a5bf57e0aef882`，未导入 C200 状态、未保存 checkpoint、未授权
+生产恢复。两臂观测哈希分别为
+`E62CC96C700983A6E2B9DCE2DCFA732F267896332EA84D64989F725DA6A4924B` 和
+`8CE65ABD22ADB709B63F2C25D93B22A665A03086155016DA2D9F53E3848AC9A1`。
+
+本次验证首先修正了一个高层审计问题：旧冷态账本只接受早期 producer 提交，导致本次仅增加
+有界 Stage4 诊断覆盖和热边界提取的执行提交被错误判为“来源不合法”。逐项检查确认，该提交
+没有导入恢复状态、没有修改热容/buffer/本构/温度/相分数状态；因此仅将该精确提交加入
+diagnostic producer allowlist，并继续保留所有恢复禁止和科学门禁。这是审计契约修正，不是
+放宽流量或能量阈值。
+
+### 观测与基础账本
+
+- SHEX/HHEX/CHEX 热流、温度和质量流字段均存在，31 组有效信号共用 `0.001 s` 时间轴；
+  `full_device_first_law_observable=true` 仅表示可观测，不表示首定律已经验证。
+- 两臂控制体账本的结构、库存守恒和 204 个初始坐标匹配均通过；High 坐标 `125/125`，
+  Low 坐标 `79/79`。
+- source-storage 瞬时边界残差约 `1.10e-10 W`（native）和 `1.06e-10 W`
+  （conservative），限值为 `1e-8 W`。
+- 压力 A/B 范围门禁和派生液压功门禁通过；这仍是观测诊断，不是 direct pump electrical
+  power，也不是整机能量闭合。
+
+### 失败门禁与科学含义
+
+SE stage 2 流量窗 RMS 相对误差约 `5.10%`、最大绝对误差约 `9.25%`；stage 4 RMS
+约 `5.55%`、最大绝对误差约 `22.87%`。因此 10 s seed gate 为 false，不能进入 20-cycle、
+恢复、outer solve、敏感性、paired endpoint 或 Table 4。相分数/固体能量门禁通过，说明
+失败不是由相分数越界直接造成；失败集中在 SE 流量跟踪与其跨级输运/控制响应。
+
+紧凑回执和哈希如下；主线只提交紧凑摘要，完整控制体 JSON 保留在本地审计目录并由摘要哈希绑定：
+
+- 紧凑摘要：`observed_boundary_10s_summary_20260930_v1.json`；其中绑定原始控制体账本
+  SHA-256 `46147B5FC0636166504A6A01A3E64F9074AD8C10D95C2EF225B160DB8D6F26FB`；
+- 压力审计：`observed_boundary_pressure_20260930_v1.json`，
+  SHA-256 `442E6246643BE62AAA071CB21DDE4FF1A611B56A8112603A4AD1DC03ED45F3B2`；
+- 总 seed 判定：`observed_boundary_10s_seed_gate_20260930_v1.json`，
+  SHA-256 `E41DF7BDA30C643553A7C968D17C8F27EC970ECA04D9C679749ABF23D2F08760`。
+
+当前工作结论不是继续盲扫单个 Kp/Ki，而是先利用已完整观测的压力 A/B、入口/出口质量流、
+route integral、温度延迟和控制器状态，建立“目标流量--泵压--输运滞后--路线记忆”的共同
+动态坐标审计。未形成该结构合同前，所有新参数结果仍只能作为诊断，不得传播为主线恢复状态。
