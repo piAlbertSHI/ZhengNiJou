@@ -22,5 +22,15 @@
   "table4_reproduction_claim": false,
   "raw_control_volume_audit_sha256": "46147B5FC0636166504A6A01A3E64F9074AD8C10D95C2EF225B160DB8D6F26FB",
   "pressure_audit_sha256": "442E6246643BE62AAA071CB21DDE4FF1A611B56A8112603A4AD1DC03ED45F3B2",
-  "seed_gate_sha256": "E41DF7BDA30C643553A7C968D17C8F27EC970ECA04D9C679749ABF23D2F08760"
+  "seed_gate_sha256": "E41DF7BDA30C643553A7C968D17C8F27EC970ECA04D9C679749ABF23D2F08760",
+  "flow_gate_reasonableness": {
+    "native_stage2_window_s": [3.801, 4.849],
+    "native_stage4_window_s": [8.801, 9.85],
+    "controller_transition_overlap": false,
+    "stage2_integrated_mass_relative_error": -0.014631546254597505,
+    "stage4_integrated_mass_relative_error": 0.052511100826482915,
+    "interpretation": "The failed RMS gate is not caused by including the controller transition; transport gate is not substituted for instantaneous tracking."
+  },
+  "native_flow_reasonableness_audit_sha256": "8616CC9423C5C81B07D793F3605C9F4DF5618DAF34FDC126B57CD8FB11DD9195",
+  "conservative_flow_reasonableness_audit_sha256": "9C636B36D4CFD8E0F84F0699AD52061024C1ED0A8893871D98B33BDF34347332"
 }
