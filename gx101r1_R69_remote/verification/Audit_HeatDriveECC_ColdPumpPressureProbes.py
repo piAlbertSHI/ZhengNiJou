@@ -51,6 +51,7 @@ PRODUCERS = {
     # 3b27188 only aligns the Stage-4 precharge diagnostic to the settled
     # gate-time grid; pressure probes and their contracts are unchanged.
     "3b2718852ba02e6b37fbb4d6fc83a7cbfa16b617",
+    "c7f46db863a1a59b5c79ad1647f226b7d73bfd86",
 }
 PRESSURE_MIN_MPA = 0.45
 PRESSURE_MAX_MPA = 5.0

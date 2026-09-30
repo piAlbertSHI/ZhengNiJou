@@ -83,12 +83,16 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     # 3b27188 aligns the Stage-4 precharge diagnostic with the settled
     # gate-time grid without changing the cold-start state contract.
     '3b2718852ba02e6b37fbb4d6fc83a7cbfa16b617',
+    # c7f46db preserves the cold-start contract and adds only the effective
+    # continuous-grid Stage4 integrator-precharge diagnostic plus its audit.
+    'c7f46db863a1a59b5c79ad1647f226b7d73bfd86',
 }
 ENDPOINT_CHAMBER_PRODUCERS = {
     # Observed thermal-boundary extraction added after simulation; endpoint
     # sources and initialization are still checked against their hash contracts.
     '3cda3aab3a6bcee45f67e69403a5bf57e0aef882',
     '3b2718852ba02e6b37fbb4d6fc83a7cbfa16b617',
+    'c7f46db863a1a59b5c79ad1647f226b7d73bfd86',
     # Isolated endpoint-chamber route after the runner/source allowlists were
     # completed. This producer remains diagnostic-only and imports no C200 OP.
     'f5329019943455f59c15d8d9d19c873800417383',
@@ -149,6 +153,7 @@ INITIAL_FLUX_COMPENSATION_PRODUCERS = {
     '1e2c9b1b4c9effd772af63f1546e2bacfb8df933',
     'a9535e2582fa6c6d0841dfd3898624690cb50127',
     '3b2718852ba02e6b37fbb4d6fc83a7cbfa16b617',
+    'c7f46db863a1a59b5c79ad1647f226b7d73bfd86',
     '393be6f000d9421c159b8c191f6f2c65ac24c185',
 }
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
@@ -753,7 +758,16 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
     if seed_file is not None:
         seed_file.close()
     with h5py.File(root/'native/configuration.mat') as a, h5py.File(root/'conservative/configuration.mat') as b:
-        if set(a['commands']) != set(b['commands']) or len(a['commands']) != 5: raise ValueError('Changed command set')
+        command_names = set(a['commands'])
+        accepted_command_names = {
+            'L_valve_command', 'SMA_L_valve_command', 'SMA_pressure_bias_command',
+            'SMA_pressure_feedback_enable_command', 'SMA_pressure_feedback_reset_command'}
+        precharge_command = 'SE_stage4_pressure_integrator_enable_command'
+        if command_names not in (accepted_command_names,
+                                 accepted_command_names | {precharge_command}):
+            raise ValueError('Changed command set')
+        if set(b['commands']) != command_names:
+            raise ValueError('Changed command set between arms')
         for f in (a, b):
             s = f['options/simscape']
             if (not s['local_solver_enabled'][0, 0] or s['local_solver_sample_time_s'][0, 0] != .001 or
