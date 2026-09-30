@@ -155,6 +155,13 @@ class ColdBufferCoupledTests(unittest.TestCase):
         self.assertIn("'se_stage4_pressure_pi_ki_MPa_per_kgps_s'", source)
         self.assertIn("'Cold diagnostic Kp/Ki overrides must be negative.'", source)
 
+    def test_stage4_precharge_and_periodic_blend_overrides_are_bounded(self):
+        source = (Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
+        self.assertIn("'se_stage4_commutation_precharge_fraction'", source)
+        self.assertIn("'se_stage4_endpoint_viscosity_blend_periodic'", source)
+        self.assertIn("'Stage4 commutation precharge fraction must be within [0,1].'", source)
+        self.assertIn("'Periodic Stage4 viscosity-blend override must be a logical scalar.'", source)
+
     def test_control_volume_seed_accepts_only_matching_audit_mirror_tail(self):
         canonical = Path('main/outputs_storage_audit/calibration/cold_buffer_coupled_audit.json')
         mirror = Path('worktree/outputs_storage_audit/calibration/cold_buffer_coupled_audit.json')

@@ -199,6 +199,8 @@ def evidence_path_key(path, repo, experiment_root=None):
             # only when the external tree carries the same freeze contract,
             # preventing arbitrary external evidence from entering the ledger.
             local_contract = repo/'verification/c200_mainline_freeze_contract.json'
+            if not local_contract.is_file():
+                raise ValueError('Missing local C200 freeze contract for external evidence')
             local = json.loads(local_contract.read_text(encoding='utf-8'))
             for parent in path.parents:
                 if parent.name != 'gx101r1_R69_remote':
