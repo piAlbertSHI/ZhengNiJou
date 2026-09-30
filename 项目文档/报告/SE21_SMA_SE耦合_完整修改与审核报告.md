@@ -4403,3 +4403,20 @@ native/conservative 双臂 10 s 冷态采集。执行提交为
 本轮仍保持 `seed_eligible=false`、`outer_solve_eligible=false`、
 `paired_table4_eligible=false`、`table4_reproduction_claim=false`。在下一次修正提交的短诊断
 通过前，不进入 20-cycle、outer solve、敏感性或 Table 4。
+
+## 209. Stage4 预充电执行合同维度错误与修复（2026-09-30）
+
+按第 208 节修正后启动的新 10 s 诊断在 MATLAB 建模阶段退出，launcher 退出码为 `1`，
+墙钟约 `107.95 s`。错误为 `MATLAB:sizeDimensionsMustMatch`，发生于
+`apply_full_cycle_valve_commands` 第 979 行的预充电向量与积分器门向量 `max` 运算。
+
+该失败是执行合同错误，不是科学门禁失败：没有完成任何 native/conservative arm，且输出明确
+记录 `c200_state_imported=false`、`checkpoint_saved=false`、`production_recovery_allowed=false`。
+raw 输出保留但写入 `REJECTED_DO_NOT_RESUME.txt`，禁止作为初始化源。
+
+根因是当前 worktree 的积分器门向量使用固定 `gate_t` 网格，而预充电向量错误沿稀疏阀门
+profile 时间轴生成。现已改为直接使用同一固定网格上的 `stage4_activity_gate`，消除维度
+不一致；下一步只重新进行一次执行合同验证，仍不进入 20-cycle。
+
+紧凑回执：
+`gx101r1_R69_remote/outputs_storage_audit/precharge50_kp225_wired_failure_summary_20260930_v1.json`。
