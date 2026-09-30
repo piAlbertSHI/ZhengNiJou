@@ -37,7 +37,10 @@ def _pressure(pass_value=True):
         "hydraulic_diagnostic_gate": pass_value,
         "production_recovery_allowed": False,
         "table4_reproduction_claim": False,
-        "arms": [{"arm": "native"}, {"arm": "conservative"}],
+        "arms": [dict(arm=arm, probe_contract_gate=pass_value,
+                      probe_signal_gate=pass_value, pressure_range_gate=pass_value,
+                      hydraulic_diagnostic_gate=pass_value)
+                 for arm in ("native", "conservative")],
     }
 
 
@@ -74,6 +77,22 @@ class TenSecondSeedGateTests(unittest.TestCase):
         execution["stop_time_s"] = 0.2
         with self.assertRaises(ValueError):
             classify(_flow(), _pressure(), execution)
+
+    def test_flow_failure_is_not_an_independent_pressure_failure(self):
+        pressure = _pressure()
+        pressure["flow_and_inventory_gate"] = False
+        result = classify(_flow(False), pressure, _execution())
+        self.assertTrue(result["pressure_and_hydraulic_gate"])
+        self.assertFalse(result["diagnostic_20cycle_seed_eligible"])
+        self.assertNotIn("independent pressure/probe/hydraulic gate failed",
+                         result["rejection_reasons"])
+
+    def test_missing_probe_evidence_still_rejects_pressure(self):
+        pressure = _pressure()
+        del pressure["arms"][0]["probe_signal_gate"]
+        result = classify(_flow(), pressure, _execution())
+        self.assertFalse(result["pressure_and_hydraulic_gate"])
+        self.assertFalse(result["diagnostic_20cycle_seed_eligible"])
 
 
 if __name__ == "__main__":

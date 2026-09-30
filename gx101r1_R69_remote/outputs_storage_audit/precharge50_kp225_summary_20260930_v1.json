@@ -1,0 +1,56 @@
+{
+  "schema": "heatdrive_ecc_stage4_structural_diagnostic_summary_v1",
+  "experiment_root": "X:\\gx101r1_R69_remote\\outputs\\qian_coupled_observed_boundary_precharge50_kp225_20260930_10s_v1",
+  "execution_commit": "3cda3aab3a6bcee45f67e69403a5bf57e0aef882",
+  "native_observations_sha256": "6251CB476505D54A8032F6E185074CC3CF9805B9F7B6BB5B378DF19410B30096",
+  "conservative_observations_sha256": "841C12310C88974AD539F5DDDBC64634027D760C5502899CDE7ECAEFF67317D5D",
+  "cold_buffer_audit_sha256": "E38FAF3D2628F0FC67FEC2B8AE774ADC5103209C1B385A109B06A8AC930DC7BA",
+  "pressure_audit_sha256": "752BE759A1383EFD8233C07AA5B351D5191D414F429BDC1167129B6683A8C06A",
+  "seed_gate_sha256": "19DC8B610503590968119DA9DFABA7E1914A468643D3FB8F4CBB8DF22A5F8252",
+  "dynamics_audit_sha256": "DD6D02D616C56666C1DAB4966266FAF89BE36ABCF2A2CD707A8CF20DF774CD4D",
+  "transient_audit_sha256": "1205250817BC6B4615E2EFC10A05B01412558C9947CD68691E0E22EC6617703E",
+  "causal_audit_sha256": "0E249C4DF5655FFA251C99C44CCC3EA46F7CC43C2D3FB935F196DBCF6D9DFE19",
+  "transport_audit_sha256": "451A1F58F5E40914DEBF6081AB644CE9F425DB3E770A7C469238F3B70995AD21",
+  "flow_gate": {
+    "stage2_rms_relative_error": 0.05104680318863668,
+    "stage4_rms_relative_error": 0.06100539654891599,
+    "stage4_max_abs_relative_error": 0.3269034475152295,
+    "stage4_integrated_mass_relative_error": 0.052321024639119695,
+    "pass": false
+  },
+  "phase_and_solid_energy_gate": true,
+  "pressure_probe_and_hydraulic_gate": {
+    "probe_contract": true,
+    "pressure_range": true,
+    "hydraulic_diagnostic": true,
+    "independent_pressure_gate": true,
+    "pass": true
+  },
+  "boundary_transient_dominates_gate": false,
+  "precharge_parameter_effect": {
+    "requested_fraction": 0.5,
+    "was_wired_in_executed_commit": false,
+    "interpretation": "The run is retained as a Kp=-225, Ki=-255 cold diagnostic, but it cannot identify a precharge effect because the parameter was only recorded and was not consumed by the executed source."
+  },
+  "causal_transport_audit": {
+    "solid_mass_used_as_fluid_inventory": false,
+    "fluid_residence_time_identifiable": false,
+    "closed_loop_lag_is_causal_proof": false
+  },
+  "classification": {
+    "collection_pass": true,
+    "c200_state_imported": false,
+    "checkpoint_saved": false,
+    "diagnostic_only": true,
+    "seed_eligible": false,
+    "outer_solve_eligible": false,
+    "paired_table4_eligible": false,
+    "table4_reproduction_claim": false,
+    "rejected_as_recovery_source": true
+  },
+  "rejection_reasons": [
+    "SE Stage2 and Stage4 flow gates fail",
+    "The executed run predates the actual precharge wiring fix",
+    "No fluid route inventory is available for a residence-time claim"
+  ]
+}

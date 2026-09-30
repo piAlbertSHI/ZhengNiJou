@@ -22,13 +22,26 @@ class Stage4ControllerDynamicsTest(unittest.TestCase):
     def test_alternating_mode_detects_command_and_flow_pair(self):
         flow = np.full(self.time.size, 0.0032)
         command = np.zeros(self.time.size)
-        mask = (self.time >= 9.84) & (self.time <= 9.90)
+        mask = (self.time >= 9.84) & (self.time <= 9.85)
         flow[mask & (np.arange(self.time.size) % 2 == 0)] = 0.0003
         flow[mask & (np.arange(self.time.size) % 2 == 1)] = 0.0061
         command[mask & (np.arange(self.time.size) % 2 == 0)] = -0.02
         command[mask & (np.arange(self.time.size) % 2 == 1)] = -0.33
         self.assertTrue(alternating_mode(self.time, flow, command)[
             "alternating_mode_detected"])
+
+    def test_post_gate_transition_is_not_gate_scoped(self):
+        flow = np.full(self.time.size, 0.0032)
+        command = np.zeros(self.time.size)
+        mask = (self.time >= 9.85) & (self.time <= 9.90)
+        flow[mask & (np.arange(self.time.size) % 2 == 0)] = 0.0003
+        flow[mask & (np.arange(self.time.size) % 2 == 1)] = 0.0061
+        command[mask & (np.arange(self.time.size) % 2 == 0)] = -0.02
+        command[mask & (np.arange(self.time.size) % 2 == 1)] = -0.33
+        result = alternating_mode(self.time, flow, command,
+                                  start_s=9.85, stop_s=9.90)
+        self.assertTrue(result["alternating_mode_detected"])
+        self.assertFalse(result["gate_scoped"])
 
     def test_multicycle_window_uses_requested_cycle(self):
         time = np.arange(0.0, 20.001, 0.001)

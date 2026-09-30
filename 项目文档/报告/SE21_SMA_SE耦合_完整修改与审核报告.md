@@ -4363,3 +4363,43 @@ fail-closed，不再产生不一致的文件异常。
 和周期黏度混合开关，且分别进行 `[0,1]` 与布尔类型约束。该修改只完善诊断参数的 provenance，
 没有启动新的 MATLAB 仿真，也没有改变 C200 或任何恢复权限；后续结构实验可以在同一
 execution contract 下复现。
+
+## 208. Stage4 结构诊断结果、审计归因修正与预充电接线（2026-09-30）
+
+在全新输出 `qian_coupled_observed_boundary_precharge50_kp225_20260930_10s_v1` 上完成
+native/conservative 双臂 10 s 冷态采集。执行提交为
+`3cda3aab3a6bcee45f67e69403a5bf57e0aef882`，退出码为 `0`，未导入 C200、未保存 checkpoint。
+该次结果保留为诊断证据，不作为恢复源。
+
+### 结果
+
+- 两臂局部控制体质量/能量账本、初始坐标匹配、相分数和固体能量门禁通过；
+- 压力探针 contract、压力范围和派生液压功诊断通过；direct pump electrical power 仍不可观测；
+- SE Stage2 RMS 相对误差约 `5.1047%`，Stage4 RMS 约 `6.1005%`，Stage4 最大绝对相对误差约
+  `32.6903%`，Stage4 积分质量相对误差约 `5.2321%`，所以 seed gate 为 false；
+- 边界瞬态不主导严格窗口，不能用“去掉起始瞬态”解释失败；
+- 运行记录的 `se_stage4_commutation_precharge_fraction=0.5` 在执行提交中只被写入合同，未被
+  控制命令生成函数消费，故本次不能作为预充电因果实验，不能据此宣称预充电改善或恶化。
+
+### 审计合理性修正
+
+本轮发现三个需要上移修正的审计问题。第一，旧 seed gate 将流量/库存失败通过 pressure audit
+的依赖字段再次报告为“独立压力失败”；现在压力门禁仅检查 provenance、探针覆盖、压力范围和
+液压诊断，整体 seed 仍要求流量和压力分别通过。第二，因果诊断曾将固体 SE 质量除以流量，
+误写为流体驻留时间；固体质量是 SCP 分母，不是路线流体库存，当前改为“流体驻留时间不可识别”。
+第三，旧交替窗口 `9.84--9.90 s` 越过严格门禁结束时刻 `9.85 s`，现拆分为门内交替和门后
+换阀过渡，门后反向流不得回溯归因于门内高增益失稳。
+
+### 代码合同修正
+
+`Integrate_HeatDriveECC_Constitutive21_Interface.m` 现在真正消费有界
+`se_stage4_commutation_precharge_fraction`：在 Stage4 阀门打开过渡期间允许指定比例的路线
+积分器作用，默认值为零，因此不改变生产默认路线。下一次实验必须使用修正后的提交，并审计
+实际控制信号；仅有 launcher contract 记录不能证明参数生效。
+
+紧凑回执、原始审计哈希和拒绝判定见：
+`gx101r1_R69_remote/outputs_storage_audit/precharge50_kp225_summary_20260930_v1.json`。
+
+本轮仍保持 `seed_eligible=false`、`outer_solve_eligible=false`、
+`paired_table4_eligible=false`、`table4_reproduction_claim=false`。在下一次修正提交的短诊断
+通过前，不进入 20-cycle、outer solve、敏感性或 Table 4。

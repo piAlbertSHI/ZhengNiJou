@@ -60,12 +60,18 @@ def pressure_gate(pressure: dict) -> bool:
     return bool(
         pressure.get("schema") == "heatdrive_ecc_cold_pump_pressure_probe_audit_v1"
         and pressure.get("provenance_gate") is True
-        and pressure.get("flow_and_inventory_gate") is True
         and pressure.get("pressure_range_gate") is True
         and pressure.get("hydraulic_diagnostic_gate") is True
         and pressure.get("production_recovery_allowed") is False
         and pressure.get("table4_reproduction_claim") is False
         and [arm.get("arm") for arm in pressure.get("arms", [])] == ["native", "conservative"]
+        and all(
+            arm.get("probe_contract_gate") is True
+            and arm.get("probe_signal_gate") is True
+            and arm.get("pressure_range_gate") is True
+            and arm.get("hydraulic_diagnostic_gate") is True
+            for arm in pressure.get("arms", [])
+        )
     )
 
 

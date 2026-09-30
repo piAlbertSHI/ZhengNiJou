@@ -69,8 +69,9 @@ def window_metrics(time_s: np.ndarray, flow: np.ndarray,
 
 
 def alternating_mode(time_s: np.ndarray, flow: np.ndarray,
-                     command: np.ndarray, offset_s: float = 0.0) -> dict:
-    mask = (time_s >= 9.84 + offset_s) & (time_s <= 9.90 + offset_s)
+                     command: np.ndarray, offset_s: float = 0.0,
+                     start_s: float = 9.84, stop_s: float = WINDOW[1]) -> dict:
+    mask = (time_s >= start_s + offset_s) & (time_s <= stop_s + offset_s)
     indices = np.arange(time_s.size)
     even = mask & (indices % 2 == 0)
     odd = mask & (indices % 2 == 1)
@@ -81,6 +82,7 @@ def alternating_mode(time_s: np.ndarray, flow: np.ndarray,
     return {
         "window_start_s": float(time_s[mask][0]),
         "window_stop_s": float(time_s[mask][-1]),
+        "gate_scoped": bool(stop_s <= WINDOW[1]),
         "flow_even_mean_kgps": float(flow[even].mean()),
         "flow_odd_mean_kgps": float(flow[odd].mean()),
         "command_even_mean_MPa": float(command[even].mean()),
@@ -104,6 +106,9 @@ def audit_arm(observations: Path, cycle_offset_s: float = 0.0,
             raise ValueError("Non-finite controller observation")
         metrics = window_metrics(time_s, flow, offset_s=cycle_offset_s)
         mode = alternating_mode(time_s, flow, command, offset_s=cycle_offset_s)
+        post_gate_transition = alternating_mode(
+            time_s, flow, command, offset_s=cycle_offset_s,
+            start_s=WINDOW[1], stop_s=9.90)
         full_mask = (time_s >= 8.5 + cycle_offset_s) & (time_s <= 10.0 + cycle_offset_s)
         full_relative = flow[full_mask] / TARGET_KGPS - 1.0
         return {
@@ -120,6 +125,7 @@ def audit_arm(observations: Path, cycle_offset_s: float = 0.0,
                 "reverse_flow_fraction": float(np.mean(flow[full_mask] < 0.0)),
             },
             "alternating_mode": mode,
+            "post_gate_transition": post_gate_transition,
         }
 
 

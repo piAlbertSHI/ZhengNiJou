@@ -17,7 +17,6 @@ import numpy as np
 
 
 TARGET_FLOW_KGPS = 3.2e-3
-ACTIVE_SE_MASS_KG = 0.04181683646625444
 WINDOW = (8.801, 9.850)
 LAG_LIMIT_S = 0.5
 
@@ -83,26 +82,42 @@ def window_slice(time_s: np.ndarray, offset_s: float = 0.0) -> np.ndarray:
     return mask
 
 
+def transport_time_scale(flow: np.ndarray) -> dict:
+    # Solid active mass is the SCP denominator, not a fluid inventory.
+    return {
+        "mean_window_flow_kgps": float(np.mean(flow)),
+        "fluid_inventory_kg": None,
+        "estimated_residence_s": None,
+        "window_to_residence_ratio": None,
+        "window_shorter_than_residence": None,
+        "status": "not_identifiable_without_route_fluid_inventory",
+        "solid_mass_substitution_allowed": False,
+    }
+
+
 def audit_arm(observations: Path, cycle_offset_s: float = 0.0,
               cycle_index: int = 0) -> dict:
     with h5py.File(observations, "r") as handle:
         signals = handle["signals"]
         probes = handle["stage4_controller_probe_signals"]
         time_s, flow = read_series(signals, "mass_flow_v4_hot_inlet_kgps")
-        _, pressure = read_series(signals, "pressure_command_se_MPa")
-        _, dynamic_ff = read_series(probes, "stage4_dynamic_feedforward")
-        _, integrator = read_series(probes, "stage4_integrator_state")
-        _, route_integral = read_series(probes, "stage4_route_integral")
-        _, inlet_temp = read_series(probes, "stage4_inlet_temperature_delay")
-        _, outlet_temp = read_series(probes, "stage4_outlet_temperature_delay")
-        if not np.array_equal(time_s, _):
-            raise ValueError("Stage-4 probe grids differ")
+        def aligned(group, name):
+            grid, values = read_series(group, name)
+            if not np.array_equal(time_s, grid) or values.shape != flow.shape:
+                raise ValueError(f"Stage-4 probe grids differ: {name}")
+            return values
+
+        pressure = aligned(signals, "pressure_command_se_MPa")
+        dynamic_ff = aligned(probes, "stage4_dynamic_feedforward")
+        integrator = aligned(probes, "stage4_integrator_state")
+        route_integral = aligned(probes, "stage4_route_integral")
+        inlet_temp = aligned(probes, "stage4_inlet_temperature_delay")
+        outlet_temp = aligned(probes, "stage4_outlet_temperature_delay")
         dt = float(np.median(np.diff(time_s)))
         mask = window_slice(time_s, cycle_offset_s)
         t = time_s[mask]
         q = flow[mask]
         error = q / TARGET_FLOW_KGPS - 1.0
-        residence_s = ACTIVE_SE_MASS_KG / max(abs(float(np.mean(q))), 1.0e-12)
         peak_index = int(np.argmax(np.abs(error)))
         slopes = np.diff(q) / np.diff(t)
         return {
@@ -116,13 +131,7 @@ def audit_arm(observations: Path, cycle_offset_s: float = 0.0,
                 "duration_s": float(t[-1] - t[0]),
                 "samples": int(t.size),
             },
-            "transport_time_scale": {
-                "active_se_mass_kg": ACTIVE_SE_MASS_KG,
-                "mean_window_flow_kgps": float(np.mean(q)),
-                "estimated_residence_s": float(residence_s),
-                "window_to_residence_ratio": float((t[-1] - t[0]) / residence_s),
-                "window_shorter_than_residence": bool((t[-1] - t[0]) < residence_s),
-            },
+            "transport_time_scale": transport_time_scale(q),
             "flow_shape": {
                 "mean_kgps": float(np.mean(q)),
                 "rms_relative_error": float(np.sqrt(np.mean(error ** 2))),
@@ -196,8 +205,8 @@ def audit_experiment(root: Path) -> dict:
         "diagnostic_branch_overrides": execution.get("diagnostic_branch_overrides", {}),
         "arms": arms,
         "architectural_interpretation": {
-            "transport_window_is_quasi_steady": False,
-            "reason": "The Stage-4 evaluation window is shorter than the estimated active-SE residence time; this is evidence for a dynamic route-memory problem, not permission to relax the flow gate.",
+            "transport_window_is_quasi_steady": None,
+            "reason": "Route fluid inventory is not established. Solid SE mass cannot define fluid residence time. Closed-loop correlations do not identify causal direction or authorize flow-gate relaxation.",
         },
     }
 
