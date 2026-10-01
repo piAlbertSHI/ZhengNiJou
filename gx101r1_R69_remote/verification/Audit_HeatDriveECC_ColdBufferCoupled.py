@@ -86,6 +86,10 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     # c7f46db preserves the cold-start contract and adds only the effective
     # continuous-grid Stage4 integrator-precharge diagnostic plus its audit.
     'c7f46db863a1a59b5c79ad1647f226b7d73bfd86',
+    # e791744 only makes the bounded pressure-filter override explicit in the
+    # post-load runtime workspace; inventory and recovery contracts remain
+    # unchanged.
+    'e79174429c8624097752c05f54d4a0fcc24073d4',
 }
 ENDPOINT_CHAMBER_PRODUCERS = {
     # Observed thermal-boundary extraction added after simulation; endpoint
