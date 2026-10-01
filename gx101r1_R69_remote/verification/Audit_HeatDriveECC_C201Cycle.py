@@ -85,15 +85,21 @@ def metrics(signals, options, time, origin=2000):
         flows.append(dict(component='SMA',stage=phase,target_kg_s=target,samples=len(flow),
                           mean_signed_kg_s=float(flow.mean()),max_abs_relative_error=float(abs(error).max()),
                           selected_flow_gate=bool(np.max(abs(error))<=scalar('validation/max_sma_settled_flow_relative_error'))))
+    se_guard = scalar('validation/se_settled_guard_s')
+    se_settled_half_width = max(ramp, se_guard)
     for phase,name in [(2,'mass_flow_v1_cold_inlet_kgps'),(4,'mass_flow_v4_hot_inlet_kgps')]:
-        mask=core&(stage==phase)&(elapsed>=scalar('validation/se_settled_guard_s')+.001)
+        # Match the controller's symmetric settled gate and exclude the final
+        # commutation interval from the settled-flow metric.
+        mask=(stage==phase)&(elapsed>=se_settled_half_width)&(elapsed<=durations[phase-1]-se_settled_half_width)
         target=(scalar('branch/m_dot_se_the_kg_per_s')+scalar('branch/m_dot_se_chex_kg_per_s'))/2
         flow=signals[name][0,mask]
         if flow.size==0:
             raise ValueError('Empty SE settled window')
         error=abs(flow)/target-1
         rms=float(np.sqrt(np.mean(error**2)))
-        flows.append(dict(component='SE',stage=phase,target_kg_s=target,samples=len(flow),
+        flows.append(dict(component='SE',stage=phase,target_kg_s=target,
+                          settled_window_start_s=float(phase_axes(time,origin)[1][mask][0]),
+                          settled_window_stop_s=float(phase_axes(time,origin)[1][mask][-1]),samples=len(flow),
                           mean_signed_kg_s=float(flow.mean()),max_abs_relative_error=float(abs(error).max()),
                           rms_relative_error=rms,selected_flow_gate=bool(np.max(abs(error))<=scalar('validation/max_se_settled_flow_relative_error')
                           and rms<=scalar('validation/max_se_settled_flow_rms_relative_error'))))

@@ -4713,3 +4713,37 @@ SE4 严格窗口结果恶化为 RMS=`14.6512%`、max=`61.1706%`，积分质量�
 冷态 runner 同步保存两条 command 时序，并加入静态测试。下一轮仅启用这一结构修正，
 `se_stage4_pressure_bias_trim_MPa=0`，其余 v3 合同全部保持不变。只有 flow、pressure、local
 ledger、initial coordinates、phase/energy 和 mechanism gates 全部通过，才允许恢复 20-cycle。
+
+## 218. Stage2 输出门修正、对称 settled 审计与 20-cycle 长周期失败（2026-10-01）
+
+### 218.1 审计合理性修正
+
+本轮发现原 SE 流量审计只在阶段起点应用 `settled_guard`，阶段末端却只扣除命令 ramp，
+导致末端换阀过渡被混入 settled RMS。该定义与控制器首尾对称的 settled update gate 不一致。
+现已将 Stage2/Stage4 的 SE 流量审计统一为首尾对称窗口，并保留旧口径结果作诊断对照；没有
+放宽 `15%` max 或 `5%` RMS 门限。对称窗口是减少误判，不是降低标准。
+
+### 218.2 10 s 结构候选结果
+
+在 Stage4 update/output gate 分离基础上，进一步分离 Stage2 update/output gate。保持
+specific-inventory、zero-based-offset、initial-flux-compensation、`tau=0.010 s`、
+`Kp_2=-126`、`Kp_4=-225`、`Ki_4=-255` 不变，独立冷态仅测试 Stage4 pressure bias trim
+`+0.02 MPa`。
+
+对称 settled 窗口的双臂结果：Stage2 RMS 约 `4.346%`、max 约 `7.713%`；Stage4 RMS 约
+`2.375%`、max 约 `5.571%`；库存、源端口、初始坐标、压力/液压、相分数和固体能量均通过。
+10 s seed gate 为 `diagnostic_20cycle_seed_eligible=true`，但仍不授予生产恢复、outer solve
+或 Table 4 复现资格。
+
+### 218.3 全新 20-cycle 结果与根因上移
+
+使用同一冷态合同启动全新 20-cycle（200 s）诊断，C200 未导入且没有保存 checkpoint。
+仿真在 `t=88.576 s`、第 9 周期 Stage4 再进入时触发 Simscape 热端温度/液体压力有效域断言。
+失败前 Stage4 跨周期积分状态约 `-0.05644 MPa`，热端出口温度约 `937.1 K`，SE hold 出口温度约
+`1186.8 K`，SE 流量接近零。该包已标记 `REJECTED_DO_NOT_RESUME`，不得作为恢复、插值或
+Table 4 输入。
+
+因此当前瓶颈已从单周期流量跟踪上移为“跨周期 PI memory drift + route re-entry jump +
+热液压有效域”的混合系统稳定性问题。下一步必须先建立跨周期积分漂移、再进入输出跃迁、
+压力饱和和热端有效域的诊断合同，再设计 anti-windup/平滑方案；不得放宽 Simscape 断言或
+直接盲目重跑 20-cycle。

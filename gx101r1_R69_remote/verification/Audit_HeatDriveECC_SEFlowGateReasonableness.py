@@ -109,8 +109,9 @@ def audit_arm(observations: Path, execution: dict, target_kg_s: float,
         }
         stages = {}
         for name, (signal, stage_start, stage_stop) in stage_specs.items():
-            start = max(stage_start + ramp_s, stage_start + settled_guard_s + 0.001)
-            stop = stage_stop - ramp_s
+            half_width = max(ramp_s, settled_guard_s)
+            start = stage_start + half_width
+            stop = stage_stop - half_width
             metrics = window_metrics(
                 time_s,
                 np.asarray(group[f"{signal}/values"][0], dtype=float),

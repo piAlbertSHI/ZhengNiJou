@@ -171,7 +171,9 @@ class ColdBufferCoupledTests(unittest.TestCase):
         source = (Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
         model = (Path(__file__).parents[1]/'Integrate_HeatDriveECC_Constitutive21_Interface.m').read_text(encoding='utf-8')
         self.assertIn('SE_stage4_pressure_integrator_output_enable_command', source)
+        self.assertIn('SE_stage2_pressure_integrator_output_enable_command', source)
         self.assertIn('se_stage4_integrator_output_enable_values', model)
+        self.assertIn('se_stage2_integrator_output_enable_values', model)
         self.assertIn('stage4_output_enable', model)
 
     def test_pressure_error_filter_override_is_explicitly_bounded(self):

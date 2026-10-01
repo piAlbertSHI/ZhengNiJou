@@ -775,9 +775,17 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         accepted_command_names = {
             'L_valve_command', 'SMA_L_valve_command', 'SMA_pressure_bias_command',
             'SMA_pressure_feedback_enable_command', 'SMA_pressure_feedback_reset_command'}
-        precharge_command = 'SE_stage4_pressure_integrator_enable_command'
-        if command_names not in (accepted_command_names,
-                                 accepted_command_names | {precharge_command}):
+        update_gate_command = 'SE_stage4_pressure_integrator_enable_command'
+        output_gate_command = 'SE_stage4_pressure_integrator_output_enable_command'
+        accepted_command_sets = (
+            accepted_command_names,
+            accepted_command_names | {update_gate_command},
+            accepted_command_names | {update_gate_command, output_gate_command},
+            accepted_command_names | {
+                'SE_stage2_pressure_integrator_output_enable_command',
+                update_gate_command, output_gate_command},
+        )
+        if command_names not in accepted_command_sets:
             raise ValueError('Changed command set')
         if set(b['commands']) != command_names:
             raise ValueError('Changed command set between arms')
