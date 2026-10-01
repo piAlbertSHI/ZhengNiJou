@@ -4513,3 +4513,34 @@ C200 导入、checkpoint 保存和生产恢复均为 `false`。两个 configurat
 `discrete_alternating_response_signature`。原始奇偶差阈值和流量门禁未改变；该修正只明确
 表示这是观测到的响应特征，不是已经证明的高增益因果失稳。修正后 dynamics JSON SHA-256 为
 `A98DF3BBF24BE12100C97B081F1D0038BB6CDA8A559D92CBBD0F7648BA6C1CA6`。
+
+## 213. Stage4 严格门内积分路径有效性审计（2026-10-01）
+
+为避免把控制器内部路径误归因，本轮对 v3 双臂原始观测和 configuration contract 做了只读
+模型级审计。新增审计器
+`verification/Audit_HeatDriveECC_Stage4ControlContract.py`，不改变生产门禁，也不授权
+20-cycle、恢复、outer solve 或 Table 4。
+
+审计输入为 v3 native/conservative 的 `observations.mat` 与 `configuration.mat`。两臂严格门
+`9.84--9.85 s` 的结论一致：
+
+- `SE_stage4_pressure_integrator_enable_command` 在严格门内的非零比例为 `0`；
+- `stage4_integrator_input` 和 `stage4_integrator_output_gate` 的绝对最大值均为 `0`；
+- `stage4_integrator_state` 在严格门内的跨度为 `0`，因此该窗口的路线积分状态是冻结的；
+- 严格门外 `8.5--9.84 s` 仍有约 `0.68955` 的非零积分使能比例，证明不是探针缺失或整个积分器
+  未接线，而是生产严格门内被明确关闭；
+- `stage4_flow_error` 与 `0.0032 kg/s - mass_flow_v4_hot_inlet_kgps` 的最大绝对残差约
+  `1.46e-8 kg/s`，流量误差探针的符号和质量流信号语义一致；
+- `stage4_route_integral` 在严格门内为 `0`，而 `stage4_bias_sum` 与最终压力指令仍在变化。
+
+因此，v3 严格门内的离散交替不能再归因于“PI 积分路线记忆未正确工作”。更准确的高层结论
+是：该窗口的积分路线已被冻结，交替响应必须优先在 P 路径、压力误差滞后、动态黏度前馈以及
+离散执行/采样保持合同中判别。此前“积分路线记忆与质量流目标共同动态合同”仍是后续总体问题，
+但本轮已将其在严格门内的实际作用边界明确化。
+
+审计输出：
+`gx101r1_R69_remote/outputs_storage_audit/precharge50_kp225_wired_stage4_control_contract_20260930_v1.json`。
+该输出的 `production_recovery_allowed=false`、`diagnostic_20cycle_seed_eligible=false`、
+`outer_solve_eligible=false`、`paired_table4_eligible=false` 和
+`table4_reproduction_claim=false` 均保持关闭。下一步只允许进行 P/前馈路径的结构判别实验；
+在完整双臂流量、相变、能量和控制体门禁通过前，仍不进入 20-cycle 或生产恢复链。
