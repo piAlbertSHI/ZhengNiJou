@@ -172,6 +172,11 @@ class ColdBufferCoupledTests(unittest.TestCase):
         self.assertIn("'pressure_pi_error_filter_tau_s'", source)
         self.assertIn("Pressure error-filter time constant must be within [1e-5,1] s.", source)
 
+    def test_pressure_error_filter_reaches_runtime_workspace_explicitly(self):
+        source = (Path(__file__).parents[1]/'Build_HeatDriveECC_EighthRound_Simulink_Model.m').read_text(encoding='utf-8')
+        self.assertIn("assignin('base', 'pressure_pi_error_filter_tau_s'", source)
+        self.assertIn("get_option_or_default(options.branch", source)
+
     def test_control_volume_seed_accepts_only_matching_audit_mirror_tail(self):
         canonical = Path('main/outputs_storage_audit/calibration/cold_buffer_coupled_audit.json')
         mirror = Path('worktree/outputs_storage_audit/calibration/cold_buffer_coupled_audit.json')

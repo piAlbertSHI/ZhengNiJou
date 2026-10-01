@@ -30,6 +30,11 @@ function [model_name, options] = Build_HeatDriveECC_EighthRound_Simulink_Model(o
     assign_constitutive_workspace(options);
 
     load_system(model_name);
+    % Model loading may execute callbacks that restore default workspace
+    % values; re-assert the audited diagnostic override after load.
+    assignin('base', 'pressure_pi_error_filter_tau_s', ...
+        get_option_or_default(options.branch, ...
+        'pressure_pi_error_filter_tau_s', 0.002));
     cold_boundary_audit = configure_cold_boundary(model_name, options);
     options.validation.cold_boundary_audit = cold_boundary_audit;
     options.validation.cold_boundary_implemented = cold_boundary_audit.ok;
@@ -62,6 +67,11 @@ function [model_name, options] = Build_HeatDriveECC_EighthRound_Simulink_Model(o
     options.validation.article_component_pipe_UA_implemented = pipe_ua_audit.ok;
     assignin('base', 'EIGHTH_ROUND_OPTIONS', options);
     configure_simscape_local_solver(model_name, options);
+    % Re-assert after all model configuration callbacks; this is the final
+    % runtime boundary consumed by PressurePI_ErrorLag during simulation.
+    assignin('base', 'pressure_pi_error_filter_tau_s', ...
+        get_option_or_default(options.branch, ...
+        'pressure_pi_error_filter_tau_s', 0.002));
     if isfield(options.simulation, 'persist_model_configuration') && ...
             options.simulation.persist_model_configuration
         save_system(model_name, model_path);
@@ -1769,6 +1779,12 @@ function assign_mature_exchange_workspace(options, model_path)
     for idx = 1:numel(names)
         assignin('base', names{idx}, sim_params.(names{idx}));
     end
+    % Keep the controller-filter parameter explicit at the runtime boundary.
+    % The model block consumes this base-workspace variable, so do not rely
+    % only on an intermediate exchange-parameter struct to carry overrides.
+    assignin('base', 'pressure_pi_error_filter_tau_s', ...
+        get_option_or_default(options.branch, ...
+        'pressure_pi_error_filter_tau_s', 0.002));
 end
 
 function assign_constitutive_workspace(options)
