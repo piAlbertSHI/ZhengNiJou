@@ -135,6 +135,10 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     # 1d08a59 changes only read-only diagnostics/provenance; the cold runner,
     # plant, and launcher remain byte-identical to 1ba3a32.
     '1d08a59fd91876e7440b7beab27398ef7888d8ce',
+    # e791744 only makes the bounded pressure-filter override explicit in the
+    # post-load runtime workspace; endpoint and recovery contracts remain
+    # unchanged.
+    'e79174429c8624097752c05f54d4a0fcc24073d4',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'

@@ -130,9 +130,8 @@ def audit(root: Path) -> dict:
     arms = [audit_arm(root, arm, start, stop) for arm in ("native", "conservative")]
     case_probe_gate = all(
         case.get("stage4_controller_probe_count") in {len(EXPECTED), len(EXPECTED_V2)}
-        and set(case.get("stage4_controller_probe_signal_names", ())) in {
-            set(EXPECTED), set(EXPECTED_V2)
-        }
+            and any(set(case.get("stage4_controller_probe_signal_names", ())) == expected
+                    for expected in (set(EXPECTED), set(EXPECTED_V2)))
         for case in execution.get("cases", [])
     )
     coverage_gate = bool(
