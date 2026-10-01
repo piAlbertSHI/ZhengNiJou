@@ -4567,3 +4567,61 @@ native/conservative 两臂结果一致：
 不得用平滑或重定义窗口掩盖门内交替。审计摘要 v2 的 SHA-256 为
 `F054EC899F467CD13A1B2BF1929E143FC84D53F7DD2A7DEFD9DB5CD3C859007D`，仍保持所有生产资格
 标志为 `false`。
+
+## 215. Stage4 压力误差滤波单因素诊断与全局门禁复核（2026-10-01）
+
+本轮不是继续盲扫 `Kp/Ki`，而是对第 214 节提出的控制路径假设做单因素判别：保持
+`Stage4 Kp=-225`、`Ki=-255`、预充电比例 `0.5`、specific-inventory、zero-based-offset、
+initial-flux-compensation 和 0.85 MPa 独立冷态合同不变，仅把
+`PressurePI_ErrorLag` 的时间常数从默认 `0.002 s` 改为 `0.010 s`。运行代码提交为
+`e79174429c8624097752c05f54d4a0fcc24073d4`，使用短映射盘路径执行以避免 Windows 260 字符
+编译路径限制；C200 未导入，未保存 Operating Point。
+
+### 215.1 执行合同与审计实现
+
+- 第一次失败是运行时 workspace 未消费 `0.010 s` 覆盖，实际仍为默认 `0.002 s`；该次没有
+  完成任何 arm，拒绝为执行合同失败，不是科学门禁失败。
+- 第二次失败是长 worktree 路径触发 Windows 编译文件名上限；同样没有进入双臂采样，拒绝为
+  环境执行失败，不传播为物理结论。
+- 最终短路径 v3 双臂各完成 10 s，`effective_error_filter.json` 两臂均记录
+  `tau_s=0.010`、分母 `[pressure_pi_error_filter_tau_s 1]`。执行 JSON SHA-256 为
+  `2CC485BCE8D6FD7D28D3802E1BA13EAC3FEB04A8FB9D988799EDC5AF233EA010`，原始包约
+  `359,026,011 bytes`；原始 observations 哈希为 native
+  `FB500913A7F335D5C55A78C43DEE8F1BCA6C4450D373CCC487185A595EB2D441`、conservative
+  `88AC13E1AB93F26AD1C8237A6FEFF449E839739A8C0454060DA1890178CD6EBC`。
+- Stage4 probe 审计器原有集合比较实现错误已修正；修正后两臂 `case_probe_gate=true`、
+  `coverage_gate=true`。该修正只使审计器能够执行，不改变任何物理阈值。
+
+### 215.2 双臂结果与门禁
+
+- 控制体质量/能量账本、源端口、125/125 高优先级与 79/79 低优先级初始坐标、相分数/固体
+  能量、压力 A/B、压力范围和非注入液压诊断均通过。
+- SE Stage2 的 RMS 相对误差约 `5.1029%`，最大绝对相对误差约 `9.331%`；Stage4 的 RMS
+  相对误差约 `5.4534%`，最大绝对相对误差约 `22.673%`，Stage4 积分质量相对误差约
+  `5.264%`。两臂数值一致，`selected_flow_gate=false`。
+- `tau=0.010 s` 后严格门内 `9.84--9.85 s` 的奇偶差降至约 `8.5e-9 kg/s`，压力指令
+  奇偶差约 `6.2e-7 MPa`，不再支持此前的离散交替归因；dynamics 审计改判为
+  `scheduled_flow_bias_signature`。但 Stage4 的持续超输运仍存在，不能由滤波器修复替代。
+- 综合 seed gate：flow/inventory=`false`，phase/solid-energy=`true`，pressure/hydraulic=`true`，
+  `diagnostic_20cycle_seed_eligible=false`、`outer_solve_eligible=false`、
+  `paired_table4_eligible=false`、`table4_reproduction_claim=false`。本轮不进入 20-cycle。
+
+### 215.3 门禁合理性与下一层问题
+
+当前 SE 流量门限由配置显式给出：最大瞬时相对误差 `15%`、RMS 相对误差 `5%`，并在
+settled guard 后评估。Stage2 仅略超 RMS，Stage4 同时超过 RMS、最大误差和积分质量边界；
+因此门禁失败有定量依据，不应通过放宽门限消除。问题已从“滤波器离散交替”上移为
+Stage2/Stage4 目标流量、压力前馈/P 路径、SE 压力源动态和质量流测点之间的静态偏差合同。
+
+下一步只允许：
+
+1. 对 Stage2 与 Stage4 分别核对目标流量、压力前馈、P 输出、入口/出口测点和阶段积分质量的
+   符号与单位合同；
+2. 以一个结构变量为单位修正目标/前馈映射，再进行全新 10 s 双臂冷态诊断；
+3. 只有 flow、pressure、local ledger、initial coordinates、phase/energy 和 mechanism gates
+   全部通过后，才恢复 20-cycle；不得以当前 v3 结果启动 20-cycle、outer solve 或 Table 4。
+
+紧凑审计文件已复制至
+`gx101r1_R69_remote/outputs_storage_audit/stage4_filtertau10ms_20261001_v3_summary`；完整
+原始包保留在短路径工作区，后续仅对可再生 cache 做带回执的退役，不删除 observations、
+configuration、execution、probe 或本轮唯一审计证据。
