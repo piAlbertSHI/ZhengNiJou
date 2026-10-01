@@ -4625,3 +4625,53 @@ Stage2/Stage4 目标流量、压力前馈/P 路径、SE 压力源动态和质量
 `gx101r1_R69_remote/outputs_storage_audit/stage4_filtertau10ms_20261001_v3_summary`；完整
 原始包保留在短路径工作区，后续仅对可再生 cache 做带回执的退役，不删除 observations、
 configuration、execution、probe 或本轮唯一审计证据。
+
+## 216. 控制体合同权威绑定与 Stage4 压力路径单因素候选（2026-10-01）
+
+### 216.1 合同层升级
+
+本轮先处理审计层级问题，而不是继续对单一 PI 增益做局部试错。控制体合同仍保持
+`heatdrive_ecc_control_volume_contract_v2` 兼容 schema，但新增四类机器可读约束：
+
+1. 合同角色明确为 `structure_only_not_recovery_source`；
+2. 绑定 `c200_mainline_freeze_contract.json`、C200 physical result 和 checkpoint 的 SHA-256，
+   同时显式保留“当前模型不可直接恢复、失败结果不可 resume/interpolate”策略；
+3. 将周期长度、最后 10 个完整周期、窗口起止规则、端点包含、禁止外推和 `trapz` 网格积分
+   写成顶层及逐指标采样合同；
+4. 分离 `contract_structure_pass`、`observed_inventory_closure_pass`、
+   `full_device_evidence_pass` 和 `implementation_ready`，不再把局部账本闭合误读为整机物理闭合。
+
+新合同目录为
+`gx101r1_R69_remote/outputs_storage_audit/control_volume_contract_20261001_c200`。
+结构审计 `audit_pass=true`，C200 哈希绑定通过；基于当前 v3 冷态证据的实现审计为
+`contract_and_local_inventory_pass=true`、`full_device_evidence_pass=false`、
+`implementation_ready=false`。这与当前 `periodic_steady_state=false`、
+`full_device_first_law_verified=false` 一致，审计没有制造假阳性。
+
+### 216.2 高层物理诊断
+
+v3 的四种 Stage4 黏度闭合候选只改变前馈形状，均不能消除持续的流量质量偏差；因此下一步
+上移到“压力路径与目标流量的静态合同”而非继续盲扫黏度公式。对同一严格生产窗口定义
+`P_path = pressure_command - dynamic_feedforward - route_integral`，双臂离线线性识别得到：
+
+- Stage4 观测均值 `0.003368394 kg/s`，积分质量相对误差约 `5.264%`；
+- `P_path` 局部回归的候选修正约 `-0.04211736 MPa`；
+- native/conservative 候选修正差异近零；
+- 该结果只用于选择下一次单因素诊断，不是因果证明，不放宽 `15%` max、`5%` RMS 或积分质量门禁。
+
+因此已在独立冷态 runner 中加入受限的
+`se_stage4_pressure_bias_trim_MPa` 诊断字段，范围限制为 `+/-0.20 MPa`，仅对当前默认
+Stage4 bias 做显式加法修正，并写入 launcher contract。下一次实验拟取 `-0.04 MPa` 的近似
+候选值，保持 tau=`0.010 s`、Kp/Ki、预充电、specific-inventory、zero-based-offset 和
+initial-flux-compensation 全部不变；C200 仍不导入、不保存 checkpoint。只有新实验同时通过
+flow、pressure、local ledger、initial coordinates、phase/energy 和 mechanism gates，才允许
+恢复 20-cycle。
+
+### 216.3 验证与边界
+
+- Python `unittest`：cold buffer、Stage4 control contract、Stage4 dynamics、SE flow reasonableness
+  共 `34` 项通过；
+- MATLAB `checkcode`：控制体 builder、冷态 runner 通过；PowerShell launcher 解析通过；
+- 结构合同、控制体实现审计和压力路径诊断均保留独立 JSON 与输入哈希；
+- 当前仍不得宣称 `validated`、`reproduced`、`strict Table 4 reproduction`，也不得使用 v3
+  结果启动 20-cycle、outer solve、paired endpoint 或敏感性生产链。

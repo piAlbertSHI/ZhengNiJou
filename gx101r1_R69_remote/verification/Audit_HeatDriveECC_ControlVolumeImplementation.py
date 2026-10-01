@@ -52,12 +52,30 @@ def build(contract_path: Path, cold_audit_path: Path) -> dict:
     cold = json.loads(cold_audit_path.read_text(encoding="utf-8"))
     declared_volumes = {row["control_volume"] for row in contract.get("rows", [])}
     declared_metrics = {row["metric"] for row in contract.get("equations", [])}
+    authority = contract.get("authority") or {}
+    sampling = contract.get("sampling_contract") or {}
+    equation_sampling_pass = all(
+        {"window_start_rule", "window_stop_rule", "endpoint_inclusion", "quadrature", "required_signals"}
+        <= set(row) for row in contract.get("equations", [])
+    )
     contract_structure_pass = (
         contract.get("schema") == "heatdrive_ecc_control_volume_contract_v2"
         and declared_volumes == REQUIRED_VOLUMES
         and declared_metrics == REQUIRED_METRICS
         and contract.get("qian_window_cycles") == 10
         and contract.get("SE_active_mass_kg") == 0.041816836466254441
+        and contract.get("contract_role") == "structure_only_not_recovery_source"
+        and len(authority.get("frozen_result_sha256", "")) == 64
+        and len(authority.get("frozen_checkpoint_sha256", "")) == 64
+        and authority.get("current_model_restore_allowed") is False
+        and authority.get("rejected_results_may_resume") is False
+        and authority.get("rejected_results_may_interpolate") is False
+        and float(sampling.get("cycle_period_s", 0)) > 0
+        and sampling.get("window_cycles") == 10
+        and sampling.get("complete_cycles_only") is True
+        and sampling.get("endpoint_extrapolation_allowed") is False
+        and sampling.get("native_log_required") is True
+        and equation_sampling_pass
     )
     native = next(arm for arm in cold["arms"] if arm["arm"] == "native")
     conservative = next(arm for arm in cold["arms"] if arm["arm"] == "conservative")
@@ -69,6 +87,21 @@ def build(contract_path: Path, cold_audit_path: Path) -> dict:
         for key, value in native["component_groups"].items()
     }
     native_endpoint_pass = abs(native_endpoint_residual) <= 1e-8
+    observed_inventory_closure_pass = bool(
+        cold.get("local_inventory_conservation_pass")
+        and cold.get("strict_initial_coordinate_match")
+        and source_ports_pass
+        and native_endpoint_pass
+    )
+    full_device_evidence_pass = bool(
+        native.get("full_device_first_law_verified")
+        and native.get("periodic_steady_state")
+    )
+    implementation_ready = bool(
+        contract_structure_pass
+        and observed_inventory_closure_pass
+        and full_device_evidence_pass
+    )
     return {
         "schema": "heatdrive_ecc_control_volume_implementation_audit_v1",
         "contract_path": str(contract_path),
@@ -80,6 +113,11 @@ def build(contract_path: Path, cold_audit_path: Path) -> dict:
         "declared_metric_count": len(declared_metrics),
         "qian_window_cycles": contract.get("qian_window_cycles"),
         "SE_active_mass_kg": contract.get("SE_active_mass_kg"),
+        "contract_role": contract.get("contract_role"),
+        "authority_binding_pass": bool(contract_structure_pass),
+        "sampling_contract_pass": bool(contract_structure_pass),
+        "observed_inventory_closure_pass": observed_inventory_closure_pass,
+        "full_device_evidence_pass": full_device_evidence_pass,
         "cold_window": {
             "start_s": cold.get("logged_window_start_s"),
             "stop_s": cold.get("logged_window_stop_s"),
@@ -101,7 +139,9 @@ def build(contract_path: Path, cold_audit_path: Path) -> dict:
             "endpoint_inventory_gate_pass": abs(conservative_endpoint_residual) <= 1e-8,
         },
         "eligibility": {
-            "implementation_control_volume_pass": bool(contract_structure_pass and native_endpoint_pass),
+            "implementation_control_volume_pass": implementation_ready,
+            "contract_and_local_inventory_pass": bool(contract_structure_pass and observed_inventory_closure_pass),
+            "implementation_ready": implementation_ready,
             "seed_eligible": False,
             "outer_solve_eligible": False,
             "paired_table4_eligible": False,
