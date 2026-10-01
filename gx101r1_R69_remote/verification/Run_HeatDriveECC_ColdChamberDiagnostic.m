@@ -483,6 +483,15 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     'Requested Stage4 precharge produced no fractional integrator-enable samples.');
             end
             save(fullfile(arm,'configuration.mat'),'options','commands','-v7.3');
+            effective_error_filter=struct('tau_s',evalin('base','pressure_pi_error_filter_tau_s'), ...
+                'denominator',get_param([model '/PressurePI_ErrorLag'],'Denominator'));
+            if isfield(options.branch,'pressure_pi_error_filter_tau_s')
+                assert(abs(effective_error_filter.tau_s-options.branch.pressure_pi_error_filter_tau_s)<1e-12, ...
+                    'Pressure error-filter override did not reach the runtime workspace.');
+            end
+            assert(strcmp(effective_error_filter.denominator,'[pressure_pi_error_filter_tau_s 1]'), ...
+                'Pressure error lag does not consume the declared time constant.');
+            write_json(fullfile(arm,'effective_error_filter.json'),effective_error_filter);
             log_window_cycles=min(cycle_count,2);
             log_window_start=max(0,duration-log_window_cycles*10);
             record.simscape_log_window_start_s=log_window_start;

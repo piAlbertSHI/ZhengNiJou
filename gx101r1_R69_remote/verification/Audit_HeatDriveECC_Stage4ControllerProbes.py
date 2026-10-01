@@ -36,6 +36,13 @@ EXPECTED = (
     "stage4_pressure_command",
 )
 
+EXPECTED_V2 = EXPECTED[:10] + (
+    "stage4_normalized_error",
+    "stage4_filtered_error",
+    "stage4_p_output",
+    "stage4_p_enable_scale",
+) + EXPECTED[10:]
+
 
 def read(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8-sig"))
@@ -67,18 +74,23 @@ def audit_arm(root: Path, arm: str, start: float, stop: float) -> dict:
     folder = root / arm
     contract = read(folder / "stage4_controller_probe_contract.json")
     names = tuple(contract.get("observation_signal_names", ()))
+    expected = EXPECTED_V2 if contract.get("schema") == \
+        "heatdrive_ecc_stage4_controller_probe_contract_v2" else EXPECTED
     contract_gate = bool(
-        contract.get("schema") == "heatdrive_ecc_stage4_controller_probe_contract_v1"
-        and contract.get("probe_count") == len(EXPECTED)
+        contract.get("schema") in {
+            "heatdrive_ecc_stage4_controller_probe_contract_v1",
+            "heatdrive_ecc_stage4_controller_probe_contract_v2",
+        }
+        and contract.get("probe_count") == len(expected)
         and contract.get("simulation_run") is True
         and contract.get("state_imported") is False
         and contract.get("production_recovery_allowed") is False
-        and set(names) == set(EXPECTED)
+        and set(names) == set(expected)
     )
     rows = []
     with h5py.File(folder / "observations.mat", "r") as handle:
         group = handle["stage4_controller_probe_signals"]
-        for name in EXPECTED:
+        for name in expected:
             if name not in group:
                 raise ValueError(f"Missing Stage-4 controller probe: {arm}/{name}")
             time, values, valid = normalized(
@@ -117,8 +129,10 @@ def audit(root: Path) -> dict:
     )
     arms = [audit_arm(root, arm, start, stop) for arm in ("native", "conservative")]
     case_probe_gate = all(
-        case.get("stage4_controller_probe_count") == len(EXPECTED)
-        and set(case.get("stage4_controller_probe_signal_names", ())) == set(EXPECTED)
+        case.get("stage4_controller_probe_count") in {len(EXPECTED), len(EXPECTED_V2)}
+        and set(case.get("stage4_controller_probe_signal_names", ())) in {
+            set(EXPECTED), set(EXPECTED_V2)
+        }
         for case in execution.get("cases", [])
     )
     coverage_gate = bool(
@@ -131,7 +145,8 @@ def audit(root: Path) -> dict:
         "diagnostic_only": True,
         "logged_window_start_s": start,
         "logged_window_stop_s": stop,
-        "expected_probe_count": len(EXPECTED),
+        "expected_probe_count_v1": len(EXPECTED),
+        "expected_probe_count_v2": len(EXPECTED_V2),
         "provenance_gate": provenance_gate,
         "case_probe_gate": case_probe_gate,
         "arms": arms,
