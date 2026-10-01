@@ -1,0 +1,203 @@
+{
+  "schema": "heatdrive_ecc_stage4_control_contract_audit_v1",
+  "diagnostic_only": true,
+  "strict_window_s": [
+    9.84,
+    9.85
+  ],
+  "target_kgps": 0.0032,
+  "arms": {
+    "native": {
+      "observations_sha256": "E07FAFB627D85BB2DC8122F01B2DAF8431C20D190DCE0BDA682778D055C7508C",
+      "configuration_sha256": "31307D2DCD50E52EB412542C841E4F5ECEC315B2D809DD4A56420E0AAEDD975C",
+      "strict_window": {
+        "start_s": 9.84,
+        "stop_s": 9.85,
+        "samples": 11,
+        "flow_kgps": {
+          "mean": 0.0032729510012946507,
+          "min": 0.0023722829425624195,
+          "max": 0.004221364390846202,
+          "nonzero_fraction": 1.0
+        },
+        "flow_error_kgps": {
+          "mean": -7.296228289946507e-05,
+          "min": -0.001021378958027471,
+          "max": 0.0008277088513325417,
+          "nonzero_fraction": 1.0
+        },
+        "flow_error_target_minus_flow_residual_kgps": {
+          "mean": -1.1281604814638378e-08,
+          "min": -1.4567181269402318e-08,
+          "max": -8.206105038977701e-09,
+          "nonzero_fraction": 1.0
+        },
+        "integrator_input": {
+          "mean": 0.0,
+          "min": -0.0,
+          "max": -0.0,
+          "nonzero_fraction": 0.0
+        },
+        "integrator_state": {
+          "mean": 0.038077390900185124,
+          "min": 0.03807739090018512,
+          "max": 0.03807739090018512,
+          "nonzero_fraction": 1.0
+        },
+        "integrator_output_gate": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "nonzero_fraction": 0.0
+        },
+        "route_integral": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "nonzero_fraction": 0.0
+        },
+        "dynamic_feedforward": {
+          "mean": -0.20790631089021702,
+          "min": -0.20933542616773027,
+          "max": -0.20635135972485646,
+          "nonzero_fraction": 1.0
+        },
+        "bias_sum": {
+          "mean": -0.1730695884906101,
+          "min": -0.22274728209769828,
+          "max": -0.1250238093663558,
+          "nonzero_fraction": 1.0
+        },
+        "pressure_command": {
+          "mean": -0.1730695884906101,
+          "min": -0.22274728209769828,
+          "max": -0.1250238093663558,
+          "nonzero_fraction": 1.0
+        },
+        "derived_p_path_term": {
+          "mean": 0.03483672239960693,
+          "min": -0.01595422856411749,
+          "max": 0.08132755035850067,
+          "nonzero_fraction": 1.0
+        },
+        "integrator_enable_command": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "nonzero_fraction": 0.0
+        }
+      },
+      "command_activity_fraction_8_5_to_9_84_s": 0.6895522388059702,
+      "command_activity_fraction_strict_window": 0.0,
+      "strict_integrator_input_abs_max": 0.0,
+      "strict_integrator_output_abs_max": 0.0,
+      "strict_integrator_state_span": 0.0,
+      "strict_flow_error_target_minus_flow_max_abs_residual": 1.4567181269402318e-08,
+      "strict_route_integral_effective": false,
+      "strict_integrator_memory_frozen": true,
+      "strict_derived_p_path_abs_max": 0.08132755035850067,
+      "strict_derived_p_path_active": true,
+      "strict_derived_p_path_flow_error_correlation": 0.9998501750834942,
+      "stage4_alternating_response_requires_separate_p_path_audit": true
+    },
+    "conservative": {
+      "observations_sha256": "42A5E3CF04D4D10B8E4240DC0D290E0B6877076936920FE0EBA7CA3EC6AE54D8",
+      "configuration_sha256": "95CC01949BD2E8E7F7D236C1FB1C94896A9F66BC49225372283A9DFD113FD3B5",
+      "strict_window": {
+        "start_s": 9.84,
+        "stop_s": 9.85,
+        "samples": 11,
+        "flow_kgps": {
+          "mean": 0.0032729302838145485,
+          "min": 0.0023719827506560897,
+          "max": 0.004221637326827846,
+          "nonzero_fraction": 1.0
+        },
+        "flow_error_kgps": {
+          "mean": -7.294156535146819e-05,
+          "min": -0.001021651894953846,
+          "max": 0.000828009044270217,
+          "nonzero_fraction": 1.0
+        },
+        "flow_error_target_minus_flow_residual_kgps": {
+          "mean": -1.1281536919966485e-08,
+          "min": -1.4568125999807335e-08,
+          "max": -8.205073693395848e-09,
+          "nonzero_fraction": 1.0
+        },
+        "integrator_input": {
+          "mean": 0.0,
+          "min": -0.0,
+          "max": -0.0,
+          "nonzero_fraction": 0.0
+        },
+        "integrator_state": {
+          "mean": 0.038077437250853434,
+          "min": 0.038077437250853434,
+          "max": 0.038077437250853434,
+          "nonzero_fraction": 1.0
+        },
+        "integrator_output_gate": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "nonzero_fraction": 0.0
+        },
+        "route_integral": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "nonzero_fraction": 0.0
+        },
+        "dynamic_feedforward": {
+          "mean": -0.20790589166504894,
+          "min": -0.20933503528955114,
+          "max": -0.20635086861626561,
+          "nonzero_fraction": 1.0
+        },
+        "bias_sum": {
+          "mean": -0.17306830137620322,
+          "min": -0.2227614395331783,
+          "max": -0.1250078246399139,
+          "nonzero_fraction": 1.0
+        },
+        "pressure_command": {
+          "mean": -0.17306830137620322,
+          "min": -0.2227614395331783,
+          "max": -0.1250078246399139,
+          "nonzero_fraction": 1.0
+        },
+        "derived_p_path_term": {
+          "mean": 0.03483759028884575,
+          "min": -0.015968818622855485,
+          "max": 0.08134304397635173,
+          "nonzero_fraction": 1.0
+        },
+        "integrator_enable_command": {
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "nonzero_fraction": 0.0
+        }
+      },
+      "command_activity_fraction_8_5_to_9_84_s": 0.6895522388059702,
+      "command_activity_fraction_strict_window": 0.0,
+      "strict_integrator_input_abs_max": 0.0,
+      "strict_integrator_output_abs_max": 0.0,
+      "strict_integrator_state_span": 0.0,
+      "strict_flow_error_target_minus_flow_max_abs_residual": 1.4568125999807335e-08,
+      "strict_route_integral_effective": false,
+      "strict_integrator_memory_frozen": true,
+      "strict_derived_p_path_abs_max": 0.08134304397635173,
+      "strict_derived_p_path_active": true,
+      "strict_derived_p_path_flow_error_correlation": 0.999850251183657,
+      "stage4_alternating_response_requires_separate_p_path_audit": true
+    }
+  },
+  "interpretation": "The strict-window route integrator is effective only when its command and observed path are both active.  If frozen, the strict-window alternating response must be audited on the P/feedforward path rather than attributed to route PI memory.",
+  "production_recovery_allowed": false,
+  "diagnostic_20cycle_seed_eligible": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false
+}

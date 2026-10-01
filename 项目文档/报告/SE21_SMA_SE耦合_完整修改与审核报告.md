@@ -4544,3 +4544,26 @@ C200 导入、checkpoint 保存和生产恢复均为 `false`。两个 configurat
 `outer_solve_eligible=false`、`paired_table4_eligible=false` 和
 `table4_reproduction_claim=false` 均保持关闭。下一步只允许进行 P/前馈路径的结构判别实验；
 在完整双臂流量、相变、能量和控制体门禁通过前，仍不进入 20-cycle 或生产恢复链。
+
+## 214. Stage4 严格门内 P 路径分解（2026-10-01）
+
+在第 213 节确认路线积分冻结后，本轮继续对同一 v3 原始观测做代数分解，不启动新仿真。定义
+`P_path = pressure_command - dynamic_feedforward - route_integral`，并在同一严格窗口核对
+其与 `stage4_flow_error` 的关系。该分解只用于诊断，不改变门禁。
+
+native/conservative 两臂结果一致：
+
+- 路线积分仍为零，严格门内 `P_path` 非零；
+- native `P_path` 最大绝对值约 `0.08133 MPa`，与流量误差相关系数
+  `0.9998501751`；
+- conservative `P_path` 最大绝对值约 `0.08134 MPa`，与流量误差相关系数
+  `0.9998502512`；
+- 因此严格门内的奇偶交替由 P/误差反馈路径实际驱动，不能解释为仅有前馈随阀门变化，也不能
+  解释为 Stage4 路线积分记忆。
+
+本轮结论将下一步问题进一步收敛为：P 路径的使能合同、`PressurePI_ErrorLag` 的离散/连续
+采样语义、误差反馈测点与采样保持，以及 P 输出进入压力源后的实际更新时序。下一次判别实验
+应对这些路径做单因素结构对照，并同时保留原始流量、误差、P 项、压力指令和阶段积分质量；
+不得用平滑或重定义窗口掩盖门内交替。审计摘要 v2 的 SHA-256 为
+`F054EC899F467CD13A1B2BF1929E143FC84D53F7DD2A7DEFD9DB5CD3C859007D`，仍保持所有生产资格
+标志为 `false`。

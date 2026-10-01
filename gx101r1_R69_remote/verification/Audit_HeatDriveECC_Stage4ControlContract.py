@@ -87,6 +87,11 @@ def audit_arm(observations: Path, configuration: Path) -> dict:
         error_from_flow = TARGET_KGPS - flow
         flow_error = observed["stage4_flow_error"]
         flow_error_residual = flow_error - error_from_flow
+        p_path_term = (
+            observed["stage4_pressure_command"]
+            - observed["stage4_dynamic_feedforward"]
+            - observed["stage4_route_integral"]
+        )
         strict_observed = summarize_window(
             time_s,
             {"flow_kgps": flow,
@@ -99,6 +104,7 @@ def audit_arm(observations: Path, configuration: Path) -> dict:
              "dynamic_feedforward": observed["stage4_dynamic_feedforward"],
              "bias_sum": observed["stage4_bias_sum"],
              "pressure_command": observed["stage4_pressure_command"],
+             "derived_p_path_term": p_path_term,
              "integrator_enable_command": command},
             *STRICT_WINDOW,
         )
@@ -108,6 +114,8 @@ def audit_arm(observations: Path, configuration: Path) -> dict:
         command_active_strict = float(np.mean(command[strict] > 0.0))
         input_abs_strict = float(np.max(np.abs(observed["stage4_integrator_input"][strict])))
         output_abs_strict = float(np.max(np.abs(observed["stage4_integrator_output_gate"][strict])))
+        p_path_strict = p_path_term[strict]
+        p_path_error_corr = float(np.corrcoef(p_path_strict, flow_error[strict])[0, 1])
         state_span_strict = float(
             np.max(observed["stage4_integrator_state"][strict])
             - np.min(observed["stage4_integrator_state"][strict])
@@ -134,6 +142,11 @@ def audit_arm(observations: Path, configuration: Path) -> dict:
                 and output_abs_strict <= 1.0e-12
                 and state_span_strict <= 1.0e-12
             ),
+            "strict_derived_p_path_abs_max": float(np.max(np.abs(p_path_strict))),
+            "strict_derived_p_path_active": bool(
+                np.max(np.abs(p_path_strict)) > 1.0e-12
+            ),
+            "strict_derived_p_path_flow_error_correlation": p_path_error_corr,
             "stage4_alternating_response_requires_separate_p_path_audit": True,
         }
 
