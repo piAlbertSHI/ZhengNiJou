@@ -4675,3 +4675,41 @@ flow、pressure、local ledger、initial coordinates、phase/energy 和 mechanis
 - 结构合同、控制体实现审计和压力路径诊断均保留独立 JSON 与输入哈希；
 - 当前仍不得宣称 `validated`、`reproduced`、`strict Table 4 reproduction`，也不得使用 v3
   结果启动 20-cycle、outer solve、paired endpoint 或敏感性生产链。
+
+## 217. Stage4 压力偏置候选拒绝与积分输出门语义修正（2026-10-01）
+
+### 217.1 偏置候选的独立验证结果
+
+基于第 216 节的离线回归，独立冷态只改变
+`se_stage4_pressure_bias_trim_MPa=-0.04 MPa`，保持 tau=`0.010 s`、Kp=`-225`、Ki=`-255`、
+预充电=`0.5`、specific-inventory、zero-based-offset、initial-flux-compensation 和 0.85 MPa
+冷态合同不变。运行提交为 `2c9cbe8`，C200 未导入，未保存 checkpoint。
+
+基础账本、初始坐标 `125/125 + 79/79`、压力探针、压力范围、相分数和固体能量通过；但
+SE4 严格窗口结果恶化为 RMS=`14.6512%`、max=`61.1706%`，积分质量误差同样不满足，故
+`flow_and_inventory_gate=false`、`diagnostic_20cycle_seed_eligible=false`。该候选已标记为拒绝，
+不得传播或作为下一步恢复源。
+
+### 217.2 根因上移：积分更新与输出被同一门控耦合
+
+对 baseline 和偏置实验的原始时序逐点复核发现，在 `9.701 s`：
+
+- Stage4 route 仍处于活动窗口，评价窗口直到 `9.85 s`；
+- `stage4_integrator_state` 分别约为 `0.03767 MPa` 和 `0.1 MPa`（后者达到上限）；
+- `stage4_integrator_output_gate` 与 `stage4_route_integral` 同时被置零；
+- 流量随后出现跃升，偏置实验因更大的积累状态而跃升更严重。
+
+原实现把 settled guard 产生的 `SE_stage4_pressure_integrator_enable_command` 同时接到
+积分输入门和积分输出门，导致“停止继续积累”错误地变成“撤销已有路线记忆”。这不是审核窗口
+问题，也不是继续调 Kp/Ki 能可靠消除的问题。
+
+### 217.3 修正和下一轮
+
+已在 `Integrate_HeatDriveECC_Constitutive21_Interface.m` 中分离：
+
+- update enable：仍只允许 settled window 内更新积分状态；
+- output enable：只要 Stage4 路线活动且反馈有效，就保持已有独立路线积分修正输出。
+
+冷态 runner 同步保存两条 command 时序，并加入静态测试。下一轮仅启用这一结构修正，
+`se_stage4_pressure_bias_trim_MPa=0`，其余 v3 合同全部保持不变。只有 flow、pressure、local
+ledger、initial coordinates、phase/energy 和 mechanism gates 全部通过，才允许恢复 20-cycle。

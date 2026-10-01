@@ -44,6 +44,7 @@ NONLINEAR_LOCAL_BE_PRODUCER = '1c0af1a8a454d4c187062d872fa6e8b279b6742a'
 ZERO_BASED_OFFSET_PRODUCER = 'ec9d3e1521062b7e65aebc61a996d9c233b5bfbf'
 CONTROL_VOLUME_SEED_PRODUCER = 'c7e028d8a02b694f7b1e021acf6d0e880e2ece8d'
 CALIBRATION_MIRROR_PRODUCERS = {
+    '2c9cbe8f887cd5012440e2c1c451f4b09408bf8c',
     CONTROL_VOLUME_SEED_PRODUCER,
     '3cda3aab3a6bcee45f67e69403a5bf57e0aef882',
     # These commits preserve the exact initial-flux contract and may run in
@@ -52,6 +53,8 @@ CALIBRATION_MIRROR_PRODUCERS = {
     '737373fe920d9a7964fcd698aa0be2de19b1698d',
 }
 ZERO_BASED_OFFSET_PRODUCERS = {
+    # Bounded bias experiment preserves inventory equations and initialization.
+    '2c9cbe8f887cd5012440e2c1c451f4b09408bf8c',
     ZERO_BASED_OFFSET_PRODUCER,
     '91dc097',
     # The six runner/component/initialization sources at this execution
@@ -92,6 +95,7 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     'e79174429c8624097752c05f54d4a0fcc24073d4',
 }
 ENDPOINT_CHAMBER_PRODUCERS = {
+    '2c9cbe8f887cd5012440e2c1c451f4b09408bf8c',
     # Observed thermal-boundary extraction added after simulation; endpoint
     # sources and initialization are still checked against their hash contracts.
     '3cda3aab3a6bcee45f67e69403a5bf57e0aef882',
@@ -152,6 +156,7 @@ ENDPOINT_CHAMBER_HEADER = (
 # The v8 diagnostic was run after the report-only ledger commit. Both commits
 # refer to the same calibrated source implementation and remain auditable.
 INITIAL_FLUX_COMPENSATION_PRODUCERS = {
+    '2c9cbe8f887cd5012440e2c1c451f4b09408bf8c',
     'ea8dfcb64f17ecb7221f71e805e8072d39f3d4f5',
     'ca69761aad5e86455f696d344673f66e22b7bb66',
     '8c796118900ed98e777f0d07aa1108625cbd90cd',
