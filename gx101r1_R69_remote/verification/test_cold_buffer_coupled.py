@@ -167,6 +167,11 @@ class ColdBufferCoupledTests(unittest.TestCase):
         self.assertIn('SE_stage4_pressure_integrator_enable_command', source)
         self.assertIn('precharge_values > 0.0 & precharge_values < 1.0', source)
 
+    def test_pressure_error_filter_override_is_explicitly_bounded(self):
+        source = (Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
+        self.assertIn("'pressure_pi_error_filter_tau_s'", source)
+        self.assertIn("Pressure error-filter time constant must be within [1e-5,1] s.", source)
+
     def test_control_volume_seed_accepts_only_matching_audit_mirror_tail(self):
         canonical = Path('main/outputs_storage_audit/calibration/cold_buffer_coupled_audit.json')
         mirror = Path('worktree/outputs_storage_audit/calibration/cold_buffer_coupled_audit.json')

@@ -10,6 +10,8 @@ param(
     [double]$Stage4BlendFinal = 1.0,
     [ValidateRange(0.0,1.0)]
     [double]$Stage4PrechargeFraction = 0.0,
+    [ValidateRange(0.00001,1.0)]
+    [double]$PressurePiErrorFilterTauS = 0.002,
     [bool]$Stage4BlendPeriodic = $false,
     [ValidateSet('arithmetic_blend','logarithmic_endpoint')]
     [string]$Stage4ViscosityClosure = 'arithmetic_blend',
@@ -103,6 +105,7 @@ $contract = [ordered]@{
     stage4_endpoint_viscosity_blend_final = $Stage4BlendFinal
     stage4_endpoint_viscosity_blend_periodic = $Stage4BlendPeriodic
     stage4_commutation_precharge_fraction = $Stage4PrechargeFraction
+    pressure_pi_error_filter_tau_s = $PressurePiErrorFilterTauS
     stage4_endpoint_viscosity_closure_mode = $Stage4ViscosityClosure
     warmup_only_diagnostic = ($DiagnosticCycleCount -gt 1)
     requires_post_warmup_reaudit = ($DiagnosticCycleCount -gt 1)
@@ -118,10 +121,11 @@ $transition = $Stage4TransitionDurationS.ToString('R', [Globalization.CultureInf
 $blendInitial = $Stage4BlendInitial.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $blendFinal = $Stage4BlendFinal.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $precharge = $Stage4PrechargeFraction.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
+$filterTau = $PressurePiErrorFilterTauS.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $blendPeriodic = if ($Stage4BlendPeriodic) { 'true' } else { 'false' }
 $closureMode = MatlabQuote $Stage4ViscosityClosure
 $batch = @"
-cd('$repoM'); addpath(genpath(pwd)); overrides=struct(); overrides.se_stage2_pressure_pi_kp_MPa_per_kgps=-126; overrides.se_stage2_pressure_pi_initial_kp_MPa_per_kgps=-126; overrides.se_stage2_pressure_pi_transition_start_s=0; overrides.se_stage2_pressure_pi_transition_duration_s=0; overrides.se_stage4_pressure_pi_kp_MPa_per_kgps=$kp; overrides.se_stage4_pressure_pi_initial_kp_MPa_per_kgps=$initialKp; overrides.se_stage4_pressure_pi_ki_MPa_per_kgps_s=$ki; overrides.se_stage4_pressure_pi_transition_start_s=0; overrides.se_stage4_pressure_pi_transition_duration_s=0; overrides.se_stage4_endpoint_viscosity_blend_initial=$blendInitial; overrides.se_stage4_endpoint_viscosity_blend_final=$blendFinal; overrides.se_stage4_endpoint_viscosity_blend_start_s=0; overrides.se_stage4_endpoint_viscosity_blend_duration_s=0; overrides.se_stage4_endpoint_viscosity_blend_periodic=$blendPeriodic; overrides.se_stage4_endpoint_viscosity_closure_mode='$closureMode'; overrides.se_stage4_commutation_precharge_fraction=$precharge; record=Run_HeatDriveECC_ColdChamberDiagnostic('$repoM','$outputM',$DiagnosticDurationS,true,true,true,true,true,'specific_inventory',0.85,overrides,false,true,'zero_based_offset',$DiagnosticCycleCount,'$sourceM','normal',true,true); disp(jsonencode(struct('collection_pass',record.collection_pass,'completed_arms',numel(record.cases),'output_root','$outputM','cycle_count',record.cycle_count,'warmup_only_diagnostic',($DiagnosticCycleCount>1))));
+cd('$repoM'); addpath(genpath(pwd)); overrides=struct(); overrides.se_stage2_pressure_pi_kp_MPa_per_kgps=-126; overrides.se_stage2_pressure_pi_initial_kp_MPa_per_kgps=-126; overrides.se_stage2_pressure_pi_transition_start_s=0; overrides.se_stage2_pressure_pi_transition_duration_s=0; overrides.se_stage4_pressure_pi_kp_MPa_per_kgps=$kp; overrides.se_stage4_pressure_pi_initial_kp_MPa_per_kgps=$initialKp; overrides.se_stage4_pressure_pi_ki_MPa_per_kgps_s=$ki; overrides.se_stage4_pressure_pi_transition_start_s=0; overrides.se_stage4_pressure_pi_transition_duration_s=0; overrides.se_stage4_endpoint_viscosity_blend_initial=$blendInitial; overrides.se_stage4_endpoint_viscosity_blend_final=$blendFinal; overrides.se_stage4_endpoint_viscosity_blend_start_s=0; overrides.se_stage4_endpoint_viscosity_blend_duration_s=0; overrides.se_stage4_endpoint_viscosity_blend_periodic=$blendPeriodic; overrides.se_stage4_endpoint_viscosity_closure_mode='$closureMode'; overrides.se_stage4_commutation_precharge_fraction=$precharge; overrides.pressure_pi_error_filter_tau_s=$filterTau; record=Run_HeatDriveECC_ColdChamberDiagnostic('$repoM','$outputM',$DiagnosticDurationS,true,true,true,true,true,'specific_inventory',0.85,overrides,false,true,'zero_based_offset',$DiagnosticCycleCount,'$sourceM','normal',true,true); disp(jsonencode(struct('collection_pass',record.collection_pass,'completed_arms',numel(record.cases),'output_root','$outputM','cycle_count',record.cycle_count,'warmup_only_diagnostic',($DiagnosticCycleCount>1))));
 "@.Trim()
 $matlab = 'C:\Program Files\MATLAB\R2025b\bin\matlab.exe'
 if (-not (Test-Path -LiteralPath $matlab -PathType Leaf)) { throw "MATLAB executable not found: $matlab" }
