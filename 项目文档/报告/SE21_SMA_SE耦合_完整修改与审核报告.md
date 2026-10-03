@@ -4949,3 +4949,35 @@ Stage4 Kp/Ki=`-225/-255`、总压力下限 `-0.34 MPa`、预充电 `0.5` 和前�
 层面：需要同时记录每个路线的阀命令、热端/冷端储能状态、压力源端口温度、局部流量和温度域
 残差，并在进入 20-cycle 前先通过首周期事件级门禁。没有完成这一层合同前，暂停继续 20-cycle
 长跑是科学上必要的诊断分流，不是阻塞；所有失败包仍禁止传播到主线。
+
+## 224. 控制体合同与实施审计绑定复核（2026-10-03）
+
+### 224.1 审计层级修正
+
+本轮从更高层复核第八阶段，而不是继续微调 Stage4 参数。旧实施审核器虽然检查了 native 端点残差，
+但没有强制检查冷态审计是否绑定当前控制体合同，也没有把结果 SHA-256、完整周期、初始坐标、局部库存和
+source-port 门禁作为同一实施准入条件，存在把“合同结构完整”误当成“当前实施可用”的风险。
+
+`Audit_HeatDriveECC_ControlVolumeImplementation.py` 已修正：合同哈希、结果哈希存在性、冷态前置门禁和
+native 端点闭合现在必须同时满足；conservative 只保留为对照，不得替代 native。新增
+`test_control_volume_implementation.py`，4/4 回归测试通过。
+
+### 224.2 当前工作区证据
+
+主工作区重新生成的结构合同为
+`outputs_storage_audit/c200_control_volume_contract_20261003/`，结构审计结果为 `audit_pass=true`：
+10/10 控制体、10/10 指标、C200 authority 绑定和 Eq.9/Eq.10 采样合同均通过。合同 JSON SHA-256 为
+`D7343D25D4B004826062100F85223C2C2A68ABF41DEA9753EA168006CBA0345A`，结构审计 JSON SHA-256 为
+`FB0B7276235C7AB18877D4412C41BCB51B84A05AA9EFA853505AB4C64A178184`。
+
+将该合同与既有 v8 10 s 冷态证据绑定后，实施审计结果为 `implementation_control_volume_pass=false`。
+冷态完整周期、初始坐标、局部库存和 source-port 通过，但旧证据没有当前合同哈希和结果 SHA-256；native
+端点残差为 `-1.1039321092802084 J`，其中 Constant Volume Chamber 为 `-1.0131022668171963 J`、
+Tank 为 `-0.09082984256144304 J`。conservative 对照残差为 `1.8900436771218665e-9 J`，不能替代
+native。实施审计因此继续拒绝 seed、20-cycle、outer solve、敏感性、paired endpoints 和 Table 4。
+
+### 224.3 高层结论
+
+当前瓶颈已经从“控制器参数是否合适”收敛为“native 连接腔/Tank 的状态-通量语义和证据绑定是否闭合”。
+后续只允许补齐该物理合同并以全新冷态包复核；不再盲扫 Stage4 Kp/Ki、压力下限或前馈指数，也不把
+结构合同通过写成物理验证通过。
