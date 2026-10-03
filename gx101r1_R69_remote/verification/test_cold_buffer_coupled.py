@@ -162,6 +162,14 @@ class ColdBufferCoupledTests(unittest.TestCase):
         self.assertIn("'Stage4 commutation precharge fraction must be within [0,1].'", source)
         self.assertIn("'Periodic Stage4 viscosity-blend override must be a logical scalar.'", source)
 
+    def test_pressure_audit_aligns_sparse_and_fixed_gate_grids(self):
+        source = (Path(__file__).parents[1]/'Build_HeatDriveECC_EighthRound_Simulink_Model.m').read_text(encoding='utf-8')
+        self.assertIn('SE_stage2_pressure_integrator_enable_command_time_s', source)
+        self.assertIn('SE_stage4_pressure_integrator_enable_command_time_s', source)
+        self.assertIn("interp1(stage2_enable_time_s(:)", source)
+        self.assertIn("interp1(stage4_enable_time_s(:)", source)
+        self.assertIn("'previous', 'extrap'", source)
+
     def test_stage4_precharge_must_reach_the_simulation_grid(self):
         source = (Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
         self.assertIn('SE_stage4_pressure_integrator_enable_command', source)
