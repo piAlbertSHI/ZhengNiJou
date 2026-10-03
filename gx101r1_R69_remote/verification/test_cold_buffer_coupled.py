@@ -150,6 +150,13 @@ class ColdBufferCoupledTests(unittest.TestCase):
         self.assertIn('43bec659dde7384a5543c96886f89130c2480bd0',
                       ENDPOINT_CHAMBER_PRODUCERS)
 
+    def test_pressure_grid_alignment_execution_is_exactly_allow_listed(self):
+        # The producer fixes only an audit-time grid mismatch; it must be
+        # explicitly bound without broadening the endpoint provenance gate.
+        producer = '25837852427a831fcc3f1e7c0f33e31f2536cd4a'
+        self.assertIn(producer, ENDPOINT_CHAMBER_PRODUCERS)
+        self.assertIn(producer, ZERO_BASED_OFFSET_PRODUCERS)
+
     def test_stage4_ki_is_an_explicit_negative_diagnostic_override(self):
         source = (Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
         self.assertIn("'se_stage4_pressure_pi_ki_MPa_per_kgps_s'", source)

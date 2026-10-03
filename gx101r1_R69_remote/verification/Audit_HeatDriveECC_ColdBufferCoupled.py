@@ -93,6 +93,10 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     # post-load runtime workspace; inventory and recovery contracts remain
     # unchanged.
     'e79174429c8624097752c05f54d4a0fcc24073d4',
+    # 2583785 only restores zero-order-hold alignment between the sparse
+    # pressure-command grid and fixed gate grids; the zero-based state and
+    # recovery contracts are unchanged.
+    '25837852427a831fcc3f1e7c0f33e31f2536cd4a',
 }
 ENDPOINT_CHAMBER_PRODUCERS = {
     '2c9cbe8f887cd5012440e2c1c451f4b09408bf8c',
@@ -143,6 +147,10 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     # post-load runtime workspace; endpoint and recovery contracts remain
     # unchanged.
     'e79174429c8624097752c05f54d4a0fcc24073d4',
+    # 2583785 only restores zero-order-hold alignment between the sparse
+    # pressure-command grid and fixed gate grids; plant equations, cold-start
+    # state, endpoint chamber, and recovery prohibitions are unchanged.
+    '25837852427a831fcc3f1e7c0f33e31f2536cd4a',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'

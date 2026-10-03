@@ -58,6 +58,10 @@ PRODUCERS = {
     # post-load runtime workspace; pump-probe and recovery contracts remain
     # unchanged.
     "e79174429c8624097752c05f54d4a0fcc24073d4",
+    # 2583785 only restores zero-order-hold alignment between sparse pressure
+    # commands and fixed gate grids; pressure probes and recovery contracts
+    # remain unchanged.
+    "25837852427a831fcc3f1e7c0f33e31f2536cd4a",
 }
 PRESSURE_MIN_MPA = 0.45
 PRESSURE_MAX_MPA = 5.0
