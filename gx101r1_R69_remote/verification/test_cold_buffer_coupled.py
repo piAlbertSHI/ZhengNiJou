@@ -156,6 +156,9 @@ class ColdBufferCoupledTests(unittest.TestCase):
         producer = '25837852427a831fcc3f1e7c0f33e31f2536cd4a'
         self.assertIn(producer, ENDPOINT_CHAMBER_PRODUCERS)
         self.assertIn(producer, ZERO_BASED_OFFSET_PRODUCERS)
+        audit_only_revision = '3a202dd'
+        self.assertIn(audit_only_revision, ENDPOINT_CHAMBER_PRODUCERS)
+        self.assertIn(audit_only_revision, ZERO_BASED_OFFSET_PRODUCERS)
 
     def test_stage4_ki_is_an_explicit_negative_diagnostic_override(self):
         source = (Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')

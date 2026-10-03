@@ -97,6 +97,9 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     # pressure-command grid and fixed gate grids; the zero-based state and
     # recovery contracts are unchanged.
     '25837852427a831fcc3f1e7c0f33e31f2536cd4a',
+    # 3a202dd changes only audit provenance allowlists and regression tests;
+    # the physical runner is byte-identical to 2583785.
+    '3a202dd',
 }
 ENDPOINT_CHAMBER_PRODUCERS = {
     '2c9cbe8f887cd5012440e2c1c451f4b09408bf8c',
@@ -151,6 +154,9 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     # pressure-command grid and fixed gate grids; plant equations, cold-start
     # state, endpoint chamber, and recovery prohibitions are unchanged.
     '25837852427a831fcc3f1e7c0f33e31f2536cd4a',
+    # 3a202dd changes only audit provenance allowlists and regression tests;
+    # the physical runner is byte-identical to 2583785.
+    '3a202dd',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'
