@@ -100,6 +100,10 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     # 3a202dd changes only audit provenance allowlists and regression tests;
     # the physical runner is byte-identical to 2583785.
     '3a202dd',
+    # c281c77 exposes only the periodic Stage-4 endpoint-viscosity blend
+    # start/duration override; the physical equations and recovery contract
+    # remain unchanged.
+    'c281c77575e174a4fe19a6c60b923234f142dc37',
 }
 ENDPOINT_CHAMBER_PRODUCERS = {
     '2c9cbe8f887cd5012440e2c1c451f4b09408bf8c',
@@ -157,6 +161,10 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     # 3a202dd changes only audit provenance allowlists and regression tests;
     # the physical runner is byte-identical to 2583785.
     '3a202dd',
+    # c281c77 exposes only the periodic Stage-4 endpoint-viscosity blend
+    # start/duration override; the physical equations and recovery contract
+    # remain unchanged.
+    'c281c77575e174a4fe19a6c60b923234f142dc37',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'

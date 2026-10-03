@@ -65,6 +65,10 @@ PRODUCERS = {
     # 3a202dd changes only audit provenance allowlists and regression tests;
     # the physical runner is byte-identical to 2583785.
     "3a202dd",
+    # c281c77 exposes only the periodic Stage-4 endpoint-viscosity blend
+    # start/duration override; pressure probes and recovery contracts remain
+    # unchanged.
+    "c281c77575e174a4fe19a6c60b923234f142dc37",
 }
 PRESSURE_MIN_MPA = 0.45
 PRESSURE_MAX_MPA = 5.0
