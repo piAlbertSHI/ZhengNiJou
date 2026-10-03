@@ -4747,3 +4747,205 @@ Table 4 输入。
 热液压有效域”的混合系统稳定性问题。下一步必须先建立跨周期积分漂移、再进入输出跃迁、
 压力饱和和热端有效域的诊断合同，再设计 anti-windup/平滑方案；不得放宽 Simscape 断言或
 直接盲目重跑 20-cycle。
+
+## 219. Stage4 记忆下限候选的长周期否证与问题层级再上移（2026-10-01）
+
+### 219.1 候选合同与首周期结果
+
+为区分“积分记忆漂移”与“路线重新进入时的输出跃迁”，新增了显式的
+`se_stage4_pressure_integrator_min_MPa` 诊断参数。候选值 `-0.04 MPa` 被限制在当前物理下限
+`[-0.40262034397413776, 0] MPa` 内，默认值保持原模型，不允许通过放宽边界制造稳定性。
+新鲜独立冷态双臂包 `qcm40_20261001_10s_v1` 使用 `b8ed6f9` 生成，控制体质量/能量、204 个
+初始坐标、Stage2/Stage4 流量、泵 A/B 压力范围和液压诊断全部通过，`seed_gate` 为
+`diagnostic_20cycle_seed_eligible=true`。这证明首周期门禁合理且候选没有破坏冷态合同，但不授予
+周期稳态、恢复、outer solve 或 Table 4 资格。
+
+### 219.2 20-cycle 否证
+
+在不导入 C200 状态、不保存 checkpoint 的全新 `qcm40_20261001_20cycle_v1` 中，候选于
+`t=68.576 s`、第 7 周期 Stage4 re-entry 触发热端温度有效域断言；原始 `+0.02 MPa` bias-only
+20-cycle 包在 `t=88.576 s`、第 9 周期同类 re-entry 失败。新候选的关键证据为：
+
+- Stage4 积分状态下限为 `-0.04 MPa`，失效时实际为约 `-0.03427 MPa`，因此不是积分器到下限后
+  造成的简单饱和失效；
+- Stage4 route integral 在 re-entry 时回到 `0`，输出门从零重新接入，压力指令由约 `-1e-6`
+  跳至 `-0.03297 MPa`；
+- `mass_flow_v4_hot_inlet` 在失效前接近 `0 kg/s`，热端出口温度最高约 `474.47 K`，触发
+  Simscape 有效域断言；
+- 20-cycle `collection_pass=false`、`periodic_steady_state=false`、没有可恢复 Operating Point，
+  证据已写入 `REJECTED_DO_NOT_RESUME`，不得用于恢复、插值、敏感性或 Table 4。
+
+因此 anti-windup 下限不是当前主因，且收紧下限会提前改变失稳时刻。问题进一步上移为
+“路线活动分数到积分输出的离散二值重入”与热液压状态的混合系统不连续性。下一单因素候选应保持
+原积分下限，仅把 Stage4 输出门从 `activity>0.5` 的二值门改为受路线活动分数连续调制，并重新
+通过 10 s seed gate 后再做 20-cycle。任何放宽 Simscape 有效域、删除压力/流量门禁或复用失败状态
+均不允许。
+
+### 219.3 证据哈希
+
+- 执行合同：`qcm40_20261001_20cycle_v1/cold_chamber_execution.json`，SHA-256
+  `938F8F7929F22E6C1FA120383A6BB14E592E54FF2C961BAB5487135E3C6B11FF`；
+- native 失败观测：`native/failed_public_observations.mat`，SHA-256
+  `026CE0F8167C01F99324B236BE3C427F41A12A47D4D96AAAD2E35E471372DA8D`；
+- 诊断摘要：`failed_20cycle_diagnostic_summary.json`，SHA-256
+  `0B88064BC68EBC8F579B4B356642FBDD8DB7E550B17EC3D2A9DA767BCB616647`。
+
+## 220. 连续输出候选的 20-cycle 压力域失效与审计契约复核（2026-10-02）
+
+### 220.1 10 s 审计调用的契约误用已纠正
+
+`qcfractional2_20261002_10s_v1` 的首次流量审计调用遗漏了 `--full-cycle`，因此生成的审计 JSON 没有
+`arms/selected_flow_gates`，被后续 seed gate 正确拒绝。该 JSON 不是物理结论，保留为无效审计副本，
+不进入证据链。按 10 s 双臂冷态契约重新审计后，流量/库存/初始坐标、相分数/固体能量和压力/液压
+三类门禁全部通过，`diagnostic_20cycle_seed_eligible=true`。这次复核说明审计必须同时检查“审计
+输入是否满足自身 schema”，否则会把调用错误误报成物理失败。
+
+### 220.2 连续 Stage4 输出的长周期否证
+
+在不导入 C200、无 checkpoint、同一冷态初始化源下，`qcfractional2_20261002_20cycle_v1` 使用
+`1e5689d` 执行 20-cycle；该提交只包含 `9c1279e` 的 Stage4 fractional-opening 输出诊断及其
+精确审计登记。仿真在第 7 周期、`t=60.075 s` 触发 Simscape `HoldPipe_001...010` 的最大有效
+压力断言，`collection_pass=false`，没有可恢复 Operating Point。
+
+失效前的最大 Stage4 泵端压力出现在 `t=58.889 s`，但后续内部压力审计显示泵端不是失效判据：
+
+- 总 Stage4 压力指令 `-0.4248973978 MPa`；
+- 动态温度/黏度前馈 `-0.3190769498 MPa`；
+- P 路径 `-0.0581412657 MPa`；
+- Stage4 独立积分状态 `-0.0476791823 MPa`；
+- 前馈比值和 `4.1235250478`；
+- SE Stage4 端口 A/B `1.2759073697/0.8510099719 MPa`；该压力尚未解释所有被阀门隔离的内部体积。
+- `SE/HoldPipe_001...021` 的 `p_I` 最高达到 `9.8808807901 MPa`，而新内部压力审计范围为
+  `[0.45, 5.0] MPa`；这才是同一失败包的真实有效域证据。
+
+因此，连续输出门修正没有解决跨周期失稳；收紧总泵指令下限到 `-0.34 MPa` 后，20-cycle 仍在
+第 3 周期 `t=20.075 s` 失败，泵端峰值仅 `1.1910209470 MPa`，但 `SE/HoldPipe_001` 的
+内部压力仍达到 `8.7788613706 MPa`。这排除了“单纯泵总指令下限过宽”作为充分修复。Simscape
+有效域断言合理，不能通过放宽压力域、删除断言或把失败状态传播到下一轮来“修复”。
+
+### 220.3 问题层级与下一步
+
+当前必须把换阀期间的困液压力、内部体积连通性、阀门最小开度和压力释放路径纳入统一控制合同，
+而不是只约束泵端指令。已新增 73 个流体储能组件的 `p_I` 覆盖审计；此前“压力通过”的旧
+压力审计只覆盖六个泵 A/B 探针，不能作为全回路压力有效性证明。下一候选先做内部压力/阀门
+连通性诊断和 10 s 双臂冷态；只有三类 10 s 门禁重新通过，才允许再做 20-cycle。不得继续
+以 fractional output、integrator min 或单一 Kp/Ki 微调作为默认路线。失败包的执行 JSON SHA-256 为
+`F6DF194BB498A653B1115B0D68C167FB8F6C18FF65470A14E751EB7322B12738`，native 失败观测 SHA-256
+为 `5B44F79F90A9FF14760FA5E1C4C7F822A9A5532FD2C7566884F153B5F0DE80C9`，已写入
+`failed_20cycle_diagnostic_summary.json` 并标记 `REJECTED_DO_NOT_RESUME`；压力包络比较记录在
+`outputs_storage_audit/internal_pressure_failure_comparison_20261002.json`。
+## 221. 阀泄漏候选的热液有效域失败与问题层级再上移（2026-10-02）
+
+### 221.1 候选目的与冷态资格
+
+为验证“换阀后内部体积缺乏压力释放路径”这一高层假设，新增了有界诊断参数
+`valve_min_Cv=0.0001`。该参数只改变诊断分支的最小阀流通能力；specific-inventory、
+zero-based-offset、initial-flux-compensation、Stage2/Stage4 控制参数、预充电和 0.85 MPa
+冷态初始化均保持不变。10 s 双臂包通过完整 flow、inventory、source-port、initial-coordinate、
+phase/solid-energy、pump/internal-pressure 和 hydraulic gates：73 个内部流体储能状态均被覆盖，
+其压力范围约为 `0.61--1.19 MPa`。该结果只授权一次全新 20-cycle 诊断，不授权恢复、outer
+solve 或 Table 4。
+
+### 221.2 20-cycle 结果与硬失败证据
+
+新包 `qcfractional2_valveleak_20261002_20cycle_v1` 使用提交 `63d2890`，未导入 C200、未保存
+checkpoint。仿真自然结束于退出码 `1`，`collection_pass=false`，在 `t=98.577 s` 触发
+`SharedSEHotEndJunction`、`V3_sma_to_hot` 和热端 `HotPipe` 的温度有效域断言；没有完成双臂
+结果，也没有可恢复 Operating Point。失败观测中的关键量为：
+
+- `probe_v3_sma_to_hot_sma_side_T_K`、`se_hold_outlet_fluid_temp_out` 最高约 `501.4501 K`；
+- `hot_hx_outlet_fluid_temp_out` 和热端回流探针最低约 `-399.6808 K`；
+- 该时刻 `mass_flow_v3_sma_to_hot` 已接近零，说明异常发生在换阀后的低流量/热容状态重组阶段，
+  不能归结为泵端压力边界；泵端压力仍约为 `1.19 MPa` 量级，Stage4 总指令下限为 `-0.34 MPa`。
+
+故障时刻正好对应 Stage4 新路由开始打开：SE 阀命令为 `[0,0,0,0.1,0.1,0.1]`，SMA 阀命令为
+`[0,1,0,1,0,1]`，Stage4 积分输出门为 `0.05`。同一毫秒内 Stage4 压力指令由约 `-1e-6 MPa`
+跳至 `-0.0331 MPa`，动态前馈比值和由 `1.0` 变为约 `1.068`；这把问题定位为“热端状态重组
+与动态黏度前馈同时重入”的混合系统跳变，而不是普通压力范围误判。
+
+严格结论：阀最小开度候选没有证明热液回路可持续，只排除了“单纯困液压力是唯一瓶颈”的假设。
+该包已标记 `REJECTED_DO_NOT_RESUME`，不得作为恢复、插值、敏感性、outer solve 或 Table 4
+输入。诊断摘要为 `outputs_storage_audit/qcfractional2_valveleak_20261002_20cycle_v1/thermal_domain_failure_summary_v3.json`。
+
+### 221.3 全局判断与下一阶段
+
+当前问题已经从泵端压力控制进一步上移为“阀门连通性、换阀时序、热端流体储能与温度有效域之间的
+混合系统重入不连续性”。因此下一步不再做单一 Kp/Ki、压力下限或阀 Cv 的盲目扫描，而是先建立
+以下可审计的状态合同：
+
+1. 每个路线的阀开度/有效 Cv、质量流量和热端两侧温度必须同一时间轴记录；
+2. 对换阀前后至少一个毫秒级窗口做热端局部质量、能量和温度域预算；
+3. 区分“真实物理越界”和“探针/settled 窗口漏记”的审计错误，失败包必须同时保留原始观测和
+   审计输入哈希；
+4. 只有新的 10 s 双臂 seed 再次通过，才允许下一次 20-cycle；任何 20-cycle 失败状态仍不得
+   传播到主线。
+
+本轮还修正了审计契约：10 s flow audit 若遗漏 `--full-cycle`，现在直接报告 schema 不完整，
+不再把调用错误伪装成物理失败。新增的 73 状态内部压力覆盖和热液失败摘要均为诊断门禁，不能
+替代 periodic steady-state 或 Table 4 定量边界。
+
+## 223. C200 控制体合同冻结与第八阶段重启（2026-10-03）
+
+### 223.1 结构合同
+
+基于 C200 冻结主线的当前默认参数，重新生成
+`outputs_storage_audit/c200_control_volume_contract_20261003/`。合同明确列出：
+
+- CHEX 边界传感器、SHEX 源/流体、HHEX 流体、CHEX 流体节点；
+- SMA 固体床、SE 固体床、SMA/SE 路线 buffer；
+- 有限连接管路/歧管以及 SMA/SE 泵功；
+- Eq.9 温跨、Eq.10 冷量/SCP、CHEX 交叉核对、泵功、液压 COP、整机热一阶残差和闭环流体质量漂移。
+
+Eq.9/Eq.10 统一使用最后 10 个完整周期，端点包含在梯形积分中；SCP 质量基准固定为 active SE
+solid mass `0.04181683646625444 kg`。控制体表、方程表、Markdown 和审计 JSON 均已生成并哈希。
+
+### 223.2 审计结果与边界
+
+`Audit_HeatDriveECC_ControlVolumeContract.py` 结果为 `audit_pass=true`，10/10 控制体和 10/10
+指标齐全，无缺失项。该审计是结构合同审计，不检查 C200 当前轨迹的物理周期稳态、完整设备一阶
+定律、泵功热耦合或 Table 4 端点，因此不授予 outer solve、敏感性或 `validated/reproduced` 权限。
+
+证据哈希：
+
+- 合同 JSON：`1863E426764D146B4C4ECAFA064994130B3CFA09501F099B69AD4CF929F6FEC7`；
+- 控制体 CSV：`61400267B19D3B2E8CB0F5840632D09B79E15208AB1EB94DD6E9EFBEE753D351`；
+- Eq.9/Eq.10 CSV：`0DB223D859F4FF1B9043484042F108838644759CE45D07F61A3B1A3CC1692C54`；
+- 审计 JSON：`8BD816D1C00146D920A899DD81E5B5F0F8A0A771446A7B69249D95CA9879C531`。
+
+### 223.3 下一步执行顺序
+
+下一步不从失败冷态包恢复，而是以 C200 `final_operating_point.mat` 为唯一主线参考，先完成控制体
+实现层的实际信号映射和周期窗口复核；只有控制体实现闭合、当前周期机制/流量/相变/能量门禁全部
+通过，才开放 fixed-`Tc` outer solve。失败候选继续单独归档，不进入插值或恢复链。
+
+## 222. 前馈重入整形候选的首周期有效域失败（2026-10-02）
+
+### 222.1 实现错误先行排除
+
+基于第 221 节的路由重入证据，新增有界诊断参数
+`se_stage4_pressure_feedforward_activity_exponent`，默认值为 `1`，候选值为 `2`。它只改变
+动态黏度前馈的活动权重，不改变真实阀命令、热容、buffer、本构状态或生产默认值。首个候选因
+把固定仿真栅格 `gate_t` 的权重直接写入模型时间轴，触发 `timeseries` 数据/时间长度不一致；
+该包是代码契约失败，不作物理结论。随后已改为在模型时间轴 `t` 上计算，并通过 MATLAB
+`checkcode`、PowerShell 解析和内部压力测试。
+
+### 222.2 修正实现的 10 s 结果
+
+修正实现提交 `b647782`，候选包
+`qcfractional2_ffshape2_valveleak_20261002_10s_v2` 仍使用 `valve_min_Cv=0.0001`、
+Stage4 Kp/Ki=`-225/-255`、总压力下限 `-0.34 MPa`、预充电 `0.5` 和前馈活动指数 `2`。
+仿真在首个 10 s 周期的 `t=8.576 s` 触发
+`SE_ColdChamberJunction`/`SE_Stage2_PistonPressureSource` 温度有效域断言，
+`collection_pass=false`，没有双臂 seed gate，也不允许 20-cycle。
+
+在失败前，Stage4 前馈比值和由 `1.0` 仅变为约 `1.00314`，但压力指令仍由约 `-1e-6 MPa`
+跃迁到 `-0.03105 MPa`，说明仅对黏度活动权重做幂次整形没有解决换阀时序/温度有效域问题。
+因此不能把该候选的失败归因于压力包络审计阈值，也不能继续把 Kp/Ki 或指数做盲扫。
+
+### 222.3 当前路线决定
+
+截至本节，连续候选已经依次排除了：单一压力下限、泵端压力探针充分性、最小阀 Cv 作为唯一
+压力释放修复、以及单独的动态前馈活动幂次整形。问题应进入“换阀事件的全回路热液状态合同”
+层面：需要同时记录每个路线的阀命令、热端/冷端储能状态、压力源端口温度、局部流量和温度域
+残差，并在进入 20-cycle 前先通过首周期事件级门禁。没有完成这一层合同前，暂停继续 20-cycle
+长跑是科学上必要的诊断分流，不是阻塞；所有失败包仍禁止传播到主线。
