@@ -5163,3 +5163,31 @@ pipe/manifold 和泵 A/B 端口尚未全部观测时，不足以证明“全设�
 `test_control_volume_implementation.py` 与 `test_gate_semantics.py` 共 7 项回归测试通过，
 新增门禁语义只读审计不产生任何恢复或生产授权。后续仍禁止从有限结点失败包进入 20-cycle；下一步应优先补齐当前 native
 运行时的控制体信号并对 SE 换阀事件做状态合同诊断。
+
+## 230. Native 运行时观测启动链审计（2026-10-05）
+
+### 230.1 五次启动的原因链
+
+为补齐当前 native 运行时控制体信号，在独立工作树
+`runtime-cv-contract` 中使用冻结 C200 文件的 NTFS 硬链接，避免复制约 4.99 GB 的冻结结果；
+每次均为新输出目录、未导入 C200 Operating Point，且没有进入生产恢复路径。
+
+- `v1`：启动器返回 1；工作树缺少被 `.gitignore` 排除的冻结结果，MATLAB 报 `Missing file`，双臂均未开始；
+- `v2`：补齐冻结结果后，缺少已声明的 `initial_flux_signature.json`，在初始流量补偿前置阶段停止；
+- `v3--v5`：新增“仅运行时证据”模式后，MATLAB 批处理仍在函数调用前报无法识别 `True`，均未生成
+  `cold_chamber_execution.json`，没有任何物理轨迹产生。
+
+五次均已写入 launcher contract 或拒绝标记，均不得作为恢复、seed、20-cycle 或控制体证据来源；
+尤其不能把启动器失败误判为 SE 机制失败。
+
+### 230.2 高层结论
+
+当前速度瓶颈不是再选一个 Kp，而是实验资产合同没有闭合：
+
+1. 冻结 C200 大文件只存在于主工作区的忽略目录，独立工作树需要显式只读链接合同；
+2. `initial_flux_signature.json` 在工作区治理中已被退役，但当前生产诊断代码仍把它当作强前置；
+3. 运行时证据模式的启动器尚未通过 MATLAB 批字符串预解析，不能继续消耗仿真时间。
+
+因此下一步必须先恢复或重建 `initial_flux_signature` 的可验证来源，并对启动器做离线批字符串单元检查；
+完成后再启动一次 10 s native/conservative 观测。当前不进入 20-cycle，不放宽流量门禁，不伪造前置签名，
+也不把 v1--v5 的失败包传播到主线。
