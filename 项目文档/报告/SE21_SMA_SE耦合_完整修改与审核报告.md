@@ -5040,3 +5040,60 @@ SE4 流量门禁为最大相对误差约 `9.42%`、RMS 约 `7.21%`；在不改�
 隔离的架构诊断分支，比较当前零容积结点与明确有限流体库存/热惯性的共享结点；两者都必须使用相同的
 初始状态合同、阀命令/有效开度/前馈/PI/流量/温度/泵压事件记录和完整冷态门禁。只有诊断分支重新通过
 10 s seed gate，才可恢复 20-cycle；不得将架构假设本身包装成 validated 或 reproduced。
+
+## 227. 有限共享 SE 结点诊断的完整首周期结论（2026-10-05）
+
+### 227.1 执行与审计器修正
+
+隔离诊断分支 `codex/stage4-positive-bias-diagnostic` 基于执行 commit
+`237e2766d0022adff5686a9550e89620f4246162`，从独立冷态运行 10 s 双臂包
+`outputs/fl3_20261005/`，使用 `finite_leg_chambers_diagnostic`、Stage2/Stage4
+`-126/-225`、PI `Ki=-255`、压力偏置 `+0.024 MPa`、初始流量补偿和 zero-based offset。
+仿真自然退出 `0`，没有导入 C200、没有 checkpoint，也没有获得生产恢复权限。
+
+审计器此前按零容积拓扑硬编码 119 个存储组件和旧 trace 数量，导致有限腔体被误报为
+拓扑/清单不完整。本轮修正仅对四个新增有限腔体补回其当前实际 fluid-domain assignment，
+并将每个腔体增加的 10 条 native trace 和总存储数 123 从拓扑模式派生；零容积生产模式的
+原门禁未放宽。修正后的回归测试 `29/29` 通过，流量审计的 `evidence_audit_pass` 和
+`local_inventory_conservation_pass` 均为 `true`。
+
+### 227.2 门禁结果
+
+修正后审计回执：
+
+- flow/inventory：双臂库存、source-port 和局部端口检查通过；
+- pressure：`pressure_range_gate=true`、`hydraulic_diagnostic_gate=true`；
+- strict initial coordinate：`false`，仅 1 个 High 坐标未通过，
+  `ColdSinkPipe/u_I` 误差为 `2.3896262746e-9 kJ/kg`；
+- SMA：四个阶段通过；
+- SE Stage 2：RMS 相对误差约 `6.4603%`，最大误差约 `12.7962%`，失败；
+- SE Stage 4：RMS 相对误差约 `10.3478%`，最大误差约 `20.3700%`，失败；
+- `mechanism_gates_complete=false`、`seed_eligible=false`、
+  `production_recovery_allowed=false`、`table4_reproduction_claim=false`。
+
+流量审计 JSON SHA-256 为
+`AA564A9A99A9E5987D3603197E9C4E58EE159A52FED5CFBB1F15853C94076223`；
+压力审计 JSON SHA-256 为
+`405A5FF6E2DEFF3830D2B4F1EABF02CF2683C200B3A22FF3A5D084F7896FCC7E`。
+
+### 227.3 审计合理性复核与高层判断
+
+本轮没有把 `ALL_REQUIRED_PASS=0` 当成原因，而是逐层复核：压力范围和液压功诊断通过，
+库存/端口通过，失败只剩 SE 流量目标和初始状态严格匹配。这支持“有限共享结点改变了
+换阀后的流量动力学，当前控制参数与目标流量不兼容”的高层判断，而不是“压力审计过严”。
+
+现有 `15%` 瞬时误差、`5%` RMS 和 `0.30 s` settled guard 对 seed 准入仍是合理的工程筛选，
+因为本结果的 SE RMS 超限幅度明显大于数值舍入。另一方面，单个 `u_I` 的极小偏差应在后续
+审计中作为“初始化数值一致性警告”与“物理 seed 失败”分栏报告，不能单独据此宣称物理失败；
+本轮即使将其降级为警告，SE2/SE4 流量仍然拒绝 seed，因此不改变决策。
+
+四个有限腔体的 native 端点账本残差合计约 `0.83967 J`，主要由当前 backward-Euler
+端点统计中的腔体通量/状态路径差异报告出来；它不是本轮唯一拒绝依据，也不应被错误包装成
+完整设备一阶定律。该量保留为诊断指标，待统一控制体能量合同后再决定是否作为物理门禁。
+
+### 227.4 当前决定
+
+该有限结点包拒绝进入 20-cycle、outer solve、敏感性、paired endpoints 和 Table 4。
+不得从该包恢复热容、buffer、本构、温度、相分数或 PI 记忆。下一步应从更高层修正“有限结点
+储能如何与换阀控制和流量目标共同初始化”的状态合同，或明确证明零容积代数结点是论文模型的
+适用近似；不再进行 Kp/Ki、压力偏置或 settled 窗口的盲扫。

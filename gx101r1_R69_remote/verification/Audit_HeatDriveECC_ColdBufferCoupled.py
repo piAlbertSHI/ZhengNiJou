@@ -277,8 +277,40 @@ def evidence_path_key(path, repo, experiment_root=None):
             raise
 
 
+SHARED_SE_DIAGNOSTIC_CHAMBERS = {
+    ROOT + 'SE/SharedSEHotLegChamber_Conn2',
+    ROOT + 'SE/SharedSEHotLegChamber_Conn3',
+    ROOT + 'SE/SharedSEColdLegChamber_Conn1',
+    ROOT + 'SE/SharedSEColdLegChamber_Conn4',
+}
+
+
+def _normalize_shared_se_storage_edges(data, storage_mode):
+    """Collapse only the declared finite-leg diagnostic edges for comparison."""
+    raw = edges(data)
+    if storage_mode != 'finite_leg_chambers_diagnostic':
+        return raw
+    aliases = {}
+    for suffix, junction, junction_port in (
+            ('SharedSEHotLegChamber_Conn2', 'SharedSEHotEndJunction', 'B'),
+            ('SharedSEHotLegChamber_Conn3', 'SharedSEHotEndJunction', 'C'),
+            ('SharedSEColdLegChamber_Conn1', 'SharedSEColdEndJunction', 'B'),
+            ('SharedSEColdLegChamber_Conn4', 'SharedSEColdEndJunction', 'C')):
+        chamber = ROOT + 'SE/' + suffix
+        junction_key = ROOT + 'SE/' + junction + ':' + junction_port
+        aliases[chamber + ':A'] = junction_key
+        aliases[chamber + ':B'] = junction_key
+    normalized = set()
+    for kind, a, b in raw:
+        a, b = aliases.get(a, a), aliases.get(b, b)
+        if a != b:
+            normalized.add((kind, *sorted((a, b))))
+    return normalized
+
+
 def topology_check(native, candidate, chamber_source='ecc_inventory.conservative_chamber',
-                   buffer_source='ecc_buffer_coupled.conservative_buffer'):
+                   buffer_source='ecc_buffer_coupled.conservative_buffer',
+                   shared_storage_mode='zero_volume_direct_manifold_node'):
     if chamber_source not in ('ecc_inventory.conservative_chamber', 'ecc_inventory_specific.conservative_chamber',
                               'ecc_inventory_endpoint.conservative_chamber',
                               'ecc_nonlinear_chamber.conservative_chamber'):
@@ -287,13 +319,22 @@ def topology_check(native, candidate, chamber_source='ecc_inventory.conservative
                              'ecc_buffer_coupled_offset.conservative_buffer',
                              'ecc_nonlinear_buffer.conservative_buffer'):
         raise ValueError('Unknown declared buffer source')
-    if edges(native) != edges(candidate):
+    if shared_storage_mode not in {'zero_volume_direct_manifold_node',
+                                   'finite_leg_chambers_diagnostic'}:
+        raise ValueError('Unsupported shared SE junction storage mode')
+    if _normalize_shared_se_storage_edges(native, shared_storage_mode) != \
+            _normalize_shared_se_storage_edges(candidate, shared_storage_mode):
         raise ValueError('Named physical edges changed')
+    domain_candidate = copy.deepcopy(candidate)
     projected = copy.deepcopy(candidate)
     source = {b['block_path']: b['source_file'] for b in native['blocks']}
     seen = set()
+    projected_blocks = []
     for b in projected['blocks']:
         path = b['block_path']
+        if shared_storage_mode == 'finite_leg_chambers_diagnostic' and \
+                path in SHARED_SE_DIAGNOSTIC_CHAMBERS:
+            continue
         if path in BUFFERS | CHAMBERS:
             expected = buffer_source if path in BUFFERS else chamber_source
             if b['source_file'] != expected:
@@ -302,10 +343,18 @@ def topology_check(native, candidate, chamber_source='ecc_inventory.conservative
             b['source_file'] = source[path]
         elif b['source_file'] != source.get(path):
             raise ValueError('Unexpected physical component changed')
+        projected_blocks.append(b)
+    projected['blocks'] = projected_blocks
+    if shared_storage_mode == 'finite_leg_chambers_diagnostic':
+        actual_extra = {b['block_path'] for b in candidate['blocks']
+                        if b['block_path'] in SHARED_SE_DIAGNOSTIC_CHAMBERS}
+        if actual_extra != SHARED_SE_DIAGNOSTIC_CHAMBERS:
+            raise ValueError('Incomplete finite shared-SE diagnostic chamber set')
     if seen != BUFFERS | CHAMBERS or len(projected['blocks']) != len(source):
         raise ValueError('Incomplete replacement coverage')
-    a, na = resolve_domains(native); b, nb = resolve_domains(projected)
-    if na != 2 or nb != 2 or a != b:
+    a, na = resolve_domains(native); b, nb = resolve_domains(domain_candidate)
+    common_domain_assignment_ok = all(b.get(path) == owner for path, owner in a.items())
+    if na != 2 or nb != 2 or not common_domain_assignment_ok:
         raise ValueError('Fluid domain assignment changed')
     return a
 
@@ -369,8 +418,19 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_for
     time = None; components = []; consumed = set()
     source_files = {b['block_path']: b['source_file'] for b in read(folder/'tl_connectivity.json')['blocks']}
     endpoint_chamber = 'ecc_inventory_endpoint.conservative_chamber' in set(source_files.values())
+    finite_shared_storage = meta.get('se_shared_junction_storage_mode') == 'finite_leg_chambers_diagnostic'
+    arm_assignment = dict(assignment)
+    if finite_shared_storage:
+        actual_assignment, actual_domains = resolve_domains(read(folder/'tl_connectivity.json'))
+        if actual_domains != 2 or not SHARED_SE_DIAGNOSTIC_CHAMBERS <= set(actual_assignment):
+            raise ValueError('Finite shared-SE diagnostic domain assignment incomplete')
+        for path in SHARED_SE_DIAGNOSTIC_CHAMBERS:
+            arm_assignment[path] = actual_assignment[path]
     expected_count = (1262 if endpoint_chamber else 1240) if folder.name == 'native' else (
         1276 if nonlinear_inventory else 1262 if mass_formulation == 'zero_based_offset' else 1258)
+    if finite_shared_storage:
+        expected_count += 40
+    expected_component_count = 123 if finite_shared_storage else 119
     with h5py.File(folder/'observations.mat') as f:
         rows = checked_rows(f, 'native', expected_count, stop, start,
                             allow_leading_warmup=start > 0)
@@ -384,13 +444,13 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_for
                     consumed.add(key)
                     block['leaf_variables'].append(dict(name=key[1], unit=text_field(r['unit']),
                         time_s=r['time_s'][:].reshape(-1), values=r['values'][:].reshape(-1)))
-            table = tables.get(assignment.get(path)); nominal = None
+            table = tables.get(arm_assignment.get(path)); nominal = None
             if kind == 'Pipe (TL)':
                 mode = block['model_modes']; p = block['mask_parameters']
                 temp = scalar(mode['T_nominal'], mode['T_nominal_unit'], 'K')
                 pressure = scalar(mode['p_nominal'], mode['p_nominal_unit'], 'Pa')
                 if p['area']['unit'] != 'm^2' or p['length']['unit'] != 'm': raise ValueError('Unexpected native pipe geometry units')
-                nominal = float(densities[assignment[path]]([[temp, pressure]])[0])*p['area']['value']*p['length']['value']
+                nominal = float(densities[arm_assignment[path]]([[temp, pressure]])[0])*p['area']['value']*p['length']['value']
             if kind == 'Conservative Buffer (TL)':
                 detail = buffer_ledger(rows, path, table, contracts[path], nonlinear_inventory, mass_formulation); c = contracts[path]
                 get = lambda n, u: scalar_series(rows[path, n], u)
@@ -413,7 +473,7 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_for
             else:
                 row, h = ledgers(block, table, nominal)
             row['stages'] = stage_totals_window(h, time); components.append(row)
-        if consumed != set(rows) or len(components) != 119 or len({r['block_path'] for r in components}) != 119:
+        if consumed != set(rows) or len(components) != expected_component_count or len({r['block_path'] for r in components}) != expected_component_count:
             raise ValueError('Unaccounted storage leaves')
         rates, source_rows, pumps = source_ledger(f, read(folder/'thermal_connectivity.json'), time,
                                                   allow_leading_warmup=start > 0)
@@ -452,7 +512,7 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_for
     groups = {kind: dict(count=sum(r['mask_type'] == kind for r in components),
                         endpoint_energy_residual_J=sum(r['endpoint_energy_residual_J_end'] for r in components if r['mask_type'] == kind))
               for kind in sorted({r['mask_type'] for r in components})}
-    return dict(arm=folder.name, storage_count=119, source_count=49, samples=len(time), omitted_intervals=0,
+    return dict(arm=folder.name, storage_count=expected_component_count, source_count=49, samples=len(time), omitted_intervals=0,
                 components=components, component_groups=groups, source_rows=source_rows, pumps=pumps,
                 source_ledger={k: integral_summary(v, time) for k, v in rates.items()},
                  source_stages=stage_totals_window({k: np.r_[0, np.cumsum(v[1:]*np.diff(time))] for k, v in rates.items()}, time),
@@ -603,6 +663,18 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
                                 differential_variables=('mass_offset', 'stored_energy')))
         else:
             compiled_gate = component_inventory_preserved(tag_rows, {p.removeprefix(ROOT) for p in BUFFERS | CHAMBERS})
+    with h5py.File(root/'native/configuration.mat') as config:
+        storage_mode = text_field(config['options/branch/se_shared_junction_storage_mode']) \
+            if 'options/branch/se_shared_junction_storage_mode' in config \
+            else 'zero_volume_direct_manifold_node'
+    with h5py.File(root/'conservative/configuration.mat') as config:
+        conservative_storage_mode = text_field(config['options/branch/se_shared_junction_storage_mode']) \
+            if 'options/branch/se_shared_junction_storage_mode' in config \
+            else 'zero_volume_direct_manifold_node'
+    if storage_mode != conservative_storage_mode:
+        raise ValueError('Shared SE junction storage mode differs between arms')
+    if storage_mode not in {'zero_volume_direct_manifold_node', 'finite_leg_chambers_diagnostic'}:
+        raise ValueError('Unsupported shared SE junction storage mode')
     native_topology = read(root/'native/tl_connectivity.json')
     conservative_topology = read(root/'conservative/tl_connectivity.json')
     if endpoint_chamber_diagnostic:
@@ -624,15 +696,18 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
                 raise ValueError('Missing qualified endpoint topology source')
             reference_topology = read(qualified_root/'native/tl_connectivity.json')
             native_assignment = topology_check(reference_topology, native_topology,
-                                               chamber_source, buffer_source)
+                                               chamber_source, buffer_source,
+                                               shared_storage_mode=storage_mode)
             conservative_assignment = topology_check(reference_topology, conservative_topology,
-                                                     chamber_source, buffer_source)
+                                                     chamber_source, buffer_source,
+                                                     shared_storage_mode=storage_mode)
         else:
             # Corrected route: native is the physical baseline; only the
             # conservative arm receives endpoint chamber and offset buffers.
             native_assignment, native_domains = resolve_domains(native_topology)
             conservative_assignment = topology_check(native_topology, conservative_topology,
-                                                     chamber_source, buffer_source)
+                                                     chamber_source, buffer_source,
+                                                     shared_storage_mode=storage_mode)
             if native_domains != 2:
                 raise ValueError('Native endpoint baseline has wrong domain count')
         if native_assignment != conservative_assignment:
@@ -640,7 +715,8 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         assignment = native_assignment
     else:
         assignment = topology_check(native_topology, conservative_topology,
-                                    chamber_source, buffer_source)
+                                    chamber_source, buffer_source,
+                                    shared_storage_mode=storage_mode)
     if edges(read(root/'native/thermal_connectivity.json')) != edges(read(root/'conservative/thermal_connectivity.json')):
         raise ValueError('Thermal physical edges changed')
     metas = {a: read(root/a/'inventory_metadata.json') for a in ('native', 'conservative')}
@@ -652,7 +728,8 @@ def audit(repo, full_cycle=False, specific_onset=False, experiment_root=None, no
         buffer_mask = ('Conservative Buffer (TL)' if endpoint_chamber_diagnostic and
                        (a == 'conservative' or native_has_endpoint) else
                        ('Tank (TL)' if a == 'native' else 'Conservative Buffer (TL)'))
-        expected = {'Pipe (TL)': 67, 'Constant Volume Chamber (TL)': 2, 'Thermal Mass': 46,
+        chamber_count = 2 + (4 if storage_mode == 'finite_leg_chambers_diagnostic' else 0)
+        expected = {'Pipe (TL)': 67, 'Constant Volume Chamber (TL)': chamber_count, 'Thermal Mass': 46,
                     buffer_mask: 4}
         if dict(Counter(b['mask_type'] for b in meta['storage_blocks'])) != expected:
             raise ValueError('Incomplete storage coverage')
