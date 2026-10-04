@@ -1,0 +1,52 @@
+{
+  "schema": "heatdrive_ecc_gate_semantics_audit_v1",
+  "source_sha256": {
+    "c200_control_volume_evidence": "5A7E304FD3C37FF0568FD7A769FDEF77EE69DFE9FF92C5CB762AEEC0FC96B00C",
+    "finite_flow": "6159D4EA3F8DFDB47A14491DEAF8CBB91C560931A5CD6A6DB13FC031DCDCD893",
+    "finite_pressure": "72002D0755673D8F01C36893A43C6B82A379FA78191264F2A599CBC3A795E0ED",
+    "finite_state_contract": "C8935CDBE1675BFB7C0031372F033B0D701F1C02E123AD7B47A9A134286805AF"
+  },
+  "policy": {
+    "evidence_completeness_is_hard_for_outer_solve": true,
+    "local_inventory_and_flow_are_hard_for_seed": true,
+    "whole_device_endpoint_residual_is_diagnostic_until_boundary_complete": true,
+    "periodic_or_near_steady_is_required_before_paper_claim": true,
+    "this_audit_grants_no_authority": true
+  },
+  "evidence_layer": {
+    "contract_structure_complete": true,
+    "runtime_observations_complete": false,
+    "periodic_flag_conflict": true,
+    "outer_solve_eligible": false
+  },
+  "physical_seed_layer": {
+    "flow_gates": {
+      "SMA_stage1": true,
+      "SMA_stage2": true,
+      "SMA_stage3": true,
+      "SMA_stage4": true,
+      "SE_stage2": false,
+      "SE_stage4": false
+    },
+    "pressure_range_gate": true,
+    "hydraulic_diagnostic_gate": true,
+    "mechanism_pass_for_finite_diagnostic": false,
+    "seed_eligible": false,
+    "production_recovery_allowed": false
+  },
+  "endpoint_residual_layer": {
+    "native_residual_J": 0.8396727357177269,
+    "hard_gate_applicable": false,
+    "classification": "diagnostic_only_missing_boundary_terms"
+  },
+  "claim_layer": {
+    "periodic_steady_state": false,
+    "strict_table4_reproduction": false,
+    "table4_claim_allowed": false
+  },
+  "highest_level_blockers": [
+    "runtime control-volume evidence incomplete",
+    "finite diagnostic SE flow gate failed"
+  ],
+  "decision": "diagnose_architecture_or_runtime_contract_before_new_20cycle"
+}
