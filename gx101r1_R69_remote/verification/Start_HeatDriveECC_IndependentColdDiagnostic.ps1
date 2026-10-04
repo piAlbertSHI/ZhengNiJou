@@ -69,6 +69,7 @@ if (-not [bool]$sourceRecord.collection_pass -or
 }
 $outputParent = Split-Path -Parent $OutputRoot
 New-Item -ItemType Directory -Path $outputParent -Force | Out-Null
+New-Item -ItemType Directory -Path $OutputRoot -Force | Out-Null
 $stdoutTemp = "$OutputRoot.matlab_stdout.tmp"
 $stderrTemp = "$OutputRoot.matlab_stderr.tmp"
 if ((Test-Path -LiteralPath $stdoutTemp) -or (Test-Path -LiteralPath $stderrTemp)) {
@@ -117,27 +118,46 @@ $contract = [ordered]@{
     warmup_only_diagnostic = ($DiagnosticCycleCount -gt 1)
     requires_post_warmup_reaudit = ($DiagnosticCycleCount -gt 1)
 }
+$configPath = Join-Path $OutputRoot 'launcher_config.json'
+$config = [ordered]@{
+    schema = 'heatdrive_ecc_independent_cold_diagnostic_config_v1'
+    repo_root = $repoRoot
+    output_root = $OutputRoot
+    initial_observation_root = $InitialObservationRoot
+    duration_s = $DiagnosticDurationS
+    cycle_count = $DiagnosticCycleCount
+    network_absolute_pressure_MPa = 0.85
+    formulation = 'specific_inventory'
+    scale_inventory = $true
+    buffer_mass_guess = $true
+    buffer_mass_targets = $true
+    pipe_energy_targets = $true
+    conservative_buffers = $true
+    initial_flux_compensation = $InitialFluxCompensation
+    buffer_mass_formulation = 'zero_based_offset'
+    endpoint_chamber_diagnostic = $true
+    endpoint_all_arms = $true
+    simulation_mode = 'normal'
+    stage2_kp = -126
+    stage2_initial_kp = -126
+    stage4_kp = $Stage4Kp
+    stage4_initial_kp = $Stage4InitialKp
+    stage4_ki = $Stage4Ki
+    stage4_pressure_bias_trim_MPa = $Stage4PressureBiasTrimMPa
+    stage4_transition_duration_s = $Stage4TransitionDurationS
+    stage4_endpoint_viscosity_blend_initial = $Stage4BlendInitial
+    stage4_endpoint_viscosity_blend_final = $Stage4BlendFinal
+    stage4_endpoint_viscosity_blend_periodic = $Stage4BlendPeriodic
+    stage4_commutation_precharge_fraction = $Stage4PrechargeFraction
+    pressure_pi_error_filter_tau_s = $PressurePiErrorFilterTauS
+    stage4_endpoint_viscosity_closure_mode = $Stage4ViscosityClosure
+}
+$config | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $configPath -Encoding utf8
+$contract.config_path = $configPath
 function MatlabQuote([string]$Value) { return $Value.Replace("'", "''") }
 $repoM = MatlabQuote $repoRoot
-$outputM = MatlabQuote $OutputRoot
-$sourceM = MatlabQuote $InitialObservationRoot
-$kp = $Stage4Kp.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
-$initialKp = $Stage4InitialKp.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
-$ki = $Stage4Ki.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
-$biasTrim = $Stage4PressureBiasTrimMPa.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
-$transition = $Stage4TransitionDurationS.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
-$blendInitial = $Stage4BlendInitial.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
-$blendFinal = $Stage4BlendFinal.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
-$precharge = $Stage4PrechargeFraction.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
-$filterTau = $PressurePiErrorFilterTauS.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
-$blendPeriodic = if ($Stage4BlendPeriodic) { 'true' } else { 'false' }
-$closureMode = MatlabQuote $Stage4ViscosityClosure
-$initialFluxCompensation = if ($InitialFluxCompensation) { 'true' } else { 'false' }
-$runtimeEvidenceOnly = if ($InitialFluxCompensation) { 'false' } else { 'true' }
-$warmupOnly = if ($DiagnosticCycleCount -gt 1) { 'true' } else { 'false' }
-$batch = @"
-cd('$repoM'); addpath(genpath(pwd)); overrides=struct(); overrides.se_stage2_pressure_pi_kp_MPa_per_kgps=-126; overrides.se_stage2_pressure_pi_initial_kp_MPa_per_kgps=-126; overrides.se_stage2_pressure_pi_transition_start_s=0; overrides.se_stage2_pressure_pi_transition_duration_s=0; overrides.se_stage4_pressure_pi_kp_MPa_per_kgps=$kp; overrides.se_stage4_pressure_pi_initial_kp_MPa_per_kgps=$initialKp; overrides.se_stage4_pressure_pi_ki_MPa_per_kgps_s=$ki; overrides.se_stage4_pressure_pi_transition_start_s=0; overrides.se_stage4_pressure_pi_transition_duration_s=0; overrides.se_stage4_endpoint_viscosity_blend_initial=$blendInitial; overrides.se_stage4_endpoint_viscosity_blend_final=$blendFinal; overrides.se_stage4_endpoint_viscosity_blend_start_s=0; overrides.se_stage4_endpoint_viscosity_blend_duration_s=0; overrides.se_stage4_endpoint_viscosity_blend_periodic=$blendPeriodic; overrides.se_stage4_endpoint_viscosity_closure_mode='$closureMode'; overrides.se_stage4_commutation_precharge_fraction=$precharge; overrides.pressure_pi_error_filter_tau_s=$filterTau; overrides.se_stage4_pressure_bias_trim_MPa=$biasTrim; record=Run_HeatDriveECC_ColdChamberDiagnostic('$repoM','$outputM',$DiagnosticDurationS,1,1,1,1,1,'specific_inventory',0.85,overrides,0,$initialFluxCompensation,'zero_based_offset',$DiagnosticCycleCount,'$sourceM','normal',1,1); disp(jsonencode(struct('collection_pass',record.collection_pass,'completed_arms',numel(record.cases),'output_root','$outputM','cycle_count',record.cycle_count,'runtime_evidence_only',$runtimeEvidenceOnly,'warmup_only_diagnostic',$warmupOnly)));
-"@.Trim()
+$configM = MatlabQuote $configPath
+$batch = "cd('$repoM'); addpath(genpath(pwd)); Run_HeatDriveECC_IndependentColdDiagnosticFromConfig('$configM');"
 $matlab = 'C:\Program Files\MATLAB\R2025b\bin\matlab.exe'
 if (-not (Test-Path -LiteralPath $matlab -PathType Leaf)) { throw "MATLAB executable not found: $matlab" }
 $started = Get-Date
