@@ -113,6 +113,20 @@ class ControlVolumeImplementationTests(unittest.TestCase):
             cold_path.write_text(json.dumps(cold), encoding="utf-8")
             result = build(contract_path, cold_path, expected_result_sha256="A" * 64)
         self.assertFalse(result["native"]["endpoint_inventory_gate_pass"])
+        self.assertFalse(result["native"]["endpoint_residual_gate_applicable"])
+        self.assertTrue(result["native"]["endpoint_residual_hard_gate_pass"])
+        self.assertTrue(result["eligibility"]["implementation_control_volume_pass"])
+
+    def test_complete_boundary_evidence_promotes_endpoint_residual_to_hard_gate(self):
+        with tempfile.TemporaryDirectory() as directory:
+            contract_path = self.write_contract(Path(directory))
+            cold = cold_fixture(sha256(contract_path), endpoint=1e-6)
+            cold["all_required_control_volume_observations_complete"] = True
+            cold_path = Path(directory) / "cold.json"
+            cold_path.write_text(json.dumps(cold), encoding="utf-8")
+            result = build(contract_path, cold_path, expected_result_sha256="A" * 64)
+        self.assertTrue(result["native"]["endpoint_residual_gate_applicable"])
+        self.assertFalse(result["native"]["endpoint_residual_hard_gate_pass"])
         self.assertFalse(result["eligibility"]["implementation_control_volume_pass"])
 
 

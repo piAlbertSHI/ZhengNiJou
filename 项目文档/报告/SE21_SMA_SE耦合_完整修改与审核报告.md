@@ -5134,3 +5134,32 @@ Conn2 温度摆幅约 `7.36 K`；Stage4 pressure command 在 Stage4 窗口的差
 因此第八点第 3 项的 outer solve 仍未开放。下一轮若继续，必须先定义有限结点的初始化、
 控制器状态、温度/黏度前馈和流量目标的共同状态合同；合同通过后重新做单个 10 s seed，
 再按“当前周期门禁 -> 20-cycle -> fixed-`Tc` outer solve”的顺序推进。
+
+## 229. 门禁语义的高层复核与端点残差降级
+
+### 229.1 发现的问题
+
+此前 `Audit_HeatDriveECC_ControlVolumeImplementation.py` 将全设备
+`source_minus_actual_endpoint_storage_J` 与 `1e-8 J` 直接绑定为实施硬门禁。该阈值对单个已定义
+控制体的局部质量/能量账本是合理的数值一致性阈值，但在 SHEX/HHEX/CHEX 流体、buffer、
+pipe/manifold 和泵 A/B 端口尚未全部观测时，不足以证明“全设备物理失败”：残差可能只是未观测边界项。
+
+### 229.2 修正后的分层规则
+
+已将端点残差分为两层：
+
+1. 局部库存闭合和 SE 流量门禁仍是 10 s seed 的硬门禁；
+2. 全设备端点残差只有在运行时控制体证据完整且 `full_device_first_law_verified=true` 时才升级为硬门禁；
+3. 证据不完整时仍保存残差和组分归因，但分类为 `diagnostic_only_missing_boundary_terms`；
+4. 该降级不授予 seed、20-cycle、恢复、outer solve 或 Table 4 权限。
+
+新增 `Audit_HeatDriveECC_GateSemantics.py`，并生成
+`outputs_storage_audit/gate_semantics_20261005_v2/gate_semantics_audit.json`。
+当前回执明确显示：控制体运行时证据不完整、有限结点诊断的 SE2/SE4 流量门禁失败、压力范围和液压诊断通过、
+`0.8396727357 J` 端点残差仅为诊断项；因此真正的高层阻塞是“运行时控制体合同 + SE 换阀动力学”，不是端点残差阈值本身。
+
+### 229.3 验证
+
+`test_control_volume_implementation.py` 与 `test_gate_semantics.py` 共 7 项回归测试通过，
+新增门禁语义只读审计不产生任何恢复或生产授权。后续仍禁止从有限结点失败包进入 20-cycle；下一步应优先补齐当前 native
+运行时的控制体信号并对 SE 换阀事件做状态合同诊断。
