@@ -1,0 +1,32 @@
+{
+  "schema": "heatdrive_ecc_storage_retirement_receipt_v1",
+  "created_at": "2026-10-05",
+  "scope": "intermediate finite shared-SE diagnostic attempts that cannot be used for recovery or scientific comparison",
+  "preserved_evidence": [
+    "outputs/fl3_20261005",
+    "outputs_storage_audit/finite_leg_storage_fl3_flow_v9",
+    "outputs_storage_audit/finite_leg_storage_fl3_pressure_v2",
+    "outputs_storage_audit/finite_leg_storage_fl3_comparison_20261005.json",
+    "项目文档/报告/SE21_SMA_SE耦合_完整修改与审核报告.md"
+  ],
+  "retired_directories": [
+    {
+      "path": "outputs/fl1_20261005",
+      "bytes_before_retirement": 3451340,
+      "reason": "compile-path failure before physical execution; no scientific evidence"
+    },
+    {
+      "path": "outputs/fl2_20261005",
+      "bytes_before_retirement": 4953372,
+      "reason": "trace-component-count contract failure; superseded by corrected fl3 audit"
+    },
+    {
+      "path": "outputs/qian_stage4_finite_leg_storage_p024_20261005_10s_v1",
+      "bytes_before_retirement": 3387034,
+      "reason": "compile-path failure before physical execution; no scientific evidence"
+    }
+  ],
+  "retired_bytes": 11791746,
+  "retired_gib": 0.010985,
+  "scientific_status": "No retired directory was a recovery source, 20-cycle input, outer-solve input, sensitivity input, paired-endpoint input, or Table 4 input."
+}
