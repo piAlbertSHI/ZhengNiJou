@@ -1,0 +1,46 @@
+{
+  "schema": "heatdrive_ecc_runtime_observation_launch_diagnosis_v1",
+  "date": "2026-10-05",
+  "worktree": "runtime-cv-contract",
+  "physical_trajectory_generated": false,
+  "promoted_to_mainline": false,
+  "production_recovery_allowed": false,
+  "attempts": [
+    {
+      "id": "v1",
+      "exit_code": 1,
+      "stage": "pre_simulation",
+      "reason": "isolated worktree lacked the ignored frozen C200 result/checkpoint",
+      "matlab_error": "Missing file"
+    },
+    {
+      "id": "v2",
+      "exit_code": 1,
+      "stage": "pre_simulation",
+      "reason": "initial flux signature prerequisite was absent after storage cleanup",
+      "matlab_error": "Missing prerequisite"
+    },
+    {
+      "id": "v3",
+      "exit_code": 1,
+      "stage": "batch_parse",
+      "reason": "evidence-only launcher emitted an invalid MATLAB boolean expression",
+      "matlab_error": "unrecognized True"
+    },
+    {
+      "id": "v4",
+      "exit_code": 1,
+      "stage": "batch_parse",
+      "reason": "the same launcher parse defect remained after the first wrapper repair",
+      "matlab_error": "unrecognized True"
+    },
+    {
+      "id": "v5",
+      "exit_code": 1,
+      "stage": "batch_parse",
+      "reason": "numeric MATLAB booleans did not remove the environment-level batch failure",
+      "matlab_error": "unrecognized True"
+    }
+  ],
+  "decision": "retain_as_launcher_diagnosis_only; do_not_retry_same_path; restore_or_rebuild_initial_flux_signature_before_next_runtime_run"
+}
