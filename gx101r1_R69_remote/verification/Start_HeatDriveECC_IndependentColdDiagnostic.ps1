@@ -9,6 +9,7 @@ param(
     [double]$Stage4TransitionDurationS = 10,
     [double]$Stage4BlendInitial = 1.0,
     [double]$Stage4BlendFinal = 1.0,
+    [bool]$InitialFluxCompensation = $true,
     [ValidateRange(0.0,1.0)]
     [double]$Stage4PrechargeFraction = 0.0,
     [ValidateRange(0.00001,1.0)]
@@ -95,7 +96,7 @@ $contract = [ordered]@{
     buffer_mass_targets = $true
     pipe_energy_targets = $true
     conservative_buffers = $true
-    initial_flux_compensation = $true
+    initial_flux_compensation = $InitialFluxCompensation
     buffer_mass_formulation = 'zero_based_offset'
     endpoint_chamber_diagnostic = $true
     endpoint_all_arms = $true
@@ -112,6 +113,7 @@ $contract = [ordered]@{
     stage4_commutation_precharge_fraction = $Stage4PrechargeFraction
     pressure_pi_error_filter_tau_s = $PressurePiErrorFilterTauS
     stage4_endpoint_viscosity_closure_mode = $Stage4ViscosityClosure
+    runtime_evidence_only = (-not $InitialFluxCompensation)
     warmup_only_diagnostic = ($DiagnosticCycleCount -gt 1)
     requires_post_warmup_reaudit = ($DiagnosticCycleCount -gt 1)
 }
@@ -130,8 +132,9 @@ $precharge = $Stage4PrechargeFraction.ToString('R', [Globalization.CultureInfo]:
 $filterTau = $PressurePiErrorFilterTauS.ToString('R', [Globalization.CultureInfo]::InvariantCulture)
 $blendPeriodic = if ($Stage4BlendPeriodic) { 'true' } else { 'false' }
 $closureMode = MatlabQuote $Stage4ViscosityClosure
+$initialFluxCompensation = if ($InitialFluxCompensation) { 'true' } else { 'false' }
 $batch = @"
-cd('$repoM'); addpath(genpath(pwd)); overrides=struct(); overrides.se_stage2_pressure_pi_kp_MPa_per_kgps=-126; overrides.se_stage2_pressure_pi_initial_kp_MPa_per_kgps=-126; overrides.se_stage2_pressure_pi_transition_start_s=0; overrides.se_stage2_pressure_pi_transition_duration_s=0; overrides.se_stage4_pressure_pi_kp_MPa_per_kgps=$kp; overrides.se_stage4_pressure_pi_initial_kp_MPa_per_kgps=$initialKp; overrides.se_stage4_pressure_pi_ki_MPa_per_kgps_s=$ki; overrides.se_stage4_pressure_pi_transition_start_s=0; overrides.se_stage4_pressure_pi_transition_duration_s=0; overrides.se_stage4_endpoint_viscosity_blend_initial=$blendInitial; overrides.se_stage4_endpoint_viscosity_blend_final=$blendFinal; overrides.se_stage4_endpoint_viscosity_blend_start_s=0; overrides.se_stage4_endpoint_viscosity_blend_duration_s=0; overrides.se_stage4_endpoint_viscosity_blend_periodic=$blendPeriodic; overrides.se_stage4_endpoint_viscosity_closure_mode='$closureMode'; overrides.se_stage4_commutation_precharge_fraction=$precharge; overrides.pressure_pi_error_filter_tau_s=$filterTau; overrides.se_stage4_pressure_bias_trim_MPa=$biasTrim; record=Run_HeatDriveECC_ColdChamberDiagnostic('$repoM','$outputM',$DiagnosticDurationS,true,true,true,true,true,'specific_inventory',0.85,overrides,false,true,'zero_based_offset',$DiagnosticCycleCount,'$sourceM','normal',true,true); disp(jsonencode(struct('collection_pass',record.collection_pass,'completed_arms',numel(record.cases),'output_root','$outputM','cycle_count',record.cycle_count,'warmup_only_diagnostic',($DiagnosticCycleCount>1))));
+cd('$repoM'); addpath(genpath(pwd)); overrides=struct(); overrides.se_stage2_pressure_pi_kp_MPa_per_kgps=-126; overrides.se_stage2_pressure_pi_initial_kp_MPa_per_kgps=-126; overrides.se_stage2_pressure_pi_transition_start_s=0; overrides.se_stage2_pressure_pi_transition_duration_s=0; overrides.se_stage4_pressure_pi_kp_MPa_per_kgps=$kp; overrides.se_stage4_pressure_pi_initial_kp_MPa_per_kgps=$initialKp; overrides.se_stage4_pressure_pi_ki_MPa_per_kgps_s=$ki; overrides.se_stage4_pressure_pi_transition_start_s=0; overrides.se_stage4_pressure_pi_transition_duration_s=0; overrides.se_stage4_endpoint_viscosity_blend_initial=$blendInitial; overrides.se_stage4_endpoint_viscosity_blend_final=$blendFinal; overrides.se_stage4_endpoint_viscosity_blend_start_s=0; overrides.se_stage4_endpoint_viscosity_blend_duration_s=0; overrides.se_stage4_endpoint_viscosity_blend_periodic=$blendPeriodic; overrides.se_stage4_endpoint_viscosity_closure_mode='$closureMode'; overrides.se_stage4_commutation_precharge_fraction=$precharge; overrides.pressure_pi_error_filter_tau_s=$filterTau; overrides.se_stage4_pressure_bias_trim_MPa=$biasTrim; record=Run_HeatDriveECC_ColdChamberDiagnostic('$repoM','$outputM',$DiagnosticDurationS,true,true,true,true,true,'specific_inventory',0.85,overrides,false,$initialFluxCompensation,'zero_based_offset',$DiagnosticCycleCount,'$sourceM','normal',true,true); record.runtime_evidence_only=~$initialFluxCompensation; record.seed_authority_granted=false; save(fullfile('$outputM','runtime_evidence_contract.mat'),'record','-v7.3'); disp(jsonencode(struct('collection_pass',record.collection_pass,'completed_arms',numel(record.cases),'output_root','$outputM','cycle_count',record.cycle_count,'runtime_evidence_only',~$initialFluxCompensation,'warmup_only_diagnostic',($DiagnosticCycleCount>1))));
 "@.Trim()
 $matlab = 'C:\Program Files\MATLAB\R2025b\bin\matlab.exe'
 if (-not (Test-Path -LiteralPath $matlab -PathType Leaf)) { throw "MATLAB executable not found: $matlab" }
