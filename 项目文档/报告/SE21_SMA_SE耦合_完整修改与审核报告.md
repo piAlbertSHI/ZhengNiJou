@@ -5012,3 +5012,31 @@ SE4 流量门禁为最大相对误差约 `9.42%`、RMS 约 `7.21%`；在不改�
 渐开，积分输出门仍为零，而动态压力指令随后跳至约 `-0.03129 MPa`；同一失败样本中的热端观测
 降至 `236.776 K`。这不是单纯泵端压力范围或 settled 窗口问题，后续事件合同必须同时覆盖命令、
 有效开度、流量、温度和 PI 状态。
+
+## 226. 共享 SE 结点存储假设的架构级审计（2026-10-05）
+
+### 226.1 审计对象
+
+新增只读源码审计
+`gx101r1_R69_remote/verification/Audit_HeatDriveECC_SESharedJunctionStorage.py`，输出为
+`outputs_storage_audit/se_shared_junction_storage_20261005/se_shared_junction_storage_audit.json`。
+该审计的范围是源码架构声明，不对运行结果作 seed、恢复或生产授权。
+
+### 226.2 发现
+
+当前实现对共享 SE 热端和冷端使用 `T-Junction (TL)`，并将两个结点的 `inertia` 设置为 `false`；默认选项
+同时把共享歧管标记为 `zero_volume_direct_manifold_node`。另一方面，接口代码将 `HoldPipe` 的有限库存
+描述为保存 manifold enthalpy，拓扑审计又要求两个共享结点存在且不保留 cooldown 管路。
+
+源码级回执给出：
+`architecture_level_finite_junction_storage_diagnostic_required`。
+这表示存在一个值得独立验证的高层建模假设：有限 HoldPipe 库存是否足以表达换阀瞬间的共享结点状态，或者
+当前代数结点把事件中的压力、温度和有效开度时序压缩成了不一致的状态转换。它不是物理机制失败结论，
+也不是把有限腔体直接写入生产模型的许可。
+
+### 226.3 全局决策
+
+此前的压力偏置、PI 增益、端点黏度渐变和前馈活动渐入均不足以解释或修复该重入事件。下一轮应采用
+隔离的架构诊断分支，比较当前零容积结点与明确有限流体库存/热惯性的共享结点；两者都必须使用相同的
+初始状态合同、阀命令/有效开度/前馈/PI/流量/温度/泵压事件记录和完整冷态门禁。只有诊断分支重新通过
+10 s seed gate，才可恢复 20-cycle；不得将架构假设本身包装成 validated 或 reproduced。
