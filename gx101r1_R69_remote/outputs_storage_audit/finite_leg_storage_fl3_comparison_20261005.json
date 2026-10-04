@@ -1,0 +1,42 @@
+{
+  "schema": "heatdrive_ecc_finite_shared_se_diagnostic_comparison_v1",
+  "comparison_scope": "existing positive zero-volume cold seed versus finite shared-SE diagnostic cold seed",
+  "direct_reference": {
+    "audit_path": "outputs_storage_audit/bias_p024_20261003_v1_flow/cold_buffer_coupled_audit.json",
+    "audit_sha256": "4ED735E1C1DF67CC3267E43F2F879DEA4E7CF5B05AE8139AD0B3FA2A2E5B44FA",
+    "seed_eligible": true,
+    "se_stage2_rms_relative_error": 0.043460167106692,
+    "se_stage4_rms_relative_error": 0.02762316103903574,
+    "cooling_power_W": 7.496184244335967,
+    "outlet_lift_K": 26.42455252112753,
+    "source_minus_actual_endpoint_storage_J": 8.930101103032939e-10
+  },
+  "finite_diagnostic": {
+    "execution_root": "outputs/fl3_20261005",
+    "flow_audit_path": "outputs_storage_audit/finite_leg_storage_fl3_flow_v9/cold_buffer_coupled_audit.json",
+    "flow_audit_sha256": "AA564A9A99A9E5987D3603197E9C4E58EE159A52FED5CFBB1F15853C94076223",
+    "pressure_audit_path": "outputs_storage_audit/finite_leg_storage_fl3_pressure_v2/cold_pump_pressure_audit.json",
+    "pressure_audit_sha256": "405A5FF6E2DEFF3830D2B4F1EABF02CF2683C200B3A22FF3A5D084F7896FCC7E",
+    "seed_eligible": false,
+    "strict_initial_coordinate_match": false,
+    "se_stage2_rms_relative_error": 0.0646033956264984,
+    "se_stage4_rms_relative_error": 0.10347848105375591,
+    "cooling_power_W": -10.728468784703974,
+    "outlet_lift_K": 25.456118709082137,
+    "source_minus_actual_endpoint_storage_J": 0.8396727357177269,
+    "pressure_range_gate": true,
+    "hydraulic_diagnostic_gate": true,
+    "local_inventory_conservation_pass": true
+  },
+  "interpretation": {
+    "higher_level_finding": "Finite shared-SE storage changes the coupled switching-flow trajectory; the existing pressure/PI route is not transferable without a new state contract.",
+    "not_supported": [
+      "20-cycle continuation",
+      "outer solve",
+      "sensitivity analysis",
+      "paired endpoints",
+      "strict Table 4 reproduction"
+    ],
+    "audit_decision": "Keep the SE flow RMS gate and pressure gates unchanged; classify the tiny one-coordinate initialization mismatch separately from the physical flow failure."
+  }
+}
