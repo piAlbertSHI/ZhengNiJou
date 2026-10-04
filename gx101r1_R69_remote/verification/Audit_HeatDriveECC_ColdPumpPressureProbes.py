@@ -69,6 +69,7 @@ PRODUCERS = {
     # start/duration override; pressure probes and recovery contracts remain
     # unchanged.
     "c281c77575e174a4fe19a6c60b923234f142dc37",
+    "baaeab479344e7534159c8a5dbf1c70bb86762c3",
 }
 PRESSURE_MIN_MPA = 0.45
 PRESSURE_MAX_MPA = 5.0

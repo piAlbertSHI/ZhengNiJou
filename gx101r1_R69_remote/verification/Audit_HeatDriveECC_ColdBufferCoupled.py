@@ -104,6 +104,10 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     # start/duration override; the physical equations and recovery contract
     # remain unchanged.
     'c281c77575e174a4fe19a6c60b923234f142dc37',
+    # baaeab4 adds only an explicit periodic Stage-4 feedforward-activity
+    # ramp and wires the existing transition-duration diagnostic override;
+    # inventory, endpoint, and recovery contracts remain unchanged.
+    'baaeab479344e7534159c8a5dbf1c70bb86762c3',
 }
 ENDPOINT_CHAMBER_PRODUCERS = {
     '2c9cbe8f887cd5012440e2c1c451f4b09408bf8c',
@@ -165,6 +169,7 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     # start/duration override; the physical equations and recovery contract
     # remain unchanged.
     'c281c77575e174a4fe19a6c60b923234f142dc37',
+    'baaeab479344e7534159c8a5dbf1c70bb86762c3',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'
