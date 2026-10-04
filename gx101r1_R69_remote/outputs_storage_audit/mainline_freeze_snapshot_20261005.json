@@ -1,0 +1,49 @@
+{
+  "schema": "heatdrive_ecc_mainline_freeze_snapshot_v1",
+  "frozen_at": "2026-10-05",
+  "branch": "codex/native-chamber-endpoint-diagnostic",
+  "c200_authority": {
+    "completed_cycles": 200,
+    "mechanism_pass": true,
+    "periodic_steady_state": true,
+    "strict_table4_reproduction": false,
+    "physical_simscape_result_sha256": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD",
+    "final_operating_point_sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD5DD7D17DA7F798EBAAF4816",
+    "current_model_direct_state_restore_allowed": false,
+    "preserved_state_classes": [
+      "thermal_capacity",
+      "buffer",
+      "constitutive",
+      "temperature",
+      "phase_fraction",
+      "independent_route_PI_memory"
+    ]
+  },
+  "current_control_volume_status": {
+    "contract_structure_complete": true,
+    "runtime_observations_complete": false,
+    "conflict_detected": true,
+    "outer_solve_authorized": false,
+    "missing_runtime_groups": [
+      "SHEX_fluid",
+      "HHEX_fluid",
+      "CHEX_fluid",
+      "buffers",
+      "pipes_and_manifolds",
+      "pumps"
+    ]
+  },
+  "latest_architecture_diagnostic": {
+    "finite_shared_se_seed_eligible": false,
+    "state_contract_json_sha256": "C8935CDBE1675BFB7C0031372F033B0D701F1C02E123AD7B47A9A134286805AF",
+    "flow_audit_json_sha256": "AA564A9A99A9E5987D3603197E9C4E58EE159A52FED5CFBB1F15853C94076223",
+    "pressure_audit_json_sha256": "405A5FF6E2DEFF3830D2B4F1EABF02CF2683C200B3A22FF3A5D084F7896FCC7E",
+    "recovery_or_20cycle_authority_granted": false
+  },
+  "git_audit": {
+    "latest_commit_before_snapshot": "126b4b7",
+    "report_sha256": "F8F6CA6A26D5AC2B7964FBC1E2FF046987588B1E1C81BF1B1E389282902F446B",
+    "state_contract_script_sha256": "56E85A478CB840A628B9D7107EF20BBCA584D0050D45703B1D19A8640930FECE"
+  },
+  "claim_boundary": "C200 remains the sole frozen performance/recovery reference artifact; no current-model import, outer solve, paired endpoint, validation, or strict Table 4 claim is authorized by this snapshot."
+}
