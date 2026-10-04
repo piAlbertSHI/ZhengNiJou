@@ -69,7 +69,6 @@ if (-not [bool]$sourceRecord.collection_pass -or
 }
 $outputParent = Split-Path -Parent $OutputRoot
 New-Item -ItemType Directory -Path $outputParent -Force | Out-Null
-New-Item -ItemType Directory -Path $OutputRoot -Force | Out-Null
 $stdoutTemp = "$OutputRoot.matlab_stdout.tmp"
 $stderrTemp = "$OutputRoot.matlab_stderr.tmp"
 if ((Test-Path -LiteralPath $stdoutTemp) -or (Test-Path -LiteralPath $stderrTemp)) {
@@ -118,7 +117,7 @@ $contract = [ordered]@{
     warmup_only_diagnostic = ($DiagnosticCycleCount -gt 1)
     requires_post_warmup_reaudit = ($DiagnosticCycleCount -gt 1)
 }
-$configPath = Join-Path $OutputRoot 'launcher_config.json'
+$configPath = "$OutputRoot.launcher_config.json"
 $config = [ordered]@{
     schema = 'heatdrive_ecc_independent_cold_diagnostic_config_v1'
     repo_root = $repoRoot
