@@ -1,0 +1,414 @@
+{
+  "schema": "heatdrive_ecc_shared_se_state_contract_v1",
+  "reference_observations_sha256": "1347325FEDFEF5930CE3E40442D8DD8ECC39B2F7ADA50F4D6D3E222A585BA605",
+  "candidate_observations_sha256": "AB168511AF1182EC00566CE2F386D3A2CA0D287A0AFE306136ABF18BC818182D",
+  "reference_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-positive-bias-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_stage4_bias_p024_20261003_10s_v1",
+  "candidate_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-positive-bias-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\fl3_20261005",
+  "declared_event_windows_s": {
+    "stage2": [
+      3.8,
+      4.85
+    ],
+    "stage4": [
+      8.8,
+      9.85
+    ]
+  },
+  "candidate_storage_mode": "finite_leg_chambers_diagnostic",
+  "common_controller_and_pressure_signals": [
+    {
+      "group": "stage4_controller_probe_signals",
+      "signal": "stage4_pressure_command",
+      "comparison": {
+        "samples": 10001,
+        "reference_rms": 0.11447680818078132,
+        "candidate_rms": 0.08903584432582441,
+        "delta_rms": 0.027221559455456814,
+        "delta_max_abs": 0.10407963159239936,
+        "stage2": {
+          "samples": 1050,
+          "reference_mean": -0.1385991365181389,
+          "candidate_mean": -0.11329812347473643,
+          "delta_mean": 0.025301013043402477,
+          "delta_rms": 0.02690009586965819,
+          "delta_max_abs": 0.037019357238115724
+        },
+        "stage4": {
+          "samples": 1051,
+          "reference_mean": -0.26596360218884896,
+          "candidate_mean": -0.20676490836768086,
+          "delta_mean": 0.05919869382116813,
+          "delta_rms": 0.06595881574636692,
+          "delta_max_abs": 0.10407963159239936
+        }
+      }
+    },
+    {
+      "group": "stage4_controller_probe_signals",
+      "signal": "stage4_integrator_state",
+      "comparison": {
+        "samples": 10001,
+        "reference_rms": 0.002929946206053773,
+        "candidate_rms": 0.0163393331218367,
+        "delta_rms": 0.013594220515389936,
+        "delta_max_abs": 0.0475893322483837,
+        "stage2": {
+          "samples": 1050,
+          "reference_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "delta_rms": 0.0,
+          "delta_max_abs": 0.0
+        },
+        "stage4": {
+          "samples": 1051,
+          "reference_mean": -0.008360397010899369,
+          "candidate_mean": -0.04390761636803737,
+          "delta_mean": -0.035547219357138,
+          "delta_rms": 0.038253958838572036,
+          "delta_max_abs": 0.0475893322483837
+        }
+      }
+    },
+    {
+      "group": "stage4_controller_probe_signals",
+      "signal": "stage4_integrator_output_gate",
+      "comparison": {
+        "samples": 10001,
+        "reference_rms": 0.0029298903149009765,
+        "candidate_rms": 0.01633932479447102,
+        "delta_rms": 0.013594220383089231,
+        "delta_max_abs": 0.0475893322483837,
+        "stage2": {
+          "samples": 1050,
+          "reference_mean": 0.0,
+          "candidate_mean": 0.0,
+          "delta_mean": 0.0,
+          "delta_rms": 0.0,
+          "delta_max_abs": 0.0
+        },
+        "stage4": {
+          "samples": 1051,
+          "reference_mean": -0.008360397010899369,
+          "candidate_mean": -0.04390761636803737,
+          "delta_mean": -0.035547219357138,
+          "delta_rms": 0.038253958838572036,
+          "delta_max_abs": 0.0475893322483837
+        }
+      }
+    },
+    {
+      "group": "stage4_controller_probe_signals",
+      "signal": "stage4_dynamic_feedforward",
+      "comparison": {
+        "samples": 10001,
+        "reference_rms": 0.10561670367061092,
+        "candidate_rms": 0.06999698037812059,
+        "delta_rms": 0.052737090134094555,
+        "delta_max_abs": 0.20157604161752696,
+        "stage2": {
+          "samples": 1050,
+          "reference_mean": -0.13616868142948627,
+          "candidate_mean": -0.1420064066048721,
+          "delta_mean": -0.0058377251753858606,
+          "delta_rms": 0.006792830644995526,
+          "delta_max_abs": 0.012332218183916444
+        },
+        "stage4": {
+          "samples": 1051,
+          "reference_mean": -0.25339194176038826,
+          "candidate_mean": -0.12314164256389384,
+          "delta_mean": 0.1302502991964944,
+          "delta_rms": 0.14350764433517113,
+          "delta_max_abs": 0.20157604161752696
+        }
+      }
+    },
+    {
+      "group": "stage4_controller_probe_signals",
+      "signal": "stage4_route_integral",
+      "comparison": {
+        "samples": 10001,
+        "reference_rms": 0.003192834915267779,
+        "candidate_rms": 0.017123595803029003,
+        "delta_rms": 0.014348945028281485,
+        "delta_max_abs": 0.0475893322483837,
+        "stage2": {
+          "samples": 1050,
+          "reference_mean": 0.0029002304451118976,
+          "candidate_mean": 0.013172600681947276,
+          "delta_mean": 0.010272370236835379,
+          "delta_rms": 0.011786756208851425,
+          "delta_max_abs": 0.018033447033056437
+        },
+        "stage4": {
+          "samples": 1051,
+          "reference_mean": -0.008360397010899369,
+          "candidate_mean": -0.04390761636803737,
+          "delta_mean": -0.035547219357138,
+          "delta_rms": 0.038253958838572036,
+          "delta_max_abs": 0.0475893322483837
+        }
+      }
+    },
+    {
+      "group": "stage4_controller_probe_signals",
+      "signal": "stage4_flow_error",
+      "comparison": {
+        "samples": 10001,
+        "reference_rms": 0.0001256806346448637,
+        "candidate_rms": 0.00018004432149001706,
+        "delta_rms": 0.0001140043400718431,
+        "delta_max_abs": 0.0004252031035495542,
+        "stage2": {
+          "samples": 1050,
+          "reference_mean": 4.766547142792329e-05,
+          "candidate_mean": -0.00011791604516333625,
+          "delta_mean": -0.00016558151659125956,
+          "delta_rms": 0.00016563438167727847,
+          "delta_max_abs": 0.00017323547361342
+        },
+        "stage4": {
+          "samples": 1051,
+          "reference_mean": 1.6352805702197524e-05,
+          "candidate_mean": 0.00016850739590397953,
+          "delta_mean": 0.00015215459020178203,
+          "delta_rms": 0.00024478627633365717,
+          "delta_max_abs": 0.0004252031035495542
+        }
+      }
+    },
+    {
+      "group": "stage4_controller_probe_signals",
+      "signal": "stage4_filtered_error",
+      "comparison": {
+        "samples": 10001,
+        "reference_rms": 0.00010931548949036398,
+        "candidate_rms": 0.00016983195798325572,
+        "delta_rms": 0.00011352156141162956,
+        "delta_max_abs": 0.00042296199861447206,
+        "stage2": {
+          "samples": 1050,
+          "reference_mean": 4.230702804575068e-05,
+          "candidate_mean": -0.0001232990670491141,
+          "delta_mean": -0.0001656060950948648,
+          "delta_rms": 0.00016565682502664648,
+          "delta_max_abs": 0.00017261012489455056
+        },
+        "stage4": {
+          "samples": 1051,
+          "reference_mean": 1.8716726300272737e-05,
+          "candidate_mean": 0.00017651399749222057,
+          "delta_mean": 0.00015779727119194783,
+          "delta_rms": 0.0002479313774635699,
+          "delta_max_abs": 0.00042296199861447206
+        }
+      }
+    },
+    {
+      "group": "stage4_controller_probe_signals",
+      "signal": "stage4_p_output",
+      "comparison": {
+        "samples": 10001,
+        "reference_rms": 0.01685567238300862,
+        "candidate_rms": 0.03344770759765955,
+        "delta_rms": 0.02302926610117315,
+        "delta_max_abs": 0.09516644968825624,
+        "stage2": {
+          "samples": 1050,
+          "reference_mean": -0.0053306855337645846,
+          "candidate_mean": 0.015535682448188374,
+          "delta_mean": 0.020866367981952964,
+          "delta_rms": 0.020872759953357453,
+          "delta_max_abs": 0.02174887573671337
+        },
+        "stage4": {
+          "samples": 1051,
+          "reference_mean": -0.0042112634175613655,
+          "candidate_mean": -0.03971564943574963,
+          "delta_mean": -0.03550438601818827,
+          "delta_rms": 0.055784559929303236,
+          "delta_max_abs": 0.09516644968825624
+        }
+      }
+    },
+    {
+      "group": "pressure_probe_signals",
+      "signal": "pump_pressure_se_stage2_port_a_MPa",
+      "comparison": {
+        "samples": 10001,
+        "reference_rms": 0.9136966083860109,
+        "candidate_rms": 0.8998104331559311,
+        "delta_rms": 0.02722855695099409,
+        "delta_max_abs": 0.10409981223522435,
+        "stage2": {
+          "samples": 1050,
+          "reference_mean": 0.9894215206186036,
+          "candidate_mean": 0.9641103656828678,
+          "delta_mean": -0.025311154935735884,
+          "delta_rms": 0.02690972526957565,
+          "delta_max_abs": 0.03702966097564875
+        },
+        "stage4": {
+          "samples": 1051,
+          "reference_mean": 1.1170137551029231,
+          "candidate_mean": 1.0577974098654142,
+          "delta_mean": -0.059216345237509155,
+          "delta_rms": 0.06597672078576855,
+          "delta_max_abs": 0.10409981223522435
+        }
+      }
+    },
+    {
+      "group": "pressure_probe_signals",
+      "signal": "pump_pressure_se_stage2_port_b_MPa",
+      "comparison": {
+        "samples": 10001,
+        "reference_rms": 0.8509606992466361,
+        "candidate_rms": 0.850956316215074,
+        "delta_rms": 7.508880482811411e-06,
+        "delta_max_abs": 2.2886203105310088e-05,
+        "stage2": {
+          "samples": 1050,
+          "reference_mean": 0.8508223841004645,
+          "candidate_mean": 0.8508122422081312,
+          "delta_mean": -1.0141892333413317e-05,
+          "delta_rms": 1.014686795927166e-05,
+          "delta_max_abs": 1.0735333652034384e-05
+        },
+        "stage4": {
+          "samples": 1051,
+          "reference_mean": 0.8510501529140743,
+          "candidate_mean": 0.8510325014977331,
+          "delta_mean": -1.7651416341054522e-05,
+          "delta_rms": 1.836526708470146e-05,
+          "delta_max_abs": 2.2886203105310088e-05
+        }
+      }
+    },
+    {
+      "group": "pressure_probe_signals",
+      "signal": "pump_pressure_se_stage4_port_a_MPa",
+      "comparison": {
+        "samples": 10001,
+        "reference_rms": 0.9137389205638385,
+        "candidate_rms": 0.8998592448960587,
+        "delta_rms": 0.027220333626075833,
+        "delta_max_abs": 0.10407688678271243,
+        "stage2": {
+          "samples": 1050,
+          "reference_mean": 0.9896034388414394,
+          "candidate_mean": 0.964303350811759,
+          "delta_mean": -0.02530008802968043,
+          "delta_rms": 0.026899064390939652,
+          "delta_max_abs": 0.037017602892074564
+        },
+        "stage4": {
+          "samples": 1051,
+          "reference_mean": 1.116966797647575,
+          "candidate_mean": 1.0577721954652495,
+          "delta_mean": -0.05919460218232543,
+          "delta_rms": 0.06595534691357319,
+          "delta_max_abs": 0.10407688678271243
+        }
+      }
+    },
+    {
+      "group": "pressure_probe_signals",
+      "signal": "pump_pressure_se_stage4_port_b_MPa",
+      "comparison": {
+        "samples": 10001,
+        "reference_rms": 0.8510034020441622,
+        "candidate_rms": 0.8510047961035321,
+        "delta_rms": 1.9509781244168506e-06,
+        "delta_max_abs": 4.564664295103604e-06,
+        "stage2": {
+          "samples": 1050,
+          "reference_mean": 0.8510043023233006,
+          "candidate_mean": 0.8510052273370226,
+          "delta_mean": 9.25013722047288e-07,
+          "delta_rms": 1.0426410570080641e-06,
+          "delta_max_abs": 1.7543460412161593e-06
+        },
+        "stage4": {
+          "samples": 1051,
+          "reference_mean": 0.8510031954587262,
+          "candidate_mean": 0.8510072870975689,
+          "delta_mean": 4.091638842665118e-06,
+          "delta_rms": 4.126481488842328e-06,
+          "delta_max_abs": 4.564664295103604e-06
+        }
+      }
+    }
+  ],
+  "finite_shared_chamber_state": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/SharedSEColdLegChamber_Conn1",
+      "volume_m3": 1.608495438637974e-06,
+      "initial_temperature_K": 303.1499999761404,
+      "final_temperature_K": 278.57951244878154,
+      "temperature_range_K": 24.572824369647833,
+      "initial_pressure_MPa": 8.499999798898955e-07,
+      "final_pressure_MPa": 8.556417809132351e-07,
+      "initial_mass_kg": 0.00168112901223637,
+      "final_mass_kg": 0.0017006650132249926,
+      "mass_change_kg": 1.9536000988622498e-05,
+      "net_mass_flow_integral_kg": 1.9197652465879196e-05,
+      "internal_energy_change_J": -0.14704399310085828,
+      "net_energy_flow_integral_J": -0.14683555915980578,
+      "trapezoid_energy_balance_gap_J": 0.0002084339410524938
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/SharedSEColdLegChamber_Conn4",
+      "volume_m3": 1.608495438637974e-06,
+      "initial_temperature_K": 303.14999997809105,
+      "final_temperature_K": 280.6334834955432,
+      "temperature_range_K": 23.918682171896705,
+      "initial_pressure_MPa": 8.499999798893413e-07,
+      "final_pressure_MPa": 8.555121552292564e-07,
+      "initial_mass_kg": 0.0016811290122347362,
+      "final_mass_kg": 0.0016994114375821477,
+      "mass_change_kg": 1.828242534741148e-05,
+      "net_mass_flow_integral_kg": 1.7749497336377507e-05,
+      "internal_energy_change_J": -0.134889939945951,
+      "net_energy_flow_integral_J": -0.1345623974095124,
+      "trapezoid_energy_balance_gap_J": 0.000327542536438602
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/SharedSEHotLegChamber_Conn2",
+      "volume_m3": 1.608495438637974e-06,
+      "initial_temperature_K": 303.1499999916441,
+      "final_temperature_K": 310.0805956460246,
+      "temperature_range_K": 7.362924382307767,
+      "initial_pressure_MPa": 8.499999945119776e-07,
+      "final_pressure_MPa": 1.0081770171735084e-06,
+      "initial_mass_kg": 0.0016811290122356825,
+      "final_mass_kg": 0.0016754599131739312,
+      "mass_change_kg": -5.6690990617512364e-06,
+      "net_mass_flow_integral_kg": -6.107762347200474e-06,
+      "internal_energy_change_J": 0.04100844867194009,
+      "net_energy_flow_integral_J": 0.04129002485379091,
+      "trapezoid_energy_balance_gap_J": 0.0002815761818508178
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/SharedSEHotLegChamber_Conn3",
+      "volume_m3": 1.608495438637974e-06,
+      "initial_temperature_K": 303.1499999916478,
+      "final_temperature_K": 303.12783339006114,
+      "temperature_range_K": 0.03104892000584414,
+      "initial_pressure_MPa": 8.499999945138276e-07,
+      "final_pressure_MPa": 1.0082892831860916e-06,
+      "initial_mass_kg": 0.001681129012235681,
+      "final_mass_kg": 0.0016812806270577458,
+      "mass_change_kg": 1.5161482206488795e-07,
+      "net_mass_flow_integral_kg": 1.5245458330881135e-07,
+      "internal_energy_change_J": -0.00014923265548832942,
+      "net_energy_flow_integral_J": -0.0001495054556916064,
+      "trapezoid_energy_balance_gap_J": -2.7280020327698586e-07
+    }
+  ],
+  "contract_completeness_pass": true,
+  "production_recovery_allowed": false,
+  "seed_or_periodic_authority_granted": false,
+  "interpretation": "The artifact compares state and controller trajectories only. It cannot convert a finite-junction candidate into a seed or recovery source."
+}

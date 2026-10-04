@@ -5102,3 +5102,35 @@ SE4 流量门禁为最大相对误差约 `9.42%`、RMS 约 `7.21%`；在不改�
 推高到约 `6.460%/10.348%`，并使首周期冷却功率从 `+7.496 W` 变为 `-10.728 W`。
 该对照已固化在 `outputs_storage_audit/finite_leg_storage_fl3_comparison_20261005.json`，
 因此当前证据支持架构/状态合同差异，而不是审计窗口或压力范围误判。
+
+## 228. 共享 SE 状态合同的事件级可重复审计（2026-10-05）
+
+### 228.1 新增审计
+
+新增只读工具
+`gx101r1_R69_remote/verification/Audit_HeatDriveECC_SharedSEStateContract.py`，对已完成的
+零容积正偏置包和有限共享 SE 包使用相同 10 s、1 ms 时间网格，逐项比较：
+
+- Stage4 pressure command、integrator state/output gate、dynamic feedforward、route integral、
+  flow error、filtered error 和 proportional output；
+- SE Stage2/Stage4 泵 A/B 压力；
+- 四个有限共享腔体的温度、压力、质量、质量流积分、内部能量变化和能量流积分；
+- 声明的 Stage2 `3.8--4.85 s` 与 Stage4 `8.8--9.85 s` 事件窗口。
+
+工具只生成状态合同证据，不授予 seed、periodic 或恢复权限。实际运行结果为
+`contract_completeness_pass=true`、12 个公共控制/压力信号、4 个有限腔体，且
+`seed_or_periodic_authority_granted=false`。回执
+`finite_leg_storage_fl3_state_contract_20261005.json` 的 SHA-256 为
+`C8935CDBE1675BFB7C0031372F033B0D701F1C02E123AD7B47A9A134286805AF`。
+
+### 228.2 事件级发现
+
+有限腔体在首周期产生明显内部状态变化：Conn1/Conn4 温度摆幅约 `24.57/23.92 K`，
+Conn2 温度摆幅约 `7.36 K`；Stage4 pressure command 在 Stage4 窗口的差异 RMS 为
+约 `0.06596 MPa`，dynamic feedforward 差异 RMS 约 `0.14351`，integrator state
+差异 RMS 约 `0.03825`。这说明有限结点不是只增加一个静态库存项，而是改变了控制器看到的
+入口温度/黏度和压力状态，并重写了换阀后的动态轨迹。
+
+因此第八点第 3 项的 outer solve 仍未开放。下一轮若继续，必须先定义有限结点的初始化、
+控制器状态、温度/黏度前馈和流量目标的共同状态合同；合同通过后重新做单个 10 s seed，
+再按“当前周期门禁 -> 20-cycle -> fixed-`Tc` outer solve”的顺序推进。
