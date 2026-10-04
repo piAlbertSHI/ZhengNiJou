@@ -108,6 +108,11 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     # ramp and wires the existing transition-duration diagnostic override;
     # inventory, endpoint, and recovery contracts remain unchanged.
     'baaeab479344e7534159c8a5dbf1c70bb86762c3',
+    # fc10ad6 adds only the isolated finite shared-SE-leg storage diagnostic;
+    # production remains zero-volume and recovery/checkpoint import is barred.
+    'fc10ad6ee343dfc000a7b5e7b7fd80b3221936e2',
+    'fe9a347e555e486bc991dc890570f09aeb418a0e',
+    '237e2766d0022adff5686a9550e89620f4246162',
 }
 ENDPOINT_CHAMBER_PRODUCERS = {
     '2c9cbe8f887cd5012440e2c1c451f4b09408bf8c',
@@ -170,6 +175,9 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     # remain unchanged.
     'c281c77575e174a4fe19a6c60b923234f142dc37',
     'baaeab479344e7534159c8a5dbf1c70bb86762c3',
+    'fc10ad6ee343dfc000a7b5e7b7fd80b3221936e2',
+    'fe9a347e555e486bc991dc890570f09aeb418a0e',
+    '237e2766d0022adff5686a9550e89620f4246162',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'

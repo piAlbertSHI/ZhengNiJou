@@ -70,6 +70,11 @@ PRODUCERS = {
     # unchanged.
     "c281c77575e174a4fe19a6c60b923234f142dc37",
     "baaeab479344e7534159c8a5dbf1c70bb86762c3",
+    # fc10ad6 adds finite storage on isolated SE valve legs only; pressure
+    # probes remain observational and recovery is still prohibited.
+    "fc10ad6ee343dfc000a7b5e7b7fd80b3221936e2",
+    "fe9a347e555e486bc991dc890570f09aeb418a0e",
+    "237e2766d0022adff5686a9550e89620f4246162",
 }
 PRESSURE_MIN_MPA = 0.45
 PRESSURE_MAX_MPA = 5.0
