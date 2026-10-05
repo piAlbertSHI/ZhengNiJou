@@ -58,6 +58,7 @@ CALIBRATION_MIRROR_PRODUCERS = {
     # hash-bound calibration artifact from its managed worktree mirror.
     '85a5339',
     '1baf2beec18532f2861bd9e30e0235451fabb6b3',
+    '4c9036c',
 }
 ZERO_BASED_OFFSET_PRODUCERS = {
     # Bounded bias experiment preserves inventory equations and initialization.
@@ -131,6 +132,7 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     # These entries authorize evidence auditing only; they never grant a seed.
     '85a5339',
     '1baf2beec18532f2861bd9e30e0235451fabb6b3',
+    '4c9036c',
 }
 ENDPOINT_CHAMBER_PRODUCERS = {
     '2c9cbe8f887cd5012440e2c1c451f4b09408bf8c',
@@ -205,6 +207,7 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     # endpoint-chamber and recovery contracts; it remains diagnostic-only.
     '85a5339',
     '1baf2beec18532f2861bd9e30e0235451fabb6b3',
+    '4c9036c',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'
@@ -232,6 +235,7 @@ INITIAL_FLUX_COMPENSATION_PRODUCERS = {
     '393be6f000d9421c159b8c191f6f2c65ac24c185',
     '85a5339',
     '1baf2beec18532f2861bd9e30e0235451fabb6b3',
+    '4c9036c',
 }
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
 

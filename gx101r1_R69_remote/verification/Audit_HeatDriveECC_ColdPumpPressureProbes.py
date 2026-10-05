@@ -83,6 +83,7 @@ PRODUCERS = {
     # prohibitions remain unchanged.
     "85a5339",
     "1baf2beec18532f2861bd9e30e0235451fabb6b3",
+    "4c9036c",
 }
 PRESSURE_MIN_MPA = 0.45
 PRESSURE_MAX_MPA = 5.0
