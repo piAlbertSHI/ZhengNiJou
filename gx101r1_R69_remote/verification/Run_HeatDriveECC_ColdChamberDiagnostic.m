@@ -173,6 +173,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             % The closure mode was type-checked above and is not numeric.
         elseif ismember(field_name,periodic_override_fields)
             % The periodic switch was type-checked above and is not numeric.
+        elseif ismember(field_name,p_activity_mode_override_fields)
+            % The P activity mode was type-checked above and is not numeric.
         else
             assert(override_value >= 0.0, ...
                 'Cold diagnostic transition times must be nonnegative.');
