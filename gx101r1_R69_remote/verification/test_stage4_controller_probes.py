@@ -9,11 +9,13 @@ RUNNER = ROOT / "verification" / "Run_HeatDriveECC_ColdChamberDiagnostic.m"
 def test_stage4_probe_contract_is_in_memory_and_complete():
     text = PROBE.read_text(encoding="utf-8")
     assert "heatdrive_ecc_stage4_controller_probe_contract_v1" in text
+    assert "heatdrive_ecc_stage4_controller_probe_contract_v3" in text
     assert "SaveFormat', 'Structure With Time'" in text
     assert "save_system" not in text
     for block in (
         "SEStage4InletViscosityExp",
         "SEStage4OutletViscosityExp",
+        "SEStage4PressureFFActivityFromWorkspace",
         "SEStage4ViscosityMean",
         "SEPressureDynamicFeedforward",
         "PressurePI_ErrorSum",

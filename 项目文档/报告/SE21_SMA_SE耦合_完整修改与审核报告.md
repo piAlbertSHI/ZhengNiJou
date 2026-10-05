@@ -5323,3 +5323,9 @@ pipe/manifold 和泵 A/B 端口尚未全部观测时，不足以证明“全设�
 1. 在不改变 C200 生产 SLX 的前提下，补齐 Stage-4 causal activity 的真实观测，明确 `L_valve_command -> effective opening -> mdot target -> feedback/P scale` 的同一时间基准。
 2. 对 `stage4_pressure_command` 到有效阀开度的符号、限幅、零阶保持和采样延迟做离线状态合同测试，并以正/负方向单因素测试判别压力命令是否具有预期流量方向。
 3. 只有新 10 s 包同时通过 Stage-4 流量、库存、压力 A/B、phase/solid-energy、causal activity 和控制体边界门禁，才重新授权 20-cycle；当前不做长算。
+
+## 236. Stage-4 因果活动观测合同补齐（2026-10-05）
+
+发现模型本身已经存在 `SEStage4PressureFFActivityFromWorkspace`，但此前的诊断探针只记录其上下游温度、黏度和动态前馈，未把该活动信号写入 `observations.mat`；因此上一候选的 `stage4_feedforward_activity` 只能被报告为 unavailable。
+
+本轮将该 block 作为第 22 个只读 To Workspace 探针，升级内存诊断合同为 `heatdrive_ecc_stage4_controller_probe_contract_v3`，并让审计器同时兼容旧 v1/v2 和新 v3 合同。该修改不保存 Simulink 模型、不改变生产方程、不导入 C200 状态，也不改变任何恢复权限。上一候选仍保持 `REJECTED_DO_NOT_SEED`；必须以新鲜 10 s 双臂运行验证信号时间基准、阀活动、目标流量、P 缩放和实际 Stage-4 流量的一致性后，才可重新评估 seed gate。
