@@ -1,0 +1,55 @@
+{
+  "schema": "stage4_event_state_contract_receipt_v1",
+  "date": "2026-10-05",
+  "execution_commit": "54364e1bdc32f4db06b10f04dfa1f28541acfd67",
+  "source_observations": {
+    "native_sha256": "4AE82B42865AE1EAF3BC0D0467FBFD9CB954894A218C59AEEF59CC63122F3F83",
+    "conservative_sha256": "7771E70875B9C82369D7B73D5AD99D4CD97223BC6BC199BC43DCD8151BB5A68F"
+  },
+  "diagnostics": {
+    "stage4_controller_failure_mode": "discrete_alternating_response_signature",
+    "strict_window_s": [9.84, 9.85],
+    "strict_integrator_input_abs_max": 0.0,
+    "strict_integrator_state_span": 0.0,
+    "strict_derived_p_path_abs_max": 0.1952657572010142,
+    "strict_derived_p_path_flow_error_correlation_native": 0.999969093694827,
+    "strict_derived_p_path_flow_error_correlation_conservative": 0.999969199197305,
+    "alternating_flow_even_mean_kgps": 0.007238972000538768,
+    "alternating_flow_odd_mean_kgps": -0.00037722882555907777,
+    "alternating_command_even_mean_MPa": -0.3846651152002883,
+    "alternating_command_odd_mean_MPa": 0.02,
+    "boundary_transient_dominates_gate": false,
+    "current_feedforward_closure_formula_pass": true,
+    "route_fluid_residence_time_identifiable": false,
+    "source_boundary_consistency_pass": true,
+    "declared_pump_power_observable": false
+  },
+  "interpretation": {
+    "primary": "The strict-window integrator is frozen; the alternating flow error is on the active P/feedforward path, not attributable to PI memory.",
+    "secondary": "The pressure-source and source-flow balance are internally consistent, but declared pump power is not yet observable.",
+    "not_proven": [
+      "causal plant-memory root",
+      "transport residence time",
+      "corrected Stage-4 control law",
+      "20-cycle or periodic steady state"
+    ]
+  },
+  "decision": {
+    "seed_eligible": false,
+    "twenty_cycle_authorized": false,
+    "outer_solve_authorized": false,
+    "paired_table4_authorized": false,
+    "next_action": "audit_discrete_p_path_sampling_and_stage4_command_effective_opening_before_any_new_long_run"
+  },
+  "audit_sha256": {
+    "controller_dynamics": "3D52E2831A94DB328AEE4A31595B22348462761D0D0CFA87F6DEEF23D7828816",
+    "causal_response": "608BE6D4B2576F4A5147E3CEBD997595A59F3E87DA3E302B1233C9FAEFF1EBEE",
+    "boundary_transient": "B1EC14BF832D0E30EACD7B9B1DEDB142FD97D5DE4228DEFEA035382614405716",
+    "control_contract": "A1980AE90C535D75D7EA13DC2F526A29D8B382DDB8C6D90D46E1AB0BB7DEAFA9",
+    "feedforward_candidates": "8405BA489E848E820641D769842CA9FFC18B6693378D4E1A6136D6A0D8F0ECF2",
+    "reentry_native": "65AA7210791E59DBDA4F1B386BF9B465FB3938264E4661C3FA1EB8CDEEAAB3EA",
+    "reentry_conservative": "8FFB144ABA4013073E867E5FD42BB4047BD722842F98524A13744D0D19D108B7",
+    "pump_work_native": "052CA18EB0BCB03F0C007ABDDC6650D356E68CC48EEEB47824B0092125F0BFC5",
+    "pump_work_conservative": "A489BFCDF09BDF885254DA81373DF972BDC4D82A728A063B50B9C0F4F5AC36E1"
+  }
+}

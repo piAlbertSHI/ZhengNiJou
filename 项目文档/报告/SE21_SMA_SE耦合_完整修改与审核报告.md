@@ -5226,3 +5226,23 @@ pipe/manifold 和泵 A/B 端口尚未全部观测时，不足以证明“全设�
 ### 231.4 高层判断与下一步
 
 当前瓶颈已从启动器/文件合同提升为模型层问题：Stage-4 换阀事件中的入口温度/黏度、动态前馈、PI 状态和流量目标之间仍未形成一致的状态合同。下一步应围绕 Stage-4 事件窗口做状态轨迹诊断，并补齐完整设备控制体的边界/端口观测；只有修正后的独立 10 s 包同时通过 SE 流量、压力、库存和控制体门禁，才允许重新进入 20-cycle。不得从本观测包恢复 C200 Operating Point，也不得用它宣称 validated、reproduced 或 strict Table 4 reproduction。
+
+## 232. Stage 4 事件状态合同诊断（2026-10-05）
+
+### 232.1 事件级证据
+
+对同一份已完成的 10 s native/conservative 观测包进行了只读事件审计，结果固化在
+`outputs_storage_audit/stage4_event_state_contract_20261005_receipt.json`。关键结果如下：
+
+- 严格窗口为 `9.84--9.85 s`；该窗口内 route-integrator input 的绝对最大值为 `0`，integrator state span 为 `0`，所以 PI 路线记忆在该门禁窗口内是冻结的；
+- derived P path 的绝对幅值约 `0.1953 MPa`，与流量误差相关系数约 `0.99997`（两臂一致）；
+- 交替响应中 command even/odd 均值约为 `-0.3847/0.0200 MPa`，对应 flow even/odd 均值约为 `0.00724/-0.000377 kg/s`；
+- Stage-4 boundary-transient 审计判定边界瞬态不主导当前门禁失败；
+- 当前 arithmetic endpoint viscosity closure 的公式闭合通过，但离线候选闭合不能替代模型运行验证；
+- Stage-4 source flow 与压力源边界内部一致，但声明的泵功仍不可观测，不能直接用于系统 COP。
+
+### 232.2 高层结论
+
+当前 SE Stage 4 失败不能合理归因于“PI memory 没调好”，也不能通过放宽 settled window 解决。证据更直接地指向 active P/feedforward 离散路径的交替响应；同时，流体库存不足以识别路线 residence time，因此相关分析不能被包装成因果证明。
+
+这改变了下一步的层级：在任何新的长 MATLAB 运行前，应先审计 Stage-4 离散 P-path 的采样/保持方式、pressure command 的 effective opening 映射和阀命令的事件对齐，确认是否存在一拍交替、符号/方向或零阶保持契约问题。只有该离线状态合同修正并通过一个新的独立 10 s seed gate，才允许回到 20-cycle；不启动 outer solve、敏感性矩阵或 paired Table 4。
