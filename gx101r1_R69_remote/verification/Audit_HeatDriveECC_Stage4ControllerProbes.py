@@ -43,6 +43,10 @@ EXPECTED_V2 = EXPECTED[:10] + (
     "stage4_p_enable_scale",
 ) + EXPECTED[10:]
 EXPECTED_V3 = EXPECTED_V2[:2] + ("stage4_feedforward_activity",) + EXPECTED_V2[2:]
+EXPECTED_V4 = EXPECTED_V3 + (
+    "stage4_target_flow_command",
+    "stage4_pressure_bias_command",
+)
 
 
 def read(path: Path) -> dict:
@@ -76,7 +80,9 @@ def audit_arm(root: Path, arm: str, start: float, stop: float) -> dict:
     contract = read(folder / "stage4_controller_probe_contract.json")
     names = tuple(contract.get("observation_signal_names", ()))
     schema = contract.get("schema")
-    expected = (EXPECTED_V3 if schema ==
+    expected = (EXPECTED_V4 if schema ==
+                "heatdrive_ecc_stage4_controller_probe_contract_v4" else
+                EXPECTED_V3 if schema ==
                 "heatdrive_ecc_stage4_controller_probe_contract_v3" else
                 EXPECTED_V2 if schema ==
                 "heatdrive_ecc_stage4_controller_probe_contract_v2" else
@@ -86,6 +92,7 @@ def audit_arm(root: Path, arm: str, start: float, stop: float) -> dict:
             "heatdrive_ecc_stage4_controller_probe_contract_v1",
             "heatdrive_ecc_stage4_controller_probe_contract_v2",
             "heatdrive_ecc_stage4_controller_probe_contract_v3",
+            "heatdrive_ecc_stage4_controller_probe_contract_v4",
         }
         and contract.get("probe_count") == len(expected)
         and contract.get("simulation_run") is True
@@ -136,9 +143,9 @@ def audit(root: Path) -> dict:
     arms = [audit_arm(root, arm, start, stop) for arm in ("native", "conservative")]
     case_probe_gate = all(
         case.get("stage4_controller_probe_count") in {
-            len(EXPECTED), len(EXPECTED_V2), len(EXPECTED_V3)}
+            len(EXPECTED), len(EXPECTED_V2), len(EXPECTED_V3), len(EXPECTED_V4)}
             and any(set(case.get("stage4_controller_probe_signal_names", ())) == expected
-                    for expected in (set(EXPECTED), set(EXPECTED_V2), set(EXPECTED_V3)))
+                    for expected in (set(EXPECTED), set(EXPECTED_V2), set(EXPECTED_V3), set(EXPECTED_V4)))
         for case in execution.get("cases", [])
     )
     coverage_gate = bool(
@@ -154,6 +161,7 @@ def audit(root: Path) -> dict:
         "expected_probe_count_v1": len(EXPECTED),
         "expected_probe_count_v2": len(EXPECTED_V2),
         "expected_probe_count_v3": len(EXPECTED_V3),
+        "expected_probe_count_v4": len(EXPECTED_V4),
         "provenance_gate": provenance_gate,
         "case_probe_gate": case_probe_gate,
         "arms": arms,

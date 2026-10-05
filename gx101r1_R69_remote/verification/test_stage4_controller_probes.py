@@ -10,6 +10,9 @@ def test_stage4_probe_contract_is_in_memory_and_complete():
     text = PROBE.read_text(encoding="utf-8")
     assert "heatdrive_ecc_stage4_controller_probe_contract_v1" in text
     assert "heatdrive_ecc_stage4_controller_probe_contract_v3" in text
+    assert "heatdrive_ecc_stage4_controller_probe_contract_v4" in text
+    assert "stage4_target_flow_command" in text
+    assert "stage4_pressure_bias_command" in text
     assert "SaveFormat', 'Structure With Time'" in text
     assert "save_system" not in text
     for block in (
