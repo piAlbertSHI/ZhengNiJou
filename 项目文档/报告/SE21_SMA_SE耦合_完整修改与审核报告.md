@@ -5352,3 +5352,9 @@ pipe/manifold 和泵 A/B 端口尚未全部观测时，不足以证明“全设�
 ### 237.4 存储与回执
 
 v5t 原始包保留在受管控工作树 `runtime-cv-json-contract`，不复制到主工作区；主工作区只保留小型审计回执、比较 JSON 和报告。原始包总大小 `362359731` bytes。关键 SHA-256：`cold_chamber_execution.json=ED32282DFE018BA9430D02F971BB22454C398191C460EE3AB48924B191B9F9A8`，`runtime_evidence_contract.mat=3A8143350AAD42FF9CD36191D2FECAEDF6309CA60858770ABC32BE346FCA4921`，native observations `942874F34E01CED23C15E8B53EE05CEFE16ACAEDF09C7B08306705BB8AA9130F`，conservative observations `06F74E1CF2B94AA6A154F7D917207E670051EABA0DFA603A3CFEB27B5AA7643E`。
+
+## 238. v6 控制输入探针基线未完成（2026-10-05）
+
+v6p 使用已提交的 Stage-4 v4 探针合同，目标是将 `SE_mdot_target_command` 和 `SE_pressure_bias_command` 与流量输出写入同一时间基准；参数为 v4 无 trim 基线，未导入 C200、未保存 checkpoint。该次 MATLAB 进程在完成 native arm 的模型更新和仿真启动后退出，输出目录没有 `observations.mat`、`cold_chamber_execution.json` 或 `launcher_contract.json`，只有未标记为 `simulation_run=true` 的探针合同和 diary。stderr 没有模型异常，diary 只记录了 Simscape 工作点初始化警告。
+
+该目录被标记为 `INCOMPLETE_DO_NOT_RESUME`，不作为科学失败结果、不作为恢复源、不参与 v4/v5 数值比较，也不授权重试同一输出目录。当前结论是“没有产生物理证据”，不是“模型门禁失败”；下一次长算必须先解释进程在 `sim` 后退出的运行环境原因，或采用已经确认可完成的诊断路径后再启动。

@@ -1,0 +1,20 @@
+{
+  "schema": "heatdrive_ecc_stage4_incomplete_diagnostic_receipt_v1",
+  "status": "incomplete_before_observation_export",
+  "diagnostic_only": true,
+  "execution_commit": "ae6d3ee",
+  "raw_output_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v6p",
+  "c200_state_imported": false,
+  "checkpoint_saved": false,
+  "production_recovery_allowed": false,
+  "simulation_run_completed": false,
+  "observations_exported": false,
+  "launcher_contract_present": false,
+  "scientific_gate_evaluated": false,
+  "seed_eligible": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false,
+  "evidence_boundary": "Only setup and native-arm probe-contract files exist; no physical trajectory is admissible.",
+  "next_action": "Diagnose the process exit before any new physical retry."
+}
