@@ -84,6 +84,8 @@ PRODUCERS = {
     "85a5339",
     "1baf2beec18532f2861bd9e30e0235451fabb6b3",
     "4c9036c",
+    "36a1dcc",
+    "36a1dccf485d2bcb909a5cea0e31dd2d11ab6461",
 }
 PRESSURE_MIN_MPA = 0.45
 PRESSURE_MAX_MPA = 5.0

@@ -59,6 +59,8 @@ CALIBRATION_MIRROR_PRODUCERS = {
     '85a5339',
     '1baf2beec18532f2861bd9e30e0235451fabb6b3',
     '4c9036c',
+    '36a1dcc',
+    '36a1dccf485d2bcb909a5cea0e31dd2d11ab6461',
 }
 ZERO_BASED_OFFSET_PRODUCERS = {
     # Bounded bias experiment preserves inventory equations and initialization.
@@ -133,6 +135,8 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     '85a5339',
     '1baf2beec18532f2861bd9e30e0235451fabb6b3',
     '4c9036c',
+    '36a1dcc',
+    '36a1dccf485d2bcb909a5cea0e31dd2d11ab6461',
 }
 ENDPOINT_CHAMBER_PRODUCERS = {
     '2c9cbe8f887cd5012440e2c1c451f4b09408bf8c',
@@ -208,6 +212,8 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     '85a5339',
     '1baf2beec18532f2861bd9e30e0235451fabb6b3',
     '4c9036c',
+    '36a1dcc',
+    '36a1dccf485d2bcb909a5cea0e31dd2d11ab6461',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'
@@ -236,6 +242,8 @@ INITIAL_FLUX_COMPENSATION_PRODUCERS = {
     '85a5339',
     '1baf2beec18532f2861bd9e30e0235451fabb6b3',
     '4c9036c',
+    '36a1dcc',
+    '36a1dccf485d2bcb909a5cea0e31dd2d11ab6461',
 }
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
 

@@ -1,0 +1,32 @@
+{
+  "schema": "heatdrive_ecc_stage4_trim_rejected_receipt_v1",
+  "diagnostic_only": true,
+  "execution_commit": "36a1dccf485d2bcb909a5cea0e31dd2d11ab6461",
+  "raw_output_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v5t",
+  "raw_output_bytes": 362359731,
+  "initialization_source_observations_sha256": "4AE82B42865AE1EAF3BC0D0467FBFD9CB954894A218C59AEEF59CC63122F3F83",
+  "c200_state_imported": false,
+  "checkpoint_saved": false,
+  "production_recovery_allowed": false,
+  "diagnostic_20cycle_seed_eligible": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false,
+  "stage4_pressure_bias_trim_MPa": -0.01695158047615107,
+  "flow_gate": {
+    "native_mean_kgps": 0.003620656477820157,
+    "conservative_mean_kgps": 0.0036206569639442594,
+    "native_rms_relative_error": 0.1446692233067959,
+    "conservative_rms_relative_error": 0.14466913227820247,
+    "native_max_abs_relative_error": 0.18892681130155387,
+    "conservative_max_abs_relative_error": 0.18892637949015723,
+    "selected_flow_gate": false
+  },
+  "comparison_audit": "qian_cold_stage4_v5t/stage4_trim_perturbation.json",
+  "comparison_result": {
+    "same_initialization_contract": true,
+    "candidate_flow_worse": true,
+    "causal_transfer_pass": false
+  },
+  "required_next_layer": "open_loop_or_frozen_state_pressure_source_to_effective_opening_to_mass_flow_contract"
+}

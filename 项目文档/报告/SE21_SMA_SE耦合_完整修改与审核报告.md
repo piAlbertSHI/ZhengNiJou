@@ -5329,3 +5329,26 @@ pipe/manifold 和泵 A/B 端口尚未全部观测时，不足以证明“全设�
 发现模型本身已经存在 `SEStage4PressureFFActivityFromWorkspace`，但此前的诊断探针只记录其上下游温度、黏度和动态前馈，未把该活动信号写入 `observations.mat`；因此上一候选的 `stage4_feedforward_activity` 只能被报告为 unavailable。
 
 本轮将该 block 作为第 22 个只读 To Workspace 探针，升级内存诊断合同为 `heatdrive_ecc_stage4_controller_probe_contract_v3`，并让审计器同时兼容旧 v1/v2 和新 v3 合同。该修改不保存 Simulink 模型、不改变生产方程、不导入 C200 状态，也不改变任何恢复权限。上一候选仍保持 `REJECTED_DO_NOT_SEED`；必须以新鲜 10 s 双臂运行验证信号时间基准、阀活动、目标流量、P 缩放和实际 Stage-4 流量的一致性后，才可重新评估 seed gate。
+
+## 237. Stage-4 静态压力 trim 的闭环迁移否证（2026-10-05）
+
+### 237.1 诊断目的与边界
+
+基于 v4 独立冷态包的离线 pressure-path 拟合，得到候选 `se_stage4_pressure_bias_trim_MPa=-0.01695158047615107`。该数值只作为一次新的、独立的 10 s 双臂诊断输入；v5t 使用与 v4 相同的初始化观测哈希 `4AE82B42865AE1EAF3BC0D0467FBFD9CB954894A218C59AEEF59CC63122F3F83`，没有导入 C200 状态、没有保存 checkpoint，也没有获得生产恢复权限。
+
+### 237.2 结果
+
+- v5t 的库存/源端口/初始坐标门禁通过，204 个初始坐标严格匹配；压力范围、6 个 A/B 探针、液压诊断和相变/固体能量门禁也通过。
+- SE Stage 4 仍失败，而且候选 trim 方向使结果变差：native/conservative 严格窗口平均流量为 `0.0036206565/0.0036206570 kg/s`，RMS 相对误差为 `14.4669%/14.4669%`，最大相对误差约 `18.8927%`；v4 基线为 `0.0034065301/0.0034065305 kg/s`、RMS `7.6718%`、最大 `10.8861%`。
+- v5t 的 native 末循环性能仅作诊断记录：outlet lift `26.4323 K`、SCP `0.15591 W/g`；这些数值不具备 20-cycle 或 Table 4 结论资格。
+- 新增 `Audit_HeatDriveECC_Stage4TrimPerturbation.py`，对 v4/v5t 做同一初始化合同和窗口的成对比较，输出 `causal_transfer_pass=false`、`candidate_flow_worse=true`。
+
+### 237.3 审计合理性与高层结论
+
+该结果不是“把 trim 符号翻转后再试一次”的依据，而是证明原 pressure-path map 不能识别静态 bias 的因果作用。拟合量 `pressure_command-dynamic_feedforward-route_integral` 是闭环残差，包含 P/I 状态和温度/黏度反馈的共同响应；其高 `R^2` 只能说明轨迹相关，不能说明对静态 bias 的局部传递函数。v5t 中动态前馈、路线积分和流量同时改变，故候选 trim 没有保持其拟合前提。
+
+因此 v5t 严格标记为 `REJECTED_DO_NOT_SEED`，不得进入 20-cycle、outer solve、敏感性、paired endpoint 或 Table 4。下一层修正应先建立开环/冻结控制状态下的 `pressure source -> effective opening -> mass flow` 方向合同，并将实际目标流量、阀命令、活动系数、压力源 A/B 和质量流量写入同一时间基准；在此之前，继续扫描 trim、Kp 或 Ki 都不是有效的主线推进。
+
+### 237.4 存储与回执
+
+v5t 原始包保留在受管控工作树 `runtime-cv-json-contract`，不复制到主工作区；主工作区只保留小型审计回执、比较 JSON 和报告。原始包总大小 `362359731` bytes。关键 SHA-256：`cold_chamber_execution.json=ED32282DFE018BA9430D02F971BB22454C398191C460EE3AB48924B191B9F9A8`，`runtime_evidence_contract.mat=3A8143350AAD42FF9CD36191D2FECAEDF6309CA60858770ABC32BE346FCA4921`，native observations `942874F34E01CED23C15E8B53EE05CEFE16ACAEDF09C7B08306705BB8AA9130F`，conservative observations `06F74E1CF2B94AA6A154F7D917207E670051EABA0DFA603A3CFEB27B5AA7643E`。
