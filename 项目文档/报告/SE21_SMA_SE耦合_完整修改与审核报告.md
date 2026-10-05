@@ -5358,3 +5358,9 @@ v5t 原始包保留在受管控工作树 `runtime-cv-json-contract`，不复制�
 v6p 使用已提交的 Stage-4 v4 探针合同，目标是将 `SE_mdot_target_command` 和 `SE_pressure_bias_command` 与流量输出写入同一时间基准；参数为 v4 无 trim 基线，未导入 C200、未保存 checkpoint。该次 MATLAB 进程在完成 native arm 的模型更新和仿真启动后退出，输出目录没有 `observations.mat`、`cold_chamber_execution.json` 或 `launcher_contract.json`，只有未标记为 `simulation_run=true` 的探针合同和 diary。stderr 没有模型异常，diary 只记录了 Simscape 工作点初始化警告。
 
 该目录被标记为 `INCOMPLETE_DO_NOT_RESUME`，不作为科学失败结果、不作为恢复源、不参与 v4/v5 数值比较，也不授权重试同一输出目录。当前结论是“没有产生物理证据”，不是“模型门禁失败”；下一次长算必须先解释进程在 `sim` 后退出的运行环境原因，或采用已经确认可完成的诊断路径后再启动。
+
+## 239. 长任务 launcher 生命周期合同修复（2026-10-06）
+
+v6 暴露的状态缺口已修复：`Start_HeatDriveECC_IndependentColdDiagnostic.ps1` 现在在 MATLAB 启动前写入旁路文件 `<OutputRoot>.launcher_contract.running.json`，其 `lifecycle_state=running`；MATLAB 自然退出后再写入输出目录内的最终 `launcher_contract.json`，并将状态改为 `completed` 或 `failed`，最后删除旁路文件。旁路文件不进入仿真输出目录，因此不会违反冷态 runner 的“输出目录必须不存在”合同。
+
+该修复只改善异常退出的可观测性，不改变仿真方程、C200 恢复合同或任何科学门禁。若以后只剩旁路 `running` 文件而没有最终 contract，应判定为 `incomplete_before_launcher_return`，禁止恢复和传播，不得自动重启同一输出目录。
