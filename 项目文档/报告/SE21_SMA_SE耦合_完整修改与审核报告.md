@@ -5262,3 +5262,33 @@ pipe/manifold 和泵 A/B 端口尚未全部观测时，不足以证明“全设�
 ### 233.3 高层结论
 
 该候选证明“继续扫描 Kp”不是当前高价值路径：Kp 调整能抑制离散交替，却不能修复 Stage-4 的定常流量偏差。当前首要问题是 P/feedforward 的采样/保持、误差聚合、符号/方向约定或 pressure command 到有效阀开度的映射；必须先完成离线状态合同审计和模型级修正，再运行新的独立 10 s seed。该候选 `seed_eligible=false`，不得进入 20-cycle、outer solve、敏感性矩阵、paired endpoint 或 Table 4 声明。
+
+## 234. Stage 4 P 路径连续活动合同的隔离实现（2026-10-05）
+
+### 234.1 结构发现
+
+对 Stage-4 换阀时序和当前源码进行离线合同复核后，发现比例路径存在两个不同层面的活动判断：
+
+- `SE_mdot_target_command` 和 `SE_pressure_feedback_enable_command` 原先都使用阀活动 `>0.5` 的二值判定；
+- 积分器的 update/output gate 也使用同一活动阈值，但积分状态更新和 P 路径输出并不是同一物理合同。
+
+因此在阀命令从 `0` 渐开到 `0.1` 的重入阶段，P 路径可能保持关闭，直到活动分数跨过 `0.5` 后突然接入。此前审计若用积分 update gate 反推 P 路径，也会把两个合同错误地混为一谈。
+
+### 234.2 隔离实现
+
+已在 `Integrate_HeatDriveECC_Constitutive21_Interface.m` 中加入仅供独立冷态诊断使用的
+`se_stage4_pressure_p_activity_mode`：
+
+- 默认 `binary`，保持生产路径和 C200 结果不变；
+- 显式 `continuous` 候选将 Stage-4 阀活动分数传入目标流量、反馈使能和 P 路径比例缩放；
+- Stage-2 仍保持原二值活动合同；
+- runner 对该字段执行 `binary/continuous` 白名单校验，并将配置写入 launcher contract；
+- 模型结构审计改为核对实际 `SE_mdot_target_command` 和 `L_valve_command` 映射，不再使用积分 update gate 验证 P 路径。
+
+该修改尚未获得物理 seed 资格，也没有启动 20-cycle。`continuous` 只是一项结构判别实验；必须由全新 10 s native/conservative 双臂包验证流量、压力、库存、初始坐标、相变/固体能量和机制门禁后，才能决定是否进入下一阶段。
+
+### 234.3 离线验证
+
+- Python 冷态/压力/初始流量回归：`41/41` 通过；
+- MATLAB `checkcode`：接口、模型审计、冷态 runner 和 JSON 配置入口通过；
+- 本轮未修改受保护的 `heatdrive_ecc_coupled_se21.slx`，未导入 C200 状态，未生成任何恢复点。

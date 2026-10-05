@@ -6,6 +6,8 @@ param(
     [double]$Stage4InitialKp = -225,
     [double]$Stage4Ki = -255,
     [double]$Stage4PressureBiasTrimMPa = 0.0,
+    [ValidateSet('binary','continuous')]
+    [string]$Stage4PressurePActivityMode = 'binary',
     [double]$Stage4TransitionDurationS = 10,
     [double]$Stage4BlendInitial = 1.0,
     [double]$Stage4BlendFinal = 1.0,
@@ -106,6 +108,7 @@ $contract = [ordered]@{
     stage4_initial_kp = $Stage4InitialKp
     stage4_ki = $Stage4Ki
     stage4_pressure_bias_trim_MPa = $Stage4PressureBiasTrimMPa
+    stage4_pressure_p_activity_mode = $Stage4PressurePActivityMode
     stage4_transition_duration_s = $Stage4TransitionDurationS
     stage4_endpoint_viscosity_blend_initial = $Stage4BlendInitial
     stage4_endpoint_viscosity_blend_final = $Stage4BlendFinal
@@ -143,6 +146,7 @@ $config = [ordered]@{
     stage4_initial_kp = $Stage4InitialKp
     stage4_ki = $Stage4Ki
     stage4_pressure_bias_trim_MPa = $Stage4PressureBiasTrimMPa
+    stage4_pressure_p_activity_mode = $Stage4PressurePActivityMode
     stage4_transition_duration_s = $Stage4TransitionDurationS
     stage4_endpoint_viscosity_blend_initial = $Stage4BlendInitial
     stage4_endpoint_viscosity_blend_final = $Stage4BlendFinal

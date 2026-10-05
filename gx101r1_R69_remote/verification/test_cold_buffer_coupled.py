@@ -174,10 +174,11 @@ class ColdBufferCoupledTests(unittest.TestCase):
 
     def test_pressure_audit_aligns_sparse_and_fixed_gate_grids(self):
         source = (Path(__file__).parents[1]/'Build_HeatDriveECC_EighthRound_Simulink_Model.m').read_text(encoding='utf-8')
-        self.assertIn('SE_stage2_pressure_integrator_enable_command_time_s', source)
-        self.assertIn('SE_stage4_pressure_integrator_enable_command_time_s', source)
-        self.assertIn("interp1(stage2_enable_time_s(:)", source)
-        self.assertIn("interp1(stage4_enable_time_s(:)", source)
+        self.assertIn('SE_mdot_target_command_values', source)
+        self.assertIn('SE_mdot_target_command_time_s', source)
+        self.assertIn("evalin('base', 'L_valve_command')", source)
+        self.assertIn('stage4_route_activity', source)
+        self.assertNotIn('stage2_enable_values .* expected_stage2_p_activity', source)
         self.assertIn("'previous', 'extrap'", source)
 
     def test_stage4_precharge_must_reach_the_simulation_grid(self):
@@ -203,6 +204,16 @@ class ColdBufferCoupledTests(unittest.TestCase):
         source = (Path(__file__).parents[1]/'Build_HeatDriveECC_EighthRound_Simulink_Model.m').read_text(encoding='utf-8')
         self.assertIn("assignin('base', 'pressure_pi_error_filter_tau_s'", source)
         self.assertIn("get_option_or_default(options.branch", source)
+
+    def test_stage4_p_activity_mode_is_explicit_and_diagnostic_only(self):
+        runner = (Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
+        interface = (Path(__file__).parents[1]/'Integrate_HeatDriveECC_Constitutive21_Interface.m').read_text(encoding='utf-8')
+        launcher = (Path(__file__).parent/'Start_HeatDriveECC_IndependentColdDiagnostic.ps1').read_text(encoding='utf-8')
+        self.assertIn("'se_stage4_pressure_p_activity_mode'", runner)
+        self.assertIn("{'binary','continuous'}", runner)
+        self.assertIn("'se_stage4_pressure_p_activity_mode', 'binary'", interface)
+        self.assertIn("stage4_p_activity_mode", interface)
+        self.assertIn("Stage4PressurePActivityMode", launcher)
 
     def test_control_volume_seed_accepts_only_matching_audit_mirror_tail(self):
         canonical = Path('main/outputs_storage_audit/calibration/cold_buffer_coupled_audit.json')

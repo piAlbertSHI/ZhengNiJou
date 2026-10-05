@@ -21,6 +21,10 @@ function record = Run_HeatDriveECC_IndependentColdDiagnosticFromConfig(config_pa
     overrides.se_stage4_commutation_precharge_fraction = config.stage4_commutation_precharge_fraction;
     overrides.pressure_pi_error_filter_tau_s = config.pressure_pi_error_filter_tau_s;
     overrides.se_stage4_pressure_bias_trim_MPa = config.stage4_pressure_bias_trim_MPa;
+    if isfield(config, 'stage4_pressure_p_activity_mode')
+        overrides.se_stage4_pressure_p_activity_mode = ...
+            char(config.stage4_pressure_p_activity_mode);
+    end
 
     record = Run_HeatDriveECC_ColdChamberDiagnostic( ...
         char(config.repo_root), char(config.output_root), config.duration_s, ...
