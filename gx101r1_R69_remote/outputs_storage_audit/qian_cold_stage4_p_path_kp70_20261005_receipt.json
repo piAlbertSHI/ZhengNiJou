@@ -1,0 +1,53 @@
+{
+  "schema": "stage4_p_path_kp70_diagnostic_receipt_v1",
+  "date": "2026-10-05",
+  "execution_commit": "54364e1bdc32f4db06b10f04dfa1f28541acfd67",
+  "source_observation_sha256": {
+    "native": "4AE82B42865AE1EAF3BC0D0467FBFD9CB954894A218C59AEEF59CC63122F3F83",
+    "conservative": "7771E70875B9C82369D7B73D5AD99D4CD97223BC6BC199BC43DCD8151BB5A68F"
+  },
+  "candidate_observation_sha256": {
+    "native": "B02A4B7A15A28617117662AA5E00B9BAE12754011D375CD4FBCBA125BE2251B4",
+    "conservative": "A5BEE0AE90C81A49A22142E34C10686BDB632D327D2F2C0FDAA4A2E04C13DDFB"
+  },
+  "configuration": {
+    "stage4_kp": -70,
+    "stage4_initial_kp": -70,
+    "stage4_ki": -255,
+    "stage4_transition_duration_s": 0,
+    "pressure_pi_error_filter_tau_s": 0.002,
+    "cycle_count": 1,
+    "observation_duration_s": 10
+  },
+  "audit_sha256": {
+    "flow": "C63BE515DAE471B064F672962A7732135AF000DBFE10E838B9F922A765DBE102",
+    "pressure": "F5AF5471A9669357FC4C0A29EFE3220CBB018E3793F45C582A562A651533CB7C",
+    "controller_dynamics": "7725D27EC4B76A5F0C79FFDC0139BFD195346A7583745A8BA593A54EC827A306",
+    "control_contract": "E395644A760B86E57B84242F786BCCFD657FE61F5E7210429937A201AB981AC6"
+  },
+  "diagnostics": {
+    "failure_mode": "scheduled_flow_bias_signature",
+    "stage4_flow_rms_relative_error_native": 0.0824506613847947,
+    "stage4_flow_rms_relative_error_conservative": 0.08245060717631915,
+    "stage4_flow_max_relative_error_native": 0.10886138615160346,
+    "stage4_flow_max_relative_error_conservative": 0.10886126207532065,
+    "strict_window_s": [9.84, 9.85],
+    "strict_flow_even_odd_delta_native_kgps": 1.5415748715313232e-08,
+    "strict_flow_even_odd_delta_conservative_kgps": 1.5373436281808373e-08,
+    "strict_derived_p_path_flow_error_correlation_native": -0.9999768931366845,
+    "strict_derived_p_path_flow_error_correlation_conservative": -0.9999769644169492,
+    "strict_integrator_input_abs_max": 0.0,
+    "strict_integrator_state_span": 0.0,
+    "pressure_range_gate": true,
+    "hydraulic_diagnostic_gate": true
+  },
+  "decision": {
+    "production_recovery_allowed": false,
+    "diagnostic_20cycle_seed_eligible": false,
+    "outer_solve_eligible": false,
+    "paired_table4_eligible": false,
+    "table4_reproduction_claim": false,
+    "next_action": "audit_p_path_sampling_hold_error_aggregation_and_effective_opening_before_new_long_run"
+  },
+  "interpretation": "Lowering Kp removed the discrete alternating signature but did not close the Stage-4 flow gate. This is a model/control-contract diagnostic rejection, not an audit false positive and not a valid recovery source."
+}

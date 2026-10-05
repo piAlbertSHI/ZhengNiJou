@@ -5246,3 +5246,19 @@ pipe/manifold 和泵 A/B 端口尚未全部观测时，不足以证明“全设�
 当前 SE Stage 4 失败不能合理归因于“PI memory 没调好”，也不能通过放宽 settled window 解决。证据更直接地指向 active P/feedforward 离散路径的交替响应；同时，流体库存不足以识别路线 residence time，因此相关分析不能被包装成因果证明。
 
 这改变了下一步的层级：在任何新的长 MATLAB 运行前，应先审计 Stage-4 离散 P-path 的采样/保持方式、pressure command 的 effective opening 映射和阀命令的事件对齐，确认是否存在一拍交替、符号/方向或零阶保持契约问题。只有该离线状态合同修正并通过一个新的独立 10 s seed gate，才允许回到 20-cycle；不启动 outer solve、敏感性矩阵或 paired Table 4。
+
+## 233. Stage 4 低增益诊断：交替消失但流量偏差仍未闭合（2026-10-05）
+
+### 233.1 诊断目的与边界
+
+在同一份已通过 provenance 修正的 JSON runtime 观测包上，以全新输出目录完成一次独立 10 s、1-cycle 双臂诊断；参数为 Stage-4 `Kp=-70`、初始 `Kp=-70`、`Ki=-255`、零切换持续时间和 `tau=0.002 s`。该运行未导入 C200 Operating Point、未写入 checkpoint，也未获得生产恢复权限。原始观测、配置和分层审计哈希记录于 `outputs_storage_audit/qian_cold_stage4_p_path_kp70_20261005_receipt.json`。
+
+### 233.2 结果与审计判定
+
+- 高增益基线中的离散 even/odd 交替在低增益下消失：严格窗口的 flow even/odd 差约 `1.54e-8 kg/s`，command even/odd 差约 `5.82e-7 MPa`；因此该候选不再属于离散交替模式。
+- 但 Stage-4 流量门禁仍失败：native/conservative RMS 相对误差分别约 `8.2451%/8.2451%`，最大相对误差约 `10.8861%/10.8861%`。严格窗口平均流量约 `0.0030755 kg/s`，相对目标 `0.0032 kg/s` 仍存在稳定偏差。
+- 压力范围、探针合同和液压诊断门禁通过；这只能说明压力观测链有效，不能抵销流量门禁失败。严格窗口 route-integrator input 为零且 integrator state 不变，derived P path 与流量误差相关系数约 `-0.99998`，所以不能把该偏差归因于 PI 路线记忆。
+
+### 233.3 高层结论
+
+该候选证明“继续扫描 Kp”不是当前高价值路径：Kp 调整能抑制离散交替，却不能修复 Stage-4 的定常流量偏差。当前首要问题是 P/feedforward 的采样/保持、误差聚合、符号/方向约定或 pressure command 到有效阀开度的映射；必须先完成离线状态合同审计和模型级修正，再运行新的独立 10 s seed。该候选 `seed_eligible=false`，不得进入 20-cycle、outer solve、敏感性矩阵、paired endpoint 或 Table 4 声明。
