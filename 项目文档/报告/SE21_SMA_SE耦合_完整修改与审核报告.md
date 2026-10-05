@@ -5191,3 +5191,38 @@ pipe/manifold 和泵 A/B 端口尚未全部观测时，不足以证明“全设�
 因此下一步必须先恢复或重建 `initial_flux_signature` 的可验证来源，并对启动器做离线批字符串单元检查；
 完成后再启动一次 10 s native/conservative 观测。当前不进入 20-cycle，不放宽流量门禁，不伪造前置签名，
 也不把 v1--v5 的失败包传播到主线。
+
+## 231. JSON 运行时控制体观测包的真实复核结果（2026-10-05）
+
+### 231.1 运行已完成，但不是生产续算
+
+修复 JSON 配置传递后，独立工作树
+`runtime-cv-json-contract` 完成了一次 10 s、1 ms 网格、native/conservative 双臂运行，执行提交为
+`54364e1bdc32f4db06b10f04dfa1f28541acfd67`。运行自然退出 `0`，`collection_pass=true`，两臂均写出
+119 个存储组件、49 个 source、6 个泵 A/B 压力探针和 21 个 Stage-4 控制器探针。
+没有导入 C200 状态、没有保存 checkpoint，也没有获得生产恢复权限。原始观测哈希和审计哈希记录在
+`outputs_storage_audit/qian_cold_runtime_cv_contract_20261005_json_v2_receipt.json`。
+
+### 231.2 分层门禁结果
+
+流量/库存审计结果：
+
+- 本地库存闭合、source-port 检查、204 个初始坐标严格匹配和 declared-window 数值门禁均通过；
+- SMA 四个阶段通过，SE Stage 2 通过；
+- SE Stage 4 仍失败，RMS 相对误差约 `5.1137%`，最大相对误差约 `6.4116%`；
+- 端点残差约 `2.77e-9 J`（native）和 `2.09e-9 J`（conservative），在当前证据未覆盖完整设备边界时仍仅作诊断，不升级为整机物理失败门禁。
+
+压力审计结果：
+
+- producer provenance、压力范围和非注入液压功诊断通过；
+- pressure audit 的 `flow_and_inventory_gate=false` 仅继承上述 SE Stage 4 流量失败，不是新的压力失败。
+
+因此当前决定是 `seed_eligible=false`、不授权 20-cycle、不授权 outer solve、不授权 Table 4 声明。该结论由 SE Stage 4 机制门禁和整机控制体证据尚未闭合共同决定，而不是由端点残差阈值或压力范围阈值造成。
+
+### 231.3 审计合理性修正
+
+初次审计报 `Wrong independent cold experiment` 和 pressure `provenance_gate=false`，原因是审计器的 producer 白名单落后于实际 JSON-contract 执行提交。已分别将精确提交绑定到 endpoint-chamber 和 pressure-probe provenance 集合，并重新运行审计。此次修复只恢复了来源可追溯性，没有放宽任何物理门禁；重新审计后 SE Stage 4 仍被拒绝，证明该失败不是审计器误判。
+
+### 231.4 高层判断与下一步
+
+当前瓶颈已从启动器/文件合同提升为模型层问题：Stage-4 换阀事件中的入口温度/黏度、动态前馈、PI 状态和流量目标之间仍未形成一致的状态合同。下一步应围绕 Stage-4 事件窗口做状态轨迹诊断，并补齐完整设备控制体的边界/端口观测；只有修正后的独立 10 s 包同时通过 SE 流量、压力、库存和控制体门禁，才允许重新进入 20-cycle。不得从本观测包恢复 C200 Operating Point，也不得用它宣称 validated、reproduced 或 strict Table 4 reproduction。

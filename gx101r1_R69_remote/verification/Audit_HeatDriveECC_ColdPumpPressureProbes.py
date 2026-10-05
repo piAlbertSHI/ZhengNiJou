@@ -75,6 +75,9 @@ PRODUCERS = {
     "fc10ad6ee343dfc000a7b5e7b7fd80b3221936e2",
     "fe9a347e555e486bc991dc890570f09aeb418a0e",
     "237e2766d0022adff5686a9550e89620f4246162",
+    # 54364e1 is the JSON-contract runtime observation; pressure probes are
+    # observationally identical and the run remains evidence-only.
+    "54364e1bdc32f4db06b10f04dfa1f28541acfd67",
 }
 PRESSURE_MIN_MPA = 0.45
 PRESSURE_MAX_MPA = 5.0

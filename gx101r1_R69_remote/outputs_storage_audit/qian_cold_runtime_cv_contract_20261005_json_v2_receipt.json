@@ -1,0 +1,53 @@
+{
+  "schema": "qian_cold_runtime_cv_contract_receipt_v1",
+  "date": "2026-10-05",
+  "execution_commit": "54364e1bdc32f4db06b10f04dfa1f28541acfd67",
+  "execution": {
+    "experiment_root": "C:/Users/86182/.codex/worktrees/runtime-cv-json-contract/正逆耦合/gx101r1_R69_remote/outputs/qian_cold_runtime_cv_contract_20261005_json_v2",
+    "stop_time_s": 10,
+    "cycle_count": 1,
+    "collection_pass": true,
+    "initial_flux_compensation": true,
+    "buffer_mass_formulation": "zero_based_offset",
+    "endpoint_chamber_diagnostic": true,
+    "endpoint_all_arms": true,
+    "c200_state_imported": false,
+    "checkpoint_saved": false,
+    "production_recovery_allowed": false,
+    "native_observation_sha256": "4AE82B42865AE1EAF3BC0D0467FBFD9CB954894A218C59AEEF59CC63122F3F83",
+    "conservative_observation_sha256": "7771E70875B9C82369D7B73D5AD99D4CD97223BC6BC199BC43DCD8151BB5A68F"
+  },
+  "flow_inventory_audit": {
+    "path": "qian_cold_runtime_cv_contract_20261005_json_v2_flow_v3/cold_buffer_coupled_audit.json",
+    "sha256": "E8B8FAC17C4F98032F3071C50303B1CE272F735A1A941501D7F8412E73C540FE",
+    "evidence_audit_pass": true,
+    "local_inventory_conservation_pass": true,
+    "strict_initial_coordinate_match": true,
+    "declared_window_numerical_gates_pass": true,
+    "source_storage_port_checks": true,
+    "sma_stage_gates": true,
+    "se_stage2_gate": true,
+    "se_stage4_gate": false,
+    "se_stage4_rms_relative_error": 0.051137273531953784,
+    "se_stage4_max_relative_error": 0.06411590382156152,
+    "full_device_first_law_verified": false,
+    "production_recovery_allowed": false
+  },
+  "pressure_audit": {
+    "path": "qian_cold_runtime_cv_contract_20261005_json_v2_pressure_v2",
+    "sha256": "3BAB7CF99B04CD81E13716409FBD116A9A7AC3899D40A2CC0076EC917988D6B3",
+    "provenance_gate": true,
+    "flow_and_inventory_gate": false,
+    "pressure_range_gate": true,
+    "hydraulic_diagnostic_gate": true,
+    "production_recovery_allowed": false
+  },
+  "decision": {
+    "seed_eligible": false,
+    "twenty_cycle_authorized": false,
+    "outer_solve_authorized": false,
+    "table4_reproduction_claim": false,
+    "classification": "runtime_control_volume_evidence_collected_but_se_stage4_mechanism_gate_failed",
+    "next_action": "diagnose_stage4_event_state_contract_and_complete_full_device_control_volume_evidence_before_new_20_cycle"
+  }
+}

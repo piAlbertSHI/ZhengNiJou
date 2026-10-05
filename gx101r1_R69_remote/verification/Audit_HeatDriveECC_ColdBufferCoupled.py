@@ -51,6 +51,9 @@ CALIBRATION_MIRROR_PRODUCERS = {
     # isolated worktrees where the hash-bound calibration is mirrored.
     '1ba3a32ae6fe9f7fe5d3d166c6fa12e740635a9c',
     '737373fe920d9a7964fcd698aa0be2de19b1698d',
+    # The JSON-contract runtime observation keeps the same hash-bound
+    # calibration artifact through an isolated worktree mirror.
+    '54364e1bdc32f4db06b10f04dfa1f28541acfd67',
 }
 ZERO_BASED_OFFSET_PRODUCERS = {
     # Bounded bias experiment preserves inventory equations and initialization.
@@ -113,6 +116,11 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     'fc10ad6ee343dfc000a7b5e7b7fd80b3221936e2',
     'fe9a347e555e486bc991dc890570f09aeb418a0e',
     '237e2766d0022adff5686a9550e89620f4246162',
+    # 54364e1 is the JSON-contract runtime observation execution.  It keeps
+    # the endpoint-chamber, specific-inventory, zero-based, and initial-flux
+    # contracts unchanged; only the launcher/config transport was repaired.
+    # This remains evidence-only and never grants seed or recovery authority.
+    '54364e1bdc32f4db06b10f04dfa1f28541acfd67',
 }
 ENDPOINT_CHAMBER_PRODUCERS = {
     '2c9cbe8f887cd5012440e2c1c451f4b09408bf8c',
@@ -178,6 +186,11 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     'fc10ad6ee343dfc000a7b5e7b7fd80b3221936e2',
     'fe9a347e555e486bc991dc890570f09aeb418a0e',
     '237e2766d0022adff5686a9550e89620f4246162',
+    # 54364e1 is the JSON-contract runtime observation execution. It keeps
+    # the endpoint-chamber, specific-inventory, zero-based, and initial-flux
+    # contracts unchanged; only launcher/config transport was repaired.
+    # This remains evidence-only and never grants seed or recovery authority.
+    '54364e1bdc32f4db06b10f04dfa1f28541acfd67',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'
