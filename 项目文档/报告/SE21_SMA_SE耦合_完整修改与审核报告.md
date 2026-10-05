@@ -5364,3 +5364,19 @@ v6p 使用已提交的 Stage-4 v4 探针合同，目标是将 `SE_mdot_target_co
 v6 暴露的状态缺口已修复：`Start_HeatDriveECC_IndependentColdDiagnostic.ps1` 现在在 MATLAB 启动前写入旁路文件 `<OutputRoot>.launcher_contract.running.json`，其 `lifecycle_state=running`；MATLAB 自然退出后再写入输出目录内的最终 `launcher_contract.json`，并将状态改为 `completed` 或 `failed`，最后删除旁路文件。旁路文件不进入仿真输出目录，因此不会违反冷态 runner 的“输出目录必须不存在”合同。
 
 该修复只改善异常退出的可观测性，不改变仿真方程、C200 恢复合同或任何科学门禁。若以后只剩旁路 `running` 文件而没有最终 contract，应判定为 `incomplete_before_launcher_return`，禁止恢复和传播，不得自动重启同一输出目录。
+
+## 240. v7 控制输入探针运行未形成物理证据（2026-10-06）
+
+### 240.1 运行状态
+
+在 launcher 生命周期修复后的执行提交 `fbb1889c5cf05baedc14b1922f23903446729f88` 上，使用全新输出目录 `v7p` 启动了与 v4 基线相同的独立 10 s、1-cycle、native/conservative 双臂诊断：Stage-2 `Kp=-126`、Stage-4 `Kp=-70`、`Ki=-255`、零 pressure trim、连续 P 活动模式、`tau=0.002 s`。初始化观测哈希为 `4AE82B42865AE1EAF3BC0D0467FBFD9CB954894A218C59AEEF59CC63122F3F83`，未导入 C200、未保存 checkpoint、未获得生产恢复权限。
+
+旁路 launcher contract 只记录到 `lifecycle_state=running`；随后 MATLAB/launcher 进程不再存在，输出目录没有最终 `launcher_contract.json`、stdout/stderr、`cold_chamber_execution.json` 或 `observations.mat`。diary 停在 `SimulationInput.sim` 调用后的 Simscape 工作点初始化警告处。因此本轮不是流量、压力或机制门禁失败，而是进程生命周期在观测导出前中断；不得把它用于 v4/v5 数值比较，也不得作为恢复源。
+
+### 240.2 审计边界与回执
+
+回执为 `gx101r1_R69_remote/outputs_storage_audit/qian_cold_stage4_v7p_incomplete_receipt.json`。该回执固定了 v7 的执行提交、初始化源哈希和现存三份诊断文件哈希；`seed_eligible=false`、`outer_solve_eligible=false`、`paired_table4_eligible=false`。同一输出目录不得续写或重跑。当前证据只支持“仿真启动后未完成观测导出”，不支持任何物理结论。
+
+### 240.3 高层诊断
+
+v6 与 v7 连续在相同的 `sim` 后阶段缺失完整 contract，说明当前主要瓶颈已经不是单个 Stage-4 参数或流量门限，而是长 MATLAB/Simscape 运行的进程托管和观测导出生命周期。继续调 `Kp`、`Ki`、trim 或放宽科学门禁不会增加信息量。下一步应先做一次不改变模型方程的运行环境/launcher 生命周期诊断：确认 MATLAB 退出码、父子进程关系、崩溃/被终止事件和 stdout/stderr 持久化；只有得到最终 contract 或明确的失败退出证据后，才允许新的独立 10 s 物理运行。

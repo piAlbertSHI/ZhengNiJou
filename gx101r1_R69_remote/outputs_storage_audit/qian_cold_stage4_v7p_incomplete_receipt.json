@@ -1,0 +1,28 @@
+{
+  "schema": "heatdrive_ecc_stage4_incomplete_diagnostic_receipt_v1",
+  "status": "incomplete_after_simulation_start_before_observation_export",
+  "diagnostic_only": true,
+  "execution_commit": "fbb1889c5cf05baedc14b1922f23903446729f88",
+  "raw_output_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v7p",
+  "initialization_source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_cold_runtime_cv_contract_20261005_json_v2",
+  "initialization_source_observations_sha256": "4AE82B42865AE1EAF3BC0D0467FBFD9CB954894A218C59AEEF59CC63122F3F83",
+  "c200_state_imported": false,
+  "checkpoint_saved": false,
+  "production_recovery_allowed": false,
+  "simulation_run_completed": false,
+  "observations_exported": false,
+  "launcher_contract_present": false,
+  "stale_running_contract_present": true,
+  "scientific_gate_evaluated": false,
+  "seed_eligible": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false,
+  "evidence_boundary": "The MATLAB diary stops immediately after sim starts and only setup/probe-contract files exist; no physical trajectory is admissible and no scientific gate has been evaluated.",
+  "diagnostic_hashes": {
+    "matlab_diary_log_sha256": "4D59A008843913D94C26EA90A1B6348545DB49C92255A388BBE6E53755859FF9",
+    "native_pump_pressure_probe_contract_sha256": "8211FFFAB9E405C8BACB56439059C0BE292EFE5A70CAFB558718A3327D9E82F4",
+    "native_stage4_controller_probe_contract_sha256": "F64AAE2AF209E49E9A0F170855FB7C3C3FF4E6CA4954D013D02608ACB5352CA5"
+  },
+  "next_action": "Diagnose the external/process lifecycle failure and run no physical retry until the launcher returns a final contract; never resume this output directory."
+}

@@ -168,27 +168,40 @@ $batch = "cd('$repoM'); addpath(genpath(pwd)); Run_HeatDriveECC_IndependentColdD
 $matlab = 'C:\Program Files\MATLAB\R2025b\bin\matlab.exe'
 if (-not (Test-Path -LiteralPath $matlab -PathType Leaf)) { throw "MATLAB executable not found: $matlab" }
 $started = Get-Date
-& $matlab '-batch' $batch 1> $stdoutTemp 2> $stderrTemp
-$exitCode = $LASTEXITCODE
-$outputExists = Test-Path -LiteralPath $OutputRoot -PathType Container
-if (-not $outputExists) { New-Item -ItemType Directory -Path $OutputRoot -Force | Out-Null }
-Move-Item -LiteralPath $stdoutTemp -Destination (Join-Path $OutputRoot 'matlab_stdout.log') -Force
-Move-Item -LiteralPath $stderrTemp -Destination (Join-Path $OutputRoot 'matlab_stderr.log') -Force
-$contract.completed_at = (Get-Date).ToString('o')
-$contract.lifecycle_state = if ($exitCode -eq 0) { 'completed' } else { 'failed' }
-$contract.exit_code = $exitCode
-$contract.wall_seconds = ((Get-Date) - $started).TotalSeconds
-$contract | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $OutputRoot 'launcher_contract.json') -Encoding utf8
-Remove-Item -LiteralPath $earlyContractPath -Force -ErrorAction SilentlyContinue
-if ($exitCode -ne 0 -and -not (Test-Path -LiteralPath (Join-Path $OutputRoot 'REJECTED_DO_NOT_RESUME.txt'))) {
-    @(
-        'status=rejected_launcher_or_model_failure'
-        'production_recovery_allowed=false'
-        'c200_state_imported=false'
-        'checkpoint_saved=false'
-        "exit_code=$exitCode"
-        'do_not_use_as_initialization_source=true'
-    ) | Set-Content -LiteralPath (Join-Path $OutputRoot 'REJECTED_DO_NOT_RESUME.txt') -Encoding utf8
+$exitCode = 9009
+$launchException = $null
+try {
+    & $matlab '-batch' $batch 1> $stdoutTemp 2> $stderrTemp
+    $exitCode = $LASTEXITCODE
+} catch {
+    $launchException = $_.Exception.ToString()
+}
+finally {
+    $outputExists = Test-Path -LiteralPath $OutputRoot -PathType Container
+    if (-not $outputExists) { New-Item -ItemType Directory -Path $OutputRoot -Force | Out-Null }
+    if (Test-Path -LiteralPath $stdoutTemp -PathType Leaf) {
+        Move-Item -LiteralPath $stdoutTemp -Destination (Join-Path $OutputRoot 'matlab_stdout.log') -Force
+    }
+    if (Test-Path -LiteralPath $stderrTemp -PathType Leaf) {
+        Move-Item -LiteralPath $stderrTemp -Destination (Join-Path $OutputRoot 'matlab_stderr.log') -Force
+    }
+    $contract.completed_at = (Get-Date).ToString('o')
+    $contract.lifecycle_state = if ($exitCode -eq 0) { 'completed' } else { 'failed' }
+    $contract.exit_code = $exitCode
+    $contract.wall_seconds = ((Get-Date) - $started).TotalSeconds
+    $contract.launch_exception = $launchException
+    $contract | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $OutputRoot 'launcher_contract.json') -Encoding utf8
+    Remove-Item -LiteralPath $earlyContractPath -Force -ErrorAction SilentlyContinue
+    if ($exitCode -ne 0 -and -not (Test-Path -LiteralPath (Join-Path $OutputRoot 'REJECTED_DO_NOT_RESUME.txt'))) {
+        @(
+            'status=rejected_launcher_or_model_failure'
+            'production_recovery_allowed=false'
+            'c200_state_imported=false'
+            'checkpoint_saved=false'
+            "exit_code=$exitCode"
+            'do_not_use_as_initialization_source=true'
+        ) | Set-Content -LiteralPath (Join-Path $OutputRoot 'REJECTED_DO_NOT_RESUME.txt') -Encoding utf8
+    }
 }
 Write-Output ($contract | ConvertTo-Json -Depth 8)
 exit $exitCode
