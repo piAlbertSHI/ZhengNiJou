@@ -81,7 +81,9 @@ $gitHead = (& git -C $repoRoot rev-parse HEAD).Trim()
 
 $contract = [ordered]@{
     schema = 'heatdrive_ecc_independent_cold_diagnostic_launcher_v1'
+    lifecycle_state = 'running'
     generated_at = (Get-Date).ToString('o')
+    started_at = (Get-Date).ToString('o')
     execution_commit = $gitHead
     output_root = $OutputRoot
     initialization_source_root = $InitialObservationRoot
@@ -157,6 +159,8 @@ $config = [ordered]@{
 }
 $config | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $configPath -Encoding utf8
 $contract.config_path = $configPath
+$earlyContractPath = "$OutputRoot.launcher_contract.running.json"
+$contract | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $earlyContractPath -Encoding utf8
 function MatlabQuote([string]$Value) { return $Value.Replace("'", "''") }
 $repoM = MatlabQuote $repoRoot
 $configM = MatlabQuote $configPath
@@ -171,9 +175,11 @@ if (-not $outputExists) { New-Item -ItemType Directory -Path $OutputRoot -Force 
 Move-Item -LiteralPath $stdoutTemp -Destination (Join-Path $OutputRoot 'matlab_stdout.log') -Force
 Move-Item -LiteralPath $stderrTemp -Destination (Join-Path $OutputRoot 'matlab_stderr.log') -Force
 $contract.completed_at = (Get-Date).ToString('o')
+$contract.lifecycle_state = if ($exitCode -eq 0) { 'completed' } else { 'failed' }
 $contract.exit_code = $exitCode
 $contract.wall_seconds = ((Get-Date) - $started).TotalSeconds
 $contract | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $OutputRoot 'launcher_contract.json') -Encoding utf8
+Remove-Item -LiteralPath $earlyContractPath -Force -ErrorAction SilentlyContinue
 if ($exitCode -ne 0 -and -not (Test-Path -LiteralPath (Join-Path $OutputRoot 'REJECTED_DO_NOT_RESUME.txt'))) {
     @(
         'status=rejected_launcher_or_model_failure'
