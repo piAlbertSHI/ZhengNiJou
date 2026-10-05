@@ -54,6 +54,10 @@ CALIBRATION_MIRROR_PRODUCERS = {
     # The JSON-contract runtime observation keeps the same hash-bound
     # calibration artifact through an isolated worktree mirror.
     '54364e1bdc32f4db06b10f04dfa1f28541acfd67',
+    # The isolated continuous Stage-4 P-activity diagnostic uses the same
+    # hash-bound calibration artifact from its managed worktree mirror.
+    '85a5339',
+    '1baf2beec18532f2861bd9e30e0235451fabb6b3',
 }
 ZERO_BASED_OFFSET_PRODUCERS = {
     # Bounded bias experiment preserves inventory equations and initialization.
@@ -121,6 +125,12 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     # contracts unchanged; only the launcher/config transport was repaired.
     # This remains evidence-only and never grants seed or recovery authority.
     '54364e1bdc32f4db06b10f04dfa1f28541acfd67',
+    # 85a5339/1baf2be only carry the isolated continuous Stage-4 P-activity
+    # diagnostic and its launcher/audit plumbing.  The cold-start, endpoint,
+    # zero-based, initial-flux, and recovery contracts remain unchanged.
+    # These entries authorize evidence auditing only; they never grant a seed.
+    '85a5339',
+    '1baf2beec18532f2861bd9e30e0235451fabb6b3',
 }
 ENDPOINT_CHAMBER_PRODUCERS = {
     '2c9cbe8f887cd5012440e2c1c451f4b09408bf8c',
@@ -191,6 +201,10 @@ ENDPOINT_CHAMBER_PRODUCERS = {
     # contracts unchanged; only launcher/config transport was repaired.
     # This remains evidence-only and never grants seed or recovery authority.
     '54364e1bdc32f4db06b10f04dfa1f28541acfd67',
+    # The isolated continuous Stage-4 P-activity diagnostic preserves the
+    # endpoint-chamber and recovery contracts; it remains diagnostic-only.
+    '85a5339',
+    '1baf2beec18532f2861bd9e30e0235451fabb6b3',
 }
 QUALIFIED_CHAMBER_HEADER = (
     '% Conservative Inventory Chamber (TL)\n'
@@ -216,6 +230,8 @@ INITIAL_FLUX_COMPENSATION_PRODUCERS = {
     '3b2718852ba02e6b37fbb4d6fc83a7cbfa16b617',
     'c7f46db863a1a59b5c79ad1647f226b7d73bfd86',
     '393be6f000d9421c159b8c191f6f2c65ac24c185',
+    '85a5339',
+    '1baf2beec18532f2861bd9e30e0235451fabb6b3',
 }
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
 

@@ -78,6 +78,11 @@ PRODUCERS = {
     # 54364e1 is the JSON-contract runtime observation; pressure probes are
     # observationally identical and the run remains evidence-only.
     "54364e1bdc32f4db06b10f04dfa1f28541acfd67",
+    # 85a5339/1baf2be add only the isolated continuous Stage-4 P-activity
+    # diagnostic and launcher plumbing; pressure probes and recovery
+    # prohibitions remain unchanged.
+    "85a5339",
+    "1baf2beec18532f2861bd9e30e0235451fabb6b3",
 }
 PRESSURE_MIN_MPA = 0.45
 PRESSURE_MAX_MPA = 5.0

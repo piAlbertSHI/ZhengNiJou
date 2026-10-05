@@ -5292,3 +5292,34 @@ pipe/manifold 和泵 A/B 端口尚未全部观测时，不足以证明“全设�
 - Python 冷态/压力/初始流量回归：`41/41` 通过；
 - MATLAB `checkcode`：接口、模型审计、冷态 runner 和 JSON 配置入口通过；
 - 本轮未修改受保护的 `heatdrive_ecc_coupled_se21.slx`，未导入 C200 状态，未生成任何恢复点。
+
+## 235. 连续 P 活动合同候选的完整闭环审核（2026-10-05）
+
+### 235.1 运行与保留边界
+
+在受管控的独立工作树 `runtime-cv-json-contract` 中，以全新输出目录完成一次 10 s、1-cycle、native/conservative 双臂冷态运行；执行提交为
+`1baf2beec18532f2861bd9e30e0235451fabb6b3`。参数为 Stage-2 `Kp=-126`、Stage-4 `Kp=-70`、`Ki=-255`、
+`pressure_pi_error_filter_tau_s=0.002 s`，并启用诊断专用 `se_stage4_pressure_p_activity_mode=continuous`。
+运行未导入 C200、未写入 checkpoint、未重置热容/缓冲体/本构/温度/相分数/独立 PI 记忆，也未获得生产恢复权限。
+完整回执为 `gx101r1_R69_remote/outputs_storage_audit/qian_cold_stage4_p_continuous_kp70_20261005_v3_receipt.json`。
+
+### 235.2 分层门禁结果
+
+- 流量/库存/204 个初始坐标审计：库存闭合、source-port 检查、初始坐标严格匹配和 SMA 四阶段、SE Stage-2 通过；SE Stage-4 失败。
+- native/conservative 的 SE Stage-4 RMS 相对误差分别为 `8.245066%` 和 `8.245061%`，最大相对误差约 `10.8861%`；严格窗口平均流量分别为 `0.0034065301` 和 `0.0034065305 kg/s`，目标为 `0.0032 kg/s`。
+- 压力范围、6 个 A/B 压力探针、液压诊断和相分数/固体能量门禁通过；泵功是非注入液压诊断，仍不是可用于系统 COP 的泵功观测。通用 Stage-4 v2 探针覆盖通过，但 `stage4_feedforward_activity` 没有被当前模型导出，因果重入诊断不能据此宣称完备。
+- 传输窗口审计判定边界瞬态不主导；严格窗口 P 路径与流量误差相关系数约 `-0.999913`，连续活动缩放均值约 `0.555556`，但低频流量偏差仍在。
+
+### 235.3 审计合理性与高层判断
+
+初次复核出现两类问题：审计器的 producer 白名单落后于本次诊断提交，已按精确提交补入 provenance 集合并重新运行；这没有放宽任何物理门禁。另一个问题是通用 Stage-4 v2 审计错误地把未由 `Instrument_HeatDriveECC_Stage4ControllerProbes.m` 导出的 `stage4_feedforward_activity` 当作必需信号；现已按实际 21 信号合同修正通用覆盖审计，同时将该因果活动信号缺失保留为独立诊断缺口，未将其“审计通过”。
+
+连续 P 活动模式没有改变 Stage-4 的低频流量偏差，因此当前瓶颈已经排除“仅由二值活动阈值造成”的解释，也不应继续盲扫 Kp/Ki。更高层的待修合同是：阀命令、有效阀开度、温度/黏度前馈、P 输出和实际 Stage-4 质量流量之间的方向、采样保持和状态映射；同时需要补齐 `stage4_feedforward_activity` 的真实模型信号或明确替代状态。当前候选严格为 `REJECTED_DO_NOT_SEED`，不得进入 20-cycle、outer solve、敏感性、paired endpoints 或 Table 4。
+
+### 235.4 下一步
+
+下一轮只允许先做离线模型合同修正和最小 10 s 双臂复核：
+
+1. 在不改变 C200 生产 SLX 的前提下，补齐 Stage-4 causal activity 的真实观测，明确 `L_valve_command -> effective opening -> mdot target -> feedback/P scale` 的同一时间基准。
+2. 对 `stage4_pressure_command` 到有效阀开度的符号、限幅、零阶保持和采样延迟做离线状态合同测试，并以正/负方向单因素测试判别压力命令是否具有预期流量方向。
+3. 只有新 10 s 包同时通过 Stage-4 流量、库存、压力 A/B、phase/solid-energy、causal activity 和控制体边界门禁，才重新授权 20-cycle；当前不做长算。

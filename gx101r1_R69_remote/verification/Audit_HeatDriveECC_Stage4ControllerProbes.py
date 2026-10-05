@@ -19,7 +19,6 @@ from Audit_HeatDriveECC_SegmentedEvidence import sha256
 EXPECTED = (
     "stage4_inlet_temperature_delay",
     "stage4_outlet_temperature_delay",
-    "stage4_feedforward_activity",
     "stage4_inlet_viscosity",
     "stage4_outlet_viscosity",
     "stage4_endpoint_viscosity_mean",

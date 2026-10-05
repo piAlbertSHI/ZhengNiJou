@@ -1,0 +1,61 @@
+{
+  "schema": "heatdrive_ecc_stage4_continuous_p_activity_diagnostic_receipt_v1",
+  "status": "REJECTED_DO_NOT_SEED",
+  "execution_commit": "1baf2beec18532f2861bd9e30e0235451fabb6b3",
+  "raw_output_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_cold_stage4_p_continuous_kp70_20261005_v3",
+  "raw_output_bytes": 362156787,
+  "parameters": {
+    "stage2_kp": -126.0,
+    "stage4_kp": -70.0,
+    "stage4_initial_kp": -70.0,
+    "stage4_ki": -255.0,
+    "stage4_pressure_p_activity_mode": "continuous",
+    "pressure_pi_error_filter_tau_s": 0.002,
+    "stage4_transition_duration_s": 0.0,
+    "diagnostic_cycle_count": 1,
+    "duration_s": 10.0
+  },
+  "state_contract": {
+    "c200_state_imported": false,
+    "checkpoint_saved": false,
+    "production_recovery_allowed": false,
+    "thermal_capacity_reset": false,
+    "buffer_reset": false,
+    "constitutive_state_reset": false,
+    "temperature_or_phase_state_imported": false,
+    "independent_pi_memory_imported": false
+  },
+  "gates": {
+    "flow_and_inventory_gate": false,
+    "pressure_and_hydraulic_gate": true,
+    "phase_bounds_and_solid_energy_gate": true,
+    "stage4_controller_probe_coverage": true,
+    "stage4_boundary_transient_dominates_gate": false,
+    "diagnostic_20cycle_seed_eligible": false,
+    "outer_solve_eligible": false,
+    "paired_table4_eligible": false,
+    "table4_reproduction_claim": false
+  },
+  "quantitative_result": {
+    "native_stage4_rms_relative_error": 0.0824506613847947,
+    "conservative_stage4_rms_relative_error": 0.08245060717631915,
+    "native_stage4_max_abs_relative_error": 0.10886138615160346,
+    "conservative_stage4_max_abs_relative_error": 0.10886126207532065,
+    "native_strict_window_mean_kgps": 0.003406530087941665,
+    "conservative_strict_window_mean_kgps": 0.0034065305296891975,
+    "target_kgps": 0.0032,
+    "strict_window_route_integrator_frozen": false,
+    "stage4_p_enable_scale_mean": 0.5555555555555555,
+    "stage4_p_path_flow_error_correlation_native": -0.9999131244731156
+  },
+  "artifact_sha256": {
+    "cold_chamber_execution.json": "D8E461F4C15C966F4E6035001C111940A8655901F348191395A7853E1F3AB2DC",
+    "native_observations.mat": "12E77026597429D4EBC791145A11E0F18F101FFAD9E3BE04C4A772554F21818C",
+    "conservative_observations.mat": "6DF4230EED208065CEC95555AD84A5894C10FC27D67DFEA00DBE209CD4A6DF08",
+    "flow_audit": "27DED70E49BEE7A2F2B97484D3BED4666C587031DE693508694BCC09BB5EB1B3",
+    "pressure_audit": "4448D9D710CD20EE4B23CCCA270B2540F1459A97A518DE39D40DF18C2A58052F",
+    "seed_gate": "92876B18BAFFBD27E53B471037F16A1521633DA2CEFA528F33600D49DB40EF4D"
+  },
+  "diagnostic_interpretation": "Continuous Stage-4 P activity removes neither the low-frequency flow bias nor the strict flow-gate failure. Boundary transient does not dominate; do not continue blind Kp scanning. The next repair must address the pressure-command-to-effective-valve-opening/feedforward state contract and complete causal activity observation before a new cold run.",
+  "retention": "Keep this receipt and the small JSON audits in the main workspace. Keep the raw 362 MB output only in the managed diagnostic worktree until the next contract decision; never use it as a recovery source or propagate it to production outputs."
+}
