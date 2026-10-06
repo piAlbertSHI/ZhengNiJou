@@ -21,7 +21,8 @@ param(
     [string]$Stage4ViscosityClosure = 'arithmetic_blend',
     [ValidateSet(1,2,20)]
     [int]$DiagnosticCycleCount = 1,
-    [bool]$DistributedPressureFeedforwardDiagnostic = $false
+    [bool]$DistributedPressureFeedforwardDiagnostic = $false,
+    [switch]$PrepareOnly
 )
 
 Set-StrictMode -Version Latest
@@ -159,7 +160,23 @@ $config = [ordered]@{
     pressure_pi_error_filter_tau_s = $PressurePiErrorFilterTauS
     stage4_endpoint_viscosity_closure_mode = $Stage4ViscosityClosure
 }
+$config.distributed_pressure_feedforward_diagnostic = $DistributedPressureFeedforwardDiagnostic
 $config | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $configPath -Encoding utf8
+$preparedConfig = Get-Content -LiteralPath $configPath -Raw | ConvertFrom-Json
+if ($preparedConfig.distributed_pressure_feedforward_diagnostic -isnot [bool] -or
+    $preparedConfig.distributed_pressure_feedforward_diagnostic -ne $DistributedPressureFeedforwardDiagnostic) {
+    throw 'Serialized MATLAB configuration lost the requested distributed-feedforward mode.'
+}
+if ($PrepareOnly) {
+    Write-Output ([ordered]@{
+        lifecycle_state = 'prepared_not_executed'
+        config_path = $configPath
+        distributed_pressure_feedforward_diagnostic = $preparedConfig.distributed_pressure_feedforward_diagnostic
+        simulation_run = $false
+        production_recovery_allowed = $false
+    } | ConvertTo-Json)
+    exit 0
+}
 $contract.config_path = $configPath
 $earlyContractPath = "$OutputRoot.launcher_contract.running.json"
 $contract | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $earlyContractPath -Encoding utf8
@@ -192,17 +209,29 @@ finally {
     $executionPath = Join-Path $OutputRoot 'cold_chamber_execution.json'
     $physicalExecutionContractPresent = Test-Path -LiteralPath $executionPath -PathType Leaf
     $physicalCollectionPass = $false
+    $requestedControllerExecuted = -not $DistributedPressureFeedforwardDiagnostic
     if ($physicalExecutionContractPresent) {
         try {
             $executionRecord = Get-Content -LiteralPath $executionPath -Raw | ConvertFrom-Json
             $physicalCollectionPass = [bool]$executionRecord.collection_pass
+            if ($DistributedPressureFeedforwardDiagnostic) {
+                $requestedControllerExecuted = $true
+                foreach ($arm in @('native', 'conservative')) {
+                    $ff = Get-Content -LiteralPath (Join-Path $OutputRoot "$arm\distributed_pressure_ff_contract.json") -Raw | ConvertFrom-Json
+                    $requestedControllerExecuted = $requestedControllerExecuted -and
+                        ($ff.simulation_run -eq $true) -and ($ff.sources.Count -eq 21) -and
+                        ($ff.legacy_reference_multiplier_used -eq $false)
+                }
+            }
         } catch {
             $physicalCollectionPass = $false
+            $requestedControllerExecuted = $false
         }
     }
     # A zero exit code without the runner's final physical contract is a
     # launcher false-positive, never a completed diagnostic.
     if ($exitCode -eq 0 -and -not $physicalCollectionPass) { $exitCode = 9008 }
+    if ($exitCode -eq 0 -and -not $requestedControllerExecuted) { $exitCode = 9007 }
     $contract.completed_at = (Get-Date).ToString('o')
     $contract.lifecycle_state = if ($exitCode -eq 0) { 'completed' } else { 'failed' }
     $contract.exit_code = $exitCode
@@ -210,6 +239,7 @@ finally {
     $contract.launch_exception = $launchException
     $contract.physical_execution_contract_present = $physicalExecutionContractPresent
     $contract.physical_collection_pass = $physicalCollectionPass
+    $contract.requested_controller_executed = $requestedControllerExecuted
     $contract | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $OutputRoot 'launcher_contract.json') -Encoding utf8
     Remove-Item -LiteralPath $earlyContractPath -Force -ErrorAction SilentlyContinue
     if ($exitCode -ne 0 -and -not (Test-Path -LiteralPath (Join-Path $OutputRoot 'REJECTED_DO_NOT_RESUME.txt'))) {

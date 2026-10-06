@@ -1,4 +1,8 @@
 import unittest
+import json
+import shutil
+import subprocess
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -26,3 +30,44 @@ class DistributedFeedforwardSourceTests(unittest.TestCase):
         self.assertIn('[bool]$DistributedPressureFeedforwardDiagnostic = $false', launcher)
         main_driver = (ROOT.parent/'Run_HeatDriveECC_EighthRound_Simulink_Cycles.m').read_text(encoding='utf-8')
         self.assertNotIn('Configure_HeatDriveECC_DistributedPressureFeedforward', main_driver)
+
+    @unittest.skipUnless(shutil.which('pwsh'), 'PowerShell 7 is required')
+    def test_executed_launcher_serializes_both_controller_modes(self):
+        # Exercise the real parameter-to-JSON path without launching MATLAB.
+        outputs = ROOT.parent/'outputs'
+        outputs.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix='config_test_', dir=outputs) as temp:
+            fixture = Path(temp)
+            source = fixture/'source'
+            (source/'native').mkdir(parents=True)
+            (source/'native/observations.mat').write_bytes(b'configuration-test-only')
+            (source/'cold_chamber_execution.json').write_text(json.dumps({
+                'collection_pass': True, 'stop_time_s': 10,
+                'conservative_buffers': True, 'buffer_mass_formulation': 'zero_based_offset',
+                'initial_flux_compensation': True, 'production_recovery_allowed': False,
+            }), encoding='utf-8')
+            for flag in (True, False):
+                with self.subTest(flag=flag):
+                    destination = fixture/str(flag)
+                    quote = lambda p: str(p).replace("'", "''")
+                    command = (f"& '{quote(ROOT/'Start_HeatDriveECC_IndependentColdDiagnostic.ps1')}' "
+                               f"-OutputRoot '{quote(destination)}' "
+                               f"-InitialObservationRoot '{quote(source)}' -PrepareOnly "
+                               f"-DistributedPressureFeedforwardDiagnostic ${str(flag).lower()}")
+                    result = subprocess.run(['pwsh', '-NoProfile', '-Command', command],
+                                            capture_output=True, text=True, encoding='utf-8', timeout=30)
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    config = json.loads(Path(str(destination)+'.launcher_config.json').read_text(encoding='utf-8-sig'))
+                    self.assertIs(config['distributed_pressure_feedforward_diagnostic'], flag)
+                    receipt = json.loads(result.stdout)
+                    self.assertEqual(receipt['lifecycle_state'], 'prepared_not_executed')
+                    self.assertFalse(receipt['simulation_run'])
+                    self.assertFalse(destination.exists())
+
+    def test_runtime_requested_wiring_is_fail_closed(self):
+        runner = (ROOT/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
+        self.assertIn('HeatDriveECC:LostControllerOverride', runner)
+        self.assertIn('HeatDriveECC:MissingControllerWiring', runner)
+        launcher = (ROOT/'Start_HeatDriveECC_IndependentColdDiagnostic.ps1').read_text(encoding='utf-8')
+        self.assertIn('requested_controller_executed = $requestedControllerExecuted', launcher)
+        self.assertIn('$exitCode = 9007', launcher)

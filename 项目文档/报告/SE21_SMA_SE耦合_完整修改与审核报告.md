@@ -5501,3 +5501,13 @@ Cycle19/20 的 outlet lift 为 `27.92598/27.95723 K`，单周期 SCP 为 `0.3044
 新增6个 `distributed_*` 观测和专门合同；旧 endpoint 探针保留为对照，但明确不是新压力命令的权威。原生温度Probe的官方接口参考：[Simscape Probe](https://www.mathworks.com/help/simscape/ref/probe.html)、[VariableTable](https://www.mathworks.com/help/simscape/ref/simscape.probe.variabletable.html)。
 
 先执行全新10秒双臂包 `v10_distributed_ff_10s`，初始化仅用已限定的原始冷态 t=0 观测合同 `qian_cold_runtime_cv_contract_20261005_json_v2`，不导入v9端点或C200。该目录不得重跑；Python源回归 `597/597` 通过，但MATLAB编译、实际因果延迟、native变量单位、前馈方程、流量、压力和库存门禁仍必须由本次实际运行核验，不能因静态测试成功而提前宣称通过。
+
+## 246. v10执行配置失配：不是新前馈的物理失败（2026-10-07）
+
+v10 在 `05:54:59--07:27:30 +08:00` 自然结束，耗时 `5550.8869 s`，进程退出0、双臂采集成功。但读取观测后发现新增6个 `distributed_*` 信号全部缺失、两臂新前馈合同也不存在。根因已定位：PowerShell 将开关写入启动回执，却漏写实际交给MATLAB的 `$config`；MATLAB适配层的可选字段逻辑静默回落到旧控制器。不是编译失败、流量门禁失败，也不是分布前馈方案失效；这次92.5分钟运行没有测试预期方案。该错误由本次实现引入，不能用“审计严格”掩盖，也不能把599项源测试通过称为实际接入成功。
+
+本轮修复的层次是实验配置与执行合同，而非继续改PI：实际JSON显式带布尔模式并回读检查；MATLAB适配层拒绝缺少该模式的配置；cold runner按用户请求检查模式是否在options构造时丢失，并检查21个源和观察接线；启动器结束时检查两臂实际执行合同，否则以9007失败。增加 `PrepareOnly`，只生成真实MATLAB输入而不启动模型；新增PowerShell真实参数序列化测试覆盖开/关两种模式，不再只检查源码中出现字段名。
+
+新增编译前接线测试 `Verify_HeatDriveECC_DistributedFeedforwardWiring.m`，实际构建内存模型并核查命令来源和6个观测端，明确不仿真、不编译验证、不生成seed、不修改canonical模型。先执行此低成本测试，修复其实际问题后才重新运行全新物理目录；不在v10目录覆盖或盲重试。
+
+v10已写拒绝标记，禁止恢复、初始化、outer solve或Table4使用；只保留一份worktree原始包。执行/配置/双臂观测/拒绝标记哈希固定于 `outputs_storage_audit/v10_controller_not_executed_closeout.json`。C200及其冻结门禁未变。此次代码回归 `599/599` 通过，但新前馈物理验证仍待真正启用后的实验完成。

@@ -2,6 +2,11 @@ function record = Run_HeatDriveECC_IndependentColdDiagnosticFromConfig(config_pa
 % Execute an independent cold diagnostic from a JSON contract.
 % JSON avoids PowerShell-to-MATLAB boolean and quoting conversions.
     config = jsondecode(fileread(config_path));
+    assert(isfield(config,'distributed_pressure_feedforward_diagnostic') && ...
+        islogical(config.distributed_pressure_feedforward_diagnostic) && ...
+        isscalar(config.distributed_pressure_feedforward_diagnostic), ...
+        'HeatDriveECC:MissingControllerConfig', ...
+        'Require an explicit logical distributed-controller mode before model construction.');
     overrides = struct();
     overrides.se_stage2_pressure_pi_kp_MPa_per_kgps = config.stage2_kp;
     overrides.se_stage2_pressure_pi_initial_kp_MPa_per_kgps = config.stage2_initial_kp;
@@ -21,10 +26,8 @@ function record = Run_HeatDriveECC_IndependentColdDiagnosticFromConfig(config_pa
     overrides.se_stage4_commutation_precharge_fraction = config.stage4_commutation_precharge_fraction;
     overrides.pressure_pi_error_filter_tau_s = config.pressure_pi_error_filter_tau_s;
     overrides.se_stage4_pressure_bias_trim_MPa = config.stage4_pressure_bias_trim_MPa;
-    if isfield(config,'distributed_pressure_feedforward_diagnostic')
-        overrides.se_distributed_pressure_feedforward_diagnostic = ...
-            logical(config.distributed_pressure_feedforward_diagnostic);
-    end
+    overrides.se_distributed_pressure_feedforward_diagnostic = ...
+        config.distributed_pressure_feedforward_diagnostic;
     if isfield(config, 'stage4_pressure_p_activity_mode')
         overrides.se_stage4_pressure_p_activity_mode = ...
             char(config.stage4_pressure_p_activity_mode);
