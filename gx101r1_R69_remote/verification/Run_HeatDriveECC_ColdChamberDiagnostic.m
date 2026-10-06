@@ -110,7 +110,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'se_stage4_commutation_precharge_fraction', ...
         'pressure_pi_error_filter_tau_s', ...
         'se_stage4_pressure_bias_trim_MPa', ...
-        'se_stage4_pressure_p_activity_mode'};
+        'se_stage4_pressure_p_activity_mode', ...
+        'se_distributed_pressure_feedforward_diagnostic'};
     gain_override_fields = {'se_stage2_pressure_pi_kp_MPa_per_kgps', ...
         'se_stage2_pressure_pi_initial_kp_MPa_per_kgps', ...
         'se_stage4_pressure_pi_kp_MPa_per_kgps', ...
@@ -119,7 +120,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'se_stage4_pressure_pi_ki_MPa_per_kgps_s';
     blend_override_fields = {'se_stage4_endpoint_viscosity_blend_initial', ...
         'se_stage4_endpoint_viscosity_blend_final'};
-    periodic_override_fields = {'se_stage4_endpoint_viscosity_blend_periodic'};
+    periodic_override_fields = {'se_stage4_endpoint_viscosity_blend_periodic', ...
+        'se_distributed_pressure_feedforward_diagnostic'};
     closure_override_fields = {'se_stage4_endpoint_viscosity_closure_mode'};
     precharge_override_fields = {'se_stage4_commutation_precharge_fraction'};
     filter_override_fields = {'pressure_pi_error_filter_tau_s'};
@@ -380,6 +382,14 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 use_endpoint_arm;
             [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(overrides);
             model_cleanup=onCleanup(@() close_system(model,0));
+            distributed_ff_contract=struct();
+            if isfield(options.branch,'se_distributed_pressure_feedforward_diagnostic') && ...
+                    options.branch.se_distributed_pressure_feedforward_diagnostic
+                distributed_ff_contract= ...
+                    Configure_HeatDriveECC_DistributedPressureFeedforward(model,options);
+                write_json(fullfile(arm,'distributed_pressure_ff_contract.json'), ...
+                    distributed_ff_contract);
+            end
             arm_simulation_mode=simulation_mode;
             % The conservative arm initializes public Simscape operating
             % points. Keep that diagnostic arm in normal mode because
@@ -569,6 +579,11 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 Export_HeatDriveECC_FailedColdObservations(output,model,metadata, ...
                     fullfile(arm,'failed_public_observations.mat'));
                 error('HeatDriveECC:ColdDiagnosticSimulationFailed','%s',failure_message);
+            end
+            if ~isempty(fieldnames(distributed_ff_contract))
+                distributed_ff_contract.simulation_run=true;
+                write_json(fullfile(arm,'distributed_pressure_ff_contract.json'), ...
+                    distributed_ff_contract);
             end
             if specific_inventory && use_endpoint_arm
                 inventory_variables={'stored_mass','stored_energy','T_I','p_I'};

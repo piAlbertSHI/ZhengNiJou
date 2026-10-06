@@ -5487,3 +5487,17 @@ Cycle19/20 的 outlet lift 为 `27.92598/27.95723 K`，单周期 SCP 为 `0.3044
 取得合格独立冷态与末周期结果后，按第8节依次完成完整控制体/Eq.9/Eq.10、严格周期状态、固定 Tc outer solve、正交敏感性、paired zero-load/zero-lift endpoints 和 Table4，再完成最终 SCI 图集与实验验证计划。C200 继续只是冻结性能基准；当前修改模型无完整 Operating Point 恢复权限。本轮保留最新 v9 原始失败证据和组件源文件，只清理已完成运行的可再生 `cache/codegen`，记录逐文件 SHA-256/大小，主工作区继续只跟踪小型证据，不触碰隔离 SLX 修改和 Agent6。
 
 本次实际只清理 `66961 bytes` 缓存，不虚报大规模释放；v9 保留 `46` 文件、`1987474786 bytes`（约 1.851 GiB），不双份复制。治理快照 `workspace_governance_20261007_v9_closeout` 分类主仓库 outputs 与 outputs_storage_audit 为 `15.998214 GiB`，明确不包含 Agent6 或其他 worktree；C200/C180 四个权威文件哈希全部重新通过。综合回执 `v9_warmup20p_closeout_receipt.json` 固定执行、审核、拒绝标记及退役回执哈希。强化后的 v4 cold 分级在新回执 `qian_cold_stage4_v4_warmup_classification_r2.json` 中仍保持 strict seed false，只保留已执行过的一次 warmup 假设检验解释，不授权重复新长算。
+
+## 245. 因果21段压降前馈进入独立冷态路径（2026-10-07）
+
+§244 找到的物性基准和空间阻力问题不能分别用一个比例系数修补。本轮增加 opt-in `DistributedPressureFeedforwardDiagnostic`，只由独立 cold runner 调用，默认关闭，不接入生产恢复路径。
+
+新配置函数 `Configure_HeatDriveECC_DistributedPressureFeedforward.m` 用21个被动 Simscape Probe 输出物理 `SE/HoldPipe_001..021` 的内部流体 `T_I`，不读取固体温度、不导入旧轨迹；经同一 `0.001 s` 时钟的 Unit Delay 后，使用实际 Thermal Liquid Settings 的线性 `nu(T)` 表计算：
+
+`Delta_p_ff = -m_dot_target * sum_i(32 * L_i * nu(T_I_i[t-dt]) / (A * Dh^2)) / 1e6`。
+
+这是绝对层流床层压降，不再叠乘旧 `se_bed_dp_MPa/mu_reference` 或端点黏度倍率；Stage2/Stage4 使用同一共享床层的空间状态和各自原始目标命令。附属管路/阀损失仍由原PI补偿，原Kp/Ki、积分器、压力限幅、热容、buffer和本构均未改动。新增控制延迟是新独立冷态实验的控制状态，不是对C200恢复状态的替换或重置。
+
+新增6个 `distributed_*` 观测和专门合同；旧 endpoint 探针保留为对照，但明确不是新压力命令的权威。原生温度Probe的官方接口参考：[Simscape Probe](https://www.mathworks.com/help/simscape/ref/probe.html)、[VariableTable](https://www.mathworks.com/help/simscape/ref/simscape.probe.variabletable.html)。
+
+先执行全新10秒双臂包 `v10_distributed_ff_10s`，初始化仅用已限定的原始冷态 t=0 观测合同 `qian_cold_runtime_cv_contract_20261005_json_v2`，不导入v9端点或C200。该目录不得重跑；Python源回归 `597/597` 通过，但MATLAB编译、实际因果延迟、native变量单位、前馈方程、流量、压力和库存门禁仍必须由本次实际运行核验，不能因静态测试成功而提前宣称通过。

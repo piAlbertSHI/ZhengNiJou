@@ -20,7 +20,8 @@ param(
     [ValidateSet('arithmetic_blend','logarithmic_endpoint')]
     [string]$Stage4ViscosityClosure = 'arithmetic_blend',
     [ValidateSet(1,2,20)]
-    [int]$DiagnosticCycleCount = 1
+    [int]$DiagnosticCycleCount = 1,
+    [bool]$DistributedPressureFeedforwardDiagnostic = $false
 )
 
 Set-StrictMode -Version Latest
@@ -118,6 +119,7 @@ $contract = [ordered]@{
     stage4_commutation_precharge_fraction = $Stage4PrechargeFraction
     pressure_pi_error_filter_tau_s = $PressurePiErrorFilterTauS
     stage4_endpoint_viscosity_closure_mode = $Stage4ViscosityClosure
+    distributed_pressure_feedforward_diagnostic = $DistributedPressureFeedforwardDiagnostic
     runtime_evidence_only = (-not $InitialFluxCompensation)
     warmup_only_diagnostic = ($DiagnosticCycleCount -gt 1)
     requires_post_warmup_reaudit = ($DiagnosticCycleCount -gt 1)
