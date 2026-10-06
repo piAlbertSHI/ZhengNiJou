@@ -1,0 +1,69 @@
+{
+  "schema": "heatdrive_ecc_10s_seed_gate_v1",
+  "diagnostic_only": true,
+  "flow_and_inventory_gate": false,
+  "phase_bounds_and_solid_energy_gate": true,
+  "pressure_and_hydraulic_gate": true,
+  "phase_rows": [
+    {
+      "arm": "native",
+      "material": "SMA",
+      "all_node_phase_min": 5.538463831007061e-36,
+      "all_node_phase_max": 1.0,
+      "selected_solid_energy_gate": true,
+      "phase_bounds_and_solid_gate_pass": true
+    },
+    {
+      "arm": "native",
+      "material": "SE",
+      "all_node_phase_min": 0.0,
+      "all_node_phase_max": 0.9999999999975343,
+      "selected_solid_energy_gate": true,
+      "phase_bounds_and_solid_gate_pass": true
+    },
+    {
+      "arm": "conservative",
+      "material": "SMA",
+      "all_node_phase_min": 5.5386298174175644e-36,
+      "all_node_phase_max": 1.0,
+      "selected_solid_energy_gate": true,
+      "phase_bounds_and_solid_gate_pass": true
+    },
+    {
+      "arm": "conservative",
+      "material": "SE",
+      "all_node_phase_min": 0.0,
+      "all_node_phase_max": 0.9999999999975343,
+      "selected_solid_energy_gate": true,
+      "phase_bounds_and_solid_gate_pass": true
+    }
+  ],
+  "full_cycle_completed": true,
+  "periodic_steady_state": false,
+  "mechanism_gates_complete": false,
+  "diagnostic_20cycle_seed_eligible": false,
+  "strict_cold_window_tracking_gate": false,
+  "structural_flow_evidence_gate": true,
+  "late_convergence_stage": "stage4",
+  "late_convergence_gate": true,
+  "warmup_only_20cycle_diagnostic_eligible": true,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false,
+  "rejection_reasons": [
+    "10 s flow/inventory/initial-coordinate gate failed",
+    "strict cold-window tracking failed, but Stage-4 late convergence passed; warmup-only 20-cycle diagnostic is allowed"
+  ],
+  "input_sha256": {
+    "flow_audit": "44D95B9A8F416E74208A9DA5712F8E5C4B758E08A1A1028118ACE0EC67A32A53",
+    "pressure_audit": "873113A98AEA611D309FB5BDB8BEF40405FFA7802E06CE393346432348BE3453",
+    "execution": "D385AB2F8A5410EEFB7F10AF9EDD3A49EA6C58CBE5EFA3A11C6DF4CF48DE7229",
+    "native_observations": "D2F679211548726D1248FF0D267C62DDD90AB708BD42A3EB3615DAE375F88A69",
+    "conservative_observations": "5A849CCC472E12ADDC4842D1EBF2C6C4E395B09F8FDA2353B5208A47FFE1A5B7",
+    "reasonableness_audits": [
+      "AA9890AC8BB4E5048300E72467A90EC059870D06BF95DDF338E6B0C16D027651",
+      "EFC266609375585DC99E16527747CDFFF67504EA59EDD9719CEE174DD193E648"
+    ]
+  }
+}
