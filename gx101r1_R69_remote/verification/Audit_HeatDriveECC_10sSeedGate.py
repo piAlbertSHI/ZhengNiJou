@@ -1,6 +1,9 @@
-"""Combine the independent 10 s cold gates before authorizing a 20-cycle run.
+"""Classify independent 10 s cold evidence before a 20-cycle diagnostic.
 
-This gate authorizes only a fresh cold 20-cycle diagnostic.  It never grants
+The strict cold gate authorizes only a fresh cold 20-cycle diagnostic.  A
+separate warmup-only diagnostic classification is available when the full
+window fails only because the Stage-4 controller is still converging.  It
+never grants
 Operating-Point recovery, interpolation, outer-solve eligibility, periodic
 steady state, or a Table 4 claim.
 """
@@ -56,6 +59,28 @@ def flow_gate(flow: dict) -> bool:
     )
 
 
+def structural_flow_gate(flow: dict) -> bool:
+    """Check evidence/inventory structure without rebranding tracking failure."""
+    return bool(
+        flow.get("schema") == "heatdrive_ecc_cold_buffer_coupled_audit_v2"
+        and flow.get("evidence_audit_pass") is True
+        and flow.get("trajectory_compiled_inventory_gate") is True
+        and flow.get("local_inventory_conservation_pass") is True
+        and flow.get("strict_initial_coordinate_match") is True
+        and flow.get("production_recovery_allowed") is False
+        and len(flow.get("arms", [])) == 2
+        and all(check.get("passed") for check in flow.get("source_storage_port_checks", []))
+    )
+
+
+def late_convergence_gate(audits: list[dict], stage: str = "stage4") -> bool:
+    rows = []
+    for audit in audits:
+        row = audit.get("arm", {}).get("stages", {}).get(stage, {})
+        rows.append(row.get("late_convergence_tracking_pass") is True)
+    return bool(rows) and all(rows)
+
+
 def pressure_gate(pressure: dict) -> bool:
     return bool(
         pressure.get("schema") == "heatdrive_ecc_cold_pump_pressure_probe_audit_v1"
@@ -75,7 +100,8 @@ def pressure_gate(pressure: dict) -> bool:
     )
 
 
-def classify(flow: dict, pressure: dict, execution: dict) -> dict:
+def classify(flow: dict, pressure: dict, execution: dict,
+             reasonableness: list[dict] | None = None) -> dict:
     if (
         execution.get("schema") != "heatdrive_ecc_independent_cold_chamber_v2"
         or execution.get("collection_pass") is not True
@@ -89,16 +115,28 @@ def classify(flow: dict, pressure: dict, execution: dict) -> dict:
     ):
         raise ValueError("Execution is outside the independent 10 s cold seed contract")
     flow_ok = flow_gate(flow)
+    structural_flow_ok = structural_flow_gate(flow)
     pressure_ok = pressure_gate(pressure)
     phase_ok, phase_rows = phase_gate(flow)
     eligible = bool(flow_ok and pressure_ok and phase_ok)
+    reasonableness = reasonableness or []
+    late_ok = late_convergence_gate(reasonableness)
+    warmup_eligible = bool(
+        not eligible and structural_flow_ok and pressure_ok and phase_ok and late_ok
+    )
     reasons = []
     if not flow_ok:
         reasons.append("10 s flow/inventory/initial-coordinate gate failed")
+    if not structural_flow_ok:
+        reasons.append("10 s structural inventory/source evidence gate failed")
     if not phase_ok:
         reasons.append("phase bounds or solid energy gate failed")
     if not pressure_ok:
         reasons.append("independent pressure/probe/hydraulic gate failed")
+    if warmup_eligible:
+        reasons.append("strict cold-window tracking failed, but Stage-4 late convergence passed; warmup-only 20-cycle diagnostic is allowed")
+    elif reasonableness and not late_ok:
+        reasons.append("late-convergence diagnostic did not pass for every required arm")
     return {
         "schema": "heatdrive_ecc_10s_seed_gate_v1",
         "diagnostic_only": True,
@@ -110,6 +148,11 @@ def classify(flow: dict, pressure: dict, execution: dict) -> dict:
         "periodic_steady_state": False,
         "mechanism_gates_complete": False,
         "diagnostic_20cycle_seed_eligible": eligible,
+        "strict_cold_window_tracking_gate": flow_ok,
+        "structural_flow_evidence_gate": structural_flow_ok,
+        "late_convergence_stage": "stage4",
+        "late_convergence_gate": late_ok,
+        "warmup_only_20cycle_diagnostic_eligible": warmup_eligible,
         "production_recovery_allowed": False,
         "outer_solve_eligible": False,
         "paired_table4_eligible": False,
@@ -124,26 +167,32 @@ def main() -> int:
     parser.add_argument("--pressure-audit", type=Path, required=True)
     parser.add_argument("--execution", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--reasonableness-audit", type=Path, action="append", default=[])
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError("Never overwrite a seed-gate decision")
     flow, pressure, execution = map(read, (args.flow_audit, args.pressure_audit, args.execution))
-    result = classify(flow, pressure, execution)
+    result = classify(flow, pressure, execution, [read(path) for path in args.reasonableness_audit])
     result["input_sha256"] = {
         "flow_audit": sha256(args.flow_audit),
         "pressure_audit": sha256(args.pressure_audit),
         "execution": sha256(args.execution),
         "native_observations": execution["cases"][0]["observation_sha256"],
         "conservative_observations": execution["cases"][1]["observation_sha256"],
+        "reasonableness_audits": [sha256(path) for path in args.reasonableness_audit],
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(json.dumps({key: result[key] for key in (
         "flow_and_inventory_gate", "phase_bounds_and_solid_energy_gate",
         "pressure_and_hydraulic_gate", "diagnostic_20cycle_seed_eligible",
+        "warmup_only_20cycle_diagnostic_eligible",
         "production_recovery_allowed", "outer_solve_eligible",
         "paired_table4_eligible")}, indent=2))
-    return 0 if result["diagnostic_20cycle_seed_eligible"] else 1
+    return 0 if (
+        result["diagnostic_20cycle_seed_eligible"]
+        or result["warmup_only_20cycle_diagnostic_eligible"]
+    ) else 1
 
 
 if __name__ == "__main__":

@@ -5380,3 +5380,34 @@ v6 暴露的状态缺口已修复：`Start_HeatDriveECC_IndependentColdDiagnosti
 ### 240.3 高层诊断
 
 v6 与 v7 连续在相同的 `sim` 后阶段缺失完整 contract，说明当前主要瓶颈已经不是单个 Stage-4 参数或流量门限，而是长 MATLAB/Simscape 运行的进程托管和观测导出生命周期。继续调 `Kp`、`Ki`、trim 或放宽科学门禁不会增加信息量。下一步应先做一次不改变模型方程的运行环境/launcher 生命周期诊断：确认 MATLAB 退出码、父子进程关系、崩溃/被终止事件和 stdout/stderr 持久化；只有得到最终 contract 或明确的失败退出证据后，才允许新的独立 10 s 物理运行。
+
+## 241. 运行生命周期与审计层级修正（2026-10-06）
+
+### 241.1 运行证据改进
+
+launcher 已改为以一个前台 MATLAB 子进程运行并用 `Start-Process -Wait -PassThru` 固定记录 MATLAB PID 和退出码；MATLAB 正常返回、启动异常和非零退出均进入同一个 `finally` 收尾路径，尽可能写出 stdout/stderr、最终 `launcher_contract.json` 和 `REJECTED_DO_NOT_RESUME.txt`。冷态 runner 在每个 arm 的 `sim` 前新增 `simulation_start.json`，因此即使 MATLAB 在 `sim` 内被硬终止，也能明确区分“已开始仿真但未导出观测”和“尚未开始仿真”。该修改不改变模型方程、初始状态、热容、buffer、本构状态、温度、相分数或 PI 记忆。
+
+### 241.2 审计合理性判断
+
+当前 SE Stage-4 `max_abs_relative_error=15%` 与 `RMS=5%` 是短时跟踪门禁，不应被解释为传输质量守恒或周期稳态证明。已有 reasonableness meta-audit 已明确把 instantaneous tracking 与 transported mass 分开，并将被控制器过渡覆盖的窗口标为 `non_settled_transition_window`；当前 seed gate 仍保持保守拒绝，因为它只授权进入 20-cycle 诊断，不能替代 20-cycle periodic/near-steady、完整控制体和 Eq.9/Eq.10 审核。端点残差、压力范围和 `P*q` 液压功分别是局部诊断，不能单独放行流量、整机第一定律、COP 或 Table 4。
+
+因此本轮没有放宽任何失败门禁，也没有把 stale `running` contract 当作“运行中”。v6/v7 的正确分类是 lifecycle/evidence incomplete；v4/v5t 的正确分类是 physical Stage-4 flow rejected。两类证据必须分开，禁止继续以 Kp/Ki/trim 扫描掩盖运行环境缺口。
+
+## 242. v4 冷态门禁的分级判定（2026-10-06）
+
+### 242.1 严格门禁与收敛诊断分离
+
+对已完成且哈希固定的 v4 native/conservative 观测重新运行了 reasonableness meta-audit。完整 SE Stage-4 settled window（约 `8.800--9.699 s`）的 RMS 相对误差为 `8.2451%`，所以原有 `max_abs=15%` 且 `RMS=5%` 的严格冷态 flow gate 仍为 false，不能直接把 v4 当作已通过的 20-cycle seed。
+
+但同一窗口的后 20% 收敛子窗（约 `9.520--9.699 s`）在两臂均通过 instantaneous tracking 条件：RMS 约 `4.390%`，最大相对误差约 `6.786%`，且 native/conservative 差异低于诊断分辨率。这个结果说明 Stage-4 控制器在单周期末端仍在收敛；它不能证明周期稳态，却足以说明“整个冷态窗口失败”不应被直接升级为“模型机制永久失败”。
+
+### 242.2 新分类及权限边界
+
+`Audit_HeatDriveECC_10sSeedGate.py` 现在同时输出：
+
+- `diagnostic_20cycle_seed_eligible=false`：严格冷态窗口仍未通过；
+- `warmup_only_20cycle_diagnostic_eligible=true`：结构、库存、初始坐标、压力、相分数和固体能量均通过，且 Stage-4 后段收敛通过。
+
+该 warmup 权限只允许启动一次全新、不可恢复的 20-cycle 诊断，用来检验最后周期的流量、周期稳态、Eq.9/Eq.10 和机制门禁；它不允许导入 C200、生成 Operating Point 恢复源、插值、outer solve、敏感性、paired endpoint 或 Table 4。若 20-cycle 最后周期不通过，仍只生成 rejected diagnostic package。
+
+本轮新增回执/分类结果：`gx101r1_R69_remote/outputs_storage_audit/qian_cold_stage4_v4_warmup_classification_r1.json`；reasonableness 结果位于 `qian_cold_stage4_v4_reasonableness_r1`。这是审计语义的合理化，不是放宽物理验收标准。

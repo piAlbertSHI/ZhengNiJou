@@ -99,7 +99,10 @@ def transition_overlap(execution: dict, start_s: float, stop_s: float) -> dict:
 
 def audit_arm(observations: Path, execution: dict, target_kg_s: float,
               ramp_s: float, settled_guard_s: float,
-              max_relative_error: float, rms_relative_error: float) -> dict:
+              max_relative_error: float, rms_relative_error: float,
+              late_window_fraction: float = 0.20) -> dict:
+    if not 0.0 < late_window_fraction <= 1.0:
+        raise ValueError("late_window_fraction must be in (0, 1]")
     with h5py.File(observations, "r") as handle:
         group = handle["signals"]
         time_s = np.asarray(group["mass_flow_v4_hot_inlet_kgps/time_s"][0], dtype=float)
@@ -120,6 +123,21 @@ def audit_arm(observations: Path, execution: dict, target_kg_s: float,
                 target_kg_s,
                 max_relative_error,
                 rms_relative_error,
+            )
+            late_start = stop - (stop - start) * late_window_fraction
+            late_metrics = window_metrics(
+                time_s,
+                np.asarray(group[f"{signal}/values"][0], dtype=float),
+                late_start,
+                stop,
+                target_kg_s,
+                max_relative_error,
+                rms_relative_error,
+            )
+            late_metrics["window_role"] = "late_convergence_diagnostic"
+            metrics["late_convergence_window"] = late_metrics
+            metrics["late_convergence_tracking_pass"] = bool(
+                late_metrics["instantaneous_tracking_gate_pass"]
             )
             metrics["controller_transition"] = transition_overlap(
                 execution, start, stop
@@ -147,6 +165,7 @@ def main() -> int:
     parser.add_argument("--settled-guard-s", type=float, default=0.30)
     parser.add_argument("--max-relative-error", type=float, default=0.15)
     parser.add_argument("--rms-relative-error", type=float, default=0.05)
+    parser.add_argument("--late-window-fraction", type=float, default=0.20)
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError("Never overwrite a reasonableness audit")
@@ -161,6 +180,7 @@ def main() -> int:
             "se_settled_guard_s": args.settled_guard_s,
             "max_instantaneous_relative_error": args.max_relative_error,
             "max_rms_relative_error": args.rms_relative_error,
+            "late_window_fraction": args.late_window_fraction,
         },
         "execution_sha256": sha256(args.execution),
         "arm": audit_arm(
@@ -171,6 +191,7 @@ def main() -> int:
             args.settled_guard_s,
             args.max_relative_error,
             args.rms_relative_error,
+            args.late_window_fraction,
         ),
         "production_recovery_allowed": False,
         "diagnostic_20cycle_seed_eligible": False,
