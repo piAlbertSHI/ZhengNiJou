@@ -5411,3 +5411,15 @@ launcher 已改为以一个前台 MATLAB 子进程运行并用 `Start-Process -W
 该 warmup 权限只允许启动一次全新、不可恢复的 20-cycle 诊断，用来检验最后周期的流量、周期稳态、Eq.9/Eq.10 和机制门禁；它不允许导入 C200、生成 Operating Point 恢复源、插值、outer solve、敏感性、paired endpoint 或 Table 4。若 20-cycle 最后周期不通过，仍只生成 rejected diagnostic package。
 
 本轮新增回执/分类结果：`gx101r1_R69_remote/outputs_storage_audit/qian_cold_stage4_v4_warmup_classification_r1.json`；reasonableness 结果位于 `qian_cold_stage4_v4_reasonableness_r1`。这是审计语义的合理化，不是放宽物理验收标准。
+
+## 243. v8 warmup 运行的 launcher 假成功与后置合同（2026-10-06）
+
+### 243.1 事实
+
+按 §242 的 warmup-only 权限启动了全新 20-cycle、200 s 诊断 `v8_warmup20p`。launcher 返回码曾记录为 `0`，但输出目录只有空的 stdout/stderr 和 wrapper contract；没有 MATLAB diary、`cold_chamber_execution.json`、native/conservative `observations.mat`、`simulation_start.json` 或任何物理轨迹。故 v8 没有运行完成证据，不能进入任何流量、周期或机制审核。
+
+### 243.2 高层原因与修正
+
+尝试用 `Start-Process -Wait` 捕获 MATLAB PID 后发现 MATLAB Windows wrapper 可以在 batch worker 产生物理输出前返回 `0`，导致“launcher completed”被错误地当成“simulation completed”。该方案已撤回，恢复直接前台 `& matlab` 调用；同时 launcher 新增物理后置合同：只有存在 `cold_chamber_execution.json` 且 `collection_pass=true` 时才允许最终 `exit_code=0`，否则强制转为失败码 `9008` 并写入失败标记。
+
+v8 回执为 `gx101r1_R69_remote/outputs_storage_audit/qian_cold_stage4_v8_warmup20_incomplete_receipt.json`，原始目录已写入 `INCOMPLETE_DO_NOT_RESUME.txt`。这次失败是 launcher 生命周期/后置验证问题，不是 SMA-SE 物理门禁失败；v8 禁止续写、恢复和传播。

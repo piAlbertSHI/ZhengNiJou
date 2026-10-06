@@ -170,13 +170,12 @@ if (-not (Test-Path -LiteralPath $matlab -PathType Leaf)) { throw "MATLAB execut
 $started = Get-Date
 $exitCode = 9009
 $launchException = $null
-$matlabProcess = $null
 try {
-    # Keep MATLAB as one foreground child with explicit PID/exit-code capture.
-    # Start-Process -Wait preserves the real-process wait contract while making
-    # hard MATLAB returns distinguishable from a launcher exception.
-    $matlabProcess = Start-Process -FilePath $matlab -ArgumentList @('-batch', $batch) -RedirectStandardOutput $stdoutTemp -RedirectStandardError $stderrTemp -Wait -PassThru
-    $exitCode = $matlabProcess.ExitCode
+    # The MATLAB Windows launcher must be invoked directly.  Start-Process
+    # waits for the wrapper process but can return before the MATLAB batch
+    # worker has produced any physical evidence.
+    & $matlab '-batch' $batch 1> $stdoutTemp 2> $stderrTemp
+    $exitCode = $LASTEXITCODE
 } catch {
     $launchException = $_.Exception.ToString()
 }
@@ -189,15 +188,27 @@ finally {
     if (Test-Path -LiteralPath $stderrTemp -PathType Leaf) {
         Move-Item -LiteralPath $stderrTemp -Destination (Join-Path $OutputRoot 'matlab_stderr.log') -Force
     }
+    $executionPath = Join-Path $OutputRoot 'cold_chamber_execution.json'
+    $physicalExecutionContractPresent = Test-Path -LiteralPath $executionPath -PathType Leaf
+    $physicalCollectionPass = $false
+    if ($physicalExecutionContractPresent) {
+        try {
+            $executionRecord = Get-Content -LiteralPath $executionPath -Raw | ConvertFrom-Json
+            $physicalCollectionPass = [bool]$executionRecord.collection_pass
+        } catch {
+            $physicalCollectionPass = $false
+        }
+    }
+    # A zero exit code without the runner's final physical contract is a
+    # launcher false-positive, never a completed diagnostic.
+    if ($exitCode -eq 0 -and -not $physicalCollectionPass) { $exitCode = 9008 }
     $contract.completed_at = (Get-Date).ToString('o')
     $contract.lifecycle_state = if ($exitCode -eq 0) { 'completed' } else { 'failed' }
     $contract.exit_code = $exitCode
     $contract.wall_seconds = ((Get-Date) - $started).TotalSeconds
     $contract.launch_exception = $launchException
-    if ($null -ne $matlabProcess) {
-        $contract.matlab_process_id = $matlabProcess.Id
-        $contract.matlab_process_name = $matlabProcess.ProcessName
-    }
+    $contract.physical_execution_contract_present = $physicalExecutionContractPresent
+    $contract.physical_collection_pass = $physicalCollectionPass
     $contract | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $OutputRoot 'launcher_contract.json') -Encoding utf8
     Remove-Item -LiteralPath $earlyContractPath -Force -ErrorAction SilentlyContinue
     if ($exitCode -ne 0 -and -not (Test-Path -LiteralPath (Join-Path $OutputRoot 'REJECTED_DO_NOT_RESUME.txt'))) {
