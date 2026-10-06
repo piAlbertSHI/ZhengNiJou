@@ -1,0 +1,26 @@
+{
+  "schema": "heatdrive_ecc_controller_execution_mismatch_v1",
+  "execution_commit": "133acfc1a125c52fa188b5463774b194d02ee950",
+  "experiment_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v10_distributed_ff_10s",
+  "status": "rejected_requested_controller_not_executed",
+  "physical_collection_pass": true,
+  "process_exit_code": 0,
+  "wall_seconds": 5550.8869146,
+  "requested_distributed_controller": true,
+  "actual_distributed_controller": false,
+  "distributed_signal_count": 0,
+  "distributed_contract_present": false,
+  "reason": "The launcher receipt carried the flag, but the MATLAB input JSON omitted it. The runner silently defaulted to legacy feedforward.",
+  "not_a_distributed_controller_scientific_failure": true,
+  "do_not_use_as_initialization_source": true,
+  "production_recovery_allowed": false,
+  "raw_retained_in_single_worktree_copy": true,
+  "sha256": {
+    "cold_chamber_execution.json": "44C5D0DA9EDBFFB3C455BF7E5B43C0954177F2C127AE953853E00A417F28B8E7",
+    "../v10_distributed_ff_10s.launcher_config.json": "939BCA650F32E3CC71F0329E9FB639DDCA2D5A67EF0F3E68F2A72B091718F02D",
+    "launcher_contract.json": "EED909CDBCC712172B774BD315348F27BEC335655104E1201AC24A35E52574C9",
+    "native/observations.mat": "5D494DE9E398244ECDEBCD1854C2FC3C0E755C275C58BC31C3719B808778889F",
+    "conservative/observations.mat": "731E4832FEE95FB75096AFC566A32A7307F98D6F5B16906A18C9E4FE0054D7EA",
+    "REJECTED_DO_NOT_RESUME.txt": "4E47F43E87B20AA28B95D305859DA7CF53CD62D958448EF776DE892BEB536E19"
+  }
+}

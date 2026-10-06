@@ -9,6 +9,7 @@ function result = Verify_HeatDriveECC_DistributedFeedforwardWiring(repo, source_
     overrides.simulation.persist_model_configuration=false;
     overrides.simulation.resume_checkpoint_path='';
     overrides.branch.se_distributed_pressure_feedforward_diagnostic=true;
+    load_system(overrides.branch.independent_conservative_chamber_library);
     [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(overrides);
     cleanup=onCleanup(@() close_system(model,0));
     contract=Configure_HeatDriveECC_DistributedPressureFeedforward(model,options);
