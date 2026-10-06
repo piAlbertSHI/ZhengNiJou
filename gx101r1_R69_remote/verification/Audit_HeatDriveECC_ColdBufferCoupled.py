@@ -247,6 +247,13 @@ INITIAL_FLUX_COMPENSATION_PRODUCERS = {
 }
 BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffer', 'SMAHotFluidBuffer')}
 
+# Relative to 36a1dcc, this execution adds two observational taps and a
+# pre-sim JSON marker only; plant/initialization/pressure sources are unchanged.
+WARMUP20_OBSERVATION_PRODUCER = '0c1f81076b47b9b3b5937ef7e172a79efa05b400'
+for producers in (CALIBRATION_MIRROR_PRODUCERS, ZERO_BASED_OFFSET_PRODUCERS,
+                  ENDPOINT_CHAMBER_PRODUCERS, INITIAL_FLUX_COMPENSATION_PRODUCERS):
+    producers.add(WARMUP20_OBSERVATION_PRODUCER)
+
 
 def stage_totals_window(histories, time):
     """Partition an absolute logged window into repeated 10 s cycle phases."""

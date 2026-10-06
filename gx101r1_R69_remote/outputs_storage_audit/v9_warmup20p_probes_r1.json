@@ -1,0 +1,427 @@
+{
+  "schema": "heatdrive_ecc_stage4_controller_probe_audit_v1",
+  "diagnostic_only": true,
+  "logged_window_start_s": 180.0,
+  "logged_window_stop_s": 200.0,
+  "expected_probe_count_v1": 17,
+  "expected_probe_count_v2": 21,
+  "expected_probe_count_v3": 22,
+  "expected_probe_count_v4": 24,
+  "provenance_gate": true,
+  "case_probe_gate": true,
+  "arms": [
+    {
+      "arm": "native",
+      "contract_gate": true,
+      "signal_gate": true,
+      "probe_count": 24,
+      "signals": [
+        {
+          "signal": "stage4_inlet_temperature_delay",
+          "samples": 20001,
+          "min": 302.9764821464415,
+          "max": 313.53115889313193,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_outlet_temperature_delay",
+          "samples": 20001,
+          "min": 265.8368860735753,
+          "max": 277.159242734395,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_feedforward_activity",
+          "samples": 20001,
+          "min": 0.0,
+          "max": 1.0,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_inlet_viscosity",
+          "samples": 20001,
+          "min": 0.0022224514617647352,
+          "max": 0.003910725908350353,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_outlet_viscosity",
+          "samples": 20001,
+          "min": 0.014853556836921834,
+          "max": 0.029377509918800383,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_endpoint_viscosity_mean",
+          "samples": 20001,
+          "min": 0.009071323375612806,
+          "max": 0.016562686397211878,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_blended_viscosity",
+          "samples": 20001,
+          "min": 0.009071323375612806,
+          "max": 0.016562686397211878,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_viscosity_ratio",
+          "samples": 20001,
+          "min": 2.3366969059601796,
+          "max": 4.266409260946369,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_weighted_viscosity_delta",
+          "samples": 20001,
+          "min": 0.003328483408957892,
+          "max": 0.009639830647262147,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_feedforward_ratio_sum",
+          "samples": 20001,
+          "min": 1.0,
+          "max": 4.266409260946369,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_dynamic_feedforward",
+          "samples": 20001,
+          "min": -0.4154614662965106,
+          "max": -1e-06,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_normalized_error",
+          "samples": 20001,
+          "min": -0.0030335089735383674,
+          "max": 0.0025439084639082093,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_filtered_error",
+          "samples": 20001,
+          "min": -0.000529081701293965,
+          "max": 0.001973227234909121,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_p_output",
+          "samples": 20001,
+          "min": -0.22220958650231415,
+          "max": 0.04808972065406946,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_p_enable_scale",
+          "samples": 20001,
+          "min": 0.0,
+          "max": 1.0,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_flow_error",
+          "samples": 20001,
+          "min": -0.0030335089735383674,
+          "max": 0.0025439084639082093,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_integrator_input",
+          "samples": 20001,
+          "min": -0.13376547465725125,
+          "max": 0.09571761251587134,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_integrator_state",
+          "samples": 20001,
+          "min": -0.012966284211967518,
+          "max": 0.014469063338102701,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_integrator_output_gate",
+          "samples": 20001,
+          "min": -0.012966284211967518,
+          "max": 0.014469063338102701,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_route_integral",
+          "samples": 20001,
+          "min": -0.060182271214161,
+          "max": 0.014469063338102701,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_bias_sum",
+          "samples": 20001,
+          "min": -0.4379237039126866,
+          "max": -1e-06,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_pressure_command",
+          "samples": 20001,
+          "min": -0.4379237039126866,
+          "max": -1e-06,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_target_flow_command",
+          "samples": 20001,
+          "min": 0.0,
+          "max": 0.0032,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_pressure_bias_command",
+          "samples": 20001,
+          "min": -0.09737965602586225,
+          "max": -1e-06,
+          "finite": true,
+          "time_grid_pass": true
+        }
+      ]
+    },
+    {
+      "arm": "conservative",
+      "contract_gate": true,
+      "signal_gate": true,
+      "probe_count": 24,
+      "signals": [
+        {
+          "signal": "stage4_inlet_temperature_delay",
+          "samples": 20001,
+          "min": 302.9764821464415,
+          "max": 313.53115889313193,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_outlet_temperature_delay",
+          "samples": 20001,
+          "min": 265.8368860735753,
+          "max": 277.159242734395,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_feedforward_activity",
+          "samples": 20001,
+          "min": 0.0,
+          "max": 1.0,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_inlet_viscosity",
+          "samples": 20001,
+          "min": 0.0022224514617647352,
+          "max": 0.003910725908350353,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_outlet_viscosity",
+          "samples": 20001,
+          "min": 0.014853556836921834,
+          "max": 0.029377509918800383,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_endpoint_viscosity_mean",
+          "samples": 20001,
+          "min": 0.009071323375612806,
+          "max": 0.016562686397211878,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_blended_viscosity",
+          "samples": 20001,
+          "min": 0.009071323375612806,
+          "max": 0.016562686397211878,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_viscosity_ratio",
+          "samples": 20001,
+          "min": 2.3366969059601796,
+          "max": 4.266409260946369,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_weighted_viscosity_delta",
+          "samples": 20001,
+          "min": 0.003328483408957892,
+          "max": 0.009639830647262147,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_feedforward_ratio_sum",
+          "samples": 20001,
+          "min": 1.0,
+          "max": 4.266409260946369,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_dynamic_feedforward",
+          "samples": 20001,
+          "min": -0.4154614662965106,
+          "max": -1e-06,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_normalized_error",
+          "samples": 20001,
+          "min": -0.0030335089735383674,
+          "max": 0.0025439084639082093,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_filtered_error",
+          "samples": 20001,
+          "min": -0.000529081701293965,
+          "max": 0.001973227234909121,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_p_output",
+          "samples": 20001,
+          "min": -0.22220958650231415,
+          "max": 0.04808972065406946,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_p_enable_scale",
+          "samples": 20001,
+          "min": 0.0,
+          "max": 1.0,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_flow_error",
+          "samples": 20001,
+          "min": -0.0030335089735383674,
+          "max": 0.0025439084639082093,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_integrator_input",
+          "samples": 20001,
+          "min": -0.13376547465725125,
+          "max": 0.09571761251587134,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_integrator_state",
+          "samples": 20001,
+          "min": -0.012966284211967518,
+          "max": 0.014469063338102701,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_integrator_output_gate",
+          "samples": 20001,
+          "min": -0.012966284211967518,
+          "max": 0.014469063338102701,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_route_integral",
+          "samples": 20001,
+          "min": -0.060182271214161,
+          "max": 0.014469063338102701,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_bias_sum",
+          "samples": 20001,
+          "min": -0.4379237039126866,
+          "max": -1e-06,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_pressure_command",
+          "samples": 20001,
+          "min": -0.4379237039126866,
+          "max": -1e-06,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_target_flow_command",
+          "samples": 20001,
+          "min": 0.0,
+          "max": 0.0032,
+          "finite": true,
+          "time_grid_pass": true
+        },
+        {
+          "signal": "stage4_pressure_bias_command",
+          "samples": 20001,
+          "min": -0.09737965602586225,
+          "max": -1e-06,
+          "finite": true,
+          "time_grid_pass": true
+        }
+      ]
+    }
+  ],
+  "coverage_gate": true,
+  "production_recovery_allowed": false,
+  "seed_eligible": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false,
+  "input_sha256": {
+    "cold_chamber_execution.json": "4FB72BFF9640F77DFD5A4BE2411CE68032CD2373ECE2C09D47D41ED0AFC9DF2E",
+    "native_observations.mat": "C37B5CA9A2033C898162A335C6529B238227C4EBD6796B678A3DAE70E2B25220",
+    "conservative_observations.mat": "61EA6A4E0E00431F94E12E8BDFA028CA62510FB81F73F4A84CBD589C03B5AF34",
+    "native_probe_contract": "AE218A977B8BE4EBF8C8B8CBC153B755B90275ED07BA2FE7518FC40B8C11560A",
+    "conservative_probe_contract": "BEAEF5B091EB04DA24E3B7D2B3E1F9A306F7DB928C7815EA350E1023CE43D6F8"
+  }
+}

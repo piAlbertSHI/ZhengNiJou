@@ -1,0 +1,96 @@
+{
+  "schema": "heatdrive_ecc_stage4_distributed_resistance_v1",
+  "diagnostic_only": true,
+  "arms": [
+    {
+      "arm": "native",
+      "window_s": [
+        198.80100000000002,
+        199.85
+      ],
+      "native_samples": 1050,
+      "segment_count": 21,
+      "bed_length_m": 0.3784329091968728,
+      "target_kg_s": 0.0032,
+      "reference_temperature_K": 303.15,
+      "legacy_reference_viscosity_Pa_s": 0.00330735934424454,
+      "runtime_controller_reference_viscosity_Pa_s": 0.0038821138301996763,
+      "legacy_reference_bed_loss_MPa": 0.09737965602586225,
+      "runtime_table_reference_bed_loss_MPa": 0.1143008217511026,
+      "legacy_vs_runtime_reference_loss_relative_error": -0.14804063055720873,
+      "feedforward_activity_range": [
+        1.0,
+        1.0
+      ],
+      "feedforward_bias_times_ratio_max_abs_residual_MPa": 0.0,
+      "native_loss_range_MPa": [
+        0.284708683949964,
+        0.43256207340901826
+      ],
+      "distributed_laminar_vs_native_rms_relative_error": 0.003653352049523088,
+      "endpoint_vs_distributed_viscosity_mean_relative_error": 0.2338863531133744,
+      "feedforward_vs_frozen_target_bed_loss_mean_relative_error": 0.06020658723387647,
+      "feedforward_vs_frozen_target_bed_loss_range_relative_error": [
+        -0.20023298636208675,
+        0.37797046890872243
+      ],
+      "axial_temperature_span_range_K": [
+        32.498921341717505,
+        37.384524381457766
+      ],
+      "bed_flow_vs_route_flow_max_abs_kg_s": 5.397158223422946e-08,
+      "scope": "Bed only; accessories, valve loss and route-source mapping not removed. Closed-loop trajectories do not identify an intervention."
+    },
+    {
+      "arm": "conservative",
+      "window_s": [
+        198.80100000000002,
+        199.85
+      ],
+      "native_samples": 1050,
+      "segment_count": 21,
+      "bed_length_m": 0.3784329091968728,
+      "target_kg_s": 0.0032,
+      "reference_temperature_K": 303.15,
+      "legacy_reference_viscosity_Pa_s": 0.00330735934424454,
+      "runtime_controller_reference_viscosity_Pa_s": 0.0038821138301996763,
+      "legacy_reference_bed_loss_MPa": 0.09737965602586225,
+      "runtime_table_reference_bed_loss_MPa": 0.1143008217511026,
+      "legacy_vs_runtime_reference_loss_relative_error": -0.14804063055720873,
+      "feedforward_activity_range": [
+        1.0,
+        1.0
+      ],
+      "feedforward_bias_times_ratio_max_abs_residual_MPa": 0.0,
+      "native_loss_range_MPa": [
+        0.284708683949964,
+        0.43256207340901826
+      ],
+      "distributed_laminar_vs_native_rms_relative_error": 0.003653352049523088,
+      "endpoint_vs_distributed_viscosity_mean_relative_error": 0.2338863531133744,
+      "feedforward_vs_frozen_target_bed_loss_mean_relative_error": 0.06020658723387647,
+      "feedforward_vs_frozen_target_bed_loss_range_relative_error": [
+        -0.20023298636208675,
+        0.37797046890872243
+      ],
+      "axial_temperature_span_range_K": [
+        32.498921341717505,
+        37.384524381457766
+      ],
+      "bed_flow_vs_route_flow_max_abs_kg_s": 5.397158223422946e-08,
+      "scope": "Bed only; accessories, valve loss and route-source mapping not removed. Closed-loop trajectories do not identify an intervention."
+    }
+  ],
+  "causal_direction_identified": false,
+  "production_recovery_allowed": false,
+  "table4_reproduction_claim": false,
+  "input_sha256": {
+    "cold_chamber_execution.json": "4FB72BFF9640F77DFD5A4BE2411CE68032CD2373ECE2C09D47D41ED0AFC9DF2E",
+    "native\\observations.mat": "C37B5CA9A2033C898162A335C6529B238227C4EBD6796B678A3DAE70E2B25220",
+    "native\\configuration.mat": "BDEE2A9387066F3B7FA8F763A2D78EBFD9DBC5BC8365E850ABD5BDC6E4386AFF",
+    "native\\inventory_metadata.json": "87ED582458F05337C43B425770B7A1199DFDA0C249341B5D1D88B10C28293682",
+    "conservative\\observations.mat": "61EA6A4E0E00431F94E12E8BDFA028CA62510FB81F73F4A84CBD589C03B5AF34",
+    "conservative\\configuration.mat": "9B196F53683CB1179E27ADFB40AA8477505D0A2BAFD296629961203AF2455227",
+    "conservative\\inventory_metadata.json": "87ED582458F05337C43B425770B7A1199DFDA0C249341B5D1D88B10C28293682"
+  }
+}

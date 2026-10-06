@@ -1,6 +1,6 @@
 import unittest
 
-from Audit_HeatDriveECC_10sSeedGate import classify
+from Audit_HeatDriveECC_10sSeedGate import classify, late_convergence_gate, only_stage4_tracking_failed
 
 
 def _flow(pass_value=True):
@@ -9,7 +9,8 @@ def _flow(pass_value=True):
         "all_node_phase_max": 1.0,
         "selected_solid_energy_gate": pass_value,
     }
-    gates = [{"selected_flow_gate": pass_value}]
+    gates = [{"component": material, "stage": stage, "selected_flow_gate": pass_value}
+             for material, stages in (("SMA", (1,2,3,4)), ("SE", (2,4))) for stage in stages]
     return {
         "schema": "heatdrive_ecc_cold_buffer_coupled_audit_v2",
         "evidence_audit_pass": pass_value,
@@ -18,7 +19,7 @@ def _flow(pass_value=True):
         "local_inventory_conservation_pass": pass_value,
         "strict_initial_coordinate_match": pass_value,
         "production_recovery_allowed": False,
-        "source_storage_port_checks": [{"passed": pass_value}],
+        "source_storage_port_checks": [{"passed": pass_value}, {"passed": pass_value}],
         "arms": [
             {"arm": "native", "selected_flow_gates": gates,
              "selected_solid_balances": {"SMA": solid, "SE": solid}},
@@ -59,6 +60,41 @@ def _execution():
 
 
 class TenSecondSeedGateTests(unittest.TestCase):
+    def test_late_window_cannot_authorize_missing_or_unrelated_arms(self):
+        execution = _execution()
+        for i, case in enumerate(execution["cases"]):
+            case["observation_sha256"] = str(i) * 64
+        audits = [{
+            "schema": "heatdrive_ecc_se_flow_gate_reasonableness_v1",
+            "gate_thresholds_unchanged": True,
+            "input_contract": {"late_window_fraction": .20},
+            "arm": {"observations_sha256": str(i) * 64,
+                    "stages": {"stage4": {"late_convergence_tracking_pass": True,
+                                           "reverse_flow_fraction": 0.0,
+                                           "near_zero_flow_fraction": 0.0}}},
+        } for i in range(2)]
+        self.assertTrue(late_convergence_gate(audits, execution))
+        self.assertFalse(late_convergence_gate(audits[:1], execution))
+        self.assertFalse(late_convergence_gate([audits[0], audits[0]], execution))
+        audits[1]["arm"]["stages"]["stage4"]["reverse_flow_fraction"] = .01
+        self.assertFalse(late_convergence_gate(audits, execution))
+
+    def test_missing_flow_rows_cannot_be_called_stage4_only_failure(self):
+        flow = _flow()
+        flow["arms"][0]["selected_flow_gates"] = []
+        self.assertFalse(only_stage4_tracking_failed(flow))
+        self.assertFalse(classify(flow, _pressure(), _execution())["diagnostic_20cycle_seed_eligible"])
+
+    def test_missing_solid_material_cannot_pass_phase_gate(self):
+        flow = _flow()
+        del flow["arms"][0]["selected_solid_balances"]["SE"]
+        self.assertFalse(classify(flow, _pressure(), _execution())["diagnostic_20cycle_seed_eligible"])
+
+    def test_empty_source_port_checks_cannot_pass(self):
+        flow = _flow()
+        flow["source_storage_port_checks"] = []
+        self.assertFalse(classify(flow, _pressure(), _execution())["diagnostic_20cycle_seed_eligible"])
+
     def test_pass_authorizes_only_fresh_20_cycle_seed(self):
         result = classify(_flow(), _pressure(), _execution())
         self.assertTrue(result["diagnostic_20cycle_seed_eligible"])

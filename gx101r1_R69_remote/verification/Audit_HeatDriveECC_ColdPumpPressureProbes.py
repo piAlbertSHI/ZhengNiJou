@@ -88,6 +88,8 @@ PRODUCERS = {
     "36a1dccf485d2bcb909a5cea0e31dd2d11ab6461",
 }
 PRESSURE_MIN_MPA = 0.45
+# v9 adds observational Stage-4 input taps and a pre-sim marker only.
+PRODUCERS.add('0c1f81076b47b9b3b5937ef7e172a79efa05b400')
 PRESSURE_MAX_MPA = 5.0
 EXPECTED = {
     "heatdrive_ecc_coupled_se21/SMA Pressure Source (TL)": (

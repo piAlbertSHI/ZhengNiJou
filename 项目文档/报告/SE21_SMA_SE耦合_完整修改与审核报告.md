@@ -5423,3 +5423,67 @@ launcher 已改为以一个前台 MATLAB 子进程运行并用 `Start-Process -W
 尝试用 `Start-Process -Wait` 捕获 MATLAB PID 后发现 MATLAB Windows wrapper 可以在 batch worker 产生物理输出前返回 `0`，导致“launcher completed”被错误地当成“simulation completed”。该方案已撤回，恢复直接前台 `& matlab` 调用；同时 launcher 新增物理后置合同：只有存在 `cold_chamber_execution.json` 且 `collection_pass=true` 时才允许最终 `exit_code=0`，否则强制转为失败码 `9008` 并写入失败标记。
 
 v8 回执为 `gx101r1_R69_remote/outputs_storage_audit/qian_cold_stage4_v8_warmup20_incomplete_receipt.json`，原始目录已写入 `INCOMPLETE_DO_NOT_RESUME.txt`。这次失败是 launcher 生命周期/后置验证问题，不是 SMA-SE 物理门禁失败；v8 禁止续写、恢复和传播。
+
+## 244. 20-cycle 实测结果与系统层诊断（2026-10-07）
+
+### 244.1 实际完成的进展
+
+`v9_warmup20p` 在执行提交 `0c1f81076b47b9b3b5937ef7e172a79efa05b400` 上完成独立冷态 native/conservative 双臂 20-cycle、0--200 s 仿真。一次前台启动，使用同一 session 等待自然结束；2026-10-06 23:37:58 开始，2026-10-07 05:21:49 结束，wall `20631.0029 s`，退出码 0，最终物理 `collection_pass=true`。这次是实际物理计算完成，不是旧 v8 的 launcher 假成功。没有导入 C200、没有保存 checkpoint，失败结果不得成为下一轮初始化源。
+
+原始包只保留在受管控工作树 `C:\Users\86182\.codex\worktrees\runtime-cv-json-contract\正逆耦合\gx101r1_R69_remote\outputs\v9_warmup20p`；不再复制一份到主工作区。两臂各收集 119 个库存组件、1262 条 native traces、49 个源端口、6 个压力探针和 24 个 Stage4 控制探针，native Simscape 日志覆盖末两周期 180--200 s。哈希：
+
+- execution：`4FB72BFF9640F77DFD5A4BE2411CE68032CD2373ECE2C09D47D41ED0AFC9DF2E`。
+- native observation：`C37B5CA9A2033C898162A335C6529B238227C4EBD6796B678A3DAE70E2B25220`。
+- conservative observation：`61EA6A4E0E00431F94E12E8BDFA028CA62510FB81F73F4A84CBD589C03B5AF34`。
+
+本次两臂的末周期数值相同，源于两臂使用同一已修正方程和匹配初始化；不能称为两个独立模型相互验证。
+
+### 244.2 真实失败与未完成事项
+
+证据、初始 204 坐标匹配、局部库存账本、源端口、独立压力范围和探针覆盖通过；SMA 四阶段流量、SE Stage2、相分数范围和所选固体能量账本通过。局部源减库存残差约 `1.13e-10 J`，只证明所选局部账本，不是整机第一定律。
+
+SE Stage4 仍失败，且换回生产验证器窗口后也失败：
+
+| 审查窗口 | 流量均值 kg/s | RMS 相对误差 | 最大相对误差 | 判断 |
+| --- | ---: | ---: | ---: | --- |
+| Python 对称窗口约 198.800--199.699 s | 0.003199534 | 8.5448% | 16.3934% | 未通过 |
+| 生产窗口 198.801--199.850 s | 0.003262894 | 9.4478% | 16.3481% | 未通过 |
+
+控制目标在生产窗口恒为 `0.0032 kg/s`，前馈活动系数恒为 1；流量由低到高漂移，均值接近目标不意味着整个阶段正确。`scheduled_flow_bias_signature` 是响应形状标签，不是已识别因果。继续加循环、静态 trim 或直接扫描 Kp/Ki，不能修复已暴露的空间阻力闭合问题。
+
+Cycle19/20 的 outlet lift 为 `27.92598/27.95723 K`，单周期 SCP 为 `0.3044996/0.3049369 W/g`，Cycle20 冷量 `12.75150 W`。这些仅是诊断值；没有审核 Eq.9 的十周期窗口、完整整机热/机械/泵功边界，也没有获得 COP 或 Table4 结论资格。
+
+实测固体温度同相位 RMS 漂移 `0.0157469 K`、p99 `0.0523267 K`；相分数端点最大漂移 `0.000261891`、同相位 RMS `0.000585769`。这些超过现有部分 steady 判据，但仍只是固体子集，不包含完整 buffer/液体库存/PI 记忆。原 post-audit 的 `periodic=false` 必须读为 `not_evaluated_by_cold_runner`，不是已完成全状态周期审核。新包已标记 `REJECTED_DO_NOT_RESUME`，不能传播到恢复、outer solve、敏感性或 paired endpoints。
+
+### 244.3 审计合理性修正，而非改门限求通过
+
+1. post-audit 原来把探针数写死为 17，并读取上游不存在的 `expected_probe_count`，会误拒绝合法 24 探针包。现在按已存在 v1--v4 探针合同核对两臂、覆盖、数量和来源；本包探针通过，流量失败保留。
+2. Python 与生产验证器的 settled window 不一致，必须同时列出，不选择更有利的窗口。现有 RMS 5%/最大 15% 是跟踪/规定工况资格，不是热力学守恒定律，也不是文献提供的普遍机制阈值。失败禁止宣称规定流量条件下复现，但不能据此宣布材料机理、质量守恒或所有性能结果无效。
+3. 冷态 seed 判定补上缺失阶段、缺失 SMA/SE 材料、空源端口列表、单臂/错臂 late-window 证据的拒绝检查，避免空集合 `all()` 造成误放行。late 20% 只用于一次新冷态 warmup 假设检验，不证明失败必然由冷启动导致；v9 已否定“只需等待”的简单假设。
+4. 历史 extraction-move 测试错误地要求当前代码永远与搬移前完全相同，误拒绝后来合法的压力观测修改。历史搬移等价性继续固定在真实搬移提交 `17d7b85e95e69c5b01e3f328473d49c7557730b2`，同时新增当前 extractor/driver 接口检查；没有删掉历史等价性断言，也没有改旧基线。当前 Python 回归 `594/594` 通过；这不是新的 MATLAB 物理门禁通过。
+5. cold runner 本来不生成完整 periodic/first-law 合同，因此不能把总合取 `strict_post_warmup_pass=false` 反复当作机制失败。post-audit 现在将 `controlled_operating_condition_pass` 与 `performance_evidence_complete` 分开，明确下一阶段；若受控工况通过但下游合同未完成，转入状态/边界证据采集，不重新调 PI 或冷态复跑。本次受控工况仍真实失败，原因是 Stage4 跟踪，不是缺少下游合同。
+
+### 244.4 新的系统层发现：两个相互抵消的阻力近似
+
+新增 `Analyze_HeatDriveECC_Stage4DistributedResistance.py`，直接读取实际 21 段 native `T_I/rho_I/mdot_A/pressure_loss_A/B`，与当前 endpoint feedforward 比较，而不是从闭环残差回归一个 trim。
+
+- 在同一 `303.15 K` 基准，静态 `se_bed_dp_MPa` 用 `options.fluid.SE.mu=0.003307359344 Pa·s`；动态前馈参考 `0.003882113830 Pa·s`，来自 runtime 线性 rho/nu 表。基准压降 `0.0973796560 MPa`，统一 runtime 表的层流参考约 `0.1143008218 MPa`，前者低 `14.8041%`。这不是 PI 参数问题，而是静态基准与动态倍率使用不同物性基准。
+- 21 段实际流体轴向温差为 `32.50--37.38 K`；端点平均黏度比真实长度加权平均黏度平均高 `23.3886%`。把两个端点视为分布阻力，无法跟随移动温度剖面。
+- 用实际 21 段温度/密度和既有 `f=64/Re` 参考重建压降，与 native 床层压降的 RMS 相对差为 `0.3653%`，支持先修正阻力闭合层，而非盲调 PI。
+- 当前 feedforward 与冻结系数下目标流量所需 native 床层压降的偏差范围为 `-20.0233%` 到 `+37.7970%`；两种近似误差部分抵消，单独改静态基准或 endpoint 系数可能反而恶化某些时刻。
+
+这是定位证据，不是闭环因果识别：冻结系数目标压降没有去掉阀/附属路线损失，不能直接当下一轮压力命令。诊断图将流量、压力分量、轴向流体温度分别置于三面板，输出 PNG/PDF 并已目视检查，无重叠/截断。图和 JSON 位于 `outputs_storage_audit/v9_warmup20p_figures_r2`、`v9_warmup20p_distributed_r2.json`。
+
+### 244.5 纠正前文推断与执行纪律
+
+§232/233 若将末段积分冻结概括为整个 settled window 冻结，该推断撤回：v4 的完整窗口积分实际有变化，冻结发生在后续尾段；v9 的积分范围为 `-0.0129663` 至 `+0.0144484 MPa`，亦非全窗口冻结。
+
+§243.2 将 v8 归因于 `Start-Process -Wait` 只等待 wrapper 的说法撤回。Microsoft 文档明确 `-Wait` 等待进程及其后代；`-ArgumentList` 会将字符串数组拼成单个字符串并移除外层引号，原调用的 batch 引号处理存在问题，但不能据此证明 v6/v7 相同根因。保留“不完整证据、根因未确证”的分类。当前 launcher 使用直接前台调用及物理后置合同，另按 MathWorks 文档补上 Windows `-wait`，最小 batch smoke 成功返回 JSON；v9 已在直接调用路径自然完成。参考：[PowerShell Start-Process](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/start-process?view=powershell-7.5)、[MATLAB Windows 启动参数](https://www.mathworks.com/help/matlab/ref/matlabwindows.html)。
+
+### 244.6 后续主线及存储治理
+
+下一次物理实验必须针对“一致物性基准 + 分布阻力闭合 + 因果反馈”整体提出可证伪方案，并先建立压力源/流量方向与冻结控制分量的短时合同；不能把本轮冻结系数诊断当开环验证，也不再原样运行 20/40/200-cycle。需要分清文献 prescribed-flow 复现模型与压力限幅工程模型的资格门禁，不能让控制器实现缺陷冒充材料机制失败。
+
+取得合格独立冷态与末周期结果后，按第8节依次完成完整控制体/Eq.9/Eq.10、严格周期状态、固定 Tc outer solve、正交敏感性、paired zero-load/zero-lift endpoints 和 Table4，再完成最终 SCI 图集与实验验证计划。C200 继续只是冻结性能基准；当前修改模型无完整 Operating Point 恢复权限。本轮保留最新 v9 原始失败证据和组件源文件，只清理已完成运行的可再生 `cache/codegen`，记录逐文件 SHA-256/大小，主工作区继续只跟踪小型证据，不触碰隔离 SLX 修改和 Agent6。
+
+本次实际只清理 `66961 bytes` 缓存，不虚报大规模释放；v9 保留 `46` 文件、`1987474786 bytes`（约 1.851 GiB），不双份复制。治理快照 `workspace_governance_20261007_v9_closeout` 分类主仓库 outputs 与 outputs_storage_audit 为 `15.998214 GiB`，明确不包含 Agent6 或其他 worktree；C200/C180 四个权威文件哈希全部重新通过。综合回执 `v9_warmup20p_closeout_receipt.json` 固定执行、审核、拒绝标记及退役回执哈希。强化后的 v4 cold 分级在新回执 `qian_cold_stage4_v4_warmup_classification_r2.json` 中仍保持 strict seed false，只保留已执行过的一次 warmup 假设检验解释，不授权重复新长算。

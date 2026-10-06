@@ -1,0 +1,608 @@
+{
+  "schema": "heatdrive_ecc_warmup_outcome_v1",
+  "diagnostic_only": true,
+  "cycles_run": 20,
+  "comparison_cycles": [
+    19,
+    20
+  ],
+  "arms": [
+    {
+      "arm": "native",
+      "cycles": [
+        {
+          "cycle": 19,
+          "performance": {
+            "window_start_s": 180.0,
+            "window_stop_s": 190.0,
+            "window_cycles": 1,
+            "SE_mass_g": 41.81683646625444,
+            "cp_fluid_J_kgK": 3638.0,
+            "outlet_lift_mean_K": 27.925981958865766,
+            "cooling_power_W": 12.73321161496686,
+            "SCP_W_g": 0.3044996391642962,
+            "CHEX_heat_sensor_mean_W": 12.414695714147365,
+            "ten_cycle_Qian_window_verified": false
+          },
+          "solids": {
+            "SMA": {
+              "capacity_J_K": 66.90693834600711,
+              "delta_sensible_U_J": 0.030838946693242948,
+              "pipe_input_J": 34.85650440604877,
+              "constitutive_input_J": -34.825656129585695,
+              "residual_J": -9.329769831367685e-06,
+              "residual_fraction": 2.676622337880977e-07,
+              "limit": 0.05,
+              "selected_solid_energy_gate": true,
+              "mean_phase_min": 6.510578570149052e-29,
+              "mean_phase_max": 0.9999980585481455,
+              "mean_phase_swing": 0.9999980585481455,
+              "all_node_phase_min": 1.753658102747739e-35,
+              "all_node_phase_max": 0.9999999999999931
+            },
+            "SE": {
+              "capacity_J_K": 20.90841823312722,
+              "delta_sensible_U_J": 0.27926470353650384,
+              "pipe_input_J": -34.554638894261075,
+              "constitutive_input_J": 34.83362880382532,
+              "residual_J": 0.00027479397225960156,
+              "residual_fraction": 7.888755254503502e-06,
+              "limit": 0.05,
+              "selected_solid_energy_gate": true,
+              "mean_phase_min": 0.0012035680516901954,
+              "mean_phase_max": 0.9999999155597846,
+              "mean_phase_swing": 0.9987963475080944,
+              "all_node_phase_min": 8.772703006192502e-15,
+              "all_node_phase_max": 0.9999999999999968
+            }
+          },
+          "controller_window_flows": [
+            {
+              "component": "SMA",
+              "stage": 1,
+              "target_kg_s": 0.0508,
+              "samples": 2351,
+              "mean_signed_kg_s": -0.05079287605970659,
+              "max_abs_relative_error": 0.00038503636460929247,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SMA",
+              "stage": 2,
+              "target_kg_s": 0.0508,
+              "samples": 351,
+              "mean_signed_kg_s": -0.05078992704310918,
+              "max_abs_relative_error": 0.00022044396702003421,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SMA",
+              "stage": 3,
+              "target_kg_s": 0.0508,
+              "samples": 2351,
+              "mean_signed_kg_s": -0.05144435069875275,
+              "max_abs_relative_error": 0.0449392599285483,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SMA",
+              "stage": 4,
+              "target_kg_s": 0.0508,
+              "samples": 351,
+              "mean_signed_kg_s": -0.052708556175618086,
+              "max_abs_relative_error": 0.03967250831907809,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SE",
+              "stage": 2,
+              "target_kg_s": 0.0032,
+              "settled_window_start_s": 0.30000000000001137,
+              "settled_window_stop_s": 1.1999999999999886,
+              "samples": 901,
+              "mean_signed_kg_s": 0.003197768365724526,
+              "max_abs_relative_error": 0.09220457925919678,
+              "rms_relative_error": 0.044338702506855336,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SE",
+              "stage": 4,
+              "target_kg_s": 0.0032,
+              "settled_window_start_s": 0.30000000000001137,
+              "settled_window_stop_s": 1.1999999999999886,
+              "samples": 901,
+              "mean_signed_kg_s": 0.0031999269729883545,
+              "max_abs_relative_error": 0.16386456373287683,
+              "rms_relative_error": 0.08542251929903233,
+              "selected_flow_gate": false
+            }
+          ]
+        },
+        {
+          "cycle": 20,
+          "performance": {
+            "window_start_s": 190.0,
+            "window_stop_s": 200.0,
+            "window_cycles": 1,
+            "SE_mass_g": 41.81683646625444,
+            "cp_fluid_J_kgK": 3638.0,
+            "outlet_lift_mean_K": 27.957231728222723,
+            "cooling_power_W": 12.751497334282133,
+            "SCP_W_g": 0.30493692043329007,
+            "CHEX_heat_sensor_mean_W": 12.432966489253225,
+            "ten_cycle_Qian_window_verified": false
+          },
+          "solids": {
+            "SMA": {
+              "capacity_J_K": 66.90693834600711,
+              "delta_sensible_U_J": 0.03570782866779479,
+              "pipe_input_J": 34.8867119230772,
+              "constitutive_input_J": -34.85455128816716,
+              "residual_J": 0.0035471937577540302,
+              "residual_fraction": 0.00010167750304400564,
+              "limit": 0.05,
+              "selected_solid_energy_gate": true,
+              "mean_phase_min": 6.54720618205603e-29,
+              "mean_phase_max": 0.9999980430007914,
+              "mean_phase_swing": 0.9999980430007914,
+              "all_node_phase_min": 1.7527775474215274e-35,
+              "all_node_phase_max": 0.9999999999999931
+            },
+            "SE": {
+              "capacity_J_K": 20.90841823312722,
+              "delta_sensible_U_J": 0.2730198129725662,
+              "pipe_input_J": -34.58945538682906,
+              "constitutive_input_J": 34.862213780109755,
+              "residual_J": 0.0002614196918671041,
+              "residual_fraction": 7.498654374503727e-06,
+              "limit": 0.05,
+              "selected_solid_energy_gate": true,
+              "mean_phase_min": 0.0012226835056352706,
+              "mean_phase_max": 0.9999999098915359,
+              "mean_phase_swing": 0.9987772263859006,
+              "all_node_phase_min": 8.678573943859266e-15,
+              "all_node_phase_max": 0.9999999999999968
+            }
+          },
+          "controller_window_flows": [
+            {
+              "component": "SMA",
+              "stage": 1,
+              "target_kg_s": 0.0508,
+              "samples": 2351,
+              "mean_signed_kg_s": -0.05079287453456054,
+              "max_abs_relative_error": 0.00038504347031476094,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SMA",
+              "stage": 2,
+              "target_kg_s": 0.0508,
+              "samples": 351,
+              "mean_signed_kg_s": -0.05078992694737246,
+              "max_abs_relative_error": 0.0002204482072611924,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SMA",
+              "stage": 3,
+              "target_kg_s": 0.0508,
+              "samples": 2351,
+              "mean_signed_kg_s": -0.051444413024622604,
+              "max_abs_relative_error": 0.04493868776443111,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SMA",
+              "stage": 4,
+              "target_kg_s": 0.0508,
+              "samples": 351,
+              "mean_signed_kg_s": -0.05270840994955632,
+              "max_abs_relative_error": 0.03966892637697139,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SE",
+              "stage": 2,
+              "target_kg_s": 0.0032,
+              "settled_window_start_s": 0.30000000000001137,
+              "settled_window_stop_s": 1.1999999999999886,
+              "samples": 901,
+              "mean_signed_kg_s": 0.0031979039263351832,
+              "max_abs_relative_error": 0.09250104611991761,
+              "rms_relative_error": 0.04445920427636246,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SE",
+              "stage": 4,
+              "target_kg_s": 0.0032,
+              "settled_window_start_s": 0.30000000000001137,
+              "settled_window_stop_s": 1.1999999999999886,
+              "samples": 901,
+              "mean_signed_kg_s": 0.003199951237574269,
+              "max_abs_relative_error": 0.16393352282520557,
+              "rms_relative_error": 0.0854898141732488,
+              "selected_flow_gate": false
+            }
+          ]
+        }
+      ],
+      "production_window_flows": [
+        {
+          "stage": 2,
+          "start_s": 193.801,
+          "stop_s": 194.85,
+          "samples": 1050,
+          "mean_signed_kg_s": 0.003166274458675678,
+          "rms_relative_error": 0.048738487631081656,
+          "max_abs_relative_error": 0.09202722594922363,
+          "reverse_fraction": 0.0,
+          "tracking_pass": true
+        },
+        {
+          "stage": 4,
+          "start_s": 198.801,
+          "stop_s": 199.85,
+          "samples": 1050,
+          "mean_signed_kg_s": 0.0032628941856814014,
+          "rms_relative_error": 0.09447760402930715,
+          "max_abs_relative_error": 0.16348147224285225,
+          "reverse_fraction": 0.0,
+          "tracking_pass": false
+        }
+      ],
+      "solid_temperature_drift_K": {
+        "endpoint_max": 0.031582198749333656,
+        "same_phase_max": 0.2799934764842078,
+        "same_phase_p99": 0.05232670299497135,
+        "same_phase_rms": 0.015746905434985383
+      },
+      "solid_phase_fraction_drift": {
+        "endpoint_max": 0.00026189120496084364,
+        "same_phase_max": 0.013720460465986187,
+        "same_phase_p99": 0.002443011000954898,
+        "same_phase_rms": 0.0005857687985377135
+      },
+      "final_cycle_probes": {
+        "stage4_target_flow_command": {
+          "min": 0.0032,
+          "max": 0.0032,
+          "mean": 0.003200000000000001
+        },
+        "stage4_pressure_bias_command": {
+          "min": -0.09737965602586225,
+          "max": -0.09737965602586225,
+          "mean": -0.09737965602586225
+        },
+        "stage4_integrator_state": {
+          "min": -0.012966284211967518,
+          "max": 0.014448384838612655,
+          "mean": -0.000984809334626189
+        },
+        "stage4_integrator_input": {
+          "min": -0.13339660005813442,
+          "max": 0.09571761251587134,
+          "mean": 0.0001202034372192647
+        },
+        "stage4_dynamic_feedforward": {
+          "min": -0.4154614662965106,
+          "max": -0.3402183342475791,
+          "mean": -0.39414967449991223
+        },
+        "stage4_pressure_command": {
+          "min": -0.4379237039126866,
+          "max": -0.29154740121022493,
+          "mean": -0.3909017184211318
+        }
+      }
+    },
+    {
+      "arm": "conservative",
+      "cycles": [
+        {
+          "cycle": 19,
+          "performance": {
+            "window_start_s": 180.0,
+            "window_stop_s": 190.0,
+            "window_cycles": 1,
+            "SE_mass_g": 41.81683646625444,
+            "cp_fluid_J_kgK": 3638.0,
+            "outlet_lift_mean_K": 27.925981958865766,
+            "cooling_power_W": 12.73321161496686,
+            "SCP_W_g": 0.3044996391642962,
+            "CHEX_heat_sensor_mean_W": 12.414695714147365,
+            "ten_cycle_Qian_window_verified": false
+          },
+          "solids": {
+            "SMA": {
+              "capacity_J_K": 66.90693834600711,
+              "delta_sensible_U_J": 0.030838946693242948,
+              "pipe_input_J": 34.85650440604877,
+              "constitutive_input_J": -34.825656129585695,
+              "residual_J": -9.329769831367685e-06,
+              "residual_fraction": 2.676622337880977e-07,
+              "limit": 0.05,
+              "selected_solid_energy_gate": true,
+              "mean_phase_min": 6.510578570149052e-29,
+              "mean_phase_max": 0.9999980585481455,
+              "mean_phase_swing": 0.9999980585481455,
+              "all_node_phase_min": 1.753658102747739e-35,
+              "all_node_phase_max": 0.9999999999999931
+            },
+            "SE": {
+              "capacity_J_K": 20.90841823312722,
+              "delta_sensible_U_J": 0.27926470353650384,
+              "pipe_input_J": -34.554638894261075,
+              "constitutive_input_J": 34.83362880382532,
+              "residual_J": 0.00027479397225960156,
+              "residual_fraction": 7.888755254503502e-06,
+              "limit": 0.05,
+              "selected_solid_energy_gate": true,
+              "mean_phase_min": 0.0012035680516901954,
+              "mean_phase_max": 0.9999999155597846,
+              "mean_phase_swing": 0.9987963475080944,
+              "all_node_phase_min": 8.772703006192502e-15,
+              "all_node_phase_max": 0.9999999999999968
+            }
+          },
+          "controller_window_flows": [
+            {
+              "component": "SMA",
+              "stage": 1,
+              "target_kg_s": 0.0508,
+              "samples": 2351,
+              "mean_signed_kg_s": -0.05079287605970659,
+              "max_abs_relative_error": 0.00038503636460929247,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SMA",
+              "stage": 2,
+              "target_kg_s": 0.0508,
+              "samples": 351,
+              "mean_signed_kg_s": -0.05078992704310918,
+              "max_abs_relative_error": 0.00022044396702003421,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SMA",
+              "stage": 3,
+              "target_kg_s": 0.0508,
+              "samples": 2351,
+              "mean_signed_kg_s": -0.05144435069875275,
+              "max_abs_relative_error": 0.0449392599285483,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SMA",
+              "stage": 4,
+              "target_kg_s": 0.0508,
+              "samples": 351,
+              "mean_signed_kg_s": -0.052708556175618086,
+              "max_abs_relative_error": 0.03967250831907809,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SE",
+              "stage": 2,
+              "target_kg_s": 0.0032,
+              "settled_window_start_s": 0.30000000000001137,
+              "settled_window_stop_s": 1.1999999999999886,
+              "samples": 901,
+              "mean_signed_kg_s": 0.003197768365724526,
+              "max_abs_relative_error": 0.09220457925919678,
+              "rms_relative_error": 0.044338702506855336,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SE",
+              "stage": 4,
+              "target_kg_s": 0.0032,
+              "settled_window_start_s": 0.30000000000001137,
+              "settled_window_stop_s": 1.1999999999999886,
+              "samples": 901,
+              "mean_signed_kg_s": 0.0031999269729883545,
+              "max_abs_relative_error": 0.16386456373287683,
+              "rms_relative_error": 0.08542251929903233,
+              "selected_flow_gate": false
+            }
+          ]
+        },
+        {
+          "cycle": 20,
+          "performance": {
+            "window_start_s": 190.0,
+            "window_stop_s": 200.0,
+            "window_cycles": 1,
+            "SE_mass_g": 41.81683646625444,
+            "cp_fluid_J_kgK": 3638.0,
+            "outlet_lift_mean_K": 27.957231728222723,
+            "cooling_power_W": 12.751497334282133,
+            "SCP_W_g": 0.30493692043329007,
+            "CHEX_heat_sensor_mean_W": 12.432966489253225,
+            "ten_cycle_Qian_window_verified": false
+          },
+          "solids": {
+            "SMA": {
+              "capacity_J_K": 66.90693834600711,
+              "delta_sensible_U_J": 0.03570782866779479,
+              "pipe_input_J": 34.8867119230772,
+              "constitutive_input_J": -34.85455128816716,
+              "residual_J": 0.0035471937577540302,
+              "residual_fraction": 0.00010167750304400564,
+              "limit": 0.05,
+              "selected_solid_energy_gate": true,
+              "mean_phase_min": 6.54720618205603e-29,
+              "mean_phase_max": 0.9999980430007914,
+              "mean_phase_swing": 0.9999980430007914,
+              "all_node_phase_min": 1.7527775474215274e-35,
+              "all_node_phase_max": 0.9999999999999931
+            },
+            "SE": {
+              "capacity_J_K": 20.90841823312722,
+              "delta_sensible_U_J": 0.2730198129725662,
+              "pipe_input_J": -34.58945538682906,
+              "constitutive_input_J": 34.862213780109755,
+              "residual_J": 0.0002614196918671041,
+              "residual_fraction": 7.498654374503727e-06,
+              "limit": 0.05,
+              "selected_solid_energy_gate": true,
+              "mean_phase_min": 0.0012226835056352706,
+              "mean_phase_max": 0.9999999098915359,
+              "mean_phase_swing": 0.9987772263859006,
+              "all_node_phase_min": 8.678573943859266e-15,
+              "all_node_phase_max": 0.9999999999999968
+            }
+          },
+          "controller_window_flows": [
+            {
+              "component": "SMA",
+              "stage": 1,
+              "target_kg_s": 0.0508,
+              "samples": 2351,
+              "mean_signed_kg_s": -0.05079287453456054,
+              "max_abs_relative_error": 0.00038504347031476094,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SMA",
+              "stage": 2,
+              "target_kg_s": 0.0508,
+              "samples": 351,
+              "mean_signed_kg_s": -0.05078992694737246,
+              "max_abs_relative_error": 0.0002204482072611924,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SMA",
+              "stage": 3,
+              "target_kg_s": 0.0508,
+              "samples": 2351,
+              "mean_signed_kg_s": -0.051444413024622604,
+              "max_abs_relative_error": 0.04493868776443111,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SMA",
+              "stage": 4,
+              "target_kg_s": 0.0508,
+              "samples": 351,
+              "mean_signed_kg_s": -0.05270840994955632,
+              "max_abs_relative_error": 0.03966892637697139,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SE",
+              "stage": 2,
+              "target_kg_s": 0.0032,
+              "settled_window_start_s": 0.30000000000001137,
+              "settled_window_stop_s": 1.1999999999999886,
+              "samples": 901,
+              "mean_signed_kg_s": 0.0031979039263351832,
+              "max_abs_relative_error": 0.09250104611991761,
+              "rms_relative_error": 0.04445920427636246,
+              "selected_flow_gate": true
+            },
+            {
+              "component": "SE",
+              "stage": 4,
+              "target_kg_s": 0.0032,
+              "settled_window_start_s": 0.30000000000001137,
+              "settled_window_stop_s": 1.1999999999999886,
+              "samples": 901,
+              "mean_signed_kg_s": 0.003199951237574269,
+              "max_abs_relative_error": 0.16393352282520557,
+              "rms_relative_error": 0.0854898141732488,
+              "selected_flow_gate": false
+            }
+          ]
+        }
+      ],
+      "production_window_flows": [
+        {
+          "stage": 2,
+          "start_s": 193.801,
+          "stop_s": 194.85,
+          "samples": 1050,
+          "mean_signed_kg_s": 0.003166274458675678,
+          "rms_relative_error": 0.048738487631081656,
+          "max_abs_relative_error": 0.09202722594922363,
+          "reverse_fraction": 0.0,
+          "tracking_pass": true
+        },
+        {
+          "stage": 4,
+          "start_s": 198.801,
+          "stop_s": 199.85,
+          "samples": 1050,
+          "mean_signed_kg_s": 0.0032628941856814014,
+          "rms_relative_error": 0.09447760402930715,
+          "max_abs_relative_error": 0.16348147224285225,
+          "reverse_fraction": 0.0,
+          "tracking_pass": false
+        }
+      ],
+      "solid_temperature_drift_K": {
+        "endpoint_max": 0.031582198749333656,
+        "same_phase_max": 0.2799934764842078,
+        "same_phase_p99": 0.05232670299497135,
+        "same_phase_rms": 0.015746905434985383
+      },
+      "solid_phase_fraction_drift": {
+        "endpoint_max": 0.00026189120496084364,
+        "same_phase_max": 0.013720460465986187,
+        "same_phase_p99": 0.002443011000954898,
+        "same_phase_rms": 0.0005857687985377135
+      },
+      "final_cycle_probes": {
+        "stage4_target_flow_command": {
+          "min": 0.0032,
+          "max": 0.0032,
+          "mean": 0.003200000000000001
+        },
+        "stage4_pressure_bias_command": {
+          "min": -0.09737965602586225,
+          "max": -0.09737965602586225,
+          "mean": -0.09737965602586225
+        },
+        "stage4_integrator_state": {
+          "min": -0.012966284211967518,
+          "max": 0.014448384838612655,
+          "mean": -0.000984809334626189
+        },
+        "stage4_integrator_input": {
+          "min": -0.13339660005813442,
+          "max": 0.09571761251587134,
+          "mean": 0.0001202034372192647
+        },
+        "stage4_dynamic_feedforward": {
+          "min": -0.4154614662965106,
+          "max": -0.3402183342475791,
+          "mean": -0.39414967449991223
+        },
+        "stage4_pressure_command": {
+          "min": -0.4379237039126866,
+          "max": -0.29154740121022493,
+          "mean": -0.3909017184211318
+        }
+      }
+    }
+  ],
+  "solid_only_drift_not_full_state_steady_audit": true,
+  "ten_cycle_qian_window_verified": false,
+  "periodic_full_state_verified": false,
+  "production_recovery_allowed": false,
+  "seed_eligible": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false,
+  "input_sha256": {
+    "cold_chamber_execution.json": "4FB72BFF9640F77DFD5A4BE2411CE68032CD2373ECE2C09D47D41ED0AFC9DF2E",
+    "native\\observations.mat": "C37B5CA9A2033C898162A335C6529B238227C4EBD6796B678A3DAE70E2B25220",
+    "conservative\\observations.mat": "61EA6A4E0E00431F94E12E8BDFA028CA62510FB81F73F4A84CBD589C03B5AF34",
+    "native\\configuration.mat": "BDEE2A9387066F3B7FA8F763A2D78EBFD9DBC5BC8365E850ABD5BDC6E4386AFF",
+    "conservative\\configuration.mat": "9B196F53683CB1179E27ADFB40AA8477505D0A2BAFD296629961203AF2455227"
+  }
+}

@@ -1,0 +1,243 @@
+{
+  "schema": "heatdrive_ecc_stage4_causal_response_audit_v1",
+  "diagnostic_only": true,
+  "experiments": [
+    {
+      "experiment": "v9_warmup20p",
+      "execution_commit": "0c1f81076b47b9b3b5937ef7e172a79efa05b400",
+      "cycle_count": 20,
+      "analysis_cycle_index": 19,
+      "analysis_cycle_start_s": 190.0,
+      "diagnostic_branch_overrides": {
+        "se_stage2_pressure_pi_kp_MPa_per_kgps": -126,
+        "se_stage2_pressure_pi_initial_kp_MPa_per_kgps": -126,
+        "se_stage2_pressure_pi_transition_start_s": 0,
+        "se_stage2_pressure_pi_transition_duration_s": 0,
+        "se_stage4_pressure_pi_kp_MPa_per_kgps": -70,
+        "se_stage4_pressure_pi_initial_kp_MPa_per_kgps": -70,
+        "se_stage4_pressure_pi_ki_MPa_per_kgps_s": -255,
+        "se_stage4_pressure_pi_transition_start_s": 0,
+        "se_stage4_pressure_pi_transition_duration_s": 10,
+        "se_stage4_endpoint_viscosity_blend_initial": 1,
+        "se_stage4_endpoint_viscosity_blend_final": 1,
+        "se_stage4_endpoint_viscosity_blend_start_s": 0,
+        "se_stage4_endpoint_viscosity_blend_duration_s": 0,
+        "se_stage4_endpoint_viscosity_blend_periodic": false,
+        "se_stage4_endpoint_viscosity_closure_mode": "arithmetic_blend",
+        "se_stage4_commutation_precharge_fraction": 0,
+        "pressure_pi_error_filter_tau_s": 0.002,
+        "se_stage4_pressure_bias_trim_MPa": 0,
+        "se_stage4_pressure_p_activity_mode": "continuous"
+      },
+      "arms": [
+        {
+          "observations_sha256": "C37B5CA9A2033C898162A335C6529B238227C4EBD6796B678A3DAE70E2B25220",
+          "grid_dt_s": 0.0010000000000047748,
+          "analysis_cycle_index": 19,
+          "analysis_cycle_start_s": 190.0,
+          "window": {
+            "start_s": 198.80100000000002,
+            "stop_s": 199.85,
+            "duration_s": 1.0489999999999782,
+            "samples": 1050
+          },
+          "transport_time_scale": {
+            "mean_window_flow_kgps": 0.0032628941856814014,
+            "fluid_inventory_kg": null,
+            "estimated_residence_s": null,
+            "window_to_residence_ratio": null,
+            "window_shorter_than_residence": null,
+            "status": "not_identifiable_without_route_fluid_inventory",
+            "solid_mass_substitution_allowed": false
+          },
+          "flow_shape": {
+            "mean_kgps": 0.0032628941856814014,
+            "rms_relative_error": 0.09447760402930715,
+            "max_abs_relative_error": 0.16348147224285225,
+            "peak_abs_error_time_s": 198.80100000000002,
+            "mean_abs_slope_kgps2": 0.0009659028081611331,
+            "reverse_flow_fraction": 0.0
+          },
+          "lagged_correlations": {
+            "pressure_to_flow_error": {
+              "lag_s": -0.5000000000023874,
+              "correlation": 0.9975977082795076,
+              "search_limit_s": 0.5,
+              "boundary_limited": true
+            },
+            "dynamic_feedforward_to_flow_error": {
+              "lag_s": -0.5000000000023874,
+              "correlation": 0.9869860423415281,
+              "search_limit_s": 0.5,
+              "boundary_limited": true
+            },
+            "inlet_temperature_to_flow_error": {
+              "lag_s": -0.5000000000023874,
+              "correlation": 0.9975676812801382,
+              "search_limit_s": 0.5,
+              "boundary_limited": true
+            },
+            "outlet_temperature_to_flow_error": {
+              "lag_s": -0.5000000000023874,
+              "correlation": 0.9869103256878128,
+              "search_limit_s": 0.5,
+              "boundary_limited": true
+            },
+            "integrator_to_flow_error": {
+              "lag_s": -0.4820000000023015,
+              "correlation": 0.9864985380523629,
+              "search_limit_s": 0.5,
+              "boundary_limited": false
+            },
+            "route_integral_to_flow_error": {
+              "lag_s": -0.4820000000023015,
+              "correlation": 0.9864985380523629,
+              "search_limit_s": 0.5,
+              "boundary_limited": false
+            }
+          },
+          "detrended_zero_lag_correlations": {
+            "pressure_to_flow_error": -0.9457428544155884,
+            "dynamic_feedforward_to_flow_error": -0.9570375915730138,
+            "outlet_temperature_to_flow_error": -0.9571260357313421,
+            "integrator_to_flow_error": -0.9460238229832599
+          },
+          "controller_state_ranges": {
+            "pressure_command_MPa": [
+              -0.4379237039126866,
+              -0.29154740121022493
+            ],
+            "dynamic_feedforward": [
+              -0.4154614662965106,
+              -0.3402183342475791
+            ],
+            "integrator_state": [
+              -0.012966284211967518,
+              0.014448384838612655
+            ],
+            "route_integral": [
+              -0.012966284211967518,
+              0.014448384838612655
+            ],
+            "inlet_temperature_K": [
+              303.9625336491583,
+              303.9949860006236
+            ],
+            "outlet_temperature_K": [
+              265.8368860735753,
+              270.4986328014034
+            ]
+          }
+        },
+        {
+          "observations_sha256": "61EA6A4E0E00431F94E12E8BDFA028CA62510FB81F73F4A84CBD589C03B5AF34",
+          "grid_dt_s": 0.0010000000000047748,
+          "analysis_cycle_index": 19,
+          "analysis_cycle_start_s": 190.0,
+          "window": {
+            "start_s": 198.80100000000002,
+            "stop_s": 199.85,
+            "duration_s": 1.0489999999999782,
+            "samples": 1050
+          },
+          "transport_time_scale": {
+            "mean_window_flow_kgps": 0.0032628941856814014,
+            "fluid_inventory_kg": null,
+            "estimated_residence_s": null,
+            "window_to_residence_ratio": null,
+            "window_shorter_than_residence": null,
+            "status": "not_identifiable_without_route_fluid_inventory",
+            "solid_mass_substitution_allowed": false
+          },
+          "flow_shape": {
+            "mean_kgps": 0.0032628941856814014,
+            "rms_relative_error": 0.09447760402930715,
+            "max_abs_relative_error": 0.16348147224285225,
+            "peak_abs_error_time_s": 198.80100000000002,
+            "mean_abs_slope_kgps2": 0.0009659028081611331,
+            "reverse_flow_fraction": 0.0
+          },
+          "lagged_correlations": {
+            "pressure_to_flow_error": {
+              "lag_s": -0.5000000000023874,
+              "correlation": 0.9975977082795076,
+              "search_limit_s": 0.5,
+              "boundary_limited": true
+            },
+            "dynamic_feedforward_to_flow_error": {
+              "lag_s": -0.5000000000023874,
+              "correlation": 0.9869860423415281,
+              "search_limit_s": 0.5,
+              "boundary_limited": true
+            },
+            "inlet_temperature_to_flow_error": {
+              "lag_s": -0.5000000000023874,
+              "correlation": 0.9975676812801382,
+              "search_limit_s": 0.5,
+              "boundary_limited": true
+            },
+            "outlet_temperature_to_flow_error": {
+              "lag_s": -0.5000000000023874,
+              "correlation": 0.9869103256878128,
+              "search_limit_s": 0.5,
+              "boundary_limited": true
+            },
+            "integrator_to_flow_error": {
+              "lag_s": -0.4820000000023015,
+              "correlation": 0.9864985380523629,
+              "search_limit_s": 0.5,
+              "boundary_limited": false
+            },
+            "route_integral_to_flow_error": {
+              "lag_s": -0.4820000000023015,
+              "correlation": 0.9864985380523629,
+              "search_limit_s": 0.5,
+              "boundary_limited": false
+            }
+          },
+          "detrended_zero_lag_correlations": {
+            "pressure_to_flow_error": -0.9457428544155884,
+            "dynamic_feedforward_to_flow_error": -0.9570375915730138,
+            "outlet_temperature_to_flow_error": -0.9571260357313421,
+            "integrator_to_flow_error": -0.9460238229832599
+          },
+          "controller_state_ranges": {
+            "pressure_command_MPa": [
+              -0.4379237039126866,
+              -0.29154740121022493
+            ],
+            "dynamic_feedforward": [
+              -0.4154614662965106,
+              -0.3402183342475791
+            ],
+            "integrator_state": [
+              -0.012966284211967518,
+              0.014448384838612655
+            ],
+            "route_integral": [
+              -0.012966284211967518,
+              0.014448384838612655
+            ],
+            "inlet_temperature_K": [
+              303.9625336491583,
+              303.9949860006236
+            ],
+            "outlet_temperature_K": [
+              265.8368860735753,
+              270.4986328014034
+            ]
+          }
+        }
+      ],
+      "architectural_interpretation": {
+        "transport_window_is_quasi_steady": null,
+        "reason": "Route fluid inventory is not established. Solid SE mass cannot define fluid residence time. Closed-loop correlations do not identify causal direction or authorize flow-gate relaxation."
+      }
+    }
+  ],
+  "production_recovery_allowed": false,
+  "diagnostic_20cycle_seed_eligible": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false
+}

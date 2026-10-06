@@ -20,3 +20,9 @@
 *.xls binary
 *.pptx binary
 *.docx binary
+
+# Hash-locked diagnostic receipts must round-trip without newline conversion.
+gx101r1_R69_remote/outputs_storage_audit/v9_warmup20p*.json -text
+gx101r1_R69_remote/outputs_storage_audit/v9_warmup20p_flow_r1/*.json -text
+gx101r1_R69_remote/outputs_storage_audit/qian_cold_stage4_v4_warmup_classification_r2.json -text
+gx101r1_R69_remote/outputs_storage_audit/workspace_governance_20261007_v9_closeout/*.json -text

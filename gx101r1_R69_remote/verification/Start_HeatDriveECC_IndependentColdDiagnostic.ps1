@@ -171,10 +171,9 @@ $started = Get-Date
 $exitCode = 9009
 $launchException = $null
 try {
-    # The MATLAB Windows launcher must be invoked directly.  Start-Process
-    # waits for the wrapper process but can return before the MATLAB batch
-    # worker has produced any physical evidence.
-    & $matlab '-batch' $batch 1> $stdoutTemp 2> $stderrTemp
+    # Direct invocation preserves the batch argument as one quoted token.
+    # MATLAB documents -wait for exit-code propagation on Windows.
+    & $matlab '-wait' '-batch' $batch 1> $stdoutTemp 2> $stderrTemp
     $exitCode = $LASTEXITCODE
 } catch {
     $launchException = $_.Exception.ToString()

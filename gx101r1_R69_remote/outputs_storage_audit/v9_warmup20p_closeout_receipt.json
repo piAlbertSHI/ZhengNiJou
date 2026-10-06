@@ -1,0 +1,65 @@
+{
+  "schema": "heatdrive_ecc_warmup20_closeout_v1",
+  "date": "2026-10-07",
+  "status": "completed_physical_diagnostic_tracking_rejected",
+  "raw_root": "C:/Users/86182/.codex/worktrees/runtime-cv-json-contract/正逆耦合/gx101r1_R69_remote/outputs/v9_warmup20p",
+  "execution_commit": "0c1f81076b47b9b3b5937ef7e172a79efa05b400",
+  "audit_code_revision": "containing_git_commit",
+  "cycle_count": 20,
+  "duration_s": 200,
+  "wall_s": 20631.0029169,
+  "natural_exit_code": 0,
+  "collection_pass": true,
+  "raw_bytes_after_cache_retirement": 1987474786,
+  "raw_files_after_cache_retirement": 46,
+  "production_recovery_allowed": false,
+  "checkpoint_saved": false,
+  "periodic_full_state_verified": false,
+  "full_device_first_law_verified": false,
+  "ten_cycle_qian_window_verified": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false,
+  "native_and_conservative_are_independent_validation": false,
+  "control_tracking": {
+    "stage4_symmetric_window_rms_relative_error": 0.08544788843387965,
+    "stage4_production_window_rms_relative_error": 0.09447760402930715,
+    "stage4_production_window_max_relative_error": 0.16348147224285225,
+    "stage4_production_window_tracking_pass": false
+  },
+  "architectural_findings": {
+    "legacy_vs_runtime_reference_pressure_relative_error": -0.14804063055720873,
+    "endpoint_vs_distributed_viscosity_mean_relative_error": 0.2338863531133744,
+    "distributed_reference_vs_native_bed_pressure_rms_relative_error": 0.003653352049523088,
+    "closed_loop_causal_identification_complete": false,
+    "next_step": "consistent_property_reference_and_distributed_resistance_with_causal_short_diagnostic",
+    "repeat_unchanged_long_warmup": false
+  },
+  "regression": {
+    "command": "python -m unittest discover -s gx101r1_R69_remote/verification -p test_*.py -q",
+    "tests_run": 594,
+    "tests_passed": 594,
+    "proves_physical_model_pass": false
+  },
+  "sha256": {
+    "cold_chamber_execution.json": "4FB72BFF9640F77DFD5A4BE2411CE68032CD2373ECE2C09D47D41ED0AFC9DF2E",
+    "native/observations.mat": "C37B5CA9A2033C898162A335C6529B238227C4EBD6796B678A3DAE70E2B25220",
+    "conservative/observations.mat": "61EA6A4E0E00431F94E12E8BDFA028CA62510FB81F73F4A84CBD589C03B5AF34",
+    "REJECTED_DO_NOT_RESUME.txt": "5FEDDE6F96E03794AADEB78FDD4E2549770C36E2BBB7ACC0EBF0F08D49986796",
+    "v9_warmup20p_outcome_r1.json": "DA6A11278468CEE5965B6F29EE8D5BC3649D715AD09B38C2F2BF0A6BBD48BF59",
+    "v9_warmup20p_post_audit_r2.json": "ADCEE33CF60C001D322BA621717FC8AAF4A0E8B6570E2A1B269015C8EE2F6F7B",
+    "v9_warmup20p_distributed_r2.json": "78D9C8E7A317D3D38E6404B8107F2F093520183C02156B1C423868DE123CB2D8",
+    "v9_warmup20p_cache_retirement_r1.json": "722386D2AA6B5CD8C79964BF1CAC978DD00C721E31DDDC126231E0B6D15F56DE"
+  },
+  "storage": {
+    "reclaimed_bytes_this_closeout": 66961,
+    "latest_raw_evidence_preserved": true,
+    "raw_copied_to_primary_checkout": false,
+    "primary_outputs_and_audit_classified_GiB": 15.998214,
+    "classification_includes_Agent6_or_other_worktrees": false,
+    "frozen_C200_C180_hashes_pass": true,
+    "governance_snapshot": "workspace_governance_20261007_v9_closeout/workspace_governance_summary.json"
+  },
+  "protected_unrelated_changes": ["gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx", "Agent6/"],
+  "report_section": 244
+}

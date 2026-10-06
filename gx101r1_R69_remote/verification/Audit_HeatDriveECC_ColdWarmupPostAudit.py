@@ -12,6 +12,11 @@ import hashlib
 import json
 from pathlib import Path
 
+from Audit_HeatDriveECC_Stage4ControllerProbes import (
+    EXPECTED, EXPECTED_V2, EXPECTED_V3, EXPECTED_V4,
+)
+from Audit_HeatDriveECC_10sSeedGate import flow_gate, phase_gate
+
 
 def read(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8-sig"))
@@ -29,6 +34,33 @@ def all_arm_checks(document: dict, keys: tuple[str, ...]) -> bool:
     arms = document.get("arms", [])
     return bool(len(arms) == 2 and all(all(arm.get(key) is True for key in keys)
                                        for arm in arms))
+
+
+def controller_probes_pass(probes: dict) -> bool:
+    allowed_counts = {len(names) for names in (EXPECTED, EXPECTED_V2, EXPECTED_V3, EXPECTED_V4)}
+    arms = probes.get("arms", [])
+    return bool(
+        probes.get("schema") == "heatdrive_ecc_stage4_controller_probe_audit_v1"
+        and probes.get("provenance_gate") is True
+        and probes.get("case_probe_gate") is True
+        and probes.get("coverage_gate") is True
+        and [arm.get("arm") for arm in arms] == ["native", "conservative"]
+        and len({arm.get("probe_count") for arm in arms}) == 1
+        and all(arm.get("contract_gate") is True and arm.get("signal_gate") is True
+                and arm.get("probe_count") in allowed_counts for arm in arms)
+    )
+
+
+def readiness(operating_condition_pass: bool, periodic: bool, first_law: bool) -> dict:
+    """Distinguish a measured rejection from evidence owned by later stages."""
+    return {
+        "controlled_operating_condition_pass": operating_condition_pass,
+        "performance_evidence_complete": bool(periodic and first_law),
+        "next_stage": ("repair_controlled_operating_condition" if not operating_condition_pass
+                       else "collect_periodic_and_full_boundary_evidence" if not (periodic and first_law)
+                       else "review_performance_window_and_paired_endpoints"),
+        "missing_downstream_evidence_is_mechanism_failure": False,
+    }
 
 
 def main() -> int:
@@ -68,9 +100,8 @@ def main() -> int:
         and flow.get("evidence_audit_pass") is True
         and flow.get("full_cycle_completed") is True
         and flow.get("cycle_count") == cycle_count
-        and all(all(gate.get("selected_flow_gate") is True
-                    for gate in arm.get("selected_flow_gates", []))
-                for arm in flow.get("arms", []))
+        and flow_gate(flow)
+        and phase_gate(flow)[0]
     )
     pressure_gate_pass = bool(
         pressure.get("schema") == "heatdrive_ecc_cold_pump_pressure_probe_audit_v1"
@@ -79,15 +110,7 @@ def main() -> int:
         and all_arm_checks(pressure, ("probe_contract_gate", "probe_signal_gate",
                                       "pressure_range_gate", "hydraulic_diagnostic_gate"))
     )
-    probe_gate_pass = bool(
-        probes.get("schema") == "heatdrive_ecc_stage4_controller_probe_audit_v1"
-        and probes.get("provenance_gate") is True
-        and probes.get("case_probe_gate") is True
-        and probes.get("coverage_gate") is True
-        and all(arm.get("contract_gate") is True and arm.get("signal_gate") is True
-                and arm.get("probe_count") == probes.get("expected_probe_count") == 17
-                for arm in probes.get("arms", []))
-    )
+    probe_gate_pass = controller_probes_pass(probes)
     cycle_index = cycle_count - 1
     causal_cycle_pass = bool(
         causal.get("experiments")
@@ -113,11 +136,11 @@ def main() -> int:
         for gate in arm.get("selected_flow_gates", [])
         if gate.get("selected_flow_gate") is not True
     ]
-    strict_post_warmup_pass = bool(
+    operating_condition_pass = bool(
         execution_contract_pass and flow_gate_pass and pressure_gate_pass
         and probe_gate_pass and causal_cycle_pass and dynamics_cycle_pass
-        and periodic and first_law
     )
+    strict_post_warmup_pass = bool(operating_condition_pass and periodic and first_law)
     result = {
         "schema": "heatdrive_ecc_cold_warmup_post_audit_v1",
         "diagnostic_only": True,
@@ -133,6 +156,8 @@ def main() -> int:
         "periodic_steady_state_verified": periodic,
         "periodic_status": periodic_status,
         "full_device_first_law_verified": first_law,
+        "full_device_first_law_status": "verified" if first_law else "not_evaluated_by_cold_runner",
+        **readiness(operating_condition_pass, periodic, first_law),
         "strict_post_warmup_pass": strict_post_warmup_pass,
         "production_recovery_allowed": False,
         "checkpoint_saved": False,
