@@ -19,7 +19,8 @@ class NativeLookupSourceTests(unittest.TestCase):
                      'isequal(values(x),values(y))','official_lookup_seconds'):
             self.assertIn(text,source)
 
-    def test_all_three_exporters_share_verified_resolver(self):
+    def test_unproved_lookup_optimization_not_used_by_exporters(self):
         for name in ('Extract_HeatDriveECC_NativeStorageTraces.m',
                      'Extract_HeatDriveECC_BoundaryTraces.m','Export_HeatDriveECC_FailedColdObservations.m'):
-            self.assertIn('Find_HeatDriveECC_NativeLogNode(', (ROOT/name).read_text(encoding='utf-8'))
+            self.assertNotIn('Find_HeatDriveECC_NativeLogNode(', (ROOT/name).read_text(encoding='utf-8'))
+            self.assertIn('simscape.logging.findNode(', (ROOT/name).read_text(encoding='utf-8'))

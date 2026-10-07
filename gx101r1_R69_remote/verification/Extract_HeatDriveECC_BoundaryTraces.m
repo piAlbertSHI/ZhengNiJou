@@ -11,7 +11,7 @@ function [traces, metadata] = Extract_HeatDriveECC_BoundaryTraces(log, model)
         block = blocks{k};
         if ~ismember(block.source_file,sources) || ismember(block.block_path,seen), continue; end
         seen{end+1} = block.block_path; %#ok<AGROW>
-        node = Find_HeatDriveECC_NativeLogNode(log,block.block_path);
+        node = simscape.logging.findNode(log,block.block_path);
         assert(~isempty(node),'Missing source log: %s',block.block_path);
         row = struct('block_path',block.block_path,'source_file',block.source_file, ...
             'parameters',struct(),'trace_names',{{}});

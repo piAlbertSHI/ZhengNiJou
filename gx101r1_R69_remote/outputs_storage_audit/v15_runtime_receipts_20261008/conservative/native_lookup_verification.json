@@ -1,0 +1,38 @@
+{
+  "schema": "heatdrive_ecc_exact_native_lookup_comparison_v1",
+  "pass": true,
+  "comparisons": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+      "SID": "heatdrive_ecc_coupled_se21:2524",
+      "method": "official_recursive_fallback",
+      "lookup_seconds": 0.126311,
+      "exact_SID_verified": false,
+      "official_lookup_seconds": 0.0022307,
+      "exact_leaf_data_match": true,
+      "leaf_count": 16
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "SID": "heatdrive_ecc_coupled_se21:13668",
+      "method": "official_recursive_fallback",
+      "lookup_seconds": 0.0049844,
+      "exact_SID_verified": false,
+      "official_lookup_seconds": 0.0020685,
+      "exact_leaf_data_match": true,
+      "leaf_count": 11
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE_Stage2_PistonPressureSource",
+      "SID": "heatdrive_ecc_coupled_se21:11564",
+      "method": "official_recursive_fallback",
+      "lookup_seconds": 0.0038774,
+      "exact_SID_verified": false,
+      "official_lookup_seconds": 0.0012734,
+      "exact_leaf_data_match": true,
+      "leaf_count": 10
+    }
+  ],
+  "physical_model_modified": false,
+  "production_recovery_allowed": false
+}

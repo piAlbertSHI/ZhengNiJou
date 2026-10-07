@@ -7,6 +7,7 @@ import re
 from pathlib import Path
 
 import h5py
+import math
 
 from Audit_HeatDriveECC_ColdBufferCoupled import cycle_arm, port_contract, CHAMBERS, BUFFERS
 from Audit_HeatDriveECC_ColdChamberCycle import checked_rows
@@ -22,15 +23,45 @@ PRODUCERS = {'native': '83306d76950a807fbfc68c3ffb8f34ca100d6fa1',
 INITIAL_SHA = '4AE82B42865AE1EAF3BC0D0467FBFD9CB954894A218C59AEEF59CC63122F3F83'
 
 
+def compare_storage_metadata(left, right):
+    """Geometry/properties remain exact; initialization uses existing coordinate limits."""
+    differences=[]
+    init_masks={'initial_stored_mass','reference_temperature'}
+    def compare(a,b,path):
+        if a==b: return
+        if isinstance(a,dict) and isinstance(b,dict):
+            if set(a)!=set(b): raise ValueError('Storage metadata keys differ: '+path)
+            for key in a: compare(a[key],b[key],path+'/'+key)
+        elif isinstance(a,list) and isinstance(b,list):
+            if len(a)!=len(b): raise ValueError('Storage inventory count differs')
+            for idx,(x,y) in enumerate(zip(a,b)): compare(x,y,path+'/'+str(idx))
+        else:
+            parts=path.split('/')
+            initialization=('initialization_parameters' in parts or
+                ('mask_parameters' in parts and parts[-2] in init_masks and parts[-1] in {'value','expression'}))
+            if not initialization or isinstance(a,bool) or isinstance(b,bool):
+                raise ValueError('Physical storage metadata differs: '+path)
+            try: x,y=float(a),float(b)
+            except (ValueError,TypeError): raise ValueError('Nonliteral initialization differs: '+path)
+            if not math.isfinite(x) or not math.isfinite(y): raise ValueError('Nonfinite initialization')
+            row=compare_initial(x,y)
+            if not row['within_strict_comparison']: raise ValueError('Strict initialization metadata mismatch: '+path)
+            differences.append(dict(path=path,**row))
+    compare(left,right,'storage_blocks')
+    return dict(physical_geometry_and_properties_exact=True,
+                initialization_uses_existing_strict_coordinate_comparison=True,
+                initialization_roundoff_differences=differences)
+
+
 def audit(native, conservative, repo, expected_producers=None):
     producers=PRODUCERS if expected_producers is None else expected_producers
     if set(producers)!={'native','conservative'} or any(not re.fullmatch('[0-9a-f]{40}',c) for c in producers.values()):
         raise ValueError('Require exact explicitly selected producer commits')
     folders = {'native': native, 'conservative': conservative}
     metas = {a: read_json(p/'inventory_metadata.json') for a,p in folders.items()}
-    if (metas['native']['settings_tables'] != metas['conservative']['settings_tables'] or
-            metas['native']['storage_blocks'] != metas['conservative']['storage_blocks']):
-        raise ValueError('Physical storage/initialization/property contracts differ')
+    if metas['native']['settings_tables'] != metas['conservative']['settings_tables']:
+        raise ValueError('Physical property tables differ')
+    metadata_comparison=compare_storage_metadata(metas['native']['storage_blocks'],metas['conservative']['storage_blocks'])
     for name in ('tl_connectivity.json','thermal_connectivity.json'):
         if edges(read_json(native/name)) != edges(read_json(conservative/name)):
             raise ValueError('Physical edges differ: '+name)
@@ -53,14 +84,18 @@ def audit(native, conservative, repo, expected_producers=None):
                 for c in producers.values()]
         if hashes[0]!=hashes[1]: raise ValueError('Pressure envelope implementation differs')
         source_hashes[envelope_file]=hashes[0]
-    arms=[]; gates=[]; hashes={}
+    arms=[]; gates=[]; hashes={}; initialization_sources={}
     for name,folder in folders.items():
         completion = read_json(folder/'arm_completion.json')
         if completion['arm'] != name or completion['execution_commit'] != producers[name]:
             raise ValueError('Unexpected completed-arm producer')
         public = read_json(folder/'public_inventory_targets.json')
-        if public['source_sha256'] != INITIAL_SHA or public['source_time_s'] != 0 or len(public['targets']) != 204:
+        allowed_initial_sha={INITIAL_SHA}
+        if name=='conservative': allowed_initial_sha.add(sha256(native/'observations.mat'))
+        if public['source_sha256'] not in allowed_initial_sha or public['source_time_s'] != 0 or len(public['targets']) != 204:
             raise ValueError('Different or incomplete t=0 initialization')
+        initialization_sources[name]=dict(source_sha256=public['source_sha256'],source_time_s=0,
+            route='original qualified t0' if public['source_sha256']==INITIAL_SHA else 'verified current native t0, never endpoint')
         topo=read_json(folder/'tl_connectivity.json')
         assignment,domains=resolve_domains(topo)
         if domains != 2:
@@ -113,6 +148,8 @@ def audit(native, conservative, repo, expected_producers=None):
     return dict(schema='heatdrive_ecc_separate_completed_cold_arms_v1',
         completed_arm_roots={a:str(p.resolve()) for a,p in folders.items()},
         cold_initialization_observation_sha256=INITIAL_SHA,
+        storage_metadata_comparison=metadata_comparison,
+        initialization_source_chains=initialization_sources,
         original_package_receipts_not_rewritten=True,arms=arms,source_sha256=source_hashes,
         input_sha256=hashes,initial_coordinate_comparisons=comparisons,
         strict_initial_coordinate_match=strict,

@@ -15,6 +15,7 @@ import numpy as np
 
 from Audit_HeatDriveECC_C201Horizon import named_rows
 from Audit_HeatDriveECC_SegmentedEvidence import sha256, text_field
+from Audit_HeatDriveECC_NativeInventoryCatalog import convert
 
 
 ROOT = "heatdrive_ecc_coupled_se21/"
@@ -109,6 +110,10 @@ def series(row, name):
     unit = text_field(row["unit"])
     values = np.asarray(row["values"][:], dtype=float).reshape(-1)
     return values, unit
+
+
+def source_port_balance_W(phi_a, unit_a, phi_b, unit_b, power, unit_power):
+    return convert(phi_a,unit_a,'W')+convert(phi_b,unit_b,'W')+convert(power,unit_power,'W')
 
 
 def normalized_signal(signal, start, stop, allow_leading_warmup):
@@ -218,13 +223,17 @@ def audit_arm(root, arm, start, stop):
             phi_a, phi_a_unit = series(source_rows[source_path, "Phi_A"], "Phi_A")
             phi_b, phi_b_unit = series(source_rows[source_path, "Phi_B"], "Phi_B")
             power, power_unit = series(source_rows[source_path, "power"], "power")
+            native_power_unit=power_unit
+            port_residual=source_port_balance_W(phi_a,phi_a_unit,phi_b,phi_b_unit,power,power_unit)
+            mdot=convert(mdot,mdot_unit,'kg/s')
+            rho_a=convert(rho_a,rho_a_unit,'kg/m^3');rho_b=convert(rho_b,rho_b_unit,'kg/m^3')
+            power=convert(power,power_unit,'W')
             _, pressure_a, _ = normalized_signal(signals[name_a], start, stop, allow_leading_warmup)
             _, pressure_b, _ = normalized_signal(signals[name_b], start, stop, allow_leading_warmup)
             pressure_a = pressure_a * 1.0e6
             pressure_b = pressure_b * 1.0e6
             rho_mean = 0.5 * (rho_a + rho_b)
             hydraulic = mdot * (pressure_b - pressure_a) / rho_mean
-            port_residual = phi_a + phi_b + power
             finite = bool(np.isfinite(hydraulic).all() and np.isfinite(port_residual).all())
             zero_native_power = bool(np.max(np.abs(power)) == 0.0)
             port_balance = float(np.max(np.abs(port_residual)))
@@ -236,7 +245,8 @@ def audit_arm(root, arm, start, stop):
                 "rho_a_unit": rho_a_unit,
                 "rho_b_unit": rho_b_unit,
                 "pressure_unit": "MPa probe converted to Pa",
-                "power_unit": power_unit,
+                "power_unit": "W",
+                "native_power_unit": native_power_unit,
                 "hydraulic_formula": "mdot_A*(p_B-p_A)/mean(rho_A,rho_B)",
                 "hydraulic_mean_W": float(np.mean(hydraulic)),
                 "hydraulic_positive_mean_W": float(np.mean(np.maximum(hydraulic, 0.0))),
