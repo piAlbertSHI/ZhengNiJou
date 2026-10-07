@@ -22,6 +22,9 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'Unknown independent diagnostic arm selection.');
     requested_arms={'native','conservative'};
     if ~strcmp(diagnostic_arm,'both'), requested_arms={diagnostic_arm}; end
+    assert(strcmp(diagnostic_arm,'both') || ...
+        (cycle_count==1 && duration==10 && endpoint_chamber_diagnostic), ...
+        'Scoped arms are limited to independent 10 s endpoint diagnostics.');
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown chamber formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
     assert(islogical(endpoint_chamber_diagnostic) && isscalar(endpoint_chamber_diagnostic), ...
@@ -424,7 +427,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     initial_observation_root=output_root;
                     initial_observation_path=fullfile(initial_observation_root,'native','observations.mat');
                 end
-                if cycle_count==1 && endpoint_chamber_diagnostic && strcmp(name,'conservative')
+                if cycle_count==1 && endpoint_chamber_diagnostic && ...
+                        strcmp(name,'conservative') && strcmp(diagnostic_arm,'both')
                     % The endpoint native arm is the authoritative cold-start
                     % observation for the paired arm. The qualified v22 seed
                     % remains a prerequisite, but is not a false provenance

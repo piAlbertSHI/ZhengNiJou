@@ -71,3 +71,9 @@ class DistributedFeedforwardSourceTests(unittest.TestCase):
         launcher = (ROOT/'Start_HeatDriveECC_IndependentColdDiagnostic.ps1').read_text(encoding='utf-8')
         self.assertIn('requested_controller_executed = $requestedControllerExecuted', launcher)
         self.assertIn('$exitCode = 9007', launcher)
+
+    def test_scoped_arm_never_claims_pair_or_imports_missing_current_native(self):
+        runner = (ROOT/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
+        self.assertIn('record.collection_pass=numel(record.cases)==2;', runner)
+        self.assertIn("strcmp(name,'conservative') && strcmp(diagnostic_arm,'both')", runner)
+        self.assertIn('Scoped arms are limited to independent 10 s endpoint diagnostics.', runner)
