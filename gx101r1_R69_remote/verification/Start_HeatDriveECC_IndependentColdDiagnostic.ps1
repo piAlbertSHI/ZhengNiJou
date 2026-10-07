@@ -41,7 +41,7 @@ if ([string]::IsNullOrWhiteSpace($InitialObservationRoot)) {
 $OutputRoot = [IO.Path]::GetFullPath($OutputRoot)
 $InitialObservationRoot = [IO.Path]::GetFullPath($InitialObservationRoot)
 $DiagnosticDurationS = if ($DiagnosticCycleCount -eq 1) { 10.0 } else { 10.0 * $DiagnosticCycleCount }
-$requestedArms = if ($DiagnosticArm -eq 'both') { @('native','conservative') } else { @($DiagnosticArm) }
+[string[]]$requestedArms = if ($DiagnosticArm -eq 'both') { @('native','conservative') } else { @($DiagnosticArm) }
 if ($Stage4BlendInitial -lt 0.0 -or $Stage4BlendInitial -gt 1.0 -or
     $Stage4BlendFinal -lt 0.0 -or $Stage4BlendFinal -gt 1.0) {
     throw 'Stage4 endpoint-viscosity blend weights must be within [0,1].'
@@ -216,23 +216,17 @@ finally {
     $physicalCollectionPass = $false
     $requestedArmCollectionPass = $false
     $requestedControllerExecuted = -not $DistributedPressureFeedforwardDiagnostic
+    $completionEvidenceError = $null
     if ($physicalExecutionContractPresent) {
         try {
             $executionRecord = Get-Content -LiteralPath $executionPath -Raw | ConvertFrom-Json
-            $physicalCollectionPass = [bool]$executionRecord.collection_pass
-            $requestedArmCollectionPass = [bool]$executionRecord.requested_arm_collection_pass -and
-                (@($executionRecord.cases).Count -eq $requestedArms.Count) -and
-                ((@($executionRecord.cases.arm) -join ',') -eq ($requestedArms -join ','))
-            if ($DistributedPressureFeedforwardDiagnostic) {
-                $requestedControllerExecuted = $true
-                foreach ($arm in $requestedArms) {
-                    $ff = Get-Content -LiteralPath (Join-Path $OutputRoot "$arm\distributed_pressure_ff_contract.json") -Raw | ConvertFrom-Json
-                    $requestedControllerExecuted = $requestedControllerExecuted -and
-                        ($ff.simulation_run -eq $true) -and ($ff.sources.Count -eq 21) -and
-                        ($ff.legacy_reference_multiplier_used -eq $false)
-                }
-            }
+            . (Join-Path $PSScriptRoot 'Test_HeatDriveECC_DiagnosticCompletion.ps1')
+            $checks = Test-HeatDriveECCDiagnosticCompletion -Execution $executionRecord -OutputRoot $OutputRoot -RequestedArms $requestedArms -DistributedController $DistributedPressureFeedforwardDiagnostic
+            $physicalCollectionPass = $checks.physical_collection_pass
+            $requestedArmCollectionPass = $checks.requested_arm_collection_pass
+            $requestedControllerExecuted = $checks.requested_controller_executed
         } catch {
+            $completionEvidenceError = $_.Exception.ToString()
             $physicalCollectionPass = $false
             $requestedArmCollectionPass = $false
             $requestedControllerExecuted = $false
@@ -251,6 +245,7 @@ finally {
     $contract.physical_collection_pass = $physicalCollectionPass
     $contract.requested_arm_collection_pass = $requestedArmCollectionPass
     $contract.requested_controller_executed = $requestedControllerExecuted
+    $contract.completion_evidence_error = $completionEvidenceError
     $contract | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $OutputRoot 'launcher_contract.json') -Encoding utf8
     Remove-Item -LiteralPath $earlyContractPath -Force -ErrorAction SilentlyContinue
     if ($exitCode -ne 0 -and -not (Test-Path -LiteralPath (Join-Path $OutputRoot 'REJECTED_DO_NOT_RESUME.txt'))) {

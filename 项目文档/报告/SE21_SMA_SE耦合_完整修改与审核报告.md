@@ -5542,3 +5542,23 @@ v11执行commit `83306d76950a807fbfc68c3ffb8f34ca100d6fa1`。native臂完整0--1
 后处理改为先保存有限公开观测sidecar，再提取native和边界；记录真实后处理阶段/耗时，完整observations写入后删除可再生sidecar，及时清除前一臂大数组。该调整不改物理方程、PI或库存状态；其目的为减少导出阶段信息全丢失，并取得性能定位证据，而非假定已找到退出根因。当前回归 `603/603` 通过，完整双臂门禁与20-cycle仍未完成。
 
 补算入口v12在仿真前111.56秒失败，最终JSON已证实原因是旧双臂路径要求本目录native观测，未适配单臂选择；不是物理求解失败。修复只在both模式保留该同目录配对初始化；独立单臂明确使用原已限定t=0来源，并限制单臂仅10秒冷态诊断。两次独立臂的初始物理坐标仍必须实际严格比较，不能仅凭同一来源名字就宣称完全一致；不读取v11失败包端点、OP或热状态。v12已被启动器标记拒绝，后续用新目录，禁止覆盖。单臂/配对资格分离的回归已补充。
+
+## 248. 两臂冷态机制子集通过，进入分布前馈20-cycle探索（2026-10-07）
+
+v13 conservative独立补算自然退出，MATLAB最终执行合同确认单臂完成；保留观测SHA `C1532F63F002A5A2066E692C464B71B9B579C600BABC3BC85BA5811D3379010D`。原启动器却给9008：PowerShell条件表达式将单元素集合展开成string，在StrictMode下 `.Count` 抛异常，被原宽catch吞掉。该根因已用实际变量类型/异常重现。不是机制失败，不能重跑已完成物理实验来解决它。
+
+后置检查移为独立可执行函数并用 `[string[]]` 固定臂列表类型，显式保存检查异常，核对每个完成臂的观测哈希；单臂pass仍不等于双臂pass。真实v13数据的离线重检得到requested arm/controller=true、whole pair=false、recovery=false。原launcher及拒绝标记不覆盖、不删，新的审核记录说明误判。新增实际PowerShell回归覆盖单臂、双臂和哈希损坏，不只检查源码字符串。
+
+### 248.1 共同合同与实际门禁
+
+`Audit_HeatDriveECC_CompletedColdArms.py` 直接读取v11 native及v13 conservative各自完成回执，不拼造v11最终执行JSON。精确绑定两个producer和原t=0观测SHA；通过Git字节比对确认Defaults、builder、constitutive接口、canonical模型和新前馈实现未改变；实际两臂119个存储块参数、物性表、TL/thermal边一致。compiled inventory的24个变量保留状态合同通过。
+
+实际204坐标逐项严格匹配：High125/Low79，不扩大误差容限。四个buffer及两个连接腔的质量/能量局部门禁均通过；119个存储体/49个源的声明控制体源减端点库存残差每臂约 `4.1882e-10 J`。这是模型内声明边界，不包括理想Pressure Source未计入的机械/电泵功，不能因此宣称完整装置一阶能量验证。
+
+两臂原6个流量门禁、6个A/B压力范围、相分数范围、SMA/SE固体能量均通过；两臂新前馈命令和流量结果一致，但同方程同初始化不构成独立物理validation。审核文件 `outputs_storage_audit/v11_v13_completed_cold_arms_r1.json` 仅授权下一次独立冷态20-cycle探索，明确continuation/endpoint seed=false、periodic/full device first law/recovery/Table4=false。新20-cycle仍从原始t=0来源重新独立构建，不导入v11/v13端点或C200 OP。
+
+### 248.2 更高层效率瓶颈
+
+v13总耗时 `3582.9531 s`，其中观测后处理实测 `3029.07695 s`，约84.5%。真实模拟在21:08:53已完成，完整观测保存到21:59:22；不是一直在求解10秒物理过程。已增加public/native/boundary/save-hash分阶段耗时及导出函数profile，下一轮据实定位主要调用。MathWorks本地 `simscape.logging.findNode.m` 的接口说明其递归搜索，而现有提取器对119个存储体、49个源逐项调用；这是值得量测的候选瓶颈，不未经profile就声称已经证明因果或贸然替换节点身份映射。
+
+代码/读数回归 `607/607` 通过。原C200哈希、未解释的主工作区SLX修改和Agent6隔离要求不变。新一轮必须先审核末周期流量、原生状态及相位漂移，再决定是否可做周期状态和outer solve；短周期通过不等于20-cycle/最终复现已完成。
