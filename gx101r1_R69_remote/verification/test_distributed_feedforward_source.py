@@ -77,3 +77,24 @@ class DistributedFeedforwardSourceTests(unittest.TestCase):
         self.assertIn('record.collection_pass=numel(record.cases)==2;', runner)
         self.assertIn("strcmp(name,'conservative') && strcmp(diagnostic_arm,'both')", runner)
         self.assertIn('Scoped arms are limited to independent 10 s endpoint diagnostics.', runner)
+
+    @unittest.skipUnless(shutil.which('pwsh'), 'PowerShell 7 is required')
+    def test_twenty_cycle_distributed_run_rejects_missing_audit_before_matlab(self):
+        outputs=ROOT.parent/'outputs'; outputs.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix='gate_test_',dir=outputs) as temp:
+            root=Path(temp); source=root/'source'; (source/'native').mkdir(parents=True)
+            (source/'native/observations.mat').write_bytes(b'configuration-test-only')
+            (source/'cold_chamber_execution.json').write_text(json.dumps(dict(
+                collection_pass=True,stop_time_s=10,conservative_buffers=True,
+                buffer_mass_formulation='zero_based_offset',initial_flux_compensation=True,
+                production_recovery_allowed=False)),encoding='utf-8')
+            quote=lambda p:str(p).replace("'","''")
+            destination=root/'blocked_config'
+            command=(f"& '{quote(ROOT/'Start_HeatDriveECC_IndependentColdDiagnostic.ps1')}' "
+                     f"-OutputRoot '{quote(destination)}' -InitialObservationRoot '{quote(source)}' "
+                     '-PrepareOnly -DiagnosticCycleCount 20 -DistributedPressureFeedforwardDiagnostic $true')
+            result=subprocess.run(['pwsh','-NoProfile','-Command',command],capture_output=True,
+                                  text=True,encoding='utf-8',timeout=30)
+            self.assertNotEqual(result.returncode,0)
+            self.assertIn('requires a completed cold-arm audit',result.stderr)
+            self.assertFalse(destination.exists())

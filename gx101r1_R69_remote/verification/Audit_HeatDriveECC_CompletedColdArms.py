@@ -98,6 +98,8 @@ def audit(native, conservative, repo):
                 **compare_initial(scalar_series(bb[key],t['unit'])[0],scalar_series(aa[key],t['unit'])[0])))
     strict=len(comparisons)==204 and len({r['path'] for r in comparisons})==204 and all(r['within_strict_comparison'] for r in comparisons)
     return dict(schema='heatdrive_ecc_separate_completed_cold_arms_v1',
+        completed_arm_roots={a:str(p.resolve()) for a,p in folders.items()},
+        cold_initialization_observation_sha256=INITIAL_SHA,
         original_package_receipts_not_rewritten=True,arms=arms,source_sha256=source_hashes,
         input_sha256=hashes,initial_coordinate_comparisons=comparisons,
         strict_initial_coordinate_match=strict,

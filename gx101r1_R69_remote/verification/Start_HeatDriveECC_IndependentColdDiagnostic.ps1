@@ -24,6 +24,7 @@ param(
     [bool]$DistributedPressureFeedforwardDiagnostic = $false,
     [ValidateSet('both','native','conservative')]
     [string]$DiagnosticArm = 'both',
+    [string]$ColdExplorationAuditPath = '',
     [switch]$PrepareOnly
 )
 
@@ -82,6 +83,30 @@ if ((Test-Path -LiteralPath $stdoutTemp) -or (Test-Path -LiteralPath $stderrTemp
     throw "Refusing to overwrite temporary diagnostic logs for: $OutputRoot"
 }
 $sourceSha = (Get-FileHash -LiteralPath $sourceObservations -Algorithm SHA256).Hash
+$coldAuditSha = $null
+if ($DistributedPressureFeedforwardDiagnostic -and $DiagnosticCycleCount -eq 20) {
+    if ([string]::IsNullOrWhiteSpace($ColdExplorationAuditPath)) {
+        throw 'Distributed 20-cycle exploration requires a completed cold-arm audit.'
+    }
+    $coldAudit = Get-Content -LiteralPath $ColdExplorationAuditPath -Raw | ConvertFrom-Json
+    if ($coldAudit.schema -ne 'heatdrive_ecc_separate_completed_cold_arms_v1' -or
+        $coldAudit.twenty_cycle_independent_cold_exploration_allowed -ne $true -or
+        $coldAudit.strict_initial_coordinate_match -ne $true -or
+        $coldAudit.cold_mechanism_subset_pass -ne $true -or
+        $coldAudit.production_recovery_allowed -ne $false -or
+        $coldAudit.continuation_or_endpoint_seed_allowed -ne $false -or
+        $coldAudit.cold_initialization_observation_sha256 -ne $sourceSha) {
+        throw 'Cold-arm audit does not authorize this independent initialization.'
+    }
+    foreach ($arm in @('native','conservative')) {
+        $armRoot = $coldAudit.completed_arm_roots.$arm
+        $actual = (Get-FileHash -LiteralPath (Join-Path $armRoot 'observations.mat') -Algorithm SHA256).Hash
+        if ($actual -ne $coldAudit.input_sha256.$arm.'observations.mat') {
+            throw "Completed cold observation changed: $arm"
+        }
+    }
+    $coldAuditSha = (Get-FileHash -LiteralPath $ColdExplorationAuditPath -Algorithm SHA256).Hash
+}
 $gitHead = (& git -C $repoRoot rev-parse HEAD).Trim()
 
 $contract = [ordered]@{
@@ -91,6 +116,8 @@ $contract = [ordered]@{
     started_at = (Get-Date).ToString('o')
     execution_commit = $gitHead
     diagnostic_arm = $DiagnosticArm
+    cold_exploration_audit_path = $ColdExplorationAuditPath
+    cold_exploration_audit_sha256 = $coldAuditSha
     output_root = $OutputRoot
     initialization_source_root = $InitialObservationRoot
     initialization_source_observations_sha256 = $sourceSha

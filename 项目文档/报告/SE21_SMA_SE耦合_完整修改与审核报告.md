@@ -5562,3 +5562,5 @@ v13 conservative独立补算自然退出，MATLAB最终执行合同确认单臂�
 v13总耗时 `3582.9531 s`，其中观测后处理实测 `3029.07695 s`，约84.5%。真实模拟在21:08:53已完成，完整观测保存到21:59:22；不是一直在求解10秒物理过程。已增加public/native/boundary/save-hash分阶段耗时及导出函数profile，下一轮据实定位主要调用。MathWorks本地 `simscape.logging.findNode.m` 的接口说明其递归搜索，而现有提取器对119个存储体、49个源逐项调用；这是值得量测的候选瓶颈，不未经profile就声称已经证明因果或贸然替换节点身份映射。
 
 代码/读数回归 `607/607` 通过。原C200哈希、未解释的主工作区SLX修改和Agent6隔离要求不变。新一轮必须先审核末周期流量、原生状态及相位漂移，再决定是否可做周期状态和outer solve；短周期通过不等于20-cycle/最终复现已完成。
+
+20-cycle入口进一步绑定可读的已完成臂根目录、原始初始化SHA及观测SHA，运行前拒绝缺失/变更/不授权的cold audit；对应读数在r2重新审核，不以一个布尔true替代原始证据。下一次全新目录 `v14_distributed_ff20c` 只运行一次并等待自然退出。C200/C180四个权威文件已在治理快照 `workspace_governance_20261007_distributed_cold` 全部重算哈希通过；主仓库outputs+outputs_storage_audit分类约15.998541GiB，明确不含worktree和Agent6。只删除v10已完成实验的可再生cache/codegen，实际释放66967bytes，保存逐文件退役回执；保留最新完整两臂和同窗口旧控制器对照，不虚报大规模清理。
