@@ -22,6 +22,8 @@ param(
     [ValidateSet(1,2,20)]
     [int]$DiagnosticCycleCount = 1,
     [bool]$DistributedPressureFeedforwardDiagnostic = $false,
+    [ValidateSet('both','native','conservative')]
+    [string]$DiagnosticArm = 'both',
     [switch]$PrepareOnly
 )
 
@@ -39,6 +41,7 @@ if ([string]::IsNullOrWhiteSpace($InitialObservationRoot)) {
 $OutputRoot = [IO.Path]::GetFullPath($OutputRoot)
 $InitialObservationRoot = [IO.Path]::GetFullPath($InitialObservationRoot)
 $DiagnosticDurationS = if ($DiagnosticCycleCount -eq 1) { 10.0 } else { 10.0 * $DiagnosticCycleCount }
+$requestedArms = if ($DiagnosticArm -eq 'both') { @('native','conservative') } else { @($DiagnosticArm) }
 if ($Stage4BlendInitial -lt 0.0 -or $Stage4BlendInitial -gt 1.0 -or
     $Stage4BlendFinal -lt 0.0 -or $Stage4BlendFinal -gt 1.0) {
     throw 'Stage4 endpoint-viscosity blend weights must be within [0,1].'
@@ -87,6 +90,7 @@ $contract = [ordered]@{
     generated_at = (Get-Date).ToString('o')
     started_at = (Get-Date).ToString('o')
     execution_commit = $gitHead
+    diagnostic_arm = $DiagnosticArm
     output_root = $OutputRoot
     initialization_source_root = $InitialObservationRoot
     initialization_source_observations_sha256 = $sourceSha
@@ -161,6 +165,7 @@ $config = [ordered]@{
     stage4_endpoint_viscosity_closure_mode = $Stage4ViscosityClosure
 }
 $config.distributed_pressure_feedforward_diagnostic = $DistributedPressureFeedforwardDiagnostic
+$config.diagnostic_arm = $DiagnosticArm
 $config | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $configPath -Encoding utf8
 $preparedConfig = Get-Content -LiteralPath $configPath -Raw | ConvertFrom-Json
 if ($preparedConfig.distributed_pressure_feedforward_diagnostic -isnot [bool] -or
@@ -209,14 +214,18 @@ finally {
     $executionPath = Join-Path $OutputRoot 'cold_chamber_execution.json'
     $physicalExecutionContractPresent = Test-Path -LiteralPath $executionPath -PathType Leaf
     $physicalCollectionPass = $false
+    $requestedArmCollectionPass = $false
     $requestedControllerExecuted = -not $DistributedPressureFeedforwardDiagnostic
     if ($physicalExecutionContractPresent) {
         try {
             $executionRecord = Get-Content -LiteralPath $executionPath -Raw | ConvertFrom-Json
             $physicalCollectionPass = [bool]$executionRecord.collection_pass
+            $requestedArmCollectionPass = [bool]$executionRecord.requested_arm_collection_pass -and
+                (@($executionRecord.cases).Count -eq $requestedArms.Count) -and
+                ((@($executionRecord.cases.arm) -join ',') -eq ($requestedArms -join ','))
             if ($DistributedPressureFeedforwardDiagnostic) {
                 $requestedControllerExecuted = $true
-                foreach ($arm in @('native', 'conservative')) {
+                foreach ($arm in $requestedArms) {
                     $ff = Get-Content -LiteralPath (Join-Path $OutputRoot "$arm\distributed_pressure_ff_contract.json") -Raw | ConvertFrom-Json
                     $requestedControllerExecuted = $requestedControllerExecuted -and
                         ($ff.simulation_run -eq $true) -and ($ff.sources.Count -eq 21) -and
@@ -225,12 +234,13 @@ finally {
             }
         } catch {
             $physicalCollectionPass = $false
+            $requestedArmCollectionPass = $false
             $requestedControllerExecuted = $false
         }
     }
     # A zero exit code without the runner's final physical contract is a
     # launcher false-positive, never a completed diagnostic.
-    if ($exitCode -eq 0 -and -not $physicalCollectionPass) { $exitCode = 9008 }
+    if ($exitCode -eq 0 -and -not $requestedArmCollectionPass) { $exitCode = 9008 }
     if ($exitCode -eq 0 -and -not $requestedControllerExecuted) { $exitCode = 9007 }
     $contract.completed_at = (Get-Date).ToString('o')
     $contract.lifecycle_state = if ($exitCode -eq 0) { 'completed' } else { 'failed' }
@@ -239,6 +249,7 @@ finally {
     $contract.launch_exception = $launchException
     $contract.physical_execution_contract_present = $physicalExecutionContractPresent
     $contract.physical_collection_pass = $physicalCollectionPass
+    $contract.requested_arm_collection_pass = $requestedArmCollectionPass
     $contract.requested_controller_executed = $requestedControllerExecuted
     $contract | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $OutputRoot 'launcher_contract.json') -Encoding utf8
     Remove-Item -LiteralPath $earlyContractPath -Force -ErrorAction SilentlyContinue

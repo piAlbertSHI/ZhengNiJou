@@ -1,4 +1,4 @@
-function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root, simulation_mode, endpoint_chamber_diagnostic, endpoint_all_arms)
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root, simulation_mode, endpoint_chamber_diagnostic, endpoint_all_arms, diagnostic_arm)
 % Authorized independent cold diagnostic. Never import or export a recovery OP.
     if nargin<3, duration=10; end
     if nargin<4, scale_inventory=false; end
@@ -17,6 +17,11 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     if nargin<17, simulation_mode='normal'; end
     if nargin<18, endpoint_chamber_diagnostic=false; end
     if nargin<19, endpoint_all_arms=false; end
+    if nargin<20, diagnostic_arm='both'; end
+    assert(any(strcmp(diagnostic_arm,{'both','native','conservative'})), ...
+        'Unknown independent diagnostic arm selection.');
+    requested_arms={'native','conservative'};
+    if ~strcmp(diagnostic_arm,'both'), requested_arms={diagnostic_arm}; end
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown chamber formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
     assert(islogical(endpoint_chamber_diagnostic) && isscalar(endpoint_chamber_diagnostic), ...
@@ -230,7 +235,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'table4_reproduction_claim',false,'periodic_steady_state',false, ...
         'full_device_first_law_verified',false,'checkpoint_saved',false, ...
         'start_time_s',0,'stop_time_s',duration,'cycle_count',cycle_count, ...
-        'collection_pass',false,'cases',{{}},'error_message','', ...
+        'collection_pass',false,'requested_arm_collection_pass',false, ...
+        'requested_arms',{requested_arms},'cases',{{}},'error_message','', ...
         'new_inventory_initialization','native_cold_t0_mass_energy_high_targets', ...
         'diagnostic_network_absolute_pressure_MPa',NaN, ...
         'diagnostic_network_absolute_pressure_source','', ...
@@ -371,7 +377,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             copyfile(fullfile(repo,'verification',source_folder,['+' package]),fullfile(buffer_build,['+' package]));
             cd(buffer_build);ssc_build(package);addpath(buffer_build);load_system([package '_lib']);cd(repo);
         end
-        for kind={'native','conservative'}
+        for kind=requested_arms
             name=kind{1}; arm=fullfile(output_root,name); mkdir(arm);
             use_endpoint_arm=strcmp(name,'conservative') || (endpoint_chamber_diagnostic && endpoint_all_arms);
             % Keep the native arm as the unmodified hydraulic/thermal
@@ -620,8 +626,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 write_json(fullfile(arm,'compiled_inventory_tags.json'),struct('node_metadata',{tags}, ...
                     'chamber_source_file',chamber_source,'post_simulation_source_verified',true));
             end
-            native=Extract_HeatDriveECC_NativeStorageTraces(output.simlog,model,false,changed,buffer_paths);
-            [source_traces,boundary_metadata]=Extract_HeatDriveECC_BoundaryTraces(output.simlog,model);
+            export_clock=tic;
             signals=struct(); names=output.who;
             for k=1:numel(names)
                 v=output.get(names{k});
@@ -658,6 +663,17 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 stage4_controller_probe_contract);
             record.stage4_controller_probe_contracts{end+1}= ...
                 stage4_controller_probe_contract;
+            public_file=fullfile(arm,'public_observations.mat');
+            save(public_file,'signals','pressure_probe_signals', ...
+                'stage4_controller_probe_signals','thermal_boundary_signals','-v7.3');
+            write_json(fullfile(arm,'postprocessing_progress.json'), ...
+                struct('phase','public_observations_saved','elapsed_s',toc(export_clock), ...
+                'full_collection_pass',false,'production_recovery_allowed',false));
+            native=Extract_HeatDriveECC_NativeStorageTraces(output.simlog,model,false,changed,buffer_paths);
+            write_json(fullfile(arm,'postprocessing_progress.json'), ...
+                struct('phase','native_traces_extracted','elapsed_s',toc(export_clock), ...
+                'full_collection_pass',false,'production_recovery_allowed',false));
+            [source_traces,boundary_metadata]=Extract_HeatDriveECC_BoundaryTraces(output.simlog,model);
             save(fullfile(arm,'observations.mat'),'native','source_traces','boundary_metadata', ...
                 'signals','pressure_probe_signals','stage4_controller_probe_signals', ...
                 'thermal_boundary_signals','-v7.3');
@@ -684,6 +700,11 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 'scientific_gate_evaluated',false,'do_not_use_as_seed',true, ...
                 'do_not_use_for_recovery',true);
             write_json(fullfile(arm,'arm_completion.json'),arm_completion);
+            write_json(fullfile(arm,'postprocessing_progress.json'), ...
+                struct('phase','complete','elapsed_s',toc(export_clock), ...
+                'full_collection_pass',true,'production_recovery_allowed',false));
+            % The full observations now contain this regenerable sidecar.
+            delete(public_file);
             completed_arms=cellfun(@(c) c.arm,record.cases,'UniformOutput',false);
             write_json(fullfile(output_root,'cold_chamber_progress.json'),struct( ...
                 'schema','heatdrive_ecc_cold_chamber_progress_v1', ...
@@ -692,12 +713,13 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 'last_completed_arm',name,'collection_pass',false, ...
                 'scientific_gate_evaluated',false,'production_recovery_allowed',false, ...
                 'do_not_use_as_seed',true,'do_not_use_for_recovery',true));
-            clear model_cleanup output
+            clear model_cleanup output native source_traces signals pressure_probe_signals stage4_controller_probe_signals
         end
         assert(strcmp(file_hash(op),contract.checkpoint_sha256) && strcmp(file_hash(raw),contract.result_sha256) && ...
             strcmp(file_hash(overrides.model_path),model_hash),'Frozen authority or canonical model changed.');
         record.c200_result_sha256=contract.result_sha256; record.c200_checkpoint_sha256=contract.checkpoint_sha256;
         record.collection_pass=numel(record.cases)==2;
+        record.requested_arm_collection_pass=numel(record.cases)==numel(requested_arms);
     catch ME
         record.error_message=ME.message; record.error_identifier=ME.identifier;
         record.error_report=getReport(ME,'extended','hyperlinks','off');
@@ -706,7 +728,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     fprintf('%s\n',jsonencode(struct('collection_pass',record.collection_pass, ...
         'completed_arms',numel(record.cases),'production_recovery_allowed',false, ...
         'result_file',fullfile(output_root,'cold_chamber_execution.json'))));
-    assert(record.collection_pass,'Cold chamber diagnostic failed; inspect execution JSON.');
+    assert(record.requested_arm_collection_pass,'Cold chamber diagnostic failed; inspect execution JSON.');
 end
 
 function metadata=export_metadata(model,changed,buffer_paths)
