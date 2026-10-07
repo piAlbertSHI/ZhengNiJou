@@ -2,7 +2,15 @@ function result = Verify_HeatDriveECC_DistributedFeedforwardWiring(repo, source_
 % Compile-free wiring test; not a physical experiment or a usable cold seed.
     original=pwd; restore=onCleanup(@() cd(original));
     cd(repo);
+    files={'Build_HeatDriveECC_DistributedPressureEnvelope.m', ...
+        'Configure_HeatDriveECC_DistributedPressureFeedforward.m', ...
+        'Find_HeatDriveECC_NativeLogNode.m','Verify_HeatDriveECC_NativeLogLookup.m'};
     addpath(genpath(source_root));
+    for idx=1:numel(files)
+        issues=checkcode(fullfile(repo,'verification',files{idx}),'-id');
+        assert(~any(strcmp({issues.id},'SYNER')), ...
+            'HeatDriveECC:DiagnosticSyntax','Diagnostic source has a syntax error.');
+    end
     frozen=load(fullfile(source_root,'native','configuration.mat'),'options');
     overrides=frozen.options;
     overrides.model_path=fullfile(repo,[overrides.model_name '.slx']);

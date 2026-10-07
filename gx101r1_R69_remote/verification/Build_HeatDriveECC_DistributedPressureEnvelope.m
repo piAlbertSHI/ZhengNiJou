@@ -12,7 +12,7 @@ function [command, evidence] = Build_HeatDriveECC_DistributedPressureEnvelope(op
         'HeatDriveECC:DistributedFFSwitch','Unsupported inactive/precharge contract.');
     p = double(bias.Data(:)); v = double(valves.Data);
     assert(size(v,1)==numel(p) && size(v,2)==6 && ...
-        all(isfinite(p)) && all(isfinite(v),'Invalid valve schedule.');
+        all(isfinite(p)) && all(isfinite(v),'all'),'Invalid valve schedule.');
     route2 = any(v(:,1:3)>0,2); route4 = any(v(:,4:6)>0,2);
     assert(~any(route2 & route4),'Simultaneously open SE routes.');
     alpha = zeros(size(p));
