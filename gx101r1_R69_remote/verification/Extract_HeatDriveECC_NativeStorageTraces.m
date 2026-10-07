@@ -20,7 +20,7 @@ function traces = Extract_HeatDriveECC_NativeStorageTraces(log, model, final_onl
         end
         component_count = component_count + numel(paths);
         for k = 1:numel(paths)
-            node = simscape.logging.findNode(log, paths{k});
+            node = Find_HeatDriveECC_NativeLogNode(log, paths{k});
             assert(~isempty(node), 'Missing native storage node: %s', paths{k});
             names = node.childIds;
             for j = 1:numel(names)

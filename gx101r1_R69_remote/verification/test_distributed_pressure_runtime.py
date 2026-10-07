@@ -32,3 +32,32 @@ class DistributedRuntimeTests(unittest.TestCase):
         values=list(self.fixture()); values[0][0,0]=np.nan
         with self.assertRaises(ValueError):
             check_equations(*values)
+
+    def envelope_fixture(self):
+        v=list(self.fixture())
+        alpha=np.array([0,0,.0029,.2,1,1,1,.2,0,0.])
+        v[4]=alpha*.0032
+        v[6].update(schema='heatdrive_ecc_distributed_pressure_ff_v2',nominal_flow_kg_s=.0032,
+                    pressure_envelope=dict(switch_pressure_MPa=-1e-6),
+                    original_switch_prepressure_preserved=True,PI_target_used_as_pressure_envelope=False)
+        idle=(1-alpha)*-1e-6
+        v[5]=-v[4]*v[3]+idle
+        return v+[alpha,idle]
+
+    def test_original_pressure_envelope_and_prepressure_pass(self):
+        _,gates=check_equations(*self.envelope_fixture())
+        self.assertTrue(all(gates.values()))
+
+    def test_zero_inactive_pressure_fails(self):
+        v=self.envelope_fixture();v[8]=np.zeros(10)
+        _,gates=check_equations(*v)
+        self.assertFalse(gates['switch_prepressure'])
+
+    def test_target_substituted_for_pressure_ramp_fails(self):
+        v=self.envelope_fixture();v[4][2]=.0032*.4
+        _,gates=check_equations(*v)
+        self.assertFalse(gates['envelope_target'])
+
+    def test_v2_missing_envelope_fails_closed(self):
+        with self.assertRaises(ValueError):
+            check_equations(*self.envelope_fixture()[:7])

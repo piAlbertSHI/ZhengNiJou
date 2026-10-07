@@ -15,7 +15,8 @@ def read_json(path):
     return json.loads(path.read_text(encoding='utf-8-sig'))
 
 
-def check_equations(live, delayed, viscosity, resistance, target, command, contract):
+def check_equations(live, delayed, viscosity, resistance, target, command, contract,
+                    envelope=None, inactive=None):
     T = np.asarray(contract['property_temperature_K'])
     nu = np.asarray(contract['kinematic_viscosity_m2_s'])
     coefficients = np.asarray(contract['segment_coefficients_MPa_per_kgps_per_m2ps'])
@@ -27,6 +28,22 @@ def check_equations(live, delayed, viscosity, resistance, target, command, contr
     predicted_nu = np.interp(delayed, T, nu)
     predicted_r = coefficients @ predicted_nu
     predicted_command = -target * predicted_r
+    envelope_errors = {}
+    if contract.get('schema') == 'heatdrive_ecc_distributed_pressure_ff_v2':
+        if envelope is None or inactive is None:
+            raise ValueError('Missing v2 commutation observations')
+        switch = contract['pressure_envelope']['switch_pressure_MPa']
+        if (envelope.shape != target.shape or inactive.shape != target.shape
+                or not np.isfinite(envelope).all() or not np.isfinite(inactive).all()
+                or np.any((envelope < -1e-12) | (envelope > 1+1e-12)) or switch >= 0
+                or contract.get('original_switch_prepressure_preserved') is not True
+                or contract.get('PI_target_used_as_pressure_envelope') is not False):
+            raise ValueError('Invalid v2 pressure envelope')
+        expected_idle = (1-envelope)*switch
+        predicted_command += expected_idle
+        envelope_errors = dict(
+            envelope_target_max_kg_s=float(np.max(abs(target-envelope*contract['nominal_flow_kg_s']))),
+            switch_prepressure_max_MPa=float(np.max(abs(inactive-expected_idle))))
     errors = {
         'one_step_delay_max_K': float(np.max(abs(delayed[:, 1:]-live[:, :-1]))),
         'native_nu_interpolation_max_m2_s': float(np.max(abs(viscosity-predicted_nu))),
@@ -38,6 +55,10 @@ def check_equations(live, delayed, viscosity, resistance, target, command, contr
                  resistance=errors['distributed_resistance_max_MPa_per_kgps'] <= 1e-9,
                  command=errors['pressure_command_formula_max_MPa'] <= 1e-10,
                  property_domain=bool(np.all((delayed >= T[0]) & (delayed <= T[-1]))))
+    errors.update(envelope_errors)
+    if envelope_errors:
+        gates.update(envelope_target=envelope_errors['envelope_target_max_kg_s']<=1e-12,
+                     switch_prepressure=envelope_errors['switch_prepressure_max_MPa']<=1e-12)
     return errors, gates
 
 
@@ -61,9 +82,17 @@ def audit_arm(folder):
             signals[name] = row['values'][:]
         get = lambda n: signals['distributed_'+n]
         live = get('fluid_temperature21_K')
+        v2=contract.get('schema')=='heatdrive_ecc_distributed_pressure_ff_v2'
         errors, gates = check_equations(live, get('delayed_temperature21_K'),
             get('kinematic_viscosity21_m2_s'), get('bed_resistance_MPa_per_kgps')[0],
-            get('target_flow_kg_s')[0], get('pressure_feedforward_MPa')[0], contract)
+            get('target_flow_kg_s')[0], get('pressure_feedforward_MPa')[0], contract,
+            get('pressure_envelope')[0] if v2 else None,
+            get('inactive_pressure_MPa')[0] if v2 else None)
+        if v2:
+            schedule=contract['pressure_envelope']
+            expected=np.interp(time,schedule['time_s'],schedule['pressure_fraction'])
+            errors['original_pressure_schedule_fraction_max']=float(np.max(abs(expected-get('pressure_envelope')[0])))
+            gates['original_pressure_schedule_preserved']=errors['original_pressure_schedule_fraction_max']<=1e-10
         lookup = {r['block']: i for i, r in enumerate(contract['sources'])}
         if len(lookup) != 21:
             raise ValueError('Duplicate native source paths')

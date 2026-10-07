@@ -24,7 +24,7 @@ function record=Export_HeatDriveECC_FailedColdObservations(output,model,metadata
     for k=1:numel(metadata.storage_blocks)
         block=metadata.storage_blocks{k};
         try
-            node=simscape.logging.findNode(log,block.block_path);
+            node=Find_HeatDriveECC_NativeLogNode(log,block.block_path);
             assert(~isempty(node),'No node in failed log.'); leaves=node.childIds;
             for j=1:numel(leaves)
                 series=node.child(leaves{j}).series;

@@ -106,6 +106,13 @@ if ($DistributedPressureFeedforwardDiagnostic -and $DiagnosticCycleCount -eq 20)
         }
     }
     $coldAuditSha = (Get-FileHash -LiteralPath $ColdExplorationAuditPath -Algorithm SHA256).Hash
+    foreach ($source in @('verification/Configure_HeatDriveECC_DistributedPressureFeedforward.m',
+                         'verification/Build_HeatDriveECC_DistributedPressureEnvelope.m')) {
+        $actualSourceHash = (Get-FileHash -LiteralPath (Join-Path $repoRoot $source) -Algorithm SHA256).Hash
+        if ($coldAudit.source_sha256.$source -ne $actualSourceHash) {
+            throw "Cold audit controller implementation does not match this run: $source"
+        }
+    }
 }
 $gitHead = (& git -C $repoRoot rev-parse HEAD).Trim()
 
