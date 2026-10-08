@@ -661,9 +661,6 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     if bounded_cold
                         mechanism=Evaluate_HeatDriveECC_ColdMechanism(output,options,model,arm,record.execution_commit);
                         record.bounded_cold_mechanism_cases{end+1}=mechanism;
-                        [saved_native_log,native_snapshot]=Snapshot_HeatDriveECC_NativeLog( ...
-                            output.simlog,arm,[changed(:);buffer_paths(:)]);
-                        write_json(fullfile(arm,'native_log_snapshot.json'),native_snapshot);
                         if ~mechanism.mechanism_pass
                             write_json(fullfile(output_root,'REJECTED_DO_NOT_RESUME.json'), ...
                                 struct('reason','original production mechanism failure', ...
@@ -672,9 +669,9 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                                 'New bounded cold mechanism failed; preserve and diagnose without propagation.');
                         end
                     end
-                    restored=Verify_HeatDriveECC_CoupledStateRestore(input,output,state_contract,duration,arm);
-                    record.state_restore_preflight_cases{end+1}=restored;
                     if ~bounded_cold
+                        restored=Verify_HeatDriveECC_CoupledStateRestore(input,output,state_contract,duration,arm);
+                        record.state_restore_preflight_cases{end+1}=restored;
                         clear model_cleanup output
                         continue
                     end
@@ -757,7 +754,6 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 struct('phase','public_observations_saved','elapsed_s',toc(export_clock), ...
                 'full_collection_pass',false,'production_recovery_allowed',false));
             native_log=output.simlog;
-            if state_preflight && bounded_cold,native_log=saved_native_log;end
             [native,native_api_profile]=Extract_HeatDriveECC_NativeStorageTraces(native_log,model,false,changed,buffer_paths);
             write_json(fullfile(arm,'native_leaf_api_profile.json'),native_api_profile);
             native_export_s=toc(export_clock)-public_export_s;
@@ -769,6 +765,11 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             save(fullfile(arm,'observations.mat'),'native','source_traces','boundary_metadata', ...
                 'signals','pressure_probe_signals','stage4_controller_probe_signals', ...
                 'thermal_boundary_signals','-v7.3');
+            if state_preflight && bounded_cold
+                persisted=Audit_HeatDriveECC_NativeLedgerPersistence( ...
+                    fullfile(arm,'observations.mat'),native,source_traces,boundary_metadata);
+                write_json(fullfile(arm,'native_ledger_persistence.json'),persisted);
+            end
             record.cases{end+1}=struct('arm',name,'simulation_mode',arm_simulation_mode, ...
                 'topology_update_pass',true, ...
                 'storage_components',numel(metadata.storage_blocks),'native_trace_count',numel(native), ...
@@ -821,6 +822,12 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 'last_completed_arm',name,'collection_pass',false, ...
                 'scientific_gate_evaluated',false,'production_recovery_allowed',false, ...
                 'do_not_use_as_seed',true,'do_not_use_for_recovery',true));
+            if state_preflight && bounded_cold
+                % All native evidence has been persisted before another sim()
+                % can invalidate the vendor log's backing storage.
+                restored=Verify_HeatDriveECC_CoupledStateRestore(input,output,state_contract,duration,arm);
+                record.state_restore_preflight_cases{end+1}=restored;
+            end
             clear model_cleanup output native source_traces signals pressure_probe_signals stage4_controller_probe_signals measured timing_rows native_api_profile
         end
         assert(strcmp(file_hash(op),contract.checkpoint_sha256) && strcmp(file_hash(raw),contract.result_sha256) && ...

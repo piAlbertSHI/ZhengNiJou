@@ -22,6 +22,9 @@ function record = Verify_HeatDriveECC_RebuiltCycleRestore(input, source_root, fo
     saved=load(op_file,'diagnostic_operating_point','production_recovery_allowed');
     assert(~saved.production_recovery_allowed,'Source carries forbidden production authority.');
     start=20;stop=30;model=input.ModelName;
+    configured=evalin('base','EIGHTH_ROUND_OPTIONS');
+    qualify_mechanism=isfield(configured.branch,'pressure_command_domain_closure_enabled') && ...
+        configured.branch.pressure_command_domain_closure_enabled;
     assert(strcmp(get_param(model,'OperatingPointContentsChecksumMismatchMsg'),'error') && ...
         strcmp(get_param(model,'OperatingPointInterfaceChecksumMismatchMsg'),'error'), ...
         'Both strict checksum policies must be retained.');
@@ -40,13 +43,22 @@ function record = Verify_HeatDriveECC_RebuiltCycleRestore(input, source_root, fo
         assert(isempty(resumed.ErrorMessage),'Strict rebuilt restore failed: %s',resumed.ErrorMessage);
         resumed_states=window_states(resumed,start,stop);
         resumed_signals=window_signals(resumed,start,stop);
-        if bounded_candidate
+        if qualify_mechanism
             metadata=jsondecode(fileread(fullfile(folder,'inventory_metadata.json')));
             blocks=metadata.storage_blocks;blocks=blocks([blocks.conservative_diagnostic]);
-            [~,snapshot]=Snapshot_HeatDriveECC_NativeLog(resumed.simlog,folder,{blocks.block_path});
-            record.native_snapshot=snapshot;
+            paths={blocks.block_path};buffers=paths(contains(paths,'FluidBuffer'));
+            chambers=setdiff(paths,buffers,'stable');assert(numel(buffers)==4 && numel(chambers)==2);
+            physical=Extract_HeatDriveECC_PhysicalLogs(resumed,configured,model,false);
+            [native,~]=Extract_HeatDriveECC_NativeStorageTraces(resumed.simlog,model,false,chambers,buffers);
+            [source_traces,boundary_metadata]=Extract_HeatDriveECC_BoundaryTraces(resumed.simlog,model);
+            native_file=fullfile(folder,'restored_native_ledger_observation.mat');assert(~isfile(native_file));
+            save(native_file,'native','source_traces','boundary_metadata','-v7.3');
+            record.native_ledger_persistence=Audit_HeatDriveECC_NativeLedgerPersistence( ...
+                native_file,native,source_traces,boundary_metadata);
+            record.native_ledger_observation_sha256=file_hash(native_file);
+            clear native source_traces
         end
-        if ~bounded_candidate,clear resumed;end
+        clear resumed
         record.strict_restore_completed=true;
         reference=sim(input.setModelParameter('StopTime',num2str(stop,'%.17g')));
         assert(isempty(reference.ErrorMessage),'Continuous reference failed: %s',reference.ErrorMessage);
@@ -71,9 +83,7 @@ function record = Verify_HeatDriveECC_RebuiltCycleRestore(input, source_root, fo
         record.rebuilt_complete_cycle_pass= ...
             all(cellfun(@(r) r.values_exact,record.state_comparisons)) && ...
             all(cellfun(@(r) r.values_exact,record.signal_comparisons));
-        if bounded_candidate && record.rebuilt_complete_cycle_pass
-            configured=evalin('base','EIGHTH_ROUND_OPTIONS');
-            physical=Extract_HeatDriveECC_PhysicalLogs(resumed,configured,model,false);
+        if qualify_mechanism && record.rebuilt_complete_cycle_pass
             physical.authority='physical_simscape_to_workspace_logs';
             physical.legacy_surrogate_used_for_results=false;physical.sim_call_count=1;physical.walltime_s=NaN;
             provenance=struct('checkpoint_restart_used',true,'checkpoint_chain_verified',true, ...
@@ -88,7 +98,6 @@ function record = Verify_HeatDriveECC_RebuiltCycleRestore(input, source_root, fo
                 'physical','configured','provenance','signals','-v7.3');
             assert(audit.passed,'HeatDriveECC:BoundedRestoredMechanismFailed', ...
                 'Full-cycle state proof passed, but the actual restored mechanism failed.');
-            clear resumed
         end
     catch ME
         record.error_message=ME.message;record.error_report=getReport(ME,'extended','hyperlinks','off');
