@@ -109,7 +109,10 @@ def analyze_completed(root):
                          'thermal_connectivity.json', 'buffer_replacement_contract.json',
                          'distributed_pressure_ff_contract.json', 'public_inventory_targets.json')})
     summary.update(schema='heatdrive_ecc_completed_warmup_physics_v1',
-                   analysis_scope='state_qualified_diagnostic_segment' if len(arms_requested)==1 else 'independent_cold_warmup',
+                   analysis_scope=('independent_cold_qualification' if
+                                   execution.get('diagnostic_state_options', {}).get('mode')=='restore_preflight'
+                                   else 'state_qualified_diagnostic_segment' if len(arms_requested)==1
+                                   else 'independent_cold_warmup'),
                    actual_segment_start_s=execution['start_time_s'],
                    producer=execution['execution_commit'], logged_window_s=[start, stop],
                    mechanism_subset_pass=all(r['mechanism_subset_pass'] for r in summary['arms']),

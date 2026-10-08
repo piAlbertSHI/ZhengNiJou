@@ -132,9 +132,12 @@ def analyze(root):
 def diagnostic_capture_hashes(root, execution):
     if not execution['checkpoint_saved']:
         return {}
-    if (execution.get('diagnostic_state_options', {}).get('mode') not in ('capture','diagnostic_resume')
+    if (execution.get('diagnostic_state_options', {}).get('mode') not in ('capture','diagnostic_resume','restore_preflight')
             or execution.get('production_recovery_allowed') is not False):
         raise ValueError('Unknown checkpoint authority; never treat it as cold evidence')
+    if execution.get('diagnostic_state_options', {}).get('mode') == 'restore_preflight':
+        if diagnostic_arms(root,execution) != ('native',):
+            raise ValueError('Only a complete independently qualified native cold candidate is supported')
     hashes = {}
     for arm in diagnostic_arms(root,execution):
         folder = root/arm

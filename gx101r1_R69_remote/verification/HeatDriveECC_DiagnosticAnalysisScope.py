@@ -7,6 +7,39 @@ from Audit_HeatDriveECC_SegmentedEvidence import sha256
 
 def diagnostic_arms(root, execution):
     mode=execution.get('diagnostic_state_options', {}).get('mode', 'off')
+    if mode == 'restore_preflight' and execution.get('requested_arms') == ['native']:
+        if (execution.get('requested_arm_collection_pass') is not True
+                or execution.get('collection_pass') is not False
+                or execution.get('state_restore_preflight_pass') is not True
+                or execution.get('start_time_s') != 0 or execution.get('stop_time_s') != 20
+                or execution.get('cycle_count') != 2 or execution.get('checkpoint_saved') is not True
+                or execution.get('c200_state_imported') is not False
+                or execution.get('production_recovery_allowed') is not False
+                or execution.get('error_message') != ''):
+            raise ValueError('Incomplete independent cold qualification scope')
+        folder = root / 'native'
+        read = lambda name: json.loads((folder / name).read_text(encoding='utf-8-sig'))
+        mechanism = read('cold_mechanism_audit.json')
+        persistence = read('native_ledger_persistence.json')
+        preflight = read('state_restore_preflight.json')
+        capture = read('diagnostic_state_capture.json')
+        completion = read('arm_completion.json')
+        if (mechanism.get('execution_commit') != execution['execution_commit']
+                or mechanism.get('mechanism_pass') is not True
+                or len(mechanism.get('checks', {})) != 73
+                or not all(value is True for value in mechanism['checks'].values())
+                or mechanism['directional_pressure_observation'].get('pass') is not True
+                or persistence.get('all_trace_values_clock_units_metadata_exact') is not True
+                or persistence.get('native_trace_count') != 1262
+                or preflight.get('same_model_restore_preflight_pass') is not True
+                or preflight.get('source_operating_point_sha256') != capture['operating_point_sha256']
+                or completion.get('execution_commit') != execution['execution_commit']
+                or completion.get('observation_sha256') != sha256(folder / 'observations.mat')
+                or mechanism['observation_sha256'] != sha256(folder / 'cold_mechanism_observation.mat')
+                or any((root / name).exists() for name in ('REJECTED_DO_NOT_RESUME.json',
+                                                          'INCOMPLETE_DO_NOT_RESUME.json'))):
+            raise ValueError('Independent cold observation is not a complete hash-bound candidate')
+        return ('native',)
     if mode != 'diagnostic_resume':
         return ('native', 'conservative')
     contract=execution.get('diagnostic_resume_contract', {})
