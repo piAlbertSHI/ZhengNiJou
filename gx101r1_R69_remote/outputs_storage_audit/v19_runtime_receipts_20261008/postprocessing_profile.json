@@ -1,0 +1,161 @@
+{
+  "simulation_already_finished": true,
+  "public_export_s": 69.6413593,
+  "native_export_s": 4785.287464,
+  "boundary_export_s": 656.68807720000041,
+  "save_and_hash_s": 64.747345900000255,
+  "functions": [
+    {
+      "function_name": "Run_HeatDriveECC_ResumedDiagnosticSegment",
+      "calls": 1,
+      "total_time_s": 5575.4463857999826
+    },
+    {
+      "function_name": "Run_HeatDriveECC_IndependentColdDiagnosticFromConfig",
+      "calls": 1,
+      "total_time_s": 5575.4454804999832
+    },
+    {
+      "function_name": "Run_HeatDriveECC_ColdChamberDiagnostic",
+      "calls": 1,
+      "total_time_s": 5575.4442680999828
+    },
+    {
+      "function_name": "Extract_HeatDriveECC_NativeStorageTraces",
+      "calls": 1,
+      "total_time_s": 4785.2643536432952
+    },
+    {
+      "function_name": "Read_HeatDriveECC_NativeSeries",
+      "calls": 1523,
+      "total_time_s": 4784.1388928432143
+    },
+    {
+      "function_name": "Extract_HeatDriveECC_BoundaryTraces",
+      "calls": 1,
+      "total_time_s": 656.64164584710738
+    },
+    {
+      "function_name": "Run_HeatDriveECC_ColdChamberDiagnostic>extract_observed_thermal_boundaries",
+      "calls": 1,
+      "total_time_s": 43.633346503130255
+    },
+    {
+      "function_name": "Extract_HeatDriveECC_PhysicalLogs",
+      "calls": 1,
+      "total_time_s": 43.590872803127212
+    },
+    {
+      "function_name": "Extract_HeatDriveECC_PhysicalLogs>read_simscape_on_grid",
+      "calls": 34,
+      "total_time_s": 41.705830002991974
+    },
+    {
+      "function_name": "Export_HeatDriveECC_TLConnectivity",
+      "calls": 2,
+      "total_time_s": 28.24857210202655
+    },
+    {
+      "function_name": "Extract_HeatDriveECC_PhysicalLogs>collect_exchanger_energy_boundaries",
+      "calls": 1,
+      "total_time_s": 23.192520001663834
+    },
+    {
+      "function_name": "Map_HeatDriveECC_PhysicalPortHandles",
+      "calls": 693,
+      "total_time_s": 20.904710401499702
+    },
+    {
+      "function_name": "Run_HeatDriveECC_ColdChamberDiagnostic>file_hash",
+      "calls": 2,
+      "total_time_s": 13.68735310098193
+    },
+    {
+      "function_name": "java.security.MessageDigest$Delegate",
+      "calls": 258,
+      "total_time_s": 12.580632100902536
+    },
+    {
+      "function_name": "Extract_HeatDriveECC_PhysicalLogs>read_optional_simscape_on_grid",
+      "calls": 4,
+      "total_time_s": 10.52592970075513
+    },
+    {
+      "function_name": "callback",
+      "calls": 6024,
+      "total_time_s": 8.5981545006168325
+    },
+    {
+      "function_name": "pmsl_rtmcallback",
+      "calls": 6024,
+      "total_time_s": 8.4682510006075127
+    },
+    {
+      "function_name": "RunTimeModule.canPerformOperation",
+      "calls": 6024,
+      "total_time_s": 8.1140673005821036
+    },
+    {
+      "function_name": "Extract_HeatDriveECC_PhysicalLogs>collect_pressure_source_native_power",
+      "calls": 1,
+      "total_time_s": 7.9295271005688654
+    },
+    {
+      "function_name": "connectionPortProperties",
+      "calls": 4072,
+      "total_time_s": 7.81404170056058
+    },
+    {
+      "function_name": "+simscape\\private\\connectionPortProperties_private",
+      "calls": 4072,
+      "total_time_s": 7.7791515005580765
+    },
+    {
+      "function_name": "Map_HeatDriveECC_PhysicalPortHandles>@()delete_block(copied_path)",
+      "calls": 693,
+      "total_time_s": 3.2773304002351158
+    },
+    {
+      "function_name": "RunTimeModule.addBlock",
+      "calls": 3012,
+      "total_time_s": 2.8591464002051157
+    },
+    {
+      "function_name": "RunTimeModule.getLicenseOrFail",
+      "calls": 4518,
+      "total_time_s": 2.60217660018668
+    },
+    {
+      "function_name": "RunTimeModule.preCopyBlock",
+      "calls": 1506,
+      "total_time_s": 2.3216268001665537
+    },
+    {
+      "function_name": "Extract_HeatDriveECC_PhysicalLogs>read_on_grid",
+      "calls": 183,
+      "total_time_s": 1.6429289001178637
+    },
+    {
+      "function_name": "RunTimeModule.determineBlockProduct",
+      "calls": 4518,
+      "total_time_s": 1.6423188001178202
+    },
+    {
+      "function_name": "pmsl_getblockproduct",
+      "calls": 4518,
+      "total_time_s": 1.5436234001107394
+    },
+    {
+      "function_name": "pmsl_getblocklibraryentry",
+      "calls": 4518,
+      "total_time_s": 1.4446015001036359
+    },
+    {
+      "function_name": "RunTimeModule.postCopyBlock",
+      "calls": 1506,
+      "total_time_s": 1.3213756000947954
+    }
+  ],
+  "profiling_may_add_overhead": true,
+  "production_recovery_allowed": false
+}

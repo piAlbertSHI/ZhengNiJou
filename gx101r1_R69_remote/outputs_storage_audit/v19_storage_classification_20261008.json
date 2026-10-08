@@ -1,0 +1,22 @@
+{
+  "schema": "heatdrive_ecc_scoped_diagnostic_retention_v1",
+  "classified_at": "2026-10-08",
+  "scope": "v19 execution package only, not the whole workspace or Agent6",
+  "raw_root": "C:/Users/86182/.codex/worktrees/runtime-cv-json-contract/正逆耦合/gx101r1_R69_remote/outputs/v19_intact_diagnostic_resume_20c",
+  "size_snapshot_before_closeout_marker": true,
+  "raw_bytes": 1843457792,
+  "classification": "latest_successful_state_qualified_warmup_with_nonsteady_endpoint",
+  "action": "retain_single_raw_copy",
+  "reason": "Latest actual resumed physics and intact endpoint, including eleven-cycle state window; full mechanism and periodic qualification remain incomplete",
+  "observation_sha256": "C391679037F0ED043FDBF2380F3C9C54B5B46FEE29863168D6D77D16B0832980",
+  "operating_point_sha256": "B503A2D899DC35A89F45A00CC4B93D77FBE15AA963EED9152A40DC5E66FD86E2",
+  "history_sha256": "1A9E07B29D1686B190D77023A53C6E51F345219E78981B7D50EE13E31F9A9114",
+  "original_source_v17_retained": true,
+  "source_restore_proof_v18_retained": true,
+  "raw_mats_copied_into_git": false,
+  "failed_trajectory_propagated": false,
+  "production_recovery_allowed": false,
+  "deleted_bytes_this_classification": 0,
+  "canonical_slx_modified_by_this_round": false,
+  "agent6_accessed": false
+}
