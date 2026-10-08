@@ -33,15 +33,21 @@ function record = Verify_HeatDriveECC_NativeSeriesAccess(output_root)
         leaf=node.child(names{k});series=leaf.series;
         if isempty(series),continue;end
         started=tic;points=series.points;classic_points_s=toc(started);
-        classic_time=double(time(series));classic_values=double(values(series));
-        classic_data=reshape(classic_values,numel(classic_time),[]);classic_unit=series.unit;
+        classic_time=[];classic_data=[];classic_unit='';
+        if points>0
+            classic_time=double(time(series));classic_values=double(values(series));
+            classic_data=reshape(classic_values,numel(classic_time),[]);classic_unit=series.unit;
+        end
         [t,data,unit,timing]=Read_HeatDriveECC_NativeSeries(leaf);
+        cases{end+1}=struct('state',names{k},'points',points, ...
+            'point_count_equal',points==numel(t), ...
+            'time_equal',isequaln(t,classic_time),'data_equal',isequaln(data,classic_data), ...
+            'unit_equal',strcmp(unit,classic_unit),'classic_unit',classic_unit,'new_unit',unit, ...
+            'classic_points_access_s',classic_points_s,'new_timing',timing); %#ok<AGROW>
+        write_json(fullfile(output_root,'comparison_progress.json'),struct('cases',{cases}));
         assert(points==numel(t) && isequaln(t,classic_time) && ...
             isequaln(data,classic_data) && strcmp(unit,classic_unit), ...
-            'Native time/data/unit/count mismatch: %s',names{k});
-        cases{end+1}=struct('state',names{k},'points',points, ...
-            'time_equal',true,'data_equal',true,'unit_equal',true, ...
-            'classic_points_access_s',classic_points_s,'new_timing',timing); %#ok<AGROW>
+            'Native time/data/unit/count mismatch: %s; see comparison_progress.json',names{k});
     end
     [empty_time,empty_data,empty_unit,empty_timing]=Read_HeatDriveECC_NativeSeries(node);
     assert(isempty(empty_time) && isempty(empty_data) && isempty(empty_unit) && ...
@@ -57,4 +63,10 @@ function record = Verify_HeatDriveECC_NativeSeriesAccess(output_root)
     cleanup_file=onCleanup(@() fclose(fid));
     fprintf(fid,'%s\n',jsonencode(record,'PrettyPrint',true));
     fprintf('%s\n',jsonencode(record));
+end
+
+function write_json(path,value)
+    fid=fopen(path,'w','n','UTF-8');assert(fid>=0,'Cannot save comparison evidence.');
+    cleanup=onCleanup(@() fclose(fid));
+    fprintf(fid,'%s\n',jsonencode(value,'PrettyPrint',true));
 end
