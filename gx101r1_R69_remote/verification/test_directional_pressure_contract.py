@@ -29,6 +29,13 @@ class DirectionalPressureContractTests(unittest.TestCase):
         self.assertNotIn("{'p_B', 'P_B', 'p'}", text)
         self.assertIn('if probe_available', text)
 
+    def test_final_limits_do_not_reinitialize_the_integrated_controller(self):
+        text = (ROOT / 'Build_HeatDriveECC_EighthRound_Simulink_Model.m').read_text()
+        boundary = text.split('options = Configure_HeatDriveECC_PressureCommandDomain(model_name, options);')[1]
+        boundary = boundary.split('pipe_ua_audit =')[0]
+        self.assertNotIn('assign_mature_exchange_workspace(', boundary)
+        self.assertIn("assignin('base',limits{k},options.branch.(limits{k}))", boundary)
+
 
 if __name__ == '__main__':
     unittest.main()

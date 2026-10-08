@@ -64,8 +64,13 @@ function [model_name, options] = Build_HeatDriveECC_EighthRound_Simulink_Model(o
     Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, false);
     options = Configure_HeatDriveECC_PressureCommandDomain(model_name, options);
     if isfield(options.validation,'pressure_command_domain_contract')
-        assign_mature_exchange_workspace(options, model_path);
-        assign_constitutive_workspace(options);
+        % The mature exchange initializer would overwrite the integrated PI
+        % controller. Only the deliberately changed limits are reassigned.
+        limits={'pressure_pi_min_MPa','pressure_pi_max_MPa','sma_pressure_pi_min_MPa', ...
+            'se_pressure_pi_min_MPa','sma_pressure_integrator_min_MPa', ...
+            'se_pressure_integrator_min_MPa','se_stage2_pressure_integrator_min_MPa', ...
+            'se_stage4_pressure_integrator_min_MPa'};
+        for k=1:numel(limits),assignin('base',limits{k},options.branch.(limits{k}));end
     end
     pipe_ua_audit = audit_article_component_pipe_UA(model_name, options);
     options.validation.article_component_pipe_UA_audit = pipe_ua_audit;
