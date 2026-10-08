@@ -25,7 +25,27 @@ def core_periodicity(arm, limits):
                 diagnostic_phase_peak=phase['same_phase_max'])
 
 
-def analyze(root, physics_path, state_path):
+def completed_mechanism(root, physics, execution, receipt):
+    hashes={key.replace('\\', '/'):value for key,value in physics['input_sha256'].items()}
+    checks=receipt.get('checks', {})
+    if (receipt.get('schema') != 'heatdrive_ecc_saved_production_mechanism_audit_v1'
+            or receipt.get('source_execution_commit') != execution['execution_commit']
+            or receipt.get('source_execution_sha256') != sha256(root/'cold_chamber_execution.json')
+            or receipt.get('source_observation_sha256') != hashes['native/observations.mat']
+            or receipt.get('source_configuration_sha256') != hashes['native/configuration.mat']
+            or receipt.get('original_production_predicates_evaluated') is not True
+            or receipt.get('exact_saved_window_pass') is not True
+            or receipt.get('simulation_executed') is not False
+            or receipt.get('operating_point_loaded') is not False
+            or len(checks) != 73 or any(type(value) is not bool for value in checks.values())
+            or receipt.get('analysis_window', {}).get('absolute_start_s') != execution['stop_time_s']-20
+            or receipt.get('analysis_window', {}).get('absolute_stop_s') != execution['stop_time_s']):
+        raise ValueError('Full mechanism receipt does not bind the same completed trajectory')
+    return dict(evaluated=True, count=len(checks), pass_gate=all(checks.values()),
+                failed_checks=[name for name,value in checks.items() if not value])
+
+
+def analyze(root, physics_path, state_path, mechanism_path=None):
     read=lambda path:json.loads(path.read_text(encoding='utf-8-sig'))
     physics=read(physics_path);states=read(state_path);execution=read(root/'cold_chamber_execution.json')
     capture=read(root/'native/diagnostic_state_capture.json')
@@ -38,7 +58,7 @@ def analyze(root, physics_path, state_path):
             or sha256(root/'native/diagnostic_complete_operating_point.mat')!=capture['operating_point_sha256']):
         raise ValueError('Completed physics, state history and intact endpoint are not jointly hash-bound')
     arm=physics['arms'][0]
-    hashes={Path(key).as_posix():value for key,value in physics['input_sha256'].items()}
+    hashes={key.replace('\\', '/'):value for key,value in physics['input_sha256'].items()}
     if sha256(root/'native/observations.mat')!=hashes['native/observations.mat']:
         raise ValueError('Physical observation changed')
     with h5py.File(root/'native/configuration.mat') as file:
@@ -47,7 +67,7 @@ def analyze(root, physics_path, state_path):
             'max_periodic_same_phase_temperature_rms_drift_K','max_periodic_phase_drift',
             'max_periodic_same_phase_phase_p99_drift','max_periodic_same_phase_phase_rms_drift')}
     predicates=core_periodicity(arm,limits)
-    return dict(schema='heatdrive_ecc_diagnostic_steadiness_v1',producer=execution['execution_commit'],
+    result=dict(schema='heatdrive_ecc_diagnostic_steadiness_v1',producer=execution['execution_commit'],
                 total_cycles=22,segment_window_s=[20,220],physical_window_s=[200,220],
                 mechanism_subset_pass=physics['mechanism_subset_pass'],
                 all_mechanism_gates_evaluated=False,
@@ -66,6 +86,12 @@ def analyze(root, physics_path, state_path):
                               'configuration':sha256(root/'native/configuration.mat'),
                               'operating_point':capture['operating_point_sha256'],'history':capture['history_sha256']},
                 interpretation='Production Summarize_HeatDriveECC_EighthRound_Output uses endpoint, p99 and RMS predicates; raw same-phase maxima are diagnostic. Passing state capture or a mechanism subset cannot grant full recovery or Table 4.')
+    if mechanism_path is not None:
+        mechanism=completed_mechanism(root,physics,execution,read(mechanism_path))
+        result.update(all_mechanism_gates_evaluated=True, full_mechanism=mechanism,
+                      next_action='Qualify the intact latest diagnostic endpoint for further warmup; complete dimensional state mapping before steady outer solve')
+        result['input_sha256']['full_mechanism_audit']=sha256(mechanism_path)
+    return result
 
 
 if __name__=='__main__':
@@ -73,10 +99,11 @@ if __name__=='__main__':
     parser.add_argument('--experiment-root',type=Path,required=True)
     parser.add_argument('--physics-audit',type=Path,required=True)
     parser.add_argument('--state-audit',type=Path,required=True)
+    parser.add_argument('--mechanism-audit',type=Path)
     parser.add_argument('--output',type=Path,required=True)
     args=parser.parse_args()
     if args.output.exists():raise FileExistsError('Never overwrite a diagnostic decision')
-    result=analyze(args.experiment_root,args.physics_audit,args.state_audit)
+    result=analyze(args.experiment_root,args.physics_audit,args.state_audit,args.mechanism_audit)
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(result,indent=2,allow_nan=False)+'\n',encoding='utf-8')
     print(json.dumps({key:result[key] for key in ('total_cycles','mechanism_subset_pass',

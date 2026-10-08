@@ -1,0 +1,82 @@
+{
+  "schema": "heatdrive_ecc_diagnostic_steadiness_v1",
+  "producer": "f3cd194244266b6ae3bf062a66e7b397490c7e09",
+  "total_cycles": 22,
+  "segment_window_s": [
+    20,
+    220
+  ],
+  "physical_window_s": [
+    200,
+    220
+  ],
+  "mechanism_subset_pass": true,
+  "all_mechanism_gates_evaluated": true,
+  "core_periodic_last_pair": {
+    "predicates": {
+      "temperature_endpoint": {
+        "value": 0.028098106769050446,
+        "limit": 0.05,
+        "pass_gate": true
+      },
+      "temperature_p99": {
+        "value": 0.04451250785347989,
+        "limit": 0.05,
+        "pass_gate": true
+      },
+      "temperature_rms": {
+        "value": 0.014152685066746475,
+        "limit": 0.01,
+        "pass_gate": false
+      },
+      "phase_endpoint": {
+        "value": 0.0002922401697414215,
+        "limit": 0.0001,
+        "pass_gate": false
+      },
+      "phase_p99": {
+        "value": 0.0021098902448583035,
+        "limit": 0.002,
+        "pass_gate": false
+      },
+      "phase_rms": {
+        "value": 0.0005224868243064992,
+        "limit": 0.0004,
+        "pass_gate": false
+      }
+    },
+    "last_pair_core_predicates_pass": false,
+    "same_phase_maxima_are_nonblocking_diagnostics": true,
+    "diagnostic_temperature_peak_K": 0.2639977604462729,
+    "diagnostic_phase_peak": 0.012803088842467756
+  },
+  "all_119_inventory_endpoint_K": 0.09639747285092426,
+  "all_119_inventory_same_phase_peak_K": 0.2639977604462729,
+  "all_logged_groups_have_ten_cycle_comparisons": true,
+  "all_three_PI_memories_observed": true,
+  "full_state_periodicity_verified": false,
+  "packed_state_joint_norm_used": false,
+  "physical_tolerances_changed": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false,
+  "source_minus_endpoint_inventory_J": -1.7700187981972704e-09,
+  "full_device_first_law_verified": false,
+  "next_action": "Qualify the intact latest diagnostic endpoint for further warmup; complete dimensional state mapping before steady outer solve",
+  "input_sha256": {
+    "physics_audit": "4BBC77F061CC237BD8CDF6CCC7A2073EB16B28157C64045AC927D4AD8EAC5E3F",
+    "state_audit": "E61EB974CAA467FBE2DBEAAB1EF0A68F5625FD0102B418D84B84F8515DD3473D",
+    "configuration": "AF3184C00EFF1DCF6A1F77EE1DE80B125078AE225F0962E14033FCF8873D5C76",
+    "operating_point": "82B486E8F22C6ABDE7AE92B4D992701169521160138D5CA3C47EAA442E90A953",
+    "history": "976291E3C3F37116322A9546B46B7C818C87923A1D7A7A3159D8092329154C47",
+    "full_mechanism_audit": "0F504D638784E9E150172833BE621F80C6006C5A99B61A4A72CAE9A20B5521E6"
+  },
+  "interpretation": "Production Summarize_HeatDriveECC_EighthRound_Output uses endpoint, p99 and RMS predicates; raw same-phase maxima are diagnostic. Passing state capture or a mechanism subset cannot grant full recovery or Table 4.",
+  "full_mechanism": {
+    "evaluated": true,
+    "count": 73,
+    "pass_gate": true,
+    "failed_checks": []
+  }
+}

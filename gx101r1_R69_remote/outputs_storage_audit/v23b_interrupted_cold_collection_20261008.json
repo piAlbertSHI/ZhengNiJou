@@ -1,0 +1,51 @@
+{
+  "schema": "heatdrive_ecc_interrupted_cold_collection_v1",
+  "root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v23b_directional_cold_qualification_2c",
+  "observed_terminal_exit_code": 1073807364,
+  "observed_terminal_exit_hex": "0x40010004",
+  "exit_cause_proven": false,
+  "execution_commit": "cc773b502353cdc749fcd0cdd2f4e254e8dfe24a",
+  "mechanism_pass": true,
+  "mechanism_count": 73,
+  "directional_pressure_pass": true,
+  "full_collection_pass": false,
+  "full_native_ledger_pass": false,
+  "complete_state_restore_qualified": false,
+  "scientific_failure_inferred_from_exit": false,
+  "evidence": {
+    "cold_mechanism_observation.mat": {
+      "sha256": "9397FE081A6BFC719FE2ED9DA41FD7A1F8EA4B9EAF16E670E26937E0A44C68EF",
+      "bytes": 52837986
+    },
+    "cold_mechanism_audit.json": {
+      "sha256": "7F46BB5685A0B5D093E2B3B3B8446D499B2AA132801BFFB8CBD4B49A3DDFE1B3",
+      "bytes": 12023
+    },
+    "diagnostic_complete_operating_point.mat": {
+      "sha256": "CA6E5816C00E266651A23357F721219E6DA5E5BF5941531D3D776E2E71041C79",
+      "bytes": 3882799
+    },
+    "diagnostic_state_observation.mat": {
+      "sha256": "86D74A72ABE88A882D920127E7E862709A28CB0EE49E7E79F659D0564582BC45",
+      "bytes": 133711260
+    },
+    "diagnostic_state_capture.json": {
+      "sha256": "15DA0DAF6DE22E9A54C2C8BC06C60D871E98EA6F69F24AD792826A1B7A963453",
+      "bytes": 1492
+    },
+    "public_observations.mat": {
+      "sha256": "8291EAF12F230AB59F76E5BFCAEAB113B05EF5DFAFE5ED8739B86F8B79128951",
+      "bytes": 84878589
+    },
+    "configuration.mat": {
+      "sha256": "59991879BCB7B1E4D83531C6AB9E0C7223228424A2D070E1AF2F644282891107",
+      "bytes": 13971194
+    },
+    "postprocessing_progress.json": {
+      "sha256": "FB1E2A84407B8136EA30B04BDE2AF0ED0E1392FEB198CBA5BB33C525E97469E7",
+      "bytes": 141
+    }
+  },
+  "production_recovery_allowed": false,
+  "diagnostic_continuation_allowed": false
+}
