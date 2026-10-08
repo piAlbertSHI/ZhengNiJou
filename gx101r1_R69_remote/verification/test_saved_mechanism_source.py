@@ -41,7 +41,12 @@ class SavedMechanismSourceTests(unittest.TestCase):
         source = Path(__file__).with_name('Run_HeatDriveECC_ResumedDiagnosticSegment.m').read_text()
         scope = source.split('physical={', 1)[1].split('};', 1)[0]
         paths = re.findall(r"'([^']+)'", scope)
-        self.assertEqual(len(paths), 10)
+        self.assertGreaterEqual(len(paths), 10)
+        self.assertEqual(len(paths), len(set(paths)))
+        self.assertTrue({'Configure_HeatDriveECC_PressureCommandDomain.m',
+                         'HeatDriveECC_PressureCommandInterval.m',
+                         'Audit_HeatDriveECC_PressureReferenceTopology.m',
+                         'verification/Run_HeatDriveECC_ColdChamberDiagnostic.m'} <= set(paths))
         for path in paths:
             subprocess.run(['git', 'ls-files', '--error-unmatch', '--',
                             'gx101r1_R69_remote/' + path], cwd=root,

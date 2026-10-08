@@ -458,7 +458,8 @@ def buffer_ledger(rows, path, table, contract, nonlinear_inventory=False, mass_f
                 candidate_component_pass=bool(alias_pass and local['mass_closure_pass'] and local['energy_closure_pass']))
 
 
-def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_formulation='direct', start=0, stop=10):
+def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_formulation='direct', start=0, stop=10,
+              observation_file='observations.mat', public_observation_file=None):
     meta = read(folder/'inventory_metadata.json')
     tables = {r['block_path']: energy_tables(r['parameters']) for r in meta['settings_tables']}
     densities = {r['block_path']: density_table(r['parameters']) for r in meta['settings_tables']}
@@ -479,7 +480,8 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_for
     if finite_shared_storage:
         expected_count += 40
     expected_component_count = 123 if finite_shared_storage else 119
-    with h5py.File(folder/'observations.mat') as f:
+    with h5py.File(folder/observation_file) as f, \
+            h5py.File(folder/(public_observation_file or observation_file)) as public:
         rows = checked_rows(f, 'native', expected_count, stop, start,
                             allow_leading_warmup=start > 0)
         time = next(iter(rows.values()))['time_s'][:].reshape(-1)
@@ -526,7 +528,7 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_for
         rates, source_rows, pumps = source_ledger(f, read(folder/'thermal_connectivity.json'), time,
                                                   allow_leading_warmup=start > 0)
         signals = {}
-        for key, r in f['signals'].items():
+        for key, r in public['signals'].items():
             signal_time = np.asarray(r['time_s'][:], dtype=float).reshape(-1)
             values = np.asarray(r['values'][:])
             expected = len(time)
