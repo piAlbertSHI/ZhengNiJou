@@ -48,6 +48,17 @@ class PressureDomainClosureTests(unittest.TestCase):
         self.assertIn('numel(inventory_paths)==6', source)
         self.assertIn('isequaln(t,s) && isequaln(a,b) && strcmp(u,v)', source)
         self.assertNotIn('interp1', source)
+        self.assertIn('simscape.logging.export(log,target)', source)
+        self.assertIn('simscape.logging.import(target)', source)
+        self.assertIn('log.exportable', source)
+
+    def test_transport_failure_is_not_a_scientific_failure_or_resume_authority(self):
+        source = (ROOT / 'verification/Require_HeatDriveECC_BoundedStateCandidate.m').read_text(encoding='utf-8')
+        self.assertIn('mechanism.mechanism_pass', source)
+        self.assertIn('all(structfun(@logical,mechanism.checks))', source)
+        self.assertIn('capture.operating_point_sha256', source)
+        self.assertIn("'diagnostic_continuation_allowed',false", source)
+        self.assertIn('REJECTED_DO_NOT_RESUME.json', source)
 
 
 if __name__ == '__main__':

@@ -2,12 +2,18 @@ function record = Verify_HeatDriveECC_RebuiltCycleRestore(input, source_root, fo
 % Exact full-period comparison on a new MATLAB process and rebuilt runtime model.
     source=fullfile(source_root,'native');
     capture=jsondecode(fileread(fullfile(source,'diagnostic_state_capture.json')));
-    preflight=jsondecode(fileread(fullfile(source,'state_restore_preflight.json')));
-    assert(preflight.same_model_restore_preflight_pass && preflight.snapshot_time_s==20 && ...
-        ~preflight.production_recovery_allowed && ~preflight.source_state_edited && ...
-        ~preflight.partial_state_restore_used && ...
-        strcmp(preflight.source_operating_point_sha256,capture.operating_point_sha256), ...
-        'Source was not a passed intact state-interface candidate.');
+    bounded_candidate=~isfile(fullfile(source,'state_restore_preflight.json'));
+    candidate_contract=struct();
+    if bounded_candidate
+        candidate_contract=Require_HeatDriveECC_BoundedStateCandidate(source_root);
+    else
+        preflight=jsondecode(fileread(fullfile(source,'state_restore_preflight.json')));
+        assert(preflight.same_model_restore_preflight_pass && preflight.snapshot_time_s==20 && ...
+            ~preflight.production_recovery_allowed && ~preflight.source_state_edited && ...
+            ~preflight.partial_state_restore_used && ...
+            strcmp(preflight.source_operating_point_sha256,capture.operating_point_sha256), ...
+            'Source was not a passed intact state-interface candidate.');
+    end
     op_file=fullfile(source,'diagnostic_complete_operating_point.mat');
     history_file=fullfile(source,'diagnostic_state_observation.mat');
     assert(strcmp(file_hash(op_file),capture.operating_point_sha256) && ...
@@ -26,13 +32,15 @@ function record = Verify_HeatDriveECC_RebuiltCycleRestore(input, source_root, fo
         'rebuilt_complete_cycle_pass',false,'state_comparisons',{{}},'signal_comparisons',{{}}, ...
         'continuous_reference_pass',false,'strict_restore_completed',false, ...
         'all_mechanism_gates_evaluated',false,'periodic_state_verified',false, ...
+        'candidate_contract',candidate_contract, ...
         'diagnostic_continuation_allowed',false,'production_recovery_allowed',false,'error_message','');
     reference_states=struct();resumed_states=struct();reference_signals=struct();resumed_signals=struct();
     try
         resumed=sim(input.setModelParameter('StopTime',num2str(stop,'%.17g')).setInitialState(saved.diagnostic_operating_point));
         assert(isempty(resumed.ErrorMessage),'Strict rebuilt restore failed: %s',resumed.ErrorMessage);
         resumed_states=window_states(resumed,start,stop);
-        resumed_signals=window_signals(resumed,start,stop);clear resumed
+        resumed_signals=window_signals(resumed,start,stop);
+        if ~bounded_candidate,clear resumed;end
         record.strict_restore_completed=true;
         reference=sim(input.setModelParameter('StopTime',num2str(stop,'%.17g')));
         assert(isempty(reference.ErrorMessage),'Continuous reference failed: %s',reference.ErrorMessage);
@@ -57,6 +65,26 @@ function record = Verify_HeatDriveECC_RebuiltCycleRestore(input, source_root, fo
         record.rebuilt_complete_cycle_pass= ...
             all(cellfun(@(r) r.values_exact,record.state_comparisons)) && ...
             all(cellfun(@(r) r.values_exact,record.signal_comparisons));
+        if bounded_candidate && record.rebuilt_complete_cycle_pass
+            configured=evalin('base','EIGHTH_ROUND_OPTIONS');
+            physical=Extract_HeatDriveECC_PhysicalLogs(resumed,configured,model,false);
+            physical.authority='physical_simscape_to_workspace_logs';
+            physical.legacy_surrogate_used_for_results=false;physical.sim_call_count=1;physical.walltime_s=NaN;
+            provenance=struct('checkpoint_restart_used',true,'checkpoint_chain_verified',true, ...
+                'sim_call_count',1,'solver',configured.simulation.solver, ...
+                'fixed_step_s',configured.simulation.fixed_step_s,'simulation_mode',configured.simulation.mode);
+            view=Make_HeatDriveECC_MechanismWindow(physical,configured,provenance,folder);
+            audit=Validate_HeatDriveECC_EighthRound_Physics(view);
+            record.bounded_restored_cycle_mechanism_pass=audit.passed;
+            record.bounded_restored_cycle_mechanism_checks=audit.checks;
+            signals=resumed_signals;
+            save(fullfile(folder,'restored_physical_observation.mat'), ...
+                'physical','configured','provenance','signals','-v7.3');
+            metadata=jsondecode(fileread(fullfile(folder,'inventory_metadata.json')));
+            blocks=metadata.storage_blocks;blocks=blocks([blocks.conservative_diagnostic]);
+            [~,snapshot]=Snapshot_HeatDriveECC_NativeLog(resumed.simlog,folder,{blocks.block_path});
+            record.native_snapshot=snapshot;clear resumed
+        end
     catch ME
         record.error_message=ME.message;record.error_report=getReport(ME,'extended','hyperlinks','off');
     end
