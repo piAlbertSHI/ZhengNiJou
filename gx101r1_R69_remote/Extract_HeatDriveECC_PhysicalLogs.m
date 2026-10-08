@@ -90,6 +90,25 @@ function physical = Extract_HeatDriveECC_PhysicalLogs(sim_out, options, model_na
             'full_native_boundary_fields_present', false, ...
             'full_device_first_law_verified', false, ...
             'production_recovery_allowed', false);
+        if isfield(options.validation,'pressure_command_domain_contract') && ...
+                strcmp(options.validation.pressure_command_domain_contract.schema,'heatdrive_ecc_pressure_command_domain_v2')
+            contract=options.validation.pressure_command_domain_contract;
+            physical.pump_pressure_port_names=contract.named_reference_topology.source_names;
+            physical.pump_pressure_port_A_MPa=zeros(numel(time_s),3);
+            physical.pump_pressure_port_B_MPa=zeros(numel(time_s),3);
+            prefixes={'sma','se_stage2','se_stage4'};
+            for k=1:3
+                for face={'a','b'}
+                    name=sprintf('pump_pressure_%s_port_%s_MPa',prefixes{k},face{1});
+                    assert(isfield(sim_out.signals,name),'Missing saved named pressure face: %s',name);
+                    row=sim_out.signals.(name);
+                    assert(isequal(row.time_s(:),time_s(:)) && ...
+                        isequal(size(row.values),[numel(time_s),1]),'Saved pressure face clock/shape mismatch.');
+                    if strcmp(face{1},'a'),physical.pump_pressure_port_A_MPa(:,k)=row.values;
+                    else,physical.pump_pressure_port_B_MPa(:,k)=row.values;end
+                end
+            end
+        end
     else
         physical.Q_SHEX_sink_to_fluid_W = read_simscape_on_grid(sim_out, ...
             model_name, 'SHEX/HotSinkFluidLink', 'Q', time_s, 'W');
