@@ -5801,3 +5801,49 @@ C20到C22的全库存端点漂移从约0.09725 K变为0.09640 K，同相位峰�
 本轮治理快照`workspace_governance_20261008_v19_closeout/workspace_governance_summary.json`再次实际校验C200/C180结果及OP四项SHA全部一致；分类801个主库outputs/audit子目录、16.001259 GiB。这个数字不包含隔离执行worktree、本轮v19原始包或Agent6，不与整工作区120GB历史数字混为一谈。小型运行回执复制后逐项SHA相等，大MAT未复制入Git。
 
 只读分析器已同步到执行镜像`97572a7`，其完整659项回归也通过。首次镜像全套测试因未复制被忽略的control-volume基准JSON而出现5项FileNotFoundError；补齐原始字节、SHA `2AA5E59CEE5F05C36EBBD77CDB3F647C8F000B47B11842A83C69B563FA39BAB0`一致后通过，不修改谓词。文档历史跨镜像cherry-pick发生仅增量上下文冲突，已撤销本次自有操作并只镜像两项分析源，执行工作树保持干净。哈希锁定JSON/CSV保留CRLF原字节，Git按cr-at-eol识别而非将证据换行重写；最终diff检查通过。主科学关闭提交`11c6361`，运行代码仍为实际producer `2c951bc`，不因只读分析同步改写执行出处。
+
+## 255. 全局机制审核与审核自身纠偏（2026-10-08）
+
+### 255.1 阶段推进：不再只审核八项子集
+
+本轮没有重跑20-cycle，也没有导入或重置任何Operating Point。直接复用v19不可变观测，取实际200–220 s的C21/C22完整毫秒时钟，通过共享`Extract_HeatDriveECC_PhysicalLogs`变换进入**原生产**`Validate_HeatDriveECC_EighthRound_Physics`，完成全部72项谓词。这个入口明确只是机制分析视图，不伪造Simscape Node，不补点、不外推，不具备完整native边界库存字段，也不授权全设备第一定律、稳态、恢复或Table 4。
+
+实际材料温度、42个相分数坐标及所有标量温度探针逐点与保存包相同。四种缺点、重复点、错时钟、截断窗口均拒绝。MATLAB审核进程自然退出0，但科学合取没有通过；程序成功不等于科学通过。
+
+| 审核版本 | 通过/总数 | 未通过项 |
+| --- | ---: | --- |
+| 原始生产谓词r2 | 70/72 | independent_pressure_PI_contract、qian_article_pipe_UA_contract |
+| 实际连接验证后的r3 | 71/72 | qian_article_pipe_UA_contract |
+
+由此补齐物性域、Eq.6/Eq.7力/位移兼容、相变方向、应力、全部路线方向/隔离、热路径、固体能量和参数合同。不能将“71/72”简写为完整mechanism通过；C22仍不是获准生产恢复状态，原周期稳态四项失败仍保留。
+
+### 255.2 确认的误报与没有发生的潜在误报
+
+原模型的路线积分输入门连接`SEStage2/4PressureIEnableFromWorkspace`，输出门则连接独立的`SEStage2/4PressureIOutputEnableFromWorkspace`。审核却要求输入使能直接连接输出门，是审核自身与已实现语义不一致。仅改正两处审核源表达式，未改积分器、任何线、增益、初态或阈值。
+
+实际重建模型后，按有向源端口/目的端口检查两条路线的输入门、积分器、输出门、变量名和无reset合同；分布式前馈配置前后均通过且相同。历史producer与当前builder全文对照，仅允许四行局部变量定义和两处审核源表达式差异，其余物理/控制文件与原producer相同。修正后的独立PI合同通过；其余component子审计保持原值，整体article合同仍失败，未强行置true。
+
+旧提取器把所有`probe_`标量当作温度，存在将压力/相分数/流量误判为Kelvin的潜在风险。新入口仅接收温度命名与`_T_K`约定，并以实际值逐点对照。但v19的201个实际信号中，没有非温度`probe_`混入：这是预防修正，**不是本次失败原因**，不能据此解释先前不稳态。
+
+恢复源码保护还发现两个探针路径错误地加了`verification/`前缀；Git对不存在路径的diff可能静默成功。已改用实际受跟踪路径，逐项执行`ls-files --error-unmatch`，避免空路径检查冒充来源验证。
+
+### 255.3 剩余失败须按层次处理，不继续盲调PI
+
+`qian_article_pipe_UA_contract`是聚合项，不意味着UA数值或换热本身失败。实际拆解为：
+
+1. **实现身份检查不适配当前诊断组件。** SMA连接腔审计硬编码原生`Constant Volume Chamber (TL)`的MaskType、num_ports、area_A/area_B；当前明确使用守恒endpoint组件及共同area。体积、连接、绝热端口和阀门检查通过，但旧身份谓词失败。既不能将任意自定义块视作等价，也不能把已明确允许的守恒诊断实现仅因块名不同判成物理失败；下一步应提供带来源、几何和库存方程资格的显式组件合同。
+2. **配置压力包络不安全，不能用本次观测通过掩盖。** 当前network datum=0.85 MPa，配置最低命令=-0.50 MPa，最坏估计=0.35 MPa，低于当前SE液体domain的p_min=0.45 MPa。实际六个A/B压力信号通过既定范围，说明本次轨迹未触及这一配置边界，不能证明全部允许命令或后续outer solve都安全。0.45 MPa同时绑定当前物性域，不是仅为过门禁添加的数字；下一步应从各实际domain上下限、源方向和网络datum推导合法命令范围，而非降低门槛。
+
+优先解决组件合同和压力命令可达域，再验证完整状态兼容；如果需要控制边界修改，先检查是否影响checksum/初始积分状态，不用清零PI或重置温度来绕过。只有对应组件与运行门禁通过的状态才能推进后续20-cycle、周期稳态、outer solve、敏感性和paired endpoints。当前未标记目标blocked，也未把未稳态和静态组件合同问题混成流量/相变失效。
+
+### 255.4 效率、失败证据与治理
+
+同一保存包的完整72项只读审核r3约26.5 s结束，避免为补审核再次仿真和再次逐叶访问vendor日志。但**首次native/source导出5576 s瓶颈尚未解决**，不能宣称整个物理程序已加速。下一步继续保存/复用同一物理提取，针对实际日志做公开bulk存储/访问对照。R2025b官方说明streaming到磁盘时Limit data points与Data history被忽略：[Stream Logging Data to Disk](https://www.mathworks.com/help/releases/R2025b/simscape/ug/stream-logging-data-to-disk.html)。尚未确认v19实际启用了streaming，不据文档推断现有瓶颈原因，也不改全局偏好影响Agent6。
+
+两次非零退出均为工具集成错误，已先诊断后修复：只读提取遗漏已保存HHEX/CHEX别名；静态重建未先加载原诊断组件库。后者修复为加载同SHA库，不重编组件。原始r2科学失败回执、修正r3回执、实际拓扑回执全部保留；源码producer仍为`2c951bc64b134539bbd26130d00904e253e0da15`，不改写来源。
+
+主库与执行镜像完整**664/664** Python回归通过，实际MATLAB精确时钟/坐标和有向路线测试通过。首次新增测试因Windows默认GBK读取已有UTF-8 builder而失败，指定UTF-8后全套重跑通过，不删除测试。新增证据复制逐项SHA相同，主库只保存JSON，不复制大MAT。
+
+分类后仅退役r2重复`mechanism_view.mat`共**52,318,767 bytes（约49.9 MiB）**，删除前核验精确绝对父路径、文件SHA和保留r3规范视图，删除后核验不存在；原r2小回执及重建输入仍在。v17/v18恢复依赖、v19原始观测/状态历史/OP、C200/C180不动。本轮实际重新计算C200 result/OP SHA仍与冻结合同一致。该删除量和§254主库16.001259 GiB快照都不代表整个工作区或全部worktree的体积。
+
+新增主库关闭回执：`v19_full_mechanism_closeout_20261008.json`、`v19_redundant_audit_retirement_20261008.json`；原始、纠偏、拓扑JSON均按SHA保留。源码及验证修复均已分别提交并同步执行镜像，未解释的SLX修改与Agent6仍隔离。本轮所有必需真实进程自然退出，没有计时器、heartbeat或存活进程等待输出。

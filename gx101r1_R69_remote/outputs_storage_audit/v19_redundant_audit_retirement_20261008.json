@@ -1,0 +1,30 @@
+{
+  "schema": "heatdrive_ecc_redundant_audit_retirement_v1",
+  "policy": "Retain authoritative observations, corrected canonical mechanism view and old small receipts; retire reconstructible duplicate analysis MAT only",
+  "candidate": {
+    "path": "C:/Users/86182/.codex/worktrees/runtime-cv-json-contract/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/v19_production_mechanism_20261008_r2/mechanism_view.mat",
+    "bytes": 52318767,
+    "sha256": "0CF62919EBBCC5A174D6CF145E539CF1C1B191F785B4C1A11E6A56B8F3626A67"
+  },
+  "canonical_kept": "C:/Users/86182/.codex/worktrees/runtime-cv-json-contract/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/v19_production_mechanism_20261008_r3/mechanism_view.mat",
+  "reconstruction_inputs": [
+    "v19/native/observations.mat",
+    "v19/native/configuration.mat",
+    "original and corrected audit JSON",
+    "controller verification JSON"
+  ],
+  "protected": [
+    "C200",
+    "C180",
+    "v17 source OP/history",
+    "v18 strict full-cycle comparison",
+    "v19 raw observation/OP/history",
+    "Agent6",
+    "unexplained main SLX"
+  ],
+  "scope": "one exact file, no recursive deletion",
+  "status": "retired_after_exact_path_and_hash_verification",
+  "retired_bytes": 52318767,
+  "retired_file_absent_verified": true,
+  "canonical_kept_verified": true
+}

@@ -1,0 +1,104 @@
+{
+  "schema": "heatdrive_ecc_full_mechanism_closeout_v1",
+  "date": "2026-10-08",
+  "stage": "C22_diagnostic_component_contract_not_yet_qualified",
+  "original_predicates_evaluated": 72,
+  "original_predicates_pass": 70,
+  "corrected_predicates_pass": 71,
+  "corrected_failed_checks": [
+    "qian_article_pipe_UA_contract"
+  ],
+  "verified_false_rejection": {
+    "check": "independent_pressure_PI_contract",
+    "cause": "input enable incorrectly expected at independently commanded output gate",
+    "actual_directed_ports_verified": true,
+    "model_control_unchanged": true,
+    "thresholds_unchanged": true
+  },
+  "remaining_issues": [
+    {
+      "category": "implementation_specific_audit",
+      "cause": "native chamber MaskType/area_A/area_B assumptions do not describe the explicit conservative endpoint chamber",
+      "observed_local_inventory_gates_pass": true,
+      "component_substitution_gate_not_yet_qualified": true
+    },
+    {
+      "category": "configuration_pressure_envelope",
+      "minimum_estimated_MPa": 0.35,
+      "current_property_domain_minimum_MPa": 0.45,
+      "actual_observed_pressure_gate_pass": true,
+      "all_admissible_commands_safe": false
+    }
+  ],
+  "full_periodic_steady_state": false,
+  "production_recovery_allowed": false,
+  "outer_solve_allowed": false,
+  "strict_table4_reproduction_pass": false,
+  "test_results": {
+    "main_python_pass": 664,
+    "execution_python_pass": 664,
+    "matlab_exact_saved_window_pass": true,
+    "malformed_window_rejections": 4,
+    "actual_route_memory_before_after_distributed_pass": true
+  },
+  "evidence": [
+    {
+      "file": "v19_original_production_mechanism_20261008_r2.json",
+      "sha256": "06387B1AA7BBD57A4EB242DCFE2BE26E9D17A20AC5E8D3710FFA9EC2CD124E5E"
+    },
+    {
+      "file": "v19_corrected_production_mechanism_20261008_r3.json",
+      "sha256": "A65560EC9469BFCDDB6770FE674345C5E490164A9B7EA3934AAFFD35B1FF9DA3"
+    },
+    {
+      "file": "v19_controller_contract_verification_20261008_r2.json",
+      "sha256": "C03EA408A4FF00BC8B808289C5117BD8606FF2B8D9524EAF5E3FE2191117CA56"
+    }
+  ],
+  "frozen_C200_result_and_OP_fresh_hash_pass": true,
+  "Agent6_untouched": true,
+  "unexplained_main_SLX_untouched": true,
+  "failed_program_attempts": [
+    {
+      "program": "saved_mechanism",
+      "session": 63917,
+      "exit_code": 1,
+      "cause": "missing saved HHEX/CHEX aliases",
+      "scientific_failure": false
+    },
+    {
+      "program": "static_controller_contract",
+      "session": 21658,
+      "exit_code": 1,
+      "cause": "qualified component library not loaded",
+      "scientific_failure": false
+    }
+  ],
+  "completed_programs": [
+    {
+      "program": "original_saved_mechanism",
+      "session": 26671,
+      "exit_code": 0,
+      "scientific_gate_pass": false
+    },
+    {
+      "program": "actual_controller_contract",
+      "session": 23554,
+      "exit_code": 0,
+      "directed_route_contract_pass": true,
+      "full_component_contract_pass": false
+    },
+    {
+      "program": "corrected_saved_mechanism",
+      "session": 75862,
+      "exit_code": 0,
+      "scientific_gate_pass": false
+    }
+  ],
+  "next_work": [
+    "Replace implementation-name assumptions with an explicit qualified conservative-chamber geometry and inventory contract, without treating arbitrary component replacements as equivalent.",
+    "Derive admissible source commands from both actual liquid-domain pressure bounds and network pressure; verify controller-state compatibility rather than blindly retuning gains or resetting the candidate.",
+    "Only after corresponding component/runtime gates and exact state qualification pass, continue the 20-cycle chain and evaluate whole-state periodicity.",
+    "Preserve reusable physical extraction from the same immutable observation packet; investigate initial native-export bottleneck separately with public complete-log equivalence."
+  ]
+}

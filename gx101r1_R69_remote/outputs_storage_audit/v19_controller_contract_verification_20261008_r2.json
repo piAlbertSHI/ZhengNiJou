@@ -1,0 +1,334 @@
+{
+  "schema": "heatdrive_ecc_saved_controller_contract_verification_v1",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v19_intact_diagnostic_resume_20c",
+  "source_producer": "2c951bc64b134539bbd26130d00904e253e0da15",
+  "audit_expression_only_change_verified": true,
+  "source_model_control_unchanged": true,
+  "route_memory_before_distributed": {
+    "schema": "heatdrive_ecc_route_memory_contract_v1",
+    "routes": [
+      {
+        "stage": 2,
+        "input_enable_variable_ok": true,
+        "output_enable_variable_ok": true,
+        "input_gate_source_ok": true,
+        "output_gate_source_ok": true,
+        "input_to_integrator_ok": true,
+        "integrator_to_output_ok": true,
+        "reset_disabled": true,
+        "legacy_same_enable_to_output": false,
+        "pass": true
+      },
+      {
+        "stage": 4,
+        "input_enable_variable_ok": true,
+        "output_enable_variable_ok": true,
+        "input_gate_source_ok": true,
+        "output_gate_source_ok": true,
+        "input_to_integrator_ok": true,
+        "integrator_to_output_ok": true,
+        "reset_disabled": true,
+        "legacy_same_enable_to_output": false,
+        "pass": true
+      }
+    ],
+    "pass": true,
+    "simulation_executed": false,
+    "model_modified": false,
+    "production_recovery_allowed": false
+  },
+  "route_memory_after_distributed": {
+    "schema": "heatdrive_ecc_route_memory_contract_v1",
+    "routes": [
+      {
+        "stage": 2,
+        "input_enable_variable_ok": true,
+        "output_enable_variable_ok": true,
+        "input_gate_source_ok": true,
+        "output_gate_source_ok": true,
+        "input_to_integrator_ok": true,
+        "integrator_to_output_ok": true,
+        "reset_disabled": true,
+        "legacy_same_enable_to_output": false,
+        "pass": true
+      },
+      {
+        "stage": 4,
+        "input_enable_variable_ok": true,
+        "output_enable_variable_ok": true,
+        "input_gate_source_ok": true,
+        "output_gate_source_ok": true,
+        "input_to_integrator_ok": true,
+        "integrator_to_output_ok": true,
+        "reset_disabled": true,
+        "legacy_same_enable_to_output": false,
+        "pass": true
+      }
+    ],
+    "pass": true,
+    "simulation_executed": false,
+    "model_modified": false,
+    "production_recovery_allowed": false
+  },
+  "physical_audit_sections_unchanged": true,
+  "original_article_audit": {
+    "SMA": {
+      "expected_UA_W_per_K": 287.6211766299856,
+      "calculated_UA_W_per_K": 287.6211766299856,
+      "relative_error": 0,
+      "flow_area_m2": 1.8849555921538758E-5,
+      "hydraulic_diameter_m": 0.00074999999999999991,
+      "length_m": 0.81912076653167021,
+      "Nu": 4.3659934938909366,
+      "fluid_k_W_per_mK": 0.6,
+      "masks_ok": true,
+      "ok": true
+    },
+    "SE": {
+      "expected_UA_W_per_K": 91.463500281513461,
+      "calculated_UA_W_per_K": 91.463500281513475,
+      "relative_error": 1.5537186606091754E-16,
+      "flow_area_m2": 7.1400000000000011E-6,
+      "hydraulic_diameter_m": 0.00042,
+      "length_m": 0.37843290919687267,
+      "Nu": 3.66,
+      "fluid_k_W_per_mK": 0.407866666666667,
+      "masks_ok": true,
+      "ok": true
+    },
+    "SE_shared_regenerator": {
+      "enabled": true,
+      "hold_pipe_count": 21,
+      "expected_hold_pipe_count": 21,
+      "cooldown_pipe_count": 0,
+      "junction_count": 2,
+      "blocks_present": true,
+      "node_names_ok": true,
+      "direct_connections_ok": true,
+      "wrong_end_connections_absent": true,
+      "ok": true
+    },
+    "SE_double_acting_piston": {
+      "blocks_present": true,
+      "route_connections_ok": true,
+      "source_face_orientation_ok": true,
+      "command_shared": true,
+      "obsolete_common_manifold_absent": true,
+      "chambers_not_directly_short_circuited": true,
+      "physical_interpretation": "one_double_acting_piston_two_hydraulic_source_faces",
+      "ok": true
+    },
+    "SMA_pump_manifolds": {
+      "blocks_present": true,
+      "mask_expressions_ok": false,
+      "workspace_values_ok": true,
+      "connections_ok": true,
+      "valve_masks_ok": true,
+      "thermal_ports_insulated": true,
+      "volume_each_m3": 1.6084954386379741E-6,
+      "ok": false
+    },
+    "solid_axial_conduction": {
+      "enabled": true,
+      "SMA": {
+        "block_count": 20,
+        "expected_block_count": 20,
+        "masks_ok": true,
+        "connections_ok": true,
+        "node_dx_m": 0.03900575078722239,
+        "conductance_W_per_K": 0.011598016522864242,
+        "boundary_condition": "adiabatic_ends",
+        "ok": true
+      },
+      "SE": {
+        "block_count": 20,
+        "expected_block_count": 20,
+        "masks_ok": true,
+        "connections_ok": true,
+        "node_dx_m": 0.018020614723660604,
+        "conductance_W_per_K": 0.016980552810899947,
+        "boundary_condition": "adiabatic_ends",
+        "ok": true
+      },
+      "ok": true,
+      "source": "Qian2019 Eq.1 central-difference solid conduction"
+    },
+    "HHEX": {
+      "SE_expected_G_W_per_K": 53.611549237198957,
+      "SMA_expected_G_W_per_K": 977.88025797345517,
+      "SE_mask": "hot_sink_fluid_G_W_per_K",
+      "SMA_mask": "hot_sink_sma_fluid_G_W_per_K",
+      "ok": true
+    },
+    "pressure": {
+      "initial_pressure_MPa": 0.85,
+      "minimum_pressure_command_MPa": -0.5,
+      "minimum_estimated_pressure_MPa": 0.35,
+      "minimum_valid_pressure_MPa": 0.45,
+      "p0_block_count": 67,
+      "p0_masks_ok": true,
+      "tank_pressure_MPa": 0.85,
+      "tank_pressure_ok": true,
+      "pressure_source_count": 3,
+      "pressure_source_power_ok": true,
+      "pipe_count": 67,
+      "quasisteady_pipes_ok": true,
+      "valve_commands_interpolated_ok": true,
+      "independent_controller_limits": {
+        "blocks_present": true,
+        "mask_expressions_ok": true,
+        "workspace_values_ok": true,
+        "route_memory_connections_ok": false,
+        "single_full_cycle_target_contract_ok": true,
+        "obsolete_shared_reset_absent": true,
+        "ok": false
+      },
+      "ok": false
+    },
+    "thermal_gates": {
+      "gate_count": 63,
+      "expected_gate_count": 63,
+      "command_block_count": 3,
+      "masks_and_zoh_ok": true,
+      "minimum_conductivity_W_per_mK": 1E-9,
+      "SE_natural_target_UA_W_per_K": 1.2866718912693671,
+      "SE_natural_effective_UA_W_per_K": 1.2866718912693669,
+      "SE_natural_relative_error": 2.2650183464922797E-16,
+      "ok": true
+    },
+    "ok": false,
+    "source": "Qian2019 Table2/Table4 bed geometry; SMA Nu follows Qian2017 Eq15 and SE Nu=3.66 follows Qian2019 Table2"
+  },
+  "corrected_article_audit": {
+    "SMA": {
+      "expected_UA_W_per_K": 287.6211766299856,
+      "calculated_UA_W_per_K": 287.6211766299856,
+      "relative_error": 0,
+      "flow_area_m2": 1.8849555921538758E-5,
+      "hydraulic_diameter_m": 0.00074999999999999991,
+      "length_m": 0.81912076653167021,
+      "Nu": 4.3659934938909366,
+      "fluid_k_W_per_mK": 0.6,
+      "masks_ok": true,
+      "ok": true
+    },
+    "SE": {
+      "expected_UA_W_per_K": 91.463500281513461,
+      "calculated_UA_W_per_K": 91.463500281513475,
+      "relative_error": 1.5537186606091754E-16,
+      "flow_area_m2": 7.1400000000000011E-6,
+      "hydraulic_diameter_m": 0.00042,
+      "length_m": 0.37843290919687267,
+      "Nu": 3.66,
+      "fluid_k_W_per_mK": 0.407866666666667,
+      "masks_ok": true,
+      "ok": true
+    },
+    "SE_shared_regenerator": {
+      "enabled": true,
+      "hold_pipe_count": 21,
+      "expected_hold_pipe_count": 21,
+      "cooldown_pipe_count": 0,
+      "junction_count": 2,
+      "blocks_present": true,
+      "node_names_ok": true,
+      "direct_connections_ok": true,
+      "wrong_end_connections_absent": true,
+      "ok": true
+    },
+    "SE_double_acting_piston": {
+      "blocks_present": true,
+      "route_connections_ok": true,
+      "source_face_orientation_ok": true,
+      "command_shared": true,
+      "obsolete_common_manifold_absent": true,
+      "chambers_not_directly_short_circuited": true,
+      "physical_interpretation": "one_double_acting_piston_two_hydraulic_source_faces",
+      "ok": true
+    },
+    "SMA_pump_manifolds": {
+      "blocks_present": true,
+      "mask_expressions_ok": false,
+      "workspace_values_ok": true,
+      "connections_ok": true,
+      "valve_masks_ok": true,
+      "thermal_ports_insulated": true,
+      "volume_each_m3": 1.6084954386379741E-6,
+      "ok": false
+    },
+    "solid_axial_conduction": {
+      "enabled": true,
+      "SMA": {
+        "block_count": 20,
+        "expected_block_count": 20,
+        "masks_ok": true,
+        "connections_ok": true,
+        "node_dx_m": 0.03900575078722239,
+        "conductance_W_per_K": 0.011598016522864242,
+        "boundary_condition": "adiabatic_ends",
+        "ok": true
+      },
+      "SE": {
+        "block_count": 20,
+        "expected_block_count": 20,
+        "masks_ok": true,
+        "connections_ok": true,
+        "node_dx_m": 0.018020614723660604,
+        "conductance_W_per_K": 0.016980552810899947,
+        "boundary_condition": "adiabatic_ends",
+        "ok": true
+      },
+      "ok": true,
+      "source": "Qian2019 Eq.1 central-difference solid conduction"
+    },
+    "HHEX": {
+      "SE_expected_G_W_per_K": 53.611549237198957,
+      "SMA_expected_G_W_per_K": 977.88025797345517,
+      "SE_mask": "hot_sink_fluid_G_W_per_K",
+      "SMA_mask": "hot_sink_sma_fluid_G_W_per_K",
+      "ok": true
+    },
+    "pressure": {
+      "initial_pressure_MPa": 0.85,
+      "minimum_pressure_command_MPa": -0.5,
+      "minimum_estimated_pressure_MPa": 0.35,
+      "minimum_valid_pressure_MPa": 0.45,
+      "p0_block_count": 67,
+      "p0_masks_ok": true,
+      "tank_pressure_MPa": 0.85,
+      "tank_pressure_ok": true,
+      "pressure_source_count": 3,
+      "pressure_source_power_ok": true,
+      "pipe_count": 67,
+      "quasisteady_pipes_ok": true,
+      "valve_commands_interpolated_ok": true,
+      "independent_controller_limits": {
+        "blocks_present": true,
+        "mask_expressions_ok": true,
+        "workspace_values_ok": true,
+        "route_memory_connections_ok": true,
+        "single_full_cycle_target_contract_ok": true,
+        "obsolete_shared_reset_absent": true,
+        "ok": true
+      },
+      "ok": false
+    },
+    "thermal_gates": {
+      "gate_count": 63,
+      "expected_gate_count": 63,
+      "command_block_count": 3,
+      "masks_and_zoh_ok": true,
+      "minimum_conductivity_W_per_mK": 1E-9,
+      "SE_natural_target_UA_W_per_K": 1.2866718912693671,
+      "SE_natural_effective_UA_W_per_K": 1.2866718912693669,
+      "SE_natural_relative_error": 2.2650183464922797E-16,
+      "ok": true
+    },
+    "ok": false,
+    "source": "Qian2019 Table2/Table4 bed geometry; SMA Nu follows Qian2017 Eq15 and SE Nu=3.66 follows Qian2019 Table2"
+  },
+  "distributed_formula": "-m_nominal*alpha*sum(32*L_i*nu(T_I_i[t-dt])/(A*Dh^2))/1e6 + (1-alpha)*p_switch",
+  "simulation_executed": false,
+  "operating_point_loaded": false,
+  "production_recovery_allowed": false
+}
