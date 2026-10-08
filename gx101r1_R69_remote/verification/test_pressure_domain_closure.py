@@ -28,6 +28,27 @@ class PressureDomainClosureTests(unittest.TestCase):
         self.assertIn("'production_recovery_allowed',false", source)
         self.assertIn('An undeclared controller/material/geometry option changed', source)
 
+    def test_cold_analysis_does_not_require_a_nonexistent_restart(self):
+        source = (ROOT / 'verification/Make_HeatDriveECC_MechanismWindow.m').read_text(encoding='utf-8')
+        self.assertIn('(~provenance.checkpoint_restart_used || provenance.checkpoint_chain_verified)', source)
+        self.assertIn('provenance.sim_call_count == physical.sim_call_count', source)
+
+    def test_failed_mechanism_is_preserved_before_state_verification(self):
+        source = (ROOT / 'verification/Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
+        self.assertLess(source.index('Evaluate_HeatDriveECC_ColdMechanism('),
+                        source.index('Verify_HeatDriveECC_CoupledStateRestore('))
+        self.assertIn('REJECTED_DO_NOT_RESUME.json', source)
+        self.assertIn('New bounded cold mechanism failed', source)
+
+    def test_native_persistence_uses_public_supported_api(self):
+        source = (ROOT / 'verification/Snapshot_HeatDriveECC_NativeLog.m').read_text(encoding='utf-8')
+        self.assertIn('log.savable', source)
+        self.assertIn("save(target,'native_log','-v7.3')", source)
+        self.assertIn("load(target,'native_log')", source)
+        self.assertIn('numel(inventory_paths)==6', source)
+        self.assertIn('isequaln(t,s) && isequaln(a,b) && strcmp(u,v)', source)
+        self.assertNotIn('interp1', source)
+
 
 if __name__ == '__main__':
     unittest.main()
