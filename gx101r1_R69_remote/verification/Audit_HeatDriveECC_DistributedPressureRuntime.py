@@ -15,6 +15,28 @@ def read_json(path):
     return json.loads(path.read_text(encoding='utf-8-sig'))
 
 
+def window_coordinates(time, start, stop):
+    if (not np.isfinite([start, stop]).all() or start < 0 or stop-start < 10
+            or any(abs(v/.001-round(v/.001)) > 1e-8 for v in (start, stop))):
+        raise ValueError('Invalid integer-millisecond observation window')
+    expected = np.arange(round(stop/.001)+1)*.001
+    if time.shape != expected.shape or not np.allclose(time, expected, rtol=0, atol=1e-9):
+        raise ValueError('Require the complete unchanged solver clock')
+    return start + np.arange(round((stop-start)/.001)+1)*.001
+
+
+def native_window_values(time, values, start, expected):
+    if start > 0 and time.size == expected.size+1:
+        if abs(time[0]-(start-.001)) > 1e-9:
+            raise ValueError('Wrong leading native sample')
+        time, values = time[1:], values[1:]
+    if (time.shape != expected.shape or values.shape != expected.shape
+            or not np.allclose(time, expected, rtol=0, atol=1e-9)
+            or not np.isfinite(values).all()):
+        raise ValueError('Native source coordinate mismatch')
+    return values
+
+
 def check_equations(live, delayed, viscosity, resistance, target, command, contract,
                     envelope=None, inactive=None):
     T = np.asarray(contract['property_temperature_K'])
@@ -62,7 +84,7 @@ def check_equations(live, delayed, viscosity, resistance, target, command, contr
     return errors, gates
 
 
-def audit_arm(folder):
+def audit_arm(folder, start=0, stop=10):
     completion = read_json(folder/'arm_completion.json')
     contract = read_json(folder/'distributed_pressure_ff_contract.json')
     path = folder/'observations.mat'
@@ -73,9 +95,10 @@ def audit_arm(folder):
     with h5py.File(path) as f, h5py.File(folder/'configuration.mat') as cfg:
         signals = {}
         time = f['signals/distributed_target_flow_kg_s/time_s'][:].reshape(-1)
-        if (not np.allclose(time, np.arange(10001)*.001, rtol=0, atol=1e-9)
+        expected_native = window_coordinates(time, start, stop)
+        if (stop != completion['stop_time_s']
                 or abs(contract['causal_delay_s']-.001) > 1e-12):
-            raise ValueError('Require the complete unchanged 10 s solver clock')
+            raise ValueError('Require the complete unchanged solver clock and declared window')
         for name, row in f['signals'].items():
             if not np.array_equal(row['time_s'][:].reshape(-1), time):
                 raise ValueError('Signal clock mismatch: '+name)
@@ -102,9 +125,13 @@ def audit_arm(folder):
             decode = lambda d: ''.join(chr(int(v)) for v in d[:].reshape(-1))
             block, variable = decode(row['block_path']), decode(row['state_name'])
             if block in lookup and variable == 'T_I':
-                if decode(row['unit']) != 'K' or not np.array_equal(row['time_s'][:].reshape(-1), time):
+                native_time = row['time_s'][:].reshape(-1)
+                values = row['values'][:].reshape(-1)
+                values = native_window_values(native_time, values, start, expected_native)
+                if decode(row['unit']) != 'K':
                     raise ValueError('Native source coordinate mismatch')
-                native_errors.append(float(np.max(abs(row['values'][:].reshape(-1)-live[lookup[block]]))))
+                first = round(start/.001)
+                native_errors.append(float(np.max(abs(values-live[lookup[block], first:]))))
         if len(native_errors) != 21:
             raise ValueError('Missing native source authority')
         errors['probe_vs_native_T_I_max_K'] = max(native_errors)
@@ -112,18 +139,23 @@ def audit_arm(folder):
         actual_ff = signals['stage4_dynamic_feedforward'][0]
         errors['command_authority_max_MPa'] = float(np.max(abs(actual_ff-get('pressure_feedforward_MPa')[0])))
         gates['command_authority'] = errors['command_authority_max_MPa'] <= 1e-10
-        performance, solids, flows = metrics(signals, cfg['options'], time, origin=0)
+        final_start = stop-10
+        first = round(final_start/.001)
+        performance, solids, flows = metrics(
+            {name: values[:, first:] for name, values in signals.items()},
+            cfg['options'], time[first:], origin=final_start)
         # SMA's mature sensor orientation is negative. A universal q>0 test
         # would falsely reject it; retain the original magnitude gates and
         # do not claim this subset establishes every route's direction.
         phase_pass = all(0 <= s['all_node_phase_min'] <= s['all_node_phase_max'] <= 1 for s in solids.values())
     return dict(arm=completion['arm'], execution_commit=completion['execution_commit'],
         observation_sha256=sha256(path), controller_contract_sha256=sha256(folder/'distributed_pressure_ff_contract.json'),
-        samples=len(time), equation_errors=errors, equation_gates=gates,
+        samples=len(time), native_window_start_s=start, native_window_stop_s=stop,
+        equation_errors=errors, equation_gates=gates,
         distributed_controller_runtime_pass=all(gates.values()), settled_flows=flows,
         selected_flow_gates_pass=all(r['selected_flow_gate'] for r in flows),
         complete_route_direction_audit=False,
-        pressure_boundary=pressure_arm(folder.parent,completion['arm'],0,10),
+        pressure_boundary=pressure_arm(folder.parent,completion['arm'],start,stop),
         solid_balances=solids, phase_bounds_pass=phase_pass,
         solid_energy_pass=all(s['selected_solid_energy_gate'] for s in solids.values()),
         performance=performance, full_package_collection_verified=False,
@@ -135,10 +167,12 @@ def main():
     parser.add_argument('--arm-root', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--baseline-arm-root', type=Path)
+    parser.add_argument('--start', type=float, default=0)
+    parser.add_argument('--stop', type=float, default=10)
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError('Never overwrite evidence')
-    result = audit_arm(args.arm_root)
+    result = audit_arm(args.arm_root, args.start, args.stop)
     if args.baseline_arm_root:
         folder=args.baseline_arm_root
         completion=read_json(folder/'arm_completion.json')
