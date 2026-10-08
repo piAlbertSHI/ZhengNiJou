@@ -11,7 +11,8 @@ class DirectionalPressureContractTests(unittest.TestCase):
         self.assertIn("'SMA Pressure Source (TL)','A','SMA_PumpInletConnectingPipeVolume','B'", text)
         self.assertIn('B.p - A.p == p_diff;', text)
         self.assertIn('p_diff = P;', text)
-        self.assertIn('get_param(block,\'p0_unit\')', text)
+        self.assertIn('get_param(block,\'tank_pressure_unit\')', text)
+        self.assertIn("get_param(block,'pressure_spec')", text)
 
     def test_runtime_pressure_is_not_approved_by_static_configuration(self):
         text = (ROOT / 'Audit_HeatDriveECC_DirectionalPressureObservation.m').read_text()
