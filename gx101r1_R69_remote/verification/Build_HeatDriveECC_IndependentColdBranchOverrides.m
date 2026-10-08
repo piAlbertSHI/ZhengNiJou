@@ -20,6 +20,15 @@ function overrides = Build_HeatDriveECC_IndependentColdBranchOverrides(config)
     overrides.pressure_pi_error_filter_tau_s = config.pressure_pi_error_filter_tau_s;
     overrides.se_stage4_pressure_bias_trim_MPa = config.stage4_pressure_bias_trim_MPa;
     overrides.se_distributed_pressure_feedforward_diagnostic = config.distributed_pressure_feedforward_diagnostic;
+    if isfield(config,'pressure_command_domain_closure_enabled')
+        assert(islogical(config.pressure_command_domain_closure_enabled) && ...
+            isscalar(config.pressure_command_domain_closure_enabled), 'Require an explicit logical safety closure.');
+        overrides.pressure_command_domain_closure_enabled=config.pressure_command_domain_closure_enabled;
+        if config.pressure_command_domain_closure_enabled
+            assert(isfield(config,'pressure_command_domain_margin_MPa'), 'Declare the pressure domain headroom.');
+            overrides.pressure_command_domain_margin_MPa=config.pressure_command_domain_margin_MPa;
+        end
+    end
     if isfield(config,'stage4_pressure_p_activity_mode')
         overrides.se_stage4_pressure_p_activity_mode = char(config.stage4_pressure_p_activity_mode);
     end
