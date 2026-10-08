@@ -34,6 +34,12 @@ function record = Verify_HeatDriveECC_SavedControllerContract(source_root, outpu
     old_path = path;
     cleanup_path = onCleanup(@() path(old_path));
     addpath(fullfile(source_root, 'component_build'), fullfile(source_root, 'buffer_component_build'));
+    library = original.branch.independent_conservative_chamber_library;
+    library_file = fullfile(source_root, 'component_build', [library '.slx']);
+    assert(strcmp(file_hash(library_file), execution.chamber_library_sha256), ...
+        'Diagnostic component library differs from the observed producer.');
+    load_system(library_file);
+    cleanup_library = onCleanup(@() close_system(library, 0));
     [model, refreshed] = Build_HeatDriveECC_EighthRound_Simulink_Model(original);
     cleanup_model = onCleanup(@() close_system(model, 0));
     before = Audit_HeatDriveECC_RouteMemoryContract(model);
@@ -71,4 +77,12 @@ function record = Verify_HeatDriveECC_SavedControllerContract(source_root, outpu
     fprintf(fid, '%s\n', jsonencode(record, 'PrettyPrint', true));
     fprintf('%s\n', jsonencode(struct('actual_route_memory_pass', after.pass, ...
         'corrected_article_audit_pass', new_audit.ok, 'simulation_executed', false)));
+end
+
+function result = file_hash(file)
+    digest = java.security.MessageDigest.getInstance('SHA-256');
+    fid = fopen(file, 'rb'); assert(fid >= 0, 'Missing diagnostic component library.');
+    cleanup = onCleanup(@() fclose(fid));
+    while ~feof(fid), digest.update(fread(fid, 8*1024*1024, '*uint8')); end
+    result = upper(reshape(dec2hex(typecast(digest.digest(), 'uint8'), 2).', 1, []));
 end
