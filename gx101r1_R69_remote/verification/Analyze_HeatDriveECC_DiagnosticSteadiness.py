@@ -1,4 +1,4 @@
-"""Apply the existing production periodic predicates, without inventing packed-state limits."""
+"""Report solid-only drift using production limits; bind exact MATLAB predicates separately."""
 import argparse
 import json
 from pathlib import Path
@@ -20,6 +20,8 @@ def core_periodicity(arm, limits):
     gates={name:dict(value=float(value),limit=float(limits[key]),pass_gate=bool(value<=limits[key]))
            for name,value,key in mapping}
     return dict(predicates=gates,last_pair_core_predicates_pass=all(g['pass_gate'] for g in gates.values()),
+                predicate_scope='solid_node_endpoint_and_numpy_percentile_last_pair',
+                equivalent_to_original_production_predicates=False,
                 same_phase_maxima_are_nonblocking_diagnostics=True,
                 diagnostic_temperature_peak_K=temperature['same_phase_max'],
                 diagnostic_phase_peak=phase['same_phase_max'])
@@ -45,7 +47,27 @@ def completed_mechanism(root, physics, execution, receipt):
                 failed_checks=[name for name,value in checks.items() if not value])
 
 
-def analyze(root, physics_path, state_path, mechanism_path=None):
+def production_periodicity(root, execution, receipt):
+    if (receipt.get('schema') != 'heatdrive_ecc_saved_production_periodicity_v1'
+            or receipt.get('source_execution_commit') != execution['execution_commit']
+            or receipt.get('source_execution_sha256') != sha256(root/'cold_chamber_execution.json')
+            or receipt.get('source_observation_sha256') != sha256(root/'native/observations.mat')
+            or receipt.get('source_configuration_sha256') != sha256(root/'native/configuration.mat')
+            or receipt.get('original_summarizer_used') is not True
+            or receipt.get('physical_tolerances_changed') is not False
+            or receipt.get('simulation_executed') is not False
+            or receipt.get('operating_point_loaded') is not False
+            or receipt.get('periodic_window_cycles') != 2
+            or receipt.get('ten_cycle_production_window_verified') is not False
+            or receipt.get('periodic_steady_state_verified') is not False
+            or receipt.get('production_recovery_allowed') is not False
+            or receipt.get('analysis_window', {}).get('absolute_start_s') != execution['stop_time_s']-20
+            or receipt.get('analysis_window', {}).get('absolute_stop_s') != execution['stop_time_s']):
+        raise ValueError('Exact production periodicity receipt has a wrong source or promoted scope')
+    return receipt
+
+
+def analyze(root, physics_path, state_path, mechanism_path=None, periodicity_path=None):
     read=lambda path:json.loads(path.read_text(encoding='utf-8-sig'))
     physics=read(physics_path);states=read(state_path);execution=read(root/'cold_chamber_execution.json')
     capture=read(root/'native/diagnostic_state_capture.json')
@@ -88,12 +110,15 @@ def analyze(root, physics_path, state_path, mechanism_path=None):
                 input_sha256={'physics_audit':sha256(physics_path),'state_audit':sha256(state_path),
                               'configuration':sha256(root/'native/configuration.mat'),
                               'operating_point':capture['operating_point_sha256'],'history':capture['history_sha256']},
-                interpretation='Production Summarize_HeatDriveECC_EighthRound_Output uses endpoint, p99 and RMS predicates; raw same-phase maxima are diagnostic. Passing state capture or a mechanism subset cannot grant full recovery or Table 4.')
+                interpretation='core_periodic_last_pair is a solid-only diagnostic, not the original production predicate: production includes heat-exchanger temperatures, mean solid endpoints, cycle phase extrema and nearest-rank p99. Raw maxima are diagnostic. Neither a last pair nor captured state grants steady recovery or Table 4.')
     if mechanism_path is not None:
         mechanism=completed_mechanism(root,physics,execution,read(mechanism_path))
         result.update(all_mechanism_gates_evaluated=True, full_mechanism=mechanism,
                       next_action='Qualify the intact latest diagnostic endpoint for further warmup; complete dimensional state mapping before steady outer solve')
         result['input_sha256']['full_mechanism_audit']=sha256(mechanism_path)
+    if periodicity_path is not None:
+        result['original_production_last_pair']=production_periodicity(root,execution,read(periodicity_path))
+        result['input_sha256']['original_production_periodicity_audit']=sha256(periodicity_path)
     return result
 
 
@@ -103,10 +128,11 @@ if __name__=='__main__':
     parser.add_argument('--physics-audit',type=Path,required=True)
     parser.add_argument('--state-audit',type=Path,required=True)
     parser.add_argument('--mechanism-audit',type=Path)
+    parser.add_argument('--periodicity-audit',type=Path)
     parser.add_argument('--output',type=Path,required=True)
     args=parser.parse_args()
     if args.output.exists():raise FileExistsError('Never overwrite a diagnostic decision')
-    result=analyze(args.experiment_root,args.physics_audit,args.state_audit,args.mechanism_audit)
+    result=analyze(args.experiment_root,args.physics_audit,args.state_audit,args.mechanism_audit,args.periodicity_audit)
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(result,indent=2,allow_nan=False)+'\n',encoding='utf-8')
     print(json.dumps({key:result[key] for key in ('total_cycles','mechanism_subset_pass',

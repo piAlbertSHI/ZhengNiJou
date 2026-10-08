@@ -1,0 +1,17 @@
+{
+  "schema": "heatdrive_ecc_endpoint_guard_failure_diagnosis_v1",
+  "program": "Test_HeatDriveECC_LatestDiagnosticEndpoint",
+  "failed_command_chunk_id": "4dc5a5",
+  "original_exit_code": 1,
+  "original_error": "Invalid latest warmup endpoint authority.",
+  "cause": "Literal MATLAB strcmp rejected the same canonical Windows source root spelled with forward slashes instead of receipt backslashes.",
+  "physical_simulation_failed": false,
+  "physics_or_operating_point_changed": false,
+  "repair": "Canonicalize both source roots with java.io.File.getCanonicalPath and compare case-insensitively; retain all hash, source-root, state and authority guards.",
+  "qualification_sha256": "739134232134CADD34F59A11C122A19D583A8D18DC04BB14B146C0F37969AB30",
+  "verified_by": "v28_directional_C62_endpoint_guard_20261009_v3/actual_endpoint_guard.json",
+  "verified_snapshot_time_s": 620,
+  "both_windows_separator_spellings_verified": true,
+  "all_six_negative_cases_rejected": true,
+  "production_recovery_allowed": false
+}

@@ -1,0 +1,151 @@
+{
+  "schema": "heatdrive_ecc_diagnostic_steadiness_v1",
+  "producer": "d7c7e636faf5f1d6387f4e8c9f4f8b013da82617",
+  "total_cycles": 62,
+  "segment_window_s": [
+    420,
+    620
+  ],
+  "physical_window_s": [
+    600.0,
+    620.0
+  ],
+  "mechanism_subset_pass": true,
+  "all_mechanism_gates_evaluated": true,
+  "core_periodic_last_pair": {
+    "predicates": {
+      "temperature_endpoint": {
+        "value": 0.005763266680048673,
+        "limit": 0.05,
+        "pass_gate": true
+      },
+      "temperature_p99": {
+        "value": 0.047926806574783355,
+        "limit": 0.05,
+        "pass_gate": true
+      },
+      "temperature_rms": {
+        "value": 0.010111846723091313,
+        "limit": 0.01,
+        "pass_gate": false
+      },
+      "phase_endpoint": {
+        "value": 6.46400556922784e-05,
+        "limit": 0.0001,
+        "pass_gate": true
+      },
+      "phase_p99": {
+        "value": 0.002220598323290579,
+        "limit": 0.002,
+        "pass_gate": false
+      },
+      "phase_rms": {
+        "value": 0.0004669629480532599,
+        "limit": 0.0004,
+        "pass_gate": false
+      }
+    },
+    "last_pair_core_predicates_pass": false,
+    "predicate_scope": "solid_node_endpoint_and_numpy_percentile_last_pair",
+    "equivalent_to_original_production_predicates": false,
+    "same_phase_maxima_are_nonblocking_diagnostics": true,
+    "diagnostic_temperature_peak_K": 0.25143886894261414,
+    "diagnostic_phase_peak": 0.012016085008373964
+  },
+  "all_119_inventory_endpoint_K": 0.0813727657302934,
+  "all_119_inventory_same_phase_peak_K": 0.25143886894261414,
+  "all_logged_groups_have_ten_cycle_comparisons": true,
+  "all_three_PI_memories_observed": true,
+  "full_state_periodicity_verified": false,
+  "packed_state_joint_norm_used": false,
+  "physical_tolerances_changed": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false,
+  "source_minus_endpoint_inventory_J": -2.9318059091565374e-09,
+  "full_device_first_law_verified": false,
+  "next_action": "Qualify the intact latest diagnostic endpoint for further warmup; complete dimensional state mapping before steady outer solve",
+  "input_sha256": {
+    "physics_audit": "E11BBB082C95196C946BF016C4653F1A676CE371D8F51C979A5D10CF3AB08CA6",
+    "state_audit": "F9786A78ADDD3312F80149B1B15F41B688A3DD2DCF23C41FB8E6F3BD570D12A9",
+    "configuration": "FDD8792BCD003671E3FE1B51BFAF907689E01D5CBEEB2078C5D72BDA151EFBF3",
+    "operating_point": "2D5787D3B7285851D52BE53286D721A8B362FBEFD91DE99422D280B03277FAA9",
+    "history": "7FD0586AAECDC146D671D142195C9F1F129EFE64800EE690DE9F17B49CA421B3",
+    "full_mechanism_audit": "C5A5F7451F040D1903D6F85D041BF404F6811A4FAF241A599D4BA397A57A2B97",
+    "original_production_periodicity_audit": "2B12249C217D634F1754372AD24430376FF18CFFCDF18F356FBE1F3411F3D533"
+  },
+  "interpretation": "core_periodic_last_pair is a solid-only diagnostic, not the original production predicate: production includes heat-exchanger temperatures, mean solid endpoints, cycle phase extrema and nearest-rank p99. Raw maxima are diagnostic. Neither a last pair nor captured state grants steady recovery or Table 4.",
+  "full_mechanism": {
+    "evaluated": true,
+    "count": 73,
+    "pass_gate": true,
+    "failed_checks": []
+  },
+  "original_production_last_pair": {
+    "schema": "heatdrive_ecc_saved_production_periodicity_v1",
+    "source_execution_commit": "d7c7e636faf5f1d6387f4e8c9f4f8b013da82617",
+    "source_execution_sha256": "E096EB9F66E56082D700231751660169BAB659747EC1AB10E1FF123B55BE58D1",
+    "source_observation_sha256": "A8BBA8995379ECA391CEEDBA555F1A6F3C2D146FB3FBDF540A639CDE039C3226",
+    "source_configuration_sha256": "FDD8792BCD003671E3FE1B51BFAF907689E01D5CBEEB2078C5D72BDA151EFBF3",
+    "mechanism_receipt_sha256": "C5A5F7451F040D1903D6F85D041BF404F6811A4FAF241A599D4BA397A57A2B97",
+    "mechanism_view_sha256": "42DA95E21CD61478AF481AD280D3463BC2F45619B4BA09960C7C61DA771822D6",
+    "original_summarizer_sha256": "56B5D6B262A6C9BC8AB2192CC25BD539D52AA6AFF3C90E12079F21B69198871F",
+    "original_summarizer_used": true,
+    "physical_tolerances_changed": false,
+    "simulation_executed": false,
+    "operating_point_loaded": false,
+    "analysis_window": {
+      "absolute_start_s": 600,
+      "absolute_stop_s": 620,
+      "global_first_cycle": 61,
+      "global_last_cycle": 62,
+      "original_mechanism_gate_start_cycle": 1,
+      "time_shift_for_analysis_only": true,
+      "simulation_options_modified": false,
+      "operating_point_modified": false,
+      "production_recovery_allowed": false
+    },
+    "periodic_window_cycles": 2,
+    "predicates": {
+      "temperature_endpoint": {
+        "value": 0.014965860598977088,
+        "limit": 0.05,
+        "pass_gate": true
+      },
+      "temperature_p99": {
+        "value": 0.04667356333840189,
+        "limit": 0.05,
+        "pass_gate": true
+      },
+      "temperature_rms": {
+        "value": 0.00921013507413125,
+        "limit": 0.01,
+        "pass_gate": true
+      },
+      "phase_extrema": {
+        "value": 4.310496945151253e-06,
+        "limit": 0.0001,
+        "pass_gate": true
+      },
+      "phase_p99": {
+        "value": 0.0022030435152228245,
+        "limit": 0.002,
+        "pass_gate": false
+      },
+      "phase_rms": {
+        "value": 0.0004343104576570896,
+        "limit": 0.0004,
+        "pass_gate": false
+      }
+    },
+    "last_pair_predicates_pass": false,
+    "diagnostic_temperature_peak_K": 0.2514388689382372,
+    "diagnostic_phase_peak": 0.012016085008154464,
+    "ten_cycle_production_window_verified": false,
+    "periodic_steady_state_verified": false,
+    "production_recovery_allowed": false,
+    "table4_reproduction_claim": false,
+    "interpretation": "Exact original mean-endpoint / cycle-phase-extrema / nearest-rank p99 statistics; two-cycle diagnostic only."
+  }
+}
