@@ -25,6 +25,13 @@ class NativeLedgerLifecycleTests(unittest.TestCase):
         self.assertIn('isequaln(persisted.source_traces,source_traces)', text)
         self.assertIn("'scientific_ledger_pass_claimed',false", text)
 
+    def test_only_model_local_sdi_transfer_is_disabled(self):
+        text = (ROOT / 'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
+        self.assertIn("'SimscapeLogToSDI','off'", text)
+        self.assertIn("'shared_preferences_modified',false", text)
+        self.assertIn("logical(output.simlog.exportable)", text)
+        self.assertNotIn('setpref(', text)
+
 
 if __name__ == '__main__':
     unittest.main()
