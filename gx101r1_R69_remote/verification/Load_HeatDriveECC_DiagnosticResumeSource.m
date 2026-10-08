@@ -2,6 +2,10 @@ function [op, contract] = Load_HeatDriveECC_DiagnosticResumeSource(options)
 % State-qualified independent diagnostic input, never a failed or production state.
     source=char(options.restore_source_root);verified=char(options.restore_verification_root);
     execution=jsondecode(fileread(fullfile(source,'cold_chamber_execution.json')));
+    if strcmp(execution.diagnostic_state_options.mode,'diagnostic_resume')
+        [op,contract]=Load_HeatDriveECC_LatestDiagnosticEndpoint(options);
+        return
+    end
     capture=jsondecode(fileread(fullfile(source,'native','diagnostic_state_capture.json')));
     proof_file=fullfile(verified,'native','rebuilt_cycle_restore.json');
     proof=jsondecode(fileread(proof_file));

@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
+from Qualify_HeatDriveECC_DiagnosticEndpoint import validate_qualification
 
 
 def diagnostic_arms(root, execution):
@@ -43,21 +44,47 @@ def diagnostic_arms(root, execution):
     if mode != 'diagnostic_resume':
         return ('native', 'conservative')
     contract=execution.get('diagnostic_resume_contract', {})
+    latest=contract.get('schema') == 'heatdrive_ecc_latest_qualified_diagnostic_resume_v2'
+    start=execution.get('start_time_s')
+    stop=execution.get('stop_time_s')
+    if latest:
+        if (not isinstance(start, (int,float)) or not isinstance(stop, (int,float))
+                or start < 220 or start % 10 != 0 or stop != start+200 or stop > 2000
+                or execution.get('cycle_count') != stop/10
+                or contract.get('snapshot_time_s') != start
+                or execution['diagnostic_state_options'].get('command_horizon_cycles') != 200
+                or contract.get('ancestor_complete_cycle_restore_verified') is not True
+                or contract.get('latest_endpoint_complete_cycle_reference_compared') is not False
+                or contract.get('source_physical_gates_evaluated') is not True):
+            raise ValueError('Invalid latest diagnostic segment clock or state authority')
+    elif (start != 20 or stop != 220 or execution.get('cycle_count') != 22
+            or contract.get('schema') != 'heatdrive_ecc_state_qualified_diagnostic_resume_v1'
+            or contract.get('full_cycle_state_restore_verified') is not True
+            or contract.get('snapshot_time_s') != 20):
+        raise ValueError('Invalid original diagnostic continuation scope')
     if (execution.get('requested_arm_collection_pass') is not True
             or execution.get('collection_pass') is not False
             or execution.get('requested_arms') != ['native']
-            or execution.get('start_time_s') != 20 or execution.get('stop_time_s') != 220
-            or execution.get('segment_cycle_count') != 20 or execution.get('cycle_count') != 22
+            or execution.get('segment_cycle_count') != 20
             or execution.get('checkpoint_saved') is not True or execution.get('c200_state_imported') is not False
             or execution.get('production_recovery_allowed') is not False
             or execution.get('error_message') != ''
-            or contract.get('schema') != 'heatdrive_ecc_state_qualified_diagnostic_resume_v1'
-            or contract.get('full_cycle_state_restore_verified') is not True
             or contract.get('diagnostic_trial_only') is not True
-            or contract.get('snapshot_time_s') != 20
             or any(contract.get(key) is not False for key in (
                 'failed_state_propagated','source_state_edited','partial_state_restore_used','production_recovery_allowed'))):
         raise ValueError('Invalid diagnostic continuation scope')
+    if latest:
+        receipt_path=Path(contract['verification_root'])/'diagnostic_resume_qualification.json'
+        if sha256(receipt_path) != contract['qualification_sha256']:
+            raise ValueError('Changed latest endpoint qualification')
+        receipt=json.loads(receipt_path.read_text(encoding='utf-8-sig'))
+        rows=validate_qualification(receipt,Path(contract['source_root']))
+        if (receipt['snapshot_time_s'] != start
+                or rows['operating_point']['sha256'] != contract['operating_point_sha256']
+                or rows['history']['sha256'] != contract['history_sha256']
+                or receipt['ancestor_complete_cycle_proof'] != contract['ancestor_complete_cycle_proof']):
+            raise ValueError('Diagnostic input and qualified endpoint disagree')
+        return ('native',)
     source=Path(contract['source_root'])/'native'
     verified=Path(contract['verification_root'])/'native'
     paths={source/'diagnostic_complete_operating_point.mat': 'operating_point_sha256',

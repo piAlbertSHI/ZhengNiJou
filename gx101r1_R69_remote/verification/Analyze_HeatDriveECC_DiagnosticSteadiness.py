@@ -52,7 +52,8 @@ def analyze(root, physics_path, state_path, mechanism_path=None):
     if (physics['input_sha256']['cold_chamber_execution.json']!=sha256(root/'cold_chamber_execution.json')
             or physics['producer']!=execution['execution_commit']
             or physics['analysis_scope']!='state_qualified_diagnostic_segment'
-            or physics['cycles_run']!=22 or len(physics['arms'])!=1
+            or physics['cycles_run']!=execution['cycle_count'] or len(physics['arms'])!=1
+            or physics['logged_window_s']!=[execution['stop_time_s']-20,execution['stop_time_s']]
             or states['observation_sha256']!=capture['history_sha256']
             or states['observation_sha256']!=sha256(root/'native/diagnostic_state_observation.mat')
             or sha256(root/'native/diagnostic_complete_operating_point.mat')!=capture['operating_point_sha256']):
@@ -68,7 +69,9 @@ def analyze(root, physics_path, state_path, mechanism_path=None):
             'max_periodic_same_phase_phase_p99_drift','max_periodic_same_phase_phase_rms_drift')}
     predicates=core_periodicity(arm,limits)
     result=dict(schema='heatdrive_ecc_diagnostic_steadiness_v1',producer=execution['execution_commit'],
-                total_cycles=22,segment_window_s=[20,220],physical_window_s=[200,220],
+                total_cycles=execution['cycle_count'],
+                segment_window_s=[execution['start_time_s'],execution['stop_time_s']],
+                physical_window_s=physics['logged_window_s'],
                 mechanism_subset_pass=physics['mechanism_subset_pass'],
                 all_mechanism_gates_evaluated=False,
                 core_periodic_last_pair=predicates,
