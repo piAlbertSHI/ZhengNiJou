@@ -5981,3 +5981,5 @@ C22完整OP已保存，但当前旧加载器仍硬编码C2输入，**尚未授�
 保留分类文件合计3,138,008,150 bytes，范围仅上述六个执行worktree实验，不是整个工作区或Agent6。关键JSON复制到主库逐项SHA一致；用户重启原因作为新的后续说明追加在closeout，不改写先前未知原因回执。治理回执为`v26_directional_closeout_20261008.json`。主库未解释SLX修改、Agent6、C200/C180权威仍隔离。
 
 最终目标保持§8完整计划：先取得新分支长期周期稳态及全装置第一定律独立证据，随后fixed-Tc outer solve、正交敏感性、共同参数成对端点、严格Table 4及最终SCI图集。不能因完成C22、程序退出0或73/73机制通过，提前使用validated/reproduced。
+
+本轮科学关闭提交为主库`7d12993`、执行镜像`414a6d4`；镜像仅.gitattributes历史上下文冲突，保留两侧规则后解决，未改任何物理结果。两个工作树完整Python回归均689/689通过，14个入Git JSON实际原始字节与Git blob逐项一致，SHA证据未因换行归一化改变。最新主库治理快照`workspace_governance_20261008_v26_closeout`分类803个outputs/audit子目录、16.001929 GiB，并再次实测C200/C180结果/OP四项SHA全部匹配。该体积不包括执行worktree或Agent6。所有本轮必需程序自然结束，没有后台监测或存活进程被遗弃。
