@@ -1,0 +1,36 @@
+{
+  "schema": "heatdrive_ecc_scoped_state_experiment_retention_v1",
+  "classified_at": "2026-10-08",
+  "scope": "Only v17 and v18 execution directories, not the entire workspace or Agent6",
+  "size_snapshot_before_closeout_marker": true,
+  "raw_root": "C:/Users/86182/.codex/worktrees/runtime-cv-json-contract/正逆耦合/gx101r1_R69_remote/outputs",
+  "directories": [
+    {
+      "name": "v17_diagnostic_state_preflight_2c",
+      "bytes": 164290431,
+      "class": "intact_independent_cold_state_candidate",
+      "action": "retain_single_raw_copy",
+      "reason": "Original complete vendor OP and history are the hash-bound source of the successful rebuilt-cycle test, not a production recovery source",
+      "operating_point_sha256": "56398BA11719758BD2DDDD451B5241D9C61572E2908510E6A08C9DB4CCB22B81",
+      "history_sha256": "82269E96D2AA65D54EDE9EA745AE7A72DCAAE0CDA4A2DDC52794D1A7550C01CA"
+    },
+    {
+      "name": "v18_rebuilt_complete_cycle_preflight",
+      "bytes": 240563053,
+      "class": "passed_complete_cycle_state_restore_evidence",
+      "action": "retain_single_raw_copy",
+      "reason": "Latest cross-process full-cycle comparison; retained states and observations are needed for subsequent analysis, no redundant raw copy in Git",
+      "comparison_sha256": "BB83BCA1F62F38B4EFA7DD8013A4B075F9F73BB245C6C469C5F79D9E67D71178",
+      "execution_sha256": "446DC4BB1E435CFB7B2971DD4FB8DBA3CC8B917DB53834A9164F5497894E1B90",
+      "restore_sha256": "D95499F289A11C09E4519AA5C0B90F827C5CC95E268F5094F216D6367881BB46"
+    }
+  ],
+  "total_classified_bytes": 404853484,
+  "deleted_bytes": 0,
+  "raw_mats_copied_to_main_repository": false,
+  "source_op_and_history_rechecked_after_exit": true,
+  "canonical_slx_modified_by_this_round": false,
+  "agent6_accessed": false,
+  "production_recovery_allowed": false,
+  "whole_goal_complete": false
+}
