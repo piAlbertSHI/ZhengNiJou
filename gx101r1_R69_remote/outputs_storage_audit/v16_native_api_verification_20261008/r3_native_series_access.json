@@ -1,0 +1,76 @@
+{
+  "schema": "heatdrive_ecc_native_series_access_isolation_v1",
+  "execution_commit": "d8126f843fe9f5171534d0208b1feccbb5cbff98",
+  "matlab_release": "2025b",
+  "production_model_loaded": false,
+  "checkpoint_loaded": false,
+  "cases": [
+    {
+      "state": "M",
+      "points": 0,
+      "point_count_equal": true,
+      "time_equal": true,
+      "data_equal": true,
+      "unit_equal": true,
+      "classic_unit": "",
+      "new_unit": "",
+      "classic_points_access_s": 0.0002301,
+      "new_timing": {
+        "series_access_s": 0.0001654,
+        "points_access_s": 0,
+        "time_access_s": 0.0012132,
+        "values_access_s": 0,
+        "unit_access_s": 0,
+        "reshape_s": 0,
+        "points": 0,
+        "total_s": 0.0017264
+      }
+    },
+    {
+      "state": "Q",
+      "points": 20001,
+      "point_count_equal": true,
+      "time_equal": true,
+      "data_equal": true,
+      "unit_equal": true,
+      "classic_unit": "W",
+      "new_unit": "W",
+      "classic_points_access_s": 0.0002131,
+      "new_timing": {
+        "series_access_s": 9.87E-5,
+        "points_access_s": 0,
+        "time_access_s": 0.0002096,
+        "values_access_s": 0.0006954,
+        "unit_access_s": 0.0001012,
+        "reshape_s": 7.83E-5,
+        "points": 20001,
+        "total_s": 0.0014674
+      }
+    },
+    {
+      "state": "T",
+      "points": 20001,
+      "point_count_equal": true,
+      "time_equal": true,
+      "data_equal": true,
+      "unit_equal": true,
+      "classic_unit": "K",
+      "new_unit": "K",
+      "classic_points_access_s": 0.000176,
+      "new_timing": {
+        "series_access_s": 6.64E-5,
+        "points_access_s": 0,
+        "time_access_s": 9.41E-5,
+        "values_access_s": 0.0004117,
+        "unit_access_s": 6.88E-5,
+        "reshape_s": 2.47E-5,
+        "points": 20001,
+        "total_s": 0.0009065
+      }
+    }
+  ],
+  "empty_series_pass": true,
+  "data_equivalence_pass": true,
+  "full_plant_speedup_measured": false,
+  "production_recovery_allowed": false
+}
