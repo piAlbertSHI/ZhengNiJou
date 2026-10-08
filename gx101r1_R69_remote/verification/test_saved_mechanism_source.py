@@ -19,6 +19,21 @@ class SavedMechanismSourceTests(unittest.TestCase):
         self.assertIn('all(abs(diff(t)-dt) <= tolerance)', source)
         self.assertIn('isequal(row.time_s(:), reference)', source)
 
+    def test_controller_correction_is_evidence_bound_not_forced_pass(self):
+        source = Path(__file__).with_name('Audit_HeatDriveECC_SavedMechanism.m').read_text()
+        self.assertIn('proof.original_article_audit', source)
+        self.assertIn('proof.corrected_article_audit.ok', source)
+        self.assertIn('controller_receipt_sha256 = file_hash(receipt_file)', source)
+        self.assertNotIn('article_component_pipe_UA_implemented = true', source)
+
+    def test_output_gate_does_not_reuse_integral_update_enable(self):
+        source = (Path(__file__).parent.parent / 'Build_HeatDriveECC_EighthRound_Simulink_Model.m').read_text()
+        for stage in (2, 4):
+            self.assertIn(f'blocks_directly_connected(se_stage{stage}_i_output_enable, ...\n'
+                          f'                se_stage{stage}_i_output_gate)', source)
+            self.assertNotIn(f'blocks_directly_connected(se_stage{stage}_i_enable, ...\n'
+                             f'                se_stage{stage}_i_output_gate)', source)
+
     def test_every_physical_guard_names_a_tracked_file(self):
         import re
         import subprocess
