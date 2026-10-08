@@ -6038,3 +6038,5 @@ v23b仅为重启中断且禁止恢复的旧包，不在当前依赖链；按预�
 首次清理在四文件删除并写marker之后，于空缓存`Measure-Object.Sum`统计遇严格模式错误，尚未写final receipt。已先核验四目标均不在、保留30文件SHA全部一致，再从原durable plan完成回执；没有重复删除，没有清理额外目录。计数修正为空集合明确返回0，保留原plan及final receipt中的resumed_existing_retirement_plan=true。回执为`v27_directional_C42_storage_closeout_20261008.json`及其`.retirement_plan.json`；执行worktree原始大MAT不复制到主库或Git。
 
 主库关键JSON复制逐项原字节SHA相同，`.gitattributes`防止证据换行被Git转换；未解释主SLX修改与Agent6保持隔离。当前主库696项Python回归全部通过，独立执行镜像还将复核同一完整套件；所有本轮必需真实程序已经自然结束。仍不宣称validated/reproduced、全内部状态稳态或严格Table 4。
+
+最终关闭确认：主库`2adb0cc`已同步执行镜像`be02bf6`，两处696/696回归均通过。`workspace_governance_20261008_v27_closeout`实际复核C200/C180结果/OP四项SHA全部匹配，分类804个主库outputs/audit目录、16.002268 GiB，不包含全部执行worktree或Agent6。v23b四目标实际不存在、保留摘要逐项SHA一致，C42完整原始包及恢复资格仍在；不能将主库快照体积当成此次整个工作区占用或将0缓存字节误报为大量清理。
