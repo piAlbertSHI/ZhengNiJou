@@ -5,9 +5,15 @@ function record=Test_HeatDriveECC_PressureCommandInterval()
     assert(isequal(HeatDriveECC_PressureCommandInterval(.85,.45,5,.01,[-.35,.02]),[-.35,.02]));
     upper=HeatDriveECC_PressureCommandInterval(4.9,.45,5,.01,[-.5,.2]);
     assert(abs(upper(2)-.09)<1e-12);
+    assert(isequal(HeatDriveECC_PressureCommandInterval(.85,.45,5,.01,[-.5,.02],'B',.01),[-.5,.02]));
+    head=HeatDriveECC_PressureCommandInterval(.85,.45,5,.01,[-.5,.02],'A',.01);
+    assert(max(abs(head-[-.38,.02]))<1e-12);
+    reverse=HeatDriveECC_PressureCommandInterval(.85,.45,5,.01,[-5,.5],'B',.01);
+    assert(max(abs(reverse-[-4.13,.38]))<1e-12);
     bad={{.46,.45,5,.01,[-.5,.02]}, {.85,.45,5,0,[-.5,.02]}, ...
         {.85,5,.45,.01,[-.5,.02]}, {.85,.45,5,.01,[.02,-.5]}, ...
-        {NaN,.45,5,.01,[-.5,.02]}};
+        {NaN,.45,5,.01,[-.5,.02]}, {.85,.45,5,.01,[-.5,.02],'C',0}, ...
+        {.85,.45,5,.01,[-.5,.02],'B',-.01}, {.85,.45,5,.01,[-.5,.02],'B',.4}};
     for k=1:numel(bad)
         rejected=false;
         try,HeatDriveECC_PressureCommandInterval(bad{k}{:});catch,rejected=true;end

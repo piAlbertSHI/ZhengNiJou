@@ -24,6 +24,12 @@ function record=Run_HeatDriveECC_BoundedColdQualification(template_path,static_r
     config.output_root=output_root;
     config.pressure_command_domain_closure_enabled=true;
     config.pressure_command_domain_margin_MPa=static.pressure_domain.declared_margin_MPa;
+    if strcmp(static.pressure_domain.schema,'heatdrive_ecc_pressure_command_domain_v2')
+        assert(static.pressure_domain.named_reference_topology.pass && ...
+            strcmp(static.reference_mode,'named_source_reference'));
+        config.pressure_command_reference_mode=static.reference_mode;
+        config.pressure_reference_head_budget_MPa=static.pressure_domain.reference_head_budget_MPa;
+    end
     path=[output_root,'.state_preflight_config.json'];assert(~isfile(path));
     fid=fopen(path,'w','n','UTF-8');assert(fid>=0);
     fprintf(fid,'%s\n',jsonencode(config,'PrettyPrint',true));fclose(fid);

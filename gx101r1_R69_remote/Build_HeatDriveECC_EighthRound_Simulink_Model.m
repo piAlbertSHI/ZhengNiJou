@@ -44,11 +44,6 @@ function [model_name, options] = Build_HeatDriveECC_EighthRound_Simulink_Model(o
     topology_audit = audit_dual_fluid_topology(model_name, topology_audit);
     options.validation.dual_fluid_domain_implemented = topology_audit.ok;
     options.validation.dual_fluid_domain_audit = topology_audit;
-    options = Configure_HeatDriveECC_PressureCommandDomain(model_name, options);
-    if isfield(options.validation,'pressure_command_domain_contract')
-        assign_mature_exchange_workspace(options, model_path);
-        assign_constitutive_workspace(options);
-    end
     assignin('base', 'EIGHTH_ROUND_OPTIONS', options);
     configure_thermal_liquid_initial_pressure(model_name, options);
     configure_pressure_source_fluid_energy(model_name, options);
@@ -67,6 +62,11 @@ function [model_name, options] = Build_HeatDriveECC_EighthRound_Simulink_Model(o
 
     mark_ecc_mainline(model_name);
     Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, false);
+    options = Configure_HeatDriveECC_PressureCommandDomain(model_name, options);
+    if isfield(options.validation,'pressure_command_domain_contract')
+        assign_mature_exchange_workspace(options, model_path);
+        assign_constitutive_workspace(options);
+    end
     pipe_ua_audit = audit_article_component_pipe_UA(model_name, options);
     options.validation.article_component_pipe_UA_audit = pipe_ua_audit;
     options.validation.article_component_pipe_UA_implemented = pipe_ua_audit.ok;
@@ -207,6 +207,16 @@ function audit = audit_article_component_pipe_UA(model_name, options)
         options.branch.se_pressure_pi_min_MPa]);
     minimum_estimated_pressure_MPa = initial_pressure_MPa + ...
         minimum_pressure_command_MPa;
+    directional_pressure=isfield(options.validation,'pressure_command_domain_contract') && ...
+        strcmp(options.validation.pressure_command_domain_contract.schema,'heatdrive_ecc_pressure_command_domain_v2');
+    if directional_pressure
+        contract=options.validation.pressure_command_domain_contract;
+        assert(contract.named_reference_topology.pass && strcmp(contract.se_reference_port,'B'));
+        reference_min=initial_pressure_MPa-contract.reference_head_budget_MPa;
+        minimum_estimated_pressure_MPa=min([reference_min, ...
+            reference_min+options.branch.sma_pressure_pi_min_MPa, ...
+            reference_min-options.branch.pressure_pi_max_MPa]);
+    end
     pressure_blocks = find_system(model_name, 'LookUnderMasks', 'all', ...
         'FollowLinks', 'on', 'BlockType', 'SimscapeBlock');
     p0_masks_ok = true;
@@ -228,6 +238,8 @@ function audit = audit_article_component_pipe_UA(model_name, options)
             options.validation.minimum_valid_liquid_pressure_MPa, ...
         'p0_block_count', p0_block_count, ...
         'p0_masks_ok', p0_masks_ok);
+    audit.pressure.estimate_is_directional_reference_screening=directional_pressure;
+    audit.pressure.entire_network_runtime_pressure_verified=false;
     audit.pressure.tank_pressure_MPa = evalin('base', 'tank_pressure_MPa');
     audit.pressure.tank_pressure_ok = abs( ...
         audit.pressure.tank_pressure_MPa - initial_pressure_MPa) <= 1.0e-12;

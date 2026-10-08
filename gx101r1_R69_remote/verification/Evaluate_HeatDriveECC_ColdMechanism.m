@@ -25,6 +25,9 @@ function record=Evaluate_HeatDriveECC_ColdMechanism(output,options,model,folder,
         'full_native_inventory_ledger_evaluated',false,'source_port_ledger_evaluated',false, ...
         'periodic_steady_state_verified',false,'strict_table4_reproduction_pass',false, ...
         'production_recovery_allowed',false,'diagnostic_continuation_allowed',false);
+    if strcmp(options.validation.pressure_command_domain_contract.schema,'heatdrive_ecc_pressure_command_domain_v2')
+        record.directional_pressure_observation=Audit_HeatDriveECC_DirectionalPressureObservation(physical,options);
+    end
     fid=fopen(fullfile(folder,'cold_mechanism_audit.json'),'w','n','UTF-8');assert(fid>=0);
     cleanup=onCleanup(@() fclose(fid));fprintf(fid,'%s\n',jsonencode(record,'PrettyPrint',true));
 end

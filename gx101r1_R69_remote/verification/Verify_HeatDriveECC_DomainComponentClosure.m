@@ -1,6 +1,8 @@
-function record = Verify_HeatDriveECC_DomainComponentClosure(source_root, output_root)
+function record = Verify_HeatDriveECC_DomainComponentClosure(source_root, output_root, reference_mode)
 % Actual model preflight for a NEW diagnostic, not a correction of old physics.
     assert(~isfolder(output_root),'Never overwrite domain/component evidence.');
+    if nargin<3,reference_mode='uniform_A_screening';end
+    assert(ismember(reference_mode,{'uniform_A_screening','named_source_reference'}));
     execution=jsondecode(fileread(fullfile(source_root,'cold_chamber_execution.json')));
     stored=load(fullfile(source_root,'native','configuration.mat'),'options');
     original=stored.options;
@@ -18,18 +20,23 @@ function record = Verify_HeatDriveECC_DomainComponentClosure(source_root, output
     assert(before.validation.article_component_pipe_UA_audit.SMA_pump_manifolds.ok, ...
         'Exact conservative source/port/geometry contract was not verified.');
     assert(~before.validation.article_component_pipe_UA_audit.pressure.ok, ...
-        'The unsafe historical pressure envelope must remain rejected.');
+        'The unqualified uniform-reference historical screening must remain rejected.');
     clear cleanup_model
     requested=original;
     requested.branch.pressure_command_domain_closure_enabled=true;
     requested.branch.pressure_command_domain_margin_MPa=0.01;
+    if strcmp(reference_mode,'named_source_reference')
+        requested.branch.pressure_command_reference_mode=reference_mode;
+        requested.branch.pressure_reference_head_budget_MPa=.01;
+    end
     [model,after]=Build_HeatDriveECC_EighthRound_Simulink_Model(requested);
     cleanup_model=onCleanup(@() close_system(model,0));
     allowed={'pressure_command_domain_closure_enabled','pressure_command_domain_margin_MPa', ...
         'pressure_pi_min_MPa','pressure_pi_max_MPa','se_pressure_pi_min_MPa', ...
         'sma_pressure_pi_min_MPa','sma_pressure_integrator_min_MPa', ...
         'se_pressure_integrator_min_MPa','se_stage2_pressure_integrator_min_MPa', ...
-        'se_stage4_pressure_integrator_min_MPa'};
+        'se_stage4_pressure_integrator_min_MPa','pressure_command_reference_mode', ...
+        'pressure_reference_head_budget_MPa'};
     names=fieldnames(before);
     for k=1:numel(names)
         if ismember(names{k},{'branch','validation'}),continue;end
@@ -45,6 +52,12 @@ function record = Verify_HeatDriveECC_DomainComponentClosure(source_root, output
     assert(after.validation.article_component_pipe_UA_audit.ok && ...
         HeatDriveECC_SEPressureLowerBoundContract(after), ...
         'Actual rebuilt component/pressure contract failed.');
+    if strcmp(reference_mode,'named_source_reference')
+        assert(after.branch.se_pressure_pi_min_MPa==original.branch.se_pressure_pi_min_MPa && ...
+            after.branch.sma_pressure_pi_min_MPa==original.branch.sma_pressure_pi_min_MPa && ...
+            after.validation.pressure_command_domain_contract.named_reference_topology.pass);
+        Test_HeatDriveECC_DirectionalPressureObservation(after);
+    end
     route_before=Audit_HeatDriveECC_RouteMemoryContract(model);
     distributed=Configure_HeatDriveECC_DistributedPressureFeedforward(model,after);
     route_after=Audit_HeatDriveECC_RouteMemoryContract(model);
@@ -65,7 +78,7 @@ function record = Verify_HeatDriveECC_DomainComponentClosure(source_root, output
     assert(~Audit_HeatDriveECC_ManifoldMask(chamber,unsupported),'Unknown implementation was accepted.');
     [status,commit]=system('git rev-parse HEAD');assert(status==0);
     record=struct('schema','heatdrive_ecc_domain_component_preflight_v1', ...
-        'source_root',source_root,'execution_commit',strtrim(commit), ...
+        'source_root',source_root,'execution_commit',strtrim(commit),'reference_mode',reference_mode, ...
         'source_configuration_sha256',file_hash(fullfile(source_root,'native','configuration.mat')), ...
         'source_chamber_library_sha256',execution.chamber_library_sha256, ...
         'historical_pressure_envelope_rejected',true, ...

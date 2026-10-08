@@ -27,6 +27,14 @@ function overrides = Build_HeatDriveECC_IndependentColdBranchOverrides(config)
         if config.pressure_command_domain_closure_enabled
             assert(isfield(config,'pressure_command_domain_margin_MPa'), 'Declare the pressure domain headroom.');
             overrides.pressure_command_domain_margin_MPa=config.pressure_command_domain_margin_MPa;
+            if isfield(config,'pressure_command_reference_mode')
+                overrides.pressure_command_reference_mode=char(config.pressure_command_reference_mode);
+                if strcmp(overrides.pressure_command_reference_mode,'named_source_reference')
+                    assert(isfield(config,'pressure_reference_head_budget_MPa'), ...
+                        'Declare and subsequently observe the reference-side pressure head budget.');
+                    overrides.pressure_reference_head_budget_MPa=config.pressure_reference_head_budget_MPa;
+                end
+            end
         end
     end
     if isfield(config,'stage4_pressure_p_activity_mode')
