@@ -40,6 +40,12 @@ function record = Verify_HeatDriveECC_RebuiltCycleRestore(input, source_root, fo
         assert(isempty(resumed.ErrorMessage),'Strict rebuilt restore failed: %s',resumed.ErrorMessage);
         resumed_states=window_states(resumed,start,stop);
         resumed_signals=window_signals(resumed,start,stop);
+        if bounded_candidate
+            metadata=jsondecode(fileread(fullfile(folder,'inventory_metadata.json')));
+            blocks=metadata.storage_blocks;blocks=blocks([blocks.conservative_diagnostic]);
+            [~,snapshot]=Snapshot_HeatDriveECC_NativeLog(resumed.simlog,folder,{blocks.block_path});
+            record.native_snapshot=snapshot;
+        end
         if ~bounded_candidate,clear resumed;end
         record.strict_restore_completed=true;
         reference=sim(input.setModelParameter('StopTime',num2str(stop,'%.17g')));
@@ -80,10 +86,9 @@ function record = Verify_HeatDriveECC_RebuiltCycleRestore(input, source_root, fo
             signals=resumed_signals;
             save(fullfile(folder,'restored_physical_observation.mat'), ...
                 'physical','configured','provenance','signals','-v7.3');
-            metadata=jsondecode(fileread(fullfile(folder,'inventory_metadata.json')));
-            blocks=metadata.storage_blocks;blocks=blocks([blocks.conservative_diagnostic]);
-            [~,snapshot]=Snapshot_HeatDriveECC_NativeLog(resumed.simlog,folder,{blocks.block_path});
-            record.native_snapshot=snapshot;clear resumed
+            assert(audit.passed,'HeatDriveECC:BoundedRestoredMechanismFailed', ...
+                'Full-cycle state proof passed, but the actual restored mechanism failed.');
+            clear resumed
         end
     catch ME
         record.error_message=ME.message;record.error_report=getReport(ME,'extended','hyperlinks','off');
@@ -95,7 +100,8 @@ function record = Verify_HeatDriveECC_RebuiltCycleRestore(input, source_root, fo
     fid=fopen(fullfile(folder,'rebuilt_cycle_restore.json'),'w','n','UTF-8');
     assert(fid>=0,'Cannot save rebuilt-cycle evidence.');cleanup=onCleanup(@() fclose(fid));
     fprintf(fid,'%s\n',jsonencode(record,'PrettyPrint',true));
-    assert(record.rebuilt_complete_cycle_pass,'Rebuilt-cycle comparison failed; inspect preserved evidence.');
+    assert(record.rebuilt_complete_cycle_pass && isempty(record.error_message), ...
+        'Rebuilt-cycle qualification incomplete; inspect preserved state/transport/mechanism evidence.');
 end
 
 function result=compare(name,state,a,b)
