@@ -5799,3 +5799,5 @@ C20到C22的全库存端点漂移从约0.09725 K变为0.09640 K，同相位峰�
 本轮659项Python回归通过，实际MATLAB默认off、固定时域、诊断source/proof策略及10项非法策略拒绝测试通过。主库保存小型physics/state/steadiness回执，原始MAT只保留执行worktree一份；v19分类体积1,843,457,792 bytes（marker前快照），其中状态历史749,357,534 bytes、物理观测1,066,478,424 bytes、OP3,882,807 bytes。原始来源v17和完整周期恢复证据v18仍为依赖，不清理；v19也不是可以删除的过时失败包。分类范围仅本实验，不是整工作区大小，不将0删除量宣称大量清理。规范SLX未解释修改及Agent6继续隔离，C200冻结合同不变，长目标继续active。
 
 本轮治理快照`workspace_governance_20261008_v19_closeout/workspace_governance_summary.json`再次实际校验C200/C180结果及OP四项SHA全部一致；分类801个主库outputs/audit子目录、16.001259 GiB。这个数字不包含隔离执行worktree、本轮v19原始包或Agent6，不与整工作区120GB历史数字混为一谈。小型运行回执复制后逐项SHA相等，大MAT未复制入Git。
+
+只读分析器已同步到执行镜像`97572a7`，其完整659项回归也通过。首次镜像全套测试因未复制被忽略的control-volume基准JSON而出现5项FileNotFoundError；补齐原始字节、SHA `2AA5E59CEE5F05C36EBBD77CDB3F647C8F000B47B11842A83C69B563FA39BAB0`一致后通过，不修改谓词。文档历史跨镜像cherry-pick发生仅增量上下文冲突，已撤销本次自有操作并只镜像两项分析源，执行工作树保持干净。哈希锁定JSON/CSV保留CRLF原字节，Git按cr-at-eol识别而非将证据换行重写；最终diff检查通过。主科学关闭提交`11c6361`，运行代码仍为实际producer `2c951bc`，不因只读分析同步改写执行出处。

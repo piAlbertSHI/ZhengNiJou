@@ -1,0 +1,21 @@
+{
+  "schema": "heatdrive_ecc_diagnostic_verification_closeout_v1",
+  "main_scientific_closeout_commit": "11c6361",
+  "execution_readonly_analysis_mirror_commit": "97572a7",
+  "main_python_tests": 659,
+  "main_python_tests_pass": true,
+  "execution_python_tests": 659,
+  "execution_python_tests_pass": true,
+  "execution_first_full_suite_missing_control_volume_fixture_errors": 5,
+  "fixture_repair": "Copy original contract bytes into the ignored execution dependency directory; no predicate edits or production authority granted",
+  "control_volume_fixture_sha256": "2AA5E59CEE5F05C36EBBD77CDB3F647C8F000B47B11842A83C69B563FA39BAB0",
+  "readonly_analysis_mirror_method": "Interrupted own clean-checkout cherry-pick was aborted after additive documentation-context conflicts; only two authored Python analysis files were mirrored and committed",
+  "physical_execution_source_changed_after_run": false,
+  "record_format_check": "Byte-preserved CRLF JSON/CSV is declared with cr-at-eol; ordinary trailing-space checks remain enabled",
+  "git_diff_check_after_format_repair_pass": true,
+  "required_matlab_session": 77432,
+  "matlab_natural_exit_code": 0,
+  "required_postprocessing_sessions_naturally_exited": true,
+  "production_recovery_allowed": false,
+  "goal_complete": false
+}
