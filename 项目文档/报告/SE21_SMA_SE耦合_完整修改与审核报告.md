@@ -6090,3 +6090,5 @@ C62末单周期暂态冷量13.1547402 W，SE质量41.8168365 g，SCP 0.314579994
 实际端点加载测试首次退出1，原因是MATLAB按原字符串strcmp拒绝Windows同一目录的正斜杠/反斜杠写法。没有物理失败，也没有重启耗时程序。保留原失败诊断，改用双方canonical path的case-insensitive比较，仍核验真实根目录、十文件SHA、时钟、完整vendor状态和六类权限限制。实际620 s `Simulink.op.ModelOperatingPoint`加载成功；v3测试真实比较了两种separator写法，生产提升、编辑状态、缺证据、错哈希、错时钟、错根目录全部拒绝。最新检查点仅允许继续热身，production/steady outer/Table 4仍false。
 
 本轮关键四个执行JSON复制至主库，原字节SHA逐项一致；大MAT不复制或进Git。精确当前实验cache/codegen退役67,398 bytes，完整当前34文件共1,833,555,779 bytes逐项保留并复核SHA。旧C2/C3/C22/C42仍为可重审依赖，未擅自删除；前轮已退役的v23b不再次删除或虚报。本轮未解释SLX、Agent6及冻结C200/C180隔离不动。完整Python回归698/698通过，Git仅提交本轮明确源码、报告与小型回执，后续追加实际治理快照和镜像验证结果。
+
+本轮科学提交主库`ab20b9c`、独立执行镜像`4ec41aa`，镜像完整Python回归同样698/698通过，无冲突或物理文件改动。26个本轮入Git JSON的原始字节与Git blob逐项一致。新治理快照`workspace_governance_20261009_v28_closeout`分类810个主库outputs/audit目录、16.002679 GiB，并再次实测C200/C180两组结果/OP四项SHA全部相同；该范围不包含全部worktree、Agent6或整个工作区，不冒充全盘占用。全部本轮必需真实进程自然结束，620 s合格检查点为下一次继续的最小损失点。
