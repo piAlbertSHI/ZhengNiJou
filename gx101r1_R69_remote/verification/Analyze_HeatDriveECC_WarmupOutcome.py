@@ -47,8 +47,9 @@ def flow_window(time, flow, target, start, stop, maximum, rms):
 def analyze(root):
     execution = json.loads((root / "cold_chamber_execution.json").read_text(encoding="utf-8-sig"))
     count = execution["cycle_count"]
-    if not execution["collection_pass"] or count < 2 or execution["checkpoint_saved"]:
+    if not execution["collection_pass"] or count < 2 or execution.get('c200_state_imported', False):
         raise ValueError("Require a completed non-recovery warmup")
+    captured = diagnostic_capture_hashes(root, execution)
     stop = float(execution["stop_time_s"])
     start = stop - 20
     arms = []
@@ -119,11 +120,39 @@ def analyze(root):
         "production_recovery_allowed": False, "seed_eligible": False,
         "outer_solve_eligible": False, "paired_table4_eligible": False,
         "table4_reproduction_claim": False,
-        "input_sha256": {str(path.relative_to(root)): sha256(path) for path in (
+        "diagnostic_complete_OP_saved_not_recovery_authority": bool(captured),
+        "input_sha256": {**captured, **{str(path.relative_to(root)): sha256(path) for path in (
             root / "cold_chamber_execution.json", root / "native/observations.mat",
             root / "conservative/observations.mat", root / "native/configuration.mat",
-            root / "conservative/configuration.mat")},
+            root / "conservative/configuration.mat")}},
     }
+
+
+def diagnostic_capture_hashes(root, execution):
+    if not execution['checkpoint_saved']:
+        return {}
+    if (execution.get('diagnostic_state_options', {}).get('mode') != 'capture'
+            or execution.get('production_recovery_allowed') is not False):
+        raise ValueError('Unknown checkpoint authority; never treat it as cold evidence')
+    hashes = {}
+    for arm in ('native', 'conservative'):
+        folder = root/arm
+        receipt = folder/'diagnostic_state_capture.json'
+        capture = json.loads(receipt.read_text(encoding='utf-8-sig'))
+        if (capture.get('schema') != 'heatdrive_ecc_diagnostic_state_capture_v1'
+                or capture.get('snapshot_time_s') != execution['stop_time_s']
+                or any(capture.get(key) is not False for key in
+                       ('production_recovery_allowed', 'diagnostic_continuation_allowed',
+                        'source_op_edited', 'state_reconstruction_used'))):
+            raise ValueError('Diagnostic state capture scope or timestamp changed')
+        for filename, key in (('diagnostic_complete_operating_point.mat', 'operating_point_sha256'),
+                              ('diagnostic_state_observation.mat', 'history_sha256')):
+            actual = sha256(folder/filename)
+            if actual != capture[key]:
+                raise ValueError('Diagnostic state file hash changed')
+            hashes[str((folder/filename).relative_to(root))] = actual
+        hashes[str(receipt.relative_to(root))] = sha256(receipt)
+    return hashes
 
 
 if __name__ == "__main__":

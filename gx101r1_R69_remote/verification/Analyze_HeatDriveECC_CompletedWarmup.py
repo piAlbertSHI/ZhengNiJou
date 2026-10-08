@@ -43,7 +43,7 @@ def analyze_completed(root):
     stop = float(execution['stop_time_s'])
     start = stop-20
     if (not execution['collection_pass'] or execution['cycle_count'] < 2
-            or execution['checkpoint_saved'] or execution['c200_state_imported']):
+            or execution['c200_state_imported']):
         raise ValueError('Require completed independent non-recovery warmup')
     summary = analyze(root)
     initialization = {}
@@ -112,7 +112,8 @@ def analyze_completed(root):
                    full_device_first_law_verified=False,
                    incomplete_state_coverage_is_not_a_mechanism_failure=True,
                    next_action='Establish diagnostic full-state capture, then cold periodic convergence; no parameter repair solely for unsteady drift',
-                   checkpoint_available=False)
+                   checkpoint_available=bool(execution['checkpoint_saved']),
+                   checkpoint_is_diagnostic_candidate_only=bool(execution['checkpoint_saved']))
     summary['input_sha256']['cold_chamber_execution.json'] = sha256(root/'cold_chamber_execution.json')
     return summary
 

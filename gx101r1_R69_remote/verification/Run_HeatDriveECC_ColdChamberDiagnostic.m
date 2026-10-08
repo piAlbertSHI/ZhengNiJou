@@ -1,5 +1,5 @@
-function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root, simulation_mode, endpoint_chamber_diagnostic, endpoint_all_arms, diagnostic_arm)
-% Authorized independent cold diagnostic. Never import or export a recovery OP.
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root, simulation_mode, endpoint_chamber_diagnostic, endpoint_all_arms, diagnostic_arm, state_capture_options)
+% Independent cold diagnostic. Optional untouched state candidates are not recovery authority.
     if nargin<3, duration=10; end
     if nargin<4, scale_inventory=false; end
     if nargin<5, buffer_mass_guess=false; end
@@ -18,12 +18,17 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     if nargin<18, endpoint_chamber_diagnostic=false; end
     if nargin<19, endpoint_all_arms=false; end
     if nargin<20, diagnostic_arm='both'; end
+    if nargin<21, state_capture_options=struct(); end
+    state_capture_options=Resolve_HeatDriveECC_DiagnosticStateOptions(state_capture_options,cycle_count);
+    state_preflight=strcmp(state_capture_options.mode,'restore_preflight');
+    state_capture_enabled=~strcmp(state_capture_options.mode,'off');
     assert(any(strcmp(diagnostic_arm,{'both','native','conservative'})), ...
         'Unknown independent diagnostic arm selection.');
     requested_arms={'native','conservative'};
     if ~strcmp(diagnostic_arm,'both'), requested_arms={diagnostic_arm}; end
     assert(strcmp(diagnostic_arm,'both') || ...
-        (cycle_count==1 && duration==10 && endpoint_chamber_diagnostic), ...
+        (cycle_count==1 && duration==10 && endpoint_chamber_diagnostic) || ...
+        (state_preflight && cycle_count==2 && strcmp(diagnostic_arm,'native') && endpoint_chamber_diagnostic), ...
         'Scoped arms are limited to independent 10 s endpoint diagnostics.');
     assert(any(strcmp(formulation,{'explicit','specific_inventory'})),'Unknown chamber formulation.');
     specific_inventory=strcmp(formulation,'specific_inventory');
@@ -237,6 +242,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'diagnostic_simulation_mode',simulation_mode, ...
         'table4_reproduction_claim',false,'periodic_steady_state',false, ...
         'full_device_first_law_verified',false,'checkpoint_saved',false, ...
+        'diagnostic_state_options',state_capture_options,'state_capture_contracts',{{}}, ...
+        'state_restore_preflight_cases',{{}},'state_restore_preflight_pass',false, ...
         'start_time_s',0,'stop_time_s',duration,'cycle_count',cycle_count, ...
         'collection_pass',false,'requested_arm_collection_pass',false, ...
         'requested_arms',{requested_arms},'cases',{{}},'error_message','', ...
@@ -267,7 +274,12 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             'C200 authority hash mismatch.');
         frozen=load(raw,'options'); overrides=frozen.options;
         overrides.model_path=fullfile(repo,[overrides.model_name '.slx']);
-        overrides.cycle_count=cycle_count; overrides.simulation.stop_time_s=duration;
+        overrides.cycle_count=cycle_count;
+        overrides.simulation.stop_time_s=duration;
+        if state_capture_enabled
+            overrides.cycle_count=state_capture_options.command_horizon_cycles;
+            overrides.simulation.stop_time_s=state_capture_options.command_horizon_cycles*10;
+        end
         overrides.simulation.persist_model_configuration=false;
         overrides.simulation.resume_checkpoint_path='';
         % The independent cold-start arm uses a qualified mid-window datum.
@@ -565,6 +577,10 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 assignin('base','cold_public_targets',cold_public_targets);
                 set_param(model,'SimscapeUseOperatingPoints','on','SimscapeOperatingPoint','cold_public_targets');
             end
+            state_settings=struct();
+            if state_capture_enabled
+                state_settings=Configure_HeatDriveECC_DiagnosticStateCapture(model,min(cycle_count,11));
+            end
             pressure_probe_contract=Instrument_HeatDriveECC_PumpPressureProbes(model,arm);
             stage4_controller_probe_contract= ...
                 Instrument_HeatDriveECC_Stage4ControllerProbes(model,arm);
@@ -598,6 +614,17 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 Export_HeatDriveECC_FailedColdObservations(output,model,metadata, ...
                     fullfile(arm,'failed_public_observations.mat'));
                 error('HeatDriveECC:ColdDiagnosticSimulationFailed','%s',failure_message);
+            end
+            if state_capture_enabled
+                state_contract=Save_HeatDriveECC_DiagnosticStateCapture(output,arm,state_settings,duration);
+                record.checkpoint_saved=true;
+                record.state_capture_contracts{end+1}=state_contract;
+                if state_preflight
+                    restored=Verify_HeatDriveECC_CoupledStateRestore(input,output,state_contract,duration,arm);
+                    record.state_restore_preflight_cases{end+1}=restored;
+                    clear model_cleanup output
+                    continue
+                end
             end
             if ~isempty(fieldnames(distributed_ff_contract))
                 distributed_ff_contract.simulation_run=true;
@@ -745,15 +772,20 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         record.c200_result_sha256=contract.result_sha256; record.c200_checkpoint_sha256=contract.checkpoint_sha256;
         record.collection_pass=numel(record.cases)==2;
         record.requested_arm_collection_pass=numel(record.cases)==numel(requested_arms);
+        record.state_restore_preflight_pass=state_preflight && ...
+            numel(record.state_restore_preflight_cases)==numel(requested_arms) && ...
+            all(cellfun(@(c) c.same_model_restore_preflight_pass,record.state_restore_preflight_cases));
     catch ME
         record.error_message=ME.message; record.error_identifier=ME.identifier;
         record.error_report=getReport(ME,'extended','hyperlinks','off');
     end
     write_json(fullfile(output_root,'cold_chamber_execution.json'),record);
     fprintf('%s\n',jsonencode(struct('collection_pass',record.collection_pass, ...
-        'completed_arms',numel(record.cases),'production_recovery_allowed',false, ...
+        'completed_arms',numel(record.cases),'state_restore_preflight_pass',record.state_restore_preflight_pass, ...
+        'production_recovery_allowed',false, ...
         'result_file',fullfile(output_root,'cold_chamber_execution.json'))));
-    assert(record.requested_arm_collection_pass,'Cold chamber diagnostic failed; inspect execution JSON.');
+    assert(record.requested_arm_collection_pass || record.state_restore_preflight_pass, ...
+        'Cold chamber diagnostic failed; inspect execution JSON.');
 end
 
 function metadata=export_metadata(model,changed,buffer_paths)

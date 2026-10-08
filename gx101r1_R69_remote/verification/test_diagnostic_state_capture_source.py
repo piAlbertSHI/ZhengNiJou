@@ -28,3 +28,18 @@ class DiagnosticStateCaptureSourceTests(unittest.TestCase):
         self.assertIn("'current_coupled_model_restore_verified',false", source)
         self.assertIn("'Stage2Memory'", source)
         self.assertIn("'Stage4Memory'", source)
+
+    def test_coupled_preflight_does_not_fake_a_complete_package(self):
+        source = self.source('Run_HeatDriveECC_DiagnosticStatePreflight.m')
+        self.assertIn('~record.collection_pass', source)
+        self.assertIn('~record.requested_arm_collection_pass', source)
+        self.assertIn('command_horizon_cycles\',200', source)
+        self.assertIn('Build_HeatDriveECC_IndependentColdBranchOverrides(config)', source)
+
+    def test_restore_uses_intact_op_and_keeps_exact_comparison(self):
+        source = self.source('Verify_HeatDriveECC_CoupledStateRestore.m')
+        self.assertIn('setInitialState(saved.diagnostic_operating_point)', source)
+        self.assertNotIn('.loggedStates=', source)
+        self.assertIn('isequaln(a.values,b.values(selected,:))', source)
+        self.assertIn("'diagnostic_continuation_allowed',false", source)
+        self.assertIn("'complete_cycle_resume_verified',false", source)
