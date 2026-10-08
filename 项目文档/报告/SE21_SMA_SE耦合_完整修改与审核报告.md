@@ -5668,3 +5668,47 @@ v16 native观测SHA `51C3FF2CB728BE388AA36D811436C2E78C77EC3486B238A262879CD3728
 634项Python回归通过；修改记录与20-cycle小型回执已提交`cd0063a`，空序列参照/形状修正提交`6536f30`、`95d7038`。只在全部相关进程自然结束后退役v16 cache/codegen，实际释放67397bytes；保留两臂observations、配置、完整初始化来源、component build、公开/原生观测及失败对照，原始v16不复制进主库。治理快照 `workspace_governance_20261008_v16_closeout` 对主仓库outputs+outputs_storage_audit分类约16.000176GiB，明确不含worktree/Agent6，也不是整个工作区总量；C200/C180四个冻结文件重算SHA全部通过。
 
 下一轮的实质工作是诊断专用全状态捕获与原样续算接口、当前物理配置下的周期收敛，再把机械/电泵功边界和Eq9/Eq10十周期窗口闭合；不是再运行同一10秒冷态包或继续改PI。v16仅通过当前机制子集，完整机制覆盖、完整周期稳态、outer solve、正交敏感性、成对端点及最终SCI图表仍未完成，必须继续推进，不能以本轮关闭回执替代整个目标完成。
+
+## 252. 完整状态捕获及当前耦合模型严格原样恢复实测（2026-10-08）
+
+### 252.1 处理恢复架构，而非继续参数微调
+
+当前冷态配置不是原生产续算器的旧模型合同。新增诊断专用状态策略，默认off，旧1/2/20周期调用的周期数、实际stop time和禁止生产恢复语义不变。明确分开完整vendor Operating Point与数值状态日志：完整OP不从公开观测重建，不编辑loggedStates；数值日志使用Dataset、1 ms原采样、不做decimation，并按末周期有界保留。SaveFinalState/SaveOperatingPoint开启且checksum contents/interface均为error，不使用柔性或部分恢复。
+
+状态源在昂贵native导出前保存，避免物理运行结束后因后处理退出丢失全部状态；保存时仍为未审核候选，没有自动恢复资格。公开暖机分析仅允许hash绑定、没有任何恢复授权的诊断候选，不能把“保存了OP”误判为机制失败，也不能把它提升为已验证生产checkpoint。
+
+固定200-cycle命令时域后，只计算需要的物理段。后续段不应重新改变From Workspace向量长度，也不能在20秒命令终点后保持最后值冒充真实下一周期。该方案改变的是诊断执行/观察合同，不改Kp/Ki、物性域、热容、库存、相分数或本构。构建时所有诊断参数实际映射与v16 execution逐项严格比较；原始t=0源和v16双臂观测/执行合同SHA绑定，物理builder/interface/模型/前馈代码按Git字节比较，不能把一个布尔pass当作源资格。
+
+接口参考依据为MathWorks R2025b的[完整OP与普通状态日志](https://www.mathworks.com/help/releases/R2025b/simulink/ug/decide-how-to-save-block-states-and-simulation-operating-points.html)及[末n点保留](https://www.mathworks.com/help/releases/R2025b/simulink/gui/limitdatapointstolast.html)。文档接口仍需当前版本实际测试，不以文档替代运行证据。
+
+### 252.2 隔离实测和API审计纠错
+
+隔离Simscape模型包括两个独立积分状态与物理solver状态。先计算30秒，保留末20秒数值历史及完整OP，再从磁盘读取原样OP续算至30.01秒，与从冷态连续计算30.01秒的三个状态组逐点精确比较，全部通过；没有修改容差、没有加载生产模型或C200状态。每个数值组上限20002点，实际裁剪窗口完整，原采样1 ms不变。
+
+首次退出发生在OP类检查处：旧`Simulink.SimulationOperatingPoint`单一类名不足以覆盖本机实际`Simulink.op.ModelOperatingPoint`。按照明确官方类型加入兼容并记录实际类名/快照时刻，第二次新目录自然退出0，实际类为后者、snapshotTime=30。没有对普通结构体或任意相似字段对象放行。这是API类型误拒绝，不是物理失败；保留首轮目录及新版回执。
+
+### 252.3 v17当前耦合模型预检通过
+
+执行worktree commit `eab3f98`，主源提交`4991ad7`。一次前台MATLAB运行自然退出0，未通过计时器/watchdog/heartbeat反复重启。从原始合格t=0 source独立运行两周期20秒，固定200-cycle命令时域；没有导入v16 200秒端点、C180或C200完整状态。完整OP与数值历史保存后，在同一未修改模型中重新进行0--20.001秒连续参考，并由磁盘OP恢复计算20--20.001秒。
+
+| 实际覆盖 | 结果 |
+| --- | --- |
+| 数值状态组 / 通道 | 74 / 1414，逐项精确相同 |
+| 公开信号 / 通道 | 201 / 592，逐项精确相同 |
+| Simscape solver打包数值状态 | 1012通道相同 |
+| 本构StateDelay | 210通道相同 |
+| 分布前馈温度Delay | 21通道相同 |
+| SE Stage2 / Stage4 / SMA独立PI积分状态 | 三者均相同 |
+| checksum、状态编辑、状态重建 | error/error；不编辑；不重建 |
+
+运行出现Interpreted MATLAB Function的通用extrinsic持久状态警告，不将警告字样自动当成机制失败，也不直接忽略覆盖要求。当前实际调用`HeatDriveECC_ConstitutiveStateVectorStep21`由外部210维Unit Delay状态驱动，该函数与直接compatibility step本身无persistent声明；旧persistent surrogate wrapper不属于该连接路径。当前1 ms严格实测支持这些已记录状态及公开信号恢复一致，不能据此外推所有隐藏状态、多周期或跨进程恢复必然成立。
+
+权威预检为 `v17_diagnostic_state_preflight_2c/native/state_restore_preflight.json`；完整候选OP SHA `56398BA11719758BD2DDDD451B5241D9C61572E2908510E6A08C9DB4CCB22B81`，数值历史SHA `82269E96D2AA65D54EDE9EA745AE7A72DCAAE0CDA4A2DDC52794D1A7550C01CA`。历史数值量约238.09 MB，实际MAT约133.71 MB；不复制大MAT进主库。capture回执在测试前创建、其中roundtrip=false表示尚未评估，后续独立restore回执为true；原回执不覆盖，必须按相同OP SHA联合读取。
+
+原`collection_pass=false`与`completed_arms=0`是此入口有意不生成完整native/source物理包，而不是程序失败；`state_restore_preflight_pass=true`，不拼造双臂完成回执。该OP仅为当前接口诊断候选，没有生产或主线恢复授权，C200仍为唯一历史主线恢复参考。
+
+### 252.4 下一步与本轮管理
+
+下一步必须验证跨进程精确模型/工作区重建和完整10秒周期续算，保持200-cycle命令时域及native历史设置不变，校验全部物理门禁后才能接入分段周期收敛。当前未保存可直接重新打开的完整runtime模型/工作区上下文；只能按哈希约束的当前构建合同严格重建并实际试验checksum，不得用partial restore或匿名坐标修改绕过失败。不能把1 ms测试作为长链、周期稳态、outer solve、paired端点或Table4资格。
+
+643项Python回归通过；状态策略另经实际MATLAB默认off、固定命令时域及四项错误策略拒绝测试通过。接口源已提交`115659c`、`a4b12e9`、`4991ad7`。v17为当前状态候选，原始OP/历史/比较仅保留执行worktree；主库保存小型回执和本报告。暂保留v17 component build及cache以支持下一步复现，不因不到百KB的缓存而增加恢复不确定性；不进行无依据的大规模清理。当前状态仍是“继续周期收敛接口工作”，不是整个目标完成。
