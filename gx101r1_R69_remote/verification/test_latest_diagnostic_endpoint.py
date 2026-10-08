@@ -89,3 +89,11 @@ class LatestEndpointTests(unittest.TestCase):
         self.assertIn('execution.stop_time_s-execution.start_time_s==200',text)
         self.assertNotIn('snapshotTime=',text)
         self.assertNotIn('copy_state',text)
+
+    def test_saved_mechanism_uses_actual_final_pair_and_original_predicates(self):
+        text=Path(__file__).with_name('Audit_HeatDriveECC_SavedMechanism.m').read_text(encoding='utf-8')
+        self.assertIn('execution.stop_time_s-20, execution.stop_time_s',text)
+        self.assertIn('Validate_HeatDriveECC_EighthRound_Physics(view)',text)
+        self.assertIn('~contract.failed_state_propagated',text)
+        self.assertIn('~contract.partial_state_restore_used',text)
+        self.assertIn('contract.qualification_sha256',text)
