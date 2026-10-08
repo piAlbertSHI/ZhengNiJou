@@ -27,7 +27,7 @@ class SavedMechanismSourceTests(unittest.TestCase):
         self.assertNotIn('article_component_pipe_UA_implemented = true', source)
 
     def test_output_gate_does_not_reuse_integral_update_enable(self):
-        source = (Path(__file__).parent.parent / 'Build_HeatDriveECC_EighthRound_Simulink_Model.m').read_text()
+        source = (Path(__file__).parent.parent / 'Build_HeatDriveECC_EighthRound_Simulink_Model.m').read_text(encoding='utf-8')
         for stage in (2, 4):
             self.assertIn(f'blocks_directly_connected(se_stage{stage}_i_output_enable, ...\n'
                           f'                se_stage{stage}_i_output_gate)', source)
