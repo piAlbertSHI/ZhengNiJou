@@ -76,7 +76,8 @@ class DistributedFeedforwardSourceTests(unittest.TestCase):
         runner = (ROOT/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
         self.assertIn('record.collection_pass=numel(record.cases)==2;', runner)
         self.assertIn("strcmp(name,'conservative') && strcmp(diagnostic_arm,'both')", runner)
-        self.assertIn('Scoped arms are limited to independent 10 s endpoint diagnostics.', runner)
+        self.assertIn('Scoped arms require an explicit endpoint or state experiment.', runner)
+        self.assertIn("diagnostic_resume && cycle_count==20 && strcmp(diagnostic_arm,'native')",runner)
 
     @unittest.skipUnless(shutil.which('pwsh'), 'PowerShell 7 is required')
     def test_twenty_cycle_distributed_run_rejects_missing_audit_before_matlab(self):

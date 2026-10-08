@@ -17,7 +17,13 @@ class ColdChamberTests(unittest.TestCase):
         source=(Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text()
         self.assertIn("overrides.simulation.resume_checkpoint_path='';",source)
         self.assertIn("'LoadInitialState','off','SimscapeUseOperatingPoints','off'",source)
-        self.assertNotIn('.setInitialState(',source)
+        self.assertEqual(source.count('.setInitialState('),1)
+        guarded=source.split('if diagnostic_resume\n')[2].split('end\n')[0]
+        self.assertIn('input=input.setInitialState(diagnostic_initial_op)',guarded)
+        self.assertIn("diagnostic_resume=strcmp(state_capture_options.mode,'diagnostic_resume')",source)
+        policy=(Path(__file__).parent/'Resolve_HeatDriveECC_DiagnosticStateOptions.m').read_text()
+        self.assertIn("options.mode='off'",policy)
+        self.assertIn('~isfield(options,\'restore_source_root\') || rebuilding || resuming',policy)
         self.assertIn("'SaveFinalState','off','SaveOperatingPoint','off'",source)
 
     def test_library_hook_cannot_write_mainline(self):

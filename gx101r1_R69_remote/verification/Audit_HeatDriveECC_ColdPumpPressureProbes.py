@@ -121,17 +121,11 @@ def normalized_signal(signal, start, stop, allow_leading_warmup):
     values = np.asarray(signal["values"][:], dtype=float).reshape(-1)
     expected = round((stop-start)/.001)+1
     trimmed = False
-    if (allow_leading_warmup and time.size == round(stop/.001)+1
-            and abs(time[0]) <= 1e-9 and abs(time[-1]-stop) <= 1e-9):
-        first = round(start/.001)
-        time = time[first:first+expected]
-        values = values[first:first+expected]
-        trimmed = True
-    elif (allow_leading_warmup and time.size == expected+1
-            and abs(time[0]-(start-.001)) <= 1e-9
-            and abs(time[-1]-stop) <= 1e-9):
-        time = time[1:]
-        values = values[1:]
+    if allow_leading_warmup and time.size > expected:
+        from HeatDriveECC_ObservationWindow import window_indices
+        selected=window_indices(time,start,stop)
+        time = time[selected]
+        values = values[selected]
         trimmed = True
     expected_time = start + np.arange(expected)*.001
     if (time.size != expected or values.size != expected
@@ -148,16 +142,11 @@ def normalized_rows(handle, dataset, start, stop, allow_leading_warmup):
         time = np.asarray(row["time_s"][:], dtype=float).reshape(-1)
         values = np.asarray(row["values"][:], dtype=float)
         expected = round((stop-start)/.001)+1
-        if (allow_leading_warmup and time.size == round(stop/.001)+1
-                and abs(time[0]) <= 1e-9 and abs(time[-1]-stop) <= 1e-9):
-            first = round(start/.001)
-            time = time[first:first+expected]
-            values = values[..., first:first+expected]
-        elif (allow_leading_warmup and time.size == expected+1
-                and abs(time[0]-(start-.001)) <= 1e-9
-                and abs(time[-1]-stop) <= 1e-9):
-            time = time[1:]
-            values = values[..., 1:]
+        if allow_leading_warmup and time.size > expected:
+            from HeatDriveECC_ObservationWindow import window_indices
+            selected=window_indices(time,start,stop)
+            time = time[selected]
+            values = values[..., selected]
         expected_time = start + np.arange(expected)*.001
         if (time.size != expected or values.shape != (1, expected)
                 or not np.allclose(time, expected_time, rtol=0, atol=1e-9)

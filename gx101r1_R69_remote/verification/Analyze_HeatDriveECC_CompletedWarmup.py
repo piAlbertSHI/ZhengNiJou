@@ -14,6 +14,8 @@ from Audit_HeatDriveECC_ColdPumpPressureProbes import normalized_rows
 from Audit_HeatDriveECC_DistributedPressureRuntime import audit_arm, read_json
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from Audit_HeatDriveECC_TLDomainInventory import resolve_domains
+from HeatDriveECC_DiagnosticAnalysisScope import diagnostic_arms
+from HeatDriveECC_ObservationWindow import window_indices
 
 
 def storage_drifts(handle, start, stop):
@@ -42,7 +44,8 @@ def analyze_completed(root):
     execution = read_json(root/'cold_chamber_execution.json')
     stop = float(execution['stop_time_s'])
     start = stop-20
-    if (not execution['collection_pass'] or execution['cycle_count'] < 2
+    arms_requested=diagnostic_arms(root,execution)
+    if ((not execution['collection_pass'] and len(arms_requested)!=1) or execution['cycle_count'] < 2
             or execution['c200_state_imported']):
         raise ValueError('Require completed independent non-recovery warmup')
     summary = analyze(root)
@@ -85,7 +88,8 @@ def analyze_completed(root):
             memory = {}
             for key in ('stage4_integrator_state', 'stage4_integrator_input'):
                 row = handle['signals/'+key]
-                values = row['values'][:, round(start/.001):]
+                selected=window_indices(row['time_s'][:].reshape(-1),start,stop)
+                values = row['values'][:, selected]
                 memory[key] = paired_drift(values)
         boundary = runtime['pressure_boundary']
         gates = dict(distributed_equations=runtime['distributed_controller_runtime_pass'],
@@ -105,6 +109,8 @@ def analyze_completed(root):
                          'thermal_connectivity.json', 'buffer_replacement_contract.json',
                          'distributed_pressure_ff_contract.json', 'public_inventory_targets.json')})
     summary.update(schema='heatdrive_ecc_completed_warmup_physics_v1',
+                   analysis_scope='state_qualified_diagnostic_segment' if len(arms_requested)==1 else 'independent_cold_warmup',
+                   actual_segment_start_s=execution['start_time_s'],
                    producer=execution['execution_commit'], logged_window_s=[start, stop],
                    mechanism_subset_pass=all(r['mechanism_subset_pass'] for r in summary['arms']),
                    no_failed_trajectory_propagated=True,

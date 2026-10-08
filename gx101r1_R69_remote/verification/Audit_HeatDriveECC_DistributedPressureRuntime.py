@@ -9,6 +9,7 @@ import numpy as np
 from Audit_HeatDriveECC_C201Cycle import metrics
 from Audit_HeatDriveECC_ColdPumpPressureProbes import audit_arm as pressure_arm
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
+from HeatDriveECC_ObservationWindow import window_indices
 
 
 def read_json(path):
@@ -19,8 +20,8 @@ def window_coordinates(time, start, stop):
     if (not np.isfinite([start, stop]).all() or start < 0 or stop-start < 10
             or any(abs(v/.001-round(v/.001)) > 1e-8 for v in (start, stop))):
         raise ValueError('Invalid integer-millisecond observation window')
-    expected = np.arange(round(stop/.001)+1)*.001
-    if time.shape != expected.shape or not np.allclose(time, expected, rtol=0, atol=1e-9):
+    window_indices(time, start, stop)
+    if abs(time[-1]-stop)>1e-9:
         raise ValueError('Require the complete unchanged solver clock')
     return start + np.arange(round((stop-start)/.001)+1)*.001
 
@@ -97,6 +98,7 @@ def audit_arm(folder, start=0, stop=10):
         time = f['signals/distributed_target_flow_kg_s/time_s'][:].reshape(-1)
         expected_native = window_coordinates(time, start, stop)
         if (stop != completion['stop_time_s']
+                or abs(time[0]-completion.get('start_time_s',0))>1e-9
                 or abs(contract['causal_delay_s']-.001) > 1e-12):
             raise ValueError('Require the complete unchanged solver clock and declared window')
         for name, row in f['signals'].items():
@@ -130,8 +132,8 @@ def audit_arm(folder, start=0, stop=10):
                 values = native_window_values(native_time, values, start, expected_native)
                 if decode(row['unit']) != 'K':
                     raise ValueError('Native source coordinate mismatch')
-                first = round(start/.001)
-                native_errors.append(float(np.max(abs(values-live[lookup[block], first:]))))
+                selected=window_indices(time,start,stop)
+                native_errors.append(float(np.max(abs(values-live[lookup[block], selected]))))
         if len(native_errors) != 21:
             raise ValueError('Missing native source authority')
         errors['probe_vs_native_T_I_max_K'] = max(native_errors)
@@ -140,10 +142,10 @@ def audit_arm(folder, start=0, stop=10):
         errors['command_authority_max_MPa'] = float(np.max(abs(actual_ff-get('pressure_feedforward_MPa')[0])))
         gates['command_authority'] = errors['command_authority_max_MPa'] <= 1e-10
         final_start = stop-10
-        first = round(final_start/.001)
+        selected=window_indices(time,final_start,stop)
         performance, solids, flows = metrics(
-            {name: values[:, first:] for name, values in signals.items()},
-            cfg['options'], time[first:], origin=final_start)
+            {name: values[:, selected] for name, values in signals.items()},
+            cfg['options'], time[selected], origin=final_start)
         # SMA's mature sensor orientation is negative. A universal q>0 test
         # would falsely reject it; retain the original magnitude gates and
         # do not claim this subset establishes every route's direction.

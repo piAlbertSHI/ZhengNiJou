@@ -530,17 +530,11 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_for
             signal_time = np.asarray(r['time_s'][:], dtype=float).reshape(-1)
             values = np.asarray(r['values'][:])
             expected = len(time)
-            if (signal_time.size == round(stop/.001)+1 and abs(signal_time[0]) <= 1e-9
-                    and abs(signal_time[-1]-stop) <= 1e-9 and start > 0):
-                first = round(start/.001)
-                last = first + expected
-                signal_time = signal_time[first:last]
-                values = values[..., first:last]
-            elif (start > 0 and signal_time.size == expected+1
-                    and abs(signal_time[0]-(start-.001)) <= 1e-9
-                    and abs(signal_time[-1]-stop) <= 1e-9):
-                signal_time = signal_time[1:]
-                values = values[..., 1:]
+            if signal_time.size > expected and start > 0:
+                from HeatDriveECC_ObservationWindow import window_indices
+                selected=window_indices(signal_time,start,stop)
+                signal_time = signal_time[selected]
+                values = values[..., selected]
             validate_grid(signal_time, start, stop, .001)
             if values.ndim != 2 or values.shape[1] != len(time) or not np.isfinite(values).all(): raise ValueError('Incomplete public signals')
             signals[key] = values

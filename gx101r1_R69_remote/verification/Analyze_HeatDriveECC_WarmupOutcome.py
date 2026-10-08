@@ -8,6 +8,7 @@ import numpy as np
 
 from Audit_HeatDriveECC_C201Cycle import metrics
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
+from HeatDriveECC_DiagnosticAnalysisScope import diagnostic_arms
 
 
 def paired_drift(values):
@@ -47,13 +48,14 @@ def flow_window(time, flow, target, start, stop, maximum, rms):
 def analyze(root):
     execution = json.loads((root / "cold_chamber_execution.json").read_text(encoding="utf-8-sig"))
     count = execution["cycle_count"]
-    if not execution["collection_pass"] or count < 2 or execution.get('c200_state_imported', False):
+    arms_requested=diagnostic_arms(root,execution)
+    if (not execution["collection_pass"] and len(arms_requested)!=1) or count < 2 or execution.get('c200_state_imported', False):
         raise ValueError("Require a completed non-recovery warmup")
     captured = diagnostic_capture_hashes(root, execution)
     stop = float(execution["stop_time_s"])
     start = stop - 20
     arms = []
-    for arm in ("native", "conservative"):
+    for arm in arms_requested:
         with h5py.File(root / arm / "observations.mat", "r") as f, \
                 h5py.File(root / arm / "configuration.mat", "r") as config:
             signals = {}
@@ -122,20 +124,19 @@ def analyze(root):
         "table4_reproduction_claim": False,
         "diagnostic_complete_OP_saved_not_recovery_authority": bool(captured),
         "input_sha256": {**captured, **{str(path.relative_to(root)): sha256(path) for path in (
-            root / "cold_chamber_execution.json", root / "native/observations.mat",
-            root / "conservative/observations.mat", root / "native/configuration.mat",
-            root / "conservative/configuration.mat")}},
+            root / "cold_chamber_execution.json",
+            *(root/arm/file for arm in arms_requested for file in ('observations.mat','configuration.mat')))}},
     }
 
 
 def diagnostic_capture_hashes(root, execution):
     if not execution['checkpoint_saved']:
         return {}
-    if (execution.get('diagnostic_state_options', {}).get('mode') != 'capture'
+    if (execution.get('diagnostic_state_options', {}).get('mode') not in ('capture','diagnostic_resume')
             or execution.get('production_recovery_allowed') is not False):
         raise ValueError('Unknown checkpoint authority; never treat it as cold evidence')
     hashes = {}
-    for arm in ('native', 'conservative'):
+    for arm in diagnostic_arms(root,execution):
         folder = root/arm
         receipt = folder/'diagnostic_state_capture.json'
         capture = json.loads(receipt.read_text(encoding='utf-8-sig'))
