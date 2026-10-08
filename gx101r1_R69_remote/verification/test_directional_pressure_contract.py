@@ -36,6 +36,12 @@ class DirectionalPressureContractTests(unittest.TestCase):
         self.assertNotIn('assign_mature_exchange_workspace(', boundary)
         self.assertIn("assignin('base',limits{k},options.branch.(limits{k}))", boundary)
 
+    def test_cold_entry_explicitly_validates_new_reference_fields(self):
+        text = (ROOT / 'verification/Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')
+        self.assertIn("'pressure_command_reference_mode','pressure_reference_head_budget_MPa'", text)
+        self.assertIn("Unsupported pressure-reference contract.", text)
+        self.assertIn('Reference head budget must be in (0,.05] MPa.', text)
+
 
 if __name__ == '__main__':
     unittest.main()
