@@ -5900,3 +5900,35 @@ v21的状态比较全部一致，但在后续保存Node时两种公开持久化�
 新包分类为C2状态接口候选与C3机制拒绝；写入v21 `REJECTED_DO_NOT_RESUME.json`。只删除两包明确可再生cache/codegen共134,799 bytes，删除前校验绝对父路径、保留文件SHA，删除后逐项复核；SSC、组件库、配置、OP、状态历史、物理观测和完整周期比较均保留。回执`v21_bounded_diagnostic_closeout_20261008.json`包含分类和逐文件SHA，删除量不代表清理了整个工作区。未解释的主SLX修改、Agent6、C200/C180原始权威均未改动。
 
 本轮关闭源码提交`2aa1108`已同步执行镜像`2f759b6`，两处674/674回归均通过；后续native归档时序修正只有源码/回归验证，尚未再次实际运行。最新主库outputs及audit分类快照为802目录、16.001593 GiB（不包含全部worktree/Agent6）；C200/C180的四个权威文件重新逐项SHA匹配。工作区治理回执位于`workspace_governance_20261008_v21_closeout`。所有本轮必需真实进程已自然结束，无后台计时器或监测进程。
+
+## 257. 逐路线压力合同与日志系统根因修正（2026-10-08，C2/C3已实际通过）
+
+### 257.1 从全局重新判断问题
+
+这轮不是继续调Kp/Ki。逐一核实原生源方程与实际具名物理端口：SMA参考A，经连接腔/选路阀接buffer；SE两条路线参考B，经三通接各自buffer。按`B.p-A.p=P`推导命令域，并把参考侧±0.01 MPa余量变成实际观测门禁。SE下限保留−0.50 MPa，SMA下限保留−0.35 MPa；未改物性表、PI增益、库存公式、热容或相变参数。静态方向筛选最低压力0.49 MPa只是边界假设，不代表全网络证书。运行中另检六个源面压力、参考侧余量和差压区间，流量RMS 5%/瞬时15%保持不变。
+
+实际静态检查暴露两项实现错误并修复：原生Tank应读取`tank_pressure`及其单位，而不是不存在的`p0`；最终压力限幅配置只能更新限幅变量，不能再次运行mature exchange初始化而覆盖已经集成的PI工作区参数。静态失败的实际配置/明细保存在`v22c_directional_pressure_static`，通过包为`v22d_directional_pressure_static`。这些是检查/初始化接口问题，不是物理门禁失败。
+
+日志层面也发现更高层原因：R2025b执行镜像SLX实际`SimscapeLogToSDI=on`。旧v19的1523次叶访问合计4784.024 s；新的独立模型仅关闭这个模型内SDI转送，不改共享偏好，仍完整读取1262条非空库存观测及162条源端口观测。新v24实际Node为savable=true，原始库存导出2.378 s、源边界导出29.109 s、包括精确MAT回读的整段后处理约59.409 s。旧/新包物理时长不同，因此不把该对比冒称同规模严格性能benchmark；但新包确已消除先前小时级叶读取耗时。
+
+不再把vendor Node对象是否可序列化当作额外物理门禁。所有native/source数值、时钟、单位和元数据在第二次`sim()`前落盘并精确MAT回读；质量/能量门禁仍由这些完整实际观测独立审核，未以“保存成功”替代科学通过。记录官方接口：[模型内SDI转送参数](https://de.mathworks.com/help/simscape/ref/recorddatainsimulationdatainspector.html)、[日志保存接口](https://www.mathworks.com/help/simscape/ug/saving-and-retrieving-logged-simulation-data.html)。R2025b实际能力由本机运行回执确认。
+
+### 257.2 实际结果与最小损失续算点
+
+| 包 | 实际范围 | 已通过 | 未取得的资格 |
+| --- | --- | --- | --- |
+| v23b_directional_cold_qualification_2c | 独立冷态0–20 s | 73项机制、六源面实际压力/参考余量 | 用户重启电脑中断native导出；没有最终execution JSON、总账或恢复资格，禁止传播 |
+| v24_directional_directlog_cold_2c，producer `f90c473` | 全新冷态0–20 s，不导入旧OP | 73项机制、全部库存/source数值精确落盘、同模型完整状态检查、后审计8个分项门禁 | 不是周期稳态、不是Table 4复现 |
+| v25_directional_directlog_full_cycle_restore，producer `278cbe9` | 新进程严格恢复20–30 s，对照连续冷态0–30 s | 74组/1414坐标及201信号/592通道，完整10001采样逐点完全一致；C3全部73项机制；六局部质量/能量门禁 | 不自动授权生产主线、outer solve或paired Table 4 |
+
+v23b真实终端码`1073807364/0x40010004`，早先未知退出回执不改写；用户之后明确说明是重启电脑，新增说明作为原因来源。不能将重启推断成物理失败。v23b源数据保留；本轮没有从这个不完整包恢复。新的唯一合格诊断续算点是v24完整C2 vendor Operating Point，其SHA为`57E1D0A8CA14AC9B19D1214433C6D8ADB5F18F4263FE5CAEA493A1970C4C1350`。v25只是完整周期证明，不保存可传播C3终点。
+
+实际加载器已核验C2/C3机制、局部总账及输入SHA，输出snapshotTime=20、source_physical_gates_evaluated=true、full_cycle_state_restore_verified=true、production_recovery_allowed=false。从这个点续算20个新周期，不重置热容、buffer、本构、温度、相分数或独立路线PI记忆；不因工具等待超时重启。同模型1 ms检查与完整新进程10 s检查证据明确区分。
+
+两周期仍有明显启动漂移：119库存最大端点温度漂移4.55586 K，同相位最大86.36903 K。不能为这些启动漂移调小物理门禁或提前宣布稳态。下一步仍为20新周期后审计、完整周期状态稳定性，再进入§8的fixed-Tc outer solve、正交敏感性及成对端点，不缩小最终目标。
+
+### 257.3 Git与未完成事项
+
+源码修正依次提交`3dc28f8`、`4fe96d6`、`26ec9e0`、`6da3d5c`、`88e5492`、`e82ef83`、`e5b2aec`、`1bbdcc6`、`54ece1f`，同步至独立执行镜像；实际运行producer单独记录，不能拿之后审计提交冒称原producer。当前主库687项Python回归全部通过，另有实际MATLAB静态、C2、C3及加载器验证。未解释的主SLX修改与Agent6继续隔离。
+
+当前仍未完成：新分支长期周期稳态、全装置第一定律独立验证、fixed-Tc outer solve、性能缺口敏感性归因、zero-load/zero-lift共同参数端点、strict paired Table 4、最终SCI图集及Qian文献定位总表。C200保持历史冻结基准和原始OP，当前模型checksum恢复限制未绕过。不会使用validated/reproduced表述。
