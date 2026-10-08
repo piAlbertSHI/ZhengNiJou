@@ -1,0 +1,116 @@
+{
+  "schema": "heatdrive_ecc_bounded_pressure_counterexample_v1",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v21_bounded_complete_cycle_restore",
+  "installed_native_equation": "B.p - A.p == p_diff;",
+  "source_sign_verified_on_actual_samples": true,
+  "source_equation_file": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\physmod\\simscape\\library\\m\\+foundation\\+thermal_liquid\\+sources\\pressure_source.ssc",
+  "actual_pressure_rows": [
+    {
+      "name": "pump_pressure_se_stage2_port_a_MPa",
+      "minimum_MPa": 0.8509489759923194,
+      "maximum_MPa": 1.2410512609279096,
+      "current_domain_pass": true
+    },
+    {
+      "name": "pump_pressure_se_stage2_port_b_MPa",
+      "minimum_MPa": 0.8506926293443081,
+      "maximum_MPa": 0.8510739765009118,
+      "current_domain_pass": true
+    },
+    {
+      "name": "pump_pressure_se_stage4_port_a_MPa",
+      "minimum_MPa": 0.8509824168746988,
+      "maximum_MPa": 1.2410263063821705,
+      "current_domain_pass": true
+    },
+    {
+      "name": "pump_pressure_se_stage4_port_b_MPa",
+      "minimum_MPa": 0.8509814164743168,
+      "maximum_MPa": 0.8510263474447707,
+      "current_domain_pass": true
+    },
+    {
+      "name": "pump_pressure_sma_port_a_MPa",
+      "minimum_MPa": 0.8508788877899558,
+      "maximum_MPa": 0.85611343575437,
+      "current_domain_pass": true
+    },
+    {
+      "name": "pump_pressure_sma_port_b_MPa",
+      "minimum_MPa": 0.6085854012873488,
+      "maximum_MPa": 0.850934060776572,
+      "current_domain_pass": true
+    }
+  ],
+  "stage_records": [
+    {
+      "stage": 2,
+      "source_equation_max_residual_MPa": 1.3877787807814457e-16,
+      "observed_minimum_port_pressure_MPa": 0.850803209500521,
+      "port_B_range_MPa": [
+        0.850803209500521,
+        0.8508360365292323
+      ],
+      "naive_datum_plus_command_min_MPa": 0.6191870784321846,
+      "prelimit_sum_evaluated": false,
+      "samples": 1049,
+      "rms_relative": 0.0009924732909969407,
+      "rms_limit": 0.05,
+      "rms_pass": true,
+      "mean_relative_error": -0.000991732605057031,
+      "maximum_absolute_relative_error": 0.0011334603294687051,
+      "lower_saturation_fraction": 0.0
+    },
+    {
+      "stage": 4,
+      "source_equation_max_residual_MPa": 1.6653345369377348e-16,
+      "observed_minimum_port_pressure_MPa": 0.8509885286961567,
+      "port_B_range_MPa": [
+        0.8509885286961567,
+        0.8510207537632627
+      ],
+      "naive_datum_plus_command_min_MPa": 0.46,
+      "prelimit_sum_evaluated": true,
+      "samples": 1049,
+      "rms_relative": 0.06946272991347456,
+      "rms_limit": 0.05,
+      "rms_pass": false,
+      "mean_relative_error": -0.020589902144408125,
+      "maximum_absolute_relative_error": 0.14404197107300165,
+      "lower_saturation_fraction": 0.4356530028598665,
+      "clipped_sum_command_max_error_MPa": 0.0
+    }
+  ],
+  "actual_all_six_pump_ports_domain_pass": true,
+  "naive_uniform_lower_absolute_pressure_inference_is_not_qualified": true,
+  "ideal_A_reference_interval_MPa": [
+    -0.38999999999999996,
+    0.02
+  ],
+  "ideal_B_reference_interval_MPa": [
+    -0.5,
+    0.02
+  ],
+  "reference_port_topology_and_head_loss_bounds_still_required": true,
+  "bounded_cold_C2_mechanism_pass": true,
+  "bounded_C3_mechanism_pass": false,
+  "bounded_C3_failed_checks": [
+    "SE_settled_flow_RMS_target",
+    "SE_last_cycle_settled_flow_RMS_target"
+  ],
+  "full_cycle_state_restore_pass": true,
+  "native_snapshot_failure": "No supported public vendor persistence method for this actual Node.",
+  "simulation_executed": false,
+  "thresholds_changed": false,
+  "state_edited": false,
+  "production_recovery_allowed": false,
+  "twenty_cycle_continuation_allowed": false,
+  "strict_table4_reproduction_pass": false,
+  "input_sha256": {
+    "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v21_bounded_complete_cycle_restore\\native\\restored_physical_observation.mat": "271F9DB3C6FEA1D210A3844C9C55EE3AE65293AEC654FB6587A71747AA29A3D2",
+    "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v21_bounded_complete_cycle_restore\\native\\rebuilt_cycle_restore.json": "1FCF84BDE9F18500E3AE1E3F271DA3EE37A9F56BDC10ECCA6AED60193DF52FF9",
+    "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v21_bounded_complete_cycle_restore\\native\\rebuilt_cycle_comparison.mat": "E39317422B5566B7337B5C0E10F4E38B0EC6215C7A09A4E595FEA0B1EE90C322",
+    "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v20_bounded_cold_qualification_2c\\native\\cold_mechanism_audit.json": "EBB507DC45308CBEBECAE8519BC5B318EA45A79B4FEA0F7126201426FAD06053",
+    "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\physmod\\simscape\\library\\m\\+foundation\\+thermal_liquid\\+sources\\pressure_source.ssc": "D6337F48A716E37DBEFEEF8E0DE2D07483FCEA0FC2069059224DFE8709CD44B0"
+  }
+}
