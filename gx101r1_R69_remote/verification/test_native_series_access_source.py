@@ -8,6 +8,7 @@ class NativeSeriesAccessSourceTests(unittest.TestCase):
         code = '\n'.join(line.split('%')[0] for line in source.splitlines())
         self.assertNotIn('series.points', code)
         self.assertIn('points=numel(t)', code)
+        self.assertIn('if points==0,t=[];end', code)
         self.assertIn('double(values(series))', code)
         self.assertIn('series.unit', code)
 

@@ -10,6 +10,7 @@ function [t, data, unit, timing] = Read_HeatDriveECC_NativeSeries(leaf)
         started=tic; t=double(time(series)); timing.time_access_s=toc(started);
     end
     points=numel(t);
+    if points==0,t=[];end
     if points>0
         started=tic; raw=double(values(series)); timing.values_access_s=toc(started);
         started=tic; data=reshape(raw,numel(t),[]); timing.reshape_s=toc(started);
