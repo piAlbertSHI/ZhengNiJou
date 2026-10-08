@@ -97,3 +97,11 @@ class LatestEndpointTests(unittest.TestCase):
         self.assertIn('~contract.failed_state_propagated',text)
         self.assertIn('~contract.partial_state_restore_used',text)
         self.assertIn('contract.qualification_sha256',text)
+
+    def test_resume_provenance_covers_externally_interpreted_constitutive_code(self):
+        text=Path(__file__).with_name('Run_HeatDriveECC_ResumedDiagnosticSegment.m').read_text(encoding='utf-8')
+        for name in ('HeatDriveECC_ConstitutiveStateVectorStep21.m',
+                     'HeatDriveECC_ConstitutiveCompatibilityStep51.m',
+                     'Initialize_HeatDriveECC_ConstitutiveVector21.m',
+                     'Initialize_HeatDriveECC_EighthRound_State.m'):
+            self.assertIn("'"+name+"'",text)

@@ -34,8 +34,11 @@ function Manifest([string]$Path) {
         [pscustomobject]@{path=$_.FullName;bytes=$_.Length;sha256=(Get-FileHash -LiteralPath $_.FullName).Hash}
     })
 }
+function Total-Bytes([object[]]$Rows,[string]$Property) {
+    $total=0L;foreach ($row in $Rows) { $total+=[long]$row.$Property };return $total
+}
 $current=Manifest $root
-$retire=@();$oldKeep=@();$old=''
+$retire=@();$oldKeep=@();$old='';$resumedPlan=$false
 if ($RetireInterruptedV23b) {
     $old=[IO.Path]::GetFullPath((Join-Path $outputs 'v23b_directional_cold_qualification_2c'))
     if ((Split-Path -Parent $old) -ne $outputs -or
@@ -45,25 +48,36 @@ if ($RetireInterruptedV23b) {
     $names=@('cold_mechanism_observation.mat','public_observations.mat',
         'diagnostic_complete_operating_point.mat','diagnostic_state_observation.mat')
     $targets=@($names | ForEach-Object { [IO.Path]::GetFullPath((Join-Path $old ('native\'+$_))) })
-    foreach ($target in $targets) {
-        if ((Split-Path -Parent $target) -ne (Join-Path $old 'native') -or
-            -not (Test-Path -LiteralPath $target -PathType Leaf)) { throw 'Missing or escaped retirement target.' }
-        $retire+=[pscustomobject]@{path=$target;bytes=(Get-Item -LiteralPath $target).Length;
-            sha256=(Get-FileHash -LiteralPath $target).Hash;
-            reason='Obsolete reboot-interrupted matrices; never a recovery source; newer C2/C3 and C42 authority retained.'}
-    }
-    $oldKeep=@(Manifest $old | Where-Object { $_.path -notin $targets })
     $plan=$destination+'.retirement_plan.json'
-    if (Test-Path -LiteralPath $plan) { throw 'Never overwrite a retirement plan.' }
-    [IO.File]::WriteAllText($plan,(@{retire=$retire;retain=$oldKeep}|ConvertTo-Json -Depth 7),[Text.UTF8Encoding]::new($false))
+    if (Test-Path -LiteralPath $plan) {
+        $planned=Get-Content -LiteralPath $plan -Raw | ConvertFrom-Json
+        $retire=@($planned.retire);$oldKeep=@($planned.retain);$resumedPlan=$true
+        if ($retire.Count -ne 4 -or @($retire.path | Select-Object -Unique).Count -ne 4 -or
+            @($retire | Where-Object { $_.path -notin $targets -or $_.sha256 -notmatch '^[0-9A-F]{64}$' }).Count -ne 0 -or
+            @($oldKeep | Where-Object { -not $_.path.StartsWith($old+'\',[StringComparison]::OrdinalIgnoreCase) }).Count -ne 0) {
+            throw 'Existing plan does not describe the exact interrupted retirement.'
+        }
+    } else {
+        foreach ($target in $targets) {
+            if ((Split-Path -Parent $target) -ne (Join-Path $old 'native') -or
+                -not (Test-Path -LiteralPath $target -PathType Leaf)) { throw 'Missing or escaped retirement target.' }
+            $retire+=[pscustomobject]@{path=$target;bytes=(Get-Item -LiteralPath $target).Length;
+                sha256=(Get-FileHash -LiteralPath $target).Hash;
+                reason='Obsolete reboot-interrupted matrices; never a recovery source; newer C2/C3 and latest endpoint retained.'}
+        }
+        $oldKeep=@(Manifest $old | Where-Object { $_.path -notin $targets })
+        [IO.File]::WriteAllText($plan,(@{retire=$retire;retain=$oldKeep}|ConvertTo-Json -Depth 7),[Text.UTF8Encoding]::new($false))
+    }
     foreach ($file in $retire) {
+        if (-not (Test-Path -LiteralPath $file.path)) { continue }
         if ((Get-FileHash -LiteralPath $file.path).Hash -ne $file.sha256) { throw 'Retirement input changed.' }
         Remove-Item -LiteralPath $file.path -Force
         if (Test-Path -LiteralPath $file.path) { throw 'Retirement did not complete.' }
     }
     $marker=Join-Path $old 'SUPERSEDED_RAW_COMPACTED.txt'
-    if (Test-Path -LiteralPath $marker) { throw 'Never overwrite a retirement marker.' }
-    [IO.File]::WriteAllText($marker,'Four obsolete interrupted matrices retired by the hash-bound plan. INCOMPLETE marker, logs, scalar audits, configuration and generated component sources remain. Never resume.',[Text.UTF8Encoding]::new($false))
+    if (-not (Test-Path -LiteralPath $marker)) {
+        [IO.File]::WriteAllText($marker,'Four obsolete interrupted matrices retired by the hash-bound plan. INCOMPLETE marker, logs, scalar audits, configuration and generated component sources remain. Never resume.',[Text.UTF8Encoding]::new($false))
+    }
 }
 $caches=@()
 foreach ($name in @('cache','codegen')) {
@@ -72,7 +86,7 @@ foreach ($name in @('cache','codegen')) {
         $target -notin @((Join-Path $root 'cache'),(Join-Path $root 'codegen'))) { throw 'Escaped exact cache target.' }
     if (Test-Path -LiteralPath $target -PathType Container) {
         $files=@(Get-ChildItem -LiteralPath $target -File -Recurse -Force)
-        $caches+=[pscustomobject]@{path=$target;bytes=($files|Measure-Object Length -Sum).Sum}
+        $caches+=[pscustomobject]@{path=$target;bytes=(Total-Bytes $files 'Length')}
         Remove-Item -LiteralPath $target -Recurse -Force
         if (Test-Path -LiteralPath $target) { throw 'Cache deletion incomplete.' }
     }
@@ -84,8 +98,8 @@ $receipt=[ordered]@{schema='heatdrive_ecc_qualified_segment_storage_closeout_v1'
     source_root=$root;total_cycles=$completed.cycle_count;classification='mechanism_pass_latest_diagnostic_endpoint';
     production_recovery_allowed=$false;retained_current_files=$current;
     retired_obsolete_interrupted_files=$retire;retained_interrupted_summary=$oldKeep;
-    retired_raw_bytes=($retire|Measure-Object bytes -Sum).Sum;
-    retired_cache_bytes=($caches|Measure-Object bytes -Sum).Sum;deleted_regenerable_caches=$caches;
+    retired_raw_bytes=(Total-Bytes $retire 'bytes');resumed_existing_retirement_plan=$resumedPlan;
+    retired_cache_bytes=(Total-Bytes $caches 'bytes');deleted_regenerable_caches=$caches;
     current_raw_retired=$false;C2_C3_C22_dependencies_untouched=$true;
     C200_C180_untouched=$true;protected_SLX_untouched=$true;Agent6_untouched=$true;
     full_workspace_size_evaluated=$false;generated_at=(Get-Date).ToString('o')}
