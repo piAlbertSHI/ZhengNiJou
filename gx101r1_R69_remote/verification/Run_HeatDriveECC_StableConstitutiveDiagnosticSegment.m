@@ -32,8 +32,8 @@ function record = Run_HeatDriveECC_StableConstitutiveDiagnosticSegment(source_ro
         'operating_point_loaded_for_simulation',true,'production_recovery_allowed',false);
     path=[output_root,'.stable_config.json'];
     mkdir(fileparts(path));
-    fid=fopen(path,'w','n','UTF-8');assert(fid>=0);cleanup=onCleanup(@() fclose(fid));
-    fprintf(fid,'%s\n',jsonencode(base,'PrettyPrint',true));clear cleanup;fclose(fid)
+    fid=fopen(path,'w','n','UTF-8');assert(fid>=0);
+    fprintf(fid,'%s\n',jsonencode(base,'PrettyPrint',true));fclose(fid)
     record=Run_HeatDriveECC_IndependentColdDiagnosticFromConfig(path);
     assert(record.requested_arm_collection_pass && ~record.collection_pass && ...
         record.start_time_s==source_execution.stop_time_s && record.stop_time_s==source_execution.stop_time_s+200 && ...
