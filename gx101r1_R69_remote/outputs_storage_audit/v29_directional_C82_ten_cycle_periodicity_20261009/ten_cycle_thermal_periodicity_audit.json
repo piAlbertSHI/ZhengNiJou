@@ -1,0 +1,67 @@
+{
+  "schema": "heatdrive_ecc_saved_ten_cycle_thermal_periodicity_v1",
+  "source_execution_commit": "cf5ad1652bb763f01b516451ffb7729746b5079f",
+  "total_cycles": 82,
+  "source_execution_sha256": "4BCA62BFA0221C5F083AD6BCC7F0635B7D64256AF1D987988A55E396A4FD0A8D",
+  "source_observation_sha256": "21DD186C69AB6B096DC0BFC0869A573988B4784E9AE9F93033A9123DD2FCF711",
+  "source_configuration_sha256": "52933DD97406C8D3629599EDB0A4E52C2A77AB0F749D93E0709B661ABA327B8E",
+  "original_pair_receipt_sha256": "9DF47A3835046868E83E5F58836FFC4039AD32E66DD759CA9E8B702365EA4102",
+  "shared_statistics_sha256": "1EEF317CFADA3495FE2933F8FA7722A50E9282EF581369217DF5910B81F5D35B",
+  "refactored_summarizer_sha256": "7AE055FC2EDAC41F367738385B7808897707EB8EFD0958943C76B783E440197D",
+  "pre_refactor_pair_exactly_equal": true,
+  "full_summary_before_after_exactly_equal": true,
+  "public_material_fields_exactly_equal": true,
+  "original_periodic_predicates_used": true,
+  "absolute_window_s": [
+    720,
+    820
+  ],
+  "periodic_window_cycles": 10,
+  "exact_grid_sample_count": 100001,
+  "time_shift_for_analysis_only": true,
+  "predicates": {
+    "temperature_endpoint": {
+      "value": 0.0138547457106597,
+      "limit": 0.05,
+      "pass_gate": true
+    },
+    "temperature_p99": {
+      "value": 0.0443183686297175,
+      "limit": 0.05,
+      "pass_gate": true
+    },
+    "temperature_rms": {
+      "value": 0.0098739929755683534,
+      "limit": 0.01,
+      "pass_gate": true
+    },
+    "phase_extrema": {
+      "value": 2.654565991721744E-6,
+      "limit": 0.0001,
+      "pass_gate": true
+    },
+    "phase_p99": {
+      "value": 0.0021255310370730252,
+      "limit": 0.002,
+      "pass_gate": false
+    },
+    "phase_rms": {
+      "value": 0.00047888578418129522,
+      "limit": 0.0004,
+      "pass_gate": false
+    }
+  },
+  "production_temperature_phase_periodic_gate_pass": false,
+  "diagnostic_temperature_peak_K": 0.24154535701467239,
+  "diagnostic_phase_peak": 0.011624812569649392,
+  "native_ledger_window_cycles": 2,
+  "full_device_first_law_verified": false,
+  "complete_internal_state_periodicity_verified": false,
+  "simulation_executed": false,
+  "operating_point_loaded": false,
+  "physical_tolerances_changed": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "table4_reproduction_claim": false,
+  "interpretation": "Exact ten-cycle public temperature/phase statistics only; native energy/hidden-state qualifications remain separate."
+}

@@ -67,7 +67,27 @@ def production_periodicity(root, execution, receipt):
     return receipt
 
 
-def analyze(root, physics_path, state_path, mechanism_path=None, periodicity_path=None):
+def ten_cycle_periodicity(root, execution, receipt):
+    if (receipt.get('schema') != 'heatdrive_ecc_saved_ten_cycle_thermal_periodicity_v1'
+            or receipt.get('source_execution_commit') != execution['execution_commit']
+            or receipt.get('total_cycles') != execution['cycle_count']
+            or receipt.get('source_execution_sha256') != sha256(root/'cold_chamber_execution.json')
+            or receipt.get('source_observation_sha256') != sha256(root/'native/observations.mat')
+            or receipt.get('source_configuration_sha256') != sha256(root/'native/configuration.mat')
+            or receipt.get('absolute_window_s') != [execution['stop_time_s']-100,execution['stop_time_s']]
+            or receipt.get('periodic_window_cycles') != 10 or receipt.get('exact_grid_sample_count') != 100001
+            or any(receipt.get(key) is not True for key in (
+                'pre_refactor_pair_exactly_equal','full_summary_before_after_exactly_equal',
+                'public_material_fields_exactly_equal','original_periodic_predicates_used'))
+            or any(receipt.get(key) is not False for key in (
+                'simulation_executed','operating_point_loaded','physical_tolerances_changed',
+                'production_recovery_allowed','outer_solve_eligible','table4_reproduction_claim',
+                'complete_internal_state_periodicity_verified','full_device_first_law_verified'))):
+        raise ValueError('Ten-cycle public statistics do not bind the same trajectory or overclaim scope')
+    return receipt
+
+
+def analyze(root, physics_path, state_path, mechanism_path=None, periodicity_path=None, thermal_path=None):
     read=lambda path:json.loads(path.read_text(encoding='utf-8-sig'))
     physics=read(physics_path);states=read(state_path);execution=read(root/'cold_chamber_execution.json')
     capture=read(root/'native/diagnostic_state_capture.json')
@@ -119,6 +139,9 @@ def analyze(root, physics_path, state_path, mechanism_path=None, periodicity_pat
     if periodicity_path is not None:
         result['original_production_last_pair']=production_periodicity(root,execution,read(periodicity_path))
         result['input_sha256']['original_production_periodicity_audit']=sha256(periodicity_path)
+    if thermal_path is not None:
+        result['ten_cycle_production_temperature_phase']=ten_cycle_periodicity(root,execution,read(thermal_path))
+        result['input_sha256']['ten_cycle_thermal_periodicity_audit']=sha256(thermal_path)
     return result
 
 
@@ -129,10 +152,11 @@ if __name__=='__main__':
     parser.add_argument('--state-audit',type=Path,required=True)
     parser.add_argument('--mechanism-audit',type=Path)
     parser.add_argument('--periodicity-audit',type=Path)
+    parser.add_argument('--thermal-periodicity-audit',type=Path)
     parser.add_argument('--output',type=Path,required=True)
     args=parser.parse_args()
     if args.output.exists():raise FileExistsError('Never overwrite a diagnostic decision')
-    result=analyze(args.experiment_root,args.physics_audit,args.state_audit,args.mechanism_audit,args.periodicity_audit)
+    result=analyze(args.experiment_root,args.physics_audit,args.state_audit,args.mechanism_audit,args.periodicity_audit,args.thermal_periodicity_audit)
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(result,indent=2,allow_nan=False)+'\n',encoding='utf-8')
     print(json.dumps({key:result[key] for key in ('total_cycles','mechanism_subset_pass',

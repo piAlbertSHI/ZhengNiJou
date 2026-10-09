@@ -1,0 +1,29 @@
+{
+  "schema": "heatdrive_ecc_diagnostic_state_capture_v1",
+  "snapshot_time_s": 820,
+  "complete_op_class": "Simulink.op.ModelOperatingPoint",
+  "operating_point_file": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v29_directional_latest_resume_C82\\native\\diagnostic_complete_operating_point.mat",
+  "operating_point_sha256": "84840F802F3948E89FC4890D675C73D734AAAE922C511BB7F264B5C2BC9E75B4",
+  "history_file": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v29_directional_latest_resume_C82\\native\\diagnostic_state_observation.mat",
+  "history_sha256": "CE3627E93AB20C8836BF629527222A346647AC3AF10096156A1E41C21778C6B1",
+  "logged_group_count": 74,
+  "numeric_history_bytes": 1.309451904E+9,
+  "settings": {
+    "schema": "heatdrive_ecc_diagnostic_state_capture_settings_v1",
+    "history_cycles": 11,
+    "sample_time_s": 0.001,
+    "max_points_per_logged_group": 110002,
+    "complete_operating_point_requested": true,
+    "numerical_history_bounded": true,
+    "decimation": 1,
+    "hidden_state_reconstruction_used": false,
+    "production_recovery_allowed": false
+  },
+  "physical_mechanism_gate_evaluated": false,
+  "current_model_roundtrip_verified": false,
+  "complete_periodicity_verified": false,
+  "diagnostic_continuation_allowed": false,
+  "production_recovery_allowed": false,
+  "source_op_edited": false,
+  "state_reconstruction_used": false
+}

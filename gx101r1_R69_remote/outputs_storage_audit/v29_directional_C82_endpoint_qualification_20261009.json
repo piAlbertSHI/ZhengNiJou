@@ -1,0 +1,119 @@
+{
+  "schema": "heatdrive_ecc_latest_diagnostic_endpoint_qualification_v1",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v29_directional_latest_resume_C82",
+  "producer": "cf5ad1652bb763f01b516451ffb7729746b5079f",
+  "snapshot_time_s": 820,
+  "total_cycles": 82,
+  "command_horizon_cycles": 200,
+  "qualification_pass": true,
+  "warmup_continuation_allowed": true,
+  "full_mechanism_count": 73,
+  "local_inventory_pass": true,
+  "complete_logged_state_coverage": true,
+  "ancestor_complete_cycle_restore_verified": true,
+  "ancestor_complete_cycle_proof": {
+    "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v24_directional_directlog_cold_2c",
+    "verification_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v25_directional_directlog_full_cycle_restore",
+    "restore_receipt_sha256": "2061FE9E67367B221872C354C357D870EE07A66754EAC0E31148F91CAE9A81FE",
+    "comparison_sha256": "A0A32C1EAC9EF43C45AD9AAE43C6C3B94645A9412F96A5A7F1CE8CE91A736867"
+  },
+  "latest_endpoint_complete_cycle_reference_compared": false,
+  "production_recovery_allowed": false,
+  "steady_outer_solve_allowed": false,
+  "table4_reproduction_claim": false,
+  "source_state_edited": false,
+  "partial_state_restore_used": false,
+  "core_periodic_last_pair": {
+    "predicates": {
+      "temperature_endpoint": {
+        "value": 0.002610304208189973,
+        "limit": 0.05,
+        "pass_gate": true
+      },
+      "temperature_p99": {
+        "value": 0.053365181778875656,
+        "limit": 0.05,
+        "pass_gate": false
+      },
+      "temperature_rms": {
+        "value": 0.010810214976688484,
+        "limit": 0.01,
+        "pass_gate": false
+      },
+      "phase_endpoint": {
+        "value": 2.657127306416804e-05,
+        "limit": 0.0001,
+        "pass_gate": true
+      },
+      "phase_p99": {
+        "value": 0.0024781354455059674,
+        "limit": 0.002,
+        "pass_gate": false
+      },
+      "phase_rms": {
+        "value": 0.0005088537652068208,
+        "limit": 0.0004,
+        "pass_gate": false
+      }
+    },
+    "last_pair_core_predicates_pass": false,
+    "predicate_scope": "solid_node_endpoint_and_numpy_percentile_last_pair",
+    "equivalent_to_original_production_predicates": false,
+    "same_phase_maxima_are_nonblocking_diagnostics": true,
+    "diagnostic_temperature_peak_K": 0.25800226881989374,
+    "diagnostic_phase_peak": 0.012545082374242983
+  },
+  "files": [
+    {
+      "role": "execution",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v29_directional_latest_resume_C82\\cold_chamber_execution.json",
+      "sha256": "4BCA62BFA0221C5F083AD6BCC7F0635B7D64256AF1D987988A55E396A4FD0A8D"
+    },
+    {
+      "role": "capture",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v29_directional_latest_resume_C82\\native\\diagnostic_state_capture.json",
+      "sha256": "FAFC3F74868545D8EA09E93F74FEB96CCEB672F6C7BBB2C1188ABC81DE9DC9D5"
+    },
+    {
+      "role": "operating_point",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v29_directional_latest_resume_C82\\native\\diagnostic_complete_operating_point.mat",
+      "sha256": "84840F802F3948E89FC4890D675C73D734AAAE922C511BB7F264B5C2BC9E75B4"
+    },
+    {
+      "role": "history",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v29_directional_latest_resume_C82\\native\\diagnostic_state_observation.mat",
+      "sha256": "CE3627E93AB20C8836BF629527222A346647AC3AF10096156A1E41C21778C6B1"
+    },
+    {
+      "role": "observation",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v29_directional_latest_resume_C82\\native\\observations.mat",
+      "sha256": "21DD186C69AB6B096DC0BFC0869A573988B4784E9AE9F93033A9123DD2FCF711"
+    },
+    {
+      "role": "configuration",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v29_directional_latest_resume_C82\\native\\configuration.mat",
+      "sha256": "52933DD97406C8D3629599EDB0A4E52C2A77AB0F749D93E0709B661ABA327B8E"
+    },
+    {
+      "role": "physics_audit",
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v29_directional_C82_completed_ledger_20261009.json",
+      "sha256": "AA0A076E6E1F0901EFF7B7270C9D1D44AD5ADE997E5B0A62F8AE6CB96852F8A9"
+    },
+    {
+      "role": "mechanism_audit",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v29_directional_C82_saved_mechanism\\saved_mechanism_audit.json",
+      "sha256": "CF0CC296408C561643D6691D1B0F45D3E59A041619260E82937E6BA934DC3E0C"
+    },
+    {
+      "role": "state_audit",
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v29_directional_C82_observed_state_drift_20261009.json",
+      "sha256": "EDE4BA8101377CE38209D0062B428B536998E28F7650B3E91E0E1FCC9F0ED2D0"
+    },
+    {
+      "role": "steadiness_audit",
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v29_directional_C82_steadiness_20261009.json",
+      "sha256": "EC480365DCC8EB8AC7897DCCD0C2F24ED03B8CB84520B04F489A19C54AD4F648"
+    }
+  ],
+  "interpretation": "Mechanism-passing transient endpoint may continue warmup under strict vendor checksum policy. Nonsteady drift blocks steady studies, not further warmup. Independent complete-cycle reference proof belongs to the C2 ancestor only."
+}

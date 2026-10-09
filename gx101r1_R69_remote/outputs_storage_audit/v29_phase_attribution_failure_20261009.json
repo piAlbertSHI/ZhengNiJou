@@ -1,0 +1,13 @@
+{
+  "schema": "heatdrive_ecc_read_only_analysis_failure_v1",
+  "program": "Audit_HeatDriveECC_SavedThermalPeriodicity",
+  "session_id": 12571,
+  "exit_code": 1,
+  "cause": "MATLAB indexed assignment of a populated node structure into an empty-field structure array.",
+  "repair": "Preallocate nodes with the exact six field names; no statistics or physical tolerance change.",
+  "simulation_executed": false,
+  "operating_point_loaded": false,
+  "physical_trajectory_failed": false,
+  "first_ten_cycle_statistics_already_passed_read_only_collection": true,
+  "source_state_edited": false
+}

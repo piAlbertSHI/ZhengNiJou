@@ -58,3 +58,8 @@ gx101r1_R69_remote/outputs_storage_audit/v28_directional_*/**/*.json -text white
 gx101r1_R69_remote/outputs_storage_audit/v27_directional_C42_original_periodicity_20261009/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
 gx101r1_R69_remote/outputs_storage_audit/workspace_governance_20261009_v28_closeout/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
 gx101r1_R69_remote/outputs_storage_audit/workspace_governance_20261009_v28_closeout/*.csv -text whitespace=trailing-space,space-before-tab,cr-at-eol
+gx101r1_R69_remote/outputs_storage_audit/v29*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
+gx101r1_R69_remote/outputs_storage_audit/v29_*/**/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
+gx101r1_R69_remote/outputs_storage_audit/periodicity_producer_source_*/*.m -text whitespace=trailing-space,space-before-tab,cr-at-eol
+gx101r1_R69_remote/outputs_storage_audit/workspace_governance_20261009_v29_closeout/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
+gx101r1_R69_remote/outputs_storage_audit/workspace_governance_20261009_v29_closeout/*.csv -text whitespace=trailing-space,space-before-tab,cr-at-eol
