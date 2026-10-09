@@ -796,6 +796,16 @@ function options = Build_HeatDriveECC_EighthRound_Defaults(overrides)
     options.output = build_output_map(options.node_count);
     options.output.generate_figures = true;
     options = merge_structs(options, overrides);
+    if isfield(options.branch, 'diagnostic_constitutive_step_function') && ...
+            ~isempty(options.branch.diagnostic_constitutive_step_function)
+        options.constitutive.diagnostic_step_function = ...
+            char(string(options.branch.diagnostic_constitutive_step_function));
+    end
+    if isfield(options.branch, 'diagnostic_constitutive_substeps') && ...
+            ~isempty(options.branch.diagnostic_constitutive_substeps)
+        options.constitutive.diagnostic_substeps = ...
+            double(options.branch.diagnostic_constitutive_substeps);
+    end
     options.system.cold_boundary_mode = normalize_cold_boundary_mode( ...
         options.system.cold_boundary_mode);
     options.branch.boundary_T_se_chex_K = options.system.Tchex_K;

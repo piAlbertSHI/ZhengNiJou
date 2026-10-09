@@ -20,6 +20,14 @@ function overrides = Build_HeatDriveECC_IndependentColdBranchOverrides(config)
     overrides.pressure_pi_error_filter_tau_s = config.pressure_pi_error_filter_tau_s;
     overrides.se_stage4_pressure_bias_trim_MPa = config.stage4_pressure_bias_trim_MPa;
     overrides.se_distributed_pressure_feedforward_diagnostic = config.distributed_pressure_feedforward_diagnostic;
+    if isfield(config, 'diagnostic_constitutive_step_function')
+        overrides.diagnostic_constitutive_step_function = ...
+            char(config.diagnostic_constitutive_step_function);
+    end
+    if isfield(config, 'diagnostic_constitutive_substeps')
+        overrides.diagnostic_constitutive_substeps = ...
+            double(config.diagnostic_constitutive_substeps);
+    end
     if isfield(config,'pressure_command_domain_closure_enabled')
         assert(islogical(config.pressure_command_domain_closure_enabled) && ...
             isscalar(config.pressure_command_domain_closure_enabled), 'Require an explicit logical safety closure.');
