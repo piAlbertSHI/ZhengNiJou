@@ -32,6 +32,8 @@ class ConstitutiveStabilitySourceTests(unittest.TestCase):
     def test_stable_constitutive_fields_bypass_hydraulic_override_whitelist(self):
         projection = (self.root / "verification" / "Build_HeatDriveECC_IndependentColdBranchOverrides.m").read_text()
         config_runner = (self.root / "verification" / "Run_HeatDriveECC_IndependentColdDiagnosticFromConfig.m").read_text()
+        cold_runner = (self.root / "verification" / "Run_HeatDriveECC_ColdChamberDiagnostic.m").read_text()
         self.assertNotIn("overrides.diagnostic_constitutive_step_function", projection)
-        self.assertIn("overrides.branch.diagnostic_constitutive_step_function", config_runner)
-        self.assertIn("overrides.branch.diagnostic_constitutive_substeps", config_runner)
+        self.assertIn("constitutive_options.diagnostic_step_function", config_runner)
+        self.assertIn("constitutive_options.diagnostic_substeps", config_runner)
+        self.assertIn("constitutive_diagnostic_options", cold_runner)

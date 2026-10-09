@@ -1,4 +1,4 @@
-function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root, simulation_mode, endpoint_chamber_diagnostic, endpoint_all_arms, diagnostic_arm, state_capture_options)
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root, simulation_mode, endpoint_chamber_diagnostic, endpoint_all_arms, diagnostic_arm, state_capture_options, constitutive_options)
 % Independent diagnostic construction; only explicit qualified modes may load intact state.
     if nargin<3, duration=10; end
     if nargin<4, scale_inventory=false; end
@@ -19,7 +19,27 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     if nargin<19, endpoint_all_arms=false; end
     if nargin<20, diagnostic_arm='both'; end
     if nargin<21, state_capture_options=struct(); end
+    if nargin<22, constitutive_options=struct(); end
     state_capture_options=Resolve_HeatDriveECC_DiagnosticStateOptions(state_capture_options,cycle_count);
+    assert(isstruct(constitutive_options) && isscalar(constitutive_options), ...
+        'Constitutive diagnostic options must be a scalar struct.');
+    constitutive_fields=fieldnames(constitutive_options);
+    assert(all(ismember(constitutive_fields, ...
+        {'diagnostic_step_function','diagnostic_substeps'})), ...
+        'Unsupported constitutive diagnostic option.');
+    if isfield(constitutive_options,'diagnostic_step_function')
+        assert(ischar(constitutive_options.diagnostic_step_function) || ...
+            isstring(constitutive_options.diagnostic_step_function), ...
+            'Constitutive diagnostic step function must be named explicitly.');
+        constitutive_options.diagnostic_step_function= ...
+            char(string(constitutive_options.diagnostic_step_function));
+        assert(exist(constitutive_options.diagnostic_step_function,'file')==2, ...
+            'Constitutive diagnostic step function is not on the MATLAB path.');
+    end
+    if isfield(constitutive_options,'diagnostic_substeps')
+        validateattributes(constitutive_options.diagnostic_substeps,{'numeric'}, ...
+            {'scalar','finite','integer','>=',1});
+    end
     state_preflight=strcmp(state_capture_options.mode,'restore_preflight');
     rebuilt_preflight=strcmp(state_capture_options.mode,'rebuilt_cycle_preflight');
     diagnostic_resume=strcmp(state_capture_options.mode,'diagnostic_resume');
@@ -285,6 +305,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'diagnostic_network_absolute_pressure_MPa',NaN, ...
         'diagnostic_network_absolute_pressure_source','', ...
         'diagnostic_branch_overrides',diagnostic_branch_overrides, ...
+        'constitutive_diagnostic_options',constitutive_options, ...
         'new_inventory_nominal_scaling',scale_inventory,'physical_buffer_mass_guess',buffer_mass_guess, ...
         'physical_buffer_mass_high_targets',buffer_mass_targets,'physical_pipe_energy_high_targets',pipe_energy_targets, ...
         'conservative_buffers',conservative_buffers,'inventory_formulation',formulation, ...
@@ -316,6 +337,14 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         end
         overrides.simulation.persist_model_configuration=false;
         overrides.simulation.resume_checkpoint_path='';
+        if isfield(constitutive_options,'diagnostic_step_function')
+            overrides.branch.diagnostic_constitutive_step_function= ...
+                constitutive_options.diagnostic_step_function;
+        end
+        if isfield(constitutive_options,'diagnostic_substeps')
+            overrides.branch.diagnostic_constitutive_substeps= ...
+                constitutive_options.diagnostic_substeps;
+        end
         % The independent cold-start arm uses a qualified mid-window datum.
         % The frozen production datum (1 MPa) triggers the native Simscape
         % pressure ceiling at t=0. The explicit argument is restricted to
