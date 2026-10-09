@@ -8,6 +8,17 @@ function record = Run_HeatDriveECC_IndependentColdDiagnosticFromConfig(config_pa
         'HeatDriveECC:MissingControllerConfig', ...
         'Require an explicit logical distributed-controller mode before model construction.');
     overrides = Build_HeatDriveECC_IndependentColdBranchOverrides(config);
+    % Constitutive diagnostics are model-construction options, not hydraulic
+    % controller overrides. Keep them on the branch projection so the
+    % defaults builder can route them into options.constitutive.
+    if isfield(config, 'diagnostic_constitutive_step_function')
+        overrides.branch.diagnostic_constitutive_step_function = ...
+            char(config.diagnostic_constitutive_step_function);
+    end
+    if isfield(config, 'diagnostic_constitutive_substeps')
+        overrides.branch.diagnostic_constitutive_substeps = ...
+            double(config.diagnostic_constitutive_substeps);
+    end
     diagnostic_arm='both';
     if isfield(config,'diagnostic_arm'), diagnostic_arm=char(config.diagnostic_arm); end
     state_options=struct();

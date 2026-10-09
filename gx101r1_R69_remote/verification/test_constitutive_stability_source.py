@@ -28,3 +28,10 @@ class ConstitutiveStabilitySourceTests(unittest.TestCase):
         self.assertIn("production_recovery_allowed',false", runner)
         self.assertIn("source_state_edited',false", runner)
         self.assertIn("ismember(substeps,[32 64])", runner)
+
+    def test_stable_constitutive_fields_bypass_hydraulic_override_whitelist(self):
+        projection = (self.root / "verification" / "Build_HeatDriveECC_IndependentColdBranchOverrides.m").read_text()
+        config_runner = (self.root / "verification" / "Run_HeatDriveECC_IndependentColdDiagnosticFromConfig.m").read_text()
+        self.assertNotIn("overrides.diagnostic_constitutive_step_function", projection)
+        self.assertIn("overrides.branch.diagnostic_constitutive_step_function", config_runner)
+        self.assertIn("overrides.branch.diagnostic_constitutive_substeps", config_runner)
