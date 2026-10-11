@@ -10,7 +10,12 @@ function record = Run_HeatDriveECC_StableConstitutiveDiagnosticSegment(source_ro
         'restore_source_root',source_root,'restore_verification_root',verified_root);
     [op,contract] = Load_HeatDriveECC_DiagnosticResumeSource(options); %#ok<ASGLU>
     source_execution=jsondecode(fileread(fullfile(source_root,'cold_chamber_execution.json')));
-    base=jsondecode(fileread([source_root,'.resumed_config.json']));
+    config_path=[source_root,'.resumed_config.json'];
+    if ~isfile(config_path)
+        config_path=[source_root,'.stable_config.json'];
+    end
+    assert(isfile(config_path),'Missing prior diagnostic configuration contract.');
+    base=jsondecode(fileread(config_path));
     assert(source_execution.requested_arm_collection_pass && isempty(source_execution.error_message) && ...
         source_execution.cycle_count == source_execution.stop_time_s/10 && ...
         source_execution.diagnostic_state_options.command_horizon_cycles == 200 && ...

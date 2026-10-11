@@ -15,6 +15,8 @@ class ConstitutiveStabilitySourceTests(unittest.TestCase):
         self.assertIn("Integrate_HeatDriveECC_StableConstitutiveSample", step)
         self.assertIn("Never overwrite a stable constitutive diagnostic", runner)
         self.assertIn("production_recovery_allowed',false", runner)
+        self.assertIn("config_path=[source_root,'.resumed_config.json']", runner)
+        self.assertIn("config_path=[source_root,'.stable_config.json']", runner)
 
     def test_prototype_does_not_use_synthetic_phase_smoothing(self):
         integrator = (self.root / "verification" / "Integrate_HeatDriveECC_StableConstitutiveSample.m").read_text()
