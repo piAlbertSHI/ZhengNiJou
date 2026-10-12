@@ -6158,3 +6158,47 @@ C82的public轨迹显示相分数p99/RMS仍为0.00212553/0.000478886，十周期
 固定温度离线细分原型按实际能量审计累加每个子步热/机械功，并保持Eq.6/Eq.7兼容求解。热半周期的保守Jacobian上界约41.53 k s⁻¹（建议至少32个内部子步），冷半周期约19.72 k s⁻¹（至少32个内部子步）；32/64子步局部原型相对32/64参考的最大相分数差为2.61016e−7，潜热望远镜残差6.66e−16 J，力残差约9.09e−13 N，位移残差约1.04e−17 m，全部局部原型条件通过。一次阈值为1e−6的原型先出现1.23947e−6差异，已保留失败回执并改为准确半周期、32/64参考后才通过；没有放宽物理门禁。
 
 这仍只是冻结温度下的局部稳定性诊断，不能宣称全耦合收敛，也不能把离线子步结果直接替换C82。新增稳定本构函数只在独立诊断分支使用，生产默认函数和C200冻结结果不改变。下一步用32内部子步建立新的C82→C102稳定本构诊断包；它必须重新通过73项机制、八类局部账本、十周期public稳态以及两周期原生能量账本，失败只保留rejected package，不进入C82/C200恢复链。若真实耦合稳定分支仍失败，再回到UA/库存/相变参数正交敏感性，而不是盲调PI。
+
+## 263. 稳定本构分段续算 C82→C142 与审计边界复核（2026-10-12）
+
+### 263.1 分段结果与不可变恢复链
+
+在不导入 C200、不重置热容、buffer、温度、相分数、本构或独立 PI 路线记忆的条件下，独立 stable-constitutive diagnostic branch 依次完成：
+
+| 段 | 时间窗口 | 总周期 | 执行提交 | 结果状态 |
+|---|---:|---:|---|---|
+| C82→C102 | 820–1020 s | 102 | `84f2dadd24488899365c86883d45906e6d0f9b2c` | 完整落盘 |
+| C102→C122 | 1020–1220 s | 122 | `7d9099b69b669a769a1e9d4a4a52a174eacacc1d` | 完整落盘 |
+| C122→C142 | 1220–1420 s | 142 | `7d9099b69b669a769a1e9d4a4a52a174eacacc1d` | 完整落盘 |
+
+三段均为 native 单臂、20-cycle、checkpoint_saved=true、production_recovery_allowed=false；每段均重新生成 observation、Operating Point、configuration、机制回执和 state-observation。C200 权威结果与 OP SHA 仍为 §223 冻结值：
+
+- `physical_simscape_result.mat`: `0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD`
+- `final_operating_point.mat`: `FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD5DD7D17DA7F798EBAAF4816`
+
+三段的 73/73 原生产机制门禁、八类 mechanism-subset/local ledger gates、状态观测覆盖（74 组、1414 坐标、三类独立 PI memory）均通过。原始生产机制审核明确记录 `simulation_executed=false`、`operating_point_loaded=false`、`periodic_steady_state_verified=false`；因此这些结果只能作为稳定本构 warmup evidence，不能替代主线恢复源。
+
+### 263.2 十周期 public production predicates
+
+十周期窗口分别为 C92–C102、C112–C122、C132–C142；三段均使用原始 summarizer、原始容差和 100001 点毫秒网格。六项原生产 public 温度/相分数谓词均通过：
+
+| 末段 | 温度 endpoint (K) | 温度 p99 (K) | 温度 RMS (K) | phase endpoint | phase p99 | phase RMS | 结论 |
+|---|---:|---:|---:|---:|---:|---:|---|
+| C102 | 0.0131576 | 0.00158984 | 0.000905982 | 1.19638e-6 | 5.21751e-5 | 3.73972e-5 | 6/6 |
+| C122 | 0.0128926 | 0.00137854 | 0.00112468 | 4.92764e-7 | 7.14331e-5 | 5.07795e-5 | 6/6 |
+| C142 | 0.0127664 | 0.00190208 | 0.00121116 | 2.07872e-7 | 9.53117e-5 | 5.49322e-5 | 6/6 |
+
+这说明数值稳定分支显著改善了 C82 的相分数漂移（C82 十周期 phase RMS `4.78886e-4`，C142 为 `5.49322e-5`），并且 public predicate 在三个续算末段保持通过。但这仍不是完整内部状态周期性；native ledger 的 energy window 只有末 2 cycle，完整设备 First Law 仍为 false，不能宣称 validated/reproduced 或 strict Table 4 reproduction。
+
+### 263.3 审计合理性复核
+
+当前 `Audit_HeatDriveECC_ObservedStateDrift.py` 正确报告 74 组/1414 坐标和 10 次逐周期比较，但其 `complete_internal_state_periodicity_verified=false` 是有意的保守声明：`ECC_Constitutive21_StateDelay` 和 `Solver Configuration` 的 packed 数值没有统一物理单位或状态语义，不能把它们与温度、相分数、质量、能量直接合成 joint norm。C142 中这些 packed 坐标的数值漂移很大，不能据此判定本构机制失败；同样，也不能把“有十次比较”误写成“全状态已周期”。该审计边界是合理的，下一步必须建立逐坐标 state-to-physical mapping 和控制体能量合同，而不是放宽阈值或继续盲目延长周期。
+
+本轮因此作出分层决定：
+
+1. `mechanism_pass=true`、public ten-cycle production predicates=6/6、局部控制体/流量/phase/solid-energy gates 通过；
+2. `full_device_first_law_verified=false`、`complete_internal_state_periodicity_verified=false`、`outer_solve_eligible=false`、`table4_reproduction_claim=false`；
+3. C102/C122/C142 endpoint 可继续 warmup，但不能进入 fixed-Tc outer solve、敏感性插值、zero-load/zero-lift paired endpoint 或 Table 4 strict audit；
+4. 下一轮优先完成 CHEX/SHEX/HHEX/CHEX 流体、SMA、SE、buffer、管路、泵功的实际信号映射和 Eq.9/Eq.10 质量基准/窗口绑定，闭合 full-device first-law 后再开放 outer solve。
+
+证据位置：`outputs/v31_stable_constitutive_from_C82_C102_fix6`、`...from_C102_C122_fix1`、`...from_C122_C142_fix1` 及对应 `outputs_storage_audit/v31_*`；三段的 rejected/incomplete 包均保留 `INCOMPLETE_DO_NOT_RESUME.json` 或独立回执，禁止传播。
