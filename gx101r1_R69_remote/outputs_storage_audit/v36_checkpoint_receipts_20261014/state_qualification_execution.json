@@ -1,0 +1,26 @@
+{
+  "schema": "heatdrive_ecc_se_reference_state_qualification_v1",
+  "status": "collected_requires_physical_and_complete_cycle_restore_audit",
+  "source_cold_audit_sha256": "0D35656DDEBA68FCB3C2AED9A0016BA89727AFDF0C852894072A8282C6379985",
+  "case_roots": [
+    "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v36_se_ref2_r1\\baseline",
+    "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v36_se_ref2_r1\\coherent"
+  ],
+  "cases": [
+    {
+      "name": "baseline",
+      "checkpoint_saved": true,
+      "state_roundtrip_pass": true,
+      "execution_sha256": "39FC870AE984BBA6FFCDD3A2A13C2BE11B3025B06EC2530584BC9333849E7CC0"
+    },
+    {
+      "name": "coherent",
+      "checkpoint_saved": true,
+      "state_roundtrip_pass": true,
+      "execution_sha256": "AE0737D2D1B3FCCCC4FEBBE6693B9881CDA7DF0E730E73D72B8AEC687E0A7FB0"
+    }
+  ],
+  "existing_OP_imported": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false
+}

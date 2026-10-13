@@ -1,0 +1,312 @@
+{
+  "schema": "heatdrive_ecc_bounded_cold_production_mechanism_v1",
+  "execution_commit": "7fef3caf90b7878fd78f1666e6f69b34567b9792",
+  "analysis_window": {
+    "absolute_start_s": 0,
+    "absolute_stop_s": 20,
+    "global_first_cycle": 1,
+    "global_last_cycle": 2,
+    "original_mechanism_gate_start_cycle": 1,
+    "time_shift_for_analysis_only": true,
+    "simulation_options_modified": false,
+    "operating_point_modified": false,
+    "production_recovery_allowed": false
+  },
+  "original_production_predicates_evaluated": true,
+  "checks": {
+    "used_real_sim_call": true,
+    "physical_authority": true,
+    "no_legacy_surrogate": true,
+    "requested_cycle_count": true,
+    "all_required_finite": true,
+    "samples_per_stage": true,
+    "node_count": true,
+    "temperature_range": true,
+    "thermal_liquid_probe_domain_coverage": true,
+    "water_thermal_liquid_property_range": true,
+    "SE_glycol_thermal_liquid_property_range": true,
+    "thermal_liquid_property_range": true,
+    "SMA_source_select_temperature": true,
+    "phase_fraction_bounds": true,
+    "constitutive_phase_direction": true,
+    "stress_bound": true,
+    "constitutive_force_compatibility": true,
+    "constitutive_displacement_compatibility": true,
+    "flow_bound": true,
+    "SMA_settled_flow_no_reversal": true,
+    "SMA_settled_instantaneous_flow_target": true,
+    "SMA_settled_pressure_not_saturated": true,
+    "SE_settled_flow_no_reversal": true,
+    "SE_settled_instantaneous_flow_target": true,
+    "SE_settled_flow_RMS_target": true,
+    "SE_last_cycle_settled_flow_no_reversal": true,
+    "SE_last_cycle_settled_instantaneous_flow_target": true,
+    "SE_last_cycle_settled_flow_RMS_target": true,
+    "SMA_water_pressure_observed_and_bounded": true,
+    "SMA_active_routes": true,
+    "SE_active_routes": true,
+    "qian_active_flow_targets": true,
+    "route_flow_direction": true,
+    "SE_double_acting_piston_orientation": true,
+    "SMA_buffer_cross_contamination": true,
+    "SMA_stage3_HHEX_hot_front_physical": true,
+    "SMA_cross_route_isolation": true,
+    "SE_inactive_isolation": true,
+    "SE_cross_route_isolation": true,
+    "inactive_thermal_path_isolation": true,
+    "SMA_phase_swing": true,
+    "SE_phase_swing": true,
+    "qian_table4_half_cycle_phase_completion": true,
+    "qian_table4_compatibility_stress": true,
+    "fig5_200MPa_reference_scope_explicit": true,
+    "cycle_state_continuity": true,
+    "cycle_temperature_continuity": true,
+    "pressure_commands_logged": true,
+    "SMA_switch_prepressure_observed": true,
+    "SMA_manifold_commutation_temperature_regularized": true,
+    "pump_work_nonnegative": true,
+    "SMA_solid_energy_balance": true,
+    "SE_solid_energy_balance": true,
+    "stage_constitutive_energy_decomposition": true,
+    "internal_mechanical_work_transfer": true,
+    "probes_present": true,
+    "declared_sensitivity_parameter_scope": true,
+    "qian_table2_material_contract": true,
+    "qian_glycol_engineering_closure_contract": true,
+    "independent_pressure_PI_contract": true,
+    "qian_fig5_phase_surface_kinetics_contract": true,
+    "qian_table4_schedule_contract": true,
+    "qian_numerical_time_step_contract": true,
+    "qian_eq9_eq10_observability": true,
+    "cold_boundary_contract": true,
+    "fixed_chex_temperature_authority": true,
+    "qian_table4_geometry_contract": true,
+    "qian_article_pipe_UA_contract": true,
+    "valve_switch_regularization": true,
+    "route_matrix_consistency": true,
+    "dual_fluid_domain": true,
+    "named_source_pressure_domain_and_reference_head": true,
+    "strict_table4_not_claimed_from_transient": true
+  },
+  "diagnostics": {
+    "mechanism_gate_start_cycle": 1,
+    "mechanism_gate_cycle_count": 2,
+    "SE_all_cycle_settled_instantaneous_flow_target": true,
+    "SE_all_cycle_stage2_max_relative_error": 0.0043888905110047727,
+    "SE_all_cycle_stage4_max_relative_error": 0.0061049706554761052,
+    "SE_all_cycle_stage2_samples_over_limit": 0,
+    "SE_all_cycle_stage4_samples_over_limit": 0,
+    "SE_all_cycle_stage2_peak_cycle": 1,
+    "SE_all_cycle_stage2_peak_stage_elapsed_s": 0.37700000000000022,
+    "SE_all_cycle_stage4_peak_cycle": 1,
+    "SE_all_cycle_stage4_peak_stage_elapsed_s": 0.30100000000000016,
+    "cold_start_phase_swing_progression": true,
+    "cold_start_phase_swing_progression_is_nonblocking_warning": true
+  },
+  "failed_checks": [],
+  "mechanism_pass": true,
+  "pressure_domain": {
+    "schema": "heatdrive_ecc_pressure_command_domain_v2",
+    "fluid_domains": [
+      {
+        "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+        "minimum_MPa": 0.45,
+        "maximum_MPa": 5
+      },
+      {
+        "settings_path": "heatdrive_ecc_coupled_se21/热流体设置",
+        "minimum_MPa": 0.45,
+        "maximum_MPa": 5
+      }
+    ],
+    "datum_MPa": 0.85,
+    "minimum_absolute_MPa": 0.45,
+    "maximum_absolute_MPa": 5,
+    "declared_margin_MPa": 0.01,
+    "requested": {
+      "fallback_min_MPa": -0.4,
+      "sma_min_MPa": -0.35,
+      "se_min_MPa": -0.5,
+      "maximum_MPa": 0.02
+    },
+    "fallback_interval_MPa": [
+      -0.37999999999999995,
+      0.02
+    ],
+    "sma_interval_MPa": [
+      -0.35,
+      0.02
+    ],
+    "se_interval_MPa": [
+      -0.5,
+      0.02
+    ],
+    "se_reference_port": "B",
+    "reference_head_budget_MPa": 0.01,
+    "named_reference_topology": {
+      "schema": "heatdrive_ecc_named_pressure_reference_topology_v1",
+      "named_wires": [
+        {
+          "from": "heatdrive_ecc_coupled_se21/SE_Stage2_PistonPressureSource:B",
+          "to": "heatdrive_ecc_coupled_se21/SE_ColdChamberJunction:C",
+          "direct_named_wire_verified": true
+        },
+        {
+          "from": "heatdrive_ecc_coupled_se21/SE_ColdChamberJunction:A",
+          "to": "heatdrive_ecc_coupled_se21/ColdFluidBuffer:A",
+          "direct_named_wire_verified": true
+        },
+        {
+          "from": "heatdrive_ecc_coupled_se21/SE_Stage2_PistonPressureSource:A",
+          "to": "heatdrive_ecc_coupled_se21/V1_cold_inlet:A",
+          "direct_named_wire_verified": true
+        },
+        {
+          "from": "heatdrive_ecc_coupled_se21/SE_Stage4_PistonPressureSource:B",
+          "to": "heatdrive_ecc_coupled_se21/SE_HotChamberJunction:C",
+          "direct_named_wire_verified": true
+        },
+        {
+          "from": "heatdrive_ecc_coupled_se21/SE_HotChamberJunction:A",
+          "to": "heatdrive_ecc_coupled_se21/HotFluidBuffer:A",
+          "direct_named_wire_verified": true
+        },
+        {
+          "from": "heatdrive_ecc_coupled_se21/SE_Stage4_PistonPressureSource:A",
+          "to": "heatdrive_ecc_coupled_se21/V4_hot_inlet:A",
+          "direct_named_wire_verified": true
+        },
+        {
+          "from": "heatdrive_ecc_coupled_se21/SMA Pressure Source (TL):A",
+          "to": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume:B",
+          "direct_named_wire_verified": true
+        },
+        {
+          "from": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume:A",
+          "to": "heatdrive_ecc_coupled_se21/SMA_V1_SHEX_to_pump:B",
+          "direct_named_wire_verified": true
+        },
+        {
+          "from": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume:A",
+          "to": "heatdrive_ecc_coupled_se21/SMA_V2_HHEX_to_pump:B",
+          "direct_named_wire_verified": true
+        },
+        {
+          "from": "heatdrive_ecc_coupled_se21/SMA_V1_SHEX_to_pump:A",
+          "to": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer:A",
+          "direct_named_wire_verified": true
+        },
+        {
+          "from": "heatdrive_ecc_coupled_se21/SMA_V2_HHEX_to_pump:A",
+          "to": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer:A",
+          "direct_named_wire_verified": true
+        },
+        {
+          "from": "heatdrive_ecc_coupled_se21/SMA Pressure Source (TL):B",
+          "to": "heatdrive_ecc_coupled_se21/FlowSensor_SMA_stage13_loop:A",
+          "direct_named_wire_verified": true
+        }
+      ],
+      "boundaries": [
+        {
+          "block": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+          "native_tank_pressure_MPa": 0.85
+        },
+        {
+          "block": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+          "native_tank_pressure_MPa": 0.85
+        },
+        {
+          "block": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+          "native_tank_pressure_MPa": 0.85
+        },
+        {
+          "block": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+          "native_tank_pressure_MPa": 0.85
+        }
+      ],
+      "source_names": [
+        "SMA Pressure Source (TL)",
+        "SE_Stage2_PistonPressureSource",
+        "SE_Stage4_PistonPressureSource"
+      ],
+      "reference_ports": [
+        "A",
+        "B",
+        "B"
+      ],
+      "source_equation": "B.p-A.p=P",
+      "installed_source_sha256": "D6337F48A716E37DBEFEEF8E0DE2D07483FCEA0FC2069059224DFE8709CD44B0",
+      "pass": true,
+      "source_or_boundary_modified": false,
+      "entire_network_pressure_proven": false,
+      "actual_pressure_observation_required": true,
+      "production_recovery_allowed": false
+    },
+    "physical_tables_modified": false,
+    "controller_gains_modified": false,
+    "integrator_states_modified": false,
+    "simulation_executed": false,
+    "runtime_all_port_pressure_verified": false,
+    "production_recovery_allowed": false
+  },
+  "observation_file": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v36_se_ref2_r1\\baseline\\native\\cold_mechanism_observation.mat",
+  "observation_sha256": "E6BE3FA131DFAF86E35EC4017694FA76DEAB14E6969D3FEC4A570540B7649F80",
+  "full_native_inventory_ledger_evaluated": false,
+  "source_port_ledger_evaluated": false,
+  "periodic_steady_state_verified": false,
+  "strict_table4_reproduction_pass": false,
+  "production_recovery_allowed": false,
+  "diagnostic_continuation_allowed": false,
+  "directional_pressure_observation": {
+    "schema": "heatdrive_ecc_directional_pressure_observation_v1",
+    "pass": true,
+    "all_six_source_faces_observed": true,
+    "source_face_domain_pass": true,
+    "reference_head_budget_pass": true,
+    "source_difference_interval_pass": true,
+    "sources": [
+      {
+        "source": "SMA Pressure Source (TL)",
+        "reference_port": "A",
+        "minimum_face_pressure_MPa": 0.60857589701553627,
+        "maximum_face_pressure_MPa": 0.85612248900255106,
+        "maximum_reference_head_MPa": 0.0061224890025510792,
+        "reference_head_budget_MPa": 0.01,
+        "minimum_B_minus_A_MPa": -0.24704909864900237,
+        "maximum_B_minus_A_MPa": -1.0000000000287557E-6,
+        "source_face_domain_pass": true,
+        "reference_head_budget_pass": true,
+        "source_difference_interval_pass": true
+      },
+      {
+        "source": "SE_Stage2_PistonPressureSource",
+        "reference_port": "B",
+        "minimum_face_pressure_MPa": 0.830983998843816,
+        "maximum_face_pressure_MPa": 1.272865584709542,
+        "maximum_reference_head_MPa": 0.0011922898904467294,
+        "reference_head_budget_MPa": 0.01,
+        "minimum_B_minus_A_MPa": -0.42183315561921775,
+        "maximum_B_minus_A_MPa": 0.020000000000000018,
+        "source_face_domain_pass": true,
+        "reference_head_budget_pass": true,
+        "source_difference_interval_pass": true
+      },
+      {
+        "source": "SE_Stage4_PistonPressureSource",
+        "reference_port": "B",
+        "minimum_face_pressure_MPa": 0.83098108609853638,
+        "maximum_face_pressure_MPa": 1.272853021224873,
+        "maximum_reference_head_MPa": 0.0010260021297143762,
+        "reference_head_budget_MPa": 0.01,
+        "minimum_B_minus_A_MPa": -0.42183315561921764,
+        "maximum_B_minus_A_MPa": 0.020000000000000018,
+        "source_face_domain_pass": true,
+        "reference_head_budget_pass": true,
+        "source_difference_interval_pass": true
+      }
+    ],
+    "entire_network_pressure_proven": false,
+    "production_recovery_allowed": false
+  }
+}
