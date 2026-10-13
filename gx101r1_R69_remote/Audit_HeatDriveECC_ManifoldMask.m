@@ -10,23 +10,32 @@ function [pass, record] = Audit_HeatDriveECC_ManifoldMask(chamber, options)
     source_bound=false; source_sha256=''; library_sha256='';
     if diagnostic
         % Other historical diagnostic variants are not implicitly qualified.
-        supported=strcmp(options.branch.independent_conservative_chamber_library,'ecc_inventory_endpoint_lib') && ...
-            strcmp(get_param(chamber,'SourceFile'),'ecc_inventory_endpoint.conservative_chamber');
+        pressure_only=isfield(options.branch,'diagnostic_manifold_storage_closure') && ...
+            strcmp(options.branch.diagnostic_manifold_storage_closure,'pressure_only_density');
+        package='ecc_inventory_endpoint';folder='simscape_inventory_endpoint';
+        library_name='ecc_inventory_endpoint_lib';chamber_source='ecc_inventory_endpoint.conservative_chamber';
+        if pressure_only
+            package='ecc_inventory_pressure_only';folder='simscape_inventory_pressure_only';
+            library_name='ecc_inventory_pressure_only_lib';chamber_source='ecc_inventory_pressure_only.conservative_chamber';
+        end
+        supported=strcmp(options.branch.independent_conservative_chamber_library,library_name) && ...
+            strcmp(get_param(chamber,'SourceFile'),chamber_source);
         ports=get_param(chamber,'PortHandles');
         geometry=supported && numel(ports.LConn)==2 && numel(ports.RConn)==1 && ...
             strcmp(get_param(chamber,'volume_unit'),'m^3') && ...
             strcmp(get_param(chamber,'area'),'sma_connecting_pipe_flow_area_m2') && ...
             strcmp(get_param(chamber,'area_unit'),'m^2');
-        if supported && bdIsLoaded('ecc_inventory_endpoint_lib')
-            loaded=get_param('ecc_inventory_endpoint_lib','FileName');
-            actual=fullfile(fileparts(loaded),'+ecc_inventory_endpoint','conservative_chamber.ssc');
+        if supported && bdIsLoaded(library_name)
+            loaded=get_param(library_name,'FileName');
+            actual=fullfile(fileparts(loaded),['+' package],'conservative_chamber.ssc');
             canonical=fullfile(fileparts(mfilename('fullpath')),'verification', ...
-                'simscape_inventory_endpoint','+ecc_inventory_endpoint','conservative_chamber.ssc');
+                folder,['+' package],'conservative_chamber.ssc');
             source_sha256=file_hash(canonical); library_sha256=file_hash(loaded);
             source_bound=strcmp(file_hash(actual),source_sha256);
         end
         pass=common && geometry && source_bound;
         kind='explicit_conservative_endpoint_diagnostic';
+        if pressure_only,kind='pressure_only_inventory_density_diagnostic';end
     else
         pass=common && strcmp(get_param(chamber,'MaskType'),sprintf('Constant Volume\nChamber (TL)')) && ...
             strcmp(get_param(chamber,'num_ports'),'foundation.enum.num_ports.two') && ...

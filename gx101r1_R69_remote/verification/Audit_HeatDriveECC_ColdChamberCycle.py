@@ -129,7 +129,7 @@ def tank_endpoint_split(mass, cp, temperature, enthalpy):
                 decomposition_is_not_a_physical_heat_correction=True)
 
 
-def custom_ledger(block, table):
+def custom_ledger(block, table, inventory_reference_temperature=None):
     leaves = {r['name']: r for r in block['leaf_variables']}
     def get(name, unit):
         r = leaves[name]
@@ -139,9 +139,17 @@ def custom_ledger(block, table):
     volume = float(convert(p['value'], p['unit'], 'm^3'))
     temp, pressure = get('T_I', 'K'), get('p_I', 'Pa')
     coords = np.column_stack((temp, pressure))
+    density_coords = coords
+    if inventory_reference_temperature is not None:
+        parameter = block['mask_parameters'].get('inventory_reference_temperature', {})
+        if (block['reference_block'] != 'ecc_inventory_pressure_only.conservative_chamber' or
+                parameter.get('unit') != 'K' or parameter.get('value') != inventory_reference_temperature or
+                not np.isfinite(inventory_reference_temperature) or inventory_reference_temperature <= 0):
+            raise ValueError('Unbound pressure-only inventory density declaration')
+        density_coords = np.column_stack((np.full_like(temp, inventory_reference_temperature), pressure))
     rho, u = get('rho_I', 'kg/m^3'), get('u_I', 'J/kg')
     if (volume <= 0 or np.any(temp <= 0) or
-            abs(table['rho'](coords)-rho).max() > DENSITY_ATOL_KG_M3 or
+            abs(table['rho'](density_coords)-rho).max() > DENSITY_ATOL_KG_M3 or
             abs(table['u'](coords)-u).max() > ENERGY_ATOL_J_KG):
         raise ValueError('Custom chamber property or geometry mismatch')
     mass, energy = volume*rho, volume*rho*u
@@ -164,6 +172,10 @@ def custom_ledger(block, table):
                local_chamber_gate=ledger(t, mass, energy, mdot, power))
     row.update({k+'_end': float(v[-1]) for k, v in history.items()})
     row.update({k+'_max_abs': float(abs(v).max()) for k, v in history.items()})
+    if inventory_reference_temperature is not None:
+        row['inventory_density_basis'] = 'rho(T_initial,p); transport tables and u(T,p) remain unchanged'
+        row['inventory_reference_temperature_K'] = float(inventory_reference_temperature)
+        row['real_fluid_EOS_claim'] = False
     return row, history
 
 

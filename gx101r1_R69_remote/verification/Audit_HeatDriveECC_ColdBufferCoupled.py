@@ -459,7 +459,7 @@ def buffer_ledger(rows, path, table, contract, nonlinear_inventory=False, mass_f
 
 
 def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_formulation='direct', start=0, stop=10,
-              observation_file='observations.mat', public_observation_file=None):
+              observation_file='observations.mat', public_observation_file=None, pressure_only_density=False):
     meta = read(folder/'inventory_metadata.json')
     tables = {r['block_path']: energy_tables(r['parameters']) for r in meta['settings_tables']}
     densities = {r['block_path']: density_table(r['parameters']) for r in meta['settings_tables']}
@@ -467,6 +467,14 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_for
     time = None; components = []; consumed = set()
     source_files = {b['block_path']: b['source_file'] for b in read(folder/'tl_connectivity.json')['blocks']}
     endpoint_chamber = 'ecc_inventory_endpoint.conservative_chamber' in set(source_files.values())
+    pressure_only_paths = {path for path, source in source_files.items()
+                           if source == 'ecc_inventory_pressure_only.conservative_chamber'}
+    if bool(pressure_only_paths) != pressure_only_density:
+        raise ValueError('Pressure-only inventory requires an explicit separate formulation audit')
+    if pressure_only_density:
+        if pressure_only_paths != CHAMBERS or folder.name != 'native':
+            raise ValueError('Pressure-only storage must affect exactly the two declared SMA manifolds')
+        endpoint_chamber = True
     finite_shared_storage = meta.get('se_shared_junction_storage_mode') == 'finite_leg_chambers_diagnostic'
     arm_assignment = dict(assignment)
     if finite_shared_storage:
@@ -519,7 +527,10 @@ def cycle_arm(folder, assignment, contracts, nonlinear_inventory=False, mass_for
                            component_detail=detail)
             elif block['conservative_diagnostic']:
                 if path not in CHAMBERS: raise ValueError('Unknown custom storage')
-                row, h = custom_ledger(block, table)
+                reference_temperature = None
+                if pressure_only_density:
+                    reference_temperature = block['mask_parameters']['inventory_reference_temperature']['value']
+                row, h = custom_ledger(block, table, inventory_reference_temperature=reference_temperature)
             else:
                 row, h = ledgers(block, table, nominal)
             row['stages'] = stage_totals_window(h, time); components.append(row)

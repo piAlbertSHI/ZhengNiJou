@@ -6295,3 +6295,20 @@ SMAHot 单周期质量损失从 0.163354874 g 降至 0.016317794 g，比值 0.09
 完整 Python 回归 765/765 通过，新增完整周期/错误校验策略/篡改状态/缺项信号/机制缺项反例；PowerShell 清理脚本 AST 通过。`workspace_governance_20261014_v37` 分类主库 outputs/audit 834 目录、16.032109 GiB，C200/C180 四项实文件 SHA 匹配，统计不包含全部执行 worktree 或 Agent6。本轮所有必需命令已自然结束，恢复接口已解决，完整 SMA-SE 科学目标继续有效而尚未完成。
 
 收尾科学提交主库 `b068735`、执行镜像 `6ac1e03`，执行副本回归同样 765/765。新增共同参考/稳定本构源码差异检查仅针对 coherent 恢复，不追溯阻止未使用这些模块的历史默认路径。原始日志保留 MATLAB 自带行尾空格和控制字节，SHA 证据不做格式清洗；源码与报告另行检查。未将日志格式告警误报为仿真或科学门禁失败。
+
+## 269. SMA 连接库存的方程层干预，而非继续调 PI（2026-10-14）
+
+前轮完整周期恢复已经通过，不重复审核。本轮核实无存活 ECC MATLAB 后，回到已被体积反事实确认的 SMA 热库存迁移。Qian 2019 实际 PDF 第 3 页说明附件只使用能量方程，第 5 页将附件模型指向 2015 文献 [29]，第 6 页 Table 2 给出 3.2 mm、0.2 m 连接管；2015 实际 PDF 第 7 页列出小温区恒定物性及不可压流假设。2019 明确初始化所有组件为环境温度，而本项目现有独立 t=0 比较的连接腔实际为约 393.15 K；不能把本实验称为完全一致的原文冷启动。
+
+原文 Fig.1 的共用泵/切换路径也不支持未经证明将两个连接腔拆成互不混合的独立路线。MathWorks 的真实 Constant Volume Chamber (TL) 官方方程明确包含随温度/压力变化的储质量：https://www.mathworks.com/help/simscape/ref/constantvolumechambertl.html 。因此局部质量守恒通过而两个 buffer 端点质量不稳并不矛盾；不能直接放宽端点门禁，也不应继续因恢复接口而卡住。
+
+实施独立 `pressure_only_density` 连接腔：`M=V*rho(T_initial,p)`、`U=M*u(T,p)`，原 `dM/dt=mdot_A+mdot_B`、`dU/dt=Phi_A+Phi_B+Q_H` 完全保留。仅储质量密度中的温度自变量被固定到该腔实际 t=0 温度；压力压缩性、能量物性、端口输运物性表、几何及共同 SE 参考/PI 命令不改变。这是明确的近似假设对照，不是完整真实流体 EOS，不是已证明的 2019 原附件实现，更不是物理装置修复。其潜在温区误差必须通过后续敏感性单独量化。
+
+新组件 opt-in、源码/编译库哈希绑定、原始冷态 204 坐标合同及原严格容差保持。原 full-EOS 审核仍会拒绝压力-only 密度；新审核必须显式声明实际新 SourceFile、两个腔的参考温度及全局质量/热量边界，不能将新方程当成原 EOS 的“通过”。代码归一化回归证明除新增参数/其物性范围断言和密度查询温度外，其余组件方程逐项相同。Python 回归 773/773；首轮仅因旧静态测试要求端点库名字面量而失败，已恢复显式两库/两 SourceFile 绑定，未放宽科学容差。
+
+执行计划复用已完成 coherent C1 基线，仅运行新模型 0–10 s，不导入 C200/C142/C2 状态。完整 multi-cycle、稳态、outer solve 和 strict Table 4 权限均不自动开放。新原件写全新短路径 `v38_density_r1`，运行后追加实际结果；不在仿真前宣称问题已解决。
+
+文献原件位置：
+
+- `C:\Users\86182\Desktop\冷凝文献\弹热制冷文献\A heat driven elastocaloric cooling system..pdf`：Energy 182 (2019) 881–899，DOI `10.1016/j.energy.2019.06.094`，本轮实际 PDF 第 3/4/5/6 页。
+- `C:\Users\86182\Desktop\冷凝文献\弹热制冷文献\（3）Thermodynamics cycle analysis and numerical modeling of thermoelastic cooling systems.pdf`：International Journal of Refrigeration 56 (2015) 65–80，DOI `10.1016/j.ijrefrig.2015.04.001`，本轮实际 PDF 第 7 页，期刊页 71。

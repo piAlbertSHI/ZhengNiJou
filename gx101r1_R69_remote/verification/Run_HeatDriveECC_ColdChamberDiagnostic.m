@@ -27,6 +27,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         state_capture_options.mode,cycle_count,duration,diagnostic_arm,endpoint_all_arms);
     reference_options=Resolve_HeatDriveECC_SEReferenceDiagnostic(reference_options, ...
         state_capture_options.mode,cycle_count,duration,diagnostic_arm,endpoint_all_arms);
+    pressure_only=isfield(inventory_options,'storage_closure');
     assert(isstruct(constitutive_options) && isscalar(constitutive_options), ...
         'Constitutive diagnostic options must be a scalar struct.');
     constitutive_fields=fieldnames(constitutive_options);
@@ -343,6 +344,9 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         end
         overrides.simulation.persist_model_configuration=false;
         overrides.simulation.resume_checkpoint_path='';
+        if pressure_only
+            overrides.branch.diagnostic_manifold_storage_closure=inventory_options.storage_closure;
+        end
         if isfield(inventory_options,'volume_factor')
             nominal_volume=overrides.branch.sma_pump_manifold_volume_m3;
             overrides.branch.sma_pump_manifold_volume_m3=nominal_volume*inventory_options.volume_factor;
@@ -411,6 +415,17 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             record.compiled_inventory_gate_sha256=file_hash(audit_path);
             record.endpoint_chamber_source_sha256=file_hash(source_variant);
             package='ecc_inventory_endpoint';source_folder='simscape_inventory_endpoint';
+            if pressure_only
+                package='ecc_inventory_pressure_only';source_folder='simscape_inventory_pressure_only';
+                source_variant=fullfile(repo,'verification',source_folder,['+' package],'conservative_chamber.ssc');
+                record.endpoint_chamber_source_sha256=file_hash(source_variant);
+                record.inventory_intervention=struct('schema','heatdrive_ecc_pressure_only_storage_intervention_v1', ...
+                    'storage_closure','pressure_only_density','geometry_changed',false, ...
+                    'property_tables_changed',false,'mass_and_energy_conservation_unchanged',true, ...
+                    'inventory_density_is_not_transport_density',true,'source_state_loaded',false, ...
+                    'real_fluid_EOS_claim',false,'paper_exact_accessory_model_claim',false, ...
+                    'production_recovery_allowed',false);
+            end
         elseif specific_inventory
             audit_path=fullfile(repo,'outputs_storage_audit','compiled_specific_inventory_audit_20260909', ...
                 'compiled_inventory_state_audit.json');
@@ -552,6 +567,11 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     rows=prior.native(cellfun(@(r) strcmp(r.block_path,changed{k}),prior.native));
                     rho=initial_value(rows,'rho_I','kg/m^3'); u=initial_value(rows,'u_I','J/kg');
                     mass=options.branch.sma_pump_manifold_volume_m3*rho;
+                    if pressure_only
+                        reference_T=initial_value(rows,'T_I','K');
+                        set_param(changed{k},'inventory_reference_temperature',num2str(reference_T,'%.17g'), ...
+                            'inventory_reference_temperature_unit','K');
+                    end
                     set_param(changed{k},'stored_mass_specify','on','stored_mass_priority','High', ...
                         'stored_mass',num2str(mass,'%.17g'),'stored_mass_unit','kg', ...
                         'stored_energy_specify','on','stored_energy_priority','High', ...
@@ -566,6 +586,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     initial_targets{k}=struct('block_path',changed{k},'stored_mass_kg',mass, ...
                         'stored_energy_J',mass*u,'source_time_s',0, ...
                         'source_sha256',initial_observation_sha256);
+                    if pressure_only,initial_targets{k}.inventory_reference_temperature_K=reference_T;end
                 end
                 write_json(fullfile(arm,'cold_inventory_targets.json'),initial_targets);
                 if buffer_mass_guess
@@ -939,7 +960,7 @@ function metadata=export_metadata(model,changed,buffer_paths)
     modes={'dynamic_compressibility','inertia','mass_type','p_nominal','p_nominal_unit','T_nominal','T_nominal_unit','num_ports','num_inlet','volume_spec'};
     params={'area','length','volume','mass','sp_heat','tank_area','g','inlet_height_A', ...
         'port_area','p_environment','gravity','reference_temperature','auxiliary_depth', ...
-        'initial_stored_mass'};
+        'initial_stored_mass','inventory_reference_temperature'};
     for kind=1:5
         blocks=find_system(model,'LookUnderMasks','all','FollowLinks','on','Type','Block','MaskType',types{kind});
         if kind==3, blocks=[blocks(:);changed(:)]; end
