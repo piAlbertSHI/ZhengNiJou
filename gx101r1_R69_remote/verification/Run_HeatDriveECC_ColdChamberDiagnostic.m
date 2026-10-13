@@ -500,7 +500,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     getSimulinkBlockHandle([model '/ToWorkspace_distributed_pressure_feedforward_MPa'])>0, ...
                     'HeatDriveECC:MissingControllerWiring','Distributed controller was not wired.');
                 if isfield(reference_options,'mode')
-                    reference_contract=Configure_HeatDriveECC_SEReferenceClosure(model,options,distributed_ff_contract);
+                    reference_contract=Configure_HeatDriveECC_SEReferenceClosure(model,options,distributed_ff_contract,simulation_start,simulation_stop);
                     write_json(fullfile(arm,'se_reference_contract.json'),reference_contract);
                     distributed_ff_contract.pressure_envelope.PI_flow_target_modified=true;
                     distributed_ff_contract.coherent_PI_reference_contract='se_reference_contract.json';

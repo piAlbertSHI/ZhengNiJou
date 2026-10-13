@@ -141,7 +141,7 @@ def initial_pressure_effect(record, volume, temperature_K, table):
         pressure_tolerance_changed=False)
 
 
-def initial_coordinates(a_folder, b_folder):
+def initial_coordinates(a_folder, b_folder, candidate_volume_factor=.1):
     targets = [read(folder/'native/public_inventory_targets.json') for folder in (a_folder, b_folder)]
     for target in targets:
         if target['has_private_data'] or target['source_time_s'] != 0 or len(target['targets']) != 204:
@@ -156,7 +156,7 @@ def initial_coordinates(a_folder, b_folder):
         aa, bb = checked_rows(a, 'native', 1262), checked_rows(b, 'native', 1262)
         for key, reference in expected_rows[0].items():
             candidate = expected_rows[1][key]
-            factor = .1 if key[0] in {ROOT+name for name in CHAMBER_NAMES} and key[1] in ('stored_mass', 'stored_energy') else 1
+            factor = candidate_volume_factor if key[0] in {ROOT+name for name in CHAMBER_NAMES} and key[1] in ('stored_mass', 'stored_energy') else 1
             if (candidate['unit'] != reference['unit'] or candidate['priority'] != reference['priority']
                     or not compare_initial(candidate['value']/factor, reference['value'])['within_strict_comparison']):
                 raise ValueError('An undeclared public cold target changed')
