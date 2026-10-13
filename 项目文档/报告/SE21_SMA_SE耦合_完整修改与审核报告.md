@@ -6314,3 +6314,5 @@ SMAHot 单周期质量损失从 0.163354874 g 降至 0.016317794 g，比值 0.09
 - `C:\Users\86182\Desktop\冷凝文献\弹热制冷文献\（3）Thermodynamics cycle analysis and numerical modeling of thermoelastic cooling systems.pdf`：International Journal of Refrigeration 56 (2015) 65–80，DOI `10.1016/j.ijrefrig.2015.04.001`，本轮实际 PDF 第 7 页，期刊页 71。
 
 首个实际执行 `v38_density_r1` 退出 1，发生在组件库编译阶段，未启动耦合仿真：`ssc_build` 的默认液体域上限小于占位参数 393.15 K，触发新参数物性范围断言。将组件库占位默认值改为 300 K，实际模型装配仍逐腔设置测得的 t=0 温度，物性范围断言和实际实验条件不改变。r1 完整失败回执/源码保留，新验证使用 `v38_density_r2`，不覆盖、不传播、不盲目重试。
+
+r2 两个库已编译成功，在冷态目标构造阶段退出 1，仍未开始仿真。Simscape 从组件首段注释生成多行显示名，新类显示名不含 `Chamber`，旧初始通量入口依据显示名识别而非 SourceFile。补入精确 `ecc_inventory_pressure_only.conservative_chamber` 类身份，仍使用相同物理 flux、125 项 High/79 项 Low、原校准和原容差；不改类注释伪装成旧组件。r2 完整失败证据保留，新验证目录 r3。
