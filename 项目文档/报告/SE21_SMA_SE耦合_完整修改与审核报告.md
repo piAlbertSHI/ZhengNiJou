@@ -6346,3 +6346,5 @@ r4 单次前台 session `24881` 自然退出 0，执行 producer `4a621e9e7938c3
 保存 27 份失败/当前 compact JSON/log/源码，共 708061 bytes；r3 作为编译坐标反例、r4 当前原生 MAT 均只留执行副本一份。只退役可再生 cache/codegen 和两套不合格初稿图，10 目录实际 591625 bytes；10 份关键保留文件及 C200/C180 四项权威 SHA 全部一致。清理脚本的 ordered-dictionary 控制台选择初次显示 null，但原始回执数值完整，已直接读回核实并修正显示类型，没有重做删除或重复计数。r1/r2/r3 失败证据没有丢失，用户 SLX、Agent6 未触及。
 
 本轮完整 Python 回归 774/774、清理脚本 AST 通过。治理快照 `workspace_governance_20261014_v38` 分类主库 outputs/audit 836 目录、16.033161 GiB，C200/C180 四项 SHA 均通过；仍不将主库统计误称整个执行 worktree/Agent6 占用。主库只归档 compact 证据及审核后的图，整个目标未完成、不标 complete 或 blocked。另核对原文 Table 4 位于实际 PDF 第 17 页（期刊页 897）：32 根 1 mm SMA 丝、两片 0.5 mm×17 mm SE 板及原型流量/频率，与 Table 2 的示例床不同；后续质量基准/利用率不得将两表床几何混用。
+
+科学归档提交主库 `39aa0f8`、执行镜像 `e9e88a9`；两处完整回归均 774/774，38 个本轮证据/图文件与 Git blob 原字节一致。执行 checkout 干净；主库只留原有未解释 SLX 修改及 Agent6，未提交或回退。所有必需进程已自然结束，本轮不是 verified-wait 或状态重复，而是新的方程干预、真实比较和保守状态修复证据。目标继续 active。
