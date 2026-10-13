@@ -1,7 +1,11 @@
-function study = Run_HeatDriveECC_ManifoldInventoryCounterfactual(config_path, output_root)
+function study = Run_HeatDriveECC_ManifoldInventoryCounterfactual(config_path, output_root, completed_baseline_root)
 % Paired independent cold experiments; no OP/history imports or gate relaxation.
     config_path=char(java.io.File(config_path).getCanonicalPath());
     output_root=char(java.io.File(output_root).getCanonicalPath());
+    if nargin<3, completed_baseline_root=''; end
+    if ~isempty(completed_baseline_root)
+        completed_baseline_root=char(java.io.File(completed_baseline_root).getCanonicalPath());
+    end
     assert(~isfolder(output_root),'Never overwrite a counterfactual study.');
     base=jsondecode(fileread(config_path));
     compiled_path=fullfile(output_root,'volume_0p1','cache','slprj','_sfprj', ...
@@ -30,10 +34,26 @@ function study = Run_HeatDriveECC_ManifoldInventoryCounterfactual(config_path, o
         for k=1:2
             config=base;config.output_root=fullfile(output_root,names{k});
             config.diagnostic_inventory_options=struct('volume_factor',factors(k));
+            reuse_baseline=k==1 && ~isempty(completed_baseline_root);
+            if reuse_baseline
+                config.output_root=completed_baseline_root;
+                prior_config=jsondecode(fileread(fullfile(fileparts(completed_baseline_root),'baseline_config.json')));
+                assert(isequaln(prior_config,config),'Completed baseline configuration differs.');
+                result=jsondecode(fileread(fullfile(completed_baseline_root,'cold_chamber_execution.json')));
+                assert(result.requested_arm_collection_pass && isempty(result.error_message) && ...
+                    result.start_time_s==0 && result.stop_time_s==10 && ~result.checkpoint_saved && ...
+                    ~result.c200_state_imported && ~result.production_recovery_allowed && ...
+                    result.inventory_intervention.volume_factor==1 && numel(result.cases)==1 && ...
+                    strcmp(file_hash(fullfile(completed_baseline_root,'native','observations.mat')), ...
+                    result.cases(1).observation_sha256), 'Completed baseline is not intact.');
+            end
             path=fullfile(output_root,[names{k},'_config.json']);
             write_json(path,config);
-            result=Run_HeatDriveECC_IndependentColdDiagnosticFromConfig(path);
+            if ~reuse_baseline
+                result=Run_HeatDriveECC_IndependentColdDiagnosticFromConfig(path);
+            end
             item=struct('name',names{k},'volume_factor',factors(k),'config_sha256',file_hash(path), ...
+                'case_root',config.output_root,'reused_completed_case',reuse_baseline, ...
                 'requested_arm_collection_pass',result.requested_arm_collection_pass, ...
                 'error_message',result.error_message,'execution_sha256', ...
                 file_hash(fullfile(config.output_root,'cold_chamber_execution.json')));

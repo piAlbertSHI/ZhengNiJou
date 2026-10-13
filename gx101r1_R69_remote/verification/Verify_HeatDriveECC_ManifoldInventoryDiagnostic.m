@@ -17,6 +17,23 @@ function result = Verify_HeatDriveECC_ManifoldInventoryDiagnostic()
         rejected=false;try, failures{k}();catch, rejected=true;end
         assert(rejected,'Invalid intervention was not rejected.');
     end
-    result=struct('positive_cases',3,'negative_cases',numel(failures),'pass',true);
+    geometry=struct('branch',struct('sma_pump_manifold_volume_m3',1e-6, ...
+        'connecting_pipe_flow_area_m2',1e-5,'connecting_pipe_length_m',.1, ...
+        'independent_conservative_chamber_diagnostic',true), ...
+        'validation',struct('sensitivity_mode',false,'sensitivity_declared_transition_fields',{{}}), ...
+        'simulation',struct('persist_model_configuration',false,'resume_checkpoint_path',''));
+    assert(Check_HeatDriveECC_DiagnosticManifoldGeometry(geometry));
+    geometry.branch.sma_pump_manifold_volume_m3=1e-7;
+    assert(~Check_HeatDriveECC_DiagnosticManifoldGeometry(geometry));
+    geometry.branch.cold_manifold_inventory_volume_factor=.1;
+    geometry.validation.sensitivity_mode=true;
+    geometry.validation.sensitivity_declared_transition_fields={'branch.sma_pump_manifold_volume_m3'};
+    assert(Check_HeatDriveECC_DiagnosticManifoldGeometry(geometry));
+    geometry.simulation.persist_model_configuration=true;
+    assert(~Check_HeatDriveECC_DiagnosticManifoldGeometry(geometry));
+    geometry.simulation.persist_model_configuration=false;
+    geometry.simulation.resume_checkpoint_path='forbidden.mat';
+    assert(~Check_HeatDriveECC_DiagnosticManifoldGeometry(geometry));
+    result=struct('positive_cases',5,'negative_cases',numel(failures)+3,'pass',true);
     fprintf('%s\n',jsonencode(result));
 end

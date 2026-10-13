@@ -343,6 +343,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         if isfield(inventory_options,'volume_factor')
             nominal_volume=overrides.branch.sma_pump_manifold_volume_m3;
             overrides.branch.sma_pump_manifold_volume_m3=nominal_volume*inventory_options.volume_factor;
+            overrides.branch.cold_manifold_inventory_volume_factor=inventory_options.volume_factor;
             overrides.validation.sensitivity_mode=true;
             overrides.validation.sensitivity_declared_transition_fields={'branch.sma_pump_manifold_volume_m3'};
             record.inventory_intervention=struct('schema','heatdrive_ecc_cold_manifold_volume_intervention_v1', ...
