@@ -24,8 +24,12 @@ function options = Resolve_HeatDriveECC_SEReferenceDiagnostic(options, state_mod
             assert(isfield(options,'rebuilt_state_audit_path'), ...
                 'The rebuilt reference case requires the passed paired C2 physics/state audit.');
             paired=jsondecode(fileread(options.rebuilt_state_audit_path));
-            Require_HeatDriveECC_SEReferenceCheckpoint( ...
-                fullfile(paired.source_root,'coherent'),options.rebuilt_state_audit_path);
+            if strcmp(paired.schema,'heatdrive_ecc_storage_closure_state_qualification_audit_v1')
+                Require_HeatDriveECC_StorageClosureCheckpoint(paired.source_root,options.rebuilt_state_audit_path);
+            else
+                Require_HeatDriveECC_SEReferenceCheckpoint( ...
+                    fullfile(paired.source_root,'coherent'),options.rebuilt_state_audit_path);
+            end
         end
     else
         assert(~isfield(options,'cold_followup_audit_path'),'Do not attach a followup authority to a single cold case.');
