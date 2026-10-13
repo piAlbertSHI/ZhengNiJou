@@ -20,6 +20,24 @@ from Audit_HeatDriveECC_CoupledEnergyInventory import (
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from Audit_HeatDriveECC_TLDomainInventory import density_table, resolve_domains
 
+COMMAND_NAMES={'L_valve_command','SMA_L_valve_command','SMA_pressure_bias_command',
+    'SMA_pressure_feedback_enable_command','SMA_pressure_feedback_reset_command',
+    'SE_stage2_pressure_integrator_output_enable_command','SE_stage4_pressure_integrator_enable_command',
+    'SE_stage4_pressure_integrator_output_enable_command'}
+
+
+def compare_commands(a,b):
+    if set(a)!=COMMAND_NAMES or set(b)!=COMMAND_NAMES:
+        raise ValueError('Require all eight actual independent-route command contracts')
+    for name in COMMAND_NAMES:
+        for field in ('time_s','values'):
+            aa,bb=np.asarray(a[name][field]),np.asarray(b[name][field])
+            if not np.isfinite(aa).all() or not np.array_equal(aa,bb):
+                raise ValueError('Command values or clocks differ')
+        time=np.asarray(a[name]['time_s']).ravel()
+        if time[0]!=0 or time[-1]!=10 or np.any(np.diff(time)<=0):
+            raise ValueError('Incomplete cold command horizon')
+
 
 def compare_configs(a, b):
     a, b = copy.deepcopy(a), copy.deepcopy(b)
@@ -268,12 +286,7 @@ def audit(study_root):
         if edges(read(folders[0]/'native'/topology)) != edges(read(folders[1]/'native'/topology)):
             raise ValueError('Case physical wiring differs')
     with h5py.File(folders[0]/'native/configuration.mat') as a, h5py.File(folders[1]/'native/configuration.mat') as b:
-        if set(a['commands']) != set(b['commands']) or len(a['commands']) != 5:
-            raise ValueError('Changed command coverage')
-        for name in a['commands']:
-            for field in ('time_s', 'values'):
-                if not np.array_equal(a['commands'][name][field][:], b['commands'][name][field][:]):
-                    raise ValueError('Commands changed between cold cases')
+        compare_commands(a['commands'],b['commands'])
     cases = [analyze_case(folder, execution) for folder, execution in zip(folders, executions)]
     initialization = initial_coordinates(*folders)
     baseline = {row['buffer']: row for row in cases[0]['mass_budget']['buffers']}

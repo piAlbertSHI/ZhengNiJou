@@ -3,11 +3,29 @@ import unittest
 
 import numpy as np
 
-from Analyze_HeatDriveECC_ManifoldCounterfactual import compare_configs, compare_metadata, mass_budget
+from Analyze_HeatDriveECC_ManifoldCounterfactual import COMMAND_NAMES, compare_commands, compare_configs, compare_metadata, mass_budget
 from Audit_HeatDriveECC_CoupledEnergyInventory import BUFFER_NAMES, CHAMBER_NAMES, ROOT
 
 
 class CounterfactualContractTests(unittest.TestCase):
+    def commands(self):
+        return {name:dict(time_s=np.array([0.,5.,10.]),values=np.array([0.,1.,0.])) for name in COMMAND_NAMES}
+
+    def test_eight_route_commands_match(self):
+        a=self.commands();compare_commands(a,copy.deepcopy(a))
+
+    def test_legacy_five_command_coverage_rejected(self):
+        a=self.commands();a.pop('SE_stage4_pressure_integrator_enable_command')
+        with self.assertRaises(ValueError):compare_commands(a,a)
+
+    def test_changed_command_value_rejected(self):
+        a=self.commands();b=copy.deepcopy(a);b['L_valve_command']['values'][1]=2
+        with self.assertRaises(ValueError):compare_commands(a,b)
+
+    def test_truncated_command_horizon_rejected(self):
+        a=self.commands();a['L_valve_command']['time_s'][-1]=9
+        with self.assertRaises(ValueError):compare_commands(a,a)
+
     def configs(self):
         base = dict(diagnostic_state_options={'mode': 'off', 'command_horizon_cycles': 1},
             cycle_count=1, duration_s=10, diagnostic_arm='native', endpoint_all_arms=True,
