@@ -1,0 +1,71 @@
+{
+  "schema": "heatdrive_ecc_reboot_recovery_closeout_v1",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v36_se_ref2_r1\\coherent",
+  "restored_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v37_ref_restore_r1",
+  "source_audit_sha256": "CBA7E8300CF7EDD255CA86BD1ABF07EC43CE7158E631B353D02CD1C9410F44F7",
+  "local_ledger_sha256": "F8111A5B25E37DAF6C25C704A2CB693675FD5718C54CD0989287E6302170C594",
+  "execution_commit": "50bd6ad272b5e993586176b7ade6e3cc5d9ab443",
+  "actual_restored_window_s": [
+    20,
+    30
+  ],
+  "source_checkpoint_time_s": 20,
+  "source_operating_point_sha256": "52C9E3CD622865E7900613346BD10E4928C1920933DBC3B5E8DA1D53BFCFBDCE",
+  "source_history_sha256": "E0B3C05D1F9C9A504F537E6DDA179DACCA3BDA6A2DA5B3DB54E30E2CA3E22883",
+  "restored_endpoint_operating_point_saved": false,
+  "exact_state_groups": 74,
+  "exact_signals": 201,
+  "samples_per_comparison": 10001,
+  "maximum_state_or_signal_difference": 0,
+  "checksum_policy": "error/error",
+  "full_cycle_restore_verified": true,
+  "mechanism_checks_passed": 73,
+  "local_inventory_pass": true,
+  "modeled_energy_balance": {
+    "external_modeled_heat_BE_J": 11.187200452618313,
+    "native_constitutive_heat_BE_J": 0.06526389769993557,
+    "sensible_inventory_plus_pdv_J": 11.252464350091842,
+    "total_inventory_including_latent_plus_pdv_J": 11.187200452394464,
+    "command_to_native_pipeline_difference_J": -4.376943252282217e-12,
+    "external_heat_minus_total_storage_J": 2.2384938347386196e-10,
+    "numerical_terms_retained_residual_J": 2.2633983576270111e-10,
+    "model_equation_energy_closure_pass": true,
+    "energy_tolerance_J": 1e-08,
+    "quadrature": "native local backward Euler; measured absolute millisecond intervals",
+    "latent_heat_counted_once": true,
+    "engineering_pump_proxy_added_as_heat": false
+  },
+  "C3_buffers": {
+    "ColdFluidBuffer": {
+      "endpoint_mass_change_kg": -1.3989439881512133e-06,
+      "mass_equation_residual_kg": 6.938893903907228e-18
+    },
+    "HotFluidBuffer": {
+      "endpoint_mass_change_kg": 1.3989439881512133e-06,
+      "mass_equation_residual_kg": -6.938893903907228e-18
+    },
+    "SHEXFluidBuffer": {
+      "endpoint_mass_change_kg": 0.0001633126240773719,
+      "mass_equation_residual_kg": 2.6291902682773483e-18
+    },
+    "SMAHotFluidBuffer": {
+      "endpoint_mass_change_kg": -0.00016327922292956598,
+      "mass_equation_residual_kg": -7.724940478959219e-18
+    }
+  },
+  "periodic_steady_state": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "table4_reproduction_claim": false,
+  "source_state_reset": false,
+  "diagnostic_warmup_launched": false,
+  "input_sha256": {
+    "cold_chamber_execution.json": "A38A6BAA57A2A3D942BF783BAB77E9CF0A7DBEF71D5AED9CCEB98B0F2D1FB73D",
+    "native/rebuilt_cycle_restore.json": "6DA25D8D2CC32C2444A9FD1EA2A8A3E362DDEFCE970EA033C1AF8DD0E47FBC44",
+    "native/rebuilt_cycle_comparison.mat": "6C79C8FB69E052D1FEDEE2ABEBA0C544F4175FE744837636B93E0F797DE9A9F1",
+    "native/restored_native_ledger_observation.mat": "9B5D649AC3C01FB6DE6AE778A5CF39F1B30D152A8017E9286FE81B273E39AEF4",
+    "native/restored_physical_observation.mat": "8B0C32D9E9CB0AA72B05CD02FB274F4E33534208EBFDDAB694957DB3D1527845",
+    "native/configuration.mat": "58B20931B147CE5946D534D5D74C2C09516BE96B8B53A7FE8040845191FEB64E"
+  },
+  "interpretation": "C2 survived reboot and restores exactly over C3. C3 is a comparison, not a new saved endpoint. Continue structural SMA work; do not hide inventory migration with longer warmup or import C200."
+}

@@ -1,0 +1,2586 @@
+{
+  "schema": "heatdrive_ecc_rebuilt_cycle_restore_v1",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v36_se_ref2_r1\\coherent",
+  "source_operating_point_sha256": "52C9E3CD622865E7900613346BD10E4928C1920933DBC3B5E8DA1D53BFCFBDCE",
+  "source_history_sha256": "E0B3C05D1F9C9A504F537E6DDA179DACCA3BDA6A2DA5B3DB54E30E2CA3E22883",
+  "start_time_s": 20,
+  "stop_time_s": 30,
+  "checksum_policy": "error/error",
+  "source_state_edited": false,
+  "partial_state_restore_used": false,
+  "rebuilt_complete_cycle_pass": true,
+  "state_comparisons": [
+    {
+      "name": "heatdrive_ecc_coupled_se21/DistributedFFTemperatureDelay",
+      "state_name": "DSTATE",
+      "channels": 21,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/ECC_Constitutive21_SE_TempDelay",
+      "state_name": "DSTATE",
+      "channels": 21,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/ECC_Constitutive21_SMA_TempDelay",
+      "state_name": "DSTATE",
+      "channels": 21,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/ECC_Constitutive21_StateDelay",
+      "state_name": "DSTATE",
+      "channels": 210,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/PressurePI_ErrorLag",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/PressurePI_SimulinkPS",
+      "state_name": "Discrete_3618734018",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/HoldThermalGateCommandPS",
+      "state_name": "Discrete_2417034514",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_01",
+      "state_name": "Discrete_2909875362",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_02",
+      "state_name": "Discrete_525463730",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_03",
+      "state_name": "Discrete_573692162",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_04",
+      "state_name": "Discrete_1704043474",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_05",
+      "state_name": "Discrete_1492224610",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_06",
+      "state_name": "Discrete_3667991987",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_07",
+      "state_name": "Discrete_3888198659",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_08",
+      "state_name": "Discrete_1573900918",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_09",
+      "state_name": "Discrete_1622145990",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_10",
+      "state_name": "Discrete_655327510",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_11",
+      "state_name": "Discrete_443525286",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_12",
+      "state_name": "Discrete_2823779510",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_13",
+      "state_name": "Discrete_2502909190",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_14",
+      "state_name": "Discrete_3532597206",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_15",
+      "state_name": "Discrete_4025421414",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_16",
+      "state_name": "Discrete_1841273271",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_17",
+      "state_name": "Discrete_1356836871",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_18",
+      "state_name": "Discrete_3680215256",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_19",
+      "state_name": "Discrete_3862661480",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_20",
+      "state_name": "Discrete_2711352248",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatPS_21",
+      "state_name": "Discrete_2633751048",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SEStage2PressureFFTemperatureDelay",
+      "state_name": "DSTATE",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SEStage2PressurePI_Integrator",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SEStage4PressureFFInletTemperatureDelay",
+      "state_name": "DSTATE",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SEStage4PressureFFOutletTemperatureDelay",
+      "state_name": "DSTATE",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SEStage4PressureFFTemperatureDelay",
+      "state_name": "DSTATE",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SEStage4PressurePI_Integrator",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGateCommandPS",
+      "state_name": "Discrete_786105880",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/HoldThermalGateCommandPS",
+      "state_name": "Discrete_331034536",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_01",
+      "state_name": "Discrete_1411077496",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_02",
+      "state_name": "Discrete_1769700552",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_03",
+      "state_name": "Discrete_3945523993",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_04",
+      "state_name": "Discrete_3595289257",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_05",
+      "state_name": "Discrete_268923773",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_06",
+      "state_name": "Discrete_761748173",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_07",
+      "state_name": "Discrete_1791434781",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_08",
+      "state_name": "Discrete_1470564781",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_09",
+      "state_name": "Discrete_3850884541",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_10",
+      "state_name": "Discrete_3639081997",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_11",
+      "state_name": "Discrete_2672264925",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_12",
+      "state_name": "Discrete_2720509805",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_13",
+      "state_name": "Discrete_544684220",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_14",
+      "state_name": "Discrete_488050956",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_15",
+      "state_name": "Discrete_218252229",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_16",
+      "state_name": "Discrete_811756149",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_17",
+      "state_name": "Discrete_2009206949",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_18",
+      "state_name": "Discrete_1252145429",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_19",
+      "state_name": "Discrete_4169327877",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_20",
+      "state_name": "Discrete_3319975093",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatPS_21",
+      "state_name": "Discrete_2185410149",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMAPressurePI_ErrorLag",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMAPressurePI_Integrator",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMAPressurePI_SimulinkPS",
+      "state_name": "Discrete_3206717397",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMAValveCmdPS1",
+      "state_name": "Discrete_1030883332",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMAValveCmdPS2",
+      "state_name": "Discrete_1188276",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMAValveCmdPS3",
+      "state_name": "Discrete_3328086112",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMAValveCmdPS4",
+      "state_name": "Discrete_4215192016",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMAValveCmdPS5",
+      "state_name": "Discrete_3164521216",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/SMAValveCmdPS6",
+      "state_name": "Discrete_2180967088",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/Simulink-PS Converter",
+      "state_name": "Discrete_870200992",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/Simulink-PS Converter1",
+      "state_name": "Discrete_247340816",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/Simulink-PS Converter2",
+      "state_name": "Discrete_1226728896",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/Simulink-PS Converter3",
+      "state_name": "Discrete_1954434160",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/Simulink-PS Converter4",
+      "state_name": "Discrete_4130266017",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/Simulink-PS Converter5",
+      "state_name": "Discrete_3410948625",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/Solver Configuration",
+      "state_name": "Discrete_2176707653",
+      "channels": 1012,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "heatdrive_ecc_coupled_se21/冷端换热器/ColdLoadHeatPS",
+      "state_name": "Discrete_1087038158",
+      "channels": 2,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    }
+  ],
+  "signal_comparisons": [
+    {
+      "name": "ECC_Q_SE_constitutive_W",
+      "state_name": "",
+      "channels": 21,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "ECC_Q_SMA_constitutive_W",
+      "state_name": "",
+      "channels": 21,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "ECC_constitutive21_output",
+      "state_name": "",
+      "channels": 252,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "Qdot_cold_sink_mass_to_hx_pipe_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "Qdot_cold_sink_mass_to_pipe_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "SE_Tx21_internal",
+      "state_name": "",
+      "channels": 21,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "SHEX_hot_hx_inlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "SHEX_hot_hx_outlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "SHEX_hot_sink_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "SHEX_hot_source_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "SHEX_probe_hot_hx_port1_v3_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "SHEX_probe_hot_hx_port2_v2_return_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "SMA_Tx21_internal",
+      "state_name": "",
+      "channels": 21,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "chip_inlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "chip_outlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "cold_buffer_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "cold_hx_inlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "cold_hx_outlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "cold_load_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "cold_return_outlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "cold_sink_hx_pipe_thermal_port_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "cold_sink_pipe_thermal_port_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "cold_sink_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "cold_subsystem_inlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "cold_subsystem_outlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "distributed_bed_resistance_MPa_per_kgps",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "distributed_delayed_temperature21_K",
+      "state_name": "",
+      "channels": 21,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "distributed_fluid_temperature21_K",
+      "state_name": "",
+      "channels": 21,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "distributed_inactive_pressure_MPa",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "distributed_kinematic_viscosity21_m2_s",
+      "state_name": "",
+      "channels": 21,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "distributed_pressure_envelope",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "distributed_pressure_feedforward_MPa",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "distributed_target_flow_kg_s",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "hhex_sma_branch_inlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "hhex_sma_branch_outlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "hot_buffer_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "hot_hx_inlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "hot_hx_outlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "hot_sink_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "hot_source_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "mass_flow_sma_stage13_kgps",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "mass_flow_sma_stage1_route_kgps",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "mass_flow_sma_stage3_route_kgps",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "mass_flow_v1_cold_inlet_kgps",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "mass_flow_v3_sma_to_hot_kgps",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "mass_flow_v4_hot_inlet_kgps",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "mass_flow_v6_sma_to_chip_cold_kgps",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "pressure_command_se_MPa",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "pressure_command_sma_MPa",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_chip_pipe_port_conn2_v6_sma_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_chip_to_cold_junction_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_cold_hx_port_conn1_v5_return_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_hot_hx_port1_v3_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_hot_hx_port2_v2_return_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_root_cold_buffer_fluid_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_root_hot_buffer_fluid_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_root_shex_buffer_fluid_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_sma_stage13_pump_outlet_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_sma_stage1_port1_v3_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_sma_stage1_port2_v5_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_sma_stage1_v1_pump_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_sma_stage1_v1_shex_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_sma_stage1_v5_shex_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_sma_stage2_port1_v1_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_sma_stage2_port2_v3_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_sma_stage3_port3_v4_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_sma_stage3_port4_v6_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_sma_stage3_v2_hhex_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_sma_stage3_v2_pump_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_sma_stage3_v6_hhex_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_sma_stage4_port3_v4_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_sma_stage4_port4_v6_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_v1_cold_inlet_cold_buffer_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_v1_cold_inlet_sma_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_v3_sma_to_hot_hot_hx_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_v3_sma_to_hot_sma_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_v4_hot_inlet_hot_buffer_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_v4_hot_inlet_sma_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_v6_sma_to_chip_chip_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "probe_v6_sma_to_chip_sma_side_T_K",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "pump_pressure_se_stage2_port_a_MPa",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "pump_pressure_se_stage2_port_b_MPa",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "pump_pressure_se_stage4_port_a_MPa",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "pump_pressure_se_stage4_port_b_MPa",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "pump_pressure_sma_port_a_MPa",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "pump_pressure_sma_port_b_MPa",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_cooldown_inlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_cooldown_outlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_inlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node01_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node02_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node03_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node04_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node05_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node06_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node07_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node08_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node09_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node10_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node11_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node12_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node13_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node14_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node15_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node16_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node17_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node18_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node19_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node20_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_node21_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "se_hold_outlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "shex_buffer_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "shex_fluid_heat_flow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "shex_hot_pipe_portA_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "shex_hot_pipe_portA_pressure_MPa",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "shex_hot_pipe_portB_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "shex_hot_pipe_portB_pressure_MPa",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "shex_source_heat_flow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node01_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node02_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node03_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node04_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node05_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node06_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node07_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node08_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node09_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node10_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node11_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node12_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node13_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node14_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node15_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node16_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node17_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node18_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node19_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node20_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_node21_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_pipe_node01_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_pipe_node01_pressure_MPa",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_pipe_node11_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_pipe_node11_pressure_MPa",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_pipe_node21_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_cooldown_pipe_node21_pressure_MPa",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node01_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node02_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node03_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node04_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node05_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node06_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node07_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node08_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node09_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node10_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node11_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node12_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node13_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node14_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node15_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node16_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node17_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node18_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node19_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node20_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_node21_heatflow_W",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_pipe_node01_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_pipe_node01_pressure_MPa",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_pipe_node11_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_pipe_node11_pressure_MPa",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_pipe_node21_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hold_pipe_node21_pressure_MPa",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_hot_buffer_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_stage1_inlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_stage1_outlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_stage3_inlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "sma_stage3_outlet_fluid_temp_out",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_bias_sum",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_blended_viscosity",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_dynamic_feedforward",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_endpoint_viscosity_mean",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_feedforward_activity",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_feedforward_ratio_sum",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_filtered_error",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_flow_error",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_inlet_temperature_delay",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_inlet_viscosity",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_integrator_input",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_integrator_output_gate",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_integrator_state",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_normalized_error",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_outlet_temperature_delay",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_outlet_viscosity",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_p_enable_scale",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_p_output",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_pressure_bias_command",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_pressure_command",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_route_integral",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_target_flow_command",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_viscosity_ratio",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    },
+    {
+      "name": "stage4_weighted_viscosity_delta",
+      "state_name": "",
+      "channels": 1,
+      "samples": 10001,
+      "clock_pass": true,
+      "max_absolute_difference": 0,
+      "values_exact": true
+    }
+  ],
+  "continuous_reference_pass": true,
+  "strict_restore_completed": true,
+  "all_mechanism_gates_evaluated": false,
+  "periodic_state_verified": false,
+  "candidate_contract": {},
+  "diagnostic_continuation_allowed": false,
+  "production_recovery_allowed": false,
+  "error_message": "",
+  "native_ledger_persistence": {
+    "schema": "heatdrive_ecc_native_ledger_persistence_v1",
+    "method": "public named native series to numeric MAT save/load",
+    "native_trace_count": 1262,
+    "source_trace_count": 162,
+    "all_trace_values_clock_units_metadata_exact": true,
+    "native_object_archive_required": false,
+    "scientific_ledger_pass_claimed": false,
+    "production_recovery_allowed": false
+  },
+  "native_ledger_observation_sha256": "9B5D649AC3C01FB6DE6AE778A5CF39F1B30D152A8017E9286FE81B273E39AEF4",
+  "bounded_restored_cycle_mechanism_pass": true,
+  "bounded_restored_cycle_mechanism_checks": {
+    "used_real_sim_call": true,
+    "physical_authority": true,
+    "no_legacy_surrogate": true,
+    "requested_cycle_count": true,
+    "all_required_finite": true,
+    "samples_per_stage": true,
+    "node_count": true,
+    "temperature_range": true,
+    "thermal_liquid_probe_domain_coverage": true,
+    "water_thermal_liquid_property_range": true,
+    "SE_glycol_thermal_liquid_property_range": true,
+    "thermal_liquid_property_range": true,
+    "SMA_source_select_temperature": true,
+    "phase_fraction_bounds": true,
+    "constitutive_phase_direction": true,
+    "stress_bound": true,
+    "constitutive_force_compatibility": true,
+    "constitutive_displacement_compatibility": true,
+    "flow_bound": true,
+    "SMA_settled_flow_no_reversal": true,
+    "SMA_settled_instantaneous_flow_target": true,
+    "SMA_settled_pressure_not_saturated": true,
+    "SE_settled_flow_no_reversal": true,
+    "SE_settled_instantaneous_flow_target": true,
+    "SE_settled_flow_RMS_target": true,
+    "SE_last_cycle_settled_flow_no_reversal": true,
+    "SE_last_cycle_settled_instantaneous_flow_target": true,
+    "SE_last_cycle_settled_flow_RMS_target": true,
+    "SMA_water_pressure_observed_and_bounded": true,
+    "SMA_active_routes": true,
+    "SE_active_routes": true,
+    "qian_active_flow_targets": true,
+    "route_flow_direction": true,
+    "SE_double_acting_piston_orientation": true,
+    "SMA_buffer_cross_contamination": true,
+    "SMA_stage3_HHEX_hot_front_physical": true,
+    "SMA_cross_route_isolation": true,
+    "SE_inactive_isolation": true,
+    "SE_cross_route_isolation": true,
+    "inactive_thermal_path_isolation": true,
+    "SMA_phase_swing": true,
+    "SE_phase_swing": true,
+    "qian_table4_half_cycle_phase_completion": true,
+    "qian_table4_compatibility_stress": true,
+    "fig5_200MPa_reference_scope_explicit": true,
+    "cycle_state_continuity": true,
+    "cycle_temperature_continuity": true,
+    "pressure_commands_logged": true,
+    "SMA_switch_prepressure_observed": true,
+    "SMA_manifold_commutation_temperature_regularized": true,
+    "pump_work_nonnegative": true,
+    "SMA_solid_energy_balance": true,
+    "SE_solid_energy_balance": true,
+    "stage_constitutive_energy_decomposition": true,
+    "internal_mechanical_work_transfer": true,
+    "probes_present": true,
+    "declared_sensitivity_parameter_scope": true,
+    "qian_table2_material_contract": true,
+    "qian_glycol_engineering_closure_contract": true,
+    "independent_pressure_PI_contract": true,
+    "qian_fig5_phase_surface_kinetics_contract": true,
+    "qian_table4_schedule_contract": true,
+    "qian_numerical_time_step_contract": true,
+    "qian_eq9_eq10_observability": true,
+    "cold_boundary_contract": true,
+    "fixed_chex_temperature_authority": true,
+    "qian_table4_geometry_contract": true,
+    "qian_article_pipe_UA_contract": true,
+    "valve_switch_regularization": true,
+    "route_matrix_consistency": true,
+    "dual_fluid_domain": true,
+    "named_source_pressure_domain_and_reference_head": true,
+    "strict_table4_not_claimed_from_transient": true
+  }
+}

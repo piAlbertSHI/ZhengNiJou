@@ -1,0 +1,202 @@
+Qian2019 Table 2/Table 4 coupled Simscape mechanism validation
+generated: 2026-10-14T00:10:43***
+coupled_mechanism_pass: 1
+authority: physical_simscape_to_workspace_logs
+legacy surrogate used: 0
+sim calls: 1
+walltime_s: NaN
+
+Parameter anchor
+  declared sensitivity mode: 0
+  mechanism gate start/count: C1 / 1 cycles
+  SMA: Qian2019_Table2_Actuator_NiTi
+  SE: Qian2019_Table2_SE_NiTi
+  SMA volume/mass/length: 2.05867502603e-05 m3 / 0.133813876692 kg / 0.819120766532 m
+  SE volume/mass/length: 6.43335945635e-06 m3 / 0.0418168364663 kg / 0.378432909197 m
+  constitutive integrator: bogacki_shampine_ode3 at 0.001 s
+  SMA/SE Delta_h: 10000 / 10000 J/kg
+  S_r/S_a: 0.676408508141; L_r/L_a: 0.461998919646
+  Qian2019 V_HTF/V_solid porosity SMA/SE: 0.75 / 0.42; SE utilization: 1.7
+  SMA stress anchors: Fig5/Table2 reference 200.000000 MPa; Table4 Eq7-Eq8 full-transform compatibility 287.698103 MPa
+  SHEX/HHEX/CHEX C: 418 / 363.8 / 363.8 J/K
+  T source/HHEX/CHEX: 393.150000 / 303.150000 / 276.950000 K
+  CHEX boundary mode: fixed_reservoir_temperature
+  CHEX boundary audit: ok=1 source=1 source_connected=1 finite_mass_authoritative=0 authority=ideal_temperature_source_at_prescribed_Tchex_K
+  cycle/stages: 10.000000000 / [3.500000000 1.500000000 3.500000000 1.500000000] s
+
+  target flow SMA/SE: 0.0508 / 0.0032 kg/s
+  SE route-memory I limits Stage2/Stage4: -0.402620343974 / -0.402620343974 MPa; command floor -0.5 MPa
+  fluid scope: Qian uses water on the actuator side and glycol-water on the SE side. The canonical SLX must retain two hydraulically disconnected Thermal Liquid domains coupled only through exchanger thermal ports.
+
+  SHEX source heat flow (last window) mean/min/max: 826.708994157 / 0.251462412157 / 4880.26477747 W
+  SHEX source heat flow positive/negative fraction: 1 / 0; direction pass: 1
+  SHEX source heat input: 826.791639604 W; heat-driven system COP: 0.0135732450215; available: 1
+
+  SHEX sink-to-fluid heat flow (mean/min/max): 826.708990565 / 0.249507707224 / 6822.07517064 W
+  SHEX sink-to-fluid positive/negative fraction: 1 / 0; direction pass: 1
+  SHEX sink-to-fluid positive heat input: 826.791636179 W
+  SHEX sink-to-fluid observed window: 0 to 10 s (10 s, 1 cycles; final_complete_cycle_only)
+
+  SHEX direct control volume source/storage/fluid/residual: 826.791639604 / 3.42443448744e-06 / 826.791636179 / 4.12683220929e-10 W; relative 4.99138115532e-13; pass 1
+
+  Simscape bed UA SMA expected/calculated/relerr: 287.62117663 / 287.62117663 / 0 W/K
+  Simscape bed UA SE expected/calculated/relerr: 91.4635002815 / 91.4635002815 / 1.55371866061e-16 W/K
+  HHEX channel G SE/SMA: 53.6115492372 / 977.880257973 W/K; separate masks: 1
+
+  TL pressure initial/min-estimated/min-valid: 0.85 / 0.49 / 0.45 MPa; p0 masks: 1
+
+  Pressure-source fluid energy disabled: 1 (sources=3)
+
+  Quasisteady Pipe(TL) hydraulics: 1 (pipes=67)
+
+  Finite-time valve-spool interpolation commands: 1
+
+  Thermal gates masks/ZOH/count: 1 / 63; minimum k=1e-09 W/(K m)
+  SE natural-convection UA target/effective/relerr: 1.28667189127 / 1.28667189127 / 2.26501834649e-16 W/K
+
+  SE shared bed topology: ok=1 hold pipes=21/21 cooldown pipes=0 junctions=2 blocks=1 names=1 connections=1 wrong-end-absent=1
+  SE double-acting piston topology: ok=1 blocks=1 routes=1 face-orientation=1 shared-command=1 old-manifold-absent=1 chamber-short-absent=1
+  Solid axial conduction: ok=1; SMA blocks=20/20 G=0.0115980165229 W/K; SE blocks=20/20 G=0.0169805528109 W/K
+  Eq6 force residual: scaled 1.19988560239e-15, absolute 8.18545231596e-12 N
+  Eq7 displacement residual: scaled 2.08209595585e-15, absolute 3.46944695195e-17 m
+
+  Peak inactive thermal-path heat: 3.42072064313e-08 W
+
+Checks
+  used_real_sim_call                     1
+  physical_authority                     1
+  no_legacy_surrogate                    1
+  requested_cycle_count                  1
+  all_required_finite                    1
+  samples_per_stage                      1
+  node_count                             1
+  temperature_range                      1
+  thermal_liquid_probe_domain_coverage   1
+  water_thermal_liquid_property_range    1
+  SE_glycol_thermal_liquid_property_range 1
+  thermal_liquid_property_range          1
+  SMA_source_select_temperature          1
+  phase_fraction_bounds                  1
+  constitutive_phase_direction           1
+  stress_bound                           1
+  constitutive_force_compatibility       1
+  constitutive_displacement_compatibility 1
+  flow_bound                             1
+  SMA_settled_flow_no_reversal           1
+  SMA_settled_instantaneous_flow_target  1
+  SMA_settled_pressure_not_saturated     1
+  SE_settled_flow_no_reversal            1
+  SE_settled_instantaneous_flow_target   1
+  SE_settled_flow_RMS_target             1
+  SE_last_cycle_settled_flow_no_reversal 1
+  SE_last_cycle_settled_instantaneous_flow_target 1
+  SE_last_cycle_settled_flow_RMS_target  1
+  SMA_water_pressure_observed_and_bounded 1
+  SMA_active_routes                      1
+  SE_active_routes                       1
+  qian_active_flow_targets               1
+  route_flow_direction                   1
+  SE_double_acting_piston_orientation    1
+  SMA_buffer_cross_contamination         1
+  SMA_stage3_HHEX_hot_front_physical     1
+  SMA_cross_route_isolation              1
+  SE_inactive_isolation                  1
+  SE_cross_route_isolation               1
+  inactive_thermal_path_isolation        1
+  SMA_phase_swing                        1
+  SE_phase_swing                         1
+  qian_table4_half_cycle_phase_completion 1
+  qian_table4_compatibility_stress       1
+  fig5_200MPa_reference_scope_explicit   1
+  cycle_state_continuity                 1
+  cycle_temperature_continuity           1
+  pressure_commands_logged               1
+  SMA_switch_prepressure_observed        1
+  SMA_manifold_commutation_temperature_regularized 1
+  pump_work_nonnegative                  1
+  SMA_solid_energy_balance               1
+  SE_solid_energy_balance                1
+  stage_constitutive_energy_decomposition 1
+  internal_mechanical_work_transfer      1
+  probes_present                         1
+  declared_sensitivity_parameter_scope   1
+  qian_table2_material_contract          1
+  qian_glycol_engineering_closure_contract 1
+  independent_pressure_PI_contract       1
+  qian_fig5_phase_surface_kinetics_contract 1
+  qian_table4_schedule_contract          1
+  qian_numerical_time_step_contract      1
+  qian_eq9_eq10_observability            1
+  cold_boundary_contract                 1
+  fixed_chex_temperature_authority       1
+  qian_table4_geometry_contract          1
+  qian_article_pipe_UA_contract          1
+  valve_switch_regularization            1
+  route_matrix_consistency               1
+  dual_fluid_domain                      1
+  named_source_pressure_domain_and_reference_head 1
+  strict_table4_not_claimed_from_transient 1
+
+Startup/all-cycle diagnostics (not acceptance gates)
+  mechanism_gate_start_cycle                           1
+  mechanism_gate_cycle_count                           1
+  SE_all_cycle_settled_instantaneous_flow_target       1
+  SE_all_cycle_stage2_max_relative_error               0.00116179126038
+  SE_all_cycle_stage4_max_relative_error               0.00186733736976
+  SE_all_cycle_stage2_samples_over_limit               0
+  SE_all_cycle_stage4_samples_over_limit               0
+  SE_all_cycle_stage2_peak_cycle                       1
+  SE_all_cycle_stage2_peak_stage_elapsed_s             0.343
+  SE_all_cycle_stage4_peak_cycle                       1
+  SE_all_cycle_stage4_peak_stage_elapsed_s             0.301
+  cold_start_phase_swing_progression                   1
+  cold_start_phase_swing_progression_is_nonblocking_warning 1
+
+Cycle results
+  C1 SMA 306.8014->306.8294 K, SE 292.6755->291.6338 K, SHEX dT=+0.000000 K, HHEX dT=+0.000252 K, CHEX dT=+0.000000 K
+     xM swing SMA/SE 0.999999/0.999858, stress max SMA/SE 304.2452/449.7951 MPa, pump work 115.851/2.25794 J
+     hot-half end xM SMA/SE 0.000000000/0.999999744, compatible stress SMA/SE 287.698166/425.331974 MPa
+     half-cycle phase timing load onset SMA/SE 0.168/0.195 s, load complete 1.426/4.079 s; unload onset 0.29/0.378 s, unload complete 3.858/4.481 s
+     solid energy SMA dU/pipe/constitutive/residual 1.87525/36.2451/-34.3693/-0.000562729 J (1.55256e-05); SE -21.7795/-56.2209/34.4346/0.0068168 J (0.00012125)
+     net-cycle latent potential SMA/SE -0.000313295/0.0655772 J, signed internal mechanical transfer -34.4326/+34.4326 J, net 1.42109e-14 J (2.06358e-16)
+     S1 constitutive SMA latent/mechanical/total -1338.14/-74.7052/-1412.79 J; SE +395.604/+74.7052/+470.259 J
+     S2 constitutive SMA latent/mechanical/total -9.22328e-15/-2.68516/-2.68547 J; SE +22.5024/+2.68516/+25.1892 J
+     S3 constitutive SMA latent/mechanical/total +1282.54/+43.149/+1325.65 J; SE -369.766/-43.149/-412.913 J
+     S4 constitutive SMA latent/mechanical/total +55.4946/-0.190696/+55.357 J; SE -48.2429/+0.190696/-48.0692 J
+     max stage constitutive decomposition residual fraction 0.000955923
+     inactive-side buffer: hot-half HHEX-SMA rise 0 K, ambient-half SHEX above source -0.244887 K
+     signed SMA flow S1/S2/S3/S4 -0.0507593/-0.0507875/-0.050543/-0.052887 kg/s; signed SE flow S2/S4 0.00319684/0.0031963 kg/s; closed SE cross-route S2/S4 3.01559e-08/2.74083e-08 kg/s
+
+Literature comparison boundary
+  quantitative_literature_reproduction_evaluated: 0
+  reason: 1-cycle no-load observation has not reached the declared periodic gate over the last 1 cycles (endpoint drift Inf K, same-phase temperature drift Inf K, same-phase phase-fraction drift Inf). The 27.1609 K Qian Eq.9 outlet-temperature lift is transient and must not be compared as a final Table 4 result.
+  strict_table4_reproduction_applicable: 1
+  strict_table4_reproduction_evaluated: 0
+  strict_table4_reproduction_pass: 0
+
+Performance observation
+  mode/cold load: no_load / 0 W
+  cycles: 1
+  Qian Eq9/Eq10 averaging window: 1 cycles, 0 to 10 s
+  Qian Eq9 outlet-temperature lift: 27.1608760419 K
+  Qian Eq10 cooling power/specific: 11.2222455061 W / 0.268366678458 W/g
+  CHEX heat-flow sensor power / Eq10 mismatch: 10.724758715 W / 0.49748679109 W (relative 0.0443304141602)
+  prescribed/measured-max-error CHEX temperature: 276.95 K / 0 K; zero-load-root pass: 0
+  HHEX-CHEX endpoint lift: 26.2317217145 K
+  T0-CHEX reference lift: 26.2 K
+  Table4 no-load target: 26.2 K
+  Table4 no-load relative error/limit: 0.0366746580869 / 0.05
+  periodic window: last 1 complete cycles
+  endpoint/extrema-phase L-inf drift: Inf K / Inf
+  same-phase temperature max/P99/RMS: Inf / Inf / Inf K
+  same-phase phase max/P99/RMS: Inf / Inf / Inf
+  periodic steady state: 0
+  dual_fluid_domain_required: 1
+  dual_fluid_domain_implemented: 1
+  dual_fluid_domain_audit: settings=2 SMA_connected=1 SE_connected=1 isolated=1 probe=1
+  ALL_REQUIRED_PASS: 0
+
+Outputs
+  C:\Users\86182\.codex\worktrees\runtime-cv-json-contract\正逆耦合\gx101r1_R69_remote\outputs\v37_ref_restore_r1\native\cycle_physical_summary.csv
+  C:\Users\86182\.codex\worktrees\runtime-cv-json-contract\正逆耦合\gx101r1_R69_remote\outputs\v37_ref_restore_r1\native\stage_temperature_probes_50samples.csv
+  C:\Users\86182\.codex\worktrees\runtime-cv-json-contract\正逆耦合\gx101r1_R69_remote\outputs\v37_ref_restore_r1\native\qian2019_table2_table4_parameter_contract.csv
