@@ -1,0 +1,11 @@
+{
+  "schema": "heatdrive_ecc_failed_inventory_formulation_v1",
+  "reason": "Pressure-only direct density lookup compiled stored_mass as an algebraic pressure alias; outlet mass ledger residual 4.839591847202864e-13 kg exceeds unchanged 1e-15 kg tolerance.",
+  "simulation_completed": true,
+  "conserved_energy_pass": true,
+  "diagnostic_effect_on_SMA_mass_migration_retained": true,
+  "source_state_may_be_resumed": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "source_observations_unchanged": true
+}

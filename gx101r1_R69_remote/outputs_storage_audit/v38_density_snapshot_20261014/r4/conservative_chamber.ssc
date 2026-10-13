@@ -1,0 +1,82 @@
+component conservative_chamber
+% Pressure-only inventory-density diagnostic, not a real-fluid EOS replacement.
+% Suppress only thermal expansion of stored mass; retain energy and mass fluxes.
+
+nodes
+    A = foundation.thermal_liquid.thermal_liquid; % A:left
+    B = foundation.thermal_liquid.thermal_liquid; % B:right
+    H = foundation.thermal.thermal;               % H:left
+end
+
+parameters
+    volume = {1.6084954386379741e-6, 'm^3'};
+    area = {8.04247719318987e-6, 'm^2'};
+    inventory_reference_temperature = {300, 'K'};
+    inventory_pressure_grid = {[0.1; 10], 'MPa'};
+    inventory_density_grid = {[1000; 1001], 'kg/m^3'};
+end
+
+variables
+    p_I = {value = {1, 'MPa'}, priority = priority.high};
+    T_I = {value = {300, 'K'}, priority = priority.high};
+    rho_I = {1000, 'kg/m^3'}; % Inventory density, not transport table density
+    u_I = {100, 'kJ/kg'};
+    stored_mass = {0.0016, 'kg'};
+    stored_energy = {160, 'J'};
+end
+
+variables (Access = protected)
+    mdot_A = {0, 'kg/s'};
+    mdot_B = {0, 'kg/s'};
+    Phi_A = {0, 'W'};
+    Phi_B = {0, 'W'};
+    Q_H = {0, 'W'};
+end
+
+branches
+    mdot_A : A.mdot -> *;
+    mdot_B : B.mdot -> *;
+    Phi_A : A.Phi -> *;
+    Phi_B : B.Phi -> *;
+    Q_H : H.Q -> *;
+end
+
+equations
+    assert(volume > 0)
+    assert(area > 0)
+    assert(inventory_reference_temperature >= A.T_min)
+    assert(inventory_reference_temperature <= A.T_max)
+    A.p == p_I;
+    B.p == p_I;
+    H.T == T_I;
+    p_I == tablelookup(inventory_density_grid, inventory_pressure_grid, rho_I, interpolation = linear, extrapolation = linear);
+    u_I == tablelookup(A.T_TLU, A.p_TLU, A.u_TLU, T_I, p_I, interpolation = linear, extrapolation = linear);
+    rho_I == stored_mass / volume;
+    u_I == stored_energy / stored_mass;
+    der(stored_mass) == mdot_A + mdot_B;
+    der(stored_energy) == Phi_A + Phi_B + Q_H;
+    assert(p_I >= A.p_min)
+    assert(p_I <= A.p_max)
+    assert(T_I >= A.T_min)
+    assert(T_I <= A.T_max)
+end
+
+components (ExternalAccess = none)
+    convection_A = foundation.thermal_liquid.port_convection(flow_area = area, length_scale = sqrt(4*area/pi));
+    convection_B = foundation.thermal_liquid.port_convection(flow_area = area, length_scale = sqrt(4*area/pi));
+end
+
+connections
+    connect(A, convection_A.port)
+    connect(B, convection_B.port)
+end
+
+equations
+    convection_A.mdot == mdot_A;
+    convection_B.mdot == mdot_B;
+    convection_A.Phi == Phi_A;
+    convection_B.Phi == Phi_B;
+    convection_A.u_I == u_I;
+    convection_B.u_I == u_I;
+end
+end

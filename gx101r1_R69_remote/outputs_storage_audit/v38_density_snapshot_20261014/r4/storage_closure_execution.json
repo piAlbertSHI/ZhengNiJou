@@ -1,0 +1,21 @@
+{
+  "schema": "heatdrive_ecc_manifold_storage_closure_experiment_v1",
+  "status": "collected_requires_formulation_specific_physical_comparison",
+  "baseline_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v35_se_ref_r1\\candidate",
+  "baseline_config_path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v35_se_ref_r1\\candidate_config.json",
+  "baseline_config_sha256": "B97F8625F7EB3CBD59C7EC69CDC5E0C427351B879B1001CE367E3D32CE1090CB",
+  "baseline_execution_sha256": "A6D67A440F4FB723354C6653DCD6A0BC5FA908577075A0594EBF8B22E09A2919",
+  "baseline_reused": true,
+  "candidate_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v38_density_r4\\candidate",
+  "candidate_config_sha256": "8105F3F256FB2F7B1EC879E400B30EFADC8E6586D0845C1BA16EAD9EB08E397D",
+  "reference_audit_sha256": "0D35656DDEBA68FCB3C2AED9A0016BA89727AFDF0C852894072A8282C6379985",
+  "geometry_changed": false,
+  "property_tables_changed": false,
+  "controls_changed": false,
+  "source_state_loaded": false,
+  "existing_OP_imported": false,
+  "production_recovery_allowed": false,
+  "real_fluid_EOS_claim": false,
+  "paper_exact_accessory_model_claim": false,
+  "candidate_execution_sha256": "0751F49BD99810B77C6B5201A81ECFE9852C59A3E8E8E365ED9654CB55548B0C"
+}

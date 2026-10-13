@@ -1,0 +1,687 @@
+{
+  "node_metadata": [
+    {
+      "block_name": "SMA_PumpInletConnectingPipeVolume",
+      "variable_name": "stored_mass",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "FALSE",
+          "TRUE",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:13668"
+        ]
+      ]
+    },
+    {
+      "block_name": "SMA_PumpInletConnectingPipeVolume",
+      "variable_name": "stored_energy",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "defaultPriority",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "defaultPriority",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "TRUE",
+          "TRUE",
+          "HIGH",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:13668"
+        ]
+      ]
+    },
+    {
+      "block_name": "SMA_PumpInletConnectingPipeVolume",
+      "variable_name": "T_I",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "FALSE",
+          "TRUE",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:13668"
+        ]
+      ]
+    },
+    {
+      "block_name": "SMA_PumpInletConnectingPipeVolume",
+      "variable_name": "p_I",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "FALSE",
+          "FALSE",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:13668"
+        ]
+      ]
+    },
+    {
+      "block_name": "SMA_PumpOutletConnectingPipeVolume",
+      "variable_name": "stored_mass",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "FALSE",
+          "TRUE",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:13669"
+        ]
+      ]
+    },
+    {
+      "block_name": "SMA_PumpOutletConnectingPipeVolume",
+      "variable_name": "stored_energy",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "defaultPriority",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "defaultPriority",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "TRUE",
+          "TRUE",
+          "HIGH",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:13669"
+        ]
+      ]
+    },
+    {
+      "block_name": "SMA_PumpOutletConnectingPipeVolume",
+      "variable_name": "T_I",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "FALSE",
+          "TRUE",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:13669"
+        ]
+      ]
+    },
+    {
+      "block_name": "SMA_PumpOutletConnectingPipeVolume",
+      "variable_name": "p_I",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "defaultPriority",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "defaultPriority",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "TRUE",
+          "TRUE",
+          "HIGH",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:13669"
+        ]
+      ]
+    },
+    {
+      "block_name": "ColdFluidBuffer",
+      "variable_name": "mass_offset",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "defaultPriority",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "defaultPriority",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "TRUE",
+          "TRUE",
+          "HIGH",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:14037"
+        ]
+      ]
+    },
+    {
+      "block_name": "ColdFluidBuffer",
+      "variable_name": "stored_energy",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "defaultPriority",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "defaultPriority",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "TRUE",
+          "TRUE",
+          "HIGH",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:14037"
+        ]
+      ]
+    },
+    {
+      "block_name": "ColdFluidBuffer",
+      "variable_name": "T_I",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "FALSE",
+          "FALSE",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:14037"
+        ]
+      ]
+    },
+    {
+      "block_name": "ColdFluidBuffer",
+      "variable_name": "p_I",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "FALSE",
+          "FALSE",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:14037"
+        ]
+      ]
+    },
+    {
+      "block_name": "HotFluidBuffer",
+      "variable_name": "mass_offset",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "defaultPriority",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "defaultPriority",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "TRUE",
+          "TRUE",
+          "HIGH",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:14038"
+        ]
+      ]
+    },
+    {
+      "block_name": "HotFluidBuffer",
+      "variable_name": "stored_energy",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "defaultPriority",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "defaultPriority",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "TRUE",
+          "TRUE",
+          "HIGH",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:14038"
+        ]
+      ]
+    },
+    {
+      "block_name": "HotFluidBuffer",
+      "variable_name": "T_I",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "FALSE",
+          "FALSE",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:14038"
+        ]
+      ]
+    },
+    {
+      "block_name": "HotFluidBuffer",
+      "variable_name": "p_I",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "FALSE",
+          "FALSE",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:14038"
+        ]
+      ]
+    },
+    {
+      "block_name": "SHEXFluidBuffer",
+      "variable_name": "mass_offset",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "defaultPriority",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "defaultPriority",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "TRUE",
+          "TRUE",
+          "HIGH",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:14039"
+        ]
+      ]
+    },
+    {
+      "block_name": "SHEXFluidBuffer",
+      "variable_name": "stored_energy",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "defaultPriority",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "defaultPriority",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "TRUE",
+          "TRUE",
+          "HIGH",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:14039"
+        ]
+      ]
+    },
+    {
+      "block_name": "SHEXFluidBuffer",
+      "variable_name": "T_I",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "FALSE",
+          "FALSE",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:14039"
+        ]
+      ]
+    },
+    {
+      "block_name": "SHEXFluidBuffer",
+      "variable_name": "p_I",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "FALSE",
+          "FALSE",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:14039"
+        ]
+      ]
+    },
+    {
+      "block_name": "SMAHotFluidBuffer",
+      "variable_name": "mass_offset",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "defaultPriority",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "defaultPriority",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "TRUE",
+          "TRUE",
+          "HIGH",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:14040"
+        ]
+      ]
+    },
+    {
+      "block_name": "SMAHotFluidBuffer",
+      "variable_name": "stored_energy",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "defaultPriority",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "defaultPriority",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "TRUE",
+          "TRUE",
+          "HIGH",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:14040"
+        ]
+      ]
+    },
+    {
+      "block_name": "SMAHotFluidBuffer",
+      "variable_name": "T_I",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "FALSE",
+          "FALSE",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:14040"
+        ]
+      ]
+    },
+    {
+      "block_name": "SMAHotFluidBuffer",
+      "variable_name": "p_I",
+      "tag_names": [
+        "isStateValue",
+        "isDifferential",
+        "isRetained",
+        "context",
+        "blockPath"
+      ],
+      "tag_values": [
+        [
+          "isStateValue",
+          "isDifferential",
+          "isRetained",
+          "context",
+          "blockPath"
+        ],
+        [
+          "TRUE",
+          "FALSE",
+          "FALSE",
+          "Simscape",
+          "heatdrive_ecc_coupled_se21:14040"
+        ]
+      ]
+    }
+  ],
+  "chamber_source_file": "ecc_inventory_pressure_only.conservative_chamber",
+  "post_simulation_source_verified": true
+}
