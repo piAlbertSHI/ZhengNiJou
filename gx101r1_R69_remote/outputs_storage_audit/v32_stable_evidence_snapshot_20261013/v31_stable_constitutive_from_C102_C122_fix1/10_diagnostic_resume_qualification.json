@@ -1,0 +1,119 @@
+{
+  "schema": "heatdrive_ecc_latest_diagnostic_endpoint_qualification_v1",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v31_stable_constitutive_from_C102_C122_fix1",
+  "producer": "7d9099b69b669a769a1e9d4a4a52a174eacacc1d",
+  "snapshot_time_s": 1220,
+  "total_cycles": 122,
+  "command_horizon_cycles": 200,
+  "qualification_pass": true,
+  "warmup_continuation_allowed": true,
+  "full_mechanism_count": 73,
+  "local_inventory_pass": true,
+  "complete_logged_state_coverage": true,
+  "ancestor_complete_cycle_restore_verified": true,
+  "ancestor_complete_cycle_proof": {
+    "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v24_directional_directlog_cold_2c",
+    "verification_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v25_directional_directlog_full_cycle_restore",
+    "restore_receipt_sha256": "2061FE9E67367B221872C354C357D870EE07A66754EAC0E31148F91CAE9A81FE",
+    "comparison_sha256": "A0A32C1EAC9EF43C45AD9AAE43C6C3B94645A9412F96A5A7F1CE8CE91A736867"
+  },
+  "latest_endpoint_complete_cycle_reference_compared": false,
+  "production_recovery_allowed": false,
+  "steady_outer_solve_allowed": false,
+  "table4_reproduction_claim": false,
+  "source_state_edited": false,
+  "partial_state_restore_used": false,
+  "core_periodic_last_pair": {
+    "predicates": {
+      "temperature_endpoint": {
+        "value": 0.0005199701285505398,
+        "limit": 0.05,
+        "pass_gate": true
+      },
+      "temperature_p99": {
+        "value": 0.0025416633191093422,
+        "limit": 0.05,
+        "pass_gate": true
+      },
+      "temperature_rms": {
+        "value": 0.0011501686267967907,
+        "limit": 0.01,
+        "pass_gate": true
+      },
+      "phase_endpoint": {
+        "value": 5.135752025774848e-06,
+        "limit": 0.0001,
+        "pass_gate": true
+      },
+      "phase_p99": {
+        "value": 0.00011228064794767298,
+        "limit": 0.002,
+        "pass_gate": true
+      },
+      "phase_rms": {
+        "value": 5.047283136807532e-05,
+        "limit": 0.0004,
+        "pass_gate": true
+      }
+    },
+    "last_pair_core_predicates_pass": true,
+    "predicate_scope": "solid_node_endpoint_and_numpy_percentile_last_pair",
+    "equivalent_to_original_production_predicates": false,
+    "same_phase_maxima_are_nonblocking_diagnostics": true,
+    "diagnostic_temperature_peak_K": 0.05867218328796753,
+    "diagnostic_phase_peak": 0.002639760985007844
+  },
+  "files": [
+    {
+      "role": "execution",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v31_stable_constitutive_from_C102_C122_fix1\\cold_chamber_execution.json",
+      "sha256": "32DA6A291119189AF8A21198A8B0E9AFA79A1B33D787401B372CD2D214A19BDF"
+    },
+    {
+      "role": "capture",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v31_stable_constitutive_from_C102_C122_fix1\\native\\diagnostic_state_capture.json",
+      "sha256": "BD54E4B9A3E48A47F18F928643B14049277536FA2F74D77547B4B571F7C1DE68"
+    },
+    {
+      "role": "operating_point",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v31_stable_constitutive_from_C102_C122_fix1\\native\\diagnostic_complete_operating_point.mat",
+      "sha256": "B4DE6B3ADD86AAFF11255D8593DBE3367EA051827993D2EAED6B83D6AF26620F"
+    },
+    {
+      "role": "history",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v31_stable_constitutive_from_C102_C122_fix1\\native\\diagnostic_state_observation.mat",
+      "sha256": "E22A5E27817C95BE8C6C007E0A6590E167F0998DDDBB1395B5740C80B94B88BF"
+    },
+    {
+      "role": "observation",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v31_stable_constitutive_from_C102_C122_fix1\\native\\observations.mat",
+      "sha256": "BF4581A49EB966204764A819263D174600C671B9BEB5518F504B9FA84867EC39"
+    },
+    {
+      "role": "configuration",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v31_stable_constitutive_from_C102_C122_fix1\\native\\configuration.mat",
+      "sha256": "68B91DA3427791C9050D0F4388EB5B4910E47CD6214D5F549F1E0ED71D237C4D"
+    },
+    {
+      "role": "physics_audit",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v31_stable_constitutive_from_C102_C122_fix1\\v31_completed_warmup_physics.json",
+      "sha256": "F6D3A639D613F6A4C8CDBB35D35A89DB71F7650CD0D47A4F937C05B437F3E235"
+    },
+    {
+      "role": "mechanism_audit",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v31_stable_constitutive_from_C102_C122_fix1_saved_mechanism\\saved_mechanism_audit.json",
+      "sha256": "AECF9D9731D18F79D798D333248B8726B8F3038E24A36FD325BBB4ECD81C7655"
+    },
+    {
+      "role": "state_audit",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v31_stable_constitutive_from_C102_C122_fix1_state_drift.json",
+      "sha256": "7A7BD09C5309EADB87EADA41136B76E6E235F81AB9041575979CF8797FD81FAD"
+    },
+    {
+      "role": "steadiness_audit",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v31_stable_constitutive_from_C102_C122_fix1_steadiness.json",
+      "sha256": "7198D4466D4E4B02C31139B939CA2745CD1EAEDF91900B6747DCDDDA6B4F4894"
+    }
+  ],
+  "interpretation": "Mechanism-passing transient endpoint may continue warmup under strict vendor checksum policy. Nonsteady drift blocks steady studies, not further warmup. Independent complete-cycle reference proof belongs to the C2 ancestor only."
+}

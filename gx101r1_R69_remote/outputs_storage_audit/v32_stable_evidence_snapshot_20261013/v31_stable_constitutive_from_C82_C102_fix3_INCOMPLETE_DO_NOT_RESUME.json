@@ -1,0 +1,10 @@
+{
+  "schema": "heatdrive_ecc_incomplete_diagnostic_v1",
+  "run_name": "v31_stable_constitutive_from_C82_C102_fix3",
+  "source_root": "v29_directional_latest_resume_C82",
+  "status": "incomplete_no_checkpoint",
+  "reason": "MATLAB session disappeared during simulation after host restart; no cold_chamber_execution.json or diagnostic checkpoint was written.",
+  "production_recovery_allowed": false,
+  "resume_allowed": false,
+  "disposition": "retain_as_failure_evidence_only; do_not_propagate"
+}

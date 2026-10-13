@@ -1,0 +1,11 @@
+{
+  "schema": "heatdrive_ecc_incomplete_diagnostic_v1",
+  "run_name": "v31_stable_constitutive_from_C82_C102_fix4",
+  "source_root": "v29_directional_latest_resume_C82",
+  "status": "incomplete_postprocessing_contract",
+  "reason": "The Simulink segment produced raw endpoint/state observations, but the X: path alias disappeared before cold_chamber_execution.json and arm completion contracts were written.",
+  "raw_endpoint_present": true,
+  "production_recovery_allowed": false,
+  "resume_allowed": false,
+  "disposition": "retain_as_failure_evidence_only; do_not_propagate"
+}

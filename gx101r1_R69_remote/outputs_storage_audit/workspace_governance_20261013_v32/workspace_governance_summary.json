@@ -1,0 +1,53 @@
+{
+  "schema": "heatdrive_ecc_workspace_governance_v1",
+  "generated_at": "2026-10-13T18:28:53.9867624+08:00",
+  "workspace": "C:\\Users\\86182\\Desktop\\正逆耦合",
+  "branch": "codex/native-chamber-endpoint-diagnostic",
+  "head": "92029a2ee8a12bafa66c7658a48d328bf201ab9d",
+  "commits_since_c200_freeze": 775,
+  "directory_count": 824,
+  "total_classified_bytes": 17208047585,
+  "total_classified_GiB": 16.026243,
+  "frozen_C200_hash_pass": true,
+  "authority_files": [
+    {
+      "contract": "heatdrive_ecc_mainline_freeze_v1",
+      "kind": "result",
+      "path": "gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\physical_simscape_result.mat",
+      "exists": true,
+      "bytes": 4987450900,
+      "actual_sha256": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD",
+      "expected_sha256": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD"
+    },
+    {
+      "contract": "heatdrive_ecc_mainline_freeze_v1",
+      "kind": "checkpoint",
+      "path": "gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\final_operating_point.mat",
+      "exists": true,
+      "bytes": 3822969,
+      "actual_sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816",
+      "expected_sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816"
+    },
+    {
+      "contract": "heatdrive_ecc_source_heatflow_recovery_v1",
+      "kind": "result",
+      "path": "gx101r1_R69_remote\\outputs\\qian_coupled_runtime_shutdown_recovery_from60_20260905\\qian2019_table2_table4_simscape_180cycle_20260906_002332\\physical_simscape_result.mat",
+      "exists": true,
+      "bytes": 4515089940,
+      "actual_sha256": "1E3A225BFEEE5D1798C66B926A7AAD9949E06463C6971930231D93F16BB96E6A",
+      "expected_sha256": "1E3A225BFEEE5D1798C66B926A7AAD9949E06463C6971930231D93F16BB96E6A"
+    },
+    {
+      "contract": "heatdrive_ecc_source_heatflow_recovery_v1",
+      "kind": "checkpoint",
+      "path": "gx101r1_R69_remote\\outputs\\qian_coupled_runtime_shutdown_recovery_from60_20260905\\qian2019_table2_table4_simscape_180cycle_20260906_002332\\final_operating_point.mat",
+      "exists": true,
+      "bytes": 3826339,
+      "actual_sha256": "C1F5CEC81B48BC048D4D5C9E6CF57C99B593FBE6641ABD6485038DE2866318AF",
+      "expected_sha256": "C1F5CEC81B48BC048D4D5C9E6CF57C99B593FBE6641ABD6485038DE2866318AF"
+    }
+  ],
+  "untracked_Agent6_untouched": true,
+  "classification_csv": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\workspace_governance_20261013_v32\\workspace_directory_classification.csv",
+  "git_ledger_csv": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\workspace_governance_20261013_v32\\git_commits_since_c200_freeze.csv"
+}

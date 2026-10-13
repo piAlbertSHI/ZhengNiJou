@@ -6174,13 +6174,13 @@ C82的public轨迹显示相分数p99/RMS仍为0.00212553/0.000478886，十周期
 三段均为 native 单臂、20-cycle、checkpoint_saved=true、production_recovery_allowed=false；每段均重新生成 observation、Operating Point、configuration、机制回执和 state-observation。C200 权威结果与 OP SHA 仍为 §223 冻结值：
 
 - `physical_simscape_result.mat`: `0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD`
-- `final_operating_point.mat`: `FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD5DD7D17DA7F798EBAAF4816`
+- `final_operating_point.mat`: `FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816`
 
 三段的 73/73 原生产机制门禁、八类 mechanism-subset/local ledger gates、状态观测覆盖（74 组、1414 坐标、三类独立 PI memory）均通过。原始生产机制审核明确记录 `simulation_executed=false`、`operating_point_loaded=false`、`periodic_steady_state_verified=false`；因此这些结果只能作为稳定本构 warmup evidence，不能替代主线恢复源。
 
 ### 263.2 十周期 public production predicates
 
-十周期窗口分别为 C92–C102、C112–C122、C132–C142；三段均使用原始 summarizer、原始容差和 100001 点毫秒网格。六项原生产 public 温度/相分数谓词均通过：
+十周期窗口分别为 C93–C102、C113–C122、C133–C142（920–1020、1120–1220、1320–1420 s）；三段均使用原始 summarizer、原始容差和 100001 点毫秒网格。六项原生产 public 温度/相分数谓词均通过：
 
 | 末段 | 温度 endpoint (K) | 温度 p99 (K) | 温度 RMS (K) | phase endpoint | phase p99 | phase RMS | 结论 |
 |---|---:|---:|---:|---:|---:|---:|---|
@@ -6202,3 +6202,19 @@ C82的public轨迹显示相分数p99/RMS仍为0.00212553/0.000478886，十周期
 4. 下一轮优先完成 CHEX/SHEX/HHEX/CHEX 流体、SMA、SE、buffer、管路、泵功的实际信号映射和 Eq.9/Eq.10 质量基准/窗口绑定，闭合 full-device first-law 后再开放 outer solve。
 
 证据位置：`outputs/v31_stable_constitutive_from_C82_C102_fix6`、`...from_C102_C122_fix1`、`...from_C122_C142_fix1` 及对应 `outputs_storage_audit/v31_*`；三段的 rejected/incomplete 包均保留 `INCOMPLETE_DO_NOT_RESUME.json` 或独立回执，禁止传播。
+
+## 264. C142 具名状态物理映射与十周期 Eq.9/Eq.10 实算（2026-10-13）
+
+本轮不增加 warmup、不加载 OP、不重置状态，直接使用已完成 C142 的不可变 history/public/configuration，按 execution producer 绑定实际源码并逐样本对照。
+
+`ECC_Constitutive21_StateDelay` 的 210 坐标已映射为各 21 个相分数、应力、应变、相变驱动力、相变速率；其单位分别为 1、Pa、1、Pa、s^-1。全部 210 坐标与前一毫秒的 public constitutive output 逐位一致。另有 63 个温度延迟坐标（K）和 Stage4 PI 记忆（MPa）精确匹配，共 274 坐标通过。该结果更正 §263 的范围：这 210 坐标并非不可解释；剩余 1140 坐标尚未映射，其中 Solver Configuration 为 1012 坐标。原最高 RMS `17637.9227` 是 SE 驱动力 Pa，并不是相分数漂移，不能混单位设置 joint norm。
+
+沿用原 extractor/summarizer 的实际 1320–1420 s（C133–C142）十周期、100001 点、trapz 双端点窗口：Eq.9 温跨 `28.6720394518 K`，Eq.10 冷量 `13.2236952462 W`，SCP `0.316228972912 W/g`，SE 活性固体质量 `0.04181683646625444 kg`。公开 CHEX 热流传感器差 `0.276516944789 W`、相对差 `2.09107166826%`，按原始 OR 门禁（0.10 W 或 5%）通过。这不是 zero-load 或 zero-lift 成对端点，不能用这些值重新宣称 Table 4 已复现。
+
+完整时钟与有限值覆盖已分开：thermal_boundary_signals 的时间轴覆盖整个 200 s，但十周期内仅 13/20 字段全部有限；7 个原生换热器/传感器热流字段的实际有限范围为末两周期，不补零、不外推。公开 Eq.9/Eq.10 与 CHEX 传感器实算有十周期依据；整机原生库存账本仍只有 1400–1420 s。原 extractor 泵功 `|command_pressure|*1e6*|route_flow|/997` 均值 `11.8461712707 W` 只作工程代理，不是电功率，也不应作为实际注入液体的热量；选定模型的 Pressure Source native 热功为零。热驱动 COP 公式值 `0.0160054130068` 也只能视为当前边界下的模型诊断值。
+
+当前 119 库存/49 源账本的源积分减实际端点储能差 `5.14475573254e-10 J` 已记录；该模型内离散一致性不得被改称实验验证或无限制真实装置第一定律。SHEX 等内部库存的末两周期最大逐周期端点/同相位温度漂移仍为 `0.0599984/0.0602164 K`。公共温度/相分数通过不能覆盖这类储能漂移。另一方面，不应把未知 packed 坐标作为无限期硬门禁：下一步重点是直接 native 库存、源端口、转换器动态、潜热/机械能和 `p*dV` 的方程级闭合与容差依据，而不是要求所有内部 solver 坐标使用一个任意单位。
+
+本轮 38 份 C102/C122/C142 compact 回执按原字节归档，约 4.23 MB；保留原始 MAT 于唯一 execution worktree。C142 可再生 cache/codegen 已实际清理 67398 bytes，未删除当前 raw；旧 fix4 中断 raw 1584898245 bytes 已列为待退役候选，尚未删除，不把候选容量报为已释放空间。主库 outputs/audit 分类范围为 824 目录、16.026243 GiB，不等同于全部 worktree 或 Agent6 总体积。C200/C180 四项实文件 SHA 全部匹配；早先报告中 C200 OP 哈希含重复 `5DD` 的手抄笔误以冻结合同和本轮 Get-FileHash 值为准，C200 原始文件从未被改写。
+
+新增证据：`v32_c142_mapped_state_20261013.json`、`v32_c142_performance_20261013_v2.json`、`v32_stable_evidence_snapshot_20261013/snapshot_receipt.json`、`v32_c142_storage_closeout_20261013.json`。完整目标仍未完成，outer solve、正交敏感性、paired endpoints 与 SCI 最终图集尚未开放。
