@@ -1,0 +1,454 @@
+{
+  "schema": "heatdrive_ecc_coupled_energy_inventory_v1",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v31_stable_constitutive_from_C122_C142_fix1",
+  "total_cycles": 142,
+  "absolute_window_s": [
+    1400.0,
+    1420.0
+  ],
+  "input_sha256": {
+    "execution": "6DAA90057A67869A5C08FA039B9FB7AA8A441F27039EDAB8326443DDF09A01E7",
+    "physics": "A328C5F3DB957B7BF44147F9DB4A34602CE091449A0A9CB2D5B822277CB033A8",
+    "mechanism": "DEB8F3DB752FEEA520C1FB123C79A75D6312D153EFCC851C066C8992C7A06805",
+    "observations": "CC102FC1A43B442477105DB2BDF8215F9AAC964B28364DB4C68C946A07CBE9B9",
+    "configuration": "5535896447BBFFB79EFBE639FF41CC9A131E1E1A9295AAE74DF106ED2750B2DE"
+  },
+  "source_execution_commit": "7d9099b69b669a769a1e9d4a4a52a174eacacc1d",
+  "storage_count": 119,
+  "source_count": 49,
+  "source_port_contract_recomputed": true,
+  "latent_decomposition": {
+    "latent_source_endpoint_increment_J": 0.00012058227364324899,
+    "latent_storage_change_J": -0.00012058227366651408,
+    "command_heat_BE_J": 0.00012058206766596413,
+    "internal_mechanical_net_J": -2.058920708257193e-10,
+    "internal_mechanical_step_max_abs_J": 8.838556553314447e-10,
+    "internal_mechanical_cumulative_max_abs_J": 6.881454512893431e-10
+  },
+  "modeled_energy_balance": {
+    "external_modeled_heat_BE_J": 58.78272335382212,
+    "native_constitutive_heat_BE_J": 0.00012058206766596413,
+    "sensible_inventory_plus_pdv_J": 58.78284393526913,
+    "total_inventory_including_latent_plus_pdv_J": 58.78272335299546,
+    "command_to_native_pipeline_difference_J": 0.0,
+    "external_heat_minus_total_storage_J": 8.266596296380158e-10,
+    "numerical_terms_retained_residual_J": 6.207656610968115e-10,
+    "model_equation_energy_closure_pass": true,
+    "energy_tolerance_J": 1e-08,
+    "quadrature": "native local backward Euler; measured absolute millisecond intervals",
+    "latent_heat_counted_once": true,
+    "engineering_pump_proxy_added_as_heat": false
+  },
+  "source_energy_BE_J": {
+    "native_pump_input": 0.0,
+    "SE_constitutive_in": 70.33504377270287,
+    "SHEX_source_in": 16524.188217044022,
+    "SMA_constitutive_in": -70.33492319063521,
+    "CHEX_reservoir_in": 258.95182817951286,
+    "external_load_in": 0.0,
+    "HHEX_ambient_in": -16724.357321869713
+  },
+  "storage_group_change_plus_pdv_J": {
+    "Pipe (TL)": 0.0034796821275664414,
+    "Constant Volume Chamber (TL)": 0.00043931863996249376,
+    "Thermal Mass": 0.007093840239729704,
+    "Conservative Buffer (TL)": 58.77183109426187
+  },
+  "raw_pressure_source_work": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE_Stage2_PistonPressureSource",
+      "native": {
+        "BE_energy_J": 0.0,
+        "trapezoid_energy_J": 0.0,
+        "BE_mean_W": 0.0,
+        "trapezoid_mean_W": 0.0,
+        "min_W": 0.0,
+        "max_W": 0.0
+      },
+      "signed_hydraulic_estimate": {
+        "BE_energy_J": 1.69504936459071,
+        "trapezoid_energy_J": 1.6950493645907247,
+        "BE_mean_W": 0.0847524682295355,
+        "trapezoid_mean_W": 0.08475246822953623,
+        "min_W": -6.061425880496807e-10,
+        "max_W": 1.044582004022744
+      },
+      "hydraulic_estimate_not_added_as_heat": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE_Stage4_PistonPressureSource",
+      "native": {
+        "BE_energy_J": 0.0,
+        "trapezoid_energy_J": 0.0,
+        "BE_mean_W": 0.0,
+        "trapezoid_mean_W": 0.0,
+        "min_W": 0.0,
+        "max_W": 0.0
+      },
+      "signed_hydraulic_estimate": {
+        "BE_energy_J": 3.2695049776127814,
+        "trapezoid_energy_J": 3.2695049783408923,
+        "BE_mean_W": 0.16347524888063908,
+        "trapezoid_mean_W": 0.16347524891704462,
+        "min_W": -4.393809521377558e-10,
+        "max_W": 1.513001578471332
+      },
+      "hydraulic_estimate_not_added_as_heat": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA Pressure Source (TL)",
+      "native": {
+        "BE_energy_J": 0.0,
+        "trapezoid_energy_J": 0.0,
+        "BE_mean_W": 0.0,
+        "trapezoid_mean_W": 0.0,
+        "min_W": 0.0,
+        "max_W": 0.0
+      },
+      "signed_hydraulic_estimate": {
+        "BE_energy_J": 238.2219193402844,
+        "trapezoid_energy_J": 238.22191934162385,
+        "BE_mean_W": 11.91109596701422,
+        "trapezoid_mean_W": 11.911095967081192,
+        "min_W": -2.4434436361578652e-09,
+        "max_W": 13.293952049930374
+      },
+      "hydraulic_estimate_not_added_as_heat": true
+    }
+  ],
+  "buffer_cycles": [
+    {
+      "buffer": "SHEXFluidBuffer",
+      "global_cycle": 141,
+      "absolute_window_s": [
+        1400.0,
+        1410.0
+      ],
+      "mass_start_kg": 0.11296545275348172,
+      "mass_end_kg": 0.11312864270064253,
+      "mass_change_kg": 0.00016318994716081614,
+      "relative_mass_change": 0.0014446004790237648,
+      "energy_change_J": 45.590771329560084,
+      "temperature_change_K": -0.06021636841643385,
+      "transported_mass_BE_kg": 0.00016318994716076903,
+      "mass_equation_residual_kg": -4.710858439449517e-17,
+      "local_mass_conservation_pass": true,
+      "resolved_nonzero_mass_change": true,
+      "stages": [
+        {
+          "stage": 1,
+          "delta_mass_kg": 0.00015772058484302132,
+          "transported_mass_BE_kg": 0.00015772058484295876
+        },
+        {
+          "stage": 2,
+          "delta_mass_kg": 6.4492108210884025e-06,
+          "transported_mass_BE_kg": 6.4492108210772615e-06
+        },
+        {
+          "stage": 3,
+          "delta_mass_kg": -7.228619297028338e-07,
+          "transported_mass_BE_kg": -7.228619296628694e-07
+        },
+        {
+          "stage": 4,
+          "delta_mass_kg": -2.5698657359074506e-07,
+          "transported_mass_BE_kg": -2.569865736041324e-07
+        }
+      ]
+    },
+    {
+      "buffer": "SHEXFluidBuffer",
+      "global_cycle": 142,
+      "absolute_window_s": [
+        1410.0,
+        1420.0
+      ],
+      "mass_start_kg": 0.11312864270064253,
+      "mass_end_kg": 0.11329183248542306,
+      "mass_change_kg": 0.00016318978478052637,
+      "relative_mass_change": 0.0014425151834655532,
+      "energy_change_J": 45.61283248147083,
+      "temperature_change_K": -0.059998437304329855,
+      "transported_mass_BE_kg": 0.00016318978478067537,
+      "mass_equation_residual_kg": 1.4899648355382045e-16,
+      "local_mass_conservation_pass": true,
+      "resolved_nonzero_mass_change": true,
+      "stages": [
+        {
+          "stage": 1,
+          "delta_mass_kg": 0.00015772050055780362,
+          "transported_mass_BE_kg": 0.00015772050055786404
+        },
+        {
+          "stage": 2,
+          "delta_mass_kg": 6.449194785776435e-06,
+          "transported_mass_BE_kg": 6.4491947857939655e-06
+        },
+        {
+          "stage": 3,
+          "delta_mass_kg": -7.229059371810509e-07,
+          "transported_mass_BE_kg": -7.229059371683847e-07
+        },
+        {
+          "stage": 4,
+          "delta_mass_kg": -2.570046258726366e-07,
+          "transported_mass_BE_kg": -2.570046258142626e-07
+        }
+      ]
+    },
+    {
+      "buffer": "SMAHotFluidBuffer",
+      "global_cycle": 141,
+      "absolute_window_s": [
+        1400.0,
+        1410.0
+      ],
+      "mass_start_kg": 0.07246320222079915,
+      "mass_end_kg": 0.07230001229441657,
+      "mass_change_kg": -0.0001631899263825759,
+      "relative_mass_change": -0.0022520385710436547,
+      "energy_change_J": -15.466140537435422,
+      "temperature_change_K": 0.023838346749300854,
+      "transported_mass_BE_kg": -0.00016318992638240517,
+      "mass_equation_residual_kg": 1.707347371121548e-16,
+      "local_mass_conservation_pass": true,
+      "resolved_nonzero_mass_change": true,
+      "stages": [
+        {
+          "stage": 1,
+          "delta_mass_kg": -7.705598958490656e-07,
+          "transported_mass_BE_kg": -7.705598958052645e-07
+        },
+        {
+          "stage": 2,
+          "delta_mass_kg": -2.406261933873832e-07,
+          "transported_mass_BE_kg": -2.406261933433371e-07
+        },
+        {
+          "stage": 3,
+          "delta_mass_kg": -0.00015667464227005212,
+          "transported_mass_BE_kg": -0.0001566746422700068
+        },
+        {
+          "stage": 4,
+          "delta_mass_kg": -5.504098023287329e-06,
+          "transported_mass_BE_kg": -5.504098023249801e-06
+        }
+      ]
+    },
+    {
+      "buffer": "SMAHotFluidBuffer",
+      "global_cycle": 142,
+      "absolute_window_s": [
+        1410.0,
+        1420.0
+      ],
+      "mass_start_kg": 0.07230001229441657,
+      "mass_end_kg": 0.07213682253031557,
+      "mass_change_kg": -0.00016318976410099884,
+      "relative_mass_change": -0.002257119451604869,
+      "energy_change_J": -15.490402191906469,
+      "temperature_change_K": 0.023865238022438007,
+      "transported_mass_BE_kg": -0.00016318976410094397,
+      "mass_equation_residual_kg": 5.4860629927766524e-17,
+      "local_mass_conservation_pass": true,
+      "resolved_nonzero_mass_change": true,
+      "stages": [
+        {
+          "stage": 1,
+          "delta_mass_kg": -7.705249079614784e-07,
+          "transported_mass_BE_kg": -7.705249079491517e-07
+        },
+        {
+          "stage": 2,
+          "delta_mass_kg": -2.4060958650484743e-07,
+          "transported_mass_BE_kg": -2.406095864816529e-07
+        },
+        {
+          "stage": 3,
+          "delta_mass_kg": -0.00015667455082436776,
+          "transported_mass_BE_kg": -0.00015667455082434616
+        },
+        {
+          "stage": 4,
+          "delta_mass_kg": -5.504078782164745e-06,
+          "transported_mass_BE_kg": -5.50407878216699e-06
+        }
+      ]
+    },
+    {
+      "buffer": "ColdFluidBuffer",
+      "global_cycle": 141,
+      "absolute_window_s": [
+        1400.0,
+        1410.0
+      ],
+      "mass_start_kg": 0.10213921191285077,
+      "mass_end_kg": 0.10214671710639939,
+      "mass_change_kg": 7.505193548612565e-06,
+      "relative_mass_change": 7.348004168091971e-05,
+      "energy_change_J": 0.508883600838999,
+      "temperature_change_K": -0.0001245987583047281,
+      "transported_mass_BE_kg": 7.5051935486585356e-06,
+      "mass_equation_residual_kg": 4.597017211338539e-17,
+      "local_mass_conservation_pass": true,
+      "resolved_nonzero_mass_change": true,
+      "stages": [
+        {
+          "stage": 1,
+          "delta_mass_kg": 0.0001358137396524628,
+          "transported_mass_BE_kg": 0.00013581373965246228
+        },
+        {
+          "stage": 2,
+          "delta_mass_kg": -0.0044584248606884674,
+          "transported_mass_BE_kg": -0.004458424860688206
+        },
+        {
+          "stage": 3,
+          "delta_mass_kg": -0.00012202619954367055,
+          "transported_mass_BE_kg": -0.00012202619954365916
+        },
+        {
+          "stage": 4,
+          "delta_mass_kg": 0.004452142514128288,
+          "transported_mass_BE_kg": 0.004452142514128062
+        }
+      ]
+    },
+    {
+      "buffer": "ColdFluidBuffer",
+      "global_cycle": 142,
+      "absolute_window_s": [
+        1410.0,
+        1420.0
+      ],
+      "mass_start_kg": 0.10214671710639939,
+      "mass_end_kg": 0.10215422214931016,
+      "mass_change_kg": 7.505042910777027e-06,
+      "relative_mass_change": 7.347316804082432e-05,
+      "energy_change_J": 0.5107503406215983,
+      "temperature_change_K": -0.00011940059903281508,
+      "transported_mass_BE_kg": 7.5050429107909045e-06,
+      "mass_equation_residual_kg": 1.3877787807814457e-17,
+      "local_mass_conservation_pass": true,
+      "resolved_nonzero_mass_change": true,
+      "stages": [
+        {
+          "stage": 1,
+          "delta_mass_kg": 0.00013581371477444648,
+          "transported_mass_BE_kg": 0.00013581371477443762
+        },
+        {
+          "stage": 2,
+          "delta_mass_kg": -0.004458424966925417,
+          "transported_mass_BE_kg": -0.00445842496692517
+        },
+        {
+          "stage": 3,
+          "delta_mass_kg": -0.00012202610771427924,
+          "transported_mass_BE_kg": -0.00012202610771427932
+        },
+        {
+          "stage": 4,
+          "delta_mass_kg": 0.004452142402776027,
+          "transported_mass_BE_kg": 0.0044521424027758015
+        }
+      ]
+    },
+    {
+      "buffer": "HotFluidBuffer",
+      "global_cycle": 141,
+      "absolute_window_s": [
+        1400.0,
+        1410.0
+      ],
+      "mass_start_kg": 0.09911694829855394,
+      "mass_end_kg": 0.09910944310500533,
+      "mass_change_kg": -7.505193548612565e-06,
+      "relative_mass_change": -7.572058742169791e-05,
+      "energy_change_J": -1.245713142798195,
+      "temperature_change_K": 0.0002444319703158726,
+      "transported_mass_BE_kg": -7.5051935486585356e-06,
+      "mass_equation_residual_kg": -4.597017211338539e-17,
+      "local_mass_conservation_pass": true,
+      "resolved_nonzero_mass_change": true,
+      "stages": [
+        {
+          "stage": 1,
+          "delta_mass_kg": -0.0001358137396524628,
+          "transported_mass_BE_kg": -0.00013581373965246228
+        },
+        {
+          "stage": 2,
+          "delta_mass_kg": 0.0044584248606884674,
+          "transported_mass_BE_kg": 0.004458424860688206
+        },
+        {
+          "stage": 3,
+          "delta_mass_kg": 0.00012202619954367055,
+          "transported_mass_BE_kg": 0.00012202619954365916
+        },
+        {
+          "stage": 4,
+          "delta_mass_kg": -0.004452142514128288,
+          "transported_mass_BE_kg": -0.004452142514128062
+        }
+      ]
+    },
+    {
+      "buffer": "HotFluidBuffer",
+      "global_cycle": 142,
+      "absolute_window_s": [
+        1410.0,
+        1420.0
+      ],
+      "mass_start_kg": 0.09910944310500533,
+      "mass_end_kg": 0.09910193806209455,
+      "mass_change_kg": -7.505042910777027e-06,
+      "relative_mass_change": -7.572480154918759e-05,
+      "energy_change_J": -1.249150786035898,
+      "temperature_change_K": 0.000234910921676601,
+      "transported_mass_BE_kg": -7.5050429107909045e-06,
+      "mass_equation_residual_kg": -1.3877787807814457e-17,
+      "local_mass_conservation_pass": true,
+      "resolved_nonzero_mass_change": true,
+      "stages": [
+        {
+          "stage": 1,
+          "delta_mass_kg": -0.00013581371477444648,
+          "transported_mass_BE_kg": -0.00013581371477443762
+        },
+        {
+          "stage": 2,
+          "delta_mass_kg": 0.004458424966925417,
+          "transported_mass_BE_kg": 0.00445842496692517
+        },
+        {
+          "stage": 3,
+          "delta_mass_kg": 0.00012202610771427924,
+          "transported_mass_BE_kg": 0.00012202610771427932
+        },
+        {
+          "stage": 4,
+          "delta_mass_kg": -0.004452142402776027,
+          "transported_mass_BE_kg": -0.0044521424027758015
+        }
+      ]
+    }
+  ],
+  "buffer_local_mass_conservation_pass": true,
+  "buffer_inventory_migration_observed": true,
+  "all_physical_inventory_periodic_tolerances_declared": false,
+  "model_equation_energy_closure_pass": true,
+  "full_device_first_law_verified": false,
+  "complete_internal_state_periodicity_verified": false,
+  "simulation_executed": false,
+  "operating_point_loaded": false,
+  "source_state_edited": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "table4_reproduction_claim": false,
+  "interpretation": "Modeled thermal+latent equation closure, not experimental validation or real pump/electrical closure. Local mass conservation is separate from per-buffer cycle stationarity."
+}
