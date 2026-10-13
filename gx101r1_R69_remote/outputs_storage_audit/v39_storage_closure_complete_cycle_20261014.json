@@ -1,0 +1,70 @@
+{
+  "schema": "heatdrive_ecc_storage_closure_complete_cycle_restore_v1",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v39_density_c2_r1\\candidate",
+  "restored_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v39_density_restore_r1",
+  "C2_audit_sha256": "A998D176D04FDEBDCE70813852ABB9ED7DD96FEFA0ACD76EFB2EBABFC17D917A",
+  "local_ledger_sha256": "1D142C78CD30CDBCBE90BE34DD5FDF4B9CCA1AC64E9886FAFF75025C8617E8D5",
+  "source_operating_point_sha256": "F91E18DB9133620139D6906717D2A6882F881912C91CCC564FDD806FF7B95378",
+  "source_history_sha256": "9B7C998B82DDF1FEB35F9B3818856DCD701D7099CC254DB4686080C1AF0BD567",
+  "actual_restored_window_s": [
+    20,
+    30
+  ],
+  "state_groups_exact": 74,
+  "signals_exact": 201,
+  "samples_per_comparison": 10001,
+  "checksum_policy": "error/error",
+  "complete_cycle_restore_verified": true,
+  "full_mechanism_checks_passed": 73,
+  "local_inventory_pass": true,
+  "modeled_energy_balance": {
+    "external_modeled_heat_BE_J": -17.011209530056746,
+    "native_constitutive_heat_BE_J": 0.06515953850845335,
+    "sensible_inventory_plus_pdv_J": -16.946049991470613,
+    "total_inventory_including_latent_plus_pdv_J": -17.011209529974916,
+    "command_to_native_pipeline_difference_J": -2.8990143619012088e-12,
+    "external_heat_minus_total_storage_J": -8.182965416381194e-11,
+    "numerical_terms_retained_residual_J": -7.787903655298578e-11,
+    "model_equation_energy_closure_pass": true,
+    "energy_tolerance_J": 1e-08,
+    "quadrature": "native local backward Euler; measured absolute millisecond intervals",
+    "latent_heat_counted_once": true,
+    "engineering_pump_proxy_added_as_heat": false
+  },
+  "C3_buffers": {
+    "SHEXFluidBuffer": {
+      "endpoint_mass_change_kg": -1.46873699272132e-07,
+      "mass_equation_residual_kg": 6.158988317722831e-19
+    },
+    "SMAHotFluidBuffer": {
+      "endpoint_mass_change_kg": 1.4687655350287265e-07,
+      "mass_equation_residual_kg": 1.5118479317305193e-18
+    },
+    "ColdFluidBuffer": {
+      "endpoint_mass_change_kg": -1.3990436060762335e-06,
+      "mass_equation_residual_kg": -1.474514954580286e-17
+    },
+    "HotFluidBuffer": {
+      "endpoint_mass_change_kg": 1.3990436060762335e-06,
+      "mass_equation_residual_kg": 1.474514954580286e-17
+    }
+  },
+  "source_state_edited": false,
+  "failed_state_propagated": false,
+  "restored_endpoint_operating_point_saved": false,
+  "diagnostic_warmup_continuation_allowed": true,
+  "periodic_steady_state": false,
+  "real_fluid_EOS_claim": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "table4_reproduction_claim": false,
+  "input_sha256": {
+    "native/rebuilt_cycle_restore.json": "1F2BEF8442A780E7B6C19F17D941BCDF29D87F2D37E69290F1797B02C68A1A51",
+    "native/rebuilt_cycle_comparison.mat": "A8168C30368998F15367CEBE973C000E0B7F9E6981CEAD970F11735A77EEE35A",
+    "native/restored_native_ledger_observation.mat": "7029AD7492DC0B5B73038CA119CAE0B773308FD0FF9C80DE9374B94869B7BFE5",
+    "native/restored_physical_observation.mat": "E8149DDFD6F5F2125B745BE0893A55956EF0736127A51C819FE73C907B8C7BA0",
+    "native/configuration.mat": "64A2B0811F3A9C65DE98422509DA4AD773170F0C56E1E7AD593490A987360309",
+    "cold_chamber_execution.json": "3E2016ED96B1851F782BE36DA48053B3AB2BE6CA4B83145D65E29F59D82C489B"
+  },
+  "interpretation": "New-model C2 is intact and restores exactly over C3. Only an unchanged-model diagnostic warmup is admitted; the residual migration and density approximation remain scientific limitations, not a periodic/production claim."
+}

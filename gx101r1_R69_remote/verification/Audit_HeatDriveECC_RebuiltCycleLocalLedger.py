@@ -8,7 +8,7 @@ from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from Audit_HeatDriveECC_TLDomainInventory import resolve_domains
 
 
-def audit(root):
+def audit(root, pressure_only_density=False):
     folder = root / 'native'
     read = lambda name: json.loads((folder / name).read_text(encoding='utf-8-sig'))
     proof = read('rebuilt_cycle_restore.json')
@@ -29,7 +29,8 @@ def audit(root):
         port_contract(contract)
     ledger = cycle_arm(folder, assignment, contracts, mass_formulation='zero_based_offset', start=20, stop=30,
                        observation_file='restored_native_ledger_observation.mat',
-                       public_observation_file='restored_physical_observation.mat')
+                       public_observation_file='restored_physical_observation.mat',
+                       pressure_only_density=pressure_only_density)
     local = []
     for row in ledger['components']:
         if row['mask_type'] == 'Conservative Buffer (TL)':
@@ -45,6 +46,7 @@ def audit(root):
                 strict_full_cycle_state_restore_pass=True, mechanism_pass=True, local_inventory_pass=passed,
                 inventory_ledger=ledger, production_recovery_allowed=False, outer_solve_allowed=False,
                 periodic_steady_state_verified=False,
+                pressure_only_density_storage_declared=pressure_only_density,
                 input_sha256={name: sha256(folder / name) for name in files})
 
 
@@ -52,9 +54,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--pressure-only-density', action='store_true')
     args = parser.parse_args()
     assert not args.output.exists()
-    result = audit(args.root.resolve())
+    result = audit(args.root.resolve(), pressure_only_density=args.pressure_only_density)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, allow_nan=False) + '\n', encoding='utf-8')
     print(json.dumps({key: result[key] for key in ('local_inventory_pass', 'mechanism_pass',
