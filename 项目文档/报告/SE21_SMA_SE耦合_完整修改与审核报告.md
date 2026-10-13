@@ -6376,3 +6376,5 @@ r4 单次前台 session `24881` 自然退出 0，执行 producer `4a621e9e7938c3
 现有完整可续算点仍为新模型的 20 s OP：C3 仅保存整周期比较、物理/原生账本，没有另存 30 s 完整 OP，不从末状态数组重建隐藏状态。只开放 unchanged-model diagnostic warmup 的科学资格；当前 warmup 运行入口尚需接入该新库存合同，不冒充已实际执行 20-cycle 或 production 主线恢复。C200 继续作为冻结主线恢复参考，整个第 8 节目标保持 active。
 
 本轮只复制 16 份 C2/C3 compact JSON/log/txt，原始完整 OP/history/比较/观测 MAT 保留执行 worktree 单份。4 个可再生 cache/codegen 目录实际退役 134763 bytes，27 份关键保留文件以及 C200/C180 四项权威实文件 SHA 均一致，失败或未稳态结果未进入插值/恢复主线。完整 Python 回归 781/781、清理脚本 AST 通过；未触及用户 SLX、Agent6 或无关进程。
+
+科学收尾提交主库 `28c7d0f`、执行镜像 `d39db02`；两处回归均 781/781，23 个新证据文件与 Git blob 原字节一致。治理快照 `workspace_governance_20261014_v39` 分类主库 outputs/audit 838 目录、16.034413 GiB，权威四项 SHA 通过，范围不含全部执行副本或 Agent6。执行 checkout 干净，主库仅有既存隔离项。所有必需进程已自然结束，完整目标仍未完成。
