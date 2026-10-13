@@ -1,4 +1,4 @@
-function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root, simulation_mode, endpoint_chamber_diagnostic, endpoint_all_arms, diagnostic_arm, state_capture_options, constitutive_options, inventory_options)
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root, simulation_mode, endpoint_chamber_diagnostic, endpoint_all_arms, diagnostic_arm, state_capture_options, constitutive_options, inventory_options, reference_options)
 % Independent diagnostic construction; only explicit qualified modes may load intact state.
     if nargin<3, duration=10; end
     if nargin<4, scale_inventory=false; end
@@ -21,8 +21,11 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     if nargin<21, state_capture_options=struct(); end
     if nargin<22, constitutive_options=struct(); end
     if nargin<23, inventory_options=struct(); end
+    if nargin<24, reference_options=struct(); end
     state_capture_options=Resolve_HeatDriveECC_DiagnosticStateOptions(state_capture_options,cycle_count);
     inventory_options=Resolve_HeatDriveECC_ManifoldInventoryDiagnostic(inventory_options, ...
+        state_capture_options.mode,cycle_count,duration,diagnostic_arm,endpoint_all_arms);
+    reference_options=Resolve_HeatDriveECC_SEReferenceDiagnostic(reference_options, ...
         state_capture_options.mode,cycle_count,duration,diagnostic_arm,endpoint_all_arms);
     assert(isstruct(constitutive_options) && isscalar(constitutive_options), ...
         'Constitutive diagnostic options must be a scalar struct.');
@@ -496,9 +499,20 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 assert(numel(distributed_ff_contract.sources)==21 && ...
                     getSimulinkBlockHandle([model '/ToWorkspace_distributed_pressure_feedforward_MPa'])>0, ...
                     'HeatDriveECC:MissingControllerWiring','Distributed controller was not wired.');
+                if isfield(reference_options,'mode')
+                    reference_contract=Configure_HeatDriveECC_SEReferenceClosure(model,options,distributed_ff_contract);
+                    write_json(fullfile(arm,'se_reference_contract.json'),reference_contract);
+                    distributed_ff_contract.pressure_envelope.PI_flow_target_modified=true;
+                    distributed_ff_contract.coherent_PI_reference_contract='se_reference_contract.json';
+                    record.se_reference_diagnostic=struct('mode',reference_options.mode, ...
+                        'contract_sha256',file_hash(fullfile(arm,'se_reference_contract.json')), ...
+                        'integrator_memory_reset',false,'production_recovery_allowed',false);
+                end
                 write_json(fullfile(arm,'distributed_pressure_ff_contract.json'), ...
                     distributed_ff_contract);
             end
+            assert(~isfield(reference_options,'mode') || distributed_requested, ...
+                'SE reference closure requires distributed feedforward and its unchanged physical envelope.');
             arm_simulation_mode=simulation_mode;
             % The conservative arm initializes public Simscape operating
             % points. Keep that diagnostic arm in normal mode because

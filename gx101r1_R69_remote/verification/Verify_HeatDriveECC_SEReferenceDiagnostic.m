@@ -1,0 +1,16 @@
+function result = Verify_HeatDriveECC_SEReferenceDiagnostic()
+    Resolve_HeatDriveECC_SEReferenceDiagnostic(struct(),'diagnostic_resume',20,200,'native',true);
+    Resolve_HeatDriveECC_SEReferenceDiagnostic(struct('mode','coherent_envelope'),'off',1,10,'native',true);
+    failures={ ...
+        @() Resolve_HeatDriveECC_SEReferenceDiagnostic(struct('mode','other'),'off',1,10,'native',true), ...
+        @() Resolve_HeatDriveECC_SEReferenceDiagnostic(struct('mode','coherent_envelope'),'diagnostic_resume',1,10,'native',true), ...
+        @() Resolve_HeatDriveECC_SEReferenceDiagnostic(struct('mode','coherent_envelope'),'off',20,200,'native',true), ...
+        @() Resolve_HeatDriveECC_SEReferenceDiagnostic(struct('mode','coherent_envelope'),'off',1,10,'both',true), ...
+        @() Resolve_HeatDriveECC_SEReferenceDiagnostic(struct('mode','coherent_envelope','reset',true),'off',1,10,'native',true)};
+    for k=1:numel(failures)
+        rejected=false;try,failures{k}();catch,rejected=true;end
+        assert(rejected,'Unsafe controller intervention was not rejected.');
+    end
+    result=struct('positive_cases',2,'negative_cases',numel(failures),'pass',true);
+    fprintf('%s\n',jsonencode(result));
+end
