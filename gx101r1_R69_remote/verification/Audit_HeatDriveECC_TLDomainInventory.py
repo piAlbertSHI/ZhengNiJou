@@ -40,6 +40,8 @@ PRIMITIVES = {
     "ecc_inventory.conservative_chamber": 2,
     "ecc_inventory_specific.conservative_chamber": 2,
     "ecc_inventory_endpoint.conservative_chamber": 2,
+    # Connectivity only; the different density law requires its explicit audit.
+    "ecc_inventory_pressure_only.conservative_chamber": 2,
     "ecc_nonlinear_chamber.conservative_chamber": 2,
 }
 DOMAIN = "foundation.thermal_liquid.thermal_liquid"

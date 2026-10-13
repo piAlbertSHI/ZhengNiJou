@@ -7,6 +7,7 @@ import numpy as np
 
 from Analyze_HeatDriveECC_ManifoldStorageClosure import compare_configs
 from Audit_HeatDriveECC_ColdChamberCycle import custom_ledger
+from Audit_HeatDriveECC_TLDomainInventory import PRIMITIVES
 
 
 class StorageClosureTests(unittest.TestCase):
@@ -82,8 +83,12 @@ class StorageClosureTests(unittest.TestCase):
         source = (folder/'simscape_inventory_pressure_only/+ecc_inventory_pressure_only/conservative_chamber.ssc').read_text()
         for equation in ('der(stored_mass) == mdot_A + mdot_B;',
                          'der(stored_energy) == Phi_A + Phi_B + Q_H;',
-                         'A.u_TLU, T_I, p_I', 'A.rho_TLU, inventory_reference_temperature, p_I'):
+                         'A.u_TLU, T_I, p_I', 'tablelookup(inventory_density_grid, inventory_pressure_grid, rho_I'):
             self.assertIn(equation, source)
+
+    def test_exact_new_primitive_has_two_TL_ports(self):
+        self.assertEqual(PRIMITIVES['ecc_inventory_pressure_only.conservative_chamber'], 2)
+        self.assertNotIn('ecc_inventory_pressure_only.other', PRIMITIVES)
 
     def test_no_other_component_equation_changes(self):
         folder = Path(__file__).parent
@@ -91,10 +96,14 @@ class StorageClosureTests(unittest.TestCase):
         original = normalize((folder/'simscape_inventory_endpoint/+ecc_inventory_endpoint/conservative_chamber.ssc').read_text())
         candidate = normalize((folder/'simscape_inventory_pressure_only/+ecc_inventory_pressure_only/conservative_chamber.ssc').read_text())
         for added in ("inventory_reference_temperature={300,'K'};",
+                      "inventory_pressure_grid={[0.1;10],'MPa'};",
+                      "inventory_density_grid={[1000;1001],'kg/m^3'};",
                       'assert(inventory_reference_temperature>=A.T_min)',
                       'assert(inventory_reference_temperature<=A.T_max)'):
             candidate = candidate.replace(added, '')
-        self.assertEqual(candidate.replace('inventory_reference_temperature', 'T_I'), original)
+        candidate = candidate.replace('p_I==tablelookup(inventory_density_grid,inventory_pressure_grid,rho_I,interpolation=linear,extrapolation=linear);',
+            'rho_I==tablelookup(A.T_TLU,A.p_TLU,A.rho_TLU,T_I,p_I,interpolation=linear,extrapolation=linear);')
+        self.assertEqual(candidate, original)
 
 
 if __name__ == '__main__':

@@ -12,6 +12,8 @@ parameters
     volume = {1.6084954386379741e-6, 'm^3'};
     area = {8.04247719318987e-6, 'm^2'};
     inventory_reference_temperature = {300, 'K'};
+    inventory_pressure_grid = {[0.1; 10], 'MPa'};
+    inventory_density_grid = {[1000; 1001], 'kg/m^3'};
 end
 
 variables
@@ -47,7 +49,7 @@ equations
     A.p == p_I;
     B.p == p_I;
     H.T == T_I;
-    rho_I == tablelookup(A.T_TLU, A.p_TLU, A.rho_TLU, inventory_reference_temperature, p_I, interpolation = linear, extrapolation = linear);
+    p_I == tablelookup(inventory_density_grid, inventory_pressure_grid, rho_I, interpolation = linear, extrapolation = linear);
     u_I == tablelookup(A.T_TLU, A.p_TLU, A.u_TLU, T_I, p_I, interpolation = linear, extrapolation = linear);
     rho_I == stored_mass / volume;
     u_I == stored_energy / stored_mass;

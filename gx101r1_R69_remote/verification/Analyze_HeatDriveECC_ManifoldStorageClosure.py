@@ -2,6 +2,7 @@
 import argparse
 import copy
 import json
+import subprocess
 from pathlib import Path
 
 import h5py
@@ -15,6 +16,7 @@ from Audit_HeatDriveECC_ColdCoordinateSmoke import scalar_series
 from Audit_HeatDriveECC_CoupledEnergyInventory import (ROOT, BUFFER_NAMES, CHAMBER_NAMES,
     latent_decomposition, system_balance)
 from Audit_HeatDriveECC_DistributedPressureRuntime import audit_arm as runtime_audit
+from Audit_HeatDriveECC_CompiledInventoryStates import decode_tags, component_inventory_preserved
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from Audit_HeatDriveECC_TLDomainInventory import density_table, resolve_domains
 
@@ -43,6 +45,9 @@ def compare_metadata(a, b):
             if parameter['unit'] != 'K' or not np.isfinite(parameter['value']) or parameter['value'] <= 0:
                 raise ValueError('Invalid initial inventory temperature declaration')
             declarations[block['block_path']] = parameter['value']
+            # The inverse grids encode the same forward slice, checked below.
+            for name in ('inventory_pressure_grid', 'inventory_density_grid'):
+                block['mask_parameters'].pop(name, None)
     if len(declarations) != 2 or a != b:
         raise ValueError('Metadata differs beyond the two declared storage reference temperatures')
     return declarations
@@ -68,6 +73,16 @@ def analyze_case(folder, pressure_only):
     runtime = runtime_audit(arm, 0, 10)
     tables = {row['block_path']: density_table(row['parameters']) for row in metadata['settings_tables']}
     blocks = {row['block_path']: row for row in metadata['storage_blocks']}
+    local = [row['component_detail']['candidate_component_pass'] if 'component_detail' in row else
+             row['local_chamber_gate']['mass_closure_pass'] and row['local_chamber_gate']['energy_closure_pass']
+             for row in ledger['components'] if 'component_detail' in row or 'local_chamber_gate' in row]
+    if len(local) != 6:
+        raise ValueError('Incomplete four-buffer/two-chamber local gate coverage')
+    tags=read(arm/'compiled_inventory_tags.json')
+    chamber_names=set(CHAMBER_NAMES)
+    tag_rows=[dict(block_name=row['block_name'],variable_name=row['variable_name'],**decode_tags(row))
+              for row in tags['node_metadata'] if row['block_name'] in chamber_names]
+    state_preserved=component_inventory_preserved(tag_rows,chamber_names)
     time = np.arange(10001) * .001
     density_scope = []
     with h5py.File(arm / 'observations.mat') as f, h5py.File(arm / 'configuration.mat') as cfg:
@@ -90,6 +105,15 @@ def analyze_case(folder, pressure_only):
                 data['density_table'] = lambda pts, ref=reference, tab=table: tab(
                     np.column_stack((np.full(len(pts), ref), np.asarray(pts)[:, 1])))
                 actual_transport_rho = table(np.column_stack((temperature, data['pressure'])))
+                params=blocks[path]['mask_parameters']
+                if 'inventory_pressure_grid' in params:
+                    pressure_grid=np.asarray(params['inventory_pressure_grid']['value']).ravel()
+                    density_grid=np.asarray(params['inventory_density_grid']['value']).ravel()
+                    if (params['inventory_pressure_grid']['unit']!='Pa' or
+                            params['inventory_density_grid']['unit']!='kg/m^3' or pressure_grid.size!=30 or
+                            np.any(np.diff(pressure_grid)<=0) or np.any(np.diff(density_grid)<=0) or
+                            np.max(abs(table(np.column_stack((np.full(30,reference),pressure_grid)))-density_grid))>1e-7):
+                        raise ValueError('Inverse map does not encode the unchanged forward density slice')
                 density_scope.append(dict(chamber=name, reference_temperature_K=reference,
                     max_inventory_vs_transport_density_difference_kg_m3=float(
                         np.max(abs(data['density'] - actual_transport_rho))), real_fluid_EOS_claim=False))
@@ -111,6 +135,8 @@ def analyze_case(folder, pressure_only):
     return dict(storage_closure='pressure_only_density' if pressure_only else 'full_real_fluid_density',
                 inventory_ledger=ledger, mass_budget=budget, model_energy_balance=energy,
                 density_scope=density_scope, runtime_mechanism_subset=runtime,
+                formulation_specific_local_inventory_pass=all(local),local_inventory_gates=local,
+                retained_differential_mass_energy_states=state_preserved,compiled_chamber_state_tags=tag_rows,
                 input_sha256={name: sha256(arm / name) for name in ('observations.mat', 'configuration.mat',
                     'inventory_metadata.json', 'tl_connectivity.json', 'thermal_connectivity.json',
                     'public_inventory_targets.json')}, production_recovery_allowed=False)
@@ -143,9 +169,10 @@ def audit(root):
     candidate = read(folders[1] / 'cold_chamber_execution.json')
     component = folders[1] / 'component_build/+ecc_inventory_pressure_only/conservative_chamber.ssc'
     repo = Path(__file__).resolve().parents[1]
+    tracked='gx101r1_R69_remote/verification/simscape_inventory_pressure_only/+ecc_inventory_pressure_only/conservative_chamber.ssc'
+    producer_source=subprocess.check_output(['git','-C',str(repo.parent),'show',candidate['execution_commit']+':'+tracked])
     if (sha256(component) != candidate['endpoint_chamber_source_sha256'] or
-            sha256(component) != sha256(repo / 'verification/simscape_inventory_pressure_only/'
-                                      '+ecc_inventory_pressure_only/conservative_chamber.ssc')):
+            component.read_text(encoding='utf-8') != producer_source.decode('utf-8').replace('\r\n','\n')):
         raise ValueError('Actual compiled candidate source changed')
     cases = [analyze_case(folder, index == 1) for index, folder in enumerate(folders)]
     comparison = []
@@ -166,6 +193,8 @@ def audit(root):
                 periodic_steady_state=False, all_mechanism_gates_evaluated=False,
                 production_recovery_allowed=False, outer_solve_eligible=False,
                 diagnostic_warmup_continuation_allowed=False, table4_reproduction_claim=False,
+                candidate_numerical_inventory_qualification=bool(cases[1]['formulation_specific_local_inventory_pass'] and
+                    cases[1]['retained_differential_mass_energy_states']),
                 interpretation='This isolates thermal expansion of manifold stored mass. All mass and '
                 'energy fluxes remain conserved, but the density closure is an explicitly different '
                 'approximation; a passing diagnostic is not a physical-device repair or steady result.')

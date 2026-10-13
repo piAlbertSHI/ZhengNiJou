@@ -569,8 +569,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     mass=options.branch.sma_pump_manifold_volume_m3*rho;
                     if pressure_only
                         reference_T=initial_value(rows,'T_I','K');
-                        set_param(changed{k},'inventory_reference_temperature',num2str(reference_T,'%.17g'), ...
-                            'inventory_reference_temperature_unit','K');
+                        inverse_contract=Configure_HeatDriveECC_PressureOnlyInventoryMap(changed{k},options,reference_T);
+                        write_json(fullfile(arm,sprintf('pressure_only_inverse_density_map_%d.json',k)),inverse_contract);
                     end
                     set_param(changed{k},'stored_mass_specify','on','stored_mass_priority','High', ...
                         'stored_mass',num2str(mass,'%.17g'),'stored_mass_unit','kg', ...
@@ -960,7 +960,7 @@ function metadata=export_metadata(model,changed,buffer_paths)
     modes={'dynamic_compressibility','inertia','mass_type','p_nominal','p_nominal_unit','T_nominal','T_nominal_unit','num_ports','num_inlet','volume_spec'};
     params={'area','length','volume','mass','sp_heat','tank_area','g','inlet_height_A', ...
         'port_area','p_environment','gravity','reference_temperature','auxiliary_depth', ...
-        'initial_stored_mass','inventory_reference_temperature'};
+        'initial_stored_mass','inventory_reference_temperature','inventory_pressure_grid','inventory_density_grid'};
     for kind=1:5
         blocks=find_system(model,'LookUnderMasks','all','FollowLinks','on','Type','Block','MaskType',types{kind});
         if kind==3, blocks=[blocks(:);changed(:)]; end
