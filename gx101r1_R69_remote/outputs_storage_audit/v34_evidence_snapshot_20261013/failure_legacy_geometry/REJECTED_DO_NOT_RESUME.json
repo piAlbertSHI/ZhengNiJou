@@ -1,0 +1,11 @@
+{
+  "schema": "heatdrive_ecc_rejected_counterfactual_v1",
+  "reason": "A legacy component-assembly assertion requires nominal chamber volume, despite the explicit declared diagnostic volume intervention.",
+  "failure_stage": "model construction before candidate simulation; the separate baseline has completed and remains intact",
+  "producer": "df80fb9d0770c744c725ddae9d88c08db4e4e3c4",
+  "scientific_gate_failure": false,
+  "simulation_completed": false,
+  "resume_allowed": false,
+  "production_recovery_allowed": false,
+  "repair": "Allow only exact declared cold-only factors 1 or 0.1, with no canonical save or recovery import. Keep nominal and undeclared geometry checks strict. Reuse the completed baseline; never reuse this failed candidate."
+}

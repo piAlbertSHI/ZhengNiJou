@@ -1,0 +1,11 @@
+{
+  "schema": "heatdrive_ecc_rejected_counterfactual_v1",
+  "reason": "Relative output path was resolved again after cd(component_build), so the compiled Simscape package was not on the MATLAB path.",
+  "failure_stage": "model construction before simulation",
+  "producer": "516e589",
+  "scientific_gate_failure": false,
+  "simulation_completed": false,
+  "resume_allowed": false,
+  "production_recovery_allowed": false,
+  "repair": "Canonicalize config_path and output_root at counterfactual entry before creating any outputs or changing directories. Verify in a fresh output root."
+}

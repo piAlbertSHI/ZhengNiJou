@@ -1,0 +1,66 @@
+{
+  "schema": "heatdrive_ecc_manifold_duplicate_retirement_v1",
+  "targets": [
+    {
+      "target": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v34_evidence_snapshot_20261013\\baseline\\native\\thermal_connectivity.json",
+      "source_retained": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v34_inventory_r3\\baseline\\native\\thermal_connectivity.json",
+      "bytes": 1134432,
+      "sha256": "51E51D84BC59AB7863B8885B7F72D2C99A8FC40762E8C0CAA1AF4218F6ADC1C0",
+      "classification": "duplicate_topology_graph_execution_original_kept"
+    },
+    {
+      "target": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v34_evidence_snapshot_20261013\\baseline\\native\\tl_connectivity.json",
+      "source_retained": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v34_inventory_r3\\baseline\\native\\tl_connectivity.json",
+      "bytes": 220182,
+      "sha256": "4D798B789103F03055F226E6869614332847DD7FB17EB04150A37DED7E345055",
+      "classification": "duplicate_topology_graph_execution_original_kept"
+    },
+    {
+      "target": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v34_evidence_snapshot_20261013\\candidate\\native\\thermal_connectivity.json",
+      "source_retained": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v34_inventory_r4\\volume_0p1\\native\\thermal_connectivity.json",
+      "bytes": 1134432,
+      "sha256": "51E51D84BC59AB7863B8885B7F72D2C99A8FC40762E8C0CAA1AF4218F6ADC1C0",
+      "classification": "duplicate_topology_graph_execution_original_kept"
+    },
+    {
+      "target": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v34_evidence_snapshot_20261013\\candidate\\native\\tl_connectivity.json",
+      "source_retained": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v34_inventory_r4\\volume_0p1\\native\\tl_connectivity.json",
+      "bytes": 220182,
+      "sha256": "4D798B789103F03055F226E6869614332847DD7FB17EB04150A37DED7E345055",
+      "classification": "duplicate_topology_graph_execution_original_kept"
+    },
+    {
+      "target": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v34_manifold_counterfactual_20261013.json",
+      "bytes": 1265161,
+      "sha256": "614DF3FCE51A264C0914291679E96956BCBAAAF53151F03B80570EAD66FF4E6B",
+      "classification": "superseded_analysis_same_numerical_cases_v2_kept"
+    },
+    {
+      "target": "C:\\Users\\86182\\Desktop\\正逆耦合\\output\\pdf\\v34_inventory_20261013\\buffer_inventory_response.png",
+      "bytes": 315160,
+      "sha256": "431498535805AF0CE09349E533F1CCC2D6E8BFFAA544B6EE92EE042794BEFBC5",
+      "classification": "superseded_unreviewed_plot_reviewed_files_kept"
+    },
+    {
+      "target": "C:\\Users\\86182\\Desktop\\正逆耦合\\output\\pdf\\v34_inventory_20261013\\buffer_inventory_response.pdf",
+      "bytes": 585912,
+      "sha256": "D36CB03AE9E5BDE5CD897935446A5484E1AB39EB6D05F59DC4BBF4361F54A768",
+      "classification": "superseded_unreviewed_plot_reviewed_files_kept"
+    },
+    {
+      "target": "C:\\Users\\86182\\Desktop\\正逆耦合\\output\\pdf\\v34_inventory_20261013\\chamber_temperature_and_inventory.png",
+      "bytes": 338265,
+      "sha256": "40D09CC5F640DD7146B7D449A0708F67189F472F866C88DD59EC706661995AD4",
+      "classification": "superseded_unreviewed_plot_reviewed_files_kept"
+    },
+    {
+      "target": "C:\\Users\\86182\\Desktop\\正逆耦合\\output\\pdf\\v34_inventory_20261013\\chamber_temperature_and_inventory.pdf",
+      "bytes": 697057,
+      "sha256": "C97B21B9C8EFC8E85E1A2668E12110D1DE9580BD5E05A197F3BDD898732DA234",
+      "classification": "superseded_unreviewed_plot_reviewed_files_kept"
+    }
+  ],
+  "retained_analysis": "v34_manifold_counterfactual_20261013_v2.json",
+  "retained_reviewed_figures": "output/pdf/v34_inventory_20261013_reviewed",
+  "snapshot_source_graphs_kept": true
+}

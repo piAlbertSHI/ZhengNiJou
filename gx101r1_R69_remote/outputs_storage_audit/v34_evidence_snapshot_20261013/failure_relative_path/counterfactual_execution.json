@@ -1,0 +1,15 @@
+{
+  "schema": "heatdrive_ecc_manifold_inventory_counterfactual_v1",
+  "status": "failed_requires_diagnosis",
+  "parent_configuration_path": "outputs/v31_stable_constitutive_from_C122_C142_fix1.stable_config.json",
+  "parent_configuration_sha256": "38659F0F3985A074395136BCA0A36EB76F50096554C5C1E85C4A5090C29DBC96",
+  "state_imported": false,
+  "c200_state_imported": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "hypothesis": "Shared switched finite chamber thermal mass displacement scales with its volume.",
+  "changed_physical_field": "branch.sma_pump_manifold_volume_m3",
+  "cold_initialization_source": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_cold_runtime_cv_contract_20261005_json_v2",
+  "cases": [],
+  "error_message": "错误使用 assert\nCold chamber diagnostic failed; inspect execution JSON.\n\n出错 Run_HeatDriveECC_ColdChamberDiagnostic (第 917 行)\n    assert(record.requested_arm_collection_pass || record.state_restore_preflight_pass || record.rebuilt_cycle_preflight_pass, ...\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 27 行)\n    record = Run_HeatDriveECC_ColdChamberDiagnostic( ...\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_ManifoldInventoryCounterfactual (第 29 行)\n            result=Run_HeatDriveECC_IndependentColdDiagnosticFromConfig(path);\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+}

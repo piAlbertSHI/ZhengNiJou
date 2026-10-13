@@ -1,0 +1,35 @@
+{
+  "schema": "heatdrive_ecc_manifold_diagnostic_figures_v1",
+  "analysis_sha256": "9C0E469161F0622FCC876A8AC728D6143DBCA7C44D695A27308215F118D3FA47",
+  "plot_source_sha256": "2416C2DBD11C9B88E92308904C36D7E5BE2D894519A96BD17BDEA096DBB469E5",
+  "files": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\output\\pdf\\v34_inventory_20261013_reviewed\\buffer_inventory_response.png",
+      "bytes": 337542,
+      "sha256": "F8C097969A9256DE9CBDB6FA4E342DBF1875411BE80A1F9CA7A5E7E5B4669B93"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\output\\pdf\\v34_inventory_20261013_reviewed\\buffer_inventory_response.pdf",
+      "bytes": 585665,
+      "sha256": "CD0ADC0008D0251F94C84C80A266735142133BF40DC77C35FA37CC10FD25B3C5"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\output\\pdf\\v34_inventory_20261013_reviewed\\chamber_temperature_and_inventory.png",
+      "bytes": 338265,
+      "sha256": "40D09CC5F640DD7146B7D449A0708F67189F472F866C88DD59EC706661995AD4"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\output\\pdf\\v34_inventory_20261013_reviewed\\chamber_temperature_and_inventory.pdf",
+      "bytes": 697057,
+      "sha256": "02129D410204559341F1CE5EEB250F7C79CFC20A159EBB274BF9E8F326651E0A"
+    }
+  ],
+  "periodic_performance_claim": false,
+  "plotted_samples_per_trace": 10001,
+  "stage_boundary_times_s": [
+    3.5,
+    5,
+    8.5
+  ],
+  "interpretation": "Separate units and independent panel scales; all original samples, no fill or extrapolation."
+}

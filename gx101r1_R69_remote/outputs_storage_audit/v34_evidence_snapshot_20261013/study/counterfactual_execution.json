@@ -1,0 +1,35 @@
+{
+  "schema": "heatdrive_ecc_manifold_inventory_counterfactual_v1",
+  "status": "collected_requires_physical_comparison",
+  "parent_configuration_path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v31_stable_constitutive_from_C122_C142_fix1.stable_config.json",
+  "parent_configuration_sha256": "38659F0F3985A074395136BCA0A36EB76F50096554C5C1E85C4A5090C29DBC96",
+  "state_imported": false,
+  "c200_state_imported": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "hypothesis": "Shared switched finite chamber thermal mass displacement scales with its volume.",
+  "changed_physical_field": "branch.sma_pump_manifold_volume_m3",
+  "cold_initialization_source": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_cold_runtime_cv_contract_20261005_json_v2",
+  "cases": [
+    {
+      "name": "baseline",
+      "volume_factor": 1,
+      "config_sha256": "2D8BB3BA0EB1E74F153F75E9E38147A3108F81A094C229F5D6E8DBE4C8985A69",
+      "case_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v34_inventory_r3\\baseline",
+      "reused_completed_case": true,
+      "requested_arm_collection_pass": true,
+      "error_message": "",
+      "execution_sha256": "47EBEF7E178DDE6B2A28F3F908C66DDAD7423A721959846D685A41E1B30CB7CB"
+    },
+    {
+      "name": "volume_0p1",
+      "volume_factor": 0.1,
+      "config_sha256": "35CD5616E4B528789D0CABE3DD3BD354B54FC8230F6998D009F1200448FBE128",
+      "case_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v34_inventory_r4\\volume_0p1",
+      "reused_completed_case": false,
+      "requested_arm_collection_pass": true,
+      "error_message": "",
+      "execution_sha256": "CC70F30AAE34BAC88634C0A0BBF8B7CDA6C4D3B0BA7DEACF2494A85E745962D1"
+    }
+  ]
+}

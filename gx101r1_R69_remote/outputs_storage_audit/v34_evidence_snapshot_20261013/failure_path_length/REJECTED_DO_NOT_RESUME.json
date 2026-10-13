@@ -1,0 +1,11 @@
+{
+  "schema": "heatdrive_ecc_rejected_counterfactual_v1",
+  "reason": "The generated Stateflow C filename exceeds the Windows 260-character compiler limit.",
+  "failure_stage": "model compilation before simulation",
+  "producer": "1dec596",
+  "scientific_gate_failure": false,
+  "simulation_completed": false,
+  "resume_allowed": false,
+  "production_recovery_allowed": false,
+  "repair": "Use a short new output root, with a Stateflow filename-length preflight before any compile. Keep physical settings and scientific gates unchanged."
+}

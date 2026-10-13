@@ -1,0 +1,1843 @@
+{
+  "targets": [
+    {
+      "path": "SE/HoldPipe_001/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.87553083577852,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_001/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999987,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_002/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_002",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530835778051,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_002/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_002",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999987,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_003/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_003",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530835777454,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_003/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_003",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999987,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_004/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_004",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530835776885,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_004/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_004",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999993,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_005/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_005",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530835776289,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_005/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_005",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999993,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_006/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_006",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530835775692,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_006/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_006",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999993,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_007/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_007",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.8755308357751,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_007/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_007",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999993,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_008/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_008",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530835774512,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_008/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_008",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999993,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_009/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_009",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530835773915,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_009/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_009",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999993,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_010/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_010",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530835773318,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_010/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_010",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999993,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_011/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_011",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530835772722,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_011/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_011",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999993,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_012/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_012",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530835772125,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_012/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_012",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999993,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_013/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_013",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530835771528,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_013/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_013",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999987,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_014/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_014",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530835770945,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_014/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_014",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999993,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_015/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_015",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530835770348,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_015/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_015",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999993,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_016/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_016",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530835769752,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_016/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_016",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999993,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_017/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_017",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.87553083576914,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_017/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_017",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999987,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_018/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_018",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530835768544,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_018/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_018",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999987,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_019/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_019",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530835767975,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_019/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_019",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999993,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_020/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_020",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530835767378,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_020/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_020",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999993,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_021/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_021",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530835767165,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/HoldPipe_021/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_021",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.95,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SHEX/HotPipe/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34110100050293,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SHEX/HotPipe/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.15000000000009,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_001/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_001",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.6632450715792,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_001/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_001",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.149999999939,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_002/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_002",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66324507182736,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_002/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_002",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_003/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_003",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66324507182098,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_003/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_003",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_004/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_004",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66324507181466,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_004/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_004",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_005/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_005",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66324507180828,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_005/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_005",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_006/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_006",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66324507180195,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_006/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_006",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_007/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_007",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66324507179557,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_007/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_007",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_008/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_008",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66324507178925,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_008/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_008",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_009/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_009",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66324507178288,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_009/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_009",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_010/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_010",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66324507177654,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_010/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_010",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_011/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_011",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66324507177019,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_011/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_011",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_012/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_012",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66324507176382,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_012/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_012",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_013/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_013",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.6632450717575,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_013/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_013",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_014/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_014",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66324507175112,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_014/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_014",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_015/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_015",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.6632450717448,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_015/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_015",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_016/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_016",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66324507173842,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_016/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_016",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_017/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_017",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66324507173209,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_017/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_017",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_018/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_018",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66324507172571,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_018/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_018",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_019/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_019",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66324507171939,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_019/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_019",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_020/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_020",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66324507171302,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_020/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_020",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_021/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_021",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66324507170665,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/CooldownPipe_021/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_021",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999986,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_001/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041784711,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_001/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_002/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041786274,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_002/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_003/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041787826,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_003/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_004/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041789395,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_004/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_005/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041790946,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_005/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_006/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041792504,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_006/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_007/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041794067,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_007/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_008/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041795613,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_008/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_009/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041797176,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_009/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_010/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041798728,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_010/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_011/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041800291,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_011/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_012/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041801843,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_012/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_013/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.341250418034,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_013/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_014/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.3412504180497,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_014/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_015/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041806516,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_015/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_016/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041808085,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_016/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999981,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_017/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041809631,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_017/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_018/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041811188,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_018/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_019/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041812757,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_019/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_020/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041814303,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_020/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999975,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_021/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 503.34125041821045,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/HoldPipe_021/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.15000000001197,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "冷端换热器/ColdSinkPipe/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ColdSinkPipe",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 76.875530382949734,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "冷端换热器/ColdSinkPipe/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ColdSinkPipe",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.94999999999987,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "热端换热器/HotPipe/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/HotPipe",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 171.024414631081,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "热端换热器/HotPipe/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/HotPipe",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.15000000045268,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "热端换热器/SMAHotPipe/u_I",
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/SMAHotPipe",
+      "state_name": "u_I",
+      "unit": "kJ/kg",
+      "value": 125.66318413640623,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "热端换热器/SMAHotPipe/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/SMAHotPipe",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.14999999999964,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "ColdFluidBuffer/stored_mass",
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "state_name": "stored_mass",
+      "unit": "kg",
+      "value": 0.10123865866626233,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "ColdFluidBuffer/stored_energy",
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "state_name": "stored_energy",
+      "unit": "J",
+      "value": 7864.1756052631781,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "ColdFluidBuffer/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 276.95,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "ColdFluidBuffer/level",
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "state_name": "level",
+      "unit": "m",
+      "value": 0.095696221913159282,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "HotFluidBuffer/stored_mass",
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "state_name": "stored_mass",
+      "unit": "kg",
+      "value": 0.10001750154514238,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "HotFluidBuffer/stored_energy",
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "state_name": "stored_energy",
+      "unit": "J",
+      "value": 17186.838281235257,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "HotFluidBuffer/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "HotFluidBuffer/level",
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "state_name": "level",
+      "unit": "m",
+      "value": 0.095696221913159324,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SHEXFluidBuffer/stored_mass",
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "state_name": "stored_mass",
+      "unit": "kg",
+      "value": 0.09028074776276282,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SHEXFluidBuffer/stored_energy",
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "state_name": "stored_energy",
+      "unit": "J",
+      "value": 45523.423672877019,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SHEXFluidBuffer/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.15000000022559,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SHEXFluidBuffer/level",
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "state_name": "level",
+      "unit": "m",
+      "value": 0.095696221913000229,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMAHotFluidBuffer/stored_mass",
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "state_name": "stored_mass",
+      "unit": "kg",
+      "value": 0.095312568501319084,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMAHotFluidBuffer/stored_energy",
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "state_name": "stored_energy",
+      "unit": "J",
+      "value": 12058.675496118043,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMAHotFluidBuffer/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 303.15000000003084,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMAHotFluidBuffer/level",
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "state_name": "level",
+      "unit": "m",
+      "value": 0.095696221913061055,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_01/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_01",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994325,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_02/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_02",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_03/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_03",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_04/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_04",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_05/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_05",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_06/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_06",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_07/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_07",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_08/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_08",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_09/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_09",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_10/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_10",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_11/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_11",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_12/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_12",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_13/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_13",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_14/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_14",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_15/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_15",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_16/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_16",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_17/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_17",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_18/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_18",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_19/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_19",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_20/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_20",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_21/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_21",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.14999999994336,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SHEX/HotSinkMass/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotSinkMass",
+      "state_name": "T",
+      "unit": "K",
+      "value": 393.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_01/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_01",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_02/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_02",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_03/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_03",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_04/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_04",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_05/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_05",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_06/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_06",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_07/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_07",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_08/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_08",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_09/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_09",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_10/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_10",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_11/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_11",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_12/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_12",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_13/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_13",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_14/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_14",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_15/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_15",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_16/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_16",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_17/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_17",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_18/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_18",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_19/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_19",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_20/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_20",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_21/T",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_21",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "冷端换热器/ColdLoadMass/T",
+      "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ColdLoadMass",
+      "state_name": "T",
+      "unit": "K",
+      "value": 276.95,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "冷端换热器/ColdSinkMass/T",
+      "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ColdSinkMass",
+      "state_name": "T",
+      "unit": "K",
+      "value": 276.95,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "热端换热器/HotSinkMass/T",
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/HotSinkMass",
+      "state_name": "T",
+      "unit": "K",
+      "value": 303.15,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA_PumpInletConnectingPipeVolume/stored_mass",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "state_name": "stored_mass",
+      "unit": "kg",
+      "value": 0.00015174702627137853,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA_PumpInletConnectingPipeVolume/stored_energy",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "state_name": "stored_energy",
+      "unit": "J",
+      "value": 76.380563202838928,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA_PumpInletConnectingPipeVolume/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999941,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA_PumpInletConnectingPipeVolume/p_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "state_name": "p_I",
+      "unit": "MPa",
+      "value": 0.85000049999406646,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA_PumpOutletConnectingPipeVolume/stored_mass",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "state_name": "stored_mass",
+      "unit": "kg",
+      "value": 0.00015174702620079884,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA_PumpOutletConnectingPipeVolume/stored_energy",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "state_name": "stored_energy",
+      "unit": "J",
+      "value": 76.3805632214574,
+      "priority": "High",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA_PumpOutletConnectingPipeVolume/T_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "state_name": "T_I",
+      "unit": "K",
+      "value": 393.14999999999952,
+      "priority": "Low",
+      "source_time_s": 0
+    },
+    {
+      "path": "SMA_PumpOutletConnectingPipeVolume/p_I",
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "state_name": "p_I",
+      "unit": "MPa",
+      "value": 0.84999949999406654,
+      "priority": "Low",
+      "source_time_s": 0
+    }
+  ],
+  "source_sha256": "4AE82B42865AE1EAF3BC0D0467FBFD9CB954894A218C59AEEF59CC63122F3F83",
+  "has_private_data": false,
+  "source_time_s": 0
+}
