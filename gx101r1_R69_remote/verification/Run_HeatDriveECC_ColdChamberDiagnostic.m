@@ -1,4 +1,4 @@
-function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root, simulation_mode, endpoint_chamber_diagnostic, endpoint_all_arms, diagnostic_arm, state_capture_options, constitutive_options)
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root, simulation_mode, endpoint_chamber_diagnostic, endpoint_all_arms, diagnostic_arm, state_capture_options, constitutive_options, inventory_options)
 % Independent diagnostic construction; only explicit qualified modes may load intact state.
     if nargin<3, duration=10; end
     if nargin<4, scale_inventory=false; end
@@ -20,7 +20,10 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     if nargin<20, diagnostic_arm='both'; end
     if nargin<21, state_capture_options=struct(); end
     if nargin<22, constitutive_options=struct(); end
+    if nargin<23, inventory_options=struct(); end
     state_capture_options=Resolve_HeatDriveECC_DiagnosticStateOptions(state_capture_options,cycle_count);
+    inventory_options=Resolve_HeatDriveECC_ManifoldInventoryDiagnostic(inventory_options, ...
+        state_capture_options.mode,cycle_count,duration,diagnostic_arm,endpoint_all_arms);
     assert(isstruct(constitutive_options) && isscalar(constitutive_options), ...
         'Constitutive diagnostic options must be a scalar struct.');
     constitutive_fields=fieldnames(constitutive_options);
@@ -337,6 +340,18 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         end
         overrides.simulation.persist_model_configuration=false;
         overrides.simulation.resume_checkpoint_path='';
+        if isfield(inventory_options,'volume_factor')
+            nominal_volume=overrides.branch.sma_pump_manifold_volume_m3;
+            overrides.branch.sma_pump_manifold_volume_m3=nominal_volume*inventory_options.volume_factor;
+            overrides.validation.sensitivity_mode=true;
+            overrides.validation.sensitivity_declared_transition_fields={'branch.sma_pump_manifold_volume_m3'};
+            record.inventory_intervention=struct('schema','heatdrive_ecc_cold_manifold_volume_intervention_v1', ...
+                'volume_factor',inventory_options.volume_factor,'nominal_volume_each_m3',nominal_volume, ...
+                'actual_volume_each_m3',overrides.branch.sma_pump_manifold_volume_m3, ...
+                'intentionally_changed_field','branch.sma_pump_manifold_volume_m3', ...
+                'source_state_loaded',false,'production_recovery_allowed',false, ...
+                'benchmark_geometry',inventory_options.volume_factor==1);
+        end
         if isfield(constitutive_options,'diagnostic_step_function')
             overrides.branch.diagnostic_constitutive_step_function= ...
                 constitutive_options.diagnostic_step_function;
