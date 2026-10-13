@@ -3,7 +3,7 @@ import unittest
 
 import numpy as np
 
-from Analyze_HeatDriveECC_ManifoldCounterfactual import COMMAND_NAMES, compare_commands, compare_configs, compare_metadata, mass_budget
+from Analyze_HeatDriveECC_ManifoldCounterfactual import COMMAND_NAMES, compare_commands, compare_configs, compare_metadata, initial_pressure_effect, mass_budget
 from Audit_HeatDriveECC_CoupledEnergyInventory import BUFFER_NAMES, CHAMBER_NAMES, ROOT
 
 
@@ -25,6 +25,18 @@ class CounterfactualContractTests(unittest.TestCase):
     def test_truncated_command_horizon_rejected(self):
         a=self.commands();a['L_valve_command']['time_s'][-1]=9
         with self.assertRaises(ValueError):compare_commands(a,a)
+
+    def test_pressure_significance_preserves_failed_strict_match(self):
+        record=dict(unit='MPa',path='Chamber/p_I',priority='Low',
+            volume_normalized_actual_match=dict(expected=.85,actual=.8500000003,within_strict_comparison=False))
+        table=lambda points:np.array([1000+point[1]*1e-6 for point in points])
+        result=initial_pressure_effect(record,1e-6,300,table)
+        self.assertAlmostEqual(result['initial_pressure_difference_Pa'],.0003,places=8)
+        self.assertFalse(result['original_strict_match'])
+        self.assertFalse(result['pressure_tolerance_changed'])
+
+    def test_pressure_significance_rejects_wrong_units(self):
+        with self.assertRaises(ValueError):initial_pressure_effect(dict(unit='Pa',path='Chamber/p_I'),1e-6,300,None)
 
     def configs(self):
         base = dict(diagnostic_state_options={'mode': 'off', 'command_horizon_cycles': 1},

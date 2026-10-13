@@ -127,6 +127,20 @@ def source_equivalence(repo, baseline, candidate):
         interpretation='The completed baseline is reused across a proven geometry-eligibility-only repair, not across arbitrary physical source changes.')
 
 
+def initial_pressure_effect(record, volume, temperature_K, table):
+    if record['unit']!='MPa' or not record['path'].endswith('/p_I'):
+        raise ValueError('Pressure significance requires the actual MPa pressure coordinate')
+    actual=record['volume_normalized_actual_match']
+    a,b=actual['expected']*1e6,actual['actual']*1e6
+    rho=table([[temperature_K,a],[temperature_K,b]])
+    return dict(path=record['path'],target_priority=record['priority'],
+        initial_pressure_difference_Pa=float(b-a),
+        baseline_volume_m3=float(volume),
+        density_table_mass_effect_at_baseline_volume_kg=float(volume*(rho[1]-rho[0])),
+        original_strict_match=actual['within_strict_comparison'],
+        pressure_tolerance_changed=False)
+
+
 def initial_coordinates(a_folder, b_folder):
     targets = [read(folder/'native/public_inventory_targets.json') for folder in (a_folder, b_folder)]
     for target in targets:
@@ -148,15 +162,32 @@ def initial_coordinates(a_folder, b_folder):
                 raise ValueError('An undeclared public cold target changed')
             current_a = scalar_series(aa[key], reference['unit'])[0]
             current_b = scalar_series(bb[key], reference['unit'])[0]
-            comparisons.append(dict(path=reference['path'], unit=reference['unit'], intentional_factor=factor,
+            comparisons.append(dict(path=reference['path'], unit=reference['unit'], priority=reference['priority'],intentional_factor=factor,
                 actual_baseline_vs_target=compare_initial(current_a, reference['value']),
                 actual_candidate_vs_target=compare_initial(current_b, candidate['value']),
                 volume_normalized_actual_match=compare_initial(current_b/factor, current_a)))
-    return dict(coordinates=comparisons,
+        metadata=read(a_folder/'native/inventory_metadata.json')
+        assignment,_=resolve_domains(read(a_folder/'native/tl_connectivity.json'))
+        tables={row['block_path']:density_table(row['parameters']) for row in metadata['settings_tables']}
+        storage={row['block_path']:row for row in metadata['storage_blocks']}
+        pressure_effect=[]
+        for row in comparisons:
+            if row['path'].endswith('/p_I'):
+                block=ROOT+row['path'].rsplit('/',1)[0]
+                temp=scalar_series(aa[block,'T_I'],'K')[0]
+                pressure_effect.append(initial_pressure_effect(row,storage[block]['mask_parameters']['volume']['value'],
+                    temp,tables[assignment[block]]))
+    return dict(coordinates=comparisons,pressure_resolution_effect=pressure_effect,
+        strict_coordinate_match_count=sum(row['volume_normalized_actual_match']['within_strict_comparison'] for row in comparisons),
+        strictly_matched_nonpressure_coordinates=all(row['volume_normalized_actual_match']['within_strict_comparison']
+            for row in comparisons if not row['path'].endswith('/p_I')),
         declared_targets_match_except_volume=True,
         actual_initial_coordinates_match=all(row['volume_normalized_actual_match']['within_strict_comparison'] for row in comparisons),
         own_actual_coordinates_match_targets=all(row[key]['within_strict_comparison']
-            for row in comparisons for key in ('actual_baseline_vs_target', 'actual_candidate_vs_target')))
+            for row in comparisons for key in ('actual_baseline_vs_target', 'actual_candidate_vs_target')),
+        raw_strict_initial_match_is_not_a_steady_or_recovery_certificate=True,
+        interpretation='The original strict comparison is retained. Pressure differences are separately '
+        'reported in Pa and their EOS mass effect; this does not silently waive any recovery-state gate.')
 
 
 def mass_budget(time, buffers, chambers):
