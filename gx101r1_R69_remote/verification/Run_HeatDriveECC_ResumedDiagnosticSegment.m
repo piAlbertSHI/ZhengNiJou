@@ -1,12 +1,24 @@
-function record = Run_HeatDriveECC_ResumedDiagnosticSegment(source_root, verified_root, output_root)
+function record = Run_HeatDriveECC_ResumedDiagnosticSegment(source_root, verified_root, output_root, state_audit_path, cycle_audit_path)
 % Twenty new cycles from an intact state-qualified candidate, without C200 state import.
     assert(~isfolder(output_root) && ~isfile([output_root,'.resumed_config.json']), ...
         'Never overwrite a diagnostic continuation.');
     source=jsondecode(fileread(fullfile(source_root,'cold_chamber_execution.json')));
+    storage=nargin==5;
+    assert(nargin==3 || storage,'Supply both typed storage audits or use the legacy entry.');
     if strcmp(source.diagnostic_state_options.mode,'restore_preflight')
-        config=jsondecode(fileread([source_root,'.state_preflight_config.json']));
+        if storage
+            authority=Require_HeatDriveECC_StorageClosureWarmupSource(source_root,state_audit_path,cycle_audit_path);
+            assert(strcmp(authority.verification_root,char(java.io.File(verified_root).getCanonicalPath())), ...
+                'Complete-cycle verification root changed.');
+            config=jsondecode(fileread(fullfile(fileparts(source_root),'candidate_config.json')));
+            assert(strcmp(config.diagnostic_inventory_options.storage_closure,'pressure_only_density') && ...
+                strcmp(config.diagnostic_se_reference_options.mode,'coherent_envelope'), 'Wrong qualified model.');
+        else
+            config=jsondecode(fileread([source_root,'.state_preflight_config.json']));
+        end
         assert(source.state_restore_preflight_pass,'Require the successful cold preflight.');
     else
+        assert(~storage,'This entry qualifies the first C2-to-C22 segment only.');
         assert(strcmp(source.diagnostic_state_options.mode,'diagnostic_resume') && ...
             source.requested_arm_collection_pass && isempty(source.error_message), ...
             'Require a completed diagnostic continuation, never a failed segment.');
@@ -31,6 +43,14 @@ function record = Run_HeatDriveECC_ResumedDiagnosticSegment(source_root, verifie
         'Configure_HeatDriveECC_PressureCommandDomain.m','HeatDriveECC_PressureCommandInterval.m', ...
         'Audit_HeatDriveECC_PressureReferenceTopology.m', ...
         'verification/Run_HeatDriveECC_ColdChamberDiagnostic.m'};
+    if storage
+        physical=[physical,{'verification/Configure_HeatDriveECC_SEReferenceClosure.m', ...
+            'HeatDriveECC_ConstitutiveStateVectorStep21_StableDiagnostic.m', ...
+            'verification/Configure_HeatDriveECC_PressureOnlyInventoryMap.m', ...
+            'verification/simscape_inventory_pressure_only/+ecc_inventory_pressure_only/conservative_chamber.ssc', ...
+            'verification/Build_HeatDriveECC_ColdInitialFluxCompensation.m', ...
+            'verification/Build_HeatDriveECC_ColdInventoryTargets.m'}];
+    end
     for idx=1:numel(physical)
         tracked=['gx101r1_R69_remote/',physical{idx}];
         [status,~]=system(sprintf('git -C "%s" ls-files --error-unmatch -- "%s"',workspace,tracked));
@@ -44,6 +64,14 @@ function record = Run_HeatDriveECC_ResumedDiagnosticSegment(source_root, verifie
     config.diagnostic_arm='native';
     config.diagnostic_state_options=struct('mode','diagnostic_resume','command_horizon_cycles',200, ...
         'restore_source_root',source_root,'restore_verification_root',verified_root);
+    if storage
+        config.diagnostic_state_options.storage_state_audit_path=state_audit_path;
+        config.diagnostic_state_options.storage_complete_cycle_audit_path=cycle_audit_path;
+        config.diagnostic_inventory_options.rebuilt_state_audit_path=state_audit_path;
+        config.diagnostic_inventory_options.warmup_restore_audit_path=cycle_audit_path;
+        config.diagnostic_se_reference_options.rebuilt_state_audit_path=state_audit_path;
+        config.diagnostic_se_reference_options.warmup_restore_audit_path=cycle_audit_path;
+    end
     path=[output_root,'.resumed_config.json'];
     fid=fopen(path,'w','n','UTF-8');assert(fid>=0,'Cannot save diagnostic resume config.');
     fprintf(fid,'%s\n',jsonencode(config,'PrettyPrint',true));fclose(fid);

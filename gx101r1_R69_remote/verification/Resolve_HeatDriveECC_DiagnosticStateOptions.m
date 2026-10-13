@@ -1,7 +1,8 @@
 function options = Resolve_HeatDriveECC_DiagnosticStateOptions(options, cycle_count)
 % State-capture policy is separate from physical mechanism or recovery eligibility.
     assert(isstruct(options) && isscalar(options),'Require scalar diagnostic state options.');
-    assert(all(ismember(fieldnames(options),{'mode','command_horizon_cycles','restore_source_root','restore_verification_root'})), ...
+    assert(all(ismember(fieldnames(options),{'mode','command_horizon_cycles','restore_source_root','restore_verification_root', ...
+        'storage_state_audit_path','storage_complete_cycle_audit_path'})), ...
         'Unknown diagnostic state option.');
     if ~isfield(options,'mode'),options.mode='off';end
     if ~isfield(options,'command_horizon_cycles'),options.command_horizon_cycles=cycle_count;end
@@ -9,6 +10,16 @@ function options = Resolve_HeatDriveECC_DiagnosticStateOptions(options, cycle_co
     assert(ismember(options.mode,{'off','capture','restore_preflight','rebuilt_cycle_preflight','diagnostic_resume'}),'Unknown state capture mode.');
     rebuilding=strcmp(options.mode,'rebuilt_cycle_preflight');
     resuming=strcmp(options.mode,'diagnostic_resume');
+    storage_fields={'storage_state_audit_path','storage_complete_cycle_audit_path'};
+    if any(isfield(options,storage_fields))
+        assert(resuming && all(isfield(options,storage_fields)), ...
+            'Storage warmup requires both typed audits, only in diagnostic resume.');
+        for field=storage_fields
+            value=string(options.(field{1}));
+            assert(isscalar(value) && strlength(value)>0,'Require nonempty storage evidence path.');
+            options.(field{1})=char(value);
+        end
+    end
     assert(~isfield(options,'restore_source_root') || rebuilding || resuming, ...
         'A restore source is forbidden outside the rebuilt-cycle experiment.');
     if rebuilding

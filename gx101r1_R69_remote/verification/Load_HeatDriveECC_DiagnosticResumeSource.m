@@ -2,6 +2,15 @@ function [op, contract] = Load_HeatDriveECC_DiagnosticResumeSource(options)
 % State-qualified independent diagnostic input, never a failed or production state.
     source=char(options.restore_source_root);verified=char(options.restore_verification_root);
     execution=jsondecode(fileread(fullfile(source,'cold_chamber_execution.json')));
+    storage=isfield(options,'storage_complete_cycle_audit_path');
+    if storage
+        authority=Require_HeatDriveECC_StorageClosureWarmupSource(source, ...
+            options.storage_state_audit_path,options.storage_complete_cycle_audit_path);
+        assert(strcmp(authority.verification_root,char(java.io.File(verified).getCanonicalPath())), ...
+            'Substituted complete-cycle verification root.');
+        assert(strcmp(execution.inventory_intervention.storage_closure,'pressure_only_density'), ...
+            'Storage authority cannot be used for another physical model.');
+    end
     if strcmp(execution.diagnostic_state_options.mode,'diagnostic_resume')
         [op,contract]=Load_HeatDriveECC_LatestDiagnosticEndpoint(options);
         return
@@ -31,7 +40,7 @@ function [op, contract] = Load_HeatDriveECC_DiagnosticResumeSource(options)
         'Comparison MAT and restore receipt disagree.');
     directional=isfield(execution.diagnostic_branch_overrides,'pressure_command_reference_mode') && ...
         strcmp(execution.diagnostic_branch_overrides.pressure_command_reference_mode,'named_source_reference');
-    if directional
+    if directional && ~storage
         cold_audit=jsondecode(fileread(fullfile(source,'cold_local_ledger_audit.json')));
         rebuilt_audit=jsondecode(fileread(fullfile(verified,'rebuilt_local_ledger_audit.json')));
         assert(execution.requested_arm_collection_pass && cold_audit.mechanism_subset_pass && ...
@@ -68,9 +77,10 @@ function [op, contract] = Load_HeatDriveECC_DiagnosticResumeSource(options)
         'source_root',source,'verification_root',verified,'snapshot_time_s',20, ...
         'operating_point_sha256',capture.operating_point_sha256,'history_sha256',capture.history_sha256, ...
         'restore_receipt_sha256',file_hash(proof_file),'comparison_sha256',file_hash(comparison_file), ...
-        'full_cycle_state_restore_verified',true,'source_physical_gates_evaluated',directional, ...
+        'full_cycle_state_restore_verified',true,'source_physical_gates_evaluated',directional || storage, ...
         'failed_state_propagated',false,'source_state_edited',false,'partial_state_restore_used',false, ...
         'production_recovery_allowed',false,'diagnostic_trial_only',true);
+    if storage,contract.storage_complete_cycle_audit_sha256=authority.complete_cycle_audit_sha256;end
 end
 
 function result=file_hash(file)
