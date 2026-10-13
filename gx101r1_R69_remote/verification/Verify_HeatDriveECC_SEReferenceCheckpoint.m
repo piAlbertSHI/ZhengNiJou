@@ -1,0 +1,23 @@
+function result = Verify_HeatDriveECC_SEReferenceCheckpoint(source_root, audit_path)
+    contract=Require_HeatDriveECC_SEReferenceCheckpoint(source_root,audit_path);
+    assert(contract.snapshot_time_s==20 && ~contract.complete_cycle_restore_verified && ...
+        ~contract.production_recovery_allowed && ~contract.outer_solve_eligible);
+    original=jsondecode(fileread(audit_path));
+    changes={ ...
+        @(a) setfield(a,'schema','other'), ...
+        @(a) setfield(a,'production_recovery_allowed',true), ...
+        @(a) setfield(a,'diagnostic_warmup_continuation_allowed',true), ...
+        @(a) setfield(a,'manifest_sha256',repmat('0',1,64)), ...
+        @(a) setfield(a,'cases',{2},'OP_sha256',repmat('0',1,64)), ...
+        @(a) setfield(a,'cases',{2},'history_sha256',repmat('0',1,64))};
+    for k=1:numel(changes)
+        path=[tempname,'.json'];cleanup=onCleanup(@() delete(path));
+        fid=fopen(path,'w','n','UTF-8');assert(fid>=0);
+        fprintf(fid,'%s\n',jsonencode(changes{k}(original)));fclose(fid);
+        rejected=false;
+        try,Require_HeatDriveECC_SEReferenceCheckpoint(source_root,path);catch,rejected=true;end
+        assert(rejected,'Changed checkpoint authority was accepted.');clear cleanup
+    end
+    result=struct('positive_cases',1,'negative_cases',numel(changes),'pass',true);
+    fprintf('%s\n',jsonencode(result));
+end

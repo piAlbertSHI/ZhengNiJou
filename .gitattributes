@@ -81,3 +81,5 @@ gx101r1_R69_remote/outputs_storage_audit/v36*.json -text whitespace=trailing-spa
 gx101r1_R69_remote/outputs_storage_audit/v36_*/**/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
 gx101r1_R69_remote/outputs_storage_audit/workspace_governance_20261014_v36/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
 gx101r1_R69_remote/outputs_storage_audit/workspace_governance_20261014_v36/*.csv -text whitespace=trailing-space,space-before-tab,cr-at-eol
+# Reboot qualification receipts retain original bytes for SHA binding.
+gx101r1_R69_remote/outputs_storage_audit/v37_* -text
