@@ -1,5 +1,7 @@
 function study = Run_HeatDriveECC_ManifoldInventoryCounterfactual(config_path, output_root)
 % Paired independent cold experiments; no OP/history imports or gate relaxation.
+    config_path=char(java.io.File(config_path).getCanonicalPath());
+    output_root=char(java.io.File(output_root).getCanonicalPath());
     assert(~isfolder(output_root),'Never overwrite a counterfactual study.');
     base=jsondecode(fileread(config_path));
     assert(strcmp(base.diagnostic_constitutive_step_function, ...
