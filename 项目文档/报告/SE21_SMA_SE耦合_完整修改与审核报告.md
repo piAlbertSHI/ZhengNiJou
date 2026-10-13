@@ -6312,3 +6312,5 @@ SMAHot 单周期质量损失从 0.163354874 g 降至 0.016317794 g，比值 0.09
 
 - `C:\Users\86182\Desktop\冷凝文献\弹热制冷文献\A heat driven elastocaloric cooling system..pdf`：Energy 182 (2019) 881–899，DOI `10.1016/j.energy.2019.06.094`，本轮实际 PDF 第 3/4/5/6 页。
 - `C:\Users\86182\Desktop\冷凝文献\弹热制冷文献\（3）Thermodynamics cycle analysis and numerical modeling of thermoelastic cooling systems.pdf`：International Journal of Refrigeration 56 (2015) 65–80，DOI `10.1016/j.ijrefrig.2015.04.001`，本轮实际 PDF 第 7 页，期刊页 71。
+
+首个实际执行 `v38_density_r1` 退出 1，发生在组件库编译阶段，未启动耦合仿真：`ssc_build` 的默认液体域上限小于占位参数 393.15 K，触发新参数物性范围断言。将组件库占位默认值改为 300 K，实际模型装配仍逐腔设置测得的 t=0 温度，物性范围断言和实际实验条件不改变。r1 完整失败回执/源码保留，新验证使用 `v38_density_r2`，不覆盖、不传播、不盲目重试。

@@ -11,7 +11,7 @@ end
 parameters
     volume = {1.6084954386379741e-6, 'm^3'};
     area = {8.04247719318987e-6, 'm^2'};
-    inventory_reference_temperature = {393.15, 'K'};
+    inventory_reference_temperature = {300, 'K'};
 end
 
 variables

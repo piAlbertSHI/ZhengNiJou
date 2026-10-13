@@ -90,7 +90,7 @@ class StorageClosureTests(unittest.TestCase):
         normalize = lambda text: re.sub(r'\s+', '', re.sub(r'%[^\n]*', '', text))
         original = normalize((folder/'simscape_inventory_endpoint/+ecc_inventory_endpoint/conservative_chamber.ssc').read_text())
         candidate = normalize((folder/'simscape_inventory_pressure_only/+ecc_inventory_pressure_only/conservative_chamber.ssc').read_text())
-        for added in ("inventory_reference_temperature={393.15,'K'};",
+        for added in ("inventory_reference_temperature={300,'K'};",
                       'assert(inventory_reference_temperature>=A.T_min)',
                       'assert(inventory_reference_temperature<=A.T_max)'):
             candidate = candidate.replace(added, '')
