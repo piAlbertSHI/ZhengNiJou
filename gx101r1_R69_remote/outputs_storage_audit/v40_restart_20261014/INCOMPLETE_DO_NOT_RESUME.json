@@ -1,0 +1,45 @@
+{
+  "schema": "heatdrive_ecc_external_restart_interruption_v1",
+  "experiment_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v40_storage_warmup_r1",
+  "execution_commit": "8d499b0",
+  "session_id": 23338,
+  "terminal_exit_code": 1073807364,
+  "interrupted_by_windows_update_restart": true,
+  "system_restart_events": [
+    {
+      "TimeCreated": "2026-10-14T05:48:59.8571476+08:00",
+      "Id": 1074,
+      "ProviderName": "User32",
+      "Message": "进程 C:\\WINDOWS\\servicing\\TrustedInstaller.exe (PIALBERT师) 由于以下原因已代表用户 NT AUTHORITY\\SYSTEM 启动计算机 PIALBERT师 的 重启: 操作系统: 升级(计划内)\r\n 原因代码: 0x80020003\r\n 关机类型: 重启\r\n 注释: "
+    },
+    {
+      "TimeCreated": "2026-10-14T05:48:01.0944162+08:00",
+      "Id": 1074,
+      "ProviderName": "User32",
+      "Message": "进程 C:\\WINDOWS\\servicing\\TrustedInstaller.exe (PIALBERT师) 由于以下原因已代表用户 NT AUTHORITY\\SYSTEM 启动计算机 PIALBERT师 的 重启: 操作系统: 升级(计划内)\r\n 原因代码: 0x80020003\r\n 关机类型: 重启\r\n 注释: "
+    },
+    {
+      "TimeCreated": "2026-10-14T05:44:15.3836887+08:00",
+      "Id": 1074,
+      "ProviderName": "User32",
+      "Message": "进程 C:\\WINDOWS\\uus\\AMD64\\MoUsoCoreWorker.exe (PIALBERT师) 由于以下原因已代表用户 NT AUTHORITY\\SYSTEM 启动计算机 PIALBERT师 的 重启: 操作系统: Service Pack (计划内)\r\n 原因代码: 0x80020010\r\n 关机类型: 重启\r\n 注释: "
+    }
+  ],
+  "stderr_bytes": 0,
+  "requested_window_s": [
+    20,
+    220
+  ],
+  "new_complete_checkpoint_saved": false,
+  "scientific_mechanism_failure_demonstrated": false,
+  "failed_state_propagated": false,
+  "safe_source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v39_density_c2_r1\\candidate",
+  "safe_source_time_s": 20,
+  "safe_operating_point_sha256": "F91E18DB9133620139D6906717D2A6882F881912C91CCC564FDD806FF7B95378",
+  "safe_history_sha256": "9B7C998B82DDF1FEB35F9B3818856DCD701D7099CC254DB4686080C1AF0BD567",
+  "source_state_edited": false,
+  "production_recovery_allowed": false,
+  "classification": "incomplete setup evidence, not a continuation source",
+  "raw_retired_bytes": 0,
+  "completed_results_claimed": false
+}
