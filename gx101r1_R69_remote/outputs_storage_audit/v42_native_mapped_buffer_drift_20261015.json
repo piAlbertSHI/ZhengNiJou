@@ -1,0 +1,239 @@
+{
+  "schema": "heatdrive_ecc_empirically_crosschecked_buffer_drift_v1",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v41_storage_warmup_from_C22_r1",
+  "independent_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v40_storage_warmup_r2",
+  "independent_exact_identity_count": 121,
+  "independent_native_overlap_window_s": [
+    200,
+    220
+  ],
+  "buffer_comparison_window_s": [
+    320,
+    420
+  ],
+  "buffers": {
+    "ColdFluidBuffer": [
+      {
+        "global_cycle": 33,
+        "mass_offset_change_kg": -2.528496714486342e-07,
+        "stored_energy_change_J": -4.453719549717789
+      },
+      {
+        "global_cycle": 34,
+        "mass_offset_change_kg": -2.536903304667669e-07,
+        "stored_energy_change_J": -4.273007408709418
+      },
+      {
+        "global_cycle": 35,
+        "mass_offset_change_kg": -2.5448636919910765e-07,
+        "stored_energy_change_J": -4.0996479527948395
+      },
+      {
+        "global_cycle": 36,
+        "mass_offset_change_kg": -2.552447127603536e-07,
+        "stored_energy_change_J": -3.9333433039892043
+      },
+      {
+        "global_cycle": 37,
+        "mass_offset_change_kg": -2.559704472660749e-07,
+        "stored_energy_change_J": -3.7738069719207488
+      },
+      {
+        "global_cycle": 38,
+        "mass_offset_change_kg": -2.566657574794382e-07,
+        "stored_energy_change_J": -3.620764114061785
+      },
+      {
+        "global_cycle": 39,
+        "mass_offset_change_kg": -2.573331044938116e-07,
+        "stored_energy_change_J": -3.473950973052524
+      },
+      {
+        "global_cycle": 40,
+        "mass_offset_change_kg": -2.5797468883388317e-07,
+        "stored_energy_change_J": -3.3331141155849764
+      },
+      {
+        "global_cycle": 41,
+        "mass_offset_change_kg": -2.5858943499223975e-07,
+        "stored_energy_change_J": -3.1980109522119164
+      },
+      {
+        "global_cycle": 42,
+        "mass_offset_change_kg": -2.591806738866712e-07,
+        "stored_energy_change_J": -3.0684084844706376
+      }
+    ],
+    "HotFluidBuffer": [
+      {
+        "global_cycle": 33,
+        "mass_offset_change_kg": 2.528496714486342e-07,
+        "stored_energy_change_J": 6.684465351921972
+      },
+      {
+        "global_cycle": 34,
+        "mass_offset_change_kg": 2.536903304667669e-07,
+        "stored_energy_change_J": 6.431906907415396
+      },
+      {
+        "global_cycle": 35,
+        "mass_offset_change_kg": 2.5448636919910765e-07,
+        "stored_energy_change_J": 6.188966784138756
+      },
+      {
+        "global_cycle": 36,
+        "mass_offset_change_kg": 2.552447127603536e-07,
+        "stored_energy_change_J": 5.955281262133212
+      },
+      {
+        "global_cycle": 37,
+        "mass_offset_change_kg": 2.559704472660749e-07,
+        "stored_energy_change_J": 5.730494722029107
+      },
+      {
+        "global_cycle": 38,
+        "mass_offset_change_kg": 2.566657574794382e-07,
+        "stored_energy_change_J": 5.514267004266003
+      },
+      {
+        "global_cycle": 39,
+        "mass_offset_change_kg": 2.573331044938116e-07,
+        "stored_energy_change_J": 5.306275677656231
+      },
+      {
+        "global_cycle": 40,
+        "mass_offset_change_kg": 2.5797468883388317e-07,
+        "stored_energy_change_J": 5.106213318420487
+      },
+      {
+        "global_cycle": 41,
+        "mass_offset_change_kg": 2.5858943499223975e-07,
+        "stored_energy_change_J": 4.913763293825468
+      },
+      {
+        "global_cycle": 42,
+        "mass_offset_change_kg": 2.591806738866712e-07,
+        "stored_energy_change_J": 4.7286453749620705
+      }
+    ],
+    "SHEXFluidBuffer": [
+      {
+        "global_cycle": 33,
+        "mass_offset_change_kg": -1.468598542585878e-07,
+        "stored_energy_change_J": -4.398454015674361
+      },
+      {
+        "global_cycle": 34,
+        "mass_offset_change_kg": -1.4686555845913e-07,
+        "stored_energy_change_J": -4.3953692131108255
+      },
+      {
+        "global_cycle": 35,
+        "mass_offset_change_kg": -1.4687134432750746e-07,
+        "stored_energy_change_J": -4.392287154114456
+      },
+      {
+        "global_cycle": 36,
+        "mass_offset_change_kg": -1.4687720676588288e-07,
+        "stored_energy_change_J": -4.389207719112164
+      },
+      {
+        "global_cycle": 37,
+        "mass_offset_change_kg": -1.4688314524448884e-07,
+        "stored_energy_change_J": -4.386131003629998
+      },
+      {
+        "global_cycle": 38,
+        "mass_offset_change_kg": -1.468891560288282e-07,
+        "stored_energy_change_J": -4.383056956758082
+      },
+      {
+        "global_cycle": 39,
+        "mass_offset_change_kg": -1.468952356902768e-07,
+        "stored_energy_change_J": -4.379985558531189
+      },
+      {
+        "global_cycle": 40,
+        "mass_offset_change_kg": -1.4690138047716982e-07,
+        "stored_energy_change_J": -4.376916722780152
+      },
+      {
+        "global_cycle": 41,
+        "mass_offset_change_kg": -1.4690758958399504e-07,
+        "stored_energy_change_J": -4.373850513948128
+      },
+      {
+        "global_cycle": 42,
+        "mass_offset_change_kg": -1.4691385891979848e-07,
+        "stored_energy_change_J": -4.370786869170843
+      }
+    ],
+    "SMAHotFluidBuffer": [
+      {
+        "global_cycle": 33,
+        "mass_offset_change_kg": 1.468598784720241e-07,
+        "stored_energy_change_J": 5.430974760934987
+      },
+      {
+        "global_cycle": 34,
+        "mass_offset_change_kg": 1.4686558158034865e-07,
+        "stored_energy_change_J": 5.427331093296743
+      },
+      {
+        "global_cycle": 35,
+        "mass_offset_change_kg": 1.4687136643798033e-07,
+        "stored_energy_change_J": 5.423690465922846
+      },
+      {
+        "global_cycle": 36,
+        "mass_offset_change_kg": 1.4687722788608953e-07,
+        "stored_energy_change_J": 5.420052850946377
+      },
+      {
+        "global_cycle": 37,
+        "mass_offset_change_kg": 1.46883165410407e-07,
+        "stored_energy_change_J": 5.4164182267795695
+      },
+      {
+        "global_cycle": 38,
+        "mass_offset_change_kg": 1.4688917530159586e-07,
+        "stored_energy_change_J": 5.412786569855598
+      },
+      {
+        "global_cycle": 39,
+        "mass_offset_change_kg": 1.4689525408801028e-07,
+        "stored_energy_change_J": 5.409157859196057
+      },
+      {
+        "global_cycle": 40,
+        "mass_offset_change_kg": 1.4690139806762162e-07,
+        "stored_energy_change_J": 5.405532064874933
+      },
+      {
+        "global_cycle": 41,
+        "mass_offset_change_kg": 1.469076063530807e-07,
+        "stored_energy_change_J": 5.401909176483969
+      },
+      {
+        "global_cycle": 42,
+        "mass_offset_change_kg": 1.4691387493390333e-07,
+        "stored_energy_change_J": 5.398289166007089
+      }
+    ]
+  },
+  "identity_validation_kind": "Fixed coordinate bitwise identity on two independent warmup runs",
+  "compiled_physical_semantics_verified": false,
+  "full_native_source_energy_window_available": false,
+  "numerical_closure_tolerance_used_as_periodic_threshold": false,
+  "periodic_gate_assigned": false,
+  "operating_point_loaded": false,
+  "source_state_edited": false,
+  "simulation_executed": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "input_sha256": {
+    "mapping": "52D1DE1B139F047AB60CA8406D8586E7AE58A56F983884C063C53139194B5380",
+    "independent_history": "A48EAE35A3B156706CE44B688B57C056C03D4F16447B4A94A44DE72A20361F63",
+    "independent_native": "BA06531B5311ED4C0788BAD446A2036D6F57C7CADABF160E49E48290202C0CA4"
+  }
+}

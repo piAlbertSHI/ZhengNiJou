@@ -12,8 +12,8 @@ function options = Resolve_HeatDriveECC_DiagnosticStateOptions(options, cycle_co
     resuming=strcmp(options.mode,'diagnostic_resume');
     storage_fields={'storage_state_audit_path','storage_complete_cycle_audit_path'};
     if isfield(options,'native_inventory_window_cycles')
-        assert(resuming && all(isfield(options,storage_fields)) && ...
-            isequal(options.native_inventory_window_cycles,10), 'Only typed ten-cycle native recording is supported.');
+        error('HeatDriveECC:NativeHistoryIsCheckpointBound', ...
+            'Changing native history invalidates this complete OP. Keep its two-cycle cap and use compatible observation collection.');
     end
     if any(isfield(options,storage_fields))
         assert(resuming && all(isfield(options,storage_fields)), ...

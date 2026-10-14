@@ -1,0 +1,2117 @@
+{
+  "schema": "heatdrive_ecc_native_state_exact_mapping_exploration_v1",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v41_storage_warmup_from_C22_r1",
+  "overlap_window_s": [
+    400,
+    420
+  ],
+  "uniquely_matched": 121,
+  "unmatched": 81,
+  "constant_unidentifiable": 6,
+  "matches": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 182,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_002",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 190,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_003",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 198,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_004",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 206,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_005",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 214,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_006",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 222,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_007",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 230,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_008",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 238,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_009",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 246,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_010",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 254,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_011",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 262,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_012",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 270,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_013",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 278,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_014",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 286,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_015",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 294,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_016",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 302,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_017",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 310,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_018",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 318,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_019",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 326,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_020",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 334,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_021",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 341,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 384,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_001",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 407,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_002",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 415,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_003",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 423,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_004",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 431,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_005",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 439,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_006",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 447,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_007",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 455,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_008",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 463,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_009",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 471,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_010",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 479,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_011",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 487,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_012",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 495,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_013",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 503,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_014",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 511,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_015",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 519,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_016",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 527,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_017",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 535,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_018",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 543,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_019",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 551,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_020",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 559,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_021",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 565,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 573,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 581,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 589,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 597,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 605,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 613,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 621,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 629,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 637,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 645,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 653,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 661,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 669,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 677,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 685,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 693,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 701,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 709,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 717,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 725,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 730,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 805,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 807,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 809,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "variable": "mass_offset",
+      "physical_unit": "kg",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 2,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "variable": "stored_energy",
+      "physical_unit": "J",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 1,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "variable": "mass_offset",
+      "physical_unit": "kg",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 4,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "variable": "stored_energy",
+      "physical_unit": "J",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 3,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "variable": "mass_offset",
+      "physical_unit": "kg",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 50,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "variable": "stored_energy",
+      "physical_unit": "J",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 49,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "variable": "mass_offset",
+      "physical_unit": "kg",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 115,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "variable": "stored_energy",
+      "physical_unit": "J",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 114,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 753,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 757,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_01",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 5,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_02",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 7,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_03",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 9,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_04",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 11,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_05",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 13,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_06",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 15,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_07",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 17,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_08",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 19,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_09",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 21,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_10",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 23,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_11",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 25,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_12",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 27,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_13",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 29,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_14",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 31,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_15",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 33,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_16",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 35,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_17",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 37,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_18",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 39,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_19",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 41,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_20",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 43,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_21",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 45,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotSinkMass",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 47,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_01",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 51,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_02",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 53,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_03",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 55,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_04",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 57,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_05",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 59,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_06",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 61,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_07",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 63,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_08",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 65,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_09",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 67,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_10",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 69,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_11",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 71,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_12",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 73,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_13",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 75,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_14",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 77,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_15",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 79,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_16",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 81,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_17",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 83,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_18",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 85,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_19",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 87,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_20",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 89,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_21",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 91,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotSinkMass",
+      "variable": "T",
+      "physical_unit": "K",
+      "coordinate": {
+        "block_path": "heatdrive_ecc_coupled_se21/Solver Configuration",
+        "state_name": "Discrete_2176707653",
+        "coordinate_1based": 122,
+        "transform": "identity",
+        "native_delay_s": 0
+      },
+      "exact_samples": 20001
+    }
+  ],
+  "unmatched_variables": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_002",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_003",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_004",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_005",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_006",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_007",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_008",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_009",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_010",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_011",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_012",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_013",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_014",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_015",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_016",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_017",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_018",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_019",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_020",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_021",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_001",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_002",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_003",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_004",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_005",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_006",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_007",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_008",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_009",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_010",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_011",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_012",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_013",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_014",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_015",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_016",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_017",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_018",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_019",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_020",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_021",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "variable": "stored_mass",
+      "physical_unit": "kg",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "variable": "stored_mass",
+      "physical_unit": "kg",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "variable": "stored_mass",
+      "physical_unit": "kg",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "variable": "T_I",
+      "physical_unit": "K",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "variable": "stored_mass",
+      "physical_unit": "kg",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "variable": "stored_energy",
+      "physical_unit": "J",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "variable": "stored_mass",
+      "physical_unit": "kg",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "variable": "p_I",
+      "physical_unit": "MPa",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "variable": "stored_energy",
+      "physical_unit": "J",
+      "exact_candidate_count": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "variable": "stored_mass",
+      "physical_unit": "kg",
+      "exact_candidate_count": 0
+    }
+  ],
+  "constant_variables": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "variable": "p_I",
+      "physical_unit": "MPa"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "variable": "p_I",
+      "physical_unit": "MPa"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "variable": "p_I",
+      "physical_unit": "MPa"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "variable": "p_I",
+      "physical_unit": "MPa"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdLoadMass",
+      "variable": "T",
+      "physical_unit": "K"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkMass",
+      "variable": "T",
+      "physical_unit": "K"
+    }
+  ],
+  "numerical_identity_only": true,
+  "compiled_physical_semantics_verified": false,
+  "simulation_executed": false,
+  "operating_point_loaded": false,
+  "source_state_edited": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "input_sha256": {
+    "history": "AC5B90AD7A3063794E8C58B3C46D7396E86F86CC5A5BB402E129D8E8A02D3825",
+    "native_observation": "1A4583092CBF35EF274170D7688793E6B4E272A80A34116D0E316E4DBB8F13B1"
+  }
+}

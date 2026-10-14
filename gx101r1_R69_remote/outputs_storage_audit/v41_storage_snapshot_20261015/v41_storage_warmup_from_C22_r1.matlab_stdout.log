@@ -1,0 +1,20 @@
+正在当前目录 'C:\Users\86182\.codex\worktrees\runtime-cv-json-contract\正逆耦合\gx101r1_R69_remote\outputs\v41_storage_warmup_from_C22_r1\component_build' 中生成 Simulink 库 'ecc_inventory_pressure_only_lib'...
+正在当前目录 'C:\Users\86182\.codex\worktrees\runtime-cv-json-contract\正逆耦合\gx101r1_R69_remote\outputs\v41_storage_warmup_from_C22_r1\buffer_component_build' 中生成 Simulink 库 'ecc_buffer_coupled_offset_lib'...
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 738 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 29 行)
+位置: Run_HeatDriveECC_ResumedDiagnosticSegment (第 88 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 738 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 29 行)
+位置: Run_HeatDriveECC_ResumedDiagnosticSegment (第 88 行)] 
+{"collection_pass":false,"completed_arms":1,"state_restore_preflight_pass":false,"rebuilt_cycle_preflight_pass":false,"production_recovery_allowed":false,"result_file":"C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v41_storage_warmup_from_C22_r1\\cold_chamber_execution.json"}
+{"start_time_s":220,"stop_time_s":420,"total_cycles":42,"checkpoint_saved":true,"requested_arm_collection_pass":true,"production_recovery_allowed":false,"error_message":""}

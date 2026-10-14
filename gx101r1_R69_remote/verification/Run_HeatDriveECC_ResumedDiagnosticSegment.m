@@ -5,7 +5,10 @@ function record = Run_HeatDriveECC_ResumedDiagnosticSegment(source_root, verifie
     source=jsondecode(fileread(fullfile(source_root,'cold_chamber_execution.json')));
     storage=nargin==5 || nargin==6;
     assert(nargin==3 || storage,'Supply both typed storage audits or use the legacy entry.');
-    if nargin==6,assert(isequal(native_inventory_window_cycles,10),'Only the explicit ten-cycle logging extension is supported.');end
+    if nargin==6
+        error('HeatDriveECC:NativeHistoryIsCheckpointBound', ...
+            'The ten-cycle cap prototype is rejected; preserve the qualified OP logging configuration.');
+    end
     if strcmp(source.diagnostic_state_options.mode,'restore_preflight')
         if storage
             authority=Require_HeatDriveECC_StorageClosureWarmupSource(source_root,state_audit_path,cycle_audit_path);

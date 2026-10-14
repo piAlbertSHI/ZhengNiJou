@@ -4,8 +4,8 @@ function record = Test_HeatDriveECC_NativeLoggingWindow(workspace, producer)
         'restore_source_root','source','restore_verification_root','proof', ...
         'storage_state_audit_path','state','storage_complete_cycle_audit_path','cycle', ...
         'native_inventory_window_cycles',10);
-    resolved=Resolve_HeatDriveECC_DiagnosticStateOptions(state,20);
-    assert(Resolve_HeatDriveECC_NativeInventoryWindow(resolved,20,true,'native',true)==10);
+    rejected=false;try,Resolve_HeatDriveECC_DiagnosticStateOptions(state,20);catch,rejected=true;end
+    assert(rejected,'Known-incompatible native history change must be rejected before simulation.');
     guard=Require_HeatDriveECC_LoggingOnlyRunnerSource(workspace,producer);
     assert(guard.exact_logging_only_source_delta_pass);
     file=fullfile(workspace,'gx101r1_R69_remote','verification','Run_HeatDriveECC_ColdChamberDiagnostic.m');
@@ -23,7 +23,7 @@ function record = Test_HeatDriveECC_NativeLoggingWindow(workspace, producer)
         rejected=false;try,bad{k}();catch,rejected=true;end
         assert(rejected,'Unsupported native recording policy accepted.');
     end
-    record=struct('default_two_cycles_unchanged',true,'typed_ten_cycle_option_pass',true, ...
+    record=struct('default_two_cycles_unchanged',true,'incompatible_history_change_rejected',true, ...
         'exact_logging_only_source_delta_pass',true,'physical_source_mutations_rejected',2, ...
         'invalid_window_policies_rejected',numel(bad),'pass',true);
     fprintf('%s\n',jsonencode(record));

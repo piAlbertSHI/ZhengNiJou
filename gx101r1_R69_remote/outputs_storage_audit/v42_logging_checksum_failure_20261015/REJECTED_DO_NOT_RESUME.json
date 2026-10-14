@@ -1,0 +1,14 @@
+{
+  "schema": "heatdrive_ecc_logging_checkpoint_incompatibility_v1",
+  "reason": "The original two-cycle history restored strictly; a ten-cycle history changed the complete OP contents checksum",
+  "source_two_cycle_step_executed": true,
+  "new_ten_cycle_setting_restore_pass": false,
+  "checksum_policy_downgraded": false,
+  "long_simulation_started": false,
+  "new_complete_checkpoint_saved": false,
+  "failed_state_propagated": false,
+  "safe_source_snapshot_time_s": 420,
+  "safe_source_operating_point_sha256": "39EDC4435C62C5A2E23C011CD260A564B5A84BCB83C35E922CBC0AFF70B005D7",
+  "source_state_edited": false,
+  "production_recovery_allowed": false
+}
