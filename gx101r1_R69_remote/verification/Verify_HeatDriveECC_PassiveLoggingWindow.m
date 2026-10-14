@@ -12,7 +12,7 @@ function record = Verify_HeatDriveECC_PassiveLoggingWindow(input, source_op, sou
     for k=1:2
         cycles=[2 10];
         trial=input.setModelParameter('StopTime',num2str(stop,'%.17g'), ...
-            'SimscapeLogDataHistory',num2str(cycles(k)*10000+2)).setInitialState(source_op);
+            'SimscapeLogDataHistory',cycles(k)*10000+2).setInitialState(source_op);
         output=sim(trial);assert(isempty(output.ErrorMessage),'Strict logging trial failed: %s',output.ErrorMessage);
         state_sets{k}=Extract_HeatDriveECC_ObservedStates(output.diagnostic_state_log,10,1);
         signals{k}=public_signals(output,start,stop);
@@ -20,6 +20,7 @@ function record = Verify_HeatDriveECC_PassiveLoggingWindow(input, source_op, sou
         [sources{k},~]=Extract_HeatDriveECC_BoundaryTraces(output.simlog,model);
         clear output
     end
+    save(fullfile(folder,'native_logging_step_comparison.mat'),'state_sets','signals','native','sources','-v7.3');
     a=state_sets{1}.states;b=state_sets{2}.states;
     assert(numel(a)==74 && numel(b)==74,'Incomplete state comparison.');
     for k=1:numel(a)

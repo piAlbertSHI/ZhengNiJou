@@ -1,0 +1,13 @@
+{
+  "schema": "heatdrive_ecc_logging_API_failure_diagnostic_v1",
+  "reason": "SimscapeLogDataHistory requires a double scalar; a text vector was rejected before the long simulation",
+  "actual_parameter_type_confirmed_in_isolated_fixture": "double",
+  "long_simulation_started": false,
+  "new_complete_checkpoint_saved": false,
+  "coupled_mechanism_failure_demonstrated": false,
+  "failed_state_propagated": false,
+  "safe_source_snapshot_time_s": 420,
+  "safe_source_operating_point_sha256": "39EDC4435C62C5A2E23C011CD260A564B5A84BCB83C35E922CBC0AFF70B005D7",
+  "source_state_edited": false,
+  "production_recovery_allowed": false
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "heatdrive_ecc_native_history_API_type_fixture_v1",
+  "actual_parameter_class": "double",
+  "text_argument_error": "值必须为标量。",
+  "numeric_argument_error": "",
+  "numeric_scalar_argument_pass": true,
+  "api_fixture_network": "isolated thermal mass and solver configuration",
+  "api_fixture_sim_calls": 2,
+  "coupled_physics_simulated": false,
+  "coupled_operating_point_loaded": false
+}

@@ -1,0 +1,16 @@
+正在当前目录 'C:\Users\86182\.codex\worktrees\runtime-cv-json-contract\正逆耦合\gx101r1_R69_remote\outputs\v42_storage_native10_from_C42_r1\component_build' 中生成 Simulink 库 'ecc_inventory_pressure_only_lib'...
+正在当前目录 'C:\Users\86182\.codex\worktrees\runtime-cv-json-contract\正逆耦合\gx101r1_R69_remote\outputs\v42_storage_native10_from_C42_r1\buffer_component_build' 中生成 Simulink 库 'ecc_buffer_coupled_offset_lib'...
+{"collection_pass":false,"completed_arms":0,"state_restore_preflight_pass":false,"rebuilt_cycle_preflight_pass":false,"production_recovery_allowed":false,"result_file":"C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v42_storage_native10_from_C42_r1\\cold_chamber_execution.json"}
+{错误使用 assert
+Cold chamber diagnostic failed; inspect execution JSON.
+
+出错 Run_HeatDriveECC_ColdChamberDiagnostic (第 958 行)
+    assert(record.requested_arm_collection_pass || record.state_restore_preflight_pass || record.rebuilt_cycle_preflight_pass, ...
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+出错 Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 29 行)
+    record = Run_HeatDriveECC_ColdChamberDiagnostic( ...
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+出错 Run_HeatDriveECC_ResumedDiagnosticSegment (第 97 行)
+    record=Run_HeatDriveECC_IndependentColdDiagnosticFromConfig(path);
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
