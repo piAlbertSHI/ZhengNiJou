@@ -117,7 +117,11 @@ class ColdBufferCoupledTests(unittest.TestCase):
         self.assertIn('A multi-cycle diagnostic must span exactly cycle_count*10 s.', source)
         self.assertIn("overrides.cycle_count=cycle_count", source)
         self.assertIn("ismember(simulation_mode,{'normal','accelerator'})", source)
-        self.assertIn("log_window_cycles=min(cycle_count,2)", source)
+        self.assertIn("log_window_cycles=Resolve_HeatDriveECC_NativeInventoryWindow", source)
+        policy = Path(__file__).with_name('Resolve_HeatDriveECC_NativeInventoryWindow.m').read_text(encoding='utf-8')
+        self.assertIn('cycles=min(cycle_count,2);', policy)
+        self.assertIn("strcmp(state.mode,'diagnostic_resume') && pressure_only", policy)
+        self.assertIn('native_inventory_window_cycles==10', policy)
 
     def test_cold_kp_transition_is_explicit_and_preflight_bounded(self):
         source = (Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text(encoding='utf-8')

@@ -22,11 +22,15 @@ def read(path):
 
 def validate_resume_config(original, resumed):
     old, new = copy.deepcopy(original), copy.deepcopy(resumed)
-    if (old.pop('duration_s') != 20 or old.pop('cycle_count') != 2 or
-            old.pop('diagnostic_state_options') != {'mode': 'restore_preflight', 'command_horizon_cycles': 200} or
-            new.pop('duration_s') != 200 or new.pop('cycle_count') != 20):
-        raise ValueError('Not the qualified C2-to-C22 fixed-horizon continuation')
+    old_duration, old_cycles, old_state = old.pop('duration_s'), old.pop('cycle_count'), old.pop('diagnostic_state_options')
+    cold = old_duration == 20 and old_cycles == 2 and old_state == {'mode': 'restore_preflight', 'command_horizon_cycles': 200}
+    latest = old_duration == 200 and old_cycles == 20 and old_state.get('mode') == 'diagnostic_resume' and old_state.get('command_horizon_cycles') == 200
+    if (not (cold or latest) or new.pop('duration_s') != 200 or new.pop('cycle_count') != 20):
+        raise ValueError('Not a qualified fixed-horizon twenty-cycle continuation')
     state = new.pop('diagnostic_state_options')
+    native_cycles = state.pop('native_inventory_window_cycles', None)
+    if native_cycles not in (None, 10):
+        raise ValueError('Unsupported native logging window')
     if (set(state) != {'mode', 'command_horizon_cycles', 'restore_source_root', 'restore_verification_root',
                       'storage_state_audit_path', 'storage_complete_cycle_audit_path'} or
             state['mode'] != 'diagnostic_resume' or state['command_horizon_cycles'] != 200):
@@ -40,8 +44,15 @@ def validate_resume_config(original, resumed):
         if (options.pop('rebuilt_state_audit_path') != state['storage_state_audit_path'] or
                 options.pop('warmup_restore_audit_path') != state['storage_complete_cycle_audit_path']):
             raise ValueError('Physical interventions consume different state authorities')
+        if latest:
+            previous = old[key]
+            if (previous.pop('rebuilt_state_audit_path') != state['storage_state_audit_path'] or
+                    previous.pop('warmup_restore_audit_path') != state['storage_complete_cycle_audit_path']):
+                raise ValueError('Storage-model ancestry changed across segments')
     if old != new:
         raise ValueError('A model, control, property, geometry or initialization setting changed')
+    if native_cycles is not None:
+        state['native_inventory_window_cycles'] = native_cycles
     return state
 
 
@@ -51,22 +62,31 @@ def audit(root, physics_path):
     execution = read(root / 'cold_chamber_execution.json')
     config = read(Path(str(root) + '.resumed_config.json'))
     source = Path(execution['diagnostic_resume_contract']['source_root']).resolve()
-    original = read(source.parent / 'candidate_config.json')
+    prior = read(source / 'cold_chamber_execution.json')
+    original = read(source.parent / 'candidate_config.json' if
+                    prior['diagnostic_state_options']['mode'] == 'restore_preflight' else
+                    Path(str(source) + '.resumed_config.json'))
     state = validate_resume_config(original, config)
     c2 = read(state['storage_state_audit_path'])
     c3 = read(state['storage_complete_cycle_audit_path'])
+    ancestor = Path(c2['source_root']).resolve()
+    start, stop, count = execution['start_time_s'], execution['stop_time_s'], execution['cycle_count']
+    native_start = stop - 20
+    parent = execution['diagnostic_resume_contract']
+    proof_root = (parent['verification_root'] if prior['diagnostic_state_options']['mode'] == 'restore_preflight'
+                  else parent['ancestor_complete_cycle_proof']['verification_root'])
     if (not physics['pressure_only_density_storage_declared'] or not physics['mechanism_subset_pass'] or
-            physics['producer'] != execution['execution_commit'] or physics['cycles_run'] != 22 or
-            physics['logged_window_s'] != [200, 220] or execution['start_time_s'] != 20 or
-            execution['stop_time_s'] != 220 or not execution['checkpoint_saved'] or execution['error_message'] or
-            c2['source_root'] != str(source) or not c2['full_mechanism_pass'] or
-            sha256(source.parent / 'candidate_config.json') != c2['candidate_config_sha256'] or
+            physics['producer'] != execution['execution_commit'] or physics['cycles_run'] != count or
+            physics['logged_window_s'] != [native_start, stop] or start != prior['stop_time_s'] or
+            stop != start + 200 or count != stop / 10 or count < 22 or count > 200 or
+            not execution['checkpoint_saved'] or execution['error_message'] or not c2['full_mechanism_pass'] or
+            sha256(ancestor.parent / 'candidate_config.json') != c2['candidate_config_sha256'] or
             c3['C2_audit_sha256'] != sha256(Path(state['storage_state_audit_path'])) or
             not c3['complete_cycle_restore_verified'] or not c3['diagnostic_warmup_continuation_allowed'] or
-            c3['source_root'] != str(source) or c3['restored_root'] != state['restore_verification_root']):
+            c3['source_root'] != str(ancestor) or c3['restored_root'] != proof_root):
         raise ValueError('Wrong, incomplete or changed warmup ancestry')
     for relative, expected in c2['input_sha256'].items():
-        if sha256(source / 'native' / relative) != expected:
+        if sha256(ancestor / 'native' / relative) != expected:
             raise ValueError('C2 input changed: ' + relative)
     for relative, expected in c3['input_sha256'].items():
         if sha256(Path(c3['restored_root']) / relative) != expected:
@@ -81,10 +101,10 @@ def audit(root, physics_path):
               for row in tags['node_metadata'] if row['block_name'] in names]
     if not component_inventory_preserved(tagged, names):
         raise ValueError('Retained differential M/E states lost')
-    time = 200 + np.arange(20001) * .001
+    time = native_start + np.arange(20001) * .001
     with h5py.File(root / 'native/observations.mat') as f, h5py.File(root / 'native/configuration.mat') as cfg:
         public = f['signals/ECC_constitutive21_output']
-        selected = window_indices(public['time_s'][:], 200, 220)
+        selected = window_indices(public['time_s'][:], native_start, stop)
         values = public['values'][:, selected]
         phase = np.vstack([values[a:b].mean(axis=0) for a, b in ((42, 63), (63, 84))])
         command = sum(f['signals/' + name + '/values'][:, selected].sum(axis=0)
@@ -98,7 +118,7 @@ def audit(root, physics_path):
         budgets = {}
         for name in ('SHEXFluidBuffer', 'SMAHotFluidBuffer', 'ColdFluidBuffer', 'HotFluidBuffer'):
             row = rows[ROOT + name, 'stored_mass']
-            indices = window_indices(row['time_s'][:], 200, 220)
+            indices = window_indices(row['time_s'][:], native_start, stop)
             budgets[name] = partition(time, scalar_series(row, 'kg')[indices],
                 scalar_series(rows[ROOT + name, 'mdot_A'], 'kg/s')[indices], ramp)
     ledger = physics['arms'][0]['inventory_ledger']
@@ -108,10 +128,10 @@ def audit(root, physics_path):
         raise ValueError('Modeled heat plus latent inventory closure failed')
     summaries = [dict(buffer=name, global_cycle=cycle, net_mass_change_kg=sum(
         row['endpoint_mass_change_kg'] for row in stages if row['global_cycle'] == cycle))
-        for name, stages in budgets.items() for cycle in (21, 22)]
+        for name, stages in budgets.items() for cycle in (count-1, count)]
     capture = read(root / 'native/diagnostic_state_capture.json')
-    return dict(schema='heatdrive_ecc_storage_closure_warmup_science_v1', source_root=str(root), total_cycles=22,
-        producer=execution['execution_commit'], actual_simulation_window_s=[20, 220], native_ledger_window_s=[200, 220],
+    return dict(schema='heatdrive_ecc_storage_closure_warmup_science_v1', source_root=str(root), total_cycles=count,
+        producer=execution['execution_commit'], actual_simulation_window_s=[start, stop], native_ledger_window_s=[native_start, stop],
         all_input_hashes_verified=True, original_model_and_control_config_unchanged=True,
         differential_inventory_states_preserved=True, modeled_energy_balance=balance,
         mass_summaries=summaries, stage_mass_partitions=budgets,

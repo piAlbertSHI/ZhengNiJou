@@ -48,6 +48,42 @@ class StorageWarmupConfigTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_resume_config(self.old, self.new)
 
+    def latest_pair(self):
+        old = copy.deepcopy(self.new)
+        new = copy.deepcopy(old)
+        new['output_root'] = 'next'
+        new['diagnostic_state_options'].update(restore_source_root='new', restore_verification_root='latest_proof')
+        return old, new
+
+    def test_latest_segment_preserves_physics_and_ancestor_authorities(self):
+        old, new = self.latest_pair()
+        before = copy.deepcopy((old, new))
+        self.assertEqual(validate_resume_config(old, new)['restore_source_root'], 'new')
+        self.assertEqual((old, new), before)
+
+    def test_latest_changed_gain_rejected(self):
+        old, new = self.latest_pair()
+        new['gain'] = -230
+        with self.assertRaises(ValueError):
+            validate_resume_config(old, new)
+
+    def test_latest_changed_ancestor_rejected(self):
+        old, new = self.latest_pair()
+        old['diagnostic_inventory_options']['warmup_restore_audit_path'] = 'other'
+        with self.assertRaises(ValueError):
+            validate_resume_config(old, new)
+
+    def test_ten_cycle_native_logging_does_not_change_physical_recipe(self):
+        old, new = self.latest_pair()
+        new['diagnostic_state_options']['native_inventory_window_cycles'] = 10
+        self.assertEqual(validate_resume_config(old, new)['native_inventory_window_cycles'], 10)
+
+    def test_arbitrary_native_window_rejected(self):
+        old, new = self.latest_pair()
+        new['diagnostic_state_options']['native_inventory_window_cycles'] = 9
+        with self.assertRaises(ValueError):
+            validate_resume_config(old, new)
+
 
 if __name__ == '__main__':
     unittest.main()

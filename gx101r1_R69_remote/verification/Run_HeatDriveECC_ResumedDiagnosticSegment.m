@@ -1,10 +1,11 @@
-function record = Run_HeatDriveECC_ResumedDiagnosticSegment(source_root, verified_root, output_root, state_audit_path, cycle_audit_path)
+function record = Run_HeatDriveECC_ResumedDiagnosticSegment(source_root, verified_root, output_root, state_audit_path, cycle_audit_path, native_inventory_window_cycles)
 % Twenty new cycles from an intact state-qualified candidate, without C200 state import.
     assert(~isfolder(output_root) && ~isfile([output_root,'.resumed_config.json']), ...
         'Never overwrite a diagnostic continuation.');
     source=jsondecode(fileread(fullfile(source_root,'cold_chamber_execution.json')));
-    storage=nargin==5;
+    storage=nargin==5 || nargin==6;
     assert(nargin==3 || storage,'Supply both typed storage audits or use the legacy entry.');
+    if nargin==6,assert(isequal(native_inventory_window_cycles,10),'Only the explicit ten-cycle logging extension is supported.');end
     if strcmp(source.diagnostic_state_options.mode,'restore_preflight')
         if storage
             authority=Require_HeatDriveECC_StorageClosureWarmupSource(source_root,state_audit_path,cycle_audit_path);
@@ -68,10 +69,14 @@ function record = Run_HeatDriveECC_ResumedDiagnosticSegment(source_root, verifie
     end
     paths=strjoin(cellfun(@(p) ['"gx101r1_R69_remote/',p,'"'],physical,'UniformOutput',false),' ');
     assert(~isempty(regexp(source.execution_commit,'^[0-9a-f]{40}$','once')),'Require exact producer.');
+    Require_HeatDriveECC_LoggingOnlyRunnerSource(workspace,source.execution_commit);
+    physical(strcmp(physical,'verification/Run_HeatDriveECC_ColdChamberDiagnostic.m'))=[];
+    paths=strjoin(cellfun(@(p) ['"gx101r1_R69_remote/',p,'"'],physical,'UniformOutput',false),' ');
     [status,~]=system(sprintf('git -C "%s" diff --quiet %s HEAD -- %s',workspace,source.execution_commit,paths));
     assert(status==0,'Physical/control/probe code changed since state qualification.');
     config.output_root=output_root;config.duration_s=200;config.cycle_count=20;
     config.diagnostic_arm='native';
+    previous_state=config.diagnostic_state_options;
     config.diagnostic_state_options=struct('mode','diagnostic_resume','command_horizon_cycles',200, ...
         'restore_source_root',source_root,'restore_verification_root',verified_root);
     if storage
@@ -81,6 +86,10 @@ function record = Run_HeatDriveECC_ResumedDiagnosticSegment(source_root, verifie
         config.diagnostic_inventory_options.warmup_restore_audit_path=cycle_audit_path;
         config.diagnostic_se_reference_options.rebuilt_state_audit_path=state_audit_path;
         config.diagnostic_se_reference_options.warmup_restore_audit_path=cycle_audit_path;
+    end
+    if nargin==6 || isfield(previous_state,'native_inventory_window_cycles')
+        assert(storage,'Only typed storage recovery may extend native recording.');
+        config.diagnostic_state_options.native_inventory_window_cycles=10;
     end
     path=[output_root,'.resumed_config.json'];
     fid=fopen(path,'w','n','UTF-8');assert(fid>=0,'Cannot save diagnostic resume config.');

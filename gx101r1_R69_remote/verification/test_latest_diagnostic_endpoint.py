@@ -48,6 +48,24 @@ class LatestEndpointTests(unittest.TestCase):
             self.assertEqual(diagnostic_arms(root,execution),('native',))
             self.assertFalse(receipt['steady_outer_solve_allowed'])
 
+    def test_declared_recipe_hash_binds_the_exact_sibling_recipe(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            receipt, execution, source, path = self.fixture(Path(tmp))
+            recipe = Path(str(source) + '.resumed_config.json')
+            recipe.write_bytes(b'unchanged recipe fixture')
+            receipt['diagnostic_recipe_sha256'] = sha256(recipe)
+            self.assertEqual(len(validate_qualification(receipt, source)), 10)
+            recipe.write_bytes(b'changed gain or geometry')
+            with self.assertRaises(ValueError):
+                validate_qualification(receipt, source)
+
+    def test_declared_recipe_hash_cannot_use_short_prefix(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            receipt, execution, source, path = self.fixture(Path(tmp))
+            receipt['diagnostic_recipe_sha256'] = '1234'
+            with self.assertRaises(ValueError):
+                validate_qualification(receipt, source)
+
     def test_promotions_and_missing_or_duplicate_evidence_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             receipt,execution,source,path=self.fixture(Path(tmp))

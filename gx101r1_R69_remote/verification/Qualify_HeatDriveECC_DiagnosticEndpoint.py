@@ -55,6 +55,10 @@ def validate_qualification(receipt, root):
             'INCOMPLETE_DO_NOT_RESUME.json', 'REJECTED_DO_NOT_RESUME.json',
             'REJECTED_DO_NOT_RESUME.txt')):
         raise ValueError('Rejected or incomplete endpoint cannot propagate')
+    if 'diagnostic_recipe_sha256' in receipt:
+        expected = receipt['diagnostic_recipe_sha256']
+        if not re.fullmatch('[0-9A-F]{64}', expected) or sha256(Path(str(root) + '.resumed_config.json')) != expected:
+            raise ValueError('Changed endpoint continuation recipe')
     return {row['role']: row for row in rows}
 
 
@@ -129,6 +133,7 @@ def qualify(root, physics_path, mechanism_path, state_path, steadiness_path):
                 if parent['schema'] == 'heatdrive_ecc_state_qualified_diagnostic_resume_v1'
                 else parent['ancestor_complete_cycle_proof'])
     receipt = dict(schema=SCHEMA, source_root=str(root), producer=execution['execution_commit'],
+        diagnostic_recipe_sha256=sha256(Path(str(root) + '.resumed_config.json')),
         snapshot_time_s=execution['stop_time_s'], total_cycles=execution['cycle_count'],
         command_horizon_cycles=200, qualification_pass=True, warmup_continuation_allowed=True,
         full_mechanism_count=73, local_inventory_pass=True, complete_logged_state_coverage=True,

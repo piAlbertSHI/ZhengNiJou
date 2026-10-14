@@ -5,6 +5,10 @@ function [op, contract] = Load_HeatDriveECC_LatestDiagnosticEndpoint(options)
     path=fullfile(verified,'diagnostic_resume_qualification.json');
     receipt=jsondecode(fileread(path));
     execution=jsondecode(fileread(fullfile(source,'cold_chamber_execution.json')));
+    if isfield(receipt,'diagnostic_recipe_sha256')
+        assert(strcmp(file_hash([source,'.resumed_config.json']),receipt.diagnostic_recipe_sha256), ...
+            'Qualified continuation recipe changed.');
+    end
     capture=jsondecode(fileread(fullfile(source,'native','diagnostic_state_capture.json')));
     assert(strcmp(receipt.schema,'heatdrive_ecc_latest_diagnostic_endpoint_qualification_v1') && ...
         strcmpi(char(java.io.File(receipt.source_root).getCanonicalPath()),source) && receipt.qualification_pass && ...

@@ -2,7 +2,7 @@ function options = Resolve_HeatDriveECC_DiagnosticStateOptions(options, cycle_co
 % State-capture policy is separate from physical mechanism or recovery eligibility.
     assert(isstruct(options) && isscalar(options),'Require scalar diagnostic state options.');
     assert(all(ismember(fieldnames(options),{'mode','command_horizon_cycles','restore_source_root','restore_verification_root', ...
-        'storage_state_audit_path','storage_complete_cycle_audit_path'})), ...
+        'storage_state_audit_path','storage_complete_cycle_audit_path','native_inventory_window_cycles'})), ...
         'Unknown diagnostic state option.');
     if ~isfield(options,'mode'),options.mode='off';end
     if ~isfield(options,'command_horizon_cycles'),options.command_horizon_cycles=cycle_count;end
@@ -11,6 +11,10 @@ function options = Resolve_HeatDriveECC_DiagnosticStateOptions(options, cycle_co
     rebuilding=strcmp(options.mode,'rebuilt_cycle_preflight');
     resuming=strcmp(options.mode,'diagnostic_resume');
     storage_fields={'storage_state_audit_path','storage_complete_cycle_audit_path'};
+    if isfield(options,'native_inventory_window_cycles')
+        assert(resuming && all(isfield(options,storage_fields)) && ...
+            isequal(options.native_inventory_window_cycles,10), 'Only typed ten-cycle native recording is supported.');
+    end
     if any(isfield(options,storage_fields))
         assert(resuming && all(isfield(options,storage_fields)), ...
             'Storage warmup requires both typed audits, only in diagnostic resume.');

@@ -672,7 +672,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             assert(strcmp(effective_error_filter.denominator,'[pressure_pi_error_filter_tau_s 1]'), ...
                 'Pressure error lag does not consume the declared time constant.');
             write_json(fullfile(arm,'effective_error_filter.json'),effective_error_filter);
-            log_window_cycles=min(cycle_count,2);
+            log_window_cycles=Resolve_HeatDriveECC_NativeInventoryWindow(state_capture_options,cycle_count,pressure_only,diagnostic_arm,endpoint_all_arms);
+            record.simscape_log_window_cycles=log_window_cycles;
             log_window_start=max(simulation_start,simulation_stop-log_window_cycles*10);
             record.simscape_log_window_start_s=log_window_start;
             set_param(model,'LoadInitialState','off','SimscapeUseOperatingPoints','off', ...
@@ -734,6 +735,10 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 record.rebuilt_cycle_preflight_cases{end+1}=restored;
                 clear model_cleanup
                 continue
+            end
+            if log_window_cycles==10
+                record.native_logging_step_equivalence=Verify_HeatDriveECC_PassiveLoggingWindow( ...
+                    input,diagnostic_initial_op,state_capture_options.restore_source_root,arm,changed,buffer_paths);
             end
             output=sim(input);
             if ~isempty(output.ErrorMessage)
