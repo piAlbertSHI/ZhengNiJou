@@ -1,0 +1,161 @@
+{
+  "simulation_already_finished": true,
+  "public_export_s": 27.6077618,
+  "native_export_s": 1.6168071000000026,
+  "boundary_export_s": 15.5202101,
+  "save_and_hash_s": 53.60027070000001,
+  "functions": [
+    {
+      "function_name": "Run_HeatDriveECC_ResumedDiagnosticSegment",
+      "calls": 1,
+      "total_time_s": 97.6046955997702
+    },
+    {
+      "function_name": "Run_HeatDriveECC_IndependentColdDiagnosticFromConfig",
+      "calls": 1,
+      "total_time_s": 97.603870299768516
+    },
+    {
+      "function_name": "Run_HeatDriveECC_ColdChamberDiagnostic",
+      "calls": 1,
+      "total_time_s": 97.602860699766453
+    },
+    {
+      "function_name": "Extract_HeatDriveECC_BoundaryTraces",
+      "calls": 1,
+      "total_time_s": 15.504571931733631
+    },
+    {
+      "function_name": "Export_HeatDriveECC_TLConnectivity",
+      "calls": 2,
+      "total_time_s": 15.254148431221083
+    },
+    {
+      "function_name": "Run_HeatDriveECC_ColdChamberDiagnostic>file_hash",
+      "calls": 2,
+      "total_time_s": 13.594268927823761
+    },
+    {
+      "function_name": "java.security.MessageDigest$Delegate",
+      "calls": 260,
+      "total_time_s": 12.410552325401017
+    },
+    {
+      "function_name": "Map_HeatDriveECC_PhysicalPortHandles",
+      "calls": 693,
+      "total_time_s": 11.679946023905662
+    },
+    {
+      "function_name": "callback",
+      "calls": 6024,
+      "total_time_s": 4.5840378093822753
+    },
+    {
+      "function_name": "pmsl_rtmcallback",
+      "calls": 6024,
+      "total_time_s": 4.5097848092303
+    },
+    {
+      "function_name": "RunTimeModule.canPerformOperation",
+      "calls": 6024,
+      "total_time_s": 4.3137396088290485
+    },
+    {
+      "function_name": "connectionPortProperties",
+      "calls": 4072,
+      "total_time_s": 4.1980650085922937
+    },
+    {
+      "function_name": "+simscape\\private\\connectionPortProperties_private",
+      "calls": 4072,
+      "total_time_s": 4.1771394085494657
+    },
+    {
+      "function_name": "Run_HeatDriveECC_ColdChamberDiagnostic>extract_observed_thermal_boundaries",
+      "calls": 1,
+      "total_time_s": 2.1341306043679835
+    },
+    {
+      "function_name": "Extract_HeatDriveECC_PhysicalLogs",
+      "calls": 1,
+      "total_time_s": 2.0788032042547431
+    },
+    {
+      "function_name": "Extract_HeatDriveECC_PhysicalLogs>read_on_grid",
+      "calls": 183,
+      "total_time_s": 1.6287509033336089
+    },
+    {
+      "function_name": "Extract_HeatDriveECC_NativeStorageTraces",
+      "calls": 1,
+      "total_time_s": 1.6048095032846073
+    },
+    {
+      "function_name": "Map_HeatDriveECC_PhysicalPortHandles>@()delete_block(copied_path)",
+      "calls": 693,
+      "total_time_s": 1.5803958032346392
+    },
+    {
+      "function_name": "RunTimeModule.addBlock",
+      "calls": 3012,
+      "total_time_s": 1.4927316030552145
+    },
+    {
+      "function_name": "RunTimeModule.getLicenseOrFail",
+      "calls": 4518,
+      "total_time_s": 1.2780111026157401
+    },
+    {
+      "function_name": "RunTimeModule.preCopyBlock",
+      "calls": 1506,
+      "total_time_s": 1.1985249024530535
+    },
+    {
+      "function_name": "Read_HeatDriveECC_NativeSeries",
+      "calls": 1523,
+      "total_time_s": 1.1977049024513753
+    },
+    {
+      "function_name": "RunTimeModule.determineBlockProduct",
+      "calls": 4518,
+      "total_time_s": 0.7718938015798561
+    },
+    {
+      "function_name": "pmsl_getblockproduct",
+      "calls": 4518,
+      "total_time_s": 0.72832460149068179
+    },
+    {
+      "function_name": "pmsl_getblocklibraryentry",
+      "calls": 4518,
+      "total_time_s": 0.68444550140087324
+    },
+    {
+      "function_name": "RunTimeModule.postCopyBlock",
+      "calls": 1506,
+      "total_time_s": 0.6805335013928665
+    },
+    {
+      "function_name": "interp1",
+      "calls": 199,
+      "total_time_s": 0.64892010132816247
+    },
+    {
+      "function_name": "RunTimeModule.preDeleteBlock",
+      "calls": 1506,
+      "total_time_s": 0.64006920131004708
+    },
+    {
+      "function_name": "RunTimeModule.removeBlock",
+      "calls": 1506,
+      "total_time_s": 0.63496330129959666
+    },
+    {
+      "function_name": "unique",
+      "calls": 995,
+      "total_time_s": 0.56238020115103882
+    }
+  ],
+  "profiling_may_add_overhead": true,
+  "production_recovery_allowed": false
+}

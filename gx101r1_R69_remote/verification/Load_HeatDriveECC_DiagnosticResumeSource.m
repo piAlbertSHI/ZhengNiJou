@@ -3,6 +3,21 @@ function [op, contract] = Load_HeatDriveECC_DiagnosticResumeSource(options)
     source=char(options.restore_source_root);verified=char(options.restore_verification_root);
     execution=jsondecode(fileread(fullfile(source,'cold_chamber_execution.json')));
     storage=isfield(options,'storage_complete_cycle_audit_path');
+    if strcmp(execution.diagnostic_state_options.mode,'diagnostic_resume')
+        [op,contract]=Load_HeatDriveECC_LatestDiagnosticEndpoint(options);
+        if storage
+            ancestor=jsondecode(fileread(options.storage_state_audit_path));
+            authority=Require_HeatDriveECC_StorageClosureWarmupSource(ancestor.source_root, ...
+                options.storage_state_audit_path,options.storage_complete_cycle_audit_path);
+            assert(strcmp(execution.inventory_intervention.storage_closure,'pressure_only_density') && ...
+                strcmp(char(java.io.File(contract.ancestor_complete_cycle_proof.source_root).getCanonicalPath()), ...
+                    authority.source_root) && ...
+                strcmp(char(java.io.File(contract.ancestor_complete_cycle_proof.verification_root).getCanonicalPath()), ...
+                    authority.verification_root), 'Latest endpoint has different storage-model ancestry.');
+            contract.storage_complete_cycle_audit_sha256=authority.complete_cycle_audit_sha256;
+        end
+        return
+    end
     if storage
         authority=Require_HeatDriveECC_StorageClosureWarmupSource(source, ...
             options.storage_state_audit_path,options.storage_complete_cycle_audit_path);
@@ -10,10 +25,6 @@ function [op, contract] = Load_HeatDriveECC_DiagnosticResumeSource(options)
             'Substituted complete-cycle verification root.');
         assert(strcmp(execution.inventory_intervention.storage_closure,'pressure_only_density'), ...
             'Storage authority cannot be used for another physical model.');
-    end
-    if strcmp(execution.diagnostic_state_options.mode,'diagnostic_resume')
-        [op,contract]=Load_HeatDriveECC_LatestDiagnosticEndpoint(options);
-        return
     end
     capture=jsondecode(fileread(fullfile(source,'native','diagnostic_state_capture.json')));
     proof_file=fullfile(verified,'native','rebuilt_cycle_restore.json');

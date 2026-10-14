@@ -40,7 +40,7 @@ def storage_drifts(handle, start, stop):
                 complete_differential_state_coverage_verified=False)
 
 
-def analyze_completed(root):
+def analyze_completed(root, pressure_only_density=False):
     execution = read_json(root/'cold_chamber_execution.json')
     stop = float(execution['stop_time_s'])
     start = stop-20
@@ -74,7 +74,8 @@ def analyze_completed(root):
             port_contract(contract)
         runtime = audit_arm(folder, start, stop)
         ledger = cycle_arm(folder, assignment, contracts,
-                           mass_formulation='zero_based_offset', start=start, stop=stop)
+                           mass_formulation='zero_based_offset', start=start, stop=stop,
+                           pressure_only_density=pressure_only_density)
         local = []
         for row in ledger['components']:
             if row['mask_type'] == 'Conservative Buffer (TL)':
@@ -109,6 +110,7 @@ def analyze_completed(root):
                          'thermal_connectivity.json', 'buffer_replacement_contract.json',
                          'distributed_pressure_ff_contract.json', 'public_inventory_targets.json')})
     summary.update(schema='heatdrive_ecc_completed_warmup_physics_v1',
+                   pressure_only_density_storage_declared=pressure_only_density,
                    analysis_scope=('independent_cold_qualification' if
                                    execution.get('diagnostic_state_options', {}).get('mode')=='restore_preflight'
                                    else 'state_qualified_diagnostic_segment' if len(arms_requested)==1
@@ -131,10 +133,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--experiment-root', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--pressure-only-density', action='store_true')
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError('Never overwrite an audit')
-    result = analyze_completed(args.experiment_root.resolve())
+    result = analyze_completed(args.experiment_root.resolve(), args.pressure_only_density)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, allow_nan=False)+'\n', encoding='utf-8')
     print(json.dumps(dict(mechanism_subset_pass=result['mechanism_subset_pass'], arms=[

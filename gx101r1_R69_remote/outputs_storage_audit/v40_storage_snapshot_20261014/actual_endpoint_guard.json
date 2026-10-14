@@ -1,0 +1,27 @@
+{
+  "schema": "heatdrive_ecc_actual_latest_endpoint_guard_v1",
+  "snapshot_time_s": 220,
+  "vendor_op_class": "Simulink.op.ModelOperatingPoint",
+  "qualification_sha256": "EF6D0008E7051E10AE531E1C93EBA1F332369F692119294437CD8FC7A4B9234B",
+  "valid_actual_endpoint_loaded": true,
+  "equivalent_windows_path_accepted": true,
+  "negative_cases": [
+    "production",
+    "edited",
+    "missing_role",
+    "changed_hash",
+    "wrong_clock",
+    "wrong_root"
+  ],
+  "negative_cases_rejected": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "simulation_executed": false,
+  "source_state_edited": false,
+  "production_recovery_allowed": false
+}

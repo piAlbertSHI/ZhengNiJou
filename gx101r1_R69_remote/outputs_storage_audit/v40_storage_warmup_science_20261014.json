@@ -1,0 +1,931 @@
+{
+  "schema": "heatdrive_ecc_storage_closure_warmup_science_v1",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v40_storage_warmup_r2",
+  "total_cycles": 22,
+  "producer": "321fb682812b34f47e1f4488813ff0d626c51e5a",
+  "actual_simulation_window_s": [
+    20,
+    220
+  ],
+  "native_ledger_window_s": [
+    200,
+    220
+  ],
+  "all_input_hashes_verified": true,
+  "original_model_and_control_config_unchanged": true,
+  "differential_inventory_states_preserved": true,
+  "modeled_energy_balance": {
+    "external_modeled_heat_BE_J": 9.34588099543248,
+    "native_constitutive_heat_BE_J": 0.016992234301710596,
+    "sensible_inventory_plus_pdv_J": 9.362873229086881,
+    "total_inventory_including_latent_plus_pdv_J": 9.345880994826667,
+    "command_to_native_pipeline_difference_J": 8.594724931754172e-11,
+    "external_heat_minus_total_storage_J": 6.058140655795796e-10,
+    "numerical_terms_retained_residual_J": 6.473168667753271e-10,
+    "model_equation_energy_closure_pass": true,
+    "energy_tolerance_J": 1e-08,
+    "quadrature": "native local backward Euler; measured absolute millisecond intervals",
+    "latent_heat_counted_once": true,
+    "engineering_pump_proxy_added_as_heat": false
+  },
+  "mass_summaries": [
+    {
+      "buffer": "SHEXFluidBuffer",
+      "global_cycle": 21,
+      "net_mass_change_kg": -1.4679918956816973e-07
+    },
+    {
+      "buffer": "SHEXFluidBuffer",
+      "global_cycle": 22,
+      "net_mass_change_kg": -1.468035991797345e-07
+    },
+    {
+      "buffer": "SMAHotFluidBuffer",
+      "global_cycle": 21,
+      "net_mass_change_kg": 1.4679923086846625e-07
+    },
+    {
+      "buffer": "SMAHotFluidBuffer",
+      "global_cycle": 22,
+      "net_mass_change_kg": 1.468036386759186e-07
+    },
+    {
+      "buffer": "ColdFluidBuffer",
+      "global_cycle": 21,
+      "net_mass_change_kg": -2.3676650899584484e-07
+    },
+    {
+      "buffer": "ColdFluidBuffer",
+      "global_cycle": 22,
+      "net_mass_change_kg": -2.3803502008368227e-07
+    },
+    {
+      "buffer": "HotFluidBuffer",
+      "global_cycle": 21,
+      "net_mass_change_kg": 2.3676650899584484e-07
+    },
+    {
+      "buffer": "HotFluidBuffer",
+      "global_cycle": 22,
+      "net_mass_change_kg": 2.3803502008368227e-07
+    }
+  ],
+  "stage_mass_partitions": {
+    "SHEXFluidBuffer": [
+      {
+        "global_cycle": 21,
+        "stage": 1,
+        "phase_role": "inactive_nominal_stage",
+        "endpoint_mass_change_kg": 7.008171487993264e-07,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 200.0,
+            "stop_s": 200.15,
+            "transported_mass_BE_kg": 1.6704079151524114e-07,
+            "endpoint_mass_change_kg": 1.6704079151830253e-07,
+            "mass_residual_kg": -3.061388829613855e-18,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 200.15,
+            "stop_s": 203.5,
+            "transported_mass_BE_kg": 5.33776357280829e-07,
+            "endpoint_mass_change_kg": 5.337763572810239e-07,
+            "mass_residual_kg": -1.9492345698689587e-19,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 21,
+        "stage": 2,
+        "phase_role": "active_nominal_stage",
+        "endpoint_mass_change_kg": 2.418612804616638e-07,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 203.5,
+            "stop_s": 203.65,
+            "transported_mass_BE_kg": 2.429167599110696e-08,
+            "endpoint_mass_change_kg": 2.4291675990162354e-08,
+            "mass_residual_kg": 9.446071723110555e-19,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 203.65,
+            "stop_s": 205.0,
+            "transported_mass_BE_kg": 2.1756960446334222e-07,
+            "endpoint_mass_change_kg": 2.1756960447150142e-07,
+            "mass_residual_kg": -8.159203683104658e-18,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 21,
+        "stage": 3,
+        "phase_role": "inactive_nominal_stage",
+        "endpoint_mass_change_kg": -8.354211048500204e-07,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 205.0,
+            "stop_s": 205.15,
+            "transported_mass_BE_kg": -1.6686327049050635e-07,
+            "endpoint_mass_change_kg": -1.6686327049264538e-07,
+            "mass_residual_kg": 2.1390228896131253e-18,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 205.15,
+            "stop_s": 208.5,
+            "transported_mass_BE_kg": -6.68557834353941e-07,
+            "endpoint_mass_change_kg": -6.68557834357375e-07,
+            "mass_residual_kg": 3.434083326405747e-18,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 21,
+        "stage": 4,
+        "phase_role": "active_nominal_stage",
+        "endpoint_mass_change_kg": -2.5405651397913953e-07,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 208.5,
+            "stop_s": 208.65,
+            "transported_mass_BE_kg": -2.712858219977475e-08,
+            "endpoint_mass_change_kg": -2.712858220010883e-08,
+            "mass_residual_kg": 3.340817057979168e-19,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 208.65,
+            "stop_s": 210.0,
+            "transported_mass_BE_kg": -2.2692793178314469e-07,
+            "endpoint_mass_change_kg": -2.269279317790307e-07,
+            "mass_residual_kg": -4.113986085254933e-18,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 22,
+        "stage": 1,
+        "phase_role": "inactive_nominal_stage",
+        "endpoint_mass_change_kg": 7.008153061066613e-07,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 210.0,
+            "stop_s": 210.15,
+            "transported_mass_BE_kg": 1.6704076306958067e-07,
+            "endpoint_mass_change_kg": 1.6704076306883753e-07,
+            "mass_residual_kg": 7.431390623176401e-19,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 210.15,
+            "stop_s": 213.5,
+            "transported_mass_BE_kg": 5.337745430358178e-07,
+            "endpoint_mass_change_kg": 5.337745430378238e-07,
+            "mass_residual_kg": -2.0059857773349968e-18,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 22,
+        "stage": 2,
+        "phase_role": "active_nominal_stage",
+        "endpoint_mass_change_kg": 2.418601308812329e-07,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 213.5,
+            "stop_s": 213.65,
+            "transported_mass_BE_kg": 2.429156670004465e-08,
+            "endpoint_mass_change_kg": 2.429156668870558e-08,
+            "mass_residual_kg": 1.1339071246215708e-17,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 213.65,
+            "stop_s": 215.0,
+            "transported_mass_BE_kg": 2.175685641820575e-07,
+            "endpoint_mass_change_kg": 2.1756856419252735e-07,
+            "mass_residual_kg": -1.0469856623655186e-17,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 22,
+        "stage": 3,
+        "phase_role": "inactive_nominal_stage",
+        "endpoint_mass_change_kg": -8.35421368250433e-07,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 215.0,
+            "stop_s": 215.15,
+            "transported_mass_BE_kg": -1.6686331866295203e-07,
+            "endpoint_mass_change_kg": -1.6686331866244686e-07,
+            "mass_residual_kg": -5.051757436983851e-19,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 215.15,
+            "stop_s": 218.5,
+            "transported_mass_BE_kg": -6.685580495778116e-07,
+            "endpoint_mass_change_kg": -6.685580495879861e-07,
+            "mass_residual_kg": 1.0174559762418656e-17,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 22,
+        "stage": 4,
+        "phase_role": "active_nominal_stage",
+        "endpoint_mass_change_kg": -2.5405766791719575e-07,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 218.5,
+            "stop_s": 218.65,
+            "transported_mass_BE_kg": -2.712855612558396e-08,
+            "endpoint_mass_change_kg": -2.712855612374554e-08,
+            "mass_residual_kg": -1.8384188375664546e-18,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 218.65,
+            "stop_s": 220.0,
+            "transported_mass_BE_kg": -2.2692911179726562e-07,
+            "endpoint_mass_change_kg": -2.269291117934502e-07,
+            "mass_residual_kg": -3.8154069713477925e-18,
+            "local_mass_pass": true
+          }
+        ]
+      }
+    ],
+    "SMAHotFluidBuffer": [
+      {
+        "global_cycle": 21,
+        "stage": 1,
+        "phase_role": "inactive_nominal_stage",
+        "endpoint_mass_change_kg": -6.688689583728147e-07,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 200.0,
+            "stop_s": 200.15,
+            "transported_mass_BE_kg": -1.3562203515810676e-07,
+            "endpoint_mass_change_kg": -1.35622035157823e-07,
+            "mass_residual_kg": -2.837560373301906e-19,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 200.15,
+            "stop_s": 203.5,
+            "transported_mass_BE_kg": -5.332469232072493e-07,
+            "endpoint_mass_change_kg": -5.332469232149917e-07,
+            "mass_residual_kg": 7.742410533496339e-18,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 21,
+        "stage": 2,
+        "phase_role": "active_nominal_stage",
+        "endpoint_mass_change_kg": -2.4284583900746615e-07,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 203.5,
+            "stop_s": 203.65,
+            "transported_mass_BE_kg": -2.4280798503514685e-08,
+            "endpoint_mass_change_kg": -2.4280798496811862e-08,
+            "mass_residual_kg": -6.702823174529495e-18,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 203.65,
+            "stop_s": 205.0,
+            "transported_mass_BE_kg": -2.1856504050551036e-07,
+            "endpoint_mass_change_kg": -2.1856504051065428e-07,
+            "mass_residual_kg": 5.143925209556959e-18,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 21,
+        "stage": 3,
+        "phase_role": "inactive_nominal_stage",
+        "endpoint_mass_change_kg": 8.098075978818509e-07,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 205.0,
+            "stop_s": 205.15,
+            "transported_mass_BE_kg": 1.3459507178883918e-07,
+            "endpoint_mass_change_kg": 1.3459507179625074e-07,
+            "mass_residual_kg": -7.41156475825473e-18,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 205.15,
+            "stop_s": 208.5,
+            "transported_mass_BE_kg": 6.752125260877916e-07,
+            "endpoint_mass_change_kg": 6.752125260856001e-07,
+            "mass_residual_kg": 2.1914859927836886e-18,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 21,
+        "stage": 4,
+        "phase_role": "active_nominal_stage",
+        "endpoint_mass_change_kg": 2.487064303668962e-07,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 208.5,
+            "stop_s": 208.65,
+            "transported_mass_BE_kg": 2.4656923822905894e-08,
+            "endpoint_mass_change_kg": 2.4656923822141685e-08,
+            "mass_residual_kg": 7.642090068805908e-19,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 208.65,
+            "stop_s": 210.0,
+            "transported_mass_BE_kg": 2.240495065491274e-07,
+            "endpoint_mass_change_kg": 2.2404950654475453e-07,
+            "mass_residual_kg": 4.372860529759529e-18,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 22,
+        "stage": 1,
+        "phase_role": "inactive_nominal_stage",
+        "endpoint_mass_change_kg": -6.688671582849581e-07,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 210.0,
+            "stop_s": 210.15,
+            "transported_mass_BE_kg": -1.356220469622926e-07,
+            "endpoint_mass_change_kg": -1.3562204695394264e-07,
+            "mass_residual_kg": -8.349944914914486e-18,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 210.15,
+            "stop_s": 213.5,
+            "transported_mass_BE_kg": -5.332451113188828e-07,
+            "endpoint_mass_change_kg": -5.332451113310155e-07,
+            "mass_residual_kg": 1.2132688178233784e-17,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 22,
+        "stage": 2,
+        "phase_role": "active_nominal_stage",
+        "endpoint_mass_change_kg": -2.4284468581881047e-07,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 213.5,
+            "stop_s": 213.65,
+            "transported_mass_BE_kg": -2.4280688892636107e-08,
+            "endpoint_mass_change_kg": -2.4280688890043756e-08,
+            "mass_residual_kg": -2.5923509525166866e-18,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 213.65,
+            "stop_s": 215.0,
+            "transported_mass_BE_kg": -2.1856399692826826e-07,
+            "endpoint_mass_change_kg": -2.185639969287667e-07,
+            "mass_residual_kg": 4.984524196795541e-19,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 22,
+        "stage": 3,
+        "phase_role": "inactive_nominal_stage",
+        "endpoint_mass_change_kg": 8.098070197748442e-07,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 215.0,
+            "stop_s": 215.15,
+            "transported_mass_BE_kg": 1.3459521102502733e-07,
+            "endpoint_mass_change_kg": 1.3459521103209582e-07,
+            "mass_residual_kg": -7.068489944837136e-18,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 215.15,
+            "stop_s": 218.5,
+            "transported_mass_BE_kg": 6.752118087508864e-07,
+            "endpoint_mass_change_kg": 6.752118087427483e-07,
+            "mass_residual_kg": 8.138080798982504e-18,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 22,
+        "stage": 4,
+        "phase_role": "active_nominal_stage",
+        "endpoint_mass_change_kg": 2.4870846300484306e-07,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 218.5,
+            "stop_s": 218.65,
+            "transported_mass_BE_kg": 2.465697815401495e-08,
+            "endpoint_mass_change_kg": 2.4656978153680953e-08,
+            "mass_residual_kg": 3.339956790142113e-19,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 218.65,
+            "stop_s": 220.0,
+            "transported_mass_BE_kg": 2.2405148485008103e-07,
+            "endpoint_mass_change_kg": 2.240514848511621e-07,
+            "mass_residual_kg": -1.0810787384925042e-18,
+            "local_mass_pass": true
+          }
+        ]
+      }
+    ],
+    "ColdFluidBuffer": [
+      {
+        "global_cycle": 21,
+        "stage": 1,
+        "phase_role": "inactive_nominal_stage",
+        "endpoint_mass_change_kg": 7.71694150604324e-05,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 200.0,
+            "stop_s": 200.15,
+            "transported_mass_BE_kg": 7.716941779509887e-05,
+            "endpoint_mass_change_kg": 7.716941779509212e-05,
+            "mass_residual_kg": 6.749158523722265e-18,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 200.15,
+            "stop_s": 203.5,
+            "transported_mass_BE_kg": -2.7346588918113507e-12,
+            "endpoint_mass_change_kg": -2.734659720893262e-12,
+            "mass_residual_kg": 8.290819114247878e-19,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 21,
+        "stage": 2,
+        "phase_role": "active_nominal_stage",
+        "endpoint_mass_change_kg": -0.004402688001537466,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 203.5,
+            "stop_s": 203.65,
+            "transported_mass_BE_kg": -8.296639872558078e-05,
+            "endpoint_mass_change_kg": -8.296639872555633e-05,
+            "mass_residual_kg": -2.4448758989548125e-17,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 203.65,
+            "stop_s": 205.0,
+            "transported_mass_BE_kg": -0.0043197216028119,
+            "endpoint_mass_change_kg": -0.00431972160281191,
+            "mass_residual_kg": 1.0408340855860843e-17,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 21,
+        "stage": 3,
+        "phase_role": "inactive_nominal_stage",
+        "endpoint_mass_change_kg": -7.735491009785989e-05,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 205.0,
+            "stop_s": 205.15,
+            "transported_mass_BE_kg": -7.735492807974556e-05,
+            "endpoint_mass_change_kg": -7.735492807973976e-05,
+            "mass_residual_kg": -5.800481622797449e-18,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 205.15,
+            "stop_s": 208.5,
+            "transported_mass_BE_kg": 1.798185825021401e-11,
+            "endpoint_mass_change_kg": 1.7981879874007234e-11,
+            "mass_residual_kg": -2.162379322301651e-17,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 21,
+        "stage": 4,
+        "phase_role": "active_nominal_stage",
+        "endpoint_mass_change_kg": 0.004402636730065898,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 208.5,
+            "stop_s": 208.65,
+            "transported_mass_BE_kg": 8.263776381351827e-05,
+            "endpoint_mass_change_kg": 8.263776381349508e-05,
+            "mass_residual_kg": 2.3188373964033726e-17,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 208.65,
+            "stop_s": 210.0,
+            "transported_mass_BE_kg": 0.004319998966252391,
+            "endpoint_mass_change_kg": 0.004319998966252403,
+            "mass_residual_kg": -1.214306433183765e-17,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 22,
+        "stage": 1,
+        "phase_role": "inactive_nominal_stage",
+        "endpoint_mass_change_kg": 7.71694198496986e-05,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 210.0,
+            "stop_s": 210.15,
+            "transported_mass_BE_kg": 7.71694225813486e-05,
+            "endpoint_mass_change_kg": 7.716942258136072e-05,
+            "mass_residual_kg": -1.2129511804681581e-17,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 210.15,
+            "stop_s": 213.5,
+            "transported_mass_BE_kg": -2.73166110132869e-12,
+            "endpoint_mass_change_kg": -2.7316621187267742e-12,
+            "mass_residual_kg": 1.0173980843426413e-18,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 22,
+        "stage": 2,
+        "phase_role": "active_nominal_stage",
+        "endpoint_mass_change_kg": -0.0044026886537707755,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 213.5,
+            "stop_s": 213.65,
+            "transported_mass_BE_kg": -8.296654788435638e-05,
+            "endpoint_mass_change_kg": -8.296654788433888e-05,
+            "mass_residual_kg": -1.7496312558484828e-17,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 213.65,
+            "stop_s": 215.0,
+            "transported_mass_BE_kg": -0.004319722105886416,
+            "endpoint_mass_change_kg": -0.004319722105886437,
+            "mass_residual_kg": 2.0816681711721685e-17,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 22,
+        "stage": 3,
+        "phase_role": "inactive_nominal_stage",
+        "endpoint_mass_change_kg": -7.735541741726859e-05,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 215.0,
+            "stop_s": 215.15,
+            "transported_mass_BE_kg": -7.735543538687627e-05,
+            "endpoint_mass_change_kg": -7.73554353868805e-05,
+            "mass_residual_kg": 4.228388472693467e-18,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 215.15,
+            "stop_s": 218.5,
+            "transported_mass_BE_kg": 1.7969640115993834e-11,
+            "endpoint_mass_change_kg": 1.7969611909585126e-11,
+            "mass_residual_kg": 2.820640870793456e-17,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 22,
+        "stage": 4,
+        "phase_role": "active_nominal_stage",
+        "endpoint_mass_change_kg": 0.004402636616318262,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 218.5,
+            "stop_s": 218.65,
+            "transported_mass_BE_kg": 8.263743033271777e-05,
+            "endpoint_mass_change_kg": 8.263743033269655e-05,
+            "mass_residual_kg": 2.122325752640375e-17,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 218.65,
+            "stop_s": 220.0,
+            "transported_mass_BE_kg": 0.0043199991859855374,
+            "endpoint_mass_change_kg": 0.004319999185985565,
+            "mass_residual_kg": -2.7755575615628914e-17,
+            "local_mass_pass": true
+          }
+        ]
+      }
+    ],
+    "HotFluidBuffer": [
+      {
+        "global_cycle": 21,
+        "stage": 1,
+        "phase_role": "inactive_nominal_stage",
+        "endpoint_mass_change_kg": -7.71694150604324e-05,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 200.0,
+            "stop_s": 200.15,
+            "transported_mass_BE_kg": -7.716941779509887e-05,
+            "endpoint_mass_change_kg": -7.716941779509212e-05,
+            "mass_residual_kg": -6.749158523722265e-18,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 200.15,
+            "stop_s": 203.5,
+            "transported_mass_BE_kg": 2.7346588918113507e-12,
+            "endpoint_mass_change_kg": 2.734659720893262e-12,
+            "mass_residual_kg": -8.290819114247878e-19,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 21,
+        "stage": 2,
+        "phase_role": "active_nominal_stage",
+        "endpoint_mass_change_kg": 0.004402688001537466,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 203.5,
+            "stop_s": 203.65,
+            "transported_mass_BE_kg": 8.296639872558078e-05,
+            "endpoint_mass_change_kg": 8.296639872555633e-05,
+            "mass_residual_kg": 2.4448758989548125e-17,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 203.65,
+            "stop_s": 205.0,
+            "transported_mass_BE_kg": 0.0043197216028119,
+            "endpoint_mass_change_kg": 0.00431972160281191,
+            "mass_residual_kg": -1.0408340855860843e-17,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 21,
+        "stage": 3,
+        "phase_role": "inactive_nominal_stage",
+        "endpoint_mass_change_kg": 7.735491009785989e-05,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 205.0,
+            "stop_s": 205.15,
+            "transported_mass_BE_kg": 7.735492807974556e-05,
+            "endpoint_mass_change_kg": 7.735492807973976e-05,
+            "mass_residual_kg": 5.800481622797449e-18,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 205.15,
+            "stop_s": 208.5,
+            "transported_mass_BE_kg": -1.798185825021401e-11,
+            "endpoint_mass_change_kg": -1.7981879874007234e-11,
+            "mass_residual_kg": 2.162379322301651e-17,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 21,
+        "stage": 4,
+        "phase_role": "active_nominal_stage",
+        "endpoint_mass_change_kg": -0.004402636730065898,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 208.5,
+            "stop_s": 208.65,
+            "transported_mass_BE_kg": -8.263776381351827e-05,
+            "endpoint_mass_change_kg": -8.263776381349508e-05,
+            "mass_residual_kg": -2.3188373964033726e-17,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 208.65,
+            "stop_s": 210.0,
+            "transported_mass_BE_kg": -0.004319998966252391,
+            "endpoint_mass_change_kg": -0.004319998966252403,
+            "mass_residual_kg": 1.214306433183765e-17,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 22,
+        "stage": 1,
+        "phase_role": "inactive_nominal_stage",
+        "endpoint_mass_change_kg": -7.71694198496986e-05,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 210.0,
+            "stop_s": 210.15,
+            "transported_mass_BE_kg": -7.71694225813486e-05,
+            "endpoint_mass_change_kg": -7.716942258136072e-05,
+            "mass_residual_kg": 1.2129511804681581e-17,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 210.15,
+            "stop_s": 213.5,
+            "transported_mass_BE_kg": 2.73166110132869e-12,
+            "endpoint_mass_change_kg": 2.7316621187267742e-12,
+            "mass_residual_kg": -1.0173980843426413e-18,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 22,
+        "stage": 2,
+        "phase_role": "active_nominal_stage",
+        "endpoint_mass_change_kg": 0.0044026886537707755,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 213.5,
+            "stop_s": 213.65,
+            "transported_mass_BE_kg": 8.296654788435638e-05,
+            "endpoint_mass_change_kg": 8.296654788433888e-05,
+            "mass_residual_kg": 1.7496312558484828e-17,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 213.65,
+            "stop_s": 215.0,
+            "transported_mass_BE_kg": 0.004319722105886416,
+            "endpoint_mass_change_kg": 0.004319722105886437,
+            "mass_residual_kg": -2.0816681711721685e-17,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 22,
+        "stage": 3,
+        "phase_role": "inactive_nominal_stage",
+        "endpoint_mass_change_kg": 7.735541741726859e-05,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 215.0,
+            "stop_s": 215.15,
+            "transported_mass_BE_kg": 7.735543538687627e-05,
+            "endpoint_mass_change_kg": 7.73554353868805e-05,
+            "mass_residual_kg": -4.228388472693467e-18,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 215.15,
+            "stop_s": 218.5,
+            "transported_mass_BE_kg": -1.7969640115993834e-11,
+            "endpoint_mass_change_kg": -1.7969611909585126e-11,
+            "mass_residual_kg": -2.820640870793456e-17,
+            "local_mass_pass": true
+          }
+        ]
+      },
+      {
+        "global_cycle": 22,
+        "stage": 4,
+        "phase_role": "active_nominal_stage",
+        "endpoint_mass_change_kg": -0.004402636616318262,
+        "parts": [
+          {
+            "region": "post_boundary_commutation",
+            "start_s": 218.5,
+            "stop_s": 218.65,
+            "transported_mass_BE_kg": -8.263743033271777e-05,
+            "endpoint_mass_change_kg": -8.263743033269655e-05,
+            "mass_residual_kg": -2.122325752640375e-17,
+            "local_mass_pass": true
+          },
+          {
+            "region": "after_commutation",
+            "start_s": 218.65,
+            "stop_s": 220.0,
+            "transported_mass_BE_kg": -0.0043199991859855374,
+            "endpoint_mass_change_kg": -0.004319999185985565,
+            "mass_residual_kg": 2.7755575615628914e-17,
+            "local_mass_pass": true
+          }
+        ]
+      }
+    ]
+  },
+  "source_operating_point_sha256": "894CA87AB603C772795A617E399939574D314EBD2E313FC11C6EFD4AC507AA8F",
+  "source_history_sha256": "A48EAE35A3B156706CE44B688B57C056C03D4F16447B4A94A44DE72A20361F63",
+  "source_configuration_sha256": "E2C1DAE7AD454AC444E1DB19A941EEFC0AE7901B8BE4E1B05968A842263AE825",
+  "source_state_edited": false,
+  "failed_state_propagated": false,
+  "ten_cycle_native_inventory_steady_verified": false,
+  "physical_density_approximation": "M=V*rho(T_initial,p), U=M*u(T,p); transport density unchanged",
+  "real_fluid_EOS_claim": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "table4_reproduction_claim": false,
+  "input_sha256": {
+    "physics_audit": "3F863945088EA6B75364977F4F034F0AC3E780A583174196C3754194D16C65D5",
+    "C2_audit": "A998D176D04FDEBDCE70813852ABB9ED7DD96FEFA0ACD76EFB2EBABFC17D917A",
+    "C3_audit": "26023AC5EB61A9408ED6E5515DCA6390526B14FA280F8693D1DCD6B5BFEF4E27"
+  }
+}
