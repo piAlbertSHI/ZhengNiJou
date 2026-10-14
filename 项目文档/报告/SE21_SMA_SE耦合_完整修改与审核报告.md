@@ -6416,3 +6416,7 @@ r4 单次前台 session `24881` 自然退出 0，执行 producer `4a621e9e7938c3
 只复制 19 份 compact JSON/log/txt，完整 C22 观测/历史/OP/config MAT 保留执行 worktree 单份。已核对 C22 当前 raw 原字节后，退休旧 r1 中不含仿真结果的三个初始化/命令中间文件共 32916562 bytes，保留系统重启证据、INCOMPLETE 标记、原配方、源组件和最新完整合同。另退休当前两项 cache/codegen 共 67381 bytes。未删除 C2/C3 证明依赖、C200/C180、用户 SLX 或 Agent6。
 
 新审计配置反例覆盖改增益、换源、不同干预权限、改几何、缩短段以及无副作用正例；Python 回归 787/787。新增审计首次运行的 Path/str API 类型错误在读取 SHA 处被定位，修复后对同一不可变观测只读审核，不重跑物理仿真、不放宽科学门禁。存储分类、Git compact 原字节及最新类型化加载的最终检查在本轮收尾记录补充。
+
+本轮科学/管理提交主库 `f0ce3fb`、执行 `d2cae78`。两处完整 Python 回归均 787/787，两个新 PowerShell 脚本 AST 通过。最新类型化入口实际加载完整 220 s 点，同时绑定 C2 和 C3 祖先证明；单独保存 typed guard，不执行额外仿真。`verification/current_storage_warmup_contract.json` 明确记录 C22 原 SHA、资格文件以及下一段 220–420 s，不能覆盖或替代 C200 主线冻结合同。
+
+治理快照 `workspace_governance_20261014_v40` 于 19:58 分类主库 outputs/audit 843 个目录、16.035074 GiB，C200/C180 四项实文件 SHA 全部通过；不把此数值当作包含 Agent6 和所有 worktree 的整盘大小。当前完整 MAT 单份位于执行 worktree，旧初始化退休有逐文件字节/SHA 回执；保留依赖未因节约空间而误删。下一轮从 C22 接续热身并取得真正十周期原生库存证据，不从 C2 重跑、不放宽 0.01 K 限值、不直接跳入 outer solve。完整第 8 节目标仍 active，未宣称目标完成或严格复现。
