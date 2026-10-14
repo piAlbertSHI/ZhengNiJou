@@ -1,0 +1,675 @@
+{
+  "schema": "heatdrive_ecc_buffer_performance_window_impact_v1",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v41_storage_warmup_from_C22_r1",
+  "actual_window_s": [
+    320,
+    420
+  ],
+  "cycles": [
+    {
+      "global_cycle": 33,
+      "performance": {
+        "window_start_s": 320,
+        "window_stop_s": 330,
+        "window_cycles": 1,
+        "SE_mass_g": 41.81683646625444,
+        "cp_fluid_J_kgK": 3638.0,
+        "outlet_lift_mean_K": 28.24005108185595,
+        "cooling_power_W": 12.875064375415494,
+        "SCP_W_g": 0.3078918795257378,
+        "CHEX_heat_sensor_mean_W": 12.53158239538055,
+        "ten_cycle_Qian_window_verified": false
+      },
+      "four_buffer_signed_storage_rate_W": 0.3263266547464809,
+      "four_buffer_absolute_storage_rate_sum_W": 2.096761367824911,
+      "signed_storage_to_Eq9_cooling_ratio": 0.02534563286297743,
+      "absolute_storage_to_Eq9_cooling_ratio": 0.1628544375924525
+    },
+    {
+      "global_cycle": 34,
+      "performance": {
+        "window_start_s": 330,
+        "window_stop_s": 340,
+        "window_cycles": 1,
+        "SE_mass_g": 41.81683646625444,
+        "cp_fluid_J_kgK": 3638.0,
+        "outlet_lift_mean_K": 28.25730799383691,
+        "cooling_power_W": 12.885103009404599,
+        "SCP_W_g": 0.30813194153992696,
+        "CHEX_heat_sensor_mean_W": 12.541521495578259,
+        "ten_cycle_Qian_window_verified": false
+      },
+      "four_buffer_signed_storage_rate_W": 0.3190861378891895,
+      "four_buffer_absolute_storage_rate_sum_W": 2.052761462253238,
+      "signed_storage_to_Eq9_cooling_ratio": 0.024763957079450154,
+      "absolute_storage_to_Eq9_cooling_ratio": 0.15931277078304812
+    },
+    {
+      "global_cycle": 35,
+      "performance": {
+        "window_start_s": 340,
+        "window_stop_s": 350,
+        "window_cycles": 1,
+        "SE_mass_g": 41.81683646625444,
+        "cp_fluid_J_kgK": 3638.0,
+        "outlet_lift_mean_K": 28.273890713831822,
+        "cooling_power_W": 12.894721100276623,
+        "SCP_W_g": 0.3083619467647312,
+        "CHEX_heat_sensor_mean_W": 12.551043683553026,
+        "ten_cycle_Qian_window_verified": false
+      },
+      "four_buffer_signed_storage_rate_W": 0.3120722143152307,
+      "four_buffer_absolute_storage_rate_sum_W": 2.01045923569709,
+      "signed_storage_to_Eq9_cooling_ratio": 0.02420154820630715,
+      "absolute_storage_to_Eq9_cooling_ratio": 0.1559133555555506
+    },
+    {
+      "global_cycle": 36,
+      "performance": {
+        "window_start_s": 350,
+        "window_stop_s": 360,
+        "window_cycles": 1,
+        "SE_mass_g": 41.81683646625444,
+        "cp_fluid_J_kgK": 3638.0,
+        "outlet_lift_mean_K": 28.289825758443463,
+        "cooling_power_W": 12.90393655420134,
+        "SCP_W_g": 0.30858232340494296,
+        "CHEX_heat_sensor_mean_W": 12.560166749322963,
+        "ten_cycle_Qian_window_verified": false
+      },
+      "four_buffer_signed_storage_rate_W": 0.305278308997822,
+      "four_buffer_absolute_storage_rate_sum_W": 1.9697885136180957,
+      "signed_storage_to_Eq9_cooling_ratio": 0.023657765807785815,
+      "absolute_storage_to_Eq9_cooling_ratio": 0.15265020138190002
+    },
+    {
+      "global_cycle": 37,
+      "performance": {
+        "window_start_s": 360,
+        "window_stop_s": 370,
+        "window_cycles": 1,
+        "SE_mass_g": 41.81683646625444,
+        "cp_fluid_J_kgK": 3638.0,
+        "outlet_lift_mean_K": 28.305138350001478,
+        "cooling_power_W": 12.912766164629014,
+        "SCP_W_g": 0.30879347305598837,
+        "CHEX_heat_sensor_mean_W": 12.568907380950465,
+        "ten_cycle_Qian_window_verified": false
+      },
+      "four_buffer_signed_storage_rate_W": 0.29869749732579287,
+      "four_buffer_absolute_storage_rate_sum_W": 1.9306850924359424,
+      "signed_storage_to_Eq9_cooling_ratio": 0.02313195279133861,
+      "absolute_storage_to_Eq9_cooling_ratio": 0.14951754471667933
+    },
+    {
+      "global_cycle": 38,
+      "performance": {
+        "window_start_s": 370,
+        "window_stop_s": 380,
+        "window_cycles": 1,
+        "SE_mass_g": 41.81683646625444,
+        "cp_fluid_J_kgK": 3638.0,
+        "outlet_lift_mean_K": 28.319852828278634,
+        "cooling_power_W": 12.921226131752718,
+        "SCP_W_g": 0.3089957831262523,
+        "CHEX_heat_sensor_mean_W": 12.577281671368642,
+        "ten_cycle_Qian_window_verified": false
+      },
+      "four_buffer_signed_storage_rate_W": 0.29232325033017326,
+      "four_buffer_absolute_storage_rate_sum_W": 1.8930874644941467,
+      "signed_storage_to_Eq9_cooling_ratio": 0.022623491559505788,
+      "absolute_storage_to_Eq9_cooling_ratio": 0.14650989350322252
+    },
+    {
+      "global_cycle": 39,
+      "performance": {
+        "window_start_s": 380,
+        "window_stop_s": 390,
+        "window_cycles": 1,
+        "SE_mass_g": 41.81683646625444,
+        "cp_fluid_J_kgK": 3638.0,
+        "outlet_lift_mean_K": 28.33399263254364,
+        "cooling_power_W": 12.929331853153219,
+        "SCP_W_g": 0.3091896218305991,
+        "CHEX_heat_sensor_mean_W": 12.58530491618612,
+        "ten_cycle_Qian_window_verified": false
+      },
+      "four_buffer_signed_storage_rate_W": 0.2861497005268575,
+      "four_buffer_absolute_storage_rate_sum_W": 1.8569370068436002,
+      "signed_storage_to_Eq9_cooling_ratio": 0.022131824271883857,
+      "absolute_storage_to_Eq9_cooling_ratio": 0.1436220392464231
+    },
+    {
+      "global_cycle": 40,
+      "performance": {
+        "window_start_s": 390,
+        "window_stop_s": 400,
+        "window_cycles": 1,
+        "SE_mass_g": 41.81683646625444,
+        "cp_fluid_J_kgK": 3638.0,
+        "outlet_lift_mean_K": 28.3475803526375,
+        "cooling_power_W": 12.937098022489787,
+        "SCP_W_g": 0.30937534055044624,
+        "CHEX_heat_sensor_mean_W": 12.592991672035946,
+        "ten_cycle_Qian_window_verified": false
+      },
+      "four_buffer_signed_storage_rate_W": 0.28017145449302916,
+      "four_buffer_absolute_storage_rate_sum_W": 1.8221776221660548,
+      "signed_storage_to_Eq9_cooling_ratio": 0.02165643747971767,
+      "absolute_storage_to_Eq9_cooling_ratio": 0.14084902340527916
+    },
+    {
+      "global_cycle": 41,
+      "performance": {
+        "window_start_s": 400,
+        "window_stop_s": 410,
+        "window_cycles": 1,
+        "SE_mass_g": 41.81683646625444,
+        "cp_fluid_J_kgK": 3638.0,
+        "outlet_lift_mean_K": 28.360637362295684,
+        "cooling_power_W": 12.94453920372248,
+        "SCP_W_g": 0.30955328756560835,
+        "CHEX_heat_sensor_mean_W": 12.600356374314378,
+        "ten_cycle_Qian_window_verified": false
+      },
+      "four_buffer_signed_storage_rate_W": 0.2743811004149393,
+      "four_buffer_absolute_storage_rate_sum_W": 1.7887533936469482,
+      "signed_storage_to_Eq9_cooling_ratio": 0.021196668038676505,
+      "absolute_storage_to_Eq9_cooling_ratio": 0.1381859458645352
+    },
+    {
+      "global_cycle": 42,
+      "performance": {
+        "window_start_s": 410,
+        "window_stop_s": 420,
+        "window_cycles": 1,
+        "SE_mass_g": 41.81683646625444,
+        "cp_fluid_J_kgK": 3638.0,
+        "outlet_lift_mean_K": 28.373184551844144,
+        "cooling_power_W": 12.951668923850667,
+        "SCP_W_g": 0.30972378635821646,
+        "CHEX_heat_sensor_mean_W": 12.607412459457917,
+        "ten_cycle_Qian_window_verified": false
+      },
+      "four_buffer_signed_storage_rate_W": 0.26877391873276785,
+      "four_buffer_absolute_storage_rate_sum_W": 1.756612989461064,
+      "signed_storage_to_Eq9_cooling_ratio": 0.020752068348335956,
+      "absolute_storage_to_Eq9_cooling_ratio": 0.1356283116708024
+    }
+  ],
+  "buffers": {
+    "ColdFluidBuffer": [
+      {
+        "global_cycle": 33,
+        "port_temperature_endpoint_change_K": -0.001116353132090353,
+        "mass_change_kg": -2.528496714486342e-07,
+        "relative_inventory_change": -2.499823966108346e-06,
+        "stored_energy_change_J": -4.453719549717789,
+        "stored_energy_rate_W": -0.4453719549717789,
+        "port_hydrostatic_pressure_change_Pa": -0.0024804552769111016,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 34,
+        "port_temperature_endpoint_change_K": -0.0010688924480177775,
+        "mass_change_kg": -2.536903304667669e-07,
+        "relative_inventory_change": -2.5081414968136467e-06,
+        "stored_energy_change_J": -4.273007408709418,
+        "stored_energy_rate_W": -0.42730074087094183,
+        "port_hydrostatic_pressure_change_Pa": -0.0024887021418789836,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 35,
+        "port_temperature_endpoint_change_K": -0.0010234992545861132,
+        "mass_change_kg": -2.5448636919910765e-07,
+        "relative_inventory_change": -2.5160179448208266e-06,
+        "stored_energy_change_J": -4.0996479527948395,
+        "stored_energy_rate_W": -0.40996479527948393,
+        "port_hydrostatic_pressure_change_Pa": -0.002496511281843246,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 36,
+        "port_temperature_endpoint_change_K": -0.0009800675014730587,
+        "mass_change_kg": -2.552447127603536e-07,
+        "relative_inventory_change": -2.5235217722593334e-06,
+        "stored_energy_change_J": -3.9333433039892043,
+        "stored_energy_rate_W": -0.3933343303989204,
+        "port_hydrostatic_pressure_change_Pa": -0.002503950632179069,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 37,
+        "port_temperature_endpoint_change_K": -0.0009384942483166014,
+        "mass_change_kg": -2.559704472660749e-07,
+        "relative_inventory_change": -2.5307032604542012e-06,
+        "stored_energy_change_J": -3.7738069719207488,
+        "stored_energy_rate_W": -0.3773806971920749,
+        "port_hydrostatic_pressure_change_Pa": -0.0025110700876801945,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 38,
+        "port_temperature_endpoint_change_K": -0.0008986893886913094,
+        "mass_change_kg": -2.566657574794382e-07,
+        "relative_inventory_change": -2.5375840064632646e-06,
+        "stored_energy_change_J": -3.620764114061785,
+        "stored_energy_rate_W": -0.3620764114061785,
+        "port_hydrostatic_pressure_change_Pa": -0.002517891080873289,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 39,
+        "port_temperature_endpoint_change_K": -0.0008605549302842519,
+        "mass_change_kg": -2.573331044938116e-07,
+        "relative_inventory_change": -2.544188339603504e-06,
+        "stored_energy_change_J": -3.473950973052524,
+        "stored_energy_rate_W": -0.3473950973052524,
+        "port_hydrostatic_pressure_change_Pa": -0.0025244377550842916,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 40,
+        "port_temperature_endpoint_change_K": -0.0008240428691692614,
+        "mass_change_kg": -2.5797468883388317e-07,
+        "relative_inventory_change": -2.550538013296827e-06,
+        "stored_energy_change_J": -3.3331141155849764,
+        "stored_energy_rate_W": -0.33331141155849764,
+        "port_hydrostatic_pressure_change_Pa": -0.002530731697460394,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 41,
+        "port_temperature_endpoint_change_K": -0.0007891061130749222,
+        "mass_change_kg": -2.5858943499223975e-07,
+        "relative_inventory_change": -2.5566223917457878e-06,
+        "stored_energy_change_J": -3.1980109522119164,
+        "stored_energy_rate_W": -0.31980109522119166,
+        "port_hydrostatic_pressure_change_Pa": -0.002536762357273872,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 42,
+        "port_temperature_endpoint_change_K": -0.0007556607674246152,
+        "mass_change_kg": -2.591806738866712e-07,
+        "relative_inventory_change": -2.562474404563206e-06,
+        "stored_energy_change_J": -3.0684084844706376,
+        "stored_energy_rate_W": -0.3068408484470638,
+        "port_hydrostatic_pressure_change_Pa": -0.0025425624108282446,
+        "period_s": 10
+      }
+    ],
+    "HotFluidBuffer": [
+      {
+        "global_cycle": 33,
+        "port_temperature_endpoint_change_K": 0.018135911353681422,
+        "mass_change_kg": 2.528496714486342e-07,
+        "relative_inventory_change": 2.525739377119039e-06,
+        "stored_energy_change_J": 6.684465351921972,
+        "stored_energy_rate_W": 0.6684465351921972,
+        "port_hydrostatic_pressure_change_Pa": 0.0024804552769111016,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 34,
+        "port_temperature_endpoint_change_K": 0.017445596938046037,
+        "mass_change_kg": 2.536903304667669e-07,
+        "relative_inventory_change": 2.534130399321937e-06,
+        "stored_energy_change_J": 6.431906907415396,
+        "stored_energy_rate_W": 0.6431906907415396,
+        "port_hydrostatic_pressure_change_Pa": 0.0024887021418789836,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 35,
+        "port_temperature_endpoint_change_K": 0.016781579458495344,
+        "mass_change_kg": 2.5448636919910765e-07,
+        "relative_inventory_change": 2.5420756437710795e-06,
+        "stored_energy_change_J": 6.188966784138756,
+        "stored_energy_rate_W": 0.6188966784138756,
+        "port_hydrostatic_pressure_change_Pa": 0.002496511281843246,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 36,
+        "port_temperature_endpoint_change_K": 0.016142861944842934,
+        "mass_change_kg": 2.552447127603536e-07,
+        "relative_inventory_change": 2.549644289894056e-06,
+        "stored_energy_change_J": 5.955281262133212,
+        "stored_energy_rate_W": 0.5955281262133212,
+        "port_hydrostatic_pressure_change_Pa": 0.002503950632179069,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 37,
+        "port_temperature_endpoint_change_K": 0.015528470440870024,
+        "mass_change_kg": 2.559704472660749e-07,
+        "relative_inventory_change": 2.55688714652069e-06,
+        "stored_energy_change_J": 5.730494722029107,
+        "stored_energy_rate_W": 0.5730494722029107,
+        "port_hydrostatic_pressure_change_Pa": 0.0025110700876801945,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 38,
+        "port_temperature_endpoint_change_K": 0.01493747461734074,
+        "mass_change_kg": 2.566657574794382e-07,
+        "relative_inventory_change": 2.5638260403428048e-06,
+        "stored_energy_change_J": 5.514267004266003,
+        "stored_energy_rate_W": 0.5514267004266002,
+        "port_hydrostatic_pressure_change_Pa": 0.002517891080873289,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 39,
+        "port_temperature_endpoint_change_K": 0.014368992440665806,
+        "mass_change_kg": 2.573331044938116e-07,
+        "relative_inventory_change": 2.570485558042147e-06,
+        "stored_energy_change_J": 5.306275677656231,
+        "stored_energy_rate_W": 0.5306275677656231,
+        "port_hydrostatic_pressure_change_Pa": 0.0025244377550842916,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 40,
+        "port_temperature_endpoint_change_K": 0.013822182997785148,
+        "mass_change_kg": 2.5797468883388317e-07,
+        "relative_inventory_change": 2.5768876832063924e-06,
+        "stored_energy_change_J": 5.106213318420487,
+        "stored_energy_rate_W": 0.5106213318420487,
+        "port_hydrostatic_pressure_change_Pa": 0.002530731697460394,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 41,
+        "port_temperature_endpoint_change_K": 0.013296181810119378,
+        "mass_change_kg": 2.5858943499223975e-07,
+        "relative_inventory_change": 2.5830216752307907e-06,
+        "stored_energy_change_J": 4.913763293825468,
+        "stored_energy_rate_W": 0.49137632938254683,
+        "port_hydrostatic_pressure_change_Pa": 0.002536762357273872,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 42,
+        "port_temperature_endpoint_change_K": 0.012790221711270533,
+        "mass_change_kg": 2.591806738866712e-07,
+        "relative_inventory_change": 2.5889208088530113e-06,
+        "stored_energy_change_J": 4.7286453749620705,
+        "stored_energy_rate_W": 0.47286453749620705,
+        "port_hydrostatic_pressure_change_Pa": 0.0025425624108282446,
+        "period_s": 10
+      }
+    ],
+    "SHEXFluidBuffer": [
+      {
+        "global_cycle": 33,
+        "port_temperature_endpoint_change_K": -0.010898590855504153,
+        "mass_change_kg": -1.468598542585878e-07,
+        "relative_inventory_change": -1.6267866032400665e-06,
+        "stored_energy_change_J": -4.398454015674361,
+        "stored_energy_rate_W": -0.43984540156743607,
+        "port_hydrostatic_pressure_change_Pa": -0.0014406951702767466,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 34,
+        "port_temperature_endpoint_change_K": -0.010891088675066385,
+        "mass_change_kg": -1.4686555845913e-07,
+        "relative_inventory_change": -1.6268524359879506e-06,
+        "stored_energy_change_J": -4.3953692131108255,
+        "stored_energy_rate_W": -0.4395369213110826,
+        "port_hydrostatic_pressure_change_Pa": -0.0014407511284840653,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 35,
+        "port_temperature_endpoint_change_K": -0.010883583270754116,
+        "mass_change_kg": -1.4687134432750746e-07,
+        "relative_inventory_change": -1.626919173701501e-06,
+        "stored_energy_change_J": -4.392287154114456,
+        "stored_energy_rate_W": -0.4392287154114456,
+        "port_hydrostatic_pressure_change_Pa": -0.0014408078878528482,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 36,
+        "port_temperature_endpoint_change_K": -0.010876074835437066,
+        "mass_change_kg": -1.4687720676588288e-07,
+        "relative_inventory_change": -1.6269867599169064e-06,
+        "stored_energy_change_J": -4.389207719112164,
+        "stored_energy_rate_W": -0.4389207719112164,
+        "port_hydrostatic_pressure_change_Pa": -0.0014408653983733113,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 37,
+        "port_temperature_endpoint_change_K": -0.010868563220242322,
+        "mass_change_kg": -1.4688314524448884e-07,
+        "relative_inventory_change": -1.6270551887713558e-06,
+        "stored_energy_change_J": -4.386131003629998,
+        "stored_energy_rate_W": -0.43861310036299983,
+        "port_hydrostatic_pressure_change_Pa": -0.0014409236548484354,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 38,
+        "port_temperature_endpoint_change_K": -0.01086104943283317,
+        "mass_change_kg": -1.468891560288282e-07,
+        "relative_inventory_change": -1.627124418902477e-06,
+        "stored_energy_change_J": -4.383056956758082,
+        "stored_energy_rate_W": -0.43830569567580824,
+        "port_hydrostatic_pressure_change_Pa": -0.0014409826206428047,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 39,
+        "port_temperature_endpoint_change_K": -0.010853534036641577,
+        "mass_change_kg": -1.468952356902768e-07,
+        "relative_inventory_change": -1.6271944123357907e-06,
+        "stored_energy_change_J": -4.379985558531189,
+        "stored_energy_rate_W": -0.43799855585311886,
+        "port_hydrostatic_pressure_change_Pa": -0.0014410422621216152,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 40,
+        "port_temperature_endpoint_change_K": -0.01084601646647343,
+        "mass_change_kg": -1.4690138047716982e-07,
+        "relative_inventory_change": -1.6272651275181026e-06,
+        "stored_energy_change_J": -4.376916722780152,
+        "stored_energy_rate_W": -0.4376916722780152,
+        "port_hydrostatic_pressure_change_Pa": -0.0014411025424810359,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 41,
+        "port_temperature_endpoint_change_K": -0.010838497454187745,
+        "mass_change_kg": -1.4690758958399504e-07,
+        "relative_inventory_change": -1.62733655553124e-06,
+        "stored_energy_change_J": -4.373850513948128,
+        "stored_energy_rate_W": -0.43738505139481276,
+        "port_hydrostatic_pressure_change_Pa": -0.0014411634538189914,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 42,
+        "port_temperature_endpoint_change_K": -0.010830977187652024,
+        "mass_change_kg": -1.4691385891979848e-07,
+        "relative_inventory_change": -1.627408651063139e-06,
+        "stored_energy_change_J": -4.370786869170843,
+        "stored_energy_rate_W": -0.4370786869170843,
+        "port_hydrostatic_pressure_change_Pa": -0.001441224956003223,
+        "period_s": 10
+      }
+    ],
+    "SMAHotFluidBuffer": [
+      {
+        "global_cycle": 33,
+        "port_temperature_endpoint_change_K": 0.00028718712928821333,
+        "mass_change_kg": 1.468598784720241e-07,
+        "relative_inventory_change": 1.5407455903533492e-06,
+        "stored_energy_change_J": 5.430974760934987,
+        "stored_energy_rate_W": 0.5430974760934987,
+        "port_hydrostatic_pressure_change_Pa": 0.0014406954078105565,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 34,
+        "port_temperature_endpoint_change_K": 0.0002755213437239945,
+        "mass_change_kg": 1.4686558158034865e-07,
+        "relative_inventory_change": 1.5408030491764644e-06,
+        "stored_energy_change_J": 5.427331093296743,
+        "stored_energy_rate_W": 0.5427331093296743,
+        "port_hydrostatic_pressure_change_Pa": 0.0014407513553032203,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 35,
+        "port_temperature_endpoint_change_K": 0.00026432921669083953,
+        "mass_change_kg": 1.4687136643798033e-07,
+        "relative_inventory_change": 1.5408613653811547e-06,
+        "stored_energy_change_J": 5.423690465922846,
+        "stored_energy_rate_W": 0.5423690465922846,
+        "port_hydrostatic_pressure_change_Pa": 0.0014408081047565869,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 36,
+        "port_temperature_endpoint_change_K": 0.0002535896310860153,
+        "mass_change_kg": 1.4687722788608953e-07,
+        "relative_inventory_change": 1.5409204848397388e-06,
+        "stored_energy_change_J": 5.420052850946377,
+        "stored_energy_rate_W": 0.5420052850946376,
+        "port_hydrostatic_pressure_change_Pa": 0.0014408656055625384,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 37,
+        "port_temperature_endpoint_change_K": 0.00024330894848390017,
+        "mass_change_kg": 1.46883165410407e-07,
+        "relative_inventory_change": 1.5409804021519528e-06,
+        "stored_energy_change_J": 5.4164182267795695,
+        "stored_energy_rate_W": 0.5416418226779569,
+        "port_hydrostatic_pressure_change_Pa": 0.0014409238526760927,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 38,
+        "port_temperature_endpoint_change_K": 0.00023344270516645338,
+        "mass_change_kg": 1.4688917530159586e-07,
+        "relative_inventory_change": 1.54104107839754e-06,
+        "stored_energy_change_J": 5.412786569855598,
+        "stored_energy_rate_W": 0.5412786569855598,
+        "port_hydrostatic_pressure_change_Pa": 0.0014409828097086555,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 39,
+        "port_temperature_endpoint_change_K": 0.00022396144856884348,
+        "mass_change_kg": 1.4689525408801028e-07,
+        "relative_inventory_change": 1.5411024771501977e-06,
+        "stored_energy_change_J": 5.409157859196057,
+        "stored_energy_rate_W": 0.5409157859196057,
+        "port_hydrostatic_pressure_change_Pa": 0.001441042442603381,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 40,
+        "port_temperature_endpoint_change_K": 0.0002148861415207648,
+        "mass_change_kg": 1.4690139806762162e-07,
+        "relative_inventory_change": 1.5411645595669234e-06,
+        "stored_energy_change_J": 5.405532064874933,
+        "stored_energy_rate_W": 0.5405532064874933,
+        "port_hydrostatic_pressure_change_Pa": 0.0014411027150433681,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 41,
+        "port_temperature_endpoint_change_K": 0.00020617607344775024,
+        "mass_change_kg": 1.469076063530807e-07,
+        "relative_inventory_change": 1.5412273163341917e-06,
+        "stored_energy_change_J": 5.401909176483969,
+        "stored_energy_rate_W": 0.5401909176483969,
+        "port_hydrostatic_pressure_change_Pa": 0.0014411636183237215,
+        "period_s": 10
+      },
+      {
+        "global_cycle": 42,
+        "port_temperature_endpoint_change_K": 0.00019783023475383743,
+        "mass_change_kg": 1.4691387493390333e-07,
+        "relative_inventory_change": 1.5412907053733724e-06,
+        "stored_energy_change_J": 5.398289166007089,
+        "stored_energy_rate_W": 0.5398289166007089,
+        "port_hydrostatic_pressure_change_Pa": 0.0014412251131015916,
+        "period_s": 10
+      }
+    ]
+  },
+  "ten_cycle_Eq9_mean_cooling_W": 12.915545533889594,
+  "ten_cycle_Eq9_mean_SCP_W_g": 0.30885993837224496,
+  "ten_cycle_CHEX_sensor_mean_W": 12.571656879814828,
+  "temperature_coordinate_comparisons": {
+    "ColdFluidBuffer": {
+      "actual_window_s": [
+        400,
+        420
+      ],
+      "public_signal": "cold_buffer_temp_out",
+      "public_coordinate": "conserving port temperature, not internal T_I",
+      "max_abs_port_minus_internal_K": 0.44583300622042543,
+      "internal_last_cycle_endpoint_change_K": -0.008493953489960404,
+      "internal_ten_cycle_temperature_available": false
+    },
+    "HotFluidBuffer": {
+      "actual_window_s": [
+        400,
+        420
+      ],
+      "public_signal": "hot_buffer_temp_out",
+      "public_coordinate": "conserving port temperature, not internal T_I",
+      "max_abs_port_minus_internal_K": 0.6781229357407597,
+      "internal_last_cycle_endpoint_change_K": 0.01279022171354427,
+      "internal_ten_cycle_temperature_available": false
+    },
+    "SHEXFluidBuffer": {
+      "actual_window_s": [
+        400,
+        420
+      ],
+      "public_signal": "shex_buffer_temp_out",
+      "public_coordinate": "conserving port temperature, not internal T_I",
+      "max_abs_port_minus_internal_K": 85.59393237462024,
+      "internal_last_cycle_endpoint_change_K": -0.011119042695838743,
+      "internal_ten_cycle_temperature_available": false
+    },
+    "SMAHotFluidBuffer": {
+      "actual_window_s": [
+        400,
+        420
+      ],
+      "public_signal": "sma_hot_buffer_temp_out",
+      "public_coordinate": "conserving port temperature, not internal T_I",
+      "max_abs_port_minus_internal_K": 88.68357940656239,
+      "internal_last_cycle_endpoint_change_K": 0.013370837428738014,
+      "internal_ten_cycle_temperature_available": false
+    }
+  },
+  "public_port_temperature_used_as_internal_temperature": false,
+  "hydrostatic_pressure_basis": "A.p=p_environment+gravity*M/tank_area; fixed p_I does not imply fixed port pressure",
+  "storage_rates_are_different_control_volumes_not_cooling_corrections": true,
+  "storage_to_cooling_ratios_are_comparison_scales_not_causal_bias_bounds": true,
+  "periodic_tolerances_changed": false,
+  "periodic_gate_assigned": false,
+  "source_state_edited": false,
+  "simulation_executed": false,
+  "operating_point_loaded": false,
+  "outer_solve_eligible": false,
+  "table4_reproduction_claim": false,
+  "input_sha256": {
+    "buffer_drift_audit": "75B04D8388BFBB82DDE54BBC38ADA2500EB3FC3AF1169B4925A7657914AC5F05",
+    "configuration": "EFBC414060B9E4BDA1011FEEAD02E246276CB8CF481D8F14E66DC1857E7203B4",
+    "buffer_contract": "0015E1424C85E50E3D38EE8661160295421B44AF31BDEE0F7ED3C9525CAC9AB5"
+  }
+}
