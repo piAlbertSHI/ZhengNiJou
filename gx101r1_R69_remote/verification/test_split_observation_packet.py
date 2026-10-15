@@ -47,7 +47,8 @@ class SplitObservationPacketTests(unittest.TestCase):
 
     def test_prefix_is_gated_and_hash_checked_before_suffix_load(self):
         source=(Path(__file__).parent/'Verify_HeatDriveECC_SplitObservation.m').read_text(encoding='utf-8')
-        self.assertIn("assert(gate.gate_pass,'A failed packet cannot propagate.')",source)
+        writer=(Path(__file__).parent/'Collect_HeatDriveECC_ObservationPacket.m').read_text(encoding='utf-8')
+        self.assertIn("assert(gate.gate_pass,'A failed packet cannot propagate.')",writer)
         self.assertLess(source.index('prefix_manifest.complete_OP_sha256'), source.index('restored=load('))
         self.assertNotIn("'warning'",source)
 
@@ -85,7 +86,7 @@ class SplitObservationPacketTests(unittest.TestCase):
         with self.assertRaises(ValueError):reviewed_mechanism(original,proof,'A'*64)
 
     def test_native_packet_export_uses_measured_interval_without_changing_log_cap(self):
-        source=(Path(__file__).parent/'Verify_HeatDriveECC_SplitObservation.m').read_text(encoding='utf-8')
+        source=(Path(__file__).parent/'Collect_HeatDriveECC_ObservationPacket.m').read_text(encoding='utf-8')
         self.assertIn('native=slice_traces(native,a,b);source_traces=slice_traces(source_traces,a,b);',source)
         self.assertNotIn("setModelParameter('SimscapeLogDataHistory'",source)
 

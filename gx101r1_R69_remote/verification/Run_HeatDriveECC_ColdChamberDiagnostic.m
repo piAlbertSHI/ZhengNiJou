@@ -758,14 +758,20 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     input,diagnostic_initial_op,state_capture_options.restore_source_root,arm,changed,buffer_paths);
             end
             if ~isempty(fieldnames(observation_options))
-                record.observation_preflight_requested=true;
                 record.prepared_stop_time_is_not_an_executed_long_segment=true;
-                record.observation_preflight=Verify_HeatDriveECC_SplitObservation( ...
-                    input,diagnostic_initial_op,options,arm,changed,buffer_paths, ...
-                    state_settings,observation_options,record.execution_commit);
-                record.observation_preflight_pass=record.observation_preflight.pass;
-                record.actual_observation_preflight_window_s=record.observation_preflight.full_window_s;
-                record.prepared_stop_time_is_not_an_executed_long_segment=true;
+                if strcmp(observation_options.mode,'split_preflight')
+                    record.observation_preflight_requested=true;
+                    record.observation_preflight=Verify_HeatDriveECC_SplitObservation( ...
+                        input,diagnostic_initial_op,options,arm,changed,buffer_paths, ...
+                        state_settings,observation_options,record.execution_commit);
+                    record.observation_preflight_pass=record.observation_preflight.pass;
+                    record.actual_observation_preflight_window_s=record.observation_preflight.full_window_s;
+                else
+                    record.observation_collection=Run_HeatDriveECC_BoundedObservationPackets( ...
+                        input,options,arm,changed,buffer_paths,state_settings,observation_options,record.execution_commit);
+                    record.observation_collection_pass=record.observation_collection.pass;
+                    record.actual_observation_collection_window_s=record.observation_collection.collection_window_s;
+                end
                 clear model_cleanup
                 continue
             end
@@ -994,7 +1000,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'production_recovery_allowed',false, ...
         'result_file',fullfile(output_root,'cold_chamber_execution.json'))));
     observation_preflight_pass=isfield(record,'observation_preflight_pass') && record.observation_preflight_pass;
-    assert(record.requested_arm_collection_pass || record.state_restore_preflight_pass || record.rebuilt_cycle_preflight_pass || observation_preflight_pass, ...
+    observation_collection_pass=isfield(record,'observation_collection_pass') && record.observation_collection_pass;
+    assert(record.requested_arm_collection_pass || record.state_restore_preflight_pass || record.rebuilt_cycle_preflight_pass || observation_preflight_pass || observation_collection_pass, ...
         'Cold chamber diagnostic failed; inspect execution JSON.');
 end
 

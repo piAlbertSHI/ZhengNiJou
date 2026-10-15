@@ -1,6 +1,7 @@
 """Gate a real restored observation packet before its complete state may enter the split test."""
 import argparse
 import json
+import re
 from pathlib import Path
 
 import h5py
@@ -23,8 +24,13 @@ def validate_manifest(manifest):
             not manifest['simulation_returned_without_error'] or manifest['source_state_edited'] or
             manifest['history_cap_cycles'] != 2 or manifest['state_history_cap_cycles'] != 11 or
             not manifest['strict_vendor_restore'] or manifest['production_recovery_allowed'] or
+            manifest.get('packet_role','split_comparison') not in ('split_comparison','bounded_transient_observation') or
             start < 0 or stop-start not in (10, 20) or start % 10 or stop % 10):
         raise ValueError('Not a complete unchanged-model strict restored observation packet')
+    if manifest.get('packet_role')=='bounded_transient_observation' and (
+            stop-start!=20 or start<640 or stop>720 or
+            not re.fullmatch('[A-F0-9]{64}',manifest.get('parent_complete_OP_sha256',''))):
+        raise ValueError('Recording packets require the exact parent OP and bounded twenty-second interval')
     return start, stop
 
 
@@ -111,7 +117,8 @@ def audit(root, review_path=None):
         six_local_inventory_gates=local, modeled_energy_balance=balance,
         storage_count=ledger['storage_count'], source_count=ledger['source_count'],
         flow_gates=ledger['selected_flow_gates'],
-        complete_state_is_only_for_current_split_comparison=True,
+        complete_state_is_only_for_current_split_comparison=manifest.get('packet_role','split_comparison')=='split_comparison',
+        bounded_recording_scope_only=manifest.get('packet_role')=='bounded_transient_observation',
         ten_cycle_periodicity_claim=False, production_recovery_allowed=False, outer_solve_eligible=False,
         input_sha256=dict(manifest=sha256(root/'packet_manifest.json'),
                           mechanism_review=sha256(review_path) if review_path else ''))
