@@ -1,0 +1,155 @@
+{
+  "schema": "heatdrive_ecc_buffer_geometry_fixture_audit_v1",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v44_buffer_geometry_fixture_r3",
+  "cases": [
+    {
+      "source_buffer": "SHEXFluidBuffer",
+      "port_area_m2": 0.01,
+      "gates": {
+        "zero_mass_flow": true,
+        "zero_H_heat": true,
+        "mass_equation": true,
+        "energy_equation": true,
+        "port_equation": true
+      },
+      "component_equation_pass": true,
+      "energy_change_J": -4.747683136272826,
+      "temperature_change_K": -0.01228565833389439,
+      "max_mass_balance_residual_kg": 0.0,
+      "max_energy_balance_residual_J": 2.2206347871644994e-11,
+      "max_Phi_equation_error_W": 1.7763568394002505e-15
+    },
+    {
+      "source_buffer": "SHEXFluidBuffer",
+      "port_area_m2": 0.001,
+      "gates": {
+        "zero_mass_flow": true,
+        "zero_H_heat": true,
+        "mass_equation": true,
+        "energy_equation": true,
+        "port_equation": true
+      },
+      "component_equation_pass": true,
+      "energy_change_J": -1.501420587534085,
+      "temperature_change_K": -0.0038852509318871853,
+      "max_mass_balance_residual_kg": 0.0,
+      "max_energy_balance_residual_J": 3.88063470246891e-11,
+      "max_Phi_equation_error_W": 8.881784197001252e-16
+    },
+    {
+      "source_buffer": "SHEXFluidBuffer",
+      "port_area_m2": 0.0001,
+      "gates": {
+        "zero_mass_flow": true,
+        "zero_H_heat": true,
+        "mass_equation": true,
+        "energy_equation": false,
+        "port_equation": true
+      },
+      "component_equation_pass": false,
+      "energy_change_J": 0.0,
+      "temperature_change_K": 0.0,
+      "max_mass_balance_residual_kg": 0.0,
+      "max_energy_balance_residual_J": 0.47480131431214156,
+      "max_Phi_equation_error_W": 1.6653345369377348e-16
+    },
+    {
+      "source_buffer": "SHEXFluidBuffer",
+      "port_area_m2": 8.04247719318987e-06,
+      "gates": {
+        "zero_mass_flow": true,
+        "zero_H_heat": true,
+        "mass_equation": true,
+        "energy_equation": false,
+        "port_equation": true
+      },
+      "component_equation_pass": false,
+      "energy_change_J": 0.0,
+      "temperature_change_K": 0.0,
+      "max_mass_balance_residual_kg": 0.0,
+      "max_energy_balance_residual_J": 0.13465014687480417,
+      "max_Phi_equation_error_W": 8.326672684688674e-17
+    },
+    {
+      "source_buffer": "SMAHotFluidBuffer",
+      "port_area_m2": 0.01,
+      "gates": {
+        "zero_mass_flow": true,
+        "zero_H_heat": true,
+        "mass_equation": true,
+        "energy_equation": true,
+        "port_equation": true
+      },
+      "component_equation_pass": true,
+      "energy_change_J": 4.740728566122925,
+      "temperature_change_K": 0.011783105310144038,
+      "max_mass_balance_residual_kg": 0.0,
+      "max_energy_balance_residual_J": 8.604228440844963e-12,
+      "max_Phi_equation_error_W": 2.6645352591003757e-15
+    },
+    {
+      "source_buffer": "SMAHotFluidBuffer",
+      "port_area_m2": 0.001,
+      "gates": {
+        "zero_mass_flow": true,
+        "zero_H_heat": true,
+        "mass_equation": true,
+        "energy_equation": true,
+        "port_equation": true
+      },
+      "component_equation_pass": true,
+      "energy_change_J": 1.4992174884282576,
+      "temperature_change_K": 0.0037263128030531334,
+      "max_mass_balance_residual_kg": 0.0,
+      "max_energy_balance_residual_J": 3.391509295624928e-12,
+      "max_Phi_equation_error_W": 1.3322676295501878e-15
+    },
+    {
+      "source_buffer": "SMAHotFluidBuffer",
+      "port_area_m2": 0.0001,
+      "gates": {
+        "zero_mass_flow": true,
+        "zero_H_heat": true,
+        "mass_equation": true,
+        "energy_equation": false,
+        "port_equation": true
+      },
+      "component_equation_pass": false,
+      "energy_change_J": 0.0,
+      "temperature_change_K": 0.0,
+      "max_mass_balance_residual_kg": 0.0,
+      "max_energy_balance_residual_J": 0.4741040670396382,
+      "max_Phi_equation_error_W": 0.0
+    },
+    {
+      "source_buffer": "SMAHotFluidBuffer",
+      "port_area_m2": 8.04247719318987e-06,
+      "gates": {
+        "zero_mass_flow": true,
+        "zero_H_heat": true,
+        "mass_equation": true,
+        "energy_equation": false,
+        "port_equation": true
+      },
+      "component_equation_pass": false,
+      "energy_change_J": 0.0,
+      "temperature_change_K": 0.0,
+      "max_mass_balance_residual_kg": 0.0,
+      "max_energy_balance_residual_J": 0.1344524126967021,
+      "max_Phi_equation_error_W": 2.7755575615628914e-17
+    }
+  ],
+  "isolated_component_equations_pass": false,
+  "zero_mass_flow_conduction_demonstrated": true,
+  "observed_area_response_monotone": false,
+  "geometry_selected_for_full_coupled_model": false,
+  "full_coupled_gate_evaluated": false,
+  "checkpoint_qualified": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "table4_reproduction_claim": false,
+  "input_sha256": {
+    "fixture_execution": "D6D52DC8388DE1B865A47CDDF50F5BD3F3205B251B699E493112FF22ED13D472",
+    "source_derived_flux_mechanism": "FEDEDBE217059CFD35B523FFBCB7CCE4EF1375193EA3D9074126F63DE51E77D8"
+  }
+}

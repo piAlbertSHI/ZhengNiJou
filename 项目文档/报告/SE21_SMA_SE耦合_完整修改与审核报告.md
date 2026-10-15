@@ -6554,3 +6554,5 @@ C62 SHEX 净失能 -4.310031 J，其中硬上风平流 -0.174887 J、流动功 -
 r2 执行 producer `9252def`、前台 session 65729 退出 0，实际八例 sim 全部完成。只读审核却发现四个小面积例的 Phi 为约 0.13–0.47 W，而 E/T 在 1 s 内完全不变，能量残差 0.134–0.475 J，远超原 1e-8 J；不能把“面积减小后 T 完全不漂移”误当效果更好。四个大面积例 M/E 与端口方程确实通过。r2 完整 raw/失败回执/REJECTED 标记保留，不能作为冷态种子。
 
 单独读取实际 Solver Configuration 元数据，确认 ConsistencyTolSource=GLOBAL，默认 ConsistencyAbsTol/RelTol 均为 0.001，固定开销模式 off。本次仅对独立夹具设置全局 RelTol=1e-9、AbsTol=1e-12，记录每例原值/应用值，保持同一物理方程、初始 M/E/T、边界、BE/.001 s 和 1e-8 J 审核。新 r3 用于检验残差容差对弱热流可见性的影响，不改 C62 求解设置，不仅因夹具失败而撤销已通过原始账本的 C62。先得到实际对照，再判断数值原因，不能放宽门禁或盲目重跑长链。
+
+r3 前台 session 78821 退出 0，但八例轨迹与 r2 相同，小面积四例仍未更新 E；全局 RelTol/AbsTol 的改变没有解决问题，不能声称已定位到全局容差。补查实际公开 DialogParameters 的完整类型，ConsistencyTolSource 确实支持 LOCAL/GLOBAL，ResidualTolerance 亦是公开参数。下一隔离控制切换 LOCAL consistency（Abs=1e-12、Rel=1e-9）与 residual=1e-12，仍保持 BE/.001 s、物理/初值和原审核限值，不修改隐藏 OP 或主模型。r3 失败证据和 marker 保留，当前恢复源仍为 C62。
