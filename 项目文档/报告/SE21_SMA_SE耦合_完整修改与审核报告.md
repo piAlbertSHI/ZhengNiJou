@@ -6703,3 +6703,13 @@ BE 是局部求解器的离散守恒口径；trapz 的相同冷量差为 0.34289
 独立空模型首次未添加 Simscape 组件，因尚未注册该模型扩展参数而拒绝读取；该只读 API 试验无项目模型/仿真，也没有新结果。添加标准 Thermal Mass/Solver 以注册相同 API 后，真实读出 SimscapeLogDataHistory=double 20002、MaxDataPoints=char '110002'、SaveOperatingPoint=on、两项 checksum policy=error。类型回执 v47_observation_parameter_API_types_20261015.json 保留，不用试验模型代替 C62 的真实恢复结果。
 
 修复为同时接受数值/文本的正整数读取，并在真实模型断言前保存实际值、类型与归一化计数；20002/110002 门禁仍完全相同。新增无效 NaN/Inf/vector/zero/fraction/text 拒绝测试。r1 原日志与 marker 保留，只有这个已复现的读取错误修复后才进入新 r2 输出目录，禁止盲目重复仿真或修改完整 OP。
+
+### 278.2 C62 严格恢复并实算两周期，缺失 provenance 只读重审
+
+修复提交 a5e6c86，执行 producer 7219924，前台 session 13524 自然退出 1。实际原模型 cap=2/state-history=11、error/error 从 C62 完整 OP 成功运行 620–640 s，保存了 reference 观察、数值状态与完整比较用 OP。之后只失败 qian_numerical_time_step_contract：新入口写入的 provenance 漏了 solver/fixed_step_s/simulation_mode，原其余 72 项均通过；不是源数据的步长改变，也不能因新报告缺字段就重跑已经完成的两周期。
+
+只读 Review_ObservationProvenance 从原 manifest 的全部 SHA、实际 configuration MAT 与原实际 analysis view 重审；未导入 OP、未执行 sim、未修改轨迹或旧结果。为避免 JSON 的向量方向改变选项，选项直接读取原 MAT；序列化材料坐标与原公共 MAT 在八 ULP 内核对，仅对缺失的三个 provenance 字段补齐既有配置，重新调用原 Validator。前台 session 48368 退出 0，原 73 项通过，另外 72 项结果完全不变。原 rejected 报告与 marker 仍保留，复核产物单独保存，不伪称原报告本来就通过。
+
+随后基于原始 native/public MAT 做独立 Python 账本，六局部 M/E、119 库存/49 源、全部选定流量均通过；外部热减含潜热库存残差 -5.127103e-10 J，在原 1e-8 J 内。该 reference 仅授予连续/分段轨迹比较资格，不把原 r2 的 OP 作为长链恢复源。下一次准备仍从原 C62 出发，只复用已经核实的 reference 数值，不重复 620–640 s 连续计算；prefix/suffix 仍须重新真实运行和逐包审核。
+
+同时修正新入口只输出 checks/diagnostics 的 compact JSON，不再把 Validator 返回的整份 result 数组（本次原 JSON 约 320 MB）重复序列化；已有实际原始证据暂留单份，不更改原 manifest。后续比较用完整状态仍先原机制与能量门禁、再 SHA、再加载，不允许用 provenance review 修复真正的流量、相变或能量失败。

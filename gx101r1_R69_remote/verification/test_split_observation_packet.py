@@ -1,7 +1,7 @@
 from pathlib import Path
 import unittest
 
-from Verify_HeatDriveECC_ObservationPacket import validate_manifest
+from Verify_HeatDriveECC_ObservationPacket import reviewed_mechanism, validate_manifest
 
 
 class SplitObservationPacketTests(unittest.TestCase):
@@ -56,6 +56,38 @@ class SplitObservationPacketTests(unittest.TestCase):
         self.assertIn('Resolve_HeatDriveECC_ObservationCount(native_history)==20002',source)
         self.assertIn('Resolve_HeatDriveECC_ObservationCount(state_history)==110002',source)
         self.assertNotIn("str2double(get_param(model,'SimscapeLogDataHistory'))",source)
+
+    def review_fixture(self):
+        checks={'qian_numerical_time_step_contract':False, **{f'physical_{i}':True for i in range(72)}}
+        proof=dict(schema='heatdrive_ecc_observation_provenance_review_v1', mechanism_pass=True,
+            other_72_predicates_unchanged=True, simulation_executed=False, operating_point_loaded=False,
+            source_state_edited=False, production_recovery_allowed=False, reference_comparison_only=True,
+            input_sha256={'original_manifest':'A'*64}, metadata_fields_added=['solver','fixed_step_s','simulation_mode'],
+            actual_configuration={'solver':'ode3','fixed_step_s':.001,'simulation_mode':'accelerator'},
+            checks=dict(checks,qian_numerical_time_step_contract=True))
+        return dict(checks=checks,passed=False),proof
+
+    def test_missing_metadata_review_does_not_change_other_predicates(self):
+        original,proof=self.review_fixture()
+        self.assertTrue(reviewed_mechanism(original,proof,'A'*64)['passed'])
+        self.assertFalse(original['checks']['qian_numerical_time_step_contract'])
+
+    def test_real_physical_failure_cannot_be_promoted_by_metadata_review(self):
+        original,proof=self.review_fixture();original['checks']['physical_0']=False
+        with self.assertRaises(ValueError):reviewed_mechanism(original,proof,'A'*64)
+
+    def test_reference_review_requires_same_source_manifest(self):
+        original,proof=self.review_fixture()
+        with self.assertRaises(ValueError):reviewed_mechanism(original,proof,'B'*64)
+
+    def test_changed_time_step_cannot_be_called_provenance_only(self):
+        original,proof=self.review_fixture();proof['actual_configuration']['fixed_step_s']=.002
+        with self.assertRaises(ValueError):reviewed_mechanism(original,proof,'A'*64)
+
+    def test_native_packet_export_uses_measured_interval_without_changing_log_cap(self):
+        source=(Path(__file__).parent/'Verify_HeatDriveECC_SplitObservation.m').read_text(encoding='utf-8')
+        self.assertIn('native=slice_traces(native,a,b);source_traces=slice_traces(source_traces,a,b);',source)
+        self.assertNotIn("setModelParameter('SimscapeLogDataHistory'",source)
 
 
 if __name__ == '__main__':unittest.main()

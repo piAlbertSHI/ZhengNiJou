@@ -28,7 +28,26 @@ def validate_manifest(manifest):
     return start, stop
 
 
-def audit(root):
+def reviewed_mechanism(original, proof, manifest_hash):
+    checks = original['checks']
+    failed = [name for name, value in checks.items() if not value]
+    if (failed != ['qian_numerical_time_step_contract'] or
+            proof['schema'] != 'heatdrive_ecc_observation_provenance_review_v1' or
+            not proof['mechanism_pass'] or not proof['other_72_predicates_unchanged'] or
+            proof['simulation_executed'] or proof['operating_point_loaded'] or proof['source_state_edited'] or
+            proof['production_recovery_allowed'] or not proof['reference_comparison_only'] or
+            proof['input_sha256']['original_manifest'] != manifest_hash or
+            set(proof['metadata_fields_added']) != {'solver', 'fixed_step_s', 'simulation_mode'} or
+            proof['actual_configuration']['solver'] != 'ode3' or
+            proof['actual_configuration']['fixed_step_s'] != .001 or
+            proof['actual_configuration']['simulation_mode'] not in ('normal', 'accelerator') or
+            set(proof['checks']) != set(checks) or not all(proof['checks'].values()) or
+            any(proof['checks'][name] != value for name, value in checks.items() if name not in failed)):
+        raise ValueError('Only a source-bound missing-provenance review may qualify this reference')
+    return dict(checks=proof['checks'], passed=proof['mechanism_pass'])
+
+
+def audit(root, review_path=None):
     manifest = read(root/'packet_manifest.json')
     start, stop = validate_manifest(manifest)
     arm = root/'native'
@@ -46,6 +65,11 @@ def audit(root):
     if sha256(root/'comparison_only_complete_op.mat') != manifest['complete_OP_sha256']:
         raise ValueError('Complete comparison state changed')
     mechanism = read(root/'mechanism.json')
+    if review_path is not None:
+        proof = read(review_path)
+        if Path(proof['source_packet_root']).resolve() != root or proof['input_sha256']['original_mechanism'] != sha256(root/'mechanism.json'):
+            raise ValueError('Review is not bound to this actual packet')
+        mechanism = reviewed_mechanism(mechanism, proof, sha256(root/'packet_manifest.json'))
     checks = mechanism['checks']
     if (len(checks) != 73 or any(type(value) is not bool for value in checks.values()) or
             not mechanism['passed'] or not all(checks.values())):
@@ -89,17 +113,20 @@ def audit(root):
         flow_gates=ledger['selected_flow_gates'],
         complete_state_is_only_for_current_split_comparison=True,
         ten_cycle_periodicity_claim=False, production_recovery_allowed=False, outer_solve_eligible=False,
-        input_sha256=dict(manifest=sha256(root/'packet_manifest.json')))
+        input_sha256=dict(manifest=sha256(root/'packet_manifest.json'),
+                          mechanism_review=sha256(review_path) if review_path else ''))
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--packet-root', required=True, type=Path)
+    parser.add_argument('--mechanism-review', type=Path)
+    parser.add_argument('--output', type=Path)
     args = parser.parse_args()
-    output = args.packet_root/'packet_gate.json'
+    output = args.output or args.packet_root/'packet_gate.json'
     if output.exists():
         raise FileExistsError('Never overwrite a split observation gate')
-    result = audit(args.packet_root.resolve())
+    result = audit(args.packet_root.resolve(), args.mechanism_review)
     output.write_text(json.dumps(result, indent=2, allow_nan=False)+'\n', encoding='utf-8')
     print(json.dumps(result, indent=2))
     raise SystemExit(0 if result['gate_pass'] else 1)

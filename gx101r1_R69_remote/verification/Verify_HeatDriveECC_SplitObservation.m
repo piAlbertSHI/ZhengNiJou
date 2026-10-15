@@ -33,7 +33,13 @@ function record=Verify_HeatDriveECC_SplitObservation(input,source_op,options,fol
         'outer_solve_eligible',false,'error_message','');
     write_json(fullfile(root,'progress.json'),record);
     try
-        reference=packet('reference',source_op,start,stop);
+        if isfield(request,'reference_review_path')
+            reference=load_reference_review(request.reference_review_path,folder,contract);
+            record.reference_reused_without_simulation=true;
+        else
+            reference=packet('reference',source_op,start,stop);
+            record.reference_reused_without_simulation=false;
+        end
         record.completed_packets{end+1}='reference';write_json(fullfile(root,'progress.json'),record);
         prefix=packet('prefix',source_op,start,middle);
         record.completed_packets{end+1}='prefix';write_json(fullfile(root,'progress.json'),record);
@@ -79,6 +85,7 @@ function record=Verify_HeatDriveECC_SplitObservation(input,source_op,options,fol
         signals=public_signals(output,a,b);
         [native,~]=Extract_HeatDriveECC_NativeStorageTraces(output.simlog,model,false,chambers,buffers);
         [source_traces,boundary_metadata]=Extract_HeatDriveECC_BoundaryTraces(output.simlog,model);
+        native=slice_traces(native,a,b);source_traces=slice_traces(source_traces,a,b);
         assert(numel(observation.states)==74 && numel(fieldnames(signals))==201 && ...
             numel(native)==1262 && numel(source_traces)==162,'Incomplete actual packet.');
         save(fullfile(arm,'observations.mat'),'native','source_traces','boundary_metadata','signals','-v7.3');
@@ -89,9 +96,14 @@ function record=Verify_HeatDriveECC_SplitObservation(input,source_op,options,fol
         physical=Extract_HeatDriveECC_PhysicalLogs(output,options,model,false);
         physical.authority='physical_simscape_to_workspace_logs';physical.legacy_surrogate_used_for_results=false;
         physical.sim_call_count=1;physical.walltime_s=NaN;
-        provenance=struct('checkpoint_restart_used',true,'checkpoint_chain_verified',true,'sim_call_count',1);
+        provenance=struct('checkpoint_restart_used',true,'checkpoint_chain_verified',true,'sim_call_count',1, ...
+            'solver',options.simulation.solver,'fixed_step_s',options.simulation.fixed_step_s, ...
+            'simulation_mode',options.simulation.mode);
         view=Make_HeatDriveECC_MechanismWindow(physical,options,provenance,destination);
-        mechanism=Validate_HeatDriveECC_EighthRound_Physics(view);
+        checked=Validate_HeatDriveECC_EighthRound_Physics(view);
+        mechanism=struct('checks',checked.checks,'passed',checked.passed,'diagnostics',checked.diagnostics, ...
+            'analysis_window',view.analysis_window,'provenance',provenance, ...
+            'full_result_arrays_duplicated_in_JSON',false);
         write_json(fullfile(destination,'mechanism.json'),mechanism);
         manifest=struct('schema','heatdrive_ecc_split_observation_packet_v1','producer',producer, ...
             'window_s',[a b],'source_snapshot_s',initial.snapshotTime,'history_cap_cycles',2, ...
@@ -116,6 +128,47 @@ function record=Verify_HeatDriveECC_SplitObservation(input,source_op,options,fol
         gate=jsondecode(fileread(gate_file));assert(gate.gate_pass,'A failed packet cannot propagate.');
         result=destination;
     end
+end
+
+function traces=slice_traces(traces,start,stop)
+    for k=1:numel(traces)
+        row=traces{k};t=row.time_s(:);tolerance=16*eps(max([abs(start),abs(stop),1]));
+        selected=t>=start-tolerance & t<=stop+tolerance;
+        row.time_s=t(selected);row.values=row.values(selected,:);
+        assert(numel(row.time_s)==round((stop-start)/.001)+1 && ...
+            abs(row.time_s(1)-start)<=tolerance && abs(row.time_s(end)-stop)<=tolerance, ...
+            'Only complete measured packet samples may be exported.');
+        traces{k}=row;
+    end
+end
+
+function source=load_reference_review(path,folder,contract)
+    proof=jsondecode(fileread(path));source=char(java.io.File(proof.source_packet_root).getCanonicalPath());
+    assert(strcmp(proof.schema,'heatdrive_ecc_qualified_observation_reference_v1') && ...
+        proof.mechanism_pass && proof.other_72_predicates_unchanged && ~proof.simulation_executed && ...
+        ~proof.operating_point_loaded && ~proof.source_state_edited && ...
+        ~proof.production_recovery_allowed && proof.reference_comparison_only, ...
+        'No failed physical state may be promoted by a provenance review.');
+    manifest_file=fullfile(source,'packet_manifest.json');manifest=jsondecode(fileread(manifest_file));
+    assert(isequal(manifest.window_s(:),[620;640]) && manifest.source_snapshot_s==620 && ...
+        strcmp(file_hash(manifest_file),proof.input_sha256.original_manifest));
+    for k=1:numel(manifest.input_files)
+        row=manifest.input_files(k);assert(strcmp(file_hash(fullfile(source,row.path)),row.sha256));
+    end
+    gate=jsondecode(fileread(proof.packet_gate_path));
+    assert(gate.gate_pass && strcmp(file_hash(proof.packet_gate_path),proof.packet_gate_sha256) && ...
+        strcmp(file_hash(proof.mechanism_review_path),proof.mechanism_review_sha256) && ...
+        strcmp(gate.input_sha256.mechanism_review,proof.mechanism_review_sha256), ...
+        'Reference needs all original predicates and current native energy gates.');
+    old_root=fileparts(fileparts(fileparts(source)));new_root=fileparts(folder);
+    old=jsondecode(fileread([old_root,'.preflight_config.json']));
+    current=jsondecode(fileread([new_root,'.preflight_config.json']));
+    for name={'output_root','diagnostic_observation_options'}
+        old=rmfield(old,name{1});current=rmfield(current,name{1});
+    end
+    assert(isequaln(old,current) && strcmp(current.diagnostic_state_options.restore_source_root, ...
+        fullfile(contract.execution_repo,contract.source_root_relative)), ...
+        'Reused reference must have the identical prepared recipe and C62 parent.');
 end
 
 function compare_packet(reference,candidate,path)
