@@ -1,9 +1,19 @@
 import unittest
 
 from Analyze_HeatDriveECC_BufferPerformanceImpact import storage_metrics
+from Audit_HeatDriveECC_NativeMappedBufferDrift import cycle_window
 
 
 class BufferPerformanceImpactTests(unittest.TestCase):
+    def test_windows_follow_actual_endpoint_not_hardcoded_C42(self):
+        self.assertEqual(cycle_window(42,420),(320,420,33))
+        self.assertEqual(cycle_window(62,620),(520,620,53))
+
+    def test_incomplete_or_wrong_endpoint_rejected(self):
+        for cycles,stop in ((42,620),(62,619),(42.5,425),(201,2010),(True,10)):
+            with self.subTest(cycles=cycles),self.assertRaises(ValueError):
+                cycle_window(cycles,stop)
+
     def test_finite_mass_and_hydrostatic_pressure(self):
         result=storage_metrics(-2.6e-7,-3.,.1,.001,9.81)
         self.assertAlmostEqual(result['relative_inventory_change'],-2.6e-6)

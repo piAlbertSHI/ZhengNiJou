@@ -1,0 +1,216 @@
+{
+  "schema": "heatdrive_ecc_qualified_segment_storage_closeout_v1",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1",
+  "total_cycles": 62,
+  "classification": "mechanism_pass_latest_diagnostic_endpoint",
+  "production_recovery_allowed": false,
+  "retained_current_files": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\cold_chamber_execution.json",
+      "bytes": 200538,
+      "sha256": "ECCCBF27DF18A9875AC859B3D626F00A27279602973EEBC02CF3232AB23349AC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\cold_chamber_progress.json",
+      "bytes": 411,
+      "sha256": "069152F89999FFB0B759ADB8B728CF9E9D67BA10EA91769D694C7C51FD417B64"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\matlab_diary.log",
+      "bytes": 2154,
+      "sha256": "9F087EFF8FFC953B5DEDA0E03F3D66B07C9F4EBD95091FBAF3A4522E94C56024"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\runtime_evidence_contract.mat",
+      "bytes": 2758856,
+      "sha256": "F9C4447D60DF472418F70D539A2352158491FAE005536586712308096754DE9B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\buffer_component_build\\ecc_buffer_coupled_offset_lib.slx",
+      "bytes": 54177,
+      "sha256": "187122F4EC5415AA77566C0B32F425E871BA4E253787702A2C2EE2D1704B679C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\buffer_component_build\\+ecc_buffer_coupled_offset\\conservative_buffer.ssc",
+      "bytes": 3446,
+      "sha256": "84657B41CB9A8B3C947BD1DE1C2BB67EFAF4BEE892DBA79B9DC95381808EF248"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\component_build\\ecc_inventory_pressure_only_lib.slx",
+      "bytes": 52828,
+      "sha256": "2D8789BE40E7C30B7A5E05D50B953D024F160E9FCBED3093947D6D57C9BB5280"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\component_build\\+ecc_inventory_pressure_only\\conservative_chamber.ssc",
+      "bytes": 2505,
+      "sha256": "09969E739C4655936DE2F1B373BED76A936D1A56A178B644F97463DEDC4616B9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\arm_completion.json",
+      "bytes": 486,
+      "sha256": "58A086CE76D4DBDAC8AA426C71BC62BBEB0C3DD0900B07C7E70BDFA95FC67247"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\buffer_mass_guesses.json",
+      "bytes": 1317,
+      "sha256": "0FDC848EF9F814B977211C1598F2706FE139DD7BFE08A52B2C67B0B3006BE278"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\buffer_replacement_contract.json",
+      "bytes": 24154,
+      "sha256": "0015E1424C85E50E3D38EE8661160295421B44AF31BDEE0F7ED3C9525CAC9AB5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\cold_inventory_targets.json",
+      "bytes": 706,
+      "sha256": "61B51FF7913D7FD6416637C1B1C6B2DB8F1B7A599883F9AE54628BA0D62B1F46"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\cold_public_targets.mat",
+      "bytes": 2285096,
+      "sha256": "6E1B14AD900FA3468CEB3695ADDFB3113E001C477B25E234E39BE204D9814E75"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\compiled_inventory_tags.json",
+      "bytes": 14181,
+      "sha256": "94A7E13527B5CBAA7E9B02C917551D29D02BA3F40A3A863C9A0D0856863BF933"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\configuration.mat",
+      "bytes": 14282013,
+      "sha256": "B1C13767F9EC35A5106B3608BA201E60699A4A5292DA98C3127CA1CC8EA2B350"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\diagnostic_complete_operating_point.mat",
+      "bytes": 3882845,
+      "sha256": "3913E39AA7AD542BACECC4C8BA68F1B700BBB306A91C4F5FBA4046D364249266"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\diagnostic_state_capture.json",
+      "bytes": 1480,
+      "sha256": "90D90FAC767CAD1497332BCDAF7D05FB675A9514C96E018A1FCA8FDD3D9EB95E"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\diagnostic_state_observation.mat",
+      "bytes": 751730466,
+      "sha256": "414E8F731CD2FB1ED3B4C82AB4678C6D838F0A931F6A06B50B6DF6C399DB13AB"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\diagnostic_state_type_validation.json",
+      "bytes": 144,
+      "sha256": "2DB10A91B4591226965AF5A9B16767B699172E022EC318718E87C37F7ABEB70D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\distributed_pressure_ff_contract.json",
+      "bytes": 2802599,
+      "sha256": "028829D8D4BA40CD2EF58B8B4DB67C4D2C82E03F68F5E505F1EFFA398733E592"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\effective_error_filter.json",
+      "bytes": 76,
+      "sha256": "CFF6F62771D5B7590064209481400D729700C2901B27748ADF6317F18B8AD27E"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\inventory_metadata.json",
+      "bytes": 122629,
+      "sha256": "EB29101A305068F74EEDFCE3A7AE3DABE1EF7A981EB909E3AB142F1EB400DB5B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\native_leaf_api_profile.json",
+      "bytes": 7490,
+      "sha256": "66756110081292003F388B9B4F4C3EE2530B64D529F050A9A8DC185E7D82EBA9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\native_transport_configuration.json",
+      "bytes": 369,
+      "sha256": "D5B1B9AC269DFAA731B8B894520387C20BCDE00ED55FCECB8111EBD1239657BE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\observations.mat",
+      "bytes": 1068664177,
+      "sha256": "1F30EEB3261A4F22C63783E87BFF72BDDB702965AB4E348E49575A9F77335E8B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\postprocessing_profile.json",
+      "bytes": 4313,
+      "sha256": "16FDA673177434EE19DE0E4CE871DCB9CDA5FCBCFA04DA5CEF8424FCCD3C256C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\postprocessing_progress.json",
+      "bytes": 126,
+      "sha256": "94AB164B2AC498427B0308390E592D6613D3895AA6D2F2FFEB12BD8AFF3542BE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\pressure_only_inverse_density_map_1.json",
+      "bytes": 2020,
+      "sha256": "A4A5250AF316864224CFEEFB6426DEDEA0E03A86CA9E582EE22F961978755576"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\pressure_only_inverse_density_map_2.json",
+      "bytes": 2017,
+      "sha256": "C92C47DC82D397946CD49334F84DEFEE49904BECC7319B3D9C30E726C0A4509C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\public_inventory_targets.json",
+      "bytes": 52552,
+      "sha256": "DAC5C65E4CB1EB68DF882177309660DB65A99326DF220CAFFD470DDBBC9DE58E"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\pump_pressure_probe_contract.json",
+      "bytes": 2733,
+      "sha256": "E52D23DF36559478757E6728DC7A0EE9FA765A21608A05457708F8FFA69E014E"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\runtime_inventory_targets.json",
+      "bytes": 52558,
+      "sha256": "C7C280FA378F43CA0563A72318B1CB868B934BA9568549743D23EFB51A468A70"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\se_reference_contract.json",
+      "bytes": 16484351,
+      "sha256": "094BA5683053EEB6EC86805E3647B1F0FA345C048F3CF58CCEAA3E597D6DBEAF"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\simulation_start.json",
+      "bytes": 300,
+      "sha256": "320E7ED2866D059C1DF59E731C6FE097A8AEFC611CC17E7FCAB413E82492A9B7"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\stage4_controller_probe_contract.json",
+      "bytes": 5580,
+      "sha256": "6F860343C32DC4B99828A60D919194477F4F639B80621A92E0271763DBB2E014"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\thermal_connectivity.json",
+      "bytes": 1134528,
+      "sha256": "EAC3BB3E6CD17806E11C61C651314A110B71D0921E501B16FEBC60323572D9C9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\tl_connectivity.json",
+      "bytes": 220278,
+      "sha256": "FA6DF7F73DECDB7DA7BA10DBE5033166F127B1B4E3DAC40419F68AF5E1AD330D"
+    }
+  ],
+  "retired_obsolete_interrupted_files": [],
+  "retained_interrupted_summary": [],
+  "retired_raw_bytes": 0,
+  "resumed_existing_retirement_plan": false,
+  "retired_cache_bytes": 67405,
+  "deleted_regenerable_caches": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\cache",
+      "bytes": 67405
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\codegen",
+      "bytes": 0
+    }
+  ],
+  "current_raw_retired": false,
+  "C2_C3_C22_dependencies_untouched": true,
+  "C200_C180_untouched": true,
+  "protected_SLX_untouched": true,
+  "Agent6_untouched": true,
+  "full_workspace_size_evaluated": false,
+  "generated_at": "2026-10-15T08:55:02.9420425+08:00"
+}

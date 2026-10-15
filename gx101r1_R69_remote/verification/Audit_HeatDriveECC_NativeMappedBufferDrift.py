@@ -1,4 +1,4 @@
-"""Cross-check numerical native identities on independent C22, then report C42 buffer drift."""
+"""Cross-check numerical native identities on independent C22, then report latest buffer drift."""
 import argparse
 import json
 from pathlib import Path
@@ -23,12 +23,21 @@ def states(f):
     return result
 
 
+def cycle_window(cycle_count, stop):
+    if (not isinstance(cycle_count,int) or isinstance(cycle_count,bool) or
+            cycle_count<42 or cycle_count>200 or stop!=cycle_count*10):
+        raise ValueError('Require a complete qualified-model warmup window')
+    return stop-100,stop,cycle_count-9
+
+
 def audit(mapping_path, independent):
     mapping=json.loads(mapping_path.read_text(encoding='utf-8-sig'))
     root=Path(mapping['source_root'])
     current=json.loads((root/'cold_chamber_execution.json').read_text(encoding='utf-8-sig'))
-    if current['cycle_count']!=42 or current['stop_time_s']!=420 or root.resolve()==independent.resolve():
-        raise ValueError('Require the scoped C42 mapping and an independent C22 run')
+    window_start,window_stop,first_cycle=cycle_window(current['cycle_count'],current['stop_time_s'])
+    if (root.resolve()==independent.resolve() or not current['requested_arm_collection_pass'] or
+            current['error_message'] or current['diagnostic_state_options']['mode']!='diagnostic_resume'):
+        raise ValueError('Require a completed mapped segment and an independent C22 run')
     if (sha256(root/'native/observations.mat')!=mapping['input_sha256']['native_observation'] or
             sha256(root/'native/diagnostic_state_observation.mat')!=mapping['input_sha256']['history']):
         raise ValueError('Mapping inputs changed')
@@ -64,15 +73,17 @@ def audit(mapping_path, independent):
                     raise ValueError('Buffer coordinate identity incomplete')
                 c=rows[0]['coordinate'];row=numerical[c['block_path'],c['state_name']]
                 time=row['time_s'][:].ravel();values=row['values'][c['coordinate_1based']-1,:]
-                endpoint_indices=[int(np.argmin(abs(time-t))) for t in np.arange(320,421,10)]
-                if not np.allclose(time[endpoint_indices],np.arange(320,421,10),rtol=0,atol=1e-9):
+                endpoints=np.arange(window_start,window_stop+1,10)
+                endpoint_indices=[int(np.argmin(abs(time-t))) for t in endpoints]
+                if not np.allclose(time[endpoint_indices],endpoints,rtol=0,atol=1e-9):
                     raise ValueError('Ten physical-cycle endpoints missing')
                 columns[variable]=np.diff(values[endpoint_indices])
-            buffers[name]=[dict(global_cycle=cycle,mass_offset_change_kg=float(columns['mass_offset'][cycle-33]),
-                stored_energy_change_J=float(columns['stored_energy'][cycle-33])) for cycle in range(33,43)]
+            buffers[name]=[dict(global_cycle=cycle,mass_offset_change_kg=float(columns['mass_offset'][cycle-first_cycle]),
+                stored_energy_change_J=float(columns['stored_energy'][cycle-first_cycle]))
+                for cycle in range(first_cycle,current['cycle_count']+1)]
     return dict(schema='heatdrive_ecc_empirically_crosschecked_buffer_drift_v1', source_root=str(root),
         independent_root=str(independent),independent_exact_identity_count=len(verified),
-        independent_native_overlap_window_s=[start,stop],buffer_comparison_window_s=[320,420],
+        independent_native_overlap_window_s=[start,stop],buffer_comparison_window_s=[window_start,window_stop],
         buffers=buffers,identity_validation_kind='Fixed coordinate bitwise identity on two independent warmup runs',
         compiled_physical_semantics_verified=False,full_native_source_energy_window_available=False,
         numerical_closure_tolerance_used_as_periodic_threshold=False,periodic_gate_assigned=False,

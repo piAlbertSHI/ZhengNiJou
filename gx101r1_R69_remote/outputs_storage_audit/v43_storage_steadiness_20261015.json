@@ -1,0 +1,575 @@
+{
+  "schema": "heatdrive_ecc_diagnostic_steadiness_v1",
+  "producer": "74305b3c6b65b4dd9f7738dd1920aedb48be46ee",
+  "total_cycles": 62,
+  "segment_window_s": [
+    420,
+    620
+  ],
+  "physical_window_s": [
+    600.0,
+    620.0
+  ],
+  "mechanism_subset_pass": true,
+  "all_mechanism_gates_evaluated": true,
+  "core_periodic_last_pair": {
+    "predicates": {
+      "temperature_endpoint": {
+        "value": 0.005885662007983683,
+        "limit": 0.05,
+        "pass_gate": true
+      },
+      "temperature_p99": {
+        "value": 0.006426659247305778,
+        "limit": 0.05,
+        "pass_gate": true
+      },
+      "temperature_rms": {
+        "value": 0.0027046804112056786,
+        "limit": 0.01,
+        "pass_gate": true
+      },
+      "phase_endpoint": {
+        "value": 7.170893773292275e-05,
+        "limit": 0.0001,
+        "pass_gate": true
+      },
+      "phase_p99": {
+        "value": 0.00022302930997099125,
+        "limit": 0.002,
+        "pass_gate": true
+      },
+      "phase_rms": {
+        "value": 9.10113616245678e-05,
+        "limit": 0.0004,
+        "pass_gate": true
+      }
+    },
+    "last_pair_core_predicates_pass": true,
+    "predicate_scope": "solid_node_endpoint_and_numpy_percentile_last_pair",
+    "equivalent_to_original_production_predicates": false,
+    "same_phase_maxima_are_nonblocking_diagnostics": true,
+    "diagnostic_temperature_peak_K": 0.09695236575714716,
+    "diagnostic_phase_peak": 0.004555490913928019
+  },
+  "all_119_inventory_endpoint_K": 0.013191468439401888,
+  "all_119_inventory_same_phase_peak_K": 0.09695236575714716,
+  "all_logged_groups_have_ten_cycle_comparisons": true,
+  "all_three_PI_memories_observed": true,
+  "full_state_periodicity_verified": false,
+  "packed_state_joint_norm_used": false,
+  "physical_tolerances_changed": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "paired_table4_eligible": false,
+  "table4_reproduction_claim": false,
+  "source_minus_endpoint_inventory_J": 4.125930708198666e-10,
+  "full_device_first_law_verified": false,
+  "next_action": "Qualify the intact latest diagnostic endpoint for further warmup; complete dimensional state mapping before steady outer solve",
+  "input_sha256": {
+    "physics_audit": "E60747FAC74C5F23900BE90F3114F61C14E4773911E6E014C66F691903FFF595",
+    "state_audit": "7B131939B06CBB421B7434F65A6FF6FB4413E9F3FB4139CDAC1E1BC78F95D818",
+    "configuration": "B1C13767F9EC35A5106B3608BA201E60699A4A5292DA98C3127CA1CC8EA2B350",
+    "operating_point": "3913E39AA7AD542BACECC4C8BA68F1B700BBB306A91C4F5FBA4046D364249266",
+    "history": "414E8F731CD2FB1ED3B4C82AB4678C6D838F0A931F6A06B50B6DF6C399DB13AB",
+    "full_mechanism_audit": "6E60006BEBC7E27EC0D39513C91CE786118D5BE09FE947D38002BBA9BF5F55FA",
+    "original_production_periodicity_audit": "1E88A6BDD1922367878CABCDF5B6F5FAB7BCF5D4ED7DBBDEA24A3D3E98D046E6",
+    "ten_cycle_thermal_periodicity_audit": "93F925E52C9D8440B7CD0D7D8A088EAC8BA77A636B7C38C0EBC19C68AE6536BA"
+  },
+  "interpretation": "core_periodic_last_pair is a solid-only diagnostic, not the original production predicate: production includes heat-exchanger temperatures, mean solid endpoints, cycle phase extrema and nearest-rank p99. Raw maxima are diagnostic. Neither a last pair nor captured state grants steady recovery or Table 4.",
+  "full_mechanism": {
+    "evaluated": true,
+    "count": 73,
+    "pass_gate": true,
+    "failed_checks": []
+  },
+  "original_production_last_pair": {
+    "schema": "heatdrive_ecc_saved_production_periodicity_v1",
+    "source_execution_commit": "74305b3c6b65b4dd9f7738dd1920aedb48be46ee",
+    "source_execution_sha256": "ECCCBF27DF18A9875AC859B3D626F00A27279602973EEBC02CF3232AB23349AC",
+    "source_observation_sha256": "1F30EEB3261A4F22C63783E87BFF72BDDB702965AB4E348E49575A9F77335E8B",
+    "source_configuration_sha256": "B1C13767F9EC35A5106B3608BA201E60699A4A5292DA98C3127CA1CC8EA2B350",
+    "mechanism_receipt_sha256": "6E60006BEBC7E27EC0D39513C91CE786118D5BE09FE947D38002BBA9BF5F55FA",
+    "mechanism_view_sha256": "20145584802AF8CAE0CFF773147F57501AA928C32ADB1AC005AB5552CD294AF0",
+    "original_summarizer_sha256": "7AE055FC2EDAC41F367738385B7808897707EB8EFD0958943C76B783E440197D",
+    "original_summarizer_used": true,
+    "physical_tolerances_changed": false,
+    "simulation_executed": false,
+    "operating_point_loaded": false,
+    "analysis_window": {
+      "absolute_start_s": 600,
+      "absolute_stop_s": 620,
+      "global_first_cycle": 61,
+      "global_last_cycle": 62,
+      "original_mechanism_gate_start_cycle": 1,
+      "time_shift_for_analysis_only": true,
+      "simulation_options_modified": false,
+      "operating_point_modified": false,
+      "production_recovery_allowed": false
+    },
+    "periodic_window_cycles": 2,
+    "predicates": {
+      "temperature_endpoint": {
+        "value": 0.0149770114887815,
+        "limit": 0.05,
+        "pass_gate": true
+      },
+      "temperature_p99": {
+        "value": 0.006134817861095598,
+        "limit": 0.05,
+        "pass_gate": true
+      },
+      "temperature_rms": {
+        "value": 0.002593671336805607,
+        "limit": 0.01,
+        "pass_gate": true
+      },
+      "phase_extrema": {
+        "value": 4.851109554930826e-06,
+        "limit": 0.0001,
+        "pass_gate": true
+      },
+      "phase_p99": {
+        "value": 0.0002220021194366817,
+        "limit": 0.002,
+        "pass_gate": true
+      },
+      "phase_rms": {
+        "value": 8.957644573877922e-05,
+        "limit": 0.0004,
+        "pass_gate": true
+      }
+    },
+    "last_pair_predicates_pass": true,
+    "diagnostic_temperature_peak_K": 0.07802400351880578,
+    "diagnostic_phase_peak": 0.0037095026223021438,
+    "ten_cycle_production_window_verified": false,
+    "periodic_steady_state_verified": false,
+    "production_recovery_allowed": false,
+    "table4_reproduction_claim": false,
+    "interpretation": "Exact original mean-endpoint / cycle-phase-extrema / nearest-rank p99 statistics; two-cycle diagnostic only."
+  },
+  "ten_cycle_production_temperature_phase": {
+    "schema": "heatdrive_ecc_saved_ten_cycle_thermal_periodicity_v1",
+    "source_execution_commit": "74305b3c6b65b4dd9f7738dd1920aedb48be46ee",
+    "total_cycles": 62,
+    "source_execution_sha256": "ECCCBF27DF18A9875AC859B3D626F00A27279602973EEBC02CF3232AB23349AC",
+    "source_observation_sha256": "1F30EEB3261A4F22C63783E87BFF72BDDB702965AB4E348E49575A9F77335E8B",
+    "source_configuration_sha256": "B1C13767F9EC35A5106B3608BA201E60699A4A5292DA98C3127CA1CC8EA2B350",
+    "original_pair_receipt_sha256": "1E88A6BDD1922367878CABCDF5B6F5FAB7BCF5D4ED7DBBDEA24A3D3E98D046E6",
+    "shared_statistics_sha256": "1EEF317CFADA3495FE2933F8FA7722A50E9282EF581369217DF5910B81F5D35B",
+    "refactored_summarizer_sha256": "7AE055FC2EDAC41F367738385B7808897707EB8EFD0958943C76B783E440197D",
+    "pre_refactor_pair_exactly_equal": true,
+    "full_summary_before_after_exactly_equal": true,
+    "public_material_fields_exactly_equal": true,
+    "original_periodic_predicates_used": true,
+    "absolute_window_s": [
+      520,
+      620
+    ],
+    "periodic_window_cycles": 10,
+    "exact_grid_sample_count": 100001,
+    "time_shift_for_analysis_only": true,
+    "predicates": {
+      "temperature_endpoint": {
+        "value": 0.0149770114887815,
+        "limit": 0.05,
+        "pass_gate": true
+      },
+      "temperature_p99": {
+        "value": 0.0074247995785867715,
+        "limit": 0.05,
+        "pass_gate": true
+      },
+      "temperature_rms": {
+        "value": 0.002643465372804077,
+        "limit": 0.01,
+        "pass_gate": true
+      },
+      "phase_extrema": {
+        "value": 6.683203920891624e-06,
+        "limit": 0.0001,
+        "pass_gate": true
+      },
+      "phase_p99": {
+        "value": 0.00021538255858655209,
+        "limit": 0.002,
+        "pass_gate": true
+      },
+      "phase_rms": {
+        "value": 7.817788916301364e-05,
+        "limit": 0.0004,
+        "pass_gate": true
+      }
+    },
+    "production_temperature_phase_periodic_gate_pass": true,
+    "phase_attribution": {
+      "groups": {
+        "SMA": {
+          "rms": 2.6709822289830348e-05,
+          "nodes": [
+            {
+              "node": 1,
+              "rms": 2.0458649049808476e-05,
+              "p99": 6.219690625086649e-05,
+              "maximum": 7.157271857904934e-05,
+              "peak_current_global_cycle": 54,
+              "peak_local_phase_s": 8.975
+            },
+            {
+              "node": 2,
+              "rms": 2.018601383117592e-05,
+              "p99": 5.989542916939872e-05,
+              "maximum": 8.90219025537764e-05,
+              "peak_current_global_cycle": 61,
+              "peak_local_phase_s": 0.275
+            },
+            {
+              "node": 3,
+              "rms": 1.9910337801948103e-05,
+              "p99": 5.714671519141401e-05,
+              "maximum": 0.00016583103342326933,
+              "peak_current_global_cycle": 62,
+              "peak_local_phase_s": 0.3
+            },
+            {
+              "node": 4,
+              "rms": 2.0484674143225648e-05,
+              "p99": 5.478873547837271e-05,
+              "maximum": 0.00028962875734539484,
+              "peak_current_global_cycle": 62,
+              "peak_local_phase_s": 0.325
+            },
+            {
+              "node": 5,
+              "rms": 1.9875235786861412e-05,
+              "p99": 5.372105281770123e-05,
+              "maximum": 0.00023651708819683037,
+              "peak_current_global_cycle": 62,
+              "peak_local_phase_s": 0.325
+            },
+            {
+              "node": 6,
+              "rms": 2.1163511789604698e-05,
+              "p99": 5.3229203357818555e-05,
+              "maximum": 0.00040270963051802777,
+              "peak_current_global_cycle": 58,
+              "peak_local_phase_s": 0.35
+            },
+            {
+              "node": 7,
+              "rms": 1.9568869362722527e-05,
+              "p99": 5.251282409335367e-05,
+              "maximum": 0.0002005572158547686,
+              "peak_current_global_cycle": 58,
+              "peak_local_phase_s": 0.375
+            },
+            {
+              "node": 8,
+              "rms": 1.9915118093727612e-05,
+              "p99": 5.2149729940276224e-05,
+              "maximum": 0.00020363289051261724,
+              "peak_current_global_cycle": 62,
+              "peak_local_phase_s": 0.425
+            },
+            {
+              "node": 9,
+              "rms": 3.461327398101226e-05,
+              "p99": 5.207831057424395e-05,
+              "maximum": 0.0009310973855397586,
+              "peak_current_global_cycle": 54,
+              "peak_local_phase_s": 0.4
+            },
+            {
+              "node": 10,
+              "rms": 2.9215536243402026e-05,
+              "p99": 5.2639449963309826e-05,
+              "maximum": 0.000828924905325712,
+              "peak_current_global_cycle": 59,
+              "peak_local_phase_s": 0.425
+            },
+            {
+              "node": 11,
+              "rms": 2.39466689420673e-05,
+              "p99": 5.339341875199022e-05,
+              "maximum": 0.0006037158277808485,
+              "peak_current_global_cycle": 54,
+              "peak_local_phase_s": 0.475
+            },
+            {
+              "node": 12,
+              "rms": 3.761523369582226e-05,
+              "p99": 6.07441882209403e-05,
+              "maximum": 0.0006788433862625065,
+              "peak_current_global_cycle": 54,
+              "peak_local_phase_s": 0.5
+            },
+            {
+              "node": 13,
+              "rms": 3.132407593257323e-05,
+              "p99": 6.194952865687386e-05,
+              "maximum": 0.0005966674626733393,
+              "peak_current_global_cycle": 54,
+              "peak_local_phase_s": 0.55
+            },
+            {
+              "node": 14,
+              "rms": 2.4199426585099943e-05,
+              "p99": 6.457782745239449e-05,
+              "maximum": 0.0005362823038733144,
+              "peak_current_global_cycle": 56,
+              "peak_local_phase_s": 0.575
+            },
+            {
+              "node": 15,
+              "rms": 3.189338119877113e-05,
+              "p99": 7.200739459707617e-05,
+              "maximum": 0.0004935543373182361,
+              "peak_current_global_cycle": 55,
+              "peak_local_phase_s": 0.625
+            },
+            {
+              "node": 16,
+              "rms": 3.2105480774244944e-05,
+              "p99": 7.850113433451045e-05,
+              "maximum": 0.00044061642290421643,
+              "peak_current_global_cycle": 62,
+              "peak_local_phase_s": 0.7
+            },
+            {
+              "node": 17,
+              "rms": 2.7189516580738963e-05,
+              "p99": 7.707647704988108e-05,
+              "maximum": 0.0004008442036104176,
+              "peak_current_global_cycle": 55,
+              "peak_local_phase_s": 0.75
+            },
+            {
+              "node": 18,
+              "rms": 2.1793067753644132e-05,
+              "p99": 7.565890846400469e-05,
+              "maximum": 0.0003696287420223987,
+              "peak_current_global_cycle": 55,
+              "peak_local_phase_s": 0.825
+            },
+            {
+              "node": 19,
+              "rms": 3.3086406267396584e-05,
+              "p99": 0.00016684975884084796,
+              "maximum": 0.0003910173806543349,
+              "peak_current_global_cycle": 55,
+              "peak_local_phase_s": 0.925
+            },
+            {
+              "node": 20,
+              "rms": 2.8153071202494336e-05,
+              "p99": 9.09099174879191e-05,
+              "maximum": 0.0003688021160845323,
+              "peak_current_global_cycle": 58,
+              "peak_local_phase_s": 0.975
+            },
+            {
+              "node": 21,
+              "rms": 3.099858109101779e-05,
+              "p99": 9.955315254986385e-05,
+              "maximum": 0.0003794261854457859,
+              "peak_current_global_cycle": 54,
+              "peak_local_phase_s": 1.025
+            }
+          ],
+          "squared_drift_fraction": 0.05836387533410992
+        },
+        "SE": {
+          "rms": 0.00010728536760068683,
+          "nodes": [
+            {
+              "node": 1,
+              "rms": 0.00017834282831896066,
+              "p99": 0.0007805211643113763,
+              "maximum": 0.0018675745248526165,
+              "peak_current_global_cycle": 62,
+              "peak_local_phase_s": 0.5
+            },
+            {
+              "node": 2,
+              "rms": 0.00014324498349668527,
+              "p99": 0.00047879448089789556,
+              "maximum": 0.0017238457343702884,
+              "peak_current_global_cycle": 62,
+              "peak_local_phase_s": 0.5
+            },
+            {
+              "node": 3,
+              "rms": 0.00016116295525064227,
+              "p99": 0.0006462574377386066,
+              "maximum": 0.001993164710099138,
+              "peak_current_global_cycle": 55,
+              "peak_local_phase_s": 0.45
+            },
+            {
+              "node": 4,
+              "rms": 0.00013550838690600938,
+              "p99": 0.00047706782606232734,
+              "maximum": 0.0016102671108546018,
+              "peak_current_global_cycle": 60,
+              "peak_local_phase_s": 0.475
+            },
+            {
+              "node": 5,
+              "rms": 0.0001311107643577209,
+              "p99": 0.000449180795449422,
+              "maximum": 0.0018753267180552646,
+              "peak_current_global_cycle": 56,
+              "peak_local_phase_s": 0.475
+            },
+            {
+              "node": 6,
+              "rms": 0.00012883170970884355,
+              "p99": 0.00043169863129460806,
+              "maximum": 0.00196838017993034,
+              "peak_current_global_cycle": 54,
+              "peak_local_phase_s": 0.425
+            },
+            {
+              "node": 7,
+              "rms": 0.00012919784443278648,
+              "p99": 0.00046126477088617723,
+              "maximum": 0.001996099214005717,
+              "peak_current_global_cycle": 59,
+              "peak_local_phase_s": 0.4
+            },
+            {
+              "node": 8,
+              "rms": 9.297812160126042e-05,
+              "p99": 0.0003130035436417211,
+              "maximum": 0.001181694902793011,
+              "peak_current_global_cycle": 59,
+              "peak_local_phase_s": 0.35
+            },
+            {
+              "node": 9,
+              "rms": 0.0001266500080527983,
+              "p99": 0.00048575427415770145,
+              "maximum": 0.0029500273101707997,
+              "peak_current_global_cycle": 58,
+              "peak_local_phase_s": 0.375
+            },
+            {
+              "node": 10,
+              "rms": 7.237946882457478e-05,
+              "p99": 0.00021619066395006659,
+              "maximum": 0.0010491762910549984,
+              "peak_current_global_cycle": 60,
+              "peak_local_phase_s": 0.325
+            },
+            {
+              "node": 11,
+              "rms": 6.961222576894322e-05,
+              "p99": 0.00018130942200678124,
+              "maximum": 0.001064742065776697,
+              "peak_current_global_cycle": 54,
+              "peak_local_phase_s": 0.325
+            },
+            {
+              "node": 12,
+              "rms": 0.00012653405646490331,
+              "p99": 0.00019882371885077132,
+              "maximum": 0.0037095026223263883,
+              "peak_current_global_cycle": 62,
+              "peak_local_phase_s": 0.3
+            },
+            {
+              "node": 13,
+              "rms": 6.218748916257647e-05,
+              "p99": 0.00013722505907454163,
+              "maximum": 0.0006199437843492639,
+              "peak_current_global_cycle": 62,
+              "peak_local_phase_s": 0.425
+            },
+            {
+              "node": 14,
+              "rms": 6.100935149440445e-05,
+              "p99": 0.0001336790770586349,
+              "maximum": 0.0003911203426255616,
+              "peak_current_global_cycle": 58,
+              "peak_local_phase_s": 0.35
+            },
+            {
+              "node": 15,
+              "rms": 6.284436510341211e-05,
+              "p99": 0.00013888681595009,
+              "maximum": 0.00037925745859018756,
+              "peak_current_global_cycle": 62,
+              "peak_local_phase_s": 0.3
+            },
+            {
+              "node": 16,
+              "rms": 6.47106711296408e-05,
+              "p99": 0.00014464117232461382,
+              "maximum": 0.00026129432505206385,
+              "peak_current_global_cycle": 54,
+              "peak_local_phase_s": 6.275
+            },
+            {
+              "node": 17,
+              "rms": 6.730620535110034e-05,
+              "p99": 0.00014670044960923834,
+              "maximum": 0.00023750301745395497,
+              "peak_current_global_cycle": 58,
+              "peak_local_phase_s": 6.325
+            },
+            {
+              "node": 18,
+              "rms": 7.06944731464443e-05,
+              "p99": 0.00014869329975641943,
+              "maximum": 0.0002500307111569233,
+              "peak_current_global_cycle": 58,
+              "peak_local_phase_s": 6.35
+            },
+            {
+              "node": 19,
+              "rms": 7.43372931056877e-05,
+              "p99": 0.0001533671944970727,
+              "maximum": 0.0002754719499581393,
+              "peak_current_global_cycle": 55,
+              "peak_local_phase_s": 6.375
+            },
+            {
+              "node": 20,
+              "rms": 7.832260839389105e-05,
+              "p99": 0.00016280201518802107,
+              "maximum": 0.00023267529535375697,
+              "peak_current_global_cycle": 55,
+              "peak_local_phase_s": 6.425
+            },
+            {
+              "node": 21,
+              "rms": 8.292669000142443e-05,
+              "p99": 0.00018208794475715884,
+              "maximum": 0.000288691366805538,
+              "peak_current_global_cycle": 54,
+              "peak_local_phase_s": 6.4
+            }
+          ],
+          "squared_drift_fraction": 0.9416361246658901
+        }
+      },
+      "combined_rms": 7.817788916301342e-05,
+      "production_rms_reconstructed": true,
+      "different_units_combined": false,
+      "causal_parameter_identified": false
+    },
+    "diagnostic_temperature_peak_K": 0.07802400351931738,
+    "diagnostic_phase_peak": 0.0037095026223263883,
+    "native_ledger_window_cycles": 2,
+    "full_device_first_law_verified": false,
+    "complete_internal_state_periodicity_verified": false,
+    "simulation_executed": false,
+    "operating_point_loaded": false,
+    "physical_tolerances_changed": false,
+    "production_recovery_allowed": false,
+    "outer_solve_eligible": false,
+    "table4_reproduction_claim": false,
+    "interpretation": "Exact ten-cycle public temperature/phase statistics only; native energy/hidden-state qualifications remain separate."
+  }
+}

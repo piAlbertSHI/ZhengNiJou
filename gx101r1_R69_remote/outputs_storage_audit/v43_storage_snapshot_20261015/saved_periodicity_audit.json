@@ -1,0 +1,66 @@
+{
+  "schema": "heatdrive_ecc_saved_production_periodicity_v1",
+  "source_execution_commit": "74305b3c6b65b4dd9f7738dd1920aedb48be46ee",
+  "source_execution_sha256": "ECCCBF27DF18A9875AC859B3D626F00A27279602973EEBC02CF3232AB23349AC",
+  "source_observation_sha256": "1F30EEB3261A4F22C63783E87BFF72BDDB702965AB4E348E49575A9F77335E8B",
+  "source_configuration_sha256": "B1C13767F9EC35A5106B3608BA201E60699A4A5292DA98C3127CA1CC8EA2B350",
+  "mechanism_receipt_sha256": "6E60006BEBC7E27EC0D39513C91CE786118D5BE09FE947D38002BBA9BF5F55FA",
+  "mechanism_view_sha256": "20145584802AF8CAE0CFF773147F57501AA928C32ADB1AC005AB5552CD294AF0",
+  "original_summarizer_sha256": "7AE055FC2EDAC41F367738385B7808897707EB8EFD0958943C76B783E440197D",
+  "original_summarizer_used": true,
+  "physical_tolerances_changed": false,
+  "simulation_executed": false,
+  "operating_point_loaded": false,
+  "analysis_window": {
+    "absolute_start_s": 600,
+    "absolute_stop_s": 620,
+    "global_first_cycle": 61,
+    "global_last_cycle": 62,
+    "original_mechanism_gate_start_cycle": 1,
+    "time_shift_for_analysis_only": true,
+    "simulation_options_modified": false,
+    "operating_point_modified": false,
+    "production_recovery_allowed": false
+  },
+  "periodic_window_cycles": 2,
+  "predicates": {
+    "temperature_endpoint": {
+      "value": 0.0149770114887815,
+      "limit": 0.05,
+      "pass_gate": true
+    },
+    "temperature_p99": {
+      "value": 0.0061348178610955983,
+      "limit": 0.05,
+      "pass_gate": true
+    },
+    "temperature_rms": {
+      "value": 0.0025936713368056069,
+      "limit": 0.01,
+      "pass_gate": true
+    },
+    "phase_extrema": {
+      "value": 4.8511095549308263E-6,
+      "limit": 0.0001,
+      "pass_gate": true
+    },
+    "phase_p99": {
+      "value": 0.00022200211943668169,
+      "limit": 0.002,
+      "pass_gate": true
+    },
+    "phase_rms": {
+      "value": 8.9576445738779218E-5,
+      "limit": 0.0004,
+      "pass_gate": true
+    }
+  },
+  "last_pair_predicates_pass": true,
+  "diagnostic_temperature_peak_K": 0.078024003518805785,
+  "diagnostic_phase_peak": 0.0037095026223021438,
+  "ten_cycle_production_window_verified": false,
+  "periodic_steady_state_verified": false,
+  "production_recovery_allowed": false,
+  "table4_reproduction_claim": false,
+  "interpretation": "Exact original mean-endpoint / cycle-phase-extrema / nearest-rank p99 statistics; two-cycle diagnostic only."
+}
