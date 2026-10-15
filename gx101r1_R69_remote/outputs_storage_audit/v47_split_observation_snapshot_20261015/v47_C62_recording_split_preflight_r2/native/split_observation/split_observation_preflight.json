@@ -1,0 +1,25 @@
+{
+  "schema": "heatdrive_ecc_split_observation_preflight_v1",
+  "producer": "7219924084cd94a69ae4de2f3a1e326cb9f32866",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1",
+  "source_operating_point_sha256": "3913E39AA7AD542BACECC4C8BA68F1B700BBB306A91C4F5FBA4046D364249266",
+  "source_history_sha256": "414E8F731CD2FB1ED3B4C82AB4678C6D838F0A931F6A06B50B6DF6C399DB13AB",
+  "full_window_s": [
+    620,
+    640
+  ],
+  "split_time_s": 630,
+  "history_cap_cycles": 2,
+  "state_history_cap_cycles": 11,
+  "checksum_policy": "error/error",
+  "pass": false,
+  "completed_packets": [],
+  "source_state_edited": false,
+  "partial_state_restore_used": false,
+  "physical_parameters_changed": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "error_message": "Packet gate failed; inspect C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v47_C62_recording_split_preflight_r2\\native\\split_observation\\reference",
+  "error_identifier": "",
+  "error_report": "错误使用 assert\nPacket gate failed; inspect C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦\n合\\gx101r1_R69_remote\\outputs\\v47_C62_recording_split_preflight_r2\\native\\split_observation\\reference\n\n出错 Verify_HeatDriveECC_SplitObservation/packet (第 115 行)\n        assert(status==0 && isfile(gate_file),'Packet gate failed; inspect %s',destination);\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Verify_HeatDriveECC_SplitObservation (第 36 行)\n        reference=packet('reference',source_op,start,stop);\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_ColdChamberDiagnostic (第 763 行)\n                record.observation_preflight=Verify_HeatDriveECC_SplitObservation( ...\n                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)\n    record = Run_HeatDriveECC_ColdChamberDiagnostic( ...\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_C62ObservationPreflight (第 46 行)\n    record=Run_HeatDriveECC_IndependentColdDiagnosticFromConfig(path);\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+}

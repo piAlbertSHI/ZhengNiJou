@@ -6713,3 +6713,31 @@ BE 是局部求解器的离散守恒口径；trapz 的相同冷量差为 0.34289
 随后基于原始 native/public MAT 做独立 Python 账本，六局部 M/E、119 库存/49 源、全部选定流量均通过；外部热减含潜热库存残差 -5.127103e-10 J，在原 1e-8 J 内。该 reference 仅授予连续/分段轨迹比较资格，不把原 r2 的 OP 作为长链恢复源。下一次准备仍从原 C62 出发，只复用已经核实的 reference 数值，不重复 620–640 s 连续计算；prefix/suffix 仍须重新真实运行和逐包审核。
 
 同时修正新入口只输出 checks/diagnostics 的 compact JSON，不再把 Validator 返回的整份 result 数组（本次原 JSON 约 320 MB）重复序列化；已有实际原始证据暂留单份，不更改原 manifest。后续比较用完整状态仍先原机制与能量门禁、再 SHA、再加载，不允许用 provenance review 修复真正的流量、相变或能量失败。
+
+### 278.3 完整两周期分段证明实际通过，新增 C64 有界观察点
+
+主库修复 5c19ea4、执行 producer 98ad88e。r3 前台 session 11326 自然退出 0，stderr 为零字节；复用已经通过只读重审与原生账本的 r2 reference 数值，不加载其比较用 OP。实际从原 C62 再运行 prefix 620–630 s，通过全部包门禁后将 630 s 完整 vendor OP 写盘、校验、重新加载，运行 suffix 630–640 s。
+
+prefix、suffix 与连续 reference 在各自全部样本上：74 组/1414 数值状态坐标、201 公共信号、1262 native 变量、162 源变量全部 bitwise 相同，所有既有重复性容差比例均为 0。没有依靠容差放宽通过，也没有将 packed solver 各物理单位混作一个稳态范数。两个包原 73 项机制分别通过；六局部 M/E 和完整源/库存账本分别通过，外部热减含潜热库存残差依次 -5.995644e-10 J、+9.049206e-11 J，保持原 1e-8 J。
+
+另只读比较原 C62 最后样本与 restored-reference 第一个样本：全部 74 组状态、1262 native 与 201 公共信号逐项数值相同，无插值。该起点检查使用数值相等，不额外声称 signed-zero 位模式一致；完整 prefix/suffix 比较则确实使用原比较器的位模式检查。来源与四个实际 MAT 哈希写入 v47_origin_endpoint_comparison_20261015.json。这直接补充了“严格 loader 成功”之外的起点无跳变证据。
+
+前台 session 42592 独立实际 load suffix OP，得到 Simulink.op.ModelOperatingPoint、snapshot=640 s，文件 SHA=A1E837B74EE2266EBC604913E70FFA09396A53107463CCB7C4BD2D7EC0B85397，读取前后未改；未执行 sim。通过完整 split、原机制/能量、实际类型加载与原 C62 来源后，新增有界瞬态观察资格。新指针 current_observation_recording_contract.json 只允许下一步在同配置下收集到 720 s，不是生产恢复或 steady outer 授权。原 current_storage_warmup_contract 仍指 C62，C200 仍是唯一主线恢复参考，均未替换。
+
+本轮实际物理推进到 C64，两周期轨迹为了比较各计算两遍，不能计作推进四周期。新观察点保留所有原物理/本构/温度/相分数/PI 状态，cap=2、state-history=11、200-cycle 命令时域与 error/error 均未改变。下一阶段从该已验证 C64 完整点继续四个 20 s 观察包，复用现有 620–640 s 数据组成真实 620–720 s 十周期原生窗口；不重跑本轮 split，也不重建冷态。后续每包依然先门禁、再完整状态续行；尚未收集完该窗口，也未得到成对端点或 Table 4 复现。
+
+### 278.4 回归、封存与存储范围
+
+实际 Python 全回归 865/865，包含数值/文本观察容量、真实能量超限不能被 pass 标签隐藏、空流量门禁拒绝、非逐位相等不能获得本次增强资格、以及 provenance review 不能修复真正物理失败。新增资格明确仅为有界瞬态观察；完整状态稳态、EOS、production、outer 与 Table 4 声明继续为 false。
+
+封存目录 v47_split_observation_snapshot_20261015 复制 114 份 compact 记录；35 个原始及关联文件 1394815802 bytes 在执行工作树保留单份，不把大 MAT 或约 320 MB 旧 result JSON 加入主库/Git。旧 JSON 仍受原 manifest/只读重审绑定，本轮不擅自删除这个现有证据依赖；后续包已改为 compact 机制输出，不再生成该重复大数组。实际 retired_raw/cache_bytes 均为 0，不重复计算历史释放量。
+
+治理快照 workspace_governance_20261015_v47 于 13:52 分类主库 outputs/audit 860 个目录、16.070152 GiB，C200/C180 四项权威实文件 SHA 再次全部通过；此数不含其他工作树，新增上述 1.3948 GB 执行证据单独列出，不隐瞒实际存储范围。C62 OP/history 在封存前后实际匹配原 SHA。未解释的用户 SLX 与 Agent6 继续不提交、不覆盖、不删除；原 C62 兼容执行环境保持 7f5516f。
+
+### 278.5 收紧归档，而不是把任意 JSON 都称为 compact
+
+提交前发现前版“扩展名 JSON、大小不超过 8 MB”的规则仍会复制每次准备的 2.8 MB 完整控制序列及重复拓扑。已将这些可由执行目录保留、且 manifest 有完整 SHA 的大元数据排除出 compact/Git 归档；以后新封存默认采用此规则。对本轮尚未提交的归档，逐项验证执行原件与归档副本同 SHA 后，只删除主库内 27 份重复副本，实际释放 17587740 bytes，执行原件删除数为零，raw/checkpoint 均未删。
+
+最终保留 87 份 compact 副本；被排除的大元数据改列执行目录单份保留，不把它们误报为已经不存在。retirement plan 在删副本前落盘，storage_receipt 记录精确路径、SHA、类别和字节数。此前约 320 MB 原 mechanism JSON 仍属于另一条原证据依赖，没有借本次整理删除。新回归专门防止整段数组因 JSON 扩展名而再次入 Git。
+
+最终实际 Python 全回归 866/866。整理后 workspace_governance_20261015_v47_final 于 14:01 分类 861 个主库 outputs/audit 目录、16.054154 GiB，四项 C200/C180 实文件 SHA 全部通过；先前 v47 是整理前实测快照，二者不互相覆盖。当前完整目标仍 active，下一步从新的有界 C64 观察点补齐十周期原生窗口，不能以本次恢复证明代替稳态、成对端点或最终复现。

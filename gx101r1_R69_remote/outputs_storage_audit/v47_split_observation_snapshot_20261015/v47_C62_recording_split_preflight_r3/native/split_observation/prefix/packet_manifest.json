@@ -1,0 +1,50 @@
+{
+  "schema": "heatdrive_ecc_split_observation_packet_v1",
+  "producer": "98ad88e71bf6feb06bbfbf7c46602a0608893614",
+  "window_s": [
+    620,
+    630
+  ],
+  "source_snapshot_s": 620,
+  "history_cap_cycles": 2,
+  "state_history_cap_cycles": 11,
+  "simulation_returned_without_error": true,
+  "strict_vendor_restore": true,
+  "source_state_edited": false,
+  "production_recovery_allowed": false,
+  "complete_OP_sha256": "2F3816105B2F7A7BDF142CDF104DA3B1F87D6D1B3ECCE87CD370C5D6F88EB781",
+  "input_files": [
+    {
+      "path": "native/observations.mat",
+      "sha256": "D27870EDEA26808AD63CA085AC01FF73B503D4CA127FF1A90D961F3F976954AD"
+    },
+    {
+      "path": "native/configuration.mat",
+      "sha256": "124C4C6E0D9B44D6C3685038879D384EAFC3E812892844F1AE62A6B3F1A881BD"
+    },
+    {
+      "path": "native/inventory_metadata.json",
+      "sha256": "EB29101A305068F74EEDFCE3A7AE3DABE1EF7A981EB909E3AB142F1EB400DB5B"
+    },
+    {
+      "path": "native/tl_connectivity.json",
+      "sha256": "FA6DF7F73DECDB7DA7BA10DBE5033166F127B1B4E3DAC40419F68AF5E1AD330D"
+    },
+    {
+      "path": "native/thermal_connectivity.json",
+      "sha256": "EAC3BB3E6CD17806E11C61C651314A110B71D0921E501B16FEBC60323572D9C9"
+    },
+    {
+      "path": "native/buffer_replacement_contract.json",
+      "sha256": "0015E1424C85E50E3D38EE8661160295421B44AF31BDEE0F7ED3C9525CAC9AB5"
+    },
+    {
+      "path": "mechanism.json",
+      "sha256": "D9328A29D83FCE73DAE2A5C2CA507AA7FF6EB26193C8B76E021B16BB80713DA3"
+    },
+    {
+      "path": "observed_states.mat",
+      "sha256": "5877B97F4805AAFEBF4D0E2BF80F76F3EA96B70F0366A3CFAA48182139729442"
+    }
+  ]
+}

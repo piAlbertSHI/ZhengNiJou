@@ -1,0 +1,28 @@
+{
+  "schema": "heatdrive_ecc_split_observation_preflight_v1",
+  "producer": "98ad88e71bf6feb06bbfbf7c46602a0608893614",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1",
+  "source_operating_point_sha256": "3913E39AA7AD542BACECC4C8BA68F1B700BBB306A91C4F5FBA4046D364249266",
+  "source_history_sha256": "414E8F731CD2FB1ED3B4C82AB4678C6D838F0A931F6A06B50B6DF6C399DB13AB",
+  "full_window_s": [
+    620,
+    640
+  ],
+  "split_time_s": 630,
+  "history_cap_cycles": 2,
+  "state_history_cap_cycles": 11,
+  "checksum_policy": "error/error",
+  "pass": false,
+  "completed_packets": [
+    "reference",
+    "prefix",
+    "suffix"
+  ],
+  "source_state_edited": false,
+  "partial_state_restore_used": false,
+  "physical_parameters_changed": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "error_message": "",
+  "reference_reused_without_simulation": true
+}

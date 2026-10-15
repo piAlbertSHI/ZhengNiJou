@@ -1,0 +1,42 @@
+{
+  "schema": "heatdrive_ecc_observation_origin_endpoint_comparison_v1",
+  "boundary_time_s": 620,
+  "method": "Raw MAT final C62 columns versus first restored-reference columns; identity by block/state name or public signal name; no interpolation",
+  "states": {
+    "groups": 74,
+    "numerically_equal_groups": 74,
+    "coordinates": 1414
+  },
+  "native": {
+    "groups": 1262,
+    "numerically_equal_groups": 1262
+  },
+  "public": {
+    "groups": 201,
+    "numerically_equal_groups": 201
+  },
+  "all_values_numerically_equal": true,
+  "bitwise_signed_zero_comparison_claim": false,
+  "all_existing_diagnostic_tolerance_checks_pass": true,
+  "simulation_executed": false,
+  "source_state_edited": false,
+  "complete_internal_periodicity_claim": false,
+  "input_files": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\diagnostic_state_observation.mat",
+      "sha256": "414E8F731CD2FB1ED3B4C82AB4678C6D838F0A931F6A06B50B6DF6C399DB13AB"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\observations.mat",
+      "sha256": "1F30EEB3261A4F22C63783E87BFF72BDDB702965AB4E348E49575A9F77335E8B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v47_C62_recording_split_preflight_r2\\native\\split_observation\\reference\\observed_states.mat",
+      "sha256": "B5B1844CE0FECC2B337B837FC3D8000E90E1EEDDAB9B82639A5699156E577DD0"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v47_C62_recording_split_preflight_r2\\native\\split_observation\\reference\\native\\observations.mat",
+      "sha256": "5A35761579204BB98D104B5D0910BD9191139295C77D3CD9E5C2048C7364F845"
+    }
+  ]
+}
