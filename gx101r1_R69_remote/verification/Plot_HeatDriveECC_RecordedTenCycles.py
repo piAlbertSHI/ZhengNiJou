@@ -64,7 +64,8 @@ def plot(measured, thermal, output, cycle_summary=None):
         axis.grid(color='#DDDDDD', lw=.5, axis='x' if axis is axes[0, 1] else 'y')
         axis.set_axisbelow(True)
     prefix=f'{len(cycles)}-cycle advance; ' if cycle_summary else ''
-    fig.suptitle(f'C{last} coupled diagnostic | {prefix}panels (b-d): {first*10}-{last*10} s', fontsize=12)
+    boundary=f'Tc={data["candidate_Tc_K"]:.2f} K | ' if data.get('fixed_Tc_candidate',False) else ''
+    fig.suptitle(f'C{last} coupled diagnostic | {boundary}{prefix}panels (b-d): {first*10}-{last*10} s', fontsize=12)
     status='PASS' if p['periodic_steady_state'] else 'NOT YET PASS'
     fig.supxlabel(f'Public thermal criteria: {status}. Complete internal-state closure and Table 4 reproduction are not established.', fontsize=10)
     output.parent.mkdir(parents=True, exist_ok=True)

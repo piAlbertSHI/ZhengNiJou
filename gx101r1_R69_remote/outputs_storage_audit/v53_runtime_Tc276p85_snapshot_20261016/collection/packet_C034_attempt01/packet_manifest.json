@@ -1,0 +1,70 @@
+{
+  "schema": "heatdrive_ecc_split_observation_packet_v1",
+  "producer": "b4c4fccb09e14c8cfc4db6d978cadb811b42d913",
+  "window_s": [
+    320,
+    340
+  ],
+  "source_snapshot_s": 320,
+  "history_cap_cycles": 2,
+  "state_history_cap_cycles": 11,
+  "simulation_returned_without_error": true,
+  "strict_vendor_restore": true,
+  "checksum_policy": "error/error",
+  "source_state_edited": false,
+  "production_recovery_allowed": false,
+  "complete_OP_sha256": "3FD13B6718073C2A620DF9330E8420DD7D69F83F040ADF7DF04ECB005123E8DE",
+  "packet_role": "runtime_boundary_Tc_candidate",
+  "parent_complete_OP_sha256": "8B9DE54933E9FBA62355C674675BA30AA0F2C672665F57A6C72E7A770B028AD8",
+  "independent_cold_start": false,
+  "temperature_configurability": "runtime",
+  "prescribed_Tc_K": 276.85,
+  "command_horizon_cycles": 200,
+  "boundary_trial": {
+    "schema": "heatdrive_ecc_runtime_Tc_intervention_v1",
+    "source_Tc_K": 276.95,
+    "candidate_Tc_K": 276.85,
+    "transition_time_s": 280,
+    "minimum_transition_cycles": 12,
+    "source_complete_OP_sha256": "1FC1E05C01C87AE9400F51F24AE6EB3188A81F86E73971C03AAB6DBC7BDF4A07",
+    "source_qualification_sha256": "19A4C2A92A2D1B0C0D38AD1E65A9733729D94CAC74FAC48CA25BBC0AC76FAD67",
+    "plant_recipe_sha256": "EEC3F6CE816DA0CC956E7EBA9AF1667A8F72ADB1CFEB50930274E7B5CC4DD981",
+    "only_runtime_temperature_variable_changed": true,
+    "source_state_edited": false,
+    "old_model_OP_imported": false
+  },
+  "input_files": [
+    {
+      "path": "native/observations.mat",
+      "sha256": "36F86D72FD36757B37D68063B4AAB34C9313EF407C766C3797A2B32C349DF43B"
+    },
+    {
+      "path": "native/configuration.mat",
+      "sha256": "63ECA40663D7DAA36D6D054E329C2B1E487FA03B5EE73DC00E8D85A6121210B7"
+    },
+    {
+      "path": "native/inventory_metadata.json",
+      "sha256": "EB29101A305068F74EEDFCE3A7AE3DABE1EF7A981EB909E3AB142F1EB400DB5B"
+    },
+    {
+      "path": "native/tl_connectivity.json",
+      "sha256": "FA6DF7F73DECDB7DA7BA10DBE5033166F127B1B4E3DAC40419F68AF5E1AD330D"
+    },
+    {
+      "path": "native/thermal_connectivity.json",
+      "sha256": "EAC3BB3E6CD17806E11C61C651314A110B71D0921E501B16FEBC60323572D9C9"
+    },
+    {
+      "path": "native/buffer_replacement_contract.json",
+      "sha256": "0015E1424C85E50E3D38EE8661160295421B44AF31BDEE0F7ED3C9525CAC9AB5"
+    },
+    {
+      "path": "mechanism.json",
+      "sha256": "ACC4FDB5194AE4963250E5B102C279877CFDD82592FE8054E505AEF1C4887B5B"
+    },
+    {
+      "path": "observed_states.mat",
+      "sha256": "68A1E91683B0DCDEA76867A2AE226C4E09D1743BC98C235AC3EF186E2693DF08"
+    }
+  ]
+}
