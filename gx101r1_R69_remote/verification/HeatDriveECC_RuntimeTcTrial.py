@@ -24,4 +24,3 @@ def validate_trial(t):
             t['only_runtime_temperature_variable_changed'] is not True or
             t['source_state_edited'] is not False or t['old_model_OP_imported'] is not False):
         raise ValueError('A real external step must preserve the complete inherited state')
-
