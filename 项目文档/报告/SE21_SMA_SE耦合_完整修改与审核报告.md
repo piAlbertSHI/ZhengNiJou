@@ -6785,3 +6785,11 @@ C64→C72 消除了“没有真实十周期原生观察”的障碍。下一步�
 已生成并目视审核四面板 PNG/PDF：output/png/v48_recorded_ten_cycles_20261015/native_window。性能边界、原六项正式判据、buffer 能量和质量漂移分开呈现，未把不同量纲混在同一坐标中，没有遮挡或截字。图为当前瞬态诊断图，不冒充最终端点图集。
 
 最终全回归 884/884。只读 MATLAB 原统计调用两次自然退出 0，最后一份明确绑定 final 分析 SHA；未因分析脚本类型、时钟或储能基准修复重复运行物理仿真。主库提交准备与实际执行 producer 分开记录，原始字节不经 Git 文本换行转换。
+
+## 280 从 C72 转向边界变参，而不是再盲目热身（2026-10-15）
+
+上一轮属于实际进展：C64→C72 和原生十周期窗口均已完成，本轮不重跑。审查 outer 源码和 C72 实际 configuration MAT：旧 outer 默认仍指 C200 恢复参考，并要求旧 physical/summary/result 格式；C72 的固定冷源 temperature_conf 实际为 compiletime。这些接口问题不能用再算二十周期消除，也不能将 reference 的禁止导入标志简单改为允许。
+
+先实施一个有正对照的参数兼容性实验：同一个未经编辑 C72 完整 vendor OP，原温 276.95 K 与唯一候选 276.85 K 各运行 720–720.002 s。只改变已有 cold_sink_T_init 输入变量，不改变模型配置、几何、源类型、命令时域或 checksum error/error，不改任何 OP 坐标或初始化目标。原温正对照必须先证明 74 组状态和 1262 native 起点逐位相同；然后才允许小幅变温。候选即使通过也只证明接口兼容，不具备完整周期机制、周期稳态、恢复或 outer 插值资格。
+
+官方依据：[Model Operating Points](https://www.mathworks.com/help/simulink/ug/model-operating-point-for-faster-simulation.html) 说明完整 OP 包含隐藏状态，并用结构 checksum 限制不完整初始化；可调参数的变化须由实际完整恢复证明。[Simscape run-time parameters](https://www.mathworks.com/help/simscape/ug/about-simscape-run-time-parameters.html) 说明运行时可调配置与编译时参数不同。文档不能代替当前 R2025b/当前模型实测，也不据此擅自把 compiletime 改成 runtime。

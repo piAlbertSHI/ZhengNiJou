@@ -766,6 +766,10 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                         state_settings,observation_options,record.execution_commit);
                     record.observation_preflight_pass=record.observation_preflight.pass;
                     record.actual_observation_preflight_window_s=record.observation_preflight.full_window_s;
+                elseif strcmp(observation_options.mode,'boundary_parameter_probe')
+                    record.boundary_parameter_probe=Verify_HeatDriveECC_C72BoundaryParameter( ...
+                        input,options,arm,changed,buffer_paths,observation_options,record.execution_commit);
+                    record.boundary_parameter_probe_completed=record.boundary_parameter_probe.experiment_completed;
                 else
                     record.observation_collection=Run_HeatDriveECC_BoundedObservationPackets( ...
                         input,options,arm,changed,buffer_paths,state_settings,observation_options,record.execution_commit);
@@ -1001,7 +1005,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'result_file',fullfile(output_root,'cold_chamber_execution.json'))));
     observation_preflight_pass=isfield(record,'observation_preflight_pass') && record.observation_preflight_pass;
     observation_collection_pass=isfield(record,'observation_collection_pass') && record.observation_collection_pass;
-    assert(record.requested_arm_collection_pass || record.state_restore_preflight_pass || record.rebuilt_cycle_preflight_pass || observation_preflight_pass || observation_collection_pass, ...
+    boundary_probe_completed=isfield(record,'boundary_parameter_probe_completed') && record.boundary_parameter_probe_completed;
+    assert(record.requested_arm_collection_pass || record.state_restore_preflight_pass || record.rebuilt_cycle_preflight_pass || observation_preflight_pass || observation_collection_pass || boundary_probe_completed, ...
         'Cold chamber diagnostic failed; inspect execution JSON.');
 end
 
