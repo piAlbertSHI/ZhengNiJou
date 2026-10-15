@@ -1,0 +1,8 @@
+{
+  "status": "superseded_derivative_not_a_simulation_failure",
+  "reason": "Initial cooling reconciliation incorrectly used transport density instead of the native no-compressibility pipe's fixed nominal mass. No raw data, complete state, original mechanism gate or public thermal statistic was changed.",
+  "corrected_analysis": "outputs_storage_audit/v48_measured_ten_cycles_20261015_final/measured_window.json",
+  "corrected_pipe_BE_residual_J": -9.464429240324534e-12,
+  "propagate_as_current_analysis": false,
+  "production_recovery_allowed": false
+}
