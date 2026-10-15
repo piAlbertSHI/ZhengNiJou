@@ -4,6 +4,8 @@ function record=Run_HeatDriveECC_BoundedObservationPackets(input,options,folder,
     runtime=strcmp(request.mode,'runtime_boundary_warmup');
     root=canonical(request.collection_root);
     assert(strcmp(fileparts(root),canonical(fullfile(repo,'outputs'))),'Collection must stay in execution outputs.');
+    assert(~isfile(fullfile(root,'COMPLETED_RAW_PREFIX_RETIRED.json')), ...
+        'A completed archived job cannot resume in place; use its latest qualified runtime endpoint in a new collection.');
     existed=isfolder(root);
     assert(~existed || request.resume_collection,'Explicit diagnosis/resume is required for an existing collection.');
     if ~existed,mkdir(root);end

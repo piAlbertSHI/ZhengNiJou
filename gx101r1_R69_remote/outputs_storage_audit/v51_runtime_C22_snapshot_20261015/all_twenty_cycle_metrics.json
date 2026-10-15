@@ -1,0 +1,293 @@
+{
+  "schema": "heatdrive_ecc_runtime_warmup_cycle_metrics_v1",
+  "window_s": [
+    20,
+    220
+  ],
+  "cycle_count": 20,
+  "cycles": [
+    {
+      "cycle": 3,
+      "window_s": [
+        20,
+        30
+      ],
+      "temperature_lift_eq9_K": 27.16085795399846,
+      "cooling_power_eq10_W": 11.22178913018404,
+      "SCP_W_per_g": 0.26835576477048556,
+      "CHEX_sensor_mean_W": 10.725227345027994,
+      "positive_SHEX_heat_mean_W": 824.611466294958,
+      "heat_driven_COP": 0.013608577601527169,
+      "source_packet_manifest_sha256": "34D4AD4EE181D6E2A8818FD5CE169E0D0C11BCC91231ECD5DDE1E8A477589103"
+    },
+    {
+      "cycle": 4,
+      "window_s": [
+        30,
+        40
+      ],
+      "temperature_lift_eq9_K": 27.255183705415085,
+      "cooling_power_eq10_W": 11.713479967175193,
+      "SCP_W_per_g": 0.28011396741185324,
+      "CHEX_sensor_mean_W": 11.296580185327176,
+      "positive_SHEX_heat_mean_W": 824.2466989911312,
+      "heat_driven_COP": 0.014211133610255718,
+      "source_packet_manifest_sha256": "34D4AD4EE181D6E2A8818FD5CE169E0D0C11BCC91231ECD5DDE1E8A477589103"
+    },
+    {
+      "cycle": 5,
+      "window_s": [
+        40,
+        50
+      ],
+      "temperature_lift_eq9_K": 27.321801759991228,
+      "cooling_power_eq10_W": 11.996221096037804,
+      "SCP_W_per_g": 0.2868753858441342,
+      "CHEX_sensor_mean_W": 11.615729681764964,
+      "positive_SHEX_heat_mean_W": 824.0391285612953,
+      "heat_driven_COP": 0.014557829452810355,
+      "source_packet_manifest_sha256": "A3C510D29D859709A6D3EC272D430F95066EAFFC76AF3B526AFE763FF2C1BF4D"
+    },
+    {
+      "cycle": 6,
+      "window_s": [
+        50,
+        60
+      ],
+      "temperature_lift_eq9_K": 27.37980086649144,
+      "cooling_power_eq10_W": 12.168039264480957,
+      "SCP_W_per_g": 0.29098421336344704,
+      "CHEX_sensor_mean_W": 11.806674998327956,
+      "positive_SHEX_heat_mean_W": 823.9169018121383,
+      "heat_driven_COP": 0.014768527308662247,
+      "source_packet_manifest_sha256": "A3C510D29D859709A6D3EC272D430F95066EAFFC76AF3B526AFE763FF2C1BF4D"
+    },
+    {
+      "cycle": 7,
+      "window_s": [
+        60,
+        70
+      ],
+      "temperature_lift_eq9_K": 27.433182425654866,
+      "cooling_power_eq10_W": 12.278273887699784,
+      "SCP_W_per_g": 0.29362034350944183,
+      "CHEX_sensor_mean_W": 11.927352893142526,
+      "positive_SHEX_heat_mean_W": 823.84433581828,
+      "heat_driven_COP": 0.014903633312601998,
+      "source_packet_manifest_sha256": "5748D2524961A6E12527108FDBC6CB87665AA41BA7E95B4367B15372000E63C0"
+    },
+    {
+      "cycle": 8,
+      "window_s": [
+        70,
+        80
+      ],
+      "temperature_lift_eq9_K": 27.483339749144214,
+      "cooling_power_eq10_W": 12.353488719906844,
+      "SCP_W_per_g": 0.29541901692816774,
+      "CHEX_sensor_mean_W": 12.008327781928381,
+      "positive_SHEX_heat_mean_W": 823.7992649976331,
+      "heat_driven_COP": 0.014995751082567834,
+      "source_packet_manifest_sha256": "5748D2524961A6E12527108FDBC6CB87665AA41BA7E95B4367B15372000E63C0"
+    },
+    {
+      "cycle": 9,
+      "window_s": [
+        80,
+        90
+      ],
+      "temperature_lift_eq9_K": 27.53093332534405,
+      "cooling_power_eq10_W": 12.408326948579722,
+      "SCP_W_per_g": 0.2967304080640594,
+      "CHEX_sensor_mean_W": 12.066330897636183,
+      "positive_SHEX_heat_mean_W": 823.7725657898288,
+      "heat_driven_COP": 0.015062806730742099,
+      "source_packet_manifest_sha256": "C09A40A691772B5B1C05AC3276E74274B3C667CDF658DE0AA6E5706F15409CC5"
+    },
+    {
+      "cycle": 10,
+      "window_s": [
+        90,
+        100
+      ],
+      "temperature_lift_eq9_K": 27.576337209070296,
+      "cooling_power_eq10_W": 12.451056803380407,
+      "SCP_W_per_g": 0.2977522418136107,
+      "CHEX_sensor_mean_W": 12.110769388193948,
+      "positive_SHEX_heat_mean_W": 823.7555020778487,
+      "heat_driven_COP": 0.015114990761183073,
+      "source_packet_manifest_sha256": "C09A40A691772B5B1C05AC3276E74274B3C667CDF658DE0AA6E5706F15409CC5"
+    },
+    {
+      "cycle": 11,
+      "window_s": [
+        100,
+        110
+      ],
+      "temperature_lift_eq9_K": 27.619782913676044,
+      "cooling_power_eq10_W": 12.486384058909303,
+      "SCP_W_per_g": 0.29859705118979113,
+      "CHEX_sensor_mean_W": 12.146983352917234,
+      "positive_SHEX_heat_mean_W": 823.7441502883248,
+      "heat_driven_COP": 0.015158085255645035,
+      "source_packet_manifest_sha256": "60458F66BC4C45A9C5B6227A2BA9432D51D7E146ABBDC8E2A52CBE2C6DDDE1F1"
+    },
+    {
+      "cycle": 12,
+      "window_s": [
+        110,
+        120
+      ],
+      "temperature_lift_eq9_K": 27.661426682039917,
+      "cooling_power_eq10_W": 12.517009401063646,
+      "SCP_W_per_g": 0.29932941988963424,
+      "CHEX_sensor_mean_W": 12.1780303848639,
+      "positive_SHEX_heat_mean_W": 823.7361649339598,
+      "heat_driven_COP": 0.015195410780668049,
+      "source_packet_manifest_sha256": "60458F66BC4C45A9C5B6227A2BA9432D51D7E146ABBDC8E2A52CBE2C6DDDE1F1"
+    },
+    {
+      "cycle": 13,
+      "window_s": [
+        120,
+        130
+      ],
+      "temperature_lift_eq9_K": 27.701383518758725,
+      "cooling_power_eq10_W": 12.544498211819462,
+      "SCP_W_per_g": 0.29998678216470737,
+      "CHEX_sensor_mean_W": 12.205677920066126,
+      "positive_SHEX_heat_mean_W": 823.7301853735395,
+      "heat_driven_COP": 0.015228892220491919,
+      "source_packet_manifest_sha256": "6B4F941DE3E94D28027927B4F320667D05C76C1A6A4B78A5551F42008A2E1ACF"
+    },
+    {
+      "cycle": 14,
+      "window_s": [
+        130,
+        140
+      ],
+      "temperature_lift_eq9_K": 27.739744484246025,
+      "cooling_power_eq10_W": 12.569801254551482,
+      "SCP_W_per_g": 0.3005918743923903,
+      "CHEX_sensor_mean_W": 12.230990848643497,
+      "positive_SHEX_heat_mean_W": 823.72579771897,
+      "heat_driven_COP": 0.01525969113673421,
+      "source_packet_manifest_sha256": "6B4F941DE3E94D28027927B4F320667D05C76C1A6A4B78A5551F42008A2E1ACF"
+    },
+    {
+      "cycle": 15,
+      "window_s": [
+        140,
+        150
+      ],
+      "temperature_lift_eq9_K": 27.77658590069001,
+      "cooling_power_eq10_W": 12.593389449727535,
+      "SCP_W_per_g": 0.30115595807660417,
+      "CHEX_sensor_mean_W": 12.25450765680435,
+      "positive_SHEX_heat_mean_W": 823.7226670123106,
+      "heat_driven_COP": 0.015288385222425021,
+      "source_packet_manifest_sha256": "652434DEF8D0942931FEBBA1B3EBFEACC8A617ABB4C72EA987B047BDE90C1048"
+    },
+    {
+      "cycle": 16,
+      "window_s": [
+        150,
+        160
+      ],
+      "temperature_lift_eq9_K": 27.811975809750002,
+      "cooling_power_eq10_W": 12.615632393980926,
+      "SCP_W_per_g": 0.30168787168205685,
+      "CHEX_sensor_mean_W": 12.276634819572285,
+      "positive_SHEX_heat_mean_W": 823.7191785495331,
+      "heat_driven_COP": 0.015315453036064406,
+      "source_packet_manifest_sha256": "652434DEF8D0942931FEBBA1B3EBFEACC8A617ABB4C72EA987B047BDE90C1048"
+    },
+    {
+      "cycle": 17,
+      "window_s": [
+        160,
+        170
+      ],
+      "temperature_lift_eq9_K": 27.845975573292982,
+      "cooling_power_eq10_W": 12.63673656556062,
+      "SCP_W_per_g": 0.3021925528909456,
+      "CHEX_sensor_mean_W": 12.297600397299284,
+      "positive_SHEX_heat_mean_W": 823.7160123525421,
+      "heat_driven_COP": 0.015341132594314829,
+      "source_packet_manifest_sha256": "610FBEC148850660158DAA543437D3E35D3482F3CEA29CEC5729B6F3F832BEAC"
+    },
+    {
+      "cycle": 18,
+      "window_s": [
+        170,
+        180
+      ],
+      "temperature_lift_eq9_K": 27.878642237369945,
+      "cooling_power_eq10_W": 12.656836994702335,
+      "SCP_W_per_g": 0.30267323079105257,
+      "CHEX_sensor_mean_W": 12.317551611618535,
+      "positive_SHEX_heat_mean_W": 823.7130963115387,
+      "heat_driven_COP": 0.015365589124875779,
+      "source_packet_manifest_sha256": "610FBEC148850660158DAA543437D3E35D3482F3CEA29CEC5729B6F3F832BEAC"
+    },
+    {
+      "cycle": 19,
+      "window_s": [
+        180,
+        190
+      ],
+      "temperature_lift_eq9_K": 27.910029277630127,
+      "cooling_power_eq10_W": 12.676025470784205,
+      "SCP_W_per_g": 0.30313210041638533,
+      "CHEX_sensor_mean_W": 12.336587353610774,
+      "positive_SHEX_heat_mean_W": 823.7103686517755,
+      "heat_driven_COP": 0.015388935180616877,
+      "source_packet_manifest_sha256": "2D2463BAB9CDE99DF61FF6404BA1304B912E1B235D60E745AEEC84F79F47E365"
+    },
+    {
+      "cycle": 20,
+      "window_s": [
+        190,
+        200
+      ],
+      "temperature_lift_eq9_K": 27.940187902923448,
+      "cooling_power_eq10_W": 12.694368625933095,
+      "SCP_W_per_g": 0.3035707551951535,
+      "CHEX_sensor_mean_W": 12.354778216330125,
+      "positive_SHEX_heat_mean_W": 823.7078062953378,
+      "heat_driven_COP": 0.015411252059181734,
+      "source_packet_manifest_sha256": "2D2463BAB9CDE99DF61FF6404BA1304B912E1B235D60E745AEEC84F79F47E365"
+    },
+    {
+      "cycle": 21,
+      "window_s": [
+        200,
+        210
+      ],
+      "temperature_lift_eq9_K": 27.969166505457757,
+      "cooling_power_eq10_W": 12.711918637621197,
+      "SCP_W_per_g": 0.3039904428896606,
+      "CHEX_sensor_mean_W": 12.372178492077953,
+      "positive_SHEX_heat_mean_W": 823.7053812232483,
+      "heat_driven_COP": 0.015432603607303488,
+      "source_packet_manifest_sha256": "3C0A341004F3C6A32CDABDDA3CA576D7CFB708231EA6C29EE7CBE013F8D7B080"
+    },
+    {
+      "cycle": 22,
+      "window_s": [
+        210,
+        220
+      ],
+      "temperature_lift_eq9_K": 27.997011683422294,
+      "cooling_power_eq10_W": 12.728718176586034,
+      "SCP_W_per_g": 0.3043921839199366,
+      "CHEX_sensor_mean_W": 12.38883205735918,
+      "positive_SHEX_heat_mean_W": 823.7030872056579,
+      "heat_driven_COP": 0.015453041726196656,
+      "source_packet_manifest_sha256": "3C0A341004F3C6A32CDABDDA3CA576D7CFB708231EA6C29EE7CBE013F8D7B080"
+    }
+  ],
+  "quadrature": "trapz_both_endpoints",
+  "old_prefix_raw_may_be_retired_after_sealing": true,
+  "steady_endpoint_claim": false
+}

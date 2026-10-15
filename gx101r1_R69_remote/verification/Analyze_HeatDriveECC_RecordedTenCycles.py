@@ -75,29 +75,71 @@ def native_pipe_inventory(metadata, connectivity, block, specific_energy):
     return mass*np.asarray(specific_energy), mass
 
 
+def runtime_window(result):
+    start,stop=result['collection_window_s']
+    rows=result['completed_packets']
+    if (result['schema']!='heatdrive_ecc_runtime_boundary_transient_collection_v1' or
+            not result['pass'] or result['error_message'] or result['source_state_edited'] or result['partial_state_restore_used'] or
+            stop-start!=200 or start<20 or stop>2000 or stop!=10*result['total_cycles'] or len(rows)!=10 or
+            any(row['start_time_s']!=start+20*k or row['stop_time_s']!=start+20*(k+1) for k,row in enumerate(rows))):
+        raise ValueError('Require ten naturally completed same-family two-cycle packets')
+    return stop-100,stop,rows[-5:],Path(rows[-6]['packet_root'])
+
+
 def analyze(collection, reference, review, output):
     if output.exists():
         raise FileExistsError('Never replace a measured-window analysis')
     result = read(collection/'collection_result.json')
-    if (not result['pass'] or result['total_cycles'] != 72 or result['error_message'] or
+    runtime=result['schema']=='heatdrive_ecc_runtime_boundary_transient_collection_v1'
+    lineage=[]
+    pointer = read(collection/'initial_recording_contract.json')
+    if runtime:
+        start,stop,selected,previous=runtime_window(result)
+        if (sha256(collection/'initial_recording_contract.json')!=result['origin_snapshot_sha256'] or
+                sha256(collection/'initial_prepared_recipe.json')!=result['origin_recipe_sha256']):
+            raise ValueError('Changed runtime source or construction recipe')
+        parent=pointer['operating_point_sha256']
+        if sha256(Path(pointer['operating_point_path']))!=parent:raise ValueError('Changed runtime origin OP')
+        for row in result['completed_packets']:
+            root=Path(row['packet_root']);m=read(root/'packet_manifest.json');g=read(root/'packet_gate.json')
+            validate_gate(g);boundary=read(root/'boundary_comparison.json')
+            if (m['packet_role']!='runtime_boundary_transient' or m['prescribed_Tc_K']!=276.95 or
+                    m['temperature_configurability']!='runtime' or m['parent_complete_OP_sha256']!=parent or
+                    m['window_s']!=[row['start_time_s'],row['stop_time_s']] or
+                    g['input_sha256']['manifest']!=sha256(root/'packet_manifest.json') or
+                    sha256(root/'comparison_only_complete_op.mat')!=m['complete_OP_sha256'] or
+                    row['operating_point_sha256']!=m['complete_OP_sha256'] or
+                    not boundary['pass'] or not boundary['retained_memories_bitwise_equal']):
+                raise ValueError('Runtime recording lineage changed')
+            parent=m['complete_OP_sha256']
+            lineage.append(dict(packet_root=str(root),manifest_sha256=sha256(root/'packet_manifest.json'),
+                gate_sha256=sha256(root/'packet_gate.json'),boundary_sha256=sha256(root/'boundary_comparison.json'),
+                complete_OP_sha256=parent))
+        packets=[Path(row['packet_root']) for row in selected]
+        reference=packets[0];proof=None
+        parent=read(previous/'packet_manifest.json')['complete_OP_sha256']
+        if sha256(previous/'comparison_only_complete_op.mat')!=parent:raise ValueError('Window predecessor changed')
+    else:
+        start,stop=620,720
+        if (not result['pass'] or result['total_cycles'] != 72 or result['error_message'] or
             result['source_state_edited'] or result['partial_state_restore_used'] or
             len(result['completed_packets']) != 4):
-        raise ValueError('Require the naturally completed C64-C72 collection')
-    proof = read(review)
-    if (Path(proof['source_packet_root']).resolve() != reference.resolve() or
+            raise ValueError('Require the naturally completed C64-C72 collection')
+        if reference is None or review is None:raise ValueError('The legacy reference requires its immutable review')
+        proof = read(review)
+        if (Path(proof['source_packet_root']).resolve() != reference.resolve() or
             not proof['mechanism_pass'] or not proof['reference_comparison_only'] or
             sha256(Path(proof['packet_gate_path'])) != proof['packet_gate_sha256']):
-        raise ValueError('Require the sealed numerical reference review')
-    packets = [reference]+[Path(row['packet_root']) for row in result['completed_packets']]
-    pointer = read(collection/'initial_recording_contract.json')
-    parent = pointer['operating_point_sha256']
+            raise ValueError('Require the sealed numerical reference review')
+        packets = [reference]+[Path(row['packet_root']) for row in result['completed_packets']]
+        parent = pointer['operating_point_sha256']
     index, balances, boundaries = [], [], []
     public_parts = {name: [] for name in PUBLIC}
     native_parts = {}
     for number, root in enumerate(packets):
         manifest_path = root/'packet_manifest.json'
         manifest = read(manifest_path)
-        begin, end = 620+20*number, 640+20*number
+        begin, end = start+20*number, start+20*(number+1)
         if manifest['window_s'] != [begin, end] or manifest['source_state_edited']:
             raise ValueError('Missing, overlapping or changed measured window')
         for entry in manifest['input_files']:
@@ -106,12 +148,12 @@ def analyze(collection, reference, review, output):
                 raise ValueError('Changed packet evidence: '+str(path))
         if sha256(root/'comparison_only_complete_op.mat') != manifest['complete_OP_sha256']:
             raise ValueError('Complete endpoint changed')
-        gate_path = Path(proof['packet_gate_path']) if number == 0 else root/'packet_gate.json'
+        gate_path = Path(proof['packet_gate_path']) if number == 0 and not runtime else root/'packet_gate.json'
         gate = read(gate_path)
         validate_gate(gate)
         if gate['input_sha256']['manifest'] != sha256(manifest_path):
             raise ValueError('Gate does not bind the actual manifest')
-        if number:
+        if number or runtime:
             boundary = read(root/'boundary_comparison.json')
             if (manifest['parent_complete_OP_sha256'] != parent or not boundary['pass'] or
                     not boundary['retained_memories_bitwise_equal'] or boundary['retained_memory_count'] != 4 or
@@ -145,7 +187,7 @@ def analyze(collection, reference, review, output):
     public = {key: join_measured(parts) for key, parts in public_parts.items()}
     native = {key: join_measured(parts) for key, parts in native_parts.items()}
     time = public[PUBLIC[0]][0]
-    if time.size != 100001 or abs(time[0]-620) > 1e-9 or abs(time[-1]-720) > 1e-9:
+    if time.size != 100001 or abs(time[0]-start) > 1e-9 or abs(time[-1]-stop) > 1e-9:
         raise ValueError('The actual ten-cycle window is incomplete')
     clock_difference_max_s = 0.
     for clock, _ in list(public.values())+list(native.values()):
@@ -187,13 +229,14 @@ def analyze(collection, reference, review, output):
     decomposition = reconciliation(time, stage == 4, eq10, n('Phi_A')+n('Phi_B'), n('Q_H'), sensor,
                                    storage[-1]-storage[0])
     output.mkdir(parents=True)
-    record = dict(schema='heatdrive_ecc_measured_ten_cycle_collection_v1', window_s=[620, 720],
-        sample_count=time.size, total_cycles=72, packets=index, boundaries=boundaries, packet_balances=balances,
+    record = dict(schema='heatdrive_ecc_measured_ten_cycle_collection_v1', window_s=[start, stop],
+        sample_count=time.size, total_cycles=result['total_cycles'], packets=index, boundaries=boundaries, packet_balances=balances,
+        runtime_family=runtime,collection_lineage=lineage,
         maximum_actual_clock_difference_s=clock_difference_max_s, clock_alignment='Existing 16-ULP ordinal grid check; no interpolation',
         collection_result_path=str(collection/'collection_result.json'), collection_result_sha256=sha256(collection/'collection_result.json'),
-        reference_review_path=str(review), reference_review_sha256=sha256(review),
+        reference_review_path=str(review) if review else '', reference_review_sha256=sha256(review) if review else '',
         performance=performance(np.ones(time.size, dtype=bool)),
-        cycles=[dict(cycle=c+63, **performance((time >= 620+10*c-1e-9)&(time <= 630+10*c+1e-9))) for c in range(10)],
+        cycles=[dict(cycle=c+int(start/10)+1, **performance((time >= start+10*c-1e-9)&(time <= start+10*(c+1)+1e-9))) for c in range(10)],
         active_SE_mass_kg=mass, fluid_cp_J_per_kgK=cp, native_temperatures=temperatures, native_explicit_inventories=inventories,
         cooling_boundary_reconciliation=decomposition,
         cold_pipe_storage_basis='Native fixed nominal mass times u_I; transport density is not storage mass',
@@ -209,7 +252,8 @@ def analyze(collection, reference, review, output):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    for name in ('collection', 'reference', 'review', 'output'):
+    for name in ('collection', 'output'):
         parser.add_argument('--'+name, required=True, type=Path)
+    for name in ('reference','review'):parser.add_argument('--'+name,type=Path)
     args = parser.parse_args()
     print(json.dumps(analyze(**vars(args)), indent=2))

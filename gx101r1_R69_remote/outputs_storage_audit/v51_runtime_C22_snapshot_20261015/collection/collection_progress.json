@@ -1,0 +1,95 @@
+{
+  "schema": "heatdrive_ecc_runtime_boundary_transient_collection_v1",
+  "producer": "9d075ad4d1ae753feb5f3ef0fb2f039429a1de74",
+  "origin_snapshot_sha256": "6D7212746428369F544C0340AAD45F0CA0AC9B86697AF68E26F33839707D811B",
+  "collection_window_s": [
+    20,
+    220
+  ],
+  "origin_recipe_sha256": "F4EA483D0765AAC35BBA2A7D8F829F291D156FC881D4BA3EC714D743ED4EA2BD",
+  "native_observation_window_after_join_s": [
+    120,
+    220
+  ],
+  "completed_packets": [
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v51_runtime_warmup_C2_C22_r1\\packet_C004_attempt01",
+      "start_time_s": 20,
+      "stop_time_s": 40,
+      "operating_point_sha256": "066DB24E9B435D23008941886924698E45DC2735BCD8AF6186450CF69731A8FD"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v51_runtime_warmup_C2_C22_r1\\packet_C006_attempt01",
+      "start_time_s": 40,
+      "stop_time_s": 60,
+      "operating_point_sha256": "F3FA0963D43D4A53F88D47CAB92D955A94F3B109B44228001DAD333868588C8E"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v51_runtime_warmup_C2_C22_r1\\packet_C008_attempt01",
+      "start_time_s": 60,
+      "stop_time_s": 80,
+      "operating_point_sha256": "CBF8DE84D80F0187919824EA42A306288D20396239BD0834930B8FD15D274910"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v51_runtime_warmup_C2_C22_r1\\packet_C010_attempt01",
+      "start_time_s": 80,
+      "stop_time_s": 100,
+      "operating_point_sha256": "6C6DF508D2E8DA48CB51DBFA2DE8A8B91242F3522DBC8CC4A3823D956CA7B670"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v51_runtime_warmup_C2_C22_r1\\packet_C012_attempt01",
+      "start_time_s": 100,
+      "stop_time_s": 120,
+      "operating_point_sha256": "442AB771937B401E422998FFD06E9A56EF4EACA7B0C72F5C1367A60E952EEBEA"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v51_runtime_warmup_C2_C22_r1\\packet_C014_attempt01",
+      "start_time_s": 120,
+      "stop_time_s": 140,
+      "operating_point_sha256": "1B1A4C4D41115389DCABA81B81485655377D5FED073104AD8ECA125878642289"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v51_runtime_warmup_C2_C22_r1\\packet_C016_attempt01",
+      "start_time_s": 140,
+      "stop_time_s": 160,
+      "operating_point_sha256": "6EE851C5D95FBCE0AD43C56E57FFA0161F92C3325E4DC29D0BC62EFA59D3BCD9"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v51_runtime_warmup_C2_C22_r1\\packet_C018_attempt01",
+      "start_time_s": 160,
+      "stop_time_s": 180,
+      "operating_point_sha256": "B78DE7BCE2E862BA1A74D285C02D4441EE26BA773A9B193BA37983998E9EBEC6"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v51_runtime_warmup_C2_C22_r1\\packet_C020_attempt01",
+      "start_time_s": 180,
+      "stop_time_s": 200,
+      "operating_point_sha256": "478B688808FBE0D47A915759E846E66CEC5AE711DA1DAF2CA1D832B3C6984AA5"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v51_runtime_warmup_C2_C22_r1\\packet_C022_attempt01",
+      "start_time_s": 200,
+      "stop_time_s": 220,
+      "operating_point_sha256": "40EF83BCDB94EAD0DA50CBB945B5862C4A7345FA3C8D79AEB3C2845BD0FD4C35"
+    }
+  ],
+  "last_verified_snapshot_time_s": 220,
+  "last_verified_packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v51_runtime_warmup_C2_C22_r1\\packet_C022_attempt01",
+  "pass": true,
+  "source_state_edited": false,
+  "partial_state_restore_used": false,
+  "history_cap_cycles": 2,
+  "state_history_cap_cycles": 11,
+  "command_horizon_cycles": 200,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "error_message": "",
+  "process_pid": 99012,
+  "current_producer": "9d075ad4d1ae753feb5f3ef0fb2f039429a1de74",
+  "current_attempt_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v51_runtime_warmup_C2_C22_r1\\packet_C022_attempt01",
+  "current_attempt_window_s": [
+    200,
+    220
+  ],
+  "total_cycles": 22
+}

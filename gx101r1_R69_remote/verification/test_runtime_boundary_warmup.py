@@ -2,6 +2,7 @@ from pathlib import Path
 import unittest
 
 from Verify_HeatDriveECC_ObservationPacket import validate_manifest
+from Analyze_HeatDriveECC_RecordedTenCycles import runtime_window
 
 
 class RuntimeBoundaryWarmupTests(unittest.TestCase):
@@ -39,6 +40,42 @@ class RuntimeBoundaryWarmupTests(unittest.TestCase):
         self.assertIn("'heatdrive_ecc_runtime_boundary_cold_endpoint_v1'",source)
         self.assertIn("'heatdrive_ecc_runtime_boundary_warmup_endpoint_v1'",source)
         self.assertIn('~q.old_model_OP_imported',source)
+
+    def completed(self):
+        return dict(schema='heatdrive_ecc_runtime_boundary_transient_collection_v1',collection_window_s=[20,220],
+            **{'pass':True},total_cycles=22,error_message='',source_state_edited=False,
+            partial_state_restore_used=False,completed_packets=[dict(start_time_s=20+20*k,stop_time_s=40+20*k,
+                packet_root='packet_'+str(k)) for k in range(10)])
+
+    def test_current_ten_cycle_window_is_not_hardcoded_to_old_C72(self):
+        start,stop,selected,previous=runtime_window(self.completed())
+        self.assertEqual((start,stop,len(selected)),(120,220,5))
+        self.assertEqual(str(previous),'packet_4')
+
+    def test_missing_or_incomplete_warmup_cannot_supply_current_window(self):
+        for key,value in [('pass',False),('total_cycles',23),('error_message','physical failure')]:
+            data=self.completed();data[key]=value
+            with self.assertRaises(ValueError):runtime_window(data)
+        data=self.completed();data['completed_packets'].pop()
+        with self.assertRaises(ValueError):runtime_window(data)
+
+    def test_unsteady_qualification_stays_transient_and_retirement_cannot_delete_dependencies(self):
+        source=(Path(__file__).parent/'Close_HeatDriveECC_RuntimeWarmup.py').read_text()
+        self.assertIn('transient_continuation_allowed=True',source)
+        self.assertIn("original_public_thermal_periodic_pass=statistics['statistics']['periodic_steady_state']",source)
+        self.assertIn('Never retire qualified current-window dependencies',source)
+        self.assertIn("'all_twenty_cycle_metrics.json'",source)
+
+    def test_completed_retired_job_cannot_restart_in_place(self):
+        source=(Path(__file__).parent/'Run_HeatDriveECC_BoundedObservationPackets.m').read_text()
+        self.assertIn('COMPLETED_RAW_PREFIX_RETIRED.json',source)
+        self.assertIn('use its latest qualified runtime endpoint in a new collection',source)
+
+    def test_future_endpoint_promotion_is_atomic_and_bound_to_its_origin(self):
+        source=(Path(__file__).parent/'Close_HeatDriveECC_RuntimeWarmup.py').read_text()
+        self.assertIn("sha256(pointer)!=result['origin_snapshot_sha256']",source)
+        self.assertIn('temporary.replace(pointer)',source)
+        self.assertIn('retired completed jobs cannot be resealed from missing raw',source)
 
 
 if __name__=='__main__':unittest.main()

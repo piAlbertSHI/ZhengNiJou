@@ -1,7 +1,8 @@
 function record=Analyze_HeatDriveECC_RecordedThermalPeriodicity(measured_file,output_file)
 % Reuse the unmodified production statistics on an exact join of measured packets.
     assert(~isfile(output_file),'Never overwrite thermal statistics.');
-    index=jsondecode(fileread(measured_file));assert(index.sample_count==100001 && isequal(index.window_s(:),[620;720]));
+    index=jsondecode(fileread(measured_file));window=index.window_s(:).';
+    assert(index.sample_count==100001 && numel(window)==2 && diff(window)==100 && mod(window(1),10)==0);
     names={'SMA_Tx21_internal','SE_Tx21_internal','SHEX_hot_sink_temp_out', ...
         'hot_sink_temp_out','cold_sink_temp_out','ECC_constitutive21_output'};
     fields={'SMA_T_21_K','SE_T_21_K','SHEX_T_K','HHEX_T_K','CHEX_T_K'};
@@ -31,13 +32,13 @@ function record=Analyze_HeatDriveECC_RecordedThermalPeriodicity(measured_file,ou
     assert(numel(time)==100001 && all(abs(diff(time)-.001)<=1e-9));
     for n=1:5,physical.(fields{n})=joined{n};end
     physical.xM_SMA_21=joined{6}(:,1:21);physical.xM_SE_21=joined{6}(:,22:42);
-    physical.time_s=time-620;
+    physical.time_s=time-window(1);
     configured=load(index.packets(1).configuration_path,'options');options=configured.options;
     options.cycle_count=10;
     physical.cycle_index=HeatDriveECC_CycleStageFromTime(physical.time_s,options);
     p=Evaluate_HeatDriveECC_Periodicity(physical,options);
     record=struct('schema','heatdrive_ecc_recorded_ten_cycle_thermal_statistics_v1', ...
-        'window_s',[620 720],'sample_count',numel(time),'statistics',p, ...
+        'window_s',window,'sample_count',numel(time),'statistics',p, ...
         'original_production_statistics_used',true,'physical_tolerances_changed',false, ...
         'measured_window_sha256',file_hash(measured_file), ...
         'statistics_source_sha256',file_hash(which('Evaluate_HeatDriveECC_Periodicity')), ...
