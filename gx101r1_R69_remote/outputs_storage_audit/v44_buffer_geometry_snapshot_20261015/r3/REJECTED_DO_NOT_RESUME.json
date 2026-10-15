@@ -1,0 +1,10 @@
+{
+  "schema": "heatdrive_ecc_component_fixture_rejection_v1",
+  "reason": "Global-only tolerance tightening leaves all eight traces unchanged; four weak-flux cases still fail unchanged 1e-8 J energy closure.",
+  "actual_sim_call_count": 8,
+  "component_equations_pass": false,
+  "global_only_tolerance_control_did_not_resolve_weak_flux": true,
+  "checkpoint_saved": false,
+  "production_recovery_allowed": false,
+  "next_action": "Test the independently inspected public LOCAL consistency and residual tolerance settings in a fresh component-only fixture."
+}

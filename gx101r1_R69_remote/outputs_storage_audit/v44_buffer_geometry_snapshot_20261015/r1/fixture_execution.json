@@ -1,0 +1,21 @@
+{
+  "schema": "heatdrive_ecc_buffer_geometry_fixture_v1",
+  "execution_commit": "67cf8b2f43cf72c488d340aa5cb22f09d6a3d615",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1",
+  "cases": [],
+  "collection_pass": false,
+  "error_message": "错误使用 sscbuild (第 53 行)\n无法生成 'ecc_buffer_geometry_boundary_lib'\n\n出错 pm.legacy.internal.support\n\n出错 pm.legacy.internal.support\n\n出错 ssc_build (第 5 行)\n    [varargout{1:nargout}] = pm.legacy.internal.support('sscbuild', mfilename, varargin);\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_BufferGeometryFixture (第 46 行)\n        cd(build);ssc_build(package);addpath(build);load_system([package '_lib']);cd(repo);\n                  ^^^^^^^^^^^^^^^^^^\n原因:\n    对节点平衡变量 'A.mdot' 的引用无效。平衡变量只能从 'branches' 部分引用。",
+  "simulation_executed": true,
+  "coupled_simulation_executed": false,
+  "operating_point_loaded": false,
+  "source_state_edited": false,
+  "production_recovery_allowed": false,
+  "table4_reproduction_claim": false,
+  "source_operating_point_sha256": "3913E39AA7AD542BACECC4C8BA68F1B700BBB306A91C4F5FBA4046D364249266",
+  "source_history_sha256": "414E8F731CD2FB1ED3B4C82AB4678C6D838F0A931F6A06B50B6DF6C399DB13AB",
+  "configuration_sha256": "B1C13767F9EC35A5106B3608BA201E60699A4A5292DA98C3127CA1CC8EA2B350",
+  "canonical_model_sha256": "F1D07FDE12F442AFB2F735D5A9A833269CF433437896E2096F23AE984575EA5E",
+  "observation_sha256": "1F30EEB3261A4F22C63783E87BFF72BDDB702965AB4E348E49575A9F77335E8B",
+  "buffer_source_sha256": "84657B41CB9A8B3C947BD1DE1C2BB67EFAF4BEE892DBA79B9DC95381808EF248",
+  "boundary_source_sha256": "A328F3F107283A72536993CEA1C6D032019973193300422F9DA32111867EF752"
+}

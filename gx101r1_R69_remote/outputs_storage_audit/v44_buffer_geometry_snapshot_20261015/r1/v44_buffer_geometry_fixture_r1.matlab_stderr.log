@@ -1,0 +1,22 @@
+{����ʹ�� assert
+����ʹ�� sscbuild (�� 53 ��)
+�޷����� 'ecc_buffer_geometry_boundary_lib'
+
+���� pm.legacy.internal.support
+
+���� pm.legacy.internal.support
+
+���� ssc_build (�� 5 ��)
+    [varargout{1:nargout}] = pm.legacy.internal.support('sscbuild', mfilename, varargin);
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+���� Run_HeatDriveECC_BufferGeometryFixture (�� 46 ��)
+        cd(build);ssc_build(package);addpath(build);load_system([package '_lib']);cd(repo);
+                  ^^^^^^^^^^^^^^^^^^
+ԭ��:
+    �Խڵ�ƽ����� 'A.mdot' ��������Ч��ƽ�����ֻ�ܴ� 'branches' �������á�
+
+���� Run_HeatDriveECC_BufferGeometryFixture (�� 120 ��)
+    assert(record.collection_pass,'HeatDriveECC:BufferGeometryFixtureFailed','%s',record.error_message);
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+ERROR: MATLAB error Exit Status: 0x00000001

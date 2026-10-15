@@ -1,0 +1,255 @@
+{
+  "schema": "heatdrive_ecc_buffer_geometry_fixture_v1",
+  "execution_commit": "cf920f3a0561f8d8af979747f837902e1cbf8e94",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1",
+  "cases": [
+    {
+      "source_buffer": "SHEXFluidBuffer",
+      "source_time_s": 620,
+      "initial_temperature_K": 392.45677936273376,
+      "initial_mass_kg": 0.0902716325704924,
+      "initial_energy_J": 45250.938434922413,
+      "port_area_m2": 0.01,
+      "boundary_temperature_K": 303.15,
+      "fixed_step_s": 0.001,
+      "duration_s": 1,
+      "boundary_mass_flow_kg_s": 0,
+      "boundary_heat_port_W": 0,
+      "original_tolerances": {
+        "RelTol": "1e-3",
+        "AbsTol": "auto",
+        "ConsistencyTolSource": "GLOBAL"
+      },
+      "applied_tolerances": {
+        "RelTol": "1e-9",
+        "AbsTol": "1e-12",
+        "ConsistencyTolSource": "LOCAL",
+        "ConsistencyAbsTol": "1e-12",
+        "ConsistencyRelTol": "1e-9",
+        "ResidualTolerance": "1e-12"
+      },
+      "case_kind": "isolated measured-condition experiment, never coupled OP recovery",
+      "file": "case_01.mat",
+      "sha256": "310C32DA7F63F93602F2956EB8DF684AFDBD549BBB88FE716DEBA6C00EA95C73"
+    },
+    {
+      "source_buffer": "SHEXFluidBuffer",
+      "source_time_s": 620,
+      "initial_temperature_K": 392.45677936273376,
+      "initial_mass_kg": 0.0902716325704924,
+      "initial_energy_J": 45250.938434922413,
+      "port_area_m2": 0.001,
+      "boundary_temperature_K": 303.15,
+      "fixed_step_s": 0.001,
+      "duration_s": 1,
+      "boundary_mass_flow_kg_s": 0,
+      "boundary_heat_port_W": 0,
+      "original_tolerances": {
+        "RelTol": "1e-3",
+        "AbsTol": "auto",
+        "ConsistencyTolSource": "GLOBAL"
+      },
+      "applied_tolerances": {
+        "RelTol": "1e-9",
+        "AbsTol": "1e-12",
+        "ConsistencyTolSource": "LOCAL",
+        "ConsistencyAbsTol": "1e-12",
+        "ConsistencyRelTol": "1e-9",
+        "ResidualTolerance": "1e-12"
+      },
+      "case_kind": "isolated measured-condition experiment, never coupled OP recovery",
+      "file": "case_02.mat",
+      "sha256": "04ADFA083E703387334E1C738DEE3949ED06E951A310B52F885039340FE05C97"
+    },
+    {
+      "source_buffer": "SHEXFluidBuffer",
+      "source_time_s": 620,
+      "initial_temperature_K": 392.45677936273376,
+      "initial_mass_kg": 0.0902716325704924,
+      "initial_energy_J": 45250.938434922413,
+      "port_area_m2": 0.0001,
+      "boundary_temperature_K": 303.15,
+      "fixed_step_s": 0.001,
+      "duration_s": 1,
+      "boundary_mass_flow_kg_s": 0,
+      "boundary_heat_port_W": 0,
+      "original_tolerances": {
+        "RelTol": "1e-3",
+        "AbsTol": "auto",
+        "ConsistencyTolSource": "GLOBAL"
+      },
+      "applied_tolerances": {
+        "RelTol": "1e-9",
+        "AbsTol": "1e-12",
+        "ConsistencyTolSource": "LOCAL",
+        "ConsistencyAbsTol": "1e-12",
+        "ConsistencyRelTol": "1e-9",
+        "ResidualTolerance": "1e-12"
+      },
+      "case_kind": "isolated measured-condition experiment, never coupled OP recovery",
+      "file": "case_03.mat",
+      "sha256": "178CF4EDDE7C54786594CA54B8AE4EC37750301394A9AC121C8D1FE1BB4FA109"
+    },
+    {
+      "source_buffer": "SHEXFluidBuffer",
+      "source_time_s": 620,
+      "initial_temperature_K": 392.45677936273376,
+      "initial_mass_kg": 0.0902716325704924,
+      "initial_energy_J": 45250.938434922413,
+      "port_area_m2": 8.04247719318987E-6,
+      "boundary_temperature_K": 303.15,
+      "fixed_step_s": 0.001,
+      "duration_s": 1,
+      "boundary_mass_flow_kg_s": 0,
+      "boundary_heat_port_W": 0,
+      "original_tolerances": {
+        "RelTol": "1e-3",
+        "AbsTol": "auto",
+        "ConsistencyTolSource": "GLOBAL"
+      },
+      "applied_tolerances": {
+        "RelTol": "1e-9",
+        "AbsTol": "1e-12",
+        "ConsistencyTolSource": "LOCAL",
+        "ConsistencyAbsTol": "1e-12",
+        "ConsistencyRelTol": "1e-9",
+        "ResidualTolerance": "1e-12"
+      },
+      "case_kind": "isolated measured-condition experiment, never coupled OP recovery",
+      "file": "case_04.mat",
+      "sha256": "E00712DD5520DB73334B4E831A8F21AA2856CB79944BF7306A1198BA8C48415D"
+    },
+    {
+      "source_buffer": "SMAHotFluidBuffer",
+      "source_time_s": 620,
+      "initial_temperature_K": 303.98474338964604,
+      "initial_mass_kg": 0.09532181809764291,
+      "initial_energy_J": 12395.69292093536,
+      "port_area_m2": 0.01,
+      "boundary_temperature_K": 393.15,
+      "fixed_step_s": 0.001,
+      "duration_s": 1,
+      "boundary_mass_flow_kg_s": 0,
+      "boundary_heat_port_W": 0,
+      "original_tolerances": {
+        "RelTol": "1e-3",
+        "AbsTol": "auto",
+        "ConsistencyTolSource": "GLOBAL"
+      },
+      "applied_tolerances": {
+        "RelTol": "1e-9",
+        "AbsTol": "1e-12",
+        "ConsistencyTolSource": "LOCAL",
+        "ConsistencyAbsTol": "1e-12",
+        "ConsistencyRelTol": "1e-9",
+        "ResidualTolerance": "1e-12"
+      },
+      "case_kind": "isolated measured-condition experiment, never coupled OP recovery",
+      "file": "case_05.mat",
+      "sha256": "E719535C695D22B71A1D7EEEF4C75D7BA2B231491B6BCD5FE1BF6AF52B6D056A"
+    },
+    {
+      "source_buffer": "SMAHotFluidBuffer",
+      "source_time_s": 620,
+      "initial_temperature_K": 303.98474338964604,
+      "initial_mass_kg": 0.09532181809764291,
+      "initial_energy_J": 12395.69292093536,
+      "port_area_m2": 0.001,
+      "boundary_temperature_K": 393.15,
+      "fixed_step_s": 0.001,
+      "duration_s": 1,
+      "boundary_mass_flow_kg_s": 0,
+      "boundary_heat_port_W": 0,
+      "original_tolerances": {
+        "RelTol": "1e-3",
+        "AbsTol": "auto",
+        "ConsistencyTolSource": "GLOBAL"
+      },
+      "applied_tolerances": {
+        "RelTol": "1e-9",
+        "AbsTol": "1e-12",
+        "ConsistencyTolSource": "LOCAL",
+        "ConsistencyAbsTol": "1e-12",
+        "ConsistencyRelTol": "1e-9",
+        "ResidualTolerance": "1e-12"
+      },
+      "case_kind": "isolated measured-condition experiment, never coupled OP recovery",
+      "file": "case_06.mat",
+      "sha256": "2DF6858D1ADFF8BD5A5BC34139183A0E182157B9CF151024BA0A786A90A79C8C"
+    },
+    {
+      "source_buffer": "SMAHotFluidBuffer",
+      "source_time_s": 620,
+      "initial_temperature_K": 303.98474338964604,
+      "initial_mass_kg": 0.09532181809764291,
+      "initial_energy_J": 12395.69292093536,
+      "port_area_m2": 0.0001,
+      "boundary_temperature_K": 393.15,
+      "fixed_step_s": 0.001,
+      "duration_s": 1,
+      "boundary_mass_flow_kg_s": 0,
+      "boundary_heat_port_W": 0,
+      "original_tolerances": {
+        "RelTol": "1e-3",
+        "AbsTol": "auto",
+        "ConsistencyTolSource": "GLOBAL"
+      },
+      "applied_tolerances": {
+        "RelTol": "1e-9",
+        "AbsTol": "1e-12",
+        "ConsistencyTolSource": "LOCAL",
+        "ConsistencyAbsTol": "1e-12",
+        "ConsistencyRelTol": "1e-9",
+        "ResidualTolerance": "1e-12"
+      },
+      "case_kind": "isolated measured-condition experiment, never coupled OP recovery",
+      "file": "case_07.mat",
+      "sha256": "F781F9E2F29CE7C408335A79E4E785A5338971AC54CD1E2FC3E6F7C79F88F788"
+    },
+    {
+      "source_buffer": "SMAHotFluidBuffer",
+      "source_time_s": 620,
+      "initial_temperature_K": 303.98474338964604,
+      "initial_mass_kg": 0.09532181809764291,
+      "initial_energy_J": 12395.69292093536,
+      "port_area_m2": 8.04247719318987E-6,
+      "boundary_temperature_K": 393.15,
+      "fixed_step_s": 0.001,
+      "duration_s": 1,
+      "boundary_mass_flow_kg_s": 0,
+      "boundary_heat_port_W": 0,
+      "original_tolerances": {
+        "RelTol": "1e-3",
+        "AbsTol": "auto",
+        "ConsistencyTolSource": "GLOBAL"
+      },
+      "applied_tolerances": {
+        "RelTol": "1e-9",
+        "AbsTol": "1e-12",
+        "ConsistencyTolSource": "LOCAL",
+        "ConsistencyAbsTol": "1e-12",
+        "ConsistencyRelTol": "1e-9",
+        "ResidualTolerance": "1e-12"
+      },
+      "case_kind": "isolated measured-condition experiment, never coupled OP recovery",
+      "file": "case_08.mat",
+      "sha256": "BD60A489E35377F3E3E1DF7E88F986FDF32229C978C281B89EA6F33E7C8E5C64"
+    }
+  ],
+  "collection_pass": true,
+  "error_message": "",
+  "simulation_executed": true,
+  "attempted_sim_call_count": 8,
+  "coupled_simulation_executed": false,
+  "operating_point_loaded": false,
+  "source_state_edited": false,
+  "production_recovery_allowed": false,
+  "table4_reproduction_claim": false,
+  "source_operating_point_sha256": "3913E39AA7AD542BACECC4C8BA68F1B700BBB306A91C4F5FBA4046D364249266",
+  "source_history_sha256": "414E8F731CD2FB1ED3B4C82AB4678C6D838F0A931F6A06B50B6DF6C399DB13AB",
+  "configuration_sha256": "B1C13767F9EC35A5106B3608BA201E60699A4A5292DA98C3127CA1CC8EA2B350",
+  "canonical_model_sha256": "F1D07FDE12F442AFB2F735D5A9A833269CF433437896E2096F23AE984575EA5E",
+  "observation_sha256": "1F30EEB3261A4F22C63783E87BFF72BDDB702965AB4E348E49575A9F77335E8B",
+  "buffer_source_sha256": "84657B41CB9A8B3C947BD1DE1C2BB67EFAF4BEE892DBA79B9DC95381808EF248",
+  "boundary_source_sha256": "3C9845FBE34B00449DFB6F8C315FB5312DCEA8C76031617F8B992EC64B50B3C4"
+}

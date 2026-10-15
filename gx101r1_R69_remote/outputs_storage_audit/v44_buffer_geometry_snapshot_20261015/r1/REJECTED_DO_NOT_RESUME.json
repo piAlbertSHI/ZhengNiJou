@@ -1,0 +1,10 @@
+{
+  "schema": "heatdrive_ecc_component_fixture_rejection_v1",
+  "reason": "SSC compile error: node balancing variable A.mdot must be accessed through a branches variable.",
+  "actual_sim_call_count": 0,
+  "initial_record_simulation_executed_flag_was_overbroad": true,
+  "coupled_simulation_executed": false,
+  "checkpoint_saved": false,
+  "production_recovery_allowed": false,
+  "next_action": "Declare a through-flow mdot branch, constrain that variable to zero, and verify in a fresh fixture directory."
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "heatdrive_ecc_buffer_port_diagnostic_figure_v1",
+  "figure_sha256": "412C2BC62609BDD243C5870A498941FE5F164A088A61EF2F86484AE0CDADF25C",
+  "panel_a": "Actual C62; signed per-cycle energy, not a cooling correction",
+  "panel_b": "Independent one-second zero-mass-flow fixtures with tight local residual control; not coupled performance",
+  "final_paper_figure": false,
+  "table4_reproduction_claim": false,
+  "input_sha256": {
+    "mechanism": "FEDEDBE217059CFD35B523FFBCB7CCE4EF1375193EA3D9074126F63DE51E77D8",
+    "fixture": "152357502BB44FC89D014A2B019DFC0BF507A1C9B7B0DA802D93A026773B57F4"
+  }
+}

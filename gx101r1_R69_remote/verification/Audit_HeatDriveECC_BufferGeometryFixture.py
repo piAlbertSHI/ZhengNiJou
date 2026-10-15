@@ -42,6 +42,9 @@ def audit(root,mechanism_path):
                 'source_state_edited','production_recovery_allowed','table4_reproduction_claim'))):
         raise ValueError('Require all eight isolated cases, never coupled recovery')
     source=Path(execution['source_root'])
+    generated=root/'component_build/+ecc_buffer_geometry_boundary'
+    for key,file in (('buffer_source','conservative_buffer.ssc'),('boundary_source','fixed_temperature_zero_mass_port.ssc')):
+        if sha256(generated/file)!=execution[key+'_sha256']:raise ValueError('Generated component source changed')
     mechanism=json.loads(mechanism_path.read_text(encoding='utf-8-sig'))
     if Path(mechanism['source_root']).resolve()!=source.resolve() or mechanism['total_cycles']!=62:
         raise ValueError('Source-derived port equation refers to another trajectory')
@@ -90,7 +93,8 @@ def audit(root,mechanism_path):
                 G=mechanism['buffers'][name]['source_derived_G_kg_s']*np.sqrt(area/.01)
                 predicted=G*(table['u'](np.column_stack((boundary,p)))-get('u_port','J/kg'))
                 result=fixture_metrics(time,temp,mass,energy,get('mdot_A','kg/s'),get('Phi_A','W'),get('Q_H','W'),predicted)
-                records.append(dict(source_buffer=name,port_area_m2=area,**result))
+                records.append(dict(source_buffer=name,port_area_m2=area,
+                    applied_tolerances=case.get('applied_tolerances'),**result))
     if len(seen)!=8:raise ValueError('Incomplete matrix')
     monotone=[]
     for name in ('SHEXFluidBuffer','SMAHotFluidBuffer'):
@@ -98,7 +102,8 @@ def audit(root,mechanism_path):
         monotone.append(bool(np.all(np.diff([abs(r['energy_change_J']) for r in selected])<0)))
     return dict(schema='heatdrive_ecc_buffer_geometry_fixture_audit_v1',source_root=str(root),cases=records,
         isolated_component_equations_pass=all(r['component_equation_pass'] for r in records),
-        zero_mass_flow_conduction_demonstrated=True,observed_area_response_monotone=all(monotone),
+        zero_mass_flow_conduction_demonstrated=all(r['gates']['zero_mass_flow'] and abs(r['energy_change_J'])>1e-8
+            for r in records if r['port_area_m2']==.01),observed_area_response_monotone=all(monotone),
         geometry_selected_for_full_coupled_model=False,full_coupled_gate_evaluated=False,
         checkpoint_qualified=False,production_recovery_allowed=False,outer_solve_eligible=False,
         table4_reproduction_claim=False,input_sha256={'fixture_execution':sha256(root/'fixture_execution.json'),
