@@ -1,0 +1,34 @@
+{
+  "schema": "heatdrive_ecc_C72_boundary_parameter_probe_v1",
+  "producer": "1669fee0a0fc6ea7bf25a88a4df734a5cf29e72f",
+  "source_endpoint_contract_sha256": "921296649BBF91CA32278BC4C8E0589BA29CE8041EDA25D880F1AC6F2BBFB8E4",
+  "source_OP_sha256": "64012A38510767B815DAF191B2AB185D41B1D9A2F11FABF0349ACB9C2AB6FA62",
+  "source_snapshot_s": 720,
+  "probe_stop_s": 720.002,
+  "checksum_policy": "error/error",
+  "source_temperature_configurability": "compiletime",
+  "source_state_edited": false,
+  "partial_state_restore_used": false,
+  "initial_targets_changed": false,
+  "cases": [
+    {
+      "label": "unchanged_control",
+      "declared_Tc_K": 276.95,
+      "same_complete_initial_OP_used": true,
+      "simulation_returned_without_error": true,
+      "strict_vendor_restore_pass": false,
+      "retained_memories_initial_bitwise_equal": false,
+      "observed_fixed_Tc_K": [],
+      "error_message": "断言失败。",
+      "error_identifier": "MATLAB:assertion:failed",
+      "error_report": "错误使用 assert\n断言失败。\n\n出错 Verify_HeatDriveECC_C72BoundaryParameter (第 46 行)\n            assert(output.diagnostic_final_op.snapshotTime==720.002);\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_ColdChamberDiagnostic (第 770 行)\n                    record.boundary_parameter_probe=Verify_HeatDriveECC_C72BoundaryParameter( ...\n                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)\n    record = Run_HeatDriveECC_ColdChamberDiagnostic( ...\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_C72BoundaryParameter (第 8 行)\n    execution=Run_HeatDriveECC_IndependentColdDiagnosticFromConfig(file);\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    }
+  ],
+  "experiment_completed": false,
+  "candidate_compatible": false,
+  "new_OP_saved": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "complete_cycle_mechanism_gates_evaluated": false,
+  "table4_reproduction_claim": false
+}

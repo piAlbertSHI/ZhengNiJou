@@ -1,0 +1,2459 @@
+{
+  "schema": "heatdrive_ecc_runtime_boundary_family_measurements_v1",
+  "source_producer": "42ec7f651ec0b3b0d980f32dd93cfb4d5e0395af",
+  "source_family": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v50_runtime_boundary_cold_family_r1\\native\\runtime_boundary_family",
+  "actual_baseline_window_s": [
+    0,
+    20
+  ],
+  "cold_baseline_all_original_gates_pass": true,
+  "same_family_boundary_parameter_compatible": true,
+  "recipe_comparison": {
+    "schema": "heatdrive_ecc_runtime_boundary_recipe_comparison_v1",
+    "reference_configuration_sha256": "EBF5333F52FDF87BB9B5F02913BE2D635B9C58A197D86C5F2BE4D5A2984A450D",
+    "candidate_configuration_sha256": "511EF8E5FBC4418747A429E55FC2B5104A731E9B0CF977F6705CA5667FF1CE2B",
+    "reference_configurability": "compiletime",
+    "candidate_configurability": "runtime",
+    "excluded_nonphysical_fields": [
+      "model_path",
+      "outputs_dir",
+      "report_path",
+      "output",
+      "validation"
+    ],
+    "intentional_physical_group_difference": "system.cold_boundary_temperature_configurability",
+    "other_option_groups_equal": {
+      "schema_version": true,
+      "node_count": true,
+      "cycle_count": true,
+      "model_name": true,
+      "system": true,
+      "fluid": true,
+      "geometry": true,
+      "material": true,
+      "equilibrium": true,
+      "schedule": true,
+      "route_matrix": true,
+      "simulation": true,
+      "simscape": true,
+      "branch": true,
+      "solid": true,
+      "constitutive": true
+    },
+    "unmatched_groups": [],
+    "simulation_executed": false,
+    "only_declared_change": true
+  },
+  "baseline_trajectory_comparison": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 4.823066888093308e-06,
+      "rms_difference": 8.688234021969687e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_002",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 3.435437861298851e-06,
+      "rms_difference": 2.0841612175350057e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_003",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 2.8334432045085123e-06,
+      "rms_difference": 3.0828457985503137e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_004",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 2.2441686837737507e-06,
+      "rms_difference": 1.4807650761758974e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_005",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 2.3156257498158084e-06,
+      "rms_difference": 1.2454706389065978e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_006",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 4.08635651183431e-06,
+      "rms_difference": 3.0777339193433867e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_007",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.6758124274929287e-06,
+      "rms_difference": 1.2606566249138944e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_008",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.5491839917558536e-06,
+      "rms_difference": 1.2064808659532165e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_009",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.4407848425435077e-06,
+      "rms_difference": 2.8886527919769304e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_010",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.1311039429529046e-06,
+      "rms_difference": 7.865676747062398e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_011",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.5316403505494236e-06,
+      "rms_difference": 5.878307579474829e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_012",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 3.9847662947067874e-07,
+      "rms_difference": 6.407457651801234e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_013",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 5.542248118217685e-07,
+      "rms_difference": 7.690366986638414e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_014",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 2.4663171416250407e-07,
+      "rms_difference": 3.955443354283687e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_015",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 2.988443270623975e-07,
+      "rms_difference": 6.155139512831129e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_016",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 2.40710619436868e-07,
+      "rms_difference": 5.0051924707045056e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_017",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 2.3114961322789895e-07,
+      "rms_difference": 5.2803746367133884e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_018",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 2.1200668243182008e-07,
+      "rms_difference": 5.604297709232643e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_019",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.9639446691144258e-07,
+      "rms_difference": 5.236408098387278e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_020",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.6646072253934108e-07,
+      "rms_difference": 5.3806576027486296e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_021",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.740708626130072e-07,
+      "rms_difference": 5.474007938386423e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.1964449981860525e-06,
+      "rms_difference": 1.1310792133015691e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_001",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 3.3518290365464054e-09,
+      "rms_difference": 8.645375510506449e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_002",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 3.4655158742680214e-09,
+      "rms_difference": 8.604498077107888e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_003",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 3.585910235415213e-09,
+      "rms_difference": 8.560934876397485e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_004",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 3.7153427001612727e-09,
+      "rms_difference": 8.502047700023757e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_005",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 3.8569396565435454e-09,
+      "rms_difference": 8.426295326268833e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_006",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 4.014395926787984e-09,
+      "rms_difference": 8.335218305964174e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_007",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 4.19072421209421e-09,
+      "rms_difference": 8.22959533159887e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_008",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 4.389164587337291e-09,
+      "rms_difference": 8.106090769512217e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_009",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 4.608239123626845e-09,
+      "rms_difference": 7.969478349033072e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_010",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 4.827256816497538e-09,
+      "rms_difference": 7.825327554961978e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_011",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 5.127503754920326e-09,
+      "rms_difference": 7.688376040472058e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_012",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 5.25159293829347e-09,
+      "rms_difference": 7.521088607185388e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_013",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 5.2096993385930546e-09,
+      "rms_difference": 7.299829720839252e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_014",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 5.137962943990715e-09,
+      "rms_difference": 7.049907757790701e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_015",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 5.007905201637186e-09,
+      "rms_difference": 6.777717674887879e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_016",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 4.8343054004362784e-09,
+      "rms_difference": 6.48723940753344e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_017",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 4.612957127392292e-09,
+      "rms_difference": 6.183733755035192e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_018",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 4.33283275924623e-09,
+      "rms_difference": 5.874060358582901e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_019",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 3.975287654611748e-09,
+      "rms_difference": 5.582988064181689e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_020",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 3.521961389196804e-09,
+      "rms_difference": 5.34133489254119e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_021",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 2.96029156743316e-09,
+      "rms_difference": 5.161160041074454e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.1368638297426514e-06,
+      "rms_difference": 1.0810660059867386e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.0681152389224735e-06,
+      "rms_difference": 1.032475905589378e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.9503729618008947e-06,
+      "rms_difference": 1.000205989806894e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 2.733212625116721e-06,
+      "rms_difference": 1.081316451827145e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 3.6516998420665914e-06,
+      "rms_difference": 1.3126080726112765e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 4.505639537910611e-06,
+      "rms_difference": 1.5792555735857082e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 5.720155172639352e-06,
+      "rms_difference": 1.861428559601101e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 5.867679931270686e-06,
+      "rms_difference": 1.9555790170974095e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 7.31000682208105e-06,
+      "rms_difference": 2.4118080799181503e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 7.473772370758525e-06,
+      "rms_difference": 2.412135736901087e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 5.838125446189224e-06,
+      "rms_difference": 2.478077979230103e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 6.0168325717313564e-06,
+      "rms_difference": 2.6048452521850556e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 5.720939043385442e-06,
+      "rms_difference": 2.621872355887751e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 5.165644950011483e-06,
+      "rms_difference": 2.6717871876918966e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 5.4906151376599155e-06,
+      "rms_difference": 2.767886894035229e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 5.431775207398459e-06,
+      "rms_difference": 2.6142579667299746e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 5.199009649459185e-06,
+      "rms_difference": 2.2645495750355558e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 4.6223154299696034e-06,
+      "rms_difference": 2.1651301209219251e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 4.061822210132959e-06,
+      "rms_difference": 2.1750814234198516e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 3.0727196076441032e-06,
+      "rms_difference": 2.063746416640876e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 2.9093986881889577e-06,
+      "rms_difference": 2.418273972245639e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.3268390830489807e-09,
+      "rms_difference": 1.1210696761233462e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.2598485454873298e-07,
+      "rms_difference": 5.143110514810262e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 2.3104576030164026e-09,
+      "rms_difference": 5.073033650881712e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 7.958078640513122e-12,
+      "rms_difference": 5.604162656936144e-13,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "variable": "stored_energy",
+      "unit": "J",
+      "max_abs_difference": 2.55931809078902e-09,
+      "rms_difference": 9.91516017677607e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "variable": "stored_mass",
+      "unit": "kg",
+      "max_abs_difference": 2.531308496145357e-14,
+      "rms_difference": 1.2655523620987033e-14,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 4.060950686834985e-09,
+      "rms_difference": 2.1010457638099364e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "variable": "stored_energy",
+      "unit": "J",
+      "max_abs_difference": 1.5554469428025186e-06,
+      "rms_difference": 8.000194451782552e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "variable": "stored_mass",
+      "unit": "kg",
+      "max_abs_difference": 2.531308496145357e-14,
+      "rms_difference": 1.2655523620987033e-14,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 6.74162947689183e-11,
+      "rms_difference": 1.3182648252520206e-11,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "variable": "stored_energy",
+      "unit": "J",
+      "max_abs_difference": 2.6106135919690132e-08,
+      "rms_difference": 5.107688586096692e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "variable": "stored_mass",
+      "unit": "kg",
+      "max_abs_difference": 1.5265566588595902e-16,
+      "rms_difference": 5.3613369500302704e-17,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.4210854715202004e-12,
+      "rms_difference": 3.948751853696664e-13,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "variable": "stored_energy",
+      "unit": "J",
+      "max_abs_difference": 5.129550117999315e-10,
+      "rms_difference": 1.5800105448891877e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "variable": "stored_mass",
+      "unit": "kg",
+      "max_abs_difference": 1.8041124150158794e-16,
+      "rms_difference": 5.078953774599356e-17,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 2.4407810315096867e-06,
+      "rms_difference": 2.2105427383558225e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "variable": "stored_energy",
+      "unit": "J",
+      "max_abs_difference": 1.5516978521645797e-05,
+      "rms_difference": 1.4061512454324053e-06,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "variable": "stored_mass",
+      "unit": "kg",
+      "max_abs_difference": 6.7220534694101275e-18,
+      "rms_difference": 5.859462247363386e-19,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 2.622096587856504e-06,
+      "rms_difference": 2.291579172275072e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "variable": "stored_energy",
+      "unit": "J",
+      "max_abs_difference": 1.6670520039951953e-05,
+      "rms_difference": 1.4577251987900058e-06,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "variable": "stored_mass",
+      "unit": "kg",
+      "max_abs_difference": 3.2959746043559335e-17,
+      "rms_difference": 4.409342802450505e-18,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_01",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.023861669959387655,
+      "rms_difference": 0.0006277662942336758,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_02",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.03756496206091242,
+      "rms_difference": 0.0010016432689126213,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_03",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.025389134126101,
+      "rms_difference": 0.0008201661287097484,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_04",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.020694387757203003,
+      "rms_difference": 0.0006948159099147971,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_05",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.018895640117932544,
+      "rms_difference": 0.0007765598645051157,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_06",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.03221797847885455,
+      "rms_difference": 0.0009478043289346825,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_07",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.018225094392050778,
+      "rms_difference": 0.0005940751892252302,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_08",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.01468175547950068,
+      "rms_difference": 0.0006509639026226213,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_09",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.011230761730928407,
+      "rms_difference": 0.00024239211921555395,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_10",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.011434498443747998,
+      "rms_difference": 0.0003713580516684622,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_11",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.012320359475438636,
+      "rms_difference": 0.00033978763369124637,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_12",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.005108832364498994,
+      "rms_difference": 9.786428516002863e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_13",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.004331426395992821,
+      "rms_difference": 8.214606971222282e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_14",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0024416189664293597,
+      "rms_difference": 7.597587860999904e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_15",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0016754912338114991,
+      "rms_difference": 5.7381830109427525e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_16",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0017466792455707036,
+      "rms_difference": 5.693632103221764e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_17",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0014693468030486656,
+      "rms_difference": 4.822663854961726e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_18",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0012988225993808555,
+      "rms_difference": 3.71991890334256e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_19",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0009953736444572314,
+      "rms_difference": 2.459464988967035e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_20",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.00047506864063961984,
+      "rms_difference": 1.1900058098066136e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_21",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.00022502169082372347,
+      "rms_difference": 3.4027279065709864e-06,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotSinkMass",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 2.084522066070349e-08,
+      "rms_difference": 2.0059303041250703e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_01",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 1.131007473986756e-05,
+      "rms_difference": 5.14169060657497e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_02",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 1.1290878660474846e-05,
+      "rms_difference": 5.134322581422538e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_03",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.00012803852905562962,
+      "rms_difference": 1.772949432939516e-06,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_04",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0002816976621033973,
+      "rms_difference": 5.319480066517327e-06,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_05",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0005003281532935944,
+      "rms_difference": 1.1919989490541199e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_06",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0007849734379306028,
+      "rms_difference": 1.920172962442349e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_07",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0010911354130485051,
+      "rms_difference": 2.6358952680979146e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_08",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0015577706657836643,
+      "rms_difference": 3.216456155776227e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_09",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0017864872290260791,
+      "rms_difference": 4.34841509446059e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_10",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0012318052218347475,
+      "rms_difference": 3.5919877960107914e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_11",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.001112186823263528,
+      "rms_difference": 3.41420223979997e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_12",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0012788125533802486,
+      "rms_difference": 3.608538303216649e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_13",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.001312197829690831,
+      "rms_difference": 3.471672253983599e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_14",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0010016108603849716,
+      "rms_difference": 4.00649138865935e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_15",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0008013477348072229,
+      "rms_difference": 2.6482820734450706e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_16",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0005194816912421629,
+      "rms_difference": 2.1911097061434432e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_17",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0005042279253189008,
+      "rms_difference": 2.1542602469249685e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_18",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.00047347848544632143,
+      "rms_difference": 2.636655385859222e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_19",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.00035063256598277803,
+      "rms_difference": 1.9401430671821216e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_20",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.00025532696844265956,
+      "rms_difference": 1.2164170286981977e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_21",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.00016984457658963947,
+      "rms_difference": 7.629201659361537e-06,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdLoadMass",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkMass",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotSinkMass",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 1.1095266927441116e-09,
+      "rms_difference": 2.079884758880132e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    }
+  ],
+  "baseline_public_comparison": [
+    {
+      "signal": "SMA_Tx21_internal",
+      "unit": "K",
+      "max_abs_difference": 0.0017864872290260791,
+      "rms_difference": 2.5499585453767708e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "signal": "SE_Tx21_internal",
+      "unit": "K",
+      "max_abs_difference": 0.03756496206091242,
+      "rms_difference": 0.000496468250034298,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "signal": "ECC_constitutive21_output",
+      "unit": "1",
+      "max_abs_difference": 0.0016672736044173603,
+      "rms_difference": 1.544130775403154e-05,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    }
+  ],
+  "candidate_initial_coordinate_changes": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 9.22000253922306e-11,
+      "rms_difference": 9.22000253922306e-11,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_002",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 2.390834197285585e-10,
+      "rms_difference": 2.390834197285585e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_003",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 5.624087862088345e-10,
+      "rms_difference": 5.624087862088345e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_004",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.0895178093051072e-09,
+      "rms_difference": 1.0895178093051072e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_005",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.8209789232059848e-09,
+      "rms_difference": 1.8209789232059848e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_006",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 2.7303599381411914e-09,
+      "rms_difference": 2.7303599381411914e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_007",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 3.76934394807904e-09,
+      "rms_difference": 3.76934394807904e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_008",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 4.8784158934722655e-09,
+      "rms_difference": 4.8784158934722655e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_009",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 5.9969806898152456e-09,
+      "rms_difference": 5.9969806898152456e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_010",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 7.072571861499455e-09,
+      "rms_difference": 7.072571861499455e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_011",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 8.069662271736888e-09,
+      "rms_difference": 8.069662271736888e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_012",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 8.97523477760842e-09,
+      "rms_difference": 8.97523477760842e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_013",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 9.799066447158111e-09,
+      "rms_difference": 9.799066447158111e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_014",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.0562075658526737e-08,
+      "rms_difference": 1.0562075658526737e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_015",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.1284839729341911e-08,
+      "rms_difference": 1.1284839729341911e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_016",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.1990834991593147e-08,
+      "rms_difference": 1.1990834991593147e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_017",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.270439042855287e-08,
+      "rms_difference": 1.270439042855287e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_018",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.3831709111400414e-08,
+      "rms_difference": 1.3831709111400414e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_019",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.2099974355805898e-08,
+      "rms_difference": 1.2099974355805898e-08,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_020",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 9.152358870778698e-09,
+      "rms_difference": 9.152358870778698e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_021",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 7.748383268335601e-09,
+      "rms_difference": 7.748383268335601e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_001",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_002",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_003",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_004",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_005",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_006",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_007",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_008",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_009",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_010",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_011",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_012",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_013",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_014",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_015",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_016",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_017",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_018",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_019",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_020",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_021",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0001461199328218754,
+      "rms_difference": 0.0001461199328218754,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 1.4210854715202004e-12,
+      "rms_difference": 1.4210854715202004e-12,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 4.561968580674147e-09,
+      "rms_difference": 4.561968580674147e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "variable": "stored_energy",
+      "unit": "J",
+      "max_abs_difference": 1.7112297427956946e-06,
+      "rms_difference": 1.7112297427956946e-06,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "variable": "stored_mass",
+      "unit": "kg",
+      "max_abs_difference": 9.480888296664602e-13,
+      "rms_difference": 9.480888296664602e-13,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "variable": "stored_energy",
+      "unit": "J",
+      "max_abs_difference": 1.6324338503181934e-07,
+      "rms_difference": 1.6324338503181934e-07,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "variable": "stored_mass",
+      "unit": "kg",
+      "max_abs_difference": 9.480888296664602e-13,
+      "rms_difference": 9.480888296664602e-13,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "variable": "stored_energy",
+      "unit": "J",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "variable": "stored_mass",
+      "unit": "kg",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "variable": "stored_energy",
+      "unit": "J",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "variable": "stored_mass",
+      "unit": "kg",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "variable": "stored_energy",
+      "unit": "J",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "variable": "stored_mass",
+      "unit": "kg",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "variable": "T_I",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "variable": "stored_energy",
+      "unit": "J",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "variable": "stored_mass",
+      "unit": "kg",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_01",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 8.071765478234738e-12,
+      "rms_difference": 8.071765478234738e-12,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_02",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 2.2282620193436742e-11,
+      "rms_difference": 2.2282620193436742e-11,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_03",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 4.786215868080035e-11,
+      "rms_difference": 4.786215868080035e-11,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_04",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 8.617462299298495e-11,
+      "rms_difference": 8.617462299298495e-11,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_05",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 1.3699263945454732e-10,
+      "rms_difference": 1.3699263945454732e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_06",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 1.9821300156763755e-10,
+      "rms_difference": 1.9821300156763755e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_07",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 2.665387910383288e-10,
+      "rms_difference": 2.665387910383288e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_08",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 3.382183422218077e-10,
+      "rms_difference": 3.382183422218077e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_09",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 4.0961367631098256e-10,
+      "rms_difference": 4.0961367631098256e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_10",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 4.774278750119265e-10,
+      "rms_difference": 4.774278750119265e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_11",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 5.397851055022329e-10,
+      "rms_difference": 5.397851055022329e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_12",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 5.961737770121545e-10,
+      "rms_difference": 5.961737770121545e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_13",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 6.475602276623249e-10,
+      "rms_difference": 6.475602276623249e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_14",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 6.953655429242644e-10,
+      "rms_difference": 6.953655429242644e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_15",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 7.408402780129109e-10,
+      "rms_difference": 7.408402780129109e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_16",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 7.853486749809235e-10,
+      "rms_difference": 7.853486749809235e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_17",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 8.303686627186835e-10,
+      "rms_difference": 8.303686627186835e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_18",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 8.773781701165717e-10,
+      "rms_difference": 8.773781701165717e-10,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_19",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 1.9182380128768273e-09,
+      "rms_difference": 1.9182380128768273e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_20",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 2.964952727779746e-09,
+      "rms_difference": 2.964952727779746e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_21",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 3.1308786674344447e-09,
+      "rms_difference": 3.1308786674344447e-09,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotSinkMass",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_01",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_02",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_03",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_04",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_05",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_06",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_07",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_08",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_09",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_10",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_11",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_12",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_13",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_14",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_15",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_16",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_17",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_18",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_19",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_20",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_21",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdLoadMass",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkMass",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0999999999999659,
+      "rms_difference": 0.0999999999999659,
+      "bitwise_equal": false,
+      "physical_threshold_imposed": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotSinkMass",
+      "variable": "T",
+      "unit": "K",
+      "max_abs_difference": 0.0,
+      "rms_difference": 0.0,
+      "bitwise_equal": true,
+      "physical_threshold_imposed": false
+    }
+  ],
+  "imposed_CHEX_storage_jump": {
+    "capacity_J_per_K": 363.8,
+    "delta_temperature_K": -0.0999999999999659,
+    "stored_energy_jump_J": -36.3799999999876,
+    "first_native_mass_heat_W": -36379.999999987594,
+    "first_BE_step_product_J": -36.3799999999876,
+    "source_heat_impulse_directly_measured": false,
+    "interpretation": "Prescribed-temperature boundary action, not a manual reset. Keep the transition outside the steady analysis window."
+  },
+  "all_four_retained_memories_initial_bitwise_equal": true,
+  "input_sha256": {
+    "family": "140841A5252B8A9A9267F17A45E53B187CD9DC8BAB6D786719EC683DD3305488",
+    "reference_audit": "A998D176D04FDEBDCE70813852ABB9ED7DD96FEFA0ACD76EFB2EBABFC17D917A",
+    "reference_observation": "E7C62EFA34B54730862E4E64AB17DC61F311AD877704586B70AD46868B0F75D3",
+    "runtime_observation": "DE6290CA22A5BE3CB79E2D7A7C0583796513F4060CB384FADFB7FC8F08628FFE",
+    "perturbation": "AC1EDF91899A535D34293687DA94F8B69FE6B8AADD19237ED3C1B632E492C361",
+    "recipe": "0E208D308056BB9C3E30A29A1BC2444AB04A0E64349A4361B6BE245CDAC73A61"
+  },
+  "physical_tolerances_changed": false,
+  "old_model_OP_migration_performed": false,
+  "periodic_steady_state_claim": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "table4_reproduction_claim": false
+}

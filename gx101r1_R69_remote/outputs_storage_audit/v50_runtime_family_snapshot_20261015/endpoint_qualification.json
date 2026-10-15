@@ -1,0 +1,67 @@
+{
+  "schema": "heatdrive_ecc_runtime_boundary_cold_endpoint_v1",
+  "source_producer": "42ec7f651ec0b3b0d980f32dd93cfb4d5e0395af",
+  "independent_model_family": true,
+  "source_packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v50_runtime_boundary_cold_family_r1\\native\\runtime_boundary_family\\cold_C002",
+  "snapshot_time_s": 20,
+  "total_cycles": 2,
+  "operating_point_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v50_runtime_boundary_cold_family_r1\\native\\runtime_boundary_family\\cold_C002\\comparison_only_complete_op.mat",
+  "operating_point_sha256": "C1C5D4A5BC1A14FE051CA4D287281A2616550628496C0538650A5FA89AB25CFF",
+  "temperature_K": 276.95,
+  "temperature_configurability": "runtime",
+  "checksum_policy": "error/error",
+  "native_history_cap_cycles": 2,
+  "state_history_cap_cycles": 11,
+  "command_horizon_cycles": 200,
+  "original_73_mechanism_checks_pass": true,
+  "six_local_inventory_gates_pass": true,
+  "modeled_energy_closure_pass": true,
+  "cold_baseline_complete_OP_loaded_after_all_gates": true,
+  "unchanged_restore_initial_states_and_native_bitwise_equal": true,
+  "runtime_0p1K_change_strict_restore_pass": true,
+  "all_four_memories_initial_bitwise_equal": true,
+  "old_model_OP_imported": false,
+  "numerical_trajectory_bitwise_equivalent_to_compiletime_family": false,
+  "baseline_trajectory_difference_is_quantified": true,
+  "temperature_step_has_prescribed_node_storage_jump": true,
+  "next_action": "Same-family bounded transient warmup from intact C2; gate each actual complete-cycle packet before state propagation. Exclude boundary-transition cycles from later periodic outer metrics.",
+  "steady_parameter_study_allowed": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "table4_reproduction_claim": false,
+  "C200_and_C72_reference_unchanged": true,
+  "files": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v50_runtime_boundary_cold_family_r1\\native\\runtime_boundary_family\\runtime_boundary_family.json",
+      "sha256": "140841A5252B8A9A9267F17A45E53B187CD9DC8BAB6D786719EC683DD3305488"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v50_runtime_family_equivalence_20261015\\trajectory_and_boundary.json",
+      "sha256": "5C732DE76D774EE8688D5AAA5FDCCC8432DDE6FE50006A0D3F525B653F703F20"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v50_runtime_boundary_cold_family_r1\\native\\runtime_boundary_family\\cold_C002\\packet_gate.json",
+      "sha256": "3F1E5D9C0DCD8C72FEACEBD55D5F69908037BE4FC26A1B586A7704077F75B393"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v50_runtime_boundary_cold_family_r1\\native\\runtime_boundary_family\\cold_C002\\packet_manifest.json",
+      "sha256": "0BD8F7AEC95B8C84433BAC9BA2D9AC05143813EC14C8622A00415008482D4923"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v50_runtime_boundary_cold_family_r1\\native\\runtime_boundary_family\\runtime_positive_control\\probe_result.json",
+      "sha256": "42EE6914C41A702183204BD6211EE5BAF864FC46E895ADF34B6991DEBF5D04F0"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v50_runtime_boundary_cold_family_r1\\native\\runtime_boundary_family\\runtime_Tc_candidate\\probe_result.json",
+      "sha256": "05708FDB6F580DECF2885D3FDB14F7718A417EA3EF446078787D02A940A014C6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v50_runtime_boundary_cold_family_r1\\native\\runtime_boundary_family\\runtime_positive_control\\measured_probe.mat",
+      "sha256": "6A307F0A8D78C727850B6CF026DD586A189E8326FCB5DA68156FA71FB9D4C9D0"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v50_runtime_boundary_cold_family_r1\\native\\runtime_boundary_family\\runtime_Tc_candidate\\measured_probe.mat",
+      "sha256": "AC1EDF91899A535D34293687DA94F8B69FE6B8AADD19237ED3C1B632E492C361"
+    }
+  ]
+}

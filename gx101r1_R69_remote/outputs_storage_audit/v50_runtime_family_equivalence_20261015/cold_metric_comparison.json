@@ -1,0 +1,24 @@
+{
+  "schema": "heatdrive_ecc_runtime_boundary_cold_metric_comparison_v1",
+  "window_s": [
+    0,
+    20
+  ],
+  "compiletime": {
+    "observation_sha256": "E7C62EFA34B54730862E4E64AB17DC61F311AD877704586B70AD46868B0F75D3",
+    "lift_K": 26.66560981745705,
+    "cooling_W": 8.861596115761088
+  },
+  "runtime": {
+    "observation_sha256": "DE6290CA22A5BE3CB79E2D7A7C0583796513F4060CB384FADFB7FC8F08628FFE",
+    "lift_K": 26.66560980482975,
+    "cooling_W": 8.86159611954282
+  },
+  "lift_difference_K": -1.2627300094436578e-08,
+  "cooling_difference_W": 3.781732260677018e-09,
+  "common_absolute_stage_mask": true,
+  "quadrature": "trapz_both_endpoints",
+  "interpretation": "Two-cycle cold comparison, not a ten-cycle steady endpoint or validation",
+  "outer_solve_eligible": false,
+  "table4_reproduction_claim": false
+}

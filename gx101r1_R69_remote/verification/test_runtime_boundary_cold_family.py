@@ -2,6 +2,8 @@ from pathlib import Path
 import unittest
 
 from Verify_HeatDriveECC_ObservationPacket import validate_manifest
+from Summarize_HeatDriveECC_RuntimeBoundaryFamily import delta
+import numpy as np
 
 
 class RuntimeBoundaryColdFamilyTests(unittest.TestCase):
@@ -41,6 +43,28 @@ class RuntimeBoundaryColdFamilyTests(unittest.TestCase):
         source=(Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text()
         self.assertIn('if runtime_boundary_family',source)
         self.assertIn("overrides.system.cold_boundary_temperature_configurability='runtime'",source)
+
+    def test_cross_model_numeric_difference_does_not_invent_a_failure_gate(self):
+        result=delta(np.array([300.,301.]),np.array([300.01,301.]))
+        self.assertAlmostEqual(result['max_abs_difference'],.01)
+        self.assertFalse(result['physical_threshold_imposed'])
+        self.assertNotIn('pass',result)
+
+    def test_nonfinite_or_missing_coordinates_rejected(self):
+        for a,b in [(np.array([1.]),np.array([1.,2.])),(np.array([np.nan]),np.array([1.]))]:
+            with self.assertRaises(ValueError):delta(a,b)
+
+    def test_family_cannot_be_promoted_to_steady_outer_or_mainline(self):
+        source=(Path(__file__).parent/'Close_HeatDriveECC_RuntimeBoundaryFamily.py').read_text()
+        self.assertIn('steady_parameter_study_allowed=False',source)
+        self.assertIn('production_recovery_allowed=False,outer_solve_eligible=False',source)
+        self.assertIn('numerical_trajectory_bitwise_equivalent_to_compiletime_family=False',source)
+
+    def test_numeric_validation_thresholds_are_compared_separately_from_metadata(self):
+        source=(Path(__file__).parent/'Compare_HeatDriveECC_RuntimeBoundaryRecipe.m').read_text()
+        self.assertIn('isnumeric(value) || islogical(value)',source)
+        self.assertIn('isequaln(value,new.validation.(name))',source)
+        self.assertIn('numeric_validation_thresholds_equal',source)
 
 
 if __name__=='__main__':unittest.main()

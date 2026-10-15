@@ -1,0 +1,12 @@
+{
+  "label": "candidate",
+  "declared_Tc_K": 276.85,
+  "same_complete_initial_OP_used": true,
+  "simulation_returned_without_error": false,
+  "strict_vendor_restore_pass": false,
+  "retained_memories_initial_bitwise_equal": false,
+  "observed_fixed_Tc_K": [],
+  "error_message": "无法加载模型 \"heatdrive_ecc_coupled_se21\" 的完整工作点，因为该模型不同于生成工作点 \"xInitial\" 的模型。\nSuggested Actions:\n    • 要加载尽可能多的工作点数据并获取有关模型差异的信息，请将 \"工作点内容校验和不匹配\" 参数值设置为 \"警告\"。 - Fix\n    • 要加载完整的工作点，请为模型 \"heatdrive_ecc_coupled_se21\" 保存一个新工作点。\n    • 要在没有初始工作点的情况下从头运行仿真，请清除 \"初始状态\" 参数。 - Fix\n",
+  "error_identifier": "HeatDriveECC:BoundaryProbeSimulationError",
+  "error_report": "错误使用 assert\n无法加载模型 \"heatdrive_ecc_coupled_se21\" 的完整工作点，因为该模型不同于生成工作点 \"xInitial\" 的模型。\nSuggested Actions:\n    • 要加载尽可能多的工作点数据并获取有关模型差异的信息，请将 \"工作点内容校验和不匹配\" 参数值设置为 \"警告\"。 - Fix\n    • 要加载完整的工作点，请为模型 \"heatdrive_ecc_coupled_se21\" 保存一个新工作点。\n    • 要在没有初始工作点的情况下从头运行仿真，请清除 \"初始状态\" 参数。 - Fix\n\n\n出错 Verify_HeatDriveECC_C72BoundaryParameter (第 44 行)\n            assert(isempty(output.ErrorMessage),'HeatDriveECC:BoundaryProbeSimulationError','%s',output.ErrorMessage);\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_ColdChamberDiagnostic (第 770 行)\n                    record.boundary_parameter_probe=Verify_HeatDriveECC_C72BoundaryParameter( ...\n                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)\n    record = Run_HeatDriveECC_ColdChamberDiagnostic( ...\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_C72BoundaryParameter (第 8 行)\n    execution=Run_HeatDriveECC_IndependentColdDiagnosticFromConfig(file);\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+}

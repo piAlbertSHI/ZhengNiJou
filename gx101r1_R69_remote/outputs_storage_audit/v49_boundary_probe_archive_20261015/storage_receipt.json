@@ -1,0 +1,295 @@
+{
+  "schema": "heatdrive_ecc_boundary_probe_archive_and_cache_retirement_v1",
+  "status": "completed",
+  "studies": [
+    {
+      "root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1",
+      "experiment_completed": false,
+      "execution_sha256": "CD10DDF69782A107F76441EED58C129A725EC9350425A6B68A1DB2EC7D65E8F4"
+    },
+    {
+      "root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2",
+      "experiment_completed": true,
+      "execution_sha256": "854C402AE92944E51B1DD2B0B1841EB5996B95A99AC75D85F55F5F8CCF77A990"
+    }
+  ],
+  "compact_copies": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\native\\boundary_parameter_probe\\boundary_parameter_probe.json",
+      "archive_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v49_boundary_probe_archive_20261015\\v49_C72_boundary_parameter_r1\\native\\boundary_parameter_probe\\boundary_parameter_probe.json",
+      "bytes": 2165,
+      "sha256": "E7ED87F344E536166032610E9E1C6F154DC75C61D8B4EF11C24D93A7EECB941C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\native\\boundary_parameter_probe\\unchanged_control\\probe_result.json",
+      "archive_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v49_boundary_probe_archive_20261015\\v49_C72_boundary_parameter_r1\\native\\boundary_parameter_probe\\unchanged_control\\probe_result.json",
+      "bytes": 1274,
+      "sha256": "1BB9BAFBB6C4E2D4AE13AF6E32D220713558521A7D6AE1F2F89BA4283B65FC61"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\native\\boundary_parameter_probe\\unchanged_control\\probe_start.json",
+      "archive_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v49_boundary_probe_archive_20261015\\v49_C72_boundary_parameter_r1\\native\\boundary_parameter_probe\\unchanged_control\\probe_start.json",
+      "bytes": 340,
+      "sha256": "EE90D1F9426FC94EEC5EB73C1CBBF59BBDE005C674EED363AEB2708AAE27EB82"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1.stdout.log",
+      "archive_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v49_boundary_probe_archive_20261015\\v49_C72_boundary_parameter_r1\\v49_C72_boundary_parameter_r1.stdout.log",
+      "bytes": 2328,
+      "sha256": "2001B83761535806AE4672206EFC138E0F7EF1EC45D1B3FF88B86EF1052B3BF8"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1.stderr.log",
+      "archive_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v49_boundary_probe_archive_20261015\\v49_C72_boundary_parameter_r1\\v49_C72_boundary_parameter_r1.stderr.log",
+      "bytes": 1077,
+      "sha256": "ED2E4E14A03B69FBB3275F241F52572039DDF8B5607FE88CD44F0954E01326F3"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1.preflight_config.json",
+      "archive_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v49_boundary_probe_archive_20261015\\v49_C72_boundary_parameter_r1\\v49_C72_boundary_parameter_r1.preflight_config.json",
+      "bytes": 4397,
+      "sha256": "F8E5F84D55884F60F053461FE20077A25ADD1EB7F2482C8A51759353DC147151"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\native\\boundary_parameter_probe\\boundary_parameter_probe.json",
+      "archive_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v49_boundary_probe_archive_20261015\\v49_C72_boundary_parameter_r2\\native\\boundary_parameter_probe\\boundary_parameter_probe.json",
+      "bytes": 4279,
+      "sha256": "3CA9B513C47B81E54E00104E4E9B4E45F0A8AEADD1AB17300106C7F3726490DE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\native\\boundary_parameter_probe\\candidate\\NOT_A_RESUME_OR_OUTER_POINT.json",
+      "archive_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v49_boundary_probe_archive_20261015\\v49_C72_boundary_parameter_r2\\native\\boundary_parameter_probe\\candidate\\NOT_A_RESUME_OR_OUTER_POINT.json",
+      "bytes": 175,
+      "sha256": "B94FE1965A2CB0510BA91B8818D63DEFDD7D8F7891FB67085B9EB8B20B118BA1"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\native\\boundary_parameter_probe\\candidate\\probe_result.json",
+      "archive_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v49_boundary_probe_archive_20261015\\v49_C72_boundary_parameter_r2\\native\\boundary_parameter_probe\\candidate\\probe_result.json",
+      "bytes": 2457,
+      "sha256": "5F4163D81617DD10820412525DD55AAF52D863CE501FBAF53AE9618301B78900"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\native\\boundary_parameter_probe\\candidate\\probe_start.json",
+      "archive_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v49_boundary_probe_archive_20261015\\v49_C72_boundary_parameter_r2\\native\\boundary_parameter_probe\\candidate\\probe_start.json",
+      "bytes": 332,
+      "sha256": "F176DDA3A61B48CF70306F6E039CEC407F976627062B872C8A8AB4B5B0C0EB34"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\native\\boundary_parameter_probe\\unchanged_control\\probe_result.json",
+      "archive_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v49_boundary_probe_archive_20261015\\v49_C72_boundary_parameter_r2\\native\\boundary_parameter_probe\\unchanged_control\\probe_result.json",
+      "bytes": 831,
+      "sha256": "AF1EDE88662469DD6D5D96D3D0AC2F731B87A41E0561DAAFD373B845034BD88C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\native\\boundary_parameter_probe\\unchanged_control\\probe_start.json",
+      "archive_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v49_boundary_probe_archive_20261015\\v49_C72_boundary_parameter_r2\\native\\boundary_parameter_probe\\unchanged_control\\probe_start.json",
+      "bytes": 340,
+      "sha256": "EE90D1F9426FC94EEC5EB73C1CBBF59BBDE005C674EED363AEB2708AAE27EB82"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2.stdout.log",
+      "archive_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v49_boundary_probe_archive_20261015\\v49_C72_boundary_parameter_r2\\v49_C72_boundary_parameter_r2.stdout.log",
+      "bytes": 6626,
+      "sha256": "9216F069FC192D654990A2AB6462B5D33CC441EF27F7AC5D920DAE794E3A8FFB"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2.stderr.log",
+      "archive_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v49_boundary_probe_archive_20261015\\v49_C72_boundary_parameter_r2\\v49_C72_boundary_parameter_r2.stderr.log",
+      "bytes": 0,
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2.preflight_config.json",
+      "archive_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v49_boundary_probe_archive_20261015\\v49_C72_boundary_parameter_r2\\v49_C72_boundary_parameter_r2.preflight_config.json",
+      "bytes": 4397,
+      "sha256": "F421498346089D897AEFD26EF9130E72D3C64D5FA46482FFE6E4F4868BDF0D7D"
+    }
+  ],
+  "retired_build_cache_files": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\cache\\heatdrive_ecc_coupled_se21.slxc",
+      "bytes": 7400,
+      "sha256": "DD3AF06A0D8FC422093639BEBA42991802BD26E8973C090A9DFBF82D36100665"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\checksumOfCache.mat",
+      "bytes": 392,
+      "sha256": "02C1F9EA2690F106DCBFA89F7429CADF1D0B36634A1A0D88737E8858BDD2BED3"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\varInfo.mat",
+      "bytes": 41720,
+      "sha256": "68920F458DDCC1B929FCDD0385FE0E5822AA87B049BE037CB8E0BBE383EF3860"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\tmwinternal\\simulink_cache.xml",
+      "bytes": 376,
+      "sha256": "068288D6F3EC0FECF06174628C9E4315EEE6BF62BFA6A3EBB88336BF4718877B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\cache\\slprj\\_jitprj\\jitEngineAccessInfo.mat",
+      "bytes": 751,
+      "sha256": "427848FD78A576D11F2076616885F4B358A18F9B9C2EAB55D27EA33451357E48"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.l",
+      "bytes": 9392,
+      "sha256": "F113F8DB5D91D99C834E37E18D782A9BAADEA9885958CB4CCDBAD4E6E9452F5D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+      "bytes": 1278,
+      "sha256": "71645790703AB289B8497341FAF15EAB1F1741B695DA507F67E041C1354FFA51"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\cache\\slprj\\_sfprj\\EMLReport\\emlReportAccessInfo.mat",
+      "bytes": 749,
+      "sha256": "F5447CAFD9C7B0F6C73C365DD9DE4A7BAEB51CB9AC89CD82951B31FF1261E806"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\cache\\slprj\\_sfprj\\EMLReport\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+      "bytes": 2732,
+      "sha256": "D01B3B56ECC60554A24D09FCFB2CAA143EB27176E7CD7A39F85D93EE9A0D55CC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\amsi_serial.mat",
+      "bytes": 248,
+      "sha256": "5F90FD56469715EBB15F8DF6035D76C500096F01C3F21A0D954362A25F519FB2"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\_self\\sfun\\info\\binfo.mat",
+      "bytes": 779,
+      "sha256": "BCCAF058F6F6888BD2FDEBA27E281D893E45FA78A1277AEFE922593C89521B4A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\cache\\slprj\\_sfprj\\precompile\\autoInferAccessInfo.mat",
+      "bytes": 747,
+      "sha256": "09E7B1E4C0D1F2E5DBFEE4683C7A9ED47589681BB7FCD1E070A38BAB8BA6B648"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\cache\\slprj\\_sfprj\\precompile\\EXdKBUmsxqUsV2lCiMiQ4.mat",
+      "bytes": 846,
+      "sha256": "33C9EA9E1115469B0E34CD1402169C3899531DC680ED7C803012B98787AF03FD"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\component_build\\ecc_inventory_pressure_only_lib.slx",
+      "bytes": 52833,
+      "sha256": "40CF5A54BF1DD17052400861A3BB45A93BD4501734FF61949787457CE010F063"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\component_build\\+ecc_inventory_pressure_only\\conservative_chamber.ssc",
+      "bytes": 2505,
+      "sha256": "09969E739C4655936DE2F1B373BED76A936D1A56A178B644F97463DEDC4616B9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\buffer_component_build\\ecc_buffer_coupled_offset_lib.slx",
+      "bytes": 54176,
+      "sha256": "24CB2F73C274CCA1ED635495A3A7D3A9D4E0D043108B068A2D4C9C47753E88D5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\buffer_component_build\\+ecc_buffer_coupled_offset\\conservative_buffer.ssc",
+      "bytes": 3446,
+      "sha256": "84657B41CB9A8B3C947BD1DE1C2BB67EFAF4BEE892DBA79B9DC95381808EF248"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\cache\\heatdrive_ecc_coupled_se21.slxc",
+      "bytes": 7405,
+      "sha256": "4DCB2A7B718FE49B262229628E2A0166F727B792F3CB28949C63615ECCDED163"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\checksumOfCache.mat",
+      "bytes": 392,
+      "sha256": "3E8A009C9AF7C88542E25165C58CD726892F08D856F2A66652263B2C4D74F8C3"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\varInfo.mat",
+      "bytes": 41720,
+      "sha256": "6943C07B68B434E1D3CC7C6F213B1838D958E6F099D1280CAFAD8EA2CEED787A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\tmwinternal\\simulink_cache.xml",
+      "bytes": 376,
+      "sha256": "7D1C9A3FB0E05B3AE7CB69E9BC661CB58768F2703244C2E992884591F8AEEBC6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\cache\\slprj\\_jitprj\\jitEngineAccessInfo.mat",
+      "bytes": 750,
+      "sha256": "AA82B9404C54D50CCC076055A562FF9082E09830DEDF6FC8F420A45F1E703860"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.l",
+      "bytes": 9392,
+      "sha256": "F113F8DB5D91D99C834E37E18D782A9BAADEA9885958CB4CCDBAD4E6E9452F5D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+      "bytes": 1278,
+      "sha256": "F23109DF61CB6D9556809271EC15E060D70A54B4B666E18FE514C8C485BF4677"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\cache\\slprj\\_sfprj\\EMLReport\\emlReportAccessInfo.mat",
+      "bytes": 750,
+      "sha256": "20A177F05368DBC577FD7CD9CD58DC2A45C3266EE4D399BE3447A1BDFC5E22EB"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\cache\\slprj\\_sfprj\\EMLReport\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+      "bytes": 2732,
+      "sha256": "09550DC42F4A11BFD51D62413E9F6143B86EA27E1268B1794E7B96467086C9D9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\amsi_serial.mat",
+      "bytes": 248,
+      "sha256": "9870836726C57E5D9DCC345525896B94B5283A64DEAB94BA698DFAFCF9BE8313"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\_self\\sfun\\info\\binfo.mat",
+      "bytes": 780,
+      "sha256": "3BC9F2EBC24CF34CB9E0667FE3BB59D96ACF3C95C2EB15808830001663A27E51"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\cache\\slprj\\_sfprj\\precompile\\autoInferAccessInfo.mat",
+      "bytes": 747,
+      "sha256": "A4A0E4C3F33E1593C253EB047EBBA9019A833AC2CE19914FCBB219EAFC315D26"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\cache\\slprj\\_sfprj\\precompile\\EXdKBUmsxqUsV2lCiMiQ4.mat",
+      "bytes": 846,
+      "sha256": "8CBA94867820B6C56D6A395AB778C8B8689D1BFC62DE122A744AFE7AD08266CF"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\component_build\\ecc_inventory_pressure_only_lib.slx",
+      "bytes": 52831,
+      "sha256": "2260C884CF8AFE413B6E2EC6C5FDC2E596017C241D43E9564FC9A88288E52F86"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\component_build\\+ecc_inventory_pressure_only\\conservative_chamber.ssc",
+      "bytes": 2505,
+      "sha256": "09969E739C4655936DE2F1B373BED76A936D1A56A178B644F97463DEDC4616B9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\buffer_component_build\\ecc_buffer_coupled_offset_lib.slx",
+      "bytes": 54175,
+      "sha256": "8ED7751C2A232AC3892348B95CEE44904C5A89C80CC9E0FBCE9E0F01D854CBE4"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\buffer_component_build\\+ecc_buffer_coupled_offset\\conservative_buffer.ssc",
+      "bytes": 3446,
+      "sha256": "84657B41CB9A8B3C947BD1DE1C2BB67EFAF4BEE892DBA79B9DC95381808EF248"
+    }
+  ],
+  "targets": [
+    "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\cache",
+    "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\codegen",
+    "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\component_build",
+    "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r1\\buffer_component_build",
+    "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\cache",
+    "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\codegen",
+    "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\component_build",
+    "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\buffer_component_build"
+  ],
+  "retired_build_cache_bytes": 360743,
+  "raw_deleted_bytes": 0,
+  "complete_OP_deleted_bytes": 0,
+  "C72_sha256": "64012A38510767B815DAF191B2AB185D41B1D9A2F11FABF0349ACB9C2AB6FA62",
+  "Agent6_untouched": true
+}

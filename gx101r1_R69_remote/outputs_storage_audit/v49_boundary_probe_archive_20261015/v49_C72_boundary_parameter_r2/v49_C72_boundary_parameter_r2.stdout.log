@@ -1,0 +1,32 @@
+OBSERVATION_POLICY_TEST={"default_no_op":true,"explicit_mode_resolved":true,"unsafe_options_rejected":6,"numeric_and_text_API_counts_supported":true,"invalid_counts_rejected":6,"simulation_executed":false,"operating_point_loaded":false}
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v49_C72_boundary_parameter_r2\component_build' 中生成 Simulink 库 'ecc_inventory_pressure_only_lib'...
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v49_C72_boundary_parameter_r2\buffer_component_build' 中生成 Simulink 库 'ecc_buffer_coupled_offset_lib'...
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Verify_HeatDriveECC_C72BoundaryParameter (第 43 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 770 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_C72BoundaryParameter (第 8 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Verify_HeatDriveECC_C72BoundaryParameter (第 43 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 770 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_C72BoundaryParameter (第 8 行)] 
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Verify_HeatDriveECC_C72BoundaryParameter (第 43 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 770 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_C72BoundaryParameter (第 8 行)] 
+{"collection_pass":false,"completed_arms":0,"state_restore_preflight_pass":false,"rebuilt_cycle_preflight_pass":false,"production_recovery_allowed":false,"result_file":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v49_C72_boundary_parameter_r2\\cold_chamber_execution.json"}
+FINAL_JSON={"schema":"heatdrive_ecc_C72_boundary_parameter_probe_v1","producer":"1c31108c656f6b77075946ad72ae2e0b1815f86b","source_endpoint_contract_sha256":"921296649BBF91CA32278BC4C8E0589BA29CE8041EDA25D880F1AC6F2BBFB8E4","source_OP_sha256":"64012A38510767B815DAF191B2AB185D41B1D9A2F11FABF0349ACB9C2AB6FA62","source_snapshot_s":720,"probe_stop_s":720.002,"checksum_policy":"error/error","source_temperature_configurability":"compiletime","source_state_edited":false,"partial_state_restore_used":false,"initial_targets_changed":false,"cases":[{"label":"unchanged_control","declared_Tc_K":276.95,"same_complete_initial_OP_used":true,"simulation_returned_without_error":true,"strict_vendor_restore_pass":true,"retained_memories_initial_bitwise_equal":true,"observed_fixed_Tc_K":[276.95,276.95,276.95],"error_message":"","error_identifier":"","error_report":"","actual_final_snapshot_s":720.00200000000007,"snapshot_time_error_s":1.1368683772161603E-13,"clock_representation_allowance_s":1.8189894035458565E-12,"all_logged_initial_states_bitwise_equal":true,"all_native_initial_values_bitwise_equal":true,"initial_state_changes":[],"initial_native_changes":[],"boundary_value_applied":true,"measured_probe_sha256":"7BD3C87CC8333F46D4A3EAEB8530220322D90FA68D5B42859F62DF8804D41279"},{"label":"candidate","declared_Tc_K":276.85,"same_complete_initial_OP_used":true,"simulation_returned_without_error":false,"strict_vendor_restore_pass":false,"retained_memories_initial_bitwise_equal":false,"observed_fixed_Tc_K":[],"error_message":"无法加载模型 \"heatdrive_ecc_coupled_se21\" 的完整工作点，因为该模型不同于生成工作点 \"xInitial\" 的模型。\nSuggested Actions:\n    ? 要加载尽可能多的工作点数据并获取有关模型差异的信息，请将 \"工作点内容校验和不匹配\" 参数值设置为 \"警告\"。 - Fix\n    ? 要加载完整的工作点，请为模型 \"heatdrive_ecc_coupled_se21\" 保存一个新工作点。\n    ? 要在没有初始工作点的情况下从头运行仿真，请清除 \"初始状态\" 参数。 - Fix\n","error_identifier":"HeatDriveECC:BoundaryProbeSimulationError","error_report":"错误使用 assert\n无法加载模型 \"heatdrive_ecc_coupled_se21\" 的完整工作点，因为该模型不同于生成工作点 \"xInitial\" 的模型。\nSuggested Actions:\n    ? 要加载尽可能多的工作点数据并获取有关模型差异的信息，请将 \"工作点内容校验和不匹配\" 参数值设置为 \"警告\"。 - Fix\n    ? 要加载完整的工作点，请为模型 \"heatdrive_ecc_coupled_se21\" 保存一个新工作点。\n    ? 要在没有初始工作点的情况下从头运行仿真，请清除 \"初始状态\" 参数。 - Fix\n\n\n出错 Verify_HeatDriveECC_C72BoundaryParameter (第 44 行)\n            assert(isempty(output.ErrorMessage),'HeatDriveECC:BoundaryProbeSimulationError','%s',output.ErrorMessage);\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_ColdChamberDiagnostic (第 770 行)\n                    record.boundary_parameter_probe=Verify_HeatDriveECC_C72BoundaryParameter( ...\n                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)\n    record = Run_HeatDriveECC_ColdChamberDiagnostic( ...\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_C72BoundaryParameter (第 8 行)\n    execution=Run_HeatDriveECC_IndependentColdDiagnosticFromConfig(file);\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"}],"experiment_completed":true,"candidate_compatible":false,"new_OP_saved":false,"production_recovery_allowed":false,"outer_solve_eligible":false,"complete_cycle_mechanism_gates_evaluated":false,"table4_reproduction_claim":false}

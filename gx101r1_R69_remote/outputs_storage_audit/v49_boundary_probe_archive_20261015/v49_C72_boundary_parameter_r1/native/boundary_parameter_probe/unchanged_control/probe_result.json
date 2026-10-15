@@ -1,0 +1,12 @@
+{
+  "label": "unchanged_control",
+  "declared_Tc_K": 276.95,
+  "same_complete_initial_OP_used": true,
+  "simulation_returned_without_error": true,
+  "strict_vendor_restore_pass": false,
+  "retained_memories_initial_bitwise_equal": false,
+  "observed_fixed_Tc_K": [],
+  "error_message": "断言失败。",
+  "error_identifier": "MATLAB:assertion:failed",
+  "error_report": "错误使用 assert\n断言失败。\n\n出错 Verify_HeatDriveECC_C72BoundaryParameter (第 46 行)\n            assert(output.diagnostic_final_op.snapshotTime==720.002);\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_ColdChamberDiagnostic (第 770 行)\n                    record.boundary_parameter_probe=Verify_HeatDriveECC_C72BoundaryParameter( ...\n                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)\n    record = Run_HeatDriveECC_ColdChamberDiagnostic( ...\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_C72BoundaryParameter (第 8 行)\n    execution=Run_HeatDriveECC_IndependentColdDiagnosticFromConfig(file);\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+}
