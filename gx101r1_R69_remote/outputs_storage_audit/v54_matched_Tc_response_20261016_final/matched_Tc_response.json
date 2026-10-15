@@ -1,0 +1,162 @@
+{
+  "metrics": {
+    "cooling_power_eq10_W": {
+      "low": 12.773677565934124,
+      "high": 13.017229058337069,
+      "difference": 0.24355149240294516,
+      "finite_step_response_per_K": 1.217757462014795,
+      "cycle_difference_min": 0.21679744019422742,
+      "cycle_difference_max": 0.27233822023701926,
+      "cycle_difference_span": 0.05554078004279184,
+      "cycle_differences": [
+        0.27233822023701926,
+        0.26569568584227987,
+        0.25899852863741835,
+        0.25239576739235403,
+        0.24594804680334015,
+        0.23969113455023994,
+        0.23364258002301952,
+        0.2278107222825927,
+        0.22219679806693193,
+        0.21679744019422742
+      ],
+      "deterministic_cycle_spread_is_not_a_confidence_interval": true
+    },
+    "SCP_W_per_g": {
+      "low": 0.3054673343413314,
+      "high": 0.3112915791428119,
+      "difference": 0.005824244801480527,
+      "finite_step_response_per_K": 0.02912122400740429,
+      "cycle_difference_min": 0.005184453404771028,
+      "cycle_difference_max": 0.006512645222619684,
+      "cycle_difference_span": 0.0013281918178486563,
+      "cycle_differences": [
+        0.006512645222619684,
+        0.006353796898450059,
+        0.006193642334623439,
+        0.006035745138110449,
+        0.005881555554825779,
+        0.005731928926370811,
+        0.005587284925572145,
+        0.005447822971171745,
+        0.0053135726382899096,
+        0.005184453404771028
+      ],
+      "deterministic_cycle_spread_is_not_a_confidence_interval": true
+    },
+    "temperature_lift_eq9_K": {
+      "low": 28.337782352335317,
+      "high": 28.220838782283018,
+      "difference": -0.1169435700522996,
+      "finite_step_response_per_K": -0.5847178502615312,
+      "cycle_difference_min": -0.1299622012424173,
+      "cycle_difference_max": -0.10234429030570524,
+      "cycle_difference_span": 0.027617910936712065,
+      "cycle_differences": [
+        -0.10234429030570524,
+        -0.10599222066143099,
+        -0.10944665443091495,
+        -0.11276042649997109,
+        -0.11593871251827181,
+        -0.11898608776354891,
+        -0.12190732887996703,
+        -0.12470717716043822,
+        -0.12739060106029498,
+        -0.1299622012424173
+      ],
+      "deterministic_cycle_spread_is_not_a_confidence_interval": true
+    },
+    "CHEX_sensor_mean_W": {
+      "low": 12.434226938554948,
+      "high": 12.67384124862976,
+      "difference": 0.2396143100748116,
+      "finite_step_response_per_K": 1.1980715503741262,
+      "cycle_difference_min": 0.21293144283749754,
+      "cycle_difference_max": 0.26832055642124963,
+      "cycle_difference_span": 0.05538911358375209,
+      "cycle_differences": [
+        0.26832055642124963,
+        0.2616374239074766,
+        0.2550007892028603,
+        0.2484411244230138,
+        0.24202240164303568,
+        0.23578524460786454,
+        0.2297508235471053,
+        0.22392947113995554,
+        0.2183238230180482,
+        0.21293144283749754
+      ],
+      "deterministic_cycle_spread_is_not_a_confidence_interval": true
+    },
+    "heat_driven_COP": {
+      "low": 0.015508119797059489,
+      "high": 0.015803623142405278,
+      "difference": 0.0002955033453457892,
+      "finite_step_response_per_K": 0.00147751672672903,
+      "cycle_difference_min": 0.000262864020847341,
+      "cycle_difference_max": 0.00033060880725258035,
+      "cycle_difference_span": 6.774478640523933e-05,
+      "cycle_differences": [
+        0.00033060880725258035,
+        0.0003225133348629169,
+        0.0003143479665748787,
+        0.00030629544663163775,
+        0.0002984305227514243,
+        0.0002907975306987356,
+        0.0002834179994517464,
+        0.0002763023957389737,
+        0.0002694524606786583,
+        0.000262864020847341
+      ],
+      "deterministic_cycle_spread_is_not_a_confidence_interval": true
+    }
+  },
+  "zero_load_SCP_bracketed": false,
+  "zero_lift_bracketed": false,
+  "root_found": false,
+  "zero_load_local_direction": "decrease_Tc",
+  "zero_lift_local_direction": "increase_Tc",
+  "parameter_extrapolation_performed": false,
+  "asymptotic_derivative_claim": false,
+  "outer_solve_eligible": false,
+  "paired_Table4_eligible": false,
+  "table4_reproduction_claim": false,
+  "schema": "heatdrive_ecc_matched_source_finite_window_Tc_response_v1",
+  "analysis_source_sha256": "D39DA327ACFE255EFCE139669154733F5BBE6374B2AFBBA7A11CDF7A2E18C8EE",
+  "source_OP_sha256": "1FC1E05C01C87AE9400F51F24AE6EB3188A81F86E73971C03AAB6DBC7BDF4A07",
+  "source_qualification_sha256": "19A4C2A92A2D1B0C0D38AD1E65A9733729D94CAC74FAC48CA25BBC0AC76FAD67",
+  "temperatures_K": [
+    276.85,
+    277.05
+  ],
+  "common_window_s": [
+    300,
+    400
+  ],
+  "common_physical_recipe_verified": true,
+  "numeric_validation_thresholds_unchanged": true,
+  "intervention_transition_excluded": true,
+  "active_SE_mass_kg": 0.04181683646625444,
+  "fluid_cp_J_per_kgK": 3638.0,
+  "response_type": "Controlled finite-time, finite-step difference",
+  "source_state_edited": false,
+  "production_recovery_allowed": false,
+  "input_sha256": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v53_runtime_Tc276p85_snapshot_20261016\\endpoint_qualification.json",
+      "sha256": "AC81DDFA9D83417CCEEA76DE134CFEBEE42D50E9D6D972C90D537F86C445F166"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v54_runtime_Tc277p05_snapshot_20261016\\endpoint_qualification.json",
+      "sha256": "A7BEA626A03BAC497342360D50839A9B78B4B285C6F3FD54864B02275D9502CF"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v53_runtime_Tc276p85_ten_cycles_20261016\\endpoint_load_check.json",
+      "sha256": "715C5DCF20E00E98587F9A4A4CC882D7B80D694E5A800FEF9D0325F09BA9DFD4"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v54_runtime_Tc277p05_ten_cycles_20261016\\endpoint_load_check.json",
+      "sha256": "94A1A5B86DF2F164EC61A1FB539C34C76B57F3BE592E501D07EA7912E5890C3B"
+    }
+  ]
+}

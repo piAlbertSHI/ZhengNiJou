@@ -1,0 +1,38 @@
+{
+  "schema": "heatdrive_ecc_runtime_Tc_diagnostic_catalog_v1",
+  "mainline_recovery_reference": "verification/c200_mainline_recovery_reference_20260915.json",
+  "baseline_pointer": "verification/current_runtime_boundary_warmup.json",
+  "baseline_snapshot_time_s": 280,
+  "baseline_OP_sha256": "1FC1E05C01C87AE9400F51F24AE6EB3188A81F86E73971C03AAB6DBC7BDF4A07",
+  "common_measured_window_s": [300, 400],
+  "trials": [
+    {
+      "temperature_K": 276.85,
+      "snapshot_time_s": 400,
+      "qualification_relative": "outputs_storage_audit/v53_runtime_Tc276p85_snapshot_20261016/endpoint_qualification.json",
+      "qualification_sha256": "AC81DDFA9D83417CCEEA76DE134CFEBEE42D50E9D6D972C90D537F86C445F166",
+      "operating_point_sha256": "CFD5E7047B5E8EF0D3F2D230E8B18E6985206EE74C0DB953E2BAF3CD84CC2BEE",
+      "original_thermal_periodic_pass": true,
+      "all_original_packet_mechanism_flow_phase_energy_gates_pass": true
+    },
+    {
+      "temperature_K": 277.05,
+      "snapshot_time_s": 400,
+      "qualification_relative": "outputs_storage_audit/v54_runtime_Tc277p05_snapshot_20261016/endpoint_qualification.json",
+      "qualification_sha256": "A7BEA626A03BAC497342360D50839A9B78B4B285C6F3FD54864B02275D9502CF",
+      "operating_point_sha256": "44501D9643D463F10623A8CA85832411C29C9016DC80F57E887E4056F40E5A13",
+      "original_thermal_periodic_pass": true,
+      "all_original_packet_mechanism_flow_phase_energy_gates_pass": true
+    }
+  ],
+  "matched_response_relative": "outputs_storage_audit/v54_matched_Tc_response_20261016_final/matched_Tc_response.json",
+  "matched_response_sha256": "6E2599FF36F8D3A4B155E0D5C619A6D7BD3CC4C3F21461DA4551B730A12EEE18",
+  "source_state_edited": false,
+  "complete_internal_state_periodicity_verified": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "zero_load_root_found": false,
+  "zero_lift_root_found": false,
+  "paired_Table4_eligible": false,
+  "next_action": "Keep the two same-Tc complete C40 states. Resolve target-window drift and source-definition admission before root interpolation; never cold-restart or replace them with C200/old-family state."
+}
