@@ -1,0 +1,37 @@
+{
+  "schema": "heatdrive_ecc_observation_parameter_API_types_v1",
+  "actual_model_parameter_reads": [
+    {
+      "parameter": "SimscapeLogDataHistory",
+      "value": 20002,
+      "matlab_class": "double"
+    },
+    {
+      "parameter": "MaxDataPoints",
+      "value": "110002",
+      "matlab_class": "char"
+    },
+    {
+      "parameter": "SaveOperatingPoint",
+      "value": "on",
+      "matlab_class": "char"
+    },
+    {
+      "parameter": "SimscapeLogLimitData",
+      "value": "on",
+      "matlab_class": "char"
+    },
+    {
+      "parameter": "OperatingPointContentsChecksumMismatchMsg",
+      "value": "error",
+      "matlab_class": "char"
+    },
+    {
+      "parameter": "OperatingPointInterfaceChecksumMismatchMsg",
+      "value": "error",
+      "matlab_class": "char"
+    }
+  ],
+  "project_model_loaded": false,
+  "physical_simulation_executed": false
+}

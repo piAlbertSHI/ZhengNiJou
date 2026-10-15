@@ -4,6 +4,8 @@ function record=Run_HeatDriveECC_C62ObservationPreflight(output_root,contract_pa
     assert(~isfolder(output_root) && ~isfile([output_root,'.preflight_config.json']),'Never overwrite preflight evidence.');
     [status,dirty]=system(sprintf('git -C "%s" status --porcelain',workspace));
     assert(status==0 && isempty(strtrim(dirty)),'Run only the clean managed execution checkout.');
+    policy_test=Test_HeatDriveECC_ObservationPreflight(contract_path,python);
+    fprintf('OBSERVATION_POLICY_TEST=%s\n',jsonencode(policy_test));
     pointer=jsondecode(fileread(contract_path));source=fullfile(pointer.execution_repo,pointer.source_root_relative);
     assert(pointer.total_cycles==62 && pointer.snapshot_time_s==620 && pointer.model_native_history_cap_cycles==2 && ...
         ~pointer.native_history_cap_change_allowed && ~pointer.production_recovery_allowed && ...

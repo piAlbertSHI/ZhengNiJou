@@ -51,5 +51,11 @@ class SplitObservationPacketTests(unittest.TestCase):
         self.assertLess(source.index('prefix_manifest.complete_OP_sha256'), source.index('restored=load('))
         self.assertNotIn("'warning'",source)
 
+    def test_history_guard_accepts_actual_numeric_API_without_changing_limit(self):
+        source=(Path(__file__).parent/'Verify_HeatDriveECC_SplitObservation.m').read_text(encoding='utf-8')
+        self.assertIn('Resolve_HeatDriveECC_ObservationCount(native_history)==20002',source)
+        self.assertIn('Resolve_HeatDriveECC_ObservationCount(state_history)==110002',source)
+        self.assertNotIn("str2double(get_param(model,'SimscapeLogDataHistory'))",source)
+
 
 if __name__ == '__main__':unittest.main()

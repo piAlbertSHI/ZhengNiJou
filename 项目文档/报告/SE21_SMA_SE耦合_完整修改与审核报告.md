@@ -6695,3 +6695,11 @@ BE 是局部求解器的离散守恒口径；trapz 的相同冷量差为 0.34289
 每个完整观察包在下一次 sim 前先落盘公共信号、74 组数值状态、1262 个 native、162 个源叶、原配置/拓扑/库存合同和完整比较用 OP。各包分别用原 73 项机制判据和独立 Python 六局部 M/E、119 库存/49 源、潜热一次的原 1e-8 J 账本核查；prefix 只有通过后才允许用于该 split 比较的 suffix，加载前再次验证完整 OP SHA。任何非零或门禁失败保存 rejection 及原日志，不作为长链/插值/outer 恢复源。
 
 连续与分段比较使用已有 Compare_DiagnosticTraces 的逐坐标、逐样本时间规则与既有数值重复性容差，分别报告 bitwise 相等与容差结果；不把 opaque solver 状态总范数当作物理周期稳态。独立 driver 同时检查 C62 producer 与执行 HEAD 的 plant/command/state 代码无变化，实际 vendor OP 恢复仍必须严格成功。执行复用干净的独立诊断工作树；C62 原 runtime-cv-json-contract 工作树与 C200 权威文件不改。本段仅说明预先声明的实验设计，结果未完成前不写通过。
+
+### 278.1 首次在 sim 前误拦截，先复现参数 API 类型
+
+主库准备提交 755ca0e，执行 producer 602085d，前台 session 9258 自然退出 1。r1 在 Verify_SplitObservation 的容量断言处停止，尚未调用项目 sim，没有观察 MAT 或新 OP；simulation_start 只是准备意图而非已运行到 820 s。根因是新 guard 对 get_param(SimscapeLogDataHistory) 的数值返回调用 str2double，得到 NaN；不是模型实际改了容量，也不是机制失败。
+
+独立空模型首次未添加 Simscape 组件，因尚未注册该模型扩展参数而拒绝读取；该只读 API 试验无项目模型/仿真，也没有新结果。添加标准 Thermal Mass/Solver 以注册相同 API 后，真实读出 SimscapeLogDataHistory=double 20002、MaxDataPoints=char '110002'、SaveOperatingPoint=on、两项 checksum policy=error。类型回执 v47_observation_parameter_API_types_20261015.json 保留，不用试验模型代替 C62 的真实恢复结果。
+
+修复为同时接受数值/文本的正整数读取，并在真实模型断言前保存实际值、类型与归一化计数；20002/110002 门禁仍完全相同。新增无效 NaN/Inf/vector/zero/fraction/text 拒绝测试。r1 原日志与 marker 保留，只有这个已复现的读取错误修复后才进入新 r2 输出目录，禁止盲目重复仿真或修改完整 OP。

@@ -5,6 +5,12 @@ function record=Test_HeatDriveECC_ObservationPreflight(pointer,python)
     request=struct('mode','split_preflight','python_executable',python,'source_contract_path',pointer);
     actual=Resolve_HeatDriveECC_ObservationPreflight(request,state,20,200,'native',true,struct());
     assert(isequal(actual,request));
+    assert(Resolve_HeatDriveECC_ObservationCount(20002)==20002 && ...
+        Resolve_HeatDriveECC_ObservationCount('110002')==110002);
+    for bad={NaN,Inf,[2 3],0,2.5,'arbitrary'}
+        rejected=false;try,Resolve_HeatDriveECC_ObservationCount(bad{1});catch,rejected=true;end
+        assert(rejected,'Invalid observation count accepted.');
+    end
     invalid={request,request,request,request,request,request};
     invalid{1}.mode='anything';invalid{2}.arbitrary_state_reset=true;
     invalid{3}.python_executable='missing-executable';
@@ -18,5 +24,6 @@ function record=Test_HeatDriveECC_ObservationPreflight(pointer,python)
     end
     assert(rejected==6);
     record=struct('default_no_op',true,'explicit_mode_resolved',true,'unsafe_options_rejected',rejected, ...
+        'numeric_and_text_API_counts_supported',true,'invalid_counts_rejected',6, ...
         'simulation_executed',false,'operating_point_loaded',false);
 end
