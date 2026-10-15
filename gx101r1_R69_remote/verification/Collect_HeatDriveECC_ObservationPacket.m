@@ -8,8 +8,8 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
     candidate=any(strcmp(role,{'runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation'}));
     assert(candidate || isempty(fieldnames(trial)));
     if candidate
-        assert(trial.candidate_Tc_K==options.system.Tchex_K && trial.source_Tc_K==276.95 && ...
-            abs(trial.candidate_Tc_K-276.95)<=.1+1e-12 && trial.minimum_transition_cycles==12);
+        Require_HeatDriveECC_RuntimeTcTrial(trial);
+        assert(trial.candidate_Tc_K==options.system.Tchex_K);
     end
     assert(strcmp(role,'split_comparison') || cold || ~isempty(regexp(parent_hash,'^[A-F0-9]{64}$','once')));
     assert(~isfolder(destination),'Never overwrite a measured packet.');

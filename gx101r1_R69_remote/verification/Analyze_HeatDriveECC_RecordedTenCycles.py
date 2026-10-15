@@ -12,6 +12,7 @@ from Audit_HeatDriveECC_ColdCoordinateSmoke import scalar_series
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from Close_HeatDriveECC_SplitObservation import read, validate_gate
 from HeatDriveECC_ObservationWindow import window_indices
+from HeatDriveECC_RuntimeTcTrial import validate_trial
 from Audit_HeatDriveECC_TLDomainInventory import density_table, resolve_domains, scalar
 
 
@@ -104,16 +105,21 @@ def runtime_window(result):
     candidate=result['schema']=='heatdrive_ecc_runtime_Tc_candidate_collection_v1'
     if candidate:
         t=result['boundary_trial'];check=result['latest_periodicity']
+        validate_trial(t)
         if (not result['pass'] or result['error_message'] or result['source_state_edited'] or result['partial_state_restore_used'] or
                 not 6<=len(rows)<=10 or stop-start!=20*len(rows) or stop>2000 or
                 start!=t['transition_time_s'] or result['planned_collection_window_s']!=[start,start+200] or
-                t['minimum_transition_cycles']!=12 or t['source_Tc_K']!=276.95 or
-                not .001<abs(t['candidate_Tc_K']-276.95)<=.1+1e-12 or result['candidate_Tc_K']!=t['candidate_Tc_K'] or
+                t['minimum_transition_cycles']!=12 or result['candidate_Tc_K']!=t['candidate_Tc_K'] or
                 stop!=10*result['total_cycles'] or check['window_s']!=[stop-100,stop] or
                 check['physical_tolerances_changed'] or (stop<start+200 and not check['periodic_steady_state']) or
                 not result['transition_excluded_from_current_window'] or
                 any(row['start_time_s']!=start+20*k or row['stop_time_s']!=start+20*(k+1) for k,row in enumerate(rows))):
             raise ValueError('A fixed-Tc window needs at least twelve complete post-transition cycles at that Tc')
+        if t['schema']=='heatdrive_ecc_runtime_Tc_intervention_v2':
+            precision=result['latest_target_stability']
+            if (result.get('target_precision_required') is not True or precision['window_s']!=[stop-100,stop] or
+                    (stop<start+200 and not precision['precision_pass'])):
+                raise ValueError('Bounded search must satisfy the declared target precision before early exit')
         return stop-100,stop,rows[-5:],Path(rows[-6]['packet_root'])
     adaptive=result.get('stop_on_public_periodicity',False)
     if (result['schema']!='heatdrive_ecc_runtime_boundary_transient_collection_v1' or

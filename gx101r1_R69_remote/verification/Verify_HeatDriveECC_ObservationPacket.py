@@ -12,6 +12,7 @@ from Audit_HeatDriveECC_CoupledEnergyInventory import latent_decomposition, syst
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from Audit_HeatDriveECC_TLDomainInventory import resolve_domains
 from HeatDriveECC_ObservationWindow import window_indices
+from HeatDriveECC_RuntimeTcTrial import validate_trial
 
 
 def read(path):
@@ -45,10 +46,9 @@ def validate_manifest(manifest):
         raise ValueError('Runtime warmup requires an intact parent, same boundary and unchanged command horizon')
     if manifest.get('packet_role') in ('runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation'):
         t=manifest['boundary_trial'];Tc=t['candidate_Tc_K'];origin=t['transition_time_s']
+        validate_trial(t)
         continuing=manifest['packet_role']=='runtime_boundary_Tc_continuation'
-        if (t['schema']!='heatdrive_ecc_runtime_Tc_intervention_v1' or
-                t['source_Tc_K']!=276.95 or not .001<abs(Tc-276.95)<=.1+1e-12 or
-                t['minimum_transition_cycles']!=12 or t['source_state_edited'] or t['old_model_OP_imported'] or
+        if (t['minimum_transition_cycles']!=12 or t['source_state_edited'] or t['old_model_OP_imported'] or
                 t['only_runtime_temperature_variable_changed'] is not True or
                 stop-start!=20 or start<origin or origin<120 or origin%20 or (not continuing and stop>origin+200) or stop>2000 or
                 manifest.get('independent_cold_start') is not False or manifest['source_snapshot_s']!=start or

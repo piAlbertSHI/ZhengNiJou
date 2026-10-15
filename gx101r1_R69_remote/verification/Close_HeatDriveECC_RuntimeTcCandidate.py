@@ -20,6 +20,7 @@ def close(collection, measured, thermal, output):
     if not continuing and result['schema']!='heatdrive_ecc_runtime_Tc_candidate_collection_v1':raise ValueError('Not a declared Tc trial')
     start,stop,selected,previous=runtime_window(result);d=read(measured);s=read(thermal)
     trial=result['boundary_trial'];Tc=trial['candidate_Tc_K']
+    stepping=trial['schema']=='heatdrive_ecc_runtime_Tc_intervention_v2' and not continuing
     if (d['window_s']!=[start,stop] or d['sample_count']!=100001 or not d['fixed_Tc_candidate'] or
             d['candidate_Tc_K']!=Tc or d['collection_result_sha256']!=sha256(collection/'collection_result.json') or
             s['measured_window_sha256']!=sha256(measured) or s['physical_tolerances_changed'] or
@@ -29,10 +30,14 @@ def close(collection, measured, thermal, output):
             sha256(Path(latest['thermal_statistics_path']))!=latest['thermal_statistics_sha256']):
         raise ValueError('Independent final statistics disagree with the stopping decision')
     p=read(collection/'initial_recording_contract.json');recipe=read(collection/'initial_prepared_recipe.json')
-    if continuing:
+    if continuing or stepping:
         qpath=Path(recipe['diagnostic_observation_options']['candidate_qualification_path']);q=read(qpath)
-        if (sha256(qpath)!=result['continuation']['source_qualification_sha256'] or
-                q['temperature_K']!=Tc or q['boundary_trial']!=trial or
+        source_hash=result['continuation']['source_qualification_sha256'] if continuing else trial['source_qualification_sha256']
+        if (sha256(qpath)!=source_hash or
+                (continuing and (q['temperature_K']!=Tc or q['boundary_trial']!=trial)) or
+                (stepping and (q['temperature_K']!=trial['source_Tc_K'] or
+                    q['operating_point_sha256']!=trial['source_complete_OP_sha256'] or
+                    not q['bounded_outer_metric_sampling_allowed'])) or
                 not q['all_original_packet_mechanism_flow_phase_energy_gates_pass']):
             raise ValueError('Changed or failed same-Tc source')
     else:
@@ -65,6 +70,12 @@ def close(collection, measured, thermal, output):
                 if not file.is_relative_to(packet.resolve()) or sha256(file)!=item['sha256']:raise ValueError('Changed inherited raw')
                 dependencies.append(file)
             dependencies.extend(packet/n for n in ('packet_manifest.json','packet_gate.json','boundary_comparison.json'))
+    if stepping:
+        target=result['latest_target_stability'];target_path=Path(target['path'])
+        if sha256(target_path)!=target['sha256']:raise ValueError('Changed bounded-search target precision')
+        target_report=read(target_path)
+        if target_report['window_s']!=[start,stop]:raise ValueError('Wrong bounded-search target window')
+        dependencies.append(target_path)
     parent=p['operating_point_sha256'];chain=[];cycles=[];retirement=[]
     if sha256(Path(p['operating_point_path']))!=parent:raise ValueError('Changed baseline state')
     dependencies.append(Path(p['operating_point_path']))
@@ -115,10 +126,11 @@ def close(collection, measured, thermal, output):
     dependencies.append(metrics)
     current=d['cycles'];spread={key:max(r[key] for r in current)-min(r[key] for r in current)
         for key in ('temperature_lift_eq9_K','SCP_W_per_g','cooling_power_eq10_W')}
-    if continuing:
+    if continuing or stepping:
         if not all(math.isclose(spread[key],target_report[field],rel_tol=1e-12,abs_tol=1e-12)
             for key,field in (('temperature_lift_eq9_K','lift_span_K'),('SCP_W_per_g','SCP_span_W_per_g'))):
             raise ValueError('Independent window metrics disagree with the finite-window stopping calculation')
+    if continuing:
         plan=dict(schema='heatdrive_ecc_completed_runtime_raw_prefix_retirement_v1',collection_root=str(collection),
             collection_result_sha256=sha256(collection/'collection_result.json'),retained_native_window_s=[start,stop],
             retained_all_complete_OPs=True,retained_all_compact_mechanism_evidence=True,
@@ -141,7 +153,7 @@ def close(collection, measured, thermal, output):
         production_recovery_allowed=False,outer_solve_eligible=False,paired_Table4_eligible=False,table4_reproduction_claim=False,
         baseline_candidate_windows_matched=False,causal_Tc_derivative_claim=False,
         same_Tc_continuation=continuing,current_target_window_stability=target_report,
-        bounded_outer_metric_sampling_allowed=bool(continuing and s['statistics']['periodic_steady_state'] and target_report['precision_pass']),
+        bounded_outer_metric_sampling_allowed=bool((continuing or stepping) and s['statistics']['periodic_steady_state'] and target_report['precision_pass']),
         remaining_admission_work='Quantify inventory/target error budget and matched-time control before interpolation; no C200 authority promotion.',
         files=[dict(path=str(f.resolve()),sha256=sha256(f)) for f in dict.fromkeys(dependencies)])
     if continuing:

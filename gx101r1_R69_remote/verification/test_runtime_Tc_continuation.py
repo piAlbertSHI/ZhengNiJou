@@ -70,13 +70,13 @@ class RuntimeTcContinuationTests(unittest.TestCase):
     def test_same_Tc_first_boundary_uses_unchanged_parameter_comparison(self):
         source=(Path(__file__).parent/'Run_HeatDriveECC_RuntimeTcPackets.m').read_text()
         self.assertIn('if isempty(completed) && ~continuing',source)
-        self.assertIn('if periodic && (~continuing || precision) && op.snapshotTime>=minimum_stop,break;end',source)
+        self.assertIn('if periodic && (~qualified || precision) && op.snapshotTime>=minimum_stop,break;end',source)
         self.assertIn("reference_field='plant_build_options'",source)
         self.assertNotIn("setModelParameter('StartTime'",source)
 
     def test_preparation_provenance_reads_the_candidate_qualification_not_an_absent_baseline_pointer(self):
         source=(Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text()
-        self.assertIn("elseif strcmp(observation_options.mode,'runtime_boundary_Tc_continuation')",source)
+        self.assertIn("elseif any(strcmp(observation_options.mode,{'runtime_boundary_Tc_continuation','runtime_boundary_Tc_step'}))",source)
         self.assertIn('source_contract_sha256=file_hash(observation_options.candidate_qualification_path)',source)
 
     def test_shared_comparison_stop_cannot_be_shortened_or_retired_job_reused(self):

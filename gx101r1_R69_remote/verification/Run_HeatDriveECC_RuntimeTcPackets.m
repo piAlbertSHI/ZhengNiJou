@@ -2,10 +2,11 @@ function record=Run_HeatDriveECC_RuntimeTcPackets(input,options,folder,chambers,
 % Gate intact same-family candidate packets; exclude the transition from statistics.
     repo=fileparts(fileparts(mfilename('fullpath')));model=input.ModelName;
     continuing=strcmp(request.mode,'runtime_boundary_Tc_continuation');
+    stepping=strcmp(request.mode,'runtime_boundary_Tc_step');qualified=continuing || stepping;
     root=canonical(request.collection_root);assert(strcmp(fileparts(root),canonical(fullfile(repo,'outputs'))));
     assert(~isfile(fullfile(root,'COMPLETED_RAW_PREFIX_RETIRED.json')), ...
         'A sealed archived collection cannot resume in place; use its latest qualified same-Tc endpoint.');
-    assert((continuing || strcmp(request.mode,'runtime_boundary_Tc_candidate')) && settings.history_cycles==11 && ...
+    assert((qualified || strcmp(request.mode,'runtime_boundary_Tc_candidate')) && settings.history_cycles==11 && ...
         strcmp(get_param(model,'OperatingPointContentsChecksumMismatchMsg'),'error') && ...
         strcmp(get_param(model,'OperatingPointInterfaceChecksumMismatchMsg'),'error') && ...
         Resolve_HeatDriveECC_ObservationCount(get_param(model,'SimscapeLogDataHistory'))==20002 && ...
@@ -17,7 +18,7 @@ function record=Run_HeatDriveECC_RuntimeTcPackets(input,options,folder,chambers,
     cleanup=onCleanup(@() release_lock(lock,channel,handle));
     snapshot=fullfile(root,'initial_recording_contract.json');recipe=fullfile(root,'initial_prepared_recipe.json');
     actual_recipe=[fileparts(folder),'.preflight_config.json'];progress=fullfile(root,'collection_progress.json');
-    if continuing,contract=request.candidate_qualification_path;else,contract=request.recording_contract_path;end
+    if qualified,contract=request.candidate_qualification_path;else,contract=request.recording_contract_path;end
     if ~existed
         copyfile(contract,snapshot);copyfile(actual_recipe,recipe);
     else
@@ -26,7 +27,7 @@ function record=Run_HeatDriveECC_RuntimeTcPackets(input,options,folder,chambers,
         assert(isequaln(old,current),'Candidate resume cannot change physics, controls or source recipe.');
     end
     pointer=jsondecode(fileread(snapshot));
-    if continuing
+    if qualified
         qpath=contract;assert(strcmp(file_hash(qpath),file_hash(snapshot)));q=pointer;
         source=Require_HeatDriveECC_RuntimeTcSource(q,options);reference_field='plant_build_options';
         origin_index=[];source_window='';
@@ -34,7 +35,8 @@ function record=Run_HeatDriveECC_RuntimeTcPackets(input,options,folder,chambers,
             row=q.files(k);[~,name,ext]=fileparts(row.path);
             if strcmp([name ext],'measured_window.json')
                 candidate_index=jsondecode(fileread(row.path));
-                if strcmp(candidate_index.schema,'heatdrive_ecc_measured_ten_cycle_collection_v1')
+                if strcmp(candidate_index.schema,'heatdrive_ecc_measured_ten_cycle_collection_v1') && ...
+                        isequal(candidate_index.window_s(:),[source.snapshot_s-100;source.snapshot_s])
                     assert(isempty(origin_index));origin_index=candidate_index;source_window=row.path;
                 end
             end
@@ -61,6 +63,21 @@ function record=Run_HeatDriveECC_RuntimeTcPackets(input,options,folder,chambers,
         assert(Tc==source.Tc_K);trial=q.boundary_trial;
         continuation=struct('source_snapshot_s',origin,'source_OP_sha256',q.operating_point_sha256, ...
             'source_qualification_sha256',file_hash(qpath),'budget_stop_s',target,'temperature_unchanged',true);
+    elseif stepping
+        assert(q.original_public_thermal_periodic_pass && q.bounded_outer_metric_sampling_allowed && ...
+            q.current_target_window_stability.precision_pass);
+        fluid=options.fluid.SE;
+        assert(fluid.minimum_operating_temperature_K==255.05 && fluid.maximum_tabulated_temperature_K==393.15);
+        policy=struct('schema','heatdrive_ecc_runtime_Tc_bounded_search_v1', ...
+            'minimum_Tc_K',255.05,'maximum_Tc_K',393.15,'maximum_step_K',2, ...
+            'fluid_minimum_K',fluid.minimum_operating_temperature_K,'fluid_maximum_K',fluid.maximum_tabulated_temperature_K, ...
+            'source_public_periodic_pass',true,'source_target_precision_pass',true);
+        trial=struct('schema','heatdrive_ecc_runtime_Tc_intervention_v2','source_Tc_K',source.Tc_K, ...
+            'candidate_Tc_K',Tc,'transition_time_s',origin,'minimum_transition_cycles',12, ...
+            'source_complete_OP_sha256',q.operating_point_sha256,'source_qualification_sha256',file_hash(qpath), ...
+            'plant_recipe_sha256',file_hash(recipe),'only_runtime_temperature_variable_changed',true, ...
+            'source_state_edited',false,'old_model_OP_imported',false,'search_policy',policy);
+        Require_HeatDriveECC_RuntimeTcTrial(trial);
     else
         assert(request.minimum_transition_cycles==12);
         trial=struct('schema','heatdrive_ecc_runtime_Tc_intervention_v1','source_Tc_K',276.95, ...
@@ -97,6 +114,10 @@ function record=Run_HeatDriveECC_RuntimeTcPackets(input,options,folder,chambers,
         if isfield(record,'minimum_stop_time_s'),assert(record.minimum_stop_time_s==minimum_stop);end
         record.minimum_stop_time_s=minimum_stop;
     end
+    if stepping
+        record.target_precision_required=true;
+        record.target_lift_span_K=request.target_lift_span_K;record.target_SCP_span_W_per_g=request.target_SCP_span_W_per_g;
+    end
     [op,m]=Load_HeatDriveECC_GatedObservationPacket(source.packet_root,false);previous=source.packet_root;
     assert(strcmp(m.complete_OP_sha256,pointer.operating_point_sha256));
     for k=1:numel(completed)
@@ -117,13 +138,13 @@ function record=Run_HeatDriveECC_RuntimeTcPackets(input,options,folder,chambers,
             if continuing,history=origin_index;else,history=[];end
             record.latest_periodicity=Check_HeatDriveECC_RuntimeRollingPeriodicity(root,history,completed,Tc);
             periodic=record.latest_periodicity.periodic_steady_state;
-            if continuing
+            if qualified
                 record.latest_target_stability=target_precision(record.latest_periodicity,request);precision=record.latest_target_stability.precision_pass;
             end
             write_json(progress,record);
         end
         for finish=origin+20+20*numel(completed):20:target
-            if periodic && (~continuing || precision) && op.snapshotTime>=minimum_stop,break;end
+            if periodic && (~qualified || precision) && op.snapshotTime>=minimum_stop,break;end
             start=op.snapshotTime;assert(finish-start==20);attempt=1;
             destination=fullfile(root,sprintf('packet_C%03d_attempt%02d',finish/10,attempt));
             while isfolder(destination),attempt=attempt+1;destination=fullfile(root,sprintf('packet_C%03d_attempt%02d',finish/10,attempt));end
@@ -143,18 +164,18 @@ function record=Run_HeatDriveECC_RuntimeTcPackets(input,options,folder,chambers,
                 if continuing,history=origin_index;else,history=[];end
                 record.latest_periodicity=Check_HeatDriveECC_RuntimeRollingPeriodicity(root,history,completed,Tc);
                 periodic=record.latest_periodicity.periodic_steady_state;
-                if continuing
+                if qualified
                     record.latest_target_stability=target_precision(record.latest_periodicity,request);precision=record.latest_target_stability.precision_pass;
                 end
                 write_json(progress,record);
             end
         end
         if continuing,assert(~isempty(completed) && (((periodic && precision) && op.snapshotTime>=minimum_stop) || op.snapshotTime==target));
-        else,assert(numel(completed)>=6 && (periodic || op.snapshotTime==target));end
+        else,assert(numel(completed)>=6 && ((periodic && (~stepping || precision)) || op.snapshotTime==target));end
         record.pass=true;record.collection_window_s=[origin op.snapshotTime];record.total_cycles=op.snapshotTime/10;
         record.periodic_steady_state=periodic;record.transition_excluded_from_current_window=true;
         record.completed_additional_cycles=2*numel(completed);
-        if continuing,record.target_window_precision_pass=precision;end
+        if qualified,record.target_window_precision_pass=precision;end
     catch ME
         record.error_message=ME.message;record.error_identifier=ME.identifier;record.error_report=getReport(ME,'extended','hyperlinks','off');
         if isfield(record,'current_attempt_root') && isfolder(record.current_attempt_root) && ...
