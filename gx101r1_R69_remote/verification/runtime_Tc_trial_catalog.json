@@ -27,6 +27,18 @@
   ],
   "matched_response_relative": "outputs_storage_audit/v54_matched_Tc_response_20261016_final/matched_Tc_response.json",
   "matched_response_sha256": "6E2599FF36F8D3A4B155E0D5C619A6D7BD3CC4C3F21461DA4551B730A12EEE18",
+  "latest_same_Tc_continuations": [
+    {
+      "temperature_K": 276.85,
+      "snapshot_time_s": 520,
+      "qualification_relative": "outputs_storage_audit/v55_runtime_Tc276p85_C52_snapshot_20261016/endpoint_qualification.json",
+      "qualification_sha256": "939BABEFF6C70B3334681DD186925B604752928FB91B44FD46D2BE775E66C589",
+      "operating_point_sha256": "962E7DBBDFF07495D37088E6D8A26C735DED5C6BD63E9C15A00668075B917E7F",
+      "current_window_s": [420, 520],
+      "target_window_precision_pass": true,
+      "paired_current_window_available": false
+    }
+  ],
   "source_state_edited": false,
   "complete_internal_state_periodicity_verified": false,
   "production_recovery_allowed": false,

@@ -6997,3 +6997,19 @@ C22 最新来源的后续指针推进采用原来源 SHA 校验与同目录原�
 执行 producer 83a42d6，前台 session 73466 自然退出 1。真实 typed source 正例通过、六种错误来源全部拒绝；随后在工厂记录来源哈希时仍访问旧的 observation_options.recording_contract_path，触发 MATLAB:nonExistentField（Run_HeatDriveECC_ColdChamberDiagnostic 第370行）。新模式实际字段是 candidate_qualification_path。此时尚无 collection 目录、没有 sim、没有新 packet/OP，两个 C40 源和原配方未改。
 
 修复只为已类型限定的同 Tc 续行模式读取候选资格路径的来源 SHA，旧 warmup 与变温模式仍用原指针，冷族仍用原探针。增加相应字段路由回归；原 stdout/stderr/config/execution JSON 保存，不因代码入口错误改动物理门禁。下一次使用全新的 preparation/collection 目录，不覆盖失败证据，也不声称这是科学门禁放行。
+
+### 285.2 低温侧实际 C40→C52，同时达到原周期与窗口精度
+
+修复后执行 producer 6da3336f6b6f546e638305aba7b53f9cadc1ed3b，前台 session 11448 / MATLAB PID 99056 自然退出 0，stderr 空。实际 Tc=276.85 K、400–520 s，追加十二周期，不重算 C28–C40。六包原物理门禁全部通过，含潜热整体 BE 残差绝对值最大 2.607702054e-9 J，六次同温连接全坐标 bitwise 相同，四记忆逐位保留。
+
+末十周期 420–520 s 的温跨跨度 0.0976709641 K、SCP 跨度 0.00161623282 W/g，首次同时满足声明的 0.1 K / 0.01 W/g 窗口精度并停止，未无条件算到 C60。原六公共热判据仍全部通过：温度端点 0.0149010336 K、温度 P99/RMS=0.0121850072/0.00426541952 K；相分数极值漂移 1.39159188e-5、P99/RMS=3.15908347e-4/1.15265268e-4。原额外峰值诊断没有被偷偷升级为正式失败门禁。
+
+独立完整十周期分析、原 MATLAB 统计和实际完整 OP 重载均通过。当前窗口平均温跨 28.50520056 K、制冷量 12.89093618 W、SCP 0.3082714349 W/g、CHEX sensor 12.55057081 W、正 SHEX 热输入 823.6573786 W、热 COP 0.01565084769。当前 C52 OP SHA=962E7DBBDFF07495D37088E6D8A26C735DED5C6BD63E9C15A00668075B917E7F；资格 SHA=939BABEFF6C70B3334681DD186925B604752928FB91B44FD46D2BE775E66C589。封存位置 outputs_storage_audit/v55_runtime_Tc276p85_C52_snapshot_20261016。
+
+bounded_outer_metric_sampling_allowed=true 只表明原物理/公共热判据与当前数值观察精度均通过；它不是渐近误差界、完整内部库存周期闭合、已经求根或 Table 4 授权。当前高温侧仍为 C40，不得用新低温 C52 与旧高温 C40 直接作 Tc 差分。新增可选的 minimum_stop_time_s 仅用于共同截止窗口，保持原物理阈值和最大预算；下一次高温侧至少续行到 520 s，并仍须各自满足原周期与窗口精度。
+
+### 285.3 同温前缀退役与比较来源合同
+
+新 job 原生数据原大小 2831359196 bytes，主库仅复制 232105 bytes compact 记录。当前窗口首点 420 s 在下一包的实测首样本中完整保留，因此按资格绑定计划只删除 C42 包的 observations/observed_states 两个旧前缀文件，实际释放 451040282 bytes；当前十周期、所有 OP、原 C40 变温证据均不删除。84 个当前直接依赖事后全部重核 SHA。完成目录带 COMPLETED_RAW_PREFIX_RETIRED 标记，禁止原地恢复；下一阶段从当前封存完整端点进入新目录。
+
+后续两侧的分析 MAT 文件因声明 Tc 不同而字节不同，不能要求它们的整个 MAT SHA 相同。比较器改为沿 SHA 绑定的同温父资格/OP 及每段实际 plant_build_options 比较追溯，要求相同原 C28 构建配置、物理组选项和数值阈值；不通过宽松字符串前缀或忽略来源来放行。对错误祖先、被改动比较记录及不同窗口/质量基准均有回归。当前完整 Python 回归 938/938；这一变化不改任何实际仿真数据或原物理门禁。

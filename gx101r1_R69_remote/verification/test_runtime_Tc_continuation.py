@@ -70,7 +70,7 @@ class RuntimeTcContinuationTests(unittest.TestCase):
     def test_same_Tc_first_boundary_uses_unchanged_parameter_comparison(self):
         source=(Path(__file__).parent/'Run_HeatDriveECC_RuntimeTcPackets.m').read_text()
         self.assertIn('if isempty(completed) && ~continuing',source)
-        self.assertIn('if periodic && (~continuing || precision),break;end',source)
+        self.assertIn('if periodic && (~continuing || precision) && op.snapshotTime>=minimum_stop,break;end',source)
         self.assertIn("reference_field='plant_build_options'",source)
         self.assertNotIn("setModelParameter('StartTime'",source)
 
@@ -78,6 +78,13 @@ class RuntimeTcContinuationTests(unittest.TestCase):
         source=(Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text()
         self.assertIn("elseif strcmp(observation_options.mode,'runtime_boundary_Tc_continuation')",source)
         self.assertIn('source_contract_sha256=file_hash(observation_options.candidate_qualification_path)',source)
+
+    def test_shared_comparison_stop_cannot_be_shortened_or_retired_job_reused(self):
+        with tempfile.TemporaryDirectory() as d:
+            data=self.completed(Path(d));data['minimum_stop_time_s']=520
+            with self.assertRaises(ValueError):runtime_window(data)
+        source=(Path(__file__).parent/'Run_HeatDriveECC_RuntimeTcPackets.m').read_text()
+        self.assertIn('COMPLETED_RAW_PREFIX_RETIRED.json',source)
 
 
 if __name__=='__main__':unittest.main()

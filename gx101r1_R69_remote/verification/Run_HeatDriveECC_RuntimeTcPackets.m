@@ -3,6 +3,8 @@ function record=Run_HeatDriveECC_RuntimeTcPackets(input,options,folder,chambers,
     repo=fileparts(fileparts(mfilename('fullpath')));model=input.ModelName;
     continuing=strcmp(request.mode,'runtime_boundary_Tc_continuation');
     root=canonical(request.collection_root);assert(strcmp(fileparts(root),canonical(fullfile(repo,'outputs'))));
+    assert(~isfile(fullfile(root,'COMPLETED_RAW_PREFIX_RETIRED.json')), ...
+        'A sealed archived collection cannot resume in place; use its latest qualified same-Tc endpoint.');
     assert((continuing || strcmp(request.mode,'runtime_boundary_Tc_candidate')) && settings.history_cycles==11 && ...
         strcmp(get_param(model,'OperatingPointContentsChecksumMismatchMsg'),'error') && ...
         strcmp(get_param(model,'OperatingPointInterfaceChecksumMismatchMsg'),'error') && ...
@@ -52,6 +54,8 @@ function record=Run_HeatDriveECC_RuntimeTcPackets(input,options,folder,chambers,
     assert(comparison.only_declared_change && comparison.numeric_validation_thresholds_equal && ...
         strcmp(comparison.reference_configurability,'runtime') && strcmp(comparison.candidate_configurability,'runtime'));
     origin=source.snapshot_s;target=request.collection_stop_s;Tc=request.candidate_Tc_K;
+    minimum_stop=origin+20;
+    if continuing && isfield(request,'minimum_stop_time_s'),minimum_stop=request.minimum_stop_time_s;end
     assert(target==origin+200 && target<=2000);
     if continuing
         assert(Tc==source.Tc_K);trial=q.boundary_trial;
@@ -90,6 +94,8 @@ function record=Run_HeatDriveECC_RuntimeTcPackets(input,options,folder,chambers,
         record.continuation=continuation;record.origin_measured_window_path=source_window;
         record.origin_measured_window_sha256=file_hash(source_window);
         record.target_lift_span_K=request.target_lift_span_K;record.target_SCP_span_W_per_g=request.target_SCP_span_W_per_g;
+        if isfield(record,'minimum_stop_time_s'),assert(record.minimum_stop_time_s==minimum_stop);end
+        record.minimum_stop_time_s=minimum_stop;
     end
     [op,m]=Load_HeatDriveECC_GatedObservationPacket(source.packet_root,false);previous=source.packet_root;
     assert(strcmp(m.complete_OP_sha256,pointer.operating_point_sha256));
@@ -117,7 +123,7 @@ function record=Run_HeatDriveECC_RuntimeTcPackets(input,options,folder,chambers,
             write_json(progress,record);
         end
         for finish=origin+20+20*numel(completed):20:target
-            if periodic && (~continuing || precision),break;end
+            if periodic && (~continuing || precision) && op.snapshotTime>=minimum_stop,break;end
             start=op.snapshotTime;assert(finish-start==20);attempt=1;
             destination=fullfile(root,sprintf('packet_C%03d_attempt%02d',finish/10,attempt));
             while isfolder(destination),attempt=attempt+1;destination=fullfile(root,sprintf('packet_C%03d_attempt%02d',finish/10,attempt));end
@@ -143,7 +149,7 @@ function record=Run_HeatDriveECC_RuntimeTcPackets(input,options,folder,chambers,
                 write_json(progress,record);
             end
         end
-        if continuing,assert(~isempty(completed) && ((periodic && precision) || op.snapshotTime==target));
+        if continuing,assert(~isempty(completed) && (((periodic && precision) && op.snapshotTime>=minimum_stop) || op.snapshotTime==target));
         else,assert(numel(completed)>=6 && (periodic || op.snapshotTime==target));end
         record.pass=true;record.collection_window_s=[origin op.snapshotTime];record.total_cycles=op.snapshotTime/10;
         record.periodic_steady_state=periodic;record.transition_excluded_from_current_window=true;

@@ -86,6 +86,7 @@ def runtime_window(result):
                 c['budget_stop_s']!=start+200 or stop>c['budget_stop_s'] or stop>2000 or
                 result['planned_collection_window_s']!=[start,start+200] or stop!=10*result['total_cycles'] or
                 check['window_s']!=[stop-100,stop] or target['window_s']!=[stop-100,stop] or
+                stop<result.get('minimum_stop_time_s',start+20) or
                 (stop<start+200 and not (check['periodic_steady_state'] and target['precision_pass'])) or
                 sha256(source)!=result['origin_measured_window_sha256'] or not c['temperature_unchanged'] or
                 any(row['start_time_s']!=start+20*k or row['stop_time_s']!=start+20*(k+1) for k,row in enumerate(rows))):

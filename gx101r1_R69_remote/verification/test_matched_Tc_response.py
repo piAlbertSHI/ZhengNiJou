@@ -1,8 +1,11 @@
 import copy
+import json
 from pathlib import Path
+import tempfile
 import unittest
 
-from Analyze_HeatDriveECC_MatchedTcResponse import same_experiment, response, METRICS
+from Analyze_HeatDriveECC_MatchedTcResponse import same_experiment, response, configuration_origin, METRICS
+from Audit_HeatDriveECC_SegmentedEvidence import sha256
 
 
 class MatchedTcResponseTests(unittest.TestCase):
@@ -54,6 +57,35 @@ class MatchedTcResponseTests(unittest.TestCase):
         self.assertIn('ReparsePoint',source)
         self.assertNotIn('Remove-Item -Recurse',source)
         self.assertIn('old_C22_qualification_now_historical_not_a_recovery_source=$true',source)
+
+    def ancestry(self,root):
+        def write(name,data):
+            p=root/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(data));return p
+        def entry(p):return dict(path=str(p),sha256=sha256(p))
+        cmp=write('base/runtime_Tc_recipe_comparison.json',dict(only_declared_change=True,
+            numeric_validation_thresholds_equal=True,reference_configuration_sha256='common_C28'))
+        op=root/'state.mat';op.write_bytes(b'unit-test-state-not-a-vendor-op')
+        parent=dict(same_Tc_continuation=False,temperature_K=276.85,boundary_trial=dict(original_source='C28'),
+            snapshot_time_s=400,operating_point_path=str(op),operating_point_sha256=sha256(op),files=[entry(cmp)])
+        parentfile=write('parent.json',parent)
+        result=write('next/collection_result.json',dict(continuation=dict(source_qualification_sha256=sha256(parentfile),
+            source_OP_sha256=sha256(op),source_snapshot_s=400)))
+        newcmp=write('next/runtime_Tc_recipe_comparison.json',dict(only_declared_change=True,
+            numeric_validation_thresholds_equal=True,reference_options_field='plant_build_options',reference_configuration_sha256='different_Tc_labelled_MAT'))
+        child=dict(same_Tc_continuation=True,temperature_K=276.85,boundary_trial=parent['boundary_trial'],snapshot_time_s=520,
+            files=[entry(parentfile),entry(result),entry(newcmp)])
+        return child,cmp
+
+    def test_continuation_compares_shared_plant_ancestry_not_different_analysis_MAT_bytes(self):
+        with tempfile.TemporaryDirectory() as d:
+            child,_=self.ancestry(Path(d));self.assertEqual(configuration_origin(child),'common_C28')
+            child['boundary_trial']=dict(original_source='unrelated')
+            with self.assertRaises(ValueError):configuration_origin(child)
+
+    def test_ancestral_receipts_remain_sha_bound(self):
+        with tempfile.TemporaryDirectory() as d:
+            child,cmp=self.ancestry(Path(d));cmp.write_text('{}')
+            with self.assertRaises(ValueError):configuration_origin(child)
 
 
 if __name__=='__main__':unittest.main()

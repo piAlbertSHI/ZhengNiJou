@@ -7,8 +7,14 @@ $repo=Split-Path -Parent $PSScriptRoot
 $qpath=[IO.Path]::GetFullPath((Join-Path $repo $pointer.qualification_relative))
 if ((Get-FileHash -LiteralPath $qpath -Algorithm SHA256).Hash -ne $pointer.qualification_sha256) { throw 'Qualification changed.' }
 $q=Get-Content -LiteralPath $qpath -Raw | ConvertFrom-Json
-if ($q.schema -ne 'heatdrive_ecc_runtime_boundary_warmup_endpoint_v1' -or -not $q.transient_continuation_allowed -or
-    -not $q.all_original_packet_gates_pass -or -not $q.all_recorded_boundaries_pass) { throw 'Not a completed gated warmup.' }
+$warmup=$q.schema -eq 'heatdrive_ecc_runtime_boundary_warmup_endpoint_v1'
+$continuation=$q.schema -eq 'heatdrive_ecc_runtime_Tc_candidate_endpoint_v1'
+if ($warmup) {
+    if (-not $q.transient_continuation_allowed -or -not $q.all_original_packet_gates_pass -or -not $q.all_recorded_boundaries_pass) { throw 'Not a completed gated warmup.' }
+} elseif ($continuation) {
+    if (-not $q.same_Tc_continuation -or -not $q.all_original_packet_mechanism_flow_phase_energy_gates_pass -or
+        -not $q.all_four_memories_bitwise_preserved) { throw 'Not a completed same-Tc continuation.' }
+} else { throw 'Unrecognized retirement qualification.' }
 foreach($row in $q.files) {
     if ((Get-FileHash -LiteralPath $row.path -Algorithm SHA256).Hash -ne $row.sha256) { throw 'Current qualification dependency changed.' }
 }
@@ -21,7 +27,9 @@ if ((Get-Item -LiteralPath $root -Force).Attributes -band [IO.FileAttributes]::R
 if ((Split-Path -Leaf (Split-Path -Parent $root)) -ne 'outputs' -or
     (Get-FileHash -LiteralPath (Join-Path $root 'collection_result.json') -Algorithm SHA256).Hash -ne $plan.collection_result_sha256) { throw 'Collection mismatch.' }
 $executionRepo=Split-Path -Parent (Split-Path -Parent $root)
-$live=@(Get-CimInstance Win32_Process | Where-Object { $_.Name -match '(?i)^matlab(?:\.exe)?$' -and $_.CommandLine -and $_.CommandLine.Contains($executionRepo) })
+$job=Split-Path -Leaf $root
+$live=@(Get-CimInstance Win32_Process | Where-Object { $_.Name -match '(?i)^matlab(?:\.exe)?$' -and $_.CommandLine -and
+    ($_.CommandLine.Contains($executionRepo) -or $_.CommandLine.Contains($job)) })
 if ($live.Count) { throw 'A checkout MATLAB process is alive.' }
 $targets=@()
 foreach($row in $plan.files) {

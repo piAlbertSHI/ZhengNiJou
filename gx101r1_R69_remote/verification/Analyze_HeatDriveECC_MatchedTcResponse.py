@@ -75,13 +75,40 @@ def load_qualified(path):
     return q,read(windows[0]),read(recipes[0]),read(comparisons[0]),windows[0].parent/'endpoint_load_check.json'
 
 
+def configuration_origin(q,seen=None):
+    """Follow SHA-bound same-Tc ancestry, not equality of differently labelled MAT files."""
+    seen=set() if seen is None else seen
+    comparisons=[f for f in q['files'] if Path(f['path']).name=='runtime_Tc_recipe_comparison.json']
+    if len(comparisons)!=1:raise ValueError('Ambiguous actual construction comparison')
+    if sha256(Path(comparisons[0]['path']))!=comparisons[0]['sha256']:raise ValueError('Changed construction comparison')
+    c=read(comparisons[0]['path'])
+    if not c['only_declared_change'] or not c['numeric_validation_thresholds_equal']:
+        raise ValueError('An ancestor changed physical options or validation thresholds')
+    if not q.get('same_Tc_continuation',False):return c['reference_configuration_sha256']
+    if c.get('reference_options_field')!='plant_build_options':raise ValueError('Continuation must compare the original plant recipe')
+    results=[f for f in q['files'] if Path(f['path']).name=='collection_result.json']
+    if len(results)!=1:raise ValueError('Ambiguous continuation lineage')
+    if sha256(Path(results[0]['path']))!=results[0]['sha256']:raise ValueError('Changed continuation record')
+    continuation=read(results[0]['path'])['continuation'];digest=continuation['source_qualification_sha256']
+    if digest in seen:raise ValueError('Cyclic source qualification')
+    seen.add(digest);sources=[Path(f['path']) for f in q['files'] if f['sha256']==digest]
+    if not sources or sha256(sources[0])!=digest:raise ValueError('Changed ancestor qualification')
+    parent=read(sources[0])
+    if (parent['temperature_K']!=q['temperature_K'] or parent['boundary_trial']!=q['boundary_trial'] or
+            parent['operating_point_sha256']!=continuation['source_OP_sha256'] or
+            parent['snapshot_time_s']!=continuation['source_snapshot_s'] or
+            parent['snapshot_time_s']>=q['snapshot_time_s'] or
+            sha256(Path(parent['operating_point_path']))!=parent['operating_point_sha256']):raise ValueError('Unmatched same-Tc ancestry')
+    return configuration_origin(parent,seen)
+
+
 def analyze(low,high,output,figure):
     if output.exists() or any(figure.with_suffix(s).exists() for s in ('.png','.pdf','.json')):
         raise FileExistsError('Use fresh comparison and figure paths')
     l,a,lr,lc,lcheck=load_qualified(low);h,b,hr,hc,hcheck=load_qualified(high)
     same_experiment(l,h,a,b,lr,hr)
     if (not all(c['only_declared_change'] and c['numeric_validation_thresholds_equal'] for c in (lc,hc)) or
-            lc['reference_configuration_sha256']!=hc['reference_configuration_sha256'] or
+            configuration_origin(l)!=configuration_origin(h) or
             lc['other_option_groups_equal']!=hc['other_option_groups_equal'] or
             lc['numeric_validation_fields_equal']!=hc['numeric_validation_fields_equal']):
         raise ValueError('The measured plant-build comparisons do not share the same baseline contract')
@@ -92,6 +119,7 @@ def analyze(low,high,output,figure):
         source_qualification_sha256=l['boundary_trial']['source_qualification_sha256'],
         temperatures_K=[l['temperature_K'],h['temperature_K']],common_window_s=a['window_s'],
         common_physical_recipe_verified=True,numeric_validation_thresholds_unchanged=True,
+        common_ancestral_configuration_sha256=configuration_origin(l),
         intervention_transition_excluded=True,active_SE_mass_kg=a['active_SE_mass_kg'],
         fluid_cp_J_per_kgK=a['fluid_cp_J_per_kgK'],response_type='Controlled finite-time, finite-step difference',
         source_state_edited=False,production_recovery_allowed=False,
