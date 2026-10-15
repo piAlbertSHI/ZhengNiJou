@@ -1,4 +1,4 @@
-function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root, simulation_mode, endpoint_chamber_diagnostic, endpoint_all_arms, diagnostic_arm, state_capture_options, constitutive_options, inventory_options, reference_options)
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root, simulation_mode, endpoint_chamber_diagnostic, endpoint_all_arms, diagnostic_arm, state_capture_options, constitutive_options, inventory_options, reference_options, buffer_factor_options)
 % Independent diagnostic construction; only explicit qualified modes may load intact state.
     if nargin<3, duration=10; end
     if nargin<4, scale_inventory=false; end
@@ -22,12 +22,20 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     if nargin<22, constitutive_options=struct(); end
     if nargin<23, inventory_options=struct(); end
     if nargin<24, reference_options=struct(); end
+    if nargin<25, buffer_factor_options=struct(); end
     state_capture_options=Resolve_HeatDriveECC_DiagnosticStateOptions(state_capture_options,cycle_count);
+    buffer_factor_options=Resolve_HeatDriveECC_BufferColdFactorial(buffer_factor_options, ...
+        state_capture_options.mode,cycle_count,duration,diagnostic_arm,endpoint_all_arms);
     inventory_options=Resolve_HeatDriveECC_ManifoldInventoryDiagnostic(inventory_options, ...
         state_capture_options.mode,cycle_count,duration,diagnostic_arm,endpoint_all_arms);
     reference_options=Resolve_HeatDriveECC_SEReferenceDiagnostic(reference_options, ...
         state_capture_options.mode,cycle_count,duration,diagnostic_arm,endpoint_all_arms);
     pressure_only=isfield(inventory_options,'storage_closure');
+    if ~isempty(fieldnames(buffer_factor_options))
+        assert(pressure_only && isfield(reference_options,'mode') && ...
+            strcmp(reference_options.mode,'coherent_envelope'), ...
+            'Cold buffer factors preserve the qualified storage and reference formulations.');
+    end
     assert(isstruct(constitutive_options) && isscalar(constitutive_options), ...
         'Constitutive diagnostic options must be a scalar struct.');
     constitutive_fields=fieldnames(constitutive_options);
@@ -697,6 +705,12 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             if state_capture_enabled
                 state_settings=Configure_HeatDriveECC_DiagnosticStateCapture(model,min(cycle_count,11));
             end
+            if ~isempty(fieldnames(buffer_factor_options))
+                factor_contract=Apply_HeatDriveECC_BufferColdFactorial(model,buffer_records,buffer_factor_options);
+                write_json(fullfile(arm,'buffer_factor_contract.json'),factor_contract);
+                record.buffer_factor_options=buffer_factor_options;
+                record.buffer_factor_contract_sha256=file_hash(fullfile(arm,'buffer_factor_contract.json'));
+            end
             pressure_probe_contract=Instrument_HeatDriveECC_PumpPressureProbes(model,arm);
             stage4_controller_probe_contract= ...
                 Instrument_HeatDriveECC_Stage4ControllerProbes(model,arm);
@@ -931,6 +945,15 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 % can invalidate the vendor log's backing storage.
                 restored=Verify_HeatDriveECC_CoupledStateRestore(input,output,state_contract,duration,arm);
                 record.state_restore_preflight_cases{end+1}=restored;
+            end
+            if ~isempty(fieldnames(buffer_factor_options))
+                mechanism=Evaluate_HeatDriveECC_ColdMechanism(output,options,model,arm,record.execution_commit);
+                record.bounded_cold_mechanism_cases{end+1}=mechanism;
+                if ~mechanism.mechanism_pass
+                    write_json(fullfile(output_root,'REJECTED_DO_NOT_RESUME.json'),struct( ...
+                        'reason','original cold production mechanism failure','failed_checks',{mechanism.failed_checks}, ...
+                        'production_recovery_allowed',false,'is_independent_factorial_point',true));
+                end
             end
             clear model_cleanup output native source_traces signals pressure_probe_signals stage4_controller_probe_signals measured timing_rows native_api_profile
         end

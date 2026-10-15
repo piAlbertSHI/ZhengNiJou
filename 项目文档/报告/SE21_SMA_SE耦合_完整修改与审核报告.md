@@ -6574,3 +6574,15 @@ Python 全回归 814/814，新增覆盖零质量流量仍可传热、能量零�
 归档 19 份 compact 记录，46 份原始/组件文件总计 4409903 bytes，仅在执行 worktree 保留一份，包含 r2/r3 数值控制失败证据与 r4 八例通过数据。本轮没有非必要大 raw 可删除，也未实际产生需要退休的缓存文件，retired_raw/cache_bytes 均为 0，不能夸大清理量或重复计算以前的释放字节。清理程序保留精确路径界和逐文件哈希；C62 OP/history 在整理前后相同。
 
 治理快照 `workspace_governance_20261015_v44` 于 09:28 分类主库 outputs/audit 854 目录、16.037430 GiB；C200/C180 四项权威实文件 SHA 再次全部通过。范围不含全部执行 worktree/Agent6，不作为整盘体积。用户 SLX 与 Agent6 仍隔离不动。第 8 节完整目标继续 active，当前没有新全耦合循环或通过的 outer/paired endpoint，不能因部件实验成功就缩小目标或声称严格复现。
+
+## 276. 独立冷态全耦合端口几何与精度对照（2026-10-15）
+
+上一轮已定位并实测部件级端口导热，属于实际进展。本轮不重复 C62 热身或八例夹具，进入四个新的 0–10 s 全耦合冷态点：baseline_legacy、baseline_tight、sma_pipe_legacy、sma_pipe_tight。共同 pressure-only density 近似、coherent-envelope 参考、本构稳定子步 32、PI -126/-225/-255、材料、热容、温度边界、初始公共 M/E 目标和同一 1-cycle 命令时域保持一致。短窗只诊断 cold mechanism/能流，不冒充十周期周期稳态、二十周期恢复种子或 outer solve。
+
+几何因子只改变 SHEXFluidBuffer/SMAHotFluidBuffer 的候选 port_area，SE 两个 buffer 与槽体面积、容量、重力、所有 M/E/T 目标均保持。0.01 m2 为继承水平，pi*(3.2 mm)^2/4 为待检验的连接管匹配假设，不称论文 buffer 给定尺寸。数值因子是夹具已验证的全局+LOCAL consistency/residual 精度组合，不改 ode3、局部 BE、1 ms、固定开销模式或控制参数。四点不共享任何末状态，失败点不会传播。
+
+新增显式可选冷态配置与 helper，空配置不施加干预；任何非空配置只允许 off/1-cycle/10 s/native/endpoint-all 组合，并绑定八例通过的部件回执，明确拒绝 diagnostic_resume、restore_preflight、任意几何、未知字段或 PI reset。每个 buffer 逐字段记录干预前后的库存参数，相同才允许运行；实际端口与 solver 参数写入独立合同，不能把“原几何继承一致”误当作本实验完全没有几何改变。原 73 项生产检查对实际 cold 输出单独执行，门禁失败留 rejected marker，不进入恢复。
+
+执行复用已有空闲工作树 `C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合`，分支 `codex/buffer-geometry-cold-diagnostic`；旧 detached `9509a86` 及其祖先已用 `codex/archive-stage4-phase-local-blend-20261015` 保留，不删除旧数据。切换时 Windows Git 的长路径限制使两个已跟踪 JSON 未落盘，仅针对本次切换产生的两个缺失项按原 blob 恢复；启用单命令 core.longpaths 后工作树干净，不覆盖用户变化。
+
+C62 原执行工作树 `runtime-cv-json-contract` 保持 `7f5516f` 和原 runner 不变；新的可选 cold hook 不镜像到该恢复环境，不降低现有源码/完整 OP 门禁。新执行程序通过子进程环境的 core.longpaths=true 正确读取状态，不修改全局 Git 配置。C200 只读取冻结 options，不加载其 OP；C62 只核对完整点 SHA，不导入新模型。四点在同一个真实前台进程内顺序执行，独立新输出目录，不轮询、不定时重启；出现基础设施/仿真错误先保留、诊断，不盲目启动重复程序。结果尚未取得时不记录通过。
