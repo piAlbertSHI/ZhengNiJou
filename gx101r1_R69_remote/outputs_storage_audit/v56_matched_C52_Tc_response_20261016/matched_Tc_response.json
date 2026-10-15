@@ -1,0 +1,163 @@
+{
+  "metrics": {
+    "cooling_power_eq10_W": {
+      "low": 12.890936179080777,
+      "high": 13.074139286214008,
+      "difference": 0.18320310713323096,
+      "finite_step_response_per_K": 0.9160155356662069,
+      "cycle_difference_min": 0.16648698785129312,
+      "cycle_difference_max": 0.20183633781665478,
+      "cycle_difference_span": 0.035349349965361654,
+      "cycle_differences": [
+        0.20183633781665478,
+        0.1972389107590935,
+        0.19282451824659397,
+        0.18858633725178997,
+        0.18451752043900171,
+        0.18061147052520532,
+        0.17686194046502735,
+        0.1732618331215683,
+        0.16980521485607802,
+        0.16648698785129312
+      ],
+      "deterministic_cycle_spread_is_not_a_confidence_interval": true
+    },
+    "SCP_W_per_g": {
+      "low": 0.30827143486771336,
+      "high": 0.31265251967983376,
+      "difference": 0.004381084812120406,
+      "finite_step_response_per_K": 0.021905424060603276,
+      "cycle_difference_min": 0.003981338664526768,
+      "cycle_difference_max": 0.0048266764029252784,
+      "cycle_difference_span": 0.0008453377383985106,
+      "cycle_differences": [
+        0.0048266764029252784,
+        0.004716734392814781,
+        0.004611169436554596,
+        0.004509818369545393,
+        0.004412517445883446,
+        0.004319108899377311,
+        0.004229443339353378,
+        0.00414335104620811,
+        0.0040606901240152204,
+        0.003981338664526768
+      ],
+      "deterministic_cycle_spread_is_not_a_confidence_interval": true
+    },
+    "temperature_lift_eq9_K": {
+      "low": 28.505200560703685,
+      "high": 28.35940241013769,
+      "difference": -0.14579815056599443,
+      "finite_step_response_per_K": -0.7289907528300136,
+      "cycle_difference_min": -0.15360513682353627,
+      "cycle_difference_max": -0.1370513123838002,
+      "cycle_difference_span": 0.016553824439736076,
+      "cycle_differences": [
+        -0.1370513123838002,
+        -0.1392198517182237,
+        -0.14129787184717557,
+        -0.14328892460494913,
+        -0.14519683796815386,
+        -0.14702514520284993,
+        -0.14877699521684207,
+        -0.15045555587504467,
+        -0.15206387401931565,
+        -0.15360513682353627
+      ],
+      "deterministic_cycle_spread_is_not_a_confidence_interval": true
+    },
+    "CHEX_sensor_mean_W": {
+      "low": 12.550570814625653,
+      "high": 12.7299437824498,
+      "difference": 0.1793729678241469,
+      "finite_step_response_per_K": 0.8968648391207855,
+      "cycle_difference_min": 0.1626745695185985,
+      "cycle_difference_max": 0.1979868252521655,
+      "cycle_difference_span": 0.035312255733567,
+      "cycle_differences": [
+        0.1979868252521655,
+        0.19339418092994975,
+        0.18898433871396136,
+        0.1847504962622839,
+        0.18068587259571345,
+        0.1767838688640957,
+        0.17303826214325646,
+        0.16944204840564403,
+        0.1659892155557987,
+        0.1626745695185985
+      ],
+      "deterministic_cycle_spread_is_not_a_confidence_interval": true
+    },
+    "heat_driven_COP": {
+      "low": 0.015650847687452105,
+      "high": 0.01587271533408023,
+      "difference": 0.00022186764662812664,
+      "finite_step_response_per_K": 0.0011093382331406963,
+      "cycle_difference_min": 0.00020146671965294571,
+      "cycle_difference_max": 0.0002446072578635213,
+      "cycle_difference_span": 4.3140538210575605e-05,
+      "cycle_differences": [
+        0.0002446072578635213,
+        0.00023899683063690821,
+        0.00023360968578245433,
+        0.00022843741830141234,
+        0.0002234718398573081,
+        0.00021870495882823568,
+        0.000214128966043,
+        0.00020973521250666413,
+        0.0002055164411875407,
+        0.00020146671965294571
+      ],
+      "deterministic_cycle_spread_is_not_a_confidence_interval": true
+    }
+  },
+  "zero_load_SCP_bracketed": false,
+  "zero_lift_bracketed": false,
+  "root_found": false,
+  "zero_load_local_direction": "decrease_Tc",
+  "zero_lift_local_direction": "increase_Tc",
+  "parameter_extrapolation_performed": false,
+  "asymptotic_derivative_claim": false,
+  "outer_solve_eligible": false,
+  "paired_Table4_eligible": false,
+  "table4_reproduction_claim": false,
+  "schema": "heatdrive_ecc_matched_source_finite_window_Tc_response_v1",
+  "analysis_source_sha256": "E7277F7D255EFFF3686C60C4BF1E5C8638716606B153E1EAB438F777C7ED6A4A",
+  "source_OP_sha256": "1FC1E05C01C87AE9400F51F24AE6EB3188A81F86E73971C03AAB6DBC7BDF4A07",
+  "source_qualification_sha256": "19A4C2A92A2D1B0C0D38AD1E65A9733729D94CAC74FAC48CA25BBC0AC76FAD67",
+  "temperatures_K": [
+    276.85,
+    277.05
+  ],
+  "common_window_s": [
+    420,
+    520
+  ],
+  "common_physical_recipe_verified": true,
+  "numeric_validation_thresholds_unchanged": true,
+  "common_ancestral_configuration_sha256": "E8D4AA8CEB5D2A5192261E592E3DAD3635FB0C42C599200761BAEB8E2358E727",
+  "intervention_transition_excluded": true,
+  "active_SE_mass_kg": 0.04181683646625444,
+  "fluid_cp_J_per_kgK": 3638.0,
+  "response_type": "Controlled finite-time, finite-step difference",
+  "source_state_edited": false,
+  "production_recovery_allowed": false,
+  "input_sha256": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v55_runtime_Tc276p85_C52_snapshot_20261016\\endpoint_qualification.json",
+      "sha256": "939BABEFF6C70B3334681DD186925B604752928FB91B44FD46D2BE775E66C589"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v56_runtime_Tc277p05_C52_snapshot_20261016\\endpoint_qualification.json",
+      "sha256": "AB36BA7C2AC0B8861E3AE07D6E49707604EC9F04877B45353AD5F6793B9B01EB"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v55_runtime_Tc276p85_C52_window_20261016\\endpoint_load_check.json",
+      "sha256": "93F6054FAC22A1ED0D902F265429E50B22599BC8091B153FF6EE6CC8299149F1"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v56_runtime_Tc277p05_C52_window_20261016\\endpoint_load_check.json",
+      "sha256": "2E63DDBE6454C6026E34676F86A369040593F38A016D1F30D85D6B8D6F1111DE"
+    }
+  ]
+}

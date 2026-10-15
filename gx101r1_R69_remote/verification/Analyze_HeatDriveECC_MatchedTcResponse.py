@@ -57,22 +57,37 @@ def response(low, high, a, b):
         paired_Table4_eligible=False,table4_reproduction_claim=False)
 
 
+def current_measured_window(q, files):
+    results=[p for p in files if p.name=='collection_result.json']
+    if len(results)!=1:raise ValueError('Ambiguous current collection')
+    digest=sha256(results[0]);windows=[]
+    for p in files:
+        if p.name!='measured_window.json':continue
+        d=read(p)
+        if (d.get('schema')=='heatdrive_ecc_measured_ten_cycle_collection_v1' and
+                d.get('window_s')==q['current_window_s'] and d.get('candidate_Tc_K')==q['temperature_K'] and
+                d.get('total_cycles')==q['snapshot_time_s']/10 and d.get('sample_count')==100001 and
+                d.get('collection_result_sha256')==digest):windows.append(p)
+    if len(windows)!=1:raise ValueError('Require one SHA-bound current measured window, not its ancestor')
+    return windows[0]
+
+
 def load_qualified(path):
     q=read(path)
     for f in q['files']:
         if sha256(Path(f['path']))!=f['sha256']:raise ValueError('Changed qualified dependency: '+f['path'])
     if sha256(Path(q['operating_point_path']))!=q['operating_point_sha256']:raise ValueError('Changed trial OP')
     files=[Path(f['path']) for f in q['files']]
-    windows=[p for p in files if p.name=='measured_window.json' and
-             read(p).get('schema')=='heatdrive_ecc_measured_ten_cycle_collection_v1']
+    window=current_measured_window(q,files)
     recipes=[p for p in files if p.name=='initial_prepared_recipe.json']
     comparisons=[p for p in files if p.name=='runtime_Tc_recipe_comparison.json']
-    if any(len(rows)!=1 for rows in (windows,recipes,comparisons)):raise ValueError('Ambiguous trial evidence')
-    check=read(windows[0].parent/'endpoint_load_check.json')
+    if any(len(rows)!=1 for rows in (recipes,comparisons)):raise ValueError('Ambiguous trial evidence')
+    check=read(window.parent/'endpoint_load_check.json')
     if (not check['actual_complete_OP_loaded'] or check['simulation_executed'] or check['source_state_edited'] or
-            check['snapshot_time_s']!=q['snapshot_time_s'] or check['operating_point_sha256']!=q['operating_point_sha256']):
+            check['snapshot_time_s']!=q['snapshot_time_s'] or check['temperature_K']!=q['temperature_K'] or
+            check['operating_point_sha256']!=q['operating_point_sha256']):
         raise ValueError('Require the independent actual full-OP reload')
-    return q,read(windows[0]),read(recipes[0]),read(comparisons[0]),windows[0].parent/'endpoint_load_check.json'
+    return q,read(window),read(recipes[0]),read(comparisons[0]),window.parent/'endpoint_load_check.json'
 
 
 def configuration_origin(q,seen=None):

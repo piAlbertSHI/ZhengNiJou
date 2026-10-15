@@ -1,0 +1,18 @@
+{
+  "schema": "heatdrive_ecc_runtime_raw_prefix_retirement_receipt_v1",
+  "status": "completed",
+  "plan_sha256": "CA14A35F1DE2A712D1FAB3176ED191B161965C50D7A6E53D15F1E5853BB73053",
+  "qualification_sha256": "AB36BA7C2AC0B8861E3AE07D6E49707604EC9F04877B45353AD5F6793B9B01EB",
+  "retired_bytes": 451081919,
+  "retired_files": [
+    "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C042_attempt01\\native\\observations.mat",
+    "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C042_attempt01\\observed_states.mat"
+  ],
+  "retained_native_window_s": [
+    420,
+    520
+  ],
+  "complete_OP_deleted_bytes": 0,
+  "current_raw_deleted_bytes": 0,
+  "inplace_job_resume_allowed": false
+}

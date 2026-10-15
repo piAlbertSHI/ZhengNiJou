@@ -1,0 +1,66 @@
+{
+  "schema": "heatdrive_ecc_runtime_rolling_public_window_v1",
+  "window_s": [
+    380,
+    480
+  ],
+  "sample_count": 100001,
+  "packets": [
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v54_runtime_Tc277p05_fromC28_r1\\packet_C040_attempt01",
+      "observation_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v54_runtime_Tc277p05_fromC28_r1\\packet_C040_attempt01\\native\\observations.mat",
+      "observation_sha256": "BE6191BE87DCFCBCA266F3B0058E99E2EE290D4ADEF2F1CE7101B32AE1861271",
+      "configuration_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v54_runtime_Tc277p05_fromC28_r1\\packet_C040_attempt01\\native\\configuration.mat",
+      "configuration_sha256": "D768339EDFF2B53D5B01A586D9D282F325EB425CFACAA2790A131FDE1031CA62",
+      "window_s": [
+        380,
+        400
+      ]
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C042_attempt01",
+      "observation_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C042_attempt01\\native\\observations.mat",
+      "observation_sha256": "98A789EC9B16D6FAE6D90B530A87E4219E19091CC2781D34191DF1981A015170",
+      "configuration_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C042_attempt01\\native\\configuration.mat",
+      "configuration_sha256": "B71894765A9E0F7B9EC088C28D8DE8AAD38D14A1C23D84BACE73BE7438C4FEF5",
+      "window_s": [
+        400,
+        420
+      ]
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01",
+      "observation_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\native\\observations.mat",
+      "observation_sha256": "F1FE2F8326E2502843EB9B373FC7808F6DC66C1EE0E4E477494868D996B18ECB",
+      "configuration_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\native\\configuration.mat",
+      "configuration_sha256": "3E228B3AD2B2024FC8A6612470AC20D062E3DEAE8CA6B5372DBD9F8C80CD2EA5",
+      "window_s": [
+        420,
+        440
+      ]
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01",
+      "observation_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\native\\observations.mat",
+      "observation_sha256": "5C45C156A1D3BA2F7EE08D84F8A30A6E7EF57930A6963B861E5B6E368A07E0B2",
+      "configuration_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\native\\configuration.mat",
+      "configuration_sha256": "491672E40887B424BF228F56BA1366D92574926FC1895CE053F32DF2B7EECFCB",
+      "window_s": [
+        440,
+        460
+      ]
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01",
+      "observation_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\native\\observations.mat",
+      "observation_sha256": "D866366B0CDE565C23E0C877656B5F0CAD7BDE8A0C5DC37B31CA4BF91CDEB18A",
+      "configuration_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\native\\configuration.mat",
+      "configuration_sha256": "BC83A2DFA7F9F42878ADE8819A16AFA02908917CBC8FF0936C0FDB56D2A674E5",
+      "window_s": [
+        460,
+        480
+      ]
+    }
+  ],
+  "source_state_edited": false
+}

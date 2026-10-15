@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from Analyze_HeatDriveECC_MatchedTcResponse import same_experiment, response, configuration_origin, METRICS
+from Analyze_HeatDriveECC_MatchedTcResponse import same_experiment, response, configuration_origin, current_measured_window, METRICS
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 
 
@@ -86,6 +86,35 @@ class MatchedTcResponseTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             child,cmp=self.ancestry(Path(d));cmp.write_text('{}')
             with self.assertRaises(ValueError):configuration_origin(child)
+
+    def window_fixture(self,root):
+        result=root/'collection_result.json';result.write_text('{}')
+        q=dict(current_window_s=[420,520],temperature_K=276.85,snapshot_time_s=520)
+        data=dict(schema='heatdrive_ecc_measured_ten_cycle_collection_v1',window_s=[420,520],
+            candidate_Tc_K=276.85,total_cycles=52,sample_count=100001,collection_result_sha256=sha256(result))
+        files=[result]
+        for name,window in [('ancestor',[300,400]),('current',[420,520])]:
+            p=root/name/'measured_window.json';p.parent.mkdir()
+            value=dict(data,window_s=window,total_cycles=window[-1]/10);p.write_text(json.dumps(value));files.append(p)
+        return q,data,files
+
+    def test_select_current_window_without_rejecting_retained_ancestor(self):
+        with tempfile.TemporaryDirectory() as d:
+            q,_,files=self.window_fixture(Path(d))
+            self.assertEqual(current_measured_window(q,files),files[-1])
+
+    def test_reject_current_window_with_wrong_collection_temperature_or_samples(self):
+        with tempfile.TemporaryDirectory() as d:
+            q,data,files=self.window_fixture(Path(d))
+            for key,value in [('collection_result_sha256','other'),('candidate_Tc_K',277.05),('sample_count',99999)]:
+                files[-1].write_text(json.dumps(dict(data,**{key:value})))
+                with self.assertRaises(ValueError):current_measured_window(q,files)
+
+    def test_reject_duplicate_current_window(self):
+        with tempfile.TemporaryDirectory() as d:
+            q,data,files=self.window_fixture(Path(d));p=Path(d)/'duplicate'/'measured_window.json'
+            p.parent.mkdir();p.write_text(json.dumps(data));files.append(p)
+            with self.assertRaises(ValueError):current_measured_window(q,files)
 
 
 if __name__=='__main__':unittest.main()

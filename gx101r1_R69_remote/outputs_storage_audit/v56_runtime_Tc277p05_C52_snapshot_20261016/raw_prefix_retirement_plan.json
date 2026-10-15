@@ -1,0 +1,30 @@
+{
+  "schema": "heatdrive_ecc_completed_runtime_raw_prefix_retirement_v1",
+  "collection_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1",
+  "collection_result_sha256": "36F929952FF3F1631DE7C5B74E862B7F2A18A4C65E205AF773046D1F5557399F",
+  "retained_native_window_s": [
+    420,
+    520
+  ],
+  "retained_all_complete_OPs": true,
+  "retained_all_compact_mechanism_evidence": true,
+  "current_endpoint_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C052_attempt01\\comparison_only_complete_op.mat",
+  "current_endpoint_sha256": "DE5660F2CEA257545BC9DBFB5A3C0E5A9BCE96C4B22A1F37A3A96AEC652E6107",
+  "files": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C042_attempt01\\native\\observations.mat",
+      "bytes": 313757769,
+      "sha256": "98A789EC9B16D6FAE6D90B530A87E4219E19091CC2781D34191DF1981A015170",
+      "classification": "obsolete_same_Tc_prefix"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C042_attempt01\\observed_states.mat",
+      "bytes": 137324150,
+      "sha256": "EE705CD5ABB077450E0306BFA777A393E1E6E2EDC6DA6E5007FD41F5471B9B55",
+      "classification": "obsolete_same_Tc_prefix"
+    }
+  ],
+  "retire_bytes": 451081919,
+  "retired_prefix_may_be_used_as_recovery_source": false,
+  "complete_job_inplace_resume_after_retirement_allowed": false
+}
