@@ -1,4 +1,4 @@
-function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root, simulation_mode, endpoint_chamber_diagnostic, endpoint_all_arms, diagnostic_arm, state_capture_options, constitutive_options, inventory_options, reference_options, buffer_factor_options)
+function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, duration, scale_inventory, buffer_mass_guess, buffer_mass_targets, pipe_energy_targets, conservative_buffers, formulation, network_absolute_pressure_MPa, diagnostic_branch_overrides, nonlinear_inventory, initial_flux_compensation, buffer_mass_formulation, cycle_count, initial_observation_root, simulation_mode, endpoint_chamber_diagnostic, endpoint_all_arms, diagnostic_arm, state_capture_options, constitutive_options, inventory_options, reference_options, buffer_factor_options, observation_options)
 % Independent diagnostic construction; only explicit qualified modes may load intact state.
     if nargin<3, duration=10; end
     if nargin<4, scale_inventory=false; end
@@ -23,6 +23,9 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     if nargin<23, inventory_options=struct(); end
     if nargin<24, reference_options=struct(); end
     if nargin<25, buffer_factor_options=struct(); end
+    if nargin<26, observation_options=struct(); end
+    observation_options=Resolve_HeatDriveECC_ObservationPreflight(observation_options, ...
+        state_capture_options,cycle_count,duration,diagnostic_arm,endpoint_all_arms,buffer_factor_options);
     state_capture_options=Resolve_HeatDriveECC_DiagnosticStateOptions(state_capture_options,cycle_count);
     buffer_factor_options=Resolve_HeatDriveECC_BufferColdFactorial(buffer_factor_options, ...
         state_capture_options.mode,cycle_count,duration,diagnostic_arm,endpoint_all_arms);
@@ -754,6 +757,18 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 record.native_logging_step_equivalence=Verify_HeatDriveECC_PassiveLoggingWindow( ...
                     input,diagnostic_initial_op,state_capture_options.restore_source_root,arm,changed,buffer_paths);
             end
+            if ~isempty(fieldnames(observation_options))
+                record.observation_preflight_requested=true;
+                record.prepared_stop_time_is_not_an_executed_long_segment=true;
+                record.observation_preflight=Verify_HeatDriveECC_SplitObservation( ...
+                    input,diagnostic_initial_op,options,arm,changed,buffer_paths, ...
+                    state_settings,observation_options,record.execution_commit);
+                record.observation_preflight_pass=record.observation_preflight.pass;
+                record.actual_observation_preflight_window_s=record.observation_preflight.full_window_s;
+                record.prepared_stop_time_is_not_an_executed_long_segment=true;
+                clear model_cleanup
+                continue
+            end
             output=sim(input);
             if ~isempty(output.ErrorMessage)
                 failure_message=output.ErrorMessage;
@@ -978,7 +993,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         'rebuilt_cycle_preflight_pass',record.rebuilt_cycle_preflight_pass, ...
         'production_recovery_allowed',false, ...
         'result_file',fullfile(output_root,'cold_chamber_execution.json'))));
-    assert(record.requested_arm_collection_pass || record.state_restore_preflight_pass || record.rebuilt_cycle_preflight_pass, ...
+    observation_preflight_pass=isfield(record,'observation_preflight_pass') && record.observation_preflight_pass;
+    assert(record.requested_arm_collection_pass || record.state_restore_preflight_pass || record.rebuilt_cycle_preflight_pass || observation_preflight_pass, ...
         'Cold chamber diagnostic failed; inspect execution JSON.');
 end
 

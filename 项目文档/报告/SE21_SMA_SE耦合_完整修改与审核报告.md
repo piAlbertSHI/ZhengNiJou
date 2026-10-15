@@ -6685,3 +6685,13 @@ BE 是局部求解器的离散守恒口径；trapz 的相同冷量差为 0.34289
 实际 Python 全回归 843/843，新合同的原结构审核通过；此结构通过不代替物理门禁。新图使用最终 channel-summed、原 MATLAB 绑定的结果，早期两份开发 JSON 和首版预览仅列入 v46_evidence_index_20261015.json 的 superseded 清单，不提交为科学结果。工具在启动前拒绝了清理草稿的命令，未尝试其他删除通道；因此本轮实际释放字节为 0，而不是声称已清理。未产生新的大原始数据，也没有复制 C62 大 MAT。
 
 治理快照 workspace_governance_20261015_v46 于 12:41 分类主库 outputs/audit 858 个目录、16.049427 GiB，C200/C180 四项实文件 SHA 全通过；范围仍不包含 Agent6 或其他工作树。C62 OP/history 已在本轮实际分析前核对原合同 SHA，未导入或修改。用户 SLX、Agent6 和原 C62 执行源码均保持隔离。
+
+## 278. 保持原容量的完整状态分段观察验证（2026-10-15）
+
+上一轮已得到真实窗口控制体表及冷量分解。本轮进入兼容观察架构，不重跑冷态或放宽稳态门禁：从当前完整 C62、620 s 出发，对比连续 620–640 s 与先 620–630 s、保存完整 vendor OP 后再 630–640 s。三次真实调用共模拟 40 s，但只验证同一段两周期轨迹，不冒充新增四个生产周期、已运行到 C82 或十周期完整库存稳态。
+
+新的显式 observation_options 默认空，不改变普通冷态/续算执行路径；非空仅允许 diagnostic_resume/20-cycle 原准备配方、native arm、原 native cap=2、state-history cap=11、同一 200-cycle 命令时域和空几何干预。实际验证调用仅改变 StopTime 与 intact initial OP；保留 error/error 厂商校验、本构、温度、相分数、热容、buffer 与全部 PI 记忆，不改变完整 OP 内容。新入口未修改原 Run_ResumedDiagnosticSegment 的资格规则，也不改变被拒绝的 cap=10 原型。
+
+每个完整观察包在下一次 sim 前先落盘公共信号、74 组数值状态、1262 个 native、162 个源叶、原配置/拓扑/库存合同和完整比较用 OP。各包分别用原 73 项机制判据和独立 Python 六局部 M/E、119 库存/49 源、潜热一次的原 1e-8 J 账本核查；prefix 只有通过后才允许用于该 split 比较的 suffix，加载前再次验证完整 OP SHA。任何非零或门禁失败保存 rejection 及原日志，不作为长链/插值/outer 恢复源。
+
+连续与分段比较使用已有 Compare_DiagnosticTraces 的逐坐标、逐样本时间规则与既有数值重复性容差，分别报告 bitwise 相等与容差结果；不把 opaque solver 状态总范数当作物理周期稳态。独立 driver 同时检查 C62 producer 与执行 HEAD 的 plant/command/state 代码无变化，实际 vendor OP 恢复仍必须严格成功。执行复用干净的独立诊断工作树；C62 原 runtime-cv-json-contract 工作树与 C200 权威文件不改。本段仅说明预先声明的实验设计，结果未完成前不写通过。
