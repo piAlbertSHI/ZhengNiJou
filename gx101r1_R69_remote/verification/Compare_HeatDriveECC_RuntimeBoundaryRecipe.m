@@ -1,7 +1,9 @@
-function record=Compare_HeatDriveECC_RuntimeBoundaryRecipe(reference,candidate,output)
+function record=Compare_HeatDriveECC_RuntimeBoundaryRecipe(reference,candidate,output,reference_field)
 % Compare the actual saved construction recipes, not a claim about matching defaults.
-    assert(~isfile(output));a=load(reference,'options');b=load(candidate,'options');
-    old=a.options;new=b.options;
+    if nargin<4,reference_field='options';end
+    assert(any(strcmp(reference_field,{'options','plant_build_options'})));
+    assert(~isfile(output));a=load(reference,reference_field);b=load(candidate,'options');
+    old=a.(reference_field);new=b.options;
     numeric_validation_names=fieldnames(old.validation);
     numeric_validation_equal=struct();
     for k=1:numel(numeric_validation_names)
@@ -12,6 +14,7 @@ function record=Compare_HeatDriveECC_RuntimeBoundaryRecipe(reference,candidate,o
     end
     record=struct('schema','heatdrive_ecc_runtime_boundary_recipe_comparison_v1', ...
         'reference_configuration_sha256',file_hash(reference),'candidate_configuration_sha256',file_hash(candidate), ...
+        'reference_options_field',reference_field, ...
         'reference_configurability',old.system.cold_boundary_temperature_configurability, ...
         'candidate_configurability',new.system.cold_boundary_temperature_configurability, ...
         'excluded_nonphysical_fields',{{'model_path','outputs_dir','report_path','output','validation'}}, ...

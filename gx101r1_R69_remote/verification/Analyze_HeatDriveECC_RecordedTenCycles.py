@@ -78,6 +78,28 @@ def native_pipe_inventory(metadata, connectivity, block, specific_energy):
 def runtime_window(result):
     start,stop=result['collection_window_s']
     rows=result['completed_packets']
+    if result['schema']=='heatdrive_ecc_runtime_Tc_continuation_collection_v1':
+        c=result['continuation'];check=result['latest_periodicity'];target=result['latest_target_stability']
+        source=Path(result['origin_measured_window_path'])
+        if (not result['pass'] or result['error_message'] or result['source_state_edited'] or result['partial_state_restore_used'] or
+                not 1<=len(rows)<=10 or stop-start!=20*len(rows) or start!=c['source_snapshot_s'] or
+                c['budget_stop_s']!=start+200 or stop>c['budget_stop_s'] or stop>2000 or
+                result['planned_collection_window_s']!=[start,start+200] or stop!=10*result['total_cycles'] or
+                check['window_s']!=[stop-100,stop] or target['window_s']!=[stop-100,stop] or
+                (stop<start+200 and not (check['periodic_steady_state'] and target['precision_pass'])) or
+                sha256(source)!=result['origin_measured_window_sha256'] or not c['temperature_unchanged'] or
+                any(row['start_time_s']!=start+20*k or row['stop_time_s']!=start+20*(k+1) for k,row in enumerate(rows))):
+            raise ValueError('Incomplete or changed same-Tc target-precision continuation')
+        origin=read(source)
+        if (origin['window_s']!=[start-100,start] or len(origin['packets'])!=5 or
+                not origin['fixed_Tc_candidate'] or origin['candidate_Tc_K']!=result['candidate_Tc_K']):
+            raise ValueError('Cannot borrow a different-temperature or incomplete source window')
+        prior=[]
+        for k,p in enumerate(origin['packets']):
+            if p['window_s']!=[start-100+20*k,start-80+20*k]:raise ValueError('Origin gap')
+            prior.append(dict(packet_root=p['packet_root'],start_time_s=p['window_s'][0],stop_time_s=p['window_s'][1]))
+        all_rows=prior+rows
+        return stop-100,stop,all_rows[-5:],Path(all_rows[-6]['packet_root'])
     candidate=result['schema']=='heatdrive_ecc_runtime_Tc_candidate_collection_v1'
     if candidate:
         t=result['boundary_trial'];check=result['latest_periodicity']
@@ -126,13 +148,15 @@ def analyze(collection, reference, review, output):
     if output.exists():
         raise FileExistsError('Never replace a measured-window analysis')
     result = read(collection/'collection_result.json')
-    candidate=result['schema']=='heatdrive_ecc_runtime_Tc_candidate_collection_v1'
+    continuing=result['schema']=='heatdrive_ecc_runtime_Tc_continuation_collection_v1'
+    candidate=continuing or result['schema']=='heatdrive_ecc_runtime_Tc_candidate_collection_v1'
     runtime=candidate or result['schema']=='heatdrive_ecc_runtime_boundary_transient_collection_v1'
     lineage=[]
     pointer = read(collection/'initial_recording_contract.json')
     if runtime:
         start,stop,selected,previous=runtime_window(result)
-        expected_role='runtime_boundary_Tc_candidate' if candidate else 'runtime_boundary_transient'
+        expected_role=('runtime_boundary_Tc_continuation' if continuing else
+                       'runtime_boundary_Tc_candidate' if candidate else 'runtime_boundary_transient')
         expected_Tc=result['candidate_Tc_K'] if candidate else 276.95
         if (sha256(collection/'initial_recording_contract.json')!=result['origin_snapshot_sha256'] or
                 sha256(collection/'initial_prepared_recipe.json')!=result['origin_recipe_sha256']):
@@ -152,6 +176,8 @@ def analyze(collection, reference, review, output):
                 raise ValueError('Runtime recording lineage changed')
             if candidate and m['boundary_trial']!=result['boundary_trial']:
                 raise ValueError('The candidate parameter intervention changed mid-collection')
+            if continuing and m['continuation']!=result['continuation']:
+                raise ValueError('The same-Tc continuation source changed')
             parent=m['complete_OP_sha256']
             lineage.append(dict(packet_root=str(root),manifest_sha256=sha256(root/'packet_manifest.json'),
                 gate_sha256=sha256(root/'packet_gate.json'),boundary_sha256=sha256(root/'boundary_comparison.json'),

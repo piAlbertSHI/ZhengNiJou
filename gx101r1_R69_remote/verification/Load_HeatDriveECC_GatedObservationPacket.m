@@ -8,7 +8,7 @@ function [op,manifest]=Load_HeatDriveECC_GatedObservationPacket(packet,require_b
         islogical(row.selected_flow_gate) && isscalar(row.selected_flow_gate) && row.selected_flow_gate,flows);
     cold=isfield(manifest,'packet_role') && strcmp(manifest.packet_role,'runtime_boundary_cold_baseline');
     runtime=isfield(manifest,'packet_role') && strcmp(manifest.packet_role,'runtime_boundary_transient');
-    candidate=isfield(manifest,'packet_role') && strcmp(manifest.packet_role,'runtime_boundary_Tc_candidate');
+    candidate=isfield(manifest,'packet_role') && any(strcmp(manifest.packet_role,{'runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation'}));
     if candidate
         t=manifest.boundary_trial;
         assert(strcmp(manifest.temperature_configurability,'runtime') && manifest.prescribed_Tc_K==t.candidate_Tc_K && ...
@@ -17,6 +17,13 @@ function [op,manifest]=Load_HeatDriveECC_GatedObservationPacket(packet,require_b
             manifest.window_s(1)>=t.transition_time_s && manifest.window_s(2)<=2000 && ...
             t.minimum_transition_cycles==12 && ~t.source_state_edited && ~t.old_model_OP_imported && ...
             manifest.source_snapshot_s==manifest.window_s(1) && strcmp(manifest.checksum_policy,'error/error'));
+    end
+    if isfield(manifest,'packet_role') && strcmp(manifest.packet_role,'runtime_boundary_Tc_continuation')
+        c=manifest.continuation;
+        assert(c.temperature_unchanged && manifest.window_s(1)>=c.source_snapshot_s && ...
+            manifest.window_s(2)<=c.budget_stop_s && c.budget_stop_s==c.source_snapshot_s+200 && ...
+            c.source_snapshot_s>=400 && mod(c.source_snapshot_s,20)==0);
+        if manifest.window_s(1)==c.source_snapshot_s,assert(strcmp(manifest.parent_complete_OP_sha256,c.source_OP_sha256));end
     end
     if runtime
         assert(strcmp(manifest.temperature_configurability,'runtime') && manifest.prescribed_Tc_K==276.95 && ...

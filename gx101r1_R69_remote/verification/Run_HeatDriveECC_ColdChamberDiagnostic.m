@@ -27,7 +27,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     observation_options=Resolve_HeatDriveECC_ObservationPreflight(observation_options, ...
         state_capture_options,cycle_count,duration,diagnostic_arm,endpoint_all_arms,buffer_factor_options);
     runtime_boundary_family=~isempty(fieldnames(observation_options)) && ...
-        ismember(observation_options.mode,{'runtime_boundary_cold_family','runtime_boundary_warmup','runtime_boundary_Tc_candidate'});
+        ismember(observation_options.mode,{'runtime_boundary_cold_family','runtime_boundary_warmup','runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation'});
     state_capture_options=Resolve_HeatDriveECC_DiagnosticStateOptions(state_capture_options,cycle_count);
     buffer_factor_options=Resolve_HeatDriveECC_BufferColdFactorial(buffer_factor_options, ...
         state_capture_options.mode,cycle_count,duration,diagnostic_arm,endpoint_all_arms);
@@ -781,7 +781,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                         state_settings,observation_options,record.execution_commit);
                     record.observation_preflight_pass=record.observation_preflight.pass;
                     record.actual_observation_preflight_window_s=record.observation_preflight.full_window_s;
-                elseif strcmp(observation_options.mode,'runtime_boundary_Tc_candidate')
+                elseif any(strcmp(observation_options.mode,{'runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation'}))
                     record.runtime_Tc_candidate=Run_HeatDriveECC_RuntimeTcPackets( ...
                         input,options,arm,changed,buffer_paths,state_settings,observation_options,record.execution_commit);
                     record.runtime_boundary_warmup_pass=record.runtime_Tc_candidate.pass;

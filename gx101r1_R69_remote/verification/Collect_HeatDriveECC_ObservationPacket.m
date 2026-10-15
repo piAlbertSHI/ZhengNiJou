@@ -4,8 +4,8 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
     if nargin<13,parent_hash='';end
     if nargin<14,trial=struct();end
     cold=strcmp(role,'runtime_boundary_cold_baseline');
-    assert(any(strcmp(role,{'split_comparison','bounded_transient_observation','runtime_boundary_cold_baseline','runtime_boundary_transient','runtime_boundary_Tc_candidate'})));
-    candidate=strcmp(role,'runtime_boundary_Tc_candidate');
+    assert(any(strcmp(role,{'split_comparison','bounded_transient_observation','runtime_boundary_cold_baseline','runtime_boundary_transient','runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation'})));
+    candidate=any(strcmp(role,{'runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation'}));
     assert(candidate || isempty(fieldnames(trial)));
     if candidate
         assert(trial.candidate_Tc_K==options.system.Tchex_K && trial.source_Tc_K==276.95 && ...
@@ -73,7 +73,12 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
     manifest.independent_cold_start=cold;
     manifest.temperature_configurability=options.system.cold_boundary_temperature_configurability;
     manifest.prescribed_Tc_K=options.system.Tchex_K;manifest.command_horizon_cycles=options.cycle_count;
-    if candidate,manifest.boundary_trial=trial;end
+    if candidate
+        manifest.boundary_trial=trial;
+        if strcmp(role,'runtime_boundary_Tc_continuation')
+            manifest.continuation=trial.continuation;manifest.boundary_trial=rmfield(trial,'continuation');
+        end
+    end
     paths={'native/observations.mat','native/configuration.mat','native/inventory_metadata.json', ...
         'native/tl_connectivity.json','native/thermal_connectivity.json', ...
         'native/buffer_replacement_contract.json','mechanism.json','observed_states.mat'};

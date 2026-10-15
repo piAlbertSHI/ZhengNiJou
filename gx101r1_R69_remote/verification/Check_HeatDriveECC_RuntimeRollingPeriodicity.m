@@ -6,7 +6,7 @@ function check=Check_HeatDriveECC_RuntimeRollingPeriodicity(root,origin,complete
         row=completed{k};packet=row.packet_root;
         m=jsondecode(fileread(fullfile(packet,'packet_manifest.json')));
         same=strcmp(m.packet_role,'runtime_boundary_transient') && m.prescribed_Tc_K==276.95 && Tc==276.95;
-        candidate=strcmp(m.packet_role,'runtime_boundary_Tc_candidate') && m.prescribed_Tc_K==Tc;
+        candidate=any(strcmp(m.packet_role,{'runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation'})) && m.prescribed_Tc_K==Tc;
         assert((same || candidate) && ...
             strcmp(m.temperature_configurability,'runtime') && ~m.source_state_edited);
         raw=fullfile(packet,'native','observations.mat');cfg=fullfile(packet,'native','configuration.mat');
