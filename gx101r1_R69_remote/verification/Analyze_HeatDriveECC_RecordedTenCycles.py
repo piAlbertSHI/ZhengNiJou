@@ -78,6 +78,20 @@ def native_pipe_inventory(metadata, connectivity, block, specific_energy):
 def runtime_window(result):
     start,stop=result['collection_window_s']
     rows=result['completed_packets']
+    candidate=result['schema']=='heatdrive_ecc_runtime_Tc_candidate_collection_v1'
+    if candidate:
+        t=result['boundary_trial'];check=result['latest_periodicity']
+        if (not result['pass'] or result['error_message'] or result['source_state_edited'] or result['partial_state_restore_used'] or
+                not 6<=len(rows)<=10 or stop-start!=20*len(rows) or stop>2000 or
+                start!=t['transition_time_s'] or result['planned_collection_window_s']!=[start,start+200] or
+                t['minimum_transition_cycles']!=12 or t['source_Tc_K']!=276.95 or
+                not .001<abs(t['candidate_Tc_K']-276.95)<=.1+1e-12 or result['candidate_Tc_K']!=t['candidate_Tc_K'] or
+                stop!=10*result['total_cycles'] or check['window_s']!=[stop-100,stop] or
+                check['physical_tolerances_changed'] or (stop<start+200 and not check['periodic_steady_state']) or
+                not result['transition_excluded_from_current_window'] or
+                any(row['start_time_s']!=start+20*k or row['stop_time_s']!=start+20*(k+1) for k,row in enumerate(rows))):
+            raise ValueError('A fixed-Tc window needs at least twelve complete post-transition cycles at that Tc')
+        return stop-100,stop,rows[-5:],Path(rows[-6]['packet_root'])
     adaptive=result.get('stop_on_public_periodicity',False)
     if (result['schema']!='heatdrive_ecc_runtime_boundary_transient_collection_v1' or
             not result['pass'] or result['error_message'] or result['source_state_edited'] or result['partial_state_restore_used'] or
@@ -112,11 +126,14 @@ def analyze(collection, reference, review, output):
     if output.exists():
         raise FileExistsError('Never replace a measured-window analysis')
     result = read(collection/'collection_result.json')
-    runtime=result['schema']=='heatdrive_ecc_runtime_boundary_transient_collection_v1'
+    candidate=result['schema']=='heatdrive_ecc_runtime_Tc_candidate_collection_v1'
+    runtime=candidate or result['schema']=='heatdrive_ecc_runtime_boundary_transient_collection_v1'
     lineage=[]
     pointer = read(collection/'initial_recording_contract.json')
     if runtime:
         start,stop,selected,previous=runtime_window(result)
+        expected_role='runtime_boundary_Tc_candidate' if candidate else 'runtime_boundary_transient'
+        expected_Tc=result['candidate_Tc_K'] if candidate else 276.95
         if (sha256(collection/'initial_recording_contract.json')!=result['origin_snapshot_sha256'] or
                 sha256(collection/'initial_prepared_recipe.json')!=result['origin_recipe_sha256']):
             raise ValueError('Changed runtime source or construction recipe')
@@ -125,7 +142,7 @@ def analyze(collection, reference, review, output):
         for row in result['completed_packets']:
             root=Path(row['packet_root']);m=read(root/'packet_manifest.json');g=read(root/'packet_gate.json')
             validate_gate(g);boundary=read(root/'boundary_comparison.json')
-            if (m['packet_role']!='runtime_boundary_transient' or m['prescribed_Tc_K']!=276.95 or
+            if (m['packet_role']!=expected_role or m['prescribed_Tc_K']!=expected_Tc or
                     m['temperature_configurability']!='runtime' or m['parent_complete_OP_sha256']!=parent or
                     m['window_s']!=[row['start_time_s'],row['stop_time_s']] or
                     g['input_sha256']['manifest']!=sha256(root/'packet_manifest.json') or
@@ -133,6 +150,8 @@ def analyze(collection, reference, review, output):
                     row['operating_point_sha256']!=m['complete_OP_sha256'] or
                     not boundary['pass'] or not boundary['retained_memories_bitwise_equal']):
                 raise ValueError('Runtime recording lineage changed')
+            if candidate and m['boundary_trial']!=result['boundary_trial']:
+                raise ValueError('The candidate parameter intervention changed mid-collection')
             parent=m['complete_OP_sha256']
             lineage.append(dict(packet_root=str(root),manifest_sha256=sha256(root/'packet_manifest.json'),
                 gate_sha256=sha256(root/'packet_gate.json'),boundary_sha256=sha256(root/'boundary_comparison.json'),
@@ -254,6 +273,7 @@ def analyze(collection, reference, review, output):
     record = dict(schema='heatdrive_ecc_measured_ten_cycle_collection_v1', window_s=[start, stop],
         sample_count=time.size, total_cycles=result['total_cycles'], packets=index, boundaries=boundaries, packet_balances=balances,
         runtime_family=runtime,collection_lineage=lineage,
+        fixed_Tc_candidate=candidate,candidate_Tc_K=result['candidate_Tc_K'] if candidate else None,
         maximum_actual_clock_difference_s=clock_difference_max_s, clock_alignment='Existing 16-ULP ordinal grid check; no interpolation',
         collection_result_path=str(collection/'collection_result.json'), collection_result_sha256=sha256(collection/'collection_result.json'),
         reference_review_path=str(review) if review else '', reference_review_sha256=sha256(review) if review else '',

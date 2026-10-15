@@ -24,7 +24,7 @@ def validate_manifest(manifest):
             not manifest['simulation_returned_without_error'] or manifest['source_state_edited'] or
             manifest['history_cap_cycles'] != 2 or manifest['state_history_cap_cycles'] != 11 or
             (not manifest['strict_vendor_restore'] and manifest.get('packet_role')!='runtime_boundary_cold_baseline') or manifest['production_recovery_allowed'] or
-            manifest.get('packet_role','split_comparison') not in ('split_comparison','bounded_transient_observation','runtime_boundary_cold_baseline','runtime_boundary_transient') or
+            manifest.get('packet_role','split_comparison') not in ('split_comparison','bounded_transient_observation','runtime_boundary_cold_baseline','runtime_boundary_transient','runtime_boundary_Tc_candidate') or
             start < 0 or stop-start not in (10, 20) or start % 10 or stop % 10):
         raise ValueError('Not a complete unchanged-model strict restored observation packet')
     if manifest.get('packet_role')=='bounded_transient_observation' and (
@@ -43,6 +43,21 @@ def validate_manifest(manifest):
             manifest.get('checksum_policy')!='error/error' or
             not re.fullmatch('[A-F0-9]{64}',manifest.get('parent_complete_OP_sha256',''))):
         raise ValueError('Runtime warmup requires an intact parent, same boundary and unchanged command horizon')
+    if manifest.get('packet_role')=='runtime_boundary_Tc_candidate':
+        t=manifest['boundary_trial'];Tc=t['candidate_Tc_K'];origin=t['transition_time_s']
+        if (t['schema']!='heatdrive_ecc_runtime_Tc_intervention_v1' or
+                t['source_Tc_K']!=276.95 or not .001<abs(Tc-276.95)<=.1+1e-12 or
+                t['minimum_transition_cycles']!=12 or t['source_state_edited'] or t['old_model_OP_imported'] or
+                t['only_runtime_temperature_variable_changed'] is not True or
+                stop-start!=20 or start<origin or origin<120 or origin%20 or stop>origin+200 or stop>2000 or
+                manifest.get('independent_cold_start') is not False or manifest['source_snapshot_s']!=start or
+                manifest.get('temperature_configurability')!='runtime' or manifest.get('prescribed_Tc_K')!=Tc or
+                manifest.get('command_horizon_cycles')!=200 or manifest.get('checksum_policy')!='error/error' or
+                any(not re.fullmatch('[A-F0-9]{64}',value) for value in
+                    (manifest.get('parent_complete_OP_sha256',''),t['source_complete_OP_sha256'],
+                     t['source_qualification_sha256'],t['plant_recipe_sha256'])) or
+                (start==origin and manifest['parent_complete_OP_sha256']!=t['source_complete_OP_sha256'])):
+            raise ValueError('Undeclared or incompatible fixed-Tc intervention')
     return start, stop
 
 
@@ -108,6 +123,10 @@ def audit(root, review_path=None):
             gate = row['local_chamber_gate']
             local.append(gate['mass_closure_pass'] and gate['energy_closure_pass'])
     with h5py.File(arm/'observations.mat') as f, h5py.File(arm/'configuration.mat') as cfg:
+        if manifest.get('packet_role')=='runtime_boundary_Tc_candidate':
+            if (float(cfg['options/system/Tchex_K'][0,0])!=manifest['prescribed_Tc_K'] or
+                    float(cfg['plant_build_options/system/Tchex_K'][0,0])!=276.95):
+                raise ValueError('Candidate analysis temperature must differ only by the declared runtime input')
         row = f['signals/ECC_constitutive21_output']
         indices = window_indices(row['time_s'][:], start, stop)
         time = row['time_s'][:].ravel()[indices]

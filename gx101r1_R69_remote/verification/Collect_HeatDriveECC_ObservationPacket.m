@@ -1,9 +1,16 @@
-function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destination,options,prepared_folder,chambers,buffers,producer,python,role,parent_hash)
+function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destination,options,prepared_folder,chambers,buffers,producer,python,role,parent_hash,trial)
 % Identical measured packet path shared with the qualified C62 split test.
     if nargin<12,role='split_comparison';end
     if nargin<13,parent_hash='';end
+    if nargin<14,trial=struct();end
     cold=strcmp(role,'runtime_boundary_cold_baseline');
-    assert(any(strcmp(role,{'split_comparison','bounded_transient_observation','runtime_boundary_cold_baseline','runtime_boundary_transient'})));
+    assert(any(strcmp(role,{'split_comparison','bounded_transient_observation','runtime_boundary_cold_baseline','runtime_boundary_transient','runtime_boundary_Tc_candidate'})));
+    candidate=strcmp(role,'runtime_boundary_Tc_candidate');
+    assert(candidate || isempty(fieldnames(trial)));
+    if candidate
+        assert(trial.candidate_Tc_K==options.system.Tchex_K && trial.source_Tc_K==276.95 && ...
+            abs(trial.candidate_Tc_K-276.95)<=.1+1e-12 && trial.minimum_transition_cycles==12);
+    end
     assert(strcmp(role,'split_comparison') || cold || ~isempty(regexp(parent_hash,'^[A-F0-9]{64}$','once')));
     assert(~isfolder(destination),'Never overwrite a measured packet.');
     model=input.ModelName;
@@ -46,6 +53,11 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
     provenance=struct('checkpoint_restart_used',~cold,'checkpoint_chain_verified',~cold,'sim_call_count',1, ...
         'solver',options.simulation.solver,'fixed_step_s',options.simulation.fixed_step_s, ...
         'simulation_mode',options.simulation.mode);
+    if candidate
+        config_path=fullfile(arm,'configuration.mat');saved=load(config_path);
+        saved.plant_build_options=saved.options;saved.options=options;saved.runtime_boundary_trial=trial;
+        save(config_path,'-struct','saved','-v7.3');clear saved
+    end
     view=Make_HeatDriveECC_MechanismWindow(physical,options,provenance,destination);
     checked=Validate_HeatDriveECC_EighthRound_Physics(view);
     mechanism=struct('checks',checked.checks,'passed',checked.passed,'diagnostics',checked.diagnostics, ...
@@ -61,6 +73,7 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
     manifest.independent_cold_start=cold;
     manifest.temperature_configurability=options.system.cold_boundary_temperature_configurability;
     manifest.prescribed_Tc_K=options.system.Tchex_K;manifest.command_horizon_cycles=options.cycle_count;
+    if candidate,manifest.boundary_trial=trial;end
     paths={'native/observations.mat','native/configuration.mat','native/inventory_metadata.json', ...
         'native/tl_connectivity.json','native/thermal_connectivity.json', ...
         'native/buffer_replacement_contract.json','mechanism.json','observed_states.mat'};
