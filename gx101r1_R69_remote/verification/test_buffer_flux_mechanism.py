@@ -3,6 +3,7 @@ import numpy as np
 
 from Analyze_HeatDriveECC_BufferFluxMechanism import (
     convection_bounds,interval_partition,symmetric_inventory_split,smoothing_power,source_conductivity)
+from Audit_HeatDriveECC_BufferGeometryFixture import fixture_metrics
 
 
 class BufferFluxMechanismTests(unittest.TestCase):
@@ -49,6 +50,18 @@ class BufferFluxMechanismTests(unittest.TestCase):
         source='k_water_mW_per_mK = [500; ...\n600];'
         self.assertAlmostEqual(source_conductivity(source,'model/SMA_ThermalLiquidSettings',np.array([283.15,303.15])),.55)
         with self.assertRaises(ValueError):source_conductivity(source+source,'model/SMA_ThermalLiquidSettings',np.array([283.15,303.15]))
+
+    def test_closed_mass_fixture_can_exchange_port_energy(self):
+        time=np.arange(1001)*.001;zero=np.zeros_like(time);ones=np.ones_like(time)
+        result=fixture_metrics(time,300.+time,.1*ones,10.+time,zero,ones,zero,ones)
+        self.assertTrue(result['component_equation_pass'])
+        self.assertAlmostEqual(result['energy_change_J'],1.)
+
+    def test_fixture_detects_real_energy_error_without_relaxing_ledger(self):
+        time=np.arange(1001)*.001;zero=np.zeros_like(time);ones=np.ones_like(time)
+        result=fixture_metrics(time,300.+time,.1*ones,10.+2*time,zero,ones,zero,ones)
+        self.assertFalse(result['component_equation_pass'])
+        self.assertFalse(result['gates']['energy_equation'])
 
 
 if __name__=='__main__':

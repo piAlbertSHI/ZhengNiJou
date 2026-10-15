@@ -6548,3 +6548,9 @@ C62 SHEX 净失能 -4.310031 J，其中硬上风平流 -0.174887 J、流动功 -
 准备提交主库 `112617b`、执行 producer `67cf8b2`。r1 前台 session 31438 退出 1，ssc_build 明确拒绝在 equations 中直接引用节点平衡量 A.mdot；没有执行 sim、没有 case MAT 或新检查点。修复独立边界源码：通过 branches 声明 mdot:A.mdot，再约束 mdot=0，边界物理条件不变。r1 原始日志/执行 JSON 和 REJECTED 标记保留，不重写、不作为新恢复源。
 
 同时修正夹具的记录语义：simulation_executed 初始为 false，仅在真实 sim 返回后置 true，并单独记录 attempted_sim_call_count。旧 r1 的预设 true 是过宽标记，已由 rejection marker 说明真实 sim=0；不能把编译失败当作八例物理实验失败。使用全新 r2 目录验证语法修复，C62 OP/history 与 canonical source 原字节均保持。
+
+### 275.3 不把成功退出或假静止当作科学通过
+
+r2 执行 producer `9252def`、前台 session 65729 退出 0，实际八例 sim 全部完成。只读审核却发现四个小面积例的 Phi 为约 0.13–0.47 W，而 E/T 在 1 s 内完全不变，能量残差 0.134–0.475 J，远超原 1e-8 J；不能把“面积减小后 T 完全不漂移”误当效果更好。四个大面积例 M/E 与端口方程确实通过。r2 完整 raw/失败回执/REJECTED 标记保留，不能作为冷态种子。
+
+单独读取实际 Solver Configuration 元数据，确认 ConsistencyTolSource=GLOBAL，默认 ConsistencyAbsTol/RelTol 均为 0.001，固定开销模式 off。本次仅对独立夹具设置全局 RelTol=1e-9、AbsTol=1e-12，记录每例原值/应用值，保持同一物理方程、初始 M/E/T、边界、BE/.001 s 和 1e-8 J 审核。新 r3 用于检验残差容差对弱热流可见性的影响，不改 C62 求解设置，不仅因夹具失败而撤销已通过原始账本的 C62。先得到实际对照，再判断数值原因，不能放宽门禁或盲目重跑长链。
