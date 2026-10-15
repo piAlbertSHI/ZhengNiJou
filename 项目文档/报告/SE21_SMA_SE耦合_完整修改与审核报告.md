@@ -6991,3 +6991,9 @@ C22 最新来源的后续指针推进采用原来源 SHA 校验与同目录原�
 停止标准在原六项热/相周期判据之外增加明确的数值目标精度观察：十个逐周期 Eq.9 均值跨度 <=0.1 K、SCP 均值跨度 <=0.01 W/g，取自既有 outer 默认根容差，而不是另造 buffer 库存必须为零的物理门禁。它仅约束当前可观测窗口，不声称给出渐近误差界。最多追加二十周期；预算耗尽而观察精度尚未满足时保留合格同温暂态状态，不误报为机制失败，也不插值未达精度的候选。
 
 当前先运行低温侧 C40 后续；高温侧完整 C40 状态保持冻结，后续应继续至与低温侧相同的比较窗口，不能将不同截止时刻的新旧均值当成 Tc 导数。全目标仍按第8节推进，尚无 outer 根、敏感性全矩阵或 paired Table 4 结论。启动前 Python 全回归 934/934，新增真实 typed source 检查将在入口拒绝六种错误来源；代码回归不冒充实际续行结果。
+
+### 285.1 首次准备入口失败定位，不是物理门禁失败
+
+执行 producer 83a42d6，前台 session 73466 自然退出 1。真实 typed source 正例通过、六种错误来源全部拒绝；随后在工厂记录来源哈希时仍访问旧的 observation_options.recording_contract_path，触发 MATLAB:nonExistentField（Run_HeatDriveECC_ColdChamberDiagnostic 第370行）。新模式实际字段是 candidate_qualification_path。此时尚无 collection 目录、没有 sim、没有新 packet/OP，两个 C40 源和原配方未改。
+
+修复只为已类型限定的同 Tc 续行模式读取候选资格路径的来源 SHA，旧 warmup 与变温模式仍用原指针，冷族仍用原探针。增加相应字段路由回归；原 stdout/stderr/config/execution JSON 保存，不因代码入口错误改动物理门禁。下一次使用全新的 preparation/collection 目录，不覆盖失败证据，也不声称这是科学门禁放行。

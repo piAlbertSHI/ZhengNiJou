@@ -74,5 +74,10 @@ class RuntimeTcContinuationTests(unittest.TestCase):
         self.assertIn("reference_field='plant_build_options'",source)
         self.assertNotIn("setModelParameter('StartTime'",source)
 
+    def test_preparation_provenance_reads_the_candidate_qualification_not_an_absent_baseline_pointer(self):
+        source=(Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text()
+        self.assertIn("elseif strcmp(observation_options.mode,'runtime_boundary_Tc_continuation')",source)
+        self.assertIn('source_contract_sha256=file_hash(observation_options.candidate_qualification_path)',source)
+
 
 if __name__=='__main__':unittest.main()
