@@ -1,0 +1,9 @@
+{
+  "reason": "original cold production mechanism failure",
+  "failed_checks": [
+    "SMA_buffer_cross_contamination",
+    "SMA_stage3_HHEX_hot_front_physical"
+  ],
+  "production_recovery_allowed": false,
+  "is_independent_factorial_point": true
+}

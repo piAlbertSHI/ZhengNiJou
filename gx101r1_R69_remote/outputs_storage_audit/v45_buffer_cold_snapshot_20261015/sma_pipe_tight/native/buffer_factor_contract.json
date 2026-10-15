@@ -1,0 +1,142 @@
+{
+  "schema": "heatdrive_ecc_cold_buffer_factor_contract_v1",
+  "factor_options": {
+    "geometry": "sma_pipe_matched",
+    "precision": "local_tight",
+    "component_audit_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v44_buffer_geometry_fixture_verified_20261015.json"
+  },
+  "buffer_geometry": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "inherited_port_area_m2": 0.01,
+      "actual_port_area_m2": 0.01,
+      "intentionally_changed": false,
+      "initial_and_inventory_parameters_unchanged": true,
+      "before_inventory_parameters": {
+        "initial_stored_mass": "0.10123865866626233",
+        "mass_offset": "0",
+        "stored_energy": "7864.1756052631781",
+        "T_I": "276.94999999999999",
+        "reference_temperature": "276.94999999999999",
+        "tank_area": "0.001",
+        "auxiliary_depth": ".001"
+      },
+      "after_inventory_parameters": {
+        "initial_stored_mass": "0.10123865866626233",
+        "mass_offset": "0",
+        "stored_energy": "7864.1756052631781",
+        "T_I": "276.94999999999999",
+        "reference_temperature": "276.94999999999999",
+        "tank_area": "0.001",
+        "auxiliary_depth": ".001"
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "inherited_port_area_m2": 0.01,
+      "actual_port_area_m2": 0.01,
+      "intentionally_changed": false,
+      "initial_and_inventory_parameters_unchanged": true,
+      "before_inventory_parameters": {
+        "initial_stored_mass": "0.10001750154514238",
+        "mass_offset": "0",
+        "stored_energy": "17186.838281235257",
+        "T_I": "303.14999999999998",
+        "reference_temperature": "303.14999999999998",
+        "tank_area": "0.001",
+        "auxiliary_depth": ".001"
+      },
+      "after_inventory_parameters": {
+        "initial_stored_mass": "0.10001750154514238",
+        "mass_offset": "0",
+        "stored_energy": "17186.838281235257",
+        "T_I": "303.14999999999998",
+        "reference_temperature": "303.14999999999998",
+        "tank_area": "0.001",
+        "auxiliary_depth": ".001"
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "inherited_port_area_m2": 0.01,
+      "actual_port_area_m2": 8.04247719318987E-6,
+      "intentionally_changed": true,
+      "initial_and_inventory_parameters_unchanged": true,
+      "before_inventory_parameters": {
+        "initial_stored_mass": "0.09028074776276282",
+        "mass_offset": "0",
+        "stored_energy": "45523.423672877019",
+        "T_I": "393.15000000022559",
+        "reference_temperature": "393.15000000022559",
+        "tank_area": "0.001",
+        "auxiliary_depth": ".001"
+      },
+      "after_inventory_parameters": {
+        "initial_stored_mass": "0.09028074776276282",
+        "mass_offset": "0",
+        "stored_energy": "45523.423672877019",
+        "T_I": "393.15000000022559",
+        "reference_temperature": "393.15000000022559",
+        "tank_area": "0.001",
+        "auxiliary_depth": ".001"
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "inherited_port_area_m2": 0.01,
+      "actual_port_area_m2": 8.04247719318987E-6,
+      "intentionally_changed": true,
+      "initial_and_inventory_parameters_unchanged": true,
+      "before_inventory_parameters": {
+        "initial_stored_mass": "0.095312568501319084",
+        "mass_offset": "0",
+        "stored_energy": "12058.675496118043",
+        "T_I": "303.15000000003084",
+        "reference_temperature": "303.15000000003084",
+        "tank_area": "0.001",
+        "auxiliary_depth": ".001"
+      },
+      "after_inventory_parameters": {
+        "initial_stored_mass": "0.095312568501319084",
+        "mass_offset": "0",
+        "stored_energy": "12058.675496118043",
+        "T_I": "303.15000000003084",
+        "reference_temperature": "303.15000000003084",
+        "tank_area": "0.001",
+        "auxiliary_depth": ".001"
+      }
+    }
+  ],
+  "solver_block": "heatdrive_ecc_coupled_se21/Solver\nConfiguration",
+  "solver_before": {
+    "UseLocalSolver": "on",
+    "LocalSolverChoice": "NE_BACKWARD_EULER_ADVANCER",
+    "LocalSolverSampleTime": "0.001",
+    "DoFixedCost": "off",
+    "ConsistencyTolSource": "GLOBAL",
+    "ConsistencyAbsTol": "0.001",
+    "ConsistencyRelTol": "0.001",
+    "ResidualTolerance": "0.001",
+    "global_RelTol": "1e-2",
+    "global_AbsTol": "1e-3"
+  },
+  "solver_after": {
+    "UseLocalSolver": "on",
+    "LocalSolverChoice": "NE_BACKWARD_EULER_ADVANCER",
+    "LocalSolverSampleTime": "0.001",
+    "DoFixedCost": "off",
+    "ConsistencyTolSource": "LOCAL",
+    "ConsistencyAbsTol": "1e-12",
+    "ConsistencyRelTol": "1e-9",
+    "ResidualTolerance": "1e-12",
+    "global_RelTol": "1e-9",
+    "global_AbsTol": "1e-12"
+  },
+  "BE_and_time_step_unchanged": true,
+  "material_constitutive_PI_unchanged": true,
+  "initial_inventory_targets_unchanged": true,
+  "source_state_imported": false,
+  "pipe_matched_area_is_hypothesis_not_paper_buffer_spec": true,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false
+}

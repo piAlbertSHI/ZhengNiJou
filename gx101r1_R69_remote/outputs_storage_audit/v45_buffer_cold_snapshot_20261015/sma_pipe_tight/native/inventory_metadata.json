@@ -1,0 +1,3991 @@
+{
+  "schema": "heatdrive_ecc_cold_chamber_inventory_v1",
+  "storage_blocks": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_002",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_003",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_004",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_005",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_006",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_007",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_008",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_009",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_010",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_011",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_012",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_013",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_014",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_015",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_016",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_017",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_018",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_019",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_020",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_021",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "tube_l",
+          "value": 0.1481,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_001",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_002",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_003",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_004",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_005",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_006",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_007",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_008",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_009",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_010",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_011",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_012",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_013",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_014",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_015",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_016",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_017",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_018",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_019",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_020",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_021",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ColdSinkPipe",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "pipe_fa",
+          "value": 1.2566370614359175E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "cold_pipe_or_CHEX_length_m",
+          "value": 0.1481,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/HotPipe",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "pipe_fa",
+          "value": 1.2566370614359175E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "tube_l",
+          "value": 0.1481,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/SMAHotPipe",
+      "mask_type": "Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "tube_l",
+          "value": 0.1481,
+          "unit": "m"
+        }
+      },
+      "initialization_parameters": {},
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "mask_type": "Constant Volume Chamber (TL)",
+      "model_modes": {},
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_connecting_pipe_flow_area_m2",
+          "value": 8.04247719318987E-6,
+          "unit": "m^2"
+        },
+        "volume": {
+          "expression": "sma_pump_manifold_volume_m3",
+          "value": 1.6084954386379741E-6,
+          "unit": "m^3"
+        },
+        "inventory_reference_temperature": {
+          "expression": "393.14999999999941",
+          "value": 393.14999999999941,
+          "unit": "K"
+        },
+        "inventory_pressure_grid": {
+          "expression": "[450000.00000000029;488959.75719286932;531292.54256468802;577290.38357958198;627270.59063300141;681577.94597808865;740587.08216324588;804705.0663882579;874374.2086068315;950075.11274689634;1032329.9920971335;1121706.2717305128;1218820.5028157111;1324342.6158188013;1439000.5419354006;1563585.234633642;1698956.1259484941;1846047.0551669141;2005872.7108022785;2179535.6302970755;2368233.8057405888;2573268.9480685834;2796055.4667545864;3038130.2269380372;3301163.1512976419;3586968.7398056472;3897518.5868306239;4234954.9819364352;4601605.688200824;4999999.9999999991]",
+          "value": [
+            450000.00000000029,
+            488959.75719286932,
+            531292.542564688,
+            577290.383579582,
+            627270.59063300141,
+            681577.94597808865,
+            740587.08216324588,
+            804705.0663882579,
+            874374.2086068315,
+            950075.11274689634,
+            1.0323299920971335E+6,
+            1.1217062717305128E+6,
+            1.2188205028157111E+6,
+            1.3243426158188013E+6,
+            1.4390005419354006E+6,
+            1.563585234633642E+6,
+            1.6989561259484941E+6,
+            1.8460470551669141E+6,
+            2.0058727108022785E+6,
+            2.1795356302970755E+6,
+            2.3682338057405888E+6,
+            2.5732689480685834E+6,
+            2.7960554667545864E+6,
+            3.0381302269380372E+6,
+            3.3011631512976419E+6,
+            3.5869687398056472E+6,
+            3.8975185868306239E+6,
+            4.2349549819364352E+6,
+            4.601605688200824E+6,
+            4.9999999999999991E+6
+          ],
+          "unit": "Pa"
+        },
+        "inventory_density_grid": {
+          "expression": "[943.23423737919347;943.25132970934214;943.26990219734375;943.29008305461446;943.31201160422222;943.33583924497611;943.36173049935451;943.38986415260399;943.42043449098185;943.45365264781447;943.48974806682543;943.52897009301216;943.57158970227135;943.61790138196818;943.66822517573746;943.72290890698764;943.78233059688273;943.84690109399924;943.91706693440278;943.99331345259463;944.07616816563245;944.16620445477838;944.26404557124522;944.37036899508189;944.48591117890726;944.61147271117636;944.74792393689359;944.89621107727567;945.05736289379274;945.23249794636388]",
+          "value": [
+            943.23423737919347,
+            943.25132970934214,
+            943.26990219734375,
+            943.29008305461446,
+            943.31201160422222,
+            943.33583924497611,
+            943.36173049935451,
+            943.389864152604,
+            943.42043449098185,
+            943.45365264781447,
+            943.48974806682543,
+            943.52897009301216,
+            943.57158970227135,
+            943.61790138196818,
+            943.66822517573746,
+            943.72290890698764,
+            943.78233059688273,
+            943.84690109399924,
+            943.91706693440278,
+            943.99331345259463,
+            944.07616816563245,
+            944.16620445477838,
+            944.26404557124522,
+            944.37036899508189,
+            944.48591117890726,
+            944.61147271117636,
+            944.74792393689359,
+            944.89621107727567,
+            945.05736289379274,
+            945.23249794636388
+          ],
+          "unit": "kg/m^3"
+        }
+      },
+      "initialization_parameters": {
+        "p_I_specify": "on",
+        "p_I_priority": "Low",
+        "p_I": "sma_pump_manifold_p_init_MPa",
+        "p_I_unit": "MPa",
+        "p_I_nominal_specify": "off",
+        "p_I_nominal_value": "1",
+        "p_I_nominal_unit": "MPa",
+        "T_I_specify": "on",
+        "T_I_priority": "Low",
+        "T_I": "sma_pump_manifold_T_init_K",
+        "T_I_unit": "K",
+        "T_I_nominal_specify": "off",
+        "T_I_nominal_value": "1",
+        "T_I_nominal_unit": "K",
+        "u_I_specify": "off",
+        "u_I_priority": "None",
+        "u_I": "100",
+        "u_I_unit": "kJ/kg",
+        "u_I_nominal_specify": "off",
+        "u_I_nominal_value": "1",
+        "u_I_nominal_unit": "kJ/kg",
+        "stored_mass_specify": "on",
+        "stored_mass_priority": "High",
+        "stored_mass": "0.0015174702627137851",
+        "stored_mass_unit": "kg",
+        "stored_mass_nominal_specify": "on",
+        "stored_mass_nominal_value": "0.0015174702627137851",
+        "stored_mass_nominal_unit": "kg",
+        "stored_energy_specify": "on",
+        "stored_energy_priority": "High",
+        "stored_energy": "763.80563202838914",
+        "stored_energy_unit": "J",
+        "stored_energy_nominal_specify": "on",
+        "stored_energy_nominal_value": "763.80563202838914",
+        "stored_energy_nominal_unit": "J"
+      },
+      "conservative_diagnostic": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "mask_type": "Constant Volume Chamber (TL)",
+      "model_modes": {},
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_connecting_pipe_flow_area_m2",
+          "value": 8.04247719318987E-6,
+          "unit": "m^2"
+        },
+        "volume": {
+          "expression": "sma_pump_manifold_volume_m3",
+          "value": 1.6084954386379741E-6,
+          "unit": "m^3"
+        },
+        "inventory_reference_temperature": {
+          "expression": "393.14999999999952",
+          "value": 393.14999999999952,
+          "unit": "K"
+        },
+        "inventory_pressure_grid": {
+          "expression": "[450000.00000000029;488959.75719286932;531292.54256468802;577290.38357958198;627270.59063300141;681577.94597808865;740587.08216324588;804705.0663882579;874374.2086068315;950075.11274689634;1032329.9920971335;1121706.2717305128;1218820.5028157111;1324342.6158188013;1439000.5419354006;1563585.234633642;1698956.1259484941;1846047.0551669141;2005872.7108022785;2179535.6302970755;2368233.8057405888;2573268.9480685834;2796055.4667545864;3038130.2269380372;3301163.1512976419;3586968.7398056472;3897518.5868306239;4234954.9819364352;4601605.688200824;4999999.9999999991]",
+          "value": [
+            450000.00000000029,
+            488959.75719286932,
+            531292.542564688,
+            577290.383579582,
+            627270.59063300141,
+            681577.94597808865,
+            740587.08216324588,
+            804705.0663882579,
+            874374.2086068315,
+            950075.11274689634,
+            1.0323299920971335E+6,
+            1.1217062717305128E+6,
+            1.2188205028157111E+6,
+            1.3243426158188013E+6,
+            1.4390005419354006E+6,
+            1.563585234633642E+6,
+            1.6989561259484941E+6,
+            1.8460470551669141E+6,
+            2.0058727108022785E+6,
+            2.1795356302970755E+6,
+            2.3682338057405888E+6,
+            2.5732689480685834E+6,
+            2.7960554667545864E+6,
+            3.0381302269380372E+6,
+            3.3011631512976419E+6,
+            3.5869687398056472E+6,
+            3.8975185868306239E+6,
+            4.2349549819364352E+6,
+            4.601605688200824E+6,
+            4.9999999999999991E+6
+          ],
+          "unit": "Pa"
+        },
+        "inventory_density_grid": {
+          "expression": "[943.23423737919336;943.25132970934203;943.26990219734364;943.29008305461434;943.31201160422211;943.335839244976;943.36173049935439;943.38986415260388;943.42043449098173;943.45365264781435;943.48974806682531;943.52897009301205;943.57158970227124;943.61790138196807;943.66822517573735;943.72290890698753;943.78233059688262;943.84690109399912;943.91706693440267;943.99331345259452;944.07616816563234;944.16620445477827;944.26404557124511;944.37036899508178;944.48591117890714;944.61147271117625;944.74792393689347;944.89621107727555;945.05736289379263;945.23249794636376]",
+          "value": [
+            943.23423737919336,
+            943.251329709342,
+            943.26990219734364,
+            943.29008305461434,
+            943.31201160422211,
+            943.335839244976,
+            943.36173049935439,
+            943.38986415260388,
+            943.42043449098173,
+            943.45365264781435,
+            943.48974806682531,
+            943.528970093012,
+            943.57158970227124,
+            943.61790138196807,
+            943.66822517573735,
+            943.72290890698753,
+            943.78233059688262,
+            943.84690109399912,
+            943.91706693440267,
+            943.99331345259452,
+            944.07616816563234,
+            944.16620445477827,
+            944.26404557124511,
+            944.37036899508178,
+            944.48591117890714,
+            944.61147271117625,
+            944.74792393689347,
+            944.89621107727555,
+            945.05736289379263,
+            945.23249794636376
+          ],
+          "unit": "kg/m^3"
+        }
+      },
+      "initialization_parameters": {
+        "p_I_specify": "on",
+        "p_I_priority": "Low",
+        "p_I": "sma_pump_manifold_p_init_MPa",
+        "p_I_unit": "MPa",
+        "p_I_nominal_specify": "off",
+        "p_I_nominal_value": "1",
+        "p_I_nominal_unit": "MPa",
+        "T_I_specify": "on",
+        "T_I_priority": "Low",
+        "T_I": "sma_pump_manifold_T_init_K",
+        "T_I_unit": "K",
+        "T_I_nominal_specify": "off",
+        "T_I_nominal_value": "1",
+        "T_I_nominal_unit": "K",
+        "u_I_specify": "off",
+        "u_I_priority": "None",
+        "u_I": "100",
+        "u_I_unit": "kJ/kg",
+        "u_I_nominal_specify": "off",
+        "u_I_nominal_value": "1",
+        "u_I_nominal_unit": "kJ/kg",
+        "stored_mass_specify": "on",
+        "stored_mass_priority": "High",
+        "stored_mass": "0.0015174702620079884",
+        "stored_mass_unit": "kg",
+        "stored_mass_nominal_specify": "on",
+        "stored_mass_nominal_value": "0.0015174702620079884",
+        "stored_mass_nominal_unit": "kg",
+        "stored_energy_specify": "on",
+        "stored_energy_priority": "High",
+        "stored_energy": "763.80563221457396",
+        "stored_energy_unit": "J",
+        "stored_energy_nominal_specify": "on",
+        "stored_energy_nominal_value": "763.80563221457396",
+        "stored_energy_nominal_unit": "J"
+      },
+      "conservative_diagnostic": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_01",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_02",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_03",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_04",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_05",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_06",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_07",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_08",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_09",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_10",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_11",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_12",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_13",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_14",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_15",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_16",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_17",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_18",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_19",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_20",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_21",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "se_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotSinkMass",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "shex_sink_mass_kg",
+          "value": 0.836,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "thermal_mass_cp_ref",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "shex_sink_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_01",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_02",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_03",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_04",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_05",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_06",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_07",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_08",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_09",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_10",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_11",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_12",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_13",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_14",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_15",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_16",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_17",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_18",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_19",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_20",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_21",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "sma_node_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ColdLoadMass",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "cold_load_mass_kg",
+          "value": 0.7276,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "thermal_mass_cp_ref",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "cold_load_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ColdSinkMass",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "cold_sink_mass_kg",
+          "value": 0.7276,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "thermal_mass_cp_ref",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "cold_sink_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/HotSinkMass",
+      "mask_type": "Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "hot_sink_mass_kg",
+          "value": 0.7276,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "thermal_mass_cp_ref",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      },
+      "initialization_parameters": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "mass_type_unit": "1",
+        "mass_type_conf": "compiletime",
+        "mass": "hot_sink_mass_kg",
+        "mass_unit": "kg",
+        "mass_conf": "compiletime",
+        "mass_min": "1e-6",
+        "mass_min_unit": "kg",
+        "mass_min_conf": "compiletime"
+      },
+      "conservative_diagnostic": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "mask_type": "Conservative Buffer (TL)",
+      "model_modes": {},
+      "mask_parameters": {
+        "volume": {
+          "expression": "0.0001",
+          "value": 0.0001,
+          "unit": "m^3"
+        },
+        "tank_area": {
+          "expression": "0.001",
+          "value": 0.001,
+          "unit": "m^2"
+        },
+        "port_area": {
+          "expression": "0.01",
+          "value": 0.01,
+          "unit": "m^2"
+        },
+        "p_environment": {
+          "expression": "850000",
+          "value": 850000,
+          "unit": "Pa"
+        },
+        "gravity": {
+          "expression": "9.8100000000000005",
+          "value": 9.81,
+          "unit": "m/s^2"
+        },
+        "reference_temperature": {
+          "expression": "276.94999999999999",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "auxiliary_depth": {
+          "expression": ".001",
+          "value": 0.001,
+          "unit": "m"
+        },
+        "initial_stored_mass": {
+          "expression": "0.10123865866626233",
+          "value": 0.10123865866626233,
+          "unit": "kg"
+        }
+      },
+      "initialization_parameters": {
+        "initial_stored_mass": "0.10123865866626233",
+        "initial_stored_mass_unit": "kg",
+        "initial_stored_mass_conf": "compiletime",
+        "mass_offset_specify": "off",
+        "mass_offset_priority": "High",
+        "mass_offset": "0",
+        "mass_offset_unit": "kg",
+        "mass_offset_nominal_specify": "off",
+        "mass_offset_nominal_value": "1",
+        "mass_offset_nominal_unit": "kg",
+        "stored_energy_specify": "on",
+        "stored_energy_priority": "High",
+        "stored_energy": "7864.1756052631781",
+        "stored_energy_unit": "J",
+        "stored_energy_nominal_specify": "off",
+        "stored_energy_nominal_value": "1",
+        "stored_energy_nominal_unit": "J",
+        "T_I_specify": "on",
+        "T_I_priority": "Low",
+        "T_I": "276.94999999999999",
+        "T_I_unit": "K",
+        "T_I_nominal_specify": "off",
+        "T_I_nominal_value": "1",
+        "T_I_nominal_unit": "K",
+        "stored_mass_specify": "off",
+        "stored_mass_priority": "None",
+        "stored_mass": "0.1",
+        "stored_mass_unit": "kg",
+        "stored_mass_nominal_specify": "off",
+        "stored_mass_nominal_value": "1",
+        "stored_mass_nominal_unit": "kg",
+        "p_I_specify": "off",
+        "p_I_priority": "None",
+        "p_I": "1",
+        "p_I_unit": "MPa",
+        "p_I_nominal_specify": "off",
+        "p_I_nominal_value": "1",
+        "p_I_nominal_unit": "MPa",
+        "u_I_specify": "off",
+        "u_I_priority": "None",
+        "u_I": "100",
+        "u_I_unit": "kJ/kg",
+        "u_I_nominal_specify": "off",
+        "u_I_nominal_value": "1",
+        "u_I_nominal_unit": "kJ/kg",
+        "level_specify": "off",
+        "level_priority": "None",
+        "level": "0.1",
+        "level_unit": "m",
+        "level_nominal_specify": "off",
+        "level_nominal_value": "1",
+        "level_nominal_unit": "m"
+      },
+      "conservative_diagnostic": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "mask_type": "Conservative Buffer (TL)",
+      "model_modes": {},
+      "mask_parameters": {
+        "volume": {
+          "expression": "0.0001",
+          "value": 0.0001,
+          "unit": "m^3"
+        },
+        "tank_area": {
+          "expression": "0.001",
+          "value": 0.001,
+          "unit": "m^2"
+        },
+        "port_area": {
+          "expression": "0.01",
+          "value": 0.01,
+          "unit": "m^2"
+        },
+        "p_environment": {
+          "expression": "850000",
+          "value": 850000,
+          "unit": "Pa"
+        },
+        "gravity": {
+          "expression": "9.8100000000000005",
+          "value": 9.81,
+          "unit": "m/s^2"
+        },
+        "reference_temperature": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "auxiliary_depth": {
+          "expression": ".001",
+          "value": 0.001,
+          "unit": "m"
+        },
+        "initial_stored_mass": {
+          "expression": "0.10001750154514238",
+          "value": 0.10001750154514238,
+          "unit": "kg"
+        }
+      },
+      "initialization_parameters": {
+        "initial_stored_mass": "0.10001750154514238",
+        "initial_stored_mass_unit": "kg",
+        "initial_stored_mass_conf": "compiletime",
+        "mass_offset_specify": "off",
+        "mass_offset_priority": "High",
+        "mass_offset": "0",
+        "mass_offset_unit": "kg",
+        "mass_offset_nominal_specify": "off",
+        "mass_offset_nominal_value": "1",
+        "mass_offset_nominal_unit": "kg",
+        "stored_energy_specify": "on",
+        "stored_energy_priority": "High",
+        "stored_energy": "17186.838281235257",
+        "stored_energy_unit": "J",
+        "stored_energy_nominal_specify": "off",
+        "stored_energy_nominal_value": "1",
+        "stored_energy_nominal_unit": "J",
+        "T_I_specify": "on",
+        "T_I_priority": "Low",
+        "T_I": "303.14999999999998",
+        "T_I_unit": "K",
+        "T_I_nominal_specify": "off",
+        "T_I_nominal_value": "1",
+        "T_I_nominal_unit": "K",
+        "stored_mass_specify": "off",
+        "stored_mass_priority": "None",
+        "stored_mass": "0.1",
+        "stored_mass_unit": "kg",
+        "stored_mass_nominal_specify": "off",
+        "stored_mass_nominal_value": "1",
+        "stored_mass_nominal_unit": "kg",
+        "p_I_specify": "off",
+        "p_I_priority": "None",
+        "p_I": "1",
+        "p_I_unit": "MPa",
+        "p_I_nominal_specify": "off",
+        "p_I_nominal_value": "1",
+        "p_I_nominal_unit": "MPa",
+        "u_I_specify": "off",
+        "u_I_priority": "None",
+        "u_I": "100",
+        "u_I_unit": "kJ/kg",
+        "u_I_nominal_specify": "off",
+        "u_I_nominal_value": "1",
+        "u_I_nominal_unit": "kJ/kg",
+        "level_specify": "off",
+        "level_priority": "None",
+        "level": "0.1",
+        "level_unit": "m",
+        "level_nominal_specify": "off",
+        "level_nominal_value": "1",
+        "level_nominal_unit": "m"
+      },
+      "conservative_diagnostic": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "mask_type": "Conservative Buffer (TL)",
+      "model_modes": {},
+      "mask_parameters": {
+        "volume": {
+          "expression": "0.0001",
+          "value": 0.0001,
+          "unit": "m^3"
+        },
+        "tank_area": {
+          "expression": "0.001",
+          "value": 0.001,
+          "unit": "m^2"
+        },
+        "port_area": {
+          "expression": "8.0424771931898703e-06",
+          "value": 8.04247719318987E-6,
+          "unit": "m^2"
+        },
+        "p_environment": {
+          "expression": "850000",
+          "value": 850000,
+          "unit": "Pa"
+        },
+        "gravity": {
+          "expression": "9.8100000000000005",
+          "value": 9.81,
+          "unit": "m/s^2"
+        },
+        "reference_temperature": {
+          "expression": "393.15000000022559",
+          "value": 393.15000000022559,
+          "unit": "K"
+        },
+        "auxiliary_depth": {
+          "expression": ".001",
+          "value": 0.001,
+          "unit": "m"
+        },
+        "initial_stored_mass": {
+          "expression": "0.09028074776276282",
+          "value": 0.09028074776276282,
+          "unit": "kg"
+        }
+      },
+      "initialization_parameters": {
+        "initial_stored_mass": "0.09028074776276282",
+        "initial_stored_mass_unit": "kg",
+        "initial_stored_mass_conf": "compiletime",
+        "mass_offset_specify": "off",
+        "mass_offset_priority": "High",
+        "mass_offset": "0",
+        "mass_offset_unit": "kg",
+        "mass_offset_nominal_specify": "off",
+        "mass_offset_nominal_value": "1",
+        "mass_offset_nominal_unit": "kg",
+        "stored_energy_specify": "on",
+        "stored_energy_priority": "High",
+        "stored_energy": "45523.423672877019",
+        "stored_energy_unit": "J",
+        "stored_energy_nominal_specify": "off",
+        "stored_energy_nominal_value": "1",
+        "stored_energy_nominal_unit": "J",
+        "T_I_specify": "on",
+        "T_I_priority": "Low",
+        "T_I": "393.15000000022559",
+        "T_I_unit": "K",
+        "T_I_nominal_specify": "off",
+        "T_I_nominal_value": "1",
+        "T_I_nominal_unit": "K",
+        "stored_mass_specify": "off",
+        "stored_mass_priority": "None",
+        "stored_mass": "0.1",
+        "stored_mass_unit": "kg",
+        "stored_mass_nominal_specify": "off",
+        "stored_mass_nominal_value": "1",
+        "stored_mass_nominal_unit": "kg",
+        "p_I_specify": "off",
+        "p_I_priority": "None",
+        "p_I": "1",
+        "p_I_unit": "MPa",
+        "p_I_nominal_specify": "off",
+        "p_I_nominal_value": "1",
+        "p_I_nominal_unit": "MPa",
+        "u_I_specify": "off",
+        "u_I_priority": "None",
+        "u_I": "100",
+        "u_I_unit": "kJ/kg",
+        "u_I_nominal_specify": "off",
+        "u_I_nominal_value": "1",
+        "u_I_nominal_unit": "kJ/kg",
+        "level_specify": "off",
+        "level_priority": "None",
+        "level": "0.1",
+        "level_unit": "m",
+        "level_nominal_specify": "off",
+        "level_nominal_value": "1",
+        "level_nominal_unit": "m"
+      },
+      "conservative_diagnostic": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "mask_type": "Conservative Buffer (TL)",
+      "model_modes": {},
+      "mask_parameters": {
+        "volume": {
+          "expression": "0.0001",
+          "value": 0.0001,
+          "unit": "m^3"
+        },
+        "tank_area": {
+          "expression": "0.001",
+          "value": 0.001,
+          "unit": "m^2"
+        },
+        "port_area": {
+          "expression": "8.0424771931898703e-06",
+          "value": 8.04247719318987E-6,
+          "unit": "m^2"
+        },
+        "p_environment": {
+          "expression": "850000",
+          "value": 850000,
+          "unit": "Pa"
+        },
+        "gravity": {
+          "expression": "9.8100000000000005",
+          "value": 9.81,
+          "unit": "m/s^2"
+        },
+        "reference_temperature": {
+          "expression": "303.15000000003084",
+          "value": 303.15000000003084,
+          "unit": "K"
+        },
+        "auxiliary_depth": {
+          "expression": ".001",
+          "value": 0.001,
+          "unit": "m"
+        },
+        "initial_stored_mass": {
+          "expression": "0.095312568501319084",
+          "value": 0.095312568501319084,
+          "unit": "kg"
+        }
+      },
+      "initialization_parameters": {
+        "initial_stored_mass": "0.095312568501319084",
+        "initial_stored_mass_unit": "kg",
+        "initial_stored_mass_conf": "compiletime",
+        "mass_offset_specify": "off",
+        "mass_offset_priority": "High",
+        "mass_offset": "0",
+        "mass_offset_unit": "kg",
+        "mass_offset_nominal_specify": "off",
+        "mass_offset_nominal_value": "1",
+        "mass_offset_nominal_unit": "kg",
+        "stored_energy_specify": "on",
+        "stored_energy_priority": "High",
+        "stored_energy": "12058.675496118043",
+        "stored_energy_unit": "J",
+        "stored_energy_nominal_specify": "off",
+        "stored_energy_nominal_value": "1",
+        "stored_energy_nominal_unit": "J",
+        "T_I_specify": "on",
+        "T_I_priority": "Low",
+        "T_I": "303.15000000003084",
+        "T_I_unit": "K",
+        "T_I_nominal_specify": "off",
+        "T_I_nominal_value": "1",
+        "T_I_nominal_unit": "K",
+        "stored_mass_specify": "off",
+        "stored_mass_priority": "None",
+        "stored_mass": "0.1",
+        "stored_mass_unit": "kg",
+        "stored_mass_nominal_specify": "off",
+        "stored_mass_nominal_value": "1",
+        "stored_mass_nominal_unit": "kg",
+        "p_I_specify": "off",
+        "p_I_priority": "None",
+        "p_I": "1",
+        "p_I_unit": "MPa",
+        "p_I_nominal_specify": "off",
+        "p_I_nominal_value": "1",
+        "p_I_nominal_unit": "MPa",
+        "u_I_specify": "off",
+        "u_I_priority": "None",
+        "u_I": "100",
+        "u_I_unit": "kJ/kg",
+        "u_I_nominal_specify": "off",
+        "u_I_nominal_value": "1",
+        "u_I_nominal_unit": "kJ/kg",
+        "level_specify": "off",
+        "level_priority": "None",
+        "level": "0.1",
+        "level_unit": "m",
+        "level_nominal_specify": "off",
+        "level_nominal_value": "1",
+        "level_nominal_unit": "m"
+      },
+      "conservative_diagnostic": true
+    }
+  ],
+  "settings_tables": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+      "parameters": {
+        "table_dimensions": "1",
+        "T_TLU": "[273.16;283.16;293.16;303.16;313.16;323.16;333.16;343.16;353.16;363.16;373.16;383.16;393.16;403.16;413.16]",
+        "T_TLU_unit": "K",
+        "T_min_1D": "273.16",
+        "T_max_1D": "413.16",
+        "p_min_1D": "0.45",
+        "p_max_1D": "5",
+        "p_min_1D_unit": "MPa",
+        "p_max_1D_unit": "MPa",
+        "rho_parameterization_1D": "1",
+        "rho_TLU_4": "[1000.047692;999.8910379;998.3863142;995.8262391;992.3948132;988.216282;983.3792011;977.9489783;971.9748358;965.4939159;958.5338333;951.1143215;943.2483073;934.9425941;926.1982521]",
+        "rho_TLU_4_unit": "kg/m^3",
+        "beta_const_4": "2.15",
+        "beta_const_4_unit": "GPa",
+        "p_ref_4": "0.5",
+        "p_ref_4_unit": "MPa",
+        "u_parameterization_1D": "1",
+        "u_TLU_4": "[0.009195591107;42.04935692;83.92921694;125.7370066;167.5155824;209.2925951;251.0909039;292.9318876;334.8364138;376.8251884;418.9190578;461.1394123;503.5087057;546.0510694;588.793005]",
+        "u_TLU_4_unit": "kJ/kg",
+        "cp_TLU_5": "[4.2199; 4.1955; 4.1843; 4.1801; 4.1796; 4.1813; 4.185; 4.1901; 4.1968; 4.2052; 4.2136]",
+        "cp_TLU_5_unit": "kJ/kg/K"
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/热流体设置",
+      "parameters": {
+        "table_dimensions": "1",
+        "T_TLU": "[255.05;283.15;313.15;338.15;363.15;393.15]",
+        "T_TLU_unit": "K",
+        "T_min_1D": "255.05",
+        "T_max_1D": "393.15",
+        "p_min_1D": "0.45",
+        "p_max_1D": "5",
+        "p_min_1D_unit": "MPa",
+        "p_max_1D_unit": "MPa",
+        "rho_parameterization_1D": "1",
+        "rho_TLU_4": "[1066.03926666667;1055.38;1039.77;1023.55;1004.39;977.53]",
+        "rho_TLU_4_unit": "kg/m^3",
+        "beta_const_4": "2",
+        "beta_const_4_unit": "GPa",
+        "p_ref_4": "0.5",
+        "p_ref_4_unit": "MPa",
+        "u_parameterization_1D": "1",
+        "u_TLU_4": "[0;98.6876214999999;207.2726215;300.2976215;395.6226215;513.0576215]",
+        "u_TLU_4_unit": "kJ/kg",
+        "cp_TLU_5": "[4.2199; 4.1955; 4.1843; 4.1801; 4.1796; 4.1813; 4.185; 4.1901; 4.1968; 4.2052; 4.2136]",
+        "cp_TLU_5_unit": "kJ/kg/K"
+      }
+    }
+  ]
+}

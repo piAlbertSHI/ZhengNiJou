@@ -1,0 +1,202 @@
+FACTOR_TEST_JSON={"default_no_op_pass":true,"cold_factor_levels_passed":4,"unsafe_modes_rejected":7,"simulation_executed":false,"operating_point_loaded":false,"production_recovery_allowed":false}
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v45_buffer_cold_factorial_r1\baseline_legacy\component_build' 中生成 Simulink 库 'ecc_inventory_pressure_only_lib'...
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v45_buffer_cold_factorial_r1\baseline_legacy\buffer_component_build' 中生成 Simulink 库 'ecc_buffer_coupled_offset_lib'...
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 757 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 31 行)
+位置: Run_HeatDriveECC_BufferColdFactorialStudy (第 40 行)] 
+[警告: 初始状态是一致的，但可能偏离指定的条件。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 757 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 31 行)
+位置: Run_HeatDriveECC_BufferColdFactorialStudy (第 40 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v45_buffer_cold_factorial_r1\baseline_legacy\native\physical_validation_report.txt
+{"collection_pass":false,"completed_arms":1,"state_restore_preflight_pass":false,"rebuilt_cycle_preflight_pass":false,"production_recovery_allowed":false,"result_file":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v45_buffer_cold_factorial_r1\\baseline_legacy\\cold_chamber_execution.json"}
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v45_buffer_cold_factorial_r1\baseline_tight\component_build' 中生成 Simulink 库 'ecc_inventory_pressure_only_lib'...
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v45_buffer_cold_factorial_r1\baseline_tight\buffer_component_build' 中生成 Simulink 库 'ecc_buffer_coupled_offset_lib'...
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 757 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 31 行)
+位置: Run_HeatDriveECC_BufferColdFactorialStudy (第 40 行)] 
+[警告: First solve for initial conditions failed to converge. Trying again with all high priorities relaxed to low.] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 757 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 31 行)
+位置: Run_HeatDriveECC_BufferColdFactorialStudy (第 40 行)] 
+[警告: 无法满足所有初始条件。下面列出了所涉及的变量。
+
+无法满足以下变量的目标:
+
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/ColdFluidBuffer'}, {''})">'ColdFluidBuffer.mass_offset'</a> (mass_offset)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/HotFluidBuffer'}, {''})">'HotFluidBuffer.mass_offset'</a> (mass_offset)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_001'}, {''})">'SE.HoldPipe_001.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_002'}, {''})">'SE.HoldPipe_002.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_003'}, {''})">'SE.HoldPipe_003.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_004'}, {''})">'SE.HoldPipe_004.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_005'}, {''})">'SE.HoldPipe_005.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_006'}, {''})">'SE.HoldPipe_006.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_007'}, {''})">'SE.HoldPipe_007.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_008'}, {''})">'SE.HoldPipe_008.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_009'}, {''})">'SE.HoldPipe_009.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_010'}, {''})">'SE.HoldPipe_010.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_011'}, {''})">'SE.HoldPipe_011.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_012'}, {''})">'SE.HoldPipe_012.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_013'}, {''})">'SE.HoldPipe_013.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_014'}, {''})">'SE.HoldPipe_014.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_015'}, {''})">'SE.HoldPipe_015.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_016'}, {''})">'SE.HoldPipe_016.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_017'}, {''})">'SE.HoldPipe_017.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_018'}, {''})">'SE.HoldPipe_018.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_019'}, {''})">'SE.HoldPipe_019.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_020'}, {''})">'SE.HoldPipe_020.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_021'}, {''})">'SE.HoldPipe_021.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SHEX/HotPipe'}, {''})">'SHEX.HotPipe.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SHEXFluidBuffer'}, {''})">'SHEXFluidBuffer.mass_offset'</a> (mass_offset)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SMA/CooldownPipe_001'}, {''})">'SMA.CooldownPipe_001.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SMA/HoldPipe_021'}, {''})">'SMA.HoldPipe_021.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SMAHotFluidBuffer'}, {''})">'SMAHotFluidBuffer.mass_offset'</a> (mass_offset)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume'},
+{''})">'SMA_PumpInletConnectingPipeVolume.stored_energy'</a> (stored_energy)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume'},
+{''})">'SMA_PumpInletConnectingPipeVolume.stored_mass'</a> (stored_mass)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume'},
+{''})">'SMA_PumpOutletConnectingPipeVolume.stored_energy'</a> (stored_energy)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume'},
+{''})">'SMA_PumpOutletConnectingPipeVolume.stored_mass'</a> (stored_mass)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/热端换热器/HotPipe'}, {''})">'x2.HotPipe.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/热端换热器/SMAHotPipe'}, {''})">'x2.SMAHotPipe.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/ColdFluidBuffer'}, {''})">'ColdFluidBuffer.stored_mass'</a> (stored_mass)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/HotFluidBuffer'}, {''})">'HotFluidBuffer.stored_mass'</a> (stored_mass)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SHEXFluidBuffer'}, {''})">'SHEXFluidBuffer.stored_mass'</a> (stored_mass)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SMAHotFluidBuffer'}, {''})">'SMAHotFluidBuffer.stored_mass'</a> (stored_mass)
+] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 757 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 31 行)
+位置: Run_HeatDriveECC_BufferColdFactorialStudy (第 40 行)] 
+[警告: 初始状态是一致的，但可能偏离指定的条件。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 757 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 31 行)
+位置: Run_HeatDriveECC_BufferColdFactorialStudy (第 40 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v45_buffer_cold_factorial_r1\baseline_tight\native\physical_validation_report.txt
+{"collection_pass":false,"completed_arms":1,"state_restore_preflight_pass":false,"rebuilt_cycle_preflight_pass":false,"production_recovery_allowed":false,"result_file":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v45_buffer_cold_factorial_r1\\baseline_tight\\cold_chamber_execution.json"}
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v45_buffer_cold_factorial_r1\sma_pipe_legacy\component_build' 中生成 Simulink 库 'ecc_inventory_pressure_only_lib'...
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v45_buffer_cold_factorial_r1\sma_pipe_legacy\buffer_component_build' 中生成 Simulink 库 'ecc_buffer_coupled_offset_lib'...
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 757 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 31 行)
+位置: Run_HeatDriveECC_BufferColdFactorialStudy (第 40 行)] 
+[警告: 初始状态是一致的，但可能偏离指定的条件。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 757 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 31 行)
+位置: Run_HeatDriveECC_BufferColdFactorialStudy (第 40 行)] 
+Physical Simscape validation passed: 0
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v45_buffer_cold_factorial_r1\sma_pipe_legacy\native\physical_validation_report.txt
+{"collection_pass":false,"completed_arms":1,"state_restore_preflight_pass":false,"rebuilt_cycle_preflight_pass":false,"production_recovery_allowed":false,"result_file":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v45_buffer_cold_factorial_r1\\sma_pipe_legacy\\cold_chamber_execution.json"}
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v45_buffer_cold_factorial_r1\sma_pipe_tight\component_build' 中生成 Simulink 库 'ecc_inventory_pressure_only_lib'...
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v45_buffer_cold_factorial_r1\sma_pipe_tight\buffer_component_build' 中生成 Simulink 库 'ecc_buffer_coupled_offset_lib'...
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 757 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 31 行)
+位置: Run_HeatDriveECC_BufferColdFactorialStudy (第 40 行)] 
+[警告: First solve for initial conditions failed to converge. Trying again with all high priorities relaxed to low.] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 757 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 31 行)
+位置: Run_HeatDriveECC_BufferColdFactorialStudy (第 40 行)] 
+[警告: 无法满足所有初始条件。下面列出了所涉及的变量。
+
+无法满足以下变量的目标:
+
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/ColdFluidBuffer'}, {''})">'ColdFluidBuffer.mass_offset'</a> (mass_offset)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/HotFluidBuffer'}, {''})">'HotFluidBuffer.mass_offset'</a> (mass_offset)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_001'}, {''})">'SE.HoldPipe_001.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_002'}, {''})">'SE.HoldPipe_002.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_003'}, {''})">'SE.HoldPipe_003.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_004'}, {''})">'SE.HoldPipe_004.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_005'}, {''})">'SE.HoldPipe_005.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_006'}, {''})">'SE.HoldPipe_006.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_007'}, {''})">'SE.HoldPipe_007.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_008'}, {''})">'SE.HoldPipe_008.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_009'}, {''})">'SE.HoldPipe_009.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_010'}, {''})">'SE.HoldPipe_010.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_011'}, {''})">'SE.HoldPipe_011.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_012'}, {''})">'SE.HoldPipe_012.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_013'}, {''})">'SE.HoldPipe_013.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_014'}, {''})">'SE.HoldPipe_014.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_015'}, {''})">'SE.HoldPipe_015.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_016'}, {''})">'SE.HoldPipe_016.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_017'}, {''})">'SE.HoldPipe_017.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_018'}, {''})">'SE.HoldPipe_018.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_019'}, {''})">'SE.HoldPipe_019.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_020'}, {''})">'SE.HoldPipe_020.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SE/HoldPipe_021'}, {''})">'SE.HoldPipe_021.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SHEX/HotPipe'}, {''})">'SHEX.HotPipe.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SHEXFluidBuffer'}, {''})">'SHEXFluidBuffer.mass_offset'</a> (mass_offset)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SMA/CooldownPipe_001'}, {''})">'SMA.CooldownPipe_001.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SMA/HoldPipe_021'}, {''})">'SMA.HoldPipe_021.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SMAHotFluidBuffer'}, {''})">'SMAHotFluidBuffer.mass_offset'</a> (mass_offset)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume'},
+{''})">'SMA_PumpInletConnectingPipeVolume.stored_energy'</a> (stored_energy)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume'},
+{''})">'SMA_PumpInletConnectingPipeVolume.stored_mass'</a> (stored_mass)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume'},
+{''})">'SMA_PumpOutletConnectingPipeVolume.stored_energy'</a> (stored_energy)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume'},
+{''})">'SMA_PumpOutletConnectingPipeVolume.stored_mass'</a> (stored_mass)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/热端换热器/HotPipe'}, {''})">'x2.HotPipe.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/热端换热器/SMAHotPipe'}, {''})">'x2.SMAHotPipe.u_I'</a> (液体体积的比内能)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/ColdFluidBuffer'}, {''})">'ColdFluidBuffer.stored_mass'</a> (stored_mass)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/HotFluidBuffer'}, {''})">'HotFluidBuffer.stored_mass'</a> (stored_mass)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SHEXFluidBuffer'}, {''})">'SHEXFluidBuffer.stored_mass'</a> (stored_mass)
+<a href="matlab:simscape.internal.highlightSLStudio({'heatdrive_ecc_coupled_se21/SMAHotFluidBuffer'}, {''})">'SMAHotFluidBuffer.stored_mass'</a> (stored_mass)
+] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 757 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 31 行)
+位置: Run_HeatDriveECC_BufferColdFactorialStudy (第 40 行)] 
+[警告: 初始状态是一致的，但可能偏离指定的条件。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 757 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 31 行)
+位置: Run_HeatDriveECC_BufferColdFactorialStudy (第 40 行)] 
+Physical Simscape validation passed: 0
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v45_buffer_cold_factorial_r1\sma_pipe_tight\native\physical_validation_report.txt
+{"collection_pass":false,"completed_arms":1,"state_restore_preflight_pass":false,"rebuilt_cycle_preflight_pass":false,"production_recovery_allowed":false,"result_file":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v45_buffer_cold_factorial_r1\\sma_pipe_tight\\cold_chamber_execution.json"}
+FINAL_JSON={"schema":"heatdrive_ecc_cold_buffer_factorial_study_v1","tests":{"default_no_op_pass":true,"cold_factor_levels_passed":4,"unsafe_modes_rejected":7,"simulation_executed":false,"operating_point_loaded":false,"production_recovery_allowed":false},"template_path":"C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v39_density_c2_r1\\candidate_config.json","template_sha256":"C0EDAF06C7BFE97427D5952A63E3031EA7B30C95E4EDA16A74DCE247E5D54534","component_audit_path":"C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v44_buffer_geometry_fixture_verified_20261015.json","component_audit_sha256":"152357502BB44FC89D014A2B019DFC0BF507A1C9B7B0DA802D93A026773B57F4","cold_initialization_source":"C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_cold_runtime_cv_contract_20261005_json_v2","cold_initial_observation_sha256":"4AE82B42865AE1EAF3BC0D0467FBFD9CB954894A218C59AEEF59CC63122F3F83","coupled_start_time_s":0,"coupled_stop_time_s":10,"command_horizon_cycles":1,"C200_state_loaded":false,"C62_state_loaded":false,"source_state_edited":false,"cases":[{"name":"baseline_legacy","geometry":"inherited","precision":"inherited","source_root":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v45_buffer_cold_factorial_r1\\baseline_legacy","config_path":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v45_buffer_cold_factorial_r1\\baseline_legacy_config.json","config_sha256":"75A231C08BDF8BA3CB194F0C45F68772A55B5DA6B4FC59BA9D95B34C5160C604","execution_sha256":"3B363B334414E78A6127BB30223F5396B595A2189059F2BD493BB8601A9827DC","mechanism_pass":true,"failed_state_used":false,"production_recovery_allowed":false},{"name":"baseline_tight","geometry":"inherited","precision":"local_tight","source_root":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v45_buffer_cold_factorial_r1\\baseline_tight","config_path":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v45_buffer_cold_factorial_r1\\baseline_tight_config.json","config_sha256":"6429C52DEC4518D5D5F57578B22B17549534CFC7DE10E5971FB7862CA631AC53","execution_sha256":"9F3670B4ACECEE81C3C71D69B565BDE28905FA61F1C744CE47230231458F2633","mechanism_pass":true,"failed_state_used":false,"production_recovery_allowed":false},{"name":"sma_pipe_legacy","geometry":"sma_pipe_matched","precision":"inherited","source_root":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v45_buffer_cold_factorial_r1\\sma_pipe_legacy","config_path":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v45_buffer_cold_factorial_r1\\sma_pipe_legacy_config.json","config_sha256":"84C0C6A90D903DC444B317941D9A892CB6756EC6079A04B547BD90FE1EE091D5","execution_sha256":"1B726D4FB8265F639B55902AECD8FF8329175E4D877A933C92043A0133F733AE","mechanism_pass":false,"failed_state_used":false,"production_recovery_allowed":false},{"name":"sma_pipe_tight","geometry":"sma_pipe_matched","precision":"local_tight","source_root":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v45_buffer_cold_factorial_r1\\sma_pipe_tight","config_path":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v45_buffer_cold_factorial_r1\\sma_pipe_tight_config.json","config_sha256":"849016EFC823B0974342937FC11C64691D27B4CDDF3F7967D0C8816A1B7CB069","execution_sha256":"DB185FF31FD263BC3FC2750889B8F485F7751032762A2D9D4D0B8ADE39E46099","mechanism_pass":false,"failed_state_used":false,"production_recovery_allowed":false}],"collection_pass":true,"production_recovery_allowed":false,"outer_solve_eligible":false,"C62_state_hashes_unchanged":true}
