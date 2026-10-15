@@ -28,7 +28,11 @@ class RuntimeBoundaryColdFamilyTests(unittest.TestCase):
 
     def test_runner_never_loads_old_op_and_drops_restore_fields(self):
         source=(Path(__file__).parent/'Run_HeatDriveECC_RuntimeBoundaryColdFamily.m').read_text()
-        self.assertIn("struct('mode','capture','command_horizon_cycles',200)",source)
+        self.assertIn('Prepare_HeatDriveECC_RuntimeFamilyRecipe(prepared_root,parent_path)',source)
+        helper=(Path(__file__).parent/'Prepare_HeatDriveECC_RuntimeFamilyRecipe.m').read_text()
+        self.assertIn("struct('mode','capture','command_horizon_cycles',200)",helper)
+        self.assertNotIn('Load_HeatDriveECC_',helper)
+        self.assertNotIn('setInitialState(',helper)
         self.assertNotIn('setInitialState(',source)
         self.assertNotIn('Load_HeatDriveECC_',source)
 

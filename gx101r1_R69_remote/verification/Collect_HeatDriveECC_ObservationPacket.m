@@ -3,7 +3,7 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
     if nargin<12,role='split_comparison';end
     if nargin<13,parent_hash='';end
     cold=strcmp(role,'runtime_boundary_cold_baseline');
-    assert(any(strcmp(role,{'split_comparison','bounded_transient_observation','runtime_boundary_cold_baseline'})));
+    assert(any(strcmp(role,{'split_comparison','bounded_transient_observation','runtime_boundary_cold_baseline','runtime_boundary_transient'})));
     assert(strcmp(role,'split_comparison') || cold || ~isempty(regexp(parent_hash,'^[A-F0-9]{64}$','once')));
     assert(~isfolder(destination),'Never overwrite a measured packet.');
     model=input.ModelName;
@@ -59,6 +59,8 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
         'complete_OP_sha256',file_hash(fullfile(destination,'comparison_only_complete_op.mat')), ...
         'packet_role',role,'parent_complete_OP_sha256',parent_hash);
     manifest.independent_cold_start=cold;
+    manifest.temperature_configurability=options.system.cold_boundary_temperature_configurability;
+    manifest.prescribed_Tc_K=options.system.Tchex_K;manifest.command_horizon_cycles=options.cycle_count;
     paths={'native/observations.mat','native/configuration.mat','native/inventory_metadata.json', ...
         'native/tl_connectivity.json','native/thermal_connectivity.json', ...
         'native/buffer_replacement_contract.json','mechanism.json','observed_states.mat'};

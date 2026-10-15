@@ -27,7 +27,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     observation_options=Resolve_HeatDriveECC_ObservationPreflight(observation_options, ...
         state_capture_options,cycle_count,duration,diagnostic_arm,endpoint_all_arms,buffer_factor_options);
     runtime_boundary_family=~isempty(fieldnames(observation_options)) && ...
-        strcmp(observation_options.mode,'runtime_boundary_cold_family');
+        ismember(observation_options.mode,{'runtime_boundary_cold_family','runtime_boundary_warmup'});
     state_capture_options=Resolve_HeatDriveECC_DiagnosticStateOptions(state_capture_options,cycle_count);
     buffer_factor_options=Resolve_HeatDriveECC_BufferColdFactorial(buffer_factor_options, ...
         state_capture_options.mode,cycle_count,duration,diagnostic_arm,endpoint_all_arms);
@@ -361,8 +361,14 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         if runtime_boundary_family
             assert(~diagnostic_resume && simulation_start==0 && overrides.system.Tchex_K==276.95);
             overrides.system.cold_boundary_temperature_configurability='runtime';
-            record.runtime_boundary_family=struct('independent_cold_start',true,'old_complete_state_imported',false, ...
-                'only_boundary_configurability_changed',true,'source_probe_sha256',file_hash(observation_options.boundary_probe_path));
+            record.runtime_boundary_family=struct('independent_cold_start', ...
+                strcmp(observation_options.mode,'runtime_boundary_cold_family'),'old_complete_state_imported',false, ...
+                'only_boundary_configurability_changed',true);
+            if isfield(observation_options,'boundary_probe_path')
+                record.runtime_boundary_family.source_probe_sha256=file_hash(observation_options.boundary_probe_path);
+            else
+                record.runtime_boundary_family.source_contract_sha256=file_hash(observation_options.recording_contract_path);
+            end
         end
         if pressure_only
             overrides.branch.diagnostic_manifold_storage_closure=inventory_options.storage_closure;
@@ -775,6 +781,13 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                         state_settings,observation_options,record.execution_commit);
                     record.observation_preflight_pass=record.observation_preflight.pass;
                     record.actual_observation_preflight_window_s=record.observation_preflight.full_window_s;
+                elseif strcmp(observation_options.mode,'runtime_boundary_warmup')
+                    record.runtime_boundary_warmup=Run_HeatDriveECC_BoundedObservationPackets( ...
+                        input,options,arm,changed,buffer_paths,state_settings,observation_options,record.execution_commit);
+                    record.runtime_boundary_warmup_pass=record.runtime_boundary_warmup.pass;
+                    record.start_time_s=record.runtime_boundary_warmup.collection_window_s(1);
+                    record.stop_time_s=record.runtime_boundary_warmup.collection_window_s(2);
+                    record.cycle_count=record.runtime_boundary_warmup.total_cycles;
                 elseif strcmp(observation_options.mode,'runtime_boundary_cold_family')
                     record.runtime_boundary_family_result=Verify_HeatDriveECC_RuntimeBoundaryColdFamily( ...
                         input,options,arm,changed,buffer_paths,observation_options,record.execution_commit);
@@ -1020,7 +1033,8 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     observation_collection_pass=isfield(record,'observation_collection_pass') && record.observation_collection_pass;
     boundary_probe_completed=isfield(record,'boundary_parameter_probe_completed') && record.boundary_parameter_probe_completed;
     runtime_family_completed=isfield(record,'runtime_boundary_family_completed') && record.runtime_boundary_family_completed;
-    assert(record.requested_arm_collection_pass || record.state_restore_preflight_pass || record.rebuilt_cycle_preflight_pass || observation_preflight_pass || observation_collection_pass || boundary_probe_completed || runtime_family_completed, ...
+    runtime_warmup_pass=isfield(record,'runtime_boundary_warmup_pass') && record.runtime_boundary_warmup_pass;
+    assert(record.requested_arm_collection_pass || record.state_restore_preflight_pass || record.rebuilt_cycle_preflight_pass || observation_preflight_pass || observation_collection_pass || boundary_probe_completed || runtime_family_completed || runtime_warmup_pass, ...
         'Cold chamber diagnostic failed; inspect execution JSON.');
 end
 

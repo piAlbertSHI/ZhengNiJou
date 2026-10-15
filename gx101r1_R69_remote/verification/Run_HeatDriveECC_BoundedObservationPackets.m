@@ -1,6 +1,7 @@
 function record=Run_HeatDriveECC_BoundedObservationPackets(input,options,folder,chambers,buffers,settings,request,producer)
 % Gate every measured packet before propagating its untouched complete vendor OP.
     repo=fileparts(fileparts(mfilename('fullpath')));model=input.ModelName;
+    runtime=strcmp(request.mode,'runtime_boundary_warmup');
     root=canonical(request.collection_root);
     assert(strcmp(fileparts(root),canonical(fullfile(repo,'outputs'))),'Collection must stay in execution outputs.');
     existed=isfolder(root);
@@ -29,16 +30,33 @@ function record=Run_HeatDriveECC_BoundedObservationPackets(input,options,folder,
     main_repo=fileparts(fileparts(request.recording_contract_path));
     qualification_path=fullfile(main_repo,pointer.qualification_relative);
     qualification=jsondecode(fileread(qualification_path));
-    assert(strcmp(file_hash(qualification_path),pointer.qualification_sha256) && ...
-        pointer.snapshot_time_s==640 && pointer.total_cycles==64 && pointer.next_collection_stop_s==720 && ...
+    assert(strcmp(file_hash(qualification_path),pointer.qualification_sha256));
+    if runtime
+        source=Require_HeatDriveECC_RuntimeRecordingSource(pointer,qualification,options);
+        origin_stop=source.snapshot_s;target=request.collection_stop_s;
+        source_packet=source.packet_root;role='runtime_boundary_transient';
+        assert(target-origin_stop==200 && target<=2000);
+        schema='heatdrive_ecc_runtime_boundary_transient_collection_v1';
+        recipe_comparison=Compare_HeatDriveECC_RuntimeBoundaryRecipe( ...
+            fullfile(source_packet,'native','configuration.mat'),fullfile(folder,'configuration.mat'), ...
+            fullfile(folder,'runtime_warmup_recipe_comparison.json'));
+        assert(strcmp(recipe_comparison.reference_configurability,'runtime') && ...
+            strcmp(recipe_comparison.candidate_configurability,'runtime') && ...
+            recipe_comparison.only_declared_change && recipe_comparison.numeric_validation_thresholds_equal, ...
+            'Warmup cannot change physics, controls or numerical validation limits.');
+    else
+        assert(pointer.snapshot_time_s==640 && pointer.total_cycles==64 && pointer.next_collection_stop_s==720 && ...
         pointer.native_history_cap_cycles==2 && pointer.state_history_cap_cycles==11 && ...
         pointer.command_horizon_cycles==200 && strcmp(pointer.checksum_policy,'error/error') && ...
         pointer.bounded_transient_observation_collection_allowed && ~pointer.production_recovery_allowed && ...
         ~pointer.steady_outer_solve_allowed && qualification.all_three_packets_mechanism_and_energy_pass && ...
         qualification.split_states_and_native_bitwise_equal && qualification.complete_vendor_OP_independently_loaded, ...
         'Require the sealed C64 bounded-recording source, not a failed or production state.');
-    origin=fullfile(main_repo,pointer.origin_endpoint_comparison_relative);
-    assert(strcmp(file_hash(origin),pointer.origin_endpoint_comparison_sha256));
+        origin=fullfile(main_repo,pointer.origin_endpoint_comparison_relative);
+        assert(strcmp(file_hash(origin),pointer.origin_endpoint_comparison_sha256));
+        origin_stop=640;target=720;source_packet=pointer.source_packet_root;
+        role='bounded_transient_observation';schema='heatdrive_ecc_bounded_native_collection_v1';
+    end
     for k=1:numel(qualification.files)
         row=qualification.files(k);assert(strcmp(file_hash(row.path),row.sha256));
     end
@@ -51,25 +69,25 @@ function record=Run_HeatDriveECC_BoundedObservationPackets(input,options,folder,
         record=jsondecode(fileread(progress));
         assert(strcmp(record.origin_snapshot_sha256,file_hash(snapshot)) && ...
             strcmp(record.origin_recipe_sha256,file_hash(recipe)) && ...
-            isequal(record.collection_window_s(:),[640;720]) && ~record.source_state_edited);
+            isequal(record.collection_window_s(:),[origin_stop;target]) && ~record.source_state_edited);
         completed=record.completed_packets;
         if isempty(completed),completed={};elseif isstruct(completed),completed=num2cell(completed);end
     else
         completed={};
-        record=struct('schema','heatdrive_ecc_bounded_native_collection_v1','producer',producer, ...
-            'origin_snapshot_sha256',file_hash(snapshot),'collection_window_s',[640 720], ...
+        record=struct('schema',schema,'producer',producer, ...
+            'origin_snapshot_sha256',file_hash(snapshot),'collection_window_s',[origin_stop target], ...
             'origin_recipe_sha256',file_hash(recipe), ...
-            'native_observation_window_after_join_s',[620 720],'completed_packets',{{}}, ...
-            'last_verified_snapshot_time_s',640,'last_verified_packet_root',pointer.source_packet_root, ...
+            'native_observation_window_after_join_s',[target-100 target],'completed_packets',{{}}, ...
+            'last_verified_snapshot_time_s',origin_stop,'last_verified_packet_root',source_packet, ...
             'pass',false,'source_state_edited',false,'partial_state_restore_used',false, ...
             'history_cap_cycles',2,'state_history_cap_cycles',11,'command_horizon_cycles',200, ...
             'production_recovery_allowed',false,'outer_solve_eligible',false,'error_message','');
     end
-    previous=pointer.source_packet_root;
+    previous=source_packet;
     [op,manifest]=Load_HeatDriveECC_GatedObservationPacket(previous,false);
     assert(strcmp(manifest.complete_OP_sha256,pointer.operating_point_sha256));
     for k=1:numel(completed)
-        row=completed{k};assert(row.stop_time_s==640+20*k);
+        row=completed{k};assert(row.stop_time_s==origin_stop+20*k);
         parent_hash=manifest.complete_OP_sha256;parent_time=op.snapshotTime;
         [op,manifest]=Load_HeatDriveECC_GatedObservationPacket(row.packet_root,true);
         assert(strcmp(manifest.complete_OP_sha256,row.operating_point_sha256) && ...
@@ -80,14 +98,14 @@ function record=Run_HeatDriveECC_BoundedObservationPackets(input,options,folder,
     record.current_producer=producer;
     write_json(progress,record);
     try
-        for finish=660+20*numel(completed):20:720
+        for finish=origin_stop+20+20*numel(completed):20:target
             start=op.snapshotTime;assert(finish-start==20);
             attempt=1;
             while isfolder(fullfile(root,sprintf('packet_C%03d_attempt%02d',finish/10,attempt))),attempt=attempt+1;end
             destination=fullfile(root,sprintf('packet_C%03d_attempt%02d',finish/10,attempt));
             record.current_attempt_root=destination;record.current_attempt_window_s=[start finish];write_json(progress,record);
             Collect_HeatDriveECC_ObservationPacket(input,op,start,finish,destination,options,folder, ...
-                chambers,buffers,producer,request.python_executable,'bounded_transient_observation',manifest.complete_OP_sha256);
+                chambers,buffers,producer,request.python_executable,role,manifest.complete_OP_sha256);
             boundary=Verify_HeatDriveECC_ObservationBoundary(previous,destination);assert(boundary.pass);
             [next,manifest]=Load_HeatDriveECC_GatedObservationPacket(destination,true);
             completed{end+1}=struct('packet_root',destination,'start_time_s',start,'stop_time_s',finish, ...
@@ -95,8 +113,8 @@ function record=Run_HeatDriveECC_BoundedObservationPackets(input,options,folder,
             op=next;previous=destination;record.completed_packets=completed;
             record.last_verified_snapshot_time_s=finish;record.last_verified_packet_root=destination;write_json(progress,record);
         end
-        assert(numel(completed)==4 && op.snapshotTime==720);
-        record.pass=true;record.total_cycles=72;
+        assert(numel(completed)==(target-origin_stop)/20 && op.snapshotTime==target);
+        record.pass=true;record.total_cycles=target/10;
     catch ME
         record.error_message=ME.message;record.error_identifier=ME.identifier;
         record.error_report=getReport(ME,'extended','hyperlinks','off');
