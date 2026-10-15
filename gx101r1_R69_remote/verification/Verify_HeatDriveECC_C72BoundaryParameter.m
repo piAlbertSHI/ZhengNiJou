@@ -43,7 +43,11 @@ function record=Verify_HeatDriveECC_C72BoundaryParameter(input,options,folder,ch
             output=sim(candidate.setModelParameter('StopTime','720.002'));
             assert(isempty(output.ErrorMessage),'HeatDriveECC:BoundaryProbeSimulationError','%s',output.ErrorMessage);
             row.simulation_returned_without_error=true;
-            assert(output.diagnostic_final_op.snapshotTime==720.002);
+            row.actual_final_snapshot_s=output.diagnostic_final_op.snapshotTime;
+            row.snapshot_time_error_s=row.actual_final_snapshot_s-720.002;
+            row.clock_representation_allowance_s=16*eps(720.002);
+            assert(abs(row.snapshot_time_error_s)<=row.clock_representation_allowance_s, ...
+                'HeatDriveECC:BoundaryProbeTimeMismatch','Actual complete OP time %.17g, expected %.17g.',row.actual_final_snapshot_s,720.002);
             observation=Extract_HeatDriveECC_ObservedStates(output.diagnostic_state_log,10,1);
             observation.states=slice_traces(observation.states,720,720.002);
             observation.short_probe_only=true;observation.complete_internal_state_periodicity_verified=false;

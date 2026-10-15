@@ -41,5 +41,10 @@ class C72BoundaryParameterTests(unittest.TestCase):
         self.assertIn("~any(isfield(options,[extra,{'reference_review_path'}]))",source)
         self.assertIn('Only a source-bound C72 boundary probe',source)
 
+    def test_actual_snapshot_recorded_with_existing_ulp_clock_rule(self):
+        self.assertIn('row.actual_final_snapshot_s=output.diagnostic_final_op.snapshotTime',self.probe)
+        self.assertIn('row.clock_representation_allowance_s=16*eps(720.002)',self.probe)
+        self.assertNotIn('snapshotTime==720.002',self.probe)
+
 
 if __name__=='__main__':unittest.main()

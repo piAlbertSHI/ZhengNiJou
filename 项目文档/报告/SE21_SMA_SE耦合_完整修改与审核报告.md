@@ -6793,3 +6793,7 @@ C64→C72 消除了“没有真实十周期原生观察”的障碍。下一步�
 先实施一个有正对照的参数兼容性实验：同一个未经编辑 C72 完整 vendor OP，原温 276.95 K 与唯一候选 276.85 K 各运行 720–720.002 s。只改变已有 cold_sink_T_init 输入变量，不改变模型配置、几何、源类型、命令时域或 checksum error/error，不改任何 OP 坐标或初始化目标。原温正对照必须先证明 74 组状态和 1262 native 起点逐位相同；然后才允许小幅变温。候选即使通过也只证明接口兼容，不具备完整周期机制、周期稳态、恢复或 outer 插值资格。
 
 官方依据：[Model Operating Points](https://www.mathworks.com/help/simulink/ug/model-operating-point-for-faster-simulation.html) 说明完整 OP 包含隐藏状态，并用结构 checksum 限制不完整初始化；可调参数的变化须由实际完整恢复证明。[Simscape run-time parameters](https://www.mathworks.com/help/simscape/ug/about-simscape-run-time-parameters.html) 说明运行时可调配置与编译时参数不同。文档不能代替当前 R2025b/当前模型实测，也不据此擅自把 compiletime 改成 runtime。
+
+### 280.1 原温探针的浮点时间断言修复
+
+执行 producer 1669fee、session 41473 自然退出 1。原温 sim 返回无错误，未尝试变温；失败位置为新代码将完整 OP 末时刻与非整数 720.002 用 == 比较，尚未进行状态起点比较。原记录不能被称为机制失败或 checksum 失败。改为记录实际 snapshot、时间误差与 allowance，再按现有 16-ULP 时钟规则检查；预计毫秒样本数仍必须严格为三，状态/原生逐位检查及物理阈值不变。原始失败包保留，不导入短探针状态。
