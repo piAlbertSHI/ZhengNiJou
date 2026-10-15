@@ -1,0 +1,10 @@
+{
+  "schema": "heatdrive_ecc_readonly_analysis_supersession_v1",
+  "superseded_file": "v44_buffer_flux_mechanism_20261015.json",
+  "reason": "Initial diagnostic used _W field suffixes for integrated J quantities. Do not consume its port_terms/stages labels.",
+  "replacement_file": "v44_buffer_flux_mechanism_exact_20261015.json",
+  "replacement_schema": "heatdrive_ecc_saved_buffer_flux_mechanism_v2",
+  "simulation_rerun": false,
+  "source_state_edited": false,
+  "production_recovery_allowed": false
+}

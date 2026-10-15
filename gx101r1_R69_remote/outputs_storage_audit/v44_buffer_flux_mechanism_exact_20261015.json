@@ -1,0 +1,953 @@
+{
+  "schema": "heatdrive_ecc_saved_buffer_flux_mechanism_v2",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1",
+  "total_cycles": 62,
+  "actual_window_s": [
+    600,
+    620
+  ],
+  "buffers": {
+    "ColdFluidBuffer": {
+      "port_area_m2": 0.01,
+      "tank_area_m2": 0.001,
+      "port_to_tank_area_ratio": 10.0,
+      "equivalent_port_diameter_m": 0.11283791670955126,
+      "property_density_bounds_kg_m3": [
+        977.5055620554756,
+        1068.4405554535117
+      ],
+      "source_derived_G_kg_s": 9.861785138761896e-06,
+      "actual_Phi_reconstruction_max_error_W": 4.263256414560601e-13,
+      "cycles": [
+        {
+          "global_cycle": 61,
+          "actual_window_s": [
+            600.0,
+            610.0
+          ],
+          "internal_temperature_endpoint_K": [
+            275.9399142031811,
+            275.93606549017784
+          ],
+          "mass_endpoint_kg": [
+            0.10113968534789276,
+            0.10113941853513404
+          ],
+          "stored_energy_change_J": -1.4012918526022986,
+          "stored_mass_change_kg": -2.6681275872020294e-07,
+          "mass_balance_residual_kg": 1.214306433183765e-17,
+          "energy_balance_residual_J": -2.0804691303055733e-11,
+          "symmetric_inventory_split": {
+            "temperature_change_energy_J": -1.381514113009871,
+            "mass_change_energy_J": -0.019777739597884647,
+            "total_change_J": -1.4012918526077556
+          },
+          "port_terms": {
+            "advection_J": -1.400848716008909,
+            "flow_work_low_J": -0.3321551532173612,
+            "flow_work_high_J": 0.3317106340188758,
+            "smoothing_low_J": -0.3321537706331187,
+            "smoothing_high_J": 0.3317120166031182,
+            "exact_flow_work_J": -0.00032777041554110653,
+            "exact_smoothing_J": -0.00011536619869655437,
+            "actual_port_energy_J": -1.4012918526231033,
+            "thermal_port_energy_J": 0.0,
+            "mass_into_buffer_kg": -2.6681275870805987e-07
+          },
+          "stages": [
+            {
+              "stage": 1,
+              "advection_J": 5.607834186303923,
+              "flow_work_low_J": 0.06146356132232666,
+              "flow_work_high_J": 0.0671819440009325,
+              "smoothing_low_J": -0.005408266214234117,
+              "smoothing_high_J": 0.00031011646437172264,
+              "exact_flow_work_J": 0.062048559995043676,
+              "exact_smoothing_J": -0.00027488220834551017,
+              "actual_port_energy_J": 5.6696078640906205,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": 7.716924641394001e-05
+            },
+            {
+              "stage": 2,
+              "advection_J": -322.84122403099974,
+              "flow_work_low_J": -3.8327904524599896,
+              "flow_work_high_J": -3.5065815934724487,
+              "smoothing_low_J": -0.03358719554744356,
+              "smoothing_high_J": 0.2926216634400978,
+              "exact_flow_work_J": -3.5401787997414838,
+              "exact_smoothing_J": 1.0010721593024217e-05,
+              "actual_port_energy_J": -326.38139282001964,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": -0.004402702968902296
+            },
+            {
+              "stage": 3,
+              "advection_J": -5.673010961331077,
+              "flow_work_low_J": -0.06735018420519114,
+              "flow_work_high_J": -0.0616149465406316,
+              "smoothing_low_J": -0.00047406517065860234,
+              "smoothing_high_J": 0.005261172493900924,
+              "exact_flow_work_J": -0.06220690599020985,
+              "exact_smoothing_J": 0.00011789427891963349,
+              "actual_port_energy_J": -5.735099973042367,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": -7.736490527109489e-05
+            },
+            {
+              "stage": 4,
+              "advection_J": 321.50555209001794,
+              "flow_work_low_J": 3.5065219221254935,
+              "flow_work_high_J": 3.8327252300310235,
+              "smoothing_low_J": -0.2926842437007824,
+              "smoothing_high_J": 0.033519064204747775,
+              "exact_flow_work_J": 3.540009375321109,
+              "exact_smoothing_J": 3.16110091362982e-05,
+              "actual_port_energy_J": 325.0455930763482,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": 0.004402631815000743
+            }
+          ],
+          "frozen_input_port_area_sweep": [
+            {
+              "port_area_m2": 0.01,
+              "frozen_boundary_smoothing_J": -0.00011536619869655437
+            },
+            {
+              "port_area_m2": 0.001,
+              "frozen_boundary_smoothing_J": -3.86718418601163e-05
+            },
+            {
+              "port_area_m2": 0.0001,
+              "frozen_boundary_smoothing_J": -1.29305360393448e-05
+            },
+            {
+              "port_area_m2": 8.04247719318987e-06,
+              "frozen_boundary_smoothing_J": -3.9059851662451865e-06
+            }
+          ]
+        },
+        {
+          "global_cycle": 62,
+          "actual_window_s": [
+            610.0,
+            620.0
+          ],
+          "internal_temperature_endpoint_K": [
+            275.93606549017784,
+            275.932373941086
+          ],
+          "mass_endpoint_kg": [
+            0.10113941853513404,
+            0.10113915146560207
+          ],
+          "stored_energy_change_J": -1.3448891442330932,
+          "stored_mass_change_kg": -2.670695319756389e-07,
+          "mass_balance_residual_kg": -6.938893903907228e-18,
+          "energy_balance_residual_J": 3.581135388230905e-12,
+          "symmetric_inventory_split": {
+            "temperature_change_energy_J": -1.325095907209743,
+            "mass_change_energy_J": -0.019793237016074272,
+            "total_change_J": -1.3448891442258173
+          },
+          "port_terms": {
+            "advection_J": -1.3444558844139465,
+            "flow_work_low_J": -0.3321553728208211,
+            "flow_work_high_J": 0.33171042556832253,
+            "smoothing_low_J": -0.3321436853838258,
+            "smoothing_high_J": 0.33172211300531756,
+            "exact_flow_work_J": -0.00032334618734575216,
+            "exact_smoothing_J": -0.00010991362814797453,
+            "actual_port_energy_J": -1.3448891442295121,
+            "thermal_port_energy_J": 0.0,
+            "mass_into_buffer_kg": -2.6706953198257777e-07
+          },
+          "stages": [
+            {
+              "stage": 1,
+              "advection_J": 5.607743975659147,
+              "flow_work_low_J": 0.06146355809349503,
+              "flow_work_high_J": 0.06718194019045193,
+              "smoothing_low_J": -0.005405972053573105,
+              "smoothing_high_J": 0.00031241004338378186,
+              "exact_flow_work_J": 0.06204854921146621,
+              "exact_smoothing_J": -0.0002725810745853156,
+              "actual_port_energy_J": 5.669519943796026,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": 7.716924242869523e-05
+            },
+            {
+              "stage": 2,
+              "advection_J": -322.7817706450588,
+              "flow_work_low_J": -3.8327905548777723,
+              "flow_work_high_J": -3.506581687173452,
+              "smoothing_low_J": -0.0335822621517634,
+              "smoothing_high_J": 0.29262660555255726,
+              "exact_flow_work_J": -3.5401740131287354,
+              "exact_smoothing_J": 1.00638035179595e-05,
+              "actual_port_energy_J": -326.32193459438406,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": -0.004402703100094426
+            },
+            {
+              "stage": 3,
+              "advection_J": -5.67197279023423,
+              "flow_work_low_J": -0.06735026355898177,
+              "flow_work_high_J": -0.06161501965760708,
+              "smoothing_low_J": -0.00047184978102125504,
+              "smoothing_high_J": 0.005263394120353453,
+              "exact_flow_work_J": -0.06220689376386101,
+              "exact_smoothing_J": 0.00012002432523285356,
+              "actual_port_energy_J": -5.734059659672859,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": -7.736499697492685e-05
+            },
+            {
+              "stage": 4,
+              "advection_J": 321.5015435752199,
+              "flow_work_low_J": 3.5065218875224384,
+              "flow_work_high_J": 3.8327251922089296,
+              "smoothing_low_J": -0.29268360139746796,
+              "smoothing_high_J": 0.033519703289023144,
+              "exact_flow_work_J": 3.5400090114937846,
+              "exact_smoothing_J": 3.257931768652805e-05,
+              "actual_port_energy_J": 325.0415851660314,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": 0.0044026317851086775
+            }
+          ],
+          "frozen_input_port_area_sweep": [
+            {
+              "port_area_m2": 0.01,
+              "frozen_boundary_smoothing_J": -0.00010991362814797453
+            },
+            {
+              "port_area_m2": 0.001,
+              "frozen_boundary_smoothing_J": -3.712573534010667e-05
+            },
+            {
+              "port_area_m2": 0.0001,
+              "frozen_boundary_smoothing_J": -1.2464552481857467e-05
+            },
+            {
+              "port_area_m2": 8.04247719318987e-06,
+              "frozen_boundary_smoothing_J": -3.778040493008793e-06
+            }
+          ]
+        }
+      ]
+    },
+    "HotFluidBuffer": {
+      "port_area_m2": 0.01,
+      "tank_area_m2": 0.001,
+      "port_to_tank_area_ratio": 10.0,
+      "equivalent_port_diameter_m": 0.11283791670955126,
+      "property_density_bounds_kg_m3": [
+        977.5055620554756,
+        1068.4405554535117
+      ],
+      "source_derived_G_kg_s": 9.861785138761896e-06,
+      "actual_Phi_reconstruction_max_error_W": 5.684341886080801e-13,
+      "cycles": [
+        {
+          "global_cycle": 61,
+          "actual_window_s": [
+            600.0,
+            610.0
+          ],
+          "internal_temperature_endpoint_K": [
+            304.62881319318336,
+            304.63493518369273
+          ],
+          "mass_endpoint_kg": [
+            0.10011647486351195,
+            0.10011674167627067
+          ],
+          "stored_energy_change_J": 2.288832948393974,
+          "stored_mass_change_kg": 2.6681275872020294e-07,
+          "mass_balance_residual_kg": -1.214306433183765e-17,
+          "energy_balance_residual_J": -1.333546606474556e-10,
+          "symmetric_inventory_split": {
+            "temperature_change_energy_J": 2.241553184809163,
+            "mass_change_energy_J": 0.04727976357389707,
+            "total_change_J": 2.2888329483830603
+          },
+          "port_terms": {
+            "advection_J": 2.288740228597362,
+            "flow_work_low_J": -0.33172300179306813,
+            "flow_work_high_J": 0.3321680609085349,
+            "smoothing_low_J": -0.3320753412451777,
+            "smoothing_high_J": 0.3318157214564253,
+            "exact_flow_work_J": 0.00046921846478742424,
+            "exact_smoothing_J": -0.0003764988014182759,
+            "actual_port_energy_J": 2.2888329482606196,
+            "thermal_port_energy_J": 0.0,
+            "mass_into_buffer_kg": 2.6681275870805987e-07
+          },
+          "stages": [
+            {
+              "stage": 1,
+              "advection_J": -13.6108022239696,
+              "flow_work_low_J": -0.06718109018406555,
+              "flow_work_high_J": -0.0614627801809718,
+              "smoothing_low_J": -0.0013679164317229498,
+              "smoothing_high_J": 0.004350393571370792,
+              "exact_flow_work_J": -0.0628786196953691,
+              "exact_smoothing_J": 4.792308267443518e-05,
+              "actual_port_energy_J": -13.673632920582298,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": -7.716924641394001e-05
+            },
+            {
+              "stage": 2,
+              "advection_J": 778.859208712721,
+              "flow_work_low_J": 3.5067120954648328,
+              "flow_work_high_J": 3.8329330947391167,
+              "smoothing_low_J": -0.2451976542561708,
+              "smoothing_high_J": 0.08102334501811327,
+              "exact_flow_work_J": 3.5877370418641235,
+              "exact_smoothing_J": -1.601381169632052e-06,
+              "actual_port_energy_J": 782.4469441532041,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": 0.004402702968902296
+            },
+            {
+              "stage": 3,
+              "advection_J": 13.656382199817658,
+              "flow_work_low_J": 0.06162042116908775,
+              "flow_work_high_J": 0.06735616842549311,
+              "smoothing_low_J": -0.004701273131373069,
+              "smoothing_high_J": 0.0010344741250322806,
+              "exact_flow_work_J": 0.06304248721757276,
+              "exact_smoothing_J": -0.0003875919234513292,
+              "actual_port_energy_J": 13.719037095111782,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": 7.736490527109489e-05
+            },
+            {
+              "stage": 4,
+              "advection_J": -776.6160484599718,
+              "flow_work_low_J": -3.832874428242923,
+              "flow_work_high_J": -3.5066584220751027,
+              "smoothing_low_J": -0.08080849742591092,
+              "smoothing_high_J": 0.24540750874190892,
+              "exact_flow_work_J": -3.58743169092154,
+              "exact_smoothing_J": -3.522857947174984e-05,
+              "actual_port_energy_J": -780.2035153794728,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": -0.004402631815000743
+            }
+          ],
+          "frozen_input_port_area_sweep": [
+            {
+              "port_area_m2": 0.01,
+              "frozen_boundary_smoothing_J": -0.0003764988014182759
+            },
+            {
+              "port_area_m2": 0.001,
+              "frozen_boundary_smoothing_J": -0.00011488338536167412
+            },
+            {
+              "port_area_m2": 0.0001,
+              "frozen_boundary_smoothing_J": -3.566453762416924e-05
+            },
+            {
+              "port_area_m2": 8.04247719318987e-06,
+              "frozen_boundary_smoothing_J": -1.0037562633916545e-05
+            }
+          ]
+        },
+        {
+          "global_cycle": 62,
+          "actual_window_s": [
+            610.0,
+            620.0
+          ],
+          "internal_temperature_endpoint_K": [
+            304.63493518369273,
+            304.6408244389463
+          ],
+          "mass_endpoint_kg": [
+            0.10011674167627067,
+            0.10011700874580265
+          ],
+          "stored_energy_change_J": 2.2036744499127963,
+          "stored_mass_change_kg": 2.670695319756389e-07,
+          "mass_balance_residual_kg": 6.938893903907228e-18,
+          "energy_balance_residual_J": -3.979039320256561e-11,
+          "symmetric_inventory_split": {
+            "temperature_change_energy_J": 2.1563433806331886,
+            "mass_change_energy_J": 0.047331069286883576,
+            "total_change_J": 2.203674449920072
+          },
+          "port_terms": {
+            "advection_J": 2.203602252809901,
+            "flow_work_low_J": -0.33172279538719085,
+            "flow_work_high_J": 0.332168282554385,
+            "smoothing_low_J": -0.33209608549120184,
+            "smoothing_high_J": 0.33179499245037525,
+            "exact_flow_work_J": 0.00045987030317196087,
+            "exact_smoothing_J": -0.0003876732399781392,
+            "actual_port_energy_J": 2.203674449873006,
+            "thermal_port_energy_J": 0.0,
+            "mass_into_buffer_kg": 2.6706953198257777e-07
+          },
+          "stages": [
+            {
+              "stage": 1,
+              "advection_J": -13.61251116335131,
+              "flow_work_low_J": -0.06718108678690266,
+              "flow_work_high_J": -0.06146277733027369,
+              "smoothing_low_J": -0.0013728221059193595,
+              "smoothing_high_J": 0.004345487350709632,
+              "exact_flow_work_J": -0.06287880846123063,
+              "exact_smoothing_J": 4.32090250373556e-05,
+              "actual_port_energy_J": -13.6753467627875,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": -7.716924242869523e-05
+            },
+            {
+              "stage": 2,
+              "advection_J": 778.8693574109969,
+              "flow_work_low_J": 3.50671221074657,
+              "flow_work_high_J": 3.832933220745237,
+              "smoothing_low_J": -0.2451978940902556,
+              "smoothing_high_J": 0.08102311590841149,
+              "exact_flow_work_J": 3.5877382962636957,
+              "exact_smoothing_J": -2.969608700754858e-06,
+              "actual_port_energy_J": 782.4570927376519,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": 0.004402703100094426
+            },
+            {
+              "stage": 3,
+              "advection_J": 13.656629027175878,
+              "flow_work_low_J": 0.06162049467187784,
+              "flow_work_high_J": 0.06735624820095971,
+              "smoothing_low_J": -0.004706216587493247,
+              "smoothing_high_J": 0.0010295369415885998,
+              "exact_flow_work_J": 0.0630425880335847,
+              "exact_smoothing_J": -0.00039255642011657105,
+              "actual_port_energy_J": 13.719279058789345,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": 7.736499697492685e-05
+            },
+            {
+              "stage": 4,
+              "advection_J": -776.7098730220118,
+              "flow_work_low_J": -3.832874414018737,
+              "flow_work_high_J": -3.5066584090615383,
+              "smoothing_low_J": -0.08081915270753365,
+              "smoothing_high_J": 0.24539685224966556,
+              "exact_flow_work_J": -3.587442205532878,
+              "exact_smoothing_J": -3.535623619816883e-05,
+              "actual_port_energy_J": -780.2973505837808,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": -0.0044026317851086775
+            }
+          ],
+          "frozen_input_port_area_sweep": [
+            {
+              "port_area_m2": 0.01,
+              "frozen_boundary_smoothing_J": -0.0003876732399781392
+            },
+            {
+              "port_area_m2": 0.001,
+              "frozen_boundary_smoothing_J": -0.00011814523779960526
+            },
+            {
+              "port_area_m2": 0.0001,
+              "frozen_boundary_smoothing_J": -3.666519481027067e-05
+            },
+            {
+              "port_area_m2": 8.04247719318987e-06,
+              "frozen_boundary_smoothing_J": -1.0317092525533337e-05
+            }
+          ]
+        }
+      ]
+    },
+    "SHEXFluidBuffer": {
+      "port_area_m2": 0.01,
+      "tank_area_m2": 0.001,
+      "port_to_tank_area_ratio": 10.0,
+      "equivalent_port_diameter_m": 0.11283791670955126,
+      "property_density_bounds_kg_m3": [
+        926.1767128562225,
+        1002.1430070829572
+      ],
+      "source_derived_G_kg_s": 1.2670098840148662e-05,
+      "actual_Phi_reconstruction_max_error_W": 3.4332849063734017e-12,
+      "cycles": [
+        {
+          "global_cycle": 61,
+          "actual_window_s": [
+            600.0,
+            610.0
+          ],
+          "internal_temperature_endpoint_K": [
+            392.478711864417,
+            392.4677417252988
+          ],
+          "mass_endpoint_kg": [
+            0.09027192666075529,
+            0.09027177961915045
+          ],
+          "stored_energy_change_J": -4.313045901799342,
+          "stored_mass_change_kg": -1.4704160483658413e-07,
+          "mass_balance_residual_kg": 5.210311416798015e-18,
+          "energy_balance_residual_J": -1.2663825543768326e-10,
+          "symmetric_inventory_split": {
+            "temperature_change_energy_J": -4.239322742287186,
+            "mass_change_energy_J": -0.07372315951215569,
+            "total_change_J": -4.313045901799342
+          },
+          "port_terms": {
+            "advection_J": -0.1749341807261373,
+            "flow_work_low_J": -0.0002011107292438218,
+            "flow_work_high_J": -5.882553680270567e-05,
+            "smoothing_low_J": -4.13805289566304,
+            "smoothing_high_J": -4.137910610470598,
+            "exact_flow_work_J": -0.0001409430477550685,
+            "exact_smoothing_J": -4.137970778152091,
+            "actual_port_energy_J": -4.31304590192598,
+            "thermal_port_energy_J": 0.0,
+            "mass_into_buffer_kg": -1.4704160483137382e-07
+          },
+          "stages": [
+            {
+              "stage": 1,
+              "advection_J": 0.2502960864954949,
+              "flow_work_low_J": 0.0005946327309408485,
+              "flow_work_high_J": 0.0006440718717746402,
+              "smoothing_low_J": -3.673238348068674,
+              "smoothing_high_J": -3.6731889089278402,
+              "exact_flow_work_J": 0.000622812727883521,
+              "exact_smoothing_J": -3.6732170889248144,
+              "actual_port_energy_J": -3.4222981897014044,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": 7.007145042257606e-07
+            },
+            {
+              "stage": 2,
+              "advection_J": 0.12004562282300932,
+              "flow_work_low_J": 0.0002052465845200468,
+              "flow_work_high_J": 0.0002222124999708361,
+              "smoothing_low_J": -0.07524997264097912,
+              "smoothing_high_J": -0.07523300672552834,
+              "exact_flow_work_J": 0.00021788125381519424,
+              "exact_smoothing_J": -0.07524564139479038,
+              "actual_port_energy_J": 0.045017862682001024,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": 2.4180646312562976e-07
+            },
+            {
+              "stage": 3,
+              "advection_J": -0.4181127327106879,
+              "flow_work_low_J": -0.0007675495723937493,
+              "flow_work_high_J": -0.0007093651218615864,
+              "smoothing_low_J": -0.24871628889393324,
+              "smoothing_high_J": -0.24865810444340103,
+              "exact_flow_work_J": -0.0007527578606490798,
+              "exact_smoothing_J": -0.24867289615515106,
+              "actual_port_energy_J": -0.6675383867264827,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": -8.354659726220046e-07
+            },
+            {
+              "stage": 4,
+              "advection_J": -0.1271631573339536,
+              "flow_work_low_J": -0.00023344047231096775,
+              "flow_work_high_J": -0.00021574478668659564,
+              "smoothing_low_J": -0.14084828605945315,
+              "smoothing_high_J": -0.14083059037382878,
+              "exact_flow_work_J": -0.0002288791688047038,
+              "exact_smoothing_J": -0.14083515167733512,
+              "actual_port_energy_J": -0.2682271881800934,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": -2.540965995607597e-07
+            }
+          ],
+          "frozen_input_port_area_sweep": [
+            {
+              "port_area_m2": 0.01,
+              "frozen_boundary_smoothing_J": -4.137970778152091
+            },
+            {
+              "port_area_m2": 0.001,
+              "frozen_boundary_smoothing_J": -1.2781970459612069
+            },
+            {
+              "port_area_m2": 0.0001,
+              "frozen_boundary_smoothing_J": -0.3815689144832438
+            },
+            {
+              "port_area_m2": 8.04247719318987e-06,
+              "frozen_boundary_smoothing_J": -0.09141217895449216
+            }
+          ]
+        },
+        {
+          "global_cycle": 62,
+          "actual_window_s": [
+            610.0,
+            620.0
+          ],
+          "internal_temperature_endpoint_K": [
+            392.4677417252988,
+            392.45677936273376
+          ],
+          "mass_endpoint_kg": [
+            0.09027177961915045,
+            0.0902716325704924
+          ],
+          "stored_energy_change_J": -4.310030576853023,
+          "stored_mass_change_kg": -1.47048658055704e-07,
+          "mass_balance_residual_kg": -8.981407977092567e-18,
+          "energy_balance_residual_J": 3.1808422562562555e-10,
+          "symmetric_inventory_split": {
+            "temperature_change_energy_J": -4.236310712709383,
+            "mass_change_energy_J": -0.07371986415819265,
+            "total_change_J": -4.310030576867575
+          },
+          "port_terms": {
+            "advection_J": -0.17488654441650664,
+            "flow_work_low_J": -0.00020111689756427777,
+            "flow_work_high_J": -5.883183656114888e-05,
+            "smoothing_low_J": -4.135085200281872,
+            "smoothing_high_J": -4.134942915220869,
+            "exact_flow_work_J": -0.00014094454281339292,
+            "exact_smoothing_J": -4.13500308757569,
+            "actual_port_energy_J": -4.310030576534939,
+            "thermal_port_energy_J": 0.0,
+            "mass_into_buffer_kg": -1.470486580646854e-07
+          },
+          "stages": [
+            {
+              "stage": 1,
+              "advection_J": 0.2502951343603331,
+              "flow_work_low_J": 0.0005946301907079455,
+              "flow_work_high_J": 0.0006440691257781839,
+              "smoothing_low_J": -3.671246030152745,
+              "smoothing_high_J": -3.6711965912176754,
+              "exact_flow_work_J": 0.0006228075851381369,
+              "exact_smoothing_J": -3.6712247686121833,
+              "actual_port_energy_J": -3.4203068266666343,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": 7.007115150820108e-07
+            },
+            {
+              "stage": 2,
+              "advection_J": 0.12004490201144062,
+              "flow_work_low_J": 0.0002052453118594772,
+              "flow_work_high_J": 0.0002222111230060739,
+              "smoothing_low_J": -0.07437448904258309,
+              "smoothing_high_J": -0.07435752323143649,
+              "exact_flow_work_J": 0.00021787891303689947,
+              "exact_smoothing_J": -0.07437015683260663,
+              "actual_port_energy_J": 0.04589262409186361,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": 2.4180496468677756e-07
+            },
+            {
+              "stage": 3,
+              "advection_J": -0.41807475973512337,
+              "flow_work_low_J": -0.0007675510792273451,
+              "flow_work_high_J": -0.0007093665143920661,
+              "smoothing_low_J": -0.2486389642601836,
+              "smoothing_high_J": -0.2485807796953483,
+              "exact_flow_work_J": -0.000752753103102027,
+              "exact_smoothing_J": -0.2485955776714734,
+              "actual_port_energy_J": -0.6674230905096991,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": -8.354676141602237e-07
+            },
+            {
+              "stage": 4,
+              "advection_J": -0.12715182105315706,
+              "flow_work_low_J": -0.00023344132090435512,
+              "flow_work_high_J": -0.00021574557095334053,
+              "smoothing_low_J": -0.14082571682635953,
+              "smoothing_high_J": -0.1408080210764085,
+              "exact_flow_work_J": -0.0002288779378864024,
+              "exact_smoothing_J": -0.14081258445942652,
+              "actual_port_energy_J": -0.2681932834504699,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": -2.5409752367325e-07
+            }
+          ],
+          "frozen_input_port_area_sweep": [
+            {
+              "port_area_m2": 0.01,
+              "frozen_boundary_smoothing_J": -4.13500308757569
+            },
+            {
+              "port_area_m2": 0.001,
+              "frozen_boundary_smoothing_J": -1.2772749804419525
+            },
+            {
+              "port_area_m2": 0.0001,
+              "frozen_boundary_smoothing_J": -0.38129142011851913
+            },
+            {
+              "port_area_m2": 8.04247719318987e-06,
+              "frozen_boundary_smoothing_J": -0.09134536249524566
+            }
+          ]
+        }
+      ]
+    },
+    "SMAHotFluidBuffer": {
+      "port_area_m2": 0.01,
+      "tank_area_m2": 0.001,
+      "port_to_tank_area_ratio": 10.0,
+      "equivalent_port_diameter_m": 0.11283791670955126,
+      "property_density_bounds_kg_m3": [
+        926.1767128562225,
+        1002.1430070829572
+      ],
+      "source_derived_G_kg_s": 1.2670098840148662e-05,
+      "actual_Phi_reconstruction_max_error_W": 3.849365270980343e-12,
+      "cycles": [
+        {
+          "global_cycle": 61,
+          "actual_window_s": [
+            600.0,
+            610.0
+          ],
+          "internal_temperature_endpoint_K": [
+            303.9583515474959,
+            303.97155192120664
+          ],
+          "mass_endpoint_kg": [
+            0.09532152400736786,
+            0.09532167104897893
+          ],
+          "stored_energy_change_J": 5.330033731157528,
+          "stored_mass_change_kg": 1.4704161106771085e-07,
+          "mass_balance_residual_kg": -1.125283270427338e-18,
+          "energy_balance_residual_J": 6.345146630337695e-11,
+          "symmetric_inventory_split": {
+            "temperature_change_energy_J": 5.310929818788281,
+            "mass_change_energy_J": 0.019103912378341192,
+            "total_change_J": 5.330033731166623
+          },
+          "port_terms": {
+            "advection_J": 0.14187126220474205,
+            "flow_work_low_J": 6.1023849112928625e-05,
+            "flow_work_high_J": 0.0001989275613030508,
+            "smoothing_low_J": 5.187963541454934,
+            "smoothing_high_J": 5.188101445167124,
+            "exact_flow_work_J": 0.00013099059856353673,
+            "exact_smoothing_J": 5.188031478417608,
+            "actual_port_energy_J": 5.330033731220979,
+            "thermal_port_energy_J": 0.0,
+            "mass_into_buffer_kg": 1.4704161106658557e-07
+          },
+          "stages": [
+            {
+              "stage": 1,
+              "advection_J": -0.08629811663954509,
+              "flow_work_low_J": -0.0006144371561377807,
+              "flow_work_high_J": -0.0005678604565479018,
+              "smoothing_low_J": 0.270727267754974,
+              "smoothing_high_J": 0.2707738444545639,
+              "exact_flow_work_J": -0.0005716949731244318,
+              "exact_smoothing_J": 0.27073110227154795,
+              "actual_port_energy_J": 0.18386129065888107,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": -6.68767083351662e-07
+            },
+            {
+              "stage": 2,
+              "advection_J": -0.03133050474964695,
+              "flow_work_low_J": -0.00022306686501143751,
+              "flow_work_high_J": -0.00020615753871775871,
+              "smoothing_low_J": 0.14869582171533632,
+              "smoothing_high_J": 0.14871273104163,
+              "exact_flow_work_J": -0.00020755552842327963,
+              "exact_smoothing_J": 0.14869721970504152,
+              "actual_port_energy_J": 0.11715915942697161,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": -2.4279094452434103e-07
+            },
+            {
+              "stage": 3,
+              "advection_J": 0.22181433829312866,
+              "flow_work_low_J": 0.0006872982316772835,
+              "flow_work_high_J": 0.0007443905710479924,
+              "smoothing_low_J": 4.337375218131278,
+              "smoothing_high_J": 4.33743231047065,
+              "exact_flow_work_J": 0.0006974448480544808,
+              "exact_smoothing_J": 4.337422163854249,
+              "actual_port_energy_J": 4.559933946995455,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": 8.098353041453101e-07
+            },
+            {
+              "stage": 4,
+              "advection_J": 0.03768554530080542,
+              "flow_work_low_J": 0.00021122963858486322,
+              "flow_work_high_J": 0.00022855498552071902,
+              "smoothing_low_J": 0.4311652338533455,
+              "smoothing_high_J": 0.43118255920028137,
+              "exact_flow_work_J": 0.0002127962520567673,
+              "exact_smoothing_J": 0.431180992586769,
+              "actual_port_energy_J": 0.4690793341396716,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": 2.4876433479727845e-07
+            }
+          ],
+          "frozen_input_port_area_sweep": [
+            {
+              "port_area_m2": 0.01,
+              "frozen_boundary_smoothing_J": 5.188031478417608
+            },
+            {
+              "port_area_m2": 0.001,
+              "frozen_boundary_smoothing_J": 1.6010702540701485
+            },
+            {
+              "port_area_m2": 0.0001,
+              "frozen_boundary_smoothing_J": 0.4738382834375034
+            },
+            {
+              "port_area_m2": 8.04247719318987e-06,
+              "frozen_boundary_smoothing_J": 0.10928396587860087
+            }
+          ]
+        },
+        {
+          "global_cycle": 62,
+          "actual_window_s": [
+            610.0,
+            620.0
+          ],
+          "internal_temperature_endpoint_K": [
+            303.97155192120664,
+            303.98474338964604
+          ],
+          "mass_endpoint_kg": [
+            0.09532167104897893,
+            0.09532181809764291
+          ],
+          "stored_energy_change_J": 5.32646798523092,
+          "stored_mass_change_kg": 1.470486639815194e-07,
+          "mass_balance_residual_kg": -8.293828982158889e-18,
+          "energy_balance_residual_J": 1.3133938381315602e-10,
+          "symmetric_inventory_split": {
+            "temperature_change_energy_J": 5.307355051054401,
+            "mass_change_energy_J": 0.01911293417288107,
+            "total_change_J": 5.326467985227282
+          },
+          "port_terms": {
+            "advection_J": 0.1418217695069603,
+            "flow_work_low_J": 6.103015232185359e-05,
+            "flow_work_high_J": 0.0001989337272028049,
+            "smoothing_low_J": 5.184447282128095,
+            "smoothing_high_J": 5.184585185702976,
+            "exact_flow_work_J": 0.00013099576901810187,
+            "exact_smoothing_J": 5.1845152200862845,
+            "actual_port_energy_J": 5.326467985362259,
+            "thermal_port_energy_J": 0.0,
+            "mass_into_buffer_kg": 1.4704866397322556e-07
+          },
+          "stages": [
+            {
+              "stage": 1,
+              "advection_J": -0.0863346039447189,
+              "flow_work_low_J": -0.0006144344154838727,
+              "flow_work_high_J": -0.0005678579236461007,
+              "smoothing_low_J": 0.2706355479128109,
+              "smoothing_high_J": 0.27068212440464867,
+              "exact_flow_work_J": -0.0005716947764927427,
+              "exact_smoothing_J": 0.27063938476565874,
+              "actual_port_energy_J": 0.1837330860444459,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": -6.68764099229239e-07
+            },
+            {
+              "stage": 2,
+              "advection_J": -0.03134369736535991,
+              "flow_work_low_J": -0.00022306548788767,
+              "flow_work_high_J": -0.00020615626598526927,
+              "smoothing_low_J": 0.14866953773021324,
+              "smoothing_high_J": 0.14868644695211564,
+              "exact_flow_work_J": -0.00020755517984388897,
+              "exact_smoothing_J": 0.1486709366440715,
+              "actual_port_energy_J": 0.11711968409886808,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": -2.427894452205786e-07
+            },
+            {
+              "stage": 3,
+              "advection_J": 0.22181427450202518,
+              "flow_work_low_J": 0.0006872994872224577,
+              "flow_work_high_J": 0.0007443919251568394,
+              "smoothing_low_J": 4.33501101282697,
+              "smoothing_high_J": 4.335068105264905,
+              "exact_flow_work_J": 0.0006974480696179039,
+              "exact_smoothing_J": 4.335057956682478,
+              "actual_port_energy_J": 4.5575696792541525,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": 8.098367789242202e-07
+            },
+            {
+              "stage": 4,
+              "advection_J": 0.03768579631501395,
+              "flow_work_low_J": 0.00021123056847093853,
+              "flow_work_high_J": 0.0002285559916773356,
+              "smoothing_low_J": 0.4301311836581007,
+              "smoothing_high_J": 0.4301485090813072,
+              "exact_flow_work_J": 0.0002127976557368295,
+              "exact_smoothing_J": 0.43014694199407655,
+              "actual_port_energy_J": 0.46804553596479204,
+              "thermal_port_energy_J": 0.0,
+              "mass_into_buffer_kg": 2.487654294988231e-07
+            }
+          ],
+          "frozen_input_port_area_sweep": [
+            {
+              "port_area_m2": 0.01,
+              "frozen_boundary_smoothing_J": 5.1845152200862845
+            },
+            {
+              "port_area_m2": 0.001,
+              "frozen_boundary_smoothing_J": 1.5999794176557038
+            },
+            {
+              "port_area_m2": 0.0001,
+              "frozen_boundary_smoothing_J": 0.47351204231372157
+            },
+            {
+              "port_area_m2": 8.04247719318987e-06,
+              "frozen_boundary_smoothing_J": 0.10920719624416315
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "port_equation_basis": "Phi=hard-upwind internal-energy advection + smoothed conduction + mdot*p/rho",
+  "conduction_bounds_basis": "Exact native Phi minus actual-port upwind advection; flow work bounded by positive domain density extrema",
+  "gauge_dependence": "Transport and open inventory mass terms depend on internal-energy datum; smoothing remainder does not",
+  "inventory_split_basis": "Symmetric two-order endpoint decomposition, including pV/gravity/auxiliary energy; no derivative approximation",
+  "thermal_port_is_not_only_energy_path": true,
+  "conduction_coefficient_fitted": false,
+  "property_conductivity_basis": "Exact execution-producer builder literal and saved thermodynamic property table, k(293.15K)/cp(293.15K,0.5MPa)",
+  "frozen_input_sweep_is_not_a_coupled_performance_prediction": true,
+  "trajectory_counterfactual_executed": false,
+  "parameter_causality_proven": false,
+  "simulation_executed": false,
+  "operating_point_loaded": false,
+  "source_state_edited": false,
+  "periodic_gate_assigned": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "table4_reproduction_claim": false,
+  "input_sha256": {
+    "physics_audit": "E60747FAC74C5F23900BE90F3114F61C14E4773911E6E014C66F691903FFF595",
+    "installed_port_convection_source": "1C22212F515AB5449C74D27843DBEBD779FD91AB0FB2C759092C2724084896FC",
+    "producer_builder_git_blob": "9F7CE5F885DB3EEA97BB0AD75D58A3F20E04D46DD534295C04708B859CF42049"
+  }
+}

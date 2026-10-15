@@ -1,0 +1,19 @@
+component fixed_temperature_zero_mass_port
+% Isolated fixture boundary: prescribed port temperature and zero mass exchange.
+nodes
+    A = foundation.thermal_liquid.thermal_liquid;
+end
+parameters
+    boundary_temperature = {300, 'K'};
+end
+variables
+    Phi = {0, 'W'};
+end
+branches
+    Phi : A.Phi -> *;
+end
+equations
+    A.T == boundary_temperature;
+    A.mdot == {0, 'kg/s'};
+end
+end
