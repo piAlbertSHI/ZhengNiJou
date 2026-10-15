@@ -1,0 +1,30 @@
+{
+  "schema": "heatdrive_ecc_control_volume_contract_audit_v1",
+  "source": "gx101r1_R69_remote\\outputs_storage_audit\\v46_control_volume_contract_20261015\\control_volume_contract.json",
+  "contract_schema": "heatdrive_ecc_control_volume_contract_v2",
+  "control_volume_count": 10,
+  "metric_count": 10,
+  "required_control_volume_count": 10,
+  "required_metric_count": 10,
+  "missing_control_volumes": [],
+  "missing_metrics": [],
+  "se_active_mass_kg": 0.04181683646625444,
+  "contract_role": "structure_only_not_recovery_source",
+  "contract_structure_pass": true,
+  "authority": {
+    "authority_fields_pass": true,
+    "authority_hash_format_pass": true,
+    "freeze_contract_found": true,
+    "freeze_binding_pass": true,
+    "freeze_contract_path": "gx101r1_R69_remote\\verification\\c200_mainline_freeze_contract.json"
+  },
+  "sampling": {
+    "sampling_fields_pass": true,
+    "sampling_values_pass": true,
+    "equation_sampling_fields_pass": true
+  },
+  "qian_window_cycles": 10,
+  "shex_topology_update_pass": null,
+  "audit_pass": true,
+  "claim_boundary": "Contract structure only; no physical periodic or experimental validation claim."
+}

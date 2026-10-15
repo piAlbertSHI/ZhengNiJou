@@ -1,0 +1,42 @@
+{
+  "schema": "heatdrive_ecc_v46_evidence_index_v1",
+  "authoritative_reconciliation": "v46_C62_cooling_boundary_final_20261015.json",
+  "reconciliation_sha256": "0A1321B8C9B7BC1ADE0790E4D4D3FAC35B359FED8B5AA789118039CD4350981C",
+  "original_MATLAB_statistics": "v46_C62_saved_performance_window_20261015.json",
+  "final_figure": "output/png/v46_cooling_boundary_20261015/cooling_boundary_reconciliation_final.png",
+  "final_figure_sha256": "73E94FF4635D12138651EF7C4DCDCD6B3CD108FABAAE965B3CE5D5D151974E70",
+  "superseded_local_drafts": [
+    {
+      "path": "gx101r1_R69_remote\\outputs_storage_audit\\v46_C62_cooling_boundary_reconciliation_20261015.json",
+      "bytes": 33577,
+      "sha256": "6C2AA9EDF82EDE3A5F5984F5F286CA52B487EF6496AECDE9611310F97854CB91",
+      "status": "superseded_development_output_not_for_qualification"
+    },
+    {
+      "path": "gx101r1_R69_remote\\outputs_storage_audit\\v46_C62_cooling_boundary_reconciliation_v2_20261015.json",
+      "bytes": 38998,
+      "sha256": "1FEFFA23052DFD6F67D1B833C720C77296D4302676964AAA4F1A135A588732AE",
+      "status": "superseded_development_output_not_for_qualification"
+    },
+    {
+      "path": "output\\png\\v46_cooling_boundary_20261015\\cooling_boundary_reconciliation.png",
+      "bytes": 182794,
+      "sha256": "73E94FF4635D12138651EF7C4DCDCD6B3CD108FABAAE965B3CE5D5D151974E70",
+      "status": "superseded_development_output_not_for_qualification"
+    },
+    {
+      "path": "output\\png\\v46_cooling_boundary_20261015\\cooling_boundary_reconciliation.json",
+      "bytes": 417,
+      "sha256": "76C95D1E4EF394DC05ED0ED742D5F65004B6A69313BB0919F2C15E6E1044D59F",
+      "status": "superseded_development_output_not_for_qualification"
+    }
+  ],
+  "draft_deletion_executed": false,
+  "draft_deletion_note": "Execution tool rejected the cleanup command before launch; no alternate deletion path attempted. Small drafts retained locally, not staged as scientific evidence.",
+  "retired_raw_bytes": 0,
+  "released_bytes": 0,
+  "simulation_executed": false,
+  "checkpoint_modified": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false
+}

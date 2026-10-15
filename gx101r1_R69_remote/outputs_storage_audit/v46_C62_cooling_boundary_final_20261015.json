@@ -1,0 +1,1028 @@
+{
+  "schema": "heatdrive_ecc_current_cooling_boundary_reconciliation_v1",
+  "source_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1",
+  "producer": "74305b3c6b65b4dd9f7738dd1920aedb48be46ee",
+  "total_cycles": 62,
+  "current_public_ten_cycle_performance": {
+    "cycle_count": 10,
+    "cold_load_mode": "no_load",
+    "cold_load_heat_W": 0,
+    "cold_boundary_mode": "fixed_reservoir_temperature",
+    "prescribed_CHEX_temperature_K": 276.95,
+    "max_abs_CHEX_temperature_error_K": 0,
+    "fixed_chex_temperature_error_limit_K": 1e-06,
+    "fixed_chex_temperature_pass": true,
+    "endpoint_lift_HHEX_minus_CHEX_K": 26.232008719025487,
+    "reference_lift_T0_minus_CHEX_K": 26.19999999999999,
+    "qian_window_cycles": 10,
+    "qian_window_start_s": 0,
+    "qian_window_end_s": 100,
+    "temperature_lift_eq9_K": 28.5143502477103,
+    "cooling_power_eq10_W": 13.028019144866029,
+    "specific_cooling_eq10_W_per_g": 0.3115496112523826,
+    "cooling_power_CHEX_sensor_W": 12.685034472661233,
+    "SHEX_source_heat_input_W": 823.6680329819029,
+    "SHEX_source_heat_flow_min_W": 0.24933822256636912,
+    "SHEX_source_heat_flow_max_W": 4887.6380196908885,
+    "SHEX_source_heat_flow_mean_W": 823.6597989134132,
+    "SHEX_source_heat_flow_positive_fraction": 1,
+    "SHEX_source_heat_flow_negative_fraction": 0,
+    "SHEX_source_heat_flow_direction_pass": true,
+    "SHEX_sink_to_fluid_heat_flow_min_W": 0.24745287498717516,
+    "SHEX_sink_to_fluid_heat_flow_max_W": 6775.296225571196,
+    "SHEX_sink_to_fluid_heat_flow_mean_W": 823.584704763616,
+    "SHEX_sink_to_fluid_heat_flow_positive_fraction": 1,
+    "SHEX_sink_to_fluid_heat_flow_negative_fraction": 0,
+    "SHEX_sink_to_fluid_heat_flow_direction_pass": true,
+    "SHEX_sink_to_fluid_heat_input_W": 823.6670380957918,
+    "SHEX_sink_to_fluid_window_start_s": 90,
+    "SHEX_sink_to_fluid_window_end_s": 100,
+    "SHEX_sink_to_fluid_window_duration_s": 10,
+    "SHEX_sink_to_fluid_window_cycles": 1,
+    "SHEX_sink_to_fluid_window_contract": "final_complete_cycle_only",
+    "SHEX_source_heat_input_over_sink_window_W": 823.6670380316187,
+    "SHEX_sink_storage_rate_over_sink_window_W": -6.4222388118651e-08,
+    "SHEX_sink_to_fluid_signed_mean_W": 823.6670380957918,
+    "SHEX_direct_control_volume_residual_W": 4.934008757118136e-11,
+    "SHEX_direct_control_volume_residual_relative": 5.990295264102495e-14,
+    "SHEX_direct_control_volume_pass": true,
+    "heat_driven_system_COP": 0.015817075111803292,
+    "heat_driven_system_COP_available": true,
+    "heat_driven_system_COP_reason": "positive SHEX source heat-flow integrated over the declared window",
+    "eq10_sensor_absolute_difference_W": 0.3429846722047962,
+    "eq10_sensor_relative_difference": 0.026326693904188552,
+    "eq10_sensor_absolute_difference_limit_W": 0.1,
+    "eq10_sensor_relative_difference_limit": 0.05,
+    "eq10_sensor_consistency_pass": true,
+    "no_load_abs_SCP_limit_W_per_g": 0.01,
+    "no_load_root_pass": false,
+    "qian_outlet_probe_contract": "Tout_HHEX=hot_hx_inlet_fluid_temp_out; Tout_CHEX=cold_hx_inlet_fluid_temp_out; Tin_CHEX=cold_hx_outlet_fluid_temp_out; names follow block-port orientation, active flow is reversed",
+    "target_no_load_lift_K": 26.2,
+    "no_load_lift_relative_error": 0.08833397892024052,
+    "no_load_lift_relative_error_limit": 0.05,
+    "periodic_window_cycles": 10,
+    "last_cycle_endpoint_drift_K": 0.0149770114887815,
+    "last_cycle_CHEX_drift_K": 0,
+    "last_cycle_HHEX_drift_K": 1.0338592687730852e-05,
+    "last_cycle_phase_drift": 6.683203920891624e-06,
+    "last_cycle_same_phase_temperature_drift_K": 0.07802400351931738,
+    "last_cycle_same_phase_temperature_p99_drift_K": 0.0074247995785867715,
+    "last_cycle_same_phase_temperature_rms_drift_K": 0.002643465372804077,
+    "last_cycle_same_phase_phase_drift": 0.0037095026223263883,
+    "last_cycle_same_phase_phase_p99_drift": 0.00021538255858655209,
+    "last_cycle_same_phase_phase_rms_drift": 7.817788916301364e-05,
+    "periodic_endpoint_limit_K": 0.05,
+    "periodic_same_phase_temperature_limit_K": 0.05,
+    "periodic_same_phase_temperature_p99_limit_K": 0.05,
+    "periodic_same_phase_temperature_rms_limit_K": 0.01,
+    "periodic_phase_limit": 0.0001,
+    "periodic_same_phase_phase_p99_limit": 0.002,
+    "periodic_same_phase_phase_rms_limit": 0.0004,
+    "periodic_steady_state": true
+  },
+  "original_performance_window_s": [
+    520,
+    620
+  ],
+  "independent_absolute_schedule_ten_cycle_performance": {
+    "window_s": [
+      520,
+      620
+    ],
+    "samples": 100001,
+    "window_cycles": 10.0,
+    "quadrature": "trapz_both_endpoints",
+    "temperature_lift_eq9_K": 28.5143502477103,
+    "cooling_power_eq10_W": 13.027783977964486,
+    "SCP_W_per_g": 0.3115439875151175,
+    "CHEX_sensor_mean_W": 12.685034472661235,
+    "positive_SHEX_source_mean_W": 823.6680329819029,
+    "heat_driven_COP": 0.01581678960005326,
+    "active_SE_mass_kg": 0.04181683646625444,
+    "declared_fluid_cp_J_kgK": 3638.0
+  },
+  "endpoint_convention": {
+    "original_analysis_view_terminal_sample_is_stage4": true,
+    "uninterrupted_absolute_horizon_terminal_sample_is_stage1": true,
+    "original_view_minus_absolute_schedule_cooling_W": 0.00023516690154719457,
+    "interpretation": "Half of one 1-ms terminal sample; no missing cycle or changed physical trajectory"
+  },
+  "matched_native_two_cycle_performance": {
+    "window_s": [
+      600,
+      620
+    ],
+    "samples": 20001,
+    "window_cycles": 2.0,
+    "quadrature": "trapz_both_endpoints",
+    "temperature_lift_eq9_K": 28.539954624649614,
+    "cooling_power_eq10_W": 13.04162442516586,
+    "SCP_W_per_g": 0.3118749653788434,
+    "CHEX_sensor_mean_W": 12.69872647999362,
+    "positive_SHEX_source_mean_W": 823.6671215997516,
+    "heat_driven_COP": 0.015833610548683815,
+    "active_SE_mass_kg": 0.04181683646625444,
+    "declared_fluid_cp_J_kgK": 3638.0
+  },
+  "chex_pipe_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+  "cooling_boundary_reconciliation": {
+    "window_s": [
+      600.0,
+      620.0
+    ],
+    "pipe_storage_change_J": -0.004460067794383349,
+    "quadratures": {
+      "BE_J": {
+        "energies_J": {
+          "eq10": 260.8324885033183,
+          "native_export_stage4": 251.75714173114363,
+          "native_export_inactive": 2.2218712607094684,
+          "native_export_all": 253.9790129918531,
+          "heat_into_pipe": 253.9745529240571,
+          "sensor": 253.97455292404214
+        },
+        "difference_J": 6.857935579276159,
+        "difference_mean_W": 0.34289677896380794,
+        "resolved_terms_J": {
+          "stage4_metric_minus_native_port_export_J": 9.075346772174669,
+          "omitted_inactive_native_export_J": -2.2218712607094684,
+          "negative_pipe_storage_change_J": 0.004460067794383349,
+          "pipe_heat_minus_sensor_J": 1.4949819160392508e-11
+        },
+        "independently_measured_pipe_residual_J": -1.6200374375330284e-12,
+        "unexplained_after_physical_terms_J": 1.6253665080512292e-12,
+        "bookkeeping_identity_error_J": 5.329070518200751e-15
+      },
+      "trapz_J": {
+        "energies_J": {
+          "eq10": 260.8324885033172,
+          "native_export_stage4": 251.75714173114255,
+          "native_export_inactive": 2.221847376605074,
+          "native_export_all": 253.97898910774762,
+          "heat_into_pipe": 253.97452959988738,
+          "sensor": 253.97452959987243
+        },
+        "difference_J": 6.857958903444796,
+        "difference_mean_W": 0.3428979451722398,
+        "resolved_terms_J": {
+          "stage4_metric_minus_native_port_export_J": 9.075346772174669,
+          "omitted_inactive_native_export_J": -2.221847376605074,
+          "negative_pipe_storage_change_J": 0.004460067794383349,
+          "pipe_heat_minus_sensor_J": 1.4949819160392508e-11
+        },
+        "independently_measured_pipe_residual_J": 5.599341363904387e-07,
+        "unexplained_after_physical_terms_J": -5.599341310613681e-07,
+        "bookkeeping_identity_error_J": 5.329070518200751e-15
+      }
+    },
+    "solver_equation_quadrature": "BE_J",
+    "performance_quadrature": "trapz_J",
+    "residual_is_not_a_fitted_heat_correction": true,
+    "inactive_transport_is_retained": true
+  },
+  "stage4_metric_vs_native_port_split": {
+    "upstream_flow_location_difference": {
+      "BE_J": 0.002756108377488336,
+      "trapz_J": 0.00275610837748833
+    },
+    "remaining_same_native_flow_metric_minus_port_export": {
+      "BE_J": 9.072590663797216,
+      "trapz_J": 9.072590663797179
+    },
+    "stage4_public_flow_mean_kg_s": 0.0029329969951869686,
+    "stage4_native_flow_mean_kg_s": 0.0029329673133722755,
+    "remaining_term_is_not_assigned_to_cp_or_conduction_without_further_evidence": true
+  },
+  "thermal_boundary_channel_sums_mean_over_two_cycles_W": {
+    "chex_fluid_heat_flow_W": 12.698726479993933,
+    "chex_sensor_native_heat_flow_W": 12.698726479993933,
+    "chex_sink_mass_heat_flow_W": 0.0,
+    "hhex_fluid_heat_flow_W": -836.1677650259004,
+    "hhex_se_fluid_heat_flow_W": -16.058656897596066,
+    "hhex_sma_fluid_heat_flow_W": -820.1091081283045,
+    "se_constitutive_heat_flow_21_W": 3.4554614536685335,
+    "shex_fluid_heat_flow_W": 823.6671216642723,
+    "shex_source_heat_flow_W": 823.6671215997516,
+    "sma_constitutive_heat_flow_21_W": -3.4552629938050474
+  },
+  "thermal_boundary_field_provenance": "Exchanger heat fields are native; constitutive node arrays are public channel sums",
+  "modeled_full_inventory_energy_balance_over_two_cycles": {
+    "external_modeled_heat_BE_J": 3.962254053429888,
+    "native_constitutive_heat_BE_J": 0.0039691975307505345,
+    "sensible_inventory_plus_pdv_J": 3.9662232505482726,
+    "total_inventory_including_latent_plus_pdv_J": 3.9622540530867574,
+    "command_to_native_pipeline_difference_J": 4.092726157978177e-11,
+    "external_heat_minus_total_storage_J": 3.4313041297195923e-10,
+    "numerical_terms_retained_residual_J": 4.1245851178928206e-10,
+    "model_equation_energy_closure_pass": true,
+    "energy_tolerance_J": 1e-08,
+    "quadrature": "native local backward Euler; measured absolute millisecond intervals",
+    "latent_heat_counted_once": true,
+    "engineering_pump_proxy_added_as_heat": false
+  },
+  "pumps_over_the_same_two_cycles": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE_Stage2_PistonPressureSource",
+      "native": {
+        "BE_energy_J": 0.0,
+        "trapezoid_energy_J": 0.0,
+        "BE_mean_W": 0.0,
+        "trapezoid_mean_W": 0.0,
+        "min_W": 0.0,
+        "max_W": 0.0
+      },
+      "signed_hydraulic_estimate": {
+        "BE_energy_J": 1.6493973162364164,
+        "trapezoid_energy_J": 1.649397316236696,
+        "BE_mean_W": 0.08246986581182082,
+        "trapezoid_mean_W": 0.0824698658118348,
+        "min_W": -8.175124411417878e-10,
+        "max_W": 0.8406649554845416
+      },
+      "hydraulic_estimate_not_added_as_heat": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE_Stage4_PistonPressureSource",
+      "native": {
+        "BE_energy_J": 0.0,
+        "trapezoid_energy_J": 0.0,
+        "BE_mean_W": 0.0,
+        "trapezoid_mean_W": 0.0,
+        "min_W": 0.0,
+        "max_W": 0.0
+      },
+      "signed_hydraulic_estimate": {
+        "BE_energy_J": 3.1989587540883884,
+        "trapezoid_energy_J": 3.1989587583924006,
+        "BE_mean_W": 0.15994793770441942,
+        "trapezoid_mean_W": 0.15994793791962003,
+        "min_W": -1.4312277503325108e-10,
+        "max_W": 1.5075995992288762
+      },
+      "hydraulic_estimate_not_added_as_heat": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA Pressure Source (TL)",
+      "native": {
+        "BE_energy_J": 0.0,
+        "trapezoid_energy_J": 0.0,
+        "BE_mean_W": 0.0,
+        "trapezoid_mean_W": 0.0,
+        "min_W": 0.0,
+        "max_W": 0.0
+      },
+      "signed_hydraulic_estimate": {
+        "BE_energy_J": 238.22013973897197,
+        "trapezoid_energy_J": 238.22013974499137,
+        "BE_mean_W": 11.911006986948598,
+        "trapezoid_mean_W": 11.911006987249568,
+        "min_W": -2.3458552802591797e-09,
+        "max_W": 13.296173196889782
+      },
+      "hydraulic_estimate_not_added_as_heat": true
+    }
+  ],
+  "engineering_pump_proxy_means_over_two_cycles_W": {
+    "pump_power_sma_W": 11.584624226336405,
+    "pump_power_se_W": 0.2551129692379213
+  },
+  "pump_scope": "Measured signed P*mdot/mean(rho_A,rho_B) is hydraulic estimate; native power_spec.none heat is zero, not electric power",
+  "control_volumes": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.005871844108181534,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_002",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.005863224070665751,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_003",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.00584082551270626,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_004",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.005793356713741815,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_005",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.005707414494995788,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_006",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.005569428755041628,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_007",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.0053678277808302255,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_008",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.005094802807892762,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_009",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.004746927579109439,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_010",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.004325206223150246,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_011",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.0038334189147448683,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_012",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.003278549029886335,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_013",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.002669180875237487,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_014",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.0020095434297147108,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_015",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.0013004256322730612,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_016",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.0005371152599167317,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_017",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -0.0002526389453425537,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_018",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -0.0009747261492503156,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_019",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -0.0016372109988154193,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_020",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -0.002180584547730291,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_021",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -0.002325365695641679,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -0.00013950449147159816,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_001",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.0005172176331882383,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_002",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.0004936785745428551,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_003",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.00047585265066629745,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_004",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.00046254740192352983,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_005",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.0004526809514970864,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_006",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.0004453249231062273,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_007",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.0004396570556792767,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_008",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.00043477221541365907,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_009",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.00043032635622353155,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_010",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.00042648931986377647,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_011",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.000423000410009422,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_012",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.0004194467398406232,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_013",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.00041560312283195344,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_014",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.0004113724768188831,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_015",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.00040673200001606347,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_016",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.0004016978491279133,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_017",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.0003963040761618686,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_018",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.0003905918877791237,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_019",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.00038460472232770826,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_020",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.00037838590085925716,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_021",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.0003719725393267481,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -5.483801390937515e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -5.552515659701385e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -5.6549193232058315e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -5.782045974456196e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -5.9257213933960884e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -6.080993858859074e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -6.245704889806802e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -6.419280583713771e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -6.601803374906012e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -6.793529564674827e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -6.994688226313883e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -7.205400555676533e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -7.425652290748985e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -7.655280631979622e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -7.893968887628944e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -8.141245700699073e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -8.396490545692359e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -8.658942601869057e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -8.927714702622325e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -9.201813890058474e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -9.482044072228746e-05,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": -0.004460067794383349,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.006947134559084134,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+      "mask_type": "Pipe (TL)",
+      "storage_change_J": 0.0013870912882794073,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "mask_type": "Constant Volume Chamber (TL)",
+      "storage_change_J": 0.0011109725107587565,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "mask_type": "Constant Volume Chamber (TL)",
+      "storage_change_J": 0.0010896582400903299,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_01",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.011951501668933728,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_02",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.011922640744642993,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_03",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.011850121839332957,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_04",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.011705259358472657,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_05",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.011457672755785749,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_06",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.011080272334436989,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_07",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.01055374567609667,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_08",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.009869106244233842,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_09",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.009026605806238172,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_10",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.008035316913761015,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_11",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.006906218987549387,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_12",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.005659225151828962,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_13",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.004314043437423692,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_14",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.002867134561884618,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_15",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.0013129598215940686,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_16",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": -0.0003736526652172961,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_17",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": -0.002252634565041425,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_18",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": -0.004204336281734148,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_19",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": -0.006030199965652475,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_20",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": -0.007401993410612486,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_21",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": -0.006857363899224969,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotSinkMass",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": -1.291599687647249e-06,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_01",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.0008553392992962515,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_02",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.0007481166200752581,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_03",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.0006623283479290789,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_04",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.0005958416520630569,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_05",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.0005458158025310383,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_06",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.0005102964007288627,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_07",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.0004907202495954125,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_08",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.00047713344071399164,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_09",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.0004603971864406022,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_10",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.0004481618462217984,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_11",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.00044316217112965665,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_12",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.00044208856420718145,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_13",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.00044269380469489364,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_14",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.0004436892118179632,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_15",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.0004444140414521418,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_16",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.0004445805983625914,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_17",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.00044408945028308165,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_18",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.00044292471804935937,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_19",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.00044110211529509315,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_20",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.00043864845598282645,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_21",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.0004355895795454793,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdLoadMass",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.0,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkMass",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.0,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotSinkMass",
+      "mask_type": "Thermal Mass",
+      "storage_change_J": 0.0005772524905864884,
+      "pressure_volume_work_J": 0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "mask_type": "Conservative Buffer (TL)",
+      "storage_change_J": -2.746180996833573,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "mask_type": "Conservative Buffer (TL)",
+      "storage_change_J": 4.4925073983031325,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "mask_type": "Conservative Buffer (TL)",
+      "storage_change_J": -8.623076478666917,
+      "pressure_volume_work_J": 0.0
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "mask_type": "Conservative Buffer (TL)",
+      "storage_change_J": 10.656501716393905,
+      "pressure_volume_work_J": 0.0
+    }
+  ],
+  "performance_and_conservation_windows_are_distinct_and_explicit": true,
+  "largest_aligned_sample_clock_difference_s": 1.1368683772161603e-13,
+  "alignment_rule": "same integer-millisecond indices; at most sixteen floating-point ULPs; no value interpolation",
+  "ten_cycle_native_coverage_required_for_this_two_cycle_balance": false,
+  "matched_twenty_second_balance_does_not_prove_ten_cycle_inventory_periodicity": true,
+  "simulation_executed": false,
+  "operating_point_loaded": false,
+  "source_state_edited": false,
+  "real_fluid_EOS_claim": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "zero_load_endpoint_accepted": false,
+  "zero_lift_endpoint_accepted": false,
+  "table4_reproduction_claim": false,
+  "input_sha256": {
+    "contract": "5262A23FA6DC9431A8307DBD1B46E7AA0B97F30441ABFF27ACD1765F6DD6957F",
+    "physics": "E60747FAC74C5F23900BE90F3114F61C14E4773911E6E014C66F691903FFF595",
+    "science": "FE51377339D56E6C829267BAAC7733CBD35D98308D04ACE7730CF7F2D817617C",
+    "original_MATLAB_performance": "D3B84F2F68B6452748B76CB173C290CDEE4A9287C0E702FAD8332E33E616F1F7",
+    "observations": "1F30EEB3261A4F22C63783E87BFF72BDDB702965AB4E348E49575A9F77335E8B",
+    "configuration": "B1C13767F9EC35A5106B3608BA201E60699A4A5292DA98C3127CA1CC8EA2B350"
+  }
+}
