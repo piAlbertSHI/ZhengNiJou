@@ -1,4 +1,6 @@
-function options = Resolve_HeatDriveECC_SEReferenceDiagnostic(options, state_mode, cycle_count, duration, arm, endpoint_all_arms)
+function options = Resolve_HeatDriveECC_SEReferenceDiagnostic(options, state_mode, cycle_count, duration, arm, endpoint_all_arms, runtime_family)
+    if nargin<7,runtime_family=false;end
+    assert(islogical(runtime_family) && isscalar(runtime_family));
     assert(isstruct(options) && isscalar(options),'Require scalar SE reference diagnostic options.');
     assert(all(ismember(fieldnames(options),{'mode','cold_followup_audit_path','rebuilt_state_audit_path','warmup_restore_audit_path'})),'Unknown SE reference diagnostic option.');
     if isempty(fieldnames(options)),return;end
@@ -8,12 +10,13 @@ function options = Resolve_HeatDriveECC_SEReferenceDiagnostic(options, state_mod
     cold_two=strcmp(state_mode,'restore_preflight') && cycle_count==2 && duration==20;
     rebuilding=strcmp(state_mode,'rebuilt_cycle_preflight') && cycle_count==2 && duration==20;
     warming=strcmp(state_mode,'diagnostic_resume') && cycle_count==20 && duration==200;
-    assert((cold_one || cold_two || rebuilding || warming) && strcmp(arm,'native') && endpoint_all_arms, ...
+    cold_family=runtime_family && strcmp(state_mode,'capture') && cycle_count==20 && duration==200;
+    assert((cold_one || cold_two || rebuilding || warming || cold_family) && strcmp(arm,'native') && endpoint_all_arms, ...
         'Reference changes require cold qualification or a source-bound rebuilt-cycle proof, never arbitrary state import.');
     assert(~isfield(options,'rebuilt_state_audit_path') || rebuilding || warming, ...
         'Rebuilt authority is forbidden outside the complete-cycle state experiment.');
     assert(isfield(options,'warmup_restore_audit_path')==warming,'Warmup proof cannot bypass cold qualification.');
-    if cold_two || rebuilding || warming
+    if cold_two || rebuilding || warming || cold_family
         assert(isfield(options,'cold_followup_audit_path'),'Two-cycle reference experiment needs passed cold evidence.');
         audit=jsondecode(fileread(options.cold_followup_audit_path));
         assert(strcmp(audit.schema,'heatdrive_ecc_se_reference_comparison_v1') && ...

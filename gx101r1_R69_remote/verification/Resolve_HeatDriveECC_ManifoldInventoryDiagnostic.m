@@ -1,5 +1,7 @@
-function options = Resolve_HeatDriveECC_ManifoldInventoryDiagnostic(options, state_mode, cycle_count, duration, arm, endpoint_all_arms)
+function options = Resolve_HeatDriveECC_ManifoldInventoryDiagnostic(options, state_mode, cycle_count, duration, arm, endpoint_all_arms, runtime_family)
 % Explicit geometry/closure experiments; never arbitrary state import.
+    if nargin<7,runtime_family=false;end
+    assert(islogical(runtime_family) && isscalar(runtime_family));
     assert(isstruct(options) && isscalar(options), 'Require scalar inventory diagnostic options.');
     assert(all(ismember(fieldnames(options), {'volume_factor','storage_closure','cold_followup_audit_path','rebuilt_state_audit_path','warmup_restore_audit_path'})), 'Unknown inventory diagnostic option.');
     if isempty(fieldnames(options)), return; end
@@ -10,13 +12,14 @@ function options = Resolve_HeatDriveECC_ManifoldInventoryDiagnostic(options, sta
         cold_one=strcmp(state_mode,'off') && cycle_count==1 && duration==10;
         rebuilding=strcmp(state_mode,'rebuilt_cycle_preflight') && cycle_count==2 && duration==20;
         warming=strcmp(state_mode,'diagnostic_resume') && cycle_count==20 && duration==200;
-        assert((cold_one || cold_two || rebuilding || warming) && strcmp(arm,'native') && endpoint_all_arms, ...
+        cold_family=runtime_family && strcmp(state_mode,'capture') && cycle_count==20 && duration==200;
+        assert((cold_one || cold_two || rebuilding || warming || cold_family) && strcmp(arm,'native') && endpoint_all_arms, ...
             'Pressure-only closure requires its cold C1/C2 or qualified complete-cycle test.');
-        assert(isfield(options,'cold_followup_audit_path')==(cold_two || rebuilding || warming) && ...
+        assert(isfield(options,'cold_followup_audit_path')==(cold_two || rebuilding || warming || cold_family) && ...
             isfield(options,'rebuilt_state_audit_path')==(rebuilding || warming) && ...
             isfield(options,'warmup_restore_audit_path')==warming, ...
             'Only C2 must carry qualified storage-closure C1 authority.');
-        if cold_two || rebuilding || warming,Require_HeatDriveECC_StorageClosureColdSource(options.cold_followup_audit_path);end
+        if cold_two || rebuilding || warming || cold_family,Require_HeatDriveECC_StorageClosureColdSource(options.cold_followup_audit_path);end
         if rebuilding || warming
             audit=jsondecode(fileread(options.rebuilt_state_audit_path));
             Require_HeatDriveECC_StorageClosureCheckpoint(audit.source_root,options.rebuilt_state_audit_path);

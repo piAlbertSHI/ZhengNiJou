@@ -23,14 +23,19 @@ def validate_manifest(manifest):
     if (manifest['schema'] != 'heatdrive_ecc_split_observation_packet_v1' or
             not manifest['simulation_returned_without_error'] or manifest['source_state_edited'] or
             manifest['history_cap_cycles'] != 2 or manifest['state_history_cap_cycles'] != 11 or
-            not manifest['strict_vendor_restore'] or manifest['production_recovery_allowed'] or
-            manifest.get('packet_role','split_comparison') not in ('split_comparison','bounded_transient_observation') or
+            (not manifest['strict_vendor_restore'] and manifest.get('packet_role')!='runtime_boundary_cold_baseline') or manifest['production_recovery_allowed'] or
+            manifest.get('packet_role','split_comparison') not in ('split_comparison','bounded_transient_observation','runtime_boundary_cold_baseline') or
             start < 0 or stop-start not in (10, 20) or start % 10 or stop % 10):
         raise ValueError('Not a complete unchanged-model strict restored observation packet')
     if manifest.get('packet_role')=='bounded_transient_observation' and (
             stop-start!=20 or start<640 or stop>720 or
             not re.fullmatch('[A-F0-9]{64}',manifest.get('parent_complete_OP_sha256',''))):
         raise ValueError('Recording packets require the exact parent OP and bounded twenty-second interval')
+    if manifest.get('packet_role')=='runtime_boundary_cold_baseline' and (
+            [start,stop]!=[0,20] or manifest.get('source_snapshot_s')!=0 or
+            manifest.get('independent_cold_start') is not True or manifest.get('parent_complete_OP_sha256')!='' or
+            manifest.get('strict_vendor_restore') is not False or manifest.get('checksum_policy')!='error/error'):
+        raise ValueError('The runtime family must start cold with no inherited complete state')
     return start, stop
 
 

@@ -34,7 +34,7 @@ class BoundedObservationCollectionTests(unittest.TestCase):
             '31e948e:gx101r1_R69_remote/verification/Verify_HeatDriveECC_SplitObservation.m'],cwd=root).decode('utf-8')
         shared=(Path(__file__).parent/'Collect_HeatDriveECC_ObservationPacket.m').read_text(encoding='utf-8')
         def section(value):
-            return re.sub(r'\s+','',value[value.index('output=sim('):value.index('manifest=struct(')])
+            return re.sub(r'\s+','',value[value.index('assert(isempty(output.ErrorMessage)'):value.index('provenance=struct(')])
         expected=section(original).replace('fullfile(folder,','fullfile(prepared_folder,')
         self.assertEqual(expected,section(shared))
 

@@ -2,14 +2,24 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
 % Identical measured packet path shared with the qualified C62 split test.
     if nargin<12,role='split_comparison';end
     if nargin<13,parent_hash='';end
-    assert(any(strcmp(role,{'split_comparison','bounded_transient_observation'})));
-    assert(strcmp(role,'split_comparison') || ~isempty(regexp(parent_hash,'^[A-F0-9]{64}$','once')));
+    cold=strcmp(role,'runtime_boundary_cold_baseline');
+    assert(any(strcmp(role,{'split_comparison','bounded_transient_observation','runtime_boundary_cold_baseline'})));
+    assert(strcmp(role,'split_comparison') || cold || ~isempty(regexp(parent_hash,'^[A-F0-9]{64}$','once')));
     assert(~isfolder(destination),'Never overwrite a measured packet.');
     model=input.ModelName;
     mkdir(destination);arm=fullfile(destination,'native');mkdir(arm);
+    if cold
+        assert(isempty(initial) && a==0 && b==20 && isempty(parent_hash));source_snapshot=0;
+    else
+        assert(~isempty(initial));source_snapshot=initial.snapshotTime;
+    end
     write_json(fullfile(destination,'simulation_start.json'),struct('window_s',[a b], ...
-        'parent_snapshot_s',initial.snapshotTime,'simulation_returned_without_error',false));
-    output=sim(input.setModelParameter('StopTime',num2str(b,'%.17g')).setInitialState(initial));
+        'parent_snapshot_s',source_snapshot,'independent_cold_start',cold,'simulation_returned_without_error',false));
+    if cold
+        output=sim(input.setModelParameter('StopTime',num2str(b,'%.17g')));
+    else
+        output=sim(input.setModelParameter('StopTime',num2str(b,'%.17g')).setInitialState(initial));
+    end
     assert(isempty(output.ErrorMessage),'Actual restored simulation failed: %s',output.ErrorMessage);
     diagnostic_operating_point=output.diagnostic_final_op;production_recovery_allowed=false;
     assert(diagnostic_operating_point.snapshotTime==b && ...
@@ -33,7 +43,7 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
     physical=Extract_HeatDriveECC_PhysicalLogs(output,options,model,false);
     physical.authority='physical_simscape_to_workspace_logs';physical.legacy_surrogate_used_for_results=false;
     physical.sim_call_count=1;physical.walltime_s=NaN;
-    provenance=struct('checkpoint_restart_used',true,'checkpoint_chain_verified',true,'sim_call_count',1, ...
+    provenance=struct('checkpoint_restart_used',~cold,'checkpoint_chain_verified',~cold,'sim_call_count',1, ...
         'solver',options.simulation.solver,'fixed_step_s',options.simulation.fixed_step_s, ...
         'simulation_mode',options.simulation.mode);
     view=Make_HeatDriveECC_MechanismWindow(physical,options,provenance,destination);
@@ -43,11 +53,12 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
         'full_result_arrays_duplicated_in_JSON',false);
     write_json(fullfile(destination,'mechanism.json'),mechanism);
     manifest=struct('schema','heatdrive_ecc_split_observation_packet_v1','producer',producer, ...
-        'window_s',[a b],'source_snapshot_s',initial.snapshotTime,'history_cap_cycles',2, ...
+        'window_s',[a b],'source_snapshot_s',source_snapshot,'history_cap_cycles',2, ...
         'state_history_cap_cycles',11,'simulation_returned_without_error',true, ...
-        'strict_vendor_restore',true,'source_state_edited',false,'production_recovery_allowed',false, ...
+        'strict_vendor_restore',~cold,'checksum_policy','error/error','source_state_edited',false,'production_recovery_allowed',false, ...
         'complete_OP_sha256',file_hash(fullfile(destination,'comparison_only_complete_op.mat')), ...
         'packet_role',role,'parent_complete_OP_sha256',parent_hash);
+    manifest.independent_cold_start=cold;
     paths={'native/observations.mat','native/configuration.mat','native/inventory_metadata.json', ...
         'native/tl_connectivity.json','native/thermal_connectivity.json', ...
         'native/buffer_replacement_contract.json','mechanism.json','observed_states.mat'};
