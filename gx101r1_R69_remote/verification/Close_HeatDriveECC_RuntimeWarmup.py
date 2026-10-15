@@ -67,7 +67,10 @@ def close(collection,measured,thermal,output):
             file=Path(check[key+'_path'])
             if sha256(file)!=check[key+'_sha256']:raise ValueError('Changed live stopping evidence')
             dependencies.append(file)
-        if statistics['statistics']['periodic_steady_state']!=check['periodic_steady_state']:
+        live=read(Path(check['thermal_statistics_path']))
+        if (statistics['statistics']!=live['statistics'] or
+                statistics['statistics_source_sha256']!=live['statistics_source_sha256'] or
+                statistics['statistics']['periodic_steady_state']!=check['periodic_steady_state']):
             raise ValueError('Independent final thermal evaluation disagrees with the live stopping decision')
         for row in selected:
             packet=Path(row['packet_root'])
@@ -107,7 +110,8 @@ def close(collection,measured,thermal,output):
                     classification='obsolete_raw_prefix_outside_current_ten_cycles'))
         cycle_metrics.extend(packet_cycles(packet))
     output.mkdir();copies=[]
-    metrics_path=output/'all_twenty_cycle_metrics.json'
+    metrics_path=output/('all_additional_cycle_metrics.json' if result.get('stop_on_public_periodicity',False)
+                        else 'all_twenty_cycle_metrics.json')
     metrics_path.write_text(json.dumps(dict(schema='heatdrive_ecc_runtime_warmup_cycle_metrics_v1',
         window_s=result['collection_window_s'],cycle_count=len(cycle_metrics),cycles=cycle_metrics,
         quadrature='trapz_both_endpoints',old_prefix_raw_may_be_retired_after_sealing=True,
@@ -115,7 +119,8 @@ def close(collection,measured,thermal,output):
     dependencies.append(metrics_path)
     names={'packet_manifest.json','packet_gate.json','boundary_comparison.json','mechanism.json',
            'simulation_start.json','collection_result.json','collection_progress.json',
-           'initial_recording_contract.json','initial_prepared_recipe.json'}
+           'initial_recording_contract.json','initial_prepared_recipe.json',
+           'original_thermal_statistics.json','measured_window.json'}
     for file in collection.rglob('*'):
         if not file.is_file() or file.name not in names:continue
         if file.stat().st_size>1024**2:raise ValueError('Unexpected full-array JSON')

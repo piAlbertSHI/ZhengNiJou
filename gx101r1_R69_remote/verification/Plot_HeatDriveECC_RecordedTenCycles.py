@@ -44,7 +44,9 @@ def plot(measured, thermal, output, cycle_summary=None):
                    xlabel='Value / unchanged production limit', title='(b) Original public thermal predicates')
     axes[0, 1].invert_yaxis()
     for y, ratio in enumerate(ratios):
-        axes[0, 1].text(ratio+.025, y, f'{ratio:.3f}', va='center', fontsize=9)
+        inside=.9<ratio<1.1
+        axes[0, 1].text(ratio-.025 if inside else ratio+.025, y, f'{ratio:.3f}', va='center',
+            ha='right' if inside else 'left',color='white' if inside else '#222222',fontsize=9)
     names = [('ColdFluidBuffer', 'Cold buffer', '#00796B'), ('HotFluidBuffer', 'Hot buffer', '#B54464'),
              ('SHEXFluidBuffer', 'SHEX buffer', '#356BA3'), ('SMAHotFluidBuffer', 'SMA-hot buffer', '#75623B')]
     first,last=[int(t/10) for t in data['window_s']]
@@ -61,7 +63,7 @@ def plot(measured, thermal, output, cycle_summary=None):
         axis.spines[['top', 'right']].set_visible(False)
         axis.grid(color='#DDDDDD', lw=.5, axis='x' if axis is axes[0, 1] else 'y')
         axis.set_axisbelow(True)
-    prefix='Twenty-cycle advance; ' if cycle_summary else ''
+    prefix=f'{len(cycles)}-cycle advance; ' if cycle_summary else ''
     fig.suptitle(f'C{last} coupled diagnostic | {prefix}panels (b-d): {first*10}-{last*10} s', fontsize=12)
     status='PASS' if p['periodic_steady_state'] else 'NOT YET PASS'
     fig.supxlabel(f'Public thermal criteria: {status}. Complete internal-state closure and Table 4 reproduction are not established.', fontsize=10)

@@ -1,0 +1,96 @@
+{
+  "schema": "heatdrive_ecc_runtime_boundary_transient_collection_v1",
+  "producer": "e0d7f4d2bd3422ba12d5d2d3daaa9f25f063921f",
+  "origin_snapshot_sha256": "BC1DC147B143120BA01E9E3C919E348CDDBB4F920BD40815E3EF720FD204A508",
+  "collection_window_s": [
+    220,
+    280
+  ],
+  "origin_recipe_sha256": "D9B6894652D87DE504F67AFB39A21EE4F72B275F1361972DAE68B186F4C32B59",
+  "native_observation_window_after_join_s": [
+    180,
+    280
+  ],
+  "completed_packets": [
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v52_runtime_convergence_C22_r1\\packet_C024_attempt01",
+      "start_time_s": 220,
+      "stop_time_s": 240,
+      "operating_point_sha256": "F72BAA6C4E1BFAB9172178292C7606DC4380171A35BE2ABF9616A8ECBA60A3A1"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v52_runtime_convergence_C22_r1\\packet_C026_attempt01",
+      "start_time_s": 240,
+      "stop_time_s": 260,
+      "operating_point_sha256": "830DFBF8F1FF1411EC41EBA70689675733EED1C461CEDFE19582E4A740BAEC23"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v52_runtime_convergence_C22_r1\\packet_C028_attempt01",
+      "start_time_s": 260,
+      "stop_time_s": 280,
+      "operating_point_sha256": "1FC1E05C01C87AE9400F51F24AE6EB3188A81F86E73971C03AAB6DBC7BDF4A07"
+    }
+  ],
+  "last_verified_snapshot_time_s": 280,
+  "last_verified_packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v52_runtime_convergence_C22_r1\\packet_C028_attempt01",
+  "pass": true,
+  "source_state_edited": false,
+  "partial_state_restore_used": false,
+  "history_cap_cycles": 2,
+  "state_history_cap_cycles": 11,
+  "command_horizon_cycles": 200,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "error_message": "",
+  "process_pid": 99996,
+  "current_producer": "e0d7f4d2bd3422ba12d5d2d3daaa9f25f063921f",
+  "stop_on_public_periodicity": true,
+  "planned_collection_window_s": [
+    220,
+    420
+  ],
+  "origin_measured_window_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v51_runtime_C22_ten_cycles_20261015\\measured_window.json",
+  "origin_measured_window_sha256": "1823C27418304B0E144F4B0C1D991A69886D043EE98E08BBC6CE843CB46CE6C3",
+  "current_attempt_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v52_runtime_convergence_C22_r1\\packet_C028_attempt01",
+  "current_attempt_window_s": [
+    260,
+    280
+  ],
+  "latest_periodicity": {
+    "window_s": [
+      180,
+      280
+    ],
+    "periodic_steady_state": true,
+    "measured_window_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v52_runtime_convergence_C22_r1\\periodicity_C028_attempt01\\measured_window.json",
+    "measured_window_sha256": "D42A6BADF174A0F97565ECDF5205D0B4AEB6D1A147022B1F02662204830DC16C",
+    "thermal_statistics_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v52_runtime_convergence_C22_r1\\periodicity_C028_attempt01\\original_thermal_statistics.json",
+    "thermal_statistics_sha256": "BE05912E77D2C55CB15379667BD00375715042EEAB5F51508461EBE0FC820917",
+    "statistics": {
+      "periodic_window_cycles": 10,
+      "last_cycle_endpoint_drift_K": 0.02024266239300232,
+      "last_cycle_CHEX_drift_K": 0,
+      "last_cycle_HHEX_drift_K": 1.267376950409016E-5,
+      "last_cycle_phase_drift": 2.1917675253616464E-5,
+      "last_cycle_same_phase_temperature_drift_K": 0.085854149679789771,
+      "last_cycle_same_phase_temperature_p99_drift_K": 0.027382162548462929,
+      "last_cycle_same_phase_temperature_rms_drift_K": 0.0093819013607842824,
+      "last_cycle_same_phase_phase_drift": 0.0041740692746222927,
+      "last_cycle_same_phase_phase_p99_drift": 0.00072582983741042995,
+      "last_cycle_same_phase_phase_rms_drift": 0.00024017194803855086,
+      "periodic_endpoint_limit_K": 0.05,
+      "periodic_same_phase_temperature_limit_K": 0.05,
+      "periodic_same_phase_temperature_p99_limit_K": 0.05,
+      "periodic_same_phase_temperature_rms_limit_K": 0.01,
+      "periodic_phase_limit": 0.0001,
+      "periodic_same_phase_phase_p99_limit": 0.002,
+      "periodic_same_phase_phase_rms_limit": 0.0004,
+      "periodic_steady_state": true
+    },
+    "physical_tolerances_changed": false,
+    "complete_internal_state_periodicity_verified": false,
+    "outer_solve_eligible": false
+  },
+  "early_stopped_on_original_public_periodicity": true,
+  "total_cycles": 28
+}

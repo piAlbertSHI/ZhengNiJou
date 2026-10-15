@@ -62,5 +62,11 @@ class RuntimeRollingTests(unittest.TestCase):
         self.assertNotIn('sim(',helper)
         self.assertIn('m.prescribed_Tc_K==276.95',helper)
 
+    def test_closeout_reports_actual_additional_cycles_and_compares_full_independent_statistics(self):
+        source=(Path(__file__).parent/'Close_HeatDriveECC_RuntimeWarmup.py').read_text()
+        self.assertIn('cycle_count=len(cycle_metrics)',source)
+        self.assertIn("statistics['statistics']!=live['statistics']",source)
+        self.assertIn("'all_additional_cycle_metrics.json'",source)
+
 
 if __name__=='__main__':unittest.main()
