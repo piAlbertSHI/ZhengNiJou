@@ -6,8 +6,8 @@ from pathlib import Path
 from Audit_HeatDriveECC_ControlVolumeImplementation import build, sha256
 
 
-ROOT = Path(__file__).resolve().parents[1]
-BASE_CONTRACT = ROOT / "outputs_storage_audit" / "control_volume_contract" / "control_volume_contract.json"
+# Declaration snapshot only; unit tests must not require ignored runtime outputs.
+BASE_CONTRACT = Path(__file__).resolve().parent / "fixtures" / "control_volume_contract_v2.json"
 
 
 def cold_fixture(contract_hash: str, *, endpoint: float = 0.0, source_pass: bool = True) -> dict:

@@ -1,0 +1,199 @@
+{
+  "schema": "heatdrive_ecc_control_volume_contract_v2",
+  "generated_at": "2026-09-04 04:44:54",
+  "cold_boundary_mode": "fixed_reservoir_temperature",
+  "cycle_period_s": 10,
+  "qian_window_cycles": 10,
+  "SE_active_mass_kg": 0.04181683646625444,
+  "SE_active_mass_g": 41.81683646625444,
+  "rows": [
+    {
+      "control_volume": "SHEX source heat-flow sensor",
+      "domain": "thermal source boundary",
+      "inventory_or_storage": "zero-storage physical heat-flow sensor",
+      "mass_boundary": "closed; no mass crossing",
+      "energy_boundary": "Q_SHEX_source_to_sink_W, positive source-to-SHEX",
+      "logged_signals": "Q_SHEX_source_to_sink_W; Q_SHEX_sink_to_fluid_W from simlog/SHEX/HotSinkFluidLink/Q",
+      "audit_role": "heat-driven COP denominator; source-side audit",
+      "provenance": "new source-side physical sensor; model measurement"
+    },
+    {
+      "control_volume": "CHEX boundary heat sensor",
+      "domain": "thermal boundary",
+      "inventory_or_storage": "zero-storage ideal heat-flow sensor",
+      "mass_boundary": "closed; no mass crossing",
+      "energy_boundary": "Q_CHEX_reservoir_to_hx_W, positive reservoir-to-HX",
+      "logged_signals": "Q_CHEX_reservoir_to_hx_W",
+      "audit_role": "independent Eq.10 cross-check",
+      "provenance": "model measurement"
+    },
+    {
+      "control_volume": "SHEX fluid reservoir",
+      "domain": "water",
+      "inventory_or_storage": "C=418 J/K",
+      "mass_boundary": "model reservoir node",
+      "energy_boundary": "enthalpy flow plus source/sink heat; sensible storage",
+      "logged_signals": "SHEX_T_K",
+      "audit_role": "boundary/storage audit",
+      "provenance": "Qian boundary plus explicit capacity closure"
+    },
+    {
+      "control_volume": "HHEX fluid reservoir",
+      "domain": "water/glycol thermal node",
+      "inventory_or_storage": "C=363.8 J/K",
+      "mass_boundary": "model reservoir node",
+      "energy_boundary": "Q_HHEX_sink_to_ambient + Q_HHEX_sink_to_SE_fluid + Q_HHEX_sink_to_SMA_fluid + Q_HHEX_sink_mass = 0",
+      "logged_signals": "HHEX_T_K; Q_HHEX_sink_to_ambient_W; Q_HHEX_sink_to_SE_fluid_W; Q_HHEX_sink_to_SMA_fluid_W; Q_HHEX_sink_mass_W",
+      "audit_role": "Eq.9 hot-outlet boundary and storage audit",
+      "provenance": "Qian boundary plus explicit capacity closure"
+    },
+    {
+      "control_volume": "CHEX fluid node",
+      "domain": "SE glycol-water",
+      "inventory_or_storage": "fixed T=276.95 K; finite CHEX mass non-authoritative",
+      "mass_boundary": "Stage 4 SE stream exchanges heat only",
+      "energy_boundary": "Q_CHEX_fixed_source + Q_CHEX_load_to_sink + Q_CHEX_sink_to_fluid + Q_CHEX_sink_mass = 0",
+      "logged_signals": "CHEX_T_K; Q_CHEX_fixed_source_W; Q_CHEX_load_to_sink_W; Q_CHEX_sink_to_fluid_W; Q_CHEX_sink_mass_W; Q_CHEX_sensor_native_W",
+      "audit_role": "Eq.9 cold-outlet and Eq.10 inlet/outlet boundary",
+      "provenance": "Qian fixed-Tc boundary"
+    },
+    {
+      "control_volume": "SMA solid bed",
+      "domain": "NiTi actuator",
+      "inventory_or_storage": "m=0.133813876692 kg; cp=500 J/(kg K)",
+      "mass_boundary": "closed solid; no mass crossing",
+      "energy_boundary": "Q_pipe_to_SMA + Q_constitutive_SMA = Delta U_sensible",
+      "logged_signals": "SMA_T_21_K; xM_SMA_21; Q_SMA_*",
+      "audit_role": "mechanism and energy gate",
+      "provenance": "Qian Table 2/4 geometry and material"
+    },
+    {
+      "control_volume": "SE solid bed",
+      "domain": "NiTi elastocaloric bed",
+      "inventory_or_storage": "m=0.0418168364663 kg; cp=500 J/(kg K)",
+      "mass_boundary": "closed solid; no mass crossing",
+      "energy_boundary": "Q_pipe_to_SE + Q_constitutive_SE = Delta U_sensible",
+      "logged_signals": "SE_T_21_K; xM_SE_21; Q_SE_*",
+      "audit_role": "Eq.10 active-mass basis; mechanism/energy gate",
+      "provenance": "Qian Table 2/4 geometry and material"
+    },
+    {
+      "control_volume": "SMA/SE route buffers",
+      "domain": "route-specific water/glycol",
+      "inventory_or_storage": "endpoint reference 0.1 kg; SE buffer 9.56962219132e-05 m^3",
+      "mass_boundary": "finite fluid state carried across stages/cycles",
+      "energy_boundary": "advected enthalpy and wall heat; Delta(sum(m*u)); no state reset",
+      "logged_signals": "HHEX_buffer_T_K; SMA_HHEX_buffer_T_K; SHEX_buffer_T_K; U_buffer_inventory_J; M_buffer_inventory_kg",
+      "audit_role": "state continuity and cross-contamination gate",
+      "provenance": "Qian 2017 endpoint inventory engineering closure"
+    },
+    {
+      "control_volume": "finite connecting pipes/manifolds",
+      "domain": "water/glycol",
+      "inventory_or_storage": "each connector D=0.0032 m, L=0.2 m, V=1.60849543864e-06 m^3",
+      "mass_boundary": "finite fluid state carried across stages/cycles",
+      "energy_boundary": "advected enthalpy and wall heat; Delta(sum(rho*V*u)); no state reset",
+      "logged_signals": "U_pipe_inventory_J; M_pipe_inventory_kg; U_manifold_inventory_J; M_manifold_inventory_kg",
+      "audit_role": "inventory sensitivity and state continuity",
+      "provenance": "Qian connecting-pipe geometry engineering closure"
+    },
+    {
+      "control_volume": "SMA and SE pumps",
+      "domain": "hydraulic work",
+      "inventory_or_storage": "no thermal storage; work meter only",
+      "mass_boundary": "mass conserved through each active route",
+      "energy_boundary": "parasitic Wdot=max(Delta p*mdot/rho,0); native TL source power=0 by declared power_spec=none",
+      "logged_signals": "pump_power_SMA_W; pump_power_SE_W; P_pressure_source_native_W",
+      "audit_role": "parasitic work and COP denominator",
+      "provenance": "model prediction; Qian neglects dissipation heat"
+    }
+  ],
+  "equations": [
+    {
+      "metric": "heat-driven system COP",
+      "definition": "Qcool_mean / integral(max(Q_SHEX_source_to_sink_W,0)) dt / Delta t",
+      "sampling_window": "last min(Ncycle,10) complete cycles; endpoints included by trapz",
+      "mass_basis": "not applicable",
+      "included": "positive SHEX source heat-flow input and Eq.10 cooling power",
+      "excluded": "pump work, control work, and unmeasured accessory heat unless explicitly added"
+    },
+    {
+      "metric": "SHEX sink-to-fluid transfer",
+      "definition": "integral(max(Q_SHEX_sink_to_fluid_W,0)) dt / Delta t",
+      "sampling_window": "last min(Ncycle,10) complete cycles; endpoints included by trapz",
+      "mass_basis": "not applicable",
+      "included": "positive measured SHEX sink-to-fluid transfer",
+      "excluded": "sink thermal-mass storage and non-SHEX downstream components"
+    },
+    {
+      "metric": "Eq.9 temperature lift",
+      "definition": "integral(Tout_HHEX-Tout_CHEX) dt / Delta t",
+      "sampling_window": "last min(Ncycle,10) complete cycles; endpoints included by trapz",
+      "mass_basis": "not applicable",
+      "included": "HHEX/CHEX SE-fluid outlet temperatures",
+      "excluded": "solid mean temperatures and reservoir end-point lift"
+    },
+    {
+      "metric": "Eq.10 cooling power",
+      "definition": "integral(I_stage4*abs(mdot_SE)*cp*(Tout_CHEX-Tin_CHEX)) dt / Delta t",
+      "sampling_window": "last min(Ncycle,10) complete cycles; endpoints included by trapz",
+      "mass_basis": "SE glycol-water stream",
+      "included": "Stage 4 active flow, measured mass flow, declared glycol-water cp",
+      "excluded": "inactive stages, pump heat, CHEX finite-mass storage"
+    },
+    {
+      "metric": "Eq.10 specific cooling power",
+      "definition": "Qcool_mean / (1000*m_SE_kg)",
+      "sampling_window": "last min(Ncycle,10) complete cycles; endpoints included by trapz",
+      "mass_basis": "active SE solid only: 0.0418168364663 kg = 41.8168364663 g",
+      "included": "Eq.10 cooling power divided by active SE mass",
+      "excluded": "SMA mass, fluid inventory, buffers, pipes"
+    },
+    {
+      "metric": "CHEX sensor cross-check",
+      "definition": "integral(Q_CHEX_reservoir_to_hx_W) dt / Delta t",
+      "sampling_window": "last min(Ncycle,10) complete cycles; endpoints included by trapz",
+      "mass_basis": "not applicable",
+      "included": "ideal fixed-Tc reservoir heat-flow sensor",
+      "excluded": "Eq.10 primary calculation"
+    },
+    {
+      "metric": "mean pump power",
+      "definition": "integral(pump_power_SMA_W+pump_power_SE_W) dt / Delta t",
+      "sampling_window": "last min(Ncycle,10) complete cycles; endpoints included by trapz",
+      "mass_basis": "not applicable",
+      "included": "hydraulic pressure-volume work only",
+      "excluded": "thermal source work and mechanical SMA-SE transfer"
+    },
+    {
+      "metric": "hydraulic COP diagnostic",
+      "definition": "Qcool_mean / Ppump_mean",
+      "sampling_window": "last min(Ncycle,10) complete cycles; endpoints included by trapz",
+      "mass_basis": "not applicable",
+      "included": "cooling power and both mean hydraulic pump powers",
+      "excluded": "thermal-source input; therefore not a heat-driven system COP"
+    },
+    {
+      "metric": "modeled thermal first-law residual",
+      "definition": "Q_SHEX,in + Q_CHEX,source + Q_CHEX,load - Q_HHEX,out - d(U_fluid+U_endpoint+U_solid)/dt; U_solid=m*cp*T-m*Delta_h*xM",
+      "sampling_window": "final complete cycle only; no native-log extrapolation",
+      "mass_basis": "all modeled fluid, endpoint, SMA, and SE inventories",
+      "included": "direct SHEX/HHEX/CHEX boundaries and all finite modeled storage",
+      "excluded": "parasitic pump dissipation and accessory heat not thermally coupled by the current pressure-source contract"
+    },
+    {
+      "metric": "closed-loop fluid mass drift",
+      "definition": "(M_fluid,end-M_fluid,start)/M_fluid,start",
+      "sampling_window": "final complete cycle only; no native-log extrapolation",
+      "mass_basis": "all finite-volume thermal-liquid inventory",
+      "included": "all Pipe (TL), Tank (TL), and Constant Volume Chamber (TL) blocks",
+      "excluded": "external reservoirs and zero-storage sensors"
+    }
+  ],
+  "outputs": {
+    "table_csv": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\control_volume_contract\\control_volume_contract.csv",
+    "equation_csv": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\control_volume_contract\\qian_eq9_eq10_contract.csv",
+    "markdown": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\control_volume_contract\\control_volume_contract.md",
+    "json": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\control_volume_contract\\control_volume_contract.json"
+  }
+}

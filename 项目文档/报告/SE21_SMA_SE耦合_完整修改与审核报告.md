@@ -6630,3 +6630,9 @@ producer `d8d8f3a`，前台 session 93098 自然退出 0。四点全部实际从
 治理快照 `workspace_governance_20261015_v45` 于 12:20 分类主库 outputs/audit 856 个目录、16.049030 GiB，C200/C180 四项权威实文件 SHA 全部通过。此范围不包含其他执行工作树或 Agent6，不作为整盘占用；未重复计算历史已释放容量。未解释 SLX 与 Agent6 继续隔离，不提交、不覆盖、不删除。
 
 本轮恢复后的实际完成位置是四点科学结果、有限窗口缺口、诊断图与归档的收尾，不是新增长循环。第 8 节完整目标仍未完成：下一阶段保留 C62，先采用其原配置兼容的观察窗口策略补齐所需控制体证据，再进行有当前稳态和流量/相变/能量资格的成对端点；不把 cold geometry 对照、旧有限温跨结果或缺失观察自动提升为严格 Table 4 复现。
+
+### 276.6 提交及测试的可移植性修复
+
+主库收尾提交 8972637，仅镜像到独立冷态执行分支 ff17822；C62 兼容工作树不变。146 个新增证据 blob 与工作区原字节 SHA 全部一致，大 MAT 没有入 Git。执行工作树首次全回归出现五项 FileNotFoundError，均来自旧 test_control_volume_implementation.py 读取未跟踪的 outputs_storage_audit/control_volume_contract/control_volume_contract.json；不是五个科学门禁失败。其余测试没有报错，不能写作该次全通过。
+
+将原声明 JSON 固定为 verification/fixtures/control_volume_contract_v2.json，并使上述单元测试仅读取受版本管理的声明夹具；测试仍自行写入临时 authority/sampling、绑定哈希和失效案例，不获得任何运行结果/恢复资格，不修改生产审核器或公式。主库修复后再次实际全回归 827/827。此类测试不再依赖各工作树恰好存在的历史生成文件。
