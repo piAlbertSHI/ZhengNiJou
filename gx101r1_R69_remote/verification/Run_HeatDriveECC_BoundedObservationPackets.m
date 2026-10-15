@@ -2,6 +2,7 @@ function record=Run_HeatDriveECC_BoundedObservationPackets(input,options,folder,
 % Gate every measured packet before propagating its untouched complete vendor OP.
     repo=fileparts(fileparts(mfilename('fullpath')));model=input.ModelName;
     runtime=strcmp(request.mode,'runtime_boundary_warmup');
+    converge=runtime && isfield(request,'stop_on_public_periodicity') && request.stop_on_public_periodicity;
     root=canonical(request.collection_root);
     assert(strcmp(fileparts(root),canonical(fullfile(repo,'outputs'))),'Collection must stay in execution outputs.');
     assert(~isfile(fullfile(root,'COMPLETED_RAW_PREFIX_RETIRED.json')), ...
@@ -62,6 +63,19 @@ function record=Run_HeatDriveECC_BoundedObservationPackets(input,options,folder,
     for k=1:numel(qualification.files)
         row=qualification.files(k);assert(strcmp(file_hash(row.path),row.sha256));
     end
+    if converge
+        source_window='';
+        for k=1:numel(qualification.files)
+            row=qualification.files(k);[~,name,extension]=fileparts(row.path);
+            if strcmp([name extension],'measured_window.json')
+                assert(isempty(source_window),'Ambiguous origin observation window.');source_window=row.path;
+            end
+        end
+        assert(~isempty(source_window),'Early stopping requires a sealed ten-cycle origin window.');
+        origin_index=jsondecode(fileread(source_window));
+        assert(origin_index.runtime_family && isequal(origin_index.window_s(:),[origin_stop-100;origin_stop]) && ...
+            numel(origin_index.packets)==5 && ~origin_index.source_state_edited);
+    end
     has_progress=isfile(progress);
     if existed && ~has_progress
         assert(isempty(dir(fullfile(root,'packet_C*'))), ...
@@ -69,9 +83,16 @@ function record=Run_HeatDriveECC_BoundedObservationPackets(input,options,folder,
     end
     if has_progress
         record=jsondecode(fileread(progress));
+        if converge && isfield(record,'planned_collection_window_s')
+            expected_window=record.planned_collection_window_s;
+            assert(strcmp(record.origin_measured_window_path,source_window) && ...
+                strcmp(record.origin_measured_window_sha256,file_hash(source_window)));
+        else
+            expected_window=record.collection_window_s;
+        end
         assert(strcmp(record.origin_snapshot_sha256,file_hash(snapshot)) && ...
             strcmp(record.origin_recipe_sha256,file_hash(recipe)) && ...
-            isequal(record.collection_window_s(:),[origin_stop;target]) && ~record.source_state_edited);
+            isequal(expected_window(:),[origin_stop;target]) && ~record.source_state_edited);
         completed=record.completed_packets;
         if isempty(completed),completed={};elseif isstruct(completed),completed=num2cell(completed);end
     else
@@ -98,9 +119,21 @@ function record=Run_HeatDriveECC_BoundedObservationPackets(input,options,folder,
     end
     record.completed_packets=completed;record.process_pid=feature('getpid');record.error_message='';
     record.current_producer=producer;
+    if converge
+        record.stop_on_public_periodicity=true;
+        record.planned_collection_window_s=[origin_stop target];
+        record.origin_measured_window_path=source_window;
+        record.origin_measured_window_sha256=file_hash(source_window);
+    end
     write_json(progress,record);
     try
+        periodic=false;
+        if converge && ~isempty(completed)
+            check=Check_HeatDriveECC_RuntimeRollingPeriodicity(root,origin_index,completed);
+            record.latest_periodicity=check;periodic=check.periodic_steady_state;write_json(progress,record);
+        end
         for finish=origin_stop+20+20*numel(completed):20:target
+            if periodic,break;end
             start=op.snapshotTime;assert(finish-start==20);
             attempt=1;
             while isfolder(fullfile(root,sprintf('packet_C%03d_attempt%02d',finish/10,attempt))),attempt=attempt+1;end
@@ -114,13 +147,25 @@ function record=Run_HeatDriveECC_BoundedObservationPackets(input,options,folder,
                 'operating_point_sha256',manifest.complete_OP_sha256); %#ok<AGROW>
             op=next;previous=destination;record.completed_packets=completed;
             record.last_verified_snapshot_time_s=finish;record.last_verified_packet_root=destination;write_json(progress,record);
+            if converge
+                check=Check_HeatDriveECC_RuntimeRollingPeriodicity(root,origin_index,completed);
+                record.latest_periodicity=check;periodic=check.periodic_steady_state;write_json(progress,record);
+            end
         end
-        assert(numel(completed)==(target-origin_stop)/20 && op.snapshotTime==target);
-        record.pass=true;record.total_cycles=target/10;
+        if converge
+            assert((periodic || op.snapshotTime==target) && op.snapshotTime==origin_stop+20*numel(completed));
+            record.collection_window_s=[origin_stop op.snapshotTime];
+            record.native_observation_window_after_join_s=[op.snapshotTime-100 op.snapshotTime];
+            record.early_stopped_on_original_public_periodicity=periodic && op.snapshotTime<target;
+        else
+            assert(numel(completed)==(target-origin_stop)/20 && op.snapshotTime==target);
+        end
+        record.pass=true;record.total_cycles=op.snapshotTime/10;
     catch ME
         record.error_message=ME.message;record.error_identifier=ME.identifier;
         record.error_report=getReport(ME,'extended','hyperlinks','off');
-        if isfield(record,'current_attempt_root') && isfolder(record.current_attempt_root)
+        if isfield(record,'current_attempt_root') && isfolder(record.current_attempt_root) && ...
+                ~strcmp(record.current_attempt_root,record.last_verified_packet_root)
             write_json(fullfile(record.current_attempt_root,'REJECTED_DO_NOT_RESUME.json'), ...
                 struct('reason',ME.message,'failed_packet_may_propagate',false,'production_recovery_allowed',false));
         end

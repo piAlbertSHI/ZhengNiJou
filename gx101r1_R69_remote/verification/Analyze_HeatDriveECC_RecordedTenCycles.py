@@ -78,11 +78,33 @@ def native_pipe_inventory(metadata, connectivity, block, specific_energy):
 def runtime_window(result):
     start,stop=result['collection_window_s']
     rows=result['completed_packets']
+    adaptive=result.get('stop_on_public_periodicity',False)
     if (result['schema']!='heatdrive_ecc_runtime_boundary_transient_collection_v1' or
             not result['pass'] or result['error_message'] or result['source_state_edited'] or result['partial_state_restore_used'] or
-            stop-start!=200 or start<20 or stop>2000 or stop!=10*result['total_cycles'] or len(rows)!=10 or
+            start<20 or stop>2000 or stop!=10*result['total_cycles'] or
+            not 1<=len(rows)<=10 or stop-start!=20*len(rows) or
             any(row['start_time_s']!=start+20*k or row['stop_time_s']!=start+20*(k+1) for k,row in enumerate(rows))):
         raise ValueError('Require ten naturally completed same-family two-cycle packets')
+    if adaptive:
+        planned=result['planned_collection_window_s']
+        check=result['latest_periodicity']
+        source=Path(result['origin_measured_window_path'])
+        if (planned!=[start,start+200] or stop>planned[1] or
+                check['window_s']!=[stop-100,stop] or check['physical_tolerances_changed'] or
+                (stop<planned[1] and not check['periodic_steady_state']) or
+                sha256(source)!=result['origin_measured_window_sha256']):
+            raise ValueError('Changed rolling-window origin or unjustified early stop')
+        origin=read(source)
+        if origin['window_s']!=[start-100,start] or not origin['runtime_family'] or len(origin['packets'])!=5:
+            raise ValueError('Require the sealed same-runtime-family origin window')
+        prior=[]
+        for k,p in enumerate(origin['packets']):
+            if p['window_s']!=[start-100+20*k,start-80+20*k]:
+                raise ValueError('Origin packets cannot have gaps or overlap')
+            prior.append(dict(packet_root=p['packet_root'],start_time_s=p['window_s'][0],stop_time_s=p['window_s'][1]))
+        rows=prior+rows
+    elif stop-start!=200 or len(rows)!=10:
+        raise ValueError('The fixed warmup still requires all twenty cycles')
     return stop-100,stop,rows[-5:],Path(rows[-6]['packet_root'])
 
 

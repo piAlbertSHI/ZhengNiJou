@@ -9,6 +9,13 @@ function record=Test_HeatDriveECC_RuntimeWarmupPolicy(parent_path,endpoint_path,
         'collection_stop_s',pointer.snapshot_time_s+200);
     actual=Resolve_HeatDriveECC_ObservationPreflight(request,state,20,200,'native',true,struct());
     assert(isequaln(actual,request));
+    adaptive=request;adaptive.stop_on_public_periodicity=true;
+    actual=Resolve_HeatDriveECC_ObservationPreflight(adaptive,state,20,200,'native',true,struct());
+    assert(isequaln(actual,adaptive));
+    adaptive.stop_on_public_periodicity=false;adaptive_rejected=false;
+    try,Resolve_HeatDriveECC_ObservationPreflight(adaptive,state,20,200,'native',true,struct());
+    catch,adaptive_rejected=true;end
+    assert(adaptive_rejected);
     rejected=0;
     for target=[pointer.snapshot_time_s+180,pointer.snapshot_time_s+201,2001,NaN]
         bad=request;bad.collection_stop_s=target;
@@ -31,6 +38,7 @@ function record=Test_HeatDriveECC_RuntimeWarmupPolicy(parent_path,endpoint_path,
     end
     assert(typed_rejected==3);
     record=struct('valid_same_family_request',true,'unsafe_request_count_rejected',rejected, ...
+        'explicit_original_periodicity_stopping_accepted',true,'ambiguous_stopping_override_rejected',adaptive_rejected, ...
         'unsafe_family_count_rejected',typed_rejected,'simulation_executed',false,'operating_point_loaded',false);
     fprintf('RUNTIME_WARMUP_POLICY_JSON=%s\n',jsonencode(record));
 end

@@ -55,6 +55,30 @@ def close(collection,measured,thermal,output):
     origin_q=source_repo/origin['qualification_relative']
     if sha256(origin_q)!=origin['qualification_sha256']:raise ValueError('Origin qualification changed')
     dependencies.extend((origin_q,Path(prepared['output_root'])/'native/runtime_warmup_recipe_comparison.json'))
+    if result.get('stop_on_public_periodicity',False):
+        origin_window=Path(result['origin_measured_window_path'])
+        q=read(origin_q)
+        if not any(Path(row['path'])==origin_window and row['sha256']==result['origin_measured_window_sha256']
+                   for row in q['files']):
+            raise ValueError('The rolling origin must be bound by the source qualification')
+        dependencies.append(origin_window)
+        check=result['latest_periodicity']
+        for key in ('measured_window','thermal_statistics'):
+            file=Path(check[key+'_path'])
+            if sha256(file)!=check[key+'_sha256']:raise ValueError('Changed live stopping evidence')
+            dependencies.append(file)
+        if statistics['statistics']['periodic_steady_state']!=check['periodic_steady_state']:
+            raise ValueError('Independent final thermal evaluation disagrees with the live stopping decision')
+        for row in selected:
+            packet=Path(row['packet_root'])
+            if packet.is_relative_to(collection):continue
+            manifest=read(packet/'packet_manifest.json')
+            for item in manifest['input_files']:
+                file=(packet/item['path']).resolve()
+                if not file.is_relative_to(packet.resolve()) or sha256(file)!=item['sha256']:
+                    raise ValueError('Changed inherited current-window evidence')
+                dependencies.append(file)
+            dependencies.extend(packet/name for name in ('packet_manifest.json','packet_gate.json','boundary_comparison.json'))
     if sha256(Path(origin['operating_point_path']))!=parent:raise ValueError('Origin state changed')
     for row in result['completed_packets']:
         packet=Path(row['packet_root']);m=read(packet/'packet_manifest.json');g=read(packet/'packet_gate.json')
@@ -85,7 +109,7 @@ def close(collection,measured,thermal,output):
     output.mkdir();copies=[]
     metrics_path=output/'all_twenty_cycle_metrics.json'
     metrics_path.write_text(json.dumps(dict(schema='heatdrive_ecc_runtime_warmup_cycle_metrics_v1',
-        window_s=result['collection_window_s'],cycle_count=20,cycles=cycle_metrics,
+        window_s=result['collection_window_s'],cycle_count=len(cycle_metrics),cycles=cycle_metrics,
         quadrature='trapz_both_endpoints',old_prefix_raw_may_be_retired_after_sealing=True,
         steady_endpoint_claim=False),indent=2,allow_nan=False)+'\n',encoding='utf-8')
     dependencies.append(metrics_path)
