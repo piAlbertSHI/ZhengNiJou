@@ -42,7 +42,12 @@ function record=Run_HeatDriveECC_BoundedObservationPackets(input,options,folder,
     for k=1:numel(qualification.files)
         row=qualification.files(k);assert(strcmp(file_hash(row.path),row.sha256));
     end
-    if existed
+    has_progress=isfile(progress);
+    if existed && ~has_progress
+        assert(isempty(dir(fullfile(root,'packet_C*'))), ...
+            'Missing progress with actual packets requires forensic recovery, not an assumed initial state.');
+    end
+    if has_progress
         record=jsondecode(fileread(progress));
         assert(strcmp(record.origin_snapshot_sha256,file_hash(snapshot)) && ...
             strcmp(record.origin_recipe_sha256,file_hash(recipe)) && ...

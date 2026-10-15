@@ -57,5 +57,17 @@ class BoundedObservationCollectionTests(unittest.TestCase):
         self.assertIn('row.bitwise_values_equal',source)
         self.assertNotIn('norm(',source)
 
+    def test_loader_handles_heterogeneous_component_flow_json_without_changing_gate(self):
+        source=(Path(__file__).parent/'Load_HeatDriveECC_GatedObservationPacket.m').read_text(encoding='utf-8')
+        self.assertIn('if isstruct(flows),flows=num2cell(flows);end',source)
+        self.assertIn('numel(flows)==6',source)
+        self.assertIn('islogical(row.selected_flow_gate)',source)
+        self.assertIn('all(flow_pass)',source)
+
+    def test_prepare_only_failure_cannot_discard_an_unregistered_packet(self):
+        source=(Path(__file__).parent/'Run_HeatDriveECC_BoundedObservationPackets.m').read_text(encoding='utf-8')
+        self.assertIn("has_progress=isfile(progress)",source)
+        self.assertIn("assert(isempty(dir(fullfile(root,'packet_C*')))",source)
+
 
 if __name__=='__main__':unittest.main()
