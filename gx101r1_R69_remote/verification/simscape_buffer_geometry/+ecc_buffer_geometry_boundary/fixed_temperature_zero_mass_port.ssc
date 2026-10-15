@@ -8,12 +8,14 @@ parameters
 end
 variables
     Phi = {0, 'W'};
+    mdot = {0, 'kg/s'};
 end
 branches
     Phi : A.Phi -> *;
+    mdot : A.mdot -> *;
 end
 equations
     A.T == boundary_temperature;
-    A.mdot == {0, 'kg/s'};
+    mdot == {0, 'kg/s'};
 end
 end
