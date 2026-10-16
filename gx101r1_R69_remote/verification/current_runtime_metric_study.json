@@ -1,0 +1,33 @@
+{
+  "schema": "heatdrive_ecc_finite_precision_metric_study_v1",
+  "scope": "Independent runtime family; not frozen C200 production recovery or strict Table4 reproduction",
+  "point_qualification_relative": "outputs_storage_audit/v61_runtime_Tc274p85_C108_snapshot_20261016/endpoint_qualification.json",
+  "point_qualification_sha256": "72227BFA412079E695B98BD1F87CC6F5EE04F196E5EDD62413533873E7609525",
+  "repeatability_relative": "outputs_storage_audit/v62_C108_repeatability_20261016/disjoint_repeatability.json",
+  "repeatability_sha256": "48471ED60C68F95AB1A5037EE7F835A23BA086C73BA41832FAF5B25C6F44A6E8",
+  "original_public_thermal_criteria_pass": true,
+  "all_original_packet_physics_and_flow_gates_pass": true,
+  "disjoint_metric_repeatability_pass": true,
+  "same_Tc_complete_state_inheritance_verified": true,
+  "bounded_diagnostic_metric_sampling_admitted": true,
+  "nonzero_inventory_migration_is_automatic_failure": false,
+  "exact_internal_state_cycle_equality_required": false,
+  "asymptotic_bias_bound_established": false,
+  "full_internal_state_periodicity_verified": false,
+  "root_interpolation_allowed": false,
+  "root_interpolation_remaining_requirements": "Actual opposite-sign qualified points on one physical/parameter/mass/window contract; each satisfies original physical/public-periodic and target-repeatability conditions. Finite precision must not be advertised as an asymptotic uncertainty bound.",
+  "production_recovery_allowed": false,
+  "table4_reproduction_claim": false,
+  "workflow_capacity": {
+    "current_command_horizon_cycles": 200,
+    "current_completed_cycles": 108,
+    "remaining_cycles": 92,
+    "maximum_Tc_step_K": 2,
+    "minimum_post_step_cycles": 12,
+    "disjoint_repeatability_cycles": 10,
+    "minimum_cycles_per_fully_checked_new_point": 22,
+    "maximum_new_fully_checked_points_with_current_capacity": 4,
+    "capacity_is_a_physical_gate": false,
+    "next_required_implementation": "Versioned future-command extension with unchanged executed prefix, original strict vendor OP checks and actual short/full-cycle equivalence probes before longer use. Preserve legacy 200-cycle contracts; do not silently reinterpret them or cold-reset the family."
+  }
+}

@@ -67,10 +67,12 @@
       "qualification_sha256": "17D22F868FDD09749E8A77DCD8B8D4D2AF0F9070B675A3AEADC590022C0A9B34",
       "operating_point_sha256": "F37D2E3A7DCD3195A3FDB2A09089B5BC97533F3C8E1990C4746E02F6FBE7B94A",
       "current_window_s": [620, 720],
+      "historical_raw_reverification_available": false,
+      "use_as_current_restore_source": false,
       "all_original_packet_mechanism_flow_phase_energy_gates_pass": true,
       "original_public_thermal_periodic_pass": false,
       "target_window_precision_pass": false,
-      "same_Tc_transient_continuation_allowed": true,
+      "same_Tc_transient_continuation_allowed": false,
       "next_temperature_step_allowed": false,
       "outer_interpolation_allowed": false
     }
@@ -78,11 +80,11 @@
   "complete_internal_state_periodicity_verified": false,
   "latest_bounded_search_continuation": {
     "temperature_K": 274.85,
-    "snapshot_time_s": 980,
-    "qualification_relative": "outputs_storage_audit/v59_runtime_Tc274p85_C98_snapshot_20261016/endpoint_qualification.json",
-    "qualification_sha256": "A2BD2A6C97806F3C9EA6B61B722BB902D7681C99943A2FE3B6A8DA601A90D91A",
-    "operating_point_sha256": "E19F8E2DE24A0781B9929D10A7B2762BC1F162F8DBB8C10E56629EE06CD2F66E",
-    "current_window_s": [880, 980],
+    "snapshot_time_s": 1080,
+    "qualification_relative": "outputs_storage_audit/v61_runtime_Tc274p85_C108_snapshot_20261016/endpoint_qualification.json",
+    "qualification_sha256": "72227BFA412079E695B98BD1F87CC6F5EE04F196E5EDD62413533873E7609525",
+    "operating_point_sha256": "03A2459EDD2216D16593820E033CB9F6C4C6AECD8ADE44631FBE8FDA41AC77A1",
+    "current_window_s": [980, 1080],
     "all_original_packet_mechanism_flow_phase_energy_gates_pass": true,
     "original_public_thermal_periodic_pass": true,
     "target_window_precision_pass": true,
@@ -97,5 +99,6 @@
   "zero_lift_root_found": false,
   "paired_Table4_eligible": false,
   "startup_attention_relative": "verification/current_runtime_startup_attention.json",
-  "next_action": "The intact 274.85 K diagnostic reached C98 after 26 new cycles. Original public thermal predicates and target finite-window precision pass; complete internal-state periodicity and production/root admission remain unestablished. Reconcile native inventory migration with target observation uncertainty before the next bounded search point. No active process remains, no replay/cold reset, no normal-to-accelerator migration or C200/partial-state substitution."
+  "historical_transient_retirement_relative": "outputs_storage_audit/v62_C72_C92_transient_retirement_20261016/retirement_receipt.json",
+  "next_action": "C108 at 274.85 K passed original physics/public thermal/target precision and actual disjoint-window metric repeatability. Read current_runtime_metric_study.json: bounded finite-precision sampling is admitted, but no sign bracket, root or Table4 claim exists. Extend future command capacity under a new proven contract before a long outer chain; preserve old 200-cycle schemas and complete inherited states."
 }

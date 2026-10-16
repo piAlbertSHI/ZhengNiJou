@@ -1,16 +1,16 @@
 {
   "schema": "heatdrive_ecc_current_inventory_review_v1",
-  "qualification_relative": "outputs_storage_audit/v59_runtime_Tc274p85_C98_snapshot_20261016/endpoint_qualification.json",
-  "qualification_sha256": "A2BD2A6C97806F3C9EA6B61B722BB902D7681C99943A2FE3B6A8DA601A90D91A",
-  "current_inventory_analysis_relative": "outputs_storage_audit/v60_C98_inventory_admission_20261016/inventory_admission_with_PI.json",
-  "current_inventory_analysis_sha256": "8834D627A17E31BDA70290A2220CDFB1AEF5A3CF94D6089F474A8C9CB0A99A5E",
-  "current_window_s": [880, 980],
+  "qualification_relative": "outputs_storage_audit/v61_runtime_Tc274p85_C108_snapshot_20261016/endpoint_qualification.json",
+  "qualification_sha256": "72227BFA412079E695B98BD1F87CC6F5EE04F196E5EDD62413533873E7609525",
+  "current_inventory_analysis_relative": "outputs_storage_audit/v62_C108_repeatability_20261016/inventory_admission.json",
+  "current_inventory_analysis_sha256": "87346A97B00D0EFDF8C69B6341ACC3CC21BD04E2D35B121CD8A5C1F2889CE065",
+  "current_window_s": [980, 1080],
   "scientific_gate_failure": false,
   "full_internal_periodicity_verified": false,
   "inventory_state_bitwise_equality_required": false,
   "global_storage_drift_is_Eq10_error_bound": false,
   "permanent_control_defect_proven": false,
-  "next_experiment": {
+  "completed_experiment": {
     "mode": "same_Tc_complete_state_continuation_with_disjoint_metric_window",
     "source_snapshot_s": 980,
     "temperature_K": 274.85,
@@ -20,8 +20,15 @@
     "preparation_relative_to_execution_repo": "outputs/v61p1",
     "collection_relative_to_execution_repo": "outputs/v61c1",
     "physical_or_control_parameter_changes": false,
+    "actual_stop_time_s": 1080,
+    "terminal_exit_code": 0,
+    "additional_cycles": 10,
     "purpose": "Compare two nonoverlapping actual ten-cycle metric windows at existing 0.1 K / 0.01 W/g precision, and quantify native/PI return drift. This is not proof of an asymptotic bias bound or exact full-state periodicity."
   },
+  "disjoint_repeatability_relative": "outputs_storage_audit/v62_C108_repeatability_20261016/disjoint_repeatability.json",
+  "disjoint_repeatability_sha256": "48471ED60C68F95AB1A5037EE7F835A23BA086C73BA41832FAF5B25C6F44A6E8",
+  "disjoint_metric_repeatability_pass": true,
+  "next_action": "Use the finite-precision point for bounded diagnostic sampling, not a full-state asymptotic claim. Before a long multi-point outer chain, preflight extension of future command coverage beyond the current 200-cycle workflow limit without changing executed inputs or inherited states.",
   "production_recovery_allowed": false,
   "full_goal_outer_root_admission_established": false,
   "table4_reproduction_claim": false

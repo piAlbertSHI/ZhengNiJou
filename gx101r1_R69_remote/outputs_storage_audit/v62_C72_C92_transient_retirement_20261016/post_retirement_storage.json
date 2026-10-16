@@ -1,0 +1,35 @@
+{
+  "schema": "heatdrive_ecc_post_transient_retirement_storage_v1",
+  "scope": "Four named execution collections only; excludes other worktrees and Agent6",
+  "collections": [
+    {
+      "directory": "v57_runtime_Tc274p85_fromC52_r1",
+      "bytes": 659264736
+    },
+    {
+      "directory": "v58c3",
+      "bytes": 1109163413
+    },
+    {
+      "directory": "v59c1",
+      "bytes": 1413645898
+    },
+    {
+      "directory": "v61c1",
+      "bytes": 2371898219
+    }
+  ],
+  "retired_bytes": 5405735312,
+  "current_reference_windows_s": [
+    [
+      880,
+      980
+    ],
+    [
+      980,
+      1080
+    ]
+  ],
+  "all_OPs_retained": true,
+  "current_reference_raw_retained": true
+}

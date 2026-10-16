@@ -1,0 +1,58 @@
+{
+  "schema": "heatdrive_ecc_disjoint_same_Tc_repeatability_v1",
+  "temperature_K": 274.85,
+  "reference_window_s": [
+    880,
+    980
+  ],
+  "candidate_window_s": [
+    980,
+    1080
+  ],
+  "reference_qualification_sha256": "A2BD2A6C97806F3C9EA6B61B722BB902D7681C99943A2FE3B6A8DA601A90D91A",
+  "candidate_qualification_sha256": "72227BFA412079E695B98BD1F87CC6F5EE04F196E5EDD62413533873E7609525",
+  "source_complete_OP_sha256": "E19F8E2DE24A0781B9929D10A7B2762BC1F162F8DBB8C10E56629EE06CD2F66E",
+  "candidate_complete_OP_sha256": "03A2459EDD2216D16593820E033CB9F6C4C6AECD8ADE44631FBE8FDA41AC77A1",
+  "reference_performance": {
+    "window_s": [
+      880.0,
+      980.0
+    ],
+    "temperature_lift_eq9_K": 30.44724986213682,
+    "cooling_power_eq10_W": 11.745837476290333,
+    "SCP_W_per_g": 0.28088775882817074,
+    "CHEX_sensor_mean_W": 11.438318876864937,
+    "positive_SHEX_heat_mean_W": 823.1366710527077,
+    "heat_driven_COP": 0.01426960781770129
+  },
+  "candidate_performance": {
+    "window_s": [
+      980.0,
+      1080.0
+    ],
+    "temperature_lift_eq9_K": 30.519093433259073,
+    "cooling_power_eq10_W": 11.877969078006995,
+    "SCP_W_per_g": 0.2840475292192975,
+    "CHEX_sensor_mean_W": 11.56958580068826,
+    "positive_SHEX_heat_mean_W": 823.0922330552942,
+    "heat_driven_COP": 0.014430908956480276
+  },
+  "differences": {
+    "temperature_lift_eq9_K": 0.07184357112225115,
+    "SCP_W_per_g": 0.0031597703911267483
+  },
+  "lift_limit_K": 0.1,
+  "SCP_limit_W_per_g": 0.01,
+  "disjoint_metric_repeatability_pass": true,
+  "asymptotic_error_bound_claim": false,
+  "exact_internal_periodicity_claim": false,
+  "new_physical_threshold_imposed": false,
+  "interpretation": "Finite-precision repeatability on two actual disjoint windows, not an asymptotic bias bound or a substitute for inventory/PI assessment.",
+  "root_bracket_established": false,
+  "full_goal_outer_root_admission_established": false,
+  "production_recovery_allowed": false,
+  "table4_reproduction_claim": false,
+  "simulation_executed": false,
+  "source_state_edited": false,
+  "producer_source_sha256": "2987F7CCE7451430A3E23CE1C4D18719750222F30D43328A2604B9AA5F25ED2C"
+}
