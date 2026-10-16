@@ -76,11 +76,25 @@
     }
   ],
   "complete_internal_state_periodicity_verified": false,
+  "latest_bounded_search_continuation": {
+    "temperature_K": 274.85,
+    "snapshot_time_s": 920,
+    "qualification_relative": "outputs_storage_audit/v58_runtime_Tc274p85_C92_snapshot_20261016/endpoint_qualification.json",
+    "qualification_sha256": "0AD43426F00E979201CAF8528DDD6F4F8199911B04430D71302D7CEB666AD53B",
+    "operating_point_sha256": "87BD93F5F572F7465E5B6862F10D4F2393F8B4A0170CA0EADBFC464D08C401D6",
+    "current_window_s": [820, 920],
+    "all_original_packet_mechanism_flow_phase_energy_gates_pass": true,
+    "original_public_thermal_periodic_pass": false,
+    "target_window_precision_pass": false,
+    "same_Tc_transient_continuation_allowed": true,
+    "next_temperature_step_allowed": false,
+    "outer_interpolation_allowed": false
+  },
   "production_recovery_allowed": false,
   "outer_solve_eligible": false,
   "zero_load_root_found": false,
   "zero_lift_root_found": false,
   "paired_Table4_eligible": false,
   "startup_attention_relative": "verification/current_runtime_startup_attention.json",
-  "next_action": "Read the startup attention first: v58 r1 produced no project execution or new cycles because interactive MathWorks login was required. Do not relaunch before user login confirmation. After login, verify no duplicate process and continue the intact transient C72 state at 274.85 K in fresh r2 paths with passive vendor phase timing. R2025b does not support cross-mode complete-OP loading; do not retry normal-to-accelerator migration. No colder step, interpolation, cold restart or C200/partial-state substitution."
+  "next_action": "User confirmed MathWorks login. After diagnosing the r2 Windows build path limit, short-path v58c3 completed 20 real same-Tc cycles from C72 to C92 with every original physics and boundary gate intact. Continue the sealed complete C92 at 274.85 K using fresh short preparation/collection paths; the one remaining public temperature RMS predicate and target lift span have not passed. No colder step, interpolation, cold restart, normal-to-accelerator migration or C200/partial-state substitution."
 }

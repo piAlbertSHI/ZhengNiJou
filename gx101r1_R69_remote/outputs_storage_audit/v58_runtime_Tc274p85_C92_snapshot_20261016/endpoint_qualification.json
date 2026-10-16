@@ -1,0 +1,928 @@
+{
+  "schema": "heatdrive_ecc_runtime_Tc_candidate_endpoint_v1",
+  "temperature_K": 274.85,
+  "source_producer": "74553bb09773515188a86c42e4a16263390dd200",
+  "boundary_trial": {
+    "schema": "heatdrive_ecc_runtime_Tc_intervention_v2",
+    "source_Tc_K": 276.85,
+    "candidate_Tc_K": 274.85,
+    "transition_time_s": 520,
+    "minimum_transition_cycles": 12,
+    "source_complete_OP_sha256": "962E7DBBDFF07495D37088E6D8A26C735DED5C6BD63E9C15A00668075B917E7F",
+    "source_qualification_sha256": "939BABEFF6C70B3334681DD186925B604752928FB91B44FD46D2BE775E66C589",
+    "plant_recipe_sha256": "EC64AF4D017777CBEAA898758DEF3B632938BFDCE6CCCA82DEB9B1CC872C41D7",
+    "only_runtime_temperature_variable_changed": true,
+    "source_state_edited": false,
+    "old_model_OP_imported": false,
+    "search_policy": {
+      "schema": "heatdrive_ecc_runtime_Tc_bounded_search_v1",
+      "minimum_Tc_K": 255.05,
+      "maximum_Tc_K": 393.15,
+      "maximum_step_K": 2,
+      "fluid_minimum_K": 255.05,
+      "fluid_maximum_K": 393.15,
+      "source_public_periodic_pass": true,
+      "source_target_precision_pass": true
+    }
+  },
+  "snapshot_time_s": 920,
+  "total_cycles": 92.0,
+  "source_packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C092_attempt01",
+  "operating_point_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C092_attempt01\\comparison_only_complete_op.mat",
+  "operating_point_sha256": "87BD93F5F572F7465E5B6862F10D4F2393F8B4A0170CA0EADBFC464D08C401D6",
+  "current_window_s": [
+    820,
+    920
+  ],
+  "transition_excluded": true,
+  "all_original_packet_mechanism_flow_phase_energy_gates_pass": true,
+  "all_four_memories_bitwise_preserved": true,
+  "original_public_thermal_periodic_pass": false,
+  "original_thermal_statistics": {
+    "periodic_window_cycles": 10,
+    "last_cycle_endpoint_drift_K": 0.013956306547299846,
+    "last_cycle_CHEX_drift_K": 0,
+    "last_cycle_HHEX_drift_K": 1.4695118863983225e-05,
+    "last_cycle_phase_drift": 9.667356704237857e-05,
+    "last_cycle_same_phase_temperature_drift_K": 0.0907812294644259,
+    "last_cycle_same_phase_temperature_p99_drift_K": 0.038764869601209284,
+    "last_cycle_same_phase_temperature_rms_drift_K": 0.012362095069952629,
+    "last_cycle_same_phase_phase_drift": 0.004627637593497241,
+    "last_cycle_same_phase_phase_p99_drift": 0.0007862341880779944,
+    "last_cycle_same_phase_phase_rms_drift": 0.00024049135615005065,
+    "periodic_endpoint_limit_K": 0.05,
+    "periodic_same_phase_temperature_limit_K": 0.05,
+    "periodic_same_phase_temperature_p99_limit_K": 0.05,
+    "periodic_same_phase_temperature_rms_limit_K": 0.01,
+    "periodic_phase_limit": 0.0001,
+    "periodic_same_phase_phase_p99_limit": 0.002,
+    "periodic_same_phase_phase_rms_limit": 0.0004,
+    "periodic_steady_state": false
+  },
+  "performance": {
+    "window_s": [
+      820.0,
+      920.0
+    ],
+    "temperature_lift_eq9_K": 30.38704711348355,
+    "cooling_power_eq10_W": 11.635485947354182,
+    "SCP_W_per_g": 0.2782488330207342,
+    "CHEX_sensor_mean_W": 11.328639752155992,
+    "positive_SHEX_heat_mean_W": 823.1742810517211,
+    "heat_driven_COP": 0.014134899759608875
+  },
+  "finite_window_performance_spread": {
+    "temperature_lift_eq9_K": 0.10212558365363478,
+    "SCP_W_per_g": 0.00447296809228831,
+    "cooling_power_eq10_W": 0.18704537523399445
+  },
+  "finite_window_spread_is_not_asymptotic_error_bound": true,
+  "packet_chain": [
+    {
+      "window_s": [
+        720,
+        740
+      ],
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C074_attempt01",
+      "operating_point_sha256": "38EB90BD359F2E211F5A274516F110E40A869CDEF6374A9727399F54A99788D0",
+      "energy_residual_J": 1.0197211963713926e-09,
+      "declared_boundary_intervention": false,
+      "all_four_memories_bitwise_preserved": true
+    },
+    {
+      "window_s": [
+        740,
+        760
+      ],
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C076_attempt01",
+      "operating_point_sha256": "BEF9EA9DE24E66729A83E15B03C3D5963FB1E5DAE8F6FADBD7F8B0D16F56503E",
+      "energy_residual_J": 9.995986260946665e-10,
+      "declared_boundary_intervention": false,
+      "all_four_memories_bitwise_preserved": true
+    },
+    {
+      "window_s": [
+        760,
+        780
+      ],
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C078_attempt01",
+      "operating_point_sha256": "EC2D0F876937B61CF118D5BB23E53582190481C90100C960D50606EF1D8587BE",
+      "energy_residual_J": -1.1766871921281563e-09,
+      "declared_boundary_intervention": false,
+      "all_four_memories_bitwise_preserved": true
+    },
+    {
+      "window_s": [
+        780,
+        800
+      ],
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C080_attempt01",
+      "operating_point_sha256": "52A2B31D753D37582CF5AC8D73B7F772B58B110396B6CEA19707713BA508FBEF",
+      "energy_residual_J": 1.141593486408965e-10,
+      "declared_boundary_intervention": false,
+      "all_four_memories_bitwise_preserved": true
+    },
+    {
+      "window_s": [
+        800,
+        820
+      ],
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C082_attempt01",
+      "operating_point_sha256": "3AA727E1FC6B8A094C10F71603935C8972634455EE6BF45C6B55FA3A19B4BFA6",
+      "energy_residual_J": -2.7045388151236693e-10,
+      "declared_boundary_intervention": false,
+      "all_four_memories_bitwise_preserved": true
+    },
+    {
+      "window_s": [
+        820,
+        840
+      ],
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C084_attempt01",
+      "operating_point_sha256": "FC320FDDF88787006F621094B1E2102A9505FAFCE5BEF52C3C52C6B28200F618",
+      "energy_residual_J": 1.5904344508044232e-09,
+      "declared_boundary_intervention": false,
+      "all_four_memories_bitwise_preserved": true
+    },
+    {
+      "window_s": [
+        840,
+        860
+      ],
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C086_attempt01",
+      "operating_point_sha256": "7E06B9BAD173B96385AE947475C91B5D9EFE15711C3D8ED39C0A86B0133BD26A",
+      "energy_residual_J": -1.6342482922482304e-13,
+      "declared_boundary_intervention": false,
+      "all_four_memories_bitwise_preserved": true
+    },
+    {
+      "window_s": [
+        860,
+        880
+      ],
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C088_attempt01",
+      "operating_point_sha256": "9CEFE400DA7DA60784A6B619F13FD26DABE81F5ACA28F8BABBF7C6BE995E9D13",
+      "energy_residual_J": 2.332871673615955e-10,
+      "declared_boundary_intervention": false,
+      "all_four_memories_bitwise_preserved": true
+    },
+    {
+      "window_s": [
+        880,
+        900
+      ],
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C090_attempt01",
+      "operating_point_sha256": "185AAF981D1587461129E231B6EA742A188BC0D0E6B23CB097EA5ECE76E16505",
+      "energy_residual_J": -1.290022311195571e-09,
+      "declared_boundary_intervention": false,
+      "all_four_memories_bitwise_preserved": true
+    },
+    {
+      "window_s": [
+        900,
+        920
+      ],
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C092_attempt01",
+      "operating_point_sha256": "87BD93F5F572F7465E5B6862F10D4F2393F8B4A0170CA0EADBFC464D08C401D6",
+      "energy_residual_J": -1.6709478245502396e-10,
+      "declared_boundary_intervention": false,
+      "all_four_memories_bitwise_preserved": true
+    }
+  ],
+  "source_state_edited": false,
+  "old_model_OP_imported": false,
+  "source_heat_impulse_independently_closed": false,
+  "complete_internal_state_periodicity_verified": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "paired_Table4_eligible": false,
+  "table4_reproduction_claim": false,
+  "baseline_candidate_windows_matched": false,
+  "causal_Tc_derivative_claim": false,
+  "same_Tc_continuation": true,
+  "current_target_window_stability": {
+    "schema": "heatdrive_ecc_target_window_precision_v1",
+    "window_s": [
+      820,
+      920
+    ],
+    "temperature_K": 274.85,
+    "measured_window_sha256": "AC6A7AF7710F81FAABA7CE9EF3148D5EF3BDC83314D0D96A4F601296EC9F64E6",
+    "cycles": [
+      {
+        "cycle": 83,
+        "window_s": [
+          820,
+          830
+        ],
+        "temperature_lift_eq9_K": 30.333107953132775,
+        "cooling_power_eq10_W": 11.536722890835692,
+        "SCP_W_per_g": 0.2758870317735693,
+        "CHEX_sensor_mean_W": 11.230450205495368,
+        "positive_SHEX_heat_mean_W": 823.2081192176609,
+        "heat_driven_COP": 0.014014345366029265,
+        "source_packet_manifest_sha256": "7E89629C9A88C4B70096064746D57442C45281D8B5BCE04F82D32CB7C41ACF88"
+      },
+      {
+        "cycle": 84,
+        "window_s": [
+          830,
+          840
+        ],
+        "temperature_lift_eq9_K": 30.34646998040884,
+        "cooling_power_eq10_W": 11.561175866818715,
+        "SCP_W_per_g": 0.2764717956641318,
+        "CHEX_sensor_mean_W": 11.254765815651936,
+        "positive_SHEX_heat_mean_W": 823.1997251624114,
+        "heat_driven_COP": 0.014044193059634195,
+        "source_packet_manifest_sha256": "7E89629C9A88C4B70096064746D57442C45281D8B5BCE04F82D32CB7C41ACF88"
+      },
+      {
+        "cycle": 85,
+        "window_s": [
+          840,
+          850
+        ],
+        "temperature_lift_eq9_K": 30.359277826623178,
+        "cooling_power_eq10_W": 11.584619609303555,
+        "SCP_W_per_g": 0.2770324249337266,
+        "CHEX_sensor_mean_W": 11.278075858299033,
+        "positive_SHEX_heat_mean_W": 823.1916790082593,
+        "heat_driven_COP": 0.014072809413307158,
+        "source_packet_manifest_sha256": "A7DE25F516B49886129CCD3736E03EC0AB35C41070FC8B2F954B9BB0E69B0276"
+      },
+      {
+        "cycle": 86,
+        "window_s": [
+          850,
+          860
+        ],
+        "temperature_lift_eq9_K": 30.371554554083126,
+        "cooling_power_eq10_W": 11.60709612618737,
+        "SCP_W_per_g": 0.27756992415134324,
+        "CHEX_sensor_mean_W": 11.300422477078476,
+        "positive_SHEX_heat_mean_W": 823.183967043006,
+        "heat_driven_COP": 0.014100245620528437,
+        "source_packet_manifest_sha256": "A7DE25F516B49886129CCD3736E03EC0AB35C41070FC8B2F954B9BB0E69B0276"
+      },
+      {
+        "cycle": 87,
+        "window_s": [
+          860,
+          870
+        ],
+        "temperature_lift_eq9_K": 30.38332224679639,
+        "cooling_power_eq10_W": 11.628644938695682,
+        "SCP_W_per_g": 0.27808523842017135,
+        "CHEX_sensor_mean_W": 11.3218452431903,
+        "positive_SHEX_heat_mean_W": 823.1765875469877,
+        "heat_driven_COP": 0.014126549654853868,
+        "source_packet_manifest_sha256": "F81BAB2CF3EB54107B38933CBDD01A9C9D69FE08834898E3E63C519116C596D0"
+      },
+      {
+        "cycle": 88,
+        "window_s": [
+          870,
+          880
+        ],
+        "temperature_lift_eq9_K": 30.394602001536924,
+        "cooling_power_eq10_W": 11.649305178807456,
+        "SCP_W_per_g": 0.27857930353503113,
+        "CHEX_sensor_mean_W": 11.342383022383347,
+        "positive_SHEX_heat_mean_W": 823.1695141252358,
+        "heat_driven_COP": 0.014151769445916517,
+        "source_packet_manifest_sha256": "F81BAB2CF3EB54107B38933CBDD01A9C9D69FE08834898E3E63C519116C596D0"
+      },
+      {
+        "cycle": 89,
+        "window_s": [
+          880,
+          890
+        ],
+        "temperature_lift_eq9_K": 30.40541394421506,
+        "cooling_power_eq10_W": 11.66911276287783,
+        "SCP_W_per_g": 0.27905297839291665,
+        "CHEX_sensor_mean_W": 11.362071966269117,
+        "positive_SHEX_heat_mean_W": 823.1627454991294,
+        "heat_driven_COP": 0.014175948591796628,
+        "source_packet_manifest_sha256": "045E3CC6E1A8566DB89559C17809F3E009B5A7168D2EA2760885DCB5D80BEC8B"
+      },
+      {
+        "cycle": 90,
+        "window_s": [
+          890,
+          900
+        ],
+        "temperature_lift_eq9_K": 30.41577756260883,
+        "cooling_power_eq10_W": 11.688103203354885,
+        "SCP_W_per_g": 0.27950711223186403,
+        "CHEX_sensor_mean_W": 11.380947332104803,
+        "positive_SHEX_heat_mean_W": 823.1562688893821,
+        "heat_driven_COP": 0.01419913040220746,
+        "source_packet_manifest_sha256": "045E3CC6E1A8566DB89559C17809F3E009B5A7168D2EA2760885DCB5D80BEC8B"
+      },
+      {
+        "cycle": 91,
+        "window_s": [
+          900,
+          910
+        ],
+        "temperature_lift_eq9_K": 30.42571152864395,
+        "cooling_power_eq10_W": 11.706310630590965,
+        "SCP_W_per_g": 0.27994252123873076,
+        "CHEX_sensor_mean_W": 11.399043178106448,
+        "positive_SHEX_heat_mean_W": 823.1500701243818,
+        "heat_driven_COP": 0.014221356536873144,
+        "source_packet_manifest_sha256": "D0AE4867BA00C292B73B6D193C1515E9F6EABA171479676C6022D3E67654F226"
+      },
+      {
+        "cycle": 92,
+        "window_s": [
+          910,
+          920
+        ],
+        "temperature_lift_eq9_K": 30.43523353678641,
+        "cooling_power_eq10_W": 11.723768266069687,
+        "SCP_W_per_g": 0.28035999986585763,
+        "CHEX_sensor_mean_W": 11.416392422981097,
+        "positive_SHEX_heat_mean_W": 823.1441339007555,
+        "heat_driven_COP": 0.014242667575740987,
+        "source_packet_manifest_sha256": "D0AE4867BA00C292B73B6D193C1515E9F6EABA171479676C6022D3E67654F226"
+      }
+    ],
+    "input_manifests": [
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C084_attempt01\\packet_manifest.json",
+        "sha256": "7E89629C9A88C4B70096064746D57442C45281D8B5BCE04F82D32CB7C41ACF88"
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C086_attempt01\\packet_manifest.json",
+        "sha256": "A7DE25F516B49886129CCD3736E03EC0AB35C41070FC8B2F954B9BB0E69B0276"
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C088_attempt01\\packet_manifest.json",
+        "sha256": "F81BAB2CF3EB54107B38933CBDD01A9C9D69FE08834898E3E63C519116C596D0"
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C090_attempt01\\packet_manifest.json",
+        "sha256": "045E3CC6E1A8566DB89559C17809F3E009B5A7168D2EA2760885DCB5D80BEC8B"
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C092_attempt01\\packet_manifest.json",
+        "sha256": "D0AE4867BA00C292B73B6D193C1515E9F6EABA171479676C6022D3E67654F226"
+      }
+    ],
+    "precision_source": "Run_HeatDriveECC_Table4_OuterSolve defaults: lift 0.1 K, SCP 0.01 W/g",
+    "outer_source_sha256": "70B9AD13ACBFE037F00AA870D02F790063067928C07EFCD2602AE980C7F6081B",
+    "lift_span_K": 0.10212558365363478,
+    "SCP_span_W_per_g": 0.00447296809228831,
+    "lift_limit_K": 0.1,
+    "SCP_limit_W_per_g": 0.01,
+    "precision_pass": false,
+    "finite_window_variation_only": true,
+    "asymptotic_error_bound_claim": false,
+    "new_physical_tolerance_imposed": false,
+    "complete_internal_state_periodicity_claim": false
+  },
+  "bounded_outer_metric_sampling_allowed": false,
+  "remaining_admission_work": "Quantify inventory/target error budget and matched-time control before interpolation; no C200 authority promotion.",
+  "files": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v57_runtime_Tc274p85_C72_snapshot_20261016\\endpoint_qualification.json",
+      "sha256": "17D22F868FDD09749E8A77DCD8B8D4D2AF0F9070B675A3AEADC590022C0A9B34"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58p3\\native\\runtime_Tc_recipe_comparison.json",
+      "sha256": "7E934D149C15D3E80FC2218400466EC0610456A357E9B33CE135E384502CE17F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\initial_recording_contract.json",
+      "sha256": "17D22F868FDD09749E8A77DCD8B8D4D2AF0F9070B675A3AEADC590022C0A9B34"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\initial_prepared_recipe.json",
+      "sha256": "3830A0FD533B53B744FFAC532961DF962B77AD745F0F671540B27D6C0FE09572"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\collection_result.json",
+      "sha256": "22FFFE93BA2573A4252FC0D35817202793498B6D5ED1B6839A63CF4472CFD15C"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v58_runtime_Tc274p85_C92_window_20261016\\measured_window.json",
+      "sha256": "A9C3CA20BE287AE3D408844BCC1F28A384C09BAE0C3570DA51836AD714EE0794"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v58_runtime_Tc274p85_C92_window_20261016\\original_thermal_statistics.json",
+      "sha256": "12632FD765F59638DF2F734119D35D5FB97291687C4C4C823703FA077C536562"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\periodicity_C092_attempt01\\original_thermal_statistics.json",
+      "sha256": "A13635B8C750245E3C52F9F64466BA665A8D8E0FF1895709982E75D3C9770E1F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\periodicity_C092_attempt01\\measured_window.json",
+      "sha256": "AC6A7AF7710F81FAABA7CE9EF3148D5EF3BDC83314D0D96A4F601296EC9F64E6"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v57_runtime_Tc274p85_C72_window_20261016\\measured_window.json",
+      "sha256": "17F73CE3958835E2D25432F3CB99E52A887B638732A73DA284C440F27EC23B07"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\periodicity_C092_attempt01\\target_window_stability.json",
+      "sha256": "658B38677DF0CD269B3831554DDB11CB2E8FB1C55C1EAAC07BC314B1E2C3D52C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v57_runtime_Tc274p85_fromC52_r1\\packet_C072_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "F37D2E3A7DCD3195A3FDB2A09089B5BC97533F3C8E1990C4746E02F6FBE7B94A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C074_attempt01\\simulation_timing.json",
+      "sha256": "2749BF1307DF1DAC279A9B0610CA08971733A8BB11E74F81B27BEA5EDAE11359"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C074_attempt01\\native\\configuration.mat",
+      "sha256": "E0CF744AF5AEEE8A8A2D6686B27C131EBAF244CD09C43B61E37BEFAC82805A05"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C074_attempt01\\native\\inventory_metadata.json",
+      "sha256": "EB29101A305068F74EEDFCE3A7AE3DABE1EF7A981EB909E3AB142F1EB400DB5B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C074_attempt01\\native\\tl_connectivity.json",
+      "sha256": "FA6DF7F73DECDB7DA7BA10DBE5033166F127B1B4E3DAC40419F68AF5E1AD330D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C074_attempt01\\native\\thermal_connectivity.json",
+      "sha256": "EAC3BB3E6CD17806E11C61C651314A110B71D0921E501B16FEBC60323572D9C9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C074_attempt01\\native\\buffer_replacement_contract.json",
+      "sha256": "0015E1424C85E50E3D38EE8661160295421B44AF31BDEE0F7ED3C9525CAC9AB5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C074_attempt01\\mechanism.json",
+      "sha256": "51F81FC5C78F351B72E7A49CED93788843B720280C4B4CAF1B425FD7CF282D18"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C074_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "38EB90BD359F2E211F5A274516F110E40A869CDEF6374A9727399F54A99788D0"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C074_attempt01\\packet_manifest.json",
+      "sha256": "5659A83B38523D74DB878270D89E811DF77AF077B8FD40F490FA7A8BAC62D9B1"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C074_attempt01\\packet_gate.json",
+      "sha256": "2088B76A8DC72A56E0BCF556719BB2DC6E40E3F3B7E4D8E1EE780552F4F69AC8"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C074_attempt01\\boundary_comparison.json",
+      "sha256": "941E23E008A67975A1DA97304FBB3F02A2CC68CFAB08331BB45A02D4107F7A7C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C076_attempt01\\simulation_timing.json",
+      "sha256": "3749CE32EF5CC909DCAB6F1B9DBC2BFFFB9D9A88C1862B7BBA5643E2A2EA189B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C076_attempt01\\native\\configuration.mat",
+      "sha256": "BD2947F6A47D8230A69A9B1FF0AF6230AE0C265CA27878305972E3B92868FA77"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C076_attempt01\\native\\inventory_metadata.json",
+      "sha256": "EB29101A305068F74EEDFCE3A7AE3DABE1EF7A981EB909E3AB142F1EB400DB5B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C076_attempt01\\native\\tl_connectivity.json",
+      "sha256": "FA6DF7F73DECDB7DA7BA10DBE5033166F127B1B4E3DAC40419F68AF5E1AD330D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C076_attempt01\\native\\thermal_connectivity.json",
+      "sha256": "EAC3BB3E6CD17806E11C61C651314A110B71D0921E501B16FEBC60323572D9C9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C076_attempt01\\native\\buffer_replacement_contract.json",
+      "sha256": "0015E1424C85E50E3D38EE8661160295421B44AF31BDEE0F7ED3C9525CAC9AB5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C076_attempt01\\mechanism.json",
+      "sha256": "E46AECF39AF5353FA5FB5779DEDE39E3EDFD0707683EBA1A525B48343998E5C5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C076_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "BEF9EA9DE24E66729A83E15B03C3D5963FB1E5DAE8F6FADBD7F8B0D16F56503E"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C076_attempt01\\packet_manifest.json",
+      "sha256": "74B36449A81B6B039CA9A5256920DED4A84F7A495EAB23B5087CF038F299B512"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C076_attempt01\\packet_gate.json",
+      "sha256": "7FE294048B854A13F0EDEAAB8023E94EA8AE1BAAA8ABBCA2888A981470FDBF16"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C076_attempt01\\boundary_comparison.json",
+      "sha256": "87A31A73A1736082E24A01E8B6A79D7B370B1093D72E4C322D0F94CF33A469A7"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C078_attempt01\\simulation_timing.json",
+      "sha256": "446C090A97AB0C6582A8481D498BB0D3F61DB49FD7D3815F78FA2D22ABA20355"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C078_attempt01\\native\\configuration.mat",
+      "sha256": "B1FFCD7089B45A8C1FB9EFFB2F80A68F65E4A430CF12653453A99D4E2983DD82"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C078_attempt01\\native\\inventory_metadata.json",
+      "sha256": "EB29101A305068F74EEDFCE3A7AE3DABE1EF7A981EB909E3AB142F1EB400DB5B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C078_attempt01\\native\\tl_connectivity.json",
+      "sha256": "FA6DF7F73DECDB7DA7BA10DBE5033166F127B1B4E3DAC40419F68AF5E1AD330D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C078_attempt01\\native\\thermal_connectivity.json",
+      "sha256": "EAC3BB3E6CD17806E11C61C651314A110B71D0921E501B16FEBC60323572D9C9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C078_attempt01\\native\\buffer_replacement_contract.json",
+      "sha256": "0015E1424C85E50E3D38EE8661160295421B44AF31BDEE0F7ED3C9525CAC9AB5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C078_attempt01\\mechanism.json",
+      "sha256": "30B158D225C6953CAE5CB8032ABC46937D3FFB704E69E3DCB66E1C4C1E0DC0E4"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C078_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "EC2D0F876937B61CF118D5BB23E53582190481C90100C960D50606EF1D8587BE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C078_attempt01\\packet_manifest.json",
+      "sha256": "6C096A4CE04E7F21DCD697DFFEC16DA1A22D90E16B4061276D45E5021991C41E"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C078_attempt01\\packet_gate.json",
+      "sha256": "C81138FFF471D97846726ACE9669E4C5294C00E32A219CDE7E48BF972EF5752B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C078_attempt01\\boundary_comparison.json",
+      "sha256": "75DCF4AD50F99C2AD1250E4341E466FBABFB52B147D763187525AB50D7B08099"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C080_attempt01\\simulation_timing.json",
+      "sha256": "553EA1082AA00A4868D5B7B5DAC536CFF3C5E56D898952F6C4F811F3B58E0073"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C080_attempt01\\native\\configuration.mat",
+      "sha256": "791EE91BFD02D643331C4359D4981D01D3D58B210E9DACE392108DA22C1E3F3C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C080_attempt01\\native\\inventory_metadata.json",
+      "sha256": "EB29101A305068F74EEDFCE3A7AE3DABE1EF7A981EB909E3AB142F1EB400DB5B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C080_attempt01\\native\\tl_connectivity.json",
+      "sha256": "FA6DF7F73DECDB7DA7BA10DBE5033166F127B1B4E3DAC40419F68AF5E1AD330D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C080_attempt01\\native\\thermal_connectivity.json",
+      "sha256": "EAC3BB3E6CD17806E11C61C651314A110B71D0921E501B16FEBC60323572D9C9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C080_attempt01\\native\\buffer_replacement_contract.json",
+      "sha256": "0015E1424C85E50E3D38EE8661160295421B44AF31BDEE0F7ED3C9525CAC9AB5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C080_attempt01\\mechanism.json",
+      "sha256": "CB7B47197301E7BE1BB5889CCC08703D6112DF55B03B8A807271EE03DC3140EB"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C080_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "52A2B31D753D37582CF5AC8D73B7F772B58B110396B6CEA19707713BA508FBEF"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C080_attempt01\\packet_manifest.json",
+      "sha256": "8982788D6EBB8D37ECA334AD69ACE7E3B35CECB9559C34769B7EB47763009CB2"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C080_attempt01\\packet_gate.json",
+      "sha256": "184C8F2697586FA281E3D138CED6811439806D34A8E5E1EB4CBDE2B07367FA09"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C080_attempt01\\boundary_comparison.json",
+      "sha256": "AFF794E390AAD181D88F79E1C36AF06DE87D7DE098256AC606526BD4188CFBCF"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C082_attempt01\\simulation_timing.json",
+      "sha256": "36B3A7C4A5462402D4B6194B82097D3C7FD50E864F88C32E57AD005CAFA386A5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C082_attempt01\\native\\configuration.mat",
+      "sha256": "B0F2C4A33263DE8C3CB414D4713273993D43269F63AA1D54400056A891706D73"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C082_attempt01\\native\\inventory_metadata.json",
+      "sha256": "EB29101A305068F74EEDFCE3A7AE3DABE1EF7A981EB909E3AB142F1EB400DB5B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C082_attempt01\\native\\tl_connectivity.json",
+      "sha256": "FA6DF7F73DECDB7DA7BA10DBE5033166F127B1B4E3DAC40419F68AF5E1AD330D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C082_attempt01\\native\\thermal_connectivity.json",
+      "sha256": "EAC3BB3E6CD17806E11C61C651314A110B71D0921E501B16FEBC60323572D9C9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C082_attempt01\\native\\buffer_replacement_contract.json",
+      "sha256": "0015E1424C85E50E3D38EE8661160295421B44AF31BDEE0F7ED3C9525CAC9AB5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C082_attempt01\\mechanism.json",
+      "sha256": "038085811B6CA5997783C214C2B1F9C1CA45112ECD5F7AA25E3D857BBFF37504"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C082_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "3AA727E1FC6B8A094C10F71603935C8972634455EE6BF45C6B55FA3A19B4BFA6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C082_attempt01\\packet_manifest.json",
+      "sha256": "815AC272690E7B2AE5B66D95CA0B34B7B406BE17199381C6CDCB8C304FD70FD9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C082_attempt01\\packet_gate.json",
+      "sha256": "CA394A76CD8A61163CD851E43BBAC4D4CCED3FC970E02C5DFB91FF557998DC94"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C082_attempt01\\boundary_comparison.json",
+      "sha256": "EA7A84914FB8F56FA177C6C6B926792D811FE9571CA04AA71E28371E5BCC60C4"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C084_attempt01\\simulation_timing.json",
+      "sha256": "A36492C36B69AB2B9D93A90196674D8298D6922C0AF29122881D5F3BF24B934D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C084_attempt01\\native\\observations.mat",
+      "sha256": "4A88BE0BABBEBB2666CCCC48A552079F39EC566B2DC036C03141C9A15A5794C7"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C084_attempt01\\native\\configuration.mat",
+      "sha256": "4245F2A408C5B8148F82FE23AE7E015EFE158F72DD06184B5C55006C831995FC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C084_attempt01\\native\\inventory_metadata.json",
+      "sha256": "EB29101A305068F74EEDFCE3A7AE3DABE1EF7A981EB909E3AB142F1EB400DB5B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C084_attempt01\\native\\tl_connectivity.json",
+      "sha256": "FA6DF7F73DECDB7DA7BA10DBE5033166F127B1B4E3DAC40419F68AF5E1AD330D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C084_attempt01\\native\\thermal_connectivity.json",
+      "sha256": "EAC3BB3E6CD17806E11C61C651314A110B71D0921E501B16FEBC60323572D9C9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C084_attempt01\\native\\buffer_replacement_contract.json",
+      "sha256": "0015E1424C85E50E3D38EE8661160295421B44AF31BDEE0F7ED3C9525CAC9AB5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C084_attempt01\\mechanism.json",
+      "sha256": "9542EF3471CDB6BAAF97BBEBF8CF5CB4A6E3D199F1AE4BD6FBF6F63592A62FFC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C084_attempt01\\observed_states.mat",
+      "sha256": "E31F8CDC091CF0200A96436E512553385BFEE782019739A3E6CE9D14E7DD673F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C084_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "FC320FDDF88787006F621094B1E2102A9505FAFCE5BEF52C3C52C6B28200F618"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C084_attempt01\\packet_manifest.json",
+      "sha256": "7E89629C9A88C4B70096064746D57442C45281D8B5BCE04F82D32CB7C41ACF88"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C084_attempt01\\packet_gate.json",
+      "sha256": "5545BEA8840C4B4CFA65ED708F7BD6A803306020BFFD785193C34A0DFB9E2662"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C084_attempt01\\boundary_comparison.json",
+      "sha256": "E700EB60BF3F80B955FB47C172A2BE138235AA7A253697E57865CC9F21F167A7"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C086_attempt01\\simulation_timing.json",
+      "sha256": "F0687AF4E74852C036966AB8ABF6F6ABE6F26AFA3D5AAF20B9B902C6D324EDAE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C086_attempt01\\native\\observations.mat",
+      "sha256": "167E8066D7C8BA0C349A1562B04121624F85B0DBBCD34933F95B5D7B52A3313A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C086_attempt01\\native\\configuration.mat",
+      "sha256": "5E48040E9B84190B8FC2CEA7D83F4B75273EAF57E5AE33912AF9C30F2FDFCA67"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C086_attempt01\\native\\inventory_metadata.json",
+      "sha256": "EB29101A305068F74EEDFCE3A7AE3DABE1EF7A981EB909E3AB142F1EB400DB5B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C086_attempt01\\native\\tl_connectivity.json",
+      "sha256": "FA6DF7F73DECDB7DA7BA10DBE5033166F127B1B4E3DAC40419F68AF5E1AD330D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C086_attempt01\\native\\thermal_connectivity.json",
+      "sha256": "EAC3BB3E6CD17806E11C61C651314A110B71D0921E501B16FEBC60323572D9C9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C086_attempt01\\native\\buffer_replacement_contract.json",
+      "sha256": "0015E1424C85E50E3D38EE8661160295421B44AF31BDEE0F7ED3C9525CAC9AB5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C086_attempt01\\mechanism.json",
+      "sha256": "DE05B9A8E6E5AC33514D38C5F4B0BA0E52D69C9B30C0D4D3677E3591C0D312F6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C086_attempt01\\observed_states.mat",
+      "sha256": "77E1DA0D27222A1098502606E34A28668365642343AF8325016CC9C9BAC9F986"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C086_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "7E06B9BAD173B96385AE947475C91B5D9EFE15711C3D8ED39C0A86B0133BD26A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C086_attempt01\\packet_manifest.json",
+      "sha256": "A7DE25F516B49886129CCD3736E03EC0AB35C41070FC8B2F954B9BB0E69B0276"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C086_attempt01\\packet_gate.json",
+      "sha256": "0B6F068E30F7987CC339382B4C682FEE7E2AD852C8901FFB054C38103D807DFE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C086_attempt01\\boundary_comparison.json",
+      "sha256": "FA1393B5D909EBDBF9100BB9052E1B758BC832060ADEFAECAD9B07124B923355"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C088_attempt01\\simulation_timing.json",
+      "sha256": "68EF538783CDDF08B7304127DCC0E9DA375C758132BFFB575DDE4A28D859FBC4"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C088_attempt01\\native\\observations.mat",
+      "sha256": "2EAD7970F48E130D2ECC561935FEA5DD64905FD1F2F38718B312C3148391198B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C088_attempt01\\native\\configuration.mat",
+      "sha256": "833EBB0ABE25FC63F86DE76A3DABC0F1BB279014FBD2E2AD77638325E6D2B36A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C088_attempt01\\native\\inventory_metadata.json",
+      "sha256": "EB29101A305068F74EEDFCE3A7AE3DABE1EF7A981EB909E3AB142F1EB400DB5B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C088_attempt01\\native\\tl_connectivity.json",
+      "sha256": "FA6DF7F73DECDB7DA7BA10DBE5033166F127B1B4E3DAC40419F68AF5E1AD330D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C088_attempt01\\native\\thermal_connectivity.json",
+      "sha256": "EAC3BB3E6CD17806E11C61C651314A110B71D0921E501B16FEBC60323572D9C9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C088_attempt01\\native\\buffer_replacement_contract.json",
+      "sha256": "0015E1424C85E50E3D38EE8661160295421B44AF31BDEE0F7ED3C9525CAC9AB5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C088_attempt01\\mechanism.json",
+      "sha256": "6A6B7CBE49C1BFF2E441DEBDFAE296016D711D951669B27057BAD5E239375A4F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C088_attempt01\\observed_states.mat",
+      "sha256": "C95A72410CCA4249AF5C3BA293AB8EAA8233DD23AD687A3323EE03601D663B44"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C088_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "9CEFE400DA7DA60784A6B619F13FD26DABE81F5ACA28F8BABBF7C6BE995E9D13"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C088_attempt01\\packet_manifest.json",
+      "sha256": "F81BAB2CF3EB54107B38933CBDD01A9C9D69FE08834898E3E63C519116C596D0"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C088_attempt01\\packet_gate.json",
+      "sha256": "B17F3E0CEC96B0E0481D6B9583217CEB741FC7DA4353247107212C2AE93C5F55"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C088_attempt01\\boundary_comparison.json",
+      "sha256": "E841AD3910B69E7EC0DF1A0CD8703B427B4099444ACCCF03A40D6A4B2E6D6386"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C090_attempt01\\simulation_timing.json",
+      "sha256": "017C3729D4BC62AD3A3C0E2DFAA1292F94EA9B5BE88EB902F06B00FB8C96F2F7"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C090_attempt01\\native\\observations.mat",
+      "sha256": "552774C0D777E0FE7A4B14629C4A0A8CB4B1BC97E49EDC15D77E07867A287BAA"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C090_attempt01\\native\\configuration.mat",
+      "sha256": "6A9DA441CA0C8C1647F59472E92A2745B0EABA82133F434390199597305F892B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C090_attempt01\\native\\inventory_metadata.json",
+      "sha256": "EB29101A305068F74EEDFCE3A7AE3DABE1EF7A981EB909E3AB142F1EB400DB5B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C090_attempt01\\native\\tl_connectivity.json",
+      "sha256": "FA6DF7F73DECDB7DA7BA10DBE5033166F127B1B4E3DAC40419F68AF5E1AD330D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C090_attempt01\\native\\thermal_connectivity.json",
+      "sha256": "EAC3BB3E6CD17806E11C61C651314A110B71D0921E501B16FEBC60323572D9C9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C090_attempt01\\native\\buffer_replacement_contract.json",
+      "sha256": "0015E1424C85E50E3D38EE8661160295421B44AF31BDEE0F7ED3C9525CAC9AB5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C090_attempt01\\mechanism.json",
+      "sha256": "BF8BE2F337A15F2358A38FE136562D7A339E12DE53B1CE560D47BDFD152345BD"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C090_attempt01\\observed_states.mat",
+      "sha256": "06C518947BDB2CAA23804DCB5894CD665DE90E44410C82A957962F11C8A8A620"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C090_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "185AAF981D1587461129E231B6EA742A188BC0D0E6B23CB097EA5ECE76E16505"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C090_attempt01\\packet_manifest.json",
+      "sha256": "045E3CC6E1A8566DB89559C17809F3E009B5A7168D2EA2760885DCB5D80BEC8B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C090_attempt01\\packet_gate.json",
+      "sha256": "C9E33DD81B2F6CF9EFE62169CF1EF805F9D3B0C2159C7121153F725978C2AF1E"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C090_attempt01\\boundary_comparison.json",
+      "sha256": "027DF5609D277113F2AF705512A93FD7403EE5979B228E72B64C38CBCFC1315E"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C092_attempt01\\simulation_timing.json",
+      "sha256": "74B84039266EA45FDA14A1C9BFA0DACF270ADFA4DB4CE9B8E6B56372A0DF63F5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C092_attempt01\\native\\observations.mat",
+      "sha256": "23B93201FEFAE323F2F3C4CFD332B1C3CC503DBFACB3C637B57F4959935BFE88"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C092_attempt01\\native\\configuration.mat",
+      "sha256": "270DA88FE3A12E9CA9ED9B5FB429D93BA0FED02000516A2FA134C5BF7BE40289"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C092_attempt01\\native\\inventory_metadata.json",
+      "sha256": "EB29101A305068F74EEDFCE3A7AE3DABE1EF7A981EB909E3AB142F1EB400DB5B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C092_attempt01\\native\\tl_connectivity.json",
+      "sha256": "FA6DF7F73DECDB7DA7BA10DBE5033166F127B1B4E3DAC40419F68AF5E1AD330D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C092_attempt01\\native\\thermal_connectivity.json",
+      "sha256": "EAC3BB3E6CD17806E11C61C651314A110B71D0921E501B16FEBC60323572D9C9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C092_attempt01\\native\\buffer_replacement_contract.json",
+      "sha256": "0015E1424C85E50E3D38EE8661160295421B44AF31BDEE0F7ED3C9525CAC9AB5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C092_attempt01\\mechanism.json",
+      "sha256": "5125EF6460F799B5148BBF04485623053ABA6669EB1EEAF6D696D07684605B51"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C092_attempt01\\observed_states.mat",
+      "sha256": "321553F2331745E16777114F4C6102AA8CEBCE107AF29B3C33039463B24F9145"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C092_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "87BD93F5F572F7465E5B6862F10D4F2393F8B4A0170CA0EADBFC464D08C401D6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C092_attempt01\\packet_manifest.json",
+      "sha256": "D0AE4867BA00C292B73B6D193C1515E9F6EABA171479676C6022D3E67654F226"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C092_attempt01\\packet_gate.json",
+      "sha256": "AF33DF08E0708DD78544D059BF87562C8F71E1EECACBFAF39894B007580DEC0A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v58c3\\packet_C092_attempt01\\boundary_comparison.json",
+      "sha256": "BC68FB6EC75D30D003D88AAFD259A3BC802BC98674BA003389C311D1B91BA260"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v58_runtime_Tc274p85_C92_snapshot_20261016\\additional_cycle_metrics.json",
+      "sha256": "734A9EC1A00AF1976B595633251BB26D7E28FDB2434B89AD85575B1E31A8C40D"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v58_runtime_Tc274p85_C92_snapshot_20261016\\raw_prefix_retirement_plan.json",
+      "sha256": "C314C1CB89A68EF46B1ECB32B41192AC0994E7B4844EB3F148CCFE1473204374"
+    }
+  ],
+  "obsolete_prefix_raw_retirement_plan_sha256": "C314C1CB89A68EF46B1ECB32B41192AC0994E7B4844EB3F148CCFE1473204374"
+}
