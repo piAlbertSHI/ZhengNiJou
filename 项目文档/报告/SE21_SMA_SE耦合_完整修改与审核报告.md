@@ -7078,3 +7078,31 @@ C200/C180 不变；未解释主模型 SLX 和 Agent6 不修改、不提交。后
 同时修复 MATLAB collector 对 C52 来源索引的选择：与离线比较器相同，按当前窗口筛选祖先与当前完整索引，而不是因保留历史 C40 索引报歧义。旧 v1、小步试验、冷族和同温续行合同保留。当前 Python 全回归 946/946，新增 v2 两度真实步长、旧 v1 保守范围、错误/越域/未达目标精度及历史窗口选择测试；实际 MATLAB typed source/request/trial 正反例在模型构建前执行，尚未执行的仿真结果不冒充已通过。
 
 新的实际输出目录为执行工作树 outputs/v57_runtime_Tc274p85_prepare_r1 与 outputs/v57_runtime_Tc274p85_fromC52_r1。完整 C52 及 C200 原文件不改；不预建多组失败试验、不复制 joined MAT。结束后按实际机制/周期/精度结果封存或拒绝，提取 compact 结果与 SHA，再分类管理非必要旧轨迹。全目标仍为第8节，不因一个有界候选完成就宣称 outer solve、敏感性或 strict Table 4 完成。
+
+### 287.3 274.85 K 实际二十周期完成，物理通过但仍为暂态
+
+执行 producer b204ada452d423412c6ef9fecbcfe53c94eb0151，前台 session 60751 自然退出 0，stderr 空。入口真实 typed source 正例和六反例通过，新的 request/trial 正例和十一反例通过；实际 520–720 s 追加二十周期至 C72。十个两周期包原 73 机制、六流量、六局部库存及全局含潜热 BE 门禁通过，BE 残差绝对值最大 2.307793068e-9 J。首包实际固定边界变更成立、四记忆及其余离散状态逐位保持；后九次同温连接逐位一致。不是从 C28 重算，也不是冷启动。
+
+当前完整十周期 620–720 s：Eq.9 温跨 30.0293728849 K，Eq.10 制冷量 10.9805597758 W，SCP 0.262587051144 W/g；CHEX sensor=10.6768401978 W，正 SHEX 热输入 823.398682747 W，热 COP=0.0133356538041。这些是暂态有限窗口观察，不可与两侧 C52 的 420–520 s 均值直接相减后声称渐近 Tc 导数，更不能与论文两个不同端点直接归因材料缺口。
+
+原公共热周期仍为 false：端点温漂 0.0337304201 K 通过；温度 P99/RMS=0.0918658730/0.0290959121 K 分别超过原 0.05/0.01 K；相分数极值漂移 0.000168507677 超过 0.0001，同相 phase P99=0.00181110982 通过 0.002，RMS=0.000550397222 超过 0.0004。末十周期温跨跨度 0.238479505 K、SCP 跨度 0.0104546168 W/g，未达到事前目标观察精度。因此保留物理合格暂态资格，bounded_outer_metric_sampling_allowed=false、outer_interpolation_allowed=false、下一次变温不允许；REJECTED_NOT_CURRENTLY_PERIODIC 明确 physics_gate_failure=false，不能把预算结束当作机制失败。
+
+这次失败的周期/精度条件有实际非平稳轨迹支持，并非仅因保留历史索引或额外 buffer 阈值而误判。五个滚动窗口（截止 640/660/680/700/720 s）温度 P99 从 0.114403295 连续降至 0.091865873 K、RMS 从 0.035441023 降至 0.029095912 K，温跨跨度从 0.335330711 降至 0.238479505 K，SCP 跨度从 0.014079482 降至 0.010454617 W/g。证据支持同 Tc 松弛收敛，不能据此外推终值或声称只剩固定若干周期。各统计覆盖声明的十周期窗口，不将字段名 last_cycle 误解为只评价末一个周期。
+
+独立 Python 全窗口、MATLAB 原统计与真实完整 OP 重载均退出 0。C72 OP SHA=F37D2E3A7DCD3195A3FDB2A09089B5BC97533F3C8E1990C4746E02F6FBE7B94A；资格 SHA=17D22F868FDD09749E8A77DCD8B8D4D2AF0F9070B675A3AEADC590022C0A9B34。封存 outputs_storage_audit/v57_runtime_Tc274p85_C72_snapshot_20261016，132 个直接依赖重核通过。额外实际 MATLAB typed source 与同温 720→920 s 请求检查也已通过（只验证请求，未执行这段仿真），明确允许从完整 C72 同温续行，但不允许下一个 Tc 变更。
+
+### 287.4 执行时间瓶颈与下一步选择
+
+十包实际文件时间显示，从 simulation_start.json 写入到完整 OP 文件写出平均 12.550956 分钟，到 boundary_comparison.json 完成平均 13.847177 分钟，前者占 90.6391%。该口径含运行初始化及 OP 写出，不冒称纯 solver CPU profile，但足以说明本轮的大部分延迟发生在审计之前，简单删审计无法解决主要耗时。后续优先考虑独立、同完整状态、同窗口、原判据的 normal/accelerator 实际重放与速度测量；未证明完整 OP 兼容和原生轨迹/机制一致前，不改变生产执行模式、步长、采样窗口或校验阈值。不以更稀疏日志替换当前完整原生窗口。
+
+继续收敛时只从当前 C72 完整 OP 在新 collection 同温接续，自适应每两周期检查，禁止因 20-cycle 预算耗尽而重做 520–720 s；不得再次下调 Tc 来掩盖当前未稳态。当前 274.85 K 两个根目标仍为正，zero-load/zero-lift 未夹根，敏感性全矩阵和 strict paired Table 4 仍未完成，全目标保持 active。
+
+### 287.5 分类退役旧 C40，保留当前 C72
+
+新 C72 collection 4713847181 bytes（约 4.39 GiB）只保存在执行工作树一份，compact 复制 627013 bytes，不复制 joined MAT；原 stdout/stderr 另外逐字节复制保留执行与 typed policy 证据。当前 C72 raw 属当前续行资格依赖，不伪称已过时来删除。
+
+两侧旧 C40 普通轨迹已被完整 C52 的更晚共同窗口取代。Retire_HeatDriveECC_RuntimeTcSupersededRaw 从 catalog 的 SHA 锁定旧/新资格，检查当前 C28、两侧 C52 和新 C72 的全部直接依赖、当前 OP、旧资格/原 raw、来源链、绝对路径包含、无 reparse 和无相关活跃 MATLAB；保留每侧首个变温两周期包、全部完整 OP、所有配置/门禁/逐周期数据/图，仅删除每侧其余五包的 observations/observed_states，合计 20 文件、4510660173 bytes（约 4.20 GiB）。逐文件删除记录持续写入 receipt，当前 raw 和 OP 删除字节均为零。
+
+旧 C40 资格原字节和哈希不修改，但已标记 historical_not_full_raw_reverifiable，不能当作当前恢复源；两个旧 collection 带 COMPLETED_RAW_PREFIX_RETIRED 禁止原地续行，catalog 明确记录此状态。回执 outputs_storage_audit/v57_superseded_C40_raw_retirement_20261016/retirement_receipt.json。删除后所有当前直接依赖重核通过，额外重新调用两侧 C52 比较器的真实 load_qualified 与 configuration_origin，共同 C28 构建来源仍一致。C72 暂态图 output/png/v57_runtime_Tc274p85_C72_20261016/current_transient 明确展示周期未通过和真实库存迁移，PDF 已渲染目视审核，无截字或图层重叠。
+
+退役时 catalog 原字节另外保存为 catalog_at_retirement.json，SHA=3EEDD385DD0BBC418C6DFBA21BF0DFA8774E889795ECFFDD4671CFB88DDF59FA，与退役回执绑定值一致；之后 catalog 才登记历史 raw 已退役。最终回归 947/947。治理快照 workspace_governance_20261016_v57 分类 894 个主库目录、16.060710 GiB，C200/C180 四项权威实文件哈希仍全部匹配；主库统计不包括执行工作树的当前原生轨迹，不能据此声称总工作区只占此数。主模型未解释 SLX 和 Agent6 继续隔离，不提交、不清理。

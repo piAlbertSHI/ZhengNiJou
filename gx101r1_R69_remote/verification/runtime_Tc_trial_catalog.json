@@ -13,6 +13,8 @@
       "qualification_relative": "outputs_storage_audit/v53_runtime_Tc276p85_snapshot_20261016/endpoint_qualification.json",
       "qualification_sha256": "AC81DDFA9D83417CCEEA76DE134CFEBEE42D50E9D6D972C90D537F86C445F166",
       "operating_point_sha256": "CFD5E7047B5E8EF0D3F2D230E8B18E6985206EE74C0DB953E2BAF3CD84CC2BEE",
+      "historical_raw_reverification_available": false,
+      "use_as_current_restore_source": false,
       "original_thermal_periodic_pass": true,
       "all_original_packet_mechanism_flow_phase_energy_gates_pass": true
     },
@@ -22,12 +24,15 @@
       "qualification_relative": "outputs_storage_audit/v54_runtime_Tc277p05_snapshot_20261016/endpoint_qualification.json",
       "qualification_sha256": "A7BEA626A03BAC497342360D50839A9B78B4B285C6F3FD54864B02275D9502CF",
       "operating_point_sha256": "44501D9643D463F10623A8CA85832411C29C9016DC80F57E887E4056F40E5A13",
+      "historical_raw_reverification_available": false,
+      "use_as_current_restore_source": false,
       "original_thermal_periodic_pass": true,
       "all_original_packet_mechanism_flow_phase_energy_gates_pass": true
     }
   ],
   "historical_C40_matched_response_relative": "outputs_storage_audit/v54_matched_Tc_response_20261016_final/matched_Tc_response.json",
   "historical_C40_matched_response_sha256": "6E2599FF36F8D3A4B155E0D5C619A6D7BD3CC4C3F21461DA4551B730A12EEE18",
+  "historical_C40_raw_retirement_receipt_relative": "outputs_storage_audit/v57_superseded_C40_raw_retirement_20261016/retirement_receipt.json",
   "matched_response_relative": "outputs_storage_audit/v56_matched_C52_Tc_response_20261016/matched_Tc_response.json",
   "matched_response_sha256": "6663187AA9E7B327C45394E551C185FF859510507EA8F075C567FFBE7252DBCC",
   "latest_same_Tc_continuations": [
@@ -53,11 +58,28 @@
     }
   ],
   "source_state_edited": false,
+  "bounded_search_candidates": [
+    {
+      "temperature_K": 274.85,
+      "source_temperature_K": 276.85,
+      "snapshot_time_s": 720,
+      "qualification_relative": "outputs_storage_audit/v57_runtime_Tc274p85_C72_snapshot_20261016/endpoint_qualification.json",
+      "qualification_sha256": "17D22F868FDD09749E8A77DCD8B8D4D2AF0F9070B675A3AEADC590022C0A9B34",
+      "operating_point_sha256": "F37D2E3A7DCD3195A3FDB2A09089B5BC97533F3C8E1990C4746E02F6FBE7B94A",
+      "current_window_s": [620, 720],
+      "all_original_packet_mechanism_flow_phase_energy_gates_pass": true,
+      "original_public_thermal_periodic_pass": false,
+      "target_window_precision_pass": false,
+      "same_Tc_transient_continuation_allowed": true,
+      "next_temperature_step_allowed": false,
+      "outer_interpolation_allowed": false
+    }
+  ],
   "complete_internal_state_periodicity_verified": false,
   "production_recovery_allowed": false,
   "outer_solve_eligible": false,
   "zero_load_root_found": false,
   "zero_lift_root_found": false,
   "paired_Table4_eligible": false,
-  "next_action": "Use the two sealed C52 endpoints for subsequent same-family continuation. Current matched finite-window observations pass the declared target precision; establish physically admissible coarse Tc samples and an actual root bracket before interpolation. Preserve the original C40 temperature-event evidence; do not resume completed raw-retired collections in place, cold-restart or substitute C200/old-family state."
+  "next_action": "The 274.85 K bounded step physically completed C52-C72 but remains transient. Use its sealed full C72 state for same-Tc convergence; do not interpolate or step colder before its original thermal and target precision pass. Investigate the dominant pre-OP execution cost with an independently verified accelerator/normal replay before changing production execution. Keep the two C52 matched observations and C40 event evidence; never cold-restart or substitute C200/old-family state."
 }

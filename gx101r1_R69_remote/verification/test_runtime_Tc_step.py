@@ -70,5 +70,15 @@ class RuntimeTcStepTests(unittest.TestCase):
         self.assertNotIn("setModelParameter('StartTime'",runner)
         self.assertIn("isequal(candidate_index.window_s(:),[source.snapshot_s-100;source.snapshot_s])",runner)
 
+    def test_superseded_raw_retirement_keeps_events_all_OPs_and_current_qualified_inputs(self):
+        source=(Path(__file__).parent/'Retire_HeatDriveECC_RuntimeTcSupersededRaw.ps1').read_text()
+        self.assertIn('Select-Object -Skip 1',source)
+        self.assertIn("@('native\\observations.mat','observed_states.mat')",source)
+        self.assertLess(source.index('$protected.Contains($path)'),source.index('Remove-Item -LiteralPath $target.path'))
+        self.assertIn('ReparsePoint',source)
+        self.assertIn('COMPLETED_RAW_PREFIX_RETIRED.json',source)
+        self.assertIn('old_qualifications_now_historical_not_full_raw_reverifiable=$true',source)
+        self.assertNotIn('Remove-Item -Recurse',source)
+
 
 if __name__=='__main__':unittest.main()
