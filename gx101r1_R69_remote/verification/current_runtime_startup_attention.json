@@ -1,6 +1,6 @@
 {
   "schema": "heatdrive_ecc_runtime_startup_attention_v1",
-  "status": "user_confirmed_login_ready_for_single_relaunch",
+  "status": "login_resolved_compile_path_diagnosed_ready_for_short_path_relaunch",
   "record_date": "2026-10-16",
   "requires_user_login": false,
   "launch_before_login_confirmation_allowed": false,
@@ -30,8 +30,22 @@
   "startup_stdout_bytes": 0,
   "startup_stderr_bytes": 0,
   "human_action": "Open MATLAB from its desktop shortcut and complete the MathWorks sign-in, then confirm login. Do not send passwords, login tokens or one-time codes in chat.",
-  "next_preparation_relative_to_execution_repo": "outputs/v58_runtime_Tc274p85_convergence_C72_prepare_r2",
-  "next_collection_relative_to_execution_repo": "outputs/v58_runtime_Tc274p85_convergence_fromC72_r2",
+  "latest_attempt": {
+    "execution_commit": "82f790993b02a7096efaf9f9531f35594489f44e",
+    "preparation_relative": "outputs/v58_runtime_Tc274p85_convergence_C72_prepare_r2",
+    "terminal_exit_code": 1,
+    "error_identifier": "Stateflow:Build",
+    "reason": "MATLAB reported the Windows 260-character generated compilation filename limit. No new simulation collection or checkpoint was produced.",
+    "execution_json_sha256": "B6F63EA4ACAF30E14F24D7F1DA42DD4EC627980B0D84A0FA08B5AF2BC1868BCE",
+    "stdout_sha256": "8822E3BD5715BE3DC95CF914535D26D1A8F78A917FD29239FE4AA32EEDA35C0E",
+    "stderr_sha256": "088B3510CA2B326E20FE3D2AD7E3D51849786587010E76931BC10C1B5C3DC366",
+    "preflight_config_sha256": "7515B5CFC2218CD3561C64AA2749C3DA11F07BD33EDAAEAC4EC842657FCFB6A4",
+    "original_logs_preserved": true,
+    "scientific_gate_failure": false,
+    "new_cycles": 0
+  },
+  "next_preparation_relative_to_execution_repo": "outputs/v58p3",
+  "next_collection_relative_to_execution_repo": "outputs/v58c3",
   "next_action_after_login": "Reverify the intact C72 source and absence of another live same-job process, then launch one normal-mode same-Tc continuation in the fresh r2 paths. Do not replay C52-C72 or substitute C200/partial states.",
   "production_recovery_allowed": false,
   "outer_interpolation_allowed": false
