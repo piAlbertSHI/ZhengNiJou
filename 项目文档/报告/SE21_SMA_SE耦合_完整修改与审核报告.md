@@ -7418,3 +7418,17 @@ output/png/v66_nominal_cold_20cycle_20261017/nominal_cold_diagnostic.png及矢�
 封存器新增probe不可升级为20周期、计时缺包拒绝与计时不作为科学门禁的测试，最后完整1021项回归实际通过。归档前的执行工作树干净；后续仅提交本轮脚本/紧凑结果/图/报告及治理回执，受保护SLX及Agent6保持原隔离状态。此处94.3814%特指sim调用内的Execution占比，不把它冒充含提取、哈希、分析在内的全流水线占比。
 
 最终治理快照workspace_governance_20261017_v66在bdfec13提交后生成：主工作区outputs及outputs_storage_audit共914目录、17,257,291,367 bytes（16.072105 GiB），不包含各执行worktree，不能当作整台磁盘或全部执行数据总量。C200/C180四份权威文件实际SHA全部通过，C108 OP另行实读仍为03A2459EDD2216D16593820E033CB9F6C4C6AECD8ADE44631FBE8FDA41AC77A1。156份v66归档/图的提交Git blob与磁盘原字节逐份一致；哈希锁定结果的CRLF/日志字节原样保留，源码单独通过diff whitespace检查，不为消除生成证据的CRLF提示重写原文件。main源码688fb4c、执行源码cb32149、结果提交bdfec13（执行镜像36c8130）分别记录，不混淆producer与后处理提交。当前主工作树仍仅隔离的未解释SLX及Agent6，执行工作树干净；没有新增定时器、监测自动化或后台MATLAB。
+
+## 302 从C20继续：先验证实际拆分轨迹，再进行同工况20周期续跑（2026-10-17）
+
+上一轮完成真实20周期、封存图/哈希及明确非稳态，属于实质进展；本轮没有该任务进程仍在运行，只有用户原有交互MATLAB，均不终止。C20不是新的C200主线，原第8节完整任务保持。
+
+先查阅R2025b官方Model Operating Point说明：https://www.mathworks.com/help/releases/R2025b/simulink/ug/model-operating-point-for-faster-simulation.html 。其Simulation modes限制明确不允许在不同仿真模式之间保存/加载完整OP。因此不将normal C20直接换成accelerator，不花算力试一个文档已禁止的路径，也不通过warning/none、部分状态或重置来“兼容”。加速仍需另行在同状态合同内定位本构热点或建立独立新模式的合法冷态族；本轮优先完成当前合法状态的科学推进。
+
+当前Interpreted MATLAB Function调用的StableDiagnostic、StableConstitutiveSample、CompatibilityStep51、InitializeState/Branches源码未发现动态persistent/global；全部210本构状态来自外部StateDelay，两个21温度输入来自各自温度Delay。这是源码证据，仍不冒充完整全模型恢复证明。实际实验先从唯一同case C20 OP、SHA=067C4692D93D171755CC1EA67C89C264A85676A94B03C86DEAAF7F6688C50FA5出发，分别实算200至220 s连续两周期，以及200至210、磁盘加载完整OP、210至220 s两段。每段先过原73机制、六流量、六局部库存和119/49能量边界，再逐样本比较74状态、1262原生、162源及201公共信号；原比较容差不变，另外报告是否逐位一致。比较状态全部为comparison-only，不进入续跑链。只证明该两周期窗口的恢复轨迹等价，不作普遍隐藏状态序列化声明。
+
+通过比较后重新从原C20 OP进入实际续跑链，200至400 s，每20 s完整门禁、端点/四PI记忆继承、OP父SHA后才推进；各末十周期原公共周期和Eq9/Eq10精度实测记录，无稳态不宣称steady，也不把全部包通过翻译成Table4复现。名义Tc276.95 K、模型方程、normal模式、外步长0.001 s、32本构子步和完整状态不变。重建只复用本工况原有t0构造坐标/通量，随后由vendor完整OP覆盖实际状态，不再实际运行冷态探针；不可导入跨因子或C200/C108完整状态。
+
+续跑编排同时支持真实中断后的最小损失恢复：原collection不被rejected、原PID确已不存在、同case/来源/预算一致后，重读已通过包和完整OP，未完成attempt保留，下一attempt用全新目录。预算完成后如需继续，必须显式请求最多再延长200 s，并先按SHA保存上次完成记录；不能静默改变被中断预算，也不能跨原2000 s命令时域。此次默认只到C40；后续延长通过接口参数完成，不再为了C40→C60反复硬编码另一个脚本。当前L8完整主效应、C200误差桥接、成对端点及最终论文仍未完成。
+
+新增manifest边界、比较状态禁传播和原状态加载/原子进度写入反例后，完整1025项Python回归已通过。首次回归仅因旧静态测试要求原horizon拒绝谓词的精确拼写失败；已保留原断言并新增独立的split拒绝断言，未修改测试或削弱原守卫。待同一前台MATLAB程序先执行构造/请求/语法检查，再做上述实算；没有新的真实结果前，不将本节实验声明当作通过证据。

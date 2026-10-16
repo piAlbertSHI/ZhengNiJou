@@ -1,0 +1,23 @@
+{
+  "schema": "heatdrive_ecc_runtime_sensitivity_continuation_plan_v1",
+  "date": "2026-10-17",
+  "stage": "C20_same_case_split_equivalence_then_bounded_C40_continuation_pending_execution",
+  "source_closeout_relative": "outputs_storage_audit/v66_nominal_cold_20cycle_20261017/case_closeout.json",
+  "source_closeout_sha256": "98BEC1478F7949F533B3BD707836D69668396CF650ED053A4A24A114BB8C3D05",
+  "source_case_contract_sha256": "D703C7F250B69CD6467FC3190B4723E2F00E796AC76DE489F70772022EB24CF7",
+  "source_operating_point_sha256": "067C4692D93D171755CC1EA67C89C264A85676A94B03C86DEAAF7F6688C50FA5",
+  "source_snapshot_s": 200,
+  "planned_collection_stop_s": 400,
+  "split_reference_window_s": [200, 220],
+  "split_prefix_window_s": [200, 210],
+  "split_suffix_window_s": [210, 220],
+  "comparison_states_may_propagate": false,
+  "simulation_mode": "normal",
+  "mode_switch_acceleration_compatible": false,
+  "vendor_reference": "https://www.mathworks.com/help/releases/R2025b/simulink/ug/model-operating-point-for-faster-simulation.html",
+  "actual_simulation_completed": false,
+  "scientific_thresholds_changed": false,
+  "C200_reference_unchanged": true,
+  "production_recovery_allowed": false,
+  "full_objective_complete": false
+}

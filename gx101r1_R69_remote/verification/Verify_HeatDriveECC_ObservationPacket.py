@@ -27,7 +27,7 @@ def validate_manifest(manifest):
             not manifest['simulation_returned_without_error'] or manifest['source_state_edited'] or
             manifest['history_cap_cycles'] != 2 or manifest['state_history_cap_cycles'] != 11 or
             (not manifest['strict_vendor_restore'] and manifest.get('packet_role') not in ('runtime_boundary_cold_baseline','runtime_sensitivity_cold')) or manifest['production_recovery_allowed'] or
-            manifest.get('packet_role','split_comparison') not in ('split_comparison','bounded_transient_observation','runtime_boundary_cold_baseline','runtime_boundary_transient','runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation','runtime_horizon_comparison','runtime_sensitivity_cold','runtime_sensitivity_transient') or
+            manifest.get('packet_role','split_comparison') not in ('split_comparison','bounded_transient_observation','runtime_boundary_cold_baseline','runtime_boundary_transient','runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation','runtime_horizon_comparison','runtime_sensitivity_cold','runtime_sensitivity_transient','runtime_sensitivity_continuation','runtime_sensitivity_split_comparison') or
             start < 0 or stop-start not in (10, 20) or start % 10 or stop % 10):
         raise ValueError('Not a complete unchanged-model strict restored observation packet')
     if manifest.get('packet_role') == 'runtime_horizon_comparison':
@@ -63,7 +63,17 @@ def validate_manifest(manifest):
             manifest.get('checksum_policy') != 'error/error' or
             not re.fullmatch('[A-F0-9]{64}',manifest.get('parent_complete_OP_sha256',''))):
         raise ValueError('Sensitivity continuation must retain one case and complete strict state')
-    if manifest.get('packet_role') in ('runtime_sensitivity_cold','runtime_sensitivity_transient') and not re.fullmatch(
+    if manifest.get('packet_role') in ('runtime_sensitivity_continuation','runtime_sensitivity_split_comparison'):
+        comparison=manifest['packet_role']=='runtime_sensitivity_split_comparison'
+        if (manifest.get('source_snapshot_s')!=start or not manifest['strict_vendor_restore'] or
+                manifest.get('independent_cold_start') is not False or start<200 or
+                stop>(220 if comparison else 2000) or stop-start not in ((10,20) if comparison else (20,)) or
+                manifest.get('sensitivity_case_scope_only') is not True or manifest.get('command_horizon_cycles')!=200 or
+                manifest.get('temperature_configurability')!='runtime' or manifest.get('prescribed_Tc_K')!=276.95 or
+                manifest.get('checksum_policy')!='error/error' or
+                not re.fullmatch('[A-F0-9]{64}',manifest.get('parent_complete_OP_sha256',''))):
+            raise ValueError('Same-case C20 continuation/comparison exceeds its immutable bounded scope')
+    if manifest.get('packet_role') in ('runtime_sensitivity_cold','runtime_sensitivity_transient','runtime_sensitivity_continuation','runtime_sensitivity_split_comparison') and not re.fullmatch(
             '[A-F0-9]{64}',manifest.get('sensitivity_case_contract_sha256','')):
         raise ValueError('Sensitivity packet must identify its immutable parameter case')
     if manifest.get('packet_role')=='runtime_boundary_transient' and (
@@ -139,7 +149,7 @@ def audit(root, review_path=None):
     required = {'native/observations.mat', 'native/configuration.mat', 'native/inventory_metadata.json',
                 'native/tl_connectivity.json', 'native/thermal_connectivity.json',
                 'native/buffer_replacement_contract.json', 'mechanism.json', 'observed_states.mat'}
-    sensitivity = manifest.get('packet_role') in ('runtime_sensitivity_cold','runtime_sensitivity_transient')
+    sensitivity = manifest.get('packet_role') in ('runtime_sensitivity_cold','runtime_sensitivity_transient','runtime_sensitivity_continuation','runtime_sensitivity_split_comparison')
     if sensitivity:
         required.add('native/sensitivity_case_contract.json')
     if len(entries) != len(required) or {row['path'] for row in entries} != required:

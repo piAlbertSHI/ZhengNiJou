@@ -2,12 +2,25 @@ function options=Resolve_HeatDriveECC_ObservationPreflight(options,state,cycles,
 % Execution-only comparison; the configured model and native history stay unchanged.
     assert(isstruct(options) && isscalar(options),'Require scalar observation options.');
     if isempty(fieldnames(options)),return;end
-    if isfield(options,'mode') && strcmp(options.mode,'runtime_sensitivity_cold')
+    if isfield(options,'mode') && any(strcmp(options.mode,{'runtime_sensitivity_cold','runtime_sensitivity_continuation'}))
         required={'mode';'python_executable';'source_contract_path';'candidate_qualification_path';'case_index';'probe_only'};
+        continuation=strcmp(options.mode,'runtime_sensitivity_continuation');
+        if continuation,required=[required;{'source_closeout_path';'collection_root';'resume_collection';'collection_stop_s'}];end
         assert(isequal(sort(fieldnames(options)),sort(required)) && strcmp(state.mode,'capture') && ...
             state.command_horizon_cycles==200 && cycles==20 && duration==200 && strcmp(arm,'native') && endpoint_all && isempty(fieldnames(factors)));
         validateattributes(options.case_index,{'numeric'},{'scalar','finite','integer','>=',0,'<=',8});
         assert(islogical(options.probe_only) && isscalar(options.probe_only));
+        if continuation
+            assert(~options.probe_only && islogical(options.resume_collection) && isscalar(options.resume_collection));
+            validateattributes(options.collection_stop_s,{'numeric'},{'scalar','finite','integer','>=',220,'<=',2000});
+            assert(mod(options.collection_stop_s,20)==0);
+            source=Read_HeatDriveECC_SensitivityColdSource(options.source_closeout_path,options.case_index);
+            assert(strcmp(source.case_contract.source_qualification_path,options.candidate_qualification_path));
+            repo=fileparts(fileparts(mfilename('fullpath')));
+            collection=char(java.io.File(options.collection_root).getCanonicalPath());
+            prefix=[char(java.io.File(fullfile(repo,'outputs')).getCanonicalPath()) filesep];
+            assert(startsWith(collection,prefix) && ~strcmp(collection,source.root));
+        end
         for key={'python_executable','source_contract_path','candidate_qualification_path'},assert(isfile(options.(key{1})));end
         q=jsondecode(fileread(options.candidate_qualification_path));
         assert(strcmp(q.schema,'heatdrive_ecc_runtime_Tc_candidate_endpoint_v1') && ...

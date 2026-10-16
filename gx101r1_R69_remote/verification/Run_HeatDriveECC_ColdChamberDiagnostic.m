@@ -26,9 +26,10 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     if nargin<26, observation_options=struct(); end
     observation_options=Resolve_HeatDriveECC_ObservationPreflight(observation_options, ...
         state_capture_options,cycle_count,duration,diagnostic_arm,endpoint_all_arms,buffer_factor_options);
-    independent_sensitivity=~isempty(fieldnames(observation_options)) && strcmp(observation_options.mode,'runtime_sensitivity_cold');
+    independent_sensitivity=~isempty(fieldnames(observation_options)) && any(strcmp(observation_options.mode,{'runtime_sensitivity_cold','runtime_sensitivity_continuation'}));
+    sensitivity_continuation=independent_sensitivity && strcmp(observation_options.mode,'runtime_sensitivity_continuation');
     runtime_boundary_family=~isempty(fieldnames(observation_options)) && ...
-        ismember(observation_options.mode,{'runtime_boundary_cold_family','runtime_boundary_warmup','runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation','runtime_boundary_Tc_step','runtime_boundary_horizon_preflight','runtime_sensitivity_cold'});
+        ismember(observation_options.mode,{'runtime_boundary_cold_family','runtime_boundary_warmup','runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation','runtime_boundary_Tc_step','runtime_boundary_horizon_preflight','runtime_sensitivity_cold','runtime_sensitivity_continuation'});
     state_capture_options=Resolve_HeatDriveECC_DiagnosticStateOptions(state_capture_options,cycle_count);
     buffer_factor_options=Resolve_HeatDriveECC_BufferColdFactorial(buffer_factor_options, ...
         state_capture_options.mode,cycle_count,duration,diagnostic_arm,endpoint_all_arms);
@@ -373,11 +374,11 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             assert(~diagnostic_resume && simulation_start==0 && overrides.system.Tchex_K==276.95);
             overrides.system.cold_boundary_temperature_configurability='runtime';
             record.runtime_boundary_family=struct('independent_cold_start', ...
-                strcmp(observation_options.mode,'runtime_boundary_cold_family') || independent_sensitivity,'old_complete_state_imported',false, ...
+                strcmp(observation_options.mode,'runtime_boundary_cold_family') || (independent_sensitivity && ~sensitivity_continuation),'old_complete_state_imported',false, ...
                 'only_boundary_configurability_changed',~independent_sensitivity);
             if isfield(observation_options,'boundary_probe_path')
                 record.runtime_boundary_family.source_probe_sha256=file_hash(observation_options.boundary_probe_path);
-            elseif any(strcmp(observation_options.mode,{'runtime_boundary_Tc_continuation','runtime_boundary_Tc_step','runtime_boundary_horizon_preflight','runtime_sensitivity_cold'}))
+            elseif any(strcmp(observation_options.mode,{'runtime_boundary_Tc_continuation','runtime_boundary_Tc_step','runtime_boundary_horizon_preflight','runtime_sensitivity_cold','runtime_sensitivity_continuation'}))
                 record.runtime_boundary_family.source_contract_sha256=file_hash(observation_options.candidate_qualification_path);
             else
                 record.runtime_boundary_family.source_contract_sha256=file_hash(observation_options.recording_contract_path);
@@ -539,14 +540,26 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 use_endpoint_arm;
             if independent_sensitivity
                 [overrides,factor_contract]=Apply_HeatDriveECC_RuntimeSensitivity(overrides,observation_options);
-                fresh_root=fullfile(output_root,'fresh_native_probe');
-                fresh=Capture_HeatDriveECC_FreshSensitivityNative(overrides,fresh_root);
-                initial_observation_root=fresh_root;initial_observation_path=fresh.raw_path;
-                factor_contract.fresh_native_source_sha256=file_hash(fresh.raw_path);
-                factor_contract.fresh_native_source_path=fresh.raw_path;
-                factor_contract.source_qualification_sha256=file_hash(observation_options.candidate_qualification_path);
-                factor_contract.parameter_source_configuration_sha256=record.sensitivity_parameter_source.configuration_sha256;
-                write_json(fullfile(arm,'sensitivity_case_contract.json'),factor_contract);
+                if sensitivity_continuation
+                    source=Read_HeatDriveECC_SensitivityColdSource(observation_options.source_closeout_path,observation_options.case_index);
+                    original=source.case_contract;
+                    assert(isequaln([factor_contract.parameters{:}],original.parameters(:).'), ...
+                        'Declared factors changed since the actual cold case.');
+                    assert(strcmp(original.parameter_source_configuration_sha256,record.sensitivity_parameter_source.configuration_sha256) && ...
+                        strcmp(original.source_qualification_sha256,file_hash(observation_options.candidate_qualification_path)));
+                    initial_observation_path=source.fresh_native_path;
+                    initial_observation_root=fileparts(fileparts(initial_observation_path));
+                    copyfile(source.case_contract_path,fullfile(arm,'sensitivity_case_contract.json'));
+                else
+                    fresh_root=fullfile(output_root,'fresh_native_probe');
+                    fresh=Capture_HeatDriveECC_FreshSensitivityNative(overrides,fresh_root);
+                    initial_observation_root=fresh_root;initial_observation_path=fresh.raw_path;
+                    factor_contract.fresh_native_source_sha256=file_hash(fresh.raw_path);
+                    factor_contract.fresh_native_source_path=fresh.raw_path;
+                    factor_contract.source_qualification_sha256=file_hash(observation_options.candidate_qualification_path);
+                    factor_contract.parameter_source_configuration_sha256=record.sensitivity_parameter_source.configuration_sha256;
+                    write_json(fullfile(arm,'sensitivity_case_contract.json'),factor_contract);
+                end
                 record.sensitivity_case_contract_sha256=file_hash(fullfile(arm,'sensitivity_case_contract.json'));
             end
             [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(overrides);
@@ -799,7 +812,15 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             end
             if ~isempty(fieldnames(observation_options))
                 record.prepared_stop_time_is_not_an_executed_long_segment=true;
-                if independent_sensitivity
+                if sensitivity_continuation
+                    record.sensitivity_continuation_result=Verify_HeatDriveECC_SensitivityContinuation( ...
+                        input,options,arm,changed,buffer_paths,observation_options,record.execution_commit);
+                    record.observation_preflight_pass=record.sensitivity_continuation_result.experiment_completed;
+                    record.prepared_segment_cycle_count=cycle_count;
+                    record.stop_time_s=record.sensitivity_continuation_result.last_verified_snapshot_time_s;
+                    record.cycle_count=record.stop_time_s/10;record.segment_cycle_count=(record.stop_time_s-200)/10;
+                    record.actual_observation_preflight_window_s=[200 record.stop_time_s];
+                elseif independent_sensitivity
                     record.sensitivity_cold_result=Verify_HeatDriveECC_SensitivityColdCase( ...
                         input,options,arm,changed,buffer_paths,observation_options,record.execution_commit);
                     record.observation_preflight_pass=record.sensitivity_cold_result.experiment_completed;
@@ -1068,11 +1089,13 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         record.error_report=getReport(ME,'extended','hyperlinks','off');
         if independent_sensitivity
             case_path=fullfile(output_root,'native','sensitivity_cold_case','case_result.json');
+            if sensitivity_continuation,case_path=fullfile(observation_options.collection_root,'continuation_result.json');end
             if isfile(case_path)
-                record.sensitivity_cold_result=jsondecode(fileread(case_path));
+                current=jsondecode(fileread(case_path));
+                if sensitivity_continuation,record.sensitivity_continuation_result=current;else,record.sensitivity_cold_result=current;end
                 record.prepared_segment_cycle_count=cycle_count;
-                record.stop_time_s=record.sensitivity_cold_result.last_verified_snapshot_time_s;
-                record.cycle_count=record.stop_time_s/10;record.segment_cycle_count=record.cycle_count;
+                record.stop_time_s=current.last_verified_snapshot_time_s;
+                record.cycle_count=record.stop_time_s/10;record.segment_cycle_count=record.cycle_count-20*double(sensitivity_continuation);
             end
         end
     end
