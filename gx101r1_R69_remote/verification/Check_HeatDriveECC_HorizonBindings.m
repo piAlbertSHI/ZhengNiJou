@@ -1,0 +1,13 @@
+function record=Check_HeatDriveECC_HorizonBindings(commands,proof,which_case)
+% Read resolved variables after simulation; never reinstall before checking them.
+    bindings=proof.bindings;if isstruct(bindings),bindings=num2cell(bindings);end
+    for k=1:numel(bindings)
+        binding=bindings{k};value=slResolve(binding.variable,binding.block_path);expected=commands.(binding.variable);
+        assert(isequaln(value.Time,expected.Time) && isequaln(value.Data,expected.Data) && ...
+            strcmp(get_param(binding.block_path,'Interpolate'),binding.block_interpolation), ...
+            'An actual command binding or block interpolation differs.');
+    end
+    record=struct('case',which_case,'actual_block_count',numel(bindings), ...
+        'actual_variable_count',numel(fieldnames(commands)),'all_actual_bindings_exact',true, ...
+        'workspace_read_only',true,'source_state_edited',false,'model_block_parameters_changed',false);
+end

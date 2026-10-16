@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+import re
 import tempfile
 import unittest
 
@@ -76,8 +77,13 @@ class RuntimeTcContinuationTests(unittest.TestCase):
 
     def test_preparation_provenance_reads_the_candidate_qualification_not_an_absent_baseline_pointer(self):
         source=(Path(__file__).parent/'Run_HeatDriveECC_ColdChamberDiagnostic.m').read_text()
-        self.assertIn("elseif any(strcmp(observation_options.mode,{'runtime_boundary_Tc_continuation','runtime_boundary_Tc_step'}))",source)
-        self.assertIn('source_contract_sha256=file_hash(observation_options.candidate_qualification_path)',source)
+        branches=re.findall(r"elseif any\(strcmp\(observation_options.mode,\{([^}]*)\}\)\)(.*?)(?=\n\s*(?:elseif|else|end)\b)",source,re.S)
+        required={'runtime_boundary_Tc_continuation','runtime_boundary_Tc_step'}
+        selected=[body for modes,body in branches if required<=set(re.findall(r"'([^']+)'",modes))
+                  and 'record.runtime_boundary_family.source_contract_sha256=' in body]
+        self.assertEqual(len(selected),1)
+        self.assertIn('source_contract_sha256=file_hash(observation_options.candidate_qualification_path)',selected[0])
+        self.assertNotIn('recording_contract_path',selected[0])
 
     def test_shared_comparison_stop_cannot_be_shortened_or_retired_job_reused(self):
         with tempfile.TemporaryDirectory() as d:

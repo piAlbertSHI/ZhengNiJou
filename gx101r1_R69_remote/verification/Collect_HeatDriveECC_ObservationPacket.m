@@ -4,9 +4,10 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
     if nargin<13,parent_hash='';end
     if nargin<14,trial=struct();end
     cold=strcmp(role,'runtime_boundary_cold_baseline');
-    assert(any(strcmp(role,{'split_comparison','bounded_transient_observation','runtime_boundary_cold_baseline','runtime_boundary_transient','runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation'})));
+    assert(any(strcmp(role,{'split_comparison','bounded_transient_observation','runtime_boundary_cold_baseline','runtime_boundary_transient','runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation','runtime_horizon_comparison'})));
     candidate=any(strcmp(role,{'runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation'}));
-    assert(candidate || isempty(fieldnames(trial)));
+    horizon=strcmp(role,'runtime_horizon_comparison');
+    assert(candidate || horizon || isempty(fieldnames(trial)));
     if candidate
         Require_HeatDriveECC_RuntimeTcTrial(trial);
         assert(trial.candidate_Tc_K==options.system.Tchex_K);
@@ -68,9 +69,10 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
         timing.metadata_error=ME.message;
     end
     write_json(timing_path,timing);
-    if candidate
+    if candidate || horizon
         config_path=fullfile(arm,'configuration.mat');saved=load(config_path);
-        saved.plant_build_options=saved.options;saved.options=options;saved.runtime_boundary_trial=trial;
+        saved.plant_build_options=saved.options;saved.options=options;
+        if candidate,saved.runtime_boundary_trial=trial;else,saved.runtime_horizon_comparison=trial;end
         save(config_path,'-struct','saved','-v7.3');clear saved
     end
     view=Make_HeatDriveECC_MechanismWindow(physical,options,provenance,destination);
@@ -89,6 +91,11 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
     manifest.simulation_timing_sha256=file_hash(timing_path);
     manifest.temperature_configurability=options.system.cold_boundary_temperature_configurability;
     manifest.prescribed_Tc_K=options.system.Tchex_K;manifest.command_horizon_cycles=options.cycle_count;
+    if horizon
+        assert(trial.source_snapshot_s==a && b==a+20 && trial.source_state_edited==false && trial.comparison_only);
+        manifest.horizon_comparison=trial;manifest.source_generation_horizon_cycles=options.cycle_count;
+        manifest.command_horizon_cycles=trial.actual_horizon_cycles;
+    end
     if candidate
         manifest.boundary_trial=trial;
         if strcmp(role,'runtime_boundary_Tc_continuation')

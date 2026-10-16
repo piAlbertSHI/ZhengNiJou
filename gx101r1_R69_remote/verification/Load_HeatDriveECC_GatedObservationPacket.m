@@ -1,6 +1,8 @@
 function [op,manifest]=Load_HeatDriveECC_GatedObservationPacket(packet,require_boundary)
 % Load complete vendor state only after the immutable native packet gate.
     manifest_file=fullfile(packet,'packet_manifest.json');manifest=jsondecode(fileread(manifest_file));
+    assert(~isfield(manifest,'packet_role') || ~strcmp(manifest.packet_role,'runtime_horizon_comparison'), ...
+        'Command-horizon preflight states are comparison-only, never continuation authority.');
     gate=jsondecode(fileread(fullfile(packet,'packet_gate.json')));
     if isfield(manifest,'simulation_timing_sha256')
         assert(strcmp(file_hash(fullfile(packet,'simulation_timing.json')),manifest.simulation_timing_sha256));

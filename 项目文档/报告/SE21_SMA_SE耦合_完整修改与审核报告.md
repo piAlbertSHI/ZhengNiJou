@@ -7264,3 +7264,23 @@ C72/C92/C98的132/134/75个直接依赖与完整OP在整理前重核通过；失
 实际退役24文件、5405735312 bytes（约5.03 GiB），OP及当前窗口删除字节均为0；回执v62_C72_C92_transient_retirement_20261016/retirement_receipt.json。C72/C92资格原字节/原哈希不改，但它们已是historical_not_full_raw_reverifiable，不能再作为当前恢复源；对应原实验根加HISTORICAL_RAW_RETIRED标记，catalog将C72续行资格关闭。当前续行指向完整C108，而不是尝试重放已退役的历史暂态。此前被拒绝的缓存/QA递归删除没有改道重试，本次是不同文件、独立哈希计划下的历史MAT清单退役。
 
 清理后实际MATLAB再次以C108资格执行来源策略反例检查和完整OP重载，退出0、snapshot=1080、OP哈希03A2459E...，simulation_executed=false，未因历史原数组退役损坏当前续跑。治理快照workspace_governance_20261016_v62重新核实C200/C180四个权威文件哈希通过；主工作区分类909目录/16.063798 GiB，不包含执行区。976项完整回归通过；C108当前四面板PNG与PDF重新渲染目视审核，无图例遮挡/截字。旧分析客户端的网格接口误用明确作为审计程序问题，不是新增物理失败；全部原物理门禁未放宽。
+
+## 294 未来命令覆盖扩展的独立兼容性预检（2026-10-16）
+
+前轮实际进展是C108十周期新增、不重叠窗口重复性及5.41 GB旧暂态退役。当前没有同任务MATLAB。C200仍是唯一冻结主线权威；独立运行族仍认完整C108，所有旧200-cycle合同保持原上限，不直接放宽断言，也不改步长、模式、本构、PI或物理门禁。
+
+### 294.1 命令生成、过去插值与版本范围
+
+Integrate_HeatDriveECC_Constitutive21_Interface只新增显式只读命令导出入口（save_changes=false/export_commands_only=true），默认建模路径不变；全部原波形生成函数后半段与3f74274逐字比较（忽略空白）保持相同。原200-cycle命令由实际模型From Workspace解析后核对原生成器，再从同一参数克隆仅改cycle_count、schedule.total_time_s、simulation.stop_time_s生成1000-cycle未来部分。
+
+实际已执行区间不重新采样、不用新生成浮点时钟替代旧时钟。保留源实际命令至未来拼接点，并连同检验窗口后第一个插值节点一起逐位核对Time/Data；保留timeseries及各From Workspace块的插值规则。常量命令保留所有原节点，只添加未来末点。独立Python按实际MAT数组及SHA复核前缀，不仅相信JSON的pass字段；更新SHA也不能掩盖过去命令变化。伴随_time_s/_values缓存随命令一致更新，实际解析变量在仿真前后核对，仿真后检查为只读，不能先重装再声称读回相同。
+
+新role runtime_horizon_comparison只允许源C108的1080至1100 s对比，明确区分源生成时域200与实际输入覆盖200/1000；所有旧role与旧周期上限保持原义。collector的实际保存/物理提取段与既有合格writer保持一致，仍调用73机制、六流量、六局部库存和原能量门禁。新role的完整OP只作比较，Load_GatedObservationPacket明确拒绝把这些比较OP作为续行源，不能用预检偷换当前恢复权威。
+
+### 294.2 先合成，再从同一完整OP做真实短步/两周期比较
+
+MATLAB合成测试实际退出0：6个拼接/常量/插值/拒绝反例，以及原生成器23种timeseries的短时域导出/拼接通过；没有加载主模型或执行仿真。Python完整回归994/994。一个旧静态测试把“模式列表恰有两个字串”当成来源合同，新增独立模式后出现误判；改为定位对应来源写入分支，仍要求Tc continuation/step都读取candidate_qualification_path、禁止读取不存在的baseline pointer，不更改物理门禁。
+
+首个真实实验fresh v63p1：仍从原完整C108分别启动原命令与扩展命令的1 ms短步，核对源共享端点/四记忆及74状态组、1262 native、162源叶、201公共信号。短步通过后才从同一原C108各跑一次完整20 s，重复原门禁及原数值轨迹比较；不把原命令分支的结束状态送入扩展分支。所有source OP文件哈希保持不变，比较分支的新状态禁止传播。当前只是代码/合成验证通过，真实容量兼容性结果尚待实验，不宣称已经运行至1000 cycle，更不宣称已实际越过旧200-cycle边界。
+
+接口依据为MathWorks的[timeseries插值规则](https://www.mathworks.com/help/matlab/ref/timeseries.setinterpmethod.html)和[完整初态SimulationInput接口](https://www.mathworks.com/help/simulink/slref/simulink.simulationinput.setinitialstate.html)；是否与本模型完整OP兼容仍以实际严格装载和轨迹比较为准，不由文档泛化代替。

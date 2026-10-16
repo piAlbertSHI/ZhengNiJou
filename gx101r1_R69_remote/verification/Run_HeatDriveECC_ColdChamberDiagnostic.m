@@ -27,7 +27,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     observation_options=Resolve_HeatDriveECC_ObservationPreflight(observation_options, ...
         state_capture_options,cycle_count,duration,diagnostic_arm,endpoint_all_arms,buffer_factor_options);
     runtime_boundary_family=~isempty(fieldnames(observation_options)) && ...
-        ismember(observation_options.mode,{'runtime_boundary_cold_family','runtime_boundary_warmup','runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation','runtime_boundary_Tc_step'});
+        ismember(observation_options.mode,{'runtime_boundary_cold_family','runtime_boundary_warmup','runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation','runtime_boundary_Tc_step','runtime_boundary_horizon_preflight'});
     state_capture_options=Resolve_HeatDriveECC_DiagnosticStateOptions(state_capture_options,cycle_count);
     buffer_factor_options=Resolve_HeatDriveECC_BufferColdFactorial(buffer_factor_options, ...
         state_capture_options.mode,cycle_count,duration,diagnostic_arm,endpoint_all_arms);
@@ -366,7 +366,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 'only_boundary_configurability_changed',true);
             if isfield(observation_options,'boundary_probe_path')
                 record.runtime_boundary_family.source_probe_sha256=file_hash(observation_options.boundary_probe_path);
-            elseif any(strcmp(observation_options.mode,{'runtime_boundary_Tc_continuation','runtime_boundary_Tc_step'}))
+            elseif any(strcmp(observation_options.mode,{'runtime_boundary_Tc_continuation','runtime_boundary_Tc_step','runtime_boundary_horizon_preflight'}))
                 record.runtime_boundary_family.source_contract_sha256=file_hash(observation_options.candidate_qualification_path);
             else
                 record.runtime_boundary_family.source_contract_sha256=file_hash(observation_options.recording_contract_path);
@@ -776,7 +776,12 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             end
             if ~isempty(fieldnames(observation_options))
                 record.prepared_stop_time_is_not_an_executed_long_segment=true;
-                if strcmp(observation_options.mode,'split_preflight')
+                if strcmp(observation_options.mode,'runtime_boundary_horizon_preflight')
+                    record.runtime_horizon_preflight=Verify_HeatDriveECC_RuntimeHorizon( ...
+                        input,options,arm,changed,buffer_paths,observation_options,record.execution_commit);
+                    record.observation_preflight_pass=record.runtime_horizon_preflight.pass;
+                    record.actual_observation_preflight_window_s=record.runtime_horizon_preflight.full_window_s;
+                elseif strcmp(observation_options.mode,'split_preflight')
                     record.observation_preflight_requested=true;
                     record.observation_preflight=Verify_HeatDriveECC_SplitObservation( ...
                         input,diagnostic_initial_op,options,arm,changed,buffer_paths, ...

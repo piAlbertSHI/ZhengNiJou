@@ -13,6 +13,7 @@ from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from Audit_HeatDriveECC_TLDomainInventory import resolve_domains
 from HeatDriveECC_ObservationWindow import window_indices
 from HeatDriveECC_RuntimeTcTrial import validate_trial
+from HeatDriveECC_CommandHorizon import contract as horizon_contract, audit_prefix
 
 
 def read(path):
@@ -25,9 +26,18 @@ def validate_manifest(manifest):
             not manifest['simulation_returned_without_error'] or manifest['source_state_edited'] or
             manifest['history_cap_cycles'] != 2 or manifest['state_history_cap_cycles'] != 11 or
             (not manifest['strict_vendor_restore'] and manifest.get('packet_role')!='runtime_boundary_cold_baseline') or manifest['production_recovery_allowed'] or
-            manifest.get('packet_role','split_comparison') not in ('split_comparison','bounded_transient_observation','runtime_boundary_cold_baseline','runtime_boundary_transient','runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation') or
+            manifest.get('packet_role','split_comparison') not in ('split_comparison','bounded_transient_observation','runtime_boundary_cold_baseline','runtime_boundary_transient','runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation','runtime_horizon_comparison') or
             start < 0 or stop-start not in (10, 20) or start % 10 or stop % 10):
         raise ValueError('Not a complete unchanged-model strict restored observation packet')
+    if manifest.get('packet_role') == 'runtime_horizon_comparison':
+        c = manifest['horizon_comparison']; horizon_contract(c, [start, stop])
+        if (manifest.get('source_snapshot_s') != start or manifest.get('checksum_policy') != 'error/error' or
+                manifest.get('parent_complete_OP_sha256') != c['source_OP_sha256'] or
+                manifest.get('command_horizon_cycles') != c['actual_horizon_cycles'] or
+                manifest.get('source_generation_horizon_cycles') != 200 or
+                manifest.get('prescribed_Tc_K') != c['source_Tc_K'] or
+                manifest.get('temperature_configurability') != 'runtime'):
+            raise ValueError('Undeclared horizon-comparison source or actual command coverage')
     if manifest.get('packet_role')=='bounded_transient_observation' and (
             stop-start!=20 or start<640 or stop>720 or
             not re.fullmatch('[A-F0-9]{64}',manifest.get('parent_complete_OP_sha256',''))):
@@ -103,6 +113,8 @@ def audit(root, review_path=None):
     manifest = read(root/'packet_manifest.json')
     start, stop = validate_manifest(manifest)
     timing_evidence(root,manifest)
+    if manifest.get('packet_role') == 'runtime_horizon_comparison':
+        audit_prefix(root, manifest['horizon_comparison'])
     arm = root/'native'
     entries = manifest['input_files']
     required = {'native/observations.mat', 'native/configuration.mat', 'native/inventory_metadata.json',
@@ -143,7 +155,7 @@ def audit(root, review_path=None):
             gate = row['local_chamber_gate']
             local.append(gate['mass_closure_pass'] and gate['energy_closure_pass'])
     with h5py.File(arm/'observations.mat') as f, h5py.File(arm/'configuration.mat') as cfg:
-        if manifest.get('packet_role') in ('runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation'):
+        if manifest.get('packet_role') in ('runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation','runtime_horizon_comparison'):
             if (float(cfg['options/system/Tchex_K'][0,0])!=manifest['prescribed_Tc_K'] or
                     float(cfg['plant_build_options/system/Tchex_K'][0,0])!=276.95):
                 raise ValueError('Candidate analysis temperature must differ only by the declared runtime input')
@@ -171,6 +183,7 @@ def audit(root, review_path=None):
         complete_state_is_only_for_current_split_comparison=manifest.get('packet_role','split_comparison')=='split_comparison',
         bounded_recording_scope_only=manifest.get('packet_role')=='bounded_transient_observation',
         runtime_boundary_transient_scope_only=manifest.get('packet_role')=='runtime_boundary_transient',
+        command_horizon_preflight_comparison_only=manifest.get('packet_role')=='runtime_horizon_comparison',
         ten_cycle_periodicity_claim=False, production_recovery_allowed=False, outer_solve_eligible=False,
         input_sha256=dict(manifest=sha256(root/'packet_manifest.json'),
                           mechanism_review=sha256(review_path) if review_path else ''))

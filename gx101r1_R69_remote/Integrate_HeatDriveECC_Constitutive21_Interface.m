@@ -1,6 +1,6 @@
-function Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, save_changes)
+function commands = Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, save_changes, export_commands_only)
 % Add the coupled 21-node constitutive heat-source interface to the main SLX.
-
+    commands=struct();
     if nargin < 1 || isempty(model_name)
         model_name = 'heatdrive_ecc_coupled_se21';
     end
@@ -9,6 +9,13 @@ function Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, sa
     end
     if nargin < 3
         save_changes = true;
+    end
+    if nargin < 4,export_commands_only=false;end
+    assert(islogical(export_commands_only) && isscalar(export_commands_only));
+    if export_commands_only
+        assert(isequal(save_changes,false),'Command export cannot save or load a model.');
+        commands=apply_full_cycle_valve_commands(struct(),options);
+        return;
     end
     if options.node_count ~= 21
         error('HeatDriveECC:ConstitutiveInterfaceNodeCount', ...
