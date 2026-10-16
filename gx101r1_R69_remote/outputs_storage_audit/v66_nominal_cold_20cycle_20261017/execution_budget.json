@@ -1,0 +1,136 @@
+{
+  "schema": "heatdrive_ecc_sensitivity_execution_budget_v1",
+  "packets": [
+    {
+      "window_s": [
+        0,
+        20
+      ],
+      "source_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002\\simulation_timing.json",
+      "source_sha256": "A9A84B50DE33A22DA88C3C8357998FAF4A017E9DD6439C35BC7ABD0E1BCE6B09",
+      "sim_call_wall_s": 788.7062874,
+      "initialization_s": 19.1766483,
+      "execution_s": 751.0331931000001,
+      "termination_s": 17.0834344
+    },
+    {
+      "window_s": [
+        20,
+        40
+      ],
+      "source_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C004\\simulation_timing.json",
+      "source_sha256": "6A327EFA4BFB887BE6671B9E7FA801DCEDECE92DDA3CA9623140698FEE784F3E",
+      "sim_call_wall_s": 714.6339293,
+      "initialization_s": 33.2596922,
+      "execution_s": 658.9778041000001,
+      "termination_s": 20.6090334
+    },
+    {
+      "window_s": [
+        40,
+        60
+      ],
+      "source_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C006\\simulation_timing.json",
+      "source_sha256": "9ECCC04A57BD4162EDF943689A84144DF7D4CDDE5C4C474ADD18BCB825398705",
+      "sim_call_wall_s": 868.4026746,
+      "initialization_s": 23.9002638,
+      "execution_s": 819.890923,
+      "termination_s": 22.4897822
+    },
+    {
+      "window_s": [
+        60,
+        80
+      ],
+      "source_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C008\\simulation_timing.json",
+      "source_sha256": "667CF2B23BC54931B13BA1087EA5565FFDDF7E035BABDC14CB0E2EFD81C3E593",
+      "sim_call_wall_s": 854.3086563,
+      "initialization_s": 24.353816000000002,
+      "execution_s": 806.6319776,
+      "termination_s": 21.5257229
+    },
+    {
+      "window_s": [
+        80,
+        100
+      ],
+      "source_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C010\\simulation_timing.json",
+      "source_sha256": "F214D8DA5FF86299F5D81DDF27355E227FD64F412F2B49076F95A3F5D4A12A4C",
+      "sim_call_wall_s": 854.8904506,
+      "initialization_s": 23.9833709,
+      "execution_s": 806.5620495000001,
+      "termination_s": 22.196327200000002
+    },
+    {
+      "window_s": [
+        100,
+        120
+      ],
+      "source_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C012\\simulation_timing.json",
+      "source_sha256": "562EC0F72BE5007F0DD31B1F53454AAC736088DBF638B5D6D99EFEF948258C2B",
+      "sim_call_wall_s": 852.5177628,
+      "initialization_s": 23.1877834,
+      "execution_s": 808.0921145000001,
+      "termination_s": 19.5929337
+    },
+    {
+      "window_s": [
+        120,
+        140
+      ],
+      "source_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C014\\simulation_timing.json",
+      "source_sha256": "4AD5304EE583939BCB4B019161B1EB17FC28AC515D19F90DD8324A5D8A84186A",
+      "sim_call_wall_s": 817.2049858,
+      "initialization_s": 23.4732598,
+      "execution_s": 770.7793194000001,
+      "termination_s": 21.347124
+    },
+    {
+      "window_s": [
+        140,
+        160
+      ],
+      "source_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C016\\simulation_timing.json",
+      "source_sha256": "6D0E676B8C8C9DD7CA2EA3DCA67A7B4F8029CCEE7805C1977BBB3001C635B7E1",
+      "sim_call_wall_s": 779.5020318,
+      "initialization_s": 21.4725098,
+      "execution_s": 737.172545,
+      "termination_s": 19.3033094
+    },
+    {
+      "window_s": [
+        160,
+        180
+      ],
+      "source_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C018\\simulation_timing.json",
+      "source_sha256": "A6995D6AC67098F8DE8DC5E08D36B9DCFE865BFA5B18B988B9BFFBDE1A3E3D22",
+      "sim_call_wall_s": 744.8012683,
+      "initialization_s": 21.6456532,
+      "execution_s": 704.6034424000001,
+      "termination_s": 17.131931
+    },
+    {
+      "window_s": [
+        180,
+        200
+      ],
+      "source_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020\\simulation_timing.json",
+      "source_sha256": "CAEA9146EBD1842A668ECCCC82A4894FEF9921DC824D9546197FA83BCC094B7B",
+      "sim_call_wall_s": 713.7524054,
+      "initialization_s": 19.0489192,
+      "execution_s": 676.1222646,
+      "termination_s": 17.1671865
+    }
+  ],
+  "totals_s": {
+    "sim_call_wall_s": 7988.7204523,
+    "initialization_s": 233.50191660000002,
+    "execution_s": 7539.865633200001,
+    "termination_s": 198.44678470000002
+  },
+  "execution_fraction_of_sim_call": 0.9438139284282039,
+  "timing_is_physical_gate": false,
+  "settings_changed": false,
+  "interpretation": "Actual model execution dominates; cache cleanup alone cannot remove this cost. Benchmark a state-equivalent execution path before a long steady L8 cohort.",
+  "acceleration_validated": false
+}

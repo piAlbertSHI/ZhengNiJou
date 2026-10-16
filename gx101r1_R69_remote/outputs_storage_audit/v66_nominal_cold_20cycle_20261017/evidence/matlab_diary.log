@@ -1,0 +1,250 @@
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v66_sensitivity_nominal_20261017\component_build' 中生成 Simulink 库 'ecc_inventory_pressure_only_lib'...
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v66_sensitivity_nominal_20261017\buffer_component_build' 中生成 Simulink 库 'ecc_buffer_coupled_offset_lib'...
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 12 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+[警告: 初始状态是一致的，但可能偏离指定的条件。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 12 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 29 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+[警告: 初始状态是一致的，但可能偏离指定的条件。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 29 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 29 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v66_sensitivity_nominal_20261017\native\sensitivity_cold_case\packet_C002\physical_validation_report.txt
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v66_sensitivity_nominal_20261017\native\sensitivity_cold_case\packet_C004\physical_validation_report.txt
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v66_sensitivity_nominal_20261017\native\sensitivity_cold_case\packet_C006\physical_validation_report.txt
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v66_sensitivity_nominal_20261017\native\sensitivity_cold_case\packet_C008\physical_validation_report.txt
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v66_sensitivity_nominal_20261017\native\sensitivity_cold_case\packet_C010\physical_validation_report.txt
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v66_sensitivity_nominal_20261017\native\sensitivity_cold_case\packet_C012\physical_validation_report.txt
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v66_sensitivity_nominal_20261017\native\sensitivity_cold_case\packet_C014\physical_validation_report.txt
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v66_sensitivity_nominal_20261017\native\sensitivity_cold_case\packet_C016\physical_validation_report.txt
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v66_sensitivity_nominal_20261017\native\sensitivity_cold_case\packet_C018\physical_validation_report.txt
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 51 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 803 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v66_sensitivity_nominal_20261017\native\sensitivity_cold_case\packet_C020\physical_validation_report.txt
+FINAL_JSON={"periodic_window_cycles":10,"last_cycle_endpoint_drift_K":0.022587554442850433,"last_cycle_CHEX_drift_K":0,"last_cycle_HHEX_drift_K":1.3902213083838433E-5,"last_cycle_phase_drift":3.477926233111427E-5,"last_cycle_same_phase_temperature_drift_K":0.085852944163605116,"last_cycle_same_phase_temperature_p99_drift_K":0.039985654626150335,"last_cycle_same_phase_temperature_rms_drift_K":0.01347089874234586,"last_cycle_same_phase_phase_drift":0.0041541366735032975,"last_cycle_same_phase_phase_p99_drift":0.0009980503213739,"last_cycle_same_phase_phase_rms_drift":0.00032867973752293196,"periodic_endpoint_limit_K":0.05,"periodic_same_phase_temperature_limit_K":0.05,"periodic_same_phase_temperature_p99_limit_K":0.05,"periodic_same_phase_temperature_rms_limit_K":0.01,"periodic_phase_limit":0.0001,"periodic_same_phase_phase_p99_limit":0.002,"periodic_same_phase_phase_rms_limit":0.0004,"periodic_steady_state":false}
+{"collection_pass":false,"completed_arms":0,"state_restore_preflight_pass":false,"rebuilt_cycle_preflight_pass":false,"production_recovery_allowed":false,"result_file":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\cold_chamber_execution.json"}
