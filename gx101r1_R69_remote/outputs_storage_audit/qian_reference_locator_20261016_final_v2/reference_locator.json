@@ -1,0 +1,441 @@
+{
+  "schema": "heatdrive_ecc_local_reference_locator_v1",
+  "reference_count": 10,
+  "qian_documents": 9,
+  "auxiliary_non_Qian_documents": 1,
+  "page_numbers_are_one_based_local_PDF": true,
+  "all_title_pages_and_listed_anchors_checked": true,
+  "full_text_every_page_reviewed": false,
+  "zotero_library_searched": false,
+  "source_pdf_copied_bytes": 0,
+  "simulation_executed": false,
+  "table4_reproduction_claim": false,
+  "source_index": {
+    "original_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\项目文档\\研究笔记\\2026-09-03_Qian本地文献精确定位与模型映射.md",
+    "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\qian_reference_locator_20261016_final_v2\\source_index_snapshot.md",
+    "sha256": "E482AEA302C0C41A01985374FCEE390296B9F63F7CCC3C8CA57B7056F5F55D53"
+  },
+  "producer_script_sha256": "4CD47D7A1DFF9E03D81F8F6AD7AA957734FD2033F0107B50CF48060DCA5BD477",
+  "producer_script_snapshot": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\qian_reference_locator_20261016_final_v2\\producer_source.py",
+  "parser_versions": {
+    "pypdf": "6.11.0",
+    "pymupdf": "1.27.2.3"
+  },
+  "references": [
+    {
+      "id": "Q01",
+      "path": "C:\\Users\\86182\\Desktop\\冷凝文献\\弹热制冷文献\\A heat driven elastocaloric cooling system..pdf",
+      "bytes": 3459840,
+      "sha256": "2D0EB5F84AA515BA651638974414D426A3806FD417A1EAD96EFA36EDA08034CC",
+      "pdf_pages": 19,
+      "cross_parser_page_count_match": true,
+      "doi": "10.1016/j.energy.2019.06.094",
+      "title_page_authors_checked": [
+        "Qian",
+        "Wang",
+        "Yuan",
+        "Yu"
+      ],
+      "qian_authored_or_coauthored": true,
+      "scope": "primary_2019_quantitative_contract",
+      "anchors": [
+        {
+          "pdf_page": 3,
+          "patterns": [
+            "\\(1\\)",
+            "\\(2\\)"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "DE1B806252A70C04C32E43F3D6F6CCC275AC8DADE9DF3A04DBE73E32F29EB5D4"
+        },
+        {
+          "pdf_page": 4,
+          "patterns": [
+            "Fig\\.\\s*1",
+            "Proposed system"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "7E540A65D7B4D93CD955F78A680E6EF4301F99135E4240F4D15041D61930E548"
+        },
+        {
+          "pdf_page": 5,
+          "patterns": [
+            "\\(9\\)",
+            "\\(10\\)"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "7737F9EC61BF10F6F52EFD07B28ABBBD59648BC6D1220ADD5F6EFAAEBA082257"
+        },
+        {
+          "pdf_page": 17,
+          "patterns": [
+            "Table\\s*4",
+            "26\\.2",
+            "0\\.64"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "E0DFC483D2B7B61B7DDE5308E04A07AE8E6439145A0BEB0BE1A680113AB00A6B"
+        }
+      ],
+      "reader_recovery_warnings": [],
+      "source_pdf_modified": false
+    },
+    {
+      "id": "Q02",
+      "path": "C:\\Users\\86182\\Desktop\\冷凝文献\\弹热制冷文献\\[西安交通大学]Thermodynamic cycle analysis of heat driven elastocaloric.pdf",
+      "bytes": 2925260,
+      "sha256": "9FE00B97F43349CCEE13DAB38FFE2377763258D03D357446B6F1600E0CD517BD",
+      "pdf_pages": 29,
+      "cross_parser_page_count_match": true,
+      "doi": "10.1016/j.energy.2020.117261",
+      "title_page_authors_checked": [
+        "Tan",
+        "Qian"
+      ],
+      "qian_authored_or_coauthored": true,
+      "scope": "thermodynamic_coupling_cross_reference",
+      "anchors": [
+        {
+          "pdf_page": 6,
+          "patterns": [
+            "Mechanical Coupling",
+            "Displacement"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "CE4134157622130F56DEC7AB9170977F50ADAB30ACCFF7312E6BBE0AD076F0DE"
+        },
+        {
+          "pdf_page": 7,
+          "patterns": [
+            "full transformation",
+            "\\(5\\)"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "9FFE1D83B27530BEA75245720773CC11BFF9D1969DA5A139DA2CCCBACBB6FAE1"
+        },
+        {
+          "pdf_page": 18,
+          "patterns": [
+            "Pareto",
+            "Table\\s*3"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "305F5EE97C99D82C635E4723CBA34F096F5B9E27D0186639B47897AEF738FF04"
+        }
+      ],
+      "reader_recovery_warnings": [],
+      "source_pdf_modified": false
+    },
+    {
+      "id": "Q03",
+      "path": "C:\\Users\\86182\\Desktop\\冷凝文献\\弹热制冷文献\\（3）Thermodynamics cycle analysis and numerical modeling of thermoelastic cooling systems.pdf",
+      "bytes": 3603557,
+      "sha256": "DA6F22848081C74460A6732F7BAE7749D6C05DB5D2F695538C248EA5C9D28CD7",
+      "pdf_pages": 16,
+      "cross_parser_page_count_match": true,
+      "doi": "10.1016/j.ijrefrig.2015.04.001",
+      "title_page_authors_checked": [
+        "Qian",
+        "Hwang"
+      ],
+      "qian_authored_or_coauthored": true,
+      "scope": "dynamic_cycle_and_system_boundary",
+      "anchors": [
+        {
+          "pdf_page": 10,
+          "patterns": [
+            "Cyclic steady state refers",
+            "repeat the same pattern"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "A860F9EE0727ADF68545A2C1FBA2E88F4140DD0DF41BC07CDE4F91DC4B702521"
+        }
+      ],
+      "reader_recovery_warnings": [],
+      "source_pdf_modified": false
+    },
+    {
+      "id": "Q04",
+      "path": "C:\\Users\\86182\\Desktop\\冷凝文献\\弹热制冷文献\\2017）Numerical_modeling_of_an_active_elastocaloric_regenerator_refrigerator_with_phase_transformation_kinetics_and_the_matching_principle_for_materials.pdf",
+      "bytes": 2812067,
+      "sha256": "E7F35A64B99887B85874DB4A80CAA128E53B629767E740D0B6074A9C6E28000E",
+      "pdf_pages": 13,
+      "cross_parser_page_count_match": true,
+      "doi": "10.1016/j.energy.2017.09.116",
+      "title_page_authors_checked": [
+        "Qian",
+        "Yuan"
+      ],
+      "qian_authored_or_coauthored": true,
+      "scope": "kinetics_and_material_matching",
+      "anchors": [
+        {
+          "pdf_page": 6,
+          "patterns": [
+            "180 s",
+            "10 cycles",
+            "less than 3%"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "328FB7CEC8D8B51BA8A13C01CBD8960D7FE6CFEE55B211F73AFF18F6E67EB2C6"
+        },
+        {
+          "pdf_page": 9,
+          "patterns": [
+            "3\\.3\\. Matching principle"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "91DE180773C562FC60DBE829565EDCC4493EABC22C888F26228AF95FA94D419E"
+        },
+        {
+          "pdf_page": 10,
+          "patterns": [
+            "\\(21\\)",
+            "\\(26\\)"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "3F6DDD14ED24D4B2264261439151303FA878B1D9FE4371D3B1FE116ED24EA126"
+        }
+      ],
+      "reader_recovery_warnings": [],
+      "source_pdf_modified": false
+    },
+    {
+      "id": "Q05",
+      "path": "C:\\Users\\86182\\Desktop\\冷凝文献\\弹热制冷文献\\2014.8钱苏昕（固态冷却高效热回收循环的研究）Study on high efficient heat recovery cycle for solid-state cooling.pdf",
+      "bytes": 1914154,
+      "sha256": "504AD4390B03235455E7E05ABAD6537E855A7E893F7597E1DC10A222E4C4F399",
+      "pdf_pages": 18,
+      "cross_parser_page_count_match": true,
+      "doi": "10.1016/j.ijrefrig.2015.03.023",
+      "title_page_authors_checked": [
+        "Qian",
+        "Hwang"
+      ],
+      "qian_authored_or_coauthored": true,
+      "scope": "heat_recovery_and_accessory_inventory",
+      "anchors": [
+        {
+          "pdf_page": 7,
+          "patterns": [
+            "cyclic steady state",
+            "connecting pipe"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "86257D5D059298A07FAFB90A68124D9751F214AEAD7C2B5D73843553C2040D86"
+        },
+        {
+          "pdf_page": 8,
+          "patterns": [
+            "ideal heat recovery",
+            "cyclic steady state"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "1219915FB3CFDFDB30F78374B032AC34690C142A4E3193F31F6DE82847C95425"
+        }
+      ],
+      "reader_recovery_warnings": [],
+      "source_pdf_modified": false
+    },
+    {
+      "id": "Q06",
+      "path": "C:\\Users\\86182\\Desktop\\冷凝文献\\弹热制冷文献\\(Good)Thermodynamics of elastocaloric cooling and heat pump cycles.pdf",
+      "bytes": 1344446,
+      "sha256": "BD0195FC597FAFDECBE55E84614A06F7DD9CBD579BC64305B9D7167260844863",
+      "pdf_pages": 16,
+      "cross_parser_page_count_match": true,
+      "doi": "10.1016/j.applthermaleng.2022.119540",
+      "title_page_authors_checked": [
+        "Qian"
+      ],
+      "qian_authored_or_coauthored": true,
+      "scope": "ideal_cycle_boundaries",
+      "anchors": [
+        {
+          "pdf_page": 3,
+          "patterns": [
+            "Table\\s*1",
+            "Stirling"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "C60E9631D0081C334FCF310D5F64E26D7C3132B54FA0D342BAB0886BFF0FE526"
+        }
+      ],
+      "reader_recovery_warnings": [],
+      "source_pdf_modified": false
+    },
+    {
+      "id": "Q07",
+      "path": "C:\\Users\\86182\\Desktop\\冷凝文献\\弹热制冷文献\\②Cascade utilization of low-grade thermal energy by coupled elastocaloric power and cooling cycle.pdf",
+      "bytes": 5641870,
+      "sha256": "54A94391CAD139D2AFA9D0132F7AE14E40B025F1A3CB7715C82E611782154E03",
+      "pdf_pages": 17,
+      "cross_parser_page_count_match": true,
+      "doi": "10.1016/j.apenergy.2021.117269",
+      "title_page_authors_checked": [
+        "Qian",
+        "Wang"
+      ],
+      "qian_authored_or_coauthored": true,
+      "scope": "power_cooling_cascade_not_2019_topology",
+      "anchors": [
+        {
+          "pdf_page": 4,
+          "patterns": [
+            "Fig\\.\\s*1",
+            "Fig\\.\\s*2",
+            "heat engine cycle"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "B8269CCF211079FCAE14C15F170A0AC72341F3C3188936EFD87809DA2D501DC4"
+        }
+      ],
+      "reader_recovery_warnings": [],
+      "source_pdf_modified": false
+    },
+    {
+      "id": "Q08",
+      "path": "C:\\Users\\86182\\Desktop\\冷凝文献\\弹热制冷文献\\综述和science\\A review of elastocaloric cooling___Materials, cycles and system integrations.pdf",
+      "bytes": 3459972,
+      "sha256": "5D4E36924E35540D7C8E7D8BA51AD35497014F2B79EDBBF47892BD384745304B",
+      "pdf_pages": 19,
+      "cross_parser_page_count_match": true,
+      "doi": "10.1016/j.ijrefrig.2015.12.001",
+      "title_page_authors_checked": [
+        "Qian",
+        "Hwang"
+      ],
+      "qian_authored_or_coauthored": true,
+      "scope": "review_and_system_integration",
+      "anchors": [
+        {
+          "pdf_page": 10,
+          "patterns": [
+            "Elastocaloric cooling system integration"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "943DF59016F4FEEE9BAD3D3A4B3317B766F4D47B69FF6AA229729918A0B07865"
+        },
+        {
+          "pdf_page": 17,
+          "patterns": [
+            "Optimum fluid thermal mass"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "A77CBF935E4545011B8EB6FE3C00C7C9B1FBE30A36D22342905CC390A46F6B90"
+        }
+      ],
+      "reader_recovery_warnings": [
+        "Previous trailer cannot be read: (\"Invalid Elementary Object starting with b'Y' @3425999: b'0 obj\\\\r<</D[658 0 R/XYZ 301 94 null]>>\\\\rendobj\\\\r1114 0 obj\\\\r<</D[658 0 R/XYZ 301 64 '\",)",
+        "parsing for Object Streams"
+      ],
+      "source_pdf_modified": false
+    },
+    {
+      "id": "Q09",
+      "path": "C:\\Users\\86182\\Desktop\\冷凝文献\\弹热制冷文献\\综述和science\\qian  博士论文.pdf",
+      "bytes": 8643345,
+      "sha256": "6D57B28A1B70EF5626F5BED2DBD50C91DD35EEABFE6ECE253C9754FA5E6170E5",
+      "pdf_pages": 292,
+      "cross_parser_page_count_match": true,
+      "doi": null,
+      "title_page_authors_checked": [
+        "Suxin Qian",
+        "2015"
+      ],
+      "qian_authored_or_coauthored": true,
+      "scope": "qian_dissertation",
+      "anchors": [
+        {
+          "pdf_page": 91,
+          "patterns": [
+            "Chapter\\s*3",
+            "Cycle Analysis and Dynamic Modeling"
+          ],
+          "printed_page": 64,
+          "anchor_match": true,
+          "normalized_text_sha256": "5A543BFFBA9692F0934C338F030BE482E45274766CE8AD782BD9B26EA2EBF849"
+        },
+        {
+          "pdf_page": 122,
+          "patterns": [
+            "Chapter\\s*4",
+            "Thermo-wave Heat Recovery"
+          ],
+          "printed_page": 95,
+          "anchor_match": true,
+          "normalized_text_sha256": "6300FB32981CA3E466B4C97770F131A80EA96F80B1FA7097DA73FE0C7BAA9F15"
+        },
+        {
+          "pdf_page": 158,
+          "patterns": [
+            "Chapter\\s*5",
+            "Prototype Design"
+          ],
+          "printed_page": 131,
+          "anchor_match": true,
+          "normalized_text_sha256": "99105DF67C8FE17038A622576495E92C6317C05390FB828B0378038415E3B3FE"
+        }
+      ],
+      "reader_recovery_warnings": [],
+      "source_pdf_modified": false
+    },
+    {
+      "id": "A01",
+      "path": "C:\\Users\\86182\\Desktop\\冷凝文献\\弹热制冷文献\\性能优化\\Modeling_and_analysis_of_an_integrated_solid_state_elastocaloric_heat_pumping_system1.pdf",
+      "bytes": 1065883,
+      "sha256": "D9A68CFF0CB8CAC272DDDEDB251D1D34AB7F2E7F27A533E0B0B019118792C3C2",
+      "pdf_pages": 22,
+      "cross_parser_page_count_match": true,
+      "doi": "10.1016/j.energy.2017.05.008",
+      "title_page_authors_checked": [
+        "Dong Luo",
+        "Yinshan Feng",
+        "Parmesh Verma"
+      ],
+      "qian_authored_or_coauthored": false,
+      "scope": "auxiliary_non_Qian",
+      "anchors": [
+        {
+          "pdf_page": 1,
+          "patterns": [
+            "Dong Luo",
+            "Yinshan Feng",
+            "Parmesh Verma"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "0189F65C2AEFED0E000ABAB2DCBC46F024C3379CDEBB6D1C54A972A663FB64A8"
+        },
+        {
+          "pdf_page": 5,
+          "patterns": [
+            "integrated system"
+          ],
+          "printed_page": null,
+          "anchor_match": true,
+          "normalized_text_sha256": "7CC5CCFED818468F8CEDC105A35D6365BCB47BD63DE8549081E7257790EEA37D"
+        }
+      ],
+      "reader_recovery_warnings": [],
+      "source_pdf_modified": false
+    }
+  ]
+}

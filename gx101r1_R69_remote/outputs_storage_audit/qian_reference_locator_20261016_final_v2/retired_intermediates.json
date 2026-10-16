@@ -1,0 +1,56 @@
+{
+  "schema": "heatdrive_ecc_reference_locator_intermediate_retirement_v1",
+  "status": "completed",
+  "final_locator_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\qian_reference_locator_20261016_final_v2\\reference_locator.json",
+  "final_locator_sha256": "2335CB307E13759C4DF1B80DDDBE6C7B4F0C1E52231AC915CAEE895D75740B53",
+  "files": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\qian_reference_locator_20261016_final\\reference_locator.json",
+      "bytes": 15542,
+      "sha256": "E8EA51738E9B9FA6A3ED66C38768A0EEA411DCCC75E8C918312732804E11E9FB"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\qian_reference_locator_20261016_final\\source_index_snapshot.md",
+      "bytes": 11601,
+      "sha256": "E482AEA302C0C41A01985374FCEE390296B9F63F7CCC3C8CA57B7056F5F55D53"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\qian_reference_locator_20261016_final\\superseded_draft_retirement.json",
+      "bytes": 844,
+      "sha256": "FD0FCF118C6B9E84C5E42B7350DE0686D7B4AC4E0529C68AABD28E7B0822DD12"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\tmp\\pdfs\\qian_locator_20261016\\Q01_PDF03.png",
+      "bytes": 573488,
+      "sha256": "E2D9DDD15B5DB2654634FF947911462AE01E1DF214359474A8A522AEDBC463C0"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\tmp\\pdfs\\qian_locator_20261016\\Q01_PDF17.png",
+      "bytes": 434438,
+      "sha256": "3FF2623287768465CC3C0BB0C53074220EDAE2B0F0A5635E3FC45351CFCC0086"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\tmp\\pdfs\\qian_locator_20261016\\Q09_PDF122.png",
+      "bytes": 149576,
+      "sha256": "93C96ECC093EFE6EC5FF70FDC70EC7B6F56A1BDBCC4E86397A31CE506BB395F2"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\tmp\\pdfs\\qian_locator_20261016\\Q09_PDF158.png",
+      "bytes": 162320,
+      "sha256": "A7025FBF1422F42D2A1D2010B55F5565CC85FF2905DEB8CFCAD69F553492F100"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\tmp\\pdfs\\qian_locator_20261016\\Q08_PDF17.png",
+      "bytes": 525735,
+      "sha256": "3C4497D6510F4CD8F607051252C4A7BC313E0DF10708B4616E74FAA89DB53265"
+    }
+  ],
+  "planned_retired_bytes": 1873544,
+  "retired_bytes": 1873544,
+  "source_PDF_deleted_bytes": 0,
+  "source_MAT_deleted_bytes": 0,
+  "reference_payload_unchanged": true,
+  "previous_receipt_copy_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\qian_reference_locator_20261016_final_v2\\early_draft_retirement.json",
+  "visual_QA_completed_before_temporary_render_retirement": true,
+  "reason": "Retain the unique final locator, producer/source snapshots and receipt chain. Retire superseded locator copies and five reproducible PDF-page QA renders after inspection."
+}
