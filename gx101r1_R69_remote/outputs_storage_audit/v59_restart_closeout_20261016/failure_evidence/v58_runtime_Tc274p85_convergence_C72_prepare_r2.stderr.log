@@ -1,0 +1,14 @@
+{����ʹ�� assert
+Cold chamber diagnostic failed; inspect execution JSON.
+
+���� Run_HeatDriveECC_ColdChamberDiagnostic (�� 1046 ��)
+    assert(record.requested_arm_collection_pass || record.state_restore_preflight_pass || record.rebuilt_cycle_preflight_pass || observation_preflight_pass || observation_collection_pass || boundary_probe_completed || runtime_family_completed || runtime_warmup_pass, ...
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+���� Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (�� 33 ��)
+    record = Run_HeatDriveECC_ColdChamberDiagnostic( ...
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+���� Run_HeatDriveECC_RuntimeTcContinuation (�� 15 ��)
+    execution=Run_HeatDriveECC_IndependentColdDiagnosticFromConfig(file);
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+ERROR: MATLAB error Exit Status: 0x00000001

@@ -1,0 +1,12 @@
+{
+  "schema": "heatdrive_ecc_restart_workspace_retirement_deferred_v1",
+  "status": "not_executed_tool_policy_denied",
+  "plan_sha256": "BCEEF29865A7C516AF5C6CEA6D5360631143766C085AB805BAAEC027235EFF84",
+  "planned_files": 37,
+  "planned_bytes": 1798897,
+  "retired_bytes": 0,
+  "scientific_gate_failure": false,
+  "protected_OP_deleted_bytes": 0,
+  "current_window_deleted_bytes": 0,
+  "reason": "The tool rejected the recursive cache/QA-directory deletion before execution. No alternative deletion route was attempted. The separate completed C92 prefix retirement remains valid and is not part of this deferred plan."
+}

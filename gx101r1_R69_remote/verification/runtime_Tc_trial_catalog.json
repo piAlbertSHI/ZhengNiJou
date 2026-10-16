@@ -78,14 +78,15 @@
   "complete_internal_state_periodicity_verified": false,
   "latest_bounded_search_continuation": {
     "temperature_K": 274.85,
-    "snapshot_time_s": 920,
-    "qualification_relative": "outputs_storage_audit/v58_runtime_Tc274p85_C92_snapshot_20261016/endpoint_qualification.json",
-    "qualification_sha256": "0AD43426F00E979201CAF8528DDD6F4F8199911B04430D71302D7CEB666AD53B",
-    "operating_point_sha256": "87BD93F5F572F7465E5B6862F10D4F2393F8B4A0170CA0EADBFC464D08C401D6",
-    "current_window_s": [820, 920],
+    "snapshot_time_s": 980,
+    "qualification_relative": "outputs_storage_audit/v59_runtime_Tc274p85_C98_snapshot_20261016/endpoint_qualification.json",
+    "qualification_sha256": "A2BD2A6C97806F3C9EA6B61B722BB902D7681C99943A2FE3B6A8DA601A90D91A",
+    "operating_point_sha256": "E19F8E2DE24A0781B9929D10A7B2762BC1F162F8DBB8C10E56629EE06CD2F66E",
+    "current_window_s": [880, 980],
     "all_original_packet_mechanism_flow_phase_energy_gates_pass": true,
-    "original_public_thermal_periodic_pass": false,
-    "target_window_precision_pass": false,
+    "original_public_thermal_periodic_pass": true,
+    "target_window_precision_pass": true,
+    "bounded_outer_metric_sampling_allowed": true,
     "same_Tc_transient_continuation_allowed": true,
     "next_temperature_step_allowed": false,
     "outer_interpolation_allowed": false
@@ -96,5 +97,5 @@
   "zero_lift_root_found": false,
   "paired_Table4_eligible": false,
   "startup_attention_relative": "verification/current_runtime_startup_attention.json",
-  "next_action": "User confirmed MathWorks login. After diagnosing the r2 Windows build path limit, short-path v58c3 completed 20 real same-Tc cycles from C72 to C92 with every original physics and boundary gate intact. Continue the sealed complete C92 at 274.85 K using fresh short preparation/collection paths; the one remaining public temperature RMS predicate and target lift span have not passed. No colder step, interpolation, cold restart, normal-to-accelerator migration or C200/partial-state substitution."
+  "next_action": "The intact 274.85 K diagnostic reached C98 after 26 new cycles. Original public thermal predicates and target finite-window precision pass; complete internal-state periodicity and production/root admission remain unestablished. Reconcile native inventory migration with target observation uncertainty before the next bounded search point. No active process remains, no replay/cold reset, no normal-to-accelerator migration or C200/partial-state substitution."
 }

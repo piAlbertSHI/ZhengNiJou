@@ -29,7 +29,7 @@ def plot(measured, thermal, output, cycle_summary=None):
     axes[0, 0].plot(x, [row['CHEX_sensor_mean_W'] for row in cycles], 's-', color='#B54464', label='CHEX sensor', ms=4)
     axes[0, 0].set(xlabel='Global cycle', ylabel='Cycle-mean cooling rate (W)', title=f'(a) Cooling boundaries | C{cycles[0]["cycle"]}-C{cycles[-1]["cycle"]}')
     axes[0, 0].set_xticks(ticks)
-    axes[0, 0].legend(frameon=False, loc='center right', fontsize=9)
+    axes[0, 0].legend(frameon=False, loc='upper left', fontsize=9)
     p = original['statistics']
     fields = [('Endpoint T', 'last_cycle_endpoint_drift_K', 'periodic_endpoint_limit_K'),
         ('Same-phase T P99', 'last_cycle_same_phase_temperature_p99_drift_K', 'periodic_same_phase_temperature_p99_limit_K'),
@@ -67,7 +67,7 @@ def plot(measured, thermal, output, cycle_summary=None):
     boundary=f'Tc={data["candidate_Tc_K"]:.2f} K | ' if data.get('fixed_Tc_candidate',False) else ''
     fig.suptitle(f'C{last} coupled diagnostic | {boundary}{prefix}panels (b-d): {first*10}-{last*10} s', fontsize=12)
     status='PASS' if p['periodic_steady_state'] else 'NOT YET PASS'
-    fig.supxlabel(f'Public thermal criteria: {status}. Complete internal-state closure and Table 4 reproduction are not established.', fontsize=10)
+    fig.supxlabel(f'Public thermal criteria: {status}. Full internal-state periodicity and Table 4 reproduction are not established.', fontsize=10)
     output.parent.mkdir(parents=True, exist_ok=True)
     for extension in ('.png', '.pdf'):
         fig.savefig(output.with_suffix(extension), dpi=280, facecolor='white')

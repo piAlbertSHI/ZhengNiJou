@@ -1,0 +1,50 @@
+{
+  "schema": "heatdrive_ecc_restart_execution_storage_scope_v1",
+  "scope": "Only six explicitly named execution experiment roots; excludes other worktrees, Agent6 and the main-only governance total.",
+  "jobs": [
+    {
+      "root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v57_runtime_Tc274p85_fromC52_r1",
+      "bytes": 4713847181,
+      "raw_duplicated_in_main_archive": false,
+      "classification": "preserved_complete_C72_source"
+    },
+    {
+      "root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v58_runtime_Tc274p85_convergence_C72_prepare_r2",
+      "bytes": 36098761,
+      "raw_duplicated_in_main_archive": false,
+      "classification": "rejected_precollection_compile_failure"
+    },
+    {
+      "root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v58p3",
+      "bytes": 40437289,
+      "raw_duplicated_in_main_archive": false,
+      "classification": "prepared_recipe_and_rebuildable_components"
+    },
+    {
+      "root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v58c3",
+      "bytes": 2460315750,
+      "raw_duplicated_in_main_archive": false,
+      "classification": "sealed_transient_with_obsolete_prefix_retired"
+    },
+    {
+      "root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v59p1",
+      "bytes": 40392203,
+      "raw_duplicated_in_main_archive": false,
+      "classification": "prepared_recipe_and_rebuildable_components"
+    },
+    {
+      "root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v59c1",
+      "bytes": 1413645898,
+      "raw_duplicated_in_main_archive": false,
+      "classification": "current_qualified_public_thermal_endpoint"
+    }
+  ],
+  "completed_prefix_retired_bytes": 2252143348,
+  "additional_cache_QA_retirement_executed": false,
+  "deferred_cache_QA_bytes": 1798897,
+  "source_qualification_sha256": "A2BD2A6C97806F3C9EA6B61B722BB902D7681C99943A2FE3B6A8DA601A90D91A",
+  "complete_OP_sha256": "E19F8E2DE24A0781B9929D10A7B2762BC1F162F8DBB8C10E56629EE06CD2F66E",
+  "unit_tests_passed": 957,
+  "user_relogin_required": false,
+  "active_own_MATLAB_process": false
+}
