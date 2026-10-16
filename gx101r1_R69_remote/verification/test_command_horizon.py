@@ -11,10 +11,23 @@ import numpy as np
 
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from HeatDriveECC_CommandHorizon import audit_prefix, contract, prefix_arrays
+from Close_HeatDriveECC_HorizonPreflight import comparison_summary
 from Verify_HeatDriveECC_ObservationPacket import validate_manifest
 
 
 class CommandHorizonTest(unittest.TestCase):
+    def test_closeout_preserves_numerical_not_arbitrary_bitwise_admission(self):
+        value = dict(pass_=True)
+        value['pass'] = True
+        for name, count in dict(states=74, native=1262, sources=162, public=201).items():
+            value[name] = dict(trace_count=count, channel_count=count, bitwise_values_equal=False,
+                               max_tolerance_ratio=.2)
+            value[name]['pass'] = True
+        self.assertFalse(comparison_summary(value)['states']['bitwise_values_equal'])
+        value['states']['trace_count'] = 73
+        with self.assertRaises(ValueError):
+            comparison_summary(value)
+
     def declaration(self, case='extended'):
         return dict(schema='heatdrive_ecc_command_horizon_comparison_v1', case=case,
             source_snapshot_s=1080, source_Tc_K=274.85, source_horizon_cycles=200, future_horizon_cycles=1000,
