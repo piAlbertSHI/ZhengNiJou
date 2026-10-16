@@ -1,0 +1,9 @@
+{
+  "schema": "heatdrive_ecc_inventory_analysis_client_failure_v1",
+  "failure": "The new analysis client requested a 10 s subwindow from an established ledger that requires an intact 20 s native packet.",
+  "original_exception": "Missing/nonuniform native samples or wrong window endpoints",
+  "physical_packet_failure": false,
+  "source_samples_changed": false,
+  "original_ledger_or_gate_modified": false,
+  "repair": "Analyze all 119 storage items on each intact 20 s packet; retain the established independent 10 s buffer mass/stage partition. Do not relax grid validation or create sliced MAT copies."
+}

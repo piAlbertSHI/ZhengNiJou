@@ -1,6 +1,6 @@
 {
   "schema": "heatdrive_ecc_runtime_startup_attention_v1",
-  "status": "C98_public_thermal_and_target_precision_pass_sealed_pending_inventory_admission",
+  "status": "C98_inventory_review_complete_ready_for_disjoint_same_Tc_repeatability_experiment",
   "record_date": "2026-10-16",
   "requires_user_login": false,
   "launch_before_login_confirmation_allowed": false,
@@ -55,9 +55,9 @@
     "target_window_precision_pass": true,
     "all_physical_packet_gates_pass": true
   },
-  "next_preparation_relative_to_execution_repo": null,
-  "next_collection_relative_to_execution_repo": null,
-  "next_action_after_login": "No active process remains. C98 permits same-family complete diagnostic continuation, not production recovery. First quantify the remaining native inventory migration and its Eq9/Eq10 observation error budget before admitting another bounded search point or interpolation. Do not cold reset, replay completed cycles, switch modes or substitute C200/partial states.",
+  "next_preparation_relative_to_execution_repo": "outputs/v61p1",
+  "next_collection_relative_to_execution_repo": "outputs/v61c1",
+  "next_action_after_login": "Read current_runtime_inventory_review.json. Continue intact C98 at unchanged Tc and parameters with minimum stop 1080 s, to obtain a disjoint ten-cycle metric window and assess native/PI return drift. Do not equate inventory drift to Eq10 bias, demand bitwise cross-cycle equality, cold reset, replay completed cycles, switch modes or substitute C200/partial states.",
   "production_recovery_allowed": false,
   "outer_interpolation_allowed": false
 }
