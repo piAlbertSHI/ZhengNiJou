@@ -1,0 +1,84 @@
+{
+  "schema": "heatdrive_ecc_runtime_Tc_candidate_collection_v1",
+  "producer": "2d7f8d4fc4c475cec6824e257fc705eca116f5eb",
+  "origin_snapshot_sha256": "72227BFA412079E695B98BD1F87CC6F5EE04F196E5EDD62413533873E7609525",
+  "origin_recipe_sha256": "9BFE34FBACCD2DF8577BFE0208F5130ACF624855404B3CA2FCE510B7976271A7",
+  "boundary_trial": {
+    "schema": "heatdrive_ecc_runtime_Tc_intervention_v2",
+    "source_Tc_K": 274.85,
+    "candidate_Tc_K": 272.85,
+    "transition_time_s": 1080,
+    "minimum_transition_cycles": 12,
+    "source_complete_OP_sha256": "03A2459EDD2216D16593820E033CB9F6C4C6AECD8ADE44631FBE8FDA41AC77A1",
+    "source_qualification_sha256": "72227BFA412079E695B98BD1F87CC6F5EE04F196E5EDD62413533873E7609525",
+    "plant_recipe_sha256": "9BFE34FBACCD2DF8577BFE0208F5130ACF624855404B3CA2FCE510B7976271A7",
+    "only_runtime_temperature_variable_changed": true,
+    "source_state_edited": false,
+    "old_model_OP_imported": false,
+    "search_policy": {
+      "schema": "heatdrive_ecc_runtime_Tc_bounded_search_v1",
+      "minimum_Tc_K": 255.05,
+      "maximum_Tc_K": 393.15,
+      "maximum_step_K": 2,
+      "fluid_minimum_K": 255.05,
+      "fluid_maximum_K": 393.15,
+      "source_public_periodic_pass": true,
+      "source_target_precision_pass": true
+    }
+  },
+  "candidate_Tc_K": 272.85,
+  "planned_collection_window_s": [
+    1080,
+    1280
+  ],
+  "collection_window_s": [
+    1080,
+    1080
+  ],
+  "completed_packets": [
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C110_attempt01",
+      "start_time_s": 1080,
+      "stop_time_s": 1100,
+      "operating_point_sha256": "A90457FB808AD28FE0C9AFC07D364EBC511FA9D76A45AD4877E6FD86E855CDF7"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C112_attempt01",
+      "start_time_s": 1100,
+      "stop_time_s": 1120,
+      "operating_point_sha256": "5820DFBAC445699EB3F68E858D31D7060015EB78D67CFA61C900C00CF2F59E92"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C114_attempt01",
+      "start_time_s": 1120,
+      "stop_time_s": 1140,
+      "operating_point_sha256": "4A93BF7C933474D39E6E733AE844FB0DF0C6E10B1265F4CD9B5E9AC368AE9D65"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C116_attempt01",
+      "start_time_s": 1140,
+      "stop_time_s": 1160,
+      "operating_point_sha256": "7006F75EC023DFBFA2E41560440F77330A901B92E7D9944B386D90AA86C05156"
+    }
+  ],
+  "last_verified_snapshot_time_s": 1160,
+  "last_verified_packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C116_attempt01",
+  "pass": false,
+  "source_state_edited": false,
+  "partial_state_restore_used": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "error_message": "Packet gate failed; inspect C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C118_attempt01",
+  "target_precision_required": true,
+  "target_lift_span_K": 0.1,
+  "target_SCP_span_W_per_g": 0.01,
+  "process_pid": 126984,
+  "current_producer": "2d7f8d4fc4c475cec6824e257fc705eca116f5eb",
+  "current_attempt_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C118_attempt01",
+  "current_attempt_window_s": [
+    1160,
+    1180
+  ],
+  "error_identifier": "",
+  "error_report": "错误使用 assert\nPacket gate failed; inspect C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C118_attempt01\n\n出错 Collect_HeatDriveECC_ObservationPacket (第 119 行)\n    assert(status==0 && isfile(gate_file),'Packet gate failed; inspect %s',destination);\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_RuntimeTcPackets (第 154 行)\n            Collect_HeatDriveECC_ObservationPacket(candidate_input,op,start,finish,destination,analysis_options,folder, ...\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_ColdChamberDiagnostic (第 792 行)\n                    record.runtime_Tc_candidate=Run_HeatDriveECC_RuntimeTcPackets( ...\n                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)\n    record = Run_HeatDriveECC_ColdChamberDiagnostic( ...\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_RuntimeTcStep (第 15 行)\n    execution=Run_HeatDriveECC_IndependentColdDiagnosticFromConfig(file);\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+}

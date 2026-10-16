@@ -1,0 +1,19 @@
+{
+  "schema": "heatdrive_ecc_rejected_trial_storage_classification_v1",
+  "execution_collection_relative": "outputs/v64c1",
+  "collection_bytes": 2382863560,
+  "classification": "Retain latest phase-completion rejection evidence and four gate-verified predecessor packets",
+  "raw_arrays_retained_only_in_execution_worktree": true,
+  "raw_copied_bytes": 0,
+  "compact_snapshot_files": 43,
+  "compact_snapshot_bytes": 573188,
+  "compact_snapshot_relative": "compact",
+  "source_files_deleted": 0,
+  "source_deleted_bytes": 0,
+  "rejected_operating_point_may_propagate": false,
+  "C116_is_not_a_steady_qualified_root_point": true,
+  "current_C108_arrays_remain_protected": true,
+  "original_C200_files_untouched": true,
+  "protected_SLX_and_Agent6_untouched": true,
+  "note": "No superseded raw prefix exists within this newly rejected ten-cycle branch. These are necessary current failure data, not a historical steady result or a new production dataset. Do not claim deletion or fabricate a steady ten-cycle package."
+}
