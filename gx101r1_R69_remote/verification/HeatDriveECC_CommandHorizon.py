@@ -15,6 +15,7 @@ def contract(c, window):
             c['case'] not in ('reference', 'extended') or
             c['source_horizon_cycles'] != 200 or c['future_horizon_cycles'] != 1000 or
             c['actual_horizon_cycles'] != (200 if c['case'] == 'reference' else 1000) or
+            c['runtime_metadata_horizon_cycles'] != c['actual_horizon_cycles'] or
             c['source_snapshot_s'] < 400 or c['source_snapshot_s'] % 20 or
             c['source_snapshot_s']+20 >= 1990 or not 255.05 <= c['source_Tc_K'] <= 393.15 or
             window != [c['source_snapshot_s'], c['source_snapshot_s']+20] or

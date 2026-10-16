@@ -1,6 +1,7 @@
-function record=Install_HeatDriveECC_HorizonCommands(model,commands,proof,which_case)
+function record=Install_HeatDriveECC_HorizonCommands(model,commands,proof,which_case,runtime_options)
 % Commands are external inputs, not a transformation of the saved Operating Point.
     assert(any(strcmp(which_case,{'reference','extended'})));workspace=get_param(model,'ModelWorkspace');
+    assignin('base','EIGHTH_ROUND_OPTIONS',runtime_options);
     rows=proof.commands;if isstruct(rows),rows=num2cell(rows);end
     for k=1:numel(rows)
         row=rows{k};value=commands.(row.variable);
@@ -12,5 +13,5 @@ function record=Install_HeatDriveECC_HorizonCommands(model,commands,proof,which_
             elseif evalin('base',sprintf('exist(''%s'',''var'')',name)),assignin('base',name,v);end
         end
     end
-    record=Check_HeatDriveECC_HorizonBindings(commands,proof,which_case);
+    record=Check_HeatDriveECC_HorizonBindings(commands,proof,which_case,runtime_options);
 end

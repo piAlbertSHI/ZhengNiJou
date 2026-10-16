@@ -93,7 +93,7 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
     manifest.prescribed_Tc_K=options.system.Tchex_K;manifest.command_horizon_cycles=options.cycle_count;
     if horizon
         assert(trial.source_snapshot_s==a && b==a+20 && trial.source_state_edited==false && trial.comparison_only);
-        manifest.horizon_comparison=trial;manifest.source_generation_horizon_cycles=options.cycle_count;
+        manifest.horizon_comparison=trial;manifest.source_generation_horizon_cycles=trial.source_horizon_cycles;
         manifest.command_horizon_cycles=trial.actual_horizon_cycles;
     end
     if candidate

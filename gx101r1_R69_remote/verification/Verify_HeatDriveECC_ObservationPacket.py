@@ -159,6 +159,10 @@ def audit(root, review_path=None):
             if (float(cfg['options/system/Tchex_K'][0,0])!=manifest['prescribed_Tc_K'] or
                     float(cfg['plant_build_options/system/Tchex_K'][0,0])!=276.95):
                 raise ValueError('Candidate analysis temperature must differ only by the declared runtime input')
+        if manifest.get('packet_role') == 'runtime_horizon_comparison' and (
+                float(cfg['options/cycle_count'][0, 0]) != manifest['horizon_comparison']['runtime_metadata_horizon_cycles'] or
+                float(cfg['plant_build_options/cycle_count'][0, 0]) != 200):
+            raise ValueError('Actual runtime horizon metadata was not recorded separately from original construction')
         row = f['signals/ECC_constitutive21_output']
         indices = window_indices(row['time_s'][:], start, stop)
         time = row['time_s'][:].ravel()[indices]

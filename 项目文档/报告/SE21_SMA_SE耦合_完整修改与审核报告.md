@@ -7284,3 +7284,5 @@ MATLAB合成测试实际退出0：6个拼接/常量/插值/拒绝反例，以及
 首个真实实验fresh v63p1：仍从原完整C108分别启动原命令与扩展命令的1 ms短步，核对源共享端点/四记忆及74状态组、1262 native、162源叶、201公共信号。短步通过后才从同一原C108各跑一次完整20 s，重复原门禁及原数值轨迹比较；不把原命令分支的结束状态送入扩展分支。所有source OP文件哈希保持不变，比较分支的新状态禁止传播。当前只是代码/合成验证通过，真实容量兼容性结果尚待实验，不宣称已经运行至1000 cycle，更不宣称已实际越过旧200-cycle边界。
 
 接口依据为MathWorks的[timeseries插值规则](https://www.mathworks.com/help/matlab/ref/timeseries.setinterpmethod.html)和[完整初态SimulationInput接口](https://www.mathworks.com/help/simulink/slref/simulink.simulationinput.setinitialstate.html)；是否与本模型完整OP兼容仍以实际严格装载和轨迹比较为准，不由文档泛化代替。
+
+预检同时覆盖运行时EIGHTH_ROUND_OPTIONS的三个时域字段，而不只延长外部输入表；否则未来越过旧边界时，输出/阶段标签仍可能按旧时域截断。扩展分支仅将cycle_count、schedule.total_time_s、simulation.stop_time_s改为1000/10000 s，逆归一化后所有其余字段须与原结构完全相同；仿真前安装、仿真后只读核对，结束恢复原结构。原建模选项200与扩展分支运行时元数据1000分别保存，不把未来覆盖伪装为原200-cycle数据。尚未实际跨越200-cycle的事实仍明确保留，预检OP仍禁止传播。

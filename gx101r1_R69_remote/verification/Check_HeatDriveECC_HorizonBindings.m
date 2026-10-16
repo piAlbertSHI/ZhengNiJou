@@ -1,6 +1,7 @@
-function record=Check_HeatDriveECC_HorizonBindings(commands,proof,which_case)
+function record=Check_HeatDriveECC_HorizonBindings(commands,proof,which_case,runtime_options)
 % Read resolved variables after simulation; never reinstall before checking them.
     bindings=proof.bindings;if isstruct(bindings),bindings=num2cell(bindings);end
+    assert(isequaln(evalin('base','EIGHTH_ROUND_OPTIONS'),runtime_options),'Runtime timing metadata changed unexpectedly.');
     for k=1:numel(bindings)
         binding=bindings{k};value=slResolve(binding.variable,binding.block_path);expected=commands.(binding.variable);
         assert(isequaln(value.Time,expected.Time) && isequaln(value.Data,expected.Data) && ...
@@ -9,5 +10,6 @@ function record=Check_HeatDriveECC_HorizonBindings(commands,proof,which_case)
     end
     record=struct('case',which_case,'actual_block_count',numel(bindings), ...
         'actual_variable_count',numel(fieldnames(commands)),'all_actual_bindings_exact',true, ...
+        'runtime_metadata_horizon_cycles',runtime_options.cycle_count, ...
         'workspace_read_only',true,'source_state_edited',false,'model_block_parameters_changed',false);
 end

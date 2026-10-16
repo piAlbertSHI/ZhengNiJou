@@ -19,6 +19,7 @@ class CommandHorizonTest(unittest.TestCase):
         return dict(schema='heatdrive_ecc_command_horizon_comparison_v1', case=case,
             source_snapshot_s=1080, source_Tc_K=274.85, source_horizon_cycles=200, future_horizon_cycles=1000,
             actual_horizon_cycles=1000 if case == 'extended' else 200,
+            runtime_metadata_horizon_cycles=1000 if case == 'extended' else 200,
             source_OP_sha256='A'*64, source_qualification_sha256='B'*64,
             prefix_proof_sha256='C'*64, payload_sha256='D'*64,
             source_state_edited=False, comparison_only=True)
@@ -52,7 +53,7 @@ class CommandHorizonTest(unittest.TestCase):
     def test_bad_comparison_contract_rejected(self):
         for field, value in (('comparison_only', False), ('source_state_edited', True),
                              ('future_horizon_cycles', 2000), ('source_OP_sha256', '1234'),
-                             ('source_snapshot_s', 1980), ('source_Tc_K', 254)):
+                             ('source_snapshot_s', 1980), ('source_Tc_K', 254), ('runtime_metadata_horizon_cycles', 300)):
             c = self.declaration(); c[field] = value
             with self.assertRaises(ValueError):
                 contract(c, [c['source_snapshot_s'], c['source_snapshot_s']+20])

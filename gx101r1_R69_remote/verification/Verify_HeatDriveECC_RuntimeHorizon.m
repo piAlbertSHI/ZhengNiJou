@@ -23,22 +23,27 @@ function record=Verify_HeatDriveECC_RuntimeHorizon(input,options,folder,chambers
             fullfile(folder,'configuration.mat'),fullfile(folder,'horizon_recipe_comparison.json'),'plant_build_options');
         assert(recipe.only_declared_change && recipe.numeric_validation_thresholds_equal);
         [reference,extended,proof]=Build_HeatDriveECC_CommandHorizonPayload(model,options,source,root);
-        restore=onCleanup(@() Install_HeatDriveECC_HorizonCommands(model,reference,proof,'reference'));
+        future_options=immutable_options;future_options.cycle_count=1000;
+        future_options.schedule.total_time_s=10000;future_options.simulation.stop_time_s=10000;
+        checked=future_options;checked.cycle_count=immutable_options.cycle_count;
+        checked.schedule.total_time_s=immutable_options.schedule.total_time_s;
+        checked.simulation.stop_time_s=immutable_options.simulation.stop_time_s;assert(isequaln(checked,immutable_options));
+        restore=onCleanup(@() Install_HeatDriveECC_HorizonCommands(model,reference,proof,'reference',immutable_options));
         base=input.setVariable('cold_sink_T_init',q.temperature_K);
         assert(~any(ismember({base.Variables.Name},fieldnames(reference))), ...
             'SimulationInput must not shadow the measured command-workspace bindings.');
-        names={'reference','extended'};commands={reference,extended};
+        names={'reference','extended'};commands={reference,extended};runtime_options={immutable_options,future_options};
         for k=1:2
             record.stage=['short_' names{k}];write_json(progress,record);
-            Install_HeatDriveECC_HorizonCommands(model,commands{k},proof,names{k});
+            Install_HeatDriveECC_HorizonCommands(model,commands{k},proof,names{k},runtime_options{k});
             result=sim(base.setModelParameter('StopTime',num2str(source+.001,'%.17g')).setInitialState(source_op));
             assert(isempty(result.ErrorMessage),'Strict restored short step failed: %s',result.ErrorMessage);
             destination=fullfile(root,['short_' names{k}]);save_short(result,destination,model,chambers,buffers,source,source+.001);
             clear result
-            readback=Check_HeatDriveECC_HorizonBindings(commands{k},proof,names{k});
+            readback=Check_HeatDriveECC_HorizonBindings(commands{k},proof,names{k},runtime_options{k});
             write_json(fullfile(destination,'resolved_commands.json'),readback);
             Verify_HeatDriveECC_ObservationBoundary(q.source_packet_root,destination);
-            assert(isequaln(immutable_options,evalin('base','EIGHTH_ROUND_OPTIONS')));
+            assert(isequaln(runtime_options{k},evalin('base','EIGHTH_ROUND_OPTIONS')));
         end
         short=Compare_HeatDriveECC_ObservationPackets(fullfile(root,'short_reference'),fullfile(root,'short_extended'), ...
             fullfile(root,'short_comparison.json'));
@@ -47,21 +52,25 @@ function record=Verify_HeatDriveECC_RuntimeHorizon(input,options,folder,chambers
         analysis_options.validation.cold_boundary_audit.prescribed_Tchex_K=q.temperature_K;
         for k=1:2
             record.stage=['full_' names{k}];write_json(progress,record);
-            Install_HeatDriveECC_HorizonCommands(model,commands{k},proof,names{k});
+            Install_HeatDriveECC_HorizonCommands(model,commands{k},proof,names{k},runtime_options{k});
+            case_options=analysis_options;case_options.cycle_count=runtime_options{k}.cycle_count;
+            case_options.schedule.total_time_s=runtime_options{k}.schedule.total_time_s;
+            case_options.simulation.stop_time_s=runtime_options{k}.simulation.stop_time_s;
             c=struct('schema','heatdrive_ecc_command_horizon_comparison_v1','case',names{k}, ...
                 'source_snapshot_s',source,'source_Tc_K',q.temperature_K,'source_horizon_cycles',200, ...
                 'future_horizon_cycles',1000,'actual_horizon_cycles',200+800*(k==2), ...
+                'runtime_metadata_horizon_cycles',runtime_options{k}.cycle_count, ...
                 'source_OP_sha256',q.operating_point_sha256, ...
                 'source_qualification_sha256',file_hash(request.candidate_qualification_path), ...
                 'prefix_proof_sha256',file_hash(fullfile(root,'command_prefix.json')), ...
                 'payload_sha256',proof.payload_sha256,'comparison_only',true,'source_state_edited',false);
             destination=fullfile(root,names{k});
-            Collect_HeatDriveECC_ObservationPacket(base,source_op,source,source+20,destination,analysis_options, ...
+            Collect_HeatDriveECC_ObservationPacket(base,source_op,source,source+20,destination,case_options, ...
                 folder,chambers,buffers,producer,request.python_executable,'runtime_horizon_comparison',q.operating_point_sha256,c);
-            readback=Check_HeatDriveECC_HorizonBindings(commands{k},proof,names{k});
+            readback=Check_HeatDriveECC_HorizonBindings(commands{k},proof,names{k},runtime_options{k});
             write_json(fullfile(destination,'resolved_commands.json'),readback);
             Verify_HeatDriveECC_ObservationBoundary(q.source_packet_root,destination);
-            assert(isequaln(immutable_options,evalin('base','EIGHTH_ROUND_OPTIONS')));
+            assert(isequaln(runtime_options{k},evalin('base','EIGHTH_ROUND_OPTIONS')));
         end
         compared=Compare_HeatDriveECC_ObservationPackets(fullfile(root,'reference'),fullfile(root,'extended'), ...
             fullfile(root,'full_comparison.json'));
