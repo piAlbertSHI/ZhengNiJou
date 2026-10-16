@@ -7286,3 +7286,11 @@ MATLAB合成测试实际退出0：6个拼接/常量/插值/拒绝反例，以及
 接口依据为MathWorks的[timeseries插值规则](https://www.mathworks.com/help/matlab/ref/timeseries.setinterpmethod.html)和[完整初态SimulationInput接口](https://www.mathworks.com/help/simulink/slref/simulink.simulationinput.setinitialstate.html)；是否与本模型完整OP兼容仍以实际严格装载和轨迹比较为准，不由文档泛化代替。
 
 预检同时覆盖运行时EIGHTH_ROUND_OPTIONS的三个时域字段，而不只延长外部输入表；否则未来越过旧边界时，输出/阶段标签仍可能按旧时域截断。扩展分支仅将cycle_count、schedule.total_time_s、simulation.stop_time_s改为1000/10000 s，逆归一化后所有其余字段须与原结构完全相同；仿真前安装、仿真后只读核对，结束恢复原结构。原建模选项200与扩展分支运行时元数据1000分别保存，不把未来覆盖伪装为原200-cycle数据。尚未实际跨越200-cycle的事实仍明确保留，预检OP仍禁止传播。
+
+## 295 完整命令链遗漏的诊断与修复（2026-10-16）
+
+MATLAB登录恢复后，v63p1实际单次前台运行自然退出1。原始记录显示stage=preparing、Unknown nonconstant command；尚未进入短步或完整续算，不属于物理门禁失败。结果SHA=192C94F6264DABA02829CD2F79B5902FDE6A2FFAA2A79DFFA792721371526ADA，原C108 OP再次实读SHA=03A2459EDD2216D16593820E033CB9F6C4C6AECD8ADE44631FBE8FDA41AC77A1，未改写、未丢失108周期进度。
+
+根因不是求解器或本构，而是命令导出层只覆盖基础生成器，遗漏建模后的分布式压力包络和一致性流量参考/PI输出门控。若仅允许未知时变输入通过，还会在后续已知命令精确对比失败；因此修复完整生成链而非放宽断言。Build_DistributedPressureEnvelope新增显式输入入口，原单参数调用不变；Build_CoherentReferenceCommand复用原两项逐元素公式，实际建模和纯导出共同调用。纯导出不写工作区、不加载模型，仍与实际每个From Workspace解析值逐项完全相等后才准许扩展，并记录三个处理层源码SHA。未知命令失败现在包含变量与块路径，避免下一次只留下无上下文错误。
+
+996项Python回归通过；MATLAB八项合成测试及实际200-cycle参数下的流量目标/两路线门控公式对比自然退出0。独立公式检查的可选console footer因shell引号未形成有效JSON，明确记录而不冒充有效JSON；所有assert实际通过，合成测试JSON有效。失败目录v63p1及拒绝标记保留，fresh v63p2重新预检。未更改物理方程、阈值、PI记忆或C200主线；本轮尚不能宣称容量扩展合格。完整目标仍是第8节，不以工具修复替代外层求解和论文结果。

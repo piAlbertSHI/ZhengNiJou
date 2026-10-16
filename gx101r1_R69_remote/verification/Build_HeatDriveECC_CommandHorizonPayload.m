@@ -2,10 +2,12 @@ function [reference,extended,record]=Build_HeatDriveECC_CommandHorizonPayload(mo
 % Use the existing generator; preserve actual past data rather than regenerating it.
     assert(~isfolder(root));mkdir(root);
     assert(options.cycle_count==200 && options.schedule.total_time_s==2000 && source_s+20<1990);
-    regenerated=Integrate_HeatDriveECC_Constitutive21_Interface('',options,false,true);
+    closure=jsondecode(fileread(fullfile(fileparts(root),'se_reference_contract.json')));
+    assert(strcmp(closure.schema,'heatdrive_ecc_se_coherent_reference_v1'));
+    regenerated=Export_HeatDriveECC_RuntimeFamilyCommands(options);
     future_options=options;future_options.cycle_count=1000;
     future_options.schedule.total_time_s=10000;future_options.simulation.stop_time_s=10000;
-    future=Integrate_HeatDriveECC_Constitutive21_Interface('',future_options,false,true);
+    future=Export_HeatDriveECC_RuntimeFamilyCommands(future_options);
     checked=future_options;checked.cycle_count=options.cycle_count;
     checked.schedule.total_time_s=options.schedule.total_time_s;
     checked.simulation.stop_time_s=options.simulation.stop_time_s;assert(isequaln(options,checked));
@@ -22,10 +24,11 @@ function [reference,extended,record]=Build_HeatDriveECC_CommandHorizonPayload(mo
         assert(isequaln(value.Time,declared.Time) && isequaln(value.Data,declared.Data),'Unexpected masked command scope.');
         if isfield(regenerated,name)
             old=regenerated.(name);assert(isequaln(value.Time,old.Time) && isequaln(value.Data,old.Data), ...
-                'The unchanged generator did not reproduce an actual source command.');
+                'HeatDriveECC:CommandRecipeMismatch','Runtime recipe differs for %s at %s.',name,paths{k});
             next=future.(name);
         else
-            assert(all(value.Data==value.Data(1,:),'all'),'Unknown nonconstant command.');
+            assert(all(value.Data==value.Data(1,:),'all'),'HeatDriveECC:UnknownCommand', ...
+                'Unknown nonconstant command %s at %s.',name,paths{k});
             next=timeseries([value.Data(1,:);value.Data(1,:)],[0;10000]);
             next=setinterpmethod(next,getinterpmethod(value));next.DataInfo.Units=value.DataInfo.Units;
             next.TimeInfo.Units=value.TimeInfo.Units;
@@ -44,6 +47,9 @@ function [reference,extended,record]=Build_HeatDriveECC_CommandHorizonPayload(mo
         'comparison_stop_s',source_s+20,'old_horizon_cycles',200,'new_horizon_cycles',1000, ...
         'actual_command_blocks',numel(paths),'unique_command_variables',numel(rows),'commands',{rows}, ...
         'bindings',{bindings},'generator_source_sha256',file_hash(which('Integrate_HeatDriveECC_Constitutive21_Interface')), ...
+        'runtime_export_source_sha256',file_hash(which('Export_HeatDriveECC_RuntimeFamilyCommands')), ...
+        'envelope_source_sha256',file_hash(which('Build_HeatDriveECC_DistributedPressureEnvelope')), ...
+        'reference_closure_source_sha256',file_hash(which('Build_HeatDriveECC_CoherentReferenceCommand')), ...
         'payload_sha256',file_hash(file),'source_state_edited',false,'resampling_used',false, ...
         'generation_option_fields_changed',{{'cycle_count','schedule.total_time_s','simulation.stop_time_s'}}, ...
         'physical_parameters_changed',false,'past_horizon_crossing_physically_executed',false);

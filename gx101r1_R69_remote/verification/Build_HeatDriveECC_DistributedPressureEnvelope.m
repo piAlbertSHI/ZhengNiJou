@@ -1,7 +1,9 @@
-function [command, evidence] = Build_HeatDriveECC_DistributedPressureEnvelope(options)
+function [command, evidence] = Build_HeatDriveECC_DistributedPressureEnvelope(options, bias, valves)
 % Preserve the existing pressure ramp, not the sparsely interpolated PI target.
-    bias = evalin('base', 'SE_pressure_bias_command');
-    valves = evalin('base', 'L_valve_command');
+    if nargin<2
+        bias = evalin('base', 'SE_pressure_bias_command');
+        valves = evalin('base', 'L_valve_command');
+    end
     assert(isa(bias,'timeseries') && isa(valves,'timeseries') && ...
         isequal(bias.Time,valves.Time), ...
         'HeatDriveECC:DistributedFFSchedule','Pressure/valve clocks differ.');

@@ -161,6 +161,26 @@ class CommandHorizonTest(unittest.TestCase):
         self.assertIn('slResolve', source)
         self.assertNotIn('assignin(', source)
 
+    def test_runtime_export_includes_both_post_construction_transformations(self):
+        source = (Path(__file__).parent/'Export_HeatDriveECC_RuntimeFamilyCommands.m').read_text()
+        self.assertIn('Build_HeatDriveECC_DistributedPressureEnvelope(options,', source)
+        self.assertIn('SE_distributed_pressure_envelope_command=envelope', source)
+        self.assertIn('SE_mdot_target_command=Build_HeatDriveECC_CoherentReferenceCommand', source)
+        self.assertIn('for stage=[2 4]', source)
+        self.assertNotIn('assignin(', source)
+        build = (Path(__file__).parent/'Build_HeatDriveECC_CommandHorizonPayload.m').read_text()
+        self.assertIn('Export_HeatDriveECC_RuntimeFamilyCommands(options)', build)
+        self.assertIn('Export_HeatDriveECC_RuntimeFamilyCommands(future_options)', build)
+        self.assertIn('isequaln(value.Data,old.Data)', build)
+
+    def test_model_and_export_share_reference_math(self):
+        native = (Path(__file__).parent/'Configure_HeatDriveECC_SEReferenceClosure.m').read_text()
+        self.assertEqual(native.count('Build_HeatDriveECC_CoherentReferenceCommand('), 2)
+        shared = (Path(__file__).parent/'Build_HeatDriveECC_CoherentReferenceCommand.m').read_text()
+        self.assertIn('nominal*double(envelope.Data)', shared)
+        self.assertIn("interp1(envelope.Time,double(envelope.Data),before.Time,'linear')", shared)
+        self.assertIn('double(before.Data).*alpha', shared)
+
     def test_no_hidden_mode_or_state_conversion(self):
         source = (Path(__file__).parent/'Verify_HeatDriveECC_RuntimeHorizon.m').read_text()
         self.assertNotIn("'SimulationMode','accelerator'", source)

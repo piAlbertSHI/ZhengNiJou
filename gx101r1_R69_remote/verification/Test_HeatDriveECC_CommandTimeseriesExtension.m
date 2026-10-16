@@ -18,6 +18,12 @@ function result=Test_HeatDriveECC_CommandTimeseriesExtension()
     try,Extend_HeatDriveECC_CommandTimeseries(old,wrong,10,20);catch,rejected=rejected+1;end
     try,Extend_HeatDriveECC_CommandTimeseries(old,old,10,20);catch,rejected=rejected+1;end
     assert(rejected==3);
-    result=struct('cases_passed',6,'model_loaded',false,'simulation_executed',false);
+    envelope=timeseries([0;.5;1;0],[0;1;2;3]);before=timeseries([1;1;0;1;1],(0:.75:3).');
+    expected=double(before.Data).*interp1(envelope.Time,double(envelope.Data),before.Time,'linear');
+    gate=Build_HeatDriveECC_CoherentReferenceCommand(envelope,before);
+    target=Build_HeatDriveECC_CoherentReferenceCommand(envelope,before,.03);
+    assert(isequal(gate.Time,before.Time) && isequal(gate.Data,expected));
+    assert(isequal(target.Time,envelope.Time) && isequal(target.Data,.03*double(envelope.Data)));
+    result=struct('cases_passed',8,'model_loaded',false,'simulation_executed',false);
     fprintf('COMMAND_EXTENSION_TEST_JSON=%s\n',jsonencode(result));
 end

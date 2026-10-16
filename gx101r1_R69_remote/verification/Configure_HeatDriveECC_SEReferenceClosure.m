@@ -14,7 +14,7 @@ function contract = Configure_HeatDriveECC_SEReferenceClosure(model, options, fe
     nominal=options.branch.m_dot_se_the_kg_per_s;
     assert(nominal>0 && nominal==options.branch.m_dot_se_chex_kg_per_s, ...
         'One double-acting piston requires the same nominal stroke mass flow.');
-    target=timeseries(nominal*double(envelope.Data),envelope.Time);
+    target=Build_HeatDriveECC_CoherentReferenceCommand(envelope,original,nominal);
     assignin('base','SE_mdot_target_command',target);
     assignin('base','SE_mdot_target_command_time_s',target.Time);
     assignin('base','SE_mdot_target_command_values',target.Data);
@@ -23,8 +23,7 @@ function contract = Configure_HeatDriveECC_SEReferenceClosure(model, options, fe
         stage=[2 4];route=stage(index);
         variable=sprintf('SE_stage%d_pressure_integrator_output_enable_command',route);
         before=evalin('base',variable);
-        alpha=interp1(envelope.Time,double(envelope.Data),before.Time,'linear');
-        after=timeseries(double(before.Data).*alpha,before.Time);
+        after=Build_HeatDriveECC_CoherentReferenceCommand(envelope,before);
         assignin('base',variable,after);
         assignin('base',[variable '_time_s'],after.Time);
         assignin('base',[variable '_values'],after.Data);
