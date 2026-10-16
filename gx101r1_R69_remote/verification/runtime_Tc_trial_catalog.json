@@ -81,5 +81,6 @@
   "zero_load_root_found": false,
   "zero_lift_root_found": false,
   "paired_Table4_eligible": false,
-  "next_action": "The 274.85 K bounded step physically completed C52-C72 but remains transient. Use its sealed full C72 state for same-Tc convergence; do not interpolate or step colder before its original thermal and target precision pass. Investigate the dominant pre-OP execution cost with an independently verified accelerator/normal replay before changing production execution. Keep the two C52 matched observations and C40 event evidence; never cold-restart or substitute C200/old-family state."
+  "startup_attention_relative": "verification/current_runtime_startup_attention.json",
+  "next_action": "Read the startup attention first: v58 r1 produced no project execution or new cycles because interactive MathWorks login was required. Do not relaunch before user login confirmation. After login, verify no duplicate process and continue the intact transient C72 state at 274.85 K in fresh r2 paths with passive vendor phase timing. R2025b does not support cross-mode complete-OP loading; do not retry normal-to-accelerator migration. No colder step, interpolation, cold restart or C200/partial-state substitution."
 }
