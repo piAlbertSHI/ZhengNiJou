@@ -88,9 +88,21 @@ def reviewed_mechanism(original, proof, manifest_hash):
     return dict(checks=proof['checks'], passed=proof['mechanism_pass'])
 
 
+def timing_evidence(root, manifest):
+    if 'simulation_timing_sha256' not in manifest:return None
+    path=root/'simulation_timing.json'
+    if sha256(path)!=manifest['simulation_timing_sha256']:raise ValueError('Changed timing evidence')
+    record=read(path)
+    if (record['schema']!='heatdrive_ecc_packet_simulation_timing_v1' or record['window_s']!=manifest['window_s'] or
+            record['timing_is_physical_gate'] is not False or record['simulation_settings_changed'] is not False or
+            record['source_state_edited'] is not False):raise ValueError('Timing observations cannot change physical settings or gates')
+    return record
+
+
 def audit(root, review_path=None):
     manifest = read(root/'packet_manifest.json')
     start, stop = validate_manifest(manifest)
+    timing_evidence(root,manifest)
     arm = root/'native'
     entries = manifest['input_files']
     required = {'native/observations.mat', 'native/configuration.mat', 'native/inventory_metadata.json',

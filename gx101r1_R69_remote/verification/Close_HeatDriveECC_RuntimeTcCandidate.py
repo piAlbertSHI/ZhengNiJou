@@ -9,6 +9,7 @@ from Analyze_HeatDriveECC_RecordedTenCycles import runtime_window
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from Close_HeatDriveECC_RuntimeWarmup import packet_cycles
 from Close_HeatDriveECC_SplitObservation import read, validate_gate
+from Verify_HeatDriveECC_ObservationPacket import timing_evidence
 
 
 def close(collection, measured, thermal, output):
@@ -82,6 +83,7 @@ def close(collection, measured, thermal, output):
     for k,row in enumerate(result['completed_packets']):
         packet=Path(row['packet_root']);m=read(packet/'packet_manifest.json');g=read(packet/'packet_gate.json')
         b=read(packet/'boundary_comparison.json');validate_gate(g)
+        if timing_evidence(packet,m) is not None:dependencies.append(packet/'simulation_timing.json')
         role='runtime_boundary_Tc_continuation' if continuing else 'runtime_boundary_Tc_candidate'
         if (m['packet_role']!=role or m['prescribed_Tc_K']!=Tc or
                 m['boundary_trial']!=trial or m['parent_complete_OP_sha256']!=parent or
@@ -113,7 +115,7 @@ def close(collection, measured, thermal, output):
     output.mkdir();copies=[]
     names={'packet_manifest.json','packet_gate.json','boundary_comparison.json','mechanism.json','simulation_start.json',
         'collection_result.json','collection_progress.json','initial_recording_contract.json','initial_prepared_recipe.json',
-        'original_thermal_statistics.json','measured_window.json','target_window_stability.json'}
+        'original_thermal_statistics.json','measured_window.json','target_window_stability.json','simulation_timing.json'}
     for f in collection.rglob('*'):
         if not f.is_file() or f.name not in names:continue
         if f.stat().st_size>1024**2:raise ValueError('Do not archive full-array JSON')

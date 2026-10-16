@@ -2,6 +2,9 @@ function [op,manifest]=Load_HeatDriveECC_GatedObservationPacket(packet,require_b
 % Load complete vendor state only after the immutable native packet gate.
     manifest_file=fullfile(packet,'packet_manifest.json');manifest=jsondecode(fileread(manifest_file));
     gate=jsondecode(fileread(fullfile(packet,'packet_gate.json')));
+    if isfield(manifest,'simulation_timing_sha256')
+        assert(strcmp(file_hash(fullfile(packet,'simulation_timing.json')),manifest.simulation_timing_sha256));
+    end
     flows=gate.flow_gates;if isstruct(flows),flows=num2cell(flows);end
     assert(iscell(flows) && numel(flows)==6,'Require the six original component/stage flow records.');
     flow_pass=cellfun(@(row) isstruct(row) && isfield(row,'selected_flow_gate') && ...

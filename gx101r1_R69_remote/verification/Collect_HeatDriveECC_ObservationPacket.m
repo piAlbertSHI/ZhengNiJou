@@ -22,11 +22,13 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
     end
     write_json(fullfile(destination,'simulation_start.json'),struct('window_s',[a b], ...
         'parent_snapshot_s',source_snapshot,'independent_cold_start',cold,'simulation_returned_without_error',false));
+    simulation_clock=tic;
     if cold
         output=sim(input.setModelParameter('StopTime',num2str(b,'%.17g')));
     else
         output=sim(input.setModelParameter('StopTime',num2str(b,'%.17g')).setInitialState(initial));
     end
+    simulation_wall_s=toc(simulation_clock);
     assert(isempty(output.ErrorMessage),'Actual restored simulation failed: %s',output.ErrorMessage);
     diagnostic_operating_point=output.diagnostic_final_op;production_recovery_allowed=false;
     assert(diagnostic_operating_point.snapshotTime==b && ...
@@ -53,6 +55,19 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
     provenance=struct('checkpoint_restart_used',~cold,'checkpoint_chain_verified',~cold,'sim_call_count',1, ...
         'solver',options.simulation.solver,'fixed_step_s',options.simulation.fixed_step_s, ...
         'simulation_mode',options.simulation.mode);
+    timing_path=fullfile(destination,'simulation_timing.json');
+    timing=struct('schema','heatdrive_ecc_packet_simulation_timing_v1','window_s',[a b], ...
+        'sim_call_wall_s',simulation_wall_s,'metadata_available',false, ...
+        'timing_is_physical_gate',false,'simulation_settings_changed',false,'source_state_edited',false);
+    try
+        timing.vendor_timing=output.SimulationMetadata.TimingInfo;
+        timing.vendor_timing=rmfield(timing.vendor_timing,'ProfilerData');
+        timing.actual_simulation_mode=output.SimulationMetadata.ModelInfo.SimulationMode;
+        timing.metadata_available=true;
+    catch ME
+        timing.metadata_error=ME.message;
+    end
+    write_json(timing_path,timing);
     if candidate
         config_path=fullfile(arm,'configuration.mat');saved=load(config_path);
         saved.plant_build_options=saved.options;saved.options=options;saved.runtime_boundary_trial=trial;
@@ -71,6 +86,7 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
         'complete_OP_sha256',file_hash(fullfile(destination,'comparison_only_complete_op.mat')), ...
         'packet_role',role,'parent_complete_OP_sha256',parent_hash);
     manifest.independent_cold_start=cold;
+    manifest.simulation_timing_sha256=file_hash(timing_path);
     manifest.temperature_configurability=options.system.cold_boundary_temperature_configurability;
     manifest.prescribed_Tc_K=options.system.Tchex_K;manifest.command_horizon_cycles=options.cycle_count;
     if candidate

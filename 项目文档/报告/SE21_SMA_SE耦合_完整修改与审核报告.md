@@ -7106,3 +7106,15 @@ C200/C180 不变；未解释主模型 SLX 和 Agent6 不修改、不提交。后
 旧 C40 资格原字节和哈希不修改，但已标记 historical_not_full_raw_reverifiable，不能当作当前恢复源；两个旧 collection 带 COMPLETED_RAW_PREFIX_RETIRED 禁止原地续行，catalog 明确记录此状态。回执 outputs_storage_audit/v57_superseded_C40_raw_retirement_20261016/retirement_receipt.json。删除后所有当前直接依赖重核通过，额外重新调用两侧 C52 比较器的真实 load_qualified 与 configuration_origin，共同 C28 构建来源仍一致。C72 暂态图 output/png/v57_runtime_Tc274p85_C72_20261016/current_transient 明确展示周期未通过和真实库存迁移，PDF 已渲染目视审核，无截字或图层重叠。
 
 退役时 catalog 原字节另外保存为 catalog_at_retirement.json，SHA=3EEDD385DD0BBC418C6DFBA21BF0DFA8774E889795ECFFDD4671CFB88DDF59FA，与退役回执绑定值一致；之后 catalog 才登记历史 raw 已退役。最终回归 947/947。治理快照 workspace_governance_20261016_v57 分类 894 个主库目录、16.060710 GiB，C200/C180 四项权威实文件哈希仍全部匹配；主库统计不包括执行工作树的当前原生轨迹，不能据此声称总工作区只占此数。主模型未解释 SLX 和 Agent6 继续隔离，不提交、不清理。
+
+## 288 从完整 C72 同温收敛并直接量测仿真阶段耗时（2026-10-16，启动记录）
+
+上一轮为 progress：新的 274.85 K 候选实际完成 C52→C72，全物理门禁通过，保存了合法同温暂态恢复状态，但当前十周期和目标精度未通过；另退役过时 C40 大轨迹 4.51 GB。当前不是无进度或程序仍在运行。
+
+先查证与实际安装版本一致的 MathWorks R2025b 官方文档，而不盲目创建加速重放。Speed Up Simulation Workflows by Using Model Operating Points 的 Simulation modes 限制明确不支持把一种仿真模式生成的完整 Operating Point 加载到另一模式；Simscape 内部 OP 数据也不可通过 ModelOperatingPoint 直接访问改写。来源：https://www.mathworks.com/help/releases/R2025b/simulink/ug/model-operating-point-for-faster-simulation.html （Model Operating Point Considerations and Limitations）。因此本轮不执行已知不受支持的 normal→accelerator 迁移，不用 loggedStates/Simscape target 代替隐藏状态，不冷启动新族来替代当前 C72，也不放宽 error/error。此为依据平台合同排除不适用优化，不是新增科学拒绝门禁。
+
+保持 normal、ode3、0.001 s、原记录上限、原完整 OP 续行。只在每次实际 sim 返回后读取 SimulationMetadata.TimingInfo 和实际 SimulationMode，保存 sim 调用总耗时及初始化/执行/终止阶段耗时，SHA 绑定为小型 simulation_timing.json；不启用 profiler、不改变模型参数、轨迹或状态。记录缺失只标 metadata_available=false，不作为物理失败；若绑定的记录事后被改动则属于证据完整性错误。旧包无需补记或重放。官方字段定义：https://www.mathworks.com/help/releases/R2025b/simulink/slref/simulink.simulationmetadata.html （TimingInfo）。
+
+本轮从 C72 OP F37D2E3A...、资格 17D22F86... 进入新目录 v58_runtime_Tc274p85_convergence_fromC72_r1，Tc 不变为 274.85 K。每两周期原子登记，每个已通过包保留完整状态，使用真实滚动末十周期；原公共热周期与 0.1 K/0.01 W/g 观察精度同时达到即停止，最多追加二十周期至 C92。仍不允许外推未稳态点或继续降温；20-cycle 预算耗尽不等于机制失败。结束后根据直接阶段耗时判断可行优化，不再仅凭文件时间把运行/初始化/写出混为 solver 性能。
+
+新增四项只读耗时记录回归，最终 951/951。首次静态保护测试发现耗时元数据插入了已限定的提取区段；已将其移至原 provenance 之后，并保持原 walltime_s=NaN 字段不变，实际耗时仅写独立 sidecar。原提取区段继续与已证明的 31e948e writer 完全一致，未削弱或删改该保护测试；未执行任何失败仿真。
