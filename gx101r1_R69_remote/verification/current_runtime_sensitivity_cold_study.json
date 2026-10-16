@@ -1,0 +1,22 @@
+{
+  "schema": "heatdrive_ecc_runtime_sensitivity_cold_study_v1",
+  "date": "2026-10-17",
+  "stage": "nominal_20_cycle_cold_case_pending_real_execution",
+  "runner": "Run_HeatDriveECC_RuntimeSensitivityColdCase",
+  "case_index": 0,
+  "probe_only": false,
+  "fixed_Tc_K": 276.95,
+  "requested_cold_cycles": 20,
+  "packet_cycle_count": 2,
+  "first_checks": "same-case native t0 flux probe and original 204-coordinate comparison",
+  "source_role": "C108 plant_build_options only, never its complete OP",
+  "source_qualification": "outputs_storage_audit/v61_runtime_Tc274p85_C108_snapshot_20261016/endpoint_qualification.json",
+  "source_qualification_sha256": "72227BFA412079E695B98BD1F87CC6F5EE04F196E5EDD62413533873E7609525",
+  "python_regression_count": 1018,
+  "full_orthogonal_effects_evaluated": false,
+  "C200_gap_attribution_authorized": false,
+  "production_recovery_allowed": false,
+  "original_scientific_thresholds_changed": false,
+  "real_simulation_completed": false,
+  "full_objective_complete": false
+}

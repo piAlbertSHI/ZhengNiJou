@@ -26,8 +26,9 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     if nargin<26, observation_options=struct(); end
     observation_options=Resolve_HeatDriveECC_ObservationPreflight(observation_options, ...
         state_capture_options,cycle_count,duration,diagnostic_arm,endpoint_all_arms,buffer_factor_options);
+    independent_sensitivity=~isempty(fieldnames(observation_options)) && strcmp(observation_options.mode,'runtime_sensitivity_cold');
     runtime_boundary_family=~isempty(fieldnames(observation_options)) && ...
-        ismember(observation_options.mode,{'runtime_boundary_cold_family','runtime_boundary_warmup','runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation','runtime_boundary_Tc_step','runtime_boundary_horizon_preflight'});
+        ismember(observation_options.mode,{'runtime_boundary_cold_family','runtime_boundary_warmup','runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation','runtime_boundary_Tc_step','runtime_boundary_horizon_preflight','runtime_sensitivity_cold'});
     state_capture_options=Resolve_HeatDriveECC_DiagnosticStateOptions(state_capture_options,cycle_count);
     buffer_factor_options=Resolve_HeatDriveECC_BufferColdFactorial(buffer_factor_options, ...
         state_capture_options.mode,cycle_count,duration,diagnostic_arm,endpoint_all_arms);
@@ -103,6 +104,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     else
         assert(abs(duration - cycle_count*10) <= 1.0e-9, ...
             'A multi-cycle diagnostic must span exactly cycle_count*10 s.');
+        if ~independent_sensitivity
         initial_observation_root=canonical_path(initial_observation_root);
         initial_observation_path=fullfile(initial_observation_root,'native','observations.mat');
         initial_execution_path=fullfile(initial_observation_root,'cold_chamber_execution.json');
@@ -113,6 +115,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             seed_record.conservative_buffers && strcmp(seed_record.buffer_mass_formulation,'zero_based_offset') && ...
             seed_record.initial_flux_compensation && ~seed_record.production_recovery_allowed, ...
             'The cold initialization source is not the qualified zero-based seed.');
+        end
     end
     endpoint_qualified_source_root='';
     endpoint_qualified_source_observation_sha256='';
@@ -349,6 +352,14 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
         assert(strcmp(file_hash(raw),contract.result_sha256) && strcmp(file_hash(op),contract.checkpoint_sha256), ...
             'C200 authority hash mismatch.');
         frozen=load(raw,'options'); overrides=frozen.options;
+        if independent_sensitivity
+            q=jsondecode(fileread(observation_options.candidate_qualification_path));
+            cfg=fullfile(q.source_packet_root,'native','configuration.mat');
+            selected=strcmp({q.files.path},cfg);assert(nnz(selected)==1 && strcmp(file_hash(cfg),q.files(selected).sha256));
+            source=load(cfg,'plant_build_options');overrides=source.plant_build_options;
+            record.sensitivity_parameter_source=struct('configuration_path',cfg,'configuration_sha256',file_hash(cfg), ...
+                'complete_state_loaded',false,'source_role','constructor parameters only');
+        end
         overrides.model_path=fullfile(repo,[overrides.model_name '.slx']);
         overrides.cycle_count=cycle_count;
         overrides.simulation.stop_time_s=duration;
@@ -362,11 +373,11 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             assert(~diagnostic_resume && simulation_start==0 && overrides.system.Tchex_K==276.95);
             overrides.system.cold_boundary_temperature_configurability='runtime';
             record.runtime_boundary_family=struct('independent_cold_start', ...
-                strcmp(observation_options.mode,'runtime_boundary_cold_family'),'old_complete_state_imported',false, ...
-                'only_boundary_configurability_changed',true);
+                strcmp(observation_options.mode,'runtime_boundary_cold_family') || independent_sensitivity,'old_complete_state_imported',false, ...
+                'only_boundary_configurability_changed',~independent_sensitivity);
             if isfield(observation_options,'boundary_probe_path')
                 record.runtime_boundary_family.source_probe_sha256=file_hash(observation_options.boundary_probe_path);
-            elseif any(strcmp(observation_options.mode,{'runtime_boundary_Tc_continuation','runtime_boundary_Tc_step','runtime_boundary_horizon_preflight'}))
+            elseif any(strcmp(observation_options.mode,{'runtime_boundary_Tc_continuation','runtime_boundary_Tc_step','runtime_boundary_horizon_preflight','runtime_sensitivity_cold'}))
                 record.runtime_boundary_family.source_contract_sha256=file_hash(observation_options.candidate_qualification_path);
             else
                 record.runtime_boundary_family.source_contract_sha256=file_hash(observation_options.recording_contract_path);
@@ -526,6 +537,18 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             % changes both arms and cannot localize the chamber effect.
             overrides.branch.independent_conservative_chamber_diagnostic= ...
                 use_endpoint_arm;
+            if independent_sensitivity
+                [overrides,factor_contract]=Apply_HeatDriveECC_RuntimeSensitivity(overrides,observation_options);
+                fresh_root=fullfile(output_root,'fresh_native_probe');
+                fresh=Capture_HeatDriveECC_FreshSensitivityNative(overrides,fresh_root);
+                initial_observation_root=fresh_root;initial_observation_path=fresh.raw_path;
+                factor_contract.fresh_native_source_sha256=file_hash(fresh.raw_path);
+                factor_contract.fresh_native_source_path=fresh.raw_path;
+                factor_contract.source_qualification_sha256=file_hash(observation_options.candidate_qualification_path);
+                factor_contract.parameter_source_configuration_sha256=record.sensitivity_parameter_source.configuration_sha256;
+                write_json(fullfile(arm,'sensitivity_case_contract.json'),factor_contract);
+                record.sensitivity_case_contract_sha256=file_hash(fullfile(arm,'sensitivity_case_contract.json'));
+            end
             [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(overrides);
             model_cleanup=onCleanup(@() close_system(model,0));
             distributed_ff_contract=struct();
@@ -776,7 +799,14 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
             end
             if ~isempty(fieldnames(observation_options))
                 record.prepared_stop_time_is_not_an_executed_long_segment=true;
-                if strcmp(observation_options.mode,'runtime_boundary_horizon_preflight')
+                if independent_sensitivity
+                    record.sensitivity_cold_result=Verify_HeatDriveECC_SensitivityColdCase( ...
+                        input,options,arm,changed,buffer_paths,observation_options,record.execution_commit);
+                    record.observation_preflight_pass=record.sensitivity_cold_result.experiment_completed;
+                    record.prepared_segment_cycle_count=cycle_count;record.segment_cycle_count=0;record.cycle_count=0;record.stop_time_s=.001;
+                    if ~observation_options.probe_only,record.segment_cycle_count=20;record.cycle_count=20;record.stop_time_s=200;end
+                    record.actual_observation_preflight_window_s=[0 record.stop_time_s];
+                elseif strcmp(observation_options.mode,'runtime_boundary_horizon_preflight')
                     record.runtime_horizon_preflight=Verify_HeatDriveECC_RuntimeHorizon( ...
                         input,options,arm,changed,buffer_paths,observation_options,record.execution_commit);
                     record.observation_preflight_pass=record.runtime_horizon_preflight.pass;
@@ -1036,6 +1066,15 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     catch ME
         record.error_message=ME.message; record.error_identifier=ME.identifier;
         record.error_report=getReport(ME,'extended','hyperlinks','off');
+        if independent_sensitivity
+            case_path=fullfile(output_root,'native','sensitivity_cold_case','case_result.json');
+            if isfile(case_path)
+                record.sensitivity_cold_result=jsondecode(fileread(case_path));
+                record.prepared_segment_cycle_count=cycle_count;
+                record.stop_time_s=record.sensitivity_cold_result.last_verified_snapshot_time_s;
+                record.cycle_count=record.stop_time_s/10;record.segment_cycle_count=record.cycle_count;
+            end
+        end
     end
     write_json(fullfile(output_root,'cold_chamber_execution.json'),record);
     fprintf('%s\n',jsonencode(struct('collection_pass',record.collection_pass, ...

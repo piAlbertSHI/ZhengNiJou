@@ -30,7 +30,7 @@ def measure(index,output,Tc):
     for k,row in enumerate(data['packets']):
         root=Path(row['packet_root']);m=read(root/'packet_manifest.json')
         if (m['window_s']!=[start+20*k,start+20*(k+1)] or m['prescribed_Tc_K']!=Tc or
-                m['packet_role'] not in ('runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation') or
+                m['packet_role'] not in ('runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation','runtime_sensitivity_cold','runtime_sensitivity_transient') or
                 m['source_state_edited'] or sha256(Path(row['observation_path']))!=row['observation_sha256'] or
                 sha256(Path(row['configuration_path']))!=row['configuration_sha256']):
             raise ValueError('Changed, mixed-temperature or incomplete current window')

@@ -2,6 +2,19 @@ function options=Resolve_HeatDriveECC_ObservationPreflight(options,state,cycles,
 % Execution-only comparison; the configured model and native history stay unchanged.
     assert(isstruct(options) && isscalar(options),'Require scalar observation options.');
     if isempty(fieldnames(options)),return;end
+    if isfield(options,'mode') && strcmp(options.mode,'runtime_sensitivity_cold')
+        required={'mode';'python_executable';'source_contract_path';'candidate_qualification_path';'case_index';'probe_only'};
+        assert(isequal(sort(fieldnames(options)),sort(required)) && strcmp(state.mode,'capture') && ...
+            state.command_horizon_cycles==200 && cycles==20 && duration==200 && strcmp(arm,'native') && endpoint_all && isempty(fieldnames(factors)));
+        validateattributes(options.case_index,{'numeric'},{'scalar','finite','integer','>=',0,'<=',8});
+        assert(islogical(options.probe_only) && isscalar(options.probe_only));
+        for key={'python_executable','source_contract_path','candidate_qualification_path'},assert(isfile(options.(key{1})));end
+        q=jsondecode(fileread(options.candidate_qualification_path));
+        assert(strcmp(q.schema,'heatdrive_ecc_runtime_Tc_candidate_endpoint_v1') && ...
+            q.all_original_packet_mechanism_flow_phase_energy_gates_pass && q.original_public_thermal_periodic_pass && ...
+            q.current_target_window_stability.precision_pass && ~q.source_state_edited && ~q.production_recovery_allowed);
+        return;
+    end
     if isfield(options,'mode') && strcmp(options.mode,'runtime_boundary_horizon_preflight')
         required={'mode';'python_executable';'source_contract_path';'candidate_qualification_path'};
         assert(isequal(sort(fieldnames(options)),sort(required)) && strcmp(state.mode,'capture') && ...

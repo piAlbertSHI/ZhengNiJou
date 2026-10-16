@@ -3,8 +3,9 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
     if nargin<12,role='split_comparison';end
     if nargin<13,parent_hash='';end
     if nargin<14,trial=struct();end
-    cold=strcmp(role,'runtime_boundary_cold_baseline');
-    assert(any(strcmp(role,{'split_comparison','bounded_transient_observation','runtime_boundary_cold_baseline','runtime_boundary_transient','runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation','runtime_horizon_comparison'})));
+    sensitivity=any(strcmp(role,{'runtime_sensitivity_cold','runtime_sensitivity_transient'}));
+    cold=strcmp(role,'runtime_boundary_cold_baseline') || strcmp(role,'runtime_sensitivity_cold');
+    assert(any(strcmp(role,{'split_comparison','bounded_transient_observation','runtime_boundary_cold_baseline','runtime_boundary_transient','runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation','runtime_horizon_comparison','runtime_sensitivity_cold','runtime_sensitivity_transient'})));
     candidate=any(strcmp(role,{'runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation'}));
     horizon=strcmp(role,'runtime_horizon_comparison');
     assert(candidate || horizon || isempty(fieldnames(trial)));
@@ -105,6 +106,12 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
     paths={'native/observations.mat','native/configuration.mat','native/inventory_metadata.json', ...
         'native/tl_connectivity.json','native/thermal_connectivity.json', ...
         'native/buffer_replacement_contract.json','mechanism.json','observed_states.mat'};
+    if sensitivity
+        copyfile(fullfile(prepared_folder,'sensitivity_case_contract.json'),fullfile(arm,'sensitivity_case_contract.json'));
+        manifest.sensitivity_case_scope_only=true;
+        manifest.sensitivity_case_contract_sha256=file_hash(fullfile(arm,'sensitivity_case_contract.json'));
+        paths{end+1}='native/sensitivity_case_contract.json';
+    end
     % JSON struct keys cannot contain slashes. Persist path/hash rows, then normalize in Python.
     entries=cell(size(paths));
     for k=1:numel(paths),entries{k}=struct('path',paths{k},'sha256',file_hash(fullfile(destination,paths{k})));end
