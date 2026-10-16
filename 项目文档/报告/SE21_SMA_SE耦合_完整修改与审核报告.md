@@ -7416,3 +7416,5 @@ C20单周期Eq9温跨27.94018789 K、Eq10冷量12.69436868 W、SCP0.303570757 W/
 output/png/v66_nominal_cold_20cycle_20261017/nominal_cold_diagnostic.png及矢量PDF实际生成并目视审核。四面板分别显示20周期温跨、Eq10与CHEX不同冷量边界、SCP，以及末十周期七项原热漂移/阈值比例；图例不压线、无双纵轴或内容重叠，明确transient/not Table4。它是当前冷态控制诊断图，不是完成的论文工作图谱。完整六因子稳态效应、C200误差桥接、root、paired endpoints和论文终稿均仍未完成。
 
 封存器新增probe不可升级为20周期、计时缺包拒绝与计时不作为科学门禁的测试，最后完整1021项回归实际通过。归档前的执行工作树干净；后续仅提交本轮脚本/紧凑结果/图/报告及治理回执，受保护SLX及Agent6保持原隔离状态。此处94.3814%特指sim调用内的Execution占比，不把它冒充含提取、哈希、分析在内的全流水线占比。
+
+最终治理快照workspace_governance_20261017_v66在bdfec13提交后生成：主工作区outputs及outputs_storage_audit共914目录、17,257,291,367 bytes（16.072105 GiB），不包含各执行worktree，不能当作整台磁盘或全部执行数据总量。C200/C180四份权威文件实际SHA全部通过，C108 OP另行实读仍为03A2459EDD2216D16593820E033CB9F6C4C6AECD8ADE44631FBE8FDA41AC77A1。156份v66归档/图的提交Git blob与磁盘原字节逐份一致；哈希锁定结果的CRLF/日志字节原样保留，源码单独通过diff whitespace检查，不为消除生成证据的CRLF提示重写原文件。main源码688fb4c、执行源码cb32149、结果提交bdfec13（执行镜像36c8130）分别记录，不混淆producer与后处理提交。当前主工作树仍仅隔离的未解释SLX及Agent6，执行工作树干净；没有新增定时器、监测自动化或后台MATLAB。
