@@ -1,0 +1,22 @@
+{
+  "schema": "heatdrive_ecc_mechanism_informed_sensitivity_transition_v1",
+  "scope": "Next-stage contract after two distinct original phase-deadline rejections; full original goal remains active",
+  "source_for_current_independent_family": "C108 complete qualified diagnostic state at runtime Tc274.85 K; not C200 state equivalence",
+  "production_reference": "Frozen C200 result/OP; both original SHA-256 values independently rechecked",
+  "no_further_temperature_step_halving": true,
+  "original_six_factors": ["heat_exchanger_UA", "endpoint_thermal_capacity", "SE_buffer_volume", "pipe_manifold_inventory", "SE_regenerator_utilization", "transformation_latent_heat"],
+  "existing_L8_fractions": [0.05, 0.05, 0.10, 0.10, 0.03, 0.05],
+  "existing_C200_sensitivity_runner_is_authorized_for_runtime_family": false,
+  "selected_parameter_bridge_is_full_family_equivalence": false,
+  "required_before_coupled_runs": [
+    "Explicitly separate independent-family parameter effects from attribution of the historical C200 9.58%/50.55% differences; compare remaining model/control-volume/constitutive contracts.",
+    "Adapt the established factor mapping and dependent thermodynamic quantities to one declared model family; do not change undeclared physics or statistical tolerances.",
+    "Use independently consistent cold initialization when capacities or inventories change. Never partially convert, reset or import a C200/C108 complete OP across those changed state contracts.",
+    "Check declared fluid domain, boundary/mass/window definitions, numerical stability/accuracy and original mechanism/flow/phase/energy gates for each case.",
+    "Declare one common periodic observation and finite-precision/repeatability policy, retain failed cases only as diagnostics, and do not calculate an orthogonal main effect by silently dropping rejected L8 rows."
+  ],
+  "six_factor_coupled_sensitivity_completed": false,
+  "zero_load_or_zero_lift_root_bracketed": false,
+  "paired_Table4_eligible": false,
+  "mainline_states_reset": false
+}

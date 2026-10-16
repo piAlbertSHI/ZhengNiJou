@@ -23,6 +23,9 @@ def plot(source, output):
     completion = np.array([r['cold_half_completion_s'] if r['cold_half_completion_s'] is not None else np.nan for r in rows])
     residual = 100*np.array([r['cold_half_min_mean_phase'] for r in rows])
     end = rows[-1]
+    last_cycle = end['cycle']
+    missing = cycle[~np.isfinite(completion)]
+    missing_label = ', '.join('C'+str(c) for c in missing)
     nodes = np.arange(1, 22)
     with plt.rc_context({'font.family': 'DejaVu Sans', 'font.size': 10,
                          'axes.spines.top': False, 'axes.spines.right': False,
@@ -34,20 +37,22 @@ def plot(source, output):
         a.scatter(cycle[residual > 1], residual[residual > 1], color='#D55E00', zorder=4, label='Completion not reached')
         a.axhline(1, color='0.35', linestyle='--', linewidth=1, label='Original 1% criterion')
         a.set(title='(a) Cold-half residual', xlabel='Total cycle', ylabel='Mean martensite fraction (%)')
-        a.legend(loc='upper left', fontsize=8)
+        a.legend(loc='upper left', fontsize=8, frameon=True, facecolor='white', edgecolor='white', framealpha=1)
         b.plot(cycle, completion, 'o-', color='#0072B2', markersize=4)
         b.axhline(5, color='0.35', linestyle='--', linewidth=1, label='Cold-half end')
-        b.text(.97, .18, 'C117-C118: no completion event', ha='right', transform=b.transAxes, color='#D55E00', fontsize=9)
-        b.set(title='(b) Reverse-transformation deadline', xlabel='Total cycle', ylabel='Time from cold-half start (s)', ylim=(4.92, 5.015))
+        b.text(.97, .18, missing_label+': no completion event', ha='right', transform=b.transAxes, color='#D55E00', fontsize=9)
+        b.set(title='(b) Reverse-transformation deadline', xlabel='Total cycle', ylabel='Time from cold-half start (s)',
+              ylim=(min(4.92, float(np.nanmin(completion))-.015), 5.015))
         b.legend(loc='upper left', fontsize=8)
         for ax in (a, b):
-            ax.set_xticks([109, 112, 115, 118])
-            ax.set_xlim(108.6, 118.4)
+            ax.set_xticks(np.unique(np.rint(np.linspace(cycle[0], cycle[-1], 4)).astype(int)))
+            ax.set_xlim(cycle[0]-.4, cycle[-1]+.4)
         c.plot(nodes, 100*np.array(end['cold_min_node_phase']), 'o-', color='#D55E00', markersize=4)
-        c.set(title='(c) C118 local residual', xlabel='SE node index', ylabel='Martensite fraction (%)', ylim=(-.3, 15))
+        c.set(title=f'(c) C{last_cycle} local residual', xlabel='SE node index', ylabel='Martensite fraction (%)',
+              ylim=(-.3, max(15, 110*max(end['cold_min_node_phase']))))
         d.plot(nodes, end['cold_min_node_temperature_K'], 'o-', color='#009E73', markersize=4)
         d.axhline(data['candidate_Tc_K'], color='0.35', linestyle='--', linewidth=1, label='Prescribed CHEX Tc')
-        d.set(title='(d) C118 solid-temperature profile', xlabel='SE node index', ylabel='Temperature (K)')
+        d.set(title=f'(d) C{last_cycle} solid-temperature profile', xlabel='SE node index', ylabel='Temperature (K)')
         d.legend(loc='upper right', fontsize=8)
         for ax in (c, d):
             ax.set_xticks([1, 6, 11, 16, 21])
@@ -55,7 +60,7 @@ def plot(source, output):
         for ax in axes.ravel():
             ax.grid(axis='y', color='0.90', linewidth=.6)
             ax.set_axisbelow(True)
-        fig.suptitle('Tc = 272.85 K: transient diagnostic, rejected at C118', fontsize=13)
+        fig.suptitle(f"Tc = {data['candidate_Tc_K']:.2f} K: transient diagnostic, rejected at C{last_cycle}", fontsize=13)
         output.parent.mkdir(parents=True, exist_ok=True)
         fig.savefig(output, dpi=180)
         plt.close(fig)

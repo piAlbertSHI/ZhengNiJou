@@ -1,0 +1,316 @@
+{
+  "schema": "heatdrive_ecc_selected_family_parameter_bridge_v1",
+  "producer_source_sha256": "46A9A76A735F657D59D23855407E5DC7FE0A69F36B5BEAA7E3E91ED8853052E0",
+  "C200_result_sha256": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD",
+  "C200_OP_sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816",
+  "candidate_configuration_sha256": "3F2028B812CAC4A66FAC9A76B524519F63FDBF62BFAA933CCF95E757D2F245C5",
+  "candidate_qualification_sha256": "72227BFA412079E695B98BD1F87CC6F5EE04F196E5EDD62413533873E7609525",
+  "candidate_runtime_Tc_K": 274.85,
+  "candidate_snapshot_s": 1080,
+  "constructor_Tc_is_not_runtime_Tc": true,
+  "compared_selected_fields": [
+    {
+      "field": "node_count",
+      "C200": {
+        "present": true,
+        "value": 21.0
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": 21.0
+      },
+      "equal_in_selected_coordinate": true
+    },
+    {
+      "field": "system/Tchex_K",
+      "C200": {
+        "present": true,
+        "value": 276.95
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": 276.95
+      },
+      "equal_in_selected_coordinate": true
+    },
+    {
+      "field": "system/cp_fluid_J_per_kgK",
+      "C200": {
+        "present": true,
+        "value": 3638.0
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": 3638.0
+      },
+      "equal_in_selected_coordinate": true
+    },
+    {
+      "field": "system/se_buffer_volume_m3",
+      "C200": {
+        "present": true,
+        "value": 9.569622191315918e-05
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": 9.569622191315918e-05
+      },
+      "equal_in_selected_coordinate": true
+    },
+    {
+      "field": "system/cold_boundary_temperature_configurability",
+      "C200": {
+        "present": false
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": "runtime"
+      },
+      "equal_in_selected_coordinate": false
+    },
+    {
+      "field": "branch/network_absolute_pressure_MPa",
+      "C200": {
+        "present": true,
+        "value": 1.0
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": 0.85
+      },
+      "equal_in_selected_coordinate": false
+    },
+    {
+      "field": "branch/UA_se_chex_W_per_K",
+      "C200": {
+        "present": true,
+        "value": 91.46350028151346
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": 91.46350028151346
+      },
+      "equal_in_selected_coordinate": true
+    },
+    {
+      "field": "branch/UA_se_the_W_per_K",
+      "C200": {
+        "present": true,
+        "value": 91.46350028151346
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": 91.46350028151346
+      },
+      "equal_in_selected_coordinate": true
+    },
+    {
+      "field": "branch/se_stage2_pressure_bias_MPa",
+      "C200": {
+        "present": true,
+        "value": -0.09737965602586225
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": -0.09737965602586225
+      },
+      "equal_in_selected_coordinate": true
+    },
+    {
+      "field": "branch/se_stage4_pressure_bias_MPa",
+      "C200": {
+        "present": true,
+        "value": -0.09737965602586225
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": -0.09737965602586225
+      },
+      "equal_in_selected_coordinate": true
+    },
+    {
+      "field": "branch/se_stage2_pressure_pi_kp_MPa_per_kgps",
+      "C200": {
+        "present": true,
+        "value": -136.0
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": -126.0
+      },
+      "equal_in_selected_coordinate": false
+    },
+    {
+      "field": "branch/se_stage4_pressure_pi_kp_MPa_per_kgps",
+      "C200": {
+        "present": true,
+        "value": -255.0
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": -225.0
+      },
+      "equal_in_selected_coordinate": false
+    },
+    {
+      "field": "branch/independent_conservative_chamber_diagnostic",
+      "C200": {
+        "present": false
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": 1.0
+      },
+      "equal_in_selected_coordinate": false
+    },
+    {
+      "field": "branch/diagnostic_manifold_storage_closure",
+      "C200": {
+        "present": false
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": "pressure_only_density"
+      },
+      "equal_in_selected_coordinate": false
+    },
+    {
+      "field": "branch/se_distributed_pressure_feedforward_diagnostic",
+      "C200": {
+        "present": false
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": 1.0
+      },
+      "equal_in_selected_coordinate": false
+    },
+    {
+      "field": "branch/diagnostic_constitutive_step_function",
+      "C200": {
+        "present": false
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": "HeatDriveECC_ConstitutiveStateVectorStep21_StableDiagnostic"
+      },
+      "equal_in_selected_coordinate": false
+    },
+    {
+      "field": "constitutive/rate_r_stage3_unload_1_per_s",
+      "C200": {
+        "present": true,
+        "value": 8.000949957412718
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": 8.000949957412718
+      },
+      "equal_in_selected_coordinate": true
+    },
+    {
+      "field": "constitutive/drive_width_r_Pa",
+      "C200": {
+        "present": true,
+        "value": 500000.0
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": 500000.0
+      },
+      "equal_in_selected_coordinate": true
+    },
+    {
+      "field": "constitutive/diagnostic_substeps",
+      "C200": {
+        "present": false
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": 32.0
+      },
+      "equal_in_selected_coordinate": false
+    },
+    {
+      "field": "material/SE/T_As_K",
+      "C200": {
+        "present": true,
+        "value": 268.15
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": 268.15
+      },
+      "equal_in_selected_coordinate": true
+    },
+    {
+      "field": "material/SE/T_Ms_K",
+      "C200": {
+        "present": true,
+        "value": 258.15
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": 258.15
+      },
+      "equal_in_selected_coordinate": true
+    },
+    {
+      "field": "material/SE/Delta_h_J_per_kg",
+      "C200": {
+        "present": true,
+        "value": 10000.0
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": 10000.0
+      },
+      "equal_in_selected_coordinate": true
+    },
+    {
+      "field": "geometry/L_r_m",
+      "C200": {
+        "present": true,
+        "value": 0.37843290919687267
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": 0.37843290919687267
+      },
+      "equal_in_selected_coordinate": true
+    },
+    {
+      "field": "geometry/S_r_m2",
+      "C200": {
+        "present": true,
+        "value": 1.7000000000000003e-05
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": 1.7000000000000003e-05
+      },
+      "equal_in_selected_coordinate": true
+    },
+    {
+      "field": "equilibrium/m_r_kg",
+      "C200": {
+        "present": true,
+        "value": 0.04181683646625444
+      },
+      "independent_runtime_constructor": {
+        "present": true,
+        "value": 0.04181683646625444
+      },
+      "equal_in_selected_coordinate": true
+    }
+  ],
+  "selected_difference_count": 9,
+  "full_physical_family_equivalence_established": false,
+  "all_parameter_fields_or_source_implementations_compared": false,
+  "options_only_read": true,
+  "source_states_loaded_into_simulation": false,
+  "simulation_executed": false,
+  "C200_gap_attribution_from_independent_family_authorized": false,
+  "six_factor_coupled_sensitivity_completed": false,
+  "production_recovery_allowed": false
+}

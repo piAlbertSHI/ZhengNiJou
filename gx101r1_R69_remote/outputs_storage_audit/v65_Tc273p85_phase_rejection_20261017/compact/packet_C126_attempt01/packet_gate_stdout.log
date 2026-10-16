@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\verification\Verify_HeatDriveECC_ObservationPacket.py", line 205, in <module>
+    result = audit(args.packet_root.resolve(), args.mechanism_review)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\verification\Verify_HeatDriveECC_ObservationPacket.py", line 141, in audit
+    raise ValueError('Original mechanism failed; do not propagate this packet')
+ValueError: Original mechanism failed; do not propagate this packet

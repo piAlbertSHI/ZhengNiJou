@@ -17,6 +17,13 @@ def read(path):
     return json.loads(path.read_text(encoding='utf-8-sig'))
 
 
+def phase_only_failures(checks):
+    failed = [key for key, value in checks.items() if not value]
+    if not failed or not set(failed) <= {'SE_phase_swing', 'qian_table4_half_cycle_phase_completion'}:
+        raise ValueError('This attribution must not hide another scientific failure')
+    return failed
+
+
 def phase_cycles(time, nodes):
     time, nodes = np.asarray(time).ravel(), np.asarray(nodes)
     begin, end = float(time[0]), float(time[-1])
@@ -50,6 +57,8 @@ def analyze(collection, output):
     if output.exists():
         raise FileExistsError('Preserve original rejection evidence')
     collection = collection.resolve()
+    if (collection/'HISTORICAL_RAW_RETIRED.json').exists():
+        raise ValueError('Historical middle raw was deliberately retired; use the sealed attribution and retained matched packets, not a new full-history audit')
     result = read(collection/'collection_result.json')
     if result['pass'] or not result['error_message'] or not result['completed_packets']:
         raise ValueError('Require a stopped failed collection with verified predecessor packets')
@@ -78,8 +87,8 @@ def analyze(collection, output):
             gate, boundary = read(packet/'packet_gate.json'), read(packet/'boundary_comparison.json')
             if failed or not gate['gate_pass'] or not boundary['pass']:
                 raise ValueError('Unverified predecessor packet')
-        elif set(failed) != {'SE_phase_swing', 'qian_table4_half_cycle_phase_completion'}:
-            raise ValueError('This attribution must not hide another scientific failure')
+        else:
+            phase_only_failures(checks)
         metrics = packet_cycles(packet)
         with h5py.File(packet/'native/observations.mat') as f:
             signal = f['signals/ECC_constitutive21_output']
@@ -124,6 +133,7 @@ def analyze(collection, output):
         collection_root=str(collection), source_Tc_K=origin['temperature_K'], candidate_Tc_K=result['candidate_Tc_K'],
         source_snapshot_s=origin['snapshot_time_s'], verified_stop_s=result['last_verified_snapshot_time_s'],
         attempted_stop_s=result['current_attempt_window_s'][1],
+        original_failed_phase_checks=details[-1]['failed_checks'],
         original_collection_window_field_s=result['collection_window_s'],
         original_collection_window_field_stale_on_failure=True,
         verified_additional_cycles=2*len(result['completed_packets']), attempted_additional_cycles=2*len(packets),
