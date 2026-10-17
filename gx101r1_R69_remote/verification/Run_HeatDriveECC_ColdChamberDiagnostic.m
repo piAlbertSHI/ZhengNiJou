@@ -561,6 +561,13 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     write_json(fullfile(arm,'sensitivity_case_contract.json'),factor_contract);
                 end
                 record.sensitivity_case_contract_sha256=file_hash(fullfile(arm,'sensitivity_case_contract.json'));
+                if observation_options.case_index>0
+                    overrides.branch.cold_L8_geometry_contract_path=fullfile(arm,'sensitivity_case_contract.json');
+                    if sensitivity_continuation,overrides.branch.cold_L8_geometry_contract_path=source.case_contract_path;end
+                    [authorized,permission]=Check_HeatDriveECC_ColdL8ManifoldGeometry(Build_HeatDriveECC_EighthRound_Defaults(overrides));
+                    write_json(fullfile(arm,'cold_L8_geometry_permission.json'),permission);
+                    assert(authorized,'HeatDriveECC:ColdL8GeometryPermission','%s',permission.reason);
+                end
             end
             [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(overrides);
             model_cleanup=onCleanup(@() close_system(model,0));

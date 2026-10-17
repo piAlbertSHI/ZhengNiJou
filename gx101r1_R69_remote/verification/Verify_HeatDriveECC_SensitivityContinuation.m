@@ -39,11 +39,8 @@ function record=Verify_HeatDriveECC_SensitivityContinuation(input,options,folder
     record.process_pid=feature('getpid');record.latest_execution_producer=producer;write_json(path,record);
     try
         workspace=fileparts(fileparts(fileparts(mfilename('fullpath'))));
-        [status,~]=system(sprintf(['git -c core.longpaths=true -C "%s" diff --quiet "%s" HEAD -- ' ...
-            '":(top,glob)gx101r1_R69_remote/*.m" "gx101r1_R69_remote/verification/Integrate_HeatDriveECC_StableConstitutiveSample.m" ' ...
-            '"gx101r1_R69_remote/verification/HeatDriveECC_ConstitutiveStabilityBound.m"'],workspace,source.producer));
-        assert(status==0,'Physical constructor or constitutive source changed since the actual C20 producer.');
-        record.physical_constructor_and_constitutive_sources_unchanged=true;
+        source_review=Review_HeatDriveECC_ConstructorSourceDelta(workspace,source.producer,fullfile(folder,'constructor_source_delta.json'));
+        record.physical_constructor_and_constitutive_numerical_sources_unchanged=source_review.numerical_sources_unchanged;
         recipe=Compare_HeatDriveECC_RuntimeBoundaryRecipe(fullfile(source.packet_root,'native','configuration.mat'), ...
             fullfile(folder,'configuration.mat'),fullfile(folder,'same_case_recipe_comparison.json'));
         assert(recipe.only_declared_change && recipe.numeric_validation_thresholds_equal && ...

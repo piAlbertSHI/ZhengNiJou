@@ -15,4 +15,7 @@ function allowed = Check_HeatDriveECC_DiagnosticManifoldGeometry(options)
         branch.independent_conservative_chamber_diagnostic && ...
         ~options.simulation.persist_model_configuration && isempty(options.simulation.resume_checkpoint_path) && ...
         abs(volume-nominal*branch.cold_manifold_inventory_volume_factor)<1e-15;
+    if ~allowed
+        allowed=Check_HeatDriveECC_ColdL8ManifoldGeometry(options);
+    end
 end

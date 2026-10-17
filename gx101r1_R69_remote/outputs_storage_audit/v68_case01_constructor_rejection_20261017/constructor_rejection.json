@@ -1,0 +1,28 @@
+{
+  "schema": "heatdrive_ecc_L8_constructor_rejection_v1",
+  "case_index": 1,
+  "producer": "aeaae2140b4fb64b0467c4af2bfcd611430e2dc2",
+  "terminal_exit_code": 1,
+  "classification": "construction_authorization_failure_before_coupled_cycle_execution",
+  "completed_coupled_cycles": 0,
+  "native_probe_window_s": [
+    0,
+    0.001
+  ],
+  "original_scientific_gates_evaluated": false,
+  "scientific_inadmissibility_established": false,
+  "case_still_pending_after_infrastructure_repair": true,
+  "volume_declaration": {
+    "field": "branch.sma_pump_manifold_volume_m3",
+    "before": 1.608495438637974e-06,
+    "after": 1.4476458947741766e-06
+  },
+  "source_native_probe_sha256": "E92CA4D48C57AD08A867926E2DCF82D03B4F4F0B5CEDAE3102D0BAB3D37987E8",
+  "source_guard_snapshot_sha256": "B7E03B2F17894F784379B7B38E0D46012EFC88A6E7612245BA8A8B03028C15AB",
+  "source_execution_sha256": "6B84B82A6B2F431EB5103E3A7A0B90B65867C04AE005F62AE0FC4D14AEB6B919",
+  "preserve_original_factor_range": true,
+  "failed_state_propagation_allowed": false,
+  "full_L8_effects_evaluated": false,
+  "production_recovery_allowed": false,
+  "table4_reproduction_claim": false
+}

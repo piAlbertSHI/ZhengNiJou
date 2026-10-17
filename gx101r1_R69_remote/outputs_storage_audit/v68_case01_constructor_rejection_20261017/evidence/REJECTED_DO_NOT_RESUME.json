@@ -1,0 +1,11 @@
+{
+  "classification": "construction_authorization_failure_before_coupled_cycle_execution",
+  "reason": "Legacy geometry guard recognizes a single-field 0.1 volume intervention, not the declared joint L8 volume multiplier 0.9.",
+  "completed_coupled_cycles": 0,
+  "original_mechanism_gates_evaluated": false,
+  "native_t0_probe_is_diagnostic_only": true,
+  "evolved_operating_point_available": false,
+  "recovery_allowed": false,
+  "keep_case_index_in_design": true,
+  "fresh_repaired_attempt_required": true
+}

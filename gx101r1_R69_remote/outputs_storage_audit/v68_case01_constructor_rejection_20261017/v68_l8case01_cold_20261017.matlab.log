@@ -1,0 +1,24 @@
+    ----------------------------------------------------
+	您的许可证将在 13 天后过期。
+	请与系统管理员或
+	MathWorks 公司联系，以便续订此许可证。
+    ----------------------------------------------------
+SENSITIVITY_MAPPING_TEST_JSON={"cases_checked":9,"declared_fields_per_case":27,"rejected_requests":6,"design_orthogonal":true,"all_original_numeric_validation_values_unchanged":true,"model_loaded":false,"simulation_executed":false,"OP_loaded":false}
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v68_l8case01_cold_20261017\component_build' 中生成 Simulink 库 'ecc_inventory_pressure_only_lib'...
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v68_l8case01_cold_20261017\buffer_component_build' 中生成 Simulink 库 'ecc_buffer_coupled_offset_lib'...
+{"collection_pass":false,"completed_arms":0,"state_restore_preflight_pass":false,"rebuilt_cycle_preflight_pass":false,"production_recovery_allowed":false,"result_file":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68_l8case01_cold_20261017\\cold_chamber_execution.json"}
+{错误使用 assert
+Cold chamber diagnostic failed; inspect execution JSON.
+
+出错 Run_HeatDriveECC_ColdChamberDiagnostic (第 1113 行)
+    assert(record.requested_arm_collection_pass || record.state_restore_preflight_pass || record.rebuilt_cycle_preflight_pass || observation_preflight_pass || observation_collection_pass || boundary_probe_completed || runtime_family_completed || runtime_warmup_pass, ...
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+出错 Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+    record = Run_HeatDriveECC_ColdChamberDiagnostic( ...
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+出错 Run_HeatDriveECC_RuntimeSensitivityColdCase (第 9 行)
+    execution=Run_HeatDriveECC_IndependentColdDiagnosticFromConfig(file);
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+[警告: 无法关闭模型 'heatdrive_ecc_coupled_se21'，因为它已更改。要保存更改，请使用 close_system('heatdrive_ecc_coupled_se21',1)。要放弃更改，请使用
+close_system('heatdrive_ecc_coupled_se21',0)。] 
