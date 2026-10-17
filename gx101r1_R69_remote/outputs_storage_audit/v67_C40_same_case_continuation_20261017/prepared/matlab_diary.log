@@ -1,0 +1,327 @@
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v67p1\component_build' 中生成 Simulink 库 'ecc_inventory_pressure_only_lib'...
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v67p1\buffer_component_build' 中生成 Simulink 库 'ecc_buffer_coupled_offset_lib'...
+FINAL_JSON={"schema":"heatdrive_ecc_runtime_boundary_recipe_comparison_v1","reference_configuration_sha256":"E567CF0B847E31904BAAF5793A14A7153CB0594BDF44AD1F2B326C30E9176BD2","candidate_configuration_sha256":"E4A2E505D3278B4829EC4CB91B736C2C850D2CF7A4F425D936BA41F1D0896EFF","reference_options_field":"options","reference_configurability":"runtime","candidate_configurability":"runtime","excluded_nonphysical_fields":["model_path","outputs_dir","report_path","output","validation"],"intentional_physical_group_difference":"system.cold_boundary_temperature_configurability","other_option_groups_equal":{"schema_version":true,"node_count":true,"cycle_count":true,"model_name":true,"system":true,"fluid":true,"geometry":true,"material":true,"equilibrium":true,"schedule":true,"route_matrix":true,"simulation":true,"simscape":true,"branch":true,"solid":true,"constitutive":true},"unmatched_groups":[],"simulation_executed":false,"numeric_validation_fields_equal":{"min_samples_per_stage":true,"max_abs_output":true,"max_eq6_scaled":true,"max_eq7_scaled":true,"min_node_spread_K":true,"max_cold_start_phase_swing_regression":true,"max_opposite_phase_rate_1_per_s":true,"max_qh_rel_error":true,"max_qr_rel_error":true,"max_qr_qh_rel_error":true,"max_delta_xM_a_rel_error":true,"max_delta_xM_r_rel_error":true,"min_delta_xM_r":true,"max_sigma_r_rel_error":true,"max_Th_abs_error_K":true,"max_energy_residual_fraction":true,"max_internal_mechanical_work_balance_fraction":true,"minimum_valid_liquid_pressure_MPa":true,"max_temperature_K":true,"min_temperature_K":true,"min_thermal_liquid_temperature_K":true,"max_thermal_liquid_temperature_K":true,"min_water_thermal_liquid_temperature_K":true,"max_water_thermal_liquid_temperature_K":true,"min_se_glycol_thermal_liquid_temperature_K":true,"max_se_glycol_thermal_liquid_temperature_K":true,"max_abs_stress_Pa":true,"max_abs_flow_over_target":true,"min_active_flow_fraction_of_target":true,"max_active_flow_relative_error":true,"max_inactive_core_flow_fraction_of_target":true,"max_cross_route_flow_fraction_of_target":true,"max_inactive_thermal_path_heat_W":true,"max_stage1_HHEX_SMA_buffer_rise_K":true,"max_stage3_SHEX_buffer_above_source_K":true,"max_inactive_SMA_route_flow_fraction":true,"max_sma_source_select_probe_temperature_K":true,"max_sma_water_pressure_MPa":true,"max_sma_settled_flow_relative_error":true,"se_settled_guard_s":true,"max_se_settled_flow_relative_error":true,"max_se_settled_flow_rms_relative_error":true,"max_stage_constitutive_decomposition_residual_fraction":true,"max_sma_settled_pressure_saturation_fraction":true,"max_periodic_endpoint_drift_K":true,"max_periodic_same_phase_temperature_drift_K":true,"max_periodic_phase_drift":true,"max_periodic_same_phase_temperature_p99_drift_K":true,"max_periodic_same_phase_temperature_rms_drift_K":true,"max_periodic_same_phase_phase_p99_drift":true,"max_periodic_same_phase_phase_rms_drift":true,"qian_time_step_s":true,"min_sma_phase_swing":true,"min_se_phase_swing":true,"max_table4_hot_half_loading_onset_s":true,"max_table4_hot_half_loading_completion_s":true,"max_table4_cold_half_unloading_onset_s":true,"min_table4_cold_half_unloading_completion_s":true,"max_table4_cold_half_unloading_completion_s":true,"nominal_sma_stress_Pa":true,"strict_table4_reproduction_applicable":true,"strict_table4_reproduction_evaluated":true,"strict_table4_reproduction_pass":true,"sensitivity_mode":true,"mechanism_gate_start_cycle":true,"error_on_mechanism_failure":true,"dual_fluid_domain_required":true,"dual_fluid_domain_implemented":true,"table4_max_no_load_lift_K":true,"max_table4_no_load_lift_relative_error":true,"max_table4_no_load_abs_SCP_W_per_g":true,"max_fixed_chex_temperature_error_K":true,"max_eq10_sensor_relative_difference":true,"max_eq10_sensor_absolute_difference_W":true,"table4_zero_lift_specific_cooling_W_per_g":true,"cold_boundary_implemented":true,"article_component_pipe_UA_implemented":true},"numeric_validation_thresholds_equal":true,"only_declared_change":true}
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 57 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 57 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v67c1\split_comparison_attempt01\reference\physical_validation_report.txt
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 59 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 59 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v67c1\split_comparison_attempt01\prefix\physical_validation_report.txt
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 68 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 68 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v67c1\split_comparison_attempt01\suffix\physical_validation_report.txt
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v67c1\packet_C022_attempt01\physical_validation_report.txt
+FINAL_JSON={"periodic_window_cycles":10,"last_cycle_endpoint_drift_K":0.0219748738025487,"last_cycle_CHEX_drift_K":0,"last_cycle_HHEX_drift_K":1.3548744789204648E-5,"last_cycle_phase_drift":2.8261451714141697E-5,"last_cycle_same_phase_temperature_drift_K":0.085852944163605116,"last_cycle_same_phase_temperature_p99_drift_K":0.034915698978011278,"last_cycle_same_phase_temperature_rms_drift_K":0.011975485032383371,"last_cycle_same_phase_phase_drift":0.0041541366735032975,"last_cycle_same_phase_phase_p99_drift":0.0009068325435706015,"last_cycle_same_phase_phase_rms_drift":0.0002996430570850229,"periodic_endpoint_limit_K":0.05,"periodic_same_phase_temperature_limit_K":0.05,"periodic_same_phase_temperature_p99_limit_K":0.05,"periodic_same_phase_temperature_rms_limit_K":0.01,"periodic_phase_limit":0.0001,"periodic_same_phase_phase_p99_limit":0.002,"periodic_same_phase_phase_rms_limit":0.0004,"periodic_steady_state":false}
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v67c1\packet_C024_attempt01\physical_validation_report.txt
+FINAL_JSON={"periodic_window_cycles":10,"last_cycle_endpoint_drift_K":0.021366946373689188,"last_cycle_CHEX_drift_K":0,"last_cycle_HHEX_drift_K":1.3230798970198521E-5,"last_cycle_phase_drift":2.5174141915823914E-5,"last_cycle_same_phase_temperature_drift_K":0.085852944162354561,"last_cycle_same_phase_temperature_p99_drift_K":0.031978999950297293,"last_cycle_same_phase_temperature_rms_drift_K":0.010982443831017444,"last_cycle_same_phase_phase_drift":0.0041541366734658414,"last_cycle_same_phase_phase_p99_drift":0.000844732932291703,"last_cycle_same_phase_phase_rms_drift":0.00027866154203604732,"periodic_endpoint_limit_K":0.05,"periodic_same_phase_temperature_limit_K":0.05,"periodic_same_phase_temperature_p99_limit_K":0.05,"periodic_same_phase_temperature_rms_limit_K":0.01,"periodic_phase_limit":0.0001,"periodic_same_phase_phase_p99_limit":0.002,"periodic_same_phase_phase_rms_limit":0.0004,"periodic_steady_state":false}
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v67c1\packet_C026_attempt01\physical_validation_report.txt
+FINAL_JSON={"periodic_window_cycles":10,"last_cycle_endpoint_drift_K":0.020789355475812954,"last_cycle_CHEX_drift_K":0,"last_cycle_HHEX_drift_K":1.2940003045969206E-5,"last_cycle_phase_drift":2.3329387548093978E-5,"last_cycle_same_phase_temperature_drift_K":0.085852944162354561,"last_cycle_same_phase_temperature_p99_drift_K":0.029500256599305885,"last_cycle_same_phase_temperature_rms_drift_K":0.010137822501295381,"last_cycle_same_phase_phase_drift":0.0041541366734658414,"last_cycle_same_phase_phase_p99_drift":0.00078356049595562638,"last_cycle_same_phase_phase_rms_drift":0.00025833454637295831,"periodic_endpoint_limit_K":0.05,"periodic_same_phase_temperature_limit_K":0.05,"periodic_same_phase_temperature_p99_limit_K":0.05,"periodic_same_phase_temperature_rms_limit_K":0.01,"periodic_phase_limit":0.0001,"periodic_same_phase_phase_p99_limit":0.002,"periodic_same_phase_phase_rms_limit":0.0004,"periodic_steady_state":false}
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v67c1\packet_C028_attempt01\physical_validation_report.txt
+FINAL_JSON={"periodic_window_cycles":10,"last_cycle_endpoint_drift_K":0.020242658521567591,"last_cycle_CHEX_drift_K":0,"last_cycle_HHEX_drift_K":1.2673766718762636E-5,"last_cycle_phase_drift":2.1917679442542796E-5,"last_cycle_same_phase_temperature_drift_K":0.085852944162695621,"last_cycle_same_phase_temperature_p99_drift_K":0.02727918767641313,"last_cycle_same_phase_temperature_rms_drift_K":0.0093698554851785153,"last_cycle_same_phase_phase_drift":0.0041541366734752089,"last_cycle_same_phase_phase_p99_drift":0.00072371306943930236,"last_cycle_same_phase_phase_rms_drift":0.00023911837680079564,"periodic_endpoint_limit_K":0.05,"periodic_same_phase_temperature_limit_K":0.05,"periodic_same_phase_temperature_p99_limit_K":0.05,"periodic_same_phase_temperature_rms_limit_K":0.01,"periodic_phase_limit":0.0001,"periodic_same_phase_phase_p99_limit":0.002,"periodic_same_phase_phase_rms_limit":0.0004,"periodic_steady_state":true}
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v67c1\packet_C030_attempt01\physical_validation_report.txt
+FINAL_JSON={"periodic_window_cycles":10,"last_cycle_endpoint_drift_K":0.019736154892427749,"last_cycle_CHEX_drift_K":0,"last_cycle_HHEX_drift_K":1.2427767444478377E-5,"last_cycle_phase_drift":2.0660642442631031E-5,"last_cycle_same_phase_temperature_drift_K":0.080231627252487669,"last_cycle_same_phase_temperature_p99_drift_K":0.025234474258923,"last_cycle_same_phase_temperature_rms_drift_K":0.0086641384628514239,"last_cycle_same_phase_phase_drift":0.0039908051815484777,"last_cycle_same_phase_phase_p99_drift":0.0006719183440749843,"last_cycle_same_phase_phase_rms_drift":0.00022165907254922168,"periodic_endpoint_limit_K":0.05,"periodic_same_phase_temperature_limit_K":0.05,"periodic_same_phase_temperature_p99_limit_K":0.05,"periodic_same_phase_temperature_rms_limit_K":0.01,"periodic_phase_limit":0.0001,"periodic_same_phase_phase_p99_limit":0.002,"periodic_same_phase_phase_rms_limit":0.0004,"periodic_steady_state":true}
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v67c1\packet_C032_attempt01\physical_validation_report.txt
+FINAL_JSON={"periodic_window_cycles":10,"last_cycle_endpoint_drift_K":0.019263221983010226,"last_cycle_CHEX_drift_K":0,"last_cycle_HHEX_drift_K":1.2200968001252477E-5,"last_cycle_phase_drift":1.946901000114405E-5,"last_cycle_same_phase_temperature_drift_K":0.11008891049766589,"last_cycle_same_phase_temperature_p99_drift_K":0.023380683290213256,"last_cycle_same_phase_temperature_rms_drift_K":0.0080256541654204656,"last_cycle_same_phase_phase_drift":0.00534136962660528,"last_cycle_same_phase_phase_p99_drift":0.00062690908059426231,"last_cycle_same_phase_phase_rms_drift":0.00020664224246874505,"periodic_endpoint_limit_K":0.05,"periodic_same_phase_temperature_limit_K":0.05,"periodic_same_phase_temperature_p99_limit_K":0.05,"periodic_same_phase_temperature_rms_limit_K":0.01,"periodic_phase_limit":0.0001,"periodic_same_phase_phase_p99_limit":0.002,"periodic_same_phase_phase_rms_limit":0.0004,"periodic_steady_state":true}
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v67c1\packet_C034_attempt01\physical_validation_report.txt
+FINAL_JSON={"periodic_window_cycles":10,"last_cycle_endpoint_drift_K":0.01882116442646975,"last_cycle_CHEX_drift_K":0,"last_cycle_HHEX_drift_K":1.1992249312697822E-5,"last_cycle_phase_drift":1.8318101976524254E-5,"last_cycle_same_phase_temperature_drift_K":0.11008891049766589,"last_cycle_same_phase_temperature_p99_drift_K":0.021622374721346205,"last_cycle_same_phase_temperature_rms_drift_K":0.0074376476673103072,"last_cycle_same_phase_phase_drift":0.00534136962660528,"last_cycle_same_phase_phase_p99_drift":0.00057764172811713976,"last_cycle_same_phase_phase_rms_drift":0.00019312802508394321,"periodic_endpoint_limit_K":0.05,"periodic_same_phase_temperature_limit_K":0.05,"periodic_same_phase_temperature_p99_limit_K":0.05,"periodic_same_phase_temperature_rms_limit_K":0.01,"periodic_phase_limit":0.0001,"periodic_same_phase_phase_p99_limit":0.002,"periodic_same_phase_phase_rms_limit":0.0004,"periodic_steady_state":true}
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v67c1\packet_C036_attempt01\physical_validation_report.txt
+FINAL_JSON={"periodic_window_cycles":10,"last_cycle_endpoint_drift_K":0.018408032676234143,"last_cycle_CHEX_drift_K":0,"last_cycle_HHEX_drift_K":1.1800145614415669E-5,"last_cycle_phase_drift":1.7205194801455737E-5,"last_cycle_same_phase_temperature_drift_K":0.11008891049766589,"last_cycle_same_phase_temperature_p99_drift_K":0.020042331742274655,"last_cycle_same_phase_temperature_rms_drift_K":0.0069051926388515759,"last_cycle_same_phase_phase_drift":0.00534136962660528,"last_cycle_same_phase_phase_p99_drift":0.00053791365810618164,"last_cycle_same_phase_phase_rms_drift":0.00018127775657054686,"periodic_endpoint_limit_K":0.05,"periodic_same_phase_temperature_limit_K":0.05,"periodic_same_phase_temperature_p99_limit_K":0.05,"periodic_same_phase_temperature_rms_limit_K":0.01,"periodic_phase_limit":0.0001,"periodic_same_phase_phase_p99_limit":0.002,"periodic_same_phase_phase_rms_limit":0.0004,"periodic_steady_state":true}
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v67c1\packet_C038_attempt01\physical_validation_report.txt
+FINAL_JSON={"periodic_window_cycles":10,"last_cycle_endpoint_drift_K":0.018021670429789083,"last_cycle_CHEX_drift_K":0,"last_cycle_HHEX_drift_K":1.1623543173300277E-5,"last_cycle_phase_drift":1.6128630636319877E-5,"last_cycle_same_phase_temperature_drift_K":0.11008891049766589,"last_cycle_same_phase_temperature_p99_drift_K":0.018449380332071996,"last_cycle_same_phase_temperature_rms_drift_K":0.0063737862776489761,"last_cycle_same_phase_phase_drift":0.00534136962660528,"last_cycle_same_phase_phase_p99_drift":0.00050206681123765584,"last_cycle_same_phase_phase_rms_drift":0.00016714197039475459,"periodic_endpoint_limit_K":0.05,"periodic_same_phase_temperature_limit_K":0.05,"periodic_same_phase_temperature_p99_limit_K":0.05,"periodic_same_phase_temperature_rms_limit_K":0.01,"periodic_phase_limit":0.0001,"periodic_same_phase_phase_p99_limit":0.002,"periodic_same_phase_phase_rms_limit":0.0004,"periodic_steady_state":true}
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 31 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation/collect (第 135 行)
+位置: Verify_HeatDriveECC_SensitivityContinuation (第 104 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 816 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_SensitivityContinuation (第 13 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v67c1\packet_C040_attempt01\physical_validation_report.txt
+FINAL_JSON={"periodic_window_cycles":10,"last_cycle_endpoint_drift_K":0.017661250781884519,"last_cycle_CHEX_drift_K":0,"last_cycle_HHEX_drift_K":1.1460811322194786E-5,"last_cycle_phase_drift":1.5089148102973493E-5,"last_cycle_same_phase_temperature_drift_K":0.11008891049766589,"last_cycle_same_phase_temperature_p99_drift_K":0.017185132200665976,"last_cycle_same_phase_temperature_rms_drift_K":0.0059439693881912113,"last_cycle_same_phase_phase_drift":0.00534136962660528,"last_cycle_same_phase_phase_p99_drift":0.0004688745817851836,"last_cycle_same_phase_phase_rms_drift":0.00015917155244524306,"periodic_endpoint_limit_K":0.05,"periodic_same_phase_temperature_limit_K":0.05,"periodic_same_phase_temperature_p99_limit_K":0.05,"periodic_same_phase_temperature_rms_limit_K":0.01,"periodic_phase_limit":0.0001,"periodic_same_phase_phase_p99_limit":0.002,"periodic_same_phase_phase_rms_limit":0.0004,"periodic_steady_state":true}
+SENSITIVITY_CONTINUATION_JSON={"schema":"heatdrive_ecc_sensitivity_continuation_v1","producer":"c2a95823842a5867a190d32789e2a9df5a7ed7fb","process_pid":123644,"case_index":0,"case_contract_sha256":"D703C7F250B69CD6467FC3190B4723E2F00E796AC76DE489F70772022EB24CF7","source_closeout_sha256":"98BEC1478F7949F533B3BD707836D69668396CF650ED053A4A24A114BB8C3D05","source_packet_root":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020","source_operating_point_sha256":"067C4692D93D171755CC1EA67C89C264A85676A94B03C86DEAAF7F6688C50FA5","planned_window_s":[200,400],"last_verified_snapshot_time_s":400,"completed_packets":[{"packet_root":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C022_attempt01","start_time_s":200,"stop_time_s":220,"operating_point_sha256":"3B575749E460B5CBD165C7E4C3AFB68A4A7BB54C2CDDDF4E6BCB5BDE1391D42B"},{"packet_root":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C024_attempt01","start_time_s":220,"stop_time_s":240,"operating_point_sha256":"0AE4E6232059A0CA512A1D1E0CDBDA6382C89CE9D3417E3EC839B941CC89413A"},{"packet_root":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C026_attempt01","start_time_s":240,"stop_time_s":260,"operating_point_sha256":"0E212F1123D435995508AD0A0312EF5F87C8A68C8095AE372D06BFEAC6824017"},{"packet_root":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C028_attempt01","start_time_s":260,"stop_time_s":280,"operating_point_sha256":"F0D202C68702A715AA14D9258D31478E4AB418264B9D834DBEB54CB628E2E664"},{"packet_root":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C030_attempt01","start_time_s":280,"stop_time_s":300,"operating_point_sha256":"C542CB803C29007F7BF179DA5481FA254FFFBC65C48E1ECF8B33D754D7C44A4A"},{"packet_root":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C032_attempt01","start_time_s":300,"stop_time_s":320,"operating_point_sha256":"BF77B0EB5B57555C01E5DEEC53AD6C75045CD637930912E39087BCCCE179977D"},{"packet_root":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C034_attempt01","start_time_s":320,"stop_time_s":340,"operating_point_sha256":"22144B330E2E3423BD45CD3F9C66DEFE19F91FF4C7B76E9CEBD867E9ACAA8228"},{"packet_root":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C036_attempt01","start_time_s":340,"stop_time_s":360,"operating_point_sha256":"E7BFDE3B5A473214A7810E4212905DAF572292BB9A34C4B857FFD81FADE16656"},{"packet_root":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C038_attempt01","start_time_s":360,"stop_time_s":380,"operating_point_sha256":"B64B51261A7D06A59C11D77C6B8989F35AEFCD24991853FB44536EB1077FF3EA"},{"packet_root":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C040_attempt01","start_time_s":380,"stop_time_s":400,"operating_point_sha256":"1A087603B8A06477EB37B0303DB069728333C04209B738427AA9A2CAB432DF6E"}],"completed_continuation_cycles":20,"split_trajectory_comparison_pass":true,"experiment_completed":true,"error_message":"","source_state_edited":false,"state_reconstructed_or_reset":false,"full_internal_state_periodicity_verified":false,"orthogonal_effects_evaluated":false,"production_recovery_allowed":false,"outer_solve_eligible":false,"latest_execution_producer":"c2a95823842a5867a190d32789e2a9df5a7ed7fb","physical_constructor_and_constitutive_sources_unchanged":true,"split_trajectory_comparison_bitwise":true,"split_comparison_root":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\split_comparison_attempt01","prefix_comparison_sha256":"6C66436FA3C4A4AF4306DC6317D219ED4EF2637F48503867D525F302D3D058EC","suffix_comparison_sha256":"E9A8B51CB2416FFB58B5F8E3F4A4DB45E5AECCF98C9DD5F3B0CC12A3C2549FA9","split_comparison_scope":"200-220 s continuous versus disk split at 210 s; bounded trajectory evidence, not a universal serialization proof","comparison_states_may_propagate":false,"current_attempt_root":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C040_attempt01","current_attempt_window_s":[380,400],"last_verified_packet_root":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C040_attempt01","latest_public_periodicity":{"window_s":[300,400],"periodic_steady_state":true,"measured_window_path":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\periodicity_C040_attempt01\\measured_window.json","measured_window_sha256":"A73E490B04208CB36C091460625C1F2BFBEA148B40F7826D7DE28C0BFDD715D7","thermal_statistics_path":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\periodicity_C040_attempt01\\original_thermal_statistics.json","thermal_statistics_sha256":"DB00A70E8DB2D12FE4A4F79357578EEF7E7854F29B09B80311ECF208A0BFCEB1","statistics":{"periodic_window_cycles":10,"last_cycle_endpoint_drift_K":0.017661250781884519,"last_cycle_CHEX_drift_K":0,"last_cycle_HHEX_drift_K":1.1460811322194786E-5,"last_cycle_phase_drift":1.5089148102973493E-5,"last_cycle_same_phase_temperature_drift_K":0.11008891049766589,"last_cycle_same_phase_temperature_p99_drift_K":0.017185132200665976,"last_cycle_same_phase_temperature_rms_drift_K":0.0059439693881912113,"last_cycle_same_phase_phase_drift":0.00534136962660528,"last_cycle_same_phase_phase_p99_drift":0.0004688745817851836,"last_cycle_same_phase_phase_rms_drift":0.00015917155244524306,"periodic_endpoint_limit_K":0.05,"periodic_same_phase_temperature_limit_K":0.05,"periodic_same_phase_temperature_p99_limit_K":0.05,"periodic_same_phase_temperature_rms_limit_K":0.01,"periodic_phase_limit":0.0001,"periodic_same_phase_phase_p99_limit":0.002,"periodic_same_phase_phase_rms_limit":0.0004,"periodic_steady_state":true},"physical_tolerances_changed":false,"complete_internal_state_periodicity_verified":false,"outer_solve_eligible":false},"latest_target_precision":{"schema":"heatdrive_ecc_target_window_precision_v1","window_s":[300,400],"temperature_K":276.95,"measured_window_sha256":"A73E490B04208CB36C091460625C1F2BFBEA148B40F7826D7DE28C0BFDD715D7","cycles":[{"cycle":31,"window_s":[300,310],"temperature_lift_eq9_K":28.203403601083391,"cooling_power_eq10_W":12.851377789654574,"SCP_W_per_g":0.3073254429474942,"CHEX_sensor_mean_W":12.510378360193643,"positive_SHEX_heat_mean_W":823.68694246985274,"heat_driven_COP":0.01560225994492433,"source_packet_manifest_sha256":"3F5BA2992D3E566FAFEC86C9C0059B823E16D5501D78244D96B62BAFE3CD8EAB"},{"cycle":32,"window_s":[310,320],"temperature_lift_eq9_K":28.222092410067091,"cooling_power_eq10_W":12.862309815569237,"SCP_W_per_g":0.3075868693689664,"CHEX_sensor_mean_W":12.521207737279632,"positive_SHEX_heat_mean_W":823.68556885229339,"heat_driven_COP":0.015615558050253711,"source_packet_manifest_sha256":"3F5BA2992D3E566FAFEC86C9C0059B823E16D5501D78244D96B62BAFE3CD8EAB"},{"cycle":33,"window_s":[320,330],"temperature_lift_eq9_K":28.240051059288582,"cooling_power_eq10_W":12.872783362554154,"SCP_W_per_g":0.3078373318111306,"CHEX_sensor_mean_W":12.531582422848949,"positive_SHEX_heat_mean_W":823.68427104612272,"heat_driven_COP":0.015628298141720051,"source_packet_manifest_sha256":"19AB05DA701C82B7FE50186EF71405DA81EC7FEFAD0A9B7750FDBA4D9BD924FD"},{"cycle":34,"window_s":[330,340],"temperature_lift_eq9_K":28.257307998030115,"cooling_power_eq10_W":12.882817718226983,"SCP_W_per_g":0.30807729151446506,"CHEX_sensor_mean_W":12.541521517273665,"positive_SHEX_heat_mean_W":823.68303662280994,"heat_driven_COP":0.01564050386547711,"source_packet_manifest_sha256":"19AB05DA701C82B7FE50186EF71405DA81EC7FEFAD0A9B7750FDBA4D9BD924FD"},{"cycle":35,"window_s":[340,350],"temperature_lift_eq9_K":28.273890717161237,"cooling_power_eq10_W":12.892431723298625,"SCP_W_per_g":0.30830719903220377,"CHEX_sensor_mean_W":12.551043698487137,"positive_SHEX_heat_mean_W":823.68186859279535,"heat_driven_COP":0.015652198032869741,"source_packet_manifest_sha256":"5A68B02368A9F64B9CF709FE2EF4A6DAF387FF5AE8F2BAFA9C799D5399689A2E"},{"cycle":36,"window_s":[350,360],"temperature_lift_eq9_K":28.28982573595842,"cooling_power_eq10_W":12.90164326302083,"SCP_W_per_g":0.30852748206890929,"CHEX_sensor_mean_W":12.560166749921313,"positive_SHEX_heat_mean_W":823.6807636636438,"heat_driven_COP":0.015663402415318894,"source_packet_manifest_sha256":"5A68B02368A9F64B9CF709FE2EF4A6DAF387FF5AE8F2BAFA9C799D5399689A2E"},{"cycle":37,"window_s":[360,370],"temperature_lift_eq9_K":28.305138320323959,"cooling_power_eq10_W":12.910469171665014,"SCP_W_per_g":0.30873854319619726,"CHEX_sensor_mean_W":12.568907401783367,"positive_SHEX_heat_mean_W":823.67971773851627,"heat_driven_COP":0.015674137524123843,"source_packet_manifest_sha256":"B41C39C04FAC1DEE8C368D6CDDBDD26A841DAE0F547F4105C3FB211E8329FC10"},{"cycle":38,"window_s":[370,380],"temperature_lift_eq9_K":28.319852802402217,"cooling_power_eq10_W":12.918925555341332,"SCP_W_per_g":0.30894076757257116,"CHEX_sensor_mean_W":12.577281678657084,"positive_SHEX_heat_mean_W":823.67872926650762,"heat_driven_COP":0.015684422938596138,"source_packet_manifest_sha256":"B41C39C04FAC1DEE8C368D6CDDBDD26A841DAE0F547F4105C3FB211E8329FC10"},{"cycle":39,"window_s":[380,390],"temperature_lift_eq9_K":28.33399260967775,"cooling_power_eq10_W":12.927027860747128,"SCP_W_per_g":0.30913452458746,"CHEX_sensor_mean_W":12.585304910183941,"positive_SHEX_heat_mean_W":823.67779550707,"heat_driven_COP":0.015694277460507517,"source_packet_manifest_sha256":"370726DFF64DD820F0A0AA2FCB2D615AAC3573DA0D8F0073C179051C66A6EAF1"},{"cycle":40,"window_s":[390,400],"temperature_lift_eq9_K":28.347580352616042,"cooling_power_eq10_W":12.934790771537237,"SCP_W_per_g":0.309320165383037,"CHEX_sensor_mean_W":12.592991661181747,"positive_SHEX_heat_mean_W":823.67691777170091,"heat_driven_COP":0.015703718888383834,"source_packet_manifest_sha256":"370726DFF64DD820F0A0AA2FCB2D615AAC3573DA0D8F0073C179051C66A6EAF1"}],"input_manifests":[{"path":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C032_attempt01\\packet_manifest.json","sha256":"3F5BA2992D3E566FAFEC86C9C0059B823E16D5501D78244D96B62BAFE3CD8EAB"},{"path":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C034_attempt01\\packet_manifest.json","sha256":"19AB05DA701C82B7FE50186EF71405DA81EC7FEFAD0A9B7750FDBA4D9BD924FD"},{"path":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C036_attempt01\\packet_manifest.json","sha256":"5A68B02368A9F64B9CF709FE2EF4A6DAF387FF5AE8F2BAFA9C799D5399689A2E"},{"path":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C038_attempt01\\packet_manifest.json","sha256":"B41C39C04FAC1DEE8C368D6CDDBDD26A841DAE0F547F4105C3FB211E8329FC10"},{"path":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C040_attempt01\\packet_manifest.json","sha256":"370726DFF64DD820F0A0AA2FCB2D615AAC3573DA0D8F0073C179051C66A6EAF1"}],"precision_source":"Run_HeatDriveECC_Table4_OuterSolve defaults: lift 0.1 K, SCP 0.01 W/g","outer_source_sha256":"70B9AD13ACBFE037F00AA870D02F790063067928C07EFCD2602AE980C7F6081B","lift_span_K":0.14417675153265108,"SCP_span_W_per_g":0.0019947224355428284,"lift_limit_K":0.1,"SCP_limit_W_per_g":0.01,"precision_pass":false,"finite_window_variation_only":true,"asymptotic_error_bound_claim":false,"new_physical_tolerance_imposed":false,"complete_internal_state_periodicity_claim":false},"total_cycles":40}
+{"collection_pass":false,"completed_arms":0,"state_restore_preflight_pass":false,"rebuilt_cycle_preflight_pass":false,"production_recovery_allowed":false,"result_file":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67p1\\cold_chamber_execution.json"}

@@ -18,7 +18,7 @@ function record=Verify_HeatDriveECC_SensitivityContinuation(input,options,folder
                 request.collection_stop_s<=record.last_verified_snapshot_time_s+200, ...
                 'An explicit bounded extension must follow the finished endpoint.');
             archived=fullfile(root,['completed_to_' num2str(record.last_verified_snapshot_time_s) '_' file_hash(path) '.json']);
-            assert(~isfile(archived));copyfile(path,archived);
+            if isfile(archived),assert(strcmp(file_hash(archived),file_hash(path)));else,copyfile(path,archived);end
             record.previous_completed_record_path=archived;record.previous_completed_record_sha256=file_hash(archived);
             record.planned_window_s(2)=request.collection_stop_s;record.experiment_completed=false;
         else

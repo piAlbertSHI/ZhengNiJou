@@ -1,0 +1,64 @@
+{
+  "schema": "heatdrive_ecc_split_observation_packet_v1",
+  "producer": "c2a95823842a5867a190d32789e2a9df5a7ed7fb",
+  "window_s": [
+    260,
+    280
+  ],
+  "source_snapshot_s": 260,
+  "history_cap_cycles": 2,
+  "state_history_cap_cycles": 11,
+  "simulation_returned_without_error": true,
+  "strict_vendor_restore": true,
+  "checksum_policy": "error/error",
+  "source_state_edited": false,
+  "production_recovery_allowed": false,
+  "complete_OP_sha256": "F0D202C68702A715AA14D9258D31478E4AB418264B9D834DBEB54CB628E2E664",
+  "packet_role": "runtime_sensitivity_continuation",
+  "parent_complete_OP_sha256": "0E212F1123D435995508AD0A0312EF5F87C8A68C8095AE372D06BFEAC6824017",
+  "independent_cold_start": false,
+  "simulation_timing_sha256": "3E64DA4425C9C661E613432C4C9D10E04524E8AB504D5B3EFB5295E0A0A3318A",
+  "temperature_configurability": "runtime",
+  "prescribed_Tc_K": 276.95,
+  "command_horizon_cycles": 200,
+  "sensitivity_case_scope_only": true,
+  "sensitivity_case_contract_sha256": "D703C7F250B69CD6467FC3190B4723E2F00E796AC76DE489F70772022EB24CF7",
+  "input_files": [
+    {
+      "path": "native/observations.mat",
+      "sha256": "79E3F37E9B7543AB99E342879BA93C477120855986CFEEA6BB1EA380349A1DA9"
+    },
+    {
+      "path": "native/configuration.mat",
+      "sha256": "E4A2E505D3278B4829EC4CB91B736C2C850D2CF7A4F425D936BA41F1D0896EFF"
+    },
+    {
+      "path": "native/inventory_metadata.json",
+      "sha256": "F76689F9B90A97E739642C512D989D9CD61359CE6CA3D13D9A6484EF66DDCE17"
+    },
+    {
+      "path": "native/tl_connectivity.json",
+      "sha256": "FA6DF7F73DECDB7DA7BA10DBE5033166F127B1B4E3DAC40419F68AF5E1AD330D"
+    },
+    {
+      "path": "native/thermal_connectivity.json",
+      "sha256": "EAC3BB3E6CD17806E11C61C651314A110B71D0921E501B16FEBC60323572D9C9"
+    },
+    {
+      "path": "native/buffer_replacement_contract.json",
+      "sha256": "C896D1561732882D23A10ECD6B6964F0EF1B0B878CE2C1091F14547E531C73CC"
+    },
+    {
+      "path": "mechanism.json",
+      "sha256": "21B9149F121C858527D632A590E317E69A068CB210FE3397EED619F869C7C7DE"
+    },
+    {
+      "path": "observed_states.mat",
+      "sha256": "7F3EEC6566ECD9D9F47394D5F4BB6F03148BC5FD2D134A90659BB950524EBABC"
+    },
+    {
+      "path": "native/sensitivity_case_contract.json",
+      "sha256": "D703C7F250B69CD6467FC3190B4723E2F00E796AC76DE489F70772022EB24CF7"
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "schema": "heatdrive_ecc_stage4_controller_probe_contract_v4",
+  "model_name": "heatdrive_ecc_coupled_se21",
+  "simulation_run": false,
+  "state_imported": false,
+  "production_recovery_allowed": false,
+  "probe_count": 24,
+  "probes": [
+    {
+      "source_block": "SEStage4PressureFFInletTemperatureDelay",
+      "workspace_variable": "stage4_inlet_temperature_delay",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "SEStage4PressureFFOutletTemperatureDelay",
+      "workspace_variable": "stage4_outlet_temperature_delay",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "SEStage4PressureFFActivityFromWorkspace",
+      "workspace_variable": "stage4_feedforward_activity",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "SEStage4InletViscosityExp",
+      "workspace_variable": "stage4_inlet_viscosity",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "SEStage4OutletViscosityExp",
+      "workspace_variable": "stage4_outlet_viscosity",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "SEStage4ViscosityMean",
+      "workspace_variable": "stage4_endpoint_viscosity_mean",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "SEStage4BlendedViscosity",
+      "workspace_variable": "stage4_blended_viscosity",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "SEStage4ViscosityRatio",
+      "workspace_variable": "stage4_viscosity_ratio",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "SEStage4EndpointViscosityWeightedDelta",
+      "workspace_variable": "stage4_weighted_viscosity_delta",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "SEPressureFFRatioSum",
+      "workspace_variable": "stage4_feedforward_ratio_sum",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "SEPressureDynamicFeedforward",
+      "workspace_variable": "stage4_dynamic_feedforward",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "PressurePI_ErrorNormalizer",
+      "workspace_variable": "stage4_normalized_error",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "PressurePI_ErrorLag",
+      "workspace_variable": "stage4_filtered_error",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "SEPressurePEnableProduct",
+      "workspace_variable": "stage4_p_output",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "SEPressureFeedbackEnableFromWorkspace",
+      "workspace_variable": "stage4_p_enable_scale",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "PressurePI_ErrorSum",
+      "workspace_variable": "stage4_flow_error",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "SEStage4PressureIInputGate",
+      "workspace_variable": "stage4_integrator_input",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "SEStage4PressurePI_Integrator",
+      "workspace_variable": "stage4_integrator_state",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "SEStage4PressureIOutputGate",
+      "workspace_variable": "stage4_integrator_output_gate",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "SERoutePressureISum",
+      "workspace_variable": "stage4_route_integral",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "PressurePI_BiasSum",
+      "workspace_variable": "stage4_bias_sum",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "PressurePI_Saturation",
+      "workspace_variable": "stage4_pressure_command",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "SEFlowTargetFromWorkspace",
+      "workspace_variable": "stage4_target_flow_command",
+      "unit": "model_signal",
+      "simulation_run": false
+    },
+    {
+      "source_block": "SEPressureBiasFromWorkspace",
+      "workspace_variable": "stage4_pressure_bias_command",
+      "unit": "model_signal",
+      "simulation_run": false
+    }
+  ],
+  "output_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67p1\\native"
+}
