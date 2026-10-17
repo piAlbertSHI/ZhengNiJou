@@ -1,7 +1,8 @@
-param([switch]$Apply,[string]$ExpectedPlanSha256)
+param([switch]$Apply,[string]$ExpectedPlanSha256,[switch]$L8CaseOne)
 $ErrorActionPreference='Stop'
 $repo=(Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 $archive=Join-Path $repo 'outputs_storage_audit\v67_C60_same_case_continuation_20261017\cold_prefix_retirement'
+if($L8CaseOne){$archive=Join-Path $repo 'outputs_storage_audit\v68_L8case01_C60_20261017\cold_prefix_retirement'}
 $planPath=Join-Path $archive 'retirement_plan.json';$receiptPath=Join-Path $archive 'retirement_receipt.json'
 function Read-Json([string]$Path){Get-Content -LiteralPath $Path -Raw -Encoding utf8 | ConvertFrom-Json}
 function Hash([string]$Path){(Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash}
@@ -21,7 +22,8 @@ function Check-LocalPath([string]$Path,[string]$Root){
     return $p
 }
 function Assert-NoRun {
-    if(Get-CimInstance Win32_Process -Filter "Name = 'MATLAB.exe'" | Where-Object {$_.CommandLine -match 'v67p[12]|v67c1|v66_sensitivity_nominal_20261017'}){
+    $pattern=if($L8CaseOne){'v68p[12]|v68c1|v68r2'}else{'v67p[12]|v67c1|v66_sensitivity_nominal_20261017'}
+    if(Get-CimInstance Win32_Process -Filter "Name = 'MATLAB.exe'" | Where-Object {$_.CommandLine -match $pattern}){
         throw 'The exact diagnostic has a live MATLAB process'
     }
 }
@@ -32,13 +34,30 @@ if(-not $Apply){
     $coldPath=Join-Path $repo 'outputs_storage_audit\v66_nominal_cold_20cycle_20261017\case_closeout.json'
     $latestPath=Join-Path $repo 'outputs_storage_audit\v67_C60_same_case_continuation_20261017\continuation_closeout.json'
     $decisionPath=Join-Path $repo 'outputs_storage_audit\v67_C60_same_case_continuation_20261017\disjoint_control_windows.json'
-    if((Hash $coldPath) -ne '98BEC1478F7949F533B3BD707836D69668396CF650ED053A4A24A114BB8C3D05' -or
-       (Hash $latestPath) -ne 'C75450A51A90AA58C698084F88EBF05837659153973D07BCDAE2AA607F246467'){throw 'Changed sealed source'}
+    $coldHash='98BEC1478F7949F533B3BD707836D69668396CF650ED053A4A24A114BB8C3D05'
+    $latestHash='C75450A51A90AA58C698084F88EBF05837659153973D07BCDAE2AA607F246467'
+    if($L8CaseOne){
+        $coldPath=Join-Path $repo 'outputs_storage_audit\v68_L8case01_C20_20261017\case_closeout.json'
+        $latestPath=Join-Path $repo 'outputs_storage_audit\v68_L8case01_C60_20261017\continuation_closeout.json'
+        $decisionPath=Join-Path $repo 'outputs_storage_audit\v68_L8case01_C60_20261017\disjoint_case_windows.json'
+        $coldHash='9EE8AAA8794A7A29E14B8F98A3E8A01F9B227CD13C6A18040057D4952FFFD767'
+        $latestHash='F4F0D244DC5192A450CAABE253C104CE38686C7477FD41A2651EE497E4E35532'
+        if((Hash $decisionPath) -ne '0BC0D026D675C492371FFE084D2F7C4B6D90F3C56EAD06F70AD082BB3F4398E1'){throw 'Changed case window decision'}
+    }
+    if((Hash $coldPath) -ne $coldHash -or (Hash $latestPath) -ne $latestHash){throw 'Changed sealed source'}
     $cold=Read-Json $coldPath;$latest=Read-Json $latestPath;$decision=Read-Json $decisionPath
-    if(-not $decision.finite_precision_nominal_control_qualified -or $latest.completed_cycles -ne 60 -or
+    $qualified=$decision.finite_precision_nominal_control_qualified
+    if($L8CaseOne){
+        $qualified=$decision.finite_precision_case_response_qualified
+        if($cold.case_index -ne 1 -or $latest.case_index -ne 1 -or $decision.case_index -ne 1 -or
+           $cold.case_contract_sha256 -ne $latest.case_contract_sha256 -or
+           $decision.case_contract_sha256 -ne $latest.case_contract_sha256){throw 'Wrong exact L8 case'}
+    }
+    if(-not $qualified -or $latest.completed_cycles -ne 60 -or
        -not $latest.public_periodicity.periodic_steady_state -or -not $latest.target_precision.precision_pass){throw 'Current control not qualified'}
     $root=Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $cold.source_result_path))
     $expected='C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v66_sensitivity_nominal_20261017'
+    if($L8CaseOne){$expected='C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v68r2'}
     if($root -ne $expected){throw 'Unexpected cold execution root'}
     $marker=Join-Path $root 'HISTORICAL_COLD_PREFIX_RAW_RETIRED.json'
     if(Test-Path -LiteralPath $marker){throw 'Cold prefix was already classified retired'}
@@ -71,7 +90,7 @@ if(-not $Apply){
     Check-Records $keep
     if($candidates.Count -ne 8 -or @($candidates.path | Select-Object -Unique).Count -ne 8){throw 'Require exactly eight historical arrays'}
     New-Item -ItemType Directory -Path $archive | Out-Null
-    $plan=[pscustomobject]@{schema='heatdrive_ecc_cold_control_prefix_retirement_v1';cold_root=$root;files=$candidates;protected_files=$keep;
+    $plan=[pscustomobject]@{schema='heatdrive_ecc_cold_control_prefix_retirement_v1';case_index=$cold.case_index;cold_root=$root;files=$candidates;protected_files=$keep;
         retire_bytes=($candidates | Measure-Object bytes -Sum).Sum;retained_cold_origin_window_s=@(100,200);retained_first_cold_packet=$true;
         all_complete_OPs_retained=$true;current_C60_continuation_untouched=$true;current_C108_untouched=$true;
         production_recovery_allowed=$false;full_historical_cold_raw_reverification_after_retirement=$false}
@@ -82,6 +101,7 @@ if(-not $Apply){
 if(-not $ExpectedPlanSha256 -or (Hash $planPath) -ne $ExpectedPlanSha256){throw 'Exact separately reviewed plan SHA required'}
 $plan=Read-Json $planPath
 if($plan.schema -ne 'heatdrive_ecc_cold_control_prefix_retirement_v1' -or $plan.files.Count -ne 8 -or -not $plan.all_complete_OPs_retained){throw 'Wrong plan'}
+if($L8CaseOne -and ($plan.case_index -ne 1 -or $plan.cold_root -ne 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v68r2')){throw 'Wrong exact case root'}
 Check-Records $plan.protected_files;Check-Records $plan.files;Assert-NoRun
 $allowed=@()
 foreach($cycle in 4,6,8,10){foreach($relative in 'native\observations.mat','observed_states.mat'){

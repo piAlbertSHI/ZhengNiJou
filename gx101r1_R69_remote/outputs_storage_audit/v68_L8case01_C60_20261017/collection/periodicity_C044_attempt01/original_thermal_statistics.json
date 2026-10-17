@@ -1,0 +1,40 @@
+{
+  "schema": "heatdrive_ecc_recorded_ten_cycle_thermal_statistics_v1",
+  "window_s": [
+    340,
+    440
+  ],
+  "sample_count": 100001,
+  "statistics": {
+    "periodic_window_cycles": 10,
+    "last_cycle_endpoint_drift_K": 0.015971234033088422,
+    "last_cycle_CHEX_drift_K": 0,
+    "last_cycle_HHEX_drift_K": 1.2748566405207384E-5,
+    "last_cycle_phase_drift": 6.7893394815837869E-6,
+    "last_cycle_same_phase_temperature_drift_K": 0.087790801515495787,
+    "last_cycle_same_phase_temperature_p99_drift_K": 0.013282299292711741,
+    "last_cycle_same_phase_temperature_rms_drift_K": 0.0046151993661417857,
+    "last_cycle_same_phase_phase_drift": 0.0044384958632232019,
+    "last_cycle_same_phase_phase_p99_drift": 0.00036704773574303129,
+    "last_cycle_same_phase_phase_rms_drift": 0.00012485120267762654,
+    "periodic_endpoint_limit_K": 0.05,
+    "periodic_same_phase_temperature_limit_K": 0.05,
+    "periodic_same_phase_temperature_p99_limit_K": 0.05,
+    "periodic_same_phase_temperature_rms_limit_K": 0.01,
+    "periodic_phase_limit": 0.0001,
+    "periodic_same_phase_phase_p99_limit": 0.002,
+    "periodic_same_phase_phase_rms_limit": 0.0004,
+    "periodic_steady_state": true
+  },
+  "original_production_statistics_used": true,
+  "physical_tolerances_changed": false,
+  "measured_window_sha256": "AC73765A3A910A5752BA5CC0B02754628B4EC6D965DE5EC6801D313806AE7CEC",
+  "statistics_source_sha256": "1EEF317CFADA3495FE2933F8FA7722A50E9282EF581369217DF5910B81F5D35B",
+  "simulation_executed": false,
+  "operating_point_loaded": false,
+  "source_state_edited": false,
+  "complete_internal_state_periodicity_verified": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "table4_reproduction_claim": false
+}

@@ -1,0 +1,66 @@
+{
+  "schema": "heatdrive_ecc_runtime_rolling_public_window_v1",
+  "window_s": [
+    120,
+    220
+  ],
+  "sample_count": 100001,
+  "packets": [
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C014",
+      "observation_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+      "observation_sha256": "CA63FA5F6F128DEFF816AC7284AB02A4EC5FF20448556DF4A591373084A41037",
+      "configuration_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C014\\native\\configuration.mat",
+      "configuration_sha256": "CE3E0B4F3704E2AD91C0051AFE1F4A0F5E97B5A5EBD703E133DCD4E804D67BBE",
+      "window_s": [
+        120,
+        140
+      ]
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C016",
+      "observation_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+      "observation_sha256": "92FCE6D801ADA507279E26392B422201CFAF48CAC5AAAE87DAAABA2542D388B7",
+      "configuration_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C016\\native\\configuration.mat",
+      "configuration_sha256": "CE3E0B4F3704E2AD91C0051AFE1F4A0F5E97B5A5EBD703E133DCD4E804D67BBE",
+      "window_s": [
+        140,
+        160
+      ]
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C018",
+      "observation_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+      "observation_sha256": "637A4ECB166630C7F3C73686E30DCE92591D59D43C10EABA03E0AF533B9C28D6",
+      "configuration_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C018\\native\\configuration.mat",
+      "configuration_sha256": "CE3E0B4F3704E2AD91C0051AFE1F4A0F5E97B5A5EBD703E133DCD4E804D67BBE",
+      "window_s": [
+        160,
+        180
+      ]
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C020",
+      "observation_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat",
+      "observation_sha256": "98396170D252871C7EFDA414DACA8EEFE331E16C6059FD7E119D2E9450CD770F",
+      "configuration_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C020\\native\\configuration.mat",
+      "configuration_sha256": "CE3E0B4F3704E2AD91C0051AFE1F4A0F5E97B5A5EBD703E133DCD4E804D67BBE",
+      "window_s": [
+        180,
+        200
+      ]
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68c1\\packet_C022_attempt01",
+      "observation_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68c1\\packet_C022_attempt01\\native\\observations.mat",
+      "observation_sha256": "99354E2B0AA36AD258385174C65D5BEE987719ED1A07CA7AF5794053CE9160F9",
+      "configuration_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68c1\\packet_C022_attempt01\\native\\configuration.mat",
+      "configuration_sha256": "1A1068859EDF5EA085F9ED8C2E48665C050AEDCDE8830389746A9521755F41C5",
+      "window_s": [
+        200,
+        220
+      ]
+    }
+  ],
+  "source_state_edited": false
+}
