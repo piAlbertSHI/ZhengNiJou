@@ -119,5 +119,11 @@ class ColdSensitivityTests(unittest.TestCase):
         self.assertIn('numel(targets)==204',source)
         self.assertIn('record.full_cycle_gates_evaluated=true',source)
 
+    def test_factor_labels_do_not_claim_an_inactive_recovery_efficiency(self):
+        source=(Path(__file__).parent/'Apply_HeatDriveECC_RuntimeSensitivity.m').read_text()
+        self.assertIn('SE nominal flow field and two active SE route targets; SMA route targets fixed',source)
+        self.assertIn("'inactive_eta_hr_metadata_varied',false",source)
+        self.assertIn('fixed reference temperature, calibrated transformation surfaces and kinetics',source)
+
 
 if __name__=='__main__':unittest.main()

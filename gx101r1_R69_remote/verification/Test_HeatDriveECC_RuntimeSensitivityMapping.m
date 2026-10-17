@@ -15,6 +15,16 @@ function result=Test_HeatDriveECC_RuntimeSensitivityMapping(qualification,python
         end
         restored.validation=baseline.validation;restored.simulation=baseline.simulation;assert(isequaln(restored,baseline));
         built=Build_HeatDriveECC_EighthRound_Defaults(actual);
+        for name={'SMA','SE'}
+            material=built.material.(name{1});
+            assert(abs(material.Delta_h_J_per_kg/material.Delta_s0_J_per_kgK-material.transformation_reference_T_K)<1e-10);
+            assert(material.C_A_Pa_per_K==baseline.material.(name{1}).C_A_Pa_per_K && ...
+                material.C_M_Pa_per_K==baseline.material.(name{1}).C_M_Pa_per_K);
+        end
+        assert(~contract.factor_scope.inactive_eta_hr_metadata_varied && ...
+            ~contract.factor_scope.active_SE_mass_and_geometry_changed);
+        assert(built.branch.m_dot_sma_shex_kg_per_s==baseline.branch.m_dot_sma_shex_kg_per_s && ...
+            built.branch.m_dot_sma_the_kg_per_s==baseline.branch.m_dot_sma_the_kg_per_s);
         assert(isequal(sort(string(built.simulation.checkpoint_transition_fields)), ...
             sort(string(built.validation.sensitivity_declared_transition_fields))));
         for k=1:numel(contract.parameters)

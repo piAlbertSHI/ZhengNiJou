@@ -1,0 +1,27 @@
+{
+  "schema": "heatdrive_ecc_runtime_L8_case_experiment_v1",
+  "date": "2026-10-17",
+  "case_index": 1,
+  "levels": [-1, -1, -1, -1, -1, -1],
+  "multipliers": {
+    "UA": 0.95,
+    "endpoint_capacity": 0.95,
+    "SE_buffer_volume": 0.90,
+    "SMA_manifold_inventory": 0.90,
+    "SE_nominal_and_two_active_route_flows": 0.97,
+    "paired_latent_heat_entropy": 0.95
+  },
+  "fixed_Tc_K": 276.95,
+  "initial_stage": "fresh_independent_cold_20_cycles_pending_execution",
+  "nominal_control_snapshot_s": 600,
+  "nominal_control_closeout_relative": "outputs_storage_audit/v67_C60_same_case_continuation_20261017/continuation_closeout.json",
+  "nominal_control_closeout_sha256": "C75450A51A90AA58C698084F88EBF05837659153973D07BCDAE2AA607F246467",
+  "nominal_complete_OP_import_allowed": false,
+  "source_role": "C108 constructor parameters only; fresh native t0 coordinates and fluxes for this factor case",
+  "common_later_windows_s": [[400, 500], [500, 600]],
+  "full_L8_effects_evaluated": false,
+  "C200_gap_attribution_authorized": false,
+  "production_recovery_allowed": false,
+  "real_simulation_completed": false,
+  "full_objective_complete": false
+}
