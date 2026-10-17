@@ -12,8 +12,15 @@ from Close_HeatDriveECC_SplitObservation import read
 from HeatDriveECC_PublicPeriodicity import PUBLIC_PREDICATES, audit_public_statistics
 
 
+def case_label(index):
+    if type(index) is not int or index not in range(9):
+        raise ValueError('Require nominal case 0 or an original L8 row 1-8')
+    return 'nominal cold control' if index == 0 else f'L8 row {index} independent cold case'
+
+
 def plot(summary,output):
     r=read(summary);cycles=r['cycles'];x=[c['cycle'] for c in cycles];s=r['public_periodicity']
+    label=case_label(r['case_index'])
     audit_public_statistics(s)
     if r['schema'] not in ('heatdrive_ecc_runtime_sensitivity_cold_closeout_v1','heatdrive_ecc_sensitivity_continuation_closeout_v1') or x!=list(range(1,len(x)+1)):
         raise ValueError('Require a sealed consecutive measured case')
@@ -40,7 +47,7 @@ def plot(summary,output):
         if ticks[-1]!=x[-1]:ticks.append(x[-1])
         axis.set(xlabel='Cycle',xticks=ticks);axis.grid(axis='y',color='#DDDDDD',lw=.5)
     for axis in axes.flat:axis.spines[['top','right']].set_visible(False)
-    fig.suptitle(f'SMA-SE nominal cold control | Tc = 276.95 K | {len(x)} measured cycles',fontsize=13)
+    fig.suptitle(f'SMA-SE {label} | Tc = 276.95 K | {len(x)} measured cycles',fontsize=13)
     public='PASS' if s['periodic_steady_state'] else 'FAIL'
     precision='PASS' if r['target_precision']['precision_pass'] else 'FAIL'
     fig.supxlabel(f'Packet gates pass | Public thermal criteria: {public} | Target precision: {precision} | Not Table 4 reproduction',fontsize=9)
@@ -50,7 +57,7 @@ def plot(summary,output):
         if path.exists():raise FileExistsError('Never overwrite a diagnostic figure')
         fig.savefig(path,dpi=220,facecolor='white')
     plt.close(fig)
-    output.with_suffix('.json').write_text(json.dumps(dict(source_sha256=sha256(summary),
+    output.with_suffix('.json').write_text(json.dumps(dict(source_sha256=sha256(summary),case_index=r['case_index'],case_label=label,
         png_sha256=sha256(output.with_suffix('.png')),pdf_sha256=sha256(output.with_suffix('.pdf')),
         original_thresholds_changed=False,steady_state_claim=False),indent=2)+'\n',encoding='utf-8')
 

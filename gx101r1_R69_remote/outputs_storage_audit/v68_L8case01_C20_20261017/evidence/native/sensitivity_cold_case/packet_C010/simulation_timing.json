@@ -1,0 +1,21 @@
+{
+  "schema": "heatdrive_ecc_packet_simulation_timing_v1",
+  "window_s": [
+    80,
+    100
+  ],
+  "sim_call_wall_s": 859.5373155,
+  "metadata_available": true,
+  "timing_is_physical_gate": false,
+  "simulation_settings_changed": false,
+  "source_state_edited": false,
+  "vendor_timing": {
+    "WallClockTimestampStart": "2026-10-17 15:14:15",
+    "WallClockTimestampStop": "2026-10-17 15:28:32",
+    "InitializationElapsedWallTime": 26.408336700000003,
+    "ExecutionElapsedWallTime": 807.6787514,
+    "TerminationElapsedWallTime": 23.4286399,
+    "TotalElapsedWallTime": 857.515728
+  },
+  "actual_simulation_mode": "normal"
+}

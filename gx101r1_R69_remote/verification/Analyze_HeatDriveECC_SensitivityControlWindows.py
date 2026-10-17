@@ -26,6 +26,13 @@ def window_metrics(rows):
     return r
 
 
+def qualification_flags(index, qualified):
+    if type(index) is not int or index not in range(9):
+        raise ValueError('Require nominal case 0 or an original L8 row 1-8')
+    return dict(case_index=index,finite_precision_case_response_qualified=qualified,
+        finite_precision_nominal_control_qualified=index == 0 and qualified)
+
+
 def analyze(closeout,output):
     if output.exists():raise FileExistsError('Never overwrite a window decision')
     q=read(closeout);frozen=Path(q['frozen_result_path']);r=read(frozen)
@@ -72,7 +79,7 @@ def analyze(closeout,output):
     record=dict(schema='heatdrive_ecc_sensitivity_disjoint_control_windows_v1',source_closeout_sha256=sha256(closeout),
         case_contract_sha256=q['case_contract_sha256'],temperature_K=276.95,windows=records,files=dependencies,
         **decision,public_predicates_both_pass=public,target_precision_both_pass=precision,
-        finite_precision_nominal_control_qualified=public and precision and decision['disjoint_metric_repeatability_pass'],
+        **qualification_flags(q['case_index'],public and precision and decision['disjoint_metric_repeatability_pass']),
         performance_window_definition='Full ten-cycle window; arithmetic mean of equally long cycle trapezoidal means',
         performance_mass_basis='active SE mass only; SCP in W/g',
         full_internal_state_periodicity_verified=False,steady_L8_effects_evaluated=False,

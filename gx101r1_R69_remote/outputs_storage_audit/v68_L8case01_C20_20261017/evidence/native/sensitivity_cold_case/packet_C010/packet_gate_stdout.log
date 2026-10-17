@@ -1,0 +1,114 @@
+{
+  "schema": "heatdrive_ecc_split_observation_packet_gate_v1",
+  "window_s": [
+    80,
+    100
+  ],
+  "gate_pass": true,
+  "original_mechanism_count": 73,
+  "original_mechanism_pass": true,
+  "six_local_inventory_gates": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "modeled_energy_balance": {
+    "external_modeled_heat_BE_J": 10.449980919154712,
+    "native_constitutive_heat_BE_J": 0.01880867676334219,
+    "sensible_inventory_plus_pdv_J": 10.468789596603797,
+    "total_inventory_including_latent_plus_pdv_J": 10.449980919841478,
+    "command_to_native_pipeline_difference_J": -9.43600753089413e-12,
+    "external_heat_minus_total_storage_J": -6.867661994647278e-10,
+    "numerical_terms_retained_residual_J": -6.856719636516573e-10,
+    "model_equation_energy_closure_pass": true,
+    "energy_tolerance_J": 1e-08,
+    "quadrature": "native local backward Euler; measured absolute millisecond intervals",
+    "latent_heat_counted_once": true,
+    "engineering_pump_proxy_added_as_heat": false
+  },
+  "storage_count": 119,
+  "source_count": 49,
+  "flow_gates": [
+    {
+      "component": "SMA",
+      "stage": 1,
+      "target_kg_s": 0.0508,
+      "samples": 2350,
+      "mean_signed_kg_s": -0.05078914404088617,
+      "max_abs_relative_error": 0.0007462005793864579,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SMA",
+      "stage": 2,
+      "target_kg_s": 0.0508,
+      "samples": 350,
+      "mean_signed_kg_s": -0.05079270007182763,
+      "max_abs_relative_error": 0.00016006962990555706,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SMA",
+      "stage": 3,
+      "target_kg_s": 0.0508,
+      "samples": 2350,
+      "mean_signed_kg_s": -0.051471178248201924,
+      "max_abs_relative_error": 0.045365659888083165,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SMA",
+      "stage": 4,
+      "target_kg_s": 0.0508,
+      "samples": 350,
+      "mean_signed_kg_s": -0.05269922058763443,
+      "max_abs_relative_error": 0.03960451358613715,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SE",
+      "stage": 2,
+      "target_kg_s": 0.003104,
+      "settled_window_start_s": 0.30100000000000193,
+      "settled_window_stop_s": 1.198999999999998,
+      "samples": 899,
+      "mean_signed_kg_s": 0.0031038494652136346,
+      "max_abs_relative_error": 0.0004281360030500281,
+      "rms_relative_error": 0.00022686119513664374,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SE",
+      "stage": 4,
+      "target_kg_s": 0.003104,
+      "settled_window_start_s": 0.30100000000000193,
+      "settled_window_stop_s": 1.198999999999998,
+      "samples": 899,
+      "mean_signed_kg_s": 0.0031039186911444583,
+      "max_abs_relative_error": 0.00037639220914731375,
+      "rms_relative_error": 0.00014964938692864246,
+      "selected_flow_gate": true
+    }
+  ],
+  "complete_state_is_only_for_current_split_comparison": false,
+  "bounded_recording_scope_only": false,
+  "runtime_boundary_transient_scope_only": false,
+  "command_horizon_preflight_comparison_only": false,
+  "sensitivity_case_scope_only": true,
+  "sensitivity_parameter_review": {
+    "case_index": 1,
+    "independently_checked_parameter_fields": 27,
+    "all_declared_parameters_match": true,
+    "steady_sensitivity_response_qualified": false
+  },
+  "ten_cycle_periodicity_claim": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "input_sha256": {
+    "manifest": "DAC60D1FAA97A6D240C3584527B1A4FFE3B3181D4307CD16EFFD60A99B0FF210",
+    "mechanism_review": ""
+  }
+}

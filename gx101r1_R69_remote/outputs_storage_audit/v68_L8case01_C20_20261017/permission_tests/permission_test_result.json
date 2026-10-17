@@ -1,0 +1,20 @@
+{
+  "declared_cases_allowed": 8,
+  "legacy_cases_allowed": 2,
+  "malformed_requests_rejected": 11,
+  "model_loaded": false,
+  "simulation_executed": false,
+  "operating_point_loaded": false,
+  "source_review": {
+    "schema": "heatdrive_ecc_constructor_source_delta_v1",
+    "producer": "cb32149b98ed401aef61ff310e3b6a2bb005f15c",
+    "changed_constructor_sources": [
+      "gx101r1_R69_remote/Check_HeatDriveECC_DiagnosticManifoldGeometry.m"
+    ],
+    "numerical_sources_unchanged": true,
+    "legacy_accepted_geometry_path_unchanged": true,
+    "permission_extension_only": true,
+    "scientific_thresholds_changed": false,
+    "legacy_checker_git_blob": "975bee8e1ebc214dfc3d714ab37453fb62abf052"
+  }
+}

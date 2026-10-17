@@ -1,0 +1,65 @@
+{
+  "schema": "heatdrive_ecc_pump_pressure_probe_contract_v1",
+  "model_name": "heatdrive_ecc_coupled_se21",
+  "source_count": 3,
+  "simulation_run": false,
+  "state_imported": false,
+  "production_recovery_allowed": false,
+  "probes": [
+    {
+      "source_block": "SE_Stage2_PistonPressureSource",
+      "source_port_name": "A",
+      "source_port_side": "LConn",
+      "source_port_index": 1,
+      "sensor_block": "Diagnostic_se_stage2_Pressure_aSensor",
+      "workspace_variable": "pump_pressure_se_stage2_port_a_MPa",
+      "unit": "MPa"
+    },
+    {
+      "source_block": "SE_Stage2_PistonPressureSource",
+      "source_port_name": "B",
+      "source_port_side": "RConn",
+      "source_port_index": 1,
+      "sensor_block": "Diagnostic_se_stage2_Pressure_bSensor",
+      "workspace_variable": "pump_pressure_se_stage2_port_b_MPa",
+      "unit": "MPa"
+    },
+    {
+      "source_block": "SE_Stage4_PistonPressureSource",
+      "source_port_name": "A",
+      "source_port_side": "LConn",
+      "source_port_index": 1,
+      "sensor_block": "Diagnostic_se_stage4_Pressure_aSensor",
+      "workspace_variable": "pump_pressure_se_stage4_port_a_MPa",
+      "unit": "MPa"
+    },
+    {
+      "source_block": "SE_Stage4_PistonPressureSource",
+      "source_port_name": "B",
+      "source_port_side": "RConn",
+      "source_port_index": 1,
+      "sensor_block": "Diagnostic_se_stage4_Pressure_bSensor",
+      "workspace_variable": "pump_pressure_se_stage4_port_b_MPa",
+      "unit": "MPa"
+    },
+    {
+      "source_block": "SMA Pressure Source (TL)",
+      "source_port_name": "A",
+      "source_port_side": "LConn",
+      "source_port_index": 1,
+      "sensor_block": "Diagnostic_sma_Pressure_aSensor",
+      "workspace_variable": "pump_pressure_sma_port_a_MPa",
+      "unit": "MPa"
+    },
+    {
+      "source_block": "SMA Pressure Source (TL)",
+      "source_port_name": "B",
+      "source_port_side": "RConn",
+      "source_port_index": 1,
+      "sensor_block": "Diagnostic_sma_Pressure_bSensor",
+      "workspace_variable": "pump_pressure_sma_port_b_MPa",
+      "unit": "MPa"
+    }
+  ],
+  "output_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native"
+}

@@ -1,0 +1,61 @@
+{
+  "schema": "heatdrive_ecc_observation_packet_boundary_v1",
+  "previous_packet": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C002",
+  "candidate_packet": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C004",
+  "states": {
+    "schema": "heatdrive_ecc_diagnostic_trace_comparison_v1",
+    "absolute_tolerance": 1E-12,
+    "relative_tolerance": 1E-11,
+    "scope": "Numerical repeatability at matched samples, not physical validation or periodicity.",
+    "trace_count": 74,
+    "channel_count": 1414,
+    "pass": true,
+    "bitwise_values_equal": true,
+    "max_tolerance_ratio": 0,
+    "changed_trace_details": []
+  },
+  "native": {
+    "schema": "heatdrive_ecc_diagnostic_trace_comparison_v1",
+    "absolute_tolerance": 1E-12,
+    "relative_tolerance": 1E-11,
+    "scope": "Numerical repeatability at matched samples, not physical validation or periodicity.",
+    "trace_count": 1262,
+    "channel_count": 1262,
+    "pass": true,
+    "bitwise_values_equal": true,
+    "max_tolerance_ratio": 0,
+    "changed_trace_details": []
+  },
+  "sources": {
+    "schema": "heatdrive_ecc_diagnostic_trace_comparison_v1",
+    "absolute_tolerance": 1E-12,
+    "relative_tolerance": 1E-11,
+    "scope": "Numerical repeatability at matched samples, not physical validation or periodicity.",
+    "trace_count": 162,
+    "channel_count": 162,
+    "pass": true,
+    "bitwise_values_equal": true,
+    "max_tolerance_ratio": 0,
+    "changed_trace_details": []
+  },
+  "public": {
+    "schema": "heatdrive_ecc_diagnostic_trace_comparison_v1",
+    "absolute_tolerance": 1E-12,
+    "relative_tolerance": 1E-11,
+    "scope": "Numerical repeatability at matched samples, not physical validation or periodicity.",
+    "trace_count": 201,
+    "channel_count": 592,
+    "pass": true,
+    "bitwise_values_equal": true,
+    "max_tolerance_ratio": 0,
+    "changed_trace_details": []
+  },
+  "retained_memories_bitwise_equal": true,
+  "retained_memory_count": 4,
+  "pass": true,
+  "candidate_observation_sha256": "421FB857C7D7E3DF6B1A97D2A125A31F858F2289D988F9006DDE736BB57E4D65",
+  "candidate_state_sha256": "EC692CFBD2254F30520602586091F4AA9E057B31CE88A41BD7496CA4A79CF32A",
+  "no_interpolation": true,
+  "source_state_edited": false,
+  "production_recovery_allowed": false
+}
