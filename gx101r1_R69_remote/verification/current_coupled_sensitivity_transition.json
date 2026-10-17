@@ -1,7 +1,10 @@
 {
   "schema": "heatdrive_ecc_mechanism_informed_sensitivity_transition_v1",
   "scope": "Next-stage contract after two distinct original phase-deadline rejections; full original goal remains active",
-  "source_for_current_independent_family": "C108 complete qualified diagnostic state at runtime Tc274.85 K; not C200 state equivalence",
+  "source_for_current_independent_family": "C108 remains the separate runtime-Tc reference; the six-factor nominal control was independently cold generated at Tc276.95 K and continued to C60. Never import its OP across changed factor contracts.",
+  "current_nominal_control_pointer": "current_runtime_sensitivity_continuation.json",
+  "finite_precision_nominal_control_qualified": true,
+  "full_internal_state_periodicity_verified": false,
   "production_reference": "Frozen C200 result/OP; both original SHA-256 values independently rechecked",
   "no_further_temperature_step_halving": true,
   "original_six_factors": ["heat_exchanger_UA", "endpoint_thermal_capacity", "SE_buffer_volume", "pipe_manifold_inventory", "SE_regenerator_utilization", "transformation_latent_heat"],

@@ -1,0 +1,177 @@
+{
+  "schema": "heatdrive_ecc_runtime_sensitivity_cold_case_v1",
+  "design": {
+    "run_index": 0,
+    "levels": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "fractions": [
+      0.05,
+      0.05,
+      0.1,
+      0.1,
+      0.03,
+      0.05
+    ],
+    "UA_multiplier": 1,
+    "endpoint_capacity_multiplier": 1,
+    "SE_buffer_multiplier": 1,
+    "fluid_inventory_multiplier": 1,
+    "regenerator_utilization_multiplier": 1,
+    "latent_heat_multiplier": 1
+  },
+  "parameters": [
+    {
+      "field": "branch.UA_sma_shex_W_per_K",
+      "before": 287.6211766299856,
+      "after": 287.6211766299856
+    },
+    {
+      "field": "branch.UA_sma_the_W_per_K",
+      "before": 287.6211766299856,
+      "after": 287.6211766299856
+    },
+    {
+      "field": "branch.UA_se_the_W_per_K",
+      "before": 91.463500281513461,
+      "after": 91.463500281513461
+    },
+    {
+      "field": "branch.UA_se_chex_W_per_K",
+      "before": 91.463500281513461,
+      "after": 91.463500281513461
+    },
+    {
+      "field": "branch.sma_pipe_Nu",
+      "before": 4.3659934938909366,
+      "after": 4.3659934938909366
+    },
+    {
+      "field": "branch.se_pipe_Nu",
+      "before": 3.66,
+      "after": 3.66
+    },
+    {
+      "field": "branch.se_natural_convection_UA_W_per_K",
+      "before": 1.2866718912693671,
+      "after": 1.2866718912693671
+    },
+    {
+      "field": "branch.se_natural_thermal_gate_G_W_per_K",
+      "before": 0.062144311343935395,
+      "after": 0.062144311343935395
+    },
+    {
+      "field": "branch.endpoint_UA_sma_shex_W_per_K",
+      "before": 977.88025797345517,
+      "after": 977.88025797345517
+    },
+    {
+      "field": "branch.endpoint_UA_sma_the_W_per_K",
+      "before": 977.88025797345517,
+      "after": 977.88025797345517
+    },
+    {
+      "field": "branch.endpoint_UA_se_the_W_per_K",
+      "before": 53.611549237198957,
+      "after": 53.611549237198957
+    },
+    {
+      "field": "branch.endpoint_UA_se_chex_W_per_K",
+      "before": 53.611549237198957,
+      "after": 53.611549237198957
+    },
+    {
+      "field": "branch.boundary_UA_shex_W_per_K",
+      "before": 977.88025797345517,
+      "after": 977.88025797345517
+    },
+    {
+      "field": "branch.boundary_UA_the_W_per_K",
+      "before": 53.611549237198957,
+      "after": 53.611549237198957
+    },
+    {
+      "field": "branch.boundary_UA_chex_W_per_K",
+      "before": 53.611549237198957,
+      "after": 53.611549237198957
+    },
+    {
+      "field": "system.shex_sink_C_J_per_K",
+      "before": 418,
+      "after": 418
+    },
+    {
+      "field": "system.hot_sink_C_J_per_K",
+      "before": 363.8,
+      "after": 363.8
+    },
+    {
+      "field": "system.cold_sink_C_J_per_K",
+      "before": 363.8,
+      "after": 363.8
+    },
+    {
+      "field": "system.se_buffer_volume_m3",
+      "before": 9.5696221913159181E-5,
+      "after": 9.5696221913159181E-5
+    },
+    {
+      "field": "branch.sma_pump_manifold_volume_m3",
+      "before": 1.6084954386379741E-6,
+      "after": 1.6084954386379741E-6
+    },
+    {
+      "field": "branch.m_dot_kg_per_s",
+      "before": 0.0032,
+      "after": 0.0032
+    },
+    {
+      "field": "branch.m_dot_se_the_kg_per_s",
+      "before": 0.0032,
+      "after": 0.0032
+    },
+    {
+      "field": "branch.m_dot_se_chex_kg_per_s",
+      "before": 0.0032,
+      "after": 0.0032
+    },
+    {
+      "field": "material.SMA.Delta_h_J_per_kg",
+      "before": 10000,
+      "after": 10000
+    },
+    {
+      "field": "material.SMA.Delta_s0_J_per_kgK",
+      "before": 31.431714600031434,
+      "after": 31.431714600031434
+    },
+    {
+      "field": "material.SE.Delta_h_J_per_kg",
+      "before": 10000,
+      "after": 10000
+    },
+    {
+      "field": "material.SE.Delta_s0_J_per_kgK",
+      "before": 38.001140034201029,
+      "after": 38.001140034201029
+    }
+  ],
+  "fixed_Tc_K": 276.95,
+  "source_state_imported": false,
+  "source_qualification_path": "C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/v61_runtime_Tc274p85_C108_snapshot_20261016/endpoint_qualification.json",
+  "source_role": "stored constructor parameters only, never its OP",
+  "C200_gap_attribution_authorized": false,
+  "orthogonal_effects_evaluated": false,
+  "production_recovery_allowed": false,
+  "original_scientific_thresholds_changed": false,
+  "fresh_native_source_sha256": "8C569BDF5A2E3529A69AAC44A5E6E63AA17B2A459F76C1ABE8E435212EDE2B1C",
+  "fresh_native_source_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\fresh_native_probe\\native\\observations.mat",
+  "source_qualification_sha256": "72227BFA412079E695B98BD1F87CC6F5EE04F196E5EDD62413533873E7609525",
+  "parameter_source_configuration_sha256": "3F2028B812CAC4A66FAC9A76B524519F63FDBF62BFAA933CCF95E757D2F245C5"
+}

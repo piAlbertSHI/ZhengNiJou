@@ -1,0 +1,383 @@
+{
+  "schema": "heatdrive_ecc_sensitivity_continuation_v1",
+  "producer": "c2a95823842a5867a190d32789e2a9df5a7ed7fb",
+  "process_pid": 135772,
+  "case_index": 0,
+  "case_contract_sha256": "D703C7F250B69CD6467FC3190B4723E2F00E796AC76DE489F70772022EB24CF7",
+  "source_closeout_sha256": "98BEC1478F7949F533B3BD707836D69668396CF650ED053A4A24A114BB8C3D05",
+  "source_packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020",
+  "source_operating_point_sha256": "067C4692D93D171755CC1EA67C89C264A85676A94B03C86DEAAF7F6688C50FA5",
+  "planned_window_s": [
+    200,
+    600
+  ],
+  "last_verified_snapshot_time_s": 600,
+  "completed_packets": [
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C022_attempt01",
+      "start_time_s": 200,
+      "stop_time_s": 220,
+      "operating_point_sha256": "3B575749E460B5CBD165C7E4C3AFB68A4A7BB54C2CDDDF4E6BCB5BDE1391D42B"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C024_attempt01",
+      "start_time_s": 220,
+      "stop_time_s": 240,
+      "operating_point_sha256": "0AE4E6232059A0CA512A1D1E0CDBDA6382C89CE9D3417E3EC839B941CC89413A"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C026_attempt01",
+      "start_time_s": 240,
+      "stop_time_s": 260,
+      "operating_point_sha256": "0E212F1123D435995508AD0A0312EF5F87C8A68C8095AE372D06BFEAC6824017"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C028_attempt01",
+      "start_time_s": 260,
+      "stop_time_s": 280,
+      "operating_point_sha256": "F0D202C68702A715AA14D9258D31478E4AB418264B9D834DBEB54CB628E2E664"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C030_attempt01",
+      "start_time_s": 280,
+      "stop_time_s": 300,
+      "operating_point_sha256": "C542CB803C29007F7BF179DA5481FA254FFFBC65C48E1ECF8B33D754D7C44A4A"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C032_attempt01",
+      "start_time_s": 300,
+      "stop_time_s": 320,
+      "operating_point_sha256": "BF77B0EB5B57555C01E5DEEC53AD6C75045CD637930912E39087BCCCE179977D"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C034_attempt01",
+      "start_time_s": 320,
+      "stop_time_s": 340,
+      "operating_point_sha256": "22144B330E2E3423BD45CD3F9C66DEFE19F91FF4C7B76E9CEBD867E9ACAA8228"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C036_attempt01",
+      "start_time_s": 340,
+      "stop_time_s": 360,
+      "operating_point_sha256": "E7BFDE3B5A473214A7810E4212905DAF572292BB9A34C4B857FFD81FADE16656"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C038_attempt01",
+      "start_time_s": 360,
+      "stop_time_s": 380,
+      "operating_point_sha256": "B64B51261A7D06A59C11D77C6B8989F35AEFCD24991853FB44536EB1077FF3EA"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C040_attempt01",
+      "start_time_s": 380,
+      "stop_time_s": 400,
+      "operating_point_sha256": "1A087603B8A06477EB37B0303DB069728333C04209B738427AA9A2CAB432DF6E"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C042_attempt01",
+      "start_time_s": 400,
+      "stop_time_s": 420,
+      "operating_point_sha256": "104AEBEE37680E44924CD26E05631FF8D76235BB9808458999FB7065BFF229FA"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C044_attempt01",
+      "start_time_s": 420,
+      "stop_time_s": 440,
+      "operating_point_sha256": "36F0BB4B50D3C99C0D4223102F42AE847EB8C8D9A00B043466857AECA012697F"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C046_attempt01",
+      "start_time_s": 440,
+      "stop_time_s": 460,
+      "operating_point_sha256": "E47AAD902EB9DC6FD055CB31C3AC078C52934F592DDADCBCE10303B024CA6AD2"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C048_attempt01",
+      "start_time_s": 460,
+      "stop_time_s": 480,
+      "operating_point_sha256": "5366DBF5846619F22ED12B07AA9121BDAB04F7D014B6A7A9F4C3DD3D5BFB202A"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C050_attempt01",
+      "start_time_s": 480,
+      "stop_time_s": 500,
+      "operating_point_sha256": "A5BEE3F36391C1C93ABDBBA5E504A8A8B8343FBD1E9BAA3778CBC99668FF9925"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C052_attempt01",
+      "start_time_s": 500,
+      "stop_time_s": 520,
+      "operating_point_sha256": "DABFF7A9953914F534E26209E6993B11FF3FC8D2AF23B07487EDE5E9E8A607F2"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C054_attempt01",
+      "start_time_s": 520,
+      "stop_time_s": 540,
+      "operating_point_sha256": "D8471FD13E4D3469539D4EAC37453E60C75EBE13C5191DD9F56946B3BAA2BAEC"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C056_attempt01",
+      "start_time_s": 540,
+      "stop_time_s": 560,
+      "operating_point_sha256": "EF1E80C7113CF514A73CC96CD28F02E4C329C0F20B9C0A0D14E150F86AAFF9CC"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C058_attempt01",
+      "start_time_s": 560,
+      "stop_time_s": 580,
+      "operating_point_sha256": "0DD22DB52C0136ED9AA1BC004111F1E4ED59DA3C5B1B51B4AF16EFE6A902B53A"
+    },
+    {
+      "packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C060_attempt01",
+      "start_time_s": 580,
+      "stop_time_s": 600,
+      "operating_point_sha256": "A79B4C0AF3A743792C567DC67A12E708F4DCD0C51EF8C14FF87F628A06E25AC0"
+    }
+  ],
+  "completed_continuation_cycles": 40,
+  "split_trajectory_comparison_pass": true,
+  "experiment_completed": true,
+  "error_message": "",
+  "source_state_edited": false,
+  "state_reconstructed_or_reset": false,
+  "full_internal_state_periodicity_verified": false,
+  "orthogonal_effects_evaluated": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "latest_execution_producer": "f279a3665644ed7ff0db0e7dc32e3e19ed0f3400",
+  "physical_constructor_and_constitutive_sources_unchanged": true,
+  "split_trajectory_comparison_bitwise": true,
+  "split_comparison_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\split_comparison_attempt01",
+  "prefix_comparison_sha256": "6C66436FA3C4A4AF4306DC6317D219ED4EF2637F48503867D525F302D3D058EC",
+  "suffix_comparison_sha256": "E9A8B51CB2416FFB58B5F8E3F4A4DB45E5AECCF98C9DD5F3B0CC12A3C2549FA9",
+  "split_comparison_scope": "200-220 s continuous versus disk split at 210 s; bounded trajectory evidence, not a universal serialization proof",
+  "comparison_states_may_propagate": false,
+  "current_attempt_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C060_attempt01",
+  "current_attempt_window_s": [
+    580,
+    600
+  ],
+  "last_verified_packet_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C060_attempt01",
+  "latest_public_periodicity": {
+    "window_s": [
+      500,
+      600
+    ],
+    "periodic_steady_state": true,
+    "measured_window_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\periodicity_C060_attempt01\\measured_window.json",
+    "measured_window_sha256": "ACEAD0B9A20B278408A23D5B331671F3CDD79E1D947C7C53D7FE4AF159ECFA6B",
+    "thermal_statistics_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\periodicity_C060_attempt01\\original_thermal_statistics.json",
+    "thermal_statistics_sha256": "E49C4EB280DB2CEAE1535E80874139B8487F78C535CFD34510288B5D98245DC9",
+    "statistics": {
+      "periodic_window_cycles": 10,
+      "last_cycle_endpoint_drift_K": 0.015146268105240779,
+      "last_cycle_CHEX_drift_K": 0,
+      "last_cycle_HHEX_drift_K": 1.0403168857919809E-5,
+      "last_cycle_phase_drift": 7.2293918134010409E-6,
+      "last_cycle_same_phase_temperature_drift_K": 0.087581592660853858,
+      "last_cycle_same_phase_temperature_p99_drift_K": 0.007993806962645067,
+      "last_cycle_same_phase_temperature_rms_drift_K": 0.0028170707926736772,
+      "last_cycle_same_phase_phase_drift": 0.0037030390335419244,
+      "last_cycle_same_phase_phase_p99_drift": 0.0002296541585240508,
+      "last_cycle_same_phase_phase_rms_drift": 8.1482950809124647E-5,
+      "periodic_endpoint_limit_K": 0.05,
+      "periodic_same_phase_temperature_limit_K": 0.05,
+      "periodic_same_phase_temperature_p99_limit_K": 0.05,
+      "periodic_same_phase_temperature_rms_limit_K": 0.01,
+      "periodic_phase_limit": 0.0001,
+      "periodic_same_phase_phase_p99_limit": 0.002,
+      "periodic_same_phase_phase_rms_limit": 0.0004,
+      "periodic_steady_state": true
+    },
+    "physical_tolerances_changed": false,
+    "complete_internal_state_periodicity_verified": false,
+    "outer_solve_eligible": false
+  },
+  "latest_target_precision": {
+    "schema": "heatdrive_ecc_target_window_precision_v1",
+    "window_s": [
+      500,
+      600
+    ],
+    "temperature_K": 276.95,
+    "measured_window_sha256": "ACEAD0B9A20B278408A23D5B331671F3CDD79E1D947C7C53D7FE4AF159ECFA6B",
+    "cycles": [
+      {
+        "cycle": 51,
+        "window_s": [
+          500,
+          510
+        ],
+        "temperature_lift_eq9_K": 28.466213376381535,
+        "cooling_power_eq10_W": 13.001473668462248,
+        "SCP_W_per_g": 0.31091480769843127,
+        "CHEX_sensor_mean_W": 12.659001682685245,
+        "positive_SHEX_heat_mean_W": 823.67008433365845,
+        "heat_driven_COP": 0.015784807431704066,
+        "source_packet_manifest_sha256": "712860986BFB6AD773F57E9188CE7707A9FA76E17608A8C4EF742F97BED20C2F"
+      },
+      {
+        "cycle": 52,
+        "window_s": [
+          510,
+          520
+        ],
+        "temperature_lift_eq9_K": 28.474639762441097,
+        "cooling_power_eq10_W": 13.006121873077896,
+        "SCP_W_per_g": 0.31102596399356131,
+        "CHEX_sensor_mean_W": 12.663601535420261,
+        "positive_SHEX_heat_mean_W": 823.66967787758335,
+        "heat_driven_COP": 0.015790458508308607,
+        "source_packet_manifest_sha256": "712860986BFB6AD773F57E9188CE7707A9FA76E17608A8C4EF742F97BED20C2F"
+      },
+      {
+        "cycle": 53,
+        "window_s": [
+          520,
+          530
+        ],
+        "temperature_lift_eq9_K": 28.4827374162367,
+        "cooling_power_eq10_W": 13.01057572442998,
+        "SCP_W_per_g": 0.31113247256112542,
+        "CHEX_sensor_mean_W": 12.668008830125506,
+        "positive_SHEX_heat_mean_W": 823.66930159692856,
+        "heat_driven_COP": 0.015795873051484496,
+        "source_packet_manifest_sha256": "940DBB909A75FF97E03AC406302E97F5C721C20F023A6E6151DAF3F186CB75F2"
+      },
+      {
+        "cycle": 54,
+        "window_s": [
+          530,
+          540
+        ],
+        "temperature_lift_eq9_K": 28.490519140773575,
+        "cooling_power_eq10_W": 13.014843010177259,
+        "SCP_W_per_g": 0.31123451963373749,
+        "CHEX_sensor_mean_W": 12.672231337685815,
+        "positive_SHEX_heat_mean_W": 823.66895256196278,
+        "heat_driven_COP": 0.015801060571356405,
+        "source_packet_manifest_sha256": "940DBB909A75FF97E03AC406302E97F5C721C20F023A6E6151DAF3F186CB75F2"
+      },
+      {
+        "cycle": 55,
+        "window_s": [
+          540,
+          550
+        ],
+        "temperature_lift_eq9_K": 28.497997291910337,
+        "cooling_power_eq10_W": 13.01893169368968,
+        "SCP_W_per_g": 0.31133229564593584,
+        "CHEX_sensor_mean_W": 12.676276915828817,
+        "positive_SHEX_heat_mean_W": 823.66863050930283,
+        "heat_driven_COP": 0.01580603074034715,
+        "source_packet_manifest_sha256": "75DA3CCBA3917BFFCB9D0D66747985E11D15C1705D63468FA99D79237C4C4F45"
+      },
+      {
+        "cycle": 56,
+        "window_s": [
+          550,
+          560
+        ],
+        "temperature_lift_eq9_K": 28.50518374636577,
+        "cooling_power_eq10_W": 13.022849214394551,
+        "SCP_W_per_g": 0.31142597850279263,
+        "CHEX_sensor_mean_W": 12.680152952571836,
+        "positive_SHEX_heat_mean_W": 823.66833497138236,
+        "heat_driven_COP": 0.0158107925987552,
+        "source_packet_manifest_sha256": "75DA3CCBA3917BFFCB9D0D66747985E11D15C1705D63468FA99D79237C4C4F45"
+      },
+      {
+        "cycle": 57,
+        "window_s": [
+          560,
+          570
+        ],
+        "temperature_lift_eq9_K": 28.512089908226859,
+        "cooling_power_eq10_W": 13.026602642962487,
+        "SCP_W_per_g": 0.3115157372910014,
+        "CHEX_sensor_mean_W": 12.683866456467534,
+        "positive_SHEX_heat_mean_W": 823.66806348660089,
+        "heat_driven_COP": 0.01581535477753096,
+        "source_packet_manifest_sha256": "9C8419AC047CA255A5CD82188BBFF5611596BE81B85CC7F8227458EDD3267B7D"
+      },
+      {
+        "cycle": 58,
+        "window_s": [
+          570,
+          580
+        ],
+        "temperature_lift_eq9_K": 28.518726750301859,
+        "cooling_power_eq10_W": 13.030198775300637,
+        "SCP_W_per_g": 0.31160173452661372,
+        "CHEX_sensor_mean_W": 12.687424178263074,
+        "positive_SHEX_heat_mean_W": 823.66781803499907,
+        "heat_driven_COP": 0.015819725488834094,
+        "source_packet_manifest_sha256": "9C8419AC047CA255A5CD82188BBFF5611596BE81B85CC7F8227458EDD3267B7D"
+      },
+      {
+        "cycle": 59,
+        "window_s": [
+          580,
+          590
+        ],
+        "temperature_lift_eq9_K": 28.525104719460717,
+        "cooling_power_eq10_W": 13.03364440011002,
+        "SCP_W_per_g": 0.31168413255335503,
+        "CHEX_sensor_mean_W": 12.69083281372388,
+        "positive_SHEX_heat_mean_W": 823.6675916511482,
+        "heat_driven_COP": 0.015823913107935197,
+        "source_packet_manifest_sha256": "2D6E96DC59CB1D469229C0DE0225867966BDB2F8D5EC07F361A001BCC61E60C9"
+      },
+      {
+        "cycle": 60,
+        "window_s": [
+          590,
+          600
+        ],
+        "temperature_lift_eq9_K": 28.531233985925034,
+        "cooling_power_eq10_W": 13.036945785849232,
+        "SCP_W_per_g": 0.31176308127397084,
+        "CHEX_sensor_mean_W": 12.694098602073378,
+        "positive_SHEX_heat_mean_W": 823.66738843796634,
+        "heat_driven_COP": 0.015827925165973832,
+        "source_packet_manifest_sha256": "2D6E96DC59CB1D469229C0DE0225867966BDB2F8D5EC07F361A001BCC61E60C9"
+      }
+    ],
+    "input_manifests": [
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C052_attempt01\\packet_manifest.json",
+        "sha256": "712860986BFB6AD773F57E9188CE7707A9FA76E17608A8C4EF742F97BED20C2F"
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C054_attempt01\\packet_manifest.json",
+        "sha256": "940DBB909A75FF97E03AC406302E97F5C721C20F023A6E6151DAF3F186CB75F2"
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C056_attempt01\\packet_manifest.json",
+        "sha256": "75DA3CCBA3917BFFCB9D0D66747985E11D15C1705D63468FA99D79237C4C4F45"
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C058_attempt01\\packet_manifest.json",
+        "sha256": "9C8419AC047CA255A5CD82188BBFF5611596BE81B85CC7F8227458EDD3267B7D"
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C060_attempt01\\packet_manifest.json",
+        "sha256": "2D6E96DC59CB1D469229C0DE0225867966BDB2F8D5EC07F361A001BCC61E60C9"
+      }
+    ],
+    "precision_source": "Run_HeatDriveECC_Table4_OuterSolve defaults: lift 0.1 K, SCP 0.01 W/g",
+    "outer_source_sha256": "70B9AD13ACBFE037F00AA870D02F790063067928C07EFCD2602AE980C7F6081B",
+    "lift_span_K": 0.065020609543498864,
+    "SCP_span_W_per_g": 0.00084827357553957095,
+    "lift_limit_K": 0.1,
+    "SCP_limit_W_per_g": 0.01,
+    "precision_pass": true,
+    "finite_window_variation_only": true,
+    "asymptotic_error_bound_claim": false,
+    "new_physical_tolerance_imposed": false,
+    "complete_internal_state_periodicity_claim": false
+  },
+  "total_cycles": 60,
+  "previous_completed_record_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\completed_to_400_FF7525BBCA9EE9EC1A65B25356A017CFB450F58155DB5515081B22210A8D56D0.json",
+  "previous_completed_record_sha256": "FF7525BBCA9EE9EC1A65B25356A017CFB450F58155DB5515081B22210A8D56D0"
+}

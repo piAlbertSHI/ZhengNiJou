@@ -35,6 +35,8 @@ def execution_budget(experiment,output):
 
 def close(experiment, output):
     experiment=experiment.resolve();output=output.resolve()
+    if (experiment/'HISTORICAL_COLD_PREFIX_RAW_RETIRED.json').exists():
+        raise ValueError('Cold prefix raw was deliberately retired; use its sealed closeout, not a new physical-failure claim')
     repo=Path(__file__).resolve().parents[1]
     if output.exists() or output.parent != repo/'outputs_storage_audit':
         raise ValueError('Require a fresh compact archive in the calling repository')

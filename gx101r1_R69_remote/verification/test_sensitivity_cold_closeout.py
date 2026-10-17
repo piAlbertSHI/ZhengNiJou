@@ -40,5 +40,12 @@ class SensitivityCloseoutTests(unittest.TestCase):
             with self.assertRaises(ValueError):close(root,output)
             self.assertFalse(output.exists())
 
+    def test_retired_cold_history_is_not_a_new_physical_failure(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary)
+            (root/'HISTORICAL_COLD_PREFIX_RAW_RETIRED.json').write_text('{}',encoding='utf-8')
+            with self.assertRaisesRegex(ValueError,'deliberately retired'):
+                close(root,root/'unused')
+
 
 if __name__=='__main__':unittest.main()
