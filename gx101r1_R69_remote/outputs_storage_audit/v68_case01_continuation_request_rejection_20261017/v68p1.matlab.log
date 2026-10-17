@@ -1,0 +1,15 @@
+    ----------------------------------------------------
+	您的许可证将在 13 天后过期。
+	请与系统管理员或
+	MathWorks 公司联系，以便续订此许可证。
+    ----------------------------------------------------
+{错误使用 assert
+断言失败。
+
+出错 Resolve_HeatDriveECC_ObservationPreflight (第 18 行)
+            assert(strcmp(source.case_contract.source_qualification_path,options.candidate_qualification_path));
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+出错 Test_HeatDriveECC_SensitivityContinuationSource (第 20 行)
+    assert(isequaln(Resolve_HeatDriveECC_ObservationPreflight(request,state,20,200,'native',true,struct()),request));
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 

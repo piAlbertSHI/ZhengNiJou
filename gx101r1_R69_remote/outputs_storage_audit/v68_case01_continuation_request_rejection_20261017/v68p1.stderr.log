@@ -1,0 +1,11 @@
+{����ʹ�� assert
+����ʧ�ܡ�
+
+���� Resolve_HeatDriveECC_ObservationPreflight (�� 18 ��)
+            assert(strcmp(source.case_contract.source_qualification_path,options.candidate_qualification_path));
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+���� Test_HeatDriveECC_SensitivityContinuationSource (�� 20 ��)
+    assert(isequaln(Resolve_HeatDriveECC_ObservationPreflight(request,state,20,200,'native',true,struct()),request));
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+ERROR: MATLAB error Exit Status: 0x00000001

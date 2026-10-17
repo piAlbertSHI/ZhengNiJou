@@ -1,0 +1,17 @@
+{
+  "schema": "heatdrive_ecc_sensitivity_continuation_request_rejection_v1",
+  "attempt_prepared_relative": "outputs/v68p1",
+  "terminal_exit_code": 1,
+  "stage": "pure_source_request_validation_before_model_or_state_load",
+  "failed_assertion": "strcmp(source.case_contract.source_qualification_path,options.candidate_qualification_path)",
+  "cause": "Launcher used backslashes; sealed case used forward slashes for the same Windows file",
+  "source_closeout_sha256": "9EE8AAA8794A7A29E14B8F98A3E8A01F9B227CD13C6A18040057D4952FFFD767",
+  "source_operating_point_sha256": "A9449E5AAC7A7AB664DF1DF312B0F1E90C9F0C88CE1B51527D7192D857090638",
+  "new_completed_cycles": 0,
+  "scientific_gates_evaluated": false,
+  "source_state_changed": false,
+  "repair": "Read source/qualification/Python path strings directly from the original cold preflight configuration; use fresh prepared v68p2",
+  "scientific_thresholds_changed": false,
+  "constructor_or_constitutive_source_changed": false,
+  "failed_attempt_may_propagate": false
+}
