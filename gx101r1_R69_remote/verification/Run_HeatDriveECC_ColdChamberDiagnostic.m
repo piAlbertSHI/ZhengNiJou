@@ -26,10 +26,11 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
     if nargin<26, observation_options=struct(); end
     observation_options=Resolve_HeatDriveECC_ObservationPreflight(observation_options, ...
         state_capture_options,cycle_count,duration,diagnostic_arm,endpoint_all_arms,buffer_factor_options);
-    independent_sensitivity=~isempty(fieldnames(observation_options)) && any(strcmp(observation_options.mode,{'runtime_sensitivity_cold','runtime_sensitivity_continuation'}));
+    independent_sensitivity=~isempty(fieldnames(observation_options)) && any(strcmp(observation_options.mode,{'runtime_sensitivity_cold','runtime_sensitivity_continuation','runtime_sensitivity_kernel_cold_comparison'}));
     sensitivity_continuation=independent_sensitivity && strcmp(observation_options.mode,'runtime_sensitivity_continuation');
+    kernel_cold_comparison=independent_sensitivity && strcmp(observation_options.mode,'runtime_sensitivity_kernel_cold_comparison');
     runtime_boundary_family=~isempty(fieldnames(observation_options)) && ...
-        ismember(observation_options.mode,{'runtime_boundary_cold_family','runtime_boundary_warmup','runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation','runtime_boundary_Tc_step','runtime_boundary_horizon_preflight','runtime_sensitivity_cold','runtime_sensitivity_continuation'});
+        ismember(observation_options.mode,{'runtime_boundary_cold_family','runtime_boundary_warmup','runtime_boundary_Tc_candidate','runtime_boundary_Tc_continuation','runtime_boundary_Tc_step','runtime_boundary_horizon_preflight','runtime_sensitivity_cold','runtime_sensitivity_continuation','runtime_sensitivity_kernel_cold_comparison'});
     state_capture_options=Resolve_HeatDriveECC_DiagnosticStateOptions(state_capture_options,cycle_count);
     buffer_factor_options=Resolve_HeatDriveECC_BufferColdFactorial(buffer_factor_options, ...
         state_capture_options.mode,cycle_count,duration,diagnostic_arm,endpoint_all_arms);
@@ -378,7 +379,7 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 'only_boundary_configurability_changed',~independent_sensitivity);
             if isfield(observation_options,'boundary_probe_path')
                 record.runtime_boundary_family.source_probe_sha256=file_hash(observation_options.boundary_probe_path);
-            elseif any(strcmp(observation_options.mode,{'runtime_boundary_Tc_continuation','runtime_boundary_Tc_step','runtime_boundary_horizon_preflight','runtime_sensitivity_cold','runtime_sensitivity_continuation'}))
+            elseif any(strcmp(observation_options.mode,{'runtime_boundary_Tc_continuation','runtime_boundary_Tc_step','runtime_boundary_horizon_preflight','runtime_sensitivity_cold','runtime_sensitivity_continuation','runtime_sensitivity_kernel_cold_comparison'}))
                 record.runtime_boundary_family.source_contract_sha256=file_hash(observation_options.candidate_qualification_path);
             else
                 record.runtime_boundary_family.source_contract_sha256=file_hash(observation_options.recording_contract_path);
@@ -827,6 +828,17 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                     record.stop_time_s=record.sensitivity_continuation_result.last_verified_snapshot_time_s;
                     record.cycle_count=record.stop_time_s/10;record.segment_cycle_count=(record.stop_time_s-200)/10;
                     record.actual_observation_preflight_window_s=[200 record.stop_time_s];
+                elseif kernel_cold_comparison
+                    assert(strcmp(options.constitutive.diagnostic_step_function,'HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate'));
+                    initial_probe=Verify_HeatDriveECC_SensitivityColdCase( ...
+                        input,options,arm,changed,buffer_paths,observation_options,record.execution_commit);
+                    assert(initial_probe.probe_only && initial_probe.coordinate_match_pass && ~initial_probe.full_cycle_gates_evaluated);
+                    record.kernel_cold_comparison_result=Verify_HeatDriveECC_KernelColdComparison( ...
+                        input,options,arm,changed,buffer_paths,observation_options,record.execution_commit);
+                    record.observation_preflight_pass=record.kernel_cold_comparison_result.pass;
+                    record.prepared_segment_cycle_count=cycle_count;
+                    record.segment_cycle_count=2;record.cycle_count=2;record.stop_time_s=20;
+                    record.actual_observation_preflight_window_s=[0 20];
                 elseif independent_sensitivity
                     record.sensitivity_cold_result=Verify_HeatDriveECC_SensitivityColdCase( ...
                         input,options,arm,changed,buffer_paths,observation_options,record.execution_commit);

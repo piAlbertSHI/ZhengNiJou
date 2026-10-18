@@ -2,14 +2,22 @@ function options=Resolve_HeatDriveECC_ObservationPreflight(options,state,cycles,
 % Execution-only comparison; the configured model and native history stay unchanged.
     assert(isstruct(options) && isscalar(options),'Require scalar observation options.');
     if isempty(fieldnames(options)),return;end
-    if isfield(options,'mode') && any(strcmp(options.mode,{'runtime_sensitivity_cold','runtime_sensitivity_continuation'}))
+    if isfield(options,'mode') && any(strcmp(options.mode,{'runtime_sensitivity_cold','runtime_sensitivity_continuation','runtime_sensitivity_kernel_cold_comparison'}))
         required={'mode';'python_executable';'source_contract_path';'candidate_qualification_path';'case_index';'probe_only'};
         continuation=strcmp(options.mode,'runtime_sensitivity_continuation');
+        kernel_comparison=strcmp(options.mode,'runtime_sensitivity_kernel_cold_comparison');
         if continuation,required=[required;{'source_closeout_path';'collection_root';'resume_collection';'collection_stop_s'}];end
+        if kernel_comparison,required=[required;{'source_closeout_path';'kernel_qualification_path'}];end
         assert(isequal(sort(fieldnames(options)),sort(required)) && strcmp(state.mode,'capture') && ...
             state.command_horizon_cycles==200 && cycles==20 && duration==200 && strcmp(arm,'native') && endpoint_all && isempty(fieldnames(factors)));
         validateattributes(options.case_index,{'numeric'},{'scalar','finite','integer','>=',0,'<=',8});
         assert(islogical(options.probe_only) && isscalar(options.probe_only));
+        if kernel_comparison
+            assert(options.probe_only && ismember(options.case_index,[0 1]));
+            source=Read_HeatDriveECC_SensitivityColdSource(options.source_closeout_path,options.case_index);
+            assert(strcmp(source.case_contract.source_qualification_path,options.candidate_qualification_path));
+            Read_HeatDriveECC_KernelQualification(options.kernel_qualification_path);
+        end
         if continuation
             assert(~options.probe_only && islogical(options.resume_collection) && isscalar(options.resume_collection));
             validateattributes(options.collection_stop_s,{'numeric'},{'scalar','finite','integer','>=',220,'<=',2000});

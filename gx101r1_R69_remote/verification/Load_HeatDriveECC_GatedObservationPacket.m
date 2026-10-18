@@ -1,5 +1,7 @@
 function [op,manifest]=Load_HeatDriveECC_GatedObservationPacket(packet,require_boundary,expected_case_sha256)
 % Load complete vendor state only after the immutable native packet gate.
+    assert(~isfile(fullfile(packet,'COMPARISON_ONLY_DO_NOT_RESUME.json')), ...
+        'HeatDriveECC:ComparisonOnlyCheckpoint','An implementation comparison packet is not a continuation source.');
     manifest_file=fullfile(packet,'packet_manifest.json');manifest=jsondecode(fileread(manifest_file));
     assert(~isfield(manifest,'packet_role') || ~strcmp(manifest.packet_role,'runtime_horizon_comparison'), ...
         'Command-horizon preflight states are comparison-only, never continuation authority.');
