@@ -1,0 +1,66 @@
+{
+  "schema": "heatdrive_ecc_kernel_cold_comparison_v1",
+  "producer": "b8adbc9aab53b300b7d473c205ab8680133a1334",
+  "case_index": 1,
+  "reference_packet": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C002",
+  "reference_manifest_sha256": "88B65EE40DFDB388458CA8B80C59E23F691D6AD97AF8831CBA3528774E1278C8",
+  "source_closeout_sha256": "9EE8AAA8794A7A29E14B8F98A3E8A01F9B227CD13C6A18040057D4952FFFD767",
+  "kernel_qualification_sha256": "FC219053D16ACC37F706E7625EE1D5AA733D8E2C4185603C493AC8D203825977",
+  "window_s": [
+    0,
+    20
+  ],
+  "source_OP_imported": false,
+  "independent_cold_start": true,
+  "pass": true,
+  "all_trajectory_arrays_bitwise_equal": true,
+  "production_recovery_allowed": false,
+  "twenty_cycle_seed_qualified": false,
+  "complete_state_restore_equivalence_evaluated": false,
+  "error_message": "",
+  "all_original_packet_gates_pass": true,
+  "comparison_packet": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v69cold1\\native\\kernel_cold_comparison\\packet_C002",
+  "candidate_simulation_timing": {
+    "schema": "heatdrive_ecc_packet_simulation_timing_v1",
+    "window_s": [
+      0,
+      20
+    ],
+    "sim_call_wall_s": 627.0957204,
+    "metadata_available": true,
+    "timing_is_physical_gate": false,
+    "simulation_settings_changed": false,
+    "source_state_edited": false,
+    "vendor_timing": {
+      "WallClockTimestampStart": "2026-10-18 09:28:21",
+      "WallClockTimestampStop": "2026-10-18 09:38:47",
+      "InitializationElapsedWallTime": 24.408107100000002,
+      "ExecutionElapsedWallTime": 579.20167090000007,
+      "TerminationElapsedWallTime": 21.8484744,
+      "TotalElapsedWallTime": 625.45825240000011
+    },
+    "actual_simulation_mode": "normal"
+  },
+  "historical_reference_simulation_timing": {
+    "schema": "heatdrive_ecc_packet_simulation_timing_v1",
+    "window_s": [
+      0,
+      20
+    ],
+    "sim_call_wall_s": 1165.0678091,
+    "metadata_available": true,
+    "timing_is_physical_gate": false,
+    "simulation_settings_changed": false,
+    "source_state_edited": false,
+    "vendor_timing": {
+      "WallClockTimestampStart": "2026-10-17 13:57:24",
+      "WallClockTimestampStop": "2026-10-17 14:16:47",
+      "InitializationElapsedWallTime": 24.2616708,
+      "ExecutionElapsedWallTime": 1111.1562911,
+      "TerminationElapsedWallTime": 27.558039800000003,
+      "TotalElapsedWallTime": 1162.9760017
+    },
+    "actual_simulation_mode": "normal"
+  },
+  "timing_is_contemporaneous_paired_benchmark": false
+}

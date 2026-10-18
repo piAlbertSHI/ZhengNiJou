@@ -1,0 +1,110 @@
+    ----------------------------------------------------
+	您的许可证将在 12 天后过期。
+	请与系统管理员或
+	MathWorks 公司联系，以便续订此许可证。
+    ----------------------------------------------------
+KERNEL_PREFLIGHT_JSON={"positive_requests":2,"negative_requests_rejected":9,"operating_point_loaded":false,"model_loaded":false,"simulation_executed":false}
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v69cold0\component_build' 中生成 Simulink 库 'ecc_inventory_pressure_only_lib'...
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v69cold0\buffer_component_build' 中生成 Simulink 库 'ecc_buffer_coupled_offset_lib'...
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 12 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 833 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_KernelColdComparison (第 14 行)] 
+[警告: 初始状态是一致的，但可能偏离指定的条件。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 12 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 833 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_KernelColdComparison (第 14 行)] 
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 29 行)
+位置: Verify_HeatDriveECC_KernelColdComparison (第 29 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 836 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_KernelColdComparison (第 14 行)] 
+[警告: 初始状态是一致的，但可能偏离指定的条件。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 29 行)
+位置: Verify_HeatDriveECC_KernelColdComparison (第 29 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 836 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_KernelColdComparison (第 14 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 29 行)
+位置: Verify_HeatDriveECC_KernelColdComparison (第 29 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 836 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_KernelColdComparison (第 14 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v69cold0\native\kernel_cold_comparison\packet_C002\physical_validation_report.txt
+{"collection_pass":false,"completed_arms":0,"state_restore_preflight_pass":false,"rebuilt_cycle_preflight_pass":false,"production_recovery_allowed":false,"result_file":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v69cold0\\cold_chamber_execution.json"}
+FINAL_JSON={"schema":"heatdrive_ecc_kernel_cold_comparison_v1","producer":"b8adbc9aab53b300b7d473c205ab8680133a1334","case_index":0,"reference_packet":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002","reference_manifest_sha256":"4844B657FD583EC20BD72F842050EC2CC15F724E7ED548A5DB892D540CFA2CF3","source_closeout_sha256":"98BEC1478F7949F533B3BD707836D69668396CF650ED053A4A24A114BB8C3D05","kernel_qualification_sha256":"FC219053D16ACC37F706E7625EE1D5AA733D8E2C4185603C493AC8D203825977","window_s":[0,20],"source_OP_imported":false,"independent_cold_start":true,"pass":true,"all_trajectory_arrays_bitwise_equal":true,"production_recovery_allowed":false,"twenty_cycle_seed_qualified":false,"complete_state_restore_equivalence_evaluated":false,"error_message":"","all_original_packet_gates_pass":true,"comparison_packet":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v69cold0\\native\\kernel_cold_comparison\\packet_C002","candidate_simulation_timing":{"schema":"heatdrive_ecc_packet_simulation_timing_v1","window_s":[0,20],"sim_call_wall_s":688.6404554,"metadata_available":true,"timing_is_physical_gate":false,"simulation_settings_changed":false,"source_state_edited":false,"vendor_timing":{"WallClockTimestampStart":"2026-10-18 09:05:25","WallClockTimestampStop":"2026-10-18 09:16:52","InitializationElapsedWallTime":33.9984127,"ExecutionElapsedWallTime":631.69162460000007,"TerminationElapsedWallTime":21.307571900000003,"TotalElapsedWallTime":686.9976092},"actual_simulation_mode":"normal"},"historical_reference_simulation_timing":{"schema":"heatdrive_ecc_packet_simulation_timing_v1","window_s":[0,20],"sim_call_wall_s":788.7062874,"metadata_available":true,"timing_is_physical_gate":false,"simulation_settings_changed":false,"source_state_edited":false,"vendor_timing":{"WallClockTimestampStart":"2026-10-17 03:26:48","WallClockTimestampStop":"2026-10-17 03:39:55","InitializationElapsedWallTime":19.1766483,"ExecutionElapsedWallTime":751.03319310000006,"TerminationElapsedWallTime":17.0834344,"TotalElapsedWallTime":787.29327580000006},"actual_simulation_mode":"normal"},"timing_is_contemporaneous_paired_benchmark":false}
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v69cold1\component_build' 中生成 Simulink 库 'ecc_inventory_pressure_only_lib'...
+正在当前目录 'C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v69cold1\buffer_component_build' 中生成 Simulink 库 'ecc_buffer_coupled_offset_lib'...
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 12 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 833 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_KernelColdComparison (第 14 行)] 
+[警告: 初始状态是一致的，但可能偏离指定的条件。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Verify_HeatDriveECC_SensitivityColdCase (第 12 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 833 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_KernelColdComparison (第 14 行)] 
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 29 行)
+位置: Verify_HeatDriveECC_KernelColdComparison (第 29 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 836 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_KernelColdComparison (第 14 行)] 
+[警告: 初始状态是一致的，但可能偏离指定的条件。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 29 行)
+位置: Verify_HeatDriveECC_KernelColdComparison (第 29 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 836 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_KernelColdComparison (第 14 行)] 
+[警告: MATLAB Function 模块 heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep 的工作点可能不完整，因为该工作点不包含指定的 MATLAB 函数或表达式中的任何持久变量。有关工作点保存/还原
+的限制的详细描述，请参阅 Simulink 文档。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Collect_HeatDriveECC_ObservationPacket (第 29 行)
+位置: Verify_HeatDriveECC_KernelColdComparison (第 29 行)
+位置: Run_HeatDriveECC_ColdChamberDiagnostic (第 836 行)
+位置: Run_HeatDriveECC_IndependentColdDiagnosticFromConfig (第 33 行)
+位置: Run_HeatDriveECC_KernelColdComparison (第 14 行)] 
+Physical Simscape validation passed: 1
+Validation report: C:\Users\86182\.codex\worktrees\stage4-phase-local-blend-diagnostic\正逆耦合\gx101r1_R69_remote\outputs\v69cold1\native\kernel_cold_comparison\packet_C002\physical_validation_report.txt
+{"collection_pass":false,"completed_arms":0,"state_restore_preflight_pass":false,"rebuilt_cycle_preflight_pass":false,"production_recovery_allowed":false,"result_file":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v69cold1\\cold_chamber_execution.json"}
+FINAL_JSON={"schema":"heatdrive_ecc_kernel_cold_comparison_v1","producer":"b8adbc9aab53b300b7d473c205ab8680133a1334","case_index":1,"reference_packet":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C002","reference_manifest_sha256":"88B65EE40DFDB388458CA8B80C59E23F691D6AD97AF8831CBA3528774E1278C8","source_closeout_sha256":"9EE8AAA8794A7A29E14B8F98A3E8A01F9B227CD13C6A18040057D4952FFFD767","kernel_qualification_sha256":"FC219053D16ACC37F706E7625EE1D5AA733D8E2C4185603C493AC8D203825977","window_s":[0,20],"source_OP_imported":false,"independent_cold_start":true,"pass":true,"all_trajectory_arrays_bitwise_equal":true,"production_recovery_allowed":false,"twenty_cycle_seed_qualified":false,"complete_state_restore_equivalence_evaluated":false,"error_message":"","all_original_packet_gates_pass":true,"comparison_packet":"C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v69cold1\\native\\kernel_cold_comparison\\packet_C002","candidate_simulation_timing":{"schema":"heatdrive_ecc_packet_simulation_timing_v1","window_s":[0,20],"sim_call_wall_s":627.0957204,"metadata_available":true,"timing_is_physical_gate":false,"simulation_settings_changed":false,"source_state_edited":false,"vendor_timing":{"WallClockTimestampStart":"2026-10-18 09:28:21","WallClockTimestampStop":"2026-10-18 09:38:47","InitializationElapsedWallTime":24.408107100000002,"ExecutionElapsedWallTime":579.20167090000007,"TerminationElapsedWallTime":21.8484744,"TotalElapsedWallTime":625.45825240000011},"actual_simulation_mode":"normal"},"historical_reference_simulation_timing":{"schema":"heatdrive_ecc_packet_simulation_timing_v1","window_s":[0,20],"sim_call_wall_s":1165.0678091,"metadata_available":true,"timing_is_physical_gate":false,"simulation_settings_changed":false,"source_state_edited":false,"vendor_timing":{"WallClockTimestampStart":"2026-10-17 13:57:24","WallClockTimestampStop":"2026-10-17 14:16:47","InitializationElapsedWallTime":24.2616708,"ExecutionElapsedWallTime":1111.1562911,"TerminationElapsedWallTime":27.558039800000003,"TotalElapsedWallTime":1162.9760017},"actual_simulation_mode":"normal"},"timing_is_contemporaneous_paired_benchmark":false}

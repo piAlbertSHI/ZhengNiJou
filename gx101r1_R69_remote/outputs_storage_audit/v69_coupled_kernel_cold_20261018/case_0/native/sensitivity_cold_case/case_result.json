@@ -1,0 +1,1858 @@
+{
+  "schema": "heatdrive_ecc_runtime_sensitivity_cold_result_v1",
+  "producer": "b8adbc9aab53b300b7d473c205ab8680133a1334",
+  "case_index": 0,
+  "probe_only": true,
+  "coordinate_count": 204,
+  "coordinate_comparisons": [
+    {
+      "path": "SE/HoldPipe_001/u_I",
+      "priority": "High",
+      "expected": 76.875530835778889,
+      "actual": 76.875530835778434,
+      "unit": "kJ/kg",
+      "limit": 8.6875530835778882E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_001/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999982,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_002/u_I",
+      "priority": "High",
+      "expected": 76.875530835778278,
+      "actual": 76.875530835778164,
+      "unit": "kJ/kg",
+      "limit": 8.6875530835778272E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_002/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_003/u_I",
+      "priority": "High",
+      "expected": 76.875530835777681,
+      "actual": 76.875530835777568,
+      "unit": "kJ/kg",
+      "limit": 8.6875530835777672E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_003/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_004/u_I",
+      "priority": "High",
+      "expected": 76.875530835777113,
+      "actual": 76.875530835777,
+      "unit": "kJ/kg",
+      "limit": 8.68755308357771E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_004/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_005/u_I",
+      "priority": "High",
+      "expected": 76.875530835776516,
+      "actual": 76.8755308357764,
+      "unit": "kJ/kg",
+      "limit": 8.68755308357765E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_005/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_006/u_I",
+      "priority": "High",
+      "expected": 76.875530835775919,
+      "actual": 76.8755308357758,
+      "unit": "kJ/kg",
+      "limit": 8.6875530835775914E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_006/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_007/u_I",
+      "priority": "High",
+      "expected": 76.875530835775322,
+      "actual": 76.875530835775209,
+      "unit": "kJ/kg",
+      "limit": 8.6875530835775315E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_007/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_008/u_I",
+      "priority": "High",
+      "expected": 76.87553083577474,
+      "actual": 76.875530835774626,
+      "unit": "kJ/kg",
+      "limit": 8.6875530835774736E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_008/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_009/u_I",
+      "priority": "High",
+      "expected": 76.875530835774143,
+      "actual": 76.875530835774029,
+      "unit": "kJ/kg",
+      "limit": 8.6875530835774136E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_009/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_010/u_I",
+      "priority": "High",
+      "expected": 76.875530835773546,
+      "actual": 76.875530835773432,
+      "unit": "kJ/kg",
+      "limit": 8.6875530835773536E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_010/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_011/u_I",
+      "priority": "High",
+      "expected": 76.875530835772949,
+      "actual": 76.875530835772835,
+      "unit": "kJ/kg",
+      "limit": 8.6875530835772936E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_011/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_012/u_I",
+      "priority": "High",
+      "expected": 76.875530835772352,
+      "actual": 76.875530835772238,
+      "unit": "kJ/kg",
+      "limit": 8.6875530835772347E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_012/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_013/u_I",
+      "priority": "High",
+      "expected": 76.875530835771755,
+      "actual": 76.875530835771642,
+      "unit": "kJ/kg",
+      "limit": 8.6875530835771747E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_013/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_014/u_I",
+      "priority": "High",
+      "expected": 76.875530835771173,
+      "actual": 76.875530835771059,
+      "unit": "kJ/kg",
+      "limit": 8.6875530835771168E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_014/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_015/u_I",
+      "priority": "High",
+      "expected": 76.875530835770576,
+      "actual": 76.875530835770462,
+      "unit": "kJ/kg",
+      "limit": 8.6875530835770569E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_015/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_016/u_I",
+      "priority": "High",
+      "expected": 76.875530835769979,
+      "actual": 76.875530835769865,
+      "unit": "kJ/kg",
+      "limit": 8.6875530835769969E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_016/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_017/u_I",
+      "priority": "High",
+      "expected": 76.875530835769368,
+      "actual": 76.875530835769254,
+      "unit": "kJ/kg",
+      "limit": 8.6875530835769359E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_017/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_018/u_I",
+      "priority": "High",
+      "expected": 76.875530835768771,
+      "actual": 76.875530835768657,
+      "unit": "kJ/kg",
+      "limit": 8.6875530835768759E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_018/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_019/u_I",
+      "priority": "High",
+      "expected": 76.8755308357682,
+      "actual": 76.875530835768089,
+      "unit": "kJ/kg",
+      "limit": 8.687553083576819E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_019/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_020/u_I",
+      "priority": "High",
+      "expected": 76.8755308357676,
+      "actual": 76.875530835767492,
+      "unit": "kJ/kg",
+      "limit": 8.68755308357676E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_020/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_021/u_I",
+      "priority": "High",
+      "expected": 76.875530835767023,
+      "actual": 76.875530835766952,
+      "unit": "kJ/kg",
+      "limit": 8.6875530835767012E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/HoldPipe_021/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999993,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "SHEX/HotPipe/u_I",
+      "priority": "High",
+      "expected": 503.34110100050248,
+      "actual": 503.34110100050259,
+      "unit": "kJ/kg",
+      "limit": 5.1334110100050248E-9,
+      "pass": true
+    },
+    {
+      "path": "SHEX/HotPipe/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_001/u_I",
+      "priority": "High",
+      "expected": 125.66324507183369,
+      "actual": 125.66324507170624,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507183369E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_001/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.14999999996951,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_002/u_I",
+      "priority": "High",
+      "expected": 125.66324507182736,
+      "actual": 125.66324507182736,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507182737E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_002/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_003/u_I",
+      "priority": "High",
+      "expected": 125.66324507182098,
+      "actual": 125.66324507182098,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507182098E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_003/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_004/u_I",
+      "priority": "High",
+      "expected": 125.66324507181466,
+      "actual": 125.66324507181466,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507181465E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_004/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_005/u_I",
+      "priority": "High",
+      "expected": 125.66324507180828,
+      "actual": 125.66324507180828,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507180828E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_005/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_006/u_I",
+      "priority": "High",
+      "expected": 125.66324507180195,
+      "actual": 125.66324507180195,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507180195E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_006/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_007/u_I",
+      "priority": "High",
+      "expected": 125.66324507179557,
+      "actual": 125.66324507179557,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507179558E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_007/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_008/u_I",
+      "priority": "High",
+      "expected": 125.66324507178925,
+      "actual": 125.66324507178925,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507178925E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_008/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_009/u_I",
+      "priority": "High",
+      "expected": 125.66324507178288,
+      "actual": 125.66324507178288,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507178288E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_009/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_010/u_I",
+      "priority": "High",
+      "expected": 125.66324507177654,
+      "actual": 125.66324507177654,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507177654E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_010/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_011/u_I",
+      "priority": "High",
+      "expected": 125.66324507177019,
+      "actual": 125.66324507177019,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507177019E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_011/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_012/u_I",
+      "priority": "High",
+      "expected": 125.66324507176382,
+      "actual": 125.66324507176382,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507176382E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_012/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_013/u_I",
+      "priority": "High",
+      "expected": 125.6632450717575,
+      "actual": 125.6632450717575,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507175751E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_013/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_014/u_I",
+      "priority": "High",
+      "expected": 125.66324507175112,
+      "actual": 125.66324507175112,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507175112E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_014/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_015/u_I",
+      "priority": "High",
+      "expected": 125.6632450717448,
+      "actual": 125.6632450717448,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507174479E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_015/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_016/u_I",
+      "priority": "High",
+      "expected": 125.66324507173842,
+      "actual": 125.66324507173842,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507173842E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_016/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_017/u_I",
+      "priority": "High",
+      "expected": 125.66324507173209,
+      "actual": 125.66324507173209,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507173209E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_017/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_018/u_I",
+      "priority": "High",
+      "expected": 125.66324507172571,
+      "actual": 125.66324507172571,
+      "unit": "kJ/kg",
+      "limit": 1.356632450717257E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_018/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_019/u_I",
+      "priority": "High",
+      "expected": 125.66324507171939,
+      "actual": 125.66324507171939,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507171938E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_019/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_020/u_I",
+      "priority": "High",
+      "expected": 125.66324507171302,
+      "actual": 125.66324507171302,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507171303E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_020/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_021/u_I",
+      "priority": "High",
+      "expected": 125.66324507170668,
+      "actual": 125.66324507170667,
+      "unit": "kJ/kg",
+      "limit": 1.3566324507170668E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/CooldownPipe_021/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000000003,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_001/u_I",
+      "priority": "High",
+      "expected": 503.34125041784711,
+      "actual": 503.34125041784711,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041784709E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_001/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_002/u_I",
+      "priority": "High",
+      "expected": 503.34125041786262,
+      "actual": 503.34125041786268,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041786256E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_002/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_003/u_I",
+      "priority": "High",
+      "expected": 503.34125041787814,
+      "actual": 503.3412504178782,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041787811E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_003/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_004/u_I",
+      "priority": "High",
+      "expected": 503.34125041789383,
+      "actual": 503.34125041789389,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041789383E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_004/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_005/u_I",
+      "priority": "High",
+      "expected": 503.34125041790935,
+      "actual": 503.34125041790941,
+      "unit": "kJ/kg",
+      "limit": 5.133412504179093E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_005/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_006/u_I",
+      "priority": "High",
+      "expected": 503.34125041792493,
+      "actual": 503.341250417925,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041792493E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_006/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_007/u_I",
+      "priority": "High",
+      "expected": 503.34125041794056,
+      "actual": 503.34125041794061,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041794057E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_007/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_008/u_I",
+      "priority": "High",
+      "expected": 503.341250417956,
+      "actual": 503.34125041795608,
+      "unit": "kJ/kg",
+      "limit": 5.13341250417956E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_008/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_009/u_I",
+      "priority": "High",
+      "expected": 503.34125041797165,
+      "actual": 503.34125041797171,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041797167E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_009/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_010/u_I",
+      "priority": "High",
+      "expected": 503.34125041798717,
+      "actual": 503.34125041798723,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041798714E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_010/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_011/u_I",
+      "priority": "High",
+      "expected": 503.3412504180028,
+      "actual": 503.34125041800286,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041800277E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_011/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_012/u_I",
+      "priority": "High",
+      "expected": 503.34125041801832,
+      "actual": 503.34125041801838,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041801832E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_012/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_013/u_I",
+      "priority": "High",
+      "expected": 503.34125041803389,
+      "actual": 503.34125041803395,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041803387E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_013/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_014/u_I",
+      "priority": "High",
+      "expected": 503.34125041804958,
+      "actual": 503.34125041804964,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041804959E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_014/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_015/u_I",
+      "priority": "High",
+      "expected": 503.34125041806504,
+      "actual": 503.3412504180651,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041806506E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_015/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_016/u_I",
+      "priority": "High",
+      "expected": 503.34125041808073,
+      "actual": 503.34125041808079,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041808069E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_016/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_017/u_I",
+      "priority": "High",
+      "expected": 503.34125041809619,
+      "actual": 503.34125041809625,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041809616E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_017/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_018/u_I",
+      "priority": "High",
+      "expected": 503.34125041811177,
+      "actual": 503.34125041811183,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041811171E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_018/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_019/u_I",
+      "priority": "High",
+      "expected": 503.34125041812746,
+      "actual": 503.34125041812752,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041812743E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_019/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_020/u_I",
+      "priority": "High",
+      "expected": 503.34125041814292,
+      "actual": 503.341250418143,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041814289E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_020/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000009,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_021/u_I",
+      "priority": "High",
+      "expected": 503.34125041815849,
+      "actual": 503.34125041818447,
+      "unit": "kJ/kg",
+      "limit": 5.1334125041815845E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/HoldPipe_021/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000623,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "冷端换热器/ColdSinkPipe/u_I",
+      "priority": "High",
+      "expected": 76.875530382949819,
+      "actual": 76.875530382949748,
+      "unit": "kJ/kg",
+      "limit": 8.6875530382949816E-10,
+      "pass": true
+    },
+    {
+      "path": "冷端换热器/ColdSinkPipe/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.94999999999987,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "热端换热器/HotPipe/u_I",
+      "priority": "High",
+      "expected": 171.02441462944287,
+      "actual": 171.02441463026187,
+      "unit": "kJ/kg",
+      "limit": 1.8102441462944288E-9,
+      "pass": true
+    },
+    {
+      "path": "热端换热器/HotPipe/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000022633,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "热端换热器/SMAHotPipe/u_I",
+      "priority": "High",
+      "expected": 125.66318413640772,
+      "actual": 125.66318413640694,
+      "unit": "kJ/kg",
+      "limit": 1.3566318413640773E-9,
+      "pass": true
+    },
+    {
+      "path": "热端换热器/SMAHotPipe/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.14999999999981,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "ColdFluidBuffer/stored_mass",
+      "priority": "High",
+      "expected": 0.10123865866626236,
+      "actual": 0.10123865866626235,
+      "unit": "kg",
+      "limit": 1.0101238658666263E-10,
+      "pass": true
+    },
+    {
+      "path": "ColdFluidBuffer/stored_energy",
+      "priority": "High",
+      "expected": 7864.17560526318,
+      "actual": 7864.17560526318,
+      "unit": "J",
+      "limit": 7.8741756052631788E-8,
+      "pass": true
+    },
+    {
+      "path": "ColdFluidBuffer/T_I",
+      "priority": "Low",
+      "expected": 276.95,
+      "actual": 276.95,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "ColdFluidBuffer/level",
+      "priority": "Low",
+      "expected": 0.095696221913159185,
+      "actual": 0.095696221913159282,
+      "unit": "m",
+      "limit": 1.0095696221913159E-10,
+      "pass": true
+    },
+    {
+      "path": "HotFluidBuffer/stored_mass",
+      "priority": "High",
+      "expected": 0.10001750154514236,
+      "actual": 0.10001750154514237,
+      "unit": "kg",
+      "limit": 1.0100017501545143E-10,
+      "pass": true
+    },
+    {
+      "path": "HotFluidBuffer/stored_energy",
+      "priority": "High",
+      "expected": 17186.838281235254,
+      "actual": 17186.838281235257,
+      "unit": "J",
+      "limit": 1.7196838281235254E-7,
+      "pass": true
+    },
+    {
+      "path": "HotFluidBuffer/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "HotFluidBuffer/level",
+      "priority": "Low",
+      "expected": 0.095696221913159185,
+      "actual": 0.095696221913162877,
+      "unit": "m",
+      "limit": 1.0095696221913159E-10,
+      "pass": true
+    },
+    {
+      "path": "SHEXFluidBuffer/stored_mass",
+      "priority": "High",
+      "expected": 0.090280747762935737,
+      "actual": 0.090280747762849278,
+      "unit": "kg",
+      "limit": 1.0090280747762936E-10,
+      "pass": true
+    },
+    {
+      "path": "SHEXFluidBuffer/stored_energy",
+      "priority": "High",
+      "expected": 45523.423672877914,
+      "actual": 45523.423672877921,
+      "unit": "J",
+      "limit": 4.553342367287791E-7,
+      "pass": true
+    },
+    {
+      "path": "SHEXFluidBuffer/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000011281,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SHEXFluidBuffer/level",
+      "priority": "Low",
+      "expected": 0.095696221913159185,
+      "actual": 0.095696221913078292,
+      "unit": "m",
+      "limit": 1.0095696221913159E-10,
+      "pass": true
+    },
+    {
+      "path": "SMAHotFluidBuffer/stored_mass",
+      "priority": "High",
+      "expected": 0.095312568501417255,
+      "actual": 0.095312568501368169,
+      "unit": "kg",
+      "limit": 1.0095312568501418E-10,
+      "pass": true
+    },
+    {
+      "path": "SMAHotFluidBuffer/stored_energy",
+      "priority": "High",
+      "expected": 12058.675496118172,
+      "actual": 12058.675496118172,
+      "unit": "J",
+      "limit": 1.2068675496118174E-7,
+      "pass": true
+    },
+    {
+      "path": "SMAHotFluidBuffer/T_I",
+      "priority": "Low",
+      "expected": 303.15,
+      "actual": 303.15000000001538,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMAHotFluidBuffer/level",
+      "priority": "Low",
+      "expected": 0.095696221913159185,
+      "actual": 0.095696221913110738,
+      "unit": "m",
+      "limit": 1.0095696221913159E-10,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_01/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997161,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_02/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_03/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_04/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_05/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_06/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_07/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_08/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_09/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_10/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_11/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_12/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_13/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_14/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_15/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_16/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_17/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_18/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_19/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_20/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_21/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.14999999997167,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SHEX/HotSinkMass/T",
+      "priority": "High",
+      "expected": 393.15,
+      "actual": 393.15,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_01/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_02/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_03/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_04/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_05/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_06/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_07/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_08/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_09/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_10/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_11/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_12/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_13/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_14/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_15/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_16/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_17/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_18/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_19/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_20/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_21/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "冷端换热器/ColdLoadMass/T",
+      "priority": "High",
+      "expected": 276.95,
+      "actual": 276.95,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "冷端换热器/ColdSinkMass/T",
+      "priority": "High",
+      "expected": 276.95,
+      "actual": 276.95,
+      "unit": "K",
+      "limit": 2.8694999999999997E-9,
+      "pass": true
+    },
+    {
+      "path": "热端换热器/HotSinkMass/T",
+      "priority": "High",
+      "expected": 303.15,
+      "actual": 303.15,
+      "unit": "K",
+      "limit": 3.1314999999999998E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA_PumpInletConnectingPipeVolume/stored_mass",
+      "priority": "High",
+      "expected": 0.0015174702627137884,
+      "actual": 0.00151747026271379,
+      "unit": "kg",
+      "limit": 1.0001517470262714E-10,
+      "pass": true
+    },
+    {
+      "path": "SMA_PumpInletConnectingPipeVolume/stored_energy",
+      "priority": "High",
+      "expected": 763.8056320283913,
+      "actual": 763.80563202839119,
+      "unit": "J",
+      "limit": 7.7380563202839122E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA_PumpInletConnectingPipeVolume/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.15000000000003,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA_PumpInletConnectingPipeVolume/p_I",
+      "priority": "Low",
+      "expected": 0.8500005,
+      "actual": 0.8500005000025963,
+      "unit": "MPa",
+      "limit": 1.0850000500000001E-10,
+      "pass": true
+    },
+    {
+      "path": "SMA_PumpOutletConnectingPipeVolume/stored_mass",
+      "priority": "High",
+      "expected": 0.0015174702620079918,
+      "actual": 0.0015174702620079936,
+      "unit": "kg",
+      "limit": 1.0001517470262009E-10,
+      "pass": true
+    },
+    {
+      "path": "SMA_PumpOutletConnectingPipeVolume/stored_energy",
+      "priority": "High",
+      "expected": 763.80563221457544,
+      "actual": 763.80563221457624,
+      "unit": "J",
+      "limit": 7.7380563221457535E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA_PumpOutletConnectingPipeVolume/T_I",
+      "priority": "Low",
+      "expected": 393.15,
+      "actual": 393.1500000000002,
+      "unit": "K",
+      "limit": 4.0314999999999996E-9,
+      "pass": true
+    },
+    {
+      "path": "SMA_PumpOutletConnectingPipeVolume/p_I",
+      "priority": "Low",
+      "expected": 0.8499995,
+      "actual": 0.84999950000259639,
+      "unit": "MPa",
+      "limit": 1.08499995E-10,
+      "pass": true
+    }
+  ],
+  "coordinate_match_pass": true,
+  "full_cycle_gates_evaluated": false,
+  "all_original_packet_gates_pass": false,
+  "periodic_steady_state": false,
+  "orthogonal_effects_evaluated": false,
+  "complete_state_may_propagate_outside_case": false,
+  "case_local_gated_continuation_allowed": true,
+  "last_verified_snapshot_time_s": 0,
+  "completed_cold_cycles": 0,
+  "experiment_completed": true,
+  "error_message": "",
+  "source_state_imported": false,
+  "production_recovery_allowed": false
+}

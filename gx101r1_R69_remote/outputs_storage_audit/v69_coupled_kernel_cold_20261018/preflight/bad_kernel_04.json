@@ -1,0 +1,98 @@
+{
+  "schema": "heatdrive_ecc_stable_kernel_candidate_comparison_v1",
+  "benchmark_sha256": "EA74B0D543DDC595947F69C21B73A049A5BAAA180F3BDC805055A42CC20FE33D",
+  "fixture_sha256": "02E82330682C0A0E6F49CF1F4D2CD62C3A82988E40BB6B61DAC0FF5FE484C4BE",
+  "qualification_sha256": "72227BFA412079E695B98BD1F87CC6F5EE04F196E5EDD62413533873E7609525",
+  "candidate_source_sha256": "2D75D4C7F7566A5C6C6BABC1BC5A7546A3DC9325935FDE0348009CBDC2D356B4",
+  "all_captured_samples_bitwise_equal": true,
+  "all_original_L8_option_cases_bitwise_equal": true,
+  "source_state_edited": false,
+  "operating_point_loaded": false,
+  "simulation_executed": false,
+  "production_constitutive_sources_changed": false,
+  "physical_thresholds_changed": false,
+  "coupled_acceleration_qualified": false,
+  "production_recovery_allowed": true,
+  "error_message": "",
+  "captured_samples": 200,
+  "reference_matches_captured_physical_output": true,
+  "maximum_captured_output_difference": 0,
+  "original_L8_option_cases": [
+    {
+      "case_index": 0,
+      "samples": 20,
+      "bitwise_equal": true,
+      "maximum_output_difference": 0
+    },
+    {
+      "case_index": 1,
+      "samples": 20,
+      "bitwise_equal": true,
+      "maximum_output_difference": 0
+    },
+    {
+      "case_index": 2,
+      "samples": 20,
+      "bitwise_equal": true,
+      "maximum_output_difference": 0
+    },
+    {
+      "case_index": 3,
+      "samples": 20,
+      "bitwise_equal": true,
+      "maximum_output_difference": 0
+    },
+    {
+      "case_index": 4,
+      "samples": 20,
+      "bitwise_equal": true,
+      "maximum_output_difference": 0
+    },
+    {
+      "case_index": 5,
+      "samples": 20,
+      "bitwise_equal": true,
+      "maximum_output_difference": 0
+    },
+    {
+      "case_index": 6,
+      "samples": 20,
+      "bitwise_equal": true,
+      "maximum_output_difference": 0
+    },
+    {
+      "case_index": 7,
+      "samples": 20,
+      "bitwise_equal": true,
+      "maximum_output_difference": 0
+    },
+    {
+      "case_index": 8,
+      "samples": 20,
+      "bitwise_equal": true,
+      "maximum_output_difference": 0
+    }
+  ],
+  "edge_samples": 180,
+  "invalid_contracts_rejected": 8,
+  "unprofiled_paired_wall_seconds": [
+    [
+      4.5224636,
+      0.3080426
+    ],
+    [
+      4.7507472,
+      0.319603
+    ],
+    [
+      4.0285032,
+      0.3845472
+    ]
+  ],
+  "reference_median_s": 4.5224636,
+  "candidate_median_s": 0.319603,
+  "sampled_kernel_speedup": 14.150253908755548,
+  "scope": "200 actual causal points plus 180 synthetic edge points across original nominal/L8 options; not a coupled trajectory or solver speedup",
+  "synthetic_states_may_propagate": false,
+  "candidate_installed_in_model": false
+}
