@@ -1,0 +1,95 @@
+{
+  "schema": "heatdrive_ecc_storage_relief_closeout_v1",
+  "time_utc": "2026-10-18T15:17:11.856Z",
+  "independent_configuration_copy_bytes_removed": 1530206247,
+  "obsolete_raw_bytes_removed": 5203221620,
+  "new_retained_trace_archive_bytes": 1199190613,
+  "net_data_bytes_reduced": 5534237254,
+  "not_attributed_to_whole_drive_free_space_change": true,
+  "verified_configuration_groups": [
+    {
+      "canonical": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\native\\configuration.mat",
+      "paths": 10,
+      "unique_file_ids": 1
+    },
+    {
+      "canonical": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C060_attempt01\\native\\configuration.mat",
+      "paths": 23,
+      "unique_file_ids": 1
+    },
+    {
+      "canonical": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C020\\native\\configuration.mat",
+      "paths": 10,
+      "unique_file_ids": 1
+    },
+    {
+      "canonical": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68c1\\packet_C060_attempt01\\native\\configuration.mat",
+      "paths": 23,
+      "unique_file_ids": 1
+    },
+    {
+      "canonical": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C022_attempt01\\native\\configuration.mat",
+      "paths": 13,
+      "unique_file_ids": 1
+    },
+    {
+      "canonical": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1\\packet_C060_attempt01\\native\\configuration.mat",
+      "paths": 10,
+      "unique_file_ids": 1
+    },
+    {
+      "canonical": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020\\native\\configuration.mat",
+      "paths": 10,
+      "unique_file_ids": 1
+    },
+    {
+      "canonical": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v52_runtime_convergence_C22_r1\\packet_C024_attempt01\\native\\configuration.mat",
+      "paths": 3,
+      "unique_file_ids": 1
+    },
+    {
+      "canonical": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v51_runtime_warmup_C2_C22_r1\\packet_C004_attempt01\\native\\configuration.mat",
+      "paths": 10,
+      "unique_file_ids": 1
+    },
+    {
+      "canonical": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C066_attempt01\\native\\configuration.mat",
+      "paths": 4,
+      "unique_file_ids": 1
+    },
+    {
+      "canonical": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v47_C62_recording_split_preflight_r3\\native\\split_observation\\prefix\\native\\configuration.mat",
+      "paths": 2,
+      "unique_file_ids": 1
+    }
+  ],
+  "protected_original_files_rehashed": 527,
+  "all_four_C200_C180_authority_hashes_match": true,
+  "all_other_original_files_in_ten_trials_retained": true,
+  "active_case_v71_all_files_excluded": true,
+  "paused_worker_pid": 166436,
+  "paused_worker_start_time_utc": "2026-10-18T10:29:50.8312261Z",
+  "foreground_session": 9511,
+  "current_checkpoint_cycle": 50,
+  "current_unfinished_window_s": [
+    500,
+    520
+  ],
+  "original_goal_remains_paused": true,
+  "cleanup_did_not_resume_or_terminate_any_compute": true,
+  "scientific_gates_changed": false,
+  "source_equations_or_solver_changed": false,
+  "comparison_arms_claimed_identical": false,
+  "full_original_dual_arm_raw_reverification_available": false,
+  "external_archive_dependencies": "Each retained_key_evidence_shared_20261018.h5 needs its sibling ../native/observations.mat at the pinned SHA. Keep/move the entire trial together; these archives are not standalone or recovery inputs.",
+  "all_retained_archive_datasets_bitwise_equal": true,
+  "identical_datasets_shared": 42539,
+  "retained_dataset_comparisons": 47866,
+  "new_compression_or_resampling_used": false,
+  "generated_intermediate_bytes_created_then_removed_not_counted_as_old_data_relief": 3018006720,
+  "tests": {
+    "python_unittest_passed": 1057
+  },
+  "configuration_receipt_sha256": "4E544029299E82C0F285C2634E44914141574B1A327D3CB522938FE4FD5DB8A5",
+  "arm_retirement_receipt_sha256": "E3093ABD771E1A43E55EF018120CF65CD1EDA57BF6F222AECB5850A5EDA0270E"
+}

@@ -7692,3 +7692,31 @@ C20单周期温跨27.99405216 K、Eq10冷量12.81366496 W、SCP0.3064235854 W/g�
 用户要求“先暂停续跑等待我的指令”，因此不再推进后续任务。当前前台session9511、launcher151284、worker166436（启动UTC=2026-10-18T10:29:50.8312261Z）尚未自然结束，原200至220 s完整OP连续/磁盘拆分比较已通过且逐位一致。磁盘最后验收至C50/500 s，正在500至520 s的C52段。原runner没有协作式边界暂停接口，未临时修改正在执行的函数、强杀或制造科学失败marker；对核对过完整命令行的唯一worker执行一次操作系统进程挂起，NTSTATUS=0，实际152线程均Suspended，内存状态保留，launcher和真实session保留，不宣称自然退出。
 
 暂停后C50完整OP实际SHA=D4B040978D65963F20B2A8C274C0CFF08C49C10A747BC6FFE9B0E4EFAC10943C，与manifest相同，原packet gate=true；continuation_result当前SHA=A00A8AFEBF8BEF486FFCF82EBAE79FC74AE3A35EF3E928EA66435E2A4D1FF8EC。未完成C52不能传播或计为已验收；本行也尚未取得500至600 s共同窗，不增加2/8合格计数。verification/current_runtime_user_pause.json记录精确PID/启动时间/session、检查点和恢复规则。必须等用户新指令，恢复前先核对原PID身份，若仍挂起只恢复同一进程一次；若用户重启造成进程消失，再依本行最后验收C50完整状态恢复，不重置、不回到冷态或其他case、不重复启动尚存进程。
+
+## 317 用户授权紧急空间清理：保留当前计算及关键证据（2026-10-18）
+
+用户在只读调查之后明确授权清理旧的非必要中间产物及淘汰历史文件，要求保留关键结果和证据。本轮只处理存储，不恢复Goal、不唤醒/终止/另启MATLAB，不修改模型、PI、数值律、配置内容或科学门禁。开始核对worker166436启动UTC及152挂起线程，最后验收仍C50、未完成C52；整个v71case3/v71p1/v71c1、当前进程打开的DMR及C108构造来源均不在删除或配置合并范围内。Agent6、原未解释SLX、未知临时文件、全部当前响应窗及OP均不动。
+
+### 317.1 相同配置保留路径去重
+
+对上一轮逐份SHA验证的配置组再次核对内容，只选择非当前第3行的11组118个路径，以107次同卷硬链接替代独立副本，内容和原路径均保留。先建同内容临时链接、原文件改名保底、安装并核对链接，成功后才删独立备份；无递归删除。后验逐组核对File ID，每组确实只有一个物理文件身份。消除独立副本1,530,206,247 bytes（约1.425 GiB），不是删除恢复合同中的配置，也不是把不同case的配置混为同一份。配置计划SHA=08EE63BBD0C053E6ECD82979417778E5D5B4258467ABBE821330AE8DE0EEBB68。共享的这些历史配置必须按不可变证据使用，不能就地编辑某个链接来做新试验；新试验仍用新目录生成配置。
+
+### 317.2 十组淘汰诊断臂的有界证据保留与原始大容器退役
+
+精确允许名单为：stage4执行树的settled_integrator、p_active_settled_i、commutation_precharge50旧试验；runtime执行树v9_warmup20p、v16_distributed_envelope_20c、v10_distributed_ff_10s；fixed-stage4树旧logmean_kp50 warmup；default树旧kp160 warmup；positive-bias树旧reentryblend和activityramp。每组都有明确拒绝/仅warmup、禁止恢复或无OP声明。v16不是科学失败，不因其退役而改写历史结论。旧v4控制体失败种子及尚不明确的历史恢复链未纳入。
+
+只退役这十组conservative/observations.mat，所有其他原始文件均保留，包括完整native/observations.mat、原配置、探针合同、拒绝声明、现存摘要与图表。每个被退役臂先保存：全部公共信号、可用源/压力/控制/热边界信号的首个记录10 s与最后记录20 s；以及T、T_I、p_A、p_I、mdot_A/B、Phi_A/B、stored_mass、stored_energy、auxiliary_energy、environment_pv_energy关键原生轨迹。只选择原时间点，没有插值、量化、重采样或新增压缩。旧20周期中间公共时序不再全量保留，不能继续宣称原始双臂全量重审可用；不把新诊断归档当作完整OP或恢复输入。
+
+首版直接保存这些关键轨迹生成3,018,006,720 bytes，部分短试验的新容器比旧MAT还大，因此没有立即机械删除原件。改为逐数组核对保留native臂：形状、dtype和所有字节相同才引用原生臂中的原数据集；不同的数组与标签独立保存。逐份重新打开归档，47,866个保留数据集全部逐字节一致，其中42,539个复用已经存在的原生数据集。没有声称不同物理试验/不同诊断臂整体相同。
+
+最终十份retained_key_evidence_shared_20261018.h5合计1,199,190,613 bytes，均保存在对应旧试验的conservative子目录。它们通过相对外部链接依赖../native/observations.mat，原生臂完整SHA锁定在回执中；必须保留/整体搬运该试验目录，不能只复制H5归档后删除native。首版未发布中间归档在新版全量保留数据比对通过后按精确路径退役，保留其来源和替代回执；这3.018 GB本轮生成又删除的数据不计为旧数据释放。
+
+最终退役计划SHA=DC282BCC557AFC811BEC594F07DCE61160D4C49AE9BFA05B1AD3E56723FBC0DE。Python先独立复核原件/归档SHA，再由PowerShell逐个检查绝对路径白名单、重解析点、活跃进程、保留证据后，仅用Remove-Item -LiteralPath删除十个旧文件。527份受保护原文件前后SHA一致，包含各完整native臂、C200/C180四份权威、C50/C20状态、C108参数/OP及三个已有C60最终OP。C200/C180四份哈希同时与原冻结值一致，不只是本轮前后一致。没有整树清除或Git清理。
+
+### 317.3 净空间、回归及暂停状态
+
+旧大容器删除5,203,221,620 bytes；配置独立副本消除1,530,206,247 bytes；新保留关键归档占1,199,190,613 bytes，数据净减少5,534,237,254 bytes，约5.154 GiB，另有少量清单/源码/Git元数据开销。实际清理回执见outputs_storage_audit/v72_storage_relief_20261018及shared子目录，cleanup_closeout SHA=F3D7BFEEDDF4BB87F8AEF32001A900ACCB3D6C416B2AD7DC96FCC18780409E11。不得把全盘空闲量变化全部归因于本轮，其他并行任务也会改变C盘占用。
+
+收尾测得C盘可用13,049,098,240 bytes，约12.15 GiB。现有恢复实现绑定的三个C60中间包、旧runtime恢复链及未知用途数据没有为追求释放额度而直接删除；前次10至15 GiB估计是需进一步解耦证据合同的潜力，不是已核准清单。本批已解除即时容量危机，不修改恢复/物理合同去强行兑现估算。
+
+新增五项回归及完整1057项Python测试通过；数据提取、共享和删除程序均单次前台执行并自然退出0。MATLAB始终是原PID166436、原启动时间及152挂起线程，continuation_result哈希仍A00A8AFEBF8BEF486FFCF82EBAE79FC74AE3A35EF3E928EA66435E2A4D1FF8EC，最后验收500 s、当前未完成500至520 s。原Goal继续paused，必须等用户新指令才能恢复。清理工具/清单仅提交主树，不向挂起计算的执行树切换源码或改变其执行producer。
