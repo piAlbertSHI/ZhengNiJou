@@ -1,0 +1,334 @@
+{
+  "schema": "heatdrive_ecc_stable_kernel_benchmark_v1",
+  "source_packet": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68c1\\packet_C060_attempt01",
+  "source_producer": "e7eab68d53137d0a4a483f82fc7bfaaeff2d8ac3",
+  "source_manifest_sha256": "1E451AA28B1649536D1A3AA0CFECA71A646537DEAE60C8A41862EC73EBFA82CC",
+  "source_gate_sha256": "D04B63CF7E079054BB205D284C0F988DE26DD76B7114CF2D7168F33F32738A54",
+  "fixture_sha256": "02E82330682C0A0E6F49CF1F4D2CD62C3A82988E40BB6B61DAC0FF5FE484C4BE",
+  "sample_count": 200,
+  "bindings": [
+    {
+      "block": "ECC_Constitutive21_StateDelay",
+      "width": 210,
+      "history_clock_shift_s": 0,
+      "exact_previous_output_match": true
+    },
+    {
+      "block": "ECC_Constitutive21_SMA_TempDelay",
+      "width": 21,
+      "history_clock_shift_s": 0,
+      "exact_previous_output_match": true
+    },
+    {
+      "block": "ECC_Constitutive21_SE_TempDelay",
+      "width": 21,
+      "history_clock_shift_s": 0,
+      "exact_previous_output_match": true
+    }
+  ],
+  "unprofiled_replay_wall_s": 5.2668955,
+  "all_252_output_coordinates_bitwise_equal": true,
+  "maximum_output_difference": 0,
+  "original_substeps": 32,
+  "sample_time_s": 0.001,
+  "operating_point_loaded": false,
+  "simulation_executed": false,
+  "physical_sources_changed": false,
+  "physical_thresholds_changed": false,
+  "production_recovery_allowed": false,
+  "coupled_acceleration_qualified": false,
+  "full_objective_complete": false,
+  "profile_functions": [
+    {
+      "function": "mean",
+      "file": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\datafun\\mean.m",
+      "calls": 186000,
+      "inclusive_time_s": 2.2739304038189396,
+      "direct_children_time_s": 0.73882613373196726,
+      "exclusive_time_estimate_s": 1.5351042700869724,
+      "partial_data": false
+    },
+    {
+      "function": "HeatDriveECC_ConstitutiveCompatibilityStep51>solve_compatibility",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveCompatibilityStep51.m",
+      "calls": 32000,
+      "inclusive_time_s": 3.2320204475616561,
+      "direct_children_time_s": 1.9413971886367485,
+      "exclusive_time_estimate_s": 1.2906232589249076,
+      "partial_data": false
+    },
+    {
+      "function": "HeatDriveECC_ConstitutiveCompatibilityStep51>phase_rates",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveCompatibilityStep51.m",
+      "calls": 25600,
+      "inclusive_time_s": 1.7068231779269991,
+      "direct_children_time_s": 0.69207863159765559,
+      "exclusive_time_estimate_s": 1.0147445463293434,
+      "partial_data": false
+    },
+    {
+      "function": "HeatDriveECC_ConstitutiveCompatibilityStep51",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveCompatibilityStep51.m",
+      "calls": 6400,
+      "inclusive_time_s": 8.1980591742919344,
+      "direct_children_time_s": 7.2565780313075177,
+      "exclusive_time_estimate_s": 0.94148114298441676,
+      "partial_data": false
+    },
+    {
+      "function": "HeatDriveECC_ConstitutiveCompatibilityStep51>sync_legacy_audit51_aliases",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveCompatibilityStep51.m",
+      "calls": 6400,
+      "inclusive_time_s": 0.53208422429292468,
+      "direct_children_time_s": 0,
+      "exclusive_time_estimate_s": 0.53208422429292468,
+      "partial_data": false
+    },
+    {
+      "function": "HeatDriveECC_ConstitutiveCompatibilityStep51>normalize_state21",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveCompatibilityStep51.m",
+      "calls": 6400,
+      "inclusive_time_s": 0.50215682292655428,
+      "direct_children_time_s": 0,
+      "exclusive_time_estimate_s": 0.50215682292655428,
+      "partial_data": false
+    },
+    {
+      "function": "firstNonSingletonDim",
+      "file": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\datafun\\+matlab\\+internal\\+math\\firstNonSingletonDim.m",
+      "calls": 186000,
+      "inclusive_time_s": 0.37327691704239219,
+      "direct_children_time_s": 0,
+      "exclusive_time_estimate_s": 0.37327691704239219,
+      "partial_data": false
+    },
+    {
+      "function": "mean>mysize",
+      "file": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\datafun\\mean.m",
+      "calls": 186000,
+      "inclusive_time_s": 0.365549216689575,
+      "direct_children_time_s": 0,
+      "exclusive_time_estimate_s": 0.365549216689575,
+      "partial_data": false
+    },
+    {
+      "function": "HeatDriveECC_ConstitutiveCompatibilityStep51>sync_legacy_state51_aliases",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveCompatibilityStep51.m",
+      "calls": 6400,
+      "inclusive_time_s": 0.36023481644693989,
+      "direct_children_time_s": 0,
+      "exclusive_time_estimate_s": 0.36023481644693989,
+      "partial_data": false
+    },
+    {
+      "function": "HeatDriveECC_ConstitutiveCompatibilityStep51>advance_phase_state",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveCompatibilityStep51.m",
+      "calls": 6400,
+      "inclusive_time_s": 3.8036309736591996,
+      "direct_children_time_s": 3.5371582614930781,
+      "exclusive_time_estimate_s": 0.26647271216612145,
+      "partial_data": false
+    },
+    {
+      "function": "HeatDriveECC_ConstitutiveCompatibilityStep51>rates_at_phase_state",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveCompatibilityStep51.m",
+      "calls": 19200,
+      "inclusive_time_s": 3.4529999576507326,
+      "direct_children_time_s": 3.2075582464448056,
+      "exclusive_time_estimate_s": 0.24544171120592706,
+      "partial_data": false
+    },
+    {
+      "function": "HeatDriveECC_ConstitutiveCompatibilityStep51>get_constitutive_scalar",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveCompatibilityStep51.m",
+      "calls": 25600,
+      "inclusive_time_s": 0.24229441106223337,
+      "direct_children_time_s": 0,
+      "exclusive_time_estimate_s": 0.24229441106223337,
+      "partial_data": false
+    },
+    {
+      "function": "HeatDriveECC_ConstitutiveCompatibilityStep51>qian_fig5_surface_temperature",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveCompatibilityStep51.m",
+      "calls": 51200,
+      "inclusive_time_s": 0.31226391425677252,
+      "direct_children_time_s": 0.10618050484779457,
+      "exclusive_time_estimate_s": 0.20608340940897796,
+      "partial_data": false
+    },
+    {
+      "function": "HeatDriveECC_ConstitutiveCompatibilityStep51>clamp01",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveCompatibilityStep51.m",
+      "calls": 89600,
+      "inclusive_time_s": 0.19033880869013989,
+      "direct_children_time_s": 0,
+      "exclusive_time_estimate_s": 0.19033880869013989,
+      "partial_data": false
+    },
+    {
+      "function": "Integrate_HeatDriveECC_StableConstitutiveSample>integrate_count",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\verification\\Integrate_HeatDriveECC_StableConstitutiveSample.m",
+      "calls": 200,
+      "inclusive_time_s": 8.3765130824394554,
+      "direct_children_time_s": 8.2034065745360767,
+      "exclusive_time_estimate_s": 0.17310650790337867,
+      "partial_data": false
+    },
+    {
+      "function": "HeatDriveECC_ConstitutiveCompatibilityStep51>positive_overdrive_gate",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveCompatibilityStep51.m",
+      "calls": 51200,
+      "inclusive_time_s": 0.13752030627864967,
+      "direct_children_time_s": 0,
+      "exclusive_time_estimate_s": 0.13752030627864967,
+      "partial_data": false
+    },
+    {
+      "function": "HeatDriveECC_ConstitutiveStateVectorStep21_StableDiagnostic>state_to_vector",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveStateVectorStep21_StableDiagnostic.m",
+      "calls": 200,
+      "inclusive_time_s": 0.059636902722792214,
+      "direct_children_time_s": 0.01182060053968328,
+      "exclusive_time_estimate_s": 0.047816302183108936,
+      "partial_data": false
+    },
+    {
+      "function": "Initialize_HeatDriveECC_EighthRound_Branches>inactive_branch_audit",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\Initialize_HeatDriveECC_EighthRound_Branches.m",
+      "calls": 800,
+      "inclusive_time_s": 0.044177802016988975,
+      "direct_children_time_s": 0,
+      "exclusive_time_estimate_s": 0.044177802016988975,
+      "partial_data": false
+    },
+    {
+      "function": "HeatDriveECC_ConstitutiveStateVectorStep21_StableDiagnostic",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveStateVectorStep21_StableDiagnostic.m",
+      "calls": 200,
+      "inclusive_time_s": 8.7140395978496219,
+      "direct_children_time_s": 8.6705167958625378,
+      "exclusive_time_estimate_s": 0.043522801987084136,
+      "partial_data": false
+    },
+    {
+      "function": "Initialize_HeatDriveECC_EighthRound_Branches",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\Initialize_HeatDriveECC_EighthRound_Branches.m",
+      "calls": 200,
+      "inclusive_time_s": 0.14107680644102583,
+      "direct_children_time_s": 0.1013021046250655,
+      "exclusive_time_estimate_s": 0.039774701815960323,
+      "partial_data": false
+    },
+    {
+      "function": "Benchmark_HeatDriveECC_StableKernelReplay",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\verification\\Benchmark_HeatDriveECC_StableKernelReplay.m",
+      "calls": 1,
+      "inclusive_time_s": 8.75475889970871,
+      "direct_children_time_s": 8.7184557980512487,
+      "exclusive_time_estimate_s": 0.036303101657461312,
+      "partial_data": false
+    },
+    {
+      "function": "Initialize_HeatDriveECC_EighthRound_State",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\Initialize_HeatDriveECC_EighthRound_State.m",
+      "calls": 200,
+      "inclusive_time_s": 0.18100440826396696,
+      "direct_children_time_s": 0.15212530694545798,
+      "exclusive_time_estimate_s": 0.028879101318508987,
+      "partial_data": false
+    },
+    {
+      "function": "Build_HeatDriveECC_EighthRound_BranchRoles",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\Build_HeatDriveECC_EighthRound_BranchRoles.m",
+      "calls": 200,
+      "inclusive_time_s": 0.041402201890265722,
+      "direct_children_time_s": 0.017491200798581137,
+      "exclusive_time_estimate_s": 0.023911001091684585,
+      "partial_data": false
+    },
+    {
+      "function": "HeatDriveECC_ConstitutiveStabilityBound",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\verification\\HeatDriveECC_ConstitutiveStabilityBound.m",
+      "calls": 200,
+      "inclusive_time_s": 0.019451100888062654,
+      "direct_children_time_s": 0,
+      "exclusive_time_estimate_s": 0.019451100888062654,
+      "partial_data": false
+    },
+    {
+      "function": "Build_HeatDriveECC_EighthRound_BranchRoles>role_struct",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\Build_HeatDriveECC_EighthRound_BranchRoles.m",
+      "calls": 800,
+      "inclusive_time_s": 0.017491200798581137,
+      "direct_children_time_s": 0,
+      "exclusive_time_estimate_s": 0.017491200798581137,
+      "partial_data": false
+    },
+    {
+      "function": "makeValidName",
+      "file": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\matlab\\lang\\+matlab\\+lang\\makeValidName.m",
+      "calls": 800,
+      "inclusive_time_s": 0.015722100717810814,
+      "direct_children_time_s": 0,
+      "exclusive_time_estimate_s": 0.015722100717810814,
+      "partial_data": false
+    },
+    {
+      "function": "Integrate_HeatDriveECC_StableConstitutiveSample",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\verification\\Integrate_HeatDriveECC_StableConstitutiveSample.m",
+      "calls": 200,
+      "inclusive_time_s": 8.4110535840164431,
+      "direct_children_time_s": 8.3959641833275178,
+      "exclusive_time_estimate_s": 0.015089400688925281,
+      "partial_data": false
+    },
+    {
+      "function": "HeatDriveECC_ConstitutiveStateVectorStep21_StableDiagnostic>sync_legacy_state51_aliases",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveStateVectorStep21_StableDiagnostic.m",
+      "calls": 200,
+      "inclusive_time_s": 0.013495400616148226,
+      "direct_children_time_s": 0,
+      "exclusive_time_estimate_s": 0.013495400616148226,
+      "partial_data": false
+    },
+    {
+      "function": "HeatDriveECC_ConstitutiveStateVectorStep21_StableDiagnostic>@(name)state.(name)(:)",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveStateVectorStep21_StableDiagnostic.m",
+      "calls": 2000,
+      "inclusive_time_s": 0.01182060053968328,
+      "direct_children_time_s": 0,
+      "exclusive_time_estimate_s": 0.01182060053968328,
+      "partial_data": false
+    },
+    {
+      "function": "Initialize_HeatDriveECC_EighthRound_State>sync_legacy_51_aliases",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\Initialize_HeatDriveECC_EighthRound_State.m",
+      "calls": 200,
+      "inclusive_time_s": 0.011048500504432152,
+      "direct_children_time_s": 0,
+      "exclusive_time_estimate_s": 0.011048500504432152,
+      "partial_data": false
+    },
+    {
+      "function": "HeatDriveECC_ConstitutiveStateVectorStep21_StableDiagnostic>stage_from_time",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveStateVectorStep21_StableDiagnostic.m",
+      "calls": 200,
+      "inclusive_time_s": 0.0053265002431875687,
+      "direct_children_time_s": 0,
+      "exclusive_time_estimate_s": 0.0053265002431875687,
+      "partial_data": false
+    },
+    {
+      "function": "Benchmark_HeatDriveECC_StableKernelReplay>evaluate",
+      "file": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\verification\\Benchmark_HeatDriveECC_StableKernelReplay.m",
+      "calls": 1,
+      "inclusive_time_s": 8.7184557980512487,
+      "direct_children_time_s": 8.7140395978496219,
+      "exclusive_time_estimate_s": 0.0044162002016268076,
+      "partial_data": false
+    }
+  ],
+  "profile_sha256": "BA69BC35BCE3D5391C6872A22F229A360ABCEB585992FB8970209F6BDF5C0321",
+  "profile_timing_scope": "Offline exact causal sample replay; inclusive times overlap and profiler overhead is not production solver cost",
+  "profiler_reference": "https://www.mathworks.com/help/releases/R2025b/matlab/ref/profile.html"
+}

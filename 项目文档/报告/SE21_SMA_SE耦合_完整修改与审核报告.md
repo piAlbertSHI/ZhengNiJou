@@ -7559,3 +7559,11 @@ continuation_closeout.json SHA=F4F0D244DC5192A450CAABE253C104CE38686C7477FD41A26
 新增Benchmark_StableKernelReplay只读取已封存本行C60最后两周期的原始命名StateDelay、温度Delay和公共输出，先复核原packet所有输入SHA、原gate和数值源码未变；不加载OP、不运行Simscape、不改SLX/本构/控制器。每0.1 s抽取实际时刻，精确匹配前一0.001 s公共输出，明确日志当前/前一输出相位，禁止插值；随后按原StableDiagnostic函数逐点重放全部252输出坐标。必须逐位等于已保存实际物理输出后才允许对同一固定样本开profile，结果只作离线热点证据，不作新科学准入、全仿真速度或耦合等价性证明。
 
 计时分开未开profile的walltime和带profile函数统计；inclusive时间包含子函数、不可相加当总时间，exclusive估计单独列出，原始profile另存。接口口径参考MathWorks官方profile说明：https://www.mathworks.com/help/releases/R2025b/matlab/ref/profile.html 。当前尚未取得新运行结果，不声称已加速；若实际重放失败，先保留差异并诊断时钟/选项，不能用放宽物理阈值或修改捕获状态来让性能基准通过。
+
+原前台session4041启动后遇到新的MathWorks登录窗125328，worker119252响应正常但仅约10 s CPU，日志空白且未进入基准计算；已请求用户完成该窗口登录，期间始终等待原会话，没有重启。2026-10-18用户回复“已登录”后同一进程实际完成并自然退出0；登录等待不计为内核运行耗时，也不是科学失败或完成仿真周期。
+
+实际200个因果帧、252输出与原保存信号数值完全一致，三种Delay均直接对应前一0.001 s输出；fixture SHA=02E82330682C0A0E6F49CF1F4D2CD62C3A82988E40BB6B61DAC0FF5FE484C4BE，未开profile重放5.2668955 s。profile显示32,000次solve_compatibility、186,000次mean、6,400次各normalize/旧状态别名/旧审计别名；solve inclusive3.2320 s，phase_rates inclusive1.7068 s，normalize/两种alias各exclusive0.5022/0.3602/0.5321 s。inclusive重叠，绝不将这些数相加当5.27 s的成本分解。此结果支持优先减少每个固定子步重复的完整结构/诊断构造，而非减少物理子步。
+
+新增隔离HeatDriveECC_StableKernelCandidate保留原ODE3各算术顺序、32子步、相分数限幅和逐子步潜热/机械功累加，仅复用前一步相同的代数兼容性结果、在中间RK阶段只求驱动力实际需要的应力、不构造未使用的逐子步旧别名/残差结构，并将固定21列向量的mean维度显式写为1。无persistent/global/模型或状态导入，也未接入StableDiagnostic/Simulink。候选只支持原21节点、0.001 s、32子步、四阶段、无平滑的已声明合同，其他合同拒绝而非静默fallback。
+
+接下来在同一实际200帧及原名义/L8九组参数的四阶段/五类合成边界共180帧，按IEEE uint64逐位比较全部252输出；合成状态永不传播。另测八种非法合同及三组交替顺序的未profile计时。任何差异先封存诊断，候选不接入模型；即使全部离线通过，也仅是实现级证据，仍须真实耦合轨迹、严格完整OP/checksum和原机制门禁验证后才可用于长链。本轮不变更C200、当前C60或原数值源文件。
