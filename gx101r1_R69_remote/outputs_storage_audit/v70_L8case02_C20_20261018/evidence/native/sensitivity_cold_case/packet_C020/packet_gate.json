@@ -1,0 +1,121 @@
+{
+  "schema": "heatdrive_ecc_split_observation_packet_gate_v1",
+  "window_s": [
+    180,
+    200
+  ],
+  "gate_pass": true,
+  "original_mechanism_count": 73,
+  "original_mechanism_pass": true,
+  "six_local_inventory_gates": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "modeled_energy_balance": {
+    "external_modeled_heat_BE_J": 9.803314023693815,
+    "native_constitutive_heat_BE_J": 0.032246649926150894,
+    "sensible_inventory_plus_pdv_J": 9.835560672773958,
+    "total_inventory_including_latent_plus_pdv_J": 9.80331402281859,
+    "command_to_native_pipeline_difference_J": -1.552962203277275e-10,
+    "external_heat_minus_total_storage_J": 8.752252256272186e-10,
+    "numerical_terms_retained_residual_J": 8.459668521254571e-10,
+    "model_equation_energy_closure_pass": true,
+    "energy_tolerance_J": 1e-08,
+    "quadrature": "native local backward Euler; measured absolute millisecond intervals",
+    "latent_heat_counted_once": true,
+    "engineering_pump_proxy_added_as_heat": false
+  },
+  "storage_count": 119,
+  "source_count": 49,
+  "flow_gates": [
+    {
+      "component": "SMA",
+      "stage": 1,
+      "target_kg_s": 0.0508,
+      "samples": 2351,
+      "mean_signed_kg_s": -0.05079062122141702,
+      "max_abs_relative_error": 0.0007634947218910781,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SMA",
+      "stage": 2,
+      "target_kg_s": 0.0508,
+      "samples": 351,
+      "mean_signed_kg_s": -0.05079251825424405,
+      "max_abs_relative_error": 0.00016353618908382384,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SMA",
+      "stage": 3,
+      "target_kg_s": 0.0508,
+      "samples": 2351,
+      "mean_signed_kg_s": -0.0513975504775048,
+      "max_abs_relative_error": 0.04417785271370156,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SMA",
+      "stage": 4,
+      "target_kg_s": 0.0508,
+      "samples": 351,
+      "mean_signed_kg_s": -0.0527282649383192,
+      "max_abs_relative_error": 0.039895091630274715,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SE",
+      "stage": 2,
+      "target_kg_s": 0.0032960000000000003,
+      "settled_window_start_s": 0.30000000000001137,
+      "settled_window_stop_s": 1.1990000000000123,
+      "samples": 900,
+      "mean_signed_kg_s": 0.003295913315663829,
+      "max_abs_relative_error": 0.00046176085259652666,
+      "rms_relative_error": 0.000242478365634722,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SE",
+      "stage": 4,
+      "target_kg_s": 0.0032960000000000003,
+      "settled_window_start_s": 0.30000000000001137,
+      "settled_window_stop_s": 1.1990000000000123,
+      "samples": 900,
+      "mean_signed_kg_s": 0.003295543936418575,
+      "max_abs_relative_error": 0.023197112024799016,
+      "rms_relative_error": 0.007898367300446114,
+      "selected_flow_gate": true
+    }
+  ],
+  "complete_state_is_only_for_current_split_comparison": false,
+  "bounded_recording_scope_only": false,
+  "runtime_boundary_transient_scope_only": false,
+  "command_horizon_preflight_comparison_only": false,
+  "sensitivity_case_scope_only": true,
+  "sensitivity_parameter_review": {
+    "case_index": 2,
+    "independently_checked_parameter_fields": 27,
+    "all_declared_parameters_match": true,
+    "steady_sensitivity_response_qualified": false,
+    "implementation_backend_review": {
+      "function": "HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate",
+      "admission_sha256": "876BE508255D85FA359058DE8671C13AA415544EE42726B7CBE5C4ABFB38A929",
+      "actual_before_and_after_binding_verified": true,
+      "old_backend_OP_imported": false,
+      "full_state_restore_equivalence_claim": false
+    }
+  },
+  "ten_cycle_periodicity_claim": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "input_sha256": {
+    "manifest": "5755FD5B797CE1934EEECF575C46E09E0D2DE0CD1755911AE550B3E1EA662C07",
+    "mechanism_review": ""
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "schema": "heatdrive_ecc_kernel_cold_comparison_closeout_v1",
+  "offline_sha256": "FC219053D16ACC37F706E7625EE1D5AA733D8E2C4185603C493AC8D203825977",
+  "sampled_kernel_speedup": 14.150253908755548,
+  "records": [
+    {
+      "case_index": 0,
+      "producer": "b8adbc9aab53b300b7d473c205ab8680133a1334",
+      "result_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v69cold0\\native\\kernel_cold_comparison\\kernel_cold_comparison.json",
+      "result_sha256": "1AF36C8ACD9490870674C51C922118F6424473006ADCA1D661AD84EA597516BF",
+      "trajectory_comparison_sha256": "A916A6DBEFDE72CC317782B1FFDCD97C647DC8E5C4C5A70AAA5EFB56C5C55A39",
+      "pass_all_original_gates": true,
+      "all_actual_arrays_bitwise_equal": true,
+      "window_s": [
+        0,
+        20
+      ],
+      "candidate_timing": {
+        "schema": "heatdrive_ecc_packet_simulation_timing_v1",
+        "window_s": [
+          0,
+          20
+        ],
+        "sim_call_wall_s": 688.6404554,
+        "metadata_available": true,
+        "timing_is_physical_gate": false,
+        "simulation_settings_changed": false,
+        "source_state_edited": false,
+        "vendor_timing": {
+          "WallClockTimestampStart": "2026-10-18 09:05:25",
+          "WallClockTimestampStop": "2026-10-18 09:16:52",
+          "InitializationElapsedWallTime": 33.9984127,
+          "ExecutionElapsedWallTime": 631.6916246000001,
+          "TerminationElapsedWallTime": 21.307571900000003,
+          "TotalElapsedWallTime": 686.9976092
+        },
+        "actual_simulation_mode": "normal"
+      },
+      "historical_reference_timing": {
+        "schema": "heatdrive_ecc_packet_simulation_timing_v1",
+        "window_s": [
+          0,
+          20
+        ],
+        "sim_call_wall_s": 788.7062874,
+        "metadata_available": true,
+        "timing_is_physical_gate": false,
+        "simulation_settings_changed": false,
+        "source_state_edited": false,
+        "vendor_timing": {
+          "WallClockTimestampStart": "2026-10-17 03:26:48",
+          "WallClockTimestampStop": "2026-10-17 03:39:55",
+          "InitializationElapsedWallTime": 19.1766483,
+          "ExecutionElapsedWallTime": 751.0331931000001,
+          "TerminationElapsedWallTime": 17.0834344,
+          "TotalElapsedWallTime": 787.2932758000001
+        },
+        "actual_simulation_mode": "normal"
+      }
+    },
+    {
+      "case_index": 1,
+      "producer": "b8adbc9aab53b300b7d473c205ab8680133a1334",
+      "result_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\v69cold1\\native\\kernel_cold_comparison\\kernel_cold_comparison.json",
+      "result_sha256": "17FE299F9E001AA25DDBF8C050F7B2B7A9AEE2F26A92D6542C03E9389C56E5ED",
+      "trajectory_comparison_sha256": "FFADE899114C3FFCA37D53E8447B51E58F02EAB52AF4FBE825737379ADCF8D38",
+      "pass_all_original_gates": true,
+      "all_actual_arrays_bitwise_equal": true,
+      "window_s": [
+        0,
+        20
+      ],
+      "candidate_timing": {
+        "schema": "heatdrive_ecc_packet_simulation_timing_v1",
+        "window_s": [
+          0,
+          20
+        ],
+        "sim_call_wall_s": 627.0957204,
+        "metadata_available": true,
+        "timing_is_physical_gate": false,
+        "simulation_settings_changed": false,
+        "source_state_edited": false,
+        "vendor_timing": {
+          "WallClockTimestampStart": "2026-10-18 09:28:21",
+          "WallClockTimestampStop": "2026-10-18 09:38:47",
+          "InitializationElapsedWallTime": 24.408107100000002,
+          "ExecutionElapsedWallTime": 579.2016709000001,
+          "TerminationElapsedWallTime": 21.8484744,
+          "TotalElapsedWallTime": 625.4582524000001
+        },
+        "actual_simulation_mode": "normal"
+      },
+      "historical_reference_timing": {
+        "schema": "heatdrive_ecc_packet_simulation_timing_v1",
+        "window_s": [
+          0,
+          20
+        ],
+        "sim_call_wall_s": 1165.0678091,
+        "metadata_available": true,
+        "timing_is_physical_gate": false,
+        "simulation_settings_changed": false,
+        "source_state_edited": false,
+        "vendor_timing": {
+          "WallClockTimestampStart": "2026-10-17 13:57:24",
+          "WallClockTimestampStop": "2026-10-17 14:16:47",
+          "InitializationElapsedWallTime": 24.2616708,
+          "ExecutionElapsedWallTime": 1111.1562911,
+          "TerminationElapsedWallTime": 27.558039800000003,
+          "TotalElapsedWallTime": 1162.9760017
+        },
+        "actual_simulation_mode": "normal"
+      }
+    }
+  ],
+  "coupled_cold_trajectory_equivalence_verified": true,
+  "replay_physical_cycles": 4,
+  "new_completed_sensitivity_cases": 0,
+  "strict_candidate_state_restore_equivalence_verified": false,
+  "long_chain_candidate_backend_admitted": false,
+  "whole_pipeline_speedup_established": false,
+  "timing_is_contemporaneous_paired_benchmark": false,
+  "production_recovery_allowed": false,
+  "table4_reproduction_claim": false
+}

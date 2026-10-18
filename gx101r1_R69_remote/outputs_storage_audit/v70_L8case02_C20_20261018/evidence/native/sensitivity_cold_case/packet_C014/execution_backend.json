@@ -1,0 +1,50 @@
+{
+  "before": {
+    "schema": "heatdrive_ecc_constitutive_backend_snapshot_v1",
+    "block_path": "heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep",
+    "requested_function": "HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate",
+    "actual_function": "HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate",
+    "actual_source_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\verification\\HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate.m",
+    "actual_source_sha256": "E36A8838EB5BA9A76253A31E4A2021E12D0F836871A721FD0FF922189E0099AE",
+    "function_matches_request": true,
+    "base_kernel_parameters_match": true,
+    "node_count": 21,
+    "sample_time_s": 0.001,
+    "substeps": 32,
+    "interpreted_function_blocks": [
+      {
+        "path": "heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep",
+        "function": "HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate"
+      }
+    ],
+    "simulation_settings_changed": false,
+    "source_state_edited": false
+  },
+  "after": {
+    "schema": "heatdrive_ecc_constitutive_backend_snapshot_v1",
+    "block_path": "heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep",
+    "requested_function": "HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate",
+    "actual_function": "HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate",
+    "actual_source_path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\verification\\HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate.m",
+    "actual_source_sha256": "E36A8838EB5BA9A76253A31E4A2021E12D0F836871A721FD0FF922189E0099AE",
+    "function_matches_request": true,
+    "base_kernel_parameters_match": true,
+    "node_count": 21,
+    "sample_time_s": 0.001,
+    "substeps": 32,
+    "interpreted_function_blocks": [
+      {
+        "path": "heatdrive_ecc_coupled_se21/ECC_Constitutive21_VectorStep",
+        "function": "HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate"
+      }
+    ],
+    "simulation_settings_changed": false,
+    "source_state_edited": false
+  },
+  "window_s": [
+    120,
+    140
+  ],
+  "simulation_settings_changed": false,
+  "source_state_edited": false
+}

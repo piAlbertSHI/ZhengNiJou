@@ -1,0 +1,42 @@
+[
+  {
+    "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+    "old_guess": "5000",
+    "old_unit": "kg",
+    "new_guess_kg": 0.091114792799636121,
+    "mass_specify": "on",
+    "mass_priority": "High",
+    "source_time_s": 0,
+    "source_sha256": "6178F4C4D7C2D021CD6A8BEC4CB63F6BE4D9F6AD8791C4744DA7356A672025F5"
+  },
+  {
+    "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+    "old_guess": "5000",
+    "old_unit": "kg",
+    "new_guess_kg": 0.090015751390628132,
+    "mass_specify": "on",
+    "mass_priority": "High",
+    "source_time_s": 0,
+    "source_sha256": "6178F4C4D7C2D021CD6A8BEC4CB63F6BE4D9F6AD8791C4744DA7356A672025F5"
+  },
+  {
+    "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+    "old_guess": "5000",
+    "old_unit": "kg",
+    "new_guess_kg": 0.081252672986642169,
+    "mass_specify": "on",
+    "mass_priority": "High",
+    "source_time_s": 0,
+    "source_sha256": "6178F4C4D7C2D021CD6A8BEC4CB63F6BE4D9F6AD8791C4744DA7356A672025F5"
+  },
+  {
+    "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+    "old_guess": "5000",
+    "old_unit": "kg",
+    "new_guess_kg": 0.085781311651275532,
+    "mass_specify": "on",
+    "mass_priority": "High",
+    "source_time_s": 0,
+    "source_sha256": "6178F4C4D7C2D021CD6A8BEC4CB63F6BE4D9F6AD8791C4744DA7356A672025F5"
+  }
+]

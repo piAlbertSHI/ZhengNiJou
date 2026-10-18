@@ -1,0 +1,21 @@
+{
+  "schema": "heatdrive_ecc_kernel_independent_cold_admission_v1",
+  "scope": "Independent runtime L8 cold cases, original factor range and physical gates",
+  "wrapper_name": "HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate",
+  "wrapper_sha256": "E36A8838EB5BA9A76253A31E4A2021E12D0F836871A721FD0FF922189E0099AE",
+  "kernel_name": "HeatDriveECC_StableKernelCandidate",
+  "kernel_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "offline_relative": "outputs_storage_audit/v69_kernel_candidate_20261018/kernel_candidate_comparison.json",
+  "offline_sha256": "FC219053D16ACC37F706E7625EE1D5AA733D8E2C4185603C493AC8D203825977",
+  "coupled_relative": "outputs_storage_audit/v69_coupled_kernel_cold_20261018/kernel_cold_closeout.json",
+  "coupled_sha256": "DD7E97F555CBF31E897C8C430EB3E9638C9B1F4D9C239AD2C9A95E6B9B188626",
+  "independent_cold_20cycle_admitted": true,
+  "old_backend_OP_import_allowed": false,
+  "strict_vendor_restore_required": true,
+  "same_case_split_test_required_before_long_continuation": true,
+  "candidate_state_restore_equivalence_verified": false,
+  "whole_pipeline_speedup_established": false,
+  "production_recovery_allowed": false,
+  "outer_solve_allowed": false,
+  "table4_reproduction_claim": false
+}

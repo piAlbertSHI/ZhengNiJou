@@ -1,0 +1,121 @@
+{
+  "schema": "heatdrive_ecc_split_observation_packet_gate_v1",
+  "window_s": [
+    100,
+    120
+  ],
+  "gate_pass": true,
+  "original_mechanism_count": 73,
+  "original_mechanism_pass": true,
+  "six_local_inventory_gates": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "modeled_energy_balance": {
+    "external_modeled_heat_BE_J": 12.424635701629484,
+    "native_constitutive_heat_BE_J": 0.04863266360632679,
+    "sensible_inventory_plus_pdv_J": 12.473268363912265,
+    "total_inventory_including_latent_plus_pdv_J": 12.42463570028286,
+    "command_to_native_pipeline_difference_J": -6.934897101018578e-12,
+    "external_heat_minus_total_storage_J": 1.3466241455262207e-09,
+    "numerical_terms_retained_residual_J": 1.3237748675010153e-09,
+    "model_equation_energy_closure_pass": true,
+    "energy_tolerance_J": 1e-08,
+    "quadrature": "native local backward Euler; measured absolute millisecond intervals",
+    "latent_heat_counted_once": true,
+    "engineering_pump_proxy_added_as_heat": false
+  },
+  "storage_count": 119,
+  "source_count": 49,
+  "flow_gates": [
+    {
+      "component": "SMA",
+      "stage": 1,
+      "target_kg_s": 0.0508,
+      "samples": 2350,
+      "mean_signed_kg_s": -0.050790637069971396,
+      "max_abs_relative_error": 0.000763548022163274,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SMA",
+      "stage": 2,
+      "target_kg_s": 0.0508,
+      "samples": 350,
+      "mean_signed_kg_s": -0.05079251682763815,
+      "max_abs_relative_error": 0.00016351109444145973,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SMA",
+      "stage": 3,
+      "target_kg_s": 0.0508,
+      "samples": 2350,
+      "mean_signed_kg_s": -0.051395981496894706,
+      "max_abs_relative_error": 0.044173717664493406,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SMA",
+      "stage": 4,
+      "target_kg_s": 0.0508,
+      "samples": 350,
+      "mean_signed_kg_s": -0.05273047921394729,
+      "max_abs_relative_error": 0.039939614402145995,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SE",
+      "stage": 2,
+      "target_kg_s": 0.0032960000000000003,
+      "settled_window_start_s": 0.30100000000000193,
+      "settled_window_stop_s": 1.198999999999998,
+      "samples": 899,
+      "mean_signed_kg_s": 0.0032958793004970273,
+      "max_abs_relative_error": 0.0004279403087201761,
+      "rms_relative_error": 0.00023627760338644223,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SE",
+      "stage": 4,
+      "target_kg_s": 0.0032960000000000003,
+      "settled_window_start_s": 0.30100000000000193,
+      "settled_window_stop_s": 1.198999999999998,
+      "samples": 899,
+      "mean_signed_kg_s": 0.0032950263971975166,
+      "max_abs_relative_error": 0.0180723593744474,
+      "rms_relative_error": 0.00571978318776307,
+      "selected_flow_gate": true
+    }
+  ],
+  "complete_state_is_only_for_current_split_comparison": false,
+  "bounded_recording_scope_only": false,
+  "runtime_boundary_transient_scope_only": false,
+  "command_horizon_preflight_comparison_only": false,
+  "sensitivity_case_scope_only": true,
+  "sensitivity_parameter_review": {
+    "case_index": 2,
+    "independently_checked_parameter_fields": 27,
+    "all_declared_parameters_match": true,
+    "steady_sensitivity_response_qualified": false,
+    "implementation_backend_review": {
+      "function": "HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate",
+      "admission_sha256": "876BE508255D85FA359058DE8671C13AA415544EE42726B7CBE5C4ABFB38A929",
+      "actual_before_and_after_binding_verified": true,
+      "old_backend_OP_imported": false,
+      "full_state_restore_equivalence_claim": false
+    }
+  },
+  "ten_cycle_periodicity_claim": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "input_sha256": {
+    "manifest": "8E08AF48B0492E72475C4957FD79037F178F1B23A1F122E2B4BD572705CB08FF",
+    "mechanism_review": ""
+  }
+}

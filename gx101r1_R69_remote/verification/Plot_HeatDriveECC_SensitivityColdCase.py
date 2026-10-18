@@ -41,7 +41,9 @@ def plot(summary,output):
     axis.set(yticks=range(len(rows)),yticklabels=[n for n,_,_ in rows],xlim=(0,max(1.12,max(ratios)*1.25)),
              xlabel='Drift / original limit',title='(d) Last 10 cycles: six actual public predicates')
     axis.invert_yaxis()
-    for k,v in enumerate(ratios):axis.text(v+.025,k,f'{v:.2f}',va='center',fontsize=9)
+    for k,v in enumerate(ratios):
+        axis.text(v+.025,k,f'{v:.2f}',va='center',fontsize=9,
+                  bbox=dict(facecolor='white',edgecolor='none',pad=.12))
     for axis in (axes[0,0],axes[0,1],axes[1,0]):
         ticks=[1]+list(range(10,len(x)+1,10))
         if ticks[-1]!=x[-1]:ticks.append(x[-1])
