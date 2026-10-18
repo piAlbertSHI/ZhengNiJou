@@ -1,0 +1,524 @@
+{
+  "schema": "heatdrive_ecc_obsolete_stage4_arm_retirement_v1",
+  "files": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\observations.mat",
+      "bytes": 905885198,
+      "sha256": "3C97A3E8A11DD9AC3C9FBF7702ABD2247837231C47E75BA3B53CB558524CB78B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\observations.mat",
+      "bytes": 903192147,
+      "sha256": "D96D2790B981A2C51F284B943DC379A33A625A52A906173B3BF0DB431094CBD2"
+    }
+  ],
+  "protected_files": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\cold_chamber_execution.json",
+      "sha256": "48E2B4D461B48387246A4027D2C14128B58985AC86E9143C79A211A6436B2ACA"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\launcher_contract.json",
+      "sha256": "686EDBC7C9F092A02E88577D2222DB12BE2CA41CCE28E17212AF19CA5258798E"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\matlab_diary.log",
+      "sha256": "32A7313DBD68B855A6D8DF1368EEAE70C8579EE6085F38252992A6280633D3FF"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\matlab_stderr.log",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\matlab_stdout.log",
+      "sha256": "D417F027FFD0868DADB5BBCCB6F0DED0C69F1FEE3F378C0EC5BF77A81A511A49"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\REJECTED_DO_NOT_RESUME.txt",
+      "sha256": "02982B5C14A62510B9A08EDC2238C7EECCA61BC86A538D3FEDAF455399B4BA54"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\buffer_component_build\\ecc_buffer_coupled_offset_lib.slx",
+      "sha256": "1425C3AECC52418319484764844AE5AD9EB17097AC22E5B9BEDC120CF01716A3"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\buffer_component_build\\+ecc_buffer_coupled_offset\\conservative_buffer.ssc",
+      "sha256": "84657B41CB9A8B3C947BD1DE1C2BB67EFAF4BEE892DBA79B9DC95381808EF248"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\cache\\heatdrive_ecc_coupled_se21.slxc",
+      "sha256": "1606ACBE1F198D34402731CB18A549E34B520070E6BCDAB9EE43829ED15E66BC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\checksumOfCache.mat",
+      "sha256": "7E686BE6669AC60E1BC1EA6E504DDB0E80E8438884BB76E406063EE89EC8ABC6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\varInfo.mat",
+      "sha256": "E3BBEB594BA88FFA9CFCC2E405355B9BFD7FCAB979369BA2C48E36F293EFC0EC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\tmwinternal\\simulink_cache.xml",
+      "sha256": "FE6F482AE75120398581C6EEC829360E0E030C874904204116A395BC856FB04E"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\cache\\slprj\\_jitprj\\jitEngineAccessInfo.mat",
+      "sha256": "00B82FFA72CA884CE5DFBD92E176434B1A88C274B5FA33C7196A5AB46591FB66"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.l",
+      "sha256": "F113F8DB5D91D99C834E37E18D782A9BAADEA9885958CB4CCDBAD4E6E9452F5D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+      "sha256": "B8F9CC39A0E9B633F9E84F784862F280188632A1AE963F566056F37972DBD719"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\cache\\slprj\\_sfprj\\EMLReport\\emlReportAccessInfo.mat",
+      "sha256": "2F167588AB607B97874C0189B9D81D13AFF953EEF2D4DDE3CD105D6D889159C5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\cache\\slprj\\_sfprj\\EMLReport\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+      "sha256": "75B2F61AF6FB5F93B46EC04165CFF5B974521FBB20CC0E7D78F38D83EF00891C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\amsi_serial.mat",
+      "sha256": "E6847E3729DE8D1CA078F897B9AAF30078BA423A7C706C0311B644B1C3B0A52B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\_self\\sfun\\info\\binfo.mat",
+      "sha256": "CCF1C5493BA299206E7D4A4201F91211462DFCB7B31DDCEBCD6BF893D6384602"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\cache\\slprj\\_sfprj\\precompile\\autoInferAccessInfo.mat",
+      "sha256": "1CBA05DEF3200154AF1D34416BF5265055CC9258E0A30F7B6DB1D5D7D091DDAB"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\cache\\slprj\\_sfprj\\precompile\\EXdKBUmsxqUsV2lCiMiQ4.mat",
+      "sha256": "E15B856C6939BD3A31EF82EADB2186E4774CFF9D42A31E094E5E0A78454BA434"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\component_build\\ecc_inventory_endpoint_lib.slx",
+      "sha256": "A5852141C5044CA36301475349FEF85011935C7E4287F64D621C059D62ED68B2"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\component_build\\+ecc_inventory_endpoint\\conservative_chamber.ssc",
+      "sha256": "BAFFAAC6219FA6378EFA83B743329834940BD1F454B666DBF7C7B49B993BC4F4"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\buffer_mass_guesses.json",
+      "sha256": "78F2F021345AFFB95DEE63C7CFB26547FE187856EB0A5FDEFB9B2A3AF273098F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\buffer_replacement_contract.json",
+      "sha256": "B5991D55A79AA26A3A8F6144F075D9A3D03426CBAE8E0FD59B40CEA9A2DF8403"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\cold_inventory_targets.json",
+      "sha256": "97C368433B70179D68BFF47B3FB97ED0C65CCF3E452D7777C89D044E236CD5EC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\cold_public_targets.mat",
+      "sha256": "33503F03282430ECE22D31C490BC0701BE92F47CE09FA8C1931B69FC2B8AD174"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\compiled_inventory_tags.json",
+      "sha256": "0E48C00E7489D982FC7FA377BCBB07E9FC6ED16D41F389980176DF25391655F9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\configuration.mat",
+      "sha256": "53F9190836285CD18674D8689FDC5D27631BC90CF1CB4290F018DE6314371C4F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\inventory_metadata.json",
+      "sha256": "318F3C1B3978897D3B2CFFCE1E8E95E52FCEEBC1A8B5F38DCF99BA468B0925FE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\public_inventory_targets.json",
+      "sha256": "7CD42979C340A92DF2DF0347CE059BF27B60584E1EF63501AB75FB8CCEA5FC05"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\pump_pressure_probe_contract.json",
+      "sha256": "7F16B4FC51D7B6DC5029B180975C640BE692979C33D0667C597969E8055BE36E"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\runtime_inventory_targets.json",
+      "sha256": "E277723141B713819FC77942B130DF6BEECE12C51A56F0A433AD43A0A39007B6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\stage4_controller_probe_contract.json",
+      "sha256": "E8F05ABAFA544DA23B2911426604AC04E16E23F0DA634122613BDB04D59DBBC9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\thermal_connectivity.json",
+      "sha256": "C5C82D9D1008D29B6A4D8707035DA4D682A8F3A03E8C0258FFE238AF0D6AD62D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\tl_connectivity.json",
+      "sha256": "FA6B0A97D8C1BDFAC84090BEE00719E6B27D4F9AE7B270BF7B3B30173F36F267"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\buffer_mass_guesses.json",
+      "sha256": "78F2F021345AFFB95DEE63C7CFB26547FE187856EB0A5FDEFB9B2A3AF273098F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\buffer_replacement_contract.json",
+      "sha256": "A0CF5D6CB0A700BE60FEF7443D3BF10F4761C64DB88EA1B6CAE38A2839A670F4"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\cold_inventory_targets.json",
+      "sha256": "97C368433B70179D68BFF47B3FB97ED0C65CCF3E452D7777C89D044E236CD5EC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\cold_public_targets.mat",
+      "sha256": "75F02BF234B8B4BCBC79254E3E4578BB042B68CA6F2CDEBAF14BBCBD628D8C73"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\compiled_inventory_tags.json",
+      "sha256": "0E48C00E7489D982FC7FA377BCBB07E9FC6ED16D41F389980176DF25391655F9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\configuration.mat",
+      "sha256": "6D00B21BB685F4F9A6BA95E5830EA5589DB9CEF5200BD9812A5A32EE3C2E989C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\inventory_metadata.json",
+      "sha256": "318F3C1B3978897D3B2CFFCE1E8E95E52FCEEBC1A8B5F38DCF99BA468B0925FE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\observations.mat",
+      "sha256": "269EB8194CC34703A92535253671839004CDD3647C1B85957BBEDA6F8C27E3F0"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\public_inventory_targets.json",
+      "sha256": "7CD42979C340A92DF2DF0347CE059BF27B60584E1EF63501AB75FB8CCEA5FC05"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\pump_pressure_probe_contract.json",
+      "sha256": "1F85B93F7E504889A1C49A4C07344072B8021ABAB1D24CDEDCCD1D7E6603EAB1"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\runtime_inventory_targets.json",
+      "sha256": "E277723141B713819FC77942B130DF6BEECE12C51A56F0A433AD43A0A39007B6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\stage4_controller_probe_contract.json",
+      "sha256": "FFDE58BF34200AF4A5096F5E3E255C716FD3BA6AF1348F78D587C5E6AA2F5634"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\thermal_connectivity.json",
+      "sha256": "51E51D84BC59AB7863B8885B7F72D2C99A8FC40762E8C0CAA1AF4218F6ADC1C0"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\tl_connectivity.json",
+      "sha256": "BC2431E9661C985D7A731CDACD3DEF8C73796F113B4C1FDECACC1448C22260C2"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\cold_chamber_execution.json",
+      "sha256": "EA27B6264693F5217F04AC6ADA593ED292A7B426EECF00A039AD6102BB4DE543"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\cold_chamber_progress.json",
+      "sha256": "A7C07E81268E83A33A155BBF19353746C6E428997755851B8AABFCCE03FC50E9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\launcher_contract.json",
+      "sha256": "F60E3EB067AF5827885C5B42F9C97B2AE129C6D92DEB05FABD661634DEF259CD"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\matlab_diary.log",
+      "sha256": "739F63F16EF5CA86428FFD65603A0A4D466E301A0C80368E822C4EE1CEECAC44"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\matlab_stderr.log",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\matlab_stdout.log",
+      "sha256": "992AB1FE2B799BEA7670042691AB36986C8BAEDC03C51A622607ED312033BF55"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\REJECTED_DO_NOT_RESUME.txt",
+      "sha256": "28327257CB036E8CEE39BB94B1890363ECFBE83D2B4B2D987042471110FF12D7"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\buffer_component_build\\ecc_buffer_coupled_offset_lib.slx",
+      "sha256": "F8A72AB3EC376594E9238F70DF80D9A0726E630C10B09DE7C95055619A8AED65"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\buffer_component_build\\+ecc_buffer_coupled_offset\\conservative_buffer.ssc",
+      "sha256": "84657B41CB9A8B3C947BD1DE1C2BB67EFAF4BEE892DBA79B9DC95381808EF248"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\cache\\heatdrive_ecc_coupled_se21.slxc",
+      "sha256": "BC2348B81BF9CC6791D0C68A1817F115E9FD85E1BCFE2CAC544BE61D84D1273A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\checksumOfCache.mat",
+      "sha256": "76C1A54EF766736559CA4A30BF35C0D2A515775DA410DFBA391F3B172FD1C7E3"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\varInfo.mat",
+      "sha256": "F58A8CF66329C69C65C1F33D0639C49CD4EB2BB844E70E7E0B38B0E45C40DE42"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\tmwinternal\\simulink_cache.xml",
+      "sha256": "CF94B207CA4628B3967A977126F8964D86D2AED8802049008B975A88AC3372E7"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\cache\\slprj\\_jitprj\\jitEngineAccessInfo.mat",
+      "sha256": "20C1EE5BBE22C11C336E6F8C34FCE525B6AC9244B71DB4AFDE0295800C0F0BF5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.l",
+      "sha256": "F113F8DB5D91D99C834E37E18D782A9BAADEA9885958CB4CCDBAD4E6E9452F5D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+      "sha256": "6F9C02B4D6731F94756DC2BAC22CC6AE7CD6748AA63CD8913593885E01A15FC0"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\cache\\slprj\\_sfprj\\EMLReport\\emlReportAccessInfo.mat",
+      "sha256": "D56633C558C5718AFA6BB476F654211A1C29400E7EC48F7AAA6D130B0C4A1B22"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\cache\\slprj\\_sfprj\\EMLReport\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+      "sha256": "51812063CA0AE847D44341235DD9CAF2C960F61D9EF914B1E154DD8E14D06D12"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\amsi_serial.mat",
+      "sha256": "77FEB62791CD3F4F8979C19AD5E885795984B0403282CB99413771303B0C0381"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\_self\\sfun\\info\\binfo.mat",
+      "sha256": "E43F4901A8A1A4CF21A6D71EC08376129D786EB696C6DFCA90D587377F4461F2"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\cache\\slprj\\_sfprj\\precompile\\autoInferAccessInfo.mat",
+      "sha256": "E9FFD5705AA30769A48DDB2D9C4F91BF1F167ACCAE979BE8189624DD56F14A93"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\cache\\slprj\\_sfprj\\precompile\\EXdKBUmsxqUsV2lCiMiQ4.mat",
+      "sha256": "A89F2627DD07B6B6110B91B523799CF3EA76EF6D2A9336E0DA870E2638560E11"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\component_build\\ecc_inventory_endpoint_lib.slx",
+      "sha256": "9E397B7FBC0E34E81292883CD70CC7EE436657DB4DE4643B244B126F7F0ECB5F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\component_build\\+ecc_inventory_endpoint\\conservative_chamber.ssc",
+      "sha256": "BAFFAAC6219FA6378EFA83B743329834940BD1F454B666DBF7C7B49B993BC4F4"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\arm_completion.json",
+      "sha256": "25931C33FAC0E656F7A6B16089FC05F071FFE0168025FF1A1A2AD42905C5271A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\buffer_mass_guesses.json",
+      "sha256": "78F2F021345AFFB95DEE63C7CFB26547FE187856EB0A5FDEFB9B2A3AF273098F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\buffer_replacement_contract.json",
+      "sha256": "B5991D55A79AA26A3A8F6144F075D9A3D03426CBAE8E0FD59B40CEA9A2DF8403"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\cold_inventory_targets.json",
+      "sha256": "97C368433B70179D68BFF47B3FB97ED0C65CCF3E452D7777C89D044E236CD5EC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\cold_public_targets.mat",
+      "sha256": "301094A6AD0B2E5F0778851D07E4CA635BB44F3803511BE8115490BB29587C23"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\compiled_inventory_tags.json",
+      "sha256": "0E48C00E7489D982FC7FA377BCBB07E9FC6ED16D41F389980176DF25391655F9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\configuration.mat",
+      "sha256": "3BA18778FCEFF827808E9D573F51F3BE512457C94CF0764D899BAA03314A9A75"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\inventory_metadata.json",
+      "sha256": "318F3C1B3978897D3B2CFFCE1E8E95E52FCEEBC1A8B5F38DCF99BA468B0925FE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\public_inventory_targets.json",
+      "sha256": "7CD42979C340A92DF2DF0347CE059BF27B60584E1EF63501AB75FB8CCEA5FC05"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\pump_pressure_probe_contract.json",
+      "sha256": "2668A533E7DEBD5F1F1F86284299CF046C4B3A73AC1163B7242472B9B2C39E81"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\runtime_inventory_targets.json",
+      "sha256": "E277723141B713819FC77942B130DF6BEECE12C51A56F0A433AD43A0A39007B6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\stage4_controller_probe_contract.json",
+      "sha256": "5024215F75BC52DB12C807F3F9BB5CDB7734E9515F6AB2E18FEA058A94CCBA01"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\thermal_connectivity.json",
+      "sha256": "C5C82D9D1008D29B6A4D8707035DA4D682A8F3A03E8C0258FFE238AF0D6AD62D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\tl_connectivity.json",
+      "sha256": "FA6B0A97D8C1BDFAC84090BEE00719E6B27D4F9AE7B270BF7B3B30173F36F267"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\arm_completion.json",
+      "sha256": "081123C62AA1128D3AFD2E37428015C6CA3990425FFA928EB4F233E2EE0B352D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\buffer_mass_guesses.json",
+      "sha256": "78F2F021345AFFB95DEE63C7CFB26547FE187856EB0A5FDEFB9B2A3AF273098F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\buffer_replacement_contract.json",
+      "sha256": "A0CF5D6CB0A700BE60FEF7443D3BF10F4761C64DB88EA1B6CAE38A2839A670F4"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\cold_inventory_targets.json",
+      "sha256": "97C368433B70179D68BFF47B3FB97ED0C65CCF3E452D7777C89D044E236CD5EC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\cold_public_targets.mat",
+      "sha256": "162326E62B0019896962F3FA306CD079632C9F58856926308C0C133973C346FD"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\compiled_inventory_tags.json",
+      "sha256": "0E48C00E7489D982FC7FA377BCBB07E9FC6ED16D41F389980176DF25391655F9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\configuration.mat",
+      "sha256": "8FD80DDA8E09AF90CBE3FAE8B43179AAF20468D9ABEAA29CD0D108559013D302"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\inventory_metadata.json",
+      "sha256": "318F3C1B3978897D3B2CFFCE1E8E95E52FCEEBC1A8B5F38DCF99BA468B0925FE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\observations.mat",
+      "sha256": "F7CC0D808CC4DE6301AAD485CFA0AB89B506EB2FA634AAD0E4B5820D15464D38"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\public_inventory_targets.json",
+      "sha256": "7CD42979C340A92DF2DF0347CE059BF27B60584E1EF63501AB75FB8CCEA5FC05"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\pump_pressure_probe_contract.json",
+      "sha256": "427CD3C55BD158CEA8EE0A1A5184079AB6299257502736F2A21285E8CEE41F18"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\runtime_inventory_targets.json",
+      "sha256": "E277723141B713819FC77942B130DF6BEECE12C51A56F0A433AD43A0A39007B6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\stage4_controller_probe_contract.json",
+      "sha256": "8027D5BACF3481ED80F566566EFC0899DFF400F4FBE69E2CB67FE7CB7AC4A2BB"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\thermal_connectivity.json",
+      "sha256": "51E51D84BC59AB7863B8885B7F72D2C99A8FC40762E8C0CAA1AF4218F6ADC1C0"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\tl_connectivity.json",
+      "sha256": "BC2431E9661C985D7A731CDACD3DEF8C73796F113B4C1FDECACC1448C22260C2"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_phase_local_blend_20260928_20cycle\\cold_chamber_execution.json",
+      "sha256": "48E2B4D461B48387246A4027D2C14128B58985AC86E9143C79A211A6436B2ACA"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_phase_local_blend_20260928_20cycle\\launcher_contract.json",
+      "sha256": "686EDBC7C9F092A02E88577D2222DB12BE2CA41CCE28E17212AF19CA5258798E"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_phase_local_blend_20260928_20cycle\\stage4_phase_local_blend_20260928_20cycle_boundary.json",
+      "sha256": "EFFF641E784943AAAC3E3EC397A8AFBE1BFF594E2A4FAAF91DE674D8E9369855"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_phase_local_blend_20260928_20cycle\\stage4_phase_local_blend_20260928_20cycle_causal.json",
+      "sha256": "5595A53C37E0549E950BA1B35149C637CE43C57B611677911B2EFE687A7B54D6"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_phase_local_blend_20260928_20cycle\\stage4_phase_local_blend_20260928_20cycle_controller_probes.json",
+      "sha256": "CB82A3B5C21E3405E5475720FA346708D8751AB8527743E19B6165EC1BDF4833"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_phase_local_blend_20260928_20cycle\\stage4_phase_local_blend_20260928_20cycle_cycle_drift.json",
+      "sha256": "60FF5AA59A458F53223F31ACFE53F4B6A5FEBFC90E8A4A1783E7B5B35586ADC2"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_phase_local_blend_20260928_20cycle\\stage4_phase_local_blend_20260928_20cycle_dynamics.json",
+      "sha256": "616860338F116D7AECDD5B551762C1DEBA35A7689C45194C895E473AD17B8206"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_phase_local_blend_20260928_20cycle\\stage4_phase_local_blend_20260928_20cycle_post_audit.json",
+      "sha256": "7756BCFC9DC399E04BFBF71DE0371D7780203BB1A667F6F09F6CF08559E3CC2F"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_phase_local_blend_20260928_20cycle\\stage4_phase_local_blend_20260928_20cycle_pressure.json",
+      "sha256": "35154C6983AF09C41609853640895DB3B5419C76C8DD04804A8E342F0C7C638B"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_phase_local_blend_20260928_20cycle\\stage4_phase_local_blend_20260928_20cycle_reasonableness_conservative.json",
+      "sha256": "604E11B602B0D79872CB75ADAF98813FCE6A8B59F6026D78ACF743AB322FF7C2"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_phase_local_blend_20260928_20cycle\\stage4_phase_local_blend_20260928_20cycle_reasonableness_native.json",
+      "sha256": "DC7A8F71702A6A0BA90CBCDF834711E5A2B6A6ADE2C14237691633B9D9E424D7"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_phase_local_blend_20260928_20cycle\\stage4_phase_local_blend_20260928_20cycle_transport_window.json",
+      "sha256": "FBB30B68F65488049F7E3FDE6F510617D78438362401E7FA0B8C8B85F8DDE2B7"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_single_target_contract_20260929_20cycle_progress_contract\\boundary_transient.json",
+      "sha256": "7839C772D0BD7AF1A22A8A465D1CE0E1F2FBEC32C9C32B3825534BBBA6717E9F"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_single_target_contract_20260929_20cycle_progress_contract\\causal_response.json",
+      "sha256": "63183BA011812B5A44BFD4CABFEA7A7B5677CD5075F04792FEA9F881D58E920D"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_single_target_contract_20260929_20cycle_progress_contract\\cold_chamber_execution.json",
+      "sha256": "EA27B6264693F5217F04AC6ADA593ED292A7B426EECF00A039AD6102BB4DE543"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_single_target_contract_20260929_20cycle_progress_contract\\cold_chamber_progress.json",
+      "sha256": "A7C07E81268E83A33A155BBF19353746C6E428997755851B8AABFCCE03FC50E9"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_single_target_contract_20260929_20cycle_progress_contract\\controller_dynamics.json",
+      "sha256": "1BDBCBE4059ED7FB8FFF5DA5AF898BAEDEBFE865C688A64C06DCC5CF00C37570"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_single_target_contract_20260929_20cycle_progress_contract\\controller_probes.json",
+      "sha256": "9764E859F0C84560F37D5E1F4E34AA072D2F5356AA4ECBAACDCBAF8B712E1EF5"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_single_target_contract_20260929_20cycle_progress_contract\\cycle_drift.json",
+      "sha256": "01EE13FDD5E6E157614520E9DC8D42246EE2EDC2919DA3B9EC39C71C4AA4F06C"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_single_target_contract_20260929_20cycle_progress_contract\\cycle_metrics.json",
+      "sha256": "C2BEE0DE1F6537E2B38D1BE18C908925CC87A4912DCAF61DD9733FA1220BD80C"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_single_target_contract_20260929_20cycle_progress_contract\\launcher_contract.json",
+      "sha256": "F60E3EB067AF5827885C5B42F9C97B2AE129C6D92DEB05FABD661634DEF259CD"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\stage4_single_target_contract_20260929_20cycle_progress_contract\\REJECTED_DO_NOT_RESUME.txt",
+      "sha256": "28327257CB036E8CEE39BB94B1890363ECFBE83D2B4B2D987042471110FF12D7"
+    }
+  ],
+  "retire_bytes": 1809077345.0,
+  "classification": "superseded_rejected_conservative_arm_raw_only",
+  "reason": "No downstream JSON or verification-source dependency found; retain native raw and both-arm compact diagnostics.",
+  "arrays_claimed_identical": false,
+  "full_historical_dual_arm_raw_reverification_available": false,
+  "current_OP_or_physical_gate_changed": false,
+  "production_recovery_allowed": false
+}

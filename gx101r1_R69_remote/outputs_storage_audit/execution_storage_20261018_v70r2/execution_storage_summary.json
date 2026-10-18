@@ -1,0 +1,110 @@
+{
+  "schema": "heatdrive_ecc_execution_storage_inventory_v1",
+  "measured_at_utc": "2026-10-18T08:23:34.6165323Z",
+  "scope": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs",
+  "excludes_main_workspace": true,
+  "excludes_Agent6": true,
+  "directories": 106,
+  "files": 7117.0,
+  "bytes": 80143784466.0,
+  "byte_measure": "logical_file_lengths_excluding_all_reparse_points_not_allocated_clusters",
+  "excluded_reparse_paths": [
+    "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821"
+  ],
+  "C_drive_free_bytes": 18237497344,
+  "next_complete_cold_to_C60_capacity_budget_bytes": 18000000000,
+  "classification_is_not_dependency_clearance": true,
+  "automatic_delete_allowed": false,
+  "top_ten": [
+    {
+      "name": "v70c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1",
+      "files": 545,
+      "bytes": 10413653798,
+      "classification": "current_C60_full_response_and_restore_chain",
+      "excluded_reparse_paths": [],
+      "automatic_delete_allowed": false
+    },
+    {
+      "name": "v67c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v67c1",
+      "files": 523,
+      "bytes": 10409520357,
+      "classification": "current_C60_full_response_and_restore_chain",
+      "excluded_reparse_paths": [],
+      "automatic_delete_allowed": false
+    },
+    {
+      "name": "v68c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68c1",
+      "files": 522,
+      "bytes": 10401150829,
+      "classification": "current_C60_full_response_and_restore_chain",
+      "excluded_reparse_paths": [],
+      "automatic_delete_allowed": false
+    },
+    {
+      "name": "v65c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1",
+      "files": 181,
+      "bytes": 3377628929,
+      "classification": "historical_diagnostic_pending_dependency_review",
+      "excluded_reparse_paths": [],
+      "automatic_delete_allowed": false
+    },
+    {
+      "name": "v70case2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2",
+      "files": 249,
+      "bytes": 2984667667,
+      "classification": "current_C20_origin_all_OPs_and_reduced_cold_history",
+      "excluded_reparse_paths": [],
+      "automatic_delete_allowed": false
+    },
+    {
+      "name": "v66_sensitivity_nominal_20261017",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017",
+      "files": 238,
+      "bytes": 2984164133,
+      "classification": "current_C20_origin_all_OPs_and_reduced_cold_history",
+      "excluded_reparse_paths": [],
+      "automatic_delete_allowed": false
+    },
+    {
+      "name": "v68r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2",
+      "files": 239,
+      "bytes": 2983034187,
+      "classification": "current_C20_origin_all_OPs_and_reduced_cold_history",
+      "excluded_reparse_paths": [],
+      "automatic_delete_allowed": false
+    },
+    {
+      "name": "v56_runtime_Tc277p05_precision_fromC40_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1",
+      "files": 130,
+      "bytes": 2380424338,
+      "classification": "historical_diagnostic_pending_dependency_review",
+      "excluded_reparse_paths": [],
+      "automatic_delete_allowed": false
+    },
+    {
+      "name": "v55_runtime_Tc276p85_precision_fromC40_r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2",
+      "files": 130,
+      "bytes": 2380319217,
+      "classification": "historical_diagnostic_pending_dependency_review",
+      "excluded_reparse_paths": [],
+      "automatic_delete_allowed": false
+    },
+    {
+      "name": "v61c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1",
+      "files": 115,
+      "bytes": 2371898219,
+      "classification": "C108_constructor_reference_and_direct_dependencies",
+      "excluded_reparse_paths": [],
+      "automatic_delete_allowed": false
+    }
+  ]
+}

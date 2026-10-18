@@ -1,0 +1,1396 @@
+{
+  "schema": "heatdrive_ecc_cold_control_prefix_retirement_v1",
+  "case_index": 2,
+  "cold_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2",
+  "files": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\native\\observations.mat",
+      "bytes": 324596350,
+      "sha256": "67BCCB2A374BA25D3E33F8F18CC9ECA78BD9351AA73477803B2B337016CC6E0F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\observed_states.mat",
+      "bytes": 138105750,
+      "sha256": "4D9DB5A8CD5F20DD5162E012E6BB67A0A3FCC4D08F68861AE26F3B2C1E623057"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\native\\observations.mat",
+      "bytes": 324366274,
+      "sha256": "90229FE3787F356B7B28635FB4051FD2A5815EA9972A344036265E835B4F4778"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\observed_states.mat",
+      "bytes": 137984774,
+      "sha256": "538A478167698E9DF35F184062DF8B38F4C29B54412CC4044E5018643A6D0D0A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\native\\observations.mat",
+      "bytes": 321221780,
+      "sha256": "17F3565689369EEB5FFEFC2CB931A0F42006DC980DCDADABE1D51D9874E9CF9E"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\observed_states.mat",
+      "bytes": 137815628,
+      "sha256": "100DEE1352DA556B8CE08ED388613E6B31D98AD34717DD87C457F14CB1F4F704"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\native\\observations.mat",
+      "bytes": 320059854,
+      "sha256": "BBA959546D6DFD39D462BAFB6EC07933A2E08D0EAE76794EC92643DB02C657AF"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\observed_states.mat",
+      "bytes": 137744538,
+      "sha256": "C7A9E44D0DED29B3FFA7986D62B62D4856D98CF80D8EB6265487110A5EF58D86"
+    }
+  ],
+  "protected_files": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C108_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "03A2459EDD2216D16593820E033CB9F6C4C6AECD8ADE44631FBE8FDA41AC77A1"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\completed_to_600_5A0BC7E4AD92F064EE70FEDF0FD4BC5B86627AAEC369F636DE459563FC59721C.json",
+      "sha256": "5A0BC7E4AD92F064EE70FEDF0FD4BC5B86627AAEC369F636DE459563FC59721C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C022_attempt01\\boundary_comparison.json",
+      "sha256": "E4F76ADF1282F5AF8F49558C89A88CB78FA979ACE89EFC73E613F95AD5D9FE54"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C022_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "6566D0334B5D7DA27E4334C6C56A414B057F2159E83EA327FAEAB5292F8E548D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C022_attempt01\\packet_gate.json",
+      "sha256": "2BF0176FA81904F36E3D903B72A2AE88342CE3781ED049033A6C73B0F9A8A904"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C022_attempt01\\packet_manifest.json",
+      "sha256": "C218BBEA92DB3488893926D02CC44FA8A5BFAC34E0C67BE1EBE07B0B0CECE873"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C024_attempt01\\boundary_comparison.json",
+      "sha256": "837752E8E36EB5CD9EDCB30989DDA8146A5C0BC9EB989E807286751C4788EE48"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C024_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "BA0CD96CC5745C54EF6F2BC232442ABDFC93863ADEC8520D71B9EFA8A128FD6C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C024_attempt01\\packet_gate.json",
+      "sha256": "1EBBE142B17D669832F9E77BE6B6F207D7065FB918D140C8296A73D56AD70FCC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C024_attempt01\\packet_manifest.json",
+      "sha256": "5DF52D380A673085247E4CA842938C00342981AAA418AC7406DD930C5BEDDC0C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C026_attempt01\\boundary_comparison.json",
+      "sha256": "BDE79568F136312E4DCAC93A3EBE0718F94DA7A88931C2AE4BF15DC889E9AC44"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C026_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "444966D3C65C0D9E7DB67E27E886A3B94D5649D5CA582CF7273C5871DA50D4EA"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C026_attempt01\\packet_gate.json",
+      "sha256": "9F21759ED4F3A8071430C29A34B4AF822FB9D5EADFB9693507C251A5D1760628"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C026_attempt01\\packet_manifest.json",
+      "sha256": "100FE8BCFAF271F07CEEEF8347F1D55B4AD442A4DDE5789F4430C3A48AFE158A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C028_attempt01\\boundary_comparison.json",
+      "sha256": "3FC2B36A41C5AF2F55A5377109146CCE1474E91FC2655D06D334A72A335D4FD6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C028_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "A5E1256A7BD1D6D1DC0E864E4901497092E9A0AAD3A82F7DD7D7BDBBE0676FF2"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C028_attempt01\\packet_gate.json",
+      "sha256": "1C64EBFA223CCDA30A9C194A0E31A663C00213A48EEE62A4464ED9465D038D1D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C028_attempt01\\packet_manifest.json",
+      "sha256": "68F5FF15CD3D42C9CB6D4C54B3EB33673113585CBD6867701399CC9B4D4CD933"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C030_attempt01\\boundary_comparison.json",
+      "sha256": "C4F9CB0455975C605EA5449936D3C526220D6386B0240197F67580F804FD74EF"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C030_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "C3BF31051C719499A7EC149802CCBE5266951606D6A2F4F0E900F63BEAAB376F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C030_attempt01\\packet_gate.json",
+      "sha256": "693C6BAC07C602C94B8B3B7B355BB61BCF8230E7DD4592D32C220D90A308B175"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C030_attempt01\\packet_manifest.json",
+      "sha256": "CE8C89BCF42DBABFC81C9CB080D1AAD7C48C546AAF365C936CC81F19BDB21331"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C032_attempt01\\boundary_comparison.json",
+      "sha256": "F51C77F18B782C24054FE321FEED3D8D635E0ACF1D86EA31891773AC1A765315"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C032_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "0A007DDFB730E1F694EFD21FBA208C9E673635CE46909F7E70396D285C32E46E"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C032_attempt01\\packet_gate.json",
+      "sha256": "5819C3892E2E0769AE6F8937B4E2F704DAC57EFACC87E9776D1A480A51C32451"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C032_attempt01\\packet_manifest.json",
+      "sha256": "EE6B149053C7B3F385664136152F93AF2D9E6D6AE9B3E136C2AC188174D1CD7B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C034_attempt01\\boundary_comparison.json",
+      "sha256": "BFC0304774C512E24CF3CE7B90C46688AEA6216B2FC5E24272C29F053C26E98F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C034_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "B7991E2BCD9D0BC0294D5113F12AFCFF6521534D0A84EA8981B2AAB0A2EABA0D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C034_attempt01\\packet_gate.json",
+      "sha256": "352539DE696E1E4D50F7264C3716440A870EAB7669B3AD7D21E32D07BF05BD77"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C034_attempt01\\packet_manifest.json",
+      "sha256": "1ED0F617694F480A52EE67A230F96F4B6C7877DEFB10C51A6C6D5573AAE7D5F1"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C036_attempt01\\boundary_comparison.json",
+      "sha256": "89BF51FEAC21EB2761DD4EE48CFA24F91FB3191EF596C839802D9B3CCB6D3310"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C036_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "3CB25895821F6AC9EDC1338B7962A6BCBA2F7E122649039D67F6E898218E9CB4"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C036_attempt01\\packet_gate.json",
+      "sha256": "D35462BFF570902259CCE9C00D5AAC21BD1EEFCAF02E29A1FA7F32B55740C294"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C036_attempt01\\packet_manifest.json",
+      "sha256": "3EC9FAA4E579CFC6D90A8A973D600F36238F671558E16DB3AA6AA5F0D4C448FB"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C038_attempt01\\boundary_comparison.json",
+      "sha256": "2D241E1A6BBB07E4D441E94C5C82C07E3F81B8265EDE9230E19A15218197634F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C038_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "716BFB824D2630CE9D26D75F3123339DF0C83A8777FC183637815D425B00B06D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C038_attempt01\\packet_gate.json",
+      "sha256": "D52281DEC50F343A72DC59D40B6ADD1F5DC214C5CBEA1776B08DD4056626C6E4"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C038_attempt01\\packet_manifest.json",
+      "sha256": "6D50AC6C3A7023480E379E61448D570311F1C4233029B7725321E4F76C65CB25"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C040_attempt01\\boundary_comparison.json",
+      "sha256": "2C9FD079136FE762CEFE6BF094C8FB12E2C07F47871F23351997C56D6D2DEBA8"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C040_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "3C64BCDA876F244E296E597F53BC63963186851333E3F902F3FFCF1991D8BBFA"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C040_attempt01\\packet_gate.json",
+      "sha256": "4D2B2A755CCCD9B9A5102038E42068A0B593A6E99A8DE41A30DFAE001A1FED1D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C040_attempt01\\packet_manifest.json",
+      "sha256": "8654B54E2C8B4EA7993C7E641B7F357D9F88044B4088E44C33FFA3A8819AA264"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C042_attempt01\\boundary_comparison.json",
+      "sha256": "7B3B3DDE06BBBF0B0C17D6C18809D4816BA979C31FF4477DEE113CEBF186007A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C042_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "4D1624AFE7F2EFE5C877C6CB50DBD277BE0D15E27A5415AA3DBF62B182DC3BBB"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C042_attempt01\\packet_gate.json",
+      "sha256": "5B8F523AC8865B973DBC981F6DB666F61142E55621DFEFBD3C89E8D1BBF57F0B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C042_attempt01\\packet_manifest.json",
+      "sha256": "6FA7C1C6BDCE62EECA73D27CB4435AFDEC90F592EF89D0943248A65196BDB6E0"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C044_attempt01\\boundary_comparison.json",
+      "sha256": "6D0F96A68EAF415C0B522FC27947AF113DA6330FA68B3DC0816C2EE477A4DE05"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C044_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "BAD63CDAFD0C5EEAB2944C88854C69FE88DB9E66AF5F0C2255EA240CC0EE5B06"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C044_attempt01\\packet_gate.json",
+      "sha256": "E453E51A37BE93015E3E4AA2023C67938B8A2FF81B65ECA2958C92D682BAE93C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C044_attempt01\\packet_manifest.json",
+      "sha256": "3D64AEC5CDEF6BF69F44858EAE221CCE496EA7FF962A611EF5B8EE9A0634BB15"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C046_attempt01\\boundary_comparison.json",
+      "sha256": "9853759C15866FDEBCAE571732934453F25DCEAD17A24B51DA2460EB6874A066"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C046_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "5873F9D03D8BFD3CF68F7C0F3A7405FB9BB11FAF6F7A2E5AE0561E84509E0A6A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C046_attempt01\\packet_gate.json",
+      "sha256": "FBA8174B1C329B9ED2CBA024A328435BA1A236C1BF1739BBF77A9309623D516B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C046_attempt01\\packet_manifest.json",
+      "sha256": "4DFFE9438F2C81B843D4FEC2517DD7A647B203DF5BBD2ABB4414B87103BAA70F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C048_attempt01\\boundary_comparison.json",
+      "sha256": "FB46B4B35AF52AC016DC932DEB62D5CD1DCAB6ACAAF1BF727E271003DAB2921B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C048_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "9CE49870CF89C3989A9DC864BDC0EF4E08A33A193E20CB988FAB1C395003C42B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C048_attempt01\\packet_gate.json",
+      "sha256": "6902B3D6B368301A825688022799AA53486F88EF1C3C20250162A30E06814638"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C048_attempt01\\packet_manifest.json",
+      "sha256": "968B4A5084ED522D80EF33BD05B94C58786AF119B6CD3796DFE66340AA3396B6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C050_attempt01\\boundary_comparison.json",
+      "sha256": "7D2F7DC13356BE0B047711E886FC8505F3028726DA1AA3EDAD324E37FC023EBC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C050_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "8A0E38E6D1FCBB943EC0B90EFE9080879E83C009ED6F398208147B54B345DE78"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C050_attempt01\\packet_gate.json",
+      "sha256": "0E21F97BE90BE26C50410041220E6D3F10F3089F403B9C1E28274C2048335E8E"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C050_attempt01\\packet_manifest.json",
+      "sha256": "E71B0B3886199A23488A228328675CF5E51C81CBDEE476B280DA3348EFA2774D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C052_attempt01\\boundary_comparison.json",
+      "sha256": "28C9481626F30FDB0DEDE80E80A2DDD2D373B7DFB89832F0DAD072E05F25866E"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C052_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "1E742611A8CE02ACDA7A3A45AD3246DB2FF955E1DA0FCF2EB32C82619A85CD61"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C052_attempt01\\packet_gate.json",
+      "sha256": "16273108EB2D88C0A21DE7C26C9A412948EAC202FC3B63E81305BD617E2DD9C9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C052_attempt01\\packet_manifest.json",
+      "sha256": "31C00A8150A0F02DC7CA25D18FE6D312E25F5AE5E634E1C346BC88E8CE372F7A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C054_attempt01\\boundary_comparison.json",
+      "sha256": "D3BF0F7CC679CB690731FB531F95D499FFAD40547D7D605E9382F7A1B47166F8"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C054_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "81C19740C146E254FC24CF802544E7CA19D332CCE83BC0AAFE2F64361AA6CAB8"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C054_attempt01\\packet_gate.json",
+      "sha256": "2FB293BDF1D111BE82BDA1F182CB79B8A2A1EAB6CDD6E04A0A55BE8842E95626"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C054_attempt01\\packet_manifest.json",
+      "sha256": "BF94DC7B958D935B240062FB8DB9237AB181492E3C5CCDE714DD56AFB8CFAC7C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C056_attempt01\\boundary_comparison.json",
+      "sha256": "735E15B766BAB1A3A8F19185B15F077F974F38FB524156C1324F3A2206CA87EF"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C056_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "028052D3E28FFDFA17F263F7E07DA600D73885B79E54C1FF04D51BEF92FDED9B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C056_attempt01\\packet_gate.json",
+      "sha256": "971BF1E89FA25EF21606D89420070378F89C5DA8682422036C259D080882ABBD"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C056_attempt01\\packet_manifest.json",
+      "sha256": "5891444D65B7245995148E58078B7A393C6F05414317C2D4B9FB53980C79F51B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C058_attempt01\\boundary_comparison.json",
+      "sha256": "99FDD3A2B82B6C314DCA6312371E5313EE59C2E9C20E79990D83858049D937E8"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C058_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "7D641D74AA4F77B4BD008DDD2072C46F059A2B1F0EBA623E7869ACF3D39F300C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C058_attempt01\\packet_gate.json",
+      "sha256": "1D84D4B2C0049233529B81670F41D8BFBF1F2FB12F0AD51C5F3D964CCB00740B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C058_attempt01\\packet_manifest.json",
+      "sha256": "6976CE870852BBF03FAB0FC058BE997C8DF9F0AC480AB8D277CD043C98904E7F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C060_attempt01\\boundary_comparison.json",
+      "sha256": "EB3E1A4750250F9BA2C7D69F01411A6D4C07FA69345160158610472D4C20A4D2"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C060_attempt01\\comparison_only_complete_op.mat",
+      "sha256": "1C7720CC5ACDE92874765A7D68F6E78C34317D7C797AC6D12C88DD5E85D16808"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C060_attempt01\\packet_gate.json",
+      "sha256": "372D85130888DDD5837A4636C3C606A77B8F441DE54CA882223A1AFE7CD520E4"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70c1\\packet_C060_attempt01\\packet_manifest.json",
+      "sha256": "AF0D80382F6DC6CB22C31197282D84D3706E3E2DC36D8D93E70E05CA11D0FED1"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\buffer_component_build\\+ecc_buffer_coupled_offset\\conservative_buffer.ssc",
+      "sha256": "84657B41CB9A8B3C947BD1DE1C2BB67EFAF4BEE892DBA79B9DC95381808EF248"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\buffer_component_build\\ecc_buffer_coupled_offset_lib.slx",
+      "sha256": "6E9287DCE07666804AEFEC3DC4AF42CD188557692E29B783D4B3FD3168FF554A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\cache\\heatdrive_ecc_coupled_se21.slxc",
+      "sha256": "F920D011D0EA5A1B32BB46D73F99B374B1D4F7918FF78B01081F285D0F1B3998"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\cache\\slprj\\_jitprj\\jitEngineAccessInfo.mat",
+      "sha256": "7F35DA03DB4850188B004F01C45E1595919F03C1049169105AE3E82D139441B2"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.l",
+      "sha256": "F113F8DB5D91D99C834E37E18D782A9BAADEA9885958CB4CCDBAD4E6E9452F5D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+      "sha256": "9E830EF46775A45F674A9DFE803BBB6A114B8892954F69DD45B5E33D813740C1"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\cache\\slprj\\_sfprj\\EMLReport\\emlReportAccessInfo.mat",
+      "sha256": "A4F45C42628A1A67B54B127F451A0966131ECB07016D76FC4A557B321A1DA879"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\cache\\slprj\\_sfprj\\EMLReport\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+      "sha256": "9E68CBF894AEDC36E21E10546B3593B9409F632D676F4A91C9DC292AD5AE94DD"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\_self\\sfun\\info\\binfo.mat",
+      "sha256": "86E712478D1B4C382316D736D6F48CBC5CA23C4B79C8D58144FC2EA5C5A17C25"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\amsi_serial.mat",
+      "sha256": "658FFD8F10CBEC7847BDD8E49351923BE097C97515AAED7310D202F02F5EF938"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\cache\\slprj\\_sfprj\\precompile\\autoInferAccessInfo.mat",
+      "sha256": "44F912916A34DD80259C69C39D5BBC45FF080696D4D42C8BF900B1AE717741E7"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\cache\\slprj\\_sfprj\\precompile\\EXdKBUmsxqUsV2lCiMiQ4.mat",
+      "sha256": "D589AECE90A57DC2B47237574D7694738832482243E3565AA96D6C6CA311ABED"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\checksumOfCache.mat",
+      "sha256": "0CF131A9EDD2437DB7C73C484CBFFDDCA098589D9126F6D582BE3CEF2D6690C3"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\tmwinternal\\simulink_cache.xml",
+      "sha256": "49D879DF86F49514FF46A248719A1880742B5BA3F1BC7331C12001B18CC323FE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\varInfo.mat",
+      "sha256": "934047D1C635273222317F895E43CA10184DC6A7E9D30D07272FDEBE7672DEBA"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\cold_chamber_execution.json",
+      "sha256": "711A6A6C31A9304219BA67E46EAAE50C115B2B9551BC1FFAC0AA3B7A8130964F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\component_build\\+ecc_inventory_pressure_only\\conservative_chamber.ssc",
+      "sha256": "09969E739C4655936DE2F1B373BED76A936D1A56A178B644F97463DEDC4616B9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\component_build\\ecc_inventory_pressure_only_lib.slx",
+      "sha256": "3B91DD61BDE8F5465218FA2B18EF16CE93DF6A5692BFC8CFE5A1DC0DE7948651"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\fresh_native_probe\\fresh_native_source.json",
+      "sha256": "9D292D9F055E0CB199BCB61E072FBE48366F4FEE85501CC1BD4168552CD28BF9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\fresh_native_probe\\native\\observations.mat",
+      "sha256": "6178F4C4D7C2D021CD6A8BEC4CB63F6BE4D9F6AD8791C4744DA7356A672025F5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\matlab_diary.log",
+      "sha256": "0124A85857B01D613470BE798A7CBA9A8E22B4D5D7A246720056997BCD8E5F63"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\buffer_mass_guesses.json",
+      "sha256": "E62174417049CA642AB094DBD85A7E25BAD46453DA24F26B3C08D40E1E28987C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\buffer_replacement_contract.json",
+      "sha256": "7CAAEAB2CA39236151B5C4807FC3D9ED772A17625A896378C560AB789A6FE70F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\cold_inventory_targets.json",
+      "sha256": "C46344C394B54851FB1C6E3CFDA5D87757EA77E9BDA1276C345E8040CE7E667F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\cold_L8_geometry_permission.json",
+      "sha256": "5B8AFD035CCDFAB9A994E42E0E6D0CA308FFDBB2FAA35ADBD9E1785EFAA39A10"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\cold_public_targets.mat",
+      "sha256": "AE1B3404B8569626B928DFC74D6CFE85F5465F148773C82CAED16734E68A02AA"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\configuration.mat",
+      "sha256": "C17E124720E47DB0D7CBD4CD7C6FE00045A307E711A5425B24F7B626BAA1AA03"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\distributed_pressure_ff_contract.json",
+      "sha256": "E3FE8642C2D627E4A795FC9E9F409279E155EB0888B1D2A5D3E3BF2CF80F7876"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\effective_error_filter.json",
+      "sha256": "CFF6F62771D5B7590064209481400D729700C2901B27748ADF6317F18B8AD27E"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\inventory_metadata.json",
+      "sha256": "47BFAA51FECE62E7A2D593CA5AC4DC4A2030AF88C7A841CE8C094D3DC3DC3AEE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\pressure_only_inverse_density_map_1.json",
+      "sha256": "6CD23D940F168A3439EF08A1D776C855779C042E7B8DE36A9C1C68B70983B593"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\pressure_only_inverse_density_map_2.json",
+      "sha256": "9671D0E5BF38457EFA441B532D6EB12227C2149DEF2A9019CE551BB81A81D9B2"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\public_inventory_targets.json",
+      "sha256": "08F4F53C20ECA278F8772B617DF70FF2E1F8D802999A3B5B4281781241A8B01D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\pump_pressure_probe_contract.json",
+      "sha256": "97C19D71F512224624C16C82D2C2BB023445EB6AA17C71407DBCED600E2B9CB6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\runtime_inventory_targets.json",
+      "sha256": "70A8554009705069BFA59D05FB49A3914FBBCBB4E10C7A555995086FE8DD23E1"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\se_reference_contract.json",
+      "sha256": "14FAA8359E9E2511E616D692295AFAB06E576C742A25EAFC4FECE6D1D8497E35"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_case_contract.json",
+      "sha256": "6358684C9A0AB5679695DB6824ADB3CB80EC4D115140551D997A9781D94158B6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\case_result.json",
+      "sha256": "1566140F7CC8888CD1648C3150AD02BDDBA7E97CEBFED7CEC6DD90A8A19296DF"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\initial_native_observations.mat",
+      "sha256": "A8ECE6FB478CAB2A6147190A202F038CE6C2099448B842FA549F7FCD960487B1"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\comparison_only_complete_op.mat",
+      "sha256": "D45A1B16EC3A990A34173EADA3F54D95F28F386B092F80A35E417101F597D193"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\cycle_physical_summary.csv",
+      "sha256": "744F0AEF52EE8468A519C6D42B09DBCB709CB14E698FAB1F375FDD0C9F6C013D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\execution_backend.json",
+      "sha256": "3EC1D21D5C3223EA0419D37D9079FB4B6989820BB43176F7904F5C9A61F3FC01"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\mechanism.json",
+      "sha256": "414DF7F2B395197E060994CA5CFFC3FB9D969FDF8D67DC982D276709449EA061"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\native\\buffer_replacement_contract.json",
+      "sha256": "7CAAEAB2CA39236151B5C4807FC3D9ED772A17625A896378C560AB789A6FE70F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\native\\configuration.mat",
+      "sha256": "C17E124720E47DB0D7CBD4CD7C6FE00045A307E711A5425B24F7B626BAA1AA03"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\native\\inventory_metadata.json",
+      "sha256": "47BFAA51FECE62E7A2D593CA5AC4DC4A2030AF88C7A841CE8C094D3DC3DC3AEE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+      "sha256": "4ABA6D9F00588AE6C2C7B65BF6CB7DEF62522FEDB47DCA6000B6F1CB7793CB2F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\native\\sensitivity_case_contract.json",
+      "sha256": "6358684C9A0AB5679695DB6824ADB3CB80EC4D115140551D997A9781D94158B6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\native\\thermal_connectivity.json",
+      "sha256": "BC83A4493284D0D8B77EC6B7471018F3ADCE488F5E32C0AF20A67BA03759F580"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\native\\tl_connectivity.json",
+      "sha256": "EFCB48EF91ECA14DCFAE5CEE409B937CFD4E30241AC8655C66953324F0F8C017"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+      "sha256": "E93D6AC8358E767B574A096D691ED17B2EA51C029DF5CAC104B19870BA43AA55"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\packet_gate_stdout.log",
+      "sha256": "B097F1C99664762BD29B3916E18ED06DCBED7A28D3374C726892C58DC7AC4838"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\packet_gate.json",
+      "sha256": "6B8B5FEEABB714E5E6D7CAE483ACF9B5EEBA5C44F5086F8BE9D2BDC31843FDA1"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\packet_manifest.json",
+      "sha256": "2773C7934D158F2BE5C035E52CE37B020A88411A6C468F1F315AE7BE9FA106B4"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\physical_validation_report.txt",
+      "sha256": "810818333AF1A000CC4A39B1BF6A5436778772C269A0341E71BEB29248EF5B78"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\qian2019_table2_table4_parameter_contract.csv",
+      "sha256": "1F4863389F678B30E49A65F10C95AC7650C0EFBB3B771BAC93DE16732EF8ACFC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\simulation_start.json",
+      "sha256": "BDD5C8634186A5C45CA44D0EB33C3CBB7F8992BD848AE5D86BDE8F92BB5AC638"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\simulation_timing.json",
+      "sha256": "C276931C2124DDD154D06955E8AECD653B55E0C7380D6551023337B25DB59358"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\stage_temperature_probes_50samples.csv",
+      "sha256": "0154AA11054F87EB7333BC06E148F7A18B77BDCFFFD857182C324ADB720F4DED"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\boundary_comparison.json",
+      "sha256": "EEA867318D5CC343A662204009F5809C40218671C043BD06B724F38B91E1F626"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\comparison_only_complete_op.mat",
+      "sha256": "462AB7A095176A49A992A4B4D37905E5E7FD9F3D8496EF361640803E0E3FF836"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\cycle_physical_summary.csv",
+      "sha256": "536EF02BFBB2730065973C2A6802C69FA80C0FB5BC3760CFC0313188FAA24F8A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\execution_backend.json",
+      "sha256": "18EFB1C19E4519186792923B66471DA5EC17898CFC6F0643FC24B75DB3C10C0B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\mechanism.json",
+      "sha256": "0C8A54F183213D0A2946C39AF0E3FA74721B67F6B65C2C3D716363C61148132F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\native\\buffer_replacement_contract.json",
+      "sha256": "7CAAEAB2CA39236151B5C4807FC3D9ED772A17625A896378C560AB789A6FE70F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\native\\configuration.mat",
+      "sha256": "C17E124720E47DB0D7CBD4CD7C6FE00045A307E711A5425B24F7B626BAA1AA03"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\native\\inventory_metadata.json",
+      "sha256": "47BFAA51FECE62E7A2D593CA5AC4DC4A2030AF88C7A841CE8C094D3DC3DC3AEE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\native\\sensitivity_case_contract.json",
+      "sha256": "6358684C9A0AB5679695DB6824ADB3CB80EC4D115140551D997A9781D94158B6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\native\\thermal_connectivity.json",
+      "sha256": "BC83A4493284D0D8B77EC6B7471018F3ADCE488F5E32C0AF20A67BA03759F580"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\native\\tl_connectivity.json",
+      "sha256": "EFCB48EF91ECA14DCFAE5CEE409B937CFD4E30241AC8655C66953324F0F8C017"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\packet_gate_stdout.log",
+      "sha256": "216F5F9E52B121B77E40DAE3E6B9B2ACB1269A897DFCC2FC1DEFDB3D146DB11D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\packet_gate.json",
+      "sha256": "ACE1945E1EE5F550594B49D0026E469076998A165F68B9206D3DE9A0D34AA985"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\packet_manifest.json",
+      "sha256": "56F6E3A2AA02DC392B417850A3A0618711CA916A1E25CA894FD89CFD718CA306"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\physical_validation_report.txt",
+      "sha256": "706A49693EDBE1A88EFE18BFA767D9FCB11769B1BE9D87CEC3FFC9D47664ECB5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\qian2019_table2_table4_parameter_contract.csv",
+      "sha256": "1F4863389F678B30E49A65F10C95AC7650C0EFBB3B771BAC93DE16732EF8ACFC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\simulation_start.json",
+      "sha256": "F42FF6D66130BAE0B16D335C47DDC8FF655038AD7E626D962AC4F5DC4D985A3A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\simulation_timing.json",
+      "sha256": "802A240EDFA50000C97EF6EB6890BA6C4EE649002530E4B1362E749EE8E22E68"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\stage_temperature_probes_50samples.csv",
+      "sha256": "38F9A263445B897A1B137A3C793C745A9FE9D3E5D3919EC5B9EA8B0331118936"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\boundary_comparison.json",
+      "sha256": "CA1BAB59B0DDB005469FB3D424C5C035C0B8212ED5C6CE6A0D3D51DC65EF502C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\comparison_only_complete_op.mat",
+      "sha256": "4936825FA56FE5183FF314D28B2EFAA791D10D054B7658319E7B6FB5519B6241"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\cycle_physical_summary.csv",
+      "sha256": "D66052355BA3A2487BD3D5718725164C20BEC2831B1B8A173A18924ACCE1D5FC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\execution_backend.json",
+      "sha256": "D130456119BC49A05B02D1C37049AE8217FBD61676E364ED9361EF03A83EEE04"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\mechanism.json",
+      "sha256": "0E597F70704A5C90BBC2A65B94AE7CF64AAF97598F05DE47F7FBC314F93ABCBE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\native\\buffer_replacement_contract.json",
+      "sha256": "7CAAEAB2CA39236151B5C4807FC3D9ED772A17625A896378C560AB789A6FE70F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\native\\configuration.mat",
+      "sha256": "C17E124720E47DB0D7CBD4CD7C6FE00045A307E711A5425B24F7B626BAA1AA03"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\native\\inventory_metadata.json",
+      "sha256": "47BFAA51FECE62E7A2D593CA5AC4DC4A2030AF88C7A841CE8C094D3DC3DC3AEE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\native\\sensitivity_case_contract.json",
+      "sha256": "6358684C9A0AB5679695DB6824ADB3CB80EC4D115140551D997A9781D94158B6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\native\\thermal_connectivity.json",
+      "sha256": "BC83A4493284D0D8B77EC6B7471018F3ADCE488F5E32C0AF20A67BA03759F580"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\native\\tl_connectivity.json",
+      "sha256": "EFCB48EF91ECA14DCFAE5CEE409B937CFD4E30241AC8655C66953324F0F8C017"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\packet_gate_stdout.log",
+      "sha256": "076919BC51D1572F497E45EB2BE325BD9F6D18E67C0C4D1DAC76CF8249144145"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\packet_gate.json",
+      "sha256": "B1F85538ECE83C33E2989B6EAC529BD376144540ADE3AFFDD65225481A04EB52"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\packet_manifest.json",
+      "sha256": "13FAD7FA1004A86C08D04373272A7443D62883248CD9912696A3C68EF1D9C2D3"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\physical_validation_report.txt",
+      "sha256": "A0114A23D201AD64417CCFD58684B45C93669DC48A9CA7413C2A7EEAEA07C86F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\qian2019_table2_table4_parameter_contract.csv",
+      "sha256": "1F4863389F678B30E49A65F10C95AC7650C0EFBB3B771BAC93DE16732EF8ACFC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\simulation_start.json",
+      "sha256": "E08FF93E9E891148372F38A9B302EB6A3B692024950257A5DDD7D445C92E34A5"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\simulation_timing.json",
+      "sha256": "A6509AE1C47AAE5CEB877720F28814DE8863D86EAFAFFF10B0E926BAFE930AB8"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\stage_temperature_probes_50samples.csv",
+      "sha256": "0BC3A40017BD08572D2563B6B2BB7BD9BF841FD986F6B38EFABC097F26ED2C01"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\boundary_comparison.json",
+      "sha256": "AD8AD3A045A67C83123D1022212B63B05081463A1B8709021CDEBEA47A56C9BC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\comparison_only_complete_op.mat",
+      "sha256": "7DC4863897A692B5AFF1A81C39F0B4073FC7295426ED3DFDC49D18894235BC02"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\cycle_physical_summary.csv",
+      "sha256": "64D0843F3D3FF05014E94E71478C740AEEBAB59FC1FECFCBDF99222D661375DB"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\execution_backend.json",
+      "sha256": "89CD2180831DF89BABBE3F50AD8B1B59F5556BFEEEEC31057F95A9EAE30C85EA"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\mechanism.json",
+      "sha256": "A97A81DB06881E7FB4919527FF71FB3B15F4499BFF18E2CD01B44971D20D52BA"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\native\\buffer_replacement_contract.json",
+      "sha256": "7CAAEAB2CA39236151B5C4807FC3D9ED772A17625A896378C560AB789A6FE70F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\native\\configuration.mat",
+      "sha256": "C17E124720E47DB0D7CBD4CD7C6FE00045A307E711A5425B24F7B626BAA1AA03"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\native\\inventory_metadata.json",
+      "sha256": "47BFAA51FECE62E7A2D593CA5AC4DC4A2030AF88C7A841CE8C094D3DC3DC3AEE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\native\\sensitivity_case_contract.json",
+      "sha256": "6358684C9A0AB5679695DB6824ADB3CB80EC4D115140551D997A9781D94158B6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\native\\thermal_connectivity.json",
+      "sha256": "BC83A4493284D0D8B77EC6B7471018F3ADCE488F5E32C0AF20A67BA03759F580"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\native\\tl_connectivity.json",
+      "sha256": "EFCB48EF91ECA14DCFAE5CEE409B937CFD4E30241AC8655C66953324F0F8C017"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\packet_gate_stdout.log",
+      "sha256": "478C767D64701D9286EA7BCA30A074ADB9B406C70C4980B1D32F1AAF663DD2A2"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\packet_gate.json",
+      "sha256": "94C1CD4201FF5BD4D3214E2A2E2D59E224E877633237376657E7051C174C7617"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\packet_manifest.json",
+      "sha256": "294E1E73418F50EE501B3C7194A1DAAAD01A8DFE644FD2E4BD5496C89DC493C3"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\physical_validation_report.txt",
+      "sha256": "496EBCC5CCFA75F160521FD9F1BAEE0F120B2B780ED374BD78F9B6B627BB9E40"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\qian2019_table2_table4_parameter_contract.csv",
+      "sha256": "1F4863389F678B30E49A65F10C95AC7650C0EFBB3B771BAC93DE16732EF8ACFC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\simulation_start.json",
+      "sha256": "F4F7CF28919A38FBDBE8D1466B97F4905FD371D275B36A5C33525E24D030E93C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\simulation_timing.json",
+      "sha256": "A5833BF19EC00049F75DD32B70156E62C584329B7D2C4A8C738BEB7C5320784B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\stage_temperature_probes_50samples.csv",
+      "sha256": "200EC9CA5F0D37FD069F8BB284D821AD6A63B0CFFD2B3B308434AEB01BBC3853"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\boundary_comparison.json",
+      "sha256": "27F3CBD42179793FED6807328231B8AFC770ED3973F61A72A7DB294B3734BB92"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\comparison_only_complete_op.mat",
+      "sha256": "429024B79EC2C85CFF048EDA3754A3208ABE5B1A59D185F775E00656C33ECD24"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\cycle_physical_summary.csv",
+      "sha256": "495C891D01B6ECD2C16664C7BE3555D29BA5256C1F142662CA1077447977863B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\execution_backend.json",
+      "sha256": "746DDB15B3C38E6D741FA3DC665EBBC551565DB5C21B359CD6D5E42E9967FF16"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\mechanism.json",
+      "sha256": "580FE840C9EFFFFE142E915FAF621B065621F2B9D47665CD40DA2895D25F3702"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\native\\buffer_replacement_contract.json",
+      "sha256": "7CAAEAB2CA39236151B5C4807FC3D9ED772A17625A896378C560AB789A6FE70F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\native\\configuration.mat",
+      "sha256": "C17E124720E47DB0D7CBD4CD7C6FE00045A307E711A5425B24F7B626BAA1AA03"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\native\\inventory_metadata.json",
+      "sha256": "47BFAA51FECE62E7A2D593CA5AC4DC4A2030AF88C7A841CE8C094D3DC3DC3AEE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\native\\sensitivity_case_contract.json",
+      "sha256": "6358684C9A0AB5679695DB6824ADB3CB80EC4D115140551D997A9781D94158B6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\native\\thermal_connectivity.json",
+      "sha256": "BC83A4493284D0D8B77EC6B7471018F3ADCE488F5E32C0AF20A67BA03759F580"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\native\\tl_connectivity.json",
+      "sha256": "EFCB48EF91ECA14DCFAE5CEE409B937CFD4E30241AC8655C66953324F0F8C017"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\packet_gate_stdout.log",
+      "sha256": "03E1CDEC8D47E1FFDC4E347513579400CEA141838770F61214D2C9A77434F3C9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\packet_gate.json",
+      "sha256": "8CEBB9C6A3BD0CA3951DBC72A8ED06AC22C2AFC87F222841AC1DC2C1301786B0"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\packet_manifest.json",
+      "sha256": "29AADA5BE241139E1D8B46F02F5C906F3DA6A89AE6BB273BA0E56BFC955BC383"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\physical_validation_report.txt",
+      "sha256": "D36430372978EF2D65E836A0BA83D030C0F6A30CAA18BD5199CD2DF9C8A44756"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\qian2019_table2_table4_parameter_contract.csv",
+      "sha256": "1F4863389F678B30E49A65F10C95AC7650C0EFBB3B771BAC93DE16732EF8ACFC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\simulation_start.json",
+      "sha256": "FCBD6987D0F9E325F24D8FE3839D97EC1A5013246B06EBB3283576A162D9CB81"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\simulation_timing.json",
+      "sha256": "FF161A059FA72759BDD9C1A728937502B3C0A0CE44FD55EA8AAEDE70758E552B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\stage_temperature_probes_50samples.csv",
+      "sha256": "B4BC4B306222B557725E748681B4FB5EF569F3597828CD04428B6F60D2BEB1F3"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\boundary_comparison.json",
+      "sha256": "24F3BBAFB4EC92E14973E38A3B3CCE785F60FBCAB4F1F585074D6975CFE516EA"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\comparison_only_complete_op.mat",
+      "sha256": "54AC5FEFD005608FBB8917027A766B6F0D71B408512995A28B624AED22027FE8"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\cycle_physical_summary.csv",
+      "sha256": "270EE5AD620FC853807EAC89EA466676206FEA394D5E6BEC776C0012711B7551"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\execution_backend.json",
+      "sha256": "FAE9B38BAF7C95147830F832ED6A51F130BCE5A10B6754ACE90CA4C0E82F1B6B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\mechanism.json",
+      "sha256": "342331F88294A26D4BB8269024742DA4D361AFFAD2B1F89EACF549A74A309B57"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\native\\buffer_replacement_contract.json",
+      "sha256": "7CAAEAB2CA39236151B5C4807FC3D9ED772A17625A896378C560AB789A6FE70F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\native\\configuration.mat",
+      "sha256": "C17E124720E47DB0D7CBD4CD7C6FE00045A307E711A5425B24F7B626BAA1AA03"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\native\\inventory_metadata.json",
+      "sha256": "47BFAA51FECE62E7A2D593CA5AC4DC4A2030AF88C7A841CE8C094D3DC3DC3AEE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+      "sha256": "BD7D45A437CB3CF8E81D35032D8C0C21B862CA49A5F76B3CD0013E06664CB600"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\native\\sensitivity_case_contract.json",
+      "sha256": "6358684C9A0AB5679695DB6824ADB3CB80EC4D115140551D997A9781D94158B6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\native\\thermal_connectivity.json",
+      "sha256": "BC83A4493284D0D8B77EC6B7471018F3ADCE488F5E32C0AF20A67BA03759F580"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\native\\tl_connectivity.json",
+      "sha256": "EFCB48EF91ECA14DCFAE5CEE409B937CFD4E30241AC8655C66953324F0F8C017"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+      "sha256": "7C5816115E902735D1D97604312DD91CAF734347C0EC7DE4F0DB0D79826740FA"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\packet_gate_stdout.log",
+      "sha256": "75C6929645B844A62BC2DAB200850ACAF7E33DB392BD6CC88C2E1AF17D691040"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\packet_gate.json",
+      "sha256": "4FB7DAC4FA3139991F904AC7984B4387D89E99ABBE8DEA0732B99D8CFC4E08BF"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\packet_manifest.json",
+      "sha256": "8E08AF48B0492E72475C4957FD79037F178F1B23A1F122E2B4BD572705CB08FF"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\physical_validation_report.txt",
+      "sha256": "8BA11A3198F0A8D9F4E60240E5543E2E54BCDA1B976AB84E45E28DC7BFA493A0"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\qian2019_table2_table4_parameter_contract.csv",
+      "sha256": "1F4863389F678B30E49A65F10C95AC7650C0EFBB3B771BAC93DE16732EF8ACFC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\simulation_start.json",
+      "sha256": "56AD3307C2EC5748A32919711D466DD8D23471FA2E10314638FF53BFC66067C0"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\simulation_timing.json",
+      "sha256": "7F2098A134661F6F1240C0FA8805AF42428B6EE544025FDCA06073CA20D4B32B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\stage_temperature_probes_50samples.csv",
+      "sha256": "B82375DB79407980841995906642F5D6F4CE68E87224F681756FF418EF3C2071"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\boundary_comparison.json",
+      "sha256": "BBB4E5F0212EAFBA01FA1C9424EA4E23B923A64E38E26AF3C462ADBB55EF3E16"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\comparison_only_complete_op.mat",
+      "sha256": "0BE2008F70A9C5EEA540492B47DCEDADE39E3F7590ED082761F8C2F1333B9898"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\cycle_physical_summary.csv",
+      "sha256": "B7524EF8643C0DB0B3623DD34D08018E4F03F93B651506269A51013805A5EE43"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\execution_backend.json",
+      "sha256": "7B01F8AD9ADE7B606EC09CE6291C146C2C07E6E50E2F93B2379D132C5BD1F6D9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\mechanism.json",
+      "sha256": "8CA36C74BC634F8E251A7F5BFB3F520F5D049DDCF5F121E85C25ACAE084A7B0D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\native\\buffer_replacement_contract.json",
+      "sha256": "7CAAEAB2CA39236151B5C4807FC3D9ED772A17625A896378C560AB789A6FE70F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\native\\configuration.mat",
+      "sha256": "C17E124720E47DB0D7CBD4CD7C6FE00045A307E711A5425B24F7B626BAA1AA03"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\native\\inventory_metadata.json",
+      "sha256": "47BFAA51FECE62E7A2D593CA5AC4DC4A2030AF88C7A841CE8C094D3DC3DC3AEE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+      "sha256": "BDA2730CECC0C604C2A3871C957AA6ADEDF547379F4642D65AD8F92AEDFF0E16"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\native\\sensitivity_case_contract.json",
+      "sha256": "6358684C9A0AB5679695DB6824ADB3CB80EC4D115140551D997A9781D94158B6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\native\\thermal_connectivity.json",
+      "sha256": "BC83A4493284D0D8B77EC6B7471018F3ADCE488F5E32C0AF20A67BA03759F580"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\native\\tl_connectivity.json",
+      "sha256": "EFCB48EF91ECA14DCFAE5CEE409B937CFD4E30241AC8655C66953324F0F8C017"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+      "sha256": "717B57A93BF3350C125E6E9FCB960BF440FFBB7BE3E6F61D3D762C4EDDB1B12C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\packet_gate_stdout.log",
+      "sha256": "B3281738CCC04681F897F032682D614F641776FAC51E6E2799FBF572333B8930"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\packet_gate.json",
+      "sha256": "686DA394A5D91F5CF0D468CA8816C3BDF48A51E1D7FA06885B680918697D57B3"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\packet_manifest.json",
+      "sha256": "FD2B8593E48B4B595A33A3E304CF6808955ADA7ADD64A54C89011096213B1187"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\physical_validation_report.txt",
+      "sha256": "08744561C83C773BFAD25792D63CF4D3029A8FE2E8A57CFF0F09CCF4995B6146"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\qian2019_table2_table4_parameter_contract.csv",
+      "sha256": "1F4863389F678B30E49A65F10C95AC7650C0EFBB3B771BAC93DE16732EF8ACFC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\simulation_start.json",
+      "sha256": "E948D11C3260F767F6125D00875D68F6B95E12CFEF212DAE2110E31F247EE4D6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\simulation_timing.json",
+      "sha256": "87762F718EF721475A18C225B02180CE70006D4E0DF9097D93109102FB332D8B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\stage_temperature_probes_50samples.csv",
+      "sha256": "9BA97D7F328AAF352E348F7E5A824D05B0517A422BCD4169B83AB62E36FF34B7"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\boundary_comparison.json",
+      "sha256": "94D3EC0F1205E91547E8369D8A11D53E06B8FC8E5AEF3007F71512F7BB22CEEB"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\comparison_only_complete_op.mat",
+      "sha256": "5C9AB002B700E4233A87D316B3B051A70DF15176171165CC7176C08503D20E81"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\cycle_physical_summary.csv",
+      "sha256": "B168C1347364A678B467790033245CE3EB8607F85BC9E97F7BB2DAB31E324257"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\execution_backend.json",
+      "sha256": "4CE0B0F18C581E9F41AC01EF66C892C4F5B648EA08F1952EC293EAB8A5D1DB04"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\mechanism.json",
+      "sha256": "8CF851B9C8AB04091CC02924E60A4FF4578569DEA8ABD215BC663A89C0CB389B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\native\\buffer_replacement_contract.json",
+      "sha256": "7CAAEAB2CA39236151B5C4807FC3D9ED772A17625A896378C560AB789A6FE70F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\native\\configuration.mat",
+      "sha256": "C17E124720E47DB0D7CBD4CD7C6FE00045A307E711A5425B24F7B626BAA1AA03"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\native\\inventory_metadata.json",
+      "sha256": "47BFAA51FECE62E7A2D593CA5AC4DC4A2030AF88C7A841CE8C094D3DC3DC3AEE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+      "sha256": "B741D4C7020E5FB230E74641D452EAD232BDF1B18C08E4356B3132E76FCDB774"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\native\\sensitivity_case_contract.json",
+      "sha256": "6358684C9A0AB5679695DB6824ADB3CB80EC4D115140551D997A9781D94158B6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\native\\thermal_connectivity.json",
+      "sha256": "BC83A4493284D0D8B77EC6B7471018F3ADCE488F5E32C0AF20A67BA03759F580"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\native\\tl_connectivity.json",
+      "sha256": "EFCB48EF91ECA14DCFAE5CEE409B937CFD4E30241AC8655C66953324F0F8C017"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+      "sha256": "0B9A8186CD8DF10B5A681632AEADF26F443CABC02BA34BE18BDB2165C26D30ED"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\packet_gate_stdout.log",
+      "sha256": "9C40E7330DF919A25E0739F00784DB54EEB01D612111D838B9FF8CDA04EAEA69"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\packet_gate.json",
+      "sha256": "F68650BADECCCE241661103B4270E34B626424449D3ECF2B9CCC2694C1B17C27"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\packet_manifest.json",
+      "sha256": "8676E361C0B6C251CFFAFE9EA041FA1CD5A183E3497A3A1A8E32B8B177BC4AD3"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\physical_validation_report.txt",
+      "sha256": "EAFD5EEE10844D1610D22FAC6BEF5F8F9E32EB5C66E66F4679C7A6D61FE17165"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\qian2019_table2_table4_parameter_contract.csv",
+      "sha256": "1F4863389F678B30E49A65F10C95AC7650C0EFBB3B771BAC93DE16732EF8ACFC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\simulation_start.json",
+      "sha256": "EA6BA14B4795F0E50230C75A67A84CEE6AA612DABD13B4F7C100FA54957FD5D2"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\simulation_timing.json",
+      "sha256": "031E2814B0FE13F6391021873672C14832EA1CCBEAD91FEF86D63874C4735FB8"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\stage_temperature_probes_50samples.csv",
+      "sha256": "631430B076F11926A316C325070AD05C2D1973F9C6DB9FB4C78EE106A8050D11"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\boundary_comparison.json",
+      "sha256": "4D7EFDE03CEC75B0062C402E812C2D788D3CEC942CA9ABE0D80603BD76D8DB69"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\comparison_only_complete_op.mat",
+      "sha256": "292812F9F291E718D6564A29B0EECA21BDB99177F8CFDAD6983197F4E974FAA6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\cycle_physical_summary.csv",
+      "sha256": "77F49FE5A3185B34DAAAFD56C95DC572AF416EA0F277C1D4E2C1341C61E499DA"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\execution_backend.json",
+      "sha256": "C25828421B0C207A99C25BD8408A2E0C04AC708CFBD8A9C7E0DA57C4E8A85C05"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\mechanism.json",
+      "sha256": "4A9BC5105E0EFBA16995AF0BF45CF0466D03FDA56A94C1C5A0BF7AFA809E9982"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\native\\buffer_replacement_contract.json",
+      "sha256": "7CAAEAB2CA39236151B5C4807FC3D9ED772A17625A896378C560AB789A6FE70F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\native\\configuration.mat",
+      "sha256": "C17E124720E47DB0D7CBD4CD7C6FE00045A307E711A5425B24F7B626BAA1AA03"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\native\\inventory_metadata.json",
+      "sha256": "47BFAA51FECE62E7A2D593CA5AC4DC4A2030AF88C7A841CE8C094D3DC3DC3AEE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+      "sha256": "BB6F14171CF68676F32415C5A3630BDF7CBD7D1BAD91456D9A6B5CFBE8B9DFC0"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\native\\sensitivity_case_contract.json",
+      "sha256": "6358684C9A0AB5679695DB6824ADB3CB80EC4D115140551D997A9781D94158B6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\native\\thermal_connectivity.json",
+      "sha256": "BC83A4493284D0D8B77EC6B7471018F3ADCE488F5E32C0AF20A67BA03759F580"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\native\\tl_connectivity.json",
+      "sha256": "EFCB48EF91ECA14DCFAE5CEE409B937CFD4E30241AC8655C66953324F0F8C017"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+      "sha256": "A86671A692C17F3CBD93FA77098A5CA39A032473DFE8E57A7487C1478539D458"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\packet_gate_stdout.log",
+      "sha256": "F3471E144F5083D0834ECD9AE027227762EBDCC8CE80D4E3969F4B9E80BA2EC7"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\packet_gate.json",
+      "sha256": "31488DBCEFC7D1D27145B174E0064A2E5E2B15363B90F08A81B9197DFD85FB57"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\packet_manifest.json",
+      "sha256": "5788DBFF803E0DD744C3CC3ADE7C7C127431BAAAF492CE0E86BC1DCAF4336204"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\physical_validation_report.txt",
+      "sha256": "820B84476A00C35FEBAF53FE8FA10D5C9CA9319D1790F9BC0EE96EA862243731"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\qian2019_table2_table4_parameter_contract.csv",
+      "sha256": "1F4863389F678B30E49A65F10C95AC7650C0EFBB3B771BAC93DE16732EF8ACFC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\simulation_start.json",
+      "sha256": "2CE8049395EB144672485590C40A2DFF816AD98C3A15CF4729A5844DFB5A72AE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\simulation_timing.json",
+      "sha256": "39199909620C76AEED0C644E46B390C4363F3D287C28E571A52F5B310296BBED"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\stage_temperature_probes_50samples.csv",
+      "sha256": "E5EC9547C6604434EDADC41BF1A5B9436E0147487F6B8A90EA432106304AFDF9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\boundary_comparison.json",
+      "sha256": "B60BEDFB05262A79D44318680AC4B230B94EFD73EA50C51B330F99F741B67D4E"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\comparison_only_complete_op.mat",
+      "sha256": "AFA7A11F2A02CEDF6324EFDC8C420A1D9DFF98CE7B722F0DB87F92C83480B3BC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\cycle_physical_summary.csv",
+      "sha256": "7956EB81D91904F94B5197B7577F9377F5B14728BAC7812D66332FA0F62C77BA"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\execution_backend.json",
+      "sha256": "70CCA24B1EB43B1EFDB2C73E0FF5013050014319589F5BD08C2A62A37F1762DF"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\mechanism.json",
+      "sha256": "2CD9AB3469A03AD3DD8D463B9C25024A61BB4442B9B4FF3D2A5BCA83F3D72B53"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\native\\buffer_replacement_contract.json",
+      "sha256": "7CAAEAB2CA39236151B5C4807FC3D9ED772A17625A896378C560AB789A6FE70F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\native\\configuration.mat",
+      "sha256": "C17E124720E47DB0D7CBD4CD7C6FE00045A307E711A5425B24F7B626BAA1AA03"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\native\\inventory_metadata.json",
+      "sha256": "47BFAA51FECE62E7A2D593CA5AC4DC4A2030AF88C7A841CE8C094D3DC3DC3AEE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat",
+      "sha256": "006C28C8299490BEA6448D46A00B2624CC965930BD0F7B495D67323BA543C805"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\native\\sensitivity_case_contract.json",
+      "sha256": "6358684C9A0AB5679695DB6824ADB3CB80EC4D115140551D997A9781D94158B6"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\native\\thermal_connectivity.json",
+      "sha256": "BC83A4493284D0D8B77EC6B7471018F3ADCE488F5E32C0AF20A67BA03759F580"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\native\\tl_connectivity.json",
+      "sha256": "EFCB48EF91ECA14DCFAE5CEE409B937CFD4E30241AC8655C66953324F0F8C017"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat",
+      "sha256": "862854C406AF84C49FFAC52D8B054706191C556BB1CDECC562F5327E3C4A126A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\packet_gate_stdout.log",
+      "sha256": "89B95D6733673C25B9C4977CA0CF575831317A62BE273AB7E0D24CD26410F20D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\packet_gate.json",
+      "sha256": "2B0387A5A23DFC687F783556AA480D8AF9E77E0173C6955427E33A6532B26E2D"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\packet_manifest.json",
+      "sha256": "5755FD5B797CE1934EEECF575C46E09E0D2DE0CD1755911AE550B3E1EA662C07"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\physical_validation_report.txt",
+      "sha256": "2ED2D1CA13A74D295FF7A0FBBF557D556C493FB0BAF94F23ED78620370FA6AB1"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\qian2019_table2_table4_parameter_contract.csv",
+      "sha256": "1F4863389F678B30E49A65F10C95AC7650C0EFBB3B771BAC93DE16732EF8ACFC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\simulation_start.json",
+      "sha256": "5B0759E26D8F8D40E50D56D8786DF1C27171FCF2D576AA2E7BEFE242CA62AB48"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\simulation_timing.json",
+      "sha256": "0D93553FFF543B1C7E5C538D5E0F6B2B18E74B9E4DBBD846539DC46EEDFDC5D1"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\stage_temperature_probes_50samples.csv",
+      "sha256": "7A51CEA7E9F4BDC4E5ED622C4831DA53882BC65536EA20D36FAD8BD46E01E853"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\periodicity_C020_attempt01\\measured_window.json",
+      "sha256": "F81EC1F1CFAA9E333CD536664B3115ECCB9BEBCD328097C83972986714AE34E8"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\periodicity_C020_attempt01\\original_thermal_statistics.json",
+      "sha256": "652AAA40D0E253B5079F00F4CE947ADC6A3CFC2FEB6FB0B375B86B8A8965E78F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\periodicity_C020_attempt01\\target_window_stability.json",
+      "sha256": "731EC2D66099F783F67E5EE26D45EA0292568A29A30956A599DD698053666263"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\simulation_start.json",
+      "sha256": "06E81552F2FE4D0BA49EE8EE91BC1B9F85E8E2FDD04750186ADC330BB1E4855E"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\stage4_controller_probe_contract.json",
+      "sha256": "95B5C752B7276800DB9AD2BBA89E8860784C085D162FE6BE6F575A95897478DD"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\thermal_connectivity.json",
+      "sha256": "BC83A4493284D0D8B77EC6B7471018F3ADCE488F5E32C0AF20A67BA03759F580"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\tl_connectivity.json",
+      "sha256": "EFCB48EF91ECA14DCFAE5CEE409B937CFD4E30241AC8655C66953324F0F8C017"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\runtime_evidence_contract.mat",
+      "sha256": "80E29F950D7B6A4BA85E79D16A31981CF7B7F9A16E0E1EAD974AFA5D2D3CF3C0"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v61_runtime_Tc274p85_C108_snapshot_20261016\\endpoint_qualification.json",
+      "sha256": "72227BFA412079E695B98BD1F87CC6F5EE04F196E5EDD62413533873E7609525"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v70_L8case02_C20_20261018\\case_closeout.json",
+      "sha256": "C9785F29C64B8DE15EC33E0B9D145651F0CF7139C32E2B9A4E9EE9756A7C53D3"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v70_L8case02_C60_20261018\\continuation_closeout.json",
+      "sha256": "BDE1CA5CF871255C1DCB86FA2E24EA022C2A31764C2C380375FD439D24D6FB01"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v70_L8case02_C60_20261018\\disjoint_case_windows.json",
+      "sha256": "AF40ABDE7B8FA1FFF529859164290C555D5195386E2F5269CF74DA8FF0EE00E8"
+    }
+  ],
+  "retire_bytes": 1841894948.0,
+  "retained_cold_origin_window_s": [
+    100,
+    200
+  ],
+  "retained_first_cold_packet": true,
+  "all_complete_OPs_retained": true,
+  "current_C60_continuation_untouched": true,
+  "current_C108_untouched": true,
+  "production_recovery_allowed": false,
+  "full_historical_cold_raw_reverification_after_retirement": false
+}

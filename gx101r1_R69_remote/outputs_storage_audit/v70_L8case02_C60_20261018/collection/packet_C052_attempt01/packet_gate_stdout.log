@@ -1,0 +1,121 @@
+{
+  "schema": "heatdrive_ecc_split_observation_packet_gate_v1",
+  "window_s": [
+    500,
+    520
+  ],
+  "gate_pass": true,
+  "original_mechanism_count": 73,
+  "original_mechanism_pass": true,
+  "six_local_inventory_gates": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "modeled_energy_balance": {
+    "external_modeled_heat_BE_J": 4.000500249180163,
+    "native_constitutive_heat_BE_J": 0.008284993861991552,
+    "sensible_inventory_plus_pdv_J": 4.008785241540684,
+    "total_inventory_including_latent_plus_pdv_J": 4.000500247733319,
+    "command_to_native_pipeline_difference_J": -4.8260062612826005e-11,
+    "external_heat_minus_total_storage_J": 1.4468444220483434e-09,
+    "numerical_terms_retained_residual_J": 1.5013039700306763e-09,
+    "model_equation_energy_closure_pass": true,
+    "energy_tolerance_J": 1e-08,
+    "quadrature": "native local backward Euler; measured absolute millisecond intervals",
+    "latent_heat_counted_once": true,
+    "engineering_pump_proxy_added_as_heat": false
+  },
+  "storage_count": 119,
+  "source_count": 49,
+  "flow_gates": [
+    {
+      "component": "SMA",
+      "stage": 1,
+      "target_kg_s": 0.0508,
+      "samples": 2350,
+      "mean_signed_kg_s": -0.05079059927246666,
+      "max_abs_relative_error": 0.0007636317617755184,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SMA",
+      "stage": 2,
+      "target_kg_s": 0.0508,
+      "samples": 350,
+      "mean_signed_kg_s": -0.050792514006678544,
+      "max_abs_relative_error": 0.00016359283698108573,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SMA",
+      "stage": 3,
+      "target_kg_s": 0.0508,
+      "samples": 2350,
+      "mean_signed_kg_s": -0.05139808480340845,
+      "max_abs_relative_error": 0.044162869666193316,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SMA",
+      "stage": 4,
+      "target_kg_s": 0.0508,
+      "samples": 350,
+      "mean_signed_kg_s": -0.05272536532707592,
+      "max_abs_relative_error": 0.039821257004853505,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SE",
+      "stage": 2,
+      "target_kg_s": 0.0032960000000000003,
+      "settled_window_start_s": 0.30100000000004457,
+      "settled_window_stop_s": 1.1989999999999554,
+      "samples": 899,
+      "mean_signed_kg_s": 0.003295929792370141,
+      "max_abs_relative_error": 0.0004969975848669872,
+      "rms_relative_error": 0.00024977072114309935,
+      "selected_flow_gate": true
+    },
+    {
+      "component": "SE",
+      "stage": 4,
+      "target_kg_s": 0.0032960000000000003,
+      "settled_window_start_s": 0.30100000000004457,
+      "settled_window_stop_s": 1.1989999999999554,
+      "samples": 899,
+      "mean_signed_kg_s": 0.0032959723260783612,
+      "max_abs_relative_error": 0.03088382366740927,
+      "rms_relative_error": 0.011292339673321316,
+      "selected_flow_gate": true
+    }
+  ],
+  "complete_state_is_only_for_current_split_comparison": false,
+  "bounded_recording_scope_only": false,
+  "runtime_boundary_transient_scope_only": false,
+  "command_horizon_preflight_comparison_only": false,
+  "sensitivity_case_scope_only": true,
+  "sensitivity_parameter_review": {
+    "case_index": 2,
+    "independently_checked_parameter_fields": 27,
+    "all_declared_parameters_match": true,
+    "steady_sensitivity_response_qualified": false,
+    "implementation_backend_review": {
+      "function": "HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate",
+      "admission_sha256": "876BE508255D85FA359058DE8671C13AA415544EE42726B7CBE5C4ABFB38A929",
+      "actual_before_and_after_binding_verified": true,
+      "old_backend_OP_imported": false,
+      "full_state_restore_equivalence_claim": false
+    }
+  },
+  "ten_cycle_periodicity_claim": false,
+  "production_recovery_allowed": false,
+  "outer_solve_eligible": false,
+  "input_sha256": {
+    "manifest": "31C00A8150A0F02DC7CA25D18FE6D312E25F5AE5E634E1C346BC88E8CE372F7A",
+    "mechanism_review": ""
+  }
+}

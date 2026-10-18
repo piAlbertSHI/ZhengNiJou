@@ -1,0 +1,23 @@
+{
+  "schema": "heatdrive_ecc_obsolete_stage4_arm_retirement_v1",
+  "plan_sha256": "C501E346B75BE77095E40E6FFB1E344C570887086A9FC3409FC083958F8B353B",
+  "deleted_files": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\observations.mat",
+      "bytes": 905885198,
+      "sha256": "3C97A3E8A11DD9AC3C9FBF7702ABD2247837231C47E75BA3B53CB558524CB78B"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\observations.mat",
+      "bytes": 903192147,
+      "sha256": "D96D2790B981A2C51F284B943DC379A33A625A52A906173B3BF0DB431094CBD2"
+    }
+  ],
+  "deleted_bytes": 1809077345.0,
+  "protected_files_rehashed": 125,
+  "native_raw_retained": true,
+  "both_arm_compact_diagnostics_retained": true,
+  "recursive_delete_used": false,
+  "full_historical_dual_arm_raw_reverification_available": false,
+  "current_OP_or_physical_gate_changed": false
+}
