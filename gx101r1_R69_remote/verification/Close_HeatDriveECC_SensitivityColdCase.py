@@ -121,7 +121,7 @@ def close(experiment, output):
         protected_packet_inputs=protected,raw_copied_bytes=0,raw_deleted_bytes=0,cache_deleted_bytes=0,
         compact_copied_bytes=sum(c['bytes'] for c in copies),
         retained_single_execution_bytes=sum(c['bytes'] for c in inventory),
-        classification='current nominal cold control, keep raw until compatible same-case continuation is qualified')
+        classification=f'current independent cold sensitivity case {r["case_index"]}, keep raw until compatible same-case continuation is qualified')
     write(output/'storage_receipt.json',receipt)
     return dict(completed_cycles=20,public_periodic=check['periodic_steady_state'],
                 target_precision_pass=target['precision_pass'],summary_sha256=sha256(output/'case_closeout.json'),

@@ -152,6 +152,10 @@ def audit(root, review_path=None):
     sensitivity = manifest.get('packet_role') in ('runtime_sensitivity_cold','runtime_sensitivity_transient','runtime_sensitivity_continuation','runtime_sensitivity_split_comparison')
     if sensitivity:
         required.add('native/sensitivity_case_contract.json')
+    if 'constitutive_backend_sha256' in manifest:
+        required.add('execution_backend.json')
+        if sha256(root/'execution_backend.json') != manifest['constitutive_backend_sha256']:
+            raise ValueError('Changed actual backend evidence')
     if len(entries) != len(required) or {row['path'] for row in entries} != required:
         raise ValueError('Missing or duplicate packet evidence role')
     for entry in entries:

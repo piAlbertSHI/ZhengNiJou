@@ -9,6 +9,9 @@ function record=Test_HeatDriveECC_SensitivityContinuationSource(closeout,parent,
         'source_contract_path',parent,'candidate_qualification_path',qualification,'python_executable',python, ...
         'source_closeout_path',closeout,'resume_collection',false,'collection_stop_s',400, ...
         'collection_root',fullfile(fileparts(fileparts(mfilename('fullpath'))),'outputs','__source_contract_test_not_created'));
+    if isfield(source.case_contract,'execution_backend')
+        request.kernel_admission_path=source.case_contract.execution_backend.admission_path;
+    end
     [~,c]=Apply_HeatDriveECC_RuntimeSensitivity(data.plant_build_options,request);
     assert(isequaln([c.parameters{:}],source.case_contract.parameters(:).'));
     for k=1:numel(c.parameters)

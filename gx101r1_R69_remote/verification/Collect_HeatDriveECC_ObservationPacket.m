@@ -24,6 +24,7 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
     end
     write_json(fullfile(destination,'simulation_start.json'),struct('window_s',[a b], ...
         'parent_snapshot_s',source_snapshot,'independent_cold_start',cold,'simulation_returned_without_error',false));
+    backend_before=Snapshot_HeatDriveECC_ConstitutiveBackend(model,options);
     simulation_clock=tic;
     if cold
         output=sim(input.setModelParameter('StopTime',num2str(b,'%.17g')));
@@ -57,6 +58,9 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
     provenance=struct('checkpoint_restart_used',~cold,'checkpoint_chain_verified',~cold,'sim_call_count',1, ...
         'solver',options.simulation.solver,'fixed_step_s',options.simulation.fixed_step_s, ...
         'simulation_mode',options.simulation.mode);
+    backend_after=Snapshot_HeatDriveECC_ConstitutiveBackend(model,options);
+    write_json(fullfile(destination,'execution_backend.json'),struct('before',backend_before,'after',backend_after, ...
+        'window_s',[a b],'simulation_settings_changed',false,'source_state_edited',false));
     timing_path=fullfile(destination,'simulation_timing.json');
     timing=struct('schema','heatdrive_ecc_packet_simulation_timing_v1','window_s',[a b], ...
         'sim_call_wall_s',simulation_wall_s,'metadata_available',false, ...
@@ -90,6 +94,7 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
         'packet_role',role,'parent_complete_OP_sha256',parent_hash);
     manifest.independent_cold_start=cold;
     manifest.simulation_timing_sha256=file_hash(timing_path);
+    manifest.constitutive_backend_sha256=file_hash(fullfile(destination,'execution_backend.json'));
     manifest.temperature_configurability=options.system.cold_boundary_temperature_configurability;
     manifest.prescribed_Tc_K=options.system.Tchex_K;manifest.command_horizon_cycles=options.cycle_count;
     if horizon
@@ -103,7 +108,7 @@ function result=Collect_HeatDriveECC_ObservationPacket(input,initial,a,b,destina
             manifest.continuation=trial.continuation;manifest.boundary_trial=rmfield(trial,'continuation');
         end
     end
-    paths={'native/observations.mat','native/configuration.mat','native/inventory_metadata.json', ...
+    paths={'execution_backend.json','native/observations.mat','native/configuration.mat','native/inventory_metadata.json', ...
         'native/tl_connectivity.json','native/thermal_connectivity.json', ...
         'native/buffer_replacement_contract.json','mechanism.json','observed_states.mat'};
     if sensitivity

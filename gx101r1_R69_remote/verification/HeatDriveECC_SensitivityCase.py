@@ -7,6 +7,7 @@ import h5py
 import numpy as np
 
 from Audit_HeatDriveECC_SegmentedEvidence import sha256, text_field
+from HeatDriveECC_KernelBackend import audit_execution
 
 
 LEVELS = np.array([[-1,-1,-1,-1,-1,-1],[-1,-1,-1,1,1,1],[-1,1,1,-1,-1,1],[-1,1,1,1,1,-1],
@@ -74,5 +75,7 @@ def audit_case(packet):
         permitted = {text_field(b[r]) for r in b['options/simulation/checkpoint_transition_fields'][:].reshape(-1)}
         if declared != set(FIELD_FACTORS) or permitted != declared:
             raise ValueError('Sensitivity declarations do not match the original mechanism contract')
+        backend = audit_execution(packet,c,b)
     return dict(case_index=c['design']['run_index'], independently_checked_parameter_fields=len(rows),
-                all_declared_parameters_match=True, steady_sensitivity_response_qualified=False)
+                all_declared_parameters_match=True, steady_sensitivity_response_qualified=False,
+                implementation_backend_review=backend)

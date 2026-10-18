@@ -19,6 +19,9 @@ function [op,manifest]=Load_HeatDriveECC_GatedObservationPacket(packet,require_b
             'Sensitivity states require the exact same case; they are not old-family or mainline authority.');
     end
     gate=jsondecode(fileread(fullfile(packet,'packet_gate.json')));
+    if isfield(manifest,'constitutive_backend_sha256')
+        assert(strcmp(file_hash(fullfile(packet,'execution_backend.json')),manifest.constitutive_backend_sha256));
+    end
     if isfield(manifest,'simulation_timing_sha256')
         assert(strcmp(file_hash(fullfile(packet,'simulation_timing.json')),manifest.simulation_timing_sha256));
     end

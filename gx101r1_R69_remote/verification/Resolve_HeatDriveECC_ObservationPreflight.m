@@ -8,6 +8,11 @@ function options=Resolve_HeatDriveECC_ObservationPreflight(options,state,cycles,
         kernel_comparison=strcmp(options.mode,'runtime_sensitivity_kernel_cold_comparison');
         if continuation,required=[required;{'source_closeout_path';'collection_root';'resume_collection';'collection_stop_s'}];end
         if kernel_comparison,required=[required;{'source_closeout_path';'kernel_qualification_path'}];end
+        kernel_admission=isfield(options,'kernel_admission_path');
+        if kernel_admission
+            assert(~kernel_comparison);required=[required;{'kernel_admission_path'}];
+            Read_HeatDriveECC_KernelColdAdmission(options.kernel_admission_path);
+        end
         assert(isequal(sort(fieldnames(options)),sort(required)) && strcmp(state.mode,'capture') && ...
             state.command_horizon_cycles==200 && cycles==20 && duration==200 && strcmp(arm,'native') && endpoint_all && isempty(fieldnames(factors)));
         validateattributes(options.case_index,{'numeric'},{'scalar','finite','integer','>=',0,'<=',8});
@@ -28,6 +33,11 @@ function options=Resolve_HeatDriveECC_ObservationPreflight(options,state,cycles,
             collection=char(java.io.File(options.collection_root).getCanonicalPath());
             prefix=[char(java.io.File(fullfile(repo,'outputs')).getCanonicalPath()) filesep];
             assert(startsWith(collection,prefix) && ~strcmp(collection,source.root));
+            assert(isfield(source.case_contract,'execution_backend')==kernel_admission, ...
+                'Do not switch backend while loading an existing complete state.');
+            if kernel_admission
+                assert(strcmp(source.case_contract.execution_backend.admission_path,options.kernel_admission_path));
+            end
         end
         for key={'python_executable','source_contract_path','candidate_qualification_path'},assert(isfile(options.(key{1})));end
         q=jsondecode(fileread(options.candidate_qualification_path));

@@ -541,6 +541,14 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                 use_endpoint_arm;
             if independent_sensitivity
                 [overrides,factor_contract]=Apply_HeatDriveECC_RuntimeSensitivity(overrides,observation_options);
+                if isfield(observation_options,'kernel_admission_path')
+                    backend=Read_HeatDriveECC_KernelColdAdmission(observation_options.kernel_admission_path);
+                    assert(strcmp(constitutive_options.diagnostic_step_function,backend.wrapper_name));
+                    factor_contract.execution_backend=struct('function',backend.wrapper_name, ...
+                        'kernel_sha256',backend.kernel_sha256,'wrapper_sha256',backend.wrapper_sha256, ...
+                        'admission_path',observation_options.kernel_admission_path, ...
+                        'admission_sha256',file_hash(observation_options.kernel_admission_path),'old_backend_OP_imported',false);
+                end
                 if sensitivity_continuation
                     source=Read_HeatDriveECC_SensitivityColdSource(observation_options.source_closeout_path,observation_options.case_index);
                     original=source.case_contract;
@@ -548,6 +556,9 @@ function record = Run_HeatDriveECC_ColdChamberDiagnostic(repo, output_root, dura
                         'Declared factors changed since the actual cold case.');
                     assert(strcmp(original.parameter_source_configuration_sha256,record.sensitivity_parameter_source.configuration_sha256) && ...
                         strcmp(original.source_qualification_sha256,file_hash(observation_options.candidate_qualification_path)));
+                    if isfield(original,'execution_backend')
+                        assert(isequaln(original.execution_backend,factor_contract.execution_backend));
+                    end
                     initial_observation_path=source.fresh_native_path;
                     initial_observation_root=fileparts(fileparts(initial_observation_path));
                     copyfile(source.case_contract_path,fullfile(arm,'sensitivity_case_contract.json'));

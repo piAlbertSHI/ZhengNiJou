@@ -1,0 +1,28 @@
+{
+  "schema": "heatdrive_ecc_runtime_L8_case_experiment_v1",
+  "date": "2026-10-18",
+  "case_index": 2,
+  "levels": [-1, -1, -1, 1, 1, 1],
+  "multipliers": {
+    "UA": 0.95,
+    "endpoint_capacity": 0.95,
+    "SE_buffer_volume": 0.90,
+    "SMA_manifold_inventory": 1.10,
+    "SE_nominal_and_two_active_route_flows": 1.03,
+    "paired_latent_heat_entropy": 1.05
+  },
+  "fixed_Tc_K": 276.95,
+  "stage": "independent_candidate_cold_20cycle_predeclared_not_yet_executed",
+  "kernel_admission_relative": "verification/constitutive_kernel_cold_admission_20261018.json",
+  "fresh_cold_root_relative": "outputs/v70case2",
+  "backend": "HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate",
+  "old_backend_OP_import_allowed": false,
+  "factor_ranges_changed": false,
+  "completed_cycles": 0,
+  "common_later_windows_s": [[400, 500], [500, 600]],
+  "same_case_split_test_required_before_long_continuation": true,
+  "full_L8_effects_evaluated": false,
+  "production_recovery_allowed": false,
+  "table4_reproduction_claim": false,
+  "full_objective_complete": false
+}

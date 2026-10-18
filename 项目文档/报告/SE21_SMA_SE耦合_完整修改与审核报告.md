@@ -7597,3 +7597,17 @@ kernel_cold_closeout.json SHA=DD7E97F555CBF31E897C8C430EB3E9638C9B1F4D9C239AD2C9
 最终完整1046项Python回归通过，新增缺少双工况不得封存、候选源SHA变化不得复制等反例。当前状态指针current_constitutive_kernel_candidate.json分别锁定profile、离线比较和两冷态耦合封存SHA，明确没有新增合格L8响应、没有whole-pipeline倍数结论、没有候选长链恢复权威。未启用watchdog、定时器或新heartbeat；三个真实前台MATLAB程序均单次启动并读取自然退出，登录阻塞保留原PID等待用户操作，不以空日志或工具让出会话为理由重启。
 
 最终治理快照workspace_governance_20261018_v69基于主提交86e2da8（执行镜像a6a73ad）生成，主工作区outputs/audit范围926目录、17,314,017,217 bytes（16.124935 GiB），不含执行worktree/Agent6，不能冒充全项目磁盘总量。C200/C180四份权威实文件SHA全部一致；本轮原StableDiagnostic、本构CompatibilityStep、Builder、Interface及稳定积分源相对83e9b14没有改动。82份本轮profile/离线/耦合封存Git blob逐份与磁盘原字节一致。主树仍仅未解释SLX和Agent6隔离项，执行树干净；本轮没有尚需等待的进程或未读取退出码的程序。完整第8节目标保持active，下一轮从上述候选执行资格与原第2行任务继续，不重复已完成C60链。
+
+## 312 候选独立冷态准入、真实后端记录与L8第2行完整20周期声明（2026-10-18）
+
+上一轮完成真实耦合等价证据，本轮保持完整目标。启动前无MATLAB进程，C盘可用29,208,203,264 bytes。新增版本化cold_admission合同绑定原200真实/180边界帧及两冷态工况封存SHA、候选内核和单输入wrapper源码SHA，仅允许独立冷态20-cycle；旧后端OP导入、production recovery、outer和Table4仍禁止，进入长期C60前仍必须同case完整OP/split测试。没有修改原本构、Builder或Interface数值源。
+
+入口显式可选kernel_admission_path，原调用省略时仍用原后端；新case合同保存执行函数、实现SHA及准入路径/SHA。续行只能继承其原case记录的同一后端，旧原后端case若带候选准入将被拒绝，不能假借“参数未变”切换函数并加载旧OP。主C200、名义C60及第1行C60均保持原样。
+
+每包增加只读运行记录：实际ECC_Constitutive21_VectorStep的MATLABFcn、源码SHA、同类型解释块清单，以及实际base中材料/几何/本构/阶段参数与声明值是否一致，仿真前后均记录。候选必须实际函数和参数匹配；Python独立核对真实HDF5构造、case合同、准入与运行记录，元数据SHA进入原manifest输入集合。旧无候选合同案例不新增物理判据。没有以静态options代替实际块/工作区证据，也未把这些身份核对当成新的流量/相变阈值。
+
+首次回归发现元数据写入侵入了受保护的原始提取代码段，两个原字节回归正确拒绝；已将只读记录移到该段之外，保留原测试断言及原提取/能量/物理门禁，不通过修改测试来豁免。修正后1050项Python回归通过，真实准入解析亦通过。MATLAB将先用私有、未保存的单块fixture验证实际函数/参数快照与非法反例，不运行该fixture的物理仿真、不将它当作主模型或恢复结果。
+
+原L8第2行仍为[-1,-1,-1,+1,+1,+1]：UA0.95、三端点热容0.95、SE buffer0.90、SMA manifold1.10、SE名义/两路线流量1.03、配对潜热/熵1.05。Tc276.95 K、normal/ode3、0.001 s、32子步、PI和原门禁不改；outputs/v70case2全新独立冷态，先自身native探针与204坐标，再每两周期验收至20-cycle。未执行的预算不计作结果；失败保留本行并诊断，不缩小范围或复用原后端完整状态。20周期通过后再封存，以同case候选C20 OP做连续/磁盘拆分比较，并推进共同400至500/500至600 s窗。
+
+后续封存分类去掉写死nominal字样，按实际case_index写入独立因子案例；不覆盖旧收据原字节。完整第8节的剩余七行、C200误差桥接、两合法端点、paired Table4及最终图谱/论文仍未完成，不将候选准入当作完整目标或整机加速已经证明。
