@@ -22,6 +22,9 @@ ROOT = "heatdrive_ecc_coupled_se21/"
 # Pressure-probe instrumentation is observational; later report-only commits
 # preserve the exact runner and probe contract.
 PRODUCERS = {
+    # 6dedddd only canonicalizes Windows worktree paths; pressure probes and
+    # their evidence contract are unchanged.
+    "6dedddd03a50c9dccd553369d2cbf3f7b68450e3",
     # Pressure probes are unchanged in this exact bounded bias experiment.
     "2c9cbe8f887cd5012440e2c1c451f4b09408bf8c",
     "15e444ac60014a763837a67c46f17ede933d49b9",
