@@ -46,6 +46,9 @@ CONTROL_VOLUME_SEED_PRODUCER = 'c7e028d8a02b694f7b1e021acf6d0e880e2ece8d'
 CALIBRATION_MIRROR_PRODUCERS = {
     '2c9cbe8f887cd5012440e2c1c451f4b09408bf8c',
     CONTROL_VOLUME_SEED_PRODUCER,
+    # 6dedddd only canonicalizes Windows worktree paths; the mirrored
+    # calibration artifact remains hash-bound to the canonical evidence.
+    '6dedddd03a50c9dccd553369d2cbf3f7b68450e3',
     '3cda3aab3a6bcee45f67e69403a5bf57e0aef882',
     # These commits preserve the exact initial-flux contract and may run in
     # isolated worktrees where the hash-bound calibration is mirrored.
@@ -137,6 +140,10 @@ ZERO_BASED_OFFSET_PRODUCERS = {
     '4c9036c',
     '36a1dcc',
     '36a1dccf485d2bcb909a5cea0e31dd2d11ab6461',
+    # 6dedddd only canonicalizes Windows worktree paths before comparing the
+    # compiled source contract; the physical model and cold-start evidence
+    # contract remain unchanged.
+    '6dedddd03a50c9dccd553369d2cbf3f7b68450e3',
 }
 ENDPOINT_CHAMBER_PRODUCERS = {
     '2c9cbe8f887cd5012440e2c1c451f4b09408bf8c',

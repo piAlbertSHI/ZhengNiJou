@@ -282,18 +282,27 @@ def audit(root, flow_audit_path):
         and [case.get("arm") for case in execution.get("cases", [])] == ["native", "conservative"]
     )
     arms = [audit_arm(root, arm, start, stop) for arm in ("native", "conservative")]
-    flow_gate = bool(
+    common_flow_gate = bool(
         flow_audit.get("evidence_audit_pass") is True
         and flow_audit.get("declared_window_numerical_gates_pass") is True
         and flow_audit.get("local_inventory_conservation_pass") is True
         and flow_audit.get("strict_initial_coordinate_match") is True
         and flow_audit.get("production_recovery_allowed") is False
-        and len(flow_audit.get("arms", [])) == 2
         and all(check.get("passed") for check in flow_audit.get("source_storage_port_checks", []))
-        and all(flow.get("selected_flow_gate")
-                for arm in flow_audit.get("arms", [])
-                for flow in arm.get("selected_flow_gates", []))
     )
+    if "arms" in flow_audit:
+        flow_gate = bool(
+            common_flow_gate
+            and len(flow_audit.get("arms", [])) == 2
+            and all(flow.get("selected_flow_gate")
+                    for arm in flow_audit.get("arms", [])
+                    for flow in arm.get("selected_flow_gates", []))
+        )
+    else:
+        # The current independent cold runner emits one contract-level
+        # numerical gate instead of the legacy per-arm selected-flow rows.
+        flow_gate = bool(common_flow_gate
+                         and flow_audit.get("cold_smoke_numerical_gates_pass") is True)
     mechanism_complete = bool(execution.get("periodic_steady_state")
                               and all(case.get("mechanism_pass") for case in execution.get("cases", [])))
     return {
