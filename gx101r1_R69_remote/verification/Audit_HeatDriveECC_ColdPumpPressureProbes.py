@@ -264,6 +264,43 @@ def audit_arm(root, arm, start, stop):
     }
 
 
+def flow_inventory_gate(flow_audit, execution):
+    start = float(execution.get("simscape_log_window_start_s", 0))
+    stop = float(execution.get("stop_time_s", 0))
+    checks = flow_audit.get("source_storage_port_checks", [])
+    common = bool(
+        flow_audit.get("schema") == "heatdrive_ecc_cold_buffer_coupled_audit_v2"
+        and flow_audit.get("execution_commit") == execution.get("execution_commit")
+        and flow_audit.get("logged_window_start_s") == start
+        and flow_audit.get("logged_window_stop_s") == stop
+        and flow_audit.get("evidence_audit_pass") is True
+        and flow_audit.get("declared_window_numerical_gates_pass") is True
+        and flow_audit.get("local_inventory_conservation_pass") is True
+        and flow_audit.get("strict_initial_coordinate_match") is True
+        and flow_audit.get("production_recovery_allowed") is False
+        and len(checks) == 2
+        and {check.get("arm") for check in checks} == {"native", "conservative"}
+        and all(check.get("passed") is True for check in checks)
+    )
+    if "arms" not in flow_audit:
+        # A short onset probe does not evaluate the six full-cycle routes.
+        return bool(common and 0 < stop < 10 and start == 0
+                    and flow_audit.get("full_cycle_completed") is False
+                    and flow_audit.get("specific_inventory_onset_probe") is True
+                    and flow_audit.get("cold_smoke_numerical_gates_pass") is True)
+    arms = flow_audit["arms"]
+    expected = {("SMA", stage) for stage in (1, 2, 3, 4)} | {("SE", 2), ("SE", 4)}
+    return bool(common and flow_audit.get("full_cycle_completed") is True
+                and len(arms) == 2
+                and {arm.get("arm") for arm in arms} == {"native", "conservative"}
+                and all(len(arm.get("selected_flow_gates", [])) == 6
+                        and {(row.get("component"), row.get("stage"))
+                             for row in arm["selected_flow_gates"]} == expected
+                        and all(row.get("selected_flow_gate") is True
+                                for row in arm["selected_flow_gates"])
+                        for arm in arms))
+
+
 def audit(root, flow_audit_path):
     execution = read(root / "cold_chamber_execution.json")
     flow_audit = read(flow_audit_path)
@@ -285,27 +322,7 @@ def audit(root, flow_audit_path):
         and [case.get("arm") for case in execution.get("cases", [])] == ["native", "conservative"]
     )
     arms = [audit_arm(root, arm, start, stop) for arm in ("native", "conservative")]
-    common_flow_gate = bool(
-        flow_audit.get("evidence_audit_pass") is True
-        and flow_audit.get("declared_window_numerical_gates_pass") is True
-        and flow_audit.get("local_inventory_conservation_pass") is True
-        and flow_audit.get("strict_initial_coordinate_match") is True
-        and flow_audit.get("production_recovery_allowed") is False
-        and all(check.get("passed") for check in flow_audit.get("source_storage_port_checks", []))
-    )
-    if "arms" in flow_audit:
-        flow_gate = bool(
-            common_flow_gate
-            and len(flow_audit.get("arms", [])) == 2
-            and all(flow.get("selected_flow_gate")
-                    for arm in flow_audit.get("arms", [])
-                    for flow in arm.get("selected_flow_gates", []))
-        )
-    else:
-        # The current independent cold runner emits one contract-level
-        # numerical gate instead of the legacy per-arm selected-flow rows.
-        flow_gate = bool(common_flow_gate
-                         and flow_audit.get("cold_smoke_numerical_gates_pass") is True)
+    flow_gate = flow_inventory_gate(flow_audit, execution)
     mechanism_complete = bool(execution.get("periodic_steady_state")
                               and all(case.get("mechanism_pass") for case in execution.get("cases", [])))
     return {
