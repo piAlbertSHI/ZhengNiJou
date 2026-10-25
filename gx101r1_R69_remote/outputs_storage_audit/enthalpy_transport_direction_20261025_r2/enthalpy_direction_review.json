@@ -1,0 +1,745 @@
+{
+  "schema": "heatdrive_ecc_enthalpy_direction_review_v1",
+  "analysis_source_sha256": "7925815EC60A105E5BFB69A73C190454E402AFAF290F566FD6CCCBAA9BD4B3C4",
+  "packets": {
+    "fixed_BS3": {
+      "execution_path": "C:\\tmp\\se21_enthalpy_transport_smoke_r1_20261025\\enthalpy_execution.json",
+      "execution_sha256": "A4942AEECB9D331EE49EE7E444E9013752AF091728093B101494FB29FDF9D8B8",
+      "saved_profile_checks": [
+        {
+          "material": "SMA",
+          "coordinate": 0.001,
+          "file": "SMA_n21_dt0.001_smoke.npz",
+          "sha256": "B79A86FB87EF063441665590EBA717754557F38D5433178D4D3B3EBF64988A1E",
+          "bytes": 4271,
+          "checks": {
+            "saved_mass_residual_kg": 8.109493437012671e-18,
+            "saved_energy_residual_J": 3.410605131648481e-13,
+            "EOS_mass_alias_error_kg": 2.168404344971009e-19,
+            "EOS_energy_alias_error_J": 5.115907697472721e-13,
+            "solid_energy_alias_error_J": 9.237055564881302e-14,
+            "saved_pressure_deviation_Pa": 379318.64904641616,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SMA",
+          "coordinate": 0.0005,
+          "file": "SMA_n21_dt0.0005_smoke.npz",
+          "sha256": "3A4351222327E6EC0D696516B4CE9451C32FAE95CDA651F2E61F70FE063A6D00",
+          "bytes": 4179,
+          "checks": {
+            "saved_mass_residual_kg": 9.729020432162894e-18,
+            "saved_energy_residual_J": 2.2737367544323206e-13,
+            "EOS_mass_alias_error_kg": 2.168404344971009e-19,
+            "EOS_energy_alias_error_J": 8.526512829121202e-14,
+            "solid_energy_alias_error_J": 8.992806499463768e-14,
+            "saved_pressure_deviation_Pa": 52357.49377392605,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SMA",
+          "coordinate": 0.00025,
+          "file": "SMA_n21_dt0.00025_smoke.npz",
+          "sha256": "0AEBD95092A6395BB7E90C131D0A401DE518683E6A6B672BE61A83A0106E1A97",
+          "bytes": 4409,
+          "checks": {
+            "saved_mass_residual_kg": 1.4047194397265317e-17,
+            "saved_energy_residual_J": 2.2737367544323206e-13,
+            "EOS_mass_alias_error_kg": 1.0842021724855044e-19,
+            "EOS_energy_alias_error_J": 1.4210854715202004e-13,
+            "solid_energy_alias_error_J": 8.777748093076909e-14,
+            "saved_pressure_deviation_Pa": 72818.95124617068,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SE",
+          "coordinate": 0.001,
+          "file": "SE_n21_dt0.001_smoke.npz",
+          "sha256": "9CDAF6A65F8054D16A57E31E9E3C054FD126D85E76D2D7FCDED3DE07FA1DF3BC",
+          "bytes": 3365,
+          "checks": {
+            "saved_mass_residual_kg": 4.2976334161315063e-19,
+            "saved_energy_residual_J": 8.881784197001252e-15,
+            "EOS_mass_alias_error_kg": 2.710505431213761e-20,
+            "EOS_energy_alias_error_J": 1.7555191989997582e-14,
+            "solid_energy_alias_error_J": 2.7918278936054894e-14,
+            "saved_pressure_deviation_Pa": 31401.858278733096,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SE",
+          "coordinate": 0.0005,
+          "file": "SE_n21_dt0.0005_smoke.npz",
+          "sha256": "3627E36238073CDA7CB13E3C2394837A50AB0D749F5A6377962ACE9CA4F5A2C5",
+          "bytes": 3459,
+          "checks": {
+            "saved_mass_residual_kg": 2.0942889620862576e-19,
+            "saved_energy_residual_J": 5.329070518200751e-15,
+            "EOS_mass_alias_error_kg": 2.710505431213761e-20,
+            "EOS_energy_alias_error_J": 1.7569279364693102e-14,
+            "solid_energy_alias_error_J": 2.8119860769320465e-14,
+            "saved_pressure_deviation_Pa": 15700.705243936623,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SE",
+          "coordinate": 0.00025,
+          "file": "SE_n21_dt0.00025_smoke.npz",
+          "sha256": "C834CBC173954067ABE755413168E846E0EA7A4272F05159A28ED2C9D849A91E",
+          "bytes": 3532,
+          "checks": {
+            "saved_mass_residual_kg": 3.815883427380623e-19,
+            "saved_energy_residual_J": 7.105427357601002e-15,
+            "EOS_mass_alias_error_kg": 8.131516293641283e-20,
+            "EOS_energy_alias_error_J": 5.027089855502709e-13,
+            "solid_energy_alias_error_J": 2.8047833852046288e-14,
+            "saved_pressure_deviation_Pa": 3675.2332051669946,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        }
+      ],
+      "all_saved_inventory_EOS_checks_pass": true
+    },
+    "adaptive_DOP853": {
+      "execution_path": "C:\\tmp\\se21_enthalpy_reference_smoke_r3_20261025\\enthalpy_reference_execution.json",
+      "execution_sha256": "B1E229B4384258C0CF384ED4B4E05CFDD5ECC3AD95A83AB1E4EB6DD41C68E8DF",
+      "saved_profile_checks": [
+        {
+          "material": "SMA",
+          "coordinate": 1e-10,
+          "file": "SMA_n21_rtol1e-10_smoke.npz",
+          "sha256": "01C49E72292E00C9F723538E81B9529356AD93F0DD3DA7227D74533F4BEF0ACC",
+          "bytes": 5032,
+          "checks": {
+            "saved_mass_residual_kg": 3.2051726724102725e-18,
+            "saved_energy_residual_J": 1.1368683772161603e-12,
+            "EOS_mass_alias_error_kg": 7.914675859144182e-18,
+            "EOS_energy_alias_error_J": 1.543928403245606e-13,
+            "solid_energy_alias_error_J": 8.881784197001252e-14,
+            "saved_pressure_deviation_Pa": 10.472350339754485,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SMA",
+          "coordinate": 1e-11,
+          "file": "SMA_n21_rtol1e-11_smoke.npz",
+          "sha256": "87C1466F59658C681106A5C5F0CB1684A8A25479C54AE09590151F40E04154CD",
+          "bytes": 5013,
+          "checks": {
+            "saved_mass_residual_kg": 6.993104012531504e-18,
+            "saved_energy_residual_J": 1.5916157281026244e-12,
+            "EOS_mass_alias_error_kg": 7.914675859144182e-18,
+            "EOS_energy_alias_error_J": 1.9895196601282805e-13,
+            "solid_energy_alias_error_J": 8.881784197001252e-14,
+            "saved_pressure_deviation_Pa": 1.7039257840951905,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SE",
+          "coordinate": 1e-10,
+          "file": "SE_n21_rtol1e-10_smoke.npz",
+          "sha256": "E1F1F09A5B297794EF8005C5EB728EC5B47348A950DD969E2EC14CCD61375CDF",
+          "bytes": 4502,
+          "checks": {
+            "saved_mass_residual_kg": 9.18924868652509e-19,
+            "saved_energy_residual_J": 8.881784197001252e-15,
+            "EOS_mass_alias_error_kg": 4.9060148304969076e-18,
+            "EOS_energy_alias_error_J": 1.8207657603852567e-14,
+            "solid_energy_alias_error_J": 2.764591766739855e-14,
+            "saved_pressure_deviation_Pa": 0.3476876736385748,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SE",
+          "coordinate": 1e-11,
+          "file": "SE_n21_rtol1e-11_smoke.npz",
+          "sha256": "4CB561641D5A0470AEF6A5BD377ABA48A871B560AD7D4AA270F034FC2CE9B347",
+          "bytes": 4464,
+          "checks": {
+            "saved_mass_residual_kg": 2.556980709523919e-19,
+            "saved_energy_residual_J": 1.2434497875801753e-14,
+            "EOS_mass_alias_error_kg": 4.933119884809045e-18,
+            "EOS_energy_alias_error_J": 1.6105968717985616e-14,
+            "solid_energy_alias_error_J": 2.8117491906025848e-14,
+            "saved_pressure_deviation_Pa": 0.010102023603394628,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        }
+      ],
+      "all_saved_inventory_EOS_checks_pass": true
+    },
+    "constrained_smoke": {
+      "execution_path": "C:\\tmp\\se21_constrained_enthalpy_smoke_r4_20261025\\constrained_execution.json",
+      "execution_sha256": "3173279716E4068DD302D0972881F3CFB0064DF662A97093651FBE9DEBE38403",
+      "saved_profile_checks": [
+        {
+          "material": "SMA",
+          "coordinate": 0.001,
+          "file": "SMA_n21_dt0.001_smoke.npz",
+          "sha256": "6DE6C5A77850C20A7A4A4BB32E5F0D2C3EAB3F1B7CA2989E725BA8852463D73C",
+          "bytes": 3336,
+          "checks": {
+            "saved_mass_residual_kg": 1.853308088592409e-18,
+            "saved_energy_residual_J": 1.233502189279534e-11,
+            "EOS_mass_alias_error_kg": 8.023096076392733e-18,
+            "EOS_energy_alias_error_J": 1.9895196601282805e-13,
+            "solid_energy_alias_error_J": 0.0,
+            "saved_pressure_deviation_Pa": 2.805644180625677e-05,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SMA",
+          "coordinate": 0.0005,
+          "file": "SMA_n21_dt0.0005_smoke.npz",
+          "sha256": "250206D2AB23E2D6DE7FF1ACB75878389EC68AEFF304A167FFB002474CB13D85",
+          "bytes": 3183,
+          "checks": {
+            "saved_mass_residual_kg": 1.6263032587282567e-18,
+            "saved_energy_residual_J": 9.094947017729282e-12,
+            "EOS_mass_alias_error_kg": 7.914675859144182e-18,
+            "EOS_energy_alias_error_J": 1.9895196601282805e-13,
+            "solid_energy_alias_error_J": 0.0,
+            "saved_pressure_deviation_Pa": 2.8385082259774208e-05,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SMA",
+          "coordinate": 0.00025,
+          "file": "SMA_n21_dt0.00025_smoke.npz",
+          "sha256": "20D90A7ECAA55EB862731F32A725D1D249ED47F217873DBED58378342A2245BE",
+          "bytes": 2930,
+          "checks": {
+            "saved_mass_residual_kg": 1.4094628242311558e-18,
+            "saved_energy_residual_J": 1.6825651982799172e-11,
+            "EOS_mass_alias_error_kg": 7.914675859144182e-18,
+            "EOS_energy_alias_error_J": 1.9895196601282805e-13,
+            "solid_energy_alias_error_J": 0.0,
+            "saved_pressure_deviation_Pa": 2.852058969438076e-05,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SE",
+          "coordinate": 0.001,
+          "file": "SE_n21_dt0.001_smoke.npz",
+          "sha256": "31D825BBED5C043401A2A26B769C4AA1C01C3093FEF60A4071522D0D9CD58D36",
+          "bytes": 2379,
+          "checks": {
+            "saved_mass_residual_kg": 1.895236219481497e-19,
+            "saved_energy_residual_J": 2.6911806116913795e-13,
+            "EOS_mass_alias_error_kg": 4.851804721872632e-18,
+            "EOS_energy_alias_error_J": 2.7533531010703882e-14,
+            "solid_energy_alias_error_J": 0.0,
+            "saved_pressure_deviation_Pa": 7.288297638297081e-05,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SE",
+          "coordinate": 0.0005,
+          "file": "SE_n21_dt0.0005_smoke.npz",
+          "sha256": "BF99CBA6DA09FDA92014BDAB8B1B701AD78E9186034A019789495062242D3F6A",
+          "bytes": 2317,
+          "checks": {
+            "saved_mass_residual_kg": 1.8973538018496328e-19,
+            "saved_energy_residual_J": 5.329070518200751e-13,
+            "EOS_mass_alias_error_kg": 4.9060148304969076e-18,
+            "EOS_energy_alias_error_J": 2.348284327408079e-14,
+            "solid_energy_alias_error_J": 0.0,
+            "saved_pressure_deviation_Pa": 7.391429971903563e-05,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SE",
+          "coordinate": 0.00025,
+          "file": "SE_n21_dt0.00025_smoke.npz",
+          "sha256": "CB77D8A9155F924A5D25871D5A91B0FFC4081AB0B2A1417FF914FEA83711DFA8",
+          "bytes": 2292,
+          "checks": {
+            "saved_mass_residual_kg": 1.8973538018496328e-19,
+            "saved_energy_residual_J": 8.22453216642316e-13,
+            "EOS_mass_alias_error_kg": 4.9060148304969076e-18,
+            "EOS_energy_alias_error_J": 2.3482829506486674e-14,
+            "solid_energy_alias_error_J": 0.0,
+            "saved_pressure_deviation_Pa": 7.367623038589954e-05,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        }
+      ],
+      "all_saved_inventory_EOS_checks_pass": true
+    },
+    "constrained_10s": {
+      "execution_path": "C:\\tmp\\se21_constrained_enthalpy_active10_r2_20261025\\constrained_execution.json",
+      "execution_sha256": "9CF5548314595AD5E58CA036BF47AE414F63C89CA42638EE4F1819F16CA12BB5",
+      "saved_profile_checks": [
+        {
+          "material": "SMA",
+          "coordinate": 0.001,
+          "file": "SMA_n21_dt0.001_active_10s.npz",
+          "sha256": "FBCD5FF5811CF858106B706B5A91208926D00F2FE96FCD1780E6EAA5B5D80243",
+          "bytes": 10127,
+          "checks": {
+            "saved_mass_residual_kg": 6.5052130349130266e-18,
+            "saved_energy_residual_J": 1.3210410543251783e-10,
+            "EOS_mass_alias_error_kg": 7.914675859144182e-18,
+            "EOS_energy_alias_error_J": 1.9895196601282805e-13,
+            "solid_energy_alias_error_J": 0.0,
+            "saved_pressure_deviation_Pa": 2.8530950658023357e-05,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SMA",
+          "coordinate": 0.0005,
+          "file": "SMA_n21_dt0.0005_active_10s.npz",
+          "sha256": "E957DB443BC4041C988DFFC9650F9569D02F4ED7DA038BFE464D19252AF2210B",
+          "bytes": 10010,
+          "checks": {
+            "saved_mass_residual_kg": 5.854691731421724e-18,
+            "saved_energy_residual_J": 2.1827872842550278e-10,
+            "EOS_mass_alias_error_kg": 8.023096076392733e-18,
+            "EOS_energy_alias_error_J": 1.9095836023552692e-13,
+            "solid_energy_alias_error_J": 0.0,
+            "saved_pressure_deviation_Pa": 2.927600871771574e-05,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SE",
+          "coordinate": 0.001,
+          "file": "SE_n21_dt0.001_active_10s.npz",
+          "sha256": "E2FB88309C917F2F95E769E6F848399E71B34E210AC650527CBBECFA7A144271",
+          "bytes": 9325,
+          "checks": {
+            "saved_mass_residual_kg": 1.7076184216646695e-18,
+            "saved_energy_residual_J": 2.7281288339509047e-11,
+            "EOS_mass_alias_error_kg": 6.1257422745431e-18,
+            "EOS_energy_alias_error_J": 2.3425705819590803e-14,
+            "solid_energy_alias_error_J": 0.0,
+            "saved_pressure_deviation_Pa": 9.222980588674545e-05,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SE",
+          "coordinate": 0.0005,
+          "file": "SE_n21_dt0.0005_active_10s.npz",
+          "sha256": "CE46D53EEF9FCB0228728015BA46A9662A091D267737B738B59A6DE7DDA16133",
+          "bytes": 9256,
+          "checks": {
+            "saved_mass_residual_kg": 1.3823577699190182e-18,
+            "saved_energy_residual_J": 1.0118128557223827e-11,
+            "EOS_mass_alias_error_kg": 6.1257422745431e-18,
+            "EOS_energy_alias_error_J": 2.353672812205332e-14,
+            "solid_energy_alias_error_J": 0.0,
+            "saved_pressure_deviation_Pa": 9.226624388247728e-05,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        }
+      ],
+      "all_saved_inventory_EOS_checks_pass": true
+    },
+    "uncached_control": {
+      "execution_path": "C:\\tmp\\se21_constrained_enthalpy_smoke_r2_20261025\\constrained_execution.json",
+      "execution_sha256": "F73C2F636356E8498D88590AD2C1C1DA04E54A73841F31B9D75E661673167535",
+      "saved_profile_checks": [
+        {
+          "material": "SMA",
+          "coordinate": 0.001,
+          "file": "SMA_n21_dt0.001_smoke.npz",
+          "sha256": "A14136424C49FE9C12AD53FA9CFFCCD1E7DE039F4F3F6B2420536B544DEB0718",
+          "bytes": 2932,
+          "checks": {
+            "saved_mass_residual_kg": 9.622294280808852e-19,
+            "saved_energy_residual_J": 1.233502189279534e-11,
+            "EOS_mass_alias_error_kg": 7.914675859144182e-18,
+            "EOS_energy_alias_error_J": 1.7053025658242404e-13,
+            "solid_energy_alias_error_J": 0.0,
+            "saved_pressure_deviation_Pa": 2.832920290529728e-05,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SMA",
+          "coordinate": 0.0005,
+          "file": "SMA_n21_dt0.0005_smoke.npz",
+          "sha256": "663075DE0769B0A2DF7BC2FAB56803404E97F16A75F2CDCD6B25B999108C2E95",
+          "bytes": 2921,
+          "checks": {
+            "saved_mass_residual_kg": 1.2874900798265365e-18,
+            "saved_energy_residual_J": 4.149569576838985e-11,
+            "EOS_mass_alias_error_kg": 7.914675859144182e-18,
+            "EOS_energy_alias_error_J": 1.8115662589786505e-13,
+            "solid_energy_alias_error_J": 0.0,
+            "saved_pressure_deviation_Pa": 2.854561898857355e-05,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SMA",
+          "coordinate": 0.00025,
+          "file": "SMA_n21_dt0.00025_smoke.npz",
+          "sha256": "51BD42B7897C88F406F12B9C01F514CC9F9A992D2768073F1E550F82B53EB944",
+          "bytes": 2899,
+          "checks": {
+            "saved_mass_residual_kg": 1.6263032587282567e-18,
+            "saved_energy_residual_J": 3.410605131648481e-12,
+            "EOS_mass_alias_error_kg": 7.914675859144182e-18,
+            "EOS_energy_alias_error_J": 1.8115662589786505e-13,
+            "solid_energy_alias_error_J": 0.0,
+            "saved_pressure_deviation_Pa": 2.8467504307627678e-05,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SE",
+          "coordinate": 0.001,
+          "file": "SE_n21_dt0.001_smoke.npz",
+          "sha256": "FC5C47218428D8D7F99B56454876BFCACBFACB2391D48187F6542096F0DA9F15",
+          "bytes": 2318,
+          "checks": {
+            "saved_mass_residual_kg": 1.8740603958001395e-19,
+            "saved_energy_residual_J": 2.8066438062523957e-13,
+            "EOS_mass_alias_error_kg": 4.87890977618477e-18,
+            "EOS_energy_alias_error_J": 1.7763568394002505e-14,
+            "solid_energy_alias_error_J": 0.0,
+            "saved_pressure_deviation_Pa": 7.325015030801296e-05,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SE",
+          "coordinate": 0.0005,
+          "file": "SE_n21_dt0.0005_smoke.npz",
+          "sha256": "5533205B293EBC4AC7311993AE8051D2F082865BF4B97F280762CF0BD483AB9F",
+          "bytes": 2319,
+          "checks": {
+            "saved_mass_residual_kg": 1.8973538018496328e-19,
+            "saved_energy_residual_J": 5.808686864838819e-13,
+            "EOS_mass_alias_error_kg": 4.87890977618477e-18,
+            "EOS_energy_alias_error_J": 1.565521967153439e-14,
+            "solid_energy_alias_error_J": 0.0,
+            "saved_pressure_deviation_Pa": 7.391429971903563e-05,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        },
+        {
+          "material": "SE",
+          "coordinate": 0.00025,
+          "file": "SE_n21_dt0.00025_smoke.npz",
+          "sha256": "E0E8F6A707B71ACB9EED99661D884AE3AE0ADFBDAFF4F8534FC4C8FA8B63B12E",
+          "bytes": 2288,
+          "checks": {
+            "saved_mass_residual_kg": 3.5236570605778894e-19,
+            "saved_energy_residual_J": 5.240252676230739e-13,
+            "EOS_mass_alias_error_kg": 4.9060148304969076e-18,
+            "EOS_energy_alias_error_J": 2.348284327408079e-14,
+            "solid_energy_alias_error_J": 0.0,
+            "saved_pressure_deviation_Pa": 7.415632717311382e-05,
+            "saved_inventory_and_EOS_checks_pass": true,
+            "independently_reconstructed_every_internal_step": false
+          }
+        }
+      ],
+      "all_saved_inventory_EOS_checks_pass": true
+    }
+  },
+  "temporal_comparison": [
+    {
+      "material": "SMA",
+      "steps_s": [
+        0.001,
+        0.0005,
+        0.00025
+      ],
+      "differences_to_finer_DOP853": [
+        {
+          "mass_coordinates_kg": 1.5101536010629982e-08,
+          "fluid_energy_coordinates_J": 0.07539200508534805,
+          "solid_energy_coordinates_J": 0.0046153333464893365,
+          "boundary_mass_integral_kg": 7.841910496141015e-09,
+          "boundary_energy_integral_J": 0.0726476570114869,
+          "fluid_and_solid_temperature_K": 0.02629447267361229,
+          "pressure_Pa": 1.703921278938651
+        },
+        {
+          "mass_coordinates_kg": 7.472351891109688e-09,
+          "fluid_energy_coordinates_J": 0.044955915079953,
+          "solid_energy_coordinates_J": 0.002335559798055442,
+          "boundary_mass_integral_kg": 3.757314068382478e-09,
+          "boundary_energy_integral_J": 0.01974310244594335,
+          "fluid_and_solid_temperature_K": 0.015679162170556538,
+          "pressure_Pa": 1.7039211322553456
+        },
+        {
+          "mass_coordinates_kg": 9.424096783982802e-10,
+          "fluid_energy_coordinates_J": 0.004484875302239288,
+          "solid_energy_coordinates_J": 0.0002460420040506506,
+          "boundary_mass_integral_kg": 4.823353140503972e-10,
+          "boundary_energy_integral_J": 0.004460667300691057,
+          "fluid_and_solid_temperature_K": 0.0016294307008593023,
+          "pressure_Pa": 1.7039212979143485
+        }
+      ],
+      "DOP853_reference_refinement_differences": {
+        "mass_coordinates_kg": 3.83707779091913e-12,
+        "fluid_energy_coordinates_J": 6.686057596905215e-06,
+        "solid_energy_coordinates_J": 6.600263802170048e-07,
+        "boundary_mass_integral_kg": 1.1992448278937032e-11,
+        "boundary_energy_integral_J": 9.192490153964172e-06,
+        "fluid_and_solid_temperature_K": 1.97174102822828e-06,
+        "pressure_Pa": 9.805685379775241
+      },
+      "DOP853_SMA_pressure_target_not_passed": true,
+      "reference_scope": "independent numerical comparison only, never a recovery/performance input",
+      "blanket_second_order_claim": false
+    },
+    {
+      "material": "SE",
+      "steps_s": [
+        0.001,
+        0.0005,
+        0.00025
+      ],
+      "differences_to_finer_DOP853": [
+        {
+          "mass_coordinates_kg": 5.730146844756638e-11,
+          "fluid_energy_coordinates_J": 0.0004176955721950648,
+          "solid_energy_coordinates_J": 6.5468124343937e-05,
+          "boundary_mass_integral_kg": 7.355988042300547e-11,
+          "boundary_energy_integral_J": 0.0004827733472367868,
+          "fluid_and_solid_temperature_K": 0.0008557369563959583,
+          "pressure_Pa": 0.010110934148542583
+        },
+        {
+          "mass_coordinates_kg": 3.222212511459592e-11,
+          "fluid_energy_coordinates_J": 0.00023681235498962394,
+          "solid_energy_coordinates_J": 4.584910712779333e-05,
+          "boundary_mass_integral_kg": 2.320682503953074e-11,
+          "boundary_energy_integral_J": 0.0001615449796226187,
+          "fluid_and_solid_temperature_K": 0.00048120343132040944,
+          "pressure_Pa": 0.010111586307175457
+        },
+        {
+          "mass_coordinates_kg": 3.023648903954443e-12,
+          "fluid_energy_coordinates_J": 2.2061032820097637e-05,
+          "solid_energy_coordinates_J": 6.248734699454417e-06,
+          "boundary_mass_integral_kg": 4.526542620959487e-12,
+          "boundary_energy_integral_J": 3.097091231119009e-05,
+          "fluid_and_solid_temperature_K": 4.514483242701317e-05,
+          "pressure_Pa": 0.010110759758390486
+        }
+      ],
+      "DOP853_reference_refinement_differences": {
+        "mass_coordinates_kg": 2.6423145355752853e-14,
+        "fluid_energy_coordinates_J": 3.370957779580408e-08,
+        "solid_energy_coordinates_J": 6.558168674786202e-09,
+        "boundary_mass_integral_kg": 2.644389512186174e-14,
+        "boundary_energy_integral_J": 4.06908196026734e-08,
+        "fluid_and_solid_temperature_K": 5.4916654335102066e-08,
+        "pressure_Pa": 0.33758757810574025
+      },
+      "DOP853_SMA_pressure_target_not_passed": false,
+      "reference_scope": "independent numerical comparison only, never a recovery/performance input",
+      "blanket_second_order_claim": false
+    }
+  ],
+  "active_10s_comparison": [
+    {
+      "material": "SMA",
+      "steps_s": [
+        0.001,
+        0.0005
+      ],
+      "saved_time_max_fluid_difference_K": 0.011963627825252843,
+      "saved_time_max_solid_difference_K": 0.0008691118137562626,
+      "last_time_max_difference_K": 8.93152218850446e-09,
+      "whole_unsaved_trajectory_difference_verified": false,
+      "full_cycle_or_spatial_convergence_claim": false
+    },
+    {
+      "material": "SE",
+      "steps_s": [
+        0.001,
+        0.0005
+      ],
+      "saved_time_max_fluid_difference_K": 0.0004883796974013421,
+      "saved_time_max_solid_difference_K": 7.538479502500195e-05,
+      "last_time_max_difference_K": 8.268668807431823e-07,
+      "whole_unsaved_trajectory_difference_verified": false,
+      "full_cycle_or_spatial_convergence_claim": false
+    }
+  ],
+  "optimization_comparison_certificate": [
+    {
+      "material": "SMA",
+      "dt_s": 0.001,
+      "maximum_differences": {
+        "mass_coordinates_kg": 4.0115480381963664e-18,
+        "fluid_energy_coordinates_J": 3.922195901395753e-11,
+        "solid_energy_coordinates_J": 6.338698535169635e-12,
+        "boundary_mass_integral_kg": 4.675621868843738e-18,
+        "boundary_energy_integral_J": 1.6370904631912708e-11,
+        "fluid_and_solid_temperature_K": 1.3017142919125035e-11,
+        "pressure_Pa": 1.1009396985173225e-06
+      },
+      "uncached_raw_sha256": "A14136424C49FE9C12AD53FA9CFFCCD1E7DE039F4F3F6B2420536B544DEB0718",
+      "cached_raw_sha256": "6DE6C5A77850C20A7A4A4BB32E5F0D2C3EAB3F1B7CA2989E725BA8852463D73C",
+      "uncached_raw_path": "C:\\tmp\\se21_constrained_enthalpy_smoke_r2_20261025\\SMA_n21_dt0.001_smoke.npz",
+      "uncached_raw_bytes": 2932,
+      "files_are_byte_identical_duplicates": false,
+      "retention_assessment": "regenerable optimization-only intermediate; retain comparison certificate, producer and execution metadata if retiring raw"
+    },
+    {
+      "material": "SMA",
+      "dt_s": 0.0005,
+      "maximum_differences": {
+        "mass_coordinates_kg": 5.421010862427522e-18,
+        "fluid_energy_coordinates_J": 5.257305701888981e-11,
+        "solid_energy_coordinates_J": 6.70108413203252e-12,
+        "boundary_mass_integral_kg": 4.228388472693467e-18,
+        "boundary_energy_integral_J": 1.830358087318018e-11,
+        "fluid_and_solid_temperature_K": 1.7337242752546445e-11,
+        "pressure_Pa": 8.961651474237442e-07
+      },
+      "uncached_raw_sha256": "663075DE0769B0A2DF7BC2FAB56803404E97F16A75F2CDCD6B25B999108C2E95",
+      "cached_raw_sha256": "250206D2AB23E2D6DE7FF1ACB75878389EC68AEFF304A167FFB002474CB13D85",
+      "uncached_raw_path": "C:\\tmp\\se21_constrained_enthalpy_smoke_r2_20261025\\SMA_n21_dt0.0005_smoke.npz",
+      "uncached_raw_bytes": 2921,
+      "files_are_byte_identical_duplicates": false,
+      "retention_assessment": "regenerable optimization-only intermediate; retain comparison certificate, producer and execution metadata if retiring raw"
+    },
+    {
+      "material": "SMA",
+      "dt_s": 0.00025,
+      "maximum_differences": {
+        "mass_coordinates_kg": 1.3010426069826053e-18,
+        "fluid_energy_coordinates_J": 8.427036846114788e-12,
+        "solid_energy_coordinates_J": 2.355449169044732e-12,
+        "boundary_mass_integral_kg": 1.0842021724855044e-18,
+        "boundary_energy_integral_J": 5.229594535194337e-12,
+        "fluid_and_solid_temperature_K": 2.7284841053187847e-12,
+        "pressure_Pa": 8.919741958379745e-07
+      },
+      "uncached_raw_sha256": "51BD42B7897C88F406F12B9C01F514CC9F9A992D2768073F1E550F82B53EB944",
+      "cached_raw_sha256": "20D90A7ECAA55EB862731F32A725D1D249ED47F217873DBED58378342A2245BE",
+      "uncached_raw_path": "C:\\tmp\\se21_constrained_enthalpy_smoke_r2_20261025\\SMA_n21_dt0.00025_smoke.npz",
+      "uncached_raw_bytes": 2899,
+      "files_are_byte_identical_duplicates": false,
+      "retention_assessment": "regenerable optimization-only intermediate; retain comparison certificate, producer and execution metadata if retiring raw"
+    },
+    {
+      "material": "SE",
+      "dt_s": 0.001,
+      "maximum_differences": {
+        "mass_coordinates_kg": 2.710505431213761e-19,
+        "fluid_energy_coordinates_J": 1.9099431237956654e-12,
+        "solid_energy_coordinates_J": 7.357418710732255e-13,
+        "boundary_mass_integral_kg": 8.110340469959926e-20,
+        "boundary_energy_integral_J": 2.4513724383723456e-13,
+        "fluid_and_solid_temperature_K": 3.922195901395753e-12,
+        "pressure_Pa": 1.3615936040878296e-06
+      },
+      "uncached_raw_sha256": "FC5C47218428D8D7F99B56454876BFCACBFACB2391D48187F6542096F0DA9F15",
+      "cached_raw_sha256": "31D825BBED5C043401A2A26B769C4AA1C01C3093FEF60A4071522D0D9CD58D36",
+      "uncached_raw_path": "C:\\tmp\\se21_constrained_enthalpy_smoke_r2_20261025\\SE_n21_dt0.001_smoke.npz",
+      "uncached_raw_bytes": 2318,
+      "files_are_byte_identical_duplicates": false,
+      "retention_assessment": "regenerable optimization-only intermediate; retain comparison certificate, producer and execution metadata if retiring raw"
+    },
+    {
+      "material": "SE",
+      "dt_s": 0.0005,
+      "maximum_differences": {
+        "mass_coordinates_kg": 8.131516293641283e-20,
+        "fluid_energy_coordinates_J": 3.013629787972735e-13,
+        "solid_energy_coordinates_J": 1.6975310046518644e-13,
+        "boundary_mass_integral_kg": 5.421010862427522e-20,
+        "boundary_energy_integral_J": 2.3092638912203256e-14,
+        "fluid_and_solid_temperature_K": 6.252776074688882e-13,
+        "pressure_Pa": 9.473878890275955e-07
+      },
+      "uncached_raw_sha256": "5533205B293EBC4AC7311993AE8051D2F082865BF4B97F280762CF0BD483AB9F",
+      "cached_raw_sha256": "BF99CBA6DA09FDA92014BDAB8B1B701AD78E9186034A019789495062242D3F6A",
+      "uncached_raw_path": "C:\\tmp\\se21_constrained_enthalpy_smoke_r2_20261025\\SE_n21_dt0.0005_smoke.npz",
+      "uncached_raw_bytes": 2319,
+      "files_are_byte_identical_duplicates": false,
+      "retention_assessment": "regenerable optimization-only intermediate; retain comparison certificate, producer and execution metadata if retiring raw"
+    },
+    {
+      "material": "SE",
+      "dt_s": 0.00025,
+      "maximum_differences": {
+        "mass_coordinates_kg": 8.131516293641283e-20,
+        "fluid_energy_coordinates_J": 4.696583833646573e-13,
+        "solid_energy_coordinates_J": 1.6978660231231624e-13,
+        "boundary_mass_integral_kg": 2.710505431213761e-20,
+        "boundary_energy_integral_J": 1.8030021919912542e-13,
+        "fluid_and_solid_temperature_K": 9.094947017729282e-13,
+        "pressure_Pa": 9.074574336409569e-07
+      },
+      "uncached_raw_sha256": "E0E8F6A707B71ACB9EED99661D884AE3AE0ADFBDAFF4F8534FC4C8FA8B63B12E",
+      "cached_raw_sha256": "CB77D8A9155F924A5D25871D5A91B0FFC4081AB0B2A1417FF914FEA83711DFA8",
+      "uncached_raw_path": "C:\\tmp\\se21_constrained_enthalpy_smoke_r2_20261025\\SE_n21_dt0.00025_smoke.npz",
+      "uncached_raw_bytes": 2288,
+      "files_are_byte_identical_duplicates": false,
+      "retention_assessment": "regenerable optimization-only intermediate; retain comparison certificate, producer and execution metadata if retiring raw"
+    }
+  ],
+  "all_26_saved_profile_inventory_EOS_checks_pass": true,
+  "fixed_BS3_pressure_contract_qualified": false,
+  "adaptive_SMA_1Pa_numerical_target_pass": false,
+  "active_constrained_component_numerical_checks_pass": true,
+  "main_conclusion": "use simultaneous conservative EOS constraints, not integrate-then-project or blanket fixed-BS3 pressure invariance claims",
+  "unresolved": [
+    "closed-valve dwell and pressure/compliance/hydraulic closure",
+    "SMA-SE mechanical coupling and phase power",
+    "Q01 completion surfaces and probability coefficients",
+    "90K active thermal trial is frozen-phase, not actuator validation",
+    "full distributed periodicity and sensor/accessory/buffer/pump budgets",
+    "current-model C200 strict restoration",
+    "outer solve, orthogonal sensitivities, paired endpoints and independent validation"
+  ],
+  "production_recovery_allowed": false,
+  "full_coupled_qualification": false,
+  "outer_solve_allowed": false,
+  "Table4_reproduction_claim": false,
+  "scientific_gates_modified": false,
+  "no_all_major_step_replay_claim": true
+}

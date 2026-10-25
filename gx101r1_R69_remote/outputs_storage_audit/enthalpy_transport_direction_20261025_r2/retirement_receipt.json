@@ -1,0 +1,33 @@
+{
+  "schema": "heatdrive_ecc_enthalpy_round_retirement_v1",
+  "status": "completed_after_hash_path_reparse_and_replacement_checks",
+  "retired_files": 9,
+  "logical_retired_bytes": 372906,
+  "all_retired_targets_absent_verified": true,
+  "physical_disk_allocation_or_C_drive_free_space_delta_claim": false,
+  "scope": "only own superseded plot artifacts and three partial failed-optimization arrays",
+  "current_review_sha256": "0C2907F300B0588E2628D658F5B094684E215FF9B05227399E2AEED9471AC572",
+  "current_figure_manifest_sha256": "9C03776BFF89405FCD0BF0C2FF3E8A5D707C4B214EA1B93C9254051C52FB3B99",
+  "allowed_roots": [
+    "C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/enthalpy_transport_direction_20261025_r1",
+    "C:/tmp/se21_constrained_enthalpy_smoke_r3_20261025"
+  ],
+  "old_and_current_reviews_differ_only_in_analysis_source_sha256": true,
+  "retained_failed_optimization_execution": "C:/tmp/se21_constrained_enthalpy_smoke_r3_20261025/FAILED_DO_NOT_RESUME.json",
+  "retained_failed_optimization_execution_sha256": "67C9BF853A26102419D9A19250A813292C9570ED8B75594BF9E44485448547C7",
+  "files": [
+    {"path": "C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/enthalpy_transport_direction_20261025_r1/enthalpy_direction_review.json", "bytes": 35158, "sha256": "D5FD5FA73425A93DC1C7A1A347866B7CE22D299F73EA269202B01B0C176DFEF6", "reason": "superseded reader/plot version; same parsed scientific result except analysis source hash"},
+    {"path": "C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/enthalpy_transport_direction_20261025_r1/figures/Fig01_active_enthalpy_profiles.png", "bytes": 134719, "sha256": "03043CEBA794D0D800A41B00818E6654FA49B4A078DAFBAB3E7C39E391911D6C", "reason": "superseded generated figure; current final figure retained"},
+    {"path": "C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/enthalpy_transport_direction_20261025_r1/figures/Fig01_active_enthalpy_profiles.svg", "bytes": 45617, "sha256": "AE5287A8BECEB5FBBF615982479CDC5C0C8CD7803B8745953A64BBA6F7C270CA", "reason": "superseded generated figure"},
+    {"path": "C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/enthalpy_transport_direction_20261025_r1/figures/Fig02_enthalpy_numerical_constraints.png", "bytes": 116227, "sha256": "00F5EA3FAEF2329C97D93B59FE712EED6747F3145BE5579F4EA636C82F0A4293", "reason": "superseded figure before explicit tested-step tick labels"},
+    {"path": "C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/enthalpy_transport_direction_20261025_r1/figures/Fig02_enthalpy_numerical_constraints.svg", "bytes": 29486, "sha256": "52C902F317E57AC4366E2BF170A6CA026A1FD3BE09F26D2BD50D11B7B6ACFB1D", "reason": "superseded generated figure"},
+    {"path": "C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/enthalpy_transport_direction_20261025_r1/figures/figure_manifest.json", "bytes": 886, "sha256": "49C469763CC9259716F0EDC936FB70F6604964719A3D9164037DDAD240B7C78B", "reason": "superseded figure manifest; hashes retained here"},
+    {"path": "C:/tmp/se21_constrained_enthalpy_smoke_r3_20261025/SMA_n21_dt0.001_smoke.npz", "bytes": 3740, "sha256": "17C961535ACC06942DDB944C1F14214F46649E044F6E6FDBBCD4450AE0A8D595", "reason": "partial failed final-QR cache prototype, not referenced by current reader", "replacement_file": "C:/tmp/se21_constrained_enthalpy_smoke_r4_20261025/SMA_n21_dt0.001_smoke.npz", "replacement_sha256": "6DE6C5A77850C20A7A4A4BB32E5F0D2C3EAB3F1B7CA2989E725BA8852463D73C", "max_temperature_difference_to_replacement_K": 9.367795428261161e-11, "byte_identical_duplicate_claim": false},
+    {"path": "C:/tmp/se21_constrained_enthalpy_smoke_r3_20261025/SMA_n21_dt0.0005_smoke.npz", "bytes": 3657, "sha256": "0626006ACD489B2282DC409CFCB4CFF2CDC22799C8CD300AF2020A292ED6B88F", "reason": "partial failed final-QR cache prototype", "replacement_file": "C:/tmp/se21_constrained_enthalpy_smoke_r4_20261025/SMA_n21_dt0.0005_smoke.npz", "replacement_sha256": "250206D2AB23E2D6DE7FF1ACB75878389EC68AEFF304A167FFB002474CB13D85", "max_temperature_difference_to_replacement_K": 5.775291356258094e-11, "byte_identical_duplicate_claim": false},
+    {"path": "C:/tmp/se21_constrained_enthalpy_smoke_r3_20261025/SMA_n21_dt0.00025_smoke.npz", "bytes": 3416, "sha256": "E2C653CA86702C47284C14026B4E04C4268701FA7C4D44CFC6DF9D6104B7552A", "reason": "partial failed final-QR cache prototype", "replacement_file": "C:/tmp/se21_constrained_enthalpy_smoke_r4_20261025/SMA_n21_dt0.00025_smoke.npz", "replacement_sha256": "20D90A7ECAA55EB862731F32A725D1D249ED47F217873DBED58378342A2245BE", "max_temperature_difference_to_replacement_K": 5.911715561524034e-11, "byte_identical_duplicate_claim": false}
+  ],
+  "logical_bytes_to_retire": 372906,
+  "no_recursive_delete": true,
+  "raw_current_or_control_data_referenced_by_final_reader_deleted": false,
+  "loss": "immediate direct replay of the retired failed-cache partial arrays/obsolete plot bytes; old producer and metadata remain for regeneration"
+}
