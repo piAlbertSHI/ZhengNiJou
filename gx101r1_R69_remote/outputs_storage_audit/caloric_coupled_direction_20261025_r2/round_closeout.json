@@ -1,0 +1,123 @@
+{
+  "schema": "heatdrive_ecc_caloric_coupled_round_closeout_v1",
+  "date": "2026-10-25",
+  "goal_complete": false,
+  "previous_turn_classification": "no_progress_status_restatement",
+  "this_turn_classification": "progress_new_coupled_model_and_completed_cold_20cycle_evidence",
+  "model_scope": "independent reduced-law, prescribed-flow, constant-density caloric PDE reference; not native SLX or a C200 successor",
+  "producer_commits": {
+    "network_and_initial_DOP853": "7d6d5d0",
+    "directional_BS3": "d0b655b",
+    "stage_observation_and_numerical_control": "7d5d4b5",
+    "uniform_compensated_increments": "cb8c0b3"
+  },
+  "completed_20cycle": {
+    "root": "C:/tmp/se21_caloric_coupled_cold_C20_r2_20261025",
+    "execution_file": "caloric_cycle_execution.json",
+    "execution_sha256": "D641DF40C7928FC7E3C775EAD207357E001A5395A305AA93518C64B56A7D47D5",
+    "foreground_session": 11798,
+    "natural_exit_code": 0,
+    "wall_seconds": 1257.9887478000019,
+    "completed_cycles": 20,
+    "completed_time_s": 200,
+    "raw_npz_bytes": 535601,
+    "online_max_energy_coordinate_residual_J": 1.4551915228366852e-10,
+    "independent_selected_energy_residual_J": 2.0372681319713593e-10,
+    "SE_mass_residual_kg": 0,
+    "checkpoint_saved": false,
+    "production_recovery_allowed": false
+  },
+  "readback": {
+    "file": "caloric_cycle_review.json",
+    "sha256": "53E6FFD84E38D9ED0560A5E7AF835816BDDAD825668CA07E4E9003A923422A4E",
+    "historical_producer_Git_blobs_checked": true,
+    "raw_hash_and_saved_clock_and_cold_initial_coordinates_checked": true,
+    "all_80_exact_stage_endpoints_required": true,
+    "two_figures_PNG_visually_reviewed": true,
+    "all_step_replay_claim": false,
+    "independent_physics_validation_claim": false
+  },
+  "actual_remaining_findings": {
+    "cycle20_before_hot_blow_SE_phase_range": [0.8404874994165558, 1.0],
+    "cycle20_before_cold_blow_SE_phase_range": [3.5341498341729414e-11, 1.3736176248345557e-9],
+    "last_two_cycles_SE_solid_same_phase_max_K": 0.1474692831276343,
+    "last_two_cycles_bus_same_phase_max_K": 0.22208001372797526,
+    "conditional_full_phase_stress_margin_at_current_weak_cell_T_MPa": -34.408419422113596,
+    "margin_interpretation": "reduced-law fixed-observed-temperature coordinate envelope only, not causal isolation or global operating floor",
+    "new_before_blow_production_threshold_invented": false,
+    "periodic_qualified": false,
+    "all_required_mechanism_gates_evaluated": false,
+    "pump_and_pressure_qualification": "missing, not zero",
+    "material_finish_surfaces_and_probability_coefficients": "still unverified"
+  },
+  "preserved_numerical_controls": [
+    {
+      "root": "C:/tmp/se21_caloric_coupled_cold_C1_r1_20261025",
+      "role": "failed internal DOP853 trial, no checkpoint or raw NPZ",
+      "failure_witness": {
+        "last_accepted_time_s": 0.0827121864884487,
+        "invalid_internal_trial_time_s": 0.0839621864884487,
+        "trial_SMA_phase_max": 1.0007269240748509,
+        "last_accepted_energy_residual_J": 7.275957614183426e-12,
+        "solver_physical_failure_proven": false
+      }
+    },
+    {
+      "root": "C:/tmp/se21_caloric_coupled_cold_C1_r2_20261025",
+      "role": "uncompensated BS3 rtol1e-8 selected-time accuracy control",
+      "execution_sha256": "360CA76DA34F531663AC3B61CE0C9CF413E84FCA6475C79ED2D22BC33156D1C8",
+      "natural_exit_code": 0,
+      "foreground_session": 88367
+    },
+    {
+      "root": "C:/tmp/se21_caloric_coupled_cold_C1_r3_20261025",
+      "role": "uncompensated BS3 rtol1e-6 numerical efficiency control, not byte duplicate",
+      "execution_sha256": "CE26B50C19E493AFA7D55AD56DCDDB2547A556A158FE45DC6C3265A4DE6361BA",
+      "natural_exit_code": 0,
+      "foreground_session": 19021
+    },
+    {
+      "root": "C:/tmp/se21_caloric_coupled_cold_C1_r4_20261025",
+      "role": "compensated BS3 cold numerical verification, not byte duplicate",
+      "execution_sha256": "AA7A482C7929C0F6A2984EBB2EA54878B95D5FCC721E92BE32D7A782BF3615D4",
+      "natural_exit_code": 0,
+      "foreground_session": 86413
+    },
+    {
+      "root": "C:/tmp/se21_caloric_coupled_cold_C20_r1_20261025",
+      "role": "uncompensated numerical-budget rejection; completed-stage evidence through 70s, no final raw/state",
+      "last_complete_cycle": 7,
+      "natural_exit_code": 1,
+      "foreground_session": 2340,
+      "mechanism_failure_proven": false,
+      "used_as_resume_input": false
+    }
+  ],
+  "storage": {
+    "scope": "only six named caloric trial roots and this readback; not whole disk or worktree audit",
+    "six_run_directories_bytes_before_RETENTION_notes": 1363183,
+    "retained_four_raw_NPZ_files_bytes": 1084442,
+    "raw_copy_count": 1,
+    "OP_or_restart_checkpoints_created": 0,
+    "accepted_step_history_saved": false,
+    "superseded_reader_draft_retirement_manifest": "superseded_draft_retirement.json",
+    "draft_retirement_status": "not_executed_tool_policy_rejection; five draft files remain, no bypass",
+    "bytes_confirmed_released_this_round": 0,
+    "C_drive_free_bytes_snapshot": 11600859136
+  },
+  "C200": {
+    "result_sha256_recomputed": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD",
+    "checkpoint_sha256_recomputed": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816",
+    "freeze_contract_match": true,
+    "current_model_strict_restore_compatible": false,
+    "state_loaded_or_transformed": false
+  },
+  "source_locations": {
+    "Q01_PDF": "C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/A heat driven elastocaloric cooling system..pdf",
+    "actually_reread_this_round": "PDF page5 kinetics, compatibility, accessories, ODE3, Eq9/10 and before-blow timing; page8 stress-temperature discussion",
+    "all_Qian_location_index": "项目文档/报告/Qian文献负责人定位附件_20261016.md",
+    "all_indexed_papers_reread_this_round_claim": false
+  },
+  "scope_exclusions": ["Agent6 untouched", "protected dirty production SLX not staged or modified", "other worktrees not cleaned", "unrelated MATLAB processes not stopped or restarted"],
+  "next_decision": "identify material transition-surface/probability closure and persistent-inventory thermal/force feasibility before more runtime or PI tuning; full goal section8 retained"
+}

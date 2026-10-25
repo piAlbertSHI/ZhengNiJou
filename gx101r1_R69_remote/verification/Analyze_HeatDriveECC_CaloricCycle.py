@@ -105,13 +105,37 @@ def summarize(r, m, t, y, p):
     phase = np.concatenate([y[:, m.slices[name]].ravel() for name in ("phase_a", "phase_r")])
     if np.max(abs(residual)) > 1e-8 or phase.min() < -1e-10 or phase.max() > 1+1e-10:
         raise ValueError("Saved-state numerical energy or phase-domain budget failed")
-    before = []
+    before, loading_margins = [], []
     for cycle in range(1, r["cycles"]+1):
         hot, cold = (p[int(np.flatnonzero(t == (cycle-1)*10+offset)[0])] for offset in (3.5, 8.5))
         before.append({"cycle": cycle, "before_hot_blow_SE_xM_min": float(hot["xr"].min()),
                        "before_hot_blow_SE_xM_max": float(hot["xr"].max()),
                        "before_cold_blow_SE_xM_min": float(cold["xr"].min()),
                        "before_cold_blow_SE_xM_max": float(cold["xr"].max())})
+        if cycle in {1, r["cycles"]}:
+            # Coordinate envelope only: do not overwrite any observed state.
+            # At full SMA A/full SE M, Eq7/8 fix the available SE stress.
+            from Reference_HeatDriveECC_CaloricCoupling import compatibility, reduced_phase_rates
+            observed = compatibility(hot["xa"], hot["xr"], m.c["geometry"], m.c["materials"])
+            full = compatibility(np.zeros(m.n), np.ones(m.n), m.c["geometry"], m.c["materials"])
+            se = m.c["materials"]["SE"]
+            full_required = se["C_M_Pa_per_K"]*(hot["Tr"]-se["T_Ms_K"])
+            surface = se["T_As_K"]+(se["T_Ms_K"]-se["T_As_K"])*hot["xr"]
+            drives = observed["sigma_r_Pa"]-se["C_M_Pa_per_K"]*(hot["Tr"]-surface)
+            rate = reduced_phase_rates(hot["Ta"], hot["Tr"], hot["xa"], hot["xr"], observed,
+                                       m.c["materials"], m.c["kinetics"], 1)[1]
+            j = int(np.argmin(hot["xr"]))
+            loading_margins.append({"cycle": cycle, "weak_cell_zero_based": j,
+                "observed_xM": float(hot["xr"][j]), "observed_Tsolid_K": float(hot["Tr"][j]),
+                "observed_Tfluid_K": float(hot["T"]["bed_r"][j]),
+                "observed_SE_stress_MPa": float(observed["sigma_r_Pa"])/1e6,
+                "observed_reduced_phase_drive_Pa": float(drives[j]), "observed_phase_rate_per_s": float(rate[j]),
+                "full_coordinate_available_SE_stress_MPa": float(full["sigma_r_Pa"])/1e6,
+                "full_coordinate_required_stress_at_observed_T_MPa": float(full_required[j])/1e6,
+                "full_coordinate_margin_at_observed_T_MPa": float(full["sigma_r_Pa"]-full_required[j])/1e6,
+                "full_coordinate_loading_temperature_limit_K": float(se["T_Ms_K"]+full["sigma_r_Pa"]/se["C_M_Pa_per_K"]),
+                "scope": "conditional reduced-law, fixed observed temperature coordinate envelope; not a global operating floor or causal isolation",
+                "counterfactual_state_used_for_continuation": False})
     drift = {"qualification": "two-cycle observational comparison only; no periodic gate promotion"}
     if r["cycles"] >= 2:
         end = t[-1]
@@ -132,6 +156,7 @@ def summarize(r, m, t, y, p):
             "independent_selected_SE_mass_residual_max_kg": float(np.max(abs(y[:, m.slices["buffer_mass_change"]].sum(axis=1)))),
             "phase_bounds_selected": [float(phase.min()), float(phase.max())],
             "before_blow_phase_observations": before, "last_two_cycle_drift": drift,
+            "conditional_loading_margins": loading_margins,
             "final_bus_temperature_K": p[-1]["bus_T"].tolist(), "final_buffer_temperature_K": p[-1]["buffer_T"].tolist(),
             "last_stage_end_temperature_ranges_K": {k: [float(p[-1][k].min()), float(p[-1][k].max())] for k in ("Ta", "Tr")},
             "all_mechanism_gates_pass_claim": False, "physical_first_law_validation_claim": False,
@@ -205,8 +230,14 @@ def figures(output, m, t, y, p, summary):
         ax.fill_between(cycles, lo, hi, color="#397b99", alpha=.2)
         ax.plot(cycles, lo, "o-", markersize=3, color="#17627b", label="Axial minimum")
         ax.plot(cycles, hi, "s--", markersize=3, color="#a94442", label="Axial maximum")
-        ax.set(xlabel="Completed cycle", ylabel="SE martensite fraction", ylim=(-.03, 1.03),
+        ax.set(xlabel="Completed cycle", ylabel="SE martensite fraction",
                title="Before hot blow (3.5 s)" if index == 0 else "Before cold blow (8.5 s)")
+        if index == 0:
+            ax.set_ylim(-.03, 1.03)
+        else:
+            upper = float(hi.max())*1.15
+            ax.set_ylim(-.03*upper, upper)
+            ax.ticklabel_format(axis="y", style="sci", scilimits=(0, 0))
         ax.legend(frameon=False, fontsize=8)
     axes[1, 0].plot(cycles, [r["bus_T"][2] for r in endpoints], "o-", label="CHEX bus", markersize=3)
     axes[1, 0].plot(cycles, [r["bus_T"][3] for r in endpoints], "s-", label="Cold load", markersize=3)
@@ -214,8 +245,10 @@ def figures(output, m, t, y, p, summary):
     axes[1, 0].legend(frameon=False)
     energy = independent_energies(m, y)
     residual = energy-energy[0]-y[:, m.slices["ledgers"]][:, :3].sum(axis=1)
-    axes[1, 1].plot(t, residual, linewidth=1, color="#555555")
-    axes[1, 1].set(xlabel="Elapsed time (s)", ylabel="Energy coordinate residual (J)", title="Numerical invariant, not validation")
+    stage_times = np.concatenate([10*i+np.array([3.5, 5., 8.5, 10.]) for i in range(summary["observed_cycles"])])
+    stage_rows = np.array([int(np.flatnonzero(t == v)[0]) for v in stage_times])
+    axes[1, 1].plot(t[stage_rows], residual[stage_rows], "o-", markersize=2, linewidth=.8, color="#555555")
+    axes[1, 1].set(xlabel="Elapsed time (s)", ylabel="Energy coordinate residual (J)", title="Stage-end numerical invariant")
     axes[1, 1].ticklabel_format(axis="y", style="sci", scilimits=(0, 0))
     save(fig, "cycle_phase_and_inventory", "before-blow observations and inventory trend, no new production gate")
     return manifest

@@ -18,6 +18,9 @@ class CaloricReviewTests(unittest.TestCase):
                     "physical_first_law_validation_claim", "paired_Table4_allowed"):
             self.assertIs(result[key], False)
         self.assertEqual(len(result["before_blow_phase_observations"]), 1)
+        margin = result["conditional_loading_margins"][0]
+        self.assertLess(margin["full_coordinate_margin_at_observed_T_MPa"], 0.)
+        self.assertIs(margin["counterfactual_state_used_for_continuation"], False)
 
     def test_energy_change_cannot_hide_behind_execution_success_flag(self):
         y = self.states.copy()

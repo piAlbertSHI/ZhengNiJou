@@ -1,0 +1,481 @@
+{
+  "observed_cycles": 20,
+  "observed_time_s": [
+    0.0,
+    200.0
+  ],
+  "selected_rows": 473,
+  "independent_selected_energy_residual_max_J": 2.0372681319713593e-10,
+  "independent_selected_SE_mass_residual_max_kg": 0.0,
+  "phase_bounds_selected": [
+    0.0,
+    1.0
+  ],
+  "before_blow_phase_observations": [
+    {
+      "cycle": 1,
+      "before_hot_blow_SE_xM_min": 0.899484155174834,
+      "before_hot_blow_SE_xM_max": 0.899484155174834,
+      "before_cold_blow_SE_xM_min": 2.3051493385597635e-11,
+      "before_cold_blow_SE_xM_max": 9.243445146940525e-10
+    },
+    {
+      "cycle": 2,
+      "before_hot_blow_SE_xM_min": 0.8664531532606877,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 2.282822500124698e-11,
+      "before_cold_blow_SE_xM_max": 9.221068861964271e-10
+    },
+    {
+      "cycle": 3,
+      "before_hot_blow_SE_xM_min": 0.8551367141895154,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 2.5325525920409735e-11,
+      "before_cold_blow_SE_xM_max": 9.202849055457545e-10
+    },
+    {
+      "cycle": 4,
+      "before_hot_blow_SE_xM_min": 0.849323146184322,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 2.8409804610505823e-11,
+      "before_cold_blow_SE_xM_max": 9.237892075130513e-10
+    },
+    {
+      "cycle": 5,
+      "before_hot_blow_SE_xM_min": 0.8463589838143074,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 3.0771446199704867e-11,
+      "before_cold_blow_SE_xM_max": 9.314988250730123e-10
+    },
+    {
+      "cycle": 6,
+      "before_hot_blow_SE_xM_min": 0.8447563595454703,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 3.2246598788135444e-11,
+      "before_cold_blow_SE_xM_max": 9.426441769261087e-10
+    },
+    {
+      "cycle": 7,
+      "before_hot_blow_SE_xM_min": 0.8438461134159869,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 3.3085557705727286e-11,
+      "before_cold_blow_SE_xM_max": 9.567412902940235e-10
+    },
+    {
+      "cycle": 8,
+      "before_hot_blow_SE_xM_min": 0.8433094585302412,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 3.355384480636107e-11,
+      "before_cold_blow_SE_xM_max": 9.735045053160236e-10
+    },
+    {
+      "cycle": 9,
+      "before_hot_blow_SE_xM_min": 0.8429516192045478,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 3.3827046346260546e-11,
+      "before_cold_blow_SE_xM_max": 9.927787144014363e-10
+    },
+    {
+      "cycle": 10,
+      "before_hot_blow_SE_xM_min": 0.8426890485284908,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 3.4004347101450414e-11,
+      "before_cold_blow_SE_xM_max": 1.0144914551770955e-09
+    },
+    {
+      "cycle": 11,
+      "before_hot_blow_SE_xM_min": 0.8424706845100867,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 3.413832984221217e-11,
+      "before_cold_blow_SE_xM_max": 1.038622939025009e-09
+    },
+    {
+      "cycle": 12,
+      "before_hot_blow_SE_xM_min": 0.8422595034026268,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 3.4256084214541714e-11,
+      "before_cold_blow_SE_xM_max": 1.065187912016223e-09
+    },
+    {
+      "cycle": 13,
+      "before_hot_blow_SE_xM_min": 0.8420593682904176,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 3.437111617268307e-11,
+      "before_cold_blow_SE_xM_max": 1.0942259153116266e-09
+    },
+    {
+      "cycle": 14,
+      "before_hot_blow_SE_xM_min": 0.841852664348882,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 3.448980224706589e-11,
+      "before_cold_blow_SE_xM_max": 1.12579588907841e-09
+    },
+    {
+      "cycle": 15,
+      "before_hot_blow_SE_xM_min": 0.8416413961477002,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 3.461487342425298e-11,
+      "before_cold_blow_SE_xM_max": 1.1599732271581162e-09
+    },
+    {
+      "cycle": 16,
+      "before_hot_blow_SE_xM_min": 0.8414247825070377,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 3.4747167325439855e-11,
+      "before_cold_blow_SE_xM_max": 1.1968480805411688e-09
+    },
+    {
+      "cycle": 17,
+      "before_hot_blow_SE_xM_min": 0.8411989532755336,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 3.488660433445059e-11,
+      "before_cold_blow_SE_xM_max": 1.2365250062896842e-09
+    },
+    {
+      "cycle": 18,
+      "before_hot_blow_SE_xM_min": 0.8409681115556986,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 3.503264211027554e-11,
+      "before_cold_blow_SE_xM_max": 1.2791219527655386e-09
+    },
+    {
+      "cycle": 19,
+      "before_hot_blow_SE_xM_min": 0.840730029133889,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 3.5184545908827677e-11,
+      "before_cold_blow_SE_xM_max": 1.324770808409414e-09
+    },
+    {
+      "cycle": 20,
+      "before_hot_blow_SE_xM_min": 0.8404874994165558,
+      "before_hot_blow_SE_xM_max": 1.0,
+      "before_cold_blow_SE_xM_min": 3.5341498341729414e-11,
+      "before_cold_blow_SE_xM_max": 1.3736176248345557e-09
+    }
+  ],
+  "last_two_cycle_drift": {
+    "qualification": "two-cycle observational comparison only; no periodic gate promotion",
+    "maximum_pair_clock_offset_s": 0.0,
+    "Ta": {
+      "same_phase_max": 0.023422471376022713,
+      "same_phase_RMS": 0.0038413573379895826,
+      "endpoint_max": 6.717104213294078e-06,
+      "unit": "K"
+    },
+    "Tr": {
+      "same_phase_max": 0.1474692831276343,
+      "same_phase_RMS": 0.08034646756715509,
+      "endpoint_max": 0.1029078418234235,
+      "unit": "K"
+    },
+    "bus_T": {
+      "same_phase_max": 0.22208001372797526,
+      "same_phase_RMS": 0.1554210714245029,
+      "endpoint_max": 0.21969956525418866,
+      "unit": "K"
+    },
+    "buffer_T": {
+      "same_phase_max": 0.1502101263545228,
+      "same_phase_RMS": 0.0849130241284325,
+      "endpoint_max": 0.1502101263545228,
+      "unit": "K"
+    },
+    "xa": {
+      "same_phase_max": 0.001415272136154333,
+      "same_phase_RMS": 0.0002414519557753932,
+      "endpoint_max": 6.772360450213455e-15,
+      "unit": "fraction"
+    },
+    "xr": {
+      "same_phase_max": 0.0035662543829208526,
+      "same_phase_RMS": 0.0008080981492236699,
+      "endpoint_max": 2.996887723895892e-16,
+      "unit": "fraction"
+    },
+    "fluid_bed_a": {
+      "same_phase_max": 0.008867064098467381,
+      "same_phase_RMS": 0.0013283375774273327,
+      "endpoint_max": 4.652674761018716e-06,
+      "unit": "K"
+    },
+    "fluid_bed_r": {
+      "same_phase_max": 0.1467679020089463,
+      "same_phase_RMS": 0.0864920092492847,
+      "endpoint_max": 0.09171698385119953,
+      "unit": "K"
+    },
+    "fluid_shex": {
+      "same_phase_max": 0.0003511755397767047,
+      "same_phase_RMS": 4.6320895947522685e-05,
+      "endpoint_max": 0.0,
+      "unit": "K"
+    },
+    "fluid_hhex_a": {
+      "same_phase_max": 0.001276477082853944,
+      "same_phase_RMS": 0.00014583652044212873,
+      "endpoint_max": 8.374981393899361e-05,
+      "unit": "K"
+    },
+    "fluid_hhex_r": {
+      "same_phase_max": 0.04158950686672824,
+      "same_phase_RMS": 0.002875378405094099,
+      "endpoint_max": 2.609276577913988e-06,
+      "unit": "K"
+    },
+    "fluid_chex": {
+      "same_phase_max": 0.21973454519491042,
+      "same_phase_RMS": 0.21612609365355737,
+      "endpoint_max": 0.21533282599864378,
+      "unit": "K"
+    }
+  },
+  "conditional_loading_margins": [
+    {
+      "cycle": 1,
+      "weak_cell_zero_based": 0,
+      "observed_xM": 0.899484155174834,
+      "observed_Tsolid_K": 322.4487103100269,
+      "observed_Tfluid_K": 308.9094164431907,
+      "observed_SE_stress_MPa": 462.04491469873125,
+      "observed_reduced_phase_drive_Pa": 1986.1077718734741,
+      "observed_phase_rate_per_s": 0.006730660876017684,
+      "full_coordinate_available_SE_stress_MPa": 425.3318807490872,
+      "full_coordinate_required_stress_at_observed_T_MPa": 469.38058526319656,
+      "full_coordinate_margin_at_observed_T_MPa": -44.048704514109374,
+      "full_coordinate_loading_temperature_limit_K": 316.4146411985051,
+      "scope": "conditional reduced-law, fixed observed temperature coordinate envelope; not a global operating floor or causal isolation",
+      "counterfactual_state_used_for_continuation": false
+    },
+    {
+      "cycle": 20,
+      "weak_cell_zero_based": 0,
+      "observed_xM": 0.8404874994165558,
+      "observed_Tsolid_K": 321.1281233111234,
+      "observed_Tfluid_K": 308.58687820362366,
+      "observed_SE_stress_MPa": 448.09923934491457,
+      "observed_reduced_phase_drive_Pa": 3351.7163053154945,
+      "observed_phase_rate_per_s": 0.018000716740967176,
+      "full_coordinate_available_SE_stress_MPa": 425.3318807490872,
+      "full_coordinate_required_stress_at_observed_T_MPa": 459.74030017120083,
+      "full_coordinate_margin_at_observed_T_MPa": -34.408419422113596,
+      "full_coordinate_loading_temperature_limit_K": 316.4146411985051,
+      "scope": "conditional reduced-law, fixed observed temperature coordinate envelope; not a global operating floor or causal isolation",
+      "counterfactual_state_used_for_continuation": false
+    }
+  ],
+  "final_bus_temperature_K": [
+    393.15,
+    303.37708730991795,
+    298.0900414909742,
+    298.439703142651
+  ],
+  "final_buffer_temperature_K": [
+    313.64942499151135,
+    303.18715977356567,
+    301.24567609106117
+  ],
+  "last_stage_end_temperature_ranges_K": {
+    "Ta": [
+      303.49329896619946,
+      303.61968486157855
+    ],
+    "Tr": [
+      291.3783142084105,
+      303.1584298913255
+    ]
+  },
+  "all_mechanism_gates_pass_claim": false,
+  "physical_first_law_validation_claim": false,
+  "production_recovery_allowed": false,
+  "outer_solve_allowed": false,
+  "paired_Table4_allowed": false,
+  "phase_metric_applicability": "before-blow ranges are observations; no invented production completion threshold",
+  "numerical_budget_scope": "1e-8 J coordinate invariant, not paper validation or full-SLX heat balance",
+  "remaining_contracts": [
+    "prescribed flow, no pressure-loss/pump-work qualification",
+    "existing reduced phase law; Af/Mf and probability parameters remain unverified",
+    "constant density caloric approximation, not compressible rho/u or SLX equivalence",
+    "single persistent bed fluid per material, not two independently stored SMA routes",
+    "accessory fluid inventories mapped, connecting-pipe wall allocation remains unresolved",
+    "finite mixed chambers with variable liquid amount, no piston pressure or volume qualification",
+    "SMA return graph is an explicit engineering reference, not literal paper topology verification",
+    "chemical inventory -m*L*xM closes the reduced heat law, not independent calorimetry"
+  ],
+  "Eq9_Eq10": {
+    "required_window_cycles": 10,
+    "required_window_s": [
+      100.0,
+      200.0
+    ],
+    "SE_active_mass_kg": 0.04181683646625444,
+    "SCP_mass_basis": "active SE solid only; not total device or fluid",
+    "formal_metric_computed": false,
+    "reason": "reduced prescribed-flow reference, unresolved material and pump boundaries; original outlet/sensor window not exported",
+    "CHEX_bus_is_not_Eq10_stream_power": true
+  },
+  "schema": "heatdrive_ecc_caloric_cycle_readback_v1",
+  "execution_path": "C:\\tmp\\se21_caloric_coupled_cold_C20_r2_20261025\\caloric_cycle_execution.json",
+  "execution_sha256": "D641DF40C7928FC7E3C775EAD207357E001A5395A305AA93518C64B56A7D47D5",
+  "analysis_source_sha256": "DEB64AFC958F6187FE2A92376FB1D3BFD1F8D9BA818FC5642567B069BCAD1EF8",
+  "producer_commit": "cb8c0b3d5f6383cdd5ce400333a66a7d2e152e10",
+  "control_volumes": [
+    {
+      "volume": "bed_a",
+      "stored_coordinate": "bed_a",
+      "fluid": "SMA",
+      "mass_basis": "fixed rho_ref * actual saved area * length",
+      "mass_ports": "equal signed flow at both faces; zero at isolated dwell",
+      "energy_ports": "shared mdot*h faces, insulated axial ends, equal-and-opposite solid/bus exchange",
+      "reference_not_native_SLX_equivalence": true
+    },
+    {
+      "volume": "bed_r",
+      "stored_coordinate": "bed_r",
+      "fluid": "SE",
+      "mass_basis": "fixed rho_ref * actual saved area * length",
+      "mass_ports": "equal signed flow at both faces; zero at isolated dwell",
+      "energy_ports": "shared mdot*h faces, insulated axial ends, equal-and-opposite solid/bus exchange",
+      "reference_not_native_SLX_equivalence": true
+    },
+    {
+      "volume": "shex",
+      "stored_coordinate": "shex",
+      "fluid": "SMA",
+      "mass_basis": "fixed rho_ref * actual saved area * length",
+      "mass_ports": "equal signed flow at both faces; zero at isolated dwell",
+      "energy_ports": "shared mdot*h faces, insulated axial ends, equal-and-opposite solid/bus exchange",
+      "reference_not_native_SLX_equivalence": true
+    },
+    {
+      "volume": "hhex_a",
+      "stored_coordinate": "hhex_a",
+      "fluid": "SMA",
+      "mass_basis": "fixed rho_ref * actual saved area * length",
+      "mass_ports": "equal signed flow at both faces; zero at isolated dwell",
+      "energy_ports": "shared mdot*h faces, insulated axial ends, equal-and-opposite solid/bus exchange",
+      "reference_not_native_SLX_equivalence": true
+    },
+    {
+      "volume": "hhex_r",
+      "stored_coordinate": "hhex_r",
+      "fluid": "SE",
+      "mass_basis": "fixed rho_ref * actual saved area * length",
+      "mass_ports": "equal signed flow at both faces; zero at isolated dwell",
+      "energy_ports": "shared mdot*h faces, insulated axial ends, equal-and-opposite solid/bus exchange",
+      "reference_not_native_SLX_equivalence": true
+    },
+    {
+      "volume": "chex",
+      "stored_coordinate": "chex",
+      "fluid": "SE",
+      "mass_basis": "fixed rho_ref * actual saved area * length",
+      "mass_ports": "equal signed flow at both faces; zero at isolated dwell",
+      "energy_ports": "shared mdot*h faces, insulated axial ends, equal-and-opposite solid/bus exchange",
+      "reference_not_native_SLX_equivalence": true
+    },
+    {
+      "volume": "SMA/SE solids",
+      "mass_ports": "none",
+      "energy_ports": "axial conduction, conjugate heat, +m*L*dxM and opposite common-force mechanical powers",
+      "stored_coordinate": "sensible E and declared chemical -m*L*xM",
+      "qualification": "reduced material law only"
+    },
+    {
+      "volume": "water return / hot and cold glycol chambers",
+      "mass_ports": "water closed; glycol +/- imposed piston flow",
+      "energy_ports": "shared mdot*h fluxes",
+      "stored_coordinate": "H and two persistent mass changes",
+      "qualification": "pressure/volume relation unresolved"
+    },
+    {
+      "volume": "SHEX/HHEX/CHEX thermal buses and cold load",
+      "mass_ports": "none",
+      "energy_ports": "source, ambient, channels and CHEX-load exchange",
+      "stored_coordinate": "four finite E=C*(T-303.15)",
+      "qualification": "saved engineering capacities"
+    },
+    {
+      "volume": "CHEX boundary sensor",
+      "mass_ports": "none",
+      "energy_ports": "ledger chex = integral UA*(Tload-Tchex)",
+      "stored_coordinate": "none",
+      "qualification": "not automatically equal to Eq10 glycol stream power in transient storage"
+    },
+    {
+      "volume": "connecting pipe walls/manifolds",
+      "qualification": "allocation unresolved; not silently omitted from whole-device claim"
+    },
+    {
+      "volume": "SMA and SE pump work",
+      "qualification": "not evaluated, NOT zero",
+      "mass_ports": "prescribed flow is not hydraulic feasibility",
+      "energy_ports": "no injected pump work in this reference"
+    }
+  ],
+  "comparisons": [
+    {
+      "first": "C:\\tmp\\se21_caloric_coupled_cold_C1_r2_20261025",
+      "second": "C:\\tmp\\se21_caloric_coupled_cold_C1_r3_20261025",
+      "observations": 201,
+      "clock_bitwise_equal": true,
+      "physical_contract_equal": true,
+      "maximum_selected_Ta_difference_K": 0.00018189835594739634,
+      "maximum_selected_Tr_difference_K": 0.00033959984745024485,
+      "maximum_selected_buffer_T_difference_K": 1.2417619359439414e-06,
+      "maximum_selected_bus_T_difference_K": 4.509068958213902e-07,
+      "maximum_selected_xa_difference_fraction": 8.923604512767191e-06,
+      "maximum_selected_xr_difference_fraction": 1.4356928802361502e-05,
+      "maximum_selected_fluid_temperature_difference_K": 0.0010303765812977872,
+      "scope": "selected times, not full adaptive-step or independent material validation"
+    },
+    {
+      "first": "C:\\tmp\\se21_caloric_coupled_cold_C1_r3_20261025",
+      "second": "C:\\tmp\\se21_caloric_coupled_cold_C1_r4_20261025",
+      "observations": 201,
+      "clock_bitwise_equal": true,
+      "physical_contract_equal": true,
+      "maximum_selected_Ta_difference_K": 0.0002889952569375964,
+      "maximum_selected_Tr_difference_K": 0.00013757439910477842,
+      "maximum_selected_buffer_T_difference_K": 2.3239704205479939e-07,
+      "maximum_selected_bus_T_difference_K": 4.403318598633632e-09,
+      "maximum_selected_xa_difference_fraction": 1.2966614719611691e-05,
+      "maximum_selected_xr_difference_fraction": 6.099612074428329e-06,
+      "maximum_selected_fluid_temperature_difference_K": 0.00029053268025336365,
+      "scope": "selected times, not full adaptive-step or independent material validation"
+    }
+  ],
+  "figures": [
+    {
+      "figure": "final_cycle_temperature_phase",
+      "scope": "not material validation or Table4 endpoints",
+      "files": [
+        {
+          "file": "final_cycle_temperature_phase.png",
+          "sha256": "64F8D463BAC1C3320856E7BD0985CC5D942CDF35A30841997FEC9195008AE689",
+          "bytes": 146380
+        },
+        {
+          "file": "final_cycle_temperature_phase.svg",
+          "sha256": "6A2A12956078C9D68364FA4EA98842CD8730BE97290814937D28FC4D7810BAB3",
+          "bytes": 136389
+        }
+      ]
+    },
+    {
+      "figure": "cycle_phase_and_inventory",
+      "scope": "before-blow observations and inventory trend, no new production gate",
+      "files": [
+        {
+          "file": "cycle_phase_and_inventory.png",
+          "sha256": "F3DC69370DEAD8282DD8246E1357FA4DA55EF23BDAAB7DA8B20F70D37D14175E",
+          "bytes": 179377
+        },
+        {
+          "file": "cycle_phase_and_inventory.svg",
+          "sha256": "FA27DBAFE378EE00511CB5A7F8D8305816B6B5ABD82526F653350013282DC4A2",
+          "bytes": 123681
+        }
+      ]
+    }
+  ]
+}

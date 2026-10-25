@@ -1,0 +1,23 @@
+{
+  "schema": "heatdrive_ecc_scoped_superseded_draft_retirement_v1",
+  "execution_status": "not_executed_tool_policy_rejection",
+  "deletion_executed": false,
+  "bytes_confirmed_released": 0,
+  "policy_bypass_attempted": false,
+  "root": "C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/caloric_coupled_direction_20261025_r1",
+  "replacement": "C:/Users/86182/Desktop/正逆耦合/gx101r1_R69_remote/outputs_storage_audit/caloric_coupled_direction_20261025_r2",
+  "shared_scientific_fields_equal": true,
+  "comparison_ignored_fields": ["figures", "analysis_source_sha256", "conditional_loading_margins"],
+  "difference_rationale": "r2 adds conditional loading diagnostics, shows tiny unloading residuals without hiding them on 0..1 axes, plots equal-density stage-end energy residuals",
+  "not_all_files_are_byte_duplicates": true,
+  "raw_profiles_or_checkpoints_deleted": false,
+  "logical_file_bytes": 575193,
+  "loss": "superseded visualization/reader draft; original numerical results and failed-run evidence retained",
+  "files": [
+    {"file": "caloric_cycle_review.json", "bytes": 17180, "sha256": "45224B30845BA5CD972AABFD4D683203B440468D0561029B59D7F91BE10D38A9"},
+    {"file": "cycle_phase_and_inventory.png", "bytes": 154291, "sha256": "C64883DF230DA4E8F4ECA29DCDEC43C2606914793B88E71BE55D7B66B983C174"},
+    {"file": "cycle_phase_and_inventory.svg", "bytes": 120953, "sha256": "3152EF4A019091D7A93259CD5347B797C33B52922C5296E953BD032509FBEF27"},
+    {"file": "final_cycle_temperature_phase.png", "bytes": 146380, "sha256": "64F8D463BAC1C3320856E7BD0985CC5D942CDF35A30841997FEC9195008AE689"},
+    {"file": "final_cycle_temperature_phase.svg", "bytes": 136389, "sha256": "EA4355BC8C36BFEF5D910A29FCF0A09EB8E55136B9ADE2D9E53BD8E151C0FE7E"}
+  ]
+}
