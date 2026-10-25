@@ -22,6 +22,21 @@ from Run_HeatDriveECC_CaloricCycle import simulate
 from Run_HeatDriveECC_ConservativeTransport import write_json
 
 
+def identify_operator(record):
+    operator = record.get("phase_operator")
+    contract_operator = record["network_contract"].get("phase_operator")
+    if operator == "stage_free_shared_surface" and contract_operator == operator:
+        return operator, "explicit execution and network contract"
+    if operator == "scheduled_reduced" and contract_operator in (None, operator):
+        return operator, "explicit execution; legacy scheduled network contract"
+    if (operator is None and contract_operator is None
+            and record["execution_commit"] == "cb8c0b3d5f6383cdd5ce400333a66a7d2e152e10"):
+        # read_packet already verifies the historical complete source blobs and
+        # equality of the actually executed CaloricCycle/transport reader helpers.
+        return "scheduled_reduced", "exact legacy producer cb8c0b3; source hashes checked by read_packet"
+    raise ValueError("Unidentified or contradictory phase-operator contract")
+
+
 def run(output, parameter_root):
     output.mkdir(parents=True, exist_ok=False)
     begin = time.perf_counter()
@@ -41,10 +56,11 @@ def run(output, parameter_root):
         prior, base, clocks, states, _ = read_packet(parameter_root)
         if prior["cycles"] != 1 or prior["completed_time_s"] != 10.:
             raise ValueError("Require an existing complete C1 control, not a restart packet")
-        if prior.get("phase_operator") == "stage_free_shared_surface":
+        operator, evidence = identify_operator(prior)
+        record["phase_operator"] = operator
+        record["phase_operator_evidence"] = evidence
+        if operator == "stage_free_shared_surface":
             base = TwoWaySharedSurfaceCycle(base.c, base.fluids)
-        elif prior.get("phase_operator") != "scheduled_reduced":
-            raise ValueError("Unidentified phase-operator contract")
         names = set(prior["source_sha256"]) | {
             Path(__file__).name, "Reference_HeatDriveECC_LocalBoundaries.py", "Analyze_HeatDriveECC_CaloricCycle.py"}
         record["source_sha256"] = {name: sha256(Path(__file__).with_name(name)) for name in sorted(names)}

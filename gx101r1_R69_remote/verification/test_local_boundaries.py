@@ -5,6 +5,7 @@ import numpy as np
 import test_caloric_cycle as fixture
 from Reference_HeatDriveECC_LocalBoundaries import LocalBoundaries, ObservedCycle
 from Reference_HeatDriveECC_TwoWayPhase import TwoWaySharedSurfaceCycle
+from Run_HeatDriveECC_LocalBoundaryProtocol import identify_operator
 
 
 class LocalBoundaryTests(unittest.TestCase):
@@ -66,6 +67,15 @@ class LocalBoundaryTests(unittest.TestCase):
             faces = advective_faces(h, flow, 9., 12., order=2, limiter="MC")
             expected = faces[-1] if flow > 0 else -faces[0]
             self.assertAlmostEqual(abs(flow)*LocalBoundaries.outlet(h, flow), expected)
+
+    def test_missing_operator_only_resolved_for_exact_checked_legacy_producer(self):
+        legacy = {"network_contract": {}, "execution_commit": "cb8c0b3d5f6383cdd5ce400333a66a7d2e152e10"}
+        self.assertEqual(identify_operator(legacy)[0], "scheduled_reduced")
+        for commit in ("cb8c0b3", "different-unknown-producer"):
+            with self.assertRaises(ValueError):
+                identify_operator(dict(legacy, execution_commit=commit))
+        with self.assertRaises(ValueError):
+            identify_operator(dict(legacy, phase_operator="stage_free_shared_surface"))
 
 
 if __name__ == "__main__":
