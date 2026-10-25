@@ -1,0 +1,184 @@
+{
+  "schema": "heatdrive_ecc_before_blow_phase_review_v1",
+  "arms": [
+    {
+      "arm": "native",
+      "observation_sha256": "377ABC428042059743372AE3E378F0F343CA19B5C8C30E7143DA7027946F5BB5",
+      "observations": [
+        {
+          "transition": "loading_before_hot_blow",
+          "scheduled_start_phase": {
+            "time_s": 193.5,
+            "minimum_xM": 0.8018823718858256,
+            "maximum_xM": 0.9999999999998949,
+            "mean_xM": 0.9439658818305299
+          },
+          "scheduled_prior_sample": {
+            "time_s": 193.499,
+            "minimum_xM": 0.8018687763344402,
+            "maximum_xM": 0.9999999999998949,
+            "mean_xM": 0.9439603726873969
+          },
+          "actual_onset_checks": [
+            {
+              "flow_fraction_for_onset": 0.01,
+              "onset_time_s": 193.603,
+              "onset_flow_kgps": 0.0048889624353679086,
+              "prior_measured_phase": {
+                "time_s": 193.602,
+                "minimum_xM": 0.8066802648565274,
+                "maximum_xM": 0.9999999999998949,
+                "mean_xM": 0.9458377024234969
+              }
+            },
+            {
+              "flow_fraction_for_onset": 0.1,
+              "onset_time_s": 193.603,
+              "onset_flow_kgps": 0.0048889624353679086,
+              "prior_measured_phase": {
+                "time_s": 193.602,
+                "minimum_xM": 0.8066802648565274,
+                "maximum_xM": 0.9999999999998949,
+                "mean_xM": 0.9458377024234969
+              }
+            }
+          ]
+        },
+        {
+          "transition": "unloading_before_cold_blow",
+          "scheduled_start_phase": {
+            "time_s": 198.5,
+            "minimum_xM": 1.5654148093929882e-09,
+            "maximum_xM": 0.3542824282322205,
+            "mean_xM": 0.13578914907895742
+          },
+          "scheduled_prior_sample": {
+            "time_s": 198.499,
+            "minimum_xM": 1.5779898540141433e-09,
+            "maximum_xM": 0.3544497479568226,
+            "mean_xM": 0.13588197262884763
+          },
+          "actual_onset_checks": [
+            {
+              "flow_fraction_for_onset": 0.01,
+              "onset_time_s": 198.603,
+              "onset_flow_kgps": 0.0037473152808058423,
+              "prior_measured_phase": {
+                "time_s": 198.602,
+                "minimum_xM": 6.921545204384703e-10,
+                "maximum_xM": 0.33441855652510394,
+                "mean_xM": 0.1249851869264386
+              }
+            },
+            {
+              "flow_fraction_for_onset": 0.1,
+              "onset_time_s": 198.603,
+              "onset_flow_kgps": 0.0037473152808058423,
+              "prior_measured_phase": {
+                "time_s": 198.602,
+                "minimum_xM": 6.921545204384703e-10,
+                "maximum_xM": 0.33441855652510394,
+                "mean_xM": 0.1249851869264386
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "arm": "conservative",
+      "observation_sha256": "9E036FFBE1E7B435731631B88881500BAE74E3DAF1735CFA2547ABFE16602D14",
+      "observations": [
+        {
+          "transition": "loading_before_hot_blow",
+          "scheduled_start_phase": {
+            "time_s": 193.5,
+            "minimum_xM": 0.801810047886665,
+            "maximum_xM": 0.9999999999998949,
+            "mean_xM": 0.9439420259994381
+          },
+          "scheduled_prior_sample": {
+            "time_s": 193.499,
+            "minimum_xM": 0.8017964532874539,
+            "maximum_xM": 0.9999999999998949,
+            "mean_xM": 0.9439365171519098
+          },
+          "actual_onset_checks": [
+            {
+              "flow_fraction_for_onset": 0.01,
+              "onset_time_s": 193.603,
+              "onset_flow_kgps": 0.004888547811765435,
+              "prior_measured_phase": {
+                "time_s": 193.602,
+                "minimum_xM": 0.8066075914900792,
+                "maximum_xM": 0.9999999999998949,
+                "mean_xM": 0.945813809942378
+              }
+            },
+            {
+              "flow_fraction_for_onset": 0.1,
+              "onset_time_s": 193.603,
+              "onset_flow_kgps": 0.004888547811765435,
+              "prior_measured_phase": {
+                "time_s": 193.602,
+                "minimum_xM": 0.8066075914900792,
+                "maximum_xM": 0.9999999999998949,
+                "mean_xM": 0.945813809942378
+              }
+            }
+          ]
+        },
+        {
+          "transition": "unloading_before_cold_blow",
+          "scheduled_start_phase": {
+            "time_s": 198.5,
+            "minimum_xM": 1.563295617606544e-09,
+            "maximum_xM": 0.35438899988085365,
+            "mean_xM": 0.13584382671575498
+          },
+          "scheduled_prior_sample": {
+            "time_s": 198.499,
+            "minimum_xM": 1.5758536386687587e-09,
+            "maximum_xM": 0.3545563132686302,
+            "mean_xM": 0.13593666034390958
+          },
+          "actual_onset_checks": [
+            {
+              "flow_fraction_for_onset": 0.01,
+              "onset_time_s": 198.603,
+              "onset_flow_kgps": 0.0037463775870393854,
+              "prior_measured_phase": {
+                "time_s": 198.602,
+                "minimum_xM": 6.912175111768587e-10,
+                "maximum_xM": 0.33452609289297347,
+                "mean_xM": 0.1250389917652028
+              }
+            },
+            {
+              "flow_fraction_for_onset": 0.1,
+              "onset_time_s": 198.603,
+              "onset_flow_kgps": 0.0037463775870393854,
+              "prior_measured_phase": {
+                "time_s": 198.602,
+                "minimum_xM": 6.912175111768587e-10,
+                "maximum_xM": 0.33452609289297347,
+                "mean_xM": 0.1250389917652028
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_execution_sha256": "C6978DBD7A4F2A965FC98B256C299915FD0E2E068F5E298400B4A15A26F83858",
+  "window_s": [
+    190,
+    200
+  ],
+  "scientific_gates_modified": false,
+  "simulation_executed": false,
+  "existing_half_cycle_completion_gate_is_not_a_before_blow_gate": true,
+  "phase_completion_cause_identified": false,
+  "production_recovery_allowed": false,
+  "table4_reproduction_claim": false
+}

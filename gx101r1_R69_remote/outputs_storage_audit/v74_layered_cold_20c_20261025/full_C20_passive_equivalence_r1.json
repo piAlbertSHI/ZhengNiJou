@@ -1,0 +1,132 @@
+{
+  "pass": true,
+  "arms": [
+    {
+      "arm": "native",
+      "compared_traces": 1623,
+      "bitwise_equal": true,
+      "differences": [],
+      "reference_gaps": [
+        {
+          "trace": "thermal/shex_fluid_heat_flow_W",
+          "unmeasured_reference_samples": 179999,
+          "compared_samples": 20002,
+          "first_compared_s": 179.999,
+          "last_compared_s": 200
+        },
+        {
+          "trace": "thermal/hhex_se_fluid_heat_flow_W",
+          "unmeasured_reference_samples": 179999,
+          "compared_samples": 20002,
+          "first_compared_s": 179.999,
+          "last_compared_s": 200
+        },
+        {
+          "trace": "thermal/hhex_sma_fluid_heat_flow_W",
+          "unmeasured_reference_samples": 179999,
+          "compared_samples": 20002,
+          "first_compared_s": 179.999,
+          "last_compared_s": 200
+        },
+        {
+          "trace": "thermal/hhex_fluid_heat_flow_W",
+          "unmeasured_reference_samples": 179999,
+          "compared_samples": 20002,
+          "first_compared_s": 179.999,
+          "last_compared_s": 200
+        },
+        {
+          "trace": "thermal/chex_fluid_heat_flow_W",
+          "unmeasured_reference_samples": 179999,
+          "compared_samples": 20002,
+          "first_compared_s": 179.999,
+          "last_compared_s": 200
+        },
+        {
+          "trace": "thermal/chex_sensor_native_heat_flow_W",
+          "unmeasured_reference_samples": 179999,
+          "compared_samples": 20002,
+          "first_compared_s": 179.999,
+          "last_compared_s": 200
+        },
+        {
+          "trace": "thermal/chex_sink_mass_heat_flow_W",
+          "unmeasured_reference_samples": 179999,
+          "compared_samples": 20002,
+          "first_compared_s": 179.999,
+          "last_compared_s": 200
+        }
+      ],
+      "commands_bitwise_equal": true,
+      "thermal_fields_finite": true,
+      "reference_observations_sha256": "C24350D111F7B511971F52CE54263D23B442047535E9B1DDFB7633B80D207B04",
+      "candidate_observations_sha256": "377ABC428042059743372AE3E378F0F343CA19B5C8C30E7143DA7027946F5BB5"
+    },
+    {
+      "arm": "conservative",
+      "compared_traces": 1645,
+      "bitwise_equal": true,
+      "differences": [],
+      "reference_gaps": [
+        {
+          "trace": "thermal/shex_fluid_heat_flow_W",
+          "unmeasured_reference_samples": 179999,
+          "compared_samples": 20002,
+          "first_compared_s": 179.999,
+          "last_compared_s": 200
+        },
+        {
+          "trace": "thermal/hhex_se_fluid_heat_flow_W",
+          "unmeasured_reference_samples": 179999,
+          "compared_samples": 20002,
+          "first_compared_s": 179.999,
+          "last_compared_s": 200
+        },
+        {
+          "trace": "thermal/hhex_sma_fluid_heat_flow_W",
+          "unmeasured_reference_samples": 179999,
+          "compared_samples": 20002,
+          "first_compared_s": 179.999,
+          "last_compared_s": 200
+        },
+        {
+          "trace": "thermal/hhex_fluid_heat_flow_W",
+          "unmeasured_reference_samples": 179999,
+          "compared_samples": 20002,
+          "first_compared_s": 179.999,
+          "last_compared_s": 200
+        },
+        {
+          "trace": "thermal/chex_fluid_heat_flow_W",
+          "unmeasured_reference_samples": 179999,
+          "compared_samples": 20002,
+          "first_compared_s": 179.999,
+          "last_compared_s": 200
+        },
+        {
+          "trace": "thermal/chex_sensor_native_heat_flow_W",
+          "unmeasured_reference_samples": 179999,
+          "compared_samples": 20002,
+          "first_compared_s": 179.999,
+          "last_compared_s": 200
+        },
+        {
+          "trace": "thermal/chex_sink_mass_heat_flow_W",
+          "unmeasured_reference_samples": 179999,
+          "compared_samples": 20002,
+          "first_compared_s": 179.999,
+          "last_compared_s": 200
+        }
+      ],
+      "commands_bitwise_equal": true,
+      "thermal_fields_finite": true,
+      "reference_observations_sha256": "F91A03046D3DF39EFC60A1E01A4408B302A1D1A6947D7BACCC77C003A8CE7DD6",
+      "candidate_observations_sha256": "9E036FFBE1E7B435731631B88881500BAE74E3DAF1735CFA2547ABFE16602D14"
+    }
+  ],
+  "comparison_only": true,
+  "simulation_executed": false,
+  "production_recovery_allowed": false,
+  "reference_root": "C:/tmp/se21_v72_cold_20c_r1_20261024",
+  "candidate_root": "C:/tmp/se21_v74_layered_cold_20c_r1_20261025"
+}

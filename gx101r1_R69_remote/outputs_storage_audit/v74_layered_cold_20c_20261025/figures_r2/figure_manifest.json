@@ -1,0 +1,62 @@
+{
+  "schema": "heatdrive_ecc_completed_c20_figures_v1",
+  "input_sha256": {
+    "C:\\tmp\\se21_v74_cold_buffer_audit_r1_20261025\\cold_buffer_coupled_audit.json": "308295E588E3BA9B95480F6FDD015A6869FB181A2821F87C91ECCF150CFA38F7",
+    "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v74_layered_cold_20c_20261025\\v74_ten_cycle_mechanism_r1\\native\\saved_cold_mechanism_audit.json": "1723A5CDC4F2548EE284004DF2F583BFFBBACDF8DA0E4913A835383BB247F625",
+    "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025\\native\\observations.mat": "377ABC428042059743372AE3E378F0F343CA19B5C8C30E7143DA7027946F5BB5",
+    "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v74_layered_cold_20c_20261025\\v74_ten_cycle_mechanism_r1\\conservative\\saved_cold_mechanism_audit.json": "E77873247763D88148B756D4E237E7AC5B813BC52C04FCF0D694DE48A57B2B52",
+    "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025\\conservative\\observations.mat": "9E036FFBE1E7B435731631B88881500BAE74E3DAF1735CFA2547ABFE16602D14"
+  },
+  "files": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v74_layered_cold_20c_20261025\\figures_r2\\Fig01_material_trajectories.png",
+      "bytes": 306993,
+      "sha256": "9BB8F02D255790D3956FFB9298ED715439DE3EA29E52FEFFBB9CA27E44A754D8"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v74_layered_cold_20c_20261025\\figures_r2\\Fig01_material_trajectories.svg",
+      "bytes": 2171618,
+      "sha256": "2E93D96E05845EA91CA79DEDFA79682235001F399FB64715D1611B00A564FB65"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v74_layered_cold_20c_20261025\\figures_r2\\Fig02_periodicity.png",
+      "bytes": 126448,
+      "sha256": "8BCE64D89A7ABDE0783AAA8EB96D6AA61D3B80BD30DD994759E062F9824CD963"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v74_layered_cold_20c_20261025\\figures_r2\\Fig02_periodicity.svg",
+      "bytes": 19921,
+      "sha256": "8AF801D87E58538801622AB950343C7E454991991753B08C766101325E27579D"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v74_layered_cold_20c_20261025\\figures_r2\\Fig03_endpoint_inventory.png",
+      "bytes": 88182,
+      "sha256": "223EB6D4196B1B3CC24C2AF3B3FD4A1B8275022050FE108C6269EC79E3824BF4"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\v74_layered_cold_20c_20261025\\figures_r2\\Fig03_endpoint_inventory.svg",
+      "bytes": 9323,
+      "sha256": "BBA803AB8057B75310327AD997B614BA032436DB4667E4C567F5F59BA1C8E182"
+    }
+  ],
+  "checks": [
+    {
+      "figure": "Fig01_material_trajectories",
+      "text_within_canvas": true,
+      "meaning": "Actual 190-200 s; all 10001 points retained, three named nodes and the full 21-node range. Gray bands are stages I and III."
+    },
+    {
+      "figure": "Fig02_periodicity",
+      "text_within_canvas": true,
+      "meaning": "Original six public predicates; a ratio above one is not a pass. Not a hidden-state periodicity certificate."
+    },
+    {
+      "figure": "Fig03_endpoint_inventory",
+      "text_within_canvas": true,
+      "meaning": "Native endpoint discrepancy is retained; conservative residual is not rounded to zero or treated as full-device validation."
+    }
+  ],
+  "periodic_steady_state_claim": false,
+  "table4_reproduction_claim": false,
+  "simulation_executed": false
+}

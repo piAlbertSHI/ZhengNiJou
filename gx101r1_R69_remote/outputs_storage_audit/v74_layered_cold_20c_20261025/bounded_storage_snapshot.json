@@ -1,0 +1,30 @@
+{
+  "schema": "heatdrive_ecc_bounded_storage_snapshot_v1",
+  "snapshot_time": "2026-10-25T17:53:36.738040+08:00",
+  "scope": "only the current C20 and its review directory; not the full project or C drive",
+  "rows": [
+    {
+      "root": "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025",
+      "files": 67,
+      "logical_bytes": 2221660308,
+      "unique_file_identity_logical_bytes": 2221660308,
+      "repeated_file_identities": 0,
+      "skipped_reparse_points": []
+    },
+    {
+      "root": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v74_layered_cold_20c_20261025",
+      "files": 84,
+      "logical_bytes": 15684514,
+      "unique_file_identity_logical_bytes": 15684514,
+      "repeated_file_identities": 0,
+      "skipped_reparse_points": []
+    }
+  ],
+  "C_drive_free_bytes": 20208963584,
+  "physical_allocated_bytes_not_measured": true,
+  "content_duplicates_not_inferred": true,
+  "parent_child_roots_not_double_counted": true,
+  "snapshot_file_excluded_from_its_own_measurement": true,
+  "retired_derived_bytes_this_round": 219462687,
+  "active_computation_modified": false
+}
