@@ -19,11 +19,12 @@ from Audit_HeatDriveECC_NativeAccumulation import energy_tables
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from Reference_HeatDriveECC_CaloricCoupling import CaloricFluid, CaloricCycle
 from Reference_HeatDriveECC_CompensatedBS3 import CompensatedBS3
+from Reference_HeatDriveECC_TwoWayPhase import TwoWaySharedSurfaceCycle
 from Run_HeatDriveECC_ConservativeTransport import write_json
 from Run_HeatDriveECC_EnthalpyTransport import load_inputs
 
 
-def load_network(control_root, fluid_execution, metadata, aux_nodes=7):
+def load_network(control_root, fluid_execution, metadata, aux_nodes=7, phase_operator="scheduled_reduced"):
     control, eos, _ = load_inputs(control_root, fluid_execution)
     configuration = Path(next(d["path"] for d in control["input_dependencies"] if d["path"].endswith("configuration.mat")))
     witness = json.loads(fluid_execution.read_text(encoding="utf-8-sig"))
@@ -102,11 +103,20 @@ def load_network(control_root, fluid_execution, metadata, aux_nodes=7):
         "finite mixed chambers with variable liquid amount, no piston pressure or volume qualification",
         "SMA return graph is an explicit engineering reference, not literal paper topology verification",
         "chemical inventory -m*L*xM closes the reduced heat law, not independent calorimetry"]
+    if phase_operator == "stage_free_shared_surface":
+        c["phase_operator"] = phase_operator
+        c["limitations"].append("two-way shared-surface structural ablation, NOT identified MAS/polycrystal material law")
+        return TwoWaySharedSurfaceCycle(c, fluids), c
+    if phase_operator != "scheduled_reduced":
+        raise ValueError("Unknown phase operator")
     return CaloricCycle(c, fluids), c
 
 
 def simulate(model, cycles, max_step, rtol=1e-8, stage_sink=None):
     largest_rate = max(v for k, v in model.c["kinetics"].items() if k.startswith("rate_"))
+    if model.c.get("phase_operator") == "stage_free_shared_surface":
+        largest_rate = max(model.c["kinetics"]["rate_a_to_A_1_per_s"]+model.c["kinetics"]["rate_a_to_M_1_per_s"],
+                           model.c["kinetics"]["rate_r_load_1_per_s"]+model.c["kinetics"]["rate_r_stage3_unload_1_per_s"])
     if not np.isfinite(max_step) or max_step <= 0 or max_step*largest_rate > 1:
         raise ValueError("BS3 directional phase interval requires dt*max_rate <= 1")
     y0 = model.initial_state()
@@ -202,10 +212,11 @@ def simulate(model, cycles, max_step, rtol=1e-8, stage_sink=None):
         "before_blow_observation": "stage1/3 endpoints are left limits before prescribed SE flow; no new production gate substituted"}
 
 
-def run(output, control, witness, metadata, cycles, max_step, rtol=1e-8):
+def run(output, control, witness, metadata, cycles, max_step, rtol=1e-8, phase_operator="scheduled_reduced"):
     output.mkdir(parents=True, exist_ok=False)
     source_names = ["Reference_HeatDriveECC_CaloricCoupling.py", "Run_HeatDriveECC_CaloricCycle.py",
         "Reference_HeatDriveECC_CompensatedBS3.py",
+        "Reference_HeatDriveECC_TwoWayPhase.py",
         "Reference_HeatDriveECC_ConservativeTransport.py", "Run_HeatDriveECC_ConservativeTransport.py",
         "Run_HeatDriveECC_EnthalpyTransport.py", "Reference_HeatDriveECC_EnthalpyTransport.py",
         "Run_HeatDriveECC_LimitedTransport.py", "Audit_HeatDriveECC_NativeAccumulation.py",
@@ -218,6 +229,7 @@ def run(output, control, witness, metadata, cycles, max_step, rtol=1e-8):
         "integration": "monolithic adaptive compensated BS3 with exact stage stops, not fixed paper ODE3",
         "summation_compensation": "uniform accepted-increment Kahan addition for every coordinate; no inventory-residual feedback",
         "requested_cycles": cycles, "max_step_s": max_step, "requested_rtol": rtol,
+        "phase_operator": phase_operator,
         "production_state_loaded": False, "checkpoint_saved": False,
         "production_recovery_allowed": False, "outer_solve_allowed": False, "Table4_reproduction_claim": False,
         "all_production_mechanism_gates_evaluated": False, "scientific_gates_modified": False,
@@ -225,7 +237,7 @@ def run(output, control, witness, metadata, cycles, max_step, rtol=1e-8):
     write_json(output/"preflight.json", record)
     begin = time.perf_counter()
     try:
-        model, contract = load_network(control, witness, metadata)
+        model, contract = load_network(control, witness, metadata, phase_operator=phase_operator)
         record["network_contract"] = contract
         record["coordinate_slices"] = {k: [v.start, v.stop] for k, v in model.slices.items()}
         # Written by completed simulation stages, not an external monitor.
@@ -259,10 +271,11 @@ if __name__ == "__main__":
     parser.add_argument("--cycles", required=True, type=int, choices=range(1, 21))
     parser.add_argument("--max-step", type=float, default=.005)
     parser.add_argument("--rtol", type=float, default=1e-8)
+    parser.add_argument("--phase-operator", choices=("scheduled_reduced", "stage_free_shared_surface"), default="scheduled_reduced")
     args = parser.parse_args()
     if not np.isfinite(args.max_step) or not 0 < args.max_step <= .005:
         parser.error("Require 0 < max-step <= .005s")
     if not np.isfinite(args.rtol) or not 0 < args.rtol <= 1e-6:
         parser.error("Require 0 < rtol <= 1e-6; numerical study, not a physical gate")
     run(args.output.resolve(), args.control_root.resolve(), args.fluid_settings_execution.resolve(),
-        args.metadata.resolve(), args.cycles, args.max_step, args.rtol)
+        args.metadata.resolve(), args.cycles, args.max_step, args.rtol, args.phase_operator)
