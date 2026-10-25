@@ -60,6 +60,8 @@ class SinglePipeFixtureSourceTests(unittest.TestCase):
         self.assertIn("reference_q01_traces=extract", self.fixture)
         self.assertIn("steps=[.001 .0005 .00025]", self.fixture)
         self.assertIn("row.nominal_inventory_pressure_Pa=", self.fixture)
+        self.assertIn("reference_label='% Reference Heat Pipe (TL) : 2.5'", self.fixture)
+        self.assertIn("undo=strrep(undo,reference_label,native_label)", self.fixture)
 
 
 if __name__ == "__main__":

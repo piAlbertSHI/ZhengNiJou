@@ -59,15 +59,19 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder, s
         if reference_study
             native_heat='    Q_H == Q_conv + Q_cond;';
             reference_heat='    Q_H == Nu_lam * k_I * surface_area / Dh * (H.T - T_I);';
-            assert(count(probe,native_heat)==1);
+            native_label='% Pipe (TL) : 2.5';reference_label='% Reference Heat Pipe (TL) : 2.5';
+            assert(count(probe,native_heat)==1 && count(probe,native_label)==1);
             reference=strrep(probe,'component observed_pipe','component reference_pipe');
+            reference=strrep(reference,native_label,reference_label);
             reference=strrep(reference,native_heat,reference_heat);
             undo=strrep(reference,reference_heat,native_heat);
+            undo=strrep(undo,reference_label,native_label);
             assert(strcmp(probe,strrep(undo,'component reference_pipe','component observed_pipe')), ...
                 'Reference changed more than the declared wall heat equation.');
             generated=fullfile(package,'reference_pipe.ssc');write_text(generated,reference);
             record.reference_source_sha256=file_hash(generated);
             record.reference_heat_equation=reference_heat;
+            record.reference_display_name='Reference Heat Pipe (TL)';
             record.other_pipe_equations='unchanged native fluid storage, ports, momentum and property equations';
         end
         cd(build);ssc_build('ecc_pipe_probe');addpath(build);load_system('ecc_pipe_probe_lib');cd(repo);
