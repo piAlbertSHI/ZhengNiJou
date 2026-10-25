@@ -101,7 +101,7 @@ def run(output, control_root, fluid_execution, study):
         "mass_tolerance_kg": MASS_TOL_KG, "energy_tolerance_J": ENERGY_TOL_J,
         "pressure_numerical_target_Pa": 1., "pressure_target_is_a_paper_mechanism_gate": False,
         "same_rho_u_tables_and_heat_law_as_explicit_and_adaptive_trials": True,
-        "numerical_Jacobian_recycling": "MINPACK final QR; invalidated at flow reversal; no physical or PI state cached/reset",
+        "numerical_Jacobian_recycling": "central residual Jacobian, refreshed after at most 8 steps and at flow reversal; final MINPACK QR NOT trusted; no physical or PI state cached/reset",
         "production_state_loaded": False, "checkpoint_saved": False, "production_recovery_allowed": False,
         "full_coupled_qualification": False, "outer_solve_allowed": False, "Table4_reproduction_claim": False,
         "sealed_dwell_supported": False, "phase_or_mechanical_power_included": False,

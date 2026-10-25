@@ -11,14 +11,6 @@ from scipy.optimize import root
 from Reference_HeatDriveECC_ConservativeTransport import advective_faces, conductive_faces
 
 
-def minpack_jacobian(solution):
-    """Recover the final approximate Jacobian from SciPy/MINPACK QR output."""
-    size = len(solution.x)
-    upper = np.zeros((size, size))
-    upper[np.triu_indices(size)] = solution.r
-    return solution.fjac.T @ upper
-
-
 def constrained_midpoint_step(bed, old_state, command, left_K, right_K, dt, numerical_cache=None):
     if not np.isfinite(dt) or dt <= 0 or command == 0 or not np.isfinite(command):
         raise ValueError("Require a positive step and an active finite inlet command")
@@ -69,9 +61,32 @@ def constrained_midpoint_step(bed, old_state, command, left_K, right_K, dt, nume
     scale = np.r_[np.full(n, bed.geometry.fluid_capacity), np.full(n, bed.geometry.solid_capacity)]
     def objective(unknown):
         return endpoint_and_residual(unknown)[0]/scale
+    def residual_jacobian(unknown):
+        jacobian = np.empty((2*n, 2*n))
+        for j in range(2*n):
+            perturbation = 1e-4*max(1., abs(unknown[j])/300.)
+            plus, minus = unknown.copy(), unknown.copy()
+            plus[j] += perturbation
+            minus[j] -= perturbation
+            jacobian[:, j] = (endpoint_and_residual(plus)[0]-endpoint_and_residual(minus)[0])/(2*perturbation)
+        return jacobian
     signature = (n, command, dt)
-    reused = numerical_cache is not None and numerical_cache.get("signature") == signature
-    jacobian_hint = (lambda _: numerical_cache["jacobian"]) if reused else None
+    reused = (numerical_cache is not None and numerical_cache.get("signature") == signature
+              and numerical_cache.get("age", 8) < 8)
+    cache_evaluations = 0
+    if numerical_cache is not None:
+        if not reused:
+            # Near-roundoff MINPACK final QR can be numerically rank deficient
+            # despite a valid root. Recycle a witnessed residual Jacobian, not
+            # that final approximate factorization.
+            witnessed = residual_jacobian(np.r_[old_T, old_solid])/scale[:, None]
+            if np.linalg.cond(witnessed) > 1e8:
+                raise RuntimeError("Numerical Jacobian cannot be safely reused")
+            numerical_cache.update(signature=signature, jacobian=witnessed, age=0)
+            cache_evaluations = 4*n
+        jacobian_hint = lambda _: numerical_cache["jacobian"].copy()
+    else:
+        jacobian_hint = None
     solution = root(objective, np.r_[old_T, old_solid], method="hybr", jac=jacobian_hint, options={"xtol": 1e-12})
     unknown = solution.x.copy()
     residual, mass1, energy1, solid1, dm, de = endpoint_and_residual(unknown)
@@ -86,13 +101,7 @@ def constrained_midpoint_step(bed, old_state, command, left_K, right_K, dt, nume
     for _ in range(4):
         if max_residual <= allowance:
             break
-        jacobian = np.empty((2*n, 2*n))
-        for j in range(2*n):
-            perturbation = 1e-4*max(1., abs(unknown[j])/300.)
-            plus, minus = unknown.copy(), unknown.copy()
-            plus[j] += perturbation
-            minus[j] -= perturbation
-            jacobian[:, j] = (endpoint_and_residual(plus)[0]-endpoint_and_residual(minus)[0])/(2*perturbation)
+        jacobian = residual_jacobian(unknown)
         polish_evaluations += 4*n
         correction = np.linalg.solve(jacobian, -residual)
         for factor in (1., .5, .25, .125):
@@ -110,14 +119,15 @@ def constrained_midpoint_step(bed, old_state, command, left_K, right_K, dt, nume
     if not np.isfinite(unknown).all() or max_residual > allowance:
         raise RuntimeError(f"Conservative nonlinear residual {max_residual:g} J exceeds {allowance:g} J: {solution.message}")
     if numerical_cache is not None:
-        updated = jacobian/scale[:, None] if polish_iterations else minpack_jacobian(solution)
+        updated = jacobian/scale[:, None] if polish_iterations else numerical_cache["jacobian"]
         if not np.isfinite(updated).all():
             raise RuntimeError("Invalid numerical Jacobian cache; no physical state accepted")
-        numerical_cache.update(signature=signature, jacobian=updated.copy())
+        numerical_cache.update(signature=signature, jacobian=updated.copy(),
+                               age=0 if polish_iterations else numerical_cache["age"]+1)
     state = np.r_[mass1, energy1, solid1, old_state[-2]+dm, old_state[-1]+de]
     observed = bed.unpack(state)
     return state, {"nonlinear_success_flag": bool(solution.success), "nonlinear_message": str(solution.message),
-        "RHS_evaluations": int(solution.nfev)+polish_evaluations, "max_nonlinear_energy_residual_J": max_residual,
+        "RHS_evaluations": int(solution.nfev)+polish_evaluations+cache_evaluations, "max_nonlinear_energy_residual_J": max_residual,
         "unaccepted_nonlinear_unknown_polish_iterations": polish_iterations,
         "numerical_Jacobian_reused": reused,
         "roundoff_scaled_residual_allowance_J": allowance,
