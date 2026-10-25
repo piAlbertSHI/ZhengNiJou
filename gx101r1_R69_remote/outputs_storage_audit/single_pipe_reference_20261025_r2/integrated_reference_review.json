@@ -1,0 +1,4118 @@
+{
+  "schema": "heatdrive_ecc_integrated_single_pipe_reference_review_v1",
+  "execution_commit": "842f98a88d6fca7704c22e1ad64dbe35bba2bb56",
+  "execution_sha256": "D9575424FD5846AB0EC8011BA730958D863AD09D4195F7BC4C1ACDBB14FD2C95",
+  "raw_root": "C:\\tmp\\se21_single_pipe_reference_r2_20261025",
+  "configuration_sha256": "82A096E37867063D357C138B4C97EEC13234B9CC659B8135891D47C55C4D4256",
+  "prior_native_execution_sha256": "902EB5B2A0A30474EAEBDD8AD50F4743421AB426F0353755CBBCDE187000C3C1",
+  "generated_source_check": {
+    "probe_sha256": "76E44CE7180789E8049C24741151BD40E7CFF27012FB59A68C5886C37A0A2352",
+    "reference_sha256": "B81B507E0650923F9B1260B8220F53ABC158948200A5B6BB6F3FB054EF743B77",
+    "only_declared_heat_equation_and_names_differ": true
+  },
+  "analysis_dependency_sha256": {
+    "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Analyze_HeatDriveECC_SinglePipeReference.py": "BDBD549344C8ED25D280B7E584A9E1BF232502A2F3E20431EEBA9C79CCFA8585",
+    "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Analyze_HeatDriveECC_SinglePipeHeatStep.py": "F87B95AFCEDD655B9C05DD81B0315BA21996543CF2C36E500119F7B065EA2C5F"
+  },
+  "cases": [
+    {
+      "file": "case_01.mat",
+      "sha256": "818342569434ACD36EBE1EB0F6DF03914FD0AC4B5D7DAB08584592A79740BEA6",
+      "material": "SMA",
+      "flow_kgps": -0.0508,
+      "wall_step_K": -5,
+      "fixed_step_s": 0.001,
+      "branches": {
+        "native": {
+          "final_temperature_K": 302.5968515722774,
+          "final_heat_into_fluid_W": -118.18847034540667,
+          "heat_into_fluid_BE_J": -9.634138422159689,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.4612551620107883e-14,
+            "endpoint_residual_J": 3.8376758910475817e-14,
+            "max_abs_cumulative_residual_J": 4.348611585842238e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 302.5968515722774,
+          "final_heat_into_fluid_W": -118.18847034540667,
+          "heat_into_fluid_BE_J": -9.634138422159689,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.4612551620107883e-14,
+            "endpoint_residual_J": 3.8376758910475817e-14,
+            "max_abs_cumulative_residual_J": 4.348611585842238e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 302.84259606738027,
+          "final_heat_into_fluid_W": -65.78241904869502,
+          "heat_into_fluid_BE_J": -5.386738834635531,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.1514227071796057e-14,
+            "endpoint_residual_J": -5.55298537187332e-15,
+            "max_abs_cumulative_residual_J": 1.6958629596094954e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 4.121147867408581e-13,
+          "temperature_difference_from_native_at_end_K": 0.24574449510288332
+        },
+        "reference_Q01": {
+          "final_temperature_K": 302.88992400214556,
+          "final_heat_into_fluid_W": -55.708417690520506,
+          "heat_into_fluid_BE_J": -4.554212845466172,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.4351367316756125e-14,
+            "endpoint_residual_J": 2.067176453884184e-14,
+            "max_abs_cumulative_residual_J": 3.378928267825515e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 3.481659405224491e-13,
+          "temperature_difference_from_native_at_end_K": 0.2930724298681753
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": {
+        "T_I": {
+          "max_abs_difference": 8.526512829121202e-13,
+          "endpoint_abs_difference": 8.526512829121202e-13,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "p_I": {
+          "max_abs_difference": 2.3283064365386963e-10,
+          "endpoint_abs_difference": 0.0,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "u_I": {
+          "max_abs_difference": 3.4924596548080444e-09,
+          "endpoint_abs_difference": 3.4924596548080444e-09,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "rho_I": {
+          "max_abs_difference": 4.547473508864641e-13,
+          "endpoint_abs_difference": 2.2737367544323206e-13,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Phi_A": {
+          "max_abs_difference": 1.77351466845721e-10,
+          "endpoint_abs_difference": 1.7553247744217515e-10,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Phi_B": {
+          "max_abs_difference": 2.1464074961841106e-10,
+          "endpoint_abs_difference": 2.1464074961841106e-10,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Q_H": {
+          "max_abs_difference": 3.2244429348793346e-11,
+          "endpoint_abs_difference": 3.2244429348793346e-11,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "mdot_A": {
+          "max_abs_difference": 0.0,
+          "endpoint_abs_difference": 0.0,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "mdot_B": {
+          "max_abs_difference": 0.0,
+          "endpoint_abs_difference": 0.0,
+          "points_compared": 101,
+          "interpolation_used": false
+        }
+      },
+      "equal_Nu_reference_control_differences_SI": null
+    },
+    {
+      "file": "case_02.mat",
+      "sha256": "FEE9DCED589F4C88E6332481C7E2D9147E099121D252C2DB9E15180DE8BBA4FE",
+      "material": "SMA",
+      "flow_kgps": -0.0508,
+      "wall_step_K": 5,
+      "fixed_step_s": 0.001,
+      "branches": {
+        "native": {
+          "final_temperature_K": 303.7281705748104,
+          "final_heat_into_fluid_W": 122.94295900677928,
+          "heat_into_fluid_BE_J": 9.954570629607959,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.6197980456933436e-14,
+            "endpoint_residual_J": -1.2694313373910748e-14,
+            "max_abs_cumulative_residual_J": 3.5152694015209984e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 303.7281705748104,
+          "final_heat_into_fluid_W": 122.94295900677928,
+          "heat_into_fluid_BE_J": 9.954570629607959,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.6197980456933436e-14,
+            "endpoint_residual_J": -1.2694313373910748e-14,
+            "max_abs_cumulative_residual_J": 3.5152694015209984e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 303.460605969677,
+          "final_heat_into_fluid_W": 65.83847844466965,
+          "heat_into_fluid_BE_J": 5.389972326859975,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.2113574032746044e-14,
+            "endpoint_residual_J": 1.810536312887856e-15,
+            "max_abs_cumulative_residual_J": 2.117926602325515e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 3.979039320256561e-13,
+          "temperature_difference_from_native_at_end_K": -0.2675646051334297
+        },
+        "reference_Q01": {
+          "final_temperature_K": 303.4131551664918,
+          "final_heat_into_fluid_W": 55.7446263390249,
+          "heat_into_fluid_BE_J": 4.556157055380526,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.511551300792391e-14,
+            "endpoint_residual_J": 1.7614368622541343e-14,
+            "max_abs_cumulative_residual_J": 1.9337491135272555e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 3.339550858072471e-13,
+          "temperature_difference_from_native_at_end_K": -0.3150154083186294
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": {
+        "T_I": {
+          "max_abs_difference": 1.0231815394945443e-12,
+          "endpoint_abs_difference": 1.0231815394945443e-12,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "p_I": {
+          "max_abs_difference": 2.3283064365386963e-10,
+          "endpoint_abs_difference": 2.3283064365386963e-10,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "u_I": {
+          "max_abs_difference": 4.059984348714352e-09,
+          "endpoint_abs_difference": 4.059984348714352e-09,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "rho_I": {
+          "max_abs_difference": 4.547473508864641e-13,
+          "endpoint_abs_difference": 3.410605131648481e-13,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Phi_A": {
+          "max_abs_difference": 2.064552973024547e-10,
+          "endpoint_abs_difference": 2.0463630789890885e-10,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Phi_B": {
+          "max_abs_difference": 2.28283170145005e-10,
+          "endpoint_abs_difference": 2.2737367544323206e-10,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Q_H": {
+          "max_abs_difference": 1.7337242752546445e-11,
+          "endpoint_abs_difference": 1.722355591482483e-11,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "mdot_A": {
+          "max_abs_difference": 0.0,
+          "endpoint_abs_difference": 0.0,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "mdot_B": {
+          "max_abs_difference": 0.0,
+          "endpoint_abs_difference": 0.0,
+          "points_compared": 101,
+          "interpolation_used": false
+        }
+      },
+      "equal_Nu_reference_control_differences_SI": null
+    },
+    {
+      "file": "case_03.mat",
+      "sha256": "7794012C08420ABE9E773C78F257A0A7D477079048FD3B166B5B85C40158D06F",
+      "material": "SMA",
+      "flow_kgps": 0.0508,
+      "wall_step_K": -5,
+      "fixed_step_s": 0.001,
+      "branches": {
+        "native": {
+          "final_temperature_K": 302.59575879811734,
+          "final_heat_into_fluid_W": -118.14563840777559,
+          "heat_into_fluid_BE_J": -9.63010894374614,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.3836154444391013e-14,
+            "endpoint_residual_J": -3.900007351570131e-15,
+            "max_abs_cumulative_residual_J": 2.2486864665249504e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 302.59575879811734,
+          "final_heat_into_fluid_W": -118.14563840777559,
+          "heat_into_fluid_BE_J": -9.63010894374614,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.3836154444391013e-14,
+            "endpoint_residual_J": -3.900007351570131e-15,
+            "max_abs_cumulative_residual_J": 2.2486864665249504e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 302.8413768276064,
+          "final_heat_into_fluid_W": -65.76511362958072,
+          "heat_into_fluid_BE_J": -5.385238798450637,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.399574900418088e-14,
+            "endpoint_residual_J": 1.2943095420848809e-15,
+            "max_abs_cumulative_residual_J": 3.4971412870871566e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 3.950500137520768e-13,
+          "temperature_difference_from_native_at_end_K": 0.24561802948903733
+        },
+        "reference_Q01": {
+          "final_temperature_K": 302.8886911793976,
+          "final_heat_into_fluid_W": -55.693745335819834,
+          "heat_into_fluid_BE_J": -4.552943547968653,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.1717840239788835e-14,
+            "endpoint_residual_J": -4.2476200592993446e-14,
+            "max_abs_cumulative_residual_J": 6.103451628448214e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 3.339550858072471e-13,
+          "temperature_difference_from_native_at_end_K": 0.29293238128025223
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": {
+        "T_I": {
+          "max_abs_difference": 7.389644451905042e-13,
+          "endpoint_abs_difference": 7.389644451905042e-13,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "p_I": {
+          "max_abs_difference": 2.3283064365386963e-10,
+          "endpoint_abs_difference": 0.0,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "u_I": {
+          "max_abs_difference": 3.0122464522719383e-09,
+          "endpoint_abs_difference": 3.0122464522719383e-09,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "rho_I": {
+          "max_abs_difference": 3.410605131648481e-13,
+          "endpoint_abs_difference": 2.2737367544323206e-13,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Phi_A": {
+          "max_abs_difference": 5.729816621169448e-11,
+          "endpoint_abs_difference": 5.638867150992155e-11,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Phi_B": {
+          "max_abs_difference": 9.367795428261161e-11,
+          "endpoint_abs_difference": 5.729816621169448e-11,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Q_H": {
+          "max_abs_difference": 3.097966327914037e-12,
+          "endpoint_abs_difference": 9.947598300641403e-13,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "mdot_A": {
+          "max_abs_difference": 0.0,
+          "endpoint_abs_difference": 0.0,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "mdot_B": {
+          "max_abs_difference": 0.0,
+          "endpoint_abs_difference": 0.0,
+          "points_compared": 101,
+          "interpolation_used": false
+        }
+      },
+      "equal_Nu_reference_control_differences_SI": null
+    },
+    {
+      "file": "case_04.mat",
+      "sha256": "E9F16A98659C5138E521E5A9DCAC673DF4C817AE81CB9F221F01BE895CEDB8E9",
+      "material": "SMA",
+      "flow_kgps": 0.0508,
+      "wall_step_K": 5,
+      "fixed_step_s": 0.001,
+      "branches": {
+        "native": {
+          "final_temperature_K": 303.72694408898303,
+          "final_heat_into_fluid_W": 122.96313284672972,
+          "heat_into_fluid_BE_J": 9.956764996978306,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.2416266338645052e-14,
+            "endpoint_residual_J": -3.4928193014737915e-14,
+            "max_abs_cumulative_residual_J": 5.0849810337904797e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 303.72694408898303,
+          "final_heat_into_fluid_W": 122.96313284672972,
+          "heat_into_fluid_BE_J": 9.956764996978306,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.2416266338645052e-14,
+            "endpoint_residual_J": -3.4928193014737915e-14,
+            "max_abs_cumulative_residual_J": 5.0849810337904797e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 303.45937038322927,
+          "final_heat_into_fluid_W": 65.85563951308576,
+          "heat_into_fluid_BE_J": 5.391455195586488,
+          "density_lookup_max_error_kg_m3": 3.410605131648481e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.1850329745266563e-14,
+            "endpoint_residual_J": -3.846251676122058e-14,
+            "max_abs_cumulative_residual_J": 5.407223622441769e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 3.950500137520768e-13,
+          "temperature_difference_from_native_at_end_K": -0.2675737057537617
+        },
+        "reference_Q01": {
+          "final_temperature_K": 303.41190818639825,
+          "final_heat_into_fluid_W": 55.75914188063247,
+          "heat_into_fluid_BE_J": 4.557409885639476,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.1173353908766614e-14,
+            "endpoint_residual_J": -4.793106566825683e-14,
+            "max_abs_cumulative_residual_J": 5.736731085626717e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 3.304811936263863e-13,
+          "temperature_difference_from_native_at_end_K": -0.315035902584782
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": {
+        "T_I": {
+          "max_abs_difference": 8.526512829121202e-13,
+          "endpoint_abs_difference": 7.958078640513122e-13,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "p_I": {
+          "max_abs_difference": 2.3283064365386963e-10,
+          "endpoint_abs_difference": 2.3283064365386963e-10,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "u_I": {
+          "max_abs_difference": 3.3905962482094765e-09,
+          "endpoint_abs_difference": 3.3905962482094765e-09,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "rho_I": {
+          "max_abs_difference": 4.547473508864641e-13,
+          "endpoint_abs_difference": 3.410605131648481e-13,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Phi_A": {
+          "max_abs_difference": 5.729816621169448e-11,
+          "endpoint_abs_difference": 5.638867150992155e-11,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Phi_B": {
+          "max_abs_difference": 9.640643838793039e-11,
+          "endpoint_abs_difference": 5.638867150992155e-11,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Q_H": {
+          "max_abs_difference": 5.016431714466307e-12,
+          "endpoint_abs_difference": 4.675371201301459e-12,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "mdot_A": {
+          "max_abs_difference": 0.0,
+          "endpoint_abs_difference": 0.0,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "mdot_B": {
+          "max_abs_difference": 0.0,
+          "endpoint_abs_difference": 0.0,
+          "points_compared": 101,
+          "interpolation_used": false
+        }
+      },
+      "equal_Nu_reference_control_differences_SI": null
+    },
+    {
+      "file": "case_05.mat",
+      "sha256": "1959BA22377A59277BCC1B23A5A92EDB66832F55830ED39A055FEA219442B5D3",
+      "material": "SMA",
+      "flow_kgps": -0.0508,
+      "wall_step_K": -5,
+      "fixed_step_s": 0.0005,
+      "branches": {
+        "native": {
+          "final_temperature_K": 302.59672992498975,
+          "final_heat_into_fluid_W": -118.1874975100102,
+          "heat_into_fluid_BE_J": -9.5750770192964,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.461439476380111e-14,
+            "endpoint_residual_J": 5.45883596572011e-15,
+            "max_abs_cumulative_residual_J": 3.0654718672327996e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 302.59672992498975,
+          "final_heat_into_fluid_W": -118.1874975100102,
+          "heat_into_fluid_BE_J": -9.5750770192964,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.461439476380111e-14,
+            "endpoint_residual_J": 5.45883596572011e-15,
+            "max_abs_cumulative_residual_J": 3.0654718672327996e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 302.84253401919716,
+          "final_heat_into_fluid_W": -65.78153835803282,
+          "heat_into_fluid_BE_J": -5.353875903518422,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.4613202141411374e-14,
+            "endpoint_residual_J": -3.1201447946594546e-14,
+            "max_abs_cumulative_residual_J": 5.214930456865982e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 4.121147867408581e-13,
+          "temperature_difference_from_native_at_end_K": 0.2458040942074149
+        },
+        "reference_Q01": {
+          "final_temperature_K": 302.88986975593656,
+          "final_heat_into_fluid_W": -55.707772081012564,
+          "heat_into_fluid_BE_J": -4.526380565462151,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.272940086671781e-14,
+            "endpoint_residual_J": 1.6168510486632565e-14,
+            "max_abs_cumulative_residual_J": 4.058117909636408e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 3.339550858072471e-13,
+          "temperature_difference_from_native_at_end_K": 0.2931398309468136
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": null,
+      "equal_Nu_reference_control_differences_SI": null
+    },
+    {
+      "file": "case_06.mat",
+      "sha256": "A52F30C09FCF03FDBF53DD2B6F39212CAE97C4889FAF30120C63895B6F493F7A",
+      "material": "SMA",
+      "flow_kgps": -0.0508,
+      "wall_step_K": 5,
+      "fixed_step_s": 0.0005,
+      "branches": {
+        "native": {
+          "final_temperature_K": 303.7283129393314,
+          "final_heat_into_fluid_W": 122.9430289715887,
+          "heat_into_fluid_BE_J": 9.893100411989412,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.895163713461212e-14,
+            "endpoint_residual_J": 7.612454503563848e-17,
+            "max_abs_cumulative_residual_J": 3.721275945809538e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 303.7283129393314,
+          "final_heat_into_fluid_W": 122.9430289715887,
+          "heat_into_fluid_BE_J": 9.893100411989412,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.895163713461212e-14,
+            "endpoint_residual_J": 7.612454503563848e-17,
+            "max_abs_cumulative_residual_J": 3.721275945809538e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 303.46066865315817,
+          "final_heat_into_fluid_W": 65.83760783076394,
+          "heat_into_fluid_BE_J": 5.357062319194894,
+          "density_lookup_max_error_kg_m3": 3.410605131648481e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.4613202141411374e-14,
+            "endpoint_residual_J": -1.94504175678005e-14,
+            "max_abs_cumulative_residual_J": 3.935588156365674e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 3.979039320256561e-13,
+          "temperature_difference_from_native_at_end_K": -0.26764428617320846
+        },
+        "reference_Q01": {
+          "final_temperature_K": 303.41320996889146,
+          "final_heat_into_fluid_W": 55.7439884066991,
+          "heat_into_fluid_BE_J": 4.5282907274409805,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.450751953464835e-14,
+            "endpoint_residual_J": 7.392761939726752e-14,
+            "max_abs_cumulative_residual_J": 7.779698787306957e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 3.339550858072471e-13,
+          "temperature_difference_from_native_at_end_K": -0.3151029704399093
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": null,
+      "equal_Nu_reference_control_differences_SI": null
+    },
+    {
+      "file": "case_07.mat",
+      "sha256": "A19A569B87F13CBE0E834B3C6BE1DCD5DF6A1AB17EABC6F274A8D98F999EB2FA",
+      "material": "SMA",
+      "flow_kgps": 0.0508,
+      "wall_step_K": -5,
+      "fixed_step_s": 0.0005,
+      "branches": {
+        "native": {
+          "final_temperature_K": 302.5956370423284,
+          "final_heat_into_fluid_W": -118.14466507892988,
+          "heat_into_fluid_BE_J": -9.571051949331538,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.3405943022348765e-14,
+            "endpoint_residual_J": -3.406735258341042e-14,
+            "max_abs_cumulative_residual_J": 7.067581840814385e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 302.5956370423284,
+          "final_heat_into_fluid_W": -118.14466507892988,
+          "heat_into_fluid_BE_J": -9.571051949331538,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.3405943022348765e-14,
+            "endpoint_residual_J": -3.406735258341042e-14,
+            "max_abs_cumulative_residual_J": 7.067581840814385e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 302.8413146695606,
+          "final_heat_into_fluid_W": -65.76423138522769,
+          "heat_into_fluid_BE_J": -5.352375883241904,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.47945891648682e-14,
+            "endpoint_residual_J": -5.3320186375494937e-14,
+            "max_abs_cumulative_residual_J": 5.588283373543599e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 4.121147867408581e-13,
+          "temperature_difference_from_native_at_end_K": 0.24567762723216902
+        },
+        "reference_Q01": {
+          "final_temperature_K": 302.888636814869,
+          "final_heat_into_fluid_W": -55.693098322333384,
+          "heat_into_fluid_BE_J": -4.52511129160378,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.5340051277845657e-14,
+            "endpoint_residual_J": -3.6213920419001216e-14,
+            "max_abs_cumulative_residual_J": 5.935876366580965e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 3.481659405224491e-13,
+          "temperature_difference_from_native_at_end_K": 0.29299977254061105
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": null,
+      "equal_Nu_reference_control_differences_SI": null
+    },
+    {
+      "file": "case_08.mat",
+      "sha256": "EC7E2F10C8BEC51259F341D20FC29097B4994C3EB96F1B67CE38500414C23632",
+      "material": "SMA",
+      "flow_kgps": 0.0508,
+      "wall_step_K": 5,
+      "fixed_step_s": 0.0005,
+      "branches": {
+        "native": {
+          "final_temperature_K": 303.7270862739,
+          "final_heat_into_fluid_W": 122.96320281861833,
+          "heat_into_fluid_BE_J": 9.895299609749088,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.7328152801532326e-14,
+            "endpoint_residual_J": -8.990121659130856e-14,
+            "max_abs_cumulative_residual_J": 9.600072117327751e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 303.7270862739,
+          "final_heat_into_fluid_W": 122.96320281861833,
+          "heat_into_fluid_BE_J": 9.895299609749088,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.7328152801532326e-14,
+            "endpoint_residual_J": -8.990121659130856e-14,
+            "max_abs_cumulative_residual_J": 9.600072117327751e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 303.4594329411105,
+          "final_heat_into_fluid_W": 65.85477064861642,
+          "heat_into_fluid_BE_J": 5.35854516458283,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.4931849159904864e-14,
+            "endpoint_residual_J": -2.593208753370283e-14,
+            "max_abs_cumulative_residual_J": 2.593208753370283e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 4.121147867408581e-13,
+          "temperature_difference_from_native_at_end_K": -0.2676533327895072
+        },
+        "reference_Q01": {
+          "final_temperature_K": 303.41196285670344,
+          "final_heat_into_fluid_W": 55.75850548964126,
+          "heat_into_fluid_BE_J": 4.529543533821868,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.4291519356834925e-14,
+            "endpoint_residual_J": 1.1810394682902365e-14,
+            "max_abs_cumulative_residual_J": 2.7354533467191262e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 3.309668890946055e-13,
+          "temperature_difference_from_native_at_end_K": -0.3151234171965598
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": null,
+      "equal_Nu_reference_control_differences_SI": null
+    },
+    {
+      "file": "case_09.mat",
+      "sha256": "705B882FA0B21194AE323FC5D3FDF9EE0D01CE95C77738C71332E4F97F18CEA5",
+      "material": "SMA",
+      "flow_kgps": -0.0508,
+      "wall_step_K": -5,
+      "fixed_step_s": 0.00025,
+      "branches": {
+        "native": {
+          "final_temperature_K": 302.5966695850419,
+          "final_heat_into_fluid_W": -118.18701496286732,
+          "heat_into_fluid_BE_J": -9.545546357310466,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.4078473629941524e-14,
+            "endpoint_residual_J": 3.100840236165171e-14,
+            "max_abs_cumulative_residual_J": 5.459110065581842e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 302.5966695850419,
+          "final_heat_into_fluid_W": -118.18701496286732,
+          "heat_into_fluid_BE_J": -9.545546357310466,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.4078473629941524e-14,
+            "endpoint_residual_J": 3.100840236165171e-14,
+            "max_abs_cumulative_residual_J": 5.459110065581842e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 302.8425033171648,
+          "final_heat_into_fluid_W": -65.78110258400561,
+          "heat_into_fluid_BE_J": -5.337444381188655,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.4625019945091466e-14,
+            "endpoint_residual_J": -6.88735635363813e-14,
+            "max_abs_cumulative_residual_J": 6.952162505619378e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 4.263256414560601e-13,
+          "temperature_difference_from_native_at_end_K": 0.24583373212288961
+        },
+        "reference_Q01": {
+          "final_temperature_K": 302.889842888695,
+          "final_heat_into_fluid_W": -55.707452321470875,
+          "heat_into_fluid_BE_J": -4.512464386805663,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.4052994878888114e-14,
+            "endpoint_residual_J": -3.8084254716866384e-14,
+            "max_abs_cumulative_residual_J": 3.962543455252737e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 3.552713678800501e-13,
+          "temperature_difference_from_native_at_end_K": 0.29317330365307726
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": null,
+      "equal_Nu_reference_control_differences_SI": null
+    },
+    {
+      "file": "case_10.mat",
+      "sha256": "FFDA6B3ACCBAABA0B777CB987A2A75D25E2667D7AC1BD8539CF6D6209FE9110D",
+      "material": "SMA",
+      "flow_kgps": -0.0508,
+      "wall_step_K": 5,
+      "fixed_step_s": 0.00025,
+      "branches": {
+        "native": {
+          "final_temperature_K": 303.7283837781083,
+          "final_heat_into_fluid_W": 122.94306378672267,
+          "heat_into_fluid_BE_J": 9.862365349507265,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.8676683463669796e-14,
+            "endpoint_residual_J": 4.832107817717181e-14,
+            "max_abs_cumulative_residual_J": 7.786883998391926e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 303.7283837781083,
+          "final_heat_into_fluid_W": 122.94306378672267,
+          "heat_into_fluid_BE_J": 9.862365349507265,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.8676683463669796e-14,
+            "endpoint_residual_J": 4.832107817717181e-14,
+            "max_abs_cumulative_residual_J": 7.786883998391926e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 303.4606996671438,
+          "final_heat_into_fluid_W": 65.83717707592193,
+          "heat_into_fluid_BE_J": 5.3406072207630615,
+          "density_lookup_max_error_kg_m3": 3.410605131648481e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.3641865415081611e-14,
+            "endpoint_residual_J": -2.1227885714427547e-14,
+            "max_abs_cumulative_residual_J": 6.901537040427883e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 4.263256414560601e-13,
+          "temperature_difference_from_native_at_end_K": -0.2676841109645238
+        },
+        "reference_Q01": {
+          "final_temperature_K": 303.41323710789294,
+          "final_heat_into_fluid_W": 55.74367249262019,
+          "heat_into_fluid_BE_J": 4.514357488723138,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.4082051497110726e-14,
+            "endpoint_residual_J": -6.453465420473009e-14,
+            "max_abs_cumulative_residual_J": 6.744562861763642e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 3.410605131648481e-13,
+          "temperature_difference_from_native_at_end_K": -0.3151466702153698
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": null,
+      "equal_Nu_reference_control_differences_SI": null
+    },
+    {
+      "file": "case_11.mat",
+      "sha256": "5799D9C85C66ED70F9E565A01D0E7F869BE765BDAF3656957D737DECFF77A6D3",
+      "material": "SMA",
+      "flow_kgps": 0.0508,
+      "wall_step_K": -5,
+      "fixed_step_s": 0.00025,
+      "branches": {
+        "native": {
+          "final_temperature_K": 302.5955766516766,
+          "final_heat_into_fluid_W": -118.1441823119297,
+          "heat_into_fluid_BE_J": -9.541523499013296,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.395758508770939e-14,
+            "endpoint_residual_J": 8.267602470419643e-14,
+            "max_abs_cumulative_residual_J": 9.486686169425922e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 302.5955766516766,
+          "final_heat_into_fluid_W": -118.1441823119297,
+          "heat_into_fluid_BE_J": -9.541523499013296,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.395758508770939e-14,
+            "endpoint_residual_J": 8.267602470419643e-14,
+            "max_abs_cumulative_residual_J": 9.486686169425922e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 302.84128391615644,
+          "final_heat_into_fluid_W": -65.76379488484976,
+          "heat_into_fluid_BE_J": -5.335944368468725,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.2871648191747909e-14,
+            "endpoint_residual_J": 7.330717475142556e-15,
+            "max_abs_cumulative_residual_J": 5.110788804204338e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 3.982335023810374e-13,
+          "temperature_difference_from_native_at_end_K": 0.24570726447984725
+        },
+        "reference_Q01": {
+          "final_temperature_K": 302.8886098921536,
+          "final_heat_into_fluid_W": -55.69277790465146,
+          "heat_into_fluid_BE_J": -4.5111951244169495,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.4199579012608154e-14,
+            "endpoint_residual_J": 3.2730153951557794e-14,
+            "max_abs_cumulative_residual_J": 6.273974268510376e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 3.410605131648481e-13,
+          "temperature_difference_from_native_at_end_K": 0.2930332404770297
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": null,
+      "equal_Nu_reference_control_differences_SI": null
+    },
+    {
+      "file": "case_12.mat",
+      "sha256": "CE428AFA32456F5EF42FFDC4C313EC6AF293BD8F385C0DE4667A32D1A127BEEF",
+      "material": "SMA",
+      "flow_kgps": 0.0508,
+      "wall_step_K": 5,
+      "fixed_step_s": 0.00025,
+      "branches": {
+        "native": {
+          "final_temperature_K": 303.72715702668245,
+          "final_heat_into_fluid_W": 122.9632376389322,
+          "heat_into_fluid_BE_J": 9.864566958662934,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.7107761604920335e-14,
+            "endpoint_residual_J": -2.716020123920155e-14,
+            "max_abs_cumulative_residual_J": 4.611077788856371e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 303.72715702668245,
+          "final_heat_into_fluid_W": 122.9632376389322,
+          "heat_into_fluid_BE_J": 9.864566958662934,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.7107761604920335e-14,
+            "endpoint_residual_J": -2.716020123920155e-14,
+            "max_abs_cumulative_residual_J": 4.611077788856371e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 303.45946389577216,
+          "final_heat_into_fluid_W": 65.85434072018847,
+          "heat_into_fluid_BE_J": 5.342090047492301,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.3889700479184641e-14,
+            "endpoint_residual_J": 4.249500567733456e-14,
+            "max_abs_cumulative_residual_J": 6.986131883172328e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 4.263256414560601e-13,
+          "temperature_difference_from_native_at_end_K": -0.26769313091028835
+        },
+        "reference_Q01": {
+          "final_temperature_K": 303.41198993327987,
+          "final_heat_into_fluid_W": 55.75819030404758,
+          "heat_into_fluid_BE_J": 4.515610287655277,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0007341752462291059,
+            "max_abs_step_residual_J": 1.4187828971563843e-14,
+            "endpoint_residual_J": -2.284223437365473e-14,
+            "max_abs_cumulative_residual_J": 4.7642390063568985e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 3.339550858072471e-13,
+          "temperature_difference_from_native_at_end_K": -0.31516709340257876
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": null,
+      "equal_Nu_reference_control_differences_SI": null
+    },
+    {
+      "file": "case_13.mat",
+      "sha256": "248C62EB6183CB0CC13CD646225B13771590051CCA5AAF2AD928E2A3ACED9D24",
+      "material": "SE",
+      "flow_kgps": -0.0032,
+      "wall_step_K": -5,
+      "fixed_step_s": 0.001,
+      "branches": {
+        "native": {
+          "final_temperature_K": 301.4974432576259,
+          "final_heat_into_fluid_W": -22.13558684506148,
+          "heat_into_fluid_BE_J": -1.8466343903741318,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.034167527284694e-15,
+            "endpoint_residual_J": 8.138758425340308e-15,
+            "max_abs_cumulative_residual_J": 1.2447811539666696e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 301.4974432576259,
+          "final_heat_into_fluid_W": -22.13558684506148,
+          "heat_into_fluid_BE_J": -1.8466343903741318,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.034167527284694e-15,
+            "endpoint_residual_J": 8.138758425340308e-15,
+            "max_abs_cumulative_residual_J": 1.2447811539666696e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 301.8881305032313,
+          "final_heat_into_fluid_W": -16.245140243867713,
+          "heat_into_fluid_BE_J": -1.4493845362754678,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.2024357044544445e-15,
+            "endpoint_residual_J": 4.029271355584715e-15,
+            "max_abs_cumulative_residual_J": 1.6749564924053648e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2434497875801753e-13,
+          "temperature_difference_from_native_at_end_K": 0.39068724560542023
+        },
+        "reference_Q01": {
+          "final_temperature_K": 301.8881305032313,
+          "final_heat_into_fluid_W": -16.245140243867713,
+          "heat_into_fluid_BE_J": -1.4493845362754678,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.2024357044544445e-15,
+            "endpoint_residual_J": 4.029271355584715e-15,
+            "max_abs_cumulative_residual_J": 1.6749564924053648e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2434497875801753e-13,
+          "temperature_difference_from_native_at_end_K": 0.39068724560542023
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": {
+        "T_I": {
+          "max_abs_difference": 5.849187800777145e-11,
+          "endpoint_abs_difference": 5.849187800777145e-11,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "p_I": {
+          "max_abs_difference": 6.752088665962219e-09,
+          "endpoint_abs_difference": 6.752088665962219e-09,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "u_I": {
+          "max_abs_difference": 2.117303665727377e-07,
+          "endpoint_abs_difference": 2.117303665727377e-07,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "rho_I": {
+          "max_abs_difference": 3.0468072509393096e-11,
+          "endpoint_abs_difference": 3.0468072509393096e-11,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Phi_A": {
+          "max_abs_difference": 6.776872396585532e-10,
+          "endpoint_abs_difference": 6.776872396585532e-10,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Phi_B": {
+          "max_abs_difference": 1.717580744298175e-09,
+          "endpoint_abs_difference": 1.717580744298175e-09,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Q_H": {
+          "max_abs_difference": 6.115747908097546e-10,
+          "endpoint_abs_difference": 6.115747908097546e-10,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "mdot_A": {
+          "max_abs_difference": 0.0,
+          "endpoint_abs_difference": 0.0,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "mdot_B": {
+          "max_abs_difference": 0.0,
+          "endpoint_abs_difference": 0.0,
+          "points_compared": 101,
+          "interpolation_used": false
+        }
+      },
+      "equal_Nu_reference_control_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      }
+    },
+    {
+      "file": "case_14.mat",
+      "sha256": "DEF7E893A37567D86A5314F52BE4D25D4394D35333F0E87E355F91CA2C84889B",
+      "material": "SE",
+      "flow_kgps": -0.0032,
+      "wall_step_K": 5,
+      "fixed_step_s": 0.001,
+      "branches": {
+        "native": {
+          "final_temperature_K": 304.80883956904336,
+          "final_heat_into_fluid_W": 22.199672718373265,
+          "heat_into_fluid_BE_J": 1.8502708890682196,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.091413401991929e-15,
+            "endpoint_residual_J": -7.766053764153048e-15,
+            "max_abs_cumulative_residual_J": 9.306921891689447e-15,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 304.80883956904336,
+          "final_heat_into_fluid_W": 22.199672718373265,
+          "heat_into_fluid_BE_J": 1.8502708890682196,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.091413401991929e-15,
+            "endpoint_residual_J": -7.766053764153048e-15,
+            "max_abs_cumulative_residual_J": 9.306921891689447e-15,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 304.41743390022316,
+          "final_heat_into_fluid_W": 16.292872138473925,
+          "heat_into_fluid_BE_J": 1.4524543669065981,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 4.163336342344337e-15,
+            "endpoint_residual_J": -5.73635445242672e-15,
+            "max_abs_cumulative_residual_J": 8.639732673862074e-15,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2434497875801753e-13,
+          "temperature_difference_from_native_at_end_K": -0.3914056688201981
+        },
+        "reference_Q01": {
+          "final_temperature_K": 304.41743390022316,
+          "final_heat_into_fluid_W": 16.292872138473925,
+          "heat_into_fluid_BE_J": 1.4524543669065981,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 4.163336342344337e-15,
+            "endpoint_residual_J": -5.73635445242672e-15,
+            "max_abs_cumulative_residual_J": 8.639732673862074e-15,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2434497875801753e-13,
+          "temperature_difference_from_native_at_end_K": -0.3914056688201981
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": {
+        "T_I": {
+          "max_abs_difference": 5.88329385209363e-11,
+          "endpoint_abs_difference": 5.88329385209363e-11,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "p_I": {
+          "max_abs_difference": 6.752088665962219e-09,
+          "endpoint_abs_difference": 6.752088665962219e-09,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "u_I": {
+          "max_abs_difference": 2.128654159605503e-07,
+          "endpoint_abs_difference": 2.128654159605503e-07,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "rho_I": {
+          "max_abs_difference": 3.069544618483633e-11,
+          "endpoint_abs_difference": 3.069544618483633e-11,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Phi_A": {
+          "max_abs_difference": 6.813252184656449e-10,
+          "endpoint_abs_difference": 6.813252184656449e-10,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Phi_B": {
+          "max_abs_difference": 1.720536602078937e-09,
+          "endpoint_abs_difference": 1.720536602078937e-09,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Q_H": {
+          "max_abs_difference": 6.079190484342689e-10,
+          "endpoint_abs_difference": 6.079190484342689e-10,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "mdot_A": {
+          "max_abs_difference": 0.0,
+          "endpoint_abs_difference": 0.0,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "mdot_B": {
+          "max_abs_difference": 0.0,
+          "endpoint_abs_difference": 0.0,
+          "points_compared": 101,
+          "interpolation_used": false
+        }
+      },
+      "equal_Nu_reference_control_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      }
+    },
+    {
+      "file": "case_15.mat",
+      "sha256": "C91D23C82AF9C2E22540DEC400244DAC0A32C66F65BFF38B979CB66724E4AA1F",
+      "material": "SE",
+      "flow_kgps": 0.0032,
+      "wall_step_K": -5,
+      "fixed_step_s": 0.001,
+      "branches": {
+        "native": {
+          "final_temperature_K": 301.4967103033887,
+          "final_heat_into_fluid_W": -22.12995321699797,
+          "heat_into_fluid_BE_J": -1.8461135172886973,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 4.7427339833205906e-15,
+            "endpoint_residual_J": -7.843183737297078e-15,
+            "max_abs_cumulative_residual_J": 1.5328081855268006e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 301.4967103033887,
+          "final_heat_into_fluid_W": -22.12995321699797,
+          "heat_into_fluid_BE_J": -1.8461135172886973,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 4.7427339833205906e-15,
+            "endpoint_residual_J": -7.843183737297078e-15,
+            "max_abs_cumulative_residual_J": 1.5328081855268006e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 301.88724673413407,
+          "final_heat_into_fluid_W": -16.241274407576455,
+          "heat_into_fluid_BE_J": -1.449105906760913,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.328776386009817e-15,
+            "endpoint_residual_J": -6.143813934231007e-15,
+            "max_abs_cumulative_residual_J": 2.0987192196861054e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2079226507921703e-13,
+          "temperature_difference_from_native_at_end_K": 0.39053643074538513
+        },
+        "reference_Q01": {
+          "final_temperature_K": 301.88724673413407,
+          "final_heat_into_fluid_W": -16.241274407576455,
+          "heat_into_fluid_BE_J": -1.449105906760913,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.328776386009817e-15,
+            "endpoint_residual_J": -6.143813934231007e-15,
+            "max_abs_cumulative_residual_J": 2.0987192196861054e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2079226507921703e-13,
+          "temperature_difference_from_native_at_end_K": 0.39053643074538513
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": {
+        "T_I": {
+          "max_abs_difference": 1.297166818403639e-10,
+          "endpoint_abs_difference": 1.297166818403639e-10,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "p_I": {
+          "max_abs_difference": 1.501757651567459e-08,
+          "endpoint_abs_difference": 1.501757651567459e-08,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "u_I": {
+          "max_abs_difference": 4.6944478526711464e-07,
+          "endpoint_abs_difference": 4.6944478526711464e-07,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "rho_I": {
+          "max_abs_difference": 6.752998160663992e-11,
+          "endpoint_abs_difference": 6.752998160663992e-11,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Phi_A": {
+          "max_abs_difference": 1.3026237866142765e-09,
+          "endpoint_abs_difference": 1.3026237866142765e-09,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Phi_B": {
+          "max_abs_difference": 4.718003765447065e-10,
+          "endpoint_abs_difference": 2.1441337594296783e-10,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Q_H": {
+          "max_abs_difference": 5.670095504228811e-10,
+          "endpoint_abs_difference": 5.670095504228811e-10,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "mdot_A": {
+          "max_abs_difference": 0.0,
+          "endpoint_abs_difference": 0.0,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "mdot_B": {
+          "max_abs_difference": 0.0,
+          "endpoint_abs_difference": 0.0,
+          "points_compared": 101,
+          "interpolation_used": false
+        }
+      },
+      "equal_Nu_reference_control_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      }
+    },
+    {
+      "file": "case_16.mat",
+      "sha256": "F65C2BD6EF4E74BA75AF619E157B7D1F6801AC270B8C8DD830428AA18E1A8D80",
+      "material": "SE",
+      "flow_kgps": 0.0032,
+      "wall_step_K": 5,
+      "fixed_step_s": 0.001,
+      "branches": {
+        "native": {
+          "final_temperature_K": 304.8081750649948,
+          "final_heat_into_fluid_W": 22.204547767606662,
+          "heat_into_fluid_BE_J": 1.8507507506529954,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 4.881511861398735e-15,
+            "endpoint_residual_J": -1.5663750847869518e-14,
+            "max_abs_cumulative_residual_J": 1.8118818247245694e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 304.8081750649948,
+          "final_heat_into_fluid_W": 22.204547767606662,
+          "heat_into_fluid_BE_J": 1.8507507506529954,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 4.881511861398735e-15,
+            "endpoint_residual_J": -1.5663750847869518e-14,
+            "max_abs_cumulative_residual_J": 1.8118818247245694e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 304.41662251189206,
+          "final_heat_into_fluid_W": 16.296390822041538,
+          "heat_into_fluid_BE_J": 1.4527187079428059,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.328776386009817e-15,
+            "endpoint_residual_J": 1.2899098411986052e-15,
+            "max_abs_cumulative_residual_J": 7.772354630489436e-15,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.1723955140041653e-13,
+          "temperature_difference_from_native_at_end_K": -0.3915525531027697
+        },
+        "reference_Q01": {
+          "final_temperature_K": 304.41662251189206,
+          "final_heat_into_fluid_W": 16.296390822041538,
+          "heat_into_fluid_BE_J": 1.4527187079428059,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.328776386009817e-15,
+            "endpoint_residual_J": 1.2899098411986052e-15,
+            "max_abs_cumulative_residual_J": 7.772354630489436e-15,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.1723955140041653e-13,
+          "temperature_difference_from_native_at_end_K": -0.3915525531027697
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": {
+        "T_I": {
+          "max_abs_difference": 1.304556462855544e-10,
+          "endpoint_abs_difference": 1.304556462855544e-10,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "p_I": {
+          "max_abs_difference": 1.4901161193847656e-08,
+          "endpoint_abs_difference": 1.4901161193847656e-08,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "u_I": {
+          "max_abs_difference": 4.721805453300476e-07,
+          "endpoint_abs_difference": 4.721805453300476e-07,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "rho_I": {
+          "max_abs_difference": 6.798472895752639e-11,
+          "endpoint_abs_difference": 6.798472895752639e-11,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Phi_A": {
+          "max_abs_difference": 1.310468178417068e-09,
+          "endpoint_abs_difference": 1.310468178417068e-09,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Phi_B": {
+          "max_abs_difference": 4.70777195005212e-10,
+          "endpoint_abs_difference": 2.1020696294726804e-10,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "Q_H": {
+          "max_abs_difference": 5.634355204620078e-10,
+          "endpoint_abs_difference": 5.634355204620078e-10,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "mdot_A": {
+          "max_abs_difference": 0.0,
+          "endpoint_abs_difference": 0.0,
+          "points_compared": 101,
+          "interpolation_used": false
+        },
+        "mdot_B": {
+          "max_abs_difference": 0.0,
+          "endpoint_abs_difference": 0.0,
+          "points_compared": 101,
+          "interpolation_used": false
+        }
+      },
+      "equal_Nu_reference_control_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      }
+    },
+    {
+      "file": "case_17.mat",
+      "sha256": "D4789283476C26F57D432F7D0B8E18AB49944F9B652EEAC597BAC09C725AFBCE",
+      "material": "SE",
+      "flow_kgps": -0.0032,
+      "wall_step_K": -5,
+      "fixed_step_s": 0.0005,
+      "branches": {
+        "native": {
+          "final_temperature_K": 301.49732666864554,
+          "final_heat_into_fluid_W": -22.135445974159158,
+          "heat_into_fluid_BE_J": -1.835714206953535,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.121139176242871e-15,
+            "endpoint_residual_J": 3.6424890915173844e-14,
+            "max_abs_cumulative_residual_J": 4.395337396047869e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 301.49732666864554,
+          "final_heat_into_fluid_W": -22.135445974159158,
+          "heat_into_fluid_BE_J": -1.835714206953535,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.121139176242871e-15,
+            "endpoint_residual_J": 3.6424890915173844e-14,
+            "max_abs_cumulative_residual_J": 4.395337396047869e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 301.8876571246955,
+          "final_heat_into_fluid_W": -16.24306956133678,
+          "heat_into_fluid_BE_J": -1.441550051529112,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 4.6091602756703764e-15,
+            "endpoint_residual_J": 4.70815648905107e-14,
+            "max_abs_cumulative_residual_J": 4.732420933671296e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2789769243681803e-13,
+          "temperature_difference_from_native_at_end_K": 0.3903304560499805
+        },
+        "reference_Q01": {
+          "final_temperature_K": 301.8876571246955,
+          "final_heat_into_fluid_W": -16.24306956133678,
+          "heat_into_fluid_BE_J": -1.441550051529112,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 4.6091602756703764e-15,
+            "endpoint_residual_J": 4.70815648905107e-14,
+            "max_abs_cumulative_residual_J": 4.732420933671296e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2789769243681803e-13,
+          "temperature_difference_from_native_at_end_K": 0.3903304560499805
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 3.3881317890172014e-21,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": null,
+      "equal_Nu_reference_control_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      }
+    },
+    {
+      "file": "case_18.mat",
+      "sha256": "92B89033641ED67BFBEF0E43FDDE2F408624EF5FAD47EFDADB7AAD9114E85F1C",
+      "material": "SE",
+      "flow_kgps": -0.0032,
+      "wall_step_K": 5,
+      "fixed_step_s": 0.0005,
+      "branches": {
+        "native": {
+          "final_temperature_K": 304.8089500271064,
+          "final_heat_into_fluid_W": 22.199543267434688,
+          "heat_into_fluid_BE_J": 1.8393124573465514,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.121139176242871e-15,
+            "endpoint_residual_J": 1.5812039211879434e-14,
+            "max_abs_cumulative_residual_J": 2.106586609930969e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 304.8089500271064,
+          "final_heat_into_fluid_W": 22.199543267434688,
+          "heat_into_fluid_BE_J": 1.8393124573465514,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.121139176242871e-15,
+            "endpoint_residual_J": 1.5812039211879434e-14,
+            "max_abs_cumulative_residual_J": 2.106586609930969e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 304.4179066612905,
+          "final_heat_into_fluid_W": 16.29082194833984,
+          "heat_into_fluid_BE_J": 1.4445894266443235,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.116133211524598e-15,
+            "endpoint_residual_J": 3.9050554138258826e-14,
+            "max_abs_cumulative_residual_J": 4.0711877127158364e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2434497875801753e-13,
+          "temperature_difference_from_native_at_end_K": -0.3910433658159036
+        },
+        "reference_Q01": {
+          "final_temperature_K": 304.4179066612905,
+          "final_heat_into_fluid_W": 16.29082194833984,
+          "heat_into_fluid_BE_J": 1.4445894266443235,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.116133211524598e-15,
+            "endpoint_residual_J": 3.9050554138258826e-14,
+            "max_abs_cumulative_residual_J": 4.0711877127158364e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2434497875801753e-13,
+          "temperature_difference_from_native_at_end_K": -0.3910433658159036
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 3.3881317890172014e-21,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": null,
+      "equal_Nu_reference_control_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      }
+    },
+    {
+      "file": "case_19.mat",
+      "sha256": "6F53FD042CE9C3B125D207E9B0989FB0E4AF4AC626ADFF9DEF8FE4AFC146FD71",
+      "material": "SE",
+      "flow_kgps": 0.0032,
+      "wall_step_K": -5,
+      "fixed_step_s": 0.0005,
+      "branches": {
+        "native": {
+          "final_temperature_K": 301.49659288711973,
+          "final_heat_into_fluid_W": -22.129811325416426,
+          "heat_into_fluid_BE_J": -1.8351935963001225,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.143455106271233e-15,
+            "endpoint_residual_J": 2.3194693888611427e-14,
+            "max_abs_cumulative_residual_J": 2.8381300241347583e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 301.49659288711973,
+          "final_heat_into_fluid_W": -22.129811325416426,
+          "heat_into_fluid_BE_J": -1.8351935963001225,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.143455106271233e-15,
+            "endpoint_residual_J": 2.3194693888611427e-14,
+            "max_abs_cumulative_residual_J": 2.8381300241347583e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 301.88677249219774,
+          "final_heat_into_fluid_W": -16.239199954692282,
+          "heat_into_fluid_BE_J": -1.4412716563780703,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 4.33290556212107e-15,
+            "endpoint_residual_J": 6.061505148707906e-15,
+            "max_abs_cumulative_residual_J": 1.2547527805167939e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.3145040611561853e-13,
+          "temperature_difference_from_native_at_end_K": 0.39017960507800353
+        },
+        "reference_Q01": {
+          "final_temperature_K": 301.88677249219774,
+          "final_heat_into_fluid_W": -16.239199954692282,
+          "heat_into_fluid_BE_J": -1.4412716563780703,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 4.33290556212107e-15,
+            "endpoint_residual_J": 6.061505148707906e-15,
+            "max_abs_cumulative_residual_J": 1.2547527805167939e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.3145040611561853e-13,
+          "temperature_difference_from_native_at_end_K": 0.39017960507800353
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": null,
+      "equal_Nu_reference_control_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      }
+    },
+    {
+      "file": "case_20.mat",
+      "sha256": "C80B2FA2EFB58A109BE5EE087B272828A5897F22AA9C263718A7A51B62A9BEB8",
+      "material": "SE",
+      "flow_kgps": 0.0032,
+      "wall_step_K": 5,
+      "fixed_step_s": 0.0005,
+      "branches": {
+        "native": {
+          "final_temperature_K": 304.8082844561014,
+          "final_heat_into_fluid_W": 22.20441954745403,
+          "heat_into_fluid_BE_J": 1.8397924934004688,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 4.939625097843958e-15,
+            "endpoint_residual_J": 5.634088141298209e-15,
+            "max_abs_cumulative_residual_J": 1.355845871604019e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 304.8082844561014,
+          "final_heat_into_fluid_W": 22.20441954745403,
+          "heat_into_fluid_BE_J": 1.8397924934004688,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 4.939625097843958e-15,
+            "endpoint_residual_J": 5.634088141298209e-15,
+            "max_abs_cumulative_residual_J": 1.355845871604019e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 304.41709431953785,
+          "final_heat_into_fluid_W": 16.294344772380168,
+          "heat_into_fluid_BE_J": 1.4448537585362882,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 4.64255370258293e-15,
+            "endpoint_residual_J": -1.0729859157226847e-14,
+            "max_abs_cumulative_residual_J": 2.0134011960931615e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2434497875801753e-13,
+          "temperature_difference_from_native_at_end_K": -0.3911901365635231
+        },
+        "reference_Q01": {
+          "final_temperature_K": 304.41709431953785,
+          "final_heat_into_fluid_W": 16.294344772380168,
+          "heat_into_fluid_BE_J": 1.4448537585362882,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 4.64255370258293e-15,
+            "endpoint_residual_J": -1.0729859157226847e-14,
+            "max_abs_cumulative_residual_J": 2.0134011960931615e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2434497875801753e-13,
+          "temperature_difference_from_native_at_end_K": -0.3911901365635231
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": null,
+      "equal_Nu_reference_control_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      }
+    },
+    {
+      "file": "case_21.mat",
+      "sha256": "881E7A2B3ED3D02162A9C68BE848732860E994483233235936C608FBC8924082",
+      "material": "SE",
+      "flow_kgps": -0.0032,
+      "wall_step_K": -5,
+      "fixed_step_s": 0.00025,
+      "branches": {
+        "native": {
+          "final_temperature_K": 301.4972627474971,
+          "final_heat_into_fluid_W": -22.13536874021245,
+          "heat_into_fluid_BE_J": -1.8302543790191015,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.2040861481521695e-15,
+            "endpoint_residual_J": 1.077377797436066e-14,
+            "max_abs_cumulative_residual_J": 1.48582928187653e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 301.4972627474971,
+          "final_heat_into_fluid_W": -22.13536874021245,
+          "heat_into_fluid_BE_J": -1.8302543790191015,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.2040861481521695e-15,
+            "endpoint_residual_J": 1.077377797436066e-14,
+            "max_abs_cumulative_residual_J": 1.48582928187653e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 301.88741418932494,
+          "final_heat_into_fluid_W": -16.24200689929705,
+          "heat_into_fluid_BE_J": -1.4376336541208452,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.483027226693693e-15,
+            "endpoint_residual_J": 7.545247521396903e-15,
+            "max_abs_cumulative_residual_J": 2.180749341957472e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2434497875801753e-13,
+          "temperature_difference_from_native_at_end_K": 0.390151441827868
+        },
+        "reference_Q01": {
+          "final_temperature_K": 301.88741418932494,
+          "final_heat_into_fluid_W": -16.24200689929705,
+          "heat_into_fluid_BE_J": -1.4376336541208452,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.483027226693693e-15,
+            "endpoint_residual_J": 7.545247521396903e-15,
+            "max_abs_cumulative_residual_J": 2.180749341957472e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2434497875801753e-13,
+          "temperature_difference_from_native_at_end_K": 0.390151441827868
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": null,
+      "equal_Nu_reference_control_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      }
+    },
+    {
+      "file": "case_22.mat",
+      "sha256": "D6D3A2C1407B7E8FDF3CED19207B451854C0092E67996DA72FD292C1FCD2D6FD",
+      "material": "SE",
+      "flow_kgps": -0.0032,
+      "wall_step_K": 5,
+      "fixed_step_s": 0.00025,
+      "branches": {
+        "native": {
+          "final_temperature_K": 304.80901084021065,
+          "final_heat_into_fluid_W": 22.199471997709015,
+          "heat_into_fluid_BE_J": 1.8338334884760084,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.2518753235197835e-15,
+            "endpoint_residual_J": 6.7771919261445934e-15,
+            "max_abs_cumulative_residual_J": 2.2265887321838013e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 304.80901084021065,
+          "final_heat_into_fluid_W": 22.199471997709015,
+          "heat_into_fluid_BE_J": 1.8338334884760084,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.2518753235197835e-15,
+            "endpoint_residual_J": 6.7771919261445934e-15,
+            "max_abs_cumulative_residual_J": 2.2265887321838013e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 304.4181492844903,
+          "final_heat_into_fluid_W": 16.28976977981327,
+          "heat_into_fluid_BE_J": 1.4406577806641243,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 4.569695316591904e-15,
+            "endpoint_residual_J": -3.938281721137943e-14,
+            "max_abs_cumulative_residual_J": 4.478707715024205e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2434497875801753e-13,
+          "temperature_difference_from_native_at_end_K": -0.39086155572033476
+        },
+        "reference_Q01": {
+          "final_temperature_K": 304.4181492844903,
+          "final_heat_into_fluid_W": 16.28976977981327,
+          "heat_into_fluid_BE_J": 1.4406577806641243,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 4.569695316591904e-15,
+            "endpoint_residual_J": -3.938281721137943e-14,
+            "max_abs_cumulative_residual_J": 4.478707715024205e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2434497875801753e-13,
+          "temperature_difference_from_native_at_end_K": -0.39086155572033476
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": null,
+      "equal_Nu_reference_control_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      }
+    },
+    {
+      "file": "case_23.mat",
+      "sha256": "6E856F70AD4DFD01B647B5AD2D3A766D7C7B5E338A949AA90EC83A384858AFF7",
+      "material": "SE",
+      "flow_kgps": 0.0032,
+      "wall_step_K": -5,
+      "fixed_step_s": 0.00025,
+      "branches": {
+        "native": {
+          "final_temperature_K": 301.49652855272876,
+          "final_heat_into_fluid_W": -22.129733580605205,
+          "heat_into_fluid_BE_J": -1.829733899614832,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.114832168917616e-15,
+            "endpoint_residual_J": -2.2976145623934425e-15,
+            "max_abs_cumulative_residual_J": 1.5251049502671148e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 301.49652855272876,
+          "final_heat_into_fluid_W": -22.129733580605205,
+          "heat_into_fluid_BE_J": -1.829733899614832,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.114832168917616e-15,
+            "endpoint_residual_J": -2.2976145623934425e-15,
+            "max_abs_cumulative_residual_J": 1.5251049502671148e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 301.8865291266866,
+          "final_heat_into_fluid_W": -16.23813541438707,
+          "heat_into_fluid_BE_J": -1.4373553759786026,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.533131396045712e-15,
+            "endpoint_residual_J": 4.165733564699075e-14,
+            "max_abs_cumulative_residual_J": 4.492978306420375e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2789769243681803e-13,
+          "temperature_difference_from_native_at_end_K": 0.3900005739578205
+        },
+        "reference_Q01": {
+          "final_temperature_K": 301.8865291266866,
+          "final_heat_into_fluid_W": -16.23813541438707,
+          "heat_into_fluid_BE_J": -1.4373553759786026,
+          "density_lookup_max_error_kg_m3": 2.2737367544323206e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.533131396045712e-15,
+            "endpoint_residual_J": 4.165733564699075e-14,
+            "max_abs_cumulative_residual_J": 4.492978306420375e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2789769243681803e-13,
+          "temperature_difference_from_native_at_end_K": 0.3900005739578205
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": null,
+      "equal_Nu_reference_control_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      }
+    },
+    {
+      "file": "case_24.mat",
+      "sha256": "F4740A9CD44BABA4E2980FD5E9855ACC53FDF5AFC6F5342DF3A80FFC8FE10007",
+      "material": "SE",
+      "flow_kgps": 0.0032,
+      "wall_step_K": 5,
+      "fixed_step_s": 0.00025,
+      "branches": {
+        "native": {
+          "final_temperature_K": 304.8083447349812,
+          "final_heat_into_fluid_W": 22.204348892994332,
+          "heat_into_fluid_BE_J": 1.834313611781452,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.182486384480711e-15,
+            "endpoint_residual_J": 5.468067904867177e-14,
+            "max_abs_cumulative_residual_J": 5.468067904867177e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "probe": {
+          "final_temperature_K": 304.8083447349812,
+          "final_heat_into_fluid_W": 22.204348892994332,
+          "heat_into_fluid_BE_J": 1.834313611781452,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.182486384480711e-15,
+            "endpoint_residual_J": 5.468067904867177e-14,
+            "max_abs_cumulative_residual_J": 5.468067904867177e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          }
+        },
+        "reference_saved_Nu": {
+          "final_temperature_K": 304.4173364675396,
+          "final_heat_into_fluid_W": 16.29329466761233,
+          "heat_into_fluid_BE_J": 1.440922108222324,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.533131396045712e-15,
+            "endpoint_residual_J": -2.3483265599414334e-14,
+            "max_abs_cumulative_residual_J": 3.55502189387435e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2434497875801753e-13,
+          "temperature_difference_from_native_at_end_K": -0.3910082674415776
+        },
+        "reference_Q01": {
+          "final_temperature_K": 304.4173364675396,
+          "final_heat_into_fluid_W": 16.29329466761233,
+          "heat_into_fluid_BE_J": 1.440922108222324,
+          "density_lookup_max_error_kg_m3": 4.547473508864641e-13,
+          "local_energy_ledger": {
+            "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+            "nominal_mass_kg": 0.0001351469284485053,
+            "max_abs_step_residual_J": 5.533131396045712e-15,
+            "endpoint_residual_J": -2.3483265599414334e-14,
+            "max_abs_cumulative_residual_J": 3.55502189387435e-14,
+            "max_abs_boundary_mass_sum_kgps": 0.0,
+            "quadrature": "native local backward Euler, actual measured intervals",
+            "full_device_energy_or_pump_validation": false
+          },
+          "own_state_heat_equation_max_error_W": 1.2434497875801753e-13,
+          "temperature_difference_from_native_at_end_K": -0.3910082674415776
+        }
+      },
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "prior_native_comparison": null,
+      "equal_Nu_reference_control_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      }
+    }
+  ],
+  "three_grid_observations": [
+    {
+      "material": "SMA",
+      "flow_kgps": -0.0508,
+      "wall_step_K": -5,
+      "branch": "native",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.01801048723365284,
+              "endpoint_abs_difference": 0.00012164728764219035,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.009481967319686646,
+              "endpoint_abs_difference": 6.033994782228547e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.01801048723365284,
+            0.009481967319686646
+          ],
+          "decreased": true,
+          "difference_ratio": 1.899446246377491,
+          "observed_log2_ratio": 0.9255788848474037,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.14813824386355634,
+              "endpoint_abs_difference": 0.0009728353964675307,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.07804740283867773,
+              "endpoint_abs_difference": 0.0004825471428802075,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.14813824386355634,
+            0.07804740283867773
+          ],
+          "decreased": true,
+          "difference_ratio": 1.898054752311936,
+          "observed_log2_ratio": 0.9245216097191854,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SMA",
+      "flow_kgps": -0.0508,
+      "wall_step_K": -5,
+      "branch": "reference_saved_Nu",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.010273118905502088,
+              "endpoint_abs_difference": 6.204818311061899e-05,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.005415669446165339,
+              "endpoint_abs_difference": 3.0702032347562636e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.010273118905502088,
+            0.005415669446165339
+          ],
+          "decreased": true,
+          "difference_ratio": 1.896925026097402,
+          "observed_log2_ratio": 0.9236626589207182,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.14603747716553528,
+              "endpoint_abs_difference": 0.0008806906621998678,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.07698959982083409,
+              "endpoint_abs_difference": 0.00043577402720984537,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.14603747716553528,
+            0.07698959982083409
+          ],
+          "decreased": true,
+          "difference_ratio": 1.8968468144448805,
+          "observed_log2_ratio": 0.9236031742874871,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SMA",
+      "flow_kgps": -0.0508,
+      "wall_step_K": -5,
+      "branch": "reference_Q01",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.008622338313500677,
+              "endpoint_abs_difference": 5.42462090038498e-05,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.00454307162766554,
+              "endpoint_abs_difference": 2.6867241558647947e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.008622338313500677,
+            0.00454307162766554
+          ],
+          "decreased": true,
+          "difference_ratio": 1.8979093926219406,
+          "observed_log2_ratio": 0.9244111188420342,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.10275217550057647,
+              "endpoint_abs_difference": 0.0006456095079414581,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.0541415365464033,
+              "endpoint_abs_difference": 0.00031975954168927956,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.10275217550057647,
+            0.0541415365464033
+          ],
+          "decreased": true,
+          "difference_ratio": 1.897843726923233,
+          "observed_log2_ratio": 0.9243612022247477,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SMA",
+      "flow_kgps": -0.0508,
+      "wall_step_K": 5,
+      "branch": "native",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.01808046409007602,
+              "endpoint_abs_difference": 0.00014236452096838548,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.009500741093461329,
+              "endpoint_abs_difference": 7.083877693503382e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.01808046409007602,
+            0.009500741093461329
+          ],
+          "decreased": true,
+          "difference_ratio": 1.903058289054892,
+          "observed_log2_ratio": 0.9283197508092885,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.0068897209522589264,
+              "endpoint_abs_difference": 6.996480942689232e-05,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.003594252252796082,
+              "endpoint_abs_difference": 3.481513397218805e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.0068897209522589264,
+            0.003594252252796082
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9168718464039902,
+          "observed_log2_ratio": 0.9387538880036392,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SMA",
+      "flow_kgps": -0.0508,
+      "wall_step_K": 5,
+      "branch": "reference_saved_Nu",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.010266167025633877,
+              "endpoint_abs_difference": 6.26834811896515e-05,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.0054096028915182615,
+              "endpoint_abs_difference": 3.101398561966562e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.010266167025633877,
+            0.0054096028915182615
+          ],
+          "decreased": true,
+          "difference_ratio": 1.8977672172074298,
+          "observed_log2_ratio": 0.9243030402111962,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.14239347746350006,
+              "endpoint_abs_difference": 0.0008706139057039763,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.07494121180299373,
+              "endpoint_abs_difference": 0.0004307548420143803,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.14239347746350006,
+            0.07494121180299373
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9000690546321237,
+          "observed_log2_ratio": 0.9260518516956708,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SMA",
+      "flow_kgps": -0.0508,
+      "wall_step_K": 5,
+      "branch": "reference_Q01",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.008613718064395925,
+              "endpoint_abs_difference": 5.480239968846945e-05,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.0045356319650409205,
+              "endpoint_abs_difference": 2.713900147455206e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.008613718064395925,
+            0.0045356319650409205
+          ],
+          "decreased": true,
+          "difference_ratio": 1.8991219152672614,
+          "observed_log2_ratio": 0.9253325231313255,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.10015328196927697,
+              "endpoint_abs_difference": 0.0006379323257945657,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.0526414849116108,
+              "endpoint_abs_difference": 0.00031591407891085055,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.10015328196927697,
+            0.0526414849116108
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9025542713592183,
+          "observed_log2_ratio": 0.927937607949091,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SMA",
+      "flow_kgps": 0.0508,
+      "wall_step_K": -5,
+      "branch": "native",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.01800203128652811,
+              "endpoint_abs_difference": 0.00012175578893902639,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.009477645711285732,
+              "endpoint_abs_difference": 6.0390651810848794e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.01800203128652811,
+            0.009477645711285732
+          ],
+          "decreased": true,
+          "difference_ratio": 1.899420155059369,
+          "observed_log2_ratio": 0.9255590674538511,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.1480107036957321,
+              "endpoint_abs_difference": 0.000973328845716992,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.07798121154063153,
+              "endpoint_abs_difference": 0.0004827670001787965,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.1480107036957321,
+            0.07798121154063153
+          ],
+          "decreased": true,
+          "difference_ratio": 1.898030317451688,
+          "observed_log2_ratio": 0.9245030368731836,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SMA",
+      "flow_kgps": 0.0508,
+      "wall_step_K": -5,
+      "branch": "reference_saved_Nu",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.010265734433517082,
+              "endpoint_abs_difference": 6.215804580733675e-05,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.005411926780993781,
+              "endpoint_abs_difference": 3.075340413261074e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.010265734433517082,
+            0.005411926780993781
+          ],
+          "decreased": true,
+          "difference_ratio": 1.8968723800125038,
+          "observed_log2_ratio": 0.9236226186984926,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.14593178467839607,
+              "endpoint_abs_difference": 0.0008822443530362989,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.07693601272475803,
+              "endpoint_abs_difference": 0.0004365003779298604,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.14593178467839607,
+            0.07693601272475803
+          ],
+          "decreased": true,
+          "difference_ratio": 1.8967942256180268,
+          "observed_log2_ratio": 0.9235631759645506,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SMA",
+      "flow_kgps": 0.0508,
+      "wall_step_K": -5,
+      "branch": "reference_Q01",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.0086149163224718,
+              "endpoint_abs_difference": 5.436452858020857e-05,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.004539308188100222,
+              "endpoint_abs_difference": 2.6922715392174723e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.0086149163224718,
+            0.004539308188100222
+          ],
+          "decreased": true,
+          "difference_ratio": 1.8978478581947285,
+          "observed_log2_ratio": 0.9243643427143081,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.10266321946907908,
+              "endpoint_abs_difference": 0.000647013486450021,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.054096416732761554,
+              "endpoint_abs_difference": 0.00032041768192669906,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.10266321946907908,
+            0.054096416732761554
+          ],
+          "decreased": true,
+          "difference_ratio": 1.8977822500931893,
+          "observed_log2_ratio": 0.9243144682639315,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SMA",
+      "flow_kgps": 0.0508,
+      "wall_step_K": 5,
+      "branch": "native",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.018085763937392585,
+              "endpoint_abs_difference": 0.00014218491696738056,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.009503400302719456,
+              "endpoint_abs_difference": 7.07527824488352e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.018085763937392585,
+            0.009503400302719456
+          ],
+          "decreased": true,
+          "difference_ratio": 1.903083460792158,
+          "observed_log2_ratio": 0.9283388331992317,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.00690397042934876,
+              "endpoint_abs_difference": 6.997188860680126e-05,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.0036427402465903924,
+              "endpoint_abs_difference": 3.4820313871364306e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.00690397042934876,
+            0.0036427402465903924
+          ],
+          "decreased": true,
+          "difference_ratio": 1.8952683864326811,
+          "observed_log2_ratio": 0.9224021609867388,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SMA",
+      "flow_kgps": 0.0508,
+      "wall_step_K": 5,
+      "branch": "reference_saved_Nu",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.010273592791236297,
+              "endpoint_abs_difference": 6.255788122189188e-05,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.005412749522065496,
+              "endpoint_abs_difference": 3.095466166769256e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.010273592791236297,
+            0.005412749522065496
+          ],
+          "decreased": true,
+          "difference_ratio": 1.898035877949865,
+          "observed_log2_ratio": 0.9245072634080921,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.14249585468728299,
+              "endpoint_abs_difference": 0.0008688644693393144,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.0749599995845216,
+              "endpoint_abs_difference": 0.00042992842794831176,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.14249585468728299,
+            0.0749599995845216
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9009585842728152,
+          "observed_log2_ratio": 0.9267271006792046,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SMA",
+      "flow_kgps": 0.0508,
+      "wall_step_K": 5,
+      "branch": "reference_Q01",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.008620698083404932,
+              "endpoint_abs_difference": 5.467030518957472e-05,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.0045392672051320915,
+              "endpoint_abs_difference": 2.7076576429863053e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.008620698083404932,
+            0.0045392672051320915
+          ],
+          "decreased": true,
+          "difference_ratio": 1.8991387142088436,
+          "observed_log2_ratio": 0.9253452846303785,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.100218600781119,
+              "endpoint_abs_difference": 0.0006363909912110444,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.05267823556172857,
+              "endpoint_abs_difference": 0.0003151855936778247,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.100218600781119,
+            0.05267823556172857
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9024669241945742,
+          "observed_log2_ratio": 0.9278713716182988,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SE",
+      "flow_kgps": -0.0032,
+      "wall_step_K": -5,
+      "branch": "native",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.023739855296753376,
+              "endpoint_abs_difference": 0.0001165889803473874,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.012101345012297315,
+              "endpoint_abs_difference": 6.392114846676122e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.023739855296753376,
+            0.012101345012297315
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9617534474580367,
+          "observed_log2_ratio": 0.9721437355016922,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.028841865321346916,
+              "endpoint_abs_difference": 0.00014087090232095534,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.01470297517559871,
+              "endpoint_abs_difference": 7.723394670833272e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.028841865321346916,
+            0.01470297517559871
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9616346335953374,
+          "observed_log2_ratio": 0.9720563558354361,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SE",
+      "flow_kgps": -0.0032,
+      "wall_step_K": -5,
+      "branch": "reference_saved_Nu",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.021215542999073023,
+              "endpoint_abs_difference": 0.00047337853578710565,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.010865521254174837,
+              "endpoint_abs_difference": 0.00024293537057928916,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.021215542999073023,
+            0.010865521254174837
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9525563940083792,
+          "observed_log2_ratio": 0.96536421709007,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.09319994630435247,
+              "endpoint_abs_difference": 0.0020706825309311228,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.047734923855074385,
+              "endpoint_abs_difference": 0.001062662039732487,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.09319994630435247,
+            0.047734923855074385
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9524477840859695,
+          "observed_log2_ratio": 0.9652839657052591,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SE",
+      "flow_kgps": -0.0032,
+      "wall_step_K": -5,
+      "branch": "reference_Q01",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.021215542999073023,
+              "endpoint_abs_difference": 0.00047337853578710565,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.010865521254174837,
+              "endpoint_abs_difference": 0.00024293537057928916,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.021215542999073023,
+            0.010865521254174837
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9525563940083792,
+          "observed_log2_ratio": 0.96536421709007,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.09319994630435247,
+              "endpoint_abs_difference": 0.0020706825309311228,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.047734923855074385,
+              "endpoint_abs_difference": 0.001062662039732487,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.09319994630435247,
+            0.047734923855074385
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9524477840859695,
+          "observed_log2_ratio": 0.9652839657052591,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SE",
+      "flow_kgps": -0.0032,
+      "wall_step_K": 5,
+      "branch": "native",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.023738632209528987,
+              "endpoint_abs_difference": 0.00011045806303400241,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.012099848997024765,
+              "endpoint_abs_difference": 6.081310425543052e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.023738632209528987,
+            0.012099848997024765
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9618949141733988,
+          "observed_log2_ratio": 0.9722477679276291,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.027657820845753633,
+              "endpoint_abs_difference": 0.00012945093857652523,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.014096588965674783,
+              "endpoint_abs_difference": 7.126972567306211e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.027657820845753633,
+            0.014096588965674783
+          ],
+          "decreased": true,
+          "difference_ratio": 1.962022224887203,
+          "observed_log2_ratio": 0.9723413838369426,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SE",
+      "flow_kgps": -0.0032,
+      "wall_step_K": 5,
+      "branch": "reference_saved_Nu",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.021215100419624378,
+              "endpoint_abs_difference": 0.00047276106732851986,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.010864125379328016,
+              "endpoint_abs_difference": 0.0002426231998242656,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.021215100419624378,
+            0.010864125379328016
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9527665301057677,
+          "observed_log2_ratio": 0.9655194730378098,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.09160299521349202,
+              "endpoint_abs_difference": 0.002050190134085028,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.04690668839313261,
+              "endpoint_abs_difference": 0.0010521685265700853,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.09160299521349202,
+            0.04690668839313261
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9528770491268188,
+          "observed_log2_ratio": 0.9656011216779903,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SE",
+      "flow_kgps": -0.0032,
+      "wall_step_K": 5,
+      "branch": "reference_Q01",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.021215100419624378,
+              "endpoint_abs_difference": 0.00047276106732851986,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.010864125379328016,
+              "endpoint_abs_difference": 0.0002426231998242656,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.021215100419624378,
+            0.010864125379328016
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9527665301057677,
+          "observed_log2_ratio": 0.9655194730378098,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.09160299521349202,
+              "endpoint_abs_difference": 0.002050190134085028,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.04690668839313261,
+              "endpoint_abs_difference": 0.0010521685265700853,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.09160299521349202,
+            0.04690668839313261
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9528770491268188,
+          "observed_log2_ratio": 0.9656011216779903,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SE",
+      "flow_kgps": 0.0032,
+      "wall_step_K": -5,
+      "branch": "native",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.0237382039813383,
+              "endpoint_abs_difference": 0.00011741626894945512,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.012100500605527031,
+              "endpoint_abs_difference": 6.433439097008886e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.0237382039813383,
+            0.012100500605527031
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9617538773970744,
+          "observed_log2_ratio": 0.97214405168355,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.028844184343043366,
+              "endpoint_abs_difference": 0.00014189158154209736,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.01470415405462333,
+              "endpoint_abs_difference": 7.774481122169163e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.028844184343043366,
+            0.01470415405462333
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9616350750877831,
+          "observed_log2_ratio": 0.9720566805334607,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SE",
+      "flow_kgps": 0.0032,
+      "wall_step_K": -5,
+      "branch": "reference_saved_Nu",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.0212130456540649,
+              "endpoint_abs_difference": 0.0004742419363310546,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.010864244858282746,
+              "endpoint_abs_difference": 0.00024336551115311522,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.0212130456540649,
+            0.010864244858282746
+          ],
+          "decreased": true,
+          "difference_ratio": 1.952555923653762,
+          "observed_log2_ratio": 0.9653638695567759,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.09318883999686989,
+              "endpoint_abs_difference": 0.0020744528841731835,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.04772924664230871,
+              "endpoint_abs_difference": 0.0010645403052116365,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.09318883999686989,
+            0.04772924664230871
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9524473263792177,
+          "observed_log2_ratio": 0.9652836274983458,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SE",
+      "flow_kgps": 0.0032,
+      "wall_step_K": -5,
+      "branch": "reference_Q01",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.0212130456540649,
+              "endpoint_abs_difference": 0.0004742419363310546,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.010864244858282746,
+              "endpoint_abs_difference": 0.00024336551115311522,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.0212130456540649,
+            0.010864244858282746
+          ],
+          "decreased": true,
+          "difference_ratio": 1.952555923653762,
+          "observed_log2_ratio": 0.9653638695567759,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.09318883999686989,
+              "endpoint_abs_difference": 0.0020744528841731835,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.04772924664230871,
+              "endpoint_abs_difference": 0.0010645403052116365,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.09318883999686989,
+            0.04772924664230871
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9524473263792177,
+          "observed_log2_ratio": 0.9652836274983458,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SE",
+      "flow_kgps": 0.0032,
+      "wall_step_K": 5,
+      "branch": "native",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.023739975989769846,
+              "endpoint_abs_difference": 0.00010939110654817341,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.012100517820726964,
+              "endpoint_abs_difference": 6.0278879800534924e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.023739975989769846,
+            0.012100517820726964
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9618975271542236,
+          "observed_log2_ratio": 0.9722496894025973,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.02766366355806582,
+              "endpoint_abs_difference": 0.0001282201526322524,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.014099548072803003,
+              "endpoint_abs_difference": 7.065445969800521e-05,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.02766366355806582,
+            0.014099548072803003
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9620248404576175,
+          "observed_log2_ratio": 0.9723433070913803,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SE",
+      "flow_kgps": 0.0032,
+      "wall_step_K": 5,
+      "branch": "reference_saved_Nu",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.02121737333584406,
+              "endpoint_abs_difference": 0.0004718076457947973,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.010865263299649541,
+              "endpoint_abs_difference": 0.00024214800174604534,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.02121737333584406,
+            0.010865263299649541
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9527712077192299,
+          "observed_log2_ratio": 0.965522928833246,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.09161267363513659,
+              "endpoint_abs_difference": 0.0020460496613701196,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.04691153171734186,
+              "endpoint_abs_difference": 0.001050104767838178,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.09161267363513659,
+            0.04691153171734186
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9528817389109039,
+          "observed_log2_ratio": 0.9656045862689236,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    },
+    {
+      "material": "SE",
+      "flow_kgps": 0.0032,
+      "wall_step_K": 5,
+      "branch": "reference_Q01",
+      "metrics": {
+        "T_I": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.02121737333584406,
+              "endpoint_abs_difference": 0.0004718076457947973,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.010865263299649541,
+              "endpoint_abs_difference": 0.00024214800174604534,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.02121737333584406,
+            0.010865263299649541
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9527712077192299,
+          "observed_log2_ratio": 0.965522928833246,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        },
+        "Q_H": {
+          "comparisons": [
+            {
+              "max_abs_difference": 0.09161267363513659,
+              "endpoint_abs_difference": 0.0020460496613701196,
+              "points_compared": 101,
+              "interpolation_used": false
+            },
+            {
+              "max_abs_difference": 0.04691153171734186,
+              "endpoint_abs_difference": 0.001050104767838178,
+              "points_compared": 201,
+              "interpolation_used": false
+            }
+          ],
+          "successive_max_differences": [
+            0.09161267363513659,
+            0.04691153171734186
+          ],
+          "decreased": true,
+          "difference_ratio": 1.9528817389109039,
+          "observed_log2_ratio": 0.9656045862689236,
+          "scope": "three-grid short-cell observation, not full temporal/spatial convergence certification"
+        }
+      }
+    }
+  ],
+  "reference_states_independently_integrated": true,
+  "scope": "one-cell heat-law counterfactual only; native TL storage/ports/momentum remain in every branch",
+  "spatial_order_or_grid_convergence_verified": false,
+  "paper_full_equation_solver_reproduced": false,
+  "full_device_first_law_verified": false,
+  "coupled_performance_gap_attributed": false,
+  "production_recovery_allowed": false,
+  "outer_solve_allowed": false,
+  "paired_Table4_allowed": false
+}

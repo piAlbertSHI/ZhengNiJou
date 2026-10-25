@@ -22,7 +22,9 @@ def text(dataset):
     return "".join(chr(int(v)) for v in dataset[...].reshape(-1))
 
 
-def read_traces(file, field):
+def read_traces(file, field, step=.001, stop=.1):
+    if not np.isfinite([step, stop]).all() or min(step, stop) <= 0:
+        raise ValueError("Require a finite positive declared time grid")
     rows, clock = {}, None
     for ref in file[field][...].reshape(-1):
         group = file[ref]; name = text(group["name"])
@@ -41,8 +43,10 @@ def read_traces(file, field):
         if not np.array_equal(clock, time) or values.shape != clock.shape:
             raise ValueError("Mismatched raw scalar clocks")
         rows[name] = values
-    if clock is None or clock.shape != (101,) or not np.allclose(clock, np.arange(101)*.001, rtol=0, atol=1e-12):
-        raise ValueError("Require the complete measured 0-0.1s, 1ms fixture")
+    count = int(round(stop/step)) + 1
+    if (abs((count-1)*step-stop) > 1e-12 or clock is None or clock.shape != (count,)
+            or not np.allclose(clock, np.arange(count)*step, rtol=0, atol=1e-12)):
+        raise ValueError("Require the complete declared fixed-step fixture")
     return clock, rows
 
 

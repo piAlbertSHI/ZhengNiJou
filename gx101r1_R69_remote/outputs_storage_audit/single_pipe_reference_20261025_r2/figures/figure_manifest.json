@@ -1,0 +1,45 @@
+{
+  "schema": "heatdrive_ecc_own_state_reference_figures_v1",
+  "input_sha256": {
+    "gx101r1_R69_remote\\outputs_storage_audit\\single_pipe_reference_20261025_r2\\integrated_reference_review.json": "094D8B7FD8CA4FF436014ECAD98F6EB4CE0134D99FE9F50A9D789194D5B0248D",
+    "C:\\tmp\\se21_single_pipe_reference_r2_20261025\\case_12.mat": "CE428AFA32456F5EF42FFDC4C313EC6AF293BD8F385C0DE4667A32D1A127BEEF",
+    "C:\\tmp\\se21_single_pipe_reference_r2_20261025\\case_11.mat": "5799D9C85C66ED70F9E565A01D0E7F869BE765BDAF3656957D737DECFF77A6D3",
+    "C:\\tmp\\se21_single_pipe_reference_r2_20261025\\case_24.mat": "F4740A9CD44BABA4E2980FD5E9855ACC53FDF5AFC6F5342DF3A80FFC8FE10007",
+    "C:\\tmp\\se21_single_pipe_reference_r2_20261025\\case_23.mat": "6E856F70AD4DFD01B647B5AD2D3A766D7C7B5E338A949AA90EC83A384858AFF7"
+  },
+  "files": [
+    {
+      "path": "gx101r1_R69_remote\\outputs_storage_audit\\single_pipe_reference_20261025_r2\\figures\\Fig01_own_temperature_trajectories.png",
+      "bytes": 239628,
+      "sha256": "89C465DE9B0A2F7DCD99B379274AF54EA0FCE136B4B20F8DF40B7D575C91AAB8"
+    },
+    {
+      "path": "gx101r1_R69_remote\\outputs_storage_audit\\single_pipe_reference_20261025_r2\\figures\\Fig01_own_temperature_trajectories.svg",
+      "bytes": 39721,
+      "sha256": "CED96403036D87A3897194B4850001F57C5E855F040E4769FA1732842B272C89"
+    },
+    {
+      "path": "gx101r1_R69_remote\\outputs_storage_audit\\single_pipe_reference_20261025_r2\\figures\\Fig02_time_step_refinement.png",
+      "bytes": 130122,
+      "sha256": "A5DC2C3D8C1E383ADAB158669D2D7233E3E615FA07D5F16A721B69BEA150E0AC"
+    },
+    {
+      "path": "gx101r1_R69_remote\\outputs_storage_audit\\single_pipe_reference_20261025_r2\\figures\\Fig02_time_step_refinement.svg",
+      "bytes": 13457,
+      "sha256": "6CB66C44C77F64BE47B2C4B6A69295559A163DA1E2721100001B36973006D77C"
+    }
+  ],
+  "checks": [
+    {
+      "figure": "Fig01_own_temperature_trajectories",
+      "text_within_canvas": true,
+      "scope": "Each heat law evolves its own native TL states; all 401 points retained."
+    },
+    {
+      "figure": "Fig02_time_step_refinement",
+      "text_within_canvas": true,
+      "scope": "Measured max differences, 1 vs 0.5ms and 0.5 vs 0.25ms, including step onset."
+    }
+  ],
+  "full_reference_or_system_validation": false
+}

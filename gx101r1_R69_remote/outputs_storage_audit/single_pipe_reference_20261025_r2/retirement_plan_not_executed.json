@@ -1,0 +1,16 @@
+{
+  "schema": "heatdrive_ecc_integrated_reference_retirement_plan_v1",
+  "status": "not_executed",
+  "reason": "Tool execution policy rejected the cleanup command before process creation; do not reroute the same deletion through another execution method.",
+  "deleted_bytes": 0,
+  "candidate_bytes_still_present": 67728,
+  "candidates": [
+    {"path": "C:/tmp/se21_single_pipe_reference_r1_20261025/component_build/+ecc_pipe_probe/observed_pipe.ssc", "bytes": 15419, "sha256": "76E44CE7180789E8049C24741151BD40E7CFF27012FB59A68C5886C37A0A2352", "role": "failed build generated source; reproducible from retained producer"},
+    {"path": "C:/tmp/se21_single_pipe_reference_r1_20261025/component_build/+ecc_pipe_probe/reference_pipe.ssc", "bytes": 15451, "sha256": "1D0B4391E13D697A515B3E225045AD1CC6D087B16CB3AE740361E926B1600BB0", "role": "failed build generated source with duplicate H1 display title"},
+    {"path": "C:/tmp/se21_single_pipe_reference_r2_20261025/component_build/ecc_pipe_probe_lib.slx", "bytes": 36858, "sha256": "5F198A68D3DA1CD51449117450F01D637BE7432E5EFA3686A9255A40F0739777", "role": "reproducible generated component library, not production model or state"}
+  ],
+  "keep": ["all 24 raw MAT cases", "execution and failure JSON/logs", "successful 30885-byte SSC source pair for exact heat-equation proof", "review and final figures"],
+  "different_source_and_library_bytes_not_claimed_duplicates": true,
+  "checkpoint_generated": false,
+  "mainline_data_modified": false
+}
