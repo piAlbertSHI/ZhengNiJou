@@ -22,6 +22,13 @@ class ColdInitialScopeTests(unittest.TestCase):
         self.assertIn("expected=42;if strcmp(name,'shared'),expected=21;end", self.run)
         self.assertIn("assert(numel(paths)==expected)", self.run)
 
+    def test_native_recipe_is_explicit_not_partial_conservative_replay(self):
+        self.assertIn("cfg=fullfile(source_root,'native','configuration.mat')", self.run)
+        self.assertIn("assert(~o.branch.independent_conservative_chamber_diagnostic", self.run)
+        self.assertIn("Configure_HeatDriveECC_DistributedPressureFeedforward(model,options)", self.run)
+        self.assertIn("assert(numel(ff.sources)==21)", self.run)
+        self.assertNotIn("Apply_HeatDriveECC_ColdConservativeBuffers(", self.run)
+
     def test_selected_raw_saved_before_gate_and_marker(self):
         write = self.run.index("write_json(raw,traces)")
         check = self.run.index("assert(max_initial_T_error<1e-6")
