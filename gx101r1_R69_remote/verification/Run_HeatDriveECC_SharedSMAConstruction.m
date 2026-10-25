@@ -24,8 +24,22 @@ function result=Run_HeatDriveECC_SharedSMAConstruction(repo, source_root, seed_z
         saved=load(cfg,'options');o=saved.options;
         o.model_path=isolated;o.cycle_count=1;o.simulation.stop_time_s=.01;
         o.simulation.persist_model_configuration=false;o.simulation.resume_checkpoint_path='';
+        library=o.branch.independent_conservative_chamber_library;
+        assert(o.branch.independent_conservative_chamber_diagnostic && strcmp(library,'ecc_inventory_specific_lib'), ...
+            'Load the same retained chamber library, not an alternative storage formulation.');
+        build=fullfile(source_root,'component_build');
+        library_path=fullfile(build,[library '.slx']);
+        component_path=fullfile(build,'+ecc_inventory_specific','conservative_chamber.ssc');
+        assert(isfile(library_path) && isfile(component_path));
+        result.retained_chamber_library=struct('path',library_path,'sha256',file_hash(library_path), ...
+            'component_path',component_path,'component_sha256',file_hash(component_path),'rebuilt',false);
+        addpath(build);load_system(library_path);
+        library_cleanup=onCleanup(@() close_system(library,0));
+        % Current folder precedes the MATLAB path: keep the isolated model's
+        % folder current rather than suppressing a model-shadowing warning.
+        cd(fileparts(isolated));
+        model_cleanup=onCleanup(@() close_isolated(o.model_name,isolated));
         [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(o);
-        model_cleanup=onCleanup(@() close_system(model,0));
         assert(strcmp(get_param(model,'SimulationStatus'),'stopped'));
         set_param(model,'LoadInitialState','off','SaveState','off','SaveFinalState','off');
         before_tl=Export_HeatDriveECC_TLConnectivity(model);
@@ -71,6 +85,14 @@ function result=Run_HeatDriveECC_SharedSMAConstruction(repo, source_root, seed_z
     end
     disp(jsonencode(struct('construction_complete',true,'simulated',false,'folder',folder, ...
         'single_bed_volume_m3',change.single_bed_volume_m3,'production_recovery_allowed',false)));
+end
+
+function close_isolated(name,file)
+    if bdIsLoaded(name)
+        actual=char(java.io.File(get_param(name,'FileName')).getCanonicalPath());
+        assert(strcmpi(actual,char(java.io.File(file).getCanonicalPath())));
+        close_system(name,0);
+    end
 end
 
 function restore(old,oldpath)
