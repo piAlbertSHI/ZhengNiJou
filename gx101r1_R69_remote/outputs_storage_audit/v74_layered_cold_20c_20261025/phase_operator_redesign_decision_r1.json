@@ -1,0 +1,117 @@
+{
+  "schema": "heatdrive_ecc_phase_operator_redesign_decision_v1",
+  "date": "2026-10-25",
+  "baseline_commit": "f4304ee",
+  "physical_execution_commit": "de1abba6d5f159348fefe650ec4459d3ba624f3c",
+  "analysis_only": true,
+  "simulation_started": false,
+  "production_model_or_gates_modified": false,
+  "evidence": [
+    {
+      "path": "observed_phase_drive_r2.json",
+      "sha256": "55DCBC9FF5F83977AD1DECD6A504FC290B6A2634550990738CA8083F08815E7F",
+      "scope": "both final C20 cycles; delayed temperatures; all 21-node material stress/drive/rate equations; conditional endpoint algebra"
+    },
+    {
+      "path": "uniform_pipe_operator_r1.json",
+      "sha256": "AECD383F51C69F73844141E764A3D6D01BCEC13539A50560EDA635458A4F7E27",
+      "scope": "dimensionless uniform-cell directional-branch algebra, not actual Simscape or C20 flux measurement"
+    }
+  ],
+  "new_primary_reference": {
+    "id": "Q01_reference_32",
+    "title": "Accurate prediction of work and coefficient of performance of elastocaloric materials with phase transformation kinetics",
+    "doi": "10.1080/23744731.2018.1457411",
+    "author_hosted_url": "https://hhou.weebly.com/uploads/1/2/3/7/12372781/qian_2018_built.pdf",
+    "local_single_copy": "C:/tmp/se21_phase_surface_review_20261025/qian_2018_built.pdf",
+    "sha256": "329C531EE060E1C373CF7BF04D57083CB47CB89F0CAA6203EBE1F263EE05123B",
+    "bytes": 1046902,
+    "complete_text_pages_read": [2, 3, 4, 5, 6],
+    "rendered_pages_checked": [4],
+    "retention": "reference source; not generated state, checkpoint, or resume input",
+    "facts": [
+      "Page 4 gives two transition probabilities and a polycrystal critical-stress distribution, rather than the current stage-selected exponential gate.",
+      "Table 3 gives sigma_A0=0 MPa and sigma_A,m=100 MPa for its evaluated material; these are not automatically Q01 Table 2 actuator/refrigerant constants.",
+      "No complete Q01-specific kinetic parameter set has been established by this review."
+    ]
+  },
+  "other_primary_checks": [
+    {
+      "path": "C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/A heat driven elastocaloric cooling system..pdf",
+      "sha256": "2D0EB5F84AA515BA651638974414D426A3806FD417A1EAD96EFA36EDA08034CC",
+      "text_pages_read_this_round": [4, 5, 7, 8, 10, 19],
+      "rendered_pages_checked": [8],
+      "scope": "Eq3/5-8; phase-order explanation; Fig5 labels; reference32; no Table4 endpoint fit"
+    },
+    {
+      "path": "C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/2017）Numerical_modeling_of_an_active_elastocaloric_regenerator_refrigerator_with_phase_transformation_kinetics_and_the_matching_principle_for_materials.pdf",
+      "sha256": "E7F35A64B99887B85874DB4A80CAA128E53B629767E740D0B6074A9C6E28000E",
+      "text_pages_read_this_round": [3, 4, 5],
+      "unresolved": "Page5 prose relaxation time 0.1s versus Table1 0.01s; do not silently select either for Q01."
+    }
+  ],
+  "confirmed": [
+    "Both arms reconstruct every final-cycle observed material stress and overdrive with zero difference; maximum rate difference <=3.553e-15/s.",
+    "Both arms have negative necessary drive margins at the full-phase endpoints if observed SMA phase and delayed SE temperatures are frozen.",
+    "Current kinetics explicitly use a factor of 2 chosen for completion inside a 5s half-cycle, not a reported material coefficient or before-blow guarantee.",
+    "Installed Pipe and reference uniform-state heat operators are not generally identical at matched nominal UA."
+  ],
+  "not_proven": [
+    "Unique cause or percentage attribution of the performance gap",
+    "Rate changes can never help a fully coupled trajectory",
+    "Negative compatible force is forbidden for the actual assembly",
+    "Table2 start temperatures equal the Fig5 finish-line intercepts",
+    "The complete native thermal network is over- or under-transferring a particular amount of heat",
+    "Q01 Fig3/Fig5 operation and Table4 fixed-Tc C20 are identical parameter cases"
+  ],
+  "selected_direction": "separate reference material and heat/transport equations from hydraulic implementation before further coupled tuning",
+  "next_work_in_order": [
+    {
+      "step": 1,
+      "work": "Recover/declare Q01-specific finish surfaces and kinetic probability parameters; independently exercise isothermal, adiabatic and reversal material paths.",
+      "required_distinction": "Q01_reference_32 polycrystal model versus Q04 single-crystal model versus current reduced closure",
+      "do_not": "guess activation parameters, reuse another alloy silently, or fit to Table4 output"
+    },
+    {
+      "step": 2,
+      "work": "Run a minimal single-cell heat-step comparison with matched fluid tables, geometry and inventory; expose actual wall temperature, Qconv/Qcond/QH and both heat signs.",
+      "required_distinction": "uniform-cell algebra already complete; actual native component runtime and distributed advection not yet tested"
+    },
+    {
+      "step": 3,
+      "work": "Establish a low-cost prescribed-flow reference transport path with common inventories and explicit second-order-upwind/central-diffusion boundary treatment; test reversal, energy and grid/time convergence before full coupling.",
+      "do_not": "treat prescribed flow as pump validation, or count an untested reference path as an achieved model"
+    },
+    {
+      "step": 4,
+      "work": "Only then run one independent short coupled cycle with before-blow phase and original invariant checks; qualify full-state observation/OP contract separately before long continuation.",
+      "do_not": "restart v74 C20, reconstruct a missing OP, clamp force, add compensating heat, or weaken old gates"
+    }
+  ],
+  "scientific_audit_scope": {
+    "new_physics_gate_added": false,
+    "existing_73_predicate_history_rewritten": false,
+    "equation_reconstruction_tolerance": "1024*double_epsilon*observed_scale, numerical identity only, not a material acceptance threshold",
+    "frozen_endpoint_margin_is_a_new_production_rejection_gate": false,
+    "source_snapshot_unavailable_is_automatically_physics_failure": false
+  },
+  "storage": {
+    "new_large_simulation_files": 0,
+    "new_intermediate_checkpoints": 0,
+    "raw_C20_copied": false,
+    "deletions_performed_this_round": false,
+    "observed_phase_drive_r1": "compact first revision retained; r2 adds existing reverse-coordinate cross-check and analyzer hash",
+    "paper_render_PNGs": "read-only reference viewing intermediates; no model or restoration authority"
+  },
+  "verification": {
+    "targeted_python_tests_passed": 68,
+    "new_tests": 12,
+    "both_arms_final_cycle_equations_reconstructed": true,
+    "C200_result_and_OP_rehashed_unchanged": true,
+    "complete_historical_suite_rerun": false,
+    "new_MATLAB_simulation_executed": false
+  },
+  "production_recovery_allowed": false,
+  "outer_solve_allowed": false,
+  "table4_reproduction_claim": false
+}

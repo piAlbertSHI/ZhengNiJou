@@ -1,0 +1,639 @@
+{
+  "schema": "heatdrive_ecc_observed_phase_drive_review_v1",
+  "window_s": [
+    190,
+    200
+  ],
+  "temperature_input_delay_s": 0.001,
+  "source_execution_sha256": "C6978DBD7A4F2A965FC98B256C299915FD0E2E068F5E298400B4A15A26F83858",
+  "source_binding": {
+    "producer_commit": "de1abba6d5f159348fefe650ec4459d3ba624f3c",
+    "source_equivalence": [
+      {
+        "path": "gx101r1_R69_remote/verification/HeatDriveECC_StableKernelCandidate.m",
+        "producer_git_blob_sha256": "2D75D4C7F7566A5C6C6BABC1BC5A7546A3DC9325935FDE0348009CBDC2D356B4"
+      },
+      {
+        "path": "gx101r1_R69_remote/verification/HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate.m",
+        "producer_git_blob_sha256": "E36A8838EB5BA9A76253A31E4A2021E12D0F836871A721FD0FF922189E0099AE"
+      }
+    ],
+    "runtime_backend_snapshot_available": false,
+    "scope": "producer source plus measured equation reconstruction; not runtime path attestation"
+  },
+  "arms": [
+    {
+      "arm": "native",
+      "source_path": "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025\\native\\observations.mat",
+      "observation_sha256": "377ABC428042059743372AE3E378F0F343CA19B5C8C30E7143DA7027946F5BB5",
+      "configuration_sha256": "CF93E644F3A09DE7A21337BF7F7E83FDDA654E81693F9DCCF5D91D3B2EAAC384",
+      "completion_sha256": "A0D15E0D8A340E55166F878D088BFA69FB450CC470D154C352A17530F6A90B04",
+      "parameters": {
+        "SMA": {
+          "T_As_K": 323.15,
+          "T_Ms_K": 313.15,
+          "C_A_Pa_per_K": 7600000.0,
+          "C_M_Pa_per_K": 7300000.0,
+          "epsilon_T": 0.03,
+          "E_m_Pa": 30000000000.0
+        },
+        "SE": {
+          "T_As_K": 268.15,
+          "T_Ms_K": 258.15,
+          "C_A_Pa_per_K": 7600000.0,
+          "C_M_Pa_per_K": 7300000.0,
+          "epsilon_T": 0.03,
+          "E_m_Pa": 30000000000.0
+        },
+        "geometry": {
+          "L_a_m": 0.8191207665316702,
+          "L_r_m": 0.37843290919687267,
+          "S_a_m2": 2.5132741228718343e-05,
+          "S_r_m2": 1.7000000000000003e-05
+        },
+        "kinetics": {
+          "drive_width_a_Pa": 500000.0,
+          "drive_width_r_Pa": 500000.0,
+          "rate_a_to_A_1_per_s": 16.89089435453796,
+          "rate_a_to_M_1_per_s": 8.000949957412718,
+          "rate_r_load_1_per_s": 16.89089435453796,
+          "rate_r_stage3_unload_1_per_s": 8.000949957412718,
+          "max_rate_1_per_s": 84.4544717726898
+        }
+      },
+      "equation_reconstruction": {
+        "SMA_stress_Pa": {
+          "max_abs_difference": 0.0,
+          "floating_point_allowance": 6.925744227112084e-05,
+          "elements_compared": 210021
+        },
+        "SE_stress_Pa": {
+          "max_abs_difference": 0.0,
+          "floating_point_allowance": 0.00010238996322135169,
+          "elements_compared": 210021
+        },
+        "SMA_overdrive_Pa": {
+          "max_abs_difference": 0.0,
+          "floating_point_allowance": 5.4870309374458324e-05,
+          "elements_compared": 210021
+        },
+        "SMA_rate_1_per_s": {
+          "max_abs_difference": 2.220446049250313e-15,
+          "floating_point_allowance": 1.148198214076974e-12,
+          "elements_compared": 210021
+        },
+        "SE_overdrive_Pa": {
+          "max_abs_difference": 0.0,
+          "floating_point_allowance": 6.645240282594192e-05,
+          "elements_compared": 210021
+        },
+        "SE_rate_1_per_s": {
+          "max_abs_difference": 2.6645352591003757e-15,
+          "floating_point_allowance": 3.2040188526430315e-12,
+          "elements_compared": 210021
+        }
+      },
+      "before_blow": [
+        {
+          "transition": "before_hot_blow",
+          "onset_evidence": [
+            {
+              "flow_fraction_for_onset": 0.01,
+              "onset_time_s": 193.603,
+              "onset_flow_kgps": 0.0048889624353679086,
+              "prior_measured_phase": {
+                "time_s": 193.602,
+                "minimum_xM": 0.8066802648565274,
+                "maximum_xM": 0.9999999999998949,
+                "mean_xM": 0.9458377024234969
+              }
+            },
+            {
+              "flow_fraction_for_onset": 0.1,
+              "onset_time_s": 193.603,
+              "onset_flow_kgps": 0.0048889624353679086,
+              "prior_measured_phase": {
+                "time_s": 193.602,
+                "minimum_xM": 0.8066802648565274,
+                "maximum_xM": 0.9999999999998949,
+                "mean_xM": 0.9458377024234969
+              }
+            }
+          ],
+          "samples": [
+            {
+              "label": "planned_prior",
+              "time_s": 193.499,
+              "SE_min_xM": 0.8018687763344402,
+              "SE_max_xM": 0.9999999999998949,
+              "SE_mean_xM": 0.9439603726873969,
+              "SMA_mean_xM": 6.534738351155965e-18,
+              "common_SE_stress_Pa": 445800143.67451537,
+              "least_complete_node_1based": 1,
+              "node_temperature_now_K": 321.19930058945477,
+              "node_delayed_temperature_used_K": 321.1997121863572,
+              "node_overdrive_Pa": 824.0416933894157,
+              "node_gate_fraction": 0.0016467260431282105,
+              "node_rate_1_per_s": 0.005510955717510209,
+              "frozen_endpoint": {
+                "scope": "frozen_delayed_SE_temperature_and_observed_SMA_phase_algebra_only",
+                "target_SE_xM": 1.0,
+                "limiting_node_1based": 1,
+                "target_common_SE_stress_Pa": 425331880.7490873,
+                "limiting_phase_boundary_stress_Pa": 460262898.96040773,
+                "necessary_drive_margin_Pa": -34931018.21132046,
+                "necessary_drive_nonnegative": false,
+                "limiting_temperature_K": 321.1997121863572,
+                "target_phase_temperature_boundary_K": 316.4146411985051,
+                "predicts_modified_coupled_trajectory": false
+              }
+            },
+            {
+              "label": "actual_prior_0.01",
+              "time_s": 193.602,
+              "SE_min_xM": 0.8066802648565274,
+              "SE_max_xM": 0.9999999999998949,
+              "SE_mean_xM": 0.9458377024234969,
+              "SMA_mean_xM": 1.1472527710424344e-18,
+              "common_SE_stress_Pa": 445114456.055255,
+              "least_complete_node_1based": 1,
+              "node_temperature_now_K": 321.047394544557,
+              "node_delayed_temperature_used_K": 321.0552767224522,
+              "node_overdrive_Pa": 18276.646827161312,
+              "node_gate_fraction": 0.03589328824266136,
+              "node_rate_1_per_s": 0.11720390551276812,
+              "frozen_endpoint": {
+                "scope": "frozen_delayed_SE_temperature_and_observed_SMA_phase_algebra_only",
+                "target_SE_xM": 1.0,
+                "limiting_node_1based": 1,
+                "target_common_SE_stress_Pa": 425331880.7490873,
+                "limiting_phase_boundary_stress_Pa": 459208520.07390136,
+                "necessary_drive_margin_Pa": -33876639.32481408,
+                "necessary_drive_nonnegative": false,
+                "limiting_temperature_K": 321.0552767224522,
+                "target_phase_temperature_boundary_K": 316.4146411985051,
+                "predicts_modified_coupled_trajectory": false
+              }
+            },
+            {
+              "label": "actual_prior_0.1",
+              "time_s": 193.602,
+              "SE_min_xM": 0.8066802648565274,
+              "SE_max_xM": 0.9999999999998949,
+              "SE_mean_xM": 0.9458377024234969,
+              "SMA_mean_xM": 1.1472527710424344e-18,
+              "common_SE_stress_Pa": 445114456.055255,
+              "least_complete_node_1based": 1,
+              "node_temperature_now_K": 321.047394544557,
+              "node_delayed_temperature_used_K": 321.0552767224522,
+              "node_overdrive_Pa": 18276.646827161312,
+              "node_gate_fraction": 0.03589328824266136,
+              "node_rate_1_per_s": 0.11720390551276812,
+              "frozen_endpoint": {
+                "scope": "frozen_delayed_SE_temperature_and_observed_SMA_phase_algebra_only",
+                "target_SE_xM": 1.0,
+                "limiting_node_1based": 1,
+                "target_common_SE_stress_Pa": 425331880.7490873,
+                "limiting_phase_boundary_stress_Pa": 459208520.07390136,
+                "necessary_drive_margin_Pa": -33876639.32481408,
+                "necessary_drive_nonnegative": false,
+                "limiting_temperature_K": 321.0552767224522,
+                "target_phase_temperature_boundary_K": 316.4146411985051,
+                "predicts_modified_coupled_trajectory": false
+              }
+            }
+          ]
+        },
+        {
+          "transition": "before_cold_blow",
+          "onset_evidence": [
+            {
+              "flow_fraction_for_onset": 0.01,
+              "onset_time_s": 198.603,
+              "onset_flow_kgps": 0.0037473152808058423,
+              "prior_measured_phase": {
+                "time_s": 198.602,
+                "minimum_xM": 6.921545204384703e-10,
+                "maximum_xM": 0.33441855652510394,
+                "mean_xM": 0.1249851869264386
+              }
+            },
+            {
+              "flow_fraction_for_onset": 0.1,
+              "onset_time_s": 198.603,
+              "onset_flow_kgps": 0.0037473152808058423,
+              "prior_measured_phase": {
+                "time_s": 198.602,
+                "minimum_xM": 6.921545204384703e-10,
+                "maximum_xM": 0.33441855652510394,
+                "mean_xM": 0.1249851869264386
+              }
+            }
+          ],
+          "samples": [
+            {
+              "label": "planned_prior",
+              "time_s": 198.499,
+              "SE_min_xM": 1.5779898540141433e-09,
+              "SE_max_xM": 0.3544497479568226,
+              "SE_mean_xM": 0.13588197262884763,
+              "SMA_mean_xM": 0.9511574043571668,
+              "common_SE_stress_Pa": -11016491.735556183,
+              "least_complete_node_1based": 21,
+              "node_temperature_now_K": 263.15819467910404,
+              "node_delayed_temperature_used_K": 263.1608625373161,
+              "node_overdrive_Pa": 37227.86387746036,
+              "node_gate_fraction": 0.07175143120256922,
+              "node_rate_1_per_s": -0.20348237322211413,
+              "frozen_endpoint": {
+                "scope": "frozen_delayed_SE_temperature_and_observed_SMA_phase_algebra_only",
+                "target_SE_xM": 0.0,
+                "limiting_node_1based": 21,
+                "target_common_SE_stress_Pa": 38613887.26533227,
+                "limiting_phase_boundary_stress_Pa": -37917444.716397315,
+                "necessary_drive_margin_Pa": -76531331.98172958,
+                "necessary_drive_nonnegative": false,
+                "limiting_temperature_K": 263.1608625373161,
+                "target_phase_temperature_boundary_K": 273.2307746401753,
+                "predicts_modified_coupled_trajectory": false
+              }
+            },
+            {
+              "label": "actual_prior_0.01",
+              "time_s": 198.602,
+              "SE_min_xM": 6.921545204384703e-10,
+              "SE_max_xM": 0.33441855652510394,
+              "SE_mean_xM": 0.1249851869264386,
+              "SMA_mean_xM": 0.9598112895280189,
+              "common_SE_stress_Pa": -13878054.014881972,
+              "least_complete_node_1based": 21,
+              "node_temperature_now_K": 262.9929732045686,
+              "node_delayed_temperature_used_K": 262.9889782311639,
+              "node_overdrive_Pa": 70098.86763587967,
+              "node_gate_fraction": 0.13081365039362503,
+              "node_rate_1_per_s": -0.3500136544308119,
+              "frozen_endpoint": {
+                "scope": "frozen_delayed_SE_temperature_and_observed_SMA_phase_algebra_only",
+                "target_SE_xM": 0.0,
+                "limiting_node_1based": 21,
+                "target_common_SE_stress_Pa": 31772315.02707534,
+                "limiting_phase_boundary_stress_Pa": -39223765.4431541,
+                "necessary_drive_margin_Pa": -70996080.47022943,
+                "necessary_drive_nonnegative": false,
+                "limiting_temperature_K": 262.9889782311639,
+                "target_phase_temperature_boundary_K": 272.33056776672043,
+                "predicts_modified_coupled_trajectory": false
+              }
+            },
+            {
+              "label": "actual_prior_0.1",
+              "time_s": 198.602,
+              "SE_min_xM": 6.921545204384703e-10,
+              "SE_max_xM": 0.33441855652510394,
+              "SE_mean_xM": 0.1249851869264386,
+              "SMA_mean_xM": 0.9598112895280189,
+              "common_SE_stress_Pa": -13878054.014881972,
+              "least_complete_node_1based": 21,
+              "node_temperature_now_K": 262.9929732045686,
+              "node_delayed_temperature_used_K": 262.9889782311639,
+              "node_overdrive_Pa": 70098.86763587967,
+              "node_gate_fraction": 0.13081365039362503,
+              "node_rate_1_per_s": -0.3500136544308119,
+              "frozen_endpoint": {
+                "scope": "frozen_delayed_SE_temperature_and_observed_SMA_phase_algebra_only",
+                "target_SE_xM": 0.0,
+                "limiting_node_1based": 21,
+                "target_common_SE_stress_Pa": 31772315.02707534,
+                "limiting_phase_boundary_stress_Pa": -39223765.4431541,
+                "necessary_drive_margin_Pa": -70996080.47022943,
+                "necessary_drive_nonnegative": false,
+                "limiting_temperature_K": 262.9889782311639,
+                "target_phase_temperature_boundary_K": 272.33056776672043,
+                "predicts_modified_coupled_trajectory": false
+              }
+            }
+          ]
+        }
+      ],
+      "signed_stress_observation": {
+        "minimum_SE_stress_Pa": -13884577.998568209,
+        "maximum_SE_stress_Pa": 450315820.5177327,
+        "negative_sample_count": 1966,
+        "sample_count": 10001,
+        "first_negative_sample_s": 190.0,
+        "compression_or_slack_law_validated": false
+      }
+    },
+    {
+      "arm": "conservative",
+      "source_path": "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025\\conservative\\observations.mat",
+      "observation_sha256": "9E036FFBE1E7B435731631B88881500BAE74E3DAF1735CFA2547ABFE16602D14",
+      "configuration_sha256": "82A096E37867063D357C138B4C97EEC13234B9CC659B8135891D47C55C4D4256",
+      "completion_sha256": "E034A92A6D6E09B285B8C1C40A188D1EB811419DB70D445D41D29CCCCD32A63C",
+      "parameters": {
+        "SMA": {
+          "T_As_K": 323.15,
+          "T_Ms_K": 313.15,
+          "C_A_Pa_per_K": 7600000.0,
+          "C_M_Pa_per_K": 7300000.0,
+          "epsilon_T": 0.03,
+          "E_m_Pa": 30000000000.0
+        },
+        "SE": {
+          "T_As_K": 268.15,
+          "T_Ms_K": 258.15,
+          "C_A_Pa_per_K": 7600000.0,
+          "C_M_Pa_per_K": 7300000.0,
+          "epsilon_T": 0.03,
+          "E_m_Pa": 30000000000.0
+        },
+        "geometry": {
+          "L_a_m": 0.8191207665316702,
+          "L_r_m": 0.37843290919687267,
+          "S_a_m2": 2.5132741228718343e-05,
+          "S_r_m2": 1.7000000000000003e-05
+        },
+        "kinetics": {
+          "drive_width_a_Pa": 500000.0,
+          "drive_width_r_Pa": 500000.0,
+          "rate_a_to_A_1_per_s": 16.89089435453796,
+          "rate_a_to_M_1_per_s": 8.000949957412718,
+          "rate_r_load_1_per_s": 16.89089435453796,
+          "rate_r_stage3_unload_1_per_s": 8.000949957412718,
+          "max_rate_1_per_s": 84.4544717726898
+        }
+      },
+      "equation_reconstruction": {
+        "SMA_stress_Pa": {
+          "max_abs_difference": 0.0,
+          "floating_point_allowance": 6.925876633321758e-05,
+          "elements_compared": 210021
+        },
+        "SE_stress_Pa": {
+          "max_abs_difference": 0.0,
+          "floating_point_allowance": 0.00010239192071017805,
+          "elements_compared": 210021
+        },
+        "SMA_overdrive_Pa": {
+          "max_abs_difference": 0.0,
+          "floating_point_allowance": 5.4870403494738985e-05,
+          "elements_compared": 210021
+        },
+        "SMA_rate_1_per_s": {
+          "max_abs_difference": 1.9984014443252818e-15,
+          "floating_point_allowance": 1.1480430046429362e-12,
+          "elements_compared": 210021
+        },
+        "SE_overdrive_Pa": {
+          "max_abs_difference": 0.0,
+          "floating_point_allowance": 6.645968069306984e-05,
+          "elements_compared": 210021
+        },
+        "SE_rate_1_per_s": {
+          "max_abs_difference": 3.552713678800501e-15,
+          "floating_point_allowance": 3.226735969824789e-12,
+          "elements_compared": 210021
+        }
+      },
+      "before_blow": [
+        {
+          "transition": "before_hot_blow",
+          "onset_evidence": [
+            {
+              "flow_fraction_for_onset": 0.01,
+              "onset_time_s": 193.603,
+              "onset_flow_kgps": 0.004888547811765435,
+              "prior_measured_phase": {
+                "time_s": 193.602,
+                "minimum_xM": 0.8066075914900792,
+                "maximum_xM": 0.9999999999998949,
+                "mean_xM": 0.945813809942378
+              }
+            },
+            {
+              "flow_fraction_for_onset": 0.1,
+              "onset_time_s": 193.603,
+              "onset_flow_kgps": 0.004888547811765435,
+              "prior_measured_phase": {
+                "time_s": 193.602,
+                "minimum_xM": 0.8066075914900792,
+                "maximum_xM": 0.9999999999998949,
+                "mean_xM": 0.945813809942378
+              }
+            }
+          ],
+          "samples": [
+            {
+              "label": "planned_prior",
+              "time_s": 193.499,
+              "SE_min_xM": 0.8017964532874539,
+              "SE_max_xM": 0.9999999999998949,
+              "SE_mean_xM": 0.9439365171519098,
+              "SMA_mean_xM": 6.542600836057444e-18,
+              "common_SE_stress_Pa": 445808856.81905234,
+              "least_complete_node_1based": 1,
+              "node_temperature_now_K": 321.201217521933,
+              "node_delayed_temperature_used_K": 321.20162909453893,
+              "node_overdrive_Pa": 823.3389338254929,
+              "node_gate_fraction": 0.0016453228375191697,
+              "node_rate_1_per_s": 0.005508269658516186,
+              "frozen_endpoint": {
+                "scope": "frozen_delayed_SE_temperature_and_observed_SMA_phase_algebra_only",
+                "target_SE_xM": 1.0,
+                "limiting_node_1based": 1,
+                "target_common_SE_stress_Pa": 425331880.7490873,
+                "limiting_phase_boundary_stress_Pa": 460276892.39013433,
+                "necessary_drive_margin_Pa": -34945011.64104706,
+                "necessary_drive_nonnegative": false,
+                "limiting_temperature_K": 321.20162909453893,
+                "target_phase_temperature_boundary_K": 316.4146411985051,
+                "predicts_modified_coupled_trajectory": false
+              }
+            },
+            {
+              "label": "actual_prior_0.01",
+              "time_s": 193.602,
+              "SE_min_xM": 0.8066075914900792,
+              "SE_max_xM": 0.9999999999998949,
+              "SE_mean_xM": 0.945813809942378,
+              "SMA_mean_xM": 1.1486331258639697e-18,
+              "common_SE_stress_Pa": 445123182.69404495,
+              "least_complete_node_1based": 1,
+              "node_temperature_now_K": 321.0493193265028,
+              "node_delayed_temperature_used_K": 321.05720112092087,
+              "node_overdrive_Pa": 18260.33254659176,
+              "node_gate_fraction": 0.0358618303146615,
+              "node_rate_1_per_s": 0.11714520562855071,
+              "frozen_endpoint": {
+                "scope": "frozen_delayed_SE_temperature_and_observed_SMA_phase_algebra_only",
+                "target_SE_xM": 1.0,
+                "limiting_node_1based": 1,
+                "target_common_SE_stress_Pa": 425331880.7490873,
+                "limiting_phase_boundary_stress_Pa": 459222568.1827225,
+                "necessary_drive_margin_Pa": -33890687.433635235,
+                "necessary_drive_nonnegative": false,
+                "limiting_temperature_K": 321.05720112092087,
+                "target_phase_temperature_boundary_K": 316.4146411985051,
+                "predicts_modified_coupled_trajectory": false
+              }
+            },
+            {
+              "label": "actual_prior_0.1",
+              "time_s": 193.602,
+              "SE_min_xM": 0.8066075914900792,
+              "SE_max_xM": 0.9999999999998949,
+              "SE_mean_xM": 0.945813809942378,
+              "SMA_mean_xM": 1.1486331258639697e-18,
+              "common_SE_stress_Pa": 445123182.69404495,
+              "least_complete_node_1based": 1,
+              "node_temperature_now_K": 321.0493193265028,
+              "node_delayed_temperature_used_K": 321.05720112092087,
+              "node_overdrive_Pa": 18260.33254659176,
+              "node_gate_fraction": 0.0358618303146615,
+              "node_rate_1_per_s": 0.11714520562855071,
+              "frozen_endpoint": {
+                "scope": "frozen_delayed_SE_temperature_and_observed_SMA_phase_algebra_only",
+                "target_SE_xM": 1.0,
+                "limiting_node_1based": 1,
+                "target_common_SE_stress_Pa": 425331880.7490873,
+                "limiting_phase_boundary_stress_Pa": 459222568.1827225,
+                "necessary_drive_margin_Pa": -33890687.433635235,
+                "necessary_drive_nonnegative": false,
+                "limiting_temperature_K": 321.05720112092087,
+                "target_phase_temperature_boundary_K": 316.4146411985051,
+                "predicts_modified_coupled_trajectory": false
+              }
+            }
+          ]
+        },
+        {
+          "transition": "before_cold_blow",
+          "onset_evidence": [
+            {
+              "flow_fraction_for_onset": 0.01,
+              "onset_time_s": 198.603,
+              "onset_flow_kgps": 0.0037463775870393854,
+              "prior_measured_phase": {
+                "time_s": 198.602,
+                "minimum_xM": 6.912175111768587e-10,
+                "maximum_xM": 0.33452609289297347,
+                "mean_xM": 0.1250389917652028
+              }
+            },
+            {
+              "flow_fraction_for_onset": 0.1,
+              "onset_time_s": 198.603,
+              "onset_flow_kgps": 0.0037463775870393854,
+              "prior_measured_phase": {
+                "time_s": 198.602,
+                "minimum_xM": 6.912175111768587e-10,
+                "maximum_xM": 0.33452609289297347,
+                "mean_xM": 0.1250389917652028
+              }
+            }
+          ],
+          "samples": [
+            {
+              "label": "planned_prior",
+              "time_s": 198.499,
+              "SE_min_xM": 1.5758536386687587e-09,
+              "SE_max_xM": 0.3545563132686302,
+              "SE_mean_xM": 0.13593666034390958,
+              "SMA_mean_xM": 0.9511438855720388,
+              "common_SE_stress_Pa": -11025778.561938107,
+              "least_complete_node_1based": 21,
+              "node_temperature_now_K": 263.15590556454094,
+              "node_delayed_temperature_used_K": 263.1585733769538,
+              "node_overdrive_Pa": 37216.03520331718,
+              "node_gate_fraction": 0.07172947104312233,
+              "node_rate_1_per_s": -0.20348125389294724,
+              "frozen_endpoint": {
+                "scope": "frozen_delayed_SE_temperature_and_observed_SMA_phase_algebra_only",
+                "target_SE_xM": 0.0,
+                "limiting_node_1based": 21,
+                "target_common_SE_stress_Pa": 38624574.92101523,
+                "limiting_phase_boundary_stress_Pa": -37934842.335150756,
+                "necessary_drive_margin_Pa": -76559417.25616598,
+                "necessary_drive_nonnegative": false,
+                "limiting_temperature_K": 263.1585733769538,
+                "target_phase_temperature_boundary_K": 273.23218091065985,
+                "predicts_modified_coupled_trajectory": false
+              }
+            },
+            {
+              "label": "actual_prior_0.01",
+              "time_s": 198.602,
+              "SE_min_xM": 6.912175111768587e-10,
+              "SE_max_xM": 0.33452609289297347,
+              "SE_mean_xM": 0.1250389917652028,
+              "SMA_mean_xM": 0.9597981867145919,
+              "common_SE_stress_Pa": -13887347.232143281,
+              "least_complete_node_1based": 21,
+              "node_temperature_now_K": 262.99066937836244,
+              "node_delayed_temperature_used_K": 262.98667530371523,
+              "node_overdrive_Pa": 70062.60024528392,
+              "node_gate_fraction": 0.1307506018653637,
+              "node_rate_1_per_s": -0.349957454534239,
+              "frozen_endpoint": {
+                "scope": "frozen_delayed_SE_temperature_and_observed_SMA_phase_algebra_only",
+                "target_SE_xM": 0.0,
+                "limiting_node_1based": 21,
+                "target_common_SE_stress_Pa": 31782673.824634586,
+                "limiting_phase_boundary_stress_Pa": -39241267.69176407,
+                "necessary_drive_margin_Pa": -71023941.51639865,
+                "necessary_drive_nonnegative": false,
+                "limiting_temperature_K": 262.98667530371523,
+                "target_phase_temperature_boundary_K": 272.33193076639924,
+                "predicts_modified_coupled_trajectory": false
+              }
+            },
+            {
+              "label": "actual_prior_0.1",
+              "time_s": 198.602,
+              "SE_min_xM": 6.912175111768587e-10,
+              "SE_max_xM": 0.33452609289297347,
+              "SE_mean_xM": 0.1250389917652028,
+              "SMA_mean_xM": 0.9597981867145919,
+              "common_SE_stress_Pa": -13887347.232143281,
+              "least_complete_node_1based": 21,
+              "node_temperature_now_K": 262.99066937836244,
+              "node_delayed_temperature_used_K": 262.98667530371523,
+              "node_overdrive_Pa": 70062.60024528392,
+              "node_gate_fraction": 0.1307506018653637,
+              "node_rate_1_per_s": -0.349957454534239,
+              "frozen_endpoint": {
+                "scope": "frozen_delayed_SE_temperature_and_observed_SMA_phase_algebra_only",
+                "target_SE_xM": 0.0,
+                "limiting_node_1based": 21,
+                "target_common_SE_stress_Pa": 31782673.824634586,
+                "limiting_phase_boundary_stress_Pa": -39241267.69176407,
+                "necessary_drive_margin_Pa": -71023941.51639865,
+                "necessary_drive_nonnegative": false,
+                "limiting_temperature_K": 262.98667530371523,
+                "target_phase_temperature_boundary_K": 272.33193076639924,
+                "predicts_modified_coupled_trajectory": false
+              }
+            }
+          ]
+        }
+      ],
+      "signed_stress_observation": {
+        "minimum_SE_stress_Pa": -13893837.92125565,
+        "maximum_SE_stress_Pa": 450324429.644636,
+        "negative_sample_count": 1966,
+        "sample_count": 10001,
+        "first_negative_sample_s": 190.0,
+        "compression_or_slack_law_validated": false
+      }
+    }
+  ],
+  "scope": "exact logged algebra/rates and conditional frozen-input endpoint bounds only",
+  "coupled_counterfactual_simulated": false,
+  "unique_performance_gap_cause_proven": false,
+  "rate_tuning_ruled_out_for_all_coupled_trajectories": false,
+  "simulation_executed": false,
+  "scientific_gates_modified": false,
+  "production_recovery_allowed": false,
+  "outer_solve_allowed": false,
+  "table4_reproduction_claim": false
+}

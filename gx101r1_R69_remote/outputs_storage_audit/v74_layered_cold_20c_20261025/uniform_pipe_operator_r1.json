@@ -1,0 +1,387 @@
+{
+  "schema": "heatdrive_ecc_uniform_pipe_operator_review_v1",
+  "configuration_path": "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025\\conservative\\configuration.mat",
+  "configuration_sha256": "82A096E37867063D357C138B4C97EEC13234B9CC659B8135891D47C55C4D4256",
+  "installed_operator_sources": [
+    {
+      "path": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\physmod\\simscape\\library\\m\\+foundation\\+thermal_liquid\\+elements\\pipe.ssc",
+      "sha256": "CC478BAB8A9B5DD6156ACE2239BF837FE0849843EF5BDBFE6F55C315343FAC3E"
+    },
+    {
+      "path": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\physmod\\simscape\\library\\m\\+foundation\\+thermal_liquid\\+elements\\pipe_convection.ssc",
+      "sha256": "366B69CB32DD3FC08D2323CF69EFA587FE0786869EC6A3AB2AEA2A6761F2369F"
+    }
+  ],
+  "cases": [
+    {
+      "material": "SMA",
+      "saved_Nu": 4.365993493890937,
+      "small_NTU_native_to_reference_limit": 1.2290429432382888,
+      "uniform_zero_flow_native_Q_over_UA_per_K": 0.2290429432382888,
+      "zero_flow_reference_forced_law_applicability": "not asserted; separate natural/flow gating required",
+      "cases": [
+        {
+          "uncapped_NTU": 0.001,
+          "wall_minus_fluid_K": -1.0,
+          "reference_Q_over_UA_K": -1.0,
+          "native_directional_Qconv_over_UA_K": -0.9995001666250082,
+          "native_Qcond_over_UA_K": -0.2290429432382888,
+          "native_total_Q_over_UA_K": -1.228543109863297
+        },
+        {
+          "uncapped_NTU": 0.001,
+          "wall_minus_fluid_K": 0.0,
+          "reference_Q_over_UA_K": 0.0,
+          "native_directional_Qconv_over_UA_K": 0.0,
+          "native_Qcond_over_UA_K": 0.0,
+          "native_total_Q_over_UA_K": 0.0
+        },
+        {
+          "uncapped_NTU": 0.001,
+          "wall_minus_fluid_K": 1.0,
+          "reference_Q_over_UA_K": 1.0,
+          "native_directional_Qconv_over_UA_K": 0.9995001666250082,
+          "native_Qcond_over_UA_K": 0.2290429432382888,
+          "native_total_Q_over_UA_K": 1.228543109863297
+        },
+        {
+          "uncapped_NTU": 0.01,
+          "wall_minus_fluid_K": -1.0,
+          "reference_Q_over_UA_K": -1.0,
+          "native_directional_Qconv_over_UA_K": -0.9950166250831947,
+          "native_Qcond_over_UA_K": -0.2290429432382888,
+          "native_total_Q_over_UA_K": -1.2240595683214834
+        },
+        {
+          "uncapped_NTU": 0.01,
+          "wall_minus_fluid_K": 0.0,
+          "reference_Q_over_UA_K": 0.0,
+          "native_directional_Qconv_over_UA_K": 0.0,
+          "native_Qcond_over_UA_K": 0.0,
+          "native_total_Q_over_UA_K": 0.0
+        },
+        {
+          "uncapped_NTU": 0.01,
+          "wall_minus_fluid_K": 1.0,
+          "reference_Q_over_UA_K": 1.0,
+          "native_directional_Qconv_over_UA_K": 0.9950166250831947,
+          "native_Qcond_over_UA_K": 0.2290429432382888,
+          "native_total_Q_over_UA_K": 1.2240595683214834
+        },
+        {
+          "uncapped_NTU": 0.1,
+          "wall_minus_fluid_K": -1.0,
+          "reference_Q_over_UA_K": -1.0,
+          "native_directional_Qconv_over_UA_K": -0.9516258196404043,
+          "native_Qcond_over_UA_K": -0.2290429432382888,
+          "native_total_Q_over_UA_K": -1.1806687628786932
+        },
+        {
+          "uncapped_NTU": 0.1,
+          "wall_minus_fluid_K": 0.0,
+          "reference_Q_over_UA_K": 0.0,
+          "native_directional_Qconv_over_UA_K": 0.0,
+          "native_Qcond_over_UA_K": 0.0,
+          "native_total_Q_over_UA_K": 0.0
+        },
+        {
+          "uncapped_NTU": 0.1,
+          "wall_minus_fluid_K": 1.0,
+          "reference_Q_over_UA_K": 1.0,
+          "native_directional_Qconv_over_UA_K": 0.9516258196404043,
+          "native_Qcond_over_UA_K": 0.2290429432382888,
+          "native_total_Q_over_UA_K": 1.1806687628786932
+        },
+        {
+          "uncapped_NTU": 1.0,
+          "wall_minus_fluid_K": -1.0,
+          "reference_Q_over_UA_K": -1.0,
+          "native_directional_Qconv_over_UA_K": -0.6321205588285577,
+          "native_Qcond_over_UA_K": -0.2290429432382888,
+          "native_total_Q_over_UA_K": -0.8611635020668464
+        },
+        {
+          "uncapped_NTU": 1.0,
+          "wall_minus_fluid_K": 0.0,
+          "reference_Q_over_UA_K": 0.0,
+          "native_directional_Qconv_over_UA_K": 0.0,
+          "native_Qcond_over_UA_K": 0.0,
+          "native_total_Q_over_UA_K": 0.0
+        },
+        {
+          "uncapped_NTU": 1.0,
+          "wall_minus_fluid_K": 1.0,
+          "reference_Q_over_UA_K": 1.0,
+          "native_directional_Qconv_over_UA_K": 0.6321205588285577,
+          "native_Qcond_over_UA_K": 0.2290429432382888,
+          "native_total_Q_over_UA_K": 0.8611635020668464
+        },
+        {
+          "uncapped_NTU": 10.0,
+          "wall_minus_fluid_K": -1.0,
+          "reference_Q_over_UA_K": -1.0,
+          "native_directional_Qconv_over_UA_K": -0.09999546000702375,
+          "native_Qcond_over_UA_K": -0.2290429432382888,
+          "native_total_Q_over_UA_K": -0.3290384032453125
+        },
+        {
+          "uncapped_NTU": 10.0,
+          "wall_minus_fluid_K": 0.0,
+          "reference_Q_over_UA_K": 0.0,
+          "native_directional_Qconv_over_UA_K": 0.0,
+          "native_Qcond_over_UA_K": 0.0,
+          "native_total_Q_over_UA_K": 0.0
+        },
+        {
+          "uncapped_NTU": 10.0,
+          "wall_minus_fluid_K": 1.0,
+          "reference_Q_over_UA_K": 1.0,
+          "native_directional_Qconv_over_UA_K": 0.09999546000702375,
+          "native_Qcond_over_UA_K": 0.2290429432382888,
+          "native_total_Q_over_UA_K": 0.3290384032453125
+        },
+        {
+          "uncapped_NTU": 30.0,
+          "wall_minus_fluid_K": -1.0,
+          "reference_Q_over_UA_K": -1.0,
+          "native_directional_Qconv_over_UA_K": -0.03333333333333021,
+          "native_Qcond_over_UA_K": -0.2290429432382888,
+          "native_total_Q_over_UA_K": -0.262376276571619
+        },
+        {
+          "uncapped_NTU": 30.0,
+          "wall_minus_fluid_K": 0.0,
+          "reference_Q_over_UA_K": 0.0,
+          "native_directional_Qconv_over_UA_K": 0.0,
+          "native_Qcond_over_UA_K": 0.0,
+          "native_total_Q_over_UA_K": 0.0
+        },
+        {
+          "uncapped_NTU": 30.0,
+          "wall_minus_fluid_K": 1.0,
+          "reference_Q_over_UA_K": 1.0,
+          "native_directional_Qconv_over_UA_K": 0.03333333333333021,
+          "native_Qcond_over_UA_K": 0.2290429432382888,
+          "native_total_Q_over_UA_K": 0.262376276571619
+        },
+        {
+          "uncapped_NTU": 60.0,
+          "wall_minus_fluid_K": -1.0,
+          "reference_Q_over_UA_K": -1.0,
+          "native_directional_Qconv_over_UA_K": -0.016666666666665105,
+          "native_Qcond_over_UA_K": -0.2290429432382888,
+          "native_total_Q_over_UA_K": -0.2457096099049539
+        },
+        {
+          "uncapped_NTU": 60.0,
+          "wall_minus_fluid_K": 0.0,
+          "reference_Q_over_UA_K": 0.0,
+          "native_directional_Qconv_over_UA_K": 0.0,
+          "native_Qcond_over_UA_K": 0.0,
+          "native_total_Q_over_UA_K": 0.0
+        },
+        {
+          "uncapped_NTU": 60.0,
+          "wall_minus_fluid_K": 1.0,
+          "reference_Q_over_UA_K": 1.0,
+          "native_directional_Qconv_over_UA_K": 0.016666666666665105,
+          "native_Qcond_over_UA_K": 0.2290429432382888,
+          "native_total_Q_over_UA_K": 0.2457096099049539
+        }
+      ]
+    },
+    {
+      "material": "SE",
+      "saved_Nu": 3.66,
+      "small_NTU_native_to_reference_limit": 1.2732240437158469,
+      "uniform_zero_flow_native_Q_over_UA_per_K": 0.27322404371584696,
+      "zero_flow_reference_forced_law_applicability": "not asserted; separate natural/flow gating required",
+      "cases": [
+        {
+          "uncapped_NTU": 0.001,
+          "wall_minus_fluid_K": -1.0,
+          "reference_Q_over_UA_K": -1.0,
+          "native_directional_Qconv_over_UA_K": -0.9995001666250082,
+          "native_Qcond_over_UA_K": -0.27322404371584696,
+          "native_total_Q_over_UA_K": -1.2727242103408551
+        },
+        {
+          "uncapped_NTU": 0.001,
+          "wall_minus_fluid_K": 0.0,
+          "reference_Q_over_UA_K": 0.0,
+          "native_directional_Qconv_over_UA_K": 0.0,
+          "native_Qcond_over_UA_K": 0.0,
+          "native_total_Q_over_UA_K": 0.0
+        },
+        {
+          "uncapped_NTU": 0.001,
+          "wall_minus_fluid_K": 1.0,
+          "reference_Q_over_UA_K": 1.0,
+          "native_directional_Qconv_over_UA_K": 0.9995001666250082,
+          "native_Qcond_over_UA_K": 0.27322404371584696,
+          "native_total_Q_over_UA_K": 1.2727242103408551
+        },
+        {
+          "uncapped_NTU": 0.01,
+          "wall_minus_fluid_K": -1.0,
+          "reference_Q_over_UA_K": -1.0,
+          "native_directional_Qconv_over_UA_K": -0.9950166250831947,
+          "native_Qcond_over_UA_K": -0.27322404371584696,
+          "native_total_Q_over_UA_K": -1.2682406687990415
+        },
+        {
+          "uncapped_NTU": 0.01,
+          "wall_minus_fluid_K": 0.0,
+          "reference_Q_over_UA_K": 0.0,
+          "native_directional_Qconv_over_UA_K": 0.0,
+          "native_Qcond_over_UA_K": 0.0,
+          "native_total_Q_over_UA_K": 0.0
+        },
+        {
+          "uncapped_NTU": 0.01,
+          "wall_minus_fluid_K": 1.0,
+          "reference_Q_over_UA_K": 1.0,
+          "native_directional_Qconv_over_UA_K": 0.9950166250831947,
+          "native_Qcond_over_UA_K": 0.27322404371584696,
+          "native_total_Q_over_UA_K": 1.2682406687990415
+        },
+        {
+          "uncapped_NTU": 0.1,
+          "wall_minus_fluid_K": -1.0,
+          "reference_Q_over_UA_K": -1.0,
+          "native_directional_Qconv_over_UA_K": -0.9516258196404043,
+          "native_Qcond_over_UA_K": -0.27322404371584696,
+          "native_total_Q_over_UA_K": -1.2248498633562512
+        },
+        {
+          "uncapped_NTU": 0.1,
+          "wall_minus_fluid_K": 0.0,
+          "reference_Q_over_UA_K": 0.0,
+          "native_directional_Qconv_over_UA_K": 0.0,
+          "native_Qcond_over_UA_K": 0.0,
+          "native_total_Q_over_UA_K": 0.0
+        },
+        {
+          "uncapped_NTU": 0.1,
+          "wall_minus_fluid_K": 1.0,
+          "reference_Q_over_UA_K": 1.0,
+          "native_directional_Qconv_over_UA_K": 0.9516258196404043,
+          "native_Qcond_over_UA_K": 0.27322404371584696,
+          "native_total_Q_over_UA_K": 1.2248498633562512
+        },
+        {
+          "uncapped_NTU": 1.0,
+          "wall_minus_fluid_K": -1.0,
+          "reference_Q_over_UA_K": -1.0,
+          "native_directional_Qconv_over_UA_K": -0.6321205588285577,
+          "native_Qcond_over_UA_K": -0.27322404371584696,
+          "native_total_Q_over_UA_K": -0.9053446025444046
+        },
+        {
+          "uncapped_NTU": 1.0,
+          "wall_minus_fluid_K": 0.0,
+          "reference_Q_over_UA_K": 0.0,
+          "native_directional_Qconv_over_UA_K": 0.0,
+          "native_Qcond_over_UA_K": 0.0,
+          "native_total_Q_over_UA_K": 0.0
+        },
+        {
+          "uncapped_NTU": 1.0,
+          "wall_minus_fluid_K": 1.0,
+          "reference_Q_over_UA_K": 1.0,
+          "native_directional_Qconv_over_UA_K": 0.6321205588285577,
+          "native_Qcond_over_UA_K": 0.27322404371584696,
+          "native_total_Q_over_UA_K": 0.9053446025444046
+        },
+        {
+          "uncapped_NTU": 10.0,
+          "wall_minus_fluid_K": -1.0,
+          "reference_Q_over_UA_K": -1.0,
+          "native_directional_Qconv_over_UA_K": -0.09999546000702375,
+          "native_Qcond_over_UA_K": -0.27322404371584696,
+          "native_total_Q_over_UA_K": -0.3732195037228707
+        },
+        {
+          "uncapped_NTU": 10.0,
+          "wall_minus_fluid_K": 0.0,
+          "reference_Q_over_UA_K": 0.0,
+          "native_directional_Qconv_over_UA_K": 0.0,
+          "native_Qcond_over_UA_K": 0.0,
+          "native_total_Q_over_UA_K": 0.0
+        },
+        {
+          "uncapped_NTU": 10.0,
+          "wall_minus_fluid_K": 1.0,
+          "reference_Q_over_UA_K": 1.0,
+          "native_directional_Qconv_over_UA_K": 0.09999546000702375,
+          "native_Qcond_over_UA_K": 0.27322404371584696,
+          "native_total_Q_over_UA_K": 0.3732195037228707
+        },
+        {
+          "uncapped_NTU": 30.0,
+          "wall_minus_fluid_K": -1.0,
+          "reference_Q_over_UA_K": -1.0,
+          "native_directional_Qconv_over_UA_K": -0.03333333333333021,
+          "native_Qcond_over_UA_K": -0.27322404371584696,
+          "native_total_Q_over_UA_K": -0.3065573770491772
+        },
+        {
+          "uncapped_NTU": 30.0,
+          "wall_minus_fluid_K": 0.0,
+          "reference_Q_over_UA_K": 0.0,
+          "native_directional_Qconv_over_UA_K": 0.0,
+          "native_Qcond_over_UA_K": 0.0,
+          "native_total_Q_over_UA_K": 0.0
+        },
+        {
+          "uncapped_NTU": 30.0,
+          "wall_minus_fluid_K": 1.0,
+          "reference_Q_over_UA_K": 1.0,
+          "native_directional_Qconv_over_UA_K": 0.03333333333333021,
+          "native_Qcond_over_UA_K": 0.27322404371584696,
+          "native_total_Q_over_UA_K": 0.3065573770491772
+        },
+        {
+          "uncapped_NTU": 60.0,
+          "wall_minus_fluid_K": -1.0,
+          "reference_Q_over_UA_K": -1.0,
+          "native_directional_Qconv_over_UA_K": -0.016666666666665105,
+          "native_Qcond_over_UA_K": -0.27322404371584696,
+          "native_total_Q_over_UA_K": -0.2898907103825121
+        },
+        {
+          "uncapped_NTU": 60.0,
+          "wall_minus_fluid_K": 0.0,
+          "reference_Q_over_UA_K": 0.0,
+          "native_directional_Qconv_over_UA_K": 0.0,
+          "native_Qcond_over_UA_K": 0.0,
+          "native_total_Q_over_UA_K": 0.0
+        },
+        {
+          "uncapped_NTU": 60.0,
+          "wall_minus_fluid_K": 1.0,
+          "reference_Q_over_UA_K": 1.0,
+          "native_directional_Qconv_over_UA_K": 0.016666666666665105,
+          "native_Qcond_over_UA_K": 0.27322404371584696,
+          "native_total_Q_over_UA_K": 0.2898907103825121
+        }
+      ]
+    }
+  ],
+  "derivation": "NTU=UA/(abs(mdot)*cp); Qconv/UA=dT*(1-exp(-min(NTU,30)))/NTU; Qcond/UA=dT/Nu",
+  "scope": "uniform-state, constant-property, fixed-laminar-Nu directional-branch algebra",
+  "not_evaluated": [
+    "reversal blend at small nonzero flow",
+    "Re-dependent Nu",
+    "native wall vs actual solid temperature",
+    "distributed transport/energy evolution",
+    "actual C20 heat-flux discrepancy",
+    "performance-gap attribution"
+  ],
+  "conclusion": "nominal Nu*k*S/Dh mask equality does not imply heat-operator identity",
+  "simulation_executed": false,
+  "material_or_transport_modified": false,
+  "scientific_gates_modified": false,
+  "production_recovery_allowed": false,
+  "table4_reproduction_claim": false
+}
