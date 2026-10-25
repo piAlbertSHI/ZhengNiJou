@@ -149,6 +149,28 @@ class EnthalpyTransportTests(unittest.TestCase):
         np.testing.assert_allclose(inverse["T"], t, rtol=0, atol=1e-10)
         np.testing.assert_allclose(inverse["p"], p, rtol=0, atol=.001)
 
+    def test_constrained_step_satisfies_primary_ledgers_and_EOS_together(self):
+        from Reference_HeatDriveECC_ConstrainedEnthalpy import constrained_midpoint_step
+        bed = test_bed()
+        old = bed.initial_state()
+        state, diagnostics = constrained_midpoint_step(bed, old, .0032, 393.15, 303.15, .001)
+        self.assertLess(abs(state[:bed.nodes].sum()-old[:bed.nodes].sum()-state[-2]), 1e-15)
+        self.assertLess(abs(state[bed.nodes:3*bed.nodes].sum()-state[-1]), 1e-8)
+        self.assertLess(diagnostics["max_endpoint_pressure_deviation_Pa"], .001)
+        self.assertFalse(diagnostics["accepted_state_projected_or_reset"])
+        np.testing.assert_array_equal(old, bed.initial_state())
+
+    def test_constrained_step_does_not_fix_an_inconsistent_failed_prior_state(self):
+        from Reference_HeatDriveECC_ConstrainedEnthalpy import constrained_midpoint_step
+        bed = test_bed()
+        state = bed.initial_state()
+        temperature = np.full(bed.nodes, bed.eos.Tref)
+        props = bed.eos.properties(temperature, np.full(bed.nodes, 1e6))
+        state[:bed.nodes] = props["rho"]*bed.volume
+        state[bed.nodes:2*bed.nodes] = state[:bed.nodes]*(props["u"]-bed.eos.uref)
+        with self.assertRaisesRegex(ValueError, "cannot be repaired/projected"):
+            constrained_midpoint_step(bed, state, .0032, 393.15, 303.15, .001)
+
 
 if __name__ == "__main__":
     unittest.main()
