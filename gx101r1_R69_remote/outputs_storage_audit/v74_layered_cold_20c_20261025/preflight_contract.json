@@ -1,0 +1,109 @@
+{
+  "schema": "heatdrive_ecc_v74_layered_cold_preflight_v1",
+  "date": "2026-10-25",
+  "status": "authorized_not_yet_started",
+  "producer_commit": "de1abba6d5f159348fefe650ec4459d3ba624f3c",
+  "execution_workspace": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合",
+  "config_sha256": "11B154A6CAADA981157F94416396D6C4E6F393F1910DC7386CCA68A1F336F650",
+  "config": {
+    "repo_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote",
+    "output_root": "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025",
+    "duration_s": 200,
+    "cycle_count": 20,
+    "scale_inventory": true,
+    "buffer_mass_guess": true,
+    "buffer_mass_targets": true,
+    "pipe_energy_targets": true,
+    "conservative_buffers": true,
+    "formulation": "specific_inventory",
+    "network_absolute_pressure_MPa": 0.85,
+    "stage2_kp": -126,
+    "stage2_initial_kp": -126,
+    "stage4_kp": -225,
+    "stage4_initial_kp": -225,
+    "stage4_ki": -255,
+    "stage4_transition_duration_s": 10,
+    "stage4_endpoint_viscosity_blend_initial": 1,
+    "stage4_endpoint_viscosity_blend_final": 1,
+    "stage4_endpoint_viscosity_blend_periodic": false,
+    "stage4_endpoint_viscosity_closure_mode": "arithmetic_blend",
+    "stage4_commutation_precharge_fraction": 0,
+    "pressure_pi_error_filter_tau_s": 0.002,
+    "stage4_pressure_bias_trim_MPa": 0,
+    "distributed_pressure_feedforward_diagnostic": true,
+    "pressure_command_domain_closure_enabled": true,
+    "pressure_command_domain_margin_MPa": 0.01,
+    "pressure_command_reference_mode": "named_source_reference",
+    "pressure_reference_head_budget_MPa": 0.01,
+    "stage4_pressure_p_activity_mode": "binary",
+    "initial_flux_compensation": true,
+    "buffer_mass_formulation": "zero_based_offset",
+    "initial_observation_root": "C:\\tmp\\se21_v72_cold_10s_r1_20261024",
+    "simulation_mode": "normal",
+    "endpoint_chamber_diagnostic": false,
+    "endpoint_all_arms": false,
+    "diagnostic_arm": "both",
+    "diagnostic_constitutive_step_function": "HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate",
+    "diagnostic_constitutive_substeps": 32,
+    "diagnostic_state_options": {
+      "mode": "off",
+      "command_horizon_cycles": 20,
+      "runtime_observation_profile": "boundary_v1"
+    }
+  },
+  "initialization_scope": "independent cold diagnostic; qualified t=0 coordinates only; not C200 or failed-result state restore",
+  "qualified_10s_seed_gate": "C:\\tmp\\se21_v72_cold_10s_seed_gate_20261024\\ten_second_seed_gate.json",
+  "seed_native_observation_sha256": "FC0F6D658D563CADE87B2D6D2489E6125E5FE3C3077AD74B462BDBFF48F25533",
+  "seed_conservative_observation_sha256": "8C46B027FCEF0F3324AA0893870450F4B444904837FB1A49F6D121F166715739F",
+  "seed_observation_hashes_rechecked": true,
+  "process_preflight": {
+    "MATLAB_processes_present": 0,
+    "no_duplicate_job_detected": true
+  },
+  "resource_snapshot": {
+    "C_free_bytes": 15993319424,
+    "physical_free_KiB": 17393120,
+    "virtual_free_KiB": 40102908,
+    "operational_minimum_disk_reserve_bytes": 8589934592,
+    "expected_result_size_GiB": [
+      2,
+      3
+    ],
+    "estimate_not_limit_or_guarantee": true
+  },
+  "observation": {
+    "requested_simulation_window_s": [
+      0,
+      200
+    ],
+    "requested_performance_window_s": [
+      100,
+      200
+    ],
+    "native_history_cap_points": 20002,
+    "native_history_cap_cycles": 2,
+    "selected_heat_flow_scalar_count": 13,
+    "selected_log_decimation": 1,
+    "progress_is_simulation_callback_not_external_polling": true
+  },
+  "safety": {
+    "C200_remains_only_frozen_mainline_reference": true,
+    "C200_state_import_allowed_in_this_diagnostic": false,
+    "production_state_reset_allowed": false,
+    "failed_result_propagation_allowed": false,
+    "physical_parameters_changed": false,
+    "scientific_thresholds_changed": false,
+    "checkpoint_capture_requested": false,
+    "production_recovery_allowed": false,
+    "outer_solve_eligible": false,
+    "table4_reproduction_claim": false
+  },
+  "post_run_requirements": [
+    "Read the original process exit and final execution JSON",
+    "Verify measured finite coverage of all boundary fields on [100,200] s",
+    "Evaluate original mechanism predicates, pressure/source-port/phase gates and actual periodicity; do not interpret initialized flags as evaluated failures",
+    "Reconcile native coefficient and physical endpoint inventories without adding engineering pump proxies as heat",
+    "Record result hashes, classify storage, retain failed evidence, commit decisions"
+  ],
+  "previous_turn_classification": "progress: committed repair, verified coupled passive equivalence and persisted hash inventory"
+}
