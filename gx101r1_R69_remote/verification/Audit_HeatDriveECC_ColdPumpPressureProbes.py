@@ -22,6 +22,9 @@ ROOT = "heatdrive_ecc_coupled_se21/"
 # Pressure-probe instrumentation is observational; later report-only commits
 # preserve the exact runner and probe contract.
 PRODUCERS = {
+    # Layered logging preserves the exact pressure probes and plant sources;
+    # this exact identity permits auditing only, never a scientific pass.
+    "de1abba6d5f159348fefe650ec4459d3ba624f3c",
     # 6dedddd only canonicalizes Windows worktree paths; pressure probes and
     # their evidence contract are unchanged.
     "6dedddd03a50c9dccd553369d2cbf3f7b68450e3",

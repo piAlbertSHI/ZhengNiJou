@@ -29,7 +29,7 @@ function [model_name, options] = Build_HeatDriveECC_EighthRound_Simulink_Model(o
     assign_mature_exchange_workspace(options, model_path);
     assign_constitutive_workspace(options);
 
-    load_system(model_name);
+    Load_HeatDriveECC_ModelByPath(model_path,model_name);
     % Model loading may execute callbacks that restore default workspace
     % values; re-assert the audited diagnostic override after load.
     assignin('base', 'pressure_pi_error_filter_tau_s', ...

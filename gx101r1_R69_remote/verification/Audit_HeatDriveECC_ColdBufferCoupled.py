@@ -257,9 +257,14 @@ BUFFERS = {ROOT+n for n in ('ColdFluidBuffer', 'HotFluidBuffer', 'SHEXFluidBuffe
 # Relative to 36a1dcc, this execution adds two observational taps and a
 # pre-sim JSON marker only; plant/initialization/pressure sources are unchanged.
 WARMUP20_OBSERVATION_PRODUCER = '0c1f81076b47b9b3b5937ef7e172a79efa05b400'
+# Layered cold observation: unchanged plant, inventory, pressure instrumentation
+# and initial coordinates relative to 6dedddd; passive traces were compared
+# bitwise in the v73 fixtures. Admission permits auditing, not gate passage.
+LAYERED_COLD_OBSERVATION_PRODUCER = 'de1abba6d5f159348fefe650ec4459d3ba624f3c'
 for producers in (CALIBRATION_MIRROR_PRODUCERS, ZERO_BASED_OFFSET_PRODUCERS,
                   ENDPOINT_CHAMBER_PRODUCERS, INITIAL_FLUX_COMPENSATION_PRODUCERS):
     producers.add(WARMUP20_OBSERVATION_PRODUCER)
+    producers.add(LAYERED_COLD_OBSERVATION_PRODUCER)
 
 
 def stage_totals_window(histories, time):

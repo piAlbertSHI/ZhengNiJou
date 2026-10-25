@@ -1,0 +1,18 @@
+{
+  "schema": "heatdrive_ecc_reproducible_analysis_view_retirement_v1",
+  "status": "retired_verified_absent",
+  "scope_root": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v74_layered_cold_20c_20261025",
+  "reason": "Only derived analysis waveform copies; compact original/failed audit JSON, reports and the source observations/configuration remain. These views are not inputs to the current run or recovery contracts.",
+  "retained_source_root": "C:\\tmp\\se21_v72_cold_20c_r1_20261024",
+  "active_run_untouched": "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025",
+  "planned_bytes": 215644732,
+  "removed_bytes": 215644732,
+  "removed_files": 4,
+  "all_targets_verified_absent": true,
+  "files": [
+    {"relative_path": "prior_C20_original_mechanism/native/mechanism_view.mat", "bytes": 53614771, "sha256": "383DB59AAD4B892691B34FD1867D6A58DE0FEBB190C725A7C2CD980A67FD2A68"},
+    {"relative_path": "prior_C20_original_mechanism/conservative/mechanism_view.mat", "bytes": 53618823, "sha256": "CC1019753AF2AFB08743ED5CCAF03176EE03D1F685634F68E1DE6D4968030D63"},
+    {"relative_path": "prior_C20_original_mechanism_r3/native/mechanism_view.mat", "bytes": 54203547, "sha256": "AB7217178DB0FBCE17A2BBBD13A81FA24B89B7FB6764D65EBB1FE13BBAE2C5D4"},
+    {"relative_path": "prior_C20_original_mechanism_r3/conservative/mechanism_view.mat", "bytes": 54207591, "sha256": "2A836659AF23C5FB2497C04EBDC0F9EEDE23FB8ED5DA17BEC08EDB480A78F56F"}
+  ]
+}

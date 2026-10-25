@@ -17,6 +17,9 @@ function [pass, record] = Audit_HeatDriveECC_ManifoldMask(chamber, options)
         if pressure_only
             package='ecc_inventory_pressure_only';folder='simscape_inventory_pressure_only';
             library_name='ecc_inventory_pressure_only_lib';chamber_source='ecc_inventory_pressure_only.conservative_chamber';
+        elseif strcmp(options.branch.independent_conservative_chamber_library,'ecc_inventory_specific_lib')
+            package='ecc_inventory_specific';folder='simscape_inventory_specific';
+            library_name='ecc_inventory_specific_lib';chamber_source='ecc_inventory_specific.conservative_chamber';
         end
         supported=strcmp(options.branch.independent_conservative_chamber_library,library_name) && ...
             strcmp(get_param(chamber,'SourceFile'),chamber_source);
@@ -36,6 +39,7 @@ function [pass, record] = Audit_HeatDriveECC_ManifoldMask(chamber, options)
         pass=common && geometry && source_bound;
         kind='explicit_conservative_endpoint_diagnostic';
         if pressure_only,kind='pressure_only_inventory_density_diagnostic';end
+        if strcmp(package,'ecc_inventory_specific'),kind='explicit_conservative_specific_inventory_diagnostic';end
     else
         pass=common && strcmp(get_param(chamber,'MaskType'),sprintf('Constant Volume\nChamber (TL)')) && ...
             strcmp(get_param(chamber,'num_ports'),'foundation.enum.num_ports.two') && ...
