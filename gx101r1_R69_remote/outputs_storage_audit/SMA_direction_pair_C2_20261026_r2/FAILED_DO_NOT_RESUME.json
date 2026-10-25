@@ -1,0 +1,1788 @@
+{
+  "schema": "heatdrive_ecc_SMA_direction_paired_cold_v1",
+  "collection_complete": false,
+  "execution_commit": "b5a288aaed52137c80e64931da99d7cea19f5004",
+  "source_sha256": {
+    "Run_HeatDriveECC_SMAFlowDirectionControl.py": "0F14EA9595607F9FCBAAB69DB0526C003B03534E7DAFA08532A857D7844A485D",
+    "Audit_HeatDriveECC_SMAFlowCoordinates.py": "B39579BF020377A605D6D20ACCCB99A6B75A592A8B41D3912B51B49FE1FE97C3",
+    "Run_HeatDriveECC_SavedNusseltControl.py": "45B1875F36EBA5FB90D31A74D8BBC4D5AECA6946E9EF0D2D6C88E018A09EF9BA",
+    "Reference_HeatDriveECC_CaloricCoupling.py": "AB00A503DA876F92D3D5C2847E7AB92379F192D387DC482B6D7707B16571BBC8",
+    "Reference_HeatDriveECC_LocalBoundaries.py": "AD5B8AA15EE66A33AC32EB06BE17D61E0C5C2FA7DEE6612BEE467013FDF50F8D",
+    "Run_HeatDriveECC_CaloricCycle.py": "15C83EFE73289D9508C575AE1065EBBA791075C69E1AD9015C3A73CA6CDA7505",
+    "Reference_HeatDriveECC_CompensatedBS3.py": "EAEFBB802366B04694AB5D2902559213B5C829248A7224F1932977D7E6E2F43C",
+    "Reference_HeatDriveECC_ConservativeTransport.py": "161F18F8B475E31E2CE330E2E2D3A60CFD036A559199B94F967DA275981384D0",
+    "Audit_HeatDriveECC_ThermalConnectivity.py": "4AB9902D80CF87D324F675B00D2515C841B2D0140A9D30DAAB9947AD3D3EB5B2",
+    "Audit_HeatDriveECC_TLDomainInventory.py": "815BC2C63718E1634F5FA31FBC4BFA40A696B818E94C348E63A2E83243927626",
+    "Analyze_HeatDriveECC_CaloricCycle.py": "DEB64AFC958F6187FE2A92376FB1D3BFD1F8D9BA818FC5642567B069BCAD1EF8",
+    "Run_HeatDriveECC_ConservativeTransport.py": "3748552B7E5591EB9458078BC46637FBC2461BEE73492125006D6BFDFA4FCACF",
+    "Audit_HeatDriveECC_SegmentedEvidence.py": "B128BDD8E72E537DA9C56171F479D3531D3321A06B0D577A70FEAB3A246473C2"
+  },
+  "independent_cold_arms": true,
+  "production_state_loaded": false,
+  "checkpoint_saved": false,
+  "production_recovery_allowed": false,
+  "twenty_cycle_seed_allowed": false,
+  "Table4_input_allowed": false,
+  "observer_physical_prefix_isolated": true,
+  "sole_physical_difference": "SMA cooling-bed flow direction, counter versus co-directed",
+  "material_Nu_geometry_flow_magnitudes_and_initial_coordinates_unchanged": true,
+  "paper_topology_hypothesis_not_confirmed_native_fix": true,
+  "cases": [
+    {
+      "arm": "counter",
+      "SMA_heat_cool_signs": [
+        1,
+        -1
+      ],
+      "control_volume_contract": {
+        "CV_names": [
+          "bed_a",
+          "bed_r",
+          "shex",
+          "hhex_a",
+          "hhex_r",
+          "chex",
+          "SMA_total",
+          "SE_total",
+          "water_return",
+          "hot_chamber",
+          "cold_chamber",
+          "bus_source",
+          "bus_hot",
+          "bus_cold",
+          "load_sensor"
+        ],
+        "edges": [
+          {
+            "name": "source_heat",
+            "positive_from": "external",
+            "positive_to": "bus_source",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "hot_ambient_heat",
+            "positive_from": "external",
+            "positive_to": "bus_hot",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "cold_ambient_leak",
+            "positive_from": "external",
+            "positive_to": "bus_cold",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "imposed_load",
+            "positive_from": "external",
+            "positive_to": "load_sensor",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "load_to_cold_bus",
+            "positive_from": "load_sensor",
+            "positive_to": "bus_cold",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "SMA_to_fluid",
+            "positive_from": "SMA_total",
+            "positive_to": "bed_a",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "SE_to_fluid",
+            "positive_from": "SE_total",
+            "positive_to": "bed_r",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "source_bus_to_shex",
+            "positive_from": "bus_source",
+            "positive_to": "shex",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "hot_bus_to_hhex_a",
+            "positive_from": "bus_hot",
+            "positive_to": "hhex_a",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "hot_bus_to_hhex_r",
+            "positive_from": "bus_hot",
+            "positive_to": "hhex_r",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "cold_bus_to_chex",
+            "positive_from": "bus_cold",
+            "positive_to": "chex",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "SMA_to_SE_work",
+            "positive_from": "SMA_total",
+            "positive_to": "SE_total",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "water_to_shex",
+            "positive_from": "water_return",
+            "positive_to": "shex",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "shex_to_SMA",
+            "positive_from": "shex",
+            "positive_to": "bed_a",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "water_to_hhex_a",
+            "positive_from": "water_return",
+            "positive_to": "hhex_a",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "hhex_a_to_SMA",
+            "positive_from": "hhex_a",
+            "positive_to": "bed_a",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "SMA_to_water",
+            "positive_from": "bed_a",
+            "positive_to": "water_return",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "cold_to_SE",
+            "positive_from": "cold_chamber",
+            "positive_to": "bed_r",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "SE_to_hhex_r",
+            "positive_from": "bed_r",
+            "positive_to": "hhex_r",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "hhex_r_to_hot",
+            "positive_from": "hhex_r",
+            "positive_to": "hot_chamber",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "hot_to_SE",
+            "positive_from": "hot_chamber",
+            "positive_to": "bed_r",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "SE_to_chex",
+            "positive_from": "bed_r",
+            "positive_to": "chex",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "chex_to_cold",
+            "positive_from": "chex",
+            "positive_to": "cold_chamber",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          }
+        ],
+        "inventory_energy": "fluid m*h; solid sensible-m*L*xM; buffer H; bus C*(T-Tref)",
+        "flow_energy": "signed mdot*h at a single shared reconstructed physical port",
+        "solid_latent_energy_not_double_counted": true,
+        "insulated_component_end_conduction": true,
+        "not_covered": [
+          "individual-cell truncation error",
+          "connecting pipe walls",
+          "pressure/pump work",
+          "compressible EOS equivalence",
+          "material calorimetry",
+          "native SLX equivalence"
+        ],
+        "global_cancellation_is_not_local_pass": true,
+        "forced_Nu": {
+          "SMA": 4.365993493890937,
+          "SE": 3.66
+        },
+        "SMA_cooling_direction": "counter_directed"
+      },
+      "maximum_selected_local_energy_residual_J": 4.1882231016643345e-10,
+      "maximum_selected_local_mass_residual_kg": 2.220446049250313e-16,
+      "cycles": 2,
+      "completed_time_s": 20.0,
+      "accepted_steps": 25580,
+      "RHS_evaluations": 82995,
+      "max_accepted_step_s": 0.005,
+      "rtol": 1e-06,
+      "atol_by_coordinate": [
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-13,
+        1e-13,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13
+      ],
+      "maximum_online_numerical_residuals": {
+        "net_energy_residual_J": 4.3655745685100555e-11,
+        "SE_mass_residual_kg": 0.0,
+        "mechanical_exchange_residual_J": 1.4210854715202004e-14,
+        "force_residual_N": 1.8189894035458565e-12,
+        "displacement_residual_m": 1.3877787807814457e-17,
+        "instantaneous_mechanical_residual_W": 1.2789769243681803e-13
+      },
+      "phase_range_all_accepted_steps": [
+        0.0,
+        1.0
+      ],
+      "stage_transitions": [
+        {
+          "time_s": 3.5,
+          "to_stage": 2,
+          "state_bitwise_unchanged": true
+        },
+        {
+          "time_s": 5.0,
+          "to_stage": 3,
+          "state_bitwise_unchanged": true
+        },
+        {
+          "time_s": 8.5,
+          "to_stage": 4,
+          "state_bitwise_unchanged": true
+        },
+        {
+          "time_s": 10.0,
+          "to_stage": 1,
+          "state_bitwise_unchanged": true
+        },
+        {
+          "time_s": 13.5,
+          "to_stage": 2,
+          "state_bitwise_unchanged": true
+        },
+        {
+          "time_s": 15.0,
+          "to_stage": 3,
+          "state_bitwise_unchanged": true
+        },
+        {
+          "time_s": 18.5,
+          "to_stage": 4,
+          "state_bitwise_unchanged": true
+        }
+      ],
+      "cycle_observations": [
+        {
+          "cycle": 1,
+          "stage_ends": [
+            {
+              "stage": 1,
+              "time_s": 3.5,
+              "SMA_T_range_K": [
+                392.08268424716516,
+                392.37196800914796
+              ],
+              "SE_T_range_K": [
+                322.4260877254473,
+                322.4260877254473
+              ],
+              "SMA_xM_range": [
+                1.161561886655783e-25,
+                8.831055273226344e-18
+              ],
+              "SE_xM_range": [
+                0.899859800644411,
+                0.899859800644411
+              ],
+              "buffer_temperature_K": [
+                369.2823847332031,
+                303.15,
+                303.15
+              ],
+              "bus_temperature_K": [
+                392.62699345293333,
+                303.15,
+                303.15,
+                303.15
+              ]
+            },
+            {
+              "stage": 2,
+              "time_s": 5.0,
+              "SMA_T_range_K": [
+                392.63501929116563,
+                392.7728979484215
+              ],
+              "SE_T_range_K": [
+                303.22797099127257,
+                318.3318949792211
+              ],
+              "SMA_xM_range": [
+                1.1518759151596852e-36,
+                8.75741533148962e-29
+              ],
+              "SE_xM_range": [
+                0.9511870285924536,
+                0.9999999999986828
+              ],
+              "buffer_temperature_K": [
+                381.68276276292886,
+                303.1529205125134,
+                303.15
+              ],
+              "bus_temperature_K": [
+                392.8981919080061,
+                303.1681421997568,
+                303.15,
+                303.15
+              ]
+            },
+            {
+              "stage": 3,
+              "time_s": 8.5,
+              "SMA_T_range_K": [
+                303.83460006159714,
+                304.12310456347615
+              ],
+              "SE_T_range_K": [
+                283.329538872856,
+                298.7371263158812
+              ],
+              "SMA_xM_range": [
+                0.9999998391511689,
+                0.9999999999984278
+              ],
+              "SE_xM_range": [
+                1.659401833788098e-11,
+                5.297489151080977e-10
+              ],
+              "buffer_temperature_K": [
+                324.6134160183498,
+                303.1529205125134,
+                303.15
+              ],
+              "bus_temperature_K": [
+                393.15,
+                303.61421878013056,
+                303.15,
+                303.15
+              ]
+            },
+            {
+              "stage": 4,
+              "time_s": 10.0,
+              "SMA_T_range_K": [
+                303.4792838028315,
+                303.597171934026
+              ],
+              "SE_T_range_K": [
+                296.01363256687875,
+                303.13857747968984
+              ],
+              "SMA_xM_range": [
+                0.9999999999990131,
+                1.0
+              ],
+              "SE_xM_range": [
+                1.0180940115680824e-16,
+                3.2501723640683565e-15
+              ],
+              "buffer_temperature_K": [
+                313.4691604932396,
+                303.1529205125134,
+                303.13873635080324
+              ],
+              "bus_temperature_K": [
+                393.15,
+                303.3731901612371,
+                302.7304420807646,
+                303.10420559931157
+              ]
+            }
+          ],
+          "wall_seconds_since_start": 149.80540790001396
+        },
+        {
+          "cycle": 2,
+          "stage_ends": [
+            {
+              "stage": 1,
+              "time_s": 13.5,
+              "SMA_T_range_K": [
+                392.19608416030326,
+                392.45347106664445
+              ],
+              "SE_T_range_K": [
+                317.0517104888504,
+                321.64247294566906
+              ],
+              "SMA_xM_range": [
+                4.3807025595065983e-26,
+                2.216194421878589e-18
+              ],
+              "SE_xM_range": [
+                0.8668672408225272,
+                1.0
+              ],
+              "buffer_temperature_K": [
+                371.7944716771128,
+                303.1529205125134,
+                303.13873635080324
+              ],
+              "bus_temperature_K": [
+                392.6818504427042,
+                303.15,
+                302.8309750992249,
+                302.97525187764444
+              ]
+            },
+            {
+              "stage": 2,
+              "time_s": 15.0,
+              "SMA_T_range_K": [
+                392.68930926879364,
+                392.8120993579387
+              ],
+              "SE_T_range_K": [
+                303.18249555214305,
+                317.4094989500463
+              ],
+              "SMA_xM_range": [
+                4.344214685992914e-37,
+                2.1977352316804884e-29
+              ],
+              "SE_xM_range": [
+                0.9364456566956082,
+                1.0
+              ],
+              "buffer_temperature_K": [
+                382.8884964476161,
+                303.15563062672226,
+                303.13873635080324
+              ],
+              "bus_temperature_K": [
+                392.92461826896255,
+                303.1669640322218,
+                302.8562914812816,
+                302.9494235515532
+              ]
+            },
+            {
+              "stage": 3,
+              "time_s": 18.5,
+              "SMA_T_range_K": [
+                303.8417065009286,
+                304.1332793282784
+              ],
+              "SE_T_range_K": [
+                283.3034236541634,
+                298.0954120544516
+              ],
+              "SMA_xM_range": [
+                0.9999998351270435,
+                0.9999999999983992
+              ],
+              "SE_xM_range": [
+                1.6329710949144485e-11,
+                5.260039869834282e-10
+              ],
+              "buffer_temperature_K": [
+                324.83624167635764,
+                303.15563062672226,
+                303.13873635080324
+              ],
+              "bus_temperature_K": [
+                393.15,
+                303.61903920083097,
+                302.88579016487614,
+                302.9193283313785
+              ]
+            },
+            {
+              "stage": 4,
+              "time_s": 20.0,
+              "SMA_T_range_K": [
+                303.4827025309845,
+                303.60181464622417
+              ],
+              "SE_T_range_K": [
+                294.16558144139657,
+                303.1387068645077
+              ],
+              "SMA_xM_range": [
+                0.9999999999989885,
+                1.0
+              ],
+              "SE_xM_range": [
+                1.0018750710490264e-16,
+                3.2271868343064722e-15
+              ],
+              "buffer_temperature_K": [
+                313.57633203458806,
+                303.15563062672226,
+                303.11519211062796
+              ],
+              "bus_temperature_K": [
+                393.15,
+                303.37550778992613,
+                302.4402251444565,
+                302.86577333807037
+              ]
+            }
+          ],
+          "endpoint_temperature_drift_K": 1.9526104552831498,
+          "endpoint_phase_drift": 2.4646951146678475e-14,
+          "wall_seconds_since_start": 305.7154834000394
+        }
+      ],
+      "independent_inventory_coordinate_sum_pass": true,
+      "periodic_qualification": "not evaluated: complete mechanism/pump and material contracts unresolved",
+      "before_blow_observation": "stage1/3 endpoints are left limits before prescribed SE flow; no new production gate substituted"
+    },
+    {
+      "arm": "co",
+      "SMA_heat_cool_signs": [
+        1,
+        1
+      ],
+      "control_volume_contract": {
+        "CV_names": [
+          "bed_a",
+          "bed_r",
+          "shex",
+          "hhex_a",
+          "hhex_r",
+          "chex",
+          "SMA_total",
+          "SE_total",
+          "water_return",
+          "hot_chamber",
+          "cold_chamber",
+          "bus_source",
+          "bus_hot",
+          "bus_cold",
+          "load_sensor"
+        ],
+        "edges": [
+          {
+            "name": "source_heat",
+            "positive_from": "external",
+            "positive_to": "bus_source",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "hot_ambient_heat",
+            "positive_from": "external",
+            "positive_to": "bus_hot",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "cold_ambient_leak",
+            "positive_from": "external",
+            "positive_to": "bus_cold",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "imposed_load",
+            "positive_from": "external",
+            "positive_to": "load_sensor",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "load_to_cold_bus",
+            "positive_from": "load_sensor",
+            "positive_to": "bus_cold",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "SMA_to_fluid",
+            "positive_from": "SMA_total",
+            "positive_to": "bed_a",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "SE_to_fluid",
+            "positive_from": "SE_total",
+            "positive_to": "bed_r",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "source_bus_to_shex",
+            "positive_from": "bus_source",
+            "positive_to": "shex",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "hot_bus_to_hhex_a",
+            "positive_from": "bus_hot",
+            "positive_to": "hhex_a",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "hot_bus_to_hhex_r",
+            "positive_from": "bus_hot",
+            "positive_to": "hhex_r",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "cold_bus_to_chex",
+            "positive_from": "bus_cold",
+            "positive_to": "chex",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "SMA_to_SE_work",
+            "positive_from": "SMA_total",
+            "positive_to": "SE_total",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "water_to_shex",
+            "positive_from": "water_return",
+            "positive_to": "shex",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "shex_to_SMA",
+            "positive_from": "shex",
+            "positive_to": "bed_a",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "water_to_hhex_a",
+            "positive_from": "water_return",
+            "positive_to": "hhex_a",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "hhex_a_to_SMA",
+            "positive_from": "hhex_a",
+            "positive_to": "bed_a",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "SMA_to_water",
+            "positive_from": "bed_a",
+            "positive_to": "water_return",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "cold_to_SE",
+            "positive_from": "cold_chamber",
+            "positive_to": "bed_r",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "SE_to_hhex_r",
+            "positive_from": "bed_r",
+            "positive_to": "hhex_r",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "hhex_r_to_hot",
+            "positive_from": "hhex_r",
+            "positive_to": "hot_chamber",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "hot_to_SE",
+            "positive_from": "hot_chamber",
+            "positive_to": "bed_r",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "SE_to_chex",
+            "positive_from": "bed_r",
+            "positive_to": "chex",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          },
+          {
+            "name": "chex_to_cold",
+            "positive_from": "chex",
+            "positive_to": "cold_chamber",
+            "power_unit": "W",
+            "flow_unit": "kg/s"
+          }
+        ],
+        "inventory_energy": "fluid m*h; solid sensible-m*L*xM; buffer H; bus C*(T-Tref)",
+        "flow_energy": "signed mdot*h at a single shared reconstructed physical port",
+        "solid_latent_energy_not_double_counted": true,
+        "insulated_component_end_conduction": true,
+        "not_covered": [
+          "individual-cell truncation error",
+          "connecting pipe walls",
+          "pressure/pump work",
+          "compressible EOS equivalence",
+          "material calorimetry",
+          "native SLX equivalence"
+        ],
+        "global_cancellation_is_not_local_pass": true,
+        "forced_Nu": {
+          "SMA": 4.365993493890937,
+          "SE": 3.66
+        },
+        "SMA_cooling_direction": "co_directed"
+      },
+      "maximum_selected_local_energy_residual_J": 4.1882231016643345e-10,
+      "maximum_selected_local_mass_residual_kg": 2.220446049250313e-16,
+      "cycles": 2,
+      "completed_time_s": 20.0,
+      "accepted_steps": 25606,
+      "RHS_evaluations": 82893,
+      "max_accepted_step_s": 0.005,
+      "rtol": 1e-06,
+      "atol_by_coordinate": [
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-11,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-13,
+        1e-13,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-10,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13,
+        1e-13
+      ],
+      "maximum_online_numerical_residuals": {
+        "net_energy_residual_J": 4.3655745685100555e-11,
+        "SE_mass_residual_kg": 0.0,
+        "mechanical_exchange_residual_J": 1.4210854715202004e-14,
+        "force_residual_N": 1.8189894035458565e-12,
+        "displacement_residual_m": 1.734723475976807e-17,
+        "instantaneous_mechanical_residual_W": 1.4210854715202004e-13
+      },
+      "phase_range_all_accepted_steps": [
+        0.0,
+        1.0
+      ],
+      "stage_transitions": [
+        {
+          "time_s": 3.5,
+          "to_stage": 2,
+          "state_bitwise_unchanged": true
+        },
+        {
+          "time_s": 5.0,
+          "to_stage": 3,
+          "state_bitwise_unchanged": true
+        },
+        {
+          "time_s": 8.5,
+          "to_stage": 4,
+          "state_bitwise_unchanged": true
+        },
+        {
+          "time_s": 10.0,
+          "to_stage": 1,
+          "state_bitwise_unchanged": true
+        },
+        {
+          "time_s": 13.5,
+          "to_stage": 2,
+          "state_bitwise_unchanged": true
+        },
+        {
+          "time_s": 15.0,
+          "to_stage": 3,
+          "state_bitwise_unchanged": true
+        },
+        {
+          "time_s": 18.5,
+          "to_stage": 4,
+          "state_bitwise_unchanged": true
+        }
+      ],
+      "cycle_observations": [
+        {
+          "cycle": 1,
+          "stage_ends": [
+            {
+              "stage": 1,
+              "time_s": 3.5,
+              "SMA_T_range_K": [
+                392.08268424716516,
+                392.37196800914796
+              ],
+              "SE_T_range_K": [
+                322.4260877254473,
+                322.4260877254473
+              ],
+              "SMA_xM_range": [
+                1.161561886655783e-25,
+                8.831055273226344e-18
+              ],
+              "SE_xM_range": [
+                0.899859800644411,
+                0.899859800644411
+              ],
+              "buffer_temperature_K": [
+                369.2823847332031,
+                303.15,
+                303.15
+              ],
+              "bus_temperature_K": [
+                392.62699345293333,
+                303.15,
+                303.15,
+                303.15
+              ]
+            },
+            {
+              "stage": 2,
+              "time_s": 5.0,
+              "SMA_T_range_K": [
+                392.63501929116563,
+                392.7728979484215
+              ],
+              "SE_T_range_K": [
+                303.22797099127257,
+                318.3318949792211
+              ],
+              "SMA_xM_range": [
+                1.1518759151596852e-36,
+                8.75741533148962e-29
+              ],
+              "SE_xM_range": [
+                0.9511870285924536,
+                0.9999999999986828
+              ],
+              "buffer_temperature_K": [
+                381.68276276292886,
+                303.1529205125134,
+                303.15
+              ],
+              "bus_temperature_K": [
+                392.8981919080061,
+                303.1681421997568,
+                303.15,
+                303.15
+              ]
+            },
+            {
+              "stage": 3,
+              "time_s": 8.5,
+              "SMA_T_range_K": [
+                303.8346209003587,
+                304.1231723588947
+              ],
+              "SE_T_range_K": [
+                283.3293530981851,
+                298.73692713321594
+              ],
+              "SMA_xM_range": [
+                0.9999998388933778,
+                0.9999999999984232
+              ],
+              "SE_xM_range": [
+                1.662357722935356e-11,
+                5.305889036826225e-10
+              ],
+              "buffer_temperature_K": [
+                324.6140733415274,
+                303.1529205125134,
+                303.15
+              ],
+              "bus_temperature_K": [
+                393.15,
+                303.61423299343033,
+                303.15,
+                303.15
+              ]
+            },
+            {
+              "stage": 4,
+              "time_s": 10.0,
+              "SMA_T_range_K": [
+                303.47929391318723,
+                303.5971858836432
+              ],
+              "SE_T_range_K": [
+                296.01363246941696,
+                303.13857685554916
+              ],
+              "SMA_xM_range": [
+                0.9999999999990116,
+                1.0
+              ],
+              "SE_xM_range": [
+                1.0199074538430265e-16,
+                3.2553256758524415e-15
+              ],
+              "buffer_temperature_K": [
+                313.4694774745215,
+                303.1529205125134,
+                303.1387363915988
+              ],
+              "bus_temperature_K": [
+                393.15,
+                303.3731970160465,
+                302.7304429260757,
+                303.1042057509281
+              ]
+            }
+          ],
+          "wall_seconds_since_start": 148.70215380005538
+        },
+        {
+          "cycle": 2,
+          "stage_ends": [
+            {
+              "stage": 1,
+              "time_s": 13.5,
+              "SMA_T_range_K": [
+                392.19605320178187,
+                392.4534557239963
+              ],
+              "SE_T_range_K": [
+                317.0518629327089,
+                321.64258473251215
+              ],
+              "SMA_xM_range": [
+                4.402158722259773e-26,
+                2.2211680245887655e-18
+              ],
+              "SE_xM_range": [
+                0.8668666645978925,
+                1.0
+              ],
+              "buffer_temperature_K": [
+                371.79401242150215,
+                303.1529205125134,
+                303.1387363915988
+              ],
+              "bus_temperature_K": [
+                392.68184041252744,
+                303.15,
+                302.8309757211275,
+                302.9752522517376
+              ]
+            },
+            {
+              "stage": 2,
+              "time_s": 15.0,
+              "SMA_T_range_K": [
+                392.6892992534468,
+                392.8120919421308
+              ],
+              "SE_T_range_K": [
+                303.1824955754571,
+                317.4096312192196
+              ],
+              "SMA_xM_range": [
+                4.365503186822102e-37,
+                2.2026729842289898e-29
+              ],
+              "SE_xM_range": [
+                0.9364512970622669,
+                1.0
+              ],
+              "buffer_temperature_K": [
+                382.88827591678785,
+                303.15563061902606,
+                303.1387363915988
+              ],
+              "bus_temperature_K": [
+                392.9246134345155,
+                303.1669640273941,
+                302.85629205970054,
+                302.949423970009
+              ]
+            },
+            {
+              "stage": 3,
+              "time_s": 18.5,
+              "SMA_T_range_K": [
+                303.8417238132326,
+                304.13333845113056
+              ],
+              "SE_T_range_K": [
+                283.30325637594825,
+                298.0952312399531
+              ],
+              "SMA_xM_range": [
+                0.9999998348913961,
+                0.999999999998395
+              ],
+              "SE_xM_range": [
+                1.635598634516875e-11,
+                5.267508265482883e-10
+              ],
+              "buffer_temperature_K": [
+                324.83678806387877,
+                303.15563061902606,
+                303.1387363915988
+              ],
+              "bus_temperature_K": [
+                393.15,
+                303.6190510150946,
+                302.88579069262806,
+                302.91932880152564
+              ]
+            },
+            {
+              "stage": 4,
+              "time_s": 20.0,
+              "SMA_T_range_K": [
+                303.48271093699736,
+                303.60182626014574
+              ],
+              "SE_T_range_K": [
+                294.1655857282245,
+                303.1387062774149
+              ],
+              "SMA_xM_range": [
+                0.999999999998987,
+                1.0
+              ],
+              "SE_xM_range": [
+                1.0034871982215507e-16,
+                3.231769090159229e-15
+              ],
+              "buffer_temperature_K": [
+                313.5765955840033,
+                303.15563061902606,
+                303.1151922093374
+              ],
+              "bus_temperature_K": [
+                393.15,
+                303.37551348927,
+                302.4402265751913,
+                302.86577396768394
+              ]
+            }
+          ],
+          "endpoint_temperature_drift_K": 1.952606777045844,
+          "endpoint_phase_drift": 2.453592884421596e-14,
+          "wall_seconds_since_start": 292.5545745000709
+        }
+      ],
+      "independent_inventory_coordinate_sum_pass": true,
+      "periodic_qualification": "not evaluated: complete mechanism/pump and material contracts unresolved",
+      "before_blow_observation": "stage1/3 endpoints are left limits before prescribed SE flow; no new production gate substituted"
+    }
+  ],
+  "control_execution": "C:\\tmp\\se21_saved_Nu_cold_C1_r1_20261026\\saved_Nu_execution.json",
+  "control_execution_sha256": "EB7769F3582033AA9FD6AC8987319DE2AC2FD2532E79E5C5CC3B29EFC6C9BD61",
+  "network_contract": {
+    "nodes": 21,
+    "geometry": {
+      "L_a_m": 0.8191207665316702,
+      "L_r_m": 0.37843290919687267,
+      "S_a_m2": 2.5132741228718343e-05,
+      "S_r_m2": 1.7000000000000003e-05
+    },
+    "materials": {
+      "SMA": {
+        "E_m_Pa": 30000000000.0,
+        "epsilon_T": 0.03,
+        "T_As_K": 323.15,
+        "T_Ms_K": 313.15,
+        "C_A_Pa_per_K": 7600000.0,
+        "C_M_Pa_per_K": 7300000.0,
+        "cp_J_per_kgK": 500.0,
+        "Delta_h_J_per_kg": 10000.0,
+        "k_W_per_mK": 18.0
+      },
+      "SE": {
+        "E_m_Pa": 30000000000.0,
+        "epsilon_T": 0.03,
+        "T_As_K": 268.15,
+        "T_Ms_K": 258.15,
+        "C_A_Pa_per_K": 7600000.0,
+        "C_M_Pa_per_K": 7300000.0,
+        "cp_J_per_kgK": 500.0,
+        "Delta_h_J_per_kg": 10000.0,
+        "k_W_per_mK": 18.0
+      }
+    },
+    "kinetics": {
+      "drive_width_a_Pa": 500000.0,
+      "drive_width_r_Pa": 500000.0,
+      "rate_a_to_A_1_per_s": 16.89089435453796,
+      "rate_a_to_M_1_per_s": 8.000949957412718,
+      "rate_r_load_1_per_s": 16.89089435453796,
+      "rate_r_stage3_unload_1_per_s": 8.000949957412718
+    },
+    "fluid_components": {
+      "bed_a": {
+        "fluid": "SMA",
+        "nodes": 21,
+        "area_m2": 1.8849555921538758e-05,
+        "length_m": 0.8191207665316702,
+        "solid_area_m2": 2.5132741228718343e-05,
+        "surface_m2": 0.08234700104123953,
+        "Dh_m": 0.0007499999999999999
+      },
+      "bed_r": {
+        "fluid": "SE",
+        "nodes": 21,
+        "area_m2": 7.140000000000001e-06,
+        "length_m": 0.37843290919687267,
+        "solid_area_m2": 1.7000000000000003e-05,
+        "surface_m2": 0.025733437825387343,
+        "Dh_m": 0.00042
+      },
+      "shex": {
+        "fluid": "SMA",
+        "nodes": 7,
+        "area_m2": 1.8849555921538758e-05,
+        "length_m": 0.1481,
+        "bus_index": 0,
+        "UA_W_K": 977.8802579734552,
+        "saved_block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe"
+      },
+      "hhex_a": {
+        "fluid": "SMA",
+        "nodes": 7,
+        "area_m2": 1.8849555921538758e-05,
+        "length_m": 0.1481,
+        "bus_index": 1,
+        "UA_W_K": 977.8802579734552,
+        "saved_block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe"
+      },
+      "hhex_r": {
+        "fluid": "SE",
+        "nodes": 7,
+        "area_m2": 1.2566370614359175e-05,
+        "length_m": 0.1481,
+        "bus_index": 1,
+        "UA_W_K": 53.61154923719896,
+        "saved_block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe"
+      },
+      "chex": {
+        "fluid": "SE",
+        "nodes": 7,
+        "area_m2": 1.2566370614359175e-05,
+        "length_m": 0.1481,
+        "bus_index": 2,
+        "UA_W_K": 53.61154923719896,
+        "saved_block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe"
+      }
+    },
+    "solid_mass_kg": {
+      "SMA": 0.13381387669201422,
+      "SE": 0.04181683646625444
+    },
+    "mass_flow_kg_s": {
+      "SMA": 0.0508,
+      "SE": 0.0032
+    },
+    "stage_durations_s": [
+      3.5,
+      1.5,
+      3.5,
+      1.5
+    ],
+    "bus_capacity_J_K": [
+      418.0,
+      363.8,
+      363.8,
+      363.8
+    ],
+    "source_K": 393.15,
+    "ambient_K": 303.15,
+    "buffer_initial_mass_kg": 0.1,
+    "cold_load_W": 0.0,
+    "source_UA_W_K": 9778.80257973455,
+    "ambient_UA_W_K": 9778.80257973455,
+    "cold_load_UA_W_K": 53.61154923719896,
+    "chex_leak_UA_W_K": 1e-12,
+    "se_natural_h_W_m2K": 50.0,
+    "input_dependencies": [
+      {
+        "path": "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025\\conservative\\configuration.mat",
+        "sha256": "82A096E37867063D357C138B4C97EEC13234B9CC659B8135891D47C55C4D4256"
+      },
+      {
+        "path": "C:\\tmp\\se21_single_pipe_global_ode3_ledger_r1_20261025\\single_pipe_execution.json",
+        "sha256": "173CFA4A2EE16DB76EC5545A22C87D7AB91DD3C38DBB54A768F6965BEC281D37"
+      },
+      {
+        "path": "C:\\tmp\\se21_single_pipe_global_ode3_ledger_r1_20261025\\case_01.mat",
+        "sha256": "1BCD87643648AC223BB9DFF831229782677B5F45FA384048EE97DD413361697C"
+      },
+      {
+        "path": "C:\\tmp\\se21_single_pipe_global_ode3_ledger_r1_20261025\\case_13.mat",
+        "sha256": "13FDD612BAE834C664E9267F7A1FC48D693BCA9591D8B55CEBBD6C519D1A0E3D"
+      },
+      {
+        "path": "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025\\conservative\\inventory_metadata.json",
+        "sha256": "7C0EB5412E0AA2EF9C3DC52A9D5A07251FF961F4BEA10A48FA899EB5200217B2"
+      }
+    ],
+    "fluid_caloric_contracts": {
+      "SMA": {
+        "temperature_K": [
+          273.16,
+          283.16,
+          293.16,
+          303.16,
+          313.16,
+          323.16,
+          333.16,
+          343.16,
+          353.16,
+          363.16,
+          373.16,
+          383.16,
+          393.16,
+          403.16,
+          413.16
+        ],
+        "cp_J_kgK": [
+          4203.355818478274,
+          4195.1006869569,
+          4183.365107499187,
+          4178.504086860421,
+          4177.100374997895,
+          4178.180988405073,
+          4181.446170162776,
+          4186.803803495768,
+          4194.224395173199,
+          4203.709184903884,
+          4215.29355329222,
+          4229.058240267006,
+          4245.140039655342,
+          4263.92723472191,
+          4274.0733511824155
+        ],
+        "conductivity_W_mK": [
+          0.5559805115,
+          0.579057427,
+          0.5982630374000001,
+          0.6146297471000001,
+          0.6287193807,
+          0.6408549223,
+          0.6512352248,
+          0.6599939081999999,
+          0.6672300957999999,
+          0.6730243742,
+          0.6774468439,
+          0.6805609270999999,
+          0.6824249382,
+          0.6830925227,
+          0.6826125620000001
+        ],
+        "fixed_density_kg_m3": 995.9909241548734,
+        "reference_temperature_K": 303.15,
+        "enthalpy_law": "exact integral of piecewise linear cp(T) at saved reference pressure",
+        "compressible_EOS_equivalence_claim": false
+      },
+      "SE": {
+        "temperature_K": [
+          255.05,
+          283.15,
+          313.15,
+          338.15,
+          363.15,
+          393.15
+        ],
+        "cp_J_kgK": [
+          3511.9449540580385,
+          3563.8357759755727,
+          3674.587798966333,
+          3766.6941591517007,
+          3858.9320197627603,
+          3914.442389259866
+        ],
+        "conductivity_W_mK": [
+          0.365406333333333,
+          0.3936,
+          0.41500000000000004,
+          0.4262,
+          0.4313,
+          0.4294
+        ],
+        "fixed_density_kg_m3": 1045.1562198129889,
+        "reference_temperature_K": 303.15,
+        "enthalpy_law": "exact integral of piecewise linear cp(T) at saved reference pressure",
+        "compressible_EOS_equivalence_claim": false
+      }
+    },
+    "limitations": [
+      "prescribed flow, no pressure-loss/pump-work qualification",
+      "existing reduced phase law; Af/Mf and probability parameters remain unverified",
+      "constant density caloric approximation, not compressible rho/u or SLX equivalence",
+      "single persistent bed fluid per material, not two independently stored SMA routes",
+      "accessory fluid inventories mapped, connecting-pipe wall allocation remains unresolved",
+      "finite mixed chambers with variable liquid amount, no piston pressure or volume qualification",
+      "SMA return graph is an explicit engineering reference, not literal paper topology verification",
+      "chemical inventory -m*L*xM closes the reduced heat law, not independent calorimetry"
+    ],
+    "saved_forced_Nu": {
+      "SMA": 4.365993493890937,
+      "SE": 3.66
+    }
+  },
+  "completed_arms": 2,
+  "wall_seconds": 601.549553400022,
+  "error_traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Run_HeatDriveECC_SMAFlowDirectionControl.py\", line 156, in run\n    write_json(output/\"completed_arm_evidence.json\", record)\n  File \"C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Run_HeatDriveECC_ConservativeTransport.py\", line 29, in write_json\n    with path.open(\"x\", encoding=\"utf-8\") as stream:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\86182\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\pathlib.py\", line 1013, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileExistsError: [Errno 17] File exists: 'C:\\\\tmp\\\\se21_SMA_direction_pair_C2_r1_20261026\\\\completed_arm_evidence.json'\n"
+}

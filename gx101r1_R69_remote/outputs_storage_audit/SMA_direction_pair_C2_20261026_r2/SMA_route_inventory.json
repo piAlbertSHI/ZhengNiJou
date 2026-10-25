@@ -1,0 +1,36 @@
+{
+  "route_fluid_volume_m3": {
+    "Hold": 1.544006269523241e-05,
+    "Cooldown": 1.544006269523241e-05
+  },
+  "expected_single_bed_void_volume_m3": 1.544006269523241e-05,
+  "total_two_route_fluid_volume_m3": 3.088012539046482e-05,
+  "total_over_single_bed_ratio": 2.0,
+  "each_route_matches_a_whole_bed": true,
+  "excess_vs_single_bed_volume_m3": 1.544006269523241e-05,
+  "reference_fluid_density_kg_m3": 995.9909241548734,
+  "reference_fluid_cp_J_kgK": 4178.50894788106,
+  "excess_reference_capacity_J_K": 64.25778882614296,
+  "SMA_solid_capacity_J_K": 66.90693834600711,
+  "excess_capacity_over_solid_capacity": 0.960405458905261,
+  "native_variable_density_internal_energy_reconstructed": false,
+  "physical_topology_qualification_claim": false,
+  "scope": "Given the single-physical-bed porosity contract, these are two independently stored full-bed fluid representations; accessory inventory classification must be explicit",
+  "schema": "heatdrive_ecc_SMA_route_inventory_comparison_v1",
+  "reference_temperature_K": 303.15,
+  "reader_sha256": "EA0EF3AA17BE28ED547BFF150BF31C1EBB2AD14E65D77CF6472A5F5437BC241A",
+  "inventory_reader_sha256": "C4363B1A677EE5D9BDC526F715D11F70927E6FFD7F77DFC756817ED5D47DF49E",
+  "input_dependencies": [
+    {
+      "path": "C:\\tmp\\se21_SMA_direction_pair_C2_r1_20261026\\FAILED_DO_NOT_RESUME.json",
+      "sha256": "F4439FE971F5C361143E6289D087F859C8138FF5500F88AD6DF4EBDF8E0643A8"
+    },
+    {
+      "path": "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025\\conservative\\inventory_metadata.json",
+      "sha256": "7C0EB5412E0AA2EF9C3DC52A9D5A07251FF961F4BEA10A48FA899EB5200217B2"
+    }
+  ],
+  "C200_inventory_inspected": false,
+  "C200_SCP_causal_attribution": false,
+  "production_recovery_allowed": false
+}

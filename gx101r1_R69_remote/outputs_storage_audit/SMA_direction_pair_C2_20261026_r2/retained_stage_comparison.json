@@ -1,0 +1,516 @@
+{
+  "schema": "heatdrive_ecc_direction_retained_stage_summary_v1",
+  "reader_sha256": "EA0EF3AA17BE28ED547BFF150BF31C1EBB2AD14E65D77CF6472A5F5437BC241A",
+  "producer_commit": "b5a288aaed52137c80e64931da99d7cea19f5004",
+  "source_failure": "C:\\tmp\\se21_SMA_direction_pair_C2_r1_20261026\\FAILED_DO_NOT_RESUME.json",
+  "source_failure_sha256": "F4439FE971F5C361143E6289D087F859C8138FF5500F88AD6DF4EBDF8E0643A8",
+  "process_exit_code": 1,
+  "physical_arms_reported_complete": 2,
+  "wall_seconds": 601.549553400022,
+  "failure_class": "second exclusive summary filename collision, after both numerical arms finished",
+  "all_saved_profile_arrays_available": false,
+  "original_collection_complete": false,
+  "whole_trajectory_readback_possible": false,
+  "first_heat_half_runtime_array_check_completed": false,
+  "numerical_local_residuals_are_in_memory_reports_not_recomputed_from_raw": true,
+  "reported_local_energy_max_J": {
+    "counter": 4.1882231016643345e-10,
+    "co": 4.1882231016643345e-10
+  },
+  "reported_local_mass_max_kg": {
+    "counter": 2.220446049250313e-16,
+    "co": 2.220446049250313e-16
+  },
+  "stage_comparisons": [
+    {
+      "cycle": 1,
+      "stage": 1,
+      "time_s": 3.5,
+      "counter": {
+        "SMA_T_range_K": [
+          392.08268424716516,
+          392.37196800914796
+        ],
+        "SE_T_range_K": [
+          322.4260877254473,
+          322.4260877254473
+        ],
+        "SMA_xM_range": [
+          1.161561886655783e-25,
+          8.831055273226344e-18
+        ],
+        "SE_xM_range": [
+          0.899859800644411,
+          0.899859800644411
+        ]
+      },
+      "co": {
+        "SMA_T_range_K": [
+          392.08268424716516,
+          392.37196800914796
+        ],
+        "SE_T_range_K": [
+          322.4260877254473,
+          322.4260877254473
+        ],
+        "SMA_xM_range": [
+          1.161561886655783e-25,
+          8.831055273226344e-18
+        ],
+        "SE_xM_range": [
+          0.899859800644411,
+          0.899859800644411
+        ]
+      },
+      "range_endpoint_differences_co_minus_counter": {
+        "SMA_T_range_K": [
+          0.0,
+          0.0
+        ],
+        "SE_T_range_K": [
+          0.0,
+          0.0
+        ],
+        "SMA_xM_range": [
+          0.0,
+          0.0
+        ],
+        "SE_xM_range": [
+          0.0,
+          0.0
+        ]
+      },
+      "spatial_pointwise_or_time_maximum_difference_available": false
+    },
+    {
+      "cycle": 1,
+      "stage": 2,
+      "time_s": 5.0,
+      "counter": {
+        "SMA_T_range_K": [
+          392.63501929116563,
+          392.7728979484215
+        ],
+        "SE_T_range_K": [
+          303.22797099127257,
+          318.3318949792211
+        ],
+        "SMA_xM_range": [
+          1.1518759151596852e-36,
+          8.75741533148962e-29
+        ],
+        "SE_xM_range": [
+          0.9511870285924536,
+          0.9999999999986828
+        ]
+      },
+      "co": {
+        "SMA_T_range_K": [
+          392.63501929116563,
+          392.7728979484215
+        ],
+        "SE_T_range_K": [
+          303.22797099127257,
+          318.3318949792211
+        ],
+        "SMA_xM_range": [
+          1.1518759151596852e-36,
+          8.75741533148962e-29
+        ],
+        "SE_xM_range": [
+          0.9511870285924536,
+          0.9999999999986828
+        ]
+      },
+      "range_endpoint_differences_co_minus_counter": {
+        "SMA_T_range_K": [
+          0.0,
+          0.0
+        ],
+        "SE_T_range_K": [
+          0.0,
+          0.0
+        ],
+        "SMA_xM_range": [
+          0.0,
+          0.0
+        ],
+        "SE_xM_range": [
+          0.0,
+          0.0
+        ]
+      },
+      "spatial_pointwise_or_time_maximum_difference_available": false
+    },
+    {
+      "cycle": 1,
+      "stage": 3,
+      "time_s": 8.5,
+      "counter": {
+        "SMA_T_range_K": [
+          303.83460006159714,
+          304.12310456347615
+        ],
+        "SE_T_range_K": [
+          283.329538872856,
+          298.7371263158812
+        ],
+        "SMA_xM_range": [
+          0.9999998391511689,
+          0.9999999999984278
+        ],
+        "SE_xM_range": [
+          1.659401833788098e-11,
+          5.297489151080977e-10
+        ]
+      },
+      "co": {
+        "SMA_T_range_K": [
+          303.8346209003587,
+          304.1231723588947
+        ],
+        "SE_T_range_K": [
+          283.3293530981851,
+          298.73692713321594
+        ],
+        "SMA_xM_range": [
+          0.9999998388933778,
+          0.9999999999984232
+        ],
+        "SE_xM_range": [
+          1.662357722935356e-11,
+          5.305889036826225e-10
+        ]
+      },
+      "range_endpoint_differences_co_minus_counter": {
+        "SMA_T_range_K": [
+          2.0838761543018336e-05,
+          6.779541854484705e-05
+        ],
+        "SE_T_range_K": [
+          -0.00018577467091063227,
+          -0.00019918266525564832
+        ],
+        "SMA_xM_range": [
+          -2.577910107603998e-10,
+          -4.6629367034256575e-15
+        ],
+        "SE_xM_range": [
+          2.9558891472581634e-14,
+          8.399885745248473e-13
+        ]
+      },
+      "spatial_pointwise_or_time_maximum_difference_available": false
+    },
+    {
+      "cycle": 1,
+      "stage": 4,
+      "time_s": 10.0,
+      "counter": {
+        "SMA_T_range_K": [
+          303.4792838028315,
+          303.597171934026
+        ],
+        "SE_T_range_K": [
+          296.01363256687875,
+          303.13857747968984
+        ],
+        "SMA_xM_range": [
+          0.9999999999990131,
+          1.0
+        ],
+        "SE_xM_range": [
+          1.0180940115680824e-16,
+          3.2501723640683565e-15
+        ]
+      },
+      "co": {
+        "SMA_T_range_K": [
+          303.47929391318723,
+          303.5971858836432
+        ],
+        "SE_T_range_K": [
+          296.01363246941696,
+          303.13857685554916
+        ],
+        "SMA_xM_range": [
+          0.9999999999990116,
+          1.0
+        ],
+        "SE_xM_range": [
+          1.0199074538430265e-16,
+          3.2553256758524415e-15
+        ]
+      },
+      "range_endpoint_differences_co_minus_counter": {
+        "SMA_T_range_K": [
+          1.0110355731285381e-05,
+          1.3949617198250053e-05
+        ],
+        "SE_T_range_K": [
+          -9.746179330250015e-08,
+          -6.241406822482531e-07
+        ],
+        "SMA_xM_range": [
+          -1.5543122344752192e-15,
+          0.0
+        ],
+        "SE_xM_range": [
+          1.8134422749440188e-19,
+          5.153311784084954e-18
+        ]
+      },
+      "spatial_pointwise_or_time_maximum_difference_available": false
+    },
+    {
+      "cycle": 2,
+      "stage": 1,
+      "time_s": 13.5,
+      "counter": {
+        "SMA_T_range_K": [
+          392.19608416030326,
+          392.45347106664445
+        ],
+        "SE_T_range_K": [
+          317.0517104888504,
+          321.64247294566906
+        ],
+        "SMA_xM_range": [
+          4.3807025595065983e-26,
+          2.216194421878589e-18
+        ],
+        "SE_xM_range": [
+          0.8668672408225272,
+          1.0
+        ]
+      },
+      "co": {
+        "SMA_T_range_K": [
+          392.19605320178187,
+          392.4534557239963
+        ],
+        "SE_T_range_K": [
+          317.0518629327089,
+          321.64258473251215
+        ],
+        "SMA_xM_range": [
+          4.402158722259773e-26,
+          2.2211680245887655e-18
+        ],
+        "SE_xM_range": [
+          0.8668666645978925,
+          1.0
+        ]
+      },
+      "range_endpoint_differences_co_minus_counter": {
+        "SMA_T_range_K": [
+          -3.095852139267663e-05,
+          -1.534264816882569e-05
+        ],
+        "SE_T_range_K": [
+          0.00015244385849655373,
+          0.00011178684309243181
+        ],
+        "SMA_xM_range": [
+          2.145616275317483e-28,
+          4.973602710176549e-21
+        ],
+        "SE_xM_range": [
+          -5.762246346741051e-07,
+          0.0
+        ]
+      },
+      "spatial_pointwise_or_time_maximum_difference_available": false
+    },
+    {
+      "cycle": 2,
+      "stage": 2,
+      "time_s": 15.0,
+      "counter": {
+        "SMA_T_range_K": [
+          392.68930926879364,
+          392.8120993579387
+        ],
+        "SE_T_range_K": [
+          303.18249555214305,
+          317.4094989500463
+        ],
+        "SMA_xM_range": [
+          4.344214685992914e-37,
+          2.1977352316804884e-29
+        ],
+        "SE_xM_range": [
+          0.9364456566956082,
+          1.0
+        ]
+      },
+      "co": {
+        "SMA_T_range_K": [
+          392.6892992534468,
+          392.8120919421308
+        ],
+        "SE_T_range_K": [
+          303.1824955754571,
+          317.4096312192196
+        ],
+        "SMA_xM_range": [
+          4.365503186822102e-37,
+          2.2026729842289898e-29
+        ],
+        "SE_xM_range": [
+          0.9364512970622669,
+          1.0
+        ]
+      },
+      "range_endpoint_differences_co_minus_counter": {
+        "SMA_T_range_K": [
+          -1.0015346845193562e-05,
+          -7.415807885990944e-06
+        ],
+        "SE_T_range_K": [
+          2.3314044028666103e-08,
+          0.0001322691732639214
+        ],
+        "SMA_xM_range": [
+          2.1288500829188113e-39,
+          4.937752548501403e-32
+        ],
+        "SE_xM_range": [
+          5.640366658732354e-06,
+          0.0
+        ]
+      },
+      "spatial_pointwise_or_time_maximum_difference_available": false
+    },
+    {
+      "cycle": 2,
+      "stage": 3,
+      "time_s": 18.5,
+      "counter": {
+        "SMA_T_range_K": [
+          303.8417065009286,
+          304.1332793282784
+        ],
+        "SE_T_range_K": [
+          283.3034236541634,
+          298.0954120544516
+        ],
+        "SMA_xM_range": [
+          0.9999998351270435,
+          0.9999999999983992
+        ],
+        "SE_xM_range": [
+          1.6329710949144485e-11,
+          5.260039869834282e-10
+        ]
+      },
+      "co": {
+        "SMA_T_range_K": [
+          303.8417238132326,
+          304.13333845113056
+        ],
+        "SE_T_range_K": [
+          283.30325637594825,
+          298.0952312399531
+        ],
+        "SMA_xM_range": [
+          0.9999998348913961,
+          0.999999999998395
+        ],
+        "SE_xM_range": [
+          1.635598634516875e-11,
+          5.267508265482883e-10
+        ]
+      },
+      "range_endpoint_differences_co_minus_counter": {
+        "SMA_T_range_K": [
+          1.73123040099199e-05,
+          5.912285217846147e-05
+        ],
+        "SE_T_range_K": [
+          -0.00016727821514450625,
+          -0.00018081449849205455
+        ],
+        "SMA_xM_range": [
+          -2.356473904896461e-10,
+          -4.218847493575595e-15
+        ],
+        "SE_xM_range": [
+          2.6275396024263757e-14,
+          7.468395648600964e-13
+        ]
+      },
+      "spatial_pointwise_or_time_maximum_difference_available": false
+    },
+    {
+      "cycle": 2,
+      "stage": 4,
+      "time_s": 20.0,
+      "counter": {
+        "SMA_T_range_K": [
+          303.4827025309845,
+          303.60181464622417
+        ],
+        "SE_T_range_K": [
+          294.16558144139657,
+          303.1387068645077
+        ],
+        "SMA_xM_range": [
+          0.9999999999989885,
+          1.0
+        ],
+        "SE_xM_range": [
+          1.0018750710490264e-16,
+          3.2271868343064722e-15
+        ]
+      },
+      "co": {
+        "SMA_T_range_K": [
+          303.48271093699736,
+          303.60182626014574
+        ],
+        "SE_T_range_K": [
+          294.1655857282245,
+          303.1387062774149
+        ],
+        "SMA_xM_range": [
+          0.999999999998987,
+          1.0
+        ],
+        "SE_xM_range": [
+          1.0034871982215507e-16,
+          3.231769090159229e-15
+        ]
+      },
+      "range_endpoint_differences_co_minus_counter": {
+        "SMA_T_range_K": [
+          8.406012852901767e-06,
+          1.1613921572006802e-05
+        ],
+        "SE_T_range_K": [
+          4.286827959276707e-06,
+          -5.870928134754649e-07
+        ],
+        "SMA_xM_range": [
+          -1.4432899320127035e-15,
+          0.0
+        ],
+        "SE_xM_range": [
+          1.612127172524316e-19,
+          4.58225585275682e-18
+        ]
+      },
+      "spatial_pointwise_or_time_maximum_difference_available": false
+    }
+  ],
+  "cycle2_temperature_endpoint_drifts_K": {
+    "counter": 1.9526104552831498,
+    "co": 1.952606777045844
+  },
+  "co_directed_topology_qualified": false,
+  "SMA_direction_alone_fixes_this_reduced_loading_observation": false,
+  "C200_SCP_deviation_causal_attribution": false,
+  "new_scientific_gate": false,
+  "production_recovery_or_twenty_cycle_seed_allowed": false,
+  "claim_boundary": "Stored stage-range endpoints only; no reconstructed profiles, extrema-between-stages or physical validation"
+}
