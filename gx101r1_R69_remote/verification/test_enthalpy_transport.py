@@ -1,0 +1,96 @@
+from dataclasses import replace
+import unittest
+
+import numpy as np
+
+from Reference_HeatDriveECC_ConservativeTransport import Bed, bs3_step
+from Reference_HeatDriveECC_EnthalpyTransport import TabulatedEOS, EnthalpyBed
+
+
+def synthetic_eos():
+    t = np.array([280., 300., 320., 350., 400.])
+    p = np.array([.45e6, .85e6, 2e6, 5e6])
+    rho = 1000.-.3*(t[:, None]-300.)+.0000005*(p[None, :]-.85e6)
+    u = 4200.*(t[:, None]-280.)+np.zeros_like(p)[None, :]
+    return TabulatedEOS(t, p, rho, u, np.full(len(t), .6))
+
+
+def test_bed(nodes=6):
+    geometry = Bed(nodes, .3, 1e-5, 1000., 4200., .6, 2e-5, .04, 500., 18., 30., slope_limiter="MC")
+    return EnthalpyBed(geometry, synthetic_eos(), 3.66, .0005, .01)
+
+
+class EnthalpyTransportTests(unittest.TestCase):
+    def test_bilinear_derivatives_match_finite_differences_not_a_separate_cp_table(self):
+        eos = synthetic_eos()
+        t, p = np.array([290., 310., 370.]), np.array([.6e6, 1.1e6, 3e6])
+        props = eos.properties(t, p)
+        for name in ("rho", "u"):
+            numerical_t = (eos.properties(t+1e-3, p)[name]-eos.properties(t-1e-3, p)[name])/.002
+            numerical_p = (eos.properties(t, p+10)[name]-eos.properties(t, p-10)[name])/20
+            np.testing.assert_allclose(props[name+"_T"], numerical_t, rtol=1e-9, atol=1e-8)
+            np.testing.assert_allclose(props[name+"_p"], numerical_p, rtol=1e-7, atol=1e-11)
+
+    def test_inverse_recovers_temperature_and_pressure_without_reset(self):
+        eos = synthetic_eos()
+        t, p = np.array([289., 310., 379.]), np.array([.6e6, 1.1e6, 3e6])
+        original = eos.properties(t, p)
+        solved = eos.invert(original["rho"], original["u"])
+        np.testing.assert_allclose(solved["T"], t, rtol=0, atol=1e-10)
+        np.testing.assert_allclose(solved["p"], p, rtol=0, atol=.001)
+
+    def test_outside_domain_rejected_not_extrapolated_or_clipped(self):
+        eos = synthetic_eos()
+        for t, p in ((279., .85e6), (401., .85e6), (300., .4e6), (300., 5.1e6)):
+            with self.assertRaises(ValueError):
+                eos.properties([t], [p])
+        with self.assertRaises(ValueError):
+            eos.invert([-1.], [100.])
+
+    def test_conserved_rates_telescope_for_both_directions(self):
+        bed = test_bed()
+        initial = bed.initial_state()
+        for flow, left, right in ((.0032, 390., 303.15), (-.0032, 303.15, 285.)):
+            rate, props = bed.evaluate(initial, flow, left, right)
+            self.assertAlmostEqual(np.sum(rate[:bed.nodes]), rate[-2], places=17)
+            self.assertAlmostEqual(np.sum(rate[bed.nodes:3*bed.nodes]), rate[-1], places=12)
+            self.assertLess(np.max(abs(props["pressure_rate_Pa_s"])), .001)
+
+    def test_heating_expels_mass_and_cooling_draws_mass(self):
+        bed = test_bed()
+        for flow, left, right, sign in ((.0032, 390., 303.15, -1), (-.0032, 303.15, 285., 1)):
+            rate, props = bed.evaluate(bed.initial_state(), flow, left, right)
+            self.assertEqual(np.sign(rate[-2]), sign)
+            self.assertNotEqual(abs(props["mass_faces_kg_s"][0]), abs(props["mass_faces_kg_s"][-1]))
+
+    def test_uniform_equilibrium_has_no_mass_energy_change(self):
+        bed = test_bed()
+        for flow in (.0032, -.0032):
+            rate = bed.rhs(bed.initial_state(), flow, 303.15, 303.15)
+            np.testing.assert_allclose(rate, 0., rtol=0, atol=1e-12)
+
+    def test_sealed_dwell_is_not_silently_replaced_by_constant_pressure(self):
+        bed = test_bed()
+        with self.assertRaisesRegex(ValueError, "sealed/zero-flow"):
+            bed.rhs(bed.initial_state(), 0., 390., 285.)
+
+    def test_primary_mass_energy_and_reversal_preserve_discrete_ledgers(self):
+        bed = test_bed()
+        initial = bed.initial_state()
+        state = initial.copy()
+        for step in range(40):
+            flow = .0032 if step < 20 else -.0032
+            rhs = lambda t, y: bed.rhs(y, flow, 330., 285.)
+            state = bs3_step(rhs, step*.0001, state, .0001)
+        self.assertLess(abs(state[:bed.nodes].sum()-initial[:bed.nodes].sum()-state[-2]), 1e-16)
+        self.assertLess(abs(state[bed.nodes:3*bed.nodes].sum()-state[-1]), 1e-12)
+        np.testing.assert_array_equal(initial, bed.initial_state())
+
+    def test_grid_refinement_preserves_initial_mass_and_solid_heat_capacity(self):
+        a, b = test_bed(6), test_bed(12)
+        self.assertAlmostEqual(a.initial_state()[:6].sum(), b.initial_state()[:12].sum(), places=16)
+        self.assertEqual(a.geometry.solid_capacity*6, b.geometry.solid_capacity*12)
+
+
+if __name__ == "__main__":
+    unittest.main()
