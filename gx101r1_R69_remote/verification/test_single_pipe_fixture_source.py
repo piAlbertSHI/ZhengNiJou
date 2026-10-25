@@ -63,6 +63,14 @@ class SinglePipeFixtureSourceTests(unittest.TestCase):
         self.assertIn("reference_label='% Reference Heat Pipe (TL) : 2.5'", self.fixture)
         self.assertIn("undo=strrep(undo,reference_label,native_label)", self.fixture)
 
+    def test_global_solver_contract_is_observed_and_explicitly_opt_in(self):
+        self.assertIn("if nargin<5,integration='local_BE';end", self.fixture)
+        self.assertIn("Global integration requires the explicit reference study.", self.fixture)
+        self.assertIn("'UseLocalSolver','off'", self.fixture)
+        self.assertIn("'local_solver_enabled',get_param", self.fixture)
+        self.assertIn("'global_solver',get_param(model,'Solver')", self.fixture)
+        self.assertIn("row.solver_contract=solver_contract", self.fixture)
+
 
 if __name__ == "__main__":
     unittest.main()

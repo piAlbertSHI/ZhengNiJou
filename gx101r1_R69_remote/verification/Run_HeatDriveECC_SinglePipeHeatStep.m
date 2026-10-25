@@ -1,8 +1,11 @@
-function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder, study)
+function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder, study, integration)
 % Independent native/probe pipe comparison. No production model or state load.
     if nargin<4,study='native_probe';end
+    if nargin<5,integration='local_BE';end
     assert(any(strcmp(study,{'native_probe','heat_law_reference'})),'Unknown independent study.');
     reference_study=strcmp(study,'heat_law_reference');
+    assert(any(strcmp(integration,{'local_BE','global_ODE3'})),'Unknown integration contract.');
+    assert(reference_study || strcmp(integration,'local_BE'),'Global integration requires the explicit reference study.');
     assert(~isfolder(folder),'Never overwrite a fixture.');mkdir(folder);
     old=pwd;oldpath=path;restore=onCleanup(@() restore_path(old,oldpath));
     generation=Simulink.fileGenControl('getConfig');
@@ -14,6 +17,7 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder, s
         'production_recovery_allowed',false,'coupled_model_validated',false, ...
         'error_identifier','','error_message','','cases',{{}});
     record.study=study;
+    record.integration=integration;
     record.reference_heat_laws_independently_integrated=reference_study;
     if reference_study,record.schema='heatdrive_ecc_single_pipe_reference_v1';end
     try
@@ -138,6 +142,7 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder, s
             end
             set_param([model '/Solver'],'UseLocalSolver','on', ...
                 'LocalSolverChoice','NE_BACKWARD_EULER_ADVANCER','LocalSolverSampleTime','.001');
+            if strcmp(integration,'global_ODE3'),set_param([model '/Solver'],'UseLocalSolver','off');end
             set_param(model,'Solver','ode3','FixedStep','.001','StartTime','0','StopTime','.1', ...
                 'SimulationMode','normal','ReturnWorkspaceOutputs','on','SaveTime','off','SaveOutput','off', ...
                 'SaveState','off','SaveFinalState','off','LoadInitialState','off', ...
@@ -153,11 +158,22 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder, s
                         set_param([model '/' arm{1} 'Flow'],'mass_flow',num2str(flow,17));
                     end
                     set_param([model '/WallStep'],'After',num2str(303.15+delta,17));
+                    solver_contract=struct('integration_request',integration, ...
+                        'global_solver',get_param(model,'Solver'),'solver_type',get_param(model,'SolverType'), ...
+                        'global_fixed_step',get_param(model,'FixedStep'), ...
+                        'local_solver_enabled',get_param([model '/Solver'],'UseLocalSolver'), ...
+                        'local_solver_choice_parameter',get_param([model '/Solver'],'LocalSolverChoice'), ...
+                        'local_step_parameter',get_param([model '/Solver'],'LocalSolverSampleTime'));
+                    expected_local='on';if strcmp(integration,'global_ODE3'),expected_local='off';end
+                    assert(strcmp(solver_contract.global_solver,'ode3') && ...
+                        strcmp(solver_contract.local_solver_enabled,expected_local));
+                    write_text(fullfile(folder,'solver_contract_preflight.json'),jsonencode(solver_contract,'PrettyPrint',true));
                     elapsed=tic;input=Simulink.SimulationInput(model);
                     output=sim(input.setModelParameter('CaptureErrors','on'));seconds=toc(elapsed);
                     if ~isempty(output.ErrorMessage)
                         failed_case_context=struct('material',name,'mass_flow_command_kgps',flow, ...
-                            'wall_step_K',delta,'fixed_step_s',dt,'study',study,'resume_allowed',false); %#ok<NASGU>
+                            'wall_step_K',delta,'fixed_step_s',dt,'study',study, ...
+                            'solver_contract',solver_contract,'resume_allowed',false); %#ok<NASGU>
                         save(fullfile(folder,'failed_simulation.mat'),'output','failed_case_context','-v7.3');
                         error('HeatDriveECC:SinglePipeSimulationError','%s',output.ErrorMessage);
                     end
@@ -190,6 +206,7 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder, s
                         'Dh_m',diameter,'saved_Nu',nu,'surface_area_m2',4*area/diameter*length, ...
                         'fluid_settings',fluid_record,'native_probe_comparisons',{comparisons}, ...
                         'native_probe_equivalence_pass',true,'power_spec','none','production_recovery_allowed',false);
+                    row.solver_contract=solver_contract;
                     file=sprintf('case_%02d.mat',numel(record.cases)+1);
                     if reference_study
                         row.study=study;row.reference_saved_Nu=nu;row.reference_Q01_Nu=3.66;
