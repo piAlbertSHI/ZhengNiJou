@@ -83,6 +83,18 @@ def implied_SE_mean(phase_box, stress_box_MPa, c=TABLE2):
             "SMA_curve_is_known_axial_mean": False, "measured_SE_mean": False}
 
 
+def tensile_intersection(stress_box_MPa):
+    """Intersect an UNCERTAINTY BOX with known tensile mechanics, not a state.
+
+    The original observed box must remain in the record. A negative pixel-error
+    edge alone is not evidence of an actual compressive material coordinate.
+    """
+    lo, hi = stress_box_MPa
+    if not np.isfinite([lo, hi]).all() or lo > hi:
+        raise ValueError("Finite ordered stress uncertainty box required")
+    return [max(0., lo), hi] if hi >= 0 else None
+
+
 def tau_upper_bound(volume, temperature_upper_K, stress_lower_MPa, duration_upper_s, integral_lower):
     """Necessary, not sufficient, conditional tau bound from Q04 pMA.
 
@@ -161,11 +173,17 @@ def analyze(pixels, fig5, output):
                 raise ValueError("Axis sensitivity loses supporting red columns")
             shifts.append(shifted["stress_extent_MPa"])
         sbox = [min(s[0] for s in shifts), max(s[1] for s in shifts)]
+        tensile = tensile_intersection(sbox)
+        if tensile is None:
+            missing.append({"phase_time_s": p["image_time_s"], "reason": "stress_uncertainty_has_no_tensile_intersection",
+                            "unmodified_stress_extent_MPa": sbox})
+            continue
         pairs.append({"phase": p, "temperature_center_pixel": t, "temperature_pixel_support": support,
                       "temperature_extent_C": tbox, "clock_offset_s": t["image_time_s"]-p["image_time_s"],
                       "clock_overlap_half_width_sum_s": uncertainty, "stress_hull": hull,
                       "stress_extent_MPa_including_axis_shift": sbox,
-                      "conditional_mean_compatibility": implied_SE_mean(p["pixel_ordinate_extent_plus_one"], sbox),
+                      "tensile_stress_intersection_MPa": tensile,
+                      "conditional_mean_compatibility": implied_SE_mean(p["pixel_ordinate_extent_plus_one"], tensile),
                       "Q04_full_two_way_interval_positive_over_T_box": tbox[0]+273.15 > TABLE2["SMA_T_As_K"]})
     if len(pairs) < 10:
         raise ValueError("Insufficient source-based T/x/stress constraints")
@@ -185,13 +203,16 @@ def analyze(pixels, fig5, output):
                 shifted = [stress_hull(stress_image, tbox, [v+s for v in axes]) for s in (-1., 0., 1.)]
                 if not all(r["available"] for r in shifted):
                     raise ValueError("Kinetic strip axis sensitivity has missing source pixels")
-                stress_lower = min(r["stress_extent_MPa"][0] for r in shifted)
-                if stress_lower < 0:
-                    raise ValueError("Strip cannot establish a tensile stress lower bound")
+                strip_raw = [min(r["stress_extent_MPa"][0] for r in shifted), max(r["stress_extent_MPa"][1] for r in shifted)]
+                strip_tensile = tensile_intersection(strip_raw)
+                if strip_tensile is None:
+                    raise ValueError("Strip stress box has no tensile intersection")
+                stress_lower = strip_tensile[0]
                 duration = b["phase"]["image_time_s"]-a["phase"]["image_time_s"]+2*phase["one_pixel_time_s"]
                 constraints.append({"cycle": cycle, "phase_time_pair_s": [a["phase"]["image_time_s"], b["phase"]["image_time_s"]],
                                     "integrated_pMA_lower_bound": integral, "duration_upper_s": duration,
-                                    "temperature_strip_C": tbox, "stress_lower_MPa": stress_lower})
+                                    "temperature_strip_C": tbox, "unmodified_stress_extent_MPa": strip_raw,
+                                    "stress_lower_MPa": stress_lower})
     if not constraints:
         raise ValueError("No joint source constraints for a necessary reverse-rate bound")
     profile = []

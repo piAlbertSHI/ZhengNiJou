@@ -1,0 +1,17 @@
+{
+  "schema": "heatdrive_ecc_failed_component_readback_v1",
+  "producer_commit": "162cdd5867dd77a13dfb006b35d02606ae36188b",
+  "natural_exit_code": 1,
+  "source_analysis_only": true,
+  "system_simulation_started": false,
+  "failure": "implied_SE_mean rejected a source-pixel uncertainty box crossing zero as if it were a compressive state",
+  "diagnosed_source_point": {
+    "phase_time_s": 7.79783393501805,
+    "phase_box": [0.8745928338762216, 0.9104234527687296],
+    "temperature_box_C": [45.0, 47.77777777777778],
+    "unmodified_stress_box_MPa": [-1.4234875444839858, 44.12811387900356]
+  },
+  "repair_boundary": "Keep original box and separately intersect with independently known tensile domain; never clip an actual state or overwrite measurement",
+  "scientific_gate_relaxed": false,
+  "production_recovery_allowed": false
+}

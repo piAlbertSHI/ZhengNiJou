@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from Analyze_HeatDriveECC_ComponentStressMapping import stress_hull, red_pixels, implied_SE_mean, tau_upper_bound, TABLE2
+from Analyze_HeatDriveECC_ComponentStressMapping import stress_hull, red_pixels, implied_SE_mean, tau_upper_bound, tensile_intersection, TABLE2
 from Extract_HeatDriveECC_QianMaterialPaths import extract_trace
 from Reference_HeatDriveECC_TwoWayPhase import SingleCrystalMAS
 
@@ -51,6 +51,12 @@ class StressMappingTests(unittest.TestCase):
         r = implied_SE_mean([1., 1.], [100., 100.])
         self.assertLess(r["unclipped_range"][1], 0.)
         self.assertIsNone(r["physical_intersection"])
+
+    def test_pixel_error_box_can_cross_zero_without_a_compressive_state(self):
+        original = [-1.4234875444839858, 44.12811387900356]
+        self.assertEqual(tensile_intersection(original), [0., original[1]])
+        self.assertEqual(original[0], -1.4234875444839858)
+        self.assertIsNone(tensile_intersection([-4., -1.]))
 
     def test_reverse_coefficient_does_not_require_forward_well_domain(self):
         m = SingleCrystalMAS(30e9, 30e9, 3e-26, .1)
