@@ -203,6 +203,9 @@ def plot(output, result, records, data):
     for row, color in zip(result["temporal_comparison"], ("#3c6eab", "#007f73")):
         errors = [d["fluid_and_solid_temperature_K"] for d in row["differences_to_finer_DOP853"]]
         axes[1].loglog(np.array(row["steps_s"])*1000, errors, marker="o", color=color, label=row["material"])
+    from matplotlib.ticker import NullFormatter
+    axes[1].set_xticks([1., .5, .25], ["1", "0.5", "0.25"])
+    axes[1].xaxis.set_minor_formatter(NullFormatter())
     axes[1].invert_xaxis()
     axes[1].set(title="(b) Constrained-step refinement, 0.1 s", xlabel="Fixed time step (ms)", ylabel="Difference to fine DOP853 (K)")
     axes[1].legend(fontsize=8)
