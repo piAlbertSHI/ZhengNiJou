@@ -5,12 +5,17 @@ Only three explicit liquid-net joins and declared cooling block removals are
 allowed. All other surviving liquid/thermal wire partitions must be identical.
 """
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import re
+import subprocess
+
+import h5py
 
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from Audit_HeatDriveECC_SMAFlowCoordinates import liquid_wire_labels
+from Audit_HeatDriveECC_ThermalConnectivity import wire_nets
 from Run_HeatDriveECC_ConservativeTransport import write_json
 
 
@@ -65,9 +70,16 @@ def review(folder):
     execution = data[names[0]]
     if not execution["construction_complete"] or execution["simulated"] or execution["compiled"] or execution["checkpoint_loaded"]:
         raise ValueError("Not the scoped cold constructor-only diagnostic")
+    for role, filename in (("applicator", "Apply_HeatDriveECC_SharedSMAFluidDiagnostic.m"),
+                           ("runner", "Run_HeatDriveECC_SharedSMAConstruction.m")):
+        historical = subprocess.check_output(["git", "show", execution["execution_commit"]+":gx101r1_R69_remote/verification/"+filename])
+        if hashlib.sha256(historical).hexdigest().upper() != execution["source_sha256"][role]:
+            raise ValueError("Constructor producer source does not resolve to its recorded Git commit")
     before, after = data["before_tl.json"], data["after_tl.json"]
     liquid_wire_labels(before)
     liquid_wire_labels(after)  # Also validate actual typed PortConnectivity and two fluid-property domains.
+    wire_nets(data["before_thermal.json"])
+    wire_nets(data["after_thermal.json"])  # Validate thermal graph against actual per-port destination handles too.
     roots = {v["key"].split("/")[0] for v in before["vertices"]}
     if len(roots) != 1:
         raise ValueError("Ambiguous model root")
@@ -93,6 +105,18 @@ def review(folder):
         raise ValueError("Shared gate is not driven by both original route commands")
     if execution["gate_command_variables"] != ["SMA_hold_pipe_to_sma_G_command", "SMA_cooldown_pipe_to_sma_G_command"]:
         raise ValueError("Original thermal command contract was replaced")
+    cfg = Path(execution["input_dependencies"]["configuration_path"])
+    if sha256(cfg) != execution["input_dependencies"]["configuration_sha256"]:
+        raise ValueError("Constructor parameter source changed")
+    initial_source = subprocess.check_output(["git", "show", execution["execution_commit"]+":gx101r1_R69_remote/Integrate_HeatDriveECC_Constitutive21_Interface.m"])
+    for expression in (b"assignin('base', 'sma_hold_fluid_T_init', options.system.Tshex_K);",
+                       b"assignin('base', 'sma_cooldown_fluid_T_init', options.system.Thhex_K);"):
+        if expression not in initial_source:
+            raise ValueError("Reassess the changed fluid initial-temperature constructor rule")
+    if any(p["retained_mask_expressions"]["T0"] != "sma_hold_fluid_T_init" for p in pipes):
+        raise ValueError("Retained shared-bed initial expression changed")
+    with h5py.File(cfg, "r") as f:
+        initial = {k: float(f["options/system/"+k][()].item()) for k in ("Tshex_K", "Thhex_K", "T0_K")}
     return {"schema": "heatdrive_ecc_shared_SMA_wire_review_v1", "execution_commit": execution["execution_commit"],
             "input_dependencies": [{"path": str(folder/n), "sha256": sha256(folder/n)} for n in names],
             "reader_sha256": sha256(Path(__file__)),
@@ -100,6 +124,12 @@ def review(folder):
             "retired_liquid_typed_vertices": liquid_removed, "retired_thermal_typed_vertices": thermal_removed,
             "retained_SMA_fluid_pipe_count": 21, "single_bed_volume_m3": change["single_bed_volume_m3"],
             "actual_both_route_gate_inputs_verified": True, "geometry_and_initial_expressions_held_by_applicator": True,
+            "initial_temperature_rule_source_sha256": hashlib.sha256(initial_source).hexdigest().upper(),
+            "configuration_sha256": sha256(cfg), "constructor_initial_temperature_parameters_K": initial,
+            "retained_bed_initial_T_K_from_constructor_rules": initial["Tshex_K"],
+            "removed_cooling_representation_initial_T_K": initial["Thhex_K"],
+            "uniform_cold_start_proven": False,
+            "initial_condition_caution": "The inherited hold fluid starts at Tshex, not uniform T0. A fresh explicitly matched cold protocol is needed for dual/shared physics comparison",
             "compiled_inventory_state_count_verified": False, "switch_continuity_or_energy_balance_proven": False,
             "cold_initialization_or_mechanism_qualified": False, "C200_inventory_or_causal_attribution": False,
             "production_recovery_or_twenty_cycle_seed_allowed": False,
