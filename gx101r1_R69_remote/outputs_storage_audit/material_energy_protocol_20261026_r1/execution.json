@@ -1,0 +1,129 @@
+{
+  "schema": "heatdrive_ecc_independent_material_energy_protocol_v1",
+  "collection_complete": true,
+  "execution_commit": "e482498f5d3ef58ae4abaa2fa3ee3313923dc128",
+  "source_sha256": {
+    "Run_HeatDriveECC_MaterialEnergyProtocol.py": "D5C5C6F2D4228BF578EAED4A6ADD1F2FD42E86F7E0535688FFA847D7D57A133C",
+    "Reference_HeatDriveECC_MaterialThermodynamics.py": "6467877B7F0B982E31059F33F1963AC0FCC68D546BA55BD272FDEE9EBF351FF9",
+    "Run_HeatDriveECC_ConservativeTransport.py": "3748552B7E5591EB9458078BC46637FBC2461BEE73492125006D6BFDFA4FCACF",
+    "Audit_HeatDriveECC_SegmentedEvidence.py": "B128BDD8E72E537DA9C56171F479D3531D3321A06B0D577A70FEAB3A246473C2"
+  },
+  "runtime": {
+    "python": "3.12.4",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1"
+  },
+  "equation_source": {
+    "doi": "10.1109/LRA.2021.3067254",
+    "PDF_pages": [
+      2,
+      3
+    ],
+    "equations": [
+      1,
+      9,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "path": "C:\\tmp\\se21_material_path_sources_20261026\\mandolino_2021_hybrid_single_crystal.pdf",
+    "sha256": "613B8BE866A7482E537256F587B31DE309288D0B2DFE40E603CA8538DFF5C8D8"
+  },
+  "synthetic_material_inputs": {
+    "young_a_Pa": 35000000000.0,
+    "young_m_Pa": 25000000000.0,
+    "transformation_strain": 0.03,
+    "density_kg_m3": 6500.0,
+    "heat_capacity_J_kgK": 500.0,
+    "maxwell_reference_stress_Pa": 180000000.0,
+    "reference_temperature_K": 320.0,
+    "maxwell_slope_Pa_K": 7450000.0
+  },
+  "synthetic_volume_m3": 1e-06,
+  "initial_temperature_K": 330.0,
+  "forcing_source": "inputs(t), prescribed strain and phase, NOT kinetics",
+  "potential_derivation": "F=elastic+(x-1)*Gamma(sigmaMW)+rho*cp*(T-Tref-T*log(T/Tref)); S=-F_T; U=F+T*S",
+  "phase_clipping_or_reset": false,
+  "Q01_material_identified": false,
+  "finite_rate_phase_law_implemented": false,
+  "system_model_run": false,
+  "physical_validation_claim": false,
+  "production_recovery_allowed": false,
+  "Table4_input_allowed": false,
+  "checkpoint_saved": false,
+  "cases": [
+    {
+      "method": "Radau",
+      "RHS_calls": 4629,
+      "final_state": [
+        329.9437393912954,
+        -1.2742411292787637e-14,
+        -0.1893235999252129
+      ],
+      "maximum_energy_residual_J": 4.457352043019114e-09,
+      "temperature_range_K": [
+        323.580712199423,
+        336.37758333143057
+      ],
+      "effective_capacity_min_J_m3K": 3324679.1872754106
+    },
+    {
+      "method": "DOP853",
+      "RHS_calls": 10097,
+      "final_state": [
+        329.9437393912955,
+        -2.0528717614709434e-14,
+        -0.18932359992320366
+      ],
+      "maximum_energy_residual_J": 1.149302875091962e-12,
+      "temperature_range_K": [
+        323.58071219940854,
+        336.3775833314539
+      ],
+      "effective_capacity_min_J_m3K": 3324679.187275416
+    }
+  ],
+  "literal_2020_equation_counterexample": {
+    "source_url": "https://link.springer.com/article/10.1007/s11665-020-04668-2",
+    "source_scope": "HTML Kinetic Transformation / MAS, no source-code verification or erratum established",
+    "synthetic_input_SI": {
+      "stress_Pa": 1000000000.0,
+      "critical_A_Pa": 200000000.0,
+      "critical_M_Pa": 100000000.0,
+      "T_K": 320.0,
+      "activation_volume_m3": 3e-26,
+      "EA_equals_EM_Pa": 30000000000.0,
+      "tau_s": 0.1
+    },
+    "literal_pAM_per_s": 10.0,
+    "literal_pMA_per_s": 10.0,
+    "literal_frozen_equilibrium_xM": 0.5,
+    "decision": "Do not transfer the printed approximation or silently reverse its branch inequality",
+    "author_model_error_proven": false
+  },
+  "conditional_Q01_equal_modulus_comparison": {
+    "assumptions": "EA=EM, zero-stress Maxwell T=midpoint(40,50)degC, common slope within [7.3,7.6]MPa/K",
+    "these_assumptions_identified_from_Q01": false,
+    "implied_chemical_term_J_kg_range": [
+      10719.207692307693,
+      11159.723076923077
+    ],
+    "Q01_constant_Delta_h_J_kg": 10000.0,
+    "relative_difference_range": [
+      0.07192076923076929,
+      0.11597230769230782
+    ],
+    "interpretation": "Different energy closures; not a measured latent-heat correction or explanation of the SCP deficit",
+    "mandatory_scientific_gate": false
+  },
+  "maximum_cross_solver_temperature_difference_K": 1.5844534573261626e-09,
+  "raw": {
+    "file": "material_energy_protocol.npz",
+    "sha256": "3F1D84CDDFF612E0D5F21719FE400C3A318A28B1015F379C81D70D9C57D264EB",
+    "bytes": 7551
+  }
+}

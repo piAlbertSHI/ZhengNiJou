@@ -1,0 +1,32 @@
+{
+  "schema": "heatdrive_ecc_material_energy_round_closeout_v1",
+  "producer_commit": "e482498f5d3ef58ae4abaa2fa3ee3313923dc128",
+  "protocol_root": "C:/tmp/se21_material_energy_protocol_r1_20261026",
+  "execution_sha256": "3B47B9FE22DD5970FDA08D8269A03817612B96173ADE5054CD2ED9CA3C1455D9",
+  "raw_sha256": "3F1D84CDDFF612E0D5F21719FE400C3A318A28B1015F379C81D70D9C57D264EB",
+  "raw_bytes": 7551,
+  "raw_copies": 1,
+  "natural_exit_code": 0,
+  "targeted_tests_passed": 93,
+  "all_historical_tests_run": false,
+  "saved_source_pdf_and_source_code_hashes_verified": true,
+  "direct_formula_saved_readback": {
+    "samples": 161,
+    "Radau_energy_residual_J": 4.457352043019114e-9,
+    "DOP853_energy_residual_J": 1.149302875091962e-12
+  },
+  "Q01_material_identified": false,
+  "finite_rate_kinetics_solved": false,
+  "system_mechanism_or_periodic_gate_evaluated": false,
+  "production_recovery_allowed": false,
+  "Table4_input_allowed": false,
+  "checkpoint_files_created": 0,
+  "MATLAB_started_or_stopped": false,
+  "C200_loaded_or_modified": false,
+  "C200_large_hashes_recomputed_this_round": false,
+  "protected_SLX_or_Agent6_modified": false,
+  "files_deleted": 0,
+  "bytes_released": 0,
+  "whole_disk_or_worktree_audit_claimed": false,
+  "next_step": "Q01 component observation mapping and identifiable material surfaces, then matched thermal closure; no endpoint fitting or unsupported low-temperature substitution"
+}
