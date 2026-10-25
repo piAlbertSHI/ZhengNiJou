@@ -197,6 +197,14 @@ class EnthalpyTransportTests(unittest.TestCase):
             np.testing.assert_allclose(cached, baseline, rtol=0, atol=1e-10)
         self.assertTrue(info["numerical_Jacobian_reused"])
 
+    def test_sampling_clock_allows_binary_roundoff_but_not_real_misalignment(self):
+        from Run_HeatDriveECC_ConstrainedEnthalpy import require_sampled_clock
+        require_sampled_clock([0., 5100*.001, 10.], [0., 5.1, 10.])
+        with self.assertRaisesRegex(ValueError, "misaligned"):
+            require_sampled_clock([0., 5.10001, 10.], [0., 5.1, 10.])
+        with self.assertRaisesRegex(ValueError, "Missing"):
+            require_sampled_clock([0., 10.], [0., 5.1, 10.])
+
 
 if __name__ == "__main__":
     unittest.main()

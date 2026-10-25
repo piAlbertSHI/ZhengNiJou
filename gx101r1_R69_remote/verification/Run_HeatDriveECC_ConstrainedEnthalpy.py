@@ -16,6 +16,12 @@ from Run_HeatDriveECC_ConservativeTransport import write_json
 from Run_HeatDriveECC_EnthalpyTransport import load_inputs, MASS_TOL_KG, ENERGY_TOL_J
 
 
+def require_sampled_clock(actual, requested):
+    actual, requested = np.asarray(actual), np.asarray(requested)
+    if actual.shape != requested.shape or not np.allclose(actual, requested, rtol=0, atol=1e-12):
+        raise ValueError("Missing or misaligned constrained profiles")
+
+
 def run_case(bed, material, flow, dt, stop, samples):
     initial = bed.initial_state()
     state = initial.copy()
@@ -59,8 +65,7 @@ def run_case(bed, material, flow, dt, stop, samples):
         small_residual_non_success += int(not solve["nonlinear_success_flag"])
         if index+1 in wanted:
             save((index+1)*dt)
-    if not np.array_equal(times, samples):
-        raise ValueError("Missing or misaligned constrained profiles")
+    require_sampled_clock(times, samples)
     return {"time_s": np.asarray(times), "conserved_diagnostic_profiles": np.asarray(profiles),
             "fluid_and_solid_temperature_K": np.asarray(temperatures), "pressure_Pa": np.asarray(pressures)}, {
         "material": material, "nodes": n, "dt_s": dt, "stop_s": stop, "steps": count,
