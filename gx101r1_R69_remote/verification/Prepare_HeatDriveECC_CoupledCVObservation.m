@@ -13,10 +13,12 @@ function contract=Prepare_HeatDriveECC_CoupledCVObservation(model,options,varian
             row=ports{j};stem=['CV_' tag '_' lower(row.name)];sensor=[parent '/' stem '_Sensor'];
             assert(getSimulinkBlockHandle(sensor)<0,'Never overwrite prior instrumentation.');
             add_block('fl_lib/Thermal Liquid/Sensors/Pressure & Temperature Sensor (TL)',sensor, ...
-                'pressure','true','temperature','true');
+                'pressure','true','temperature','true', ...
+                'reference','foundation.enum.MeasurementReference.absolute', ...
+                'pressure_spec','foundation.enum.PressureMeasementSpec.Absolute');
             simscape.addConnection(pipe,row.name,sensor,'A');
-            for field={'T','P'}
-                key=field{1};unit='K';suffix='T_K';if strcmp(key,'P'),unit='Pa';suffix='P_Pa';end
+            for field={'T','Pa'}
+                key=field{1};unit='K';suffix='T_K';if strcmp(key,'Pa'),unit='Pa';suffix='P_Pa';end
                 variable=['cv_' tag '_' lower(row.name) '_' suffix];
                 converter=[parent '/' variable '_PS'];sink=[parent '/ToWorkspace_' variable];
                 add_block('nesl_utility/PS-Simulink Converter',converter,'Unit',unit,'VectorFormat','1-D array');

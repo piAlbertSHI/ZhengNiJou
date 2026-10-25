@@ -47,5 +47,11 @@ class PacketTests(unittest.TestCase):
         self.assertLess(capture.index("save(file,'packet','-v7')"),capture.index('Extract_HeatDriveECC_BoundaryTraces'))
         self.assertNotIn('save_system(',capture)
 
+    def test_hex_pressure_uses_absolute_exposed_Pa_port_not_difference_P(self):
+        source=(Path(__file__).resolve().parent/'Prepare_HeatDriveECC_CoupledCVObservation.m').read_text(encoding='utf-8')
+        self.assertIn("for field={'T','Pa'}",source)
+        self.assertIn("'pressure_spec','foundation.enum.PressureMeasementSpec.Absolute'",source)
+        self.assertIn("properties=simscape.connectionPortProperties(converter)",source)
+
 
 if __name__=='__main__':unittest.main()
