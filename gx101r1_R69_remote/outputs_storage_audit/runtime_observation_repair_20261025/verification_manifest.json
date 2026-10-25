@@ -1,0 +1,1024 @@
+{
+  "schema": "heatdrive_ecc_runtime_observation_repair_manifest_v1",
+  "date": "2026-10-25",
+  "scope": "User-authorized stop, observability and export-efficiency repair; no new long simulation",
+  "execution_workspace": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合",
+  "source_commits": [
+    "ee9aa8d36090cc88d71361a08868f074ce32cc5a",
+    "137bb0b8dabb80e7de7ce73972fecbf550b92031",
+    "de1abba6d5f159348fefe650ec4459d3ba624f3c"
+  ],
+  "interrupted_run": {
+    "root": "C:\\tmp\\se21_v72_cold_20c_boundary_r2_20261024",
+    "worker_pid": 287504,
+    "launcher_pid": 296412,
+    "session": 63080,
+    "exit_code_after_authorized_stop": 1,
+    "processes_absent": true,
+    "last_verified_simulation_time_s": null,
+    "resume_allowed": false
+  },
+  "verification": {
+    "fixture_temperature_and_selected_Q_bitwise_equal": true,
+    "fixture_full_selected_vs_bounded_native_windows_s": [
+      [
+        0,
+        3
+      ],
+      [
+        1.999,
+        3
+      ]
+    ],
+    "fixture_raw_save_load_bitwise_equal": true,
+    "coupled_1s_smoke_both_arms_pass": true,
+    "coupled_1s_reference_native_traces_compared": 1623,
+    "coupled_1s_reference_conservative_traces_compared": 1645,
+    "coupled_1s_reference_bitwise_equal": true,
+    "export_revision_0_01s_prefix_bitwise_equal": true,
+    "export_revision_raw_selected_signal_count_each_arm": 13,
+    "coupled_ten_cycle_selective_window_tested": false,
+    "periodic_steady_state_verified": false,
+    "full_device_first_law_verified": false,
+    "production_recovery_allowed": false
+  },
+  "performance": {
+    "previous_1s_boundary_export_s": {
+      "native": 33.5228668,
+      "conservative": 34.1753216
+    },
+    "revised_0_01s_boundary_export_s": {
+      "native": 0.2353312,
+      "conservative": 0.2161342
+    },
+    "durations_differ_so_not_an_end_to_end_speedup_benchmark": true,
+    "repeated_topology_discovery_removed": true,
+    "physical_parameters_or_scientific_thresholds_changed": false
+  },
+  "storage": {
+    "logical_manifest_bytes": 102658597,
+    "regenerable_build_bytes": 461255,
+    "files_deleted_or_moved": 0,
+    "raw_observations_duplicated_into_main_workspace": false,
+    "latest_C_free_bytes": 16004554752,
+    "pagefile_allocated_MiB": 40960,
+    "free_space_change_attribution_not_established": true,
+    "unknown_shared_temp_files_not_deleted": true
+  },
+  "reference_inputs_not_counted_as_new_storage": [
+    {
+      "path": "C:\\tmp\\se21_v72_cold_smoke_r4_20261023\\native\\observations.mat",
+      "bytes": 34092453,
+      "sha256": "8F68B4B60E2027BDEF554FF3E73130247B2167DAC3A207A40588D364EBB34003"
+    },
+    {
+      "path": "C:\\tmp\\se21_v72_cold_smoke_r4_20261023\\conservative\\observations.mat",
+      "bytes": 34581887,
+      "sha256": "C20BA0B7CB800979B8F5F7D4C1C96D4D8FD7923A780C2F98400A7D33341D98CD"
+    }
+  ],
+  "files": [
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r1_20261025\\cold_chamber_execution.json",
+      "bytes": 5300,
+      "sha256": "9C70FC2CADEC5D575585DF59D34C2F9968A2FB811AD9579910B4B79678769011",
+      "retention": "failed_pre_simulation_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r1_20261025\\matlab_diary.log",
+      "bytes": 522,
+      "sha256": "97ACC83F5C43EBBAB084E792E383C5D76B81E7F6E076DECD8475FCAFE07A1EC5",
+      "retention": "failed_pre_simulation_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r1_20261025\\REJECTED_DO_NOT_RESUME.json",
+      "bytes": 505,
+      "sha256": "881ADD7D61AC1FDBD67CDE3BD17A75438AF0E70C148E38F54A508BA33E57EA0F",
+      "retention": "failed_pre_simulation_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r1_20261025\\buffer_component_build\\ecc_buffer_coupled_offset_lib.slx",
+      "bytes": 54177,
+      "sha256": "ED03A0FEA2C3C169C62E8204AB0761F5FEA6FB72718F0668CF3D6516CA3A8FE0",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r1_20261025\\buffer_component_build\\+ecc_buffer_coupled_offset\\conservative_buffer.ssc",
+      "bytes": 3446,
+      "sha256": "84657B41CB9A8B3C947BD1DE1C2BB67EFAF4BEE892DBA79B9DC95381808EF248",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r1_20261025\\component_build\\ecc_inventory_specific_lib.slx",
+      "bytes": 48603,
+      "sha256": "41C2119387711FA29E86A1291FC422775DD55266170FB950CCD8E57B69ED906D",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r1_20261025\\component_build\\+ecc_inventory_specific\\conservative_chamber.ssc",
+      "bytes": 2292,
+      "sha256": "AFCA0E54FE8A28BB7769DA29E003273A987A43A11B718B66C68C79807BD20539",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r1_20261025\\native\\configuration.mat",
+      "bytes": 732628,
+      "sha256": "A356DC31B10A2FCE22A9AE5B59AE8CC0B73525284D73283596A76F4BCAAC2ED5",
+      "retention": "failed_pre_simulation_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r1_20261025\\native\\distributed_pressure_ff_contract.json",
+      "bytes": 15945,
+      "sha256": "E9D0D231C01BBA132021A94CE62344CD97D90B482AA815D75F30933FC9415007",
+      "retention": "failed_pre_simulation_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r1_20261025\\native\\effective_error_filter.json",
+      "bytes": 76,
+      "sha256": "CFF6F62771D5B7590064209481400D729700C2901B27748ADF6317F18B8AD27E",
+      "retention": "failed_pre_simulation_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r1_20261025\\native\\pump_pressure_probe_contract.json",
+      "bytes": 2163,
+      "sha256": "8E08A82268D803A08514CF5E9008E97EF13B0A46DCCBD2106875E92A9CF1D066",
+      "retention": "failed_pre_simulation_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r1_20261025\\native\\stage4_controller_probe_contract.json",
+      "bytes": 4681,
+      "sha256": "D7620F2D5672865F08F333DDF7B6BDAFE609DBD75BF3AECC05E4A1FFBC3E3E53",
+      "retention": "failed_pre_simulation_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\cold_chamber_execution.json",
+      "bytes": 207651,
+      "sha256": "2CA3BD7A962B591E83A07FDEB7383DC90CB68EC41D037F52B483CBD668F2CDB0",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\cold_chamber_progress.json",
+      "bytes": 434,
+      "sha256": "8227290EEAE2DA549F47A673908D3AEAE4C2F4CD33F0AF5C636DB5D60F17C481",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\matlab_diary.log",
+      "bytes": 1532,
+      "sha256": "08BD002A1D078A1E9AA03835D96273EBA75AED7D5EA531863AD4FF24038AECDD",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\runtime_evidence_contract.mat",
+      "bytes": 2917416,
+      "sha256": "098FD0F6618D31B9C7EAF345ACEAE30F33CC078B004BADE9A9A7A0142783884F",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\buffer_component_build\\ecc_buffer_coupled_offset_lib.slx",
+      "bytes": 54178,
+      "sha256": "8E200CDF68DF8563D702AB23451A54C39347FE70C735614BAC2A924934C758A5",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\buffer_component_build\\+ecc_buffer_coupled_offset\\conservative_buffer.ssc",
+      "bytes": 3446,
+      "sha256": "84657B41CB9A8B3C947BD1DE1C2BB67EFAF4BEE892DBA79B9DC95381808EF248",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\cache\\heatdrive_ecc_coupled_se21.slxc",
+      "bytes": 7988,
+      "sha256": "8855E7A4BB2B7D16261F4F4989EBD0CE9513358EB399C02E0FBAD6CC6A587026",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\checksumOfCache.mat",
+      "bytes": 392,
+      "sha256": "86C8FE7F728917494E482EEFBCF317A6807BEB5D7D1751656A333BC7BE01B592",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\varInfo.mat",
+      "bytes": 41720,
+      "sha256": "ED5C4640BB801303A6D4C21D242DCD9B211C8561B78C9AC5C33947F6F5C404EC",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\tmwinternal\\simulink_cache.xml",
+      "bytes": 376,
+      "sha256": "F6EC01D839D889B314FE1A6FEB3B5C29EFC41FD29F709BB12C09FCEBC5C3A9EE",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\cache\\slprj\\_jitprj\\jitEngineAccessInfo.mat",
+      "bytes": 749,
+      "sha256": "5B1E8B52141A28B6465A03814039FD0C2B9C9E851148FFEC0B34832C53127741",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.l",
+      "bytes": 9392,
+      "sha256": "F113F8DB5D91D99C834E37E18D782A9BAADEA9885958CB4CCDBAD4E6E9452F5D",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+      "bytes": 1278,
+      "sha256": "093275E488D1BCDA352BC9D2301A84CE510B5AA8082FA29204A69E215E341FF8",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\cache\\slprj\\_sfprj\\EMLReport\\emlReportAccessInfo.mat",
+      "bytes": 748,
+      "sha256": "9DEA59CBA7CC70AC203F8CBC646C11868E16EE8E46A23240530C5BE0B6524865",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\cache\\slprj\\_sfprj\\EMLReport\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+      "bytes": 2580,
+      "sha256": "92F3BBA3B796821E74AF848289ABF059339FE0F62CD223B02E47FAE58618D98C",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\amsi_serial.mat",
+      "bytes": 248,
+      "sha256": "018FEE411D41920AB18F83E04C52450D41459A3369752B78634C4D96F9FE6870",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\_self\\sfun\\info\\binfo.mat",
+      "bytes": 779,
+      "sha256": "C5EBAAFBA89CDEA0CC17187ACA405FA89E261575B57682CAC8BF7E28D16E71F6",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\cache\\slprj\\_sfprj\\precompile\\autoInferAccessInfo.mat",
+      "bytes": 746,
+      "sha256": "31D79A8700A23372C181C0ADF58A6FEFF79473A10E974A9DE1ECCF2A489E0CA6",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\cache\\slprj\\_sfprj\\precompile\\EXdKBUmsxqUsV2lCiMiQ4.mat",
+      "bytes": 846,
+      "sha256": "940E825525C2F90CFF819EDB190DFD29A39B2C1053F3FB0B12150067E4F6E789",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\component_build\\ecc_inventory_specific_lib.slx",
+      "bytes": 48606,
+      "sha256": "1F51F99D67DDEA03D2919EE2D4F3A2FE68D601AEEA24F629C6A5FB7B8E2CD7FA",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\component_build\\+ecc_inventory_specific\\conservative_chamber.ssc",
+      "bytes": 2292,
+      "sha256": "AFCA0E54FE8A28BB7769DA29E003273A987A43A11B718B66C68C79807BD20539",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\arm_completion.json",
+      "bytes": 487,
+      "sha256": "0867A8EE058F9BE01B3CD980D512CC8B6D987D278392F708450FA2629FE96048",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\buffer_mass_guesses.json",
+      "bytes": 1318,
+      "sha256": "C6EEEB046860569C53DA897963CE694AAF28116A096A4AB1962EA546C301DE6B",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\buffer_replacement_contract.json",
+      "bytes": 24115,
+      "sha256": "31FC218E984A2E2CC4D8A6323F61064D2447E1AA75725DCC2E65D7CE9CA41D95",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\cold_inventory_targets.json",
+      "bytes": 585,
+      "sha256": "F58BF2AD1B626896C3D60B71D0C41EECA606D5F7D1BDC0DA639250980DDE6520",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\cold_public_targets.mat",
+      "bytes": 2285096,
+      "sha256": "CB543E15340024F407BAA7AB9FC3CF07165A1DFC64FF2AC15D189569F18C82D6",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\compiled_inventory_tags.json",
+      "bytes": 14176,
+      "sha256": "3AC01B60235E00CC13587DF361C05E4788FC0D597264CA14E8F2322B51F1E296",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\configuration.mat",
+      "bytes": 732628,
+      "sha256": "0D5C0A773E610B60FA89733F5EEB3E01456F73758F0ED1BC2DC1364AB0CC3E9D",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\distributed_pressure_ff_contract.json",
+      "bytes": 15944,
+      "sha256": "F86DF27250D29C66B877F283AF33648A3DC8A3AAB9633D860218C6757A1498B6",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\effective_error_filter.json",
+      "bytes": 76,
+      "sha256": "CFF6F62771D5B7590064209481400D729700C2901B27748ADF6317F18B8AD27E",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\inventory_metadata.json",
+      "bytes": 115536,
+      "sha256": "7C0EB5412E0AA2EF9C3DC52A9D5A07251FF961F4BEA10A48FA899EB5200217B2",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\native_leaf_api_profile.json",
+      "bytes": 7438,
+      "sha256": "15E05CC967A653DFD21D52E8A432D9655885D74CCBD0CAC04985E0498E3FA8D5",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\native_transport_configuration.json",
+      "bytes": 369,
+      "sha256": "D5B1B9AC269DFAA731B8B894520387C20BCDE00ED55FCECB8111EBD1239657BE",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\observations.mat",
+      "bytes": 34581887,
+      "sha256": "A2DCEF2C75CF694E30B08CF63735B1824B135FACE6DAA6AB4BE80C70728535F2",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\postprocessing_profile.json",
+      "bytes": 4235,
+      "sha256": "ACE76190FA2AB3A31571276BD368809B581C64A9D7FA57079290489ADDE22107",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\postprocessing_progress.json",
+      "bytes": 125,
+      "sha256": "DF162F7DBC7EAECB211D82F070EFFDAEACB3A8759AE6A3756791323294005DB5",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\public_inventory_targets.json",
+      "bytes": 51444,
+      "sha256": "37F992D0C51198788D8669D90C1499991389CAACF796F810B0034316E3BBBDB6",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\pump_pressure_probe_contract.json",
+      "bytes": 2559,
+      "sha256": "8F0C9C912684A3D25D99A455D1CD33C9AF7D935B08DA1063443A8D734E4D8544",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\runtime_inventory_targets.json",
+      "bytes": 51677,
+      "sha256": "BE5A4C277606950E7004CB009CCA6E75CC425C9612FB9C6B47A78A92676F501E",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\runtime_observation_contract.json",
+      "bytes": 3733,
+      "sha256": "1430F04F5BE47499E8859665EA3ED8A5A4C8F4AACCD80D9D991119A072842DFB",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\simulation_start.json",
+      "bytes": 301,
+      "sha256": "16CD11BA933CC530027465D16ACE2714AEEFFB23B7070EDF622E0B163D451604",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\simulation_time_completion.json",
+      "bytes": 393,
+      "sha256": "821F4821FD962B2AAEDE96FA432DDF3A8E4C2E8957135E15EAC72EA1961FE61C",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\simulation_time_progress.json",
+      "bytes": 320,
+      "sha256": "A5A7F7304AEDFC1058F57A591C8AE0BFABDE21C9BAEA3A3613CA229C6CAA9478",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\simulation_time_progress.jsonl",
+      "bytes": 920,
+      "sha256": "9AF5ACE7FC03BB5414AD29FA74910265393753D77B98E606188C77082141DC7E",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\stage4_controller_probe_contract.json",
+      "bytes": 5493,
+      "sha256": "B20BD46922EAB560ACB4765899C4575849DA2416E09CC8DF172513D79FB23C4B",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\thermal_connectivity.json",
+      "bytes": 1127518,
+      "sha256": "02151B7BB9221E4FADEA317F27BE05D4FD59B7C51EEB1207D31F922EF9B58F02",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\conservative\\tl_connectivity.json",
+      "bytes": 219595,
+      "sha256": "806E501E3976DE13222E6BDDAF17C41A400FFAB347421FBEEF424088EC7C57C0",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\arm_completion.json",
+      "bytes": 481,
+      "sha256": "9A07BC5A593C5941B6833EC6D4876CEB7F5D97B26DCFD7DD21108A89C2C1BA48",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\configuration.mat",
+      "bytes": 732628,
+      "sha256": "38A88BED5F2A7185F3B112343C263213E88E4EB9B70DCDCAF5E17DDCD51C873E",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\distributed_pressure_ff_contract.json",
+      "bytes": 15944,
+      "sha256": "F86DF27250D29C66B877F283AF33648A3DC8A3AAB9633D860218C6757A1498B6",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\effective_error_filter.json",
+      "bytes": 76,
+      "sha256": "CFF6F62771D5B7590064209481400D729700C2901B27748ADF6317F18B8AD27E",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\inventory_metadata.json",
+      "bytes": 109304,
+      "sha256": "818F5DCB7332EAA5CBE587FC6F8E9D842F35DC426F20C2206D21FD554C85033B",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\native_leaf_api_profile.json",
+      "bytes": 7288,
+      "sha256": "076DB340C4BE607FA2956013202F598E4B92ABD03312E004DE5A0735DB95CD75",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\native_transport_configuration.json",
+      "bytes": 369,
+      "sha256": "D5B1B9AC269DFAA731B8B894520387C20BCDE00ED55FCECB8111EBD1239657BE",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\observations.mat",
+      "bytes": 34092453,
+      "sha256": "C1B1B1FCD54215B9AE17A6CE8289A86BF9C4E68B2FE23C232F874572F8DB8F69",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\postprocessing_profile.json",
+      "bytes": 4263,
+      "sha256": "F7AA5DD961C42049763225C31AAF2AFAE99018D1DE8B3D5D159DE196F3DE460B",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\postprocessing_progress.json",
+      "bytes": 125,
+      "sha256": "21CDF45224817DF8EAD14EA573EF07173FEA541D7EEF9627544DBA8EFDA07760",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\pump_pressure_probe_contract.json",
+      "bytes": 2547,
+      "sha256": "4C5CE3501376E78720CA278A1650E3FABBA8A23B987692C5A1A556BC1743D7BD",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\runtime_observation_contract.json",
+      "bytes": 3727,
+      "sha256": "91B6F431AA8716EBB9E9BFF54A2C7E9E5CD0EDD6B4B82D4F9F26688F027D9C49",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\simulation_start.json",
+      "bytes": 295,
+      "sha256": "C959F46E3BDD57F1D5B3F78DA6D6835ED134D4AE40FA37C96CB80A7F91B8F700",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\simulation_time_completion.json",
+      "bytes": 392,
+      "sha256": "4EDF70A1AA2B041B74850006FEE3CC0117353AEFA51D5FE54CF076CBC4549951",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\simulation_time_progress.json",
+      "bytes": 319,
+      "sha256": "B7AA7029B41D1EB97C3A05C19501EBE3FF1B4604127DD07444D07A9F53D0DDA1",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\simulation_time_progress.jsonl",
+      "bytes": 918,
+      "sha256": "47AC8DB8E3238C6D29E9465190EC265284176A71C13E2ECC9096253FC3B09BCD",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\stage4_controller_probe_contract.json",
+      "bytes": 5487,
+      "sha256": "5E7709239DA353709186C238807476272EF1B342E3E7FAE911609040B91A897C",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\thermal_connectivity.json",
+      "bytes": 1134185,
+      "sha256": "A598E5A33C8140793F30A935548473518336CBE3C57B1908E35034EEE023C3C2",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_smoke_r2_20261025\\native\\tl_connectivity.json",
+      "bytes": 219984,
+      "sha256": "978237EC3A5D8AD0A0CF71D6ECF128EC178AD2FDABADCBDF7248EE1C54D3451E",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\cold_chamber_execution.json",
+      "bytes": 207760,
+      "sha256": "8E5B61F2BACEB90687B2167D5595FB021CCB2B0AAC11A5BEB0F06729C9C8A5E8",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\cold_chamber_progress.json",
+      "bytes": 437,
+      "sha256": "7A8A7C602A65D083808D8094F15D60A870B5D428DD39CD29B1C547DA0356EC59",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\matlab_diary.log",
+      "bytes": 1535,
+      "sha256": "4B70B087B7DB21D0A87BA5450668C147D65075C6AC4041752FE3AF51BFA15CB4",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\runtime_evidence_contract.mat",
+      "bytes": 2918592,
+      "sha256": "D1F5E067086133EC5830F51AEDD91A8E42793D88E9692E5D770A81B6034DE2B4",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\buffer_component_build\\ecc_buffer_coupled_offset_lib.slx",
+      "bytes": 54180,
+      "sha256": "C02D07BEB39D2557CA6BD2C53E4278EC8C8CF7FBC4CAB436932461322562D741",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\buffer_component_build\\+ecc_buffer_coupled_offset\\conservative_buffer.ssc",
+      "bytes": 3446,
+      "sha256": "84657B41CB9A8B3C947BD1DE1C2BB67EFAF4BEE892DBA79B9DC95381808EF248",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\cache\\heatdrive_ecc_coupled_se21.slxc",
+      "bytes": 7992,
+      "sha256": "B19B2807789D01DB2EBCFD9E97DE53E0DD18F0C4A72E77AB3255252C704A68A7",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\checksumOfCache.mat",
+      "bytes": 392,
+      "sha256": "AB72A07833CA64A39727A54D6B8CC1254168EF74246C02D25D8022F852FAE2E3",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\varInfo.mat",
+      "bytes": 41720,
+      "sha256": "E8D0C572C0E3D8B2E8BF6EA5EC3E6A52F275063B13C44EF9308A53947DFEE319",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\tmwinternal\\simulink_cache.xml",
+      "bytes": 376,
+      "sha256": "4614BFD57370DC26334F3174AA7AAEE3FFECD524F03DBA35B5BFE7EF1D356B33",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\cache\\slprj\\_jitprj\\jitEngineAccessInfo.mat",
+      "bytes": 750,
+      "sha256": "2A569DC9C82C9369ECDF085671F80C883A7D581941474AD8F484C1A79271C5AE",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.l",
+      "bytes": 9392,
+      "sha256": "F113F8DB5D91D99C834E37E18D782A9BAADEA9885958CB4CCDBAD4E6E9452F5D",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+      "bytes": 1278,
+      "sha256": "2011B301D5AA94B30926834E620EAA129B20BCBD7038532C44B3C60C56D47FA0",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\cache\\slprj\\_sfprj\\EMLReport\\emlReportAccessInfo.mat",
+      "bytes": 750,
+      "sha256": "2152A197C4F04386E7AD4224DE503BF65A0E4BC9F93B648BED1C78AAD608C073",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\cache\\slprj\\_sfprj\\EMLReport\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+      "bytes": 2581,
+      "sha256": "2256CF0C77966F3C2A1C2902BAD501758B1C23FF5BE8B7315411994B545728F7",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\amsi_serial.mat",
+      "bytes": 248,
+      "sha256": "DB013A910199154709352AD12FAE0E065E9BFAB8DDA194861BC819A6FB58CC87",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\_self\\sfun\\info\\binfo.mat",
+      "bytes": 780,
+      "sha256": "2A79328FC253B1786221374233545BE7874BDE2D6953B9B09CB1618DC342218C",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\cache\\slprj\\_sfprj\\precompile\\autoInferAccessInfo.mat",
+      "bytes": 748,
+      "sha256": "2C06FF205E988A7559AE3950C29FA6288238DA738EFF848E5EE49B110356A480",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\cache\\slprj\\_sfprj\\precompile\\EXdKBUmsxqUsV2lCiMiQ4.mat",
+      "bytes": 846,
+      "sha256": "5A1ECD1E02A9BB8A2947E259CE5E23C4BFCEAB679609AE135AD5517BD185306F",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\component_build\\ecc_inventory_specific_lib.slx",
+      "bytes": 48602,
+      "sha256": "939C614B0BD0F8839AFF5382788890434D58A408B8323369B3E7BFD421D9979C",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\component_build\\+ecc_inventory_specific\\conservative_chamber.ssc",
+      "bytes": 2292,
+      "sha256": "AFCA0E54FE8A28BB7769DA29E003273A987A43A11B718B66C68C79807BD20539",
+      "retention": "regenerable_build_artifact"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\arm_completion.json",
+      "bytes": 490,
+      "sha256": "90F01A8F4AA03CDCE2A463D1B0CE1B11E982549B7231437A44460F5D0A90A0DF",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\buffer_mass_guesses.json",
+      "bytes": 1318,
+      "sha256": "A810875FC5DEDE999FF34081A65ABE2ADD56D5E38A39A60040D2B91C3D50829D",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\buffer_replacement_contract.json",
+      "bytes": 24115,
+      "sha256": "A64710093162BEE5ADB4EA6E48C8BFCA4C0A13693F33DABABDCC075F419AEDE0",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\cold_inventory_targets.json",
+      "bytes": 585,
+      "sha256": "79F6D932B038F2E9414455DF87AE1AE72B53C78F11808CDE495600DE36D6CB49",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\cold_public_targets.mat",
+      "bytes": 2285096,
+      "sha256": "63D4B01701C7B93D8443F8ADBE8C4AEB9556A20FC879DBC7806AD1146C74C6AA",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\compiled_inventory_tags.json",
+      "bytes": 14176,
+      "sha256": "3AC01B60235E00CC13587DF361C05E4788FC0D597264CA14E8F2322B51F1E296",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\configuration.mat",
+      "bytes": 732628,
+      "sha256": "A7B9A9E11BD35FDB1D749F3CA858E526C875D435A54746D604A6459148B31FBE",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\distributed_pressure_ff_contract.json",
+      "bytes": 15944,
+      "sha256": "F86DF27250D29C66B877F283AF33648A3DC8A3AAB9633D860218C6757A1498B6",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\effective_error_filter.json",
+      "bytes": 76,
+      "sha256": "CFF6F62771D5B7590064209481400D729700C2901B27748ADF6317F18B8AD27E",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\inventory_metadata.json",
+      "bytes": 115536,
+      "sha256": "7C0EB5412E0AA2EF9C3DC52A9D5A07251FF961F4BEA10A48FA899EB5200217B2",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\native_leaf_api_profile.json",
+      "bytes": 7284,
+      "sha256": "38E9E270C8409F43BE5A873BA16893B8F661F460B0768A64FC66902A2F72E375",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\native_transport_configuration.json",
+      "bytes": 369,
+      "sha256": "D5B1B9AC269DFAA731B8B894520387C20BCDE00ED55FCECB8111EBD1239657BE",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\observations.mat",
+      "bytes": 6367643,
+      "sha256": "6B3B4477A363D54FF93F49CB3FD93C551280F7E8DA848D1C21106B9E51929709",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\postprocessing_profile.json",
+      "bytes": 4514,
+      "sha256": "1FBBAFBA64841524AEA1226408C41935C6BC4A863C22AFE40A3176C4FF0EBCA4",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\postprocessing_progress.json",
+      "bytes": 124,
+      "sha256": "6B2DCE153791DCB643F72918839372A685480760926E18406A8A0E4BD34F48E7",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\public_inventory_targets.json",
+      "bytes": 51444,
+      "sha256": "BBA30F17A93EEAD2BF1591C96000F3C5F9EFC5EB459FCE928262EB1DC3E95E6B",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\pump_pressure_probe_contract.json",
+      "bytes": 2561,
+      "sha256": "C4600AF7D2A1FD08BCC50DC7DA0B848A56F1ECCC19958B582908850F37B6BA40",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\runtime_inventory_targets.json",
+      "bytes": 51677,
+      "sha256": "BE5A4C277606950E7004CB009CCA6E75CC425C9612FB9C6B47A78A92676F501E",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\runtime_observation_contract.json",
+      "bytes": 3734,
+      "sha256": "FC5F0EC224052ADE84031D3D3156000CEAAD8CE9D32B529B78811A5411E75919",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\simulation_start.json",
+      "bytes": 304,
+      "sha256": "2B8A89DD2500A463098E8440B96270967B923252A624FFF1B97A65BCF0D0BA0F",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\simulation_time_completion.json",
+      "bytes": 396,
+      "sha256": "551071201CF8880F6B57CC5E01F41B80D8573968F7B1C7710CE49CA60F33853A",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\simulation_time_progress.json",
+      "bytes": 322,
+      "sha256": "EEA5E5CB9494AA46997B4EAC4F9D8B8A7C4F7D8DD4EAD9D57E593DF22AD218FF",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\simulation_time_progress.jsonl",
+      "bytes": 619,
+      "sha256": "581FEB5E93CD11A87777BFF4F8420D0230E8B412951E3AAAA0B8EB74FB53D8A8",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\stage4_controller_probe_contract.json",
+      "bytes": 5494,
+      "sha256": "C231F4FC5895261F2AB7AC75753EC81C3D33EE2ED3943EB1C6F2CD8D77D64175",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\thermal_connectivity.json",
+      "bytes": 1127594,
+      "sha256": "0DEADA7BB9BF83862C92FD6E0FF166FE31791EE0150CFD5D35322856FDD8D8ED",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\conservative\\tl_connectivity.json",
+      "bytes": 219616,
+      "sha256": "F10AB39031547025EC33A233A07B8ED0767F8D831D8934E7196C95ED8B04641F",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\arm_completion.json",
+      "bytes": 484,
+      "sha256": "D44890BFDF412A1D0713668C1009ED496A1F3BD554BA29E8C9B743897AD2BF1D",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\configuration.mat",
+      "bytes": 732628,
+      "sha256": "61D57A20FBC4FEE3E5F78FC4AC879730B9BA209B8F8B41DA33B7F2A6FD6AEA00",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\distributed_pressure_ff_contract.json",
+      "bytes": 15944,
+      "sha256": "F86DF27250D29C66B877F283AF33648A3DC8A3AAB9633D860218C6757A1498B6",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\effective_error_filter.json",
+      "bytes": 76,
+      "sha256": "CFF6F62771D5B7590064209481400D729700C2901B27748ADF6317F18B8AD27E",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\inventory_metadata.json",
+      "bytes": 109304,
+      "sha256": "818F5DCB7332EAA5CBE587FC6F8E9D842F35DC426F20C2206D21FD554C85033B",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\native_leaf_api_profile.json",
+      "bytes": 7232,
+      "sha256": "FE15E744F208047F26FDB9B22DE3DB2FBBA3636E5EAA65D2ABAA5B98CD50B6F2",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\native_transport_configuration.json",
+      "bytes": 369,
+      "sha256": "D5B1B9AC269DFAA731B8B894520387C20BCDE00ED55FCECB8111EBD1239657BE",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\observations.mat",
+      "bytes": 6288776,
+      "sha256": "27D111622715467A0FD11CF4613D9C946358B0D6C58E234553D3E19750853009",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\postprocessing_profile.json",
+      "bytes": 4509,
+      "sha256": "7E36C9CF59F8F8706D6D980A8DF37EC27B265FD5378008346E83145E361BE869",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\postprocessing_progress.json",
+      "bytes": 124,
+      "sha256": "5B3DCF7545A38E7BFD4D649188521F67376F926E53DDE6BF6A318AA00C587FDC",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\pump_pressure_probe_contract.json",
+      "bytes": 2549,
+      "sha256": "F0A33E180079CA57779B5CF589BC62A9DAE9685CDFCA769944720E2F25B13E23",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\runtime_observation_contract.json",
+      "bytes": 3728,
+      "sha256": "93280C289B32BA354721A0A62BC6E706528149AA8FEB495F312018884107F55F",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\simulation_start.json",
+      "bytes": 298,
+      "sha256": "E58A4FEAFD32C3329D5B686539F6E2873FC7ED1A5C3B2CF97FF9C711316055A8",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\simulation_time_completion.json",
+      "bytes": 394,
+      "sha256": "00222DAE2C184F5E57447D7D4FD5D5A861A1B05876FB4547D170D5F6AE0F9759",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\simulation_time_progress.json",
+      "bytes": 321,
+      "sha256": "097EF604B1064BA9A942536A6FEEA42D7A0E94F061C7DE2873DA276E8C714527",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\simulation_time_progress.jsonl",
+      "bytes": 618,
+      "sha256": "F5D957AA76132D55A8714679E56D2C1FE193CC27D38CBEB36630CF980AC4DCD7",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\stage4_controller_probe_contract.json",
+      "bytes": 5488,
+      "sha256": "C49A233BE582DEE82B74A1B8E44AA07AC2155F5B391C1EBC2AADB91A50CFC458",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\thermal_connectivity.json",
+      "bytes": 1134185,
+      "sha256": "A598E5A33C8140793F30A935548473518336CBE3C57B1908E35034EEE023C3C2",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_layered_export_r3_20261025\\native\\tl_connectivity.json",
+      "bytes": 219984,
+      "sha256": "978237EC3A5D8AD0A0CF71D6ECF128EC178AD2FDABADCBDF7248EE1C54D3451E",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_runtime_observation_fixture_r1_20261025\\fixture_result.json",
+      "bytes": 415,
+      "sha256": "AA2AAB37BFC786FD22541C721691548F550143FCC4A7B11476DC75E9C44CFD99",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_runtime_observation_fixture_r1_20261025\\simulation_time_progress.json",
+      "bytes": 318,
+      "sha256": "BF6C4878B74139D27965517229021F41282286F8B60DBC43A0F7F79C814B8382",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_runtime_observation_fixture_r1_20261025\\simulation_time_progress.jsonl",
+      "bytes": 1517,
+      "sha256": "653778344F659F1A6B9146F0243F744530784C1C73331816551CEDB11A9553E6",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_runtime_observation_fixture_r2_20261025\\fixture_result.json",
+      "bytes": 463,
+      "sha256": "32AA2CED5E210008F1E6832055842DEDC23B081474F6DDDAA79582CDBDFD13F4",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_runtime_observation_fixture_r2_20261025\\selected_boundary.mat",
+      "bytes": 28884,
+      "sha256": "6A15A3912A84A3C697229D5B36DDE060E78C07694D692A1CEFCCE8AF619B7AF8",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_runtime_observation_fixture_r2_20261025\\simulation_time_progress.json",
+      "bytes": 318,
+      "sha256": "DC11F634FAA2F8882877E9A0B8405DC2550276893FD5C9B24CB60BA39831DF33",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_runtime_observation_fixture_r2_20261025\\simulation_time_progress.jsonl",
+      "bytes": 1518,
+      "sha256": "FA112918A01D14A4811111270626A14B1E7D64945CFF08F55586FAA612E4ACA0",
+      "retention": "bounded_observation_or_verification_evidence_not_resume_source"
+    },
+    {
+      "path": "C:\\tmp\\se21_v72_cold_20c_boundary_r2_20261024\\INTERRUPTED_DO_NOT_RESUME.json",
+      "bytes": 683,
+      "sha256": "5399E7DF8876C4ABC70B953CDAB58E6DB43626594C21B3849EF423A7D9FD4A30",
+      "retention": "configuration_or_decision_evidence"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_smoke_equivalence_r2_20261025.json",
+      "bytes": 657,
+      "sha256": "20F306AEEFFD24EF99F99BF96945DE4349EE6AA5DE2EFBFCE4461BEEBB514EEB",
+      "retention": "configuration_or_decision_evidence"
+    },
+    {
+      "path": "C:\\tmp\\se21_v73_export_equivalence_r3_20261025.json",
+      "bytes": 661,
+      "sha256": "FC731A693E11761BB9215570E4105BEAED78B1D65D321C8A83B6BD08456D9EF2",
+      "retention": "configuration_or_decision_evidence"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\tmp\\v73_layered_smoke_r1_config.json",
+      "bytes": 1768,
+      "sha256": "5653BB8E59063DA5FC40F1D823E48F56E57F0A99590C35A76C5490900F29C273",
+      "retention": "configuration_or_decision_evidence"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\tmp\\v73_layered_smoke_r2_config.json",
+      "bytes": 1768,
+      "sha256": "C57B4CC9A3FAEFD2AA47EEACB5EC1822BDDA9E32653262436452405E3F5E2BD3",
+      "retention": "configuration_or_decision_evidence"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\tmp\\v73_layered_export_r3_config.json",
+      "bytes": 1772,
+      "sha256": "0E077F4305239E20C11B9023B3A7529F0ABC675A591CFF3205A1878FC4DC4CA7",
+      "retention": "configuration_or_decision_evidence"
+    }
+  ]
+}
