@@ -1,9 +1,11 @@
+from pathlib import Path
 import unittest
 
 import numpy as np
 from scipy.integrate import solve_ivp
 
-from Analyze_HeatDriveECC_ColdSinkStorage import decompose, exact_window, passive_leak_bound
+from Analyze_HeatDriveECC_ColdSinkStorage import decompose, exact_window, passive_leak_bound, window
+from Analyze_HeatDriveECC_CaloricCycle import read_packet
 
 
 class ColdSinkStorageTests(unittest.TestCase):
@@ -53,6 +55,17 @@ class ColdSinkStorageTests(unittest.TestCase):
             passive_leak_bound(300., [300., 300.], [280., 340.], 0., 0., .2, 10.)
         with self.assertRaises(ValueError):
             decompose(0., 0., 0., 0., 0., [1., -1.])
+
+    def test_retained_cold_C20_ten_cycle_window_is_not_promoted_to_performance(self):
+        # Golden readback of one frozen diagnostic, NOT a physical ratio gate.
+        _, model, t, states, _ = read_packet(Path("C:/tmp/se21_caloric_coupled_cold_C20_r2_20261025"))
+        r = window(model, t, states, 100., 200.)
+        self.assertEqual(r["imposed_external_load_J"], 0.)
+        self.assertAlmostEqual(r["sensor_to_CHEX_bus_J"], 845.0379241841492, places=8)
+        self.assertAlmostEqual(r["stream_enthalpy_gain_without_leak_J"], 1686.8637763304953, places=8)
+        self.assertTrue(r["matches_Qian_ten_cycle_duration"])
+        self.assertFalse(r["formal_Eq9_or_Eq10_reported"])
+        self.assertFalse(r["periodic_or_material_qualification_claim"])
 
 
 if __name__ == "__main__":
