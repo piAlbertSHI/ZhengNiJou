@@ -84,6 +84,9 @@ def extract_trace(image, kind):
         if reason:
             missing.append({"requested_time_s": clock, "reason": reason})
             continue
+        if kind == "phase" and (selected[-1] >= yzero-2 or selected[0] <= ytop+2):
+            missing.append({"requested_time_s": clock, "reason": "trace_touches_chart_frame"})
+            continue
         row = float(np.median(selected))
         actual = (yzero-row)*ordinate_top/(yzero-ytop)
         low = (yzero-float(selected[-1])-1)*ordinate_top/(yzero-ytop)

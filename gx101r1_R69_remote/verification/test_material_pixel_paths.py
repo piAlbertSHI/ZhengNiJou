@@ -3,6 +3,7 @@ import unittest
 import numpy as np
 
 from Extract_HeatDriveECC_QianMaterialPaths import pixel_group
+from Analyze_HeatDriveECC_PhaseReversals import sampled_turns
 
 
 class PixelPathTests(unittest.TestCase):
@@ -32,6 +33,17 @@ class PixelPathTests(unittest.TestCase):
         selected, reason = pixel_group(pixels, max_vertical_pixels=35)
         np.testing.assert_array_equal(selected, pixels)
         self.assertIsNone(reason)
+
+    def test_sampled_turn_retains_plateau_time_bracket_not_invented_root(self):
+        events = sampled_turns(np.arange(5.), np.array([0., .3, .3, .3, .1]), 1e-9)
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0]["time_bracket_s"], [1., 3.])
+        self.assertEqual(events[0]["direction_before"], 1)
+        self.assertEqual(events[0]["direction_after"], -1)
+
+    def test_selected_increment_tolerance_does_not_create_a_turn(self):
+        events = sampled_turns(np.arange(5.), np.array([0., .3, .3-1e-12, .5, .7]), 1e-9)
+        self.assertEqual(events, [])
 
 
 if __name__ == "__main__":
