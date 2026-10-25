@@ -1,0 +1,38 @@
+{
+  "schema": "heatdrive_ecc_minimal_observed_op_fixture_manifest_v1",
+  "source_commit": "813c27b96b78df3ddf65bb9a7668926a0c6dfbbe",
+  "production_model_loaded": false,
+  "production_checkpoint_loaded": false,
+  "coupled_model_restore_verified": false,
+  "production_recovery_allowed": false,
+  "source_sha256": {
+    "HeatDriveECC_ObserverContext.m": "FD9762778E39CB26416D0AB8E94FDAB6744C70B8C8CE56DBB6070DE8CBDC5F3C",
+    "HeatDriveECC_ProcessLocalTimeObserver.m": "A565BED03592D19D45CFD43BE8DCC0E541090C65321278770199AAE4F3C0EA68",
+    "Test_HeatDriveECC_MinimalObservedOperatingPoint.m": "90877CB2FF8834D90B864FE049BAF8C48848AA60A3E5DE20E59902C9206AB367"
+  },
+  "runs": [
+    {"root": "C:/tmp/se21_minimal_observed_op_fixture_r1_20261025", "pass": false, "reason": "bdroot returned a numeric handle; registry initially required the model name", "result_sha256": "C550AB57656C8C99897E8456C3735BE4E770AC0AF95217844DE22F7304E142EC"},
+    {"root": "C:/tmp/se21_minimal_observed_op_fixture_r2_20261025", "pass": false, "reason": "test changed model StartTime to OP snapshot time; strict checksum rejected it", "result_sha256": "83D6A83C91248E14E762E61F136EA8874A66072D9ECDBB8322EE40F452C91E87"},
+    {"root": "C:/tmp/se21_minimal_observed_op_fixture_r3_20261025", "pass": false, "reason": "strict restore completed, but exact timestamp intersection rejected a floating clock difference", "result_sha256": "FE5A307625E06CC88B264F0E729C3DB33D5E06EDF229DC0F0D51B3A4E523766A"},
+    {"root": "C:/tmp/se21_minimal_observed_op_fixture_r4_20261025", "pass": false, "reason": "state comparisons passed; an incorrect assumption that positive heat flow warmed Mass rejected the cooling reference", "result_sha256": "06439B027E156223348B0CFEE0F2D3DB7DABC78120049F255F32F68EFA6B60E4"},
+    {"root": "C:/tmp/se21_minimal_observed_op_fixture_r5_20261025", "pass": true, "result_sha256": "FB64C93D4A417CADF433989C620704525A16F3A6C6D10B76B33BF8EB78147C58"}
+  ],
+  "retained_successful_fixture_op": {
+    "path": "C:/tmp/se21_minimal_observed_op_fixture_r5_20261025/segment_a_complete_op.mat",
+    "bytes": 446448,
+    "sha256": "01DB592FA7B5D99127B24651F07E7457C76DEB1939B4CA27174E9281DEE00C38",
+    "physical_temperature_max_error_K": 0,
+    "integrator_max_error": 0,
+    "clock_slot_max_offset_s": 8.8817841970012523e-16,
+    "per_step_state_history_saved": false,
+    "checksum_policy": "error/error"
+  },
+  "failed_fixture_op_retirement_status": "retired_verified_absent",
+  "retained_successful_op_hash_reverified": true,
+  "failed_fixture_op_retirement_bytes": 1339344,
+  "failed_fixture_ops": [
+    {"path": "C:/tmp/se21_minimal_observed_op_fixture_r2_20261025/segment_a_complete_op.mat", "bytes": 446448, "sha256": "82D9C03FF37950F91692A4CEAE03D0AB79F8669091500D39CEE579774D93ACB3"},
+    {"path": "C:/tmp/se21_minimal_observed_op_fixture_r3_20261025/segment_a_complete_op.mat", "bytes": 446448, "sha256": "9C54FF5BA32DC6F38038331B13EC669F9C85B213A2AEE29CE043F22EDC9C16EF"},
+    {"path": "C:/tmp/se21_minimal_observed_op_fixture_r4_20261025/segment_a_complete_op.mat", "bytes": 446448, "sha256": "94B0C71BB45A13F32893D3474B2D2E57D6F1D506B2F3C628963A83604A08393D"}
+  ]
+}
