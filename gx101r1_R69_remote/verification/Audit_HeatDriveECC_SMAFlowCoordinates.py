@@ -4,7 +4,9 @@ No active model inspection/rebuild or hydraulic qualification. Snapshot/flow
 association is the retained arm contract, not a claim about current dirty SLX.
 """
 import json
+import math
 from pathlib import Path
+import re
 
 import h5py
 import numpy as np
@@ -54,6 +56,44 @@ def infer_sequence(pump_terminal_node, return_terminal_node, sensor_sign, count=
         raise ValueError("No unique full-chain direction from the selected flow window")
     start = pump_terminal_node if sensor_sign > 0 else return_terminal_node
     return list(range(1, count+1)) if start == 1 else list(range(count, 0, -1))
+
+
+def route_inventory(metadata, expected_void_m3, rho_ref, cp_ref, solid_capacity):
+    """Compare explicit storage geometry, not inferred flow or native EOS energy.
+
+    Two half-volume branches are not automatically classified as duplication.
+    The reported capacity is a reference-T/rho proxy, not native stored energy.
+    """
+    if not np.isfinite([expected_void_m3, rho_ref, cp_ref, solid_capacity]).all() or min(expected_void_m3, rho_ref, cp_ref, solid_capacity) <= 0:
+        raise ValueError("Positive single-bed geometry and reference capacities required")
+    groups = {"Hold": {}, "Cooldown": {}}
+    for block in metadata["storage_blocks"]:
+        match = re.search(r"/SMA/(Hold|Cooldown)Pipe_(\d{3})$", block["block_path"])
+        if not match:
+            continue
+        name, index = match[1], int(match[2])
+        if index in groups[name]:
+            raise ValueError("Repeated SMA storage coordinate")
+        p = block["mask_parameters"]
+        a, length = p["area"], p["length"]
+        if (a["unit"] != "m^2" or length["unit"] != "m"
+                or not np.isfinite([a["value"], length["value"]]).all() or min(a["value"], length["value"]) <= 0):
+            raise ValueError("Unresolved or non-SI pipe volume")
+        groups[name][index] = a["value"]*length["value"]
+    if any(set(g) != set(range(1, 22)) for g in groups.values()):
+        raise ValueError("Incomplete explicit 21-cell SMA route storage inventory")
+    volumes = {name: math.fsum(g.values()) for name, g in groups.items()}
+    total = math.fsum(volumes.values())
+    excess = total-expected_void_m3
+    return {"route_fluid_volume_m3": volumes, "expected_single_bed_void_volume_m3": expected_void_m3,
+            "total_two_route_fluid_volume_m3": total, "total_over_single_bed_ratio": total/expected_void_m3,
+            "each_route_matches_a_whole_bed": all(math.isclose(v, expected_void_m3, rel_tol=1e-12, abs_tol=0.) for v in volumes.values()),
+            "excess_vs_single_bed_volume_m3": excess, "reference_fluid_density_kg_m3": rho_ref,
+            "reference_fluid_cp_J_kgK": cp_ref, "excess_reference_capacity_J_K": excess*rho_ref*cp_ref,
+            "SMA_solid_capacity_J_K": solid_capacity, "excess_capacity_over_solid_capacity": excess*rho_ref*cp_ref/solid_capacity,
+            "native_variable_density_internal_energy_reconstructed": False,
+            "physical_topology_qualification_claim": False,
+            "scope": "Given the single-physical-bed porosity contract, these are two independently stored full-bed fluid representations; accessory inventory classification must be explicit"}
 
 
 def audit(root):

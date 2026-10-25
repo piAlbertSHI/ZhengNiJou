@@ -95,6 +95,27 @@ def load_control(root):
     return r, comparison
 
 
+def persist_completed_arm(output, name, arrays, evidence):
+    """Make observations durable BEFORE the next arm or summary publication.
+
+    These are diagnostic observations, not restart checkpoints. The exclusive
+    per-arm marker is published only after array readback and SHA verification.
+    A later marker/aggregate failure must not discard already written arrays.
+    """
+    if name not in {"counter", "co"} or set(arrays) != {"time_s", "completed_stage", "physical", "edge_J", "edge_kg"}:
+        raise ValueError("Explicit arm identity and nonduplicated observation arrays required")
+    raw = output/(name+"_direction_profiles.npz")
+    with raw.open("xb") as stream:
+        np.savez_compressed(stream, **arrays)
+    with np.load(raw, allow_pickle=False) as saved:
+        if not all(np.array_equal(saved[k], a) for k, a in arrays.items()):
+            raise ValueError("Per-arm saved observations changed")
+    row = {**evidence, "raw": {"file": raw.name, "sha256": sha256(raw), "bytes": raw.stat().st_size},
+           "restart_or_production_seed": False}
+    write_json(output/("completed_arm_"+name+".json"), row)
+    return row
+
+
 def run(control_root, native_root, output):
     output.mkdir(parents=True, exist_ok=False)
     names = (Path(__file__).name, "Audit_HeatDriveECC_SMAFlowCoordinates.py", "Run_HeatDriveECC_SavedNusseltControl.py",
@@ -148,30 +169,28 @@ def run(control_root, native_root, output):
                 arrays[name+"_physical"] = physical
                 arrays[name+"_edge_J"] = energy
                 arrays[name+"_edge_kg"] = mass
-                record["cases"].append({"arm": name, "SMA_heat_cool_signs": [1, 1 if co else -1],
+                evidence = {"arm": name, "SMA_heat_cool_signs": [1, 1 if co else -1],
                     "control_volume_contract": model.boundaries.contract(),
                     "maximum_selected_local_energy_residual_J": float(abs(re).max()),
-                    "maximum_selected_local_mass_residual_kg": float(abs(rm).max()), **result})
+                    "maximum_selected_local_mass_residual_kg": float(abs(rm).max()), **result}
+                saved = persist_completed_arm(output, name, {"time_s": t, "completed_stage": profiles["completed_stage"], "physical": physical,
+                    "edge_J": energy, "edge_kg": mass}, evidence)
+                record["cases"].append(saved)
                 record["completed_arms"] = len(record["cases"])
-                write_json(output/"completed_arm_evidence.json", record)
         heat = common_clocks <= 5.
         if not np.array_equal(arrays["co_physical"][heat], arrays["counter_physical"][heat]):
             raise ValueError("Cooling-direction change perturbed the first heating half")
-        raw = output/"paired_direction_profiles.npz"
-        np.savez_compressed(raw, time_s=common_clocks, **arrays)
-        with np.load(raw, allow_pickle=False) as z:
-            if not all(np.array_equal(z[k], a) for k, a in {"time_s": common_clocks, **arrays}.items()):
-                raise ValueError("Saved paired observations changed")
         record.update(collection_complete=True, wall_seconds=time.perf_counter()-begin,
                       first_heat_half_array_equal=True, counter_first_cycle_array_equal_to_frozen_C1=True,
-                      raw={"file": raw.name, "sha256": sha256(raw), "bytes": raw.stat().st_size})
+                      raw_files=[row["raw"] for row in record["cases"]],
+                      observation_durability="exclusive per-arm NPZ and marker, no duplicated aggregate NPZ")
         write_json(output/"direction_execution.json", record)
     except Exception:
         record.update(wall_seconds=time.perf_counter()-begin, error_traceback=traceback.format_exc())
         write_json(output/"FAILED_DO_NOT_RESUME.json", record)
         raise
     return {"output": str(output), "wall_seconds": record["wall_seconds"], "arms": record["completed_arms"],
-            "raw_bytes": record["raw"]["bytes"], "execution_sha256": sha256(output/"direction_execution.json"),
+            "raw_bytes": sum(r["bytes"] for r in record["raw_files"]), "execution_sha256": sha256(output/"direction_execution.json"),
             "local_energy_residuals_J": [c["maximum_selected_local_energy_residual_J"] for c in record["cases"]],
             "production_recovery_allowed": False}
 
