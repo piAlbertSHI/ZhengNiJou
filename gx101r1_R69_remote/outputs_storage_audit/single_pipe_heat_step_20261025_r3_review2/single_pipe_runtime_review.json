@@ -1,0 +1,665 @@
+{
+  "schema": "heatdrive_ecc_single_pipe_runtime_review_v1",
+  "analysis_source_sha256": "3F0F9D195B7674B950955D06B150DB532A5A1DA0A606577F79D4C0B8CB3FA616",
+  "execution_commit": "c3e7b3e3d345a596cac3b9a56e477d69b2bfb117",
+  "execution_path": "C:\\tmp\\se21_single_pipe_heat_step_r3_20261025\\single_pipe_execution.json",
+  "execution_sha256": "902EB5B2A0A30474EAEBDD8AD50F4743421AB426F0353755CBBCDE187000C3C1",
+  "configuration_sha256": "82A096E37867063D357C138B4C97EEC13234B9CC659B8135891D47C55C4D4256",
+  "inventory_metadata_sha256": "7C0EB5412E0AA2EF9C3DC52A9D5A07251FF961F4BEA10A48FA899EB5200217B2",
+  "source_root": "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025",
+  "cases": [
+    {
+      "file": "case_01.mat",
+      "sha256": "D9DE6725E09CADFFD61029786619D33B9719344B3B885B94F1ABD83E2296D403",
+      "material": "SMA",
+      "mass_flow_kgps": -0.0508,
+      "wall_step_K": -5,
+      "volume_m3": 7.352410807253529e-07,
+      "saved_Nu": 4.365993493890937,
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "wall_temperature_witness_pass": true,
+      "Qsplit_max_abs_error_W": 9.272582701669307e-13,
+      "native_density_lookup_max_abs_error_kg_m3": 2.2737367544323206e-13,
+      "local_energy_ledger": {
+        "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+        "nominal_mass_kg": 0.0007341752462291059,
+        "max_abs_step_residual_J": 1.2899403767363538e-14,
+        "endpoint_residual_J": -4.229085072589289e-14,
+        "max_abs_cumulative_residual_J": 7.07464956842957e-14,
+        "max_abs_boundary_mass_sum_kgps": 0.0,
+        "quadrature": "native local backward Euler, actual measured intervals",
+        "full_device_energy_or_pump_validation": false
+      },
+      "final_sample_at_0p1s": {
+        "wall_temperature_K": 298.15,
+        "fluid_internal_temperature_K": 302.59685157227653,
+        "port_A_temperature_K": 302.59678824157044,
+        "port_B_temperature_K": 303.1499999999959,
+        "Re_avg": -2499.4861715061197,
+        "native_total_W": -118.18847034537443,
+        "convection_W": -103.91985964637139,
+        "conduction_W": -14.268610699003215,
+        "reference_saved_Nu_on_native_T_W": -62.29666147871065,
+        "reference_Q01_Nu3p66_on_native_T_W": -52.22311515835177,
+        "native_over_reference_saved_Nu": 1.897187867535475
+      },
+      "native_over_reference_saved_Nu_range_after_21ms": [
+        1.7659197907920723,
+        1.897187867535475
+      ],
+      "forced_reference_law_applicable_as_physical_zero_flow_gate": null,
+      "reference_sampled_on_native_trajectory_not_separately_integrated": true
+    },
+    {
+      "file": "case_02.mat",
+      "sha256": "3D04D2B904CAE491E9023789EBA02D4752B4ABFC6F83D18171768A938B47ACE0",
+      "material": "SMA",
+      "mass_flow_kgps": -0.0508,
+      "wall_step_K": 5,
+      "volume_m3": 7.352410807253529e-07,
+      "saved_Nu": 4.365993493890937,
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "wall_temperature_witness_pass": true,
+      "Qsplit_max_abs_error_W": 5.169198402654729e-13,
+      "native_density_lookup_max_abs_error_kg_m3": 3.410605131648481e-13,
+      "local_energy_ledger": {
+        "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+        "nominal_mass_kg": 0.0007341752462291059,
+        "max_abs_step_residual_J": 1.4987251890918873e-14,
+        "endpoint_residual_J": -8.205591696570924e-14,
+        "max_abs_cumulative_residual_J": 8.277224934107041e-14,
+        "max_abs_boundary_mass_sum_kgps": 0.0,
+        "quadrature": "native local backward Euler, actual measured intervals",
+        "full_device_energy_or_pump_validation": false
+      },
+      "final_sample_at_0p1s": {
+        "wall_temperature_K": 308.15,
+        "fluid_internal_temperature_K": 303.72817057481143,
+        "port_A_temperature_K": 303.72810312137716,
+        "port_B_temperature_K": 303.15000000000424,
+        "Re_avg": -2561.9139320665995,
+        "native_total_W": 122.94295900676205,
+        "convection_W": 108.71482083570723,
+        "conduction_W": 14.228138171054697,
+        "reference_saved_Nu_on_native_T_W": 62.11995868500609,
+        "reference_Q01_Nu3p66_on_native_T_W": 52.07498570606018,
+        "native_over_reference_saved_Nu": 1.9791217123979965
+      },
+      "native_over_reference_saved_Nu_range_after_21ms": [
+        1.7752043062386904,
+        1.9791217123979965
+      ],
+      "forced_reference_law_applicable_as_physical_zero_flow_gate": null,
+      "reference_sampled_on_native_trajectory_not_separately_integrated": true
+    },
+    {
+      "file": "case_03.mat",
+      "sha256": "50E1E8B30C4A46A779247BD95BF1C4F7F37A462A49D6C5CB0E02D2E246C82340",
+      "material": "SMA",
+      "mass_flow_kgps": 0,
+      "wall_step_K": -5,
+      "volume_m3": 7.352410807253529e-07,
+      "saved_Nu": 4.365993493890937,
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 4.255493527005605e-18,
+        "Phi_B": 3.333921680392926e-18,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "wall_temperature_witness_pass": true,
+      "Qsplit_max_abs_error_W": 9.414691248821327e-14,
+      "native_density_lookup_max_abs_error_kg_m3": 2.2737367544323206e-13,
+      "local_energy_ledger": {
+        "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+        "nominal_mass_kg": 0.0007341752462291059,
+        "max_abs_step_residual_J": 1.4323611741140496e-14,
+        "endpoint_residual_J": 2.478414303102402e-14,
+        "max_abs_cumulative_residual_J": 3.4996460134099484e-14,
+        "max_abs_boundary_mass_sum_kgps": 0.0,
+        "quadrature": "native local backward Euler, actual measured intervals",
+        "full_device_energy_or_pump_validation": false
+      },
+      "final_sample_at_0p1s": {
+        "wall_temperature_K": 298.15,
+        "fluid_internal_temperature_K": 302.7438009526418,
+        "port_A_temperature_K": 303.13302097675347,
+        "port_B_temperature_K": 303.14132927117896,
+        "Re_avg": 0.0,
+        "native_total_W": -14.745903661699419,
+        "convection_W": 0.0,
+        "conduction_W": -14.745903661699346,
+        "reference_saved_Nu_on_native_T_W": -64.38051944852188,
+        "reference_Q01_Nu3p66_on_native_T_W": -53.97000740181961,
+        "native_over_reference_saved_Nu": 0.22904294323828994
+      },
+      "native_over_reference_saved_Nu_range_after_21ms": [
+        0.22904294323828756,
+        0.2290429432382902
+      ],
+      "forced_reference_law_applicable_as_physical_zero_flow_gate": false,
+      "reference_sampled_on_native_trajectory_not_separately_integrated": true
+    },
+    {
+      "file": "case_04.mat",
+      "sha256": "615F634614FC85FA80341259DC57E0C45983C9F519C24A51A1A29BBA9EB36222",
+      "material": "SMA",
+      "mass_flow_kgps": 0,
+      "wall_step_K": 5,
+      "volume_m3": 7.352410807253529e-07,
+      "saved_Nu": 4.365993493890937,
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 2.7376104855258987e-18,
+        "Phi_B": 3.333921680392926e-18,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "wall_temperature_witness_pass": true,
+      "Qsplit_max_abs_error_W": 9.237055564881302e-14,
+      "native_density_lookup_max_abs_error_kg_m3": 3.410605131648481e-13,
+      "local_energy_ledger": {
+        "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+        "nominal_mass_kg": 0.0007341752462291059,
+        "max_abs_step_residual_J": 1.1312131786844759e-14,
+        "endpoint_residual_J": 5.284116437568725e-15,
+        "max_abs_cumulative_residual_J": 2.7542055898340392e-14,
+        "max_abs_boundary_mass_sum_kgps": 0.0,
+        "quadrature": "native local backward Euler, actual measured intervals",
+        "full_device_energy_or_pump_validation": false
+      },
+      "final_sample_at_0p1s": {
+        "wall_temperature_K": 308.15,
+        "fluid_internal_temperature_K": 303.5568611731501,
+        "port_A_temperature_K": 303.16700019070873,
+        "port_B_temperature_K": 303.1586791116853,
+        "Re_avg": 0.0,
+        "native_total_W": 14.773564724441247,
+        "convection_W": 0.0,
+        "conduction_W": 14.773564724441272,
+        "reference_saved_Nu_on_native_T_W": 64.50128746848725,
+        "reference_Q01_Nu3p66_on_native_T_W": 54.07124689145506,
+        "native_over_reference_saved_Nu": 0.2290429432382884
+      },
+      "native_over_reference_saved_Nu_range_after_21ms": [
+        0.22904294323828733,
+        0.22904294323829003
+      ],
+      "forced_reference_law_applicable_as_physical_zero_flow_gate": false,
+      "reference_sampled_on_native_trajectory_not_separately_integrated": true
+    },
+    {
+      "file": "case_05.mat",
+      "sha256": "163779C365554C6BB5A10ABB270DFA340B8C25B3427FECB6676F506BA14E87C6",
+      "material": "SMA",
+      "mass_flow_kgps": 0.0508,
+      "wall_step_K": -5,
+      "volume_m3": 7.352410807253529e-07,
+      "saved_Nu": 4.365993493890937,
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "wall_temperature_witness_pass": true,
+      "Qsplit_max_abs_error_W": 8.171241461241152e-13,
+      "native_density_lookup_max_abs_error_kg_m3": 2.2737367544323206e-13,
+      "local_energy_ledger": {
+        "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+        "nominal_mass_kg": 0.0007341752462291059,
+        "max_abs_step_residual_J": 1.2327236399625047e-14,
+        "endpoint_residual_J": 1.4507446689814886e-14,
+        "max_abs_cumulative_residual_J": 2.104789629533369e-14,
+        "max_abs_boundary_mass_sum_kgps": 0.0,
+        "quadrature": "native local backward Euler, actual measured intervals",
+        "full_device_energy_or_pump_validation": false
+      },
+      "final_sample_at_0p1s": {
+        "wall_temperature_K": 298.15,
+        "fluid_internal_temperature_K": 302.5957587981166,
+        "port_A_temperature_K": 303.14870707571197,
+        "port_B_temperature_K": 302.59569548017004,
+        "Re_avg": 2499.4103114915233,
+        "native_total_W": -118.14563840777659,
+        "convection_W": -103.88057566512641,
+        "conduction_W": -14.265062742649983,
+        "reference_saved_Nu_on_native_T_W": -62.28117112435582,
+        "reference_Q01_Nu3p66_on_native_T_W": -52.21012963809894,
+        "native_over_reference_saved_Nu": 1.896972010559613
+      },
+      "native_over_reference_saved_Nu_range_after_21ms": [
+        1.7656215516110032,
+        1.896972010559613
+      ],
+      "forced_reference_law_applicable_as_physical_zero_flow_gate": null,
+      "reference_sampled_on_native_trajectory_not_separately_integrated": true
+    },
+    {
+      "file": "case_06.mat",
+      "sha256": "0BEB817DCFAACA2EE8A8F3E391C076B5CAA4B6C324387691F3171637009127EE",
+      "material": "SMA",
+      "mass_flow_kgps": 0.0508,
+      "wall_step_K": 5,
+      "volume_m3": 7.352410807253529e-07,
+      "saved_Nu": 4.365993493890937,
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "wall_temperature_witness_pass": true,
+      "Qsplit_max_abs_error_W": 6.03883154419449e-13,
+      "native_density_lookup_max_abs_error_kg_m3": 2.2737367544323206e-13,
+      "local_energy_ledger": {
+        "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+        "nominal_mass_kg": 0.0007341752462291059,
+        "max_abs_step_residual_J": 1.2483937494867092e-14,
+        "endpoint_residual_J": -5.6398616449216364e-14,
+        "max_abs_cumulative_residual_J": 7.233194315584609e-14,
+        "max_abs_boundary_mass_sum_kgps": 0.0,
+        "quadrature": "native local backward Euler, actual measured intervals",
+        "full_device_energy_or_pump_validation": false
+      },
+      "final_sample_at_0p1s": {
+        "wall_temperature_K": 308.15,
+        "fluid_internal_temperature_K": 303.7269440889838,
+        "port_A_temperature_K": 303.14867514938237,
+        "port_B_temperature_K": 303.726876631047,
+        "Re_avg": 2561.8491893842647,
+        "native_total_W": 122.9631328467344,
+        "convection_W": 108.73108816977239,
+        "conduction_W": 14.232044676961777,
+        "reference_saved_Nu_on_native_T_W": 62.13701446438024,
+        "reference_Q01_Nu3p66_on_native_T_W": 52.08928351768011,
+        "native_over_reference_saved_Nu": 1.9789031369896672
+      },
+      "native_over_reference_saved_Nu_range_after_21ms": [
+        1.7751767580478326,
+        1.9789031369896672
+      ],
+      "forced_reference_law_applicable_as_physical_zero_flow_gate": null,
+      "reference_sampled_on_native_trajectory_not_separately_integrated": true
+    },
+    {
+      "file": "case_07.mat",
+      "sha256": "55044B1A4D2EC9886807C6C3CD86BBF9883062024FF41C1BB321B86225F832DF",
+      "material": "SE",
+      "mass_flow_kgps": -0.0032,
+      "wall_step_K": -5,
+      "volume_m3": 1.2866718912693675e-07,
+      "saved_Nu": 3.66,
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 2.710505431213761e-20,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "wall_temperature_witness_pass": true,
+      "Qsplit_max_abs_error_W": 1.3944401189291966e-13,
+      "native_density_lookup_max_abs_error_kg_m3": 2.2737367544323206e-13,
+      "local_energy_ledger": {
+        "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+        "nominal_mass_kg": 0.0001351469284485053,
+        "max_abs_step_residual_J": 4.669875597329565e-15,
+        "endpoint_residual_J": 1.612126298883472e-14,
+        "max_abs_cumulative_residual_J": 2.0921242846862545e-14,
+        "max_abs_boundary_mass_sum_kgps": 0.0,
+        "quadrature": "native local backward Euler, actual measured intervals",
+        "full_device_energy_or_pump_validation": false
+      },
+      "final_sample_at_0p1s": {
+        "wall_temperature_K": 298.15,
+        "fluid_internal_temperature_K": 301.4974432575674,
+        "port_A_temperature_K": 301.49732342863996,
+        "port_B_temperature_K": 303.1499999987455,
+        "Re_avg": -45.10437084557114,
+        "native_total_W": -22.135586844449904,
+        "convection_W": -18.163638075787237,
+        "conduction_W": -3.971948768662694,
+        "reference_saved_Nu_on_native_T_W": -14.53733249330546,
+        "reference_Q01_Nu3p66_on_native_T_W": -14.53733249330546,
+        "native_over_reference_saved_Nu": 1.52267184193823
+      },
+      "native_over_reference_saved_Nu_range_after_21ms": [
+        1.1245711851217441,
+        1.52267184193823
+      ],
+      "forced_reference_law_applicable_as_physical_zero_flow_gate": null,
+      "reference_sampled_on_native_trajectory_not_separately_integrated": true
+    },
+    {
+      "file": "case_08.mat",
+      "sha256": "8154F1F307459F5CD230FBCA6EFE036BD61CA387A440E51582AF1A7FE9655318",
+      "material": "SE",
+      "mass_flow_kgps": -0.0032,
+      "wall_step_K": 5,
+      "volume_m3": 1.2866718912693675e-07,
+      "saved_Nu": 3.66,
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 2.710505431213761e-20,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "wall_temperature_witness_pass": true,
+      "Qsplit_max_abs_error_W": 1.1812772982011666e-13,
+      "native_density_lookup_max_abs_error_kg_m3": 2.2737367544323206e-13,
+      "local_energy_ledger": {
+        "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+        "nominal_mass_kg": 0.0001351469284485053,
+        "max_abs_step_residual_J": 5.089678678515952e-15,
+        "endpoint_residual_J": -1.865647325754831e-14,
+        "max_abs_cumulative_residual_J": 2.910254434901165e-14,
+        "max_abs_boundary_mass_sum_kgps": 0.0,
+        "quadrature": "native local backward Euler, actual measured intervals",
+        "full_device_energy_or_pump_validation": false
+      },
+      "final_sample_at_0p1s": {
+        "wall_temperature_K": 308.15,
+        "fluid_internal_temperature_K": 304.8088395691022,
+        "port_A_temperature_K": 304.8087309121374,
+        "port_B_temperature_K": 303.1500000012594,
+        "Re_avg": -51.9453590328641,
+        "native_total_W": 22.199672717765345,
+        "convection_W": 18.212152290056615,
+        "conduction_W": 3.9875204277087004,
+        "reference_saved_Nu_on_native_T_W": 14.594324765413843,
+        "reference_Q01_Nu3p66_on_native_T_W": 14.594324765413843,
+        "native_over_reference_saved_Nu": 1.5211168090746432
+      },
+      "native_over_reference_saved_Nu_range_after_21ms": [
+        1.1245960952496956,
+        1.5211168090746432
+      ],
+      "forced_reference_law_applicable_as_physical_zero_flow_gate": null,
+      "reference_sampled_on_native_trajectory_not_separately_integrated": true
+    },
+    {
+      "file": "case_09.mat",
+      "sha256": "0A45428B8FE17E07D0E62922B5916408E2A057CE0DFB09455B2A5D559DB5C05D",
+      "material": "SE",
+      "mass_flow_kgps": 0,
+      "wall_step_K": -5,
+      "volume_m3": 1.2866718912693675e-07,
+      "saved_Nu": 3.66,
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 1.3010426069826053e-18,
+        "Phi_B": 1.599198204416119e-18,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "wall_temperature_witness_pass": true,
+      "Qsplit_max_abs_error_W": 3.2862601528904634e-14,
+      "native_density_lookup_max_abs_error_kg_m3": 2.2737367544323206e-13,
+      "local_energy_ledger": {
+        "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+        "nominal_mass_kg": 0.0001351469284485053,
+        "max_abs_step_residual_J": 4.6993658964211704e-15,
+        "endpoint_residual_J": -1.0694760821501071e-15,
+        "max_abs_cumulative_residual_J": 7.826185902658962e-15,
+        "max_abs_boundary_mass_sum_kgps": 0.0,
+        "quadrature": "native local backward Euler, actual measured intervals",
+        "full_device_energy_or_pump_validation": false
+      },
+      "final_sample_at_0p1s": {
+        "wall_temperature_K": 298.15,
+        "fluid_internal_temperature_K": 302.25728305010034,
+        "port_A_temperature_K": 303.1191733967462,
+        "port_B_temperature_K": 303.134315902888,
+        "Re_avg": 0.0,
+        "native_total_W": -4.88004103559566,
+        "convection_W": 0.0,
+        "conduction_W": -4.880041035595689,
+        "reference_saved_Nu_on_native_T_W": -17.860950190280224,
+        "reference_Q01_Nu3p66_on_native_T_W": -17.860950190280224,
+        "native_over_reference_saved_Nu": 0.27322404371584535
+      },
+      "native_over_reference_saved_Nu_range_after_21ms": [
+        0.27322404371584535,
+        0.2732240437158488
+      ],
+      "forced_reference_law_applicable_as_physical_zero_flow_gate": false,
+      "reference_sampled_on_native_trajectory_not_separately_integrated": true
+    },
+    {
+      "file": "case_10.mat",
+      "sha256": "D248BFB349797000DEC9A8A1042F9A826BDB7EE48C02A9F2F285F3FEE520C0C6",
+      "material": "SE",
+      "mass_flow_kgps": 0,
+      "wall_step_K": 5,
+      "volume_m3": 1.2866718912693675e-07,
+      "saved_Nu": 3.66,
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 2.9544509200229996e-18,
+        "Phi_B": 1.5720931501039814e-18,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "wall_temperature_witness_pass": true,
+      "Qsplit_max_abs_error_W": 3.2862601528904634e-14,
+      "native_density_lookup_max_abs_error_kg_m3": 2.2737367544323206e-13,
+      "local_energy_ledger": {
+        "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+        "nominal_mass_kg": 0.0001351469284485053,
+        "max_abs_step_residual_J": 4.008078591244413e-15,
+        "endpoint_residual_J": 1.2966867390822581e-15,
+        "max_abs_cumulative_residual_J": 1.096169858548704e-14,
+        "max_abs_boundary_mass_sum_kgps": 0.0,
+        "quadrature": "native local backward Euler, actual measured intervals",
+        "full_device_energy_or_pump_validation": false
+      },
+      "final_sample_at_0p1s": {
+        "wall_temperature_K": 308.15,
+        "fluid_internal_temperature_K": 304.0440353717297,
+        "port_A_temperature_K": 303.1808721299648,
+        "port_B_temperature_K": 303.1657072603957,
+        "Re_avg": 0.0,
+        "native_total_W": 4.893743234721951,
+        "convection_W": 0.0,
+        "conduction_W": 4.893743234721969,
+        "reference_saved_Nu_on_native_T_W": 17.91110023908241,
+        "reference_Q01_Nu3p66_on_native_T_W": 17.91110023908241,
+        "native_over_reference_saved_Nu": 0.27322404371584597
+      },
+      "native_over_reference_saved_Nu_range_after_21ms": [
+        0.27322404371584524,
+        0.2732240437158488
+      ],
+      "forced_reference_law_applicable_as_physical_zero_flow_gate": false,
+      "reference_sampled_on_native_trajectory_not_separately_integrated": true
+    },
+    {
+      "file": "case_11.mat",
+      "sha256": "3FA3FBE5A98370226EF7E64AC6A288A74906DB92BD61E2FD4EC3C07D13378994",
+      "material": "SE",
+      "mass_flow_kgps": 0.0032,
+      "wall_step_K": -5,
+      "volume_m3": 1.2866718912693675e-07,
+      "saved_Nu": 3.66,
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "wall_temperature_witness_pass": true,
+      "Qsplit_max_abs_error_W": 1.3500311979441904e-13,
+      "native_density_lookup_max_abs_error_kg_m3": 2.2737367544323206e-13,
+      "local_energy_ledger": {
+        "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+        "nominal_mass_kg": 0.0001351469284485053,
+        "max_abs_step_residual_J": 4.78089789979208e-15,
+        "endpoint_residual_J": -7.868495199343404e-15,
+        "max_abs_cumulative_residual_J": 9.94147704764148e-15,
+        "max_abs_boundary_mass_sum_kgps": 0.0,
+        "quadrature": "native local backward Euler, actual measured intervals",
+        "full_device_energy_or_pump_validation": false
+      },
+      "final_sample_at_0p1s": {
+        "wall_temperature_K": 298.15,
+        "fluid_internal_temperature_K": 301.49671030325896,
+        "port_A_temperature_K": 303.1486999911383,
+        "port_B_temperature_K": 301.4965944112328,
+        "Re_avg": 45.102924267367925,
+        "native_total_W": -22.12995321643096,
+        "convection_W": -18.158879248702064,
+        "conduction_W": -3.971073967728832,
+        "reference_saved_Nu_on_native_T_W": -14.534130721887522,
+        "reference_Q01_Nu3p66_on_native_T_W": -14.534130721887522,
+        "native_over_reference_saved_Nu": 1.5226196626334583
+      },
+      "native_over_reference_saved_Nu_range_after_21ms": [
+        1.124417263461533,
+        1.5226196626334583
+      ],
+      "forced_reference_law_applicable_as_physical_zero_flow_gate": null,
+      "reference_sampled_on_native_trajectory_not_separately_integrated": true
+    },
+    {
+      "file": "case_12.mat",
+      "sha256": "35E975DB5D08B7AAFA56498C5C0335133BCC338F1A453C2E6F89B641303186D1",
+      "material": "SE",
+      "mass_flow_kgps": 0.0032,
+      "wall_step_K": 5,
+      "volume_m3": 1.2866718912693675e-07,
+      "saved_Nu": 3.66,
+      "native_probe_max_differences_SI": {
+        "T_I": 0.0,
+        "p_I": 0.0,
+        "u_I": 0.0,
+        "rho_I": 0.0,
+        "Phi_A": 0.0,
+        "Phi_B": 0.0,
+        "Q_H": 0.0,
+        "mdot_A": 0.0,
+        "mdot_B": 0.0
+      },
+      "wall_temperature_witness_pass": true,
+      "Qsplit_max_abs_error_W": 1.2880550169210372e-13,
+      "native_density_lookup_max_abs_error_kg_m3": 2.2737367544323206e-13,
+      "local_energy_ledger": {
+        "basis": "original quasisteady pipe: M=rho(T_nominal,p_nominal)*V; U=M*u_I",
+        "nominal_mass_kg": 0.0001351469284485053,
+        "max_abs_step_residual_J": 4.821663901477535e-15,
+        "endpoint_residual_J": 1.736565984395322e-14,
+        "max_abs_cumulative_residual_J": 1.8988493655729523e-14,
+        "max_abs_boundary_mass_sum_kgps": 0.0,
+        "quadrature": "native local backward Euler, actual measured intervals",
+        "full_device_energy_or_pump_validation": false
+      },
+      "final_sample_at_0p1s": {
+        "wall_temperature_K": 308.15,
+        "fluid_internal_temperature_K": 304.8081750651253,
+        "port_A_temperature_K": 303.1488693350193,
+        "port_B_temperature_K": 304.8080624822695,
+        "Re_avg": 51.94364603103699,
+        "native_total_W": 22.204547767043227,
+        "convection_W": 18.216238906288574,
+        "conduction_W": 3.9883088607547466,
+        "reference_saved_Nu_on_native_T_W": 14.597210430362374,
+        "reference_Q01_Nu3p66_on_native_T_W": 14.597210430362374,
+        "native_over_reference_saved_Nu": 1.5211500767884731
+      },
+      "native_over_reference_saved_Nu_range_after_21ms": [
+        1.1247464042310302,
+        1.5211500767884731
+      ],
+      "forced_reference_law_applicable_as_physical_zero_flow_gate": null,
+      "reference_sampled_on_native_trajectory_not_separately_integrated": true
+    }
+  ],
+  "nominal_inventory_coordinates_basis": "producer literal T_nominal=293.15K and saved configuration pressure; not a native parameter-log measurement",
+  "scope": "12 isolated native/probe single-cell cases, 0-0.1s; step at 0.02s; no coupled system run",
+  "passive_probe_comparison_verified": true,
+  "reference_operator_equivalence": false,
+  "reference_temperature_trajectory_simulated": false,
+  "time_step_convergence_verified": false,
+  "spatial_transport_verified": false,
+  "coupled_performance_gap_attributed": false,
+  "full_device_first_law_verified": false,
+  "production_recovery_allowed": false,
+  "outer_solve_allowed": false,
+  "table4_reproduction_claim": false,
+  "figure": {
+    "files": [
+      {
+        "path": "gx101r1_R69_remote\\outputs_storage_audit\\single_pipe_heat_step_20261025_r3_review2\\Fig01_single_pipe_heat_steps.png",
+        "bytes": 213691,
+        "sha256": "72DFFB9A90574A575BF54FDAE0004D3F33078A0754BDA5EE0088E3916B5A82BF"
+      },
+      {
+        "path": "gx101r1_R69_remote\\outputs_storage_audit\\single_pipe_heat_step_20261025_r3_review2\\Fig01_single_pipe_heat_steps.svg",
+        "bytes": 76893,
+        "sha256": "4F70CF632D1878D457FF46DD7F2262F0846E102BA7683CECD63B6FFE3CD9A9C4"
+      }
+    ],
+    "text_within_canvas": true,
+    "sample_count_per_curve": 101,
+    "selection": "positive prescribed flow, both materials, both heat signs; all 12 cases retained in audit"
+  }
+}

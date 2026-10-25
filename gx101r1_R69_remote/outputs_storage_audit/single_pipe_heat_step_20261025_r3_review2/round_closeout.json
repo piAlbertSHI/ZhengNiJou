@@ -1,0 +1,62 @@
+{
+  "schema": "heatdrive_ecc_single_pipe_round_closeout_v1",
+  "date": "2026-10-25",
+  "status": "isolated_operator_counterexample_completed_not_full_reference_integration",
+  "physical_execution_commit": "c3e7b3e3d345a596cac3b9a56e477d69b2bfb117",
+  "raw_root": "C:/tmp/se21_single_pipe_heat_step_r3_20261025",
+  "execution_sha256": "902EB5B2A0A30474EAEBDD8AD50F4743421AB426F0353755CBBCDE187000C3C1",
+  "review": "single_pipe_runtime_review.json",
+  "review_sha256": "CA5CE40580558400AF2E2E364328CF73042DAC37382B630FECC5DFA15C1E0F6F",
+  "intermediate_retirement_receipt": "intermediate_retirement_receipt.json",
+  "retirement_receipt_sha256": "507CA553B8F0A40420C5AC26EAEA02CDA42B3A5F40F447B264D3A53BEAFFA3C5",
+  "completed_cases": 12,
+  "matrix": "SMA/SE x prescribed negative/zero/positive flow x wall step -5/+5K",
+  "time_scope_s": [0, 0.1],
+  "wall_step_time_s": 0.02,
+  "time_step_s": 0.001,
+  "simulation_call_wall_seconds_total": 34.5119664,
+  "MATLAB_exit_code": 0,
+  "raw_MAT_files": 12,
+  "raw_MAT_copied_to_Git": false,
+  "checkpoint_files": 0,
+  "max_native_probe_difference_in_raw_native_units": 4.2616345158731986e-21,
+  "max_heat_split_difference_W": 9.272582701669307e-13,
+  "max_density_lookup_difference_kg_m3": 3.410605131648481e-13,
+  "max_local_BE_energy_step_residual_J": 1.4987251890918873e-14,
+  "nonzero_flow_0p1s_heat_ratio_native_over_same_trajectory_saved_Nu_reference": {
+    "SMA_range": [1.896972010559613, 1.9791217123979965],
+    "SE_range": [1.5211168090746432, 1.52267184193823]
+  },
+  "interpretation_limits": [
+    "The reference flux is evaluated on native measured temperatures, not a separately integrated reference trajectory.",
+    "These ratios are isolated-cell endpoint observations, not correction factors for the coupled network or SCP.",
+    "SMA Re_avg is approximately 2500-2562; the exact convection-function Reynolds number also depends on mean inlet/internal viscosity.",
+    "Zero-flow comparison to the forced law is diagnostic only; natural/thermal-gate behavior must be handled separately.",
+    "Local native first-law consistency does not prove reference-operator equivalence, spatial convergence or full-device validation."
+  ],
+  "failed_attempts": [
+    {"root": "C:/tmp/se21_single_pipe_heat_step_r1_20261025", "cause": "overbroad source-declaration count assertion", "simulation_started": false},
+    {"root": "C:/tmp/se21_single_pipe_heat_step_r2_20261025", "cause": "fixture controlled-temperature-source polarity", "observed_failure_time_s": 0.016, "completed_cases": 0}
+  ],
+  "failed_attempts_retained_not_propagated": true,
+  "superseded_review": "old inlet-prefixed port labels corrected to direction-neutral A/B; all other numerical data unchanged and PNG byte-identical before retirement",
+  "retired_reproducible_and_superseded_bytes": 434180,
+  "protected_file_hashes_verified_by_retirement": 18,
+  "targeted_python_tests_passed": 77,
+  "new_tests_this_round": 9,
+  "figure_visually_reviewed": true,
+  "complete_historical_test_suite_rerun": false,
+  "C200_result_and_OP_frozen_hashes_reverified": true,
+  "protected_SLX_or_Agent6_modified": false,
+  "unrelated_MATLAB_interrupted": false,
+  "MATLAB_license_warning": "The successful run stated license expires in 5 days; not a login or numerical failure.",
+  "next_discriminating_work": [
+    "Integrate a declared single-cell reference heat law using the same fluid table, geometry, nominal mass and boundaries, comparing its own temperature/heat trajectory with native output.",
+    "Keep that heat-law counterfactual separate from second-order-upwind transport, phase-law changes and pressure-controller engineering.",
+    "Then establish heat/flow reversal, time/grid convergence and before-blow phase qualification before long coupled continuation."
+  ],
+  "production_recovery_allowed": false,
+  "outer_solve_allowed": false,
+  "paired_Table4_allowed": false,
+  "goal_complete": false
+}

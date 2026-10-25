@@ -1,0 +1,121 @@
+{
+  "schema": "heatdrive_ecc_single_pipe_intermediate_retirement_v1",
+  "created_at": "2026-10-25T18:47:19.4996196+08:00",
+  "status": "completed",
+  "files": [
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r3_20261025\\component_build\\+ecc_pipe_probe\\observed_pipe.ssc",
+      "bytes": 15419,
+      "sha256": "76E44CE7180789E8049C24741151BD40E7CFF27012FB59A68C5886C37A0A2352"
+    },
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r3_20261025\\component_build\\ecc_pipe_probe_lib.slx",
+      "bytes": 42220,
+      "sha256": "3AB15D870158F2A0D2B9923E5CBCD2443A149758B9F4E99444DF111B6BCBB0D6"
+    },
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r2_20261025\\component_build\\+ecc_pipe_probe\\observed_pipe.ssc",
+      "bytes": 15419,
+      "sha256": "76E44CE7180789E8049C24741151BD40E7CFF27012FB59A68C5886C37A0A2352"
+    },
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r2_20261025\\component_build\\ecc_pipe_probe_lib.slx",
+      "bytes": 42223,
+      "sha256": "7AC3F92443D127B34A8069EDB55B6F56EF787E5E3A9A96DADACB15D0BED39919"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\single_pipe_heat_step_20261025_r3\\single_pipe_runtime_review.json",
+      "bytes": 28315,
+      "sha256": "0D93DE9640940694D4A8C36C435DA05F7BC98A09EB8BA034702AAEFB0469EDC8"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\single_pipe_heat_step_20261025_r3\\Fig01_single_pipe_heat_steps.png",
+      "bytes": 213691,
+      "sha256": "72DFFB9A90574A575BF54FDAE0004D3F33078A0754BDA5EE0088E3916B5A82BF"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\single_pipe_heat_step_20261025_r3\\Fig01_single_pipe_heat_steps.svg",
+      "bytes": 76893,
+      "sha256": "33C747696B6BBFBB9431A38E4A4437133598EC2B3AB19BB7C620D2C453304C64"
+    }
+  ],
+  "protected_files": [
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r3_20261025\\single_pipe_execution.json",
+      "sha256": "902EB5B2A0A30474EAEBDD8AD50F4743421AB426F0353755CBBCDE187000C3C1"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\single_pipe_heat_step_20261025_r3_review2\\single_pipe_runtime_review.json",
+      "sha256": "CA5CE40580558400AF2E2E364328CF73042DAC37382B630FECC5DFA15C1E0F6F"
+    },
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r2_20261025\\single_pipe_execution.json",
+      "sha256": "DDC07E25BE4DBAAAADE8FF2050E84B065BD568A80E55988180FD212BEC1433B7"
+    },
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r1_20261025\\single_pipe_execution.json",
+      "sha256": "6A770BFE90CF9528AE5DA3F16B92A8BFCED7DA1B86BCA56F4A9F6EB5129CA0CD"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\single_pipe_heat_step_20261025_r3_review2\\Fig01_single_pipe_heat_steps.png",
+      "sha256": "72DFFB9A90574A575BF54FDAE0004D3F33078A0754BDA5EE0088E3916B5A82BF"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\single_pipe_heat_step_20261025_r3_review2\\Fig01_single_pipe_heat_steps.svg",
+      "sha256": "4F70CF632D1878D457FF46DD7F2262F0846E102BA7683CECD63B6FFE3CD9A9C4"
+    },
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r3_20261025\\case_01.mat",
+      "sha256": "D9DE6725E09CADFFD61029786619D33B9719344B3B885B94F1ABD83E2296D403"
+    },
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r3_20261025\\case_02.mat",
+      "sha256": "3D04D2B904CAE491E9023789EBA02D4752B4ABFC6F83D18171768A938B47ACE0"
+    },
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r3_20261025\\case_03.mat",
+      "sha256": "50E1E8B30C4A46A779247BD95BF1C4F7F37A462A49D6C5CB0E02D2E246C82340"
+    },
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r3_20261025\\case_04.mat",
+      "sha256": "615F634614FC85FA80341259DC57E0C45983C9F519C24A51A1A29BBA9EB36222"
+    },
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r3_20261025\\case_05.mat",
+      "sha256": "163779C365554C6BB5A10ABB270DFA340B8C25B3427FECB6676F506BA14E87C6"
+    },
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r3_20261025\\case_06.mat",
+      "sha256": "0BEB817DCFAACA2EE8A8F3E391C076B5CAA4B6C324387691F3171637009127EE"
+    },
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r3_20261025\\case_07.mat",
+      "sha256": "55044B1A4D2EC9886807C6C3CD86BBF9883062024FF41C1BB321B86225F832DF"
+    },
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r3_20261025\\case_08.mat",
+      "sha256": "8154F1F307459F5CD230FBCA6EFE036BD61CA387A440E51582AF1A7FE9655318"
+    },
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r3_20261025\\case_09.mat",
+      "sha256": "0A45428B8FE17E07D0E62922B5916408E2A057CE0DFB09455B2A5D559DB5C05D"
+    },
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r3_20261025\\case_10.mat",
+      "sha256": "D248BFB349797000DEC9A8A1042F9A826BDB7EE48C02A9F2F285F3FEE520C0C6"
+    },
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r3_20261025\\case_11.mat",
+      "sha256": "3FA3FBE5A98370226EF7E64AC6A288A74906DB92BD61E2FD4EC3C07D13378994"
+    },
+    {
+      "path": "C:\\tmp\\se21_single_pipe_heat_step_r3_20261025\\case_12.mat",
+      "sha256": "35E975DB5D08B7AAFA56498C5C0335133BCC338F1A453C2E6F89B641303186D1"
+    }
+  ],
+  "retired_bytes": 434180,
+  "basis": "Reproducible generated component/library and superseded derived review; not checkpoint or raw result retirement.",
+  "superseded_review_change": "Port A/B labels made direction neutral; prior numerical equality separately verified; retained PNG byte-identical.",
+  "different_generated_library_bytes_not_claimed_duplicate": true,
+  "production_recovery_allowed": false
+}
