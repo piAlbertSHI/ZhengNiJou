@@ -1,0 +1,126 @@
+{
+  "schema": "heatdrive_ecc_local_boundary_readback_v1",
+  "reader_sha256": "BC43C0E8A068D6F9FE6A8B40B44C1B60DFD7B0F07CEC8BE600D0995D41AEA368",
+  "execution": "C:\\tmp\\se21_local_boundaries_cold_C1_r3_20261026\\local_boundary_execution.json",
+  "execution_sha256": "43642A76BD4FD1B94BAC2C113E44625C21A9906BCB6B3D5D03D5363B23374A47",
+  "raw_sha256": "F999C64EF92141AD49C685DA99E84387E429904014A943BB8CB0196B9BDB4D17",
+  "observations": 201,
+  "control_volumes": [
+    {
+      "CV": "bed_a",
+      "maximum_energy_residual_J": 1.546140993013978e-11,
+      "maximum_mass_residual_kg": 6.938893903907228e-17,
+      "final_inventory_change_J": 22.212706380804505,
+      "final_net_boundary_J": 22.21270638080977
+    },
+    {
+      "CV": "bed_r",
+      "maximum_energy_residual_J": 6.572520305780927e-14,
+      "maximum_mass_residual_kg": 0.0,
+      "final_inventory_change_J": -15.287469233981913,
+      "final_net_boundary_J": -15.287469233981932
+    },
+    {
+      "CV": "shex",
+      "maximum_energy_residual_J": 2.078195393551141e-10,
+      "maximum_mass_residual_kg": 0.0,
+      "final_inventory_change_J": 1050.3779741535513,
+      "final_net_boundary_J": 1050.3779741533435
+    },
+    {
+      "CV": "hhex_a",
+      "maximum_energy_residual_J": 2.022062517426093e-10,
+      "maximum_mass_residual_kg": 0.0,
+      "final_inventory_change_J": 28.22577023379149,
+      "final_net_boundary_J": 28.225770233596677
+    },
+    {
+      "CV": "hhex_r",
+      "maximum_energy_residual_J": 1.0691891816350108e-11,
+      "maximum_mass_residual_kg": 0.0,
+      "final_inventory_change_J": 1.6993868586265841,
+      "final_net_boundary_J": 1.699386858615959
+    },
+    {
+      "CV": "chex",
+      "maximum_energy_residual_J": 2.6009416842498467e-11,
+      "maximum_mass_residual_kg": 0.0,
+      "final_inventory_change_J": -12.618485742333636,
+      "final_net_boundary_J": -12.618485742359564
+    },
+    {
+      "CV": "SMA_total",
+      "maximum_energy_residual_J": 1.8189894035458565e-12,
+      "maximum_mass_residual_kg": 0.0,
+      "final_inventory_change_J": 26.667000169149787,
+      "final_net_boundary_J": 26.66700016914972
+    },
+    {
+      "CV": "SE_total",
+      "maximum_energy_residual_J": 1.9895196601282805e-13,
+      "maximum_mass_residual_kg": 0.0,
+      "final_inventory_change_J": -42.810045359505914,
+      "final_net_boundary_J": -42.81004535950591
+    },
+    {
+      "CV": "water_return",
+      "maximum_energy_residual_J": 1.546140993013978e-11,
+      "maximum_mass_residual_kg": 6.938893903907228e-17,
+      "final_inventory_change_J": 4339.6653804131965,
+      "final_net_boundary_J": 4339.665380413193
+    },
+    {
+      "CV": "hot_chamber",
+      "maximum_energy_residual_J": 2.220446049250313e-16,
+      "maximum_mass_residual_kg": 8.673617379884035e-19,
+      "final_inventory_change_J": 1.0618559176987445,
+      "final_net_boundary_J": 1.0618559176987445
+    },
+    {
+      "CV": "cold_chamber",
+      "maximum_energy_residual_J": 1.0842021724855044e-19,
+      "maximum_mass_residual_kg": 8.673617379884035e-19,
+      "final_inventory_change_J": -4.094998049251775,
+      "final_net_boundary_J": -4.094998049251775
+    },
+    {
+      "CV": "bus_source",
+      "maximum_energy_residual_J": 2.1100277081131935e-10,
+      "maximum_mass_residual_kg": 0.0,
+      "final_inventory_change_J": 37619.999999999985,
+      "final_net_boundary_J": 37620.0000000002
+    },
+    {
+      "CV": "bus_hot",
+      "maximum_energy_residual_J": 2.1400126115622697e-10,
+      "maximum_mass_residual_kg": 0.0,
+      "final_inventory_change_J": 81.73378639535858,
+      "final_net_boundary_J": 81.7337863955645
+    },
+    {
+      "CV": "bus_cold",
+      "maximum_energy_residual_J": 2.602007498353487e-11,
+      "maximum_mass_residual_kg": 0.0,
+      "final_inventory_change_J": -152.60221681115743,
+      "final_net_boundary_J": -152.6022168111315
+    },
+    {
+      "CV": "load_sensor",
+      "maximum_energy_residual_J": 0.0,
+      "maximum_mass_residual_kg": 0.0,
+      "final_inventory_change_J": -16.651524351407865,
+      "final_net_boundary_J": -16.651524351407865
+    }
+  ],
+  "edge_count": 23,
+  "independent_scalar_sum_energy_max_J": 2.1400126115622697e-10,
+  "independent_scalar_sum_mass_max_kg": 6.938893903907228e-17,
+  "all_saved_base_coordinates_bitwise_equal_to_control": true,
+  "accepted_step_count_matches_control": true,
+  "observer_isolation_numerical_control": true,
+  "whole_component_identity_only": true,
+  "all_step_or_independent_physics_validation": false,
+  "material_or_periodic_qualified": false,
+  "production_recovery_allowed": false,
+  "strict_Table4_reproduced": false
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "heatdrive_ecc_local_boundary_round_closeout_v1",
+  "date": "2026-10-26",
+  "final_producer": "71b9a4a34748b7add013ba8e37e63ace9a5dd85d",
+  "final_execution": "C:/tmp/se21_local_boundaries_cold_C1_r3_20261026/local_boundary_execution.json",
+  "final_execution_sha256": "43642A76BD4FD1B94BAC2C113E44625C21A9906BCB6B3D5D03D5363B23374A47",
+  "final_raw_sha256": "F999C64EF92141AD49C685DA99E84387E429904014A943BB8CB0196B9BDB4D17",
+  "final_raw_bytes": 204691,
+  "final_real_session": 46507,
+  "final_natural_exit_code": 0,
+  "final_wall_seconds": 100.35780240001623,
+  "CVs": 15,
+  "edges": 23,
+  "observations": 201,
+  "final_local_energy_residual_max_J": 2.1400126115622697e-10,
+  "independent_scalar_sum_mass_residual_max_kg": 6.938893903907228e-17,
+  "all_saved_physical_coordinates_bitwise_equal_to_reference": true,
+  "accepted_step_count_equal_to_reference": true,
+  "accepted_steps": 13467,
+  "review_sha256": "411478EECD148A46417171295A97579DE62275730751498CC0A1009546386702",
+  "tests_passed": 73,
+  "all_historical_tests_claimed": false,
+  "first_failure": {
+    "path": "C:/tmp/se21_local_boundaries_cold_C1_r1_20261026/FAILED_NOT_A_RECOVERY_SOURCE.json",
+    "sha256": "CD9BFBBF6BD94C92F320C8798DC68FA0E22B3DB1244BED970A0A489F90CFE748",
+    "classification": "reader schema-era mismatch, diagnosed before repair; no integration occurred"
+  },
+  "superseded_intermediate": {
+    "directory": "C:/tmp/se21_local_boundaries_cold_C1_r2_20261026",
+    "execution_sha256": "C61BA6F72CC06ABBDF8F06CD50D4724F660886C83092C2D32BEF400791A38F12",
+    "text_evidence_retained": true,
+    "classification": "same physical cold case, different observer error-control numerics; NOT a duplicate experiment claim"
+  },
+  "retirement": {
+    "path": "C:/tmp/se21_local_boundaries_cold_C1_r2_20261026/selected_local_boundaries.npz",
+    "prior_sha256": "FF8D4564DB1EC4DC070C80461E6DF4851EC71C157B39CEB3EFF011B70AD0DD30",
+    "prechecked_bytes": 204711,
+    "regular_file_and_exact_absolute_path_checked": true,
+    "current_verification_code_references": 0,
+    "action": "single-file native PowerShell Remove-Item after exact hash/type/size checks",
+    "removed_and_absence_verified": true,
+    "released_file_bytes": 204711,
+    "previous_policy_rejected_paths_retried": false
+  },
+  "C200_loaded_or_modified": false,
+  "production_SLX_or_Agent6_touched": false,
+  "MATLAB_processes_touched": false,
+  "scientific_gate_thresholds_changed": false,
+  "material_periodic_pump_or_native_qualification": false,
+  "strict_Table4_reproduced": false,
+  "full_goal_complete": false,
+  "whole_disk_or_worktree_inventory_claimed": false
+}
