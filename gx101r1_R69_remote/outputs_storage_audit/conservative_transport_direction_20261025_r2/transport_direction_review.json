@@ -1,0 +1,1117 @@
+{
+  "schema": "heatdrive_ecc_transport_direction_review_v1",
+  "analysis_source_sha256": "3112BC6A7E1B823D7147C518A5745C05ECE2AB9AA2EF51DCEEBC670BBCBA6B00",
+  "control_execution_path": "C:\\tmp\\se21_conservative_transport_r1_20261025\\transport_execution.json",
+  "control_execution_sha256": "91E3C452638C2E55B66D214BC085230778C8961CA7363B6EED49D6FD59C706C1",
+  "candidate_execution_path": "C:\\tmp\\se21_conservative_transport_MC_r1_20261025\\limited_transport_execution.json",
+  "candidate_execution_sha256": "E935A437C030A6E4BBFC82CF9208C93F33B2C0C516C2F2172D34EACAE81D16C2",
+  "all_22_selected_profile_energy_checks_pass": true,
+  "saved_profiles": [
+    {
+      "method": "unlimited_control",
+      "file": "SMA_n21_dt0.001_upwind2.npz",
+      "sha256": "05A4760658542B07AE4DE0CF7D9D75519A66CC52D1A7CAE899B0CC62E8A8673F",
+      "material": "SMA",
+      "nodes": 21,
+      "dt_s": 0.001,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 8.166037290813222e-13,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.5746854580025702,
+        "saved_time_solid_bound_violation_K": 0.05556013561667499,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 10000,
+        "max_abs_energy_residual_J": 1.2505552149377763e-12,
+        "fluid_deviation_range_K_all_major_steps": [
+          -0.6357642730566003,
+          5.635751072131382
+        ],
+        "transitions": [
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "unlimited_control",
+      "file": "SMA_n42_dt0.001_upwind2.npz",
+      "sha256": "1247BE4E070E15AA553679FFBD36DFBD81116CD02512DF8BB1160495B5CF42AC",
+      "material": "SMA",
+      "nodes": 42,
+      "dt_s": 0.001,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 1.8189894035458565e-12,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.6204469361437505,
+        "saved_time_solid_bound_violation_K": 0.03666815734273313,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 10000,
+        "max_abs_energy_residual_J": 2.2737367544323206e-12,
+        "fluid_deviation_range_K_all_major_steps": [
+          -0.676017282046081,
+          5.67600156769363
+        ],
+        "transitions": [
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "unlimited_control",
+      "file": "SMA_n84_dt0.001_upwind2.npz",
+      "sha256": "2D98399063DBFE04C05BFE525E370DB93C14B0FA6CBF58274E82028DB12B06C1",
+      "material": "SMA",
+      "nodes": 84,
+      "dt_s": 0.001,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 1.1368683772161603e-12,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.7136003319173934,
+        "saved_time_solid_bound_violation_K": 0.024572268748193793,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 10000,
+        "max_abs_energy_residual_J": 1.3642420526593924e-12,
+        "fluid_deviation_range_K_all_major_steps": [
+          -0.7225462185964445,
+          5.722528642533004
+        ],
+        "transitions": [
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "unlimited_control",
+      "file": "SMA_n84_dt0.0005_upwind2.npz",
+      "sha256": "6A53D555796AF8AFD98A7309E72DAE1D6970D1B001589EF942F1D2279F27816D",
+      "material": "SMA",
+      "nodes": 84,
+      "dt_s": 0.0005,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 1.8189894035458565e-12,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.717163398940576,
+        "saved_time_solid_bound_violation_K": 0.02459725730197347,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 20000,
+        "max_abs_energy_residual_J": 3.865352482534945e-12,
+        "fluid_deviation_range_K_all_major_steps": [
+          -0.7252203974864724,
+          5.725202813778896
+        ],
+        "transitions": [
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "unlimited_control",
+      "file": "SMA_n84_dt0.00025_upwind2.npz",
+      "sha256": "FE0152D703C1E851FC4C6BBA5CEDFABFEC3AE5521C2CC0D8AB1C6CFCB0BAF4E4",
+      "material": "SMA",
+      "nodes": 84,
+      "dt_s": 0.00025,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 8.28571239397391e-12,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.7176365338856852,
+        "saved_time_solid_bound_violation_K": 0.024600412013675826,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 40000,
+        "max_abs_energy_residual_J": 8.86757334228605e-12,
+        "fluid_deviation_range_K_all_major_steps": [
+          -0.7258489949334476,
+          5.725831320484744
+        ],
+        "transitions": [
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "unlimited_control",
+      "file": "SMA_n21_dt0.001_upwind1.npz",
+      "sha256": "94018AE9391BDE331363EC6E7E6C8770C972219799E3192BC4C870A7670BD5F2",
+      "material": "SMA",
+      "nodes": 21,
+      "dt_s": 0.001,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 3.979039320256561e-12,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.0,
+        "saved_time_solid_bound_violation_K": 0.0,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 10000,
+        "max_abs_energy_residual_J": 4.206412995699793e-12,
+        "fluid_deviation_range_K_all_major_steps": [
+          0.0,
+          4.999999992207406
+        ],
+        "transitions": [
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "unlimited_control",
+      "file": "SE_n21_dt0.001_upwind2.npz",
+      "sha256": "D53E1D2B8A65791A0BE5D083FBED4963CA165941E9687C77B476F8A0B2E247FA",
+      "material": "SE",
+      "nodes": 21,
+      "dt_s": 0.001,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 1.1013412404281553e-13,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.0,
+        "saved_time_solid_bound_violation_K": 0.0,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 10000,
+        "max_abs_energy_residual_J": 1.4921397450962104e-13,
+        "fluid_deviation_range_K_all_major_steps": [
+          -4.995837215880131,
+          4.996053924443717
+        ],
+        "transitions": [
+          {
+            "time_s": 3.5,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 8.5,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "unlimited_control",
+      "file": "SE_n42_dt0.001_upwind2.npz",
+      "sha256": "00BB43C317F61ED6747A838B58E73DD86BC42CD55CBD93925685D6674938B01C",
+      "material": "SE",
+      "nodes": 42,
+      "dt_s": 0.001,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 9.947598300641403e-14,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.0,
+        "saved_time_solid_bound_violation_K": 0.0,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 10000,
+        "max_abs_energy_residual_J": 1.8474111129762605e-13,
+        "fluid_deviation_range_K_all_major_steps": [
+          -4.998688615238194,
+          4.9987543690704745
+        ],
+        "transitions": [
+          {
+            "time_s": 3.5,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 8.5,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "unlimited_control",
+      "file": "SE_n84_dt0.001_upwind2.npz",
+      "sha256": "19B08DD0A0003A628168DFCDF5C6AF4EC0620AD6A774264A1871A773EDE8B2B2",
+      "material": "SE",
+      "nodes": 84,
+      "dt_s": 0.001,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 7.105427357601002e-14,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.0,
+        "saved_time_solid_bound_violation_K": 0.0,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 10000,
+        "max_abs_energy_residual_J": 8.526512829121202e-14,
+        "fluid_deviation_range_K_all_major_steps": [
+          -4.999474036218788,
+          4.999500177820695
+        ],
+        "transitions": [
+          {
+            "time_s": 3.5,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 8.5,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "unlimited_control",
+      "file": "SE_n84_dt0.0005_upwind2.npz",
+      "sha256": "C122EEBB509059ABE8F98747FDDD95D998E606BFD8442CCDE4602F3371D78938",
+      "material": "SE",
+      "nodes": 84,
+      "dt_s": 0.0005,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 1.4210854715202004e-13,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.0,
+        "saved_time_solid_bound_violation_K": 0.0,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 20000,
+        "max_abs_energy_residual_J": 2.1316282072803006e-13,
+        "fluid_deviation_range_K_all_major_steps": [
+          -4.999474036210978,
+          4.9995001778132195
+        ],
+        "transitions": [
+          {
+            "time_s": 3.5,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 8.5,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "unlimited_control",
+      "file": "SE_n84_dt0.00025_upwind2.npz",
+      "sha256": "F44797036A79CC27AE83E62434335A9FE2B3611721727E22C62A5FD45B1EB447",
+      "material": "SE",
+      "nodes": 84,
+      "dt_s": 0.00025,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 3.410605131648481e-13,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.0,
+        "saved_time_solid_bound_violation_K": 0.0,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 40000,
+        "max_abs_energy_residual_J": 4.547473508864641e-13,
+        "fluid_deviation_range_K_all_major_steps": [
+          -4.999474036210005,
+          4.999500177812287
+        ],
+        "transitions": [
+          {
+            "time_s": 3.5,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 8.5,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "unlimited_control",
+      "file": "SE_n21_dt0.001_upwind1.npz",
+      "sha256": "DBD7B4FED91535F2EA663AA338EED7F7243A1A9F28096672F71285BC92A9969D",
+      "material": "SE",
+      "nodes": 21,
+      "dt_s": 0.001,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 1.0658141036401503e-13,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.0,
+        "saved_time_solid_bound_violation_K": 0.0,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 10000,
+        "max_abs_energy_residual_J": 1.4210854715202004e-13,
+        "fluid_deviation_range_K_all_major_steps": [
+          -4.981350221639815,
+          4.982943248288067
+        ],
+        "transitions": [
+          {
+            "time_s": 3.5,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 8.5,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "MC_candidate",
+      "file": "SMA_n21_dt0.001_MC.npz",
+      "sha256": "7E2C2594E685EEC606DD094A02111FE17CD3DF0361234EECCC2F1D35A4C2265A",
+      "material": "SMA",
+      "nodes": 21,
+      "dt_s": 0.001,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 2.9558577807620168e-12,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.0,
+        "saved_time_solid_bound_violation_K": 0.0,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 10000,
+        "max_abs_energy_residual_J": 4.433786671143025e-12,
+        "fluid_deviation_range_K_all_major_steps": [
+          0.0,
+          4.999999998225022
+        ],
+        "transitions": [
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "MC_candidate",
+      "file": "SMA_n42_dt0.001_MC.npz",
+      "sha256": "13272BEA7F7751F01FE71EDBD9B522DE07CD0FF86474ADA8224EDDDC4D7197ED",
+      "material": "SMA",
+      "nodes": 42,
+      "dt_s": 0.001,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 7.958078640513122e-13,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.0,
+        "saved_time_solid_bound_violation_K": 0.0,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 10000,
+        "max_abs_energy_residual_J": 2.6147972675971687e-12,
+        "fluid_deviation_range_K_all_major_steps": [
+          0.0,
+          4.999999999201922
+        ],
+        "transitions": [
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "MC_candidate",
+      "file": "SMA_n84_dt0.001_MC.npz",
+      "sha256": "14BD7D4FEC7C90875F2DC97D8B480A34D737B8F7DB396198DFE447EDD3801625",
+      "material": "SMA",
+      "nodes": 84,
+      "dt_s": 0.001,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 3.215375882215099e-12,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.0,
+        "saved_time_solid_bound_violation_K": 0.0,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 10000,
+        "max_abs_energy_residual_J": 3.865352482534945e-12,
+        "fluid_deviation_range_K_all_major_steps": [
+          0.0,
+          4.9999999996210835
+        ],
+        "transitions": [
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "MC_candidate",
+      "file": "SMA_n84_dt0.0005_MC.npz",
+      "sha256": "5EFE18A070AB1CE55C91F0ABBCC1F68FC93C41047C5D8091CA7DCCF31EE97AA4",
+      "material": "SMA",
+      "nodes": 84,
+      "dt_s": 0.0005,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 7.048583938740194e-12,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.0,
+        "saved_time_solid_bound_violation_K": 0.0,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 20000,
+        "max_abs_energy_residual_J": 8.412825991399586e-12,
+        "fluid_deviation_range_K_all_major_steps": [
+          0.0,
+          4.999999999621083
+        ],
+        "transitions": [
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "MC_candidate",
+      "file": "SMA_n84_dt0.00025_MC.npz",
+      "sha256": "BEA57B239AFFA37E2399E8DC7789813A353A38D4D94924519740FAFFFD4E900C",
+      "material": "SMA",
+      "nodes": 84,
+      "dt_s": 0.00025,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 7.389644451905042e-12,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.0,
+        "saved_time_solid_bound_violation_K": 0.0,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 40000,
+        "max_abs_energy_residual_J": 8.071765478234738e-12,
+        "fluid_deviation_range_K_all_major_steps": [
+          0.0,
+          4.9999999996210835
+        ],
+        "transitions": [
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "MC_candidate",
+      "file": "SE_n21_dt0.001_MC.npz",
+      "sha256": "F75D1E81AD9003162CCB1DED91B41880EE7BBF76D0A7FF16D91425E20D0E4D08",
+      "material": "SE",
+      "nodes": 21,
+      "dt_s": 0.001,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 8.313350008393172e-13,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.0,
+        "saved_time_solid_bound_violation_K": 0.0,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 10000,
+        "max_abs_energy_residual_J": 8.419931418757187e-13,
+        "fluid_deviation_range_K_all_major_steps": [
+          -4.9974998227651914,
+          4.9976309773019985
+        ],
+        "transitions": [
+          {
+            "time_s": 3.5,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 8.5,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "MC_candidate",
+      "file": "SE_n42_dt0.001_MC.npz",
+      "sha256": "FDE5973B11DB64620AC0518F8B9F6E6F20F489352338F1E72E8724432099789D",
+      "material": "SE",
+      "nodes": 42,
+      "dt_s": 0.001,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 7.673861546209082e-13,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.0,
+        "saved_time_solid_bound_violation_K": 0.0,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 10000,
+        "max_abs_energy_residual_J": 8.739675649849232e-13,
+        "fluid_deviation_range_K_all_major_steps": [
+          -4.998961095549141,
+          4.999012328858958
+        ],
+        "transitions": [
+          {
+            "time_s": 3.5,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 8.5,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "MC_candidate",
+      "file": "SE_n84_dt0.001_MC.npz",
+      "sha256": "CE310627D6D76E86FED9096AC1310487AB932534BF88B737EE5B7F862B5CB4C9",
+      "material": "SE",
+      "nodes": 84,
+      "dt_s": 0.001,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 8.100187187665142e-13,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.0,
+        "saved_time_solid_bound_violation_K": 0.0,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 10000,
+        "max_abs_energy_residual_J": 9.663381206337363e-13,
+        "fluid_deviation_range_K_all_major_steps": [
+          -4.999519416152389,
+          4.999543198376181
+        ],
+        "transitions": [
+          {
+            "time_s": 3.5,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 8.5,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "MC_candidate",
+      "file": "SE_n84_dt0.0005_MC.npz",
+      "sha256": "9AACB4ED4FEFFBC8B8B348C0FD62684D7E01FA4B36B41A50461AF94FF82A3381",
+      "material": "SE",
+      "nodes": 84,
+      "dt_s": 0.0005,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 9.379164112033322e-13,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.0,
+        "saved_time_solid_bound_violation_K": 0.0,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 20000,
+        "max_abs_energy_residual_J": 9.947598300641403e-13,
+        "fluid_deviation_range_K_all_major_steps": [
+          -4.999519419655316,
+          4.999543201647101
+        ],
+        "transitions": [
+          {
+            "time_s": 3.5,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 8.5,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    },
+    {
+      "method": "MC_candidate",
+      "file": "SE_n84_dt0.00025_MC.npz",
+      "sha256": "9CA18A82964673D24F875DA6F8726041597A769713A9ADD95F16783F2DADBDF6",
+      "material": "SE",
+      "nodes": 84,
+      "dt_s": 0.00025,
+      "independent_saved_profile_check": {
+        "saved_time_max_abs_energy_residual_J": 3.126388037344441e-12,
+        "saved_time_energy_pass": true,
+        "saved_time_fluid_bound_violation_K": 0.0,
+        "saved_time_solid_bound_violation_K": 0.0,
+        "all_major_steps_independently_reconstructed": false
+      },
+      "producer_online_monitor": {
+        "steps": 40000,
+        "max_abs_energy_residual_J": 3.126388037344441e-12,
+        "fluid_deviation_range_K_all_major_steps": [
+          -4.999519419062183,
+          4.999543201131456
+        ],
+        "transitions": [
+          {
+            "time_s": 3.5,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 5.0,
+            "all_coordinates_bitwise_unchanged": true
+          },
+          {
+            "time_s": 8.5,
+            "all_coordinates_bitwise_unchanged": true
+          }
+        ],
+        "state_reset_or_reindex_applied": false,
+        "boundary_mass_net_kg_s": 0.0,
+        "mass_basis": "constant density; equal signed mass flow on every face",
+        "energy_basis": "sum(Cf*theta_f+Cs*theta_s)-integrated external boundary energy; BS3 stages",
+        "saved_per_step_full_states": false,
+        "checkpoint_saved": false
+      }
+    }
+  ],
+  "nested_volume_comparisons": [
+    {
+      "method": "unlimited_control",
+      "material": "SMA",
+      "pairs": [
+        {
+          "coarse_nodes": 21,
+          "fine_nodes": 42,
+          "fields": {
+            "fluid": {
+              "max_over_saved_times_mean_abs_difference_K": 0.1682208473121884,
+              "max_over_saved_times_pointwise_difference_K": 0.7286315057835051,
+              "last_saved_time_mean_abs_difference_K": 1.3787199642379567e-07
+            },
+            "solid": {
+              "max_over_saved_times_mean_abs_difference_K": 0.01056234733215761,
+              "max_over_saved_times_pointwise_difference_K": 0.045277889856567964,
+              "last_saved_time_mean_abs_difference_K": 4.526163603378241e-07
+            }
+          },
+          "max_over_saved_times_integrated_boundary_energy_difference_J": 2.802285420011401,
+          "scope": "nested differences, not error to continuum",
+          "interpolation_used": false
+        },
+        {
+          "coarse_nodes": 42,
+          "fine_nodes": 84,
+          "fields": {
+            "fluid": {
+              "max_over_saved_times_mean_abs_difference_K": 0.11784797612054854,
+              "max_over_saved_times_pointwise_difference_K": 0.7568982331058931,
+              "last_saved_time_mean_abs_difference_K": 3.699697431592824e-08
+            },
+            "solid": {
+              "max_over_saved_times_mean_abs_difference_K": 0.004692469115299086,
+              "max_over_saved_times_pointwise_difference_K": 0.0309226950783261,
+              "last_saved_time_mean_abs_difference_K": 1.2132321099687138e-07
+            }
+          },
+          "max_over_saved_times_integrated_boundary_energy_difference_J": 1.087309478122961,
+          "scope": "nested differences, not error to continuum",
+          "interpolation_used": false
+        }
+      ]
+    },
+    {
+      "method": "unlimited_control",
+      "material": "SE",
+      "pairs": [
+        {
+          "coarse_nodes": 21,
+          "fine_nodes": 42,
+          "fields": {
+            "fluid": {
+              "max_over_saved_times_mean_abs_difference_K": 0.026698217358236066,
+              "max_over_saved_times_pointwise_difference_K": 0.05079138829766672,
+              "last_saved_time_mean_abs_difference_K": 0.010917484738970059
+            },
+            "solid": {
+              "max_over_saved_times_mean_abs_difference_K": 0.021226931754920218,
+              "max_over_saved_times_pointwise_difference_K": 0.05020091298892071,
+              "last_saved_time_mean_abs_difference_K": 0.010256076195800651
+            }
+          },
+          "max_over_saved_times_integrated_boundary_energy_difference_J": 0.20698337414104628,
+          "scope": "nested differences, not error to continuum",
+          "interpolation_used": false
+        },
+        {
+          "coarse_nodes": 42,
+          "fine_nodes": 84,
+          "fields": {
+            "fluid": {
+              "max_over_saved_times_mean_abs_difference_K": 0.008239661156331932,
+              "max_over_saved_times_pointwise_difference_K": 0.026397615143004316,
+              "last_saved_time_mean_abs_difference_K": 0.0032714375227437557
+            },
+            "solid": {
+              "max_over_saved_times_mean_abs_difference_K": 0.0062584627605532265,
+              "max_over_saved_times_pointwise_difference_K": 0.013902437100958842,
+              "last_saved_time_mean_abs_difference_K": 0.0031958677097060815
+            }
+          },
+          "max_over_saved_times_integrated_boundary_energy_difference_J": 0.049247031892605264,
+          "scope": "nested differences, not error to continuum",
+          "interpolation_used": false
+        }
+      ]
+    },
+    {
+      "method": "MC_candidate",
+      "material": "SMA",
+      "pairs": [
+        {
+          "coarse_nodes": 21,
+          "fine_nodes": 42,
+          "fields": {
+            "fluid": {
+              "max_over_saved_times_mean_abs_difference_K": 0.05384028816562846,
+              "max_over_saved_times_pointwise_difference_K": 0.3525333783755935,
+              "last_saved_time_mean_abs_difference_K": 3.525746040416107e-08
+            },
+            "solid": {
+              "max_over_saved_times_mean_abs_difference_K": 0.004405504518720599,
+              "max_over_saved_times_pointwise_difference_K": 0.020192416233226318,
+              "last_saved_time_mean_abs_difference_K": 1.2477338420928722e-07
+            }
+          },
+          "max_over_saved_times_integrated_boundary_energy_difference_J": 0.17408002408393486,
+          "scope": "nested differences, not error to continuum",
+          "interpolation_used": false
+        },
+        {
+          "coarse_nodes": 42,
+          "fine_nodes": 84,
+          "fields": {
+            "fluid": {
+              "max_over_saved_times_mean_abs_difference_K": 0.03346216249907843,
+              "max_over_saved_times_pointwise_difference_K": 0.4625246044849511,
+              "last_saved_time_mean_abs_difference_K": 1.0826694393415055e-08
+            },
+            "solid": {
+              "max_over_saved_times_mean_abs_difference_K": 0.001734414311181443,
+              "max_over_saved_times_pointwise_difference_K": 0.014707019008333155,
+              "last_saved_time_mean_abs_difference_K": 3.8244688757719354e-08
+            }
+          },
+          "max_over_saved_times_integrated_boundary_energy_difference_J": 0.06876599936703087,
+          "scope": "nested differences, not error to continuum",
+          "interpolation_used": false
+        }
+      ]
+    },
+    {
+      "method": "MC_candidate",
+      "material": "SE",
+      "pairs": [
+        {
+          "coarse_nodes": 21,
+          "fine_nodes": 42,
+          "fields": {
+            "fluid": {
+              "max_over_saved_times_mean_abs_difference_K": 0.007643150376947614,
+              "max_over_saved_times_pointwise_difference_K": 0.01619809697037855,
+              "last_saved_time_mean_abs_difference_K": 0.0035984825257341104
+            },
+            "solid": {
+              "max_over_saved_times_mean_abs_difference_K": 0.006282781182191975,
+              "max_over_saved_times_pointwise_difference_K": 0.01415873373247667,
+              "last_saved_time_mean_abs_difference_K": 0.0031812457606966
+            }
+          },
+          "max_over_saved_times_integrated_boundary_energy_difference_J": 0.029211644500875877,
+          "scope": "nested differences, not error to continuum",
+          "interpolation_used": false
+        },
+        {
+          "coarse_nodes": 42,
+          "fine_nodes": 84,
+          "fields": {
+            "fluid": {
+              "max_over_saved_times_mean_abs_difference_K": 0.002539222581767608,
+              "max_over_saved_times_pointwise_difference_K": 0.00944585835274303,
+              "last_saved_time_mean_abs_difference_K": 0.000922395072394795
+            },
+            "solid": {
+              "max_over_saved_times_mean_abs_difference_K": 0.0016865268588228293,
+              "max_over_saved_times_pointwise_difference_K": 0.004986388306485345,
+              "last_saved_time_mean_abs_difference_K": 0.0008101230194876895
+            }
+          },
+          "max_over_saved_times_integrated_boundary_energy_difference_J": 0.007130427914628257,
+          "scope": "nested differences, not error to continuum",
+          "interpolation_used": false
+        }
+      ]
+    }
+  ],
+  "nonlinear_time_references": [
+    {
+      "material": "SMA",
+      "file": "SMA_n84_MC_DOP853_reference.npz",
+      "sha256": "AE1C07C0B09818DBCD3F33253DFC02F7D25D52CA2AD15867A18CDE48DE54FC9B",
+      "bytes": 16455,
+      "rtol": 1e-10,
+      "atol": 1e-12,
+      "max_steps_compared_s": [
+        0.001,
+        0.0005
+      ],
+      "max_temperature_difference_K_at_saved_times": 1.03054308198125e-07,
+      "RHS_evaluations": [
+        162619,
+        280147
+      ],
+      "same_nonlinear_spatial_operator_not_physical_validation": true,
+      "errors_recomputed_from_raw": [
+        0.002921837889617418,
+        0.0004211134122660276,
+        9.151549960698807e-05
+      ]
+    },
+    {
+      "material": "SE",
+      "file": "SE_n84_MC_DOP853_reference.npz",
+      "sha256": "240249C13478538D5F06499F4C5097CEA6A42D6F4B947C3FD3ABF9E13DB2C5E4",
+      "bytes": 9628,
+      "rtol": 1e-10,
+      "atol": 1e-12,
+      "max_steps_compared_s": [
+        0.001,
+        0.0005
+      ],
+      "max_temperature_difference_K_at_saved_times": 5.376399325740522e-10,
+      "RHS_evaluations": [
+        142187,
+        260435
+      ],
+      "same_nonlinear_spatial_operator_not_physical_validation": true,
+      "errors_recomputed_from_raw": [
+        4.482747710810031e-06,
+        1.6153430149046244e-06,
+        2.4993732061773244e-07
+      ]
+    }
+  ],
+  "unlimited_decision": "do not promote unlimited sharp-front transport to phase-coupled path; numerical overshoot remains at smaller dt and in semidiscrete expm",
+  "MC_decision": "provisional conservative bounded-front candidate; not a literal Q01 algorithm or complete-cycle qualification",
+  "current_direction": "retain fixed physical inventories and shared fluxes; use an explicitly named limited reconstruction for robust reference development, with smooth and front error budgets separated",
+  "unresolved": [
+    "SMA front pointwise grid differences are not decreasing at every refinement",
+    "nonlinear limiter switching reduces observed temporal orders; no blanket third-order assertion",
+    "all-step solid bound was not separately logged; only saved solid profiles can be rechecked",
+    "temperature-dependent enthalpy/mass law",
+    "SMA/SE transformation surfaces and probability coefficients",
+    "full mechanical coupling and cycle boundary topology",
+    "buffer/accessory/pump budgets",
+    "C200 compatible recovery",
+    "periodic outer solve and paired Table4"
+  ],
+  "scientific_gates_modified": false,
+  "production_recovery_allowed": false,
+  "full_coupled_qualification": false,
+  "outer_solve_allowed": false,
+  "Table4_reproduction_claim": false,
+  "raw_npz_bytes_retained": 273296,
+  "raw_retention": "26 small files, distinct methods/grids/time references; no duplicates claimed, no per-step checkpoints",
+  "deletion_performed": false
+}

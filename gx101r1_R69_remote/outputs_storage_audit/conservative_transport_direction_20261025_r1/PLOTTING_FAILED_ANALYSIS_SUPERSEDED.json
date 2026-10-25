@@ -1,0 +1,19 @@
+{
+  "schema": "heatdrive_ecc_plotting_failure_retirement_v1",
+  "producer": "017f7e6",
+  "exit_code": 1,
+  "cause": "Naive recursive Text traversal included an out-of-view tick label -0.2 that Matplotlib does not render.",
+  "failure_scope": "plot text-bound QA, after successful independent raw readback; neither simulation was rerun",
+  "repair_commit": "a32876d",
+  "replacement_review": "../conservative_transport_direction_20261025_r2/transport_direction_review.json",
+  "replacement_review_sha256": "0E43D7958CD4101729B127BB184AEE12FF2A0DC46E4D29357236052600C62F68",
+  "superseded_file": "transport_direction_review.json",
+  "superseded_bytes": 43089,
+  "superseded_sha256": "B6E213A2E1FE52147A07FAEFB8A033774F27B7960CCA7541B679C2A663FDF97C",
+  "content_comparison": "Parsed documents differ only in analysis_source_sha256; all data, conclusions and raw references match. Not called a byte-identical duplicate.",
+  "retirement_status": "completed_after_hash_path_and_parsed_content_check",
+  "retired_bytes": 43089,
+  "superseded_file_absent_verified": true,
+  "scientific_raw_data_deleted": false,
+  "failed_attempt_source_preserved_in_Git": true
+}

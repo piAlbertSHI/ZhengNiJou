@@ -1,0 +1,88 @@
+{
+  "schema": "heatdrive_ecc_transport_round_closeout_v1",
+  "date": "2026-10-25",
+  "status": "bounded_transport_candidate_demonstrated_not_full_coupled_qualification",
+  "producer_commits": {
+    "unlimited": "fd3c094031507a67a82d1f5e639f18e18e27293b",
+    "MC": "dfdf842",
+    "independent_reader": "a32876d"
+  },
+  "execution_packets": [
+    {
+      "path": "C:/tmp/se21_conservative_transport_r1_20261025/transport_execution.json",
+      "sha256": "91E3C452638C2E55B66D214BC085230778C8961CA7363B6EED49D6FD59C706C1",
+      "real_session": 37887,
+      "natural_exit_code": 0,
+      "cases": 12,
+      "wall_seconds": 50.857347999932244,
+      "raw_npz_bytes": 141364,
+      "adoption_decision": "unlimited sharp-front transport not promoted; retain negative evidence"
+    },
+    {
+      "path": "C:/tmp/se21_conservative_transport_MC_r1_20261025/limited_transport_execution.json",
+      "sha256": "E935A437C030A6E4BBFC82CF9208C93F33B2C0C516C2F2172D34EACAE81D16C2",
+      "real_session": 4714,
+      "natural_exit_code": 0,
+      "cases": 10,
+      "wall_seconds": 200.2456801000517,
+      "raw_npz_bytes": 131932,
+      "adoption_decision": "provisional MC reference candidate, not production qualification"
+    }
+  ],
+  "review": "transport_direction_review.json",
+  "review_sha256": "0E43D7958CD4101729B127BB184AEE12FF2A0DC46E4D29357236052600C62F68",
+  "figure_manifest": "figures/figure_manifest.json",
+  "figure_manifest_sha256": "E1A5B23C5C40CD360542D24C7F58C542F52BA34A4618818D8916C6DB34D28B7A",
+  "figures_visually_checked": 2,
+  "targeted_tests_passed": 118,
+  "new_tests_this_round": 25,
+  "full_historical_suite_rerun": false,
+  "all_22_selected_profile_energy_checks_pass": true,
+  "online_all_major_step_numerical_energy_checks_pass": true,
+  "maximum_online_energy_residual_J": 8.86757334228605e-12,
+  "unchanged_component_energy_tolerance_J": 1e-8,
+  "unlimited_SMA_n84_dt0p25ms_fluid_range_K_relative_to_303p15K": [-0.7258489949334476, 5.725831320484744],
+  "MC_observed_fluid_bound_violation_K_all_major_steps": 0.0,
+  "solid_bounds_independently_rechecked_at_saved_times_only": true,
+  "same_nonlinear_MC_operator_uses_DOP853_not_matrix_exponential": true,
+  "MC_n84_temporal_reference_refinement_difference_K": {"SMA": 1.03054308198125e-7, "SE": 5.376399325740522e-10},
+  "numerical_scope": "constant-property fixed physical inventories, shared face fluxes, conjugate sensible heat only",
+  "phase_change_and_mechanical_coupling_simulated": false,
+  "pressure_controller_or_pump_capability_simulated": false,
+  "full_Q01_boundary_or_stencil_equivalence_claim": false,
+  "full_cycle_grid_convergence_claim": false,
+  "blanket_MC_third_order_time_convergence_claim": false,
+  "temperature_or_phase_clipping": false,
+  "input_smoothing": false,
+  "production_SLX_or_Agent6_modified": false,
+  "C200_result_sha256_reverified": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD",
+  "C200_OP_sha256_reverified": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816",
+  "C200_current_model_strict_restore_compatibility": false,
+  "raw_retention": {
+    "files": 26,
+    "npz_bytes": 273296,
+    "classification": "compact numerical reproduction/negative-result evidence, no checkpoints",
+    "each_actual_trial_raw_copy_count": 1,
+    "raw_npz_copied_to_Git": false,
+    "full_per_step_states_or_OP_saved": false,
+    "metadata_and_selected_figures_in_Git": true,
+    "obsolete_plotting_draft_retirement": "see ../conservative_transport_direction_20261025_r1/PLOTTING_FAILED_ANALYSIS_SUPERSEDED.json"
+  },
+  "retired_obsolete_plotting_draft_bytes": 43089,
+  "scientific_raw_or_checkpoints_deleted_this_round": false,
+  "source_references": [
+    {"id": "Q01", "path": "C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/A heat driven elastocaloric cooling system..pdf", "DOI": "10.1016/j.energy.2019.06.094", "pages_read_this_round": [3, 5], "scope": "solid/fluid energy equations and numerical-method statement"},
+    {"title": "Fixed-Step Solvers in Simulink", "url": "https://www.mathworks.com/help/simulink/ug/fixed-step-solvers-in-simulink.html"},
+    {"title": "SciPy expm_multiply", "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.expm_multiply.html"},
+    {"title": "Clawpack MC limiter", "url": "https://www.clawpack.org/pyclaw/evolve/limiters.html", "scope": "standard limiter reference, not a claim that Clawpack executes these trials"}
+  ],
+  "next_work": [
+    "Implement an explicit variable-property conservative enthalpy contract before extending the sensible candidate to the 90K heat-source range; distinguish fixed mass vs compressible inventory laws.",
+    "Resolve Q01 material completion surfaces and transition-probability coefficients, then couple SMA/SE thermal-mechanical phase power without fitting Table4 endpoints.",
+    "Carry the new path through common-cycle cold mechanism, distributed periodicity and all component energy budgets before outer solve and paired endpoints."
+  ],
+  "production_recovery_allowed": false,
+  "outer_solve_allowed": false,
+  "paired_Table4_allowed": false,
+  "goal_complete": false
+}
