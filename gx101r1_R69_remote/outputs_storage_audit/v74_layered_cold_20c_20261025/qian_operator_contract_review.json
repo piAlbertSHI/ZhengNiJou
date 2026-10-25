@@ -1,0 +1,41 @@
+{
+  "schema": "heatdrive_ecc_qian_operator_contract_review_v1",
+  "review_only": true,
+  "scientific_gate_modified": false,
+  "running_model_modified": false,
+  "new_simulation_executed": false,
+  "performance_gap_cause_proven": false,
+  "production_recovery_allowed": false,
+  "references": [
+    {"id": "Q01", "path": "C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/A heat driven elastocaloric cooling system..pdf", "sha256": "2D0EB5F84AA515BA651638974414D426A3806FD417A1EAD96EFA36EDA08034CC", "complete_text_pages_read": [3,5,6], "rendered_page_checked": 6},
+    {"id": "Q04", "path": "C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/2017）Numerical_modeling_of_an_active_elastocaloric_regenerator_refrigerator_with_phase_transformation_kinetics_and_the_matching_principle_for_materials.pdf", "sha256": "E7F35A64B99887B85874DB4A80CAA128E53B629767E740D0B6074A9C6E28000E", "complete_text_pages_read": [5], "rendered_page_checked": 5},
+    {"id": "Q05", "path": "C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/2014.8钱苏昕（固态冷却高效热回收循环的研究）Study on high efficient heat recovery cycle for solid-state cooling.pdf", "sha256": "504AD4390B03235455E7E05ABAD6537E855A7E893F7597E1DC10A222E4C4F399", "complete_text_pages_read": [7,8]}
+  ],
+  "installed_operator_sources": [
+    {"path": "C:/Program Files/MATLAB/R2025b/toolbox/physmod/simscape/library/m/+foundation/+thermal_liquid/+elements/pipe.ssc", "sha256": "CC478BAB8A9B5DD6156ACE2239BF837FE0849843EF5BDBFE6F55C315343FAC3E"},
+    {"path": "C:/Program Files/MATLAB/R2025b/toolbox/physmod/simscape/library/m/+foundation/+thermal_liquid/+elements/pipe_convection.ssc", "sha256": "366B69CB32DD3FC08D2323CF69EFA587FE0786869EC6A3AB2AEA2A6761F2369F"}
+  ],
+  "observed_configuration": {
+    "path": "C:/tmp/se21_v74_layered_cold_20c_r1_20261025/native/configuration.mat",
+    "sha256": "CF93E644F3A09DE7A21337BF7F7E83FDDA654E81693F9DCCF5D91D3B2EAAC384",
+    "sma_pipe_Nu": 4.365993493890937,
+    "se_pipe_Nu": 3.66,
+    "active_thermal_gate_G_W_per_K": 1000000,
+    "sma_Nu_source": "Build_HeatDriveECC_EighthRound_Defaults.compute_article_heat_exchanger_closure: Q04 Eq.15 entrance correction",
+    "mask_UA_check_scope": "Nu*k/Dh*wetted_area and mask expressions; not full runtime heat-transfer operator equivalence"
+  },
+  "confirmed_distinctions": [
+    "Q01 specifies ODE3 and 0.001 s, so that numerical contract is not arbitrary.",
+    "Q01 Table 2 specifies forced h=3.66*k/Dh; the current SMA coefficient additionally uses Q04 entrance correction.",
+    "Q04 explicitly prescribes step flow without transient momentum equations; Q01 Fig.2 takes SMA/SE flow profiles as control variables. A pressure PI realization is an additional implementation, not demonstrated as the unique paper requirement.",
+    "Installed Pipe computes Q_H as Q_conv+Q_cond. Q_conv uses an inlet/wall finite-NTU formula and Reynolds-dependent correlations; Q_cond is a separate k*S/Dh term. A Nu mask match alone cannot prove the Q01 h*S*(Ts-Tf) operator.",
+    "Q01 uses second-order upwind convection and central diffusion. Equivalence of the 21-cell native TL pipe network to that discretization has not been established.",
+    "Q05 requires a cyclically repeating distributed fluid temperature profile for the ideal heat-recovery analysis, not only a repeatable mean buffer temperature. Its ideal boundary must not be transferred to Q01 as a universal gate."
+  ],
+  "next_discriminating_tests": [
+    "Single-cell uniform-state and heat-step comparison with common geometry, actual fluid tables and both heat-flux signs; separately identify native Q_conv/Q_cond and the reference h*S term.",
+    "Closed, common-inventory advection-front test with no phase change, checking energy, residence time and grid dependence; do not infer spatial order from block count.",
+    "Separate prescribed-flow reference physics from pressure-controller engineering feasibility without resetting or replacing the current chain.",
+    "Only after operator/state contracts are established, proceed to fixed-Tc outer solve and physical-parameter sensitivities."
+  ]
+}
