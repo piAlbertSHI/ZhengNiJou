@@ -14,11 +14,11 @@ import traceback
 import h5py
 import numpy as np
 import scipy
-from scipy.integrate import RK23
 
 from Audit_HeatDriveECC_NativeAccumulation import energy_tables
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from Reference_HeatDriveECC_CaloricCoupling import CaloricFluid, CaloricCycle
+from Reference_HeatDriveECC_CompensatedBS3 import CompensatedBS3
 from Run_HeatDriveECC_ConservativeTransport import write_json
 from Run_HeatDriveECC_EnthalpyTransport import load_inputs
 
@@ -111,6 +111,7 @@ def simulate(model, cycles, max_step, rtol=1e-8, stage_sink=None):
         raise ValueError("BS3 directional phase interval requires dt*max_rate <= 1")
     y0 = model.initial_state()
     y = y0.copy()
+    summation_remainder = np.zeros_like(y)
     samples, clocks, stages, transitions, cycle_rows = [y.copy()], [0.], [1], [], []
     start, evaluations, accepted = 0., 0, 0
     maxima = {"net_energy_residual_J": 0., "SE_mass_residual_kg": 0., "mechanical_exchange_residual_J": 0.,
@@ -135,8 +136,8 @@ def simulate(model, cycles, max_step, rtol=1e-8, stage_sink=None):
                     model.evaluate(y, test_stage)
                 transitions.append({"time_s": start, "to_stage": stage,
                                     "state_bitwise_unchanged": bool(np.array_equal(old, y))})
-            solver = RK23(lambda t, v: model.evaluate(v, stage)[0], start, y, end,
-                          max_step=max_step, rtol=rtol, atol=atol)
+            solver = CompensatedBS3(lambda t, v: model.evaluate(v, stage)[0], start, y, end,
+                                   max_step=max_step, rtol=rtol, atol=atol, compensation=summation_remainder)
             next_sample = start+.05
             while solver.status == "running":
                 message = solver.step()
@@ -166,6 +167,7 @@ def simulate(model, cycles, max_step, rtol=1e-8, stage_sink=None):
             evaluations += solver.nfev
             if solver.t != end:
                 raise RuntimeError("Stage endpoint was not reached")
+            summation_remainder = solver.compensation.copy()
             clocks.append(end)
             samples.append(y.copy())
             stages.append(stage)
@@ -203,6 +205,7 @@ def simulate(model, cycles, max_step, rtol=1e-8, stage_sink=None):
 def run(output, control, witness, metadata, cycles, max_step, rtol=1e-8):
     output.mkdir(parents=True, exist_ok=False)
     source_names = ["Reference_HeatDriveECC_CaloricCoupling.py", "Run_HeatDriveECC_CaloricCycle.py",
+        "Reference_HeatDriveECC_CompensatedBS3.py",
         "Reference_HeatDriveECC_ConservativeTransport.py", "Run_HeatDriveECC_ConservativeTransport.py",
         "Run_HeatDriveECC_EnthalpyTransport.py", "Reference_HeatDriveECC_EnthalpyTransport.py",
         "Run_HeatDriveECC_LimitedTransport.py", "Audit_HeatDriveECC_NativeAccumulation.py",
@@ -212,7 +215,8 @@ def run(output, control, witness, metadata, cycles, max_step, rtol=1e-8):
         "source_sha256": {name: sha256(Path(__file__).with_name(name)) for name in source_names},
         "runtime": {"python": platform.python_version(), "scipy": scipy.__version__, "numpy": np.__version__},
         "cold_start_all_temperature_K": 303.15, "initial_phase": {"SMA_xM": 1., "SE_xM": 0.},
-        "integration": "monolithic adaptive RK23/BS3 with exact stage stops, not fixed paper ODE3",
+        "integration": "monolithic adaptive compensated BS3 with exact stage stops, not fixed paper ODE3",
+        "summation_compensation": "uniform accepted-increment Kahan addition for every coordinate; no inventory-residual feedback",
         "requested_cycles": cycles, "max_step_s": max_step, "requested_rtol": rtol,
         "production_state_loaded": False, "checkpoint_saved": False,
         "production_recovery_allowed": False, "outer_solve_allowed": False, "Table4_reproduction_claim": False,
