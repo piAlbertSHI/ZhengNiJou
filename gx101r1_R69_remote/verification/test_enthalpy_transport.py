@@ -186,6 +186,24 @@ class EnthalpyTransportTests(unittest.TestCase):
         self.assertGreater(diagnostics["unaccepted_nonlinear_unknown_polish_iterations"], 0)
         self.assertLessEqual(diagnostics["max_nonlinear_energy_residual_J"], diagnostics["roundoff_scaled_residual_allowance_J"])
 
+    def test_minpack_QR_orientation_recovers_independent_linear_Jacobian(self):
+        from scipy.optimize import root
+        from Reference_HeatDriveECC_ConstrainedEnthalpy import minpack_jacobian
+        a = np.array([[2., 3.], [-4., 5.]])
+        solution = root(lambda x: a@x-np.array([1., 2.]), [0., 0.])
+        np.testing.assert_allclose(minpack_jacobian(solution), a, rtol=0, atol=1e-10)
+
+    def test_numerical_Jacobian_recycling_does_not_change_physical_trajectory(self):
+        from Reference_HeatDriveECC_ConstrainedEnthalpy import constrained_midpoint_step
+        bed = test_bed()
+        baseline, cached = bed.initial_state(), bed.initial_state()
+        memory = {}
+        for command in (.0032, .0032, -.0032, -.0032):
+            baseline, _ = constrained_midpoint_step(bed, baseline, command, 393.15, 303.15, .001)
+            cached, info = constrained_midpoint_step(bed, cached, command, 393.15, 303.15, .001, memory)
+            np.testing.assert_allclose(cached, baseline, rtol=0, atol=1e-10)
+        self.assertTrue(info["numerical_Jacobian_reused"])
+
 
 if __name__ == "__main__":
     unittest.main()

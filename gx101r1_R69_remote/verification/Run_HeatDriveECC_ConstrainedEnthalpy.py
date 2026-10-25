@@ -29,6 +29,7 @@ def run_case(bed, material, flow, dt, stop, samples):
     profiles, temperatures, pressures, times = [], [], [], []
     max_mass, max_energy, max_pressure, max_residual, min_T, max_T = 0., 0., 0., 0., bed.eos.Tref, bed.eos.Tref
     nonlinear_evaluations, small_residual_non_success = 0, 0
+    numerical_cache, reused_jacobians = {}, 0
     transitions = []
     def save(t):
         obs = bed.unpack(state)
@@ -45,7 +46,7 @@ def run_case(bed, material, flow, dt, stop, samples):
             # supplied unchanged to the next conservative nonlinear solve.
             transitions.append({"time_s": index*dt, "all_coordinates_bitwise_unchanged": bool(np.array_equal(before, state))})
         command = flow if index < half else -flow
-        candidate, solve = constrained_midpoint_step(bed, state, command, left, right, dt)
+        candidate, solve = constrained_midpoint_step(bed, state, command, left, right, dt, numerical_cache)
         state = candidate
         obs = bed.unpack(state)
         max_mass = max(max_mass, abs(float(state[:n].sum()-mass0-state[-2])))
@@ -54,6 +55,7 @@ def run_case(bed, material, flow, dt, stop, samples):
         max_residual = max(max_residual, solve["max_nonlinear_energy_residual_J"])
         min_T, max_T = min(min_T, float(obs["T"].min())), max(max_T, float(obs["T"].max()))
         nonlinear_evaluations += solve["RHS_evaluations"]
+        reused_jacobians += int(solve["numerical_Jacobian_reused"])
         small_residual_non_success += int(not solve["nonlinear_success_flag"])
         if index+1 in wanted:
             save((index+1)*dt)
@@ -70,6 +72,8 @@ def run_case(bed, material, flow, dt, stop, samples):
         "pressure_numerical_1Pa_target_pass": max_pressure <= 1.,
         "fluid_temperature_range_K_all_major_steps": [min_T, max_T],
         "nonlinear_RHS_evaluations": nonlinear_evaluations,
+        "steps_reusing_numerical_Jacobian": reused_jacobians,
+        "numerical_cache_saved_as_checkpoint": False,
         "non_success_flags_with_independently_accepted_roundoff_residual": small_residual_non_success,
         "net_mass_integral_kg": float(state[-2]), "net_energy_integral_J": float(state[-1]),
         "transitions": transitions, "production_state_loaded": False,
@@ -97,6 +101,7 @@ def run(output, control_root, fluid_execution, study):
         "mass_tolerance_kg": MASS_TOL_KG, "energy_tolerance_J": ENERGY_TOL_J,
         "pressure_numerical_target_Pa": 1., "pressure_target_is_a_paper_mechanism_gate": False,
         "same_rho_u_tables_and_heat_law_as_explicit_and_adaptive_trials": True,
+        "numerical_Jacobian_recycling": "MINPACK final QR; invalidated at flow reversal; no physical or PI state cached/reset",
         "production_state_loaded": False, "checkpoint_saved": False, "production_recovery_allowed": False,
         "full_coupled_qualification": False, "outer_solve_allowed": False, "Table4_reproduction_claim": False,
         "sealed_dwell_supported": False, "phase_or_mechanical_power_included": False,

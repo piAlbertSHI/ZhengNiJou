@@ -11,7 +11,15 @@ from scipy.optimize import root
 from Reference_HeatDriveECC_ConservativeTransport import advective_faces, conductive_faces
 
 
-def constrained_midpoint_step(bed, old_state, command, left_K, right_K, dt):
+def minpack_jacobian(solution):
+    """Recover the final approximate Jacobian from SciPy/MINPACK QR output."""
+    size = len(solution.x)
+    upper = np.zeros((size, size))
+    upper[np.triu_indices(size)] = solution.r
+    return solution.fjac.T @ upper
+
+
+def constrained_midpoint_step(bed, old_state, command, left_K, right_K, dt, numerical_cache=None):
     if not np.isfinite(dt) or dt <= 0 or command == 0 or not np.isfinite(command):
         raise ValueError("Require a positive step and an active finite inlet command")
     n, eos = bed.nodes, bed.eos
@@ -61,7 +69,10 @@ def constrained_midpoint_step(bed, old_state, command, left_K, right_K, dt):
     scale = np.r_[np.full(n, bed.geometry.fluid_capacity), np.full(n, bed.geometry.solid_capacity)]
     def objective(unknown):
         return endpoint_and_residual(unknown)[0]/scale
-    solution = root(objective, np.r_[old_T, old_solid], method="hybr", options={"xtol": 1e-12})
+    signature = (n, command, dt)
+    reused = numerical_cache is not None and numerical_cache.get("signature") == signature
+    jacobian_hint = (lambda _: numerical_cache["jacobian"]) if reused else None
+    solution = root(objective, np.r_[old_T, old_solid], method="hybr", jac=jacobian_hint, options={"xtol": 1e-12})
     unknown = solution.x.copy()
     residual, mass1, energy1, solid1, dm, de = endpoint_and_residual(unknown)
     max_residual = float(np.max(abs(residual)))
@@ -98,11 +109,17 @@ def constrained_midpoint_step(bed, old_state, command, left_K, right_K, dt):
             break
     if not np.isfinite(unknown).all() or max_residual > allowance:
         raise RuntimeError(f"Conservative nonlinear residual {max_residual:g} J exceeds {allowance:g} J: {solution.message}")
+    if numerical_cache is not None:
+        updated = jacobian/scale[:, None] if polish_iterations else minpack_jacobian(solution)
+        if not np.isfinite(updated).all():
+            raise RuntimeError("Invalid numerical Jacobian cache; no physical state accepted")
+        numerical_cache.update(signature=signature, jacobian=updated.copy())
     state = np.r_[mass1, energy1, solid1, old_state[-2]+dm, old_state[-1]+de]
     observed = bed.unpack(state)
     return state, {"nonlinear_success_flag": bool(solution.success), "nonlinear_message": str(solution.message),
         "RHS_evaluations": int(solution.nfev)+polish_evaluations, "max_nonlinear_energy_residual_J": max_residual,
         "unaccepted_nonlinear_unknown_polish_iterations": polish_iterations,
+        "numerical_Jacobian_reused": reused,
         "roundoff_scaled_residual_allowance_J": allowance,
         "max_endpoint_pressure_deviation_Pa": float(np.max(abs(observed["p"]-eos.pref))),
         "integrated_mass_boundary_increment_kg": dm, "integrated_energy_boundary_increment_J": de,
