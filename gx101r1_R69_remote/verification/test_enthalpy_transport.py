@@ -91,6 +91,16 @@ class EnthalpyTransportTests(unittest.TestCase):
         self.assertAlmostEqual(a.initial_state()[:6].sum(), b.initial_state()[:12].sum(), places=16)
         self.assertEqual(a.geometry.solid_capacity*6, b.geometry.solid_capacity*12)
 
+    def test_adaptive_reference_preserves_ledgers_and_observes_pressure_without_projection(self):
+        from Run_HeatDriveECC_EnthalpyReference import adaptive_case
+        arrays, record = adaptive_case(test_bed(), .0032, "SMA", .01, 1e-10, np.array([0., .005, .01]))
+        self.assertTrue(record["mass_numerical_invariant_pass"])
+        self.assertTrue(record["energy_numerical_invariant_pass"])
+        self.assertTrue(record["pressure_invariant_numerical_target_pass"])
+        self.assertFalse(record["state_or_pressure_projection_applied"])
+        self.assertTrue(record["transitions"][0]["all_coordinates_bitwise_unchanged"])
+        np.testing.assert_array_equal(arrays["time_s"], [0., .005, .01])
+
 
 if __name__ == "__main__":
     unittest.main()
