@@ -30,17 +30,20 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder)
         assert(strcmp(record.native_source_sha256, ...
             'CC478BAB8A9B5DD6156ACE2239BF837FE0849843EF5BDBFE6F55C315343FAC3E'));
         text=fileread(source);header='component pipe';visibility='intermediates (Access = private, ExternalAccess = none)';
-        assert(count(text,header)==1 && count(text,visibility)==1);
-        probe=strrep(text,header,'component observed_pipe');
-        probe=strrep(probe,visibility,'intermediates (Access = private)');
+        assert(count(text,header)==1);
+        renamed=strrep(text,header,'component observed_pipe');
+        position=regexp(renamed,'(?m)^intermediates \(Access = private, ExternalAccess = none\)','start');
+        assert(isscalar(position),'Require one unindented heat-transfer intermediate section.');
+        observable=[renamed(1:position-1) 'intermediates (Access = private)' ...
+            renamed(position+numel(visibility):end)];
+        probe=observable;
         anchor='    Q_cond = k_I * surface_area / Dh * (H.T - T_I);';
         assert(count(probe,anchor)==1);
         additions=sprintf('\n    probe_wall_T = H.T;\n    probe_A_T = A.T;\n    probe_B_T = B.T;');
         probe=strrep(probe,anchor,[anchor additions]);
         undo=strrep(probe,[anchor additions],anchor);
         % Compare the whole generated source after removing only the declared aliases.
-        renamed=strrep(text,header,'component observed_pipe');
-        assert(strcmp(strrep(renamed,visibility,'intermediates (Access = private)'),undo), ...
+        assert(strcmp(observable,undo), ...
             'Probe modified an equation rather than logging visibility.');
         build=fullfile(folder,'component_build');mkdir(build);
         package=fullfile(build,'+ecc_pipe_probe');mkdir(package);

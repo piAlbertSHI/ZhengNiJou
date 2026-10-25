@@ -37,6 +37,14 @@ class SinglePipeFixtureSourceTests(unittest.TestCase):
         self.assertNotIn("Build_HeatDriveECC_EighthRound_Simulink_Model(options", self.fixture)
         self.assertNotIn("setInitialState(", self.fixture)
 
+    def test_only_top_level_visibility_is_selected(self):
+        sample = ("intermediates (Access = private, ExternalAccess = none)\nend\n"
+                  "if true\n    intermediates (Access = private, ExternalAccess = none)\nend\n")
+        pattern = r"(?m)^intermediates \(Access = private, ExternalAccess = none\)"
+        self.assertEqual(len(re.findall(pattern, sample)), 1)
+        self.assertIn("Require one unindented heat-transfer intermediate section.", self.fixture)
+        self.assertNotIn("strrep(probe,visibility", self.fixture)
+
 
 if __name__ == "__main__":
     unittest.main()
