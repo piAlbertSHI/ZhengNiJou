@@ -135,6 +135,8 @@ def simulate(model, cycles, max_step, rtol=1e-8, stage_sink=None):
     for name in ("phase_a", "phase_r"):
         atol[model.slices[name]] = 1e-11
     atol[model.slices["buffer_mass_change"]] = 1e-13
+    if "boundary_mass" in model.slices:
+        atol[model.slices["boundary_mass"]] = 1e-13
     wall = time.perf_counter()
     for cycle in range(1, cycles+1):
         row = {"cycle": cycle, "stage_ends": []}
