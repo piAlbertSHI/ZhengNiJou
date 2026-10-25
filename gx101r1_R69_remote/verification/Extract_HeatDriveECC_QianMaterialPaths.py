@@ -40,7 +40,7 @@ def pixel_group(values, max_vertical_pixels=14):
     return groups[0], None
 
 
-def extract_trace(image, kind):
+def extract_trace(image, kind, requested_times=None):
     height, width, _ = image.shape
     if kind == "phase":
         if (width, height) != (1541, 805):
@@ -57,7 +57,12 @@ def extract_trace(image, kind):
     measured, missing = [], []
     guide = GUIDES[kind]
     guide_derivative = np.gradient(guide[:, 1], guide[:, 0])
-    for requested in np.arange(.1, 20., .1):
+    requested_values = np.arange(.1, 20., .1) if requested_times is None else np.asarray(requested_times, dtype=float)
+    if (requested_values.ndim != 1 or not np.isfinite(requested_values).all()
+            or np.any(requested_values <= 0) or np.any(requested_values >= 20)
+            or np.any(np.diff(requested_values) <= 0)):
+        raise ValueError("Strictly increasing finite source times inside (0,20) required")
+    for requested in requested_values:
         clock = float(round(requested, 10))
         cycle = 1 if clock < 10. else 2
         local = clock-(cycle-1)*10
@@ -96,7 +101,7 @@ def extract_trace(image, kind):
             "pixel_x": column, "pixel_y_median": row, "dark_pixel_count": len(selected),
             "slope_aware_vertical_stroke_limit_pixels": max_stroke,
             "cycle": cycle})
-    if len(measured) < (10 if kind == "phase" else 100):
+    if requested_times is None and len(measured) < (10 if kind == "phase" else 100):
         raise ValueError("Insufficient separable source pixels for "+kind+": "+str(len(measured))+
                          "; missing="+str(dict(Counter(r["reason"] for r in missing))))
     return {"quantity": "SMA_xM" if kind == "phase" else "SMA_temperature_C",

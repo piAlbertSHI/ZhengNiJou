@@ -51,6 +51,23 @@ class SingleCrystalMAS:
         if not np.isfinite(values).all() or min(values) <= 0:
             raise ValueError("All dimensional MAS inputs must be explicitly finite and positive")
 
+    def reverse_coefficient(self, temperature_K, stress_Pa, critical_m_Pa):
+        """Q04/Q10 pMA alone; it does not require an austenite interval.
+
+        This is NOT a complete two-way material model when sigma_A <= 0.
+        Exposing the independent coefficient permits necessary integral bounds
+        without pretending the missing forward-well branch has been solved.
+        """
+        t, s, cm = np.broadcast_arrays(temperature_K, stress_Pa, critical_m_Pa)
+        if (not all(np.isfinite(v).all() for v in (t, s, cm)) or np.any(t <= 0) or np.any(s < 0)):
+            raise ValueError("Positive temperature, tensile stress and finite critical stress required")
+        zm = np.sqrt(self.activation_volume_m3/(2*self.young_m_Pa*1.380649e-23*t))*(cm-s)
+        with np.errstate(over="ignore", under="ignore"):
+            reverse = np.exp(-np.log(erfcx(zm))-np.log(self.relaxation_time_s))
+        if not np.isfinite(reverse).all():
+            raise ValueError("Unrepresentable MAS reverse probability; do not cap it")
+        return reverse
+
     def coefficients(self, temperature_K, stress_Pa, critical_a_Pa, critical_m_Pa):
         """Positive-austenite-normalization branch, all inputs in SI.
 
