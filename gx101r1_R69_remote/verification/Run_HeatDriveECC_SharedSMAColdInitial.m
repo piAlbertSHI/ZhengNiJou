@@ -1,8 +1,12 @@
-function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zip, folder, requested_arm, duration)
+function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zip, folder, requested_arm, duration, capture_profile)
 % Fresh, matched-bed-temperature native initialization; no old OP or seed.
     if nargin<5,requested_arm='both';end
     if nargin<6,duration=.01;end
-    assert(ismember(duration,[.01 .2 10]),'Only initialization, cold prefix or one explicit cold cycle is supported.');
+    if nargin<7,capture_profile='selected_sma_v1';if duration==20,capture_profile='coupled_cv_v1';end;end
+    assert(ismember(capture_profile,{'selected_sma_v1','coupled_cv_v1'}));
+    full_cv=strcmp(capture_profile,'coupled_cv_v1');
+    assert(ismember(duration,[.01 .2 10 20]) && (duration~=20 || full_cv), ...
+        'C2 requires the declared full CV observation profile.');
     assert(ismember(requested_arm,{'dual','shared','both'}));
     assert(~isfolder(folder),'Never overwrite an experiment.');mkdir(folder);
     old=pwd;oldpath=path;restore=onCleanup(@() restore_path(old,oldpath));
@@ -13,6 +17,8 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
     result=struct('schema','heatdrive_ecc_shared_SMA_cold_initial_execution_v1', ...
         'collection_complete',false,'production_recovery_allowed',false, ...
         'checkpoint_loaded_or_saved',false,'stop_time_s',duration,'completed_arms',{{}});
+    result.capture_profile=capture_profile;
+    if full_cv,result.schema='heatdrive_ecc_coupled_CV_execution_v1';end
     protected=fullfile(repo,'heatdrive_ecc_coupled_se21.slx');protected_hash=file_hash(protected);
     try
         cd(repo);addpath(repo,fullfile(repo,'verification'));
@@ -33,12 +39,20 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
         result.hydraulic_storage_variant='native_foundation_chambers_and_buffers';
         result.conservative_variant_or_its_old_initial_state_replayed=false;
         observer_function='HeatDriveECC_ShortColdTimeObserver';observer_step=.001;
-        if duration==10,observer_function='HeatDriveECC_ProcessLocalTimeObserver';observer_step=1;end
+        if duration>=10,observer_function='HeatDriveECC_ProcessLocalTimeObserver';observer_step=1;end
         result.observer_function_name=observer_function;
         result.source_sha256=struct('runner',file_hash([mfilename('fullpath') '.m']), ...
             'applicator',file_hash(fullfile(repo,'verification','Apply_HeatDriveECC_SharedSMAFluidDiagnostic.m')), ...
             'observer',file_hash(fullfile(repo,'verification',[observer_function '.m'])), ...
             'observer_delegate',file_hash(fullfile(repo,'verification','HeatDriveECC_ProcessLocalTimeObserver.m')));
+        if full_cv
+            Test_HeatDriveECC_TraceColumns();
+            modules={'Prepare_HeatDriveECC_CoupledCVObservation','Build_HeatDriveECC_CoupledCVInventory', ...
+                'Capture_HeatDriveECC_CoupledCVPacket','Pack_HeatDriveECC_TraceColumns', ...
+                'Extract_HeatDriveECC_NativeStorageTraces','Extract_HeatDriveECC_BoundaryTraces','Read_HeatDriveECC_NativeSeries'};
+            for k=1:numel(modules),result.CV_source_sha256.(modules{k})=file_hash(fullfile(repo,'verification',[modules{k} '.m']));end
+            result.CV_source_sha256.Instrument_HeatDriveECC_PumpPressureProbes=file_hash(fullfile(repo,'Instrument_HeatDriveECC_PumpPressureProbes.m'));
+        end
         arms={'dual','shared'};if ~strcmp(requested_arm,'both'),arms={requested_arm};end
         for a=1:numel(arms)
             name=arms{a};arm=fullfile(folder,name);mkdir(arm);
@@ -46,7 +60,8 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
             isolated=fullfile(arm,'seed','gx101r1_R69_remote','heatdrive_ecc_coupled_se21.slx');
             assert(isfile(isolated));isolated_hash=file_hash(isolated);
             assert(~bdIsLoaded(o.model_name),'Never close another loaded model.');
-            cd(fileparts(isolated));o.model_path=isolated;o.cycle_count=1;
+            cd(fileparts(isolated));o.model_path=isolated;o.cycle_count=max(1,round(duration/10));
+            o.outputs_dir=arm;o.report_path=fullfile(arm,'diagnostic_report.txt');
             o.simulation.stop_time_s=duration;o.simulation.persist_model_configuration=false;
             o.simulation.resume_checkpoint_path='';
             model_cleanup=onCleanup(@() close_isolated(o.model_name,isolated));
@@ -90,6 +105,12 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
                 set_param(p,'T0',num2str(options.system.T0_K,17),'T0_unit','K');
                 assert(slResolve(get_param(p,'T0'),p)==303.15);
             end
+            if full_cv
+                cv=Prepare_HeatDriveECC_CoupledCVObservation(model,options,name,arm);
+                write_json(fullfile(arm,'CV_tl_topology.json'),cv.tl_topology);
+                write_json(fullfile(arm,'CV_thermal_topology.json'),cv.thermal_topology);
+                write_json(fullfile(arm,'CV_contract.json'),rmfield(cv,{'tl_topology','thermal_topology'}));
+            end
             [geometry,fluid_tables]=inventory_contract(model,paths);
             preflight=struct('arm',name,'fresh_initial_temperature_only',true, ...
                 'matched_bed_T0_K',options.system.T0_K,'Tshex_K',options.system.Tshex_K, ...
@@ -128,32 +149,40 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
                     'Native simulation failed. Full error is in simulation_error.json. %s', ...
                     output.ErrorMessage(1:min(500,numel(output.ErrorMessage))));
             end
-            traces=collect_observations(output,model,paths,gate_names,name,false);
-            rows=traces.series;
-            % Persist each actual arm before any gate, next arm or final manifest.
-            raw=fullfile(arm,'selected_observations.mat');assert(~isfile(raw));save(raw,'traces','-v7');
-            t=double(output.tout);assert(t(1)==0 && abs(t(end)-duration)<1e-12 && all(diff(t)>=0));
-            max_initial_T_error=0;
-            for k=1:numel(rows)
-                r=rows{k};if strcmp(r.state_name,'T_I') && any(strcmp(r.block_path,paths))
-                    assert(r.time_s(1)==0);
-                    max_initial_T_error=max(max_initial_T_error,abs(r.values(1)-options.system.T0_K));
+            if full_cv
+                completed_cv=Capture_HeatDriveECC_CoupledCVPacket(output,model,options,cv,arm);
+                max_initial_T_error=completed_cv.maximum_initial_SMA_pipe_temperature_error_K;
+            else
+                traces=collect_observations(output,model,paths,gate_names,name,false);
+                rows=traces.series;
+                % Persist each actual arm before any gate, next arm or final manifest.
+                raw=fullfile(arm,'selected_observations.mat');assert(~isfile(raw));save(raw,'traces','-v7');
+                max_initial_T_error=0;
+                for k=1:numel(rows)
+                    r=rows{k};if strcmp(r.state_name,'T_I') && any(strcmp(r.block_path,paths))
+                        assert(r.time_s(1)==0);
+                        max_initial_T_error=max(max_initial_T_error,abs(r.values(1)-options.system.T0_K));
+                    end
                 end
             end
+            t=double(output.tout);assert(t(1)==0 && abs(t(end)-duration)<1e-12 && all(diff(t)>=0));
             assert(max_initial_T_error<1e-6,'Actual native initialization did not match the declared cold protocol.');
             state=HeatDriveECC_ObserverContext('get',model);assert(state.terminated && abs(state.last_time-duration)<1e-12);
             assert(strcmp(file_hash(protected),protected_hash) && strcmp(file_hash(isolated),isolated_hash));
             completed=struct('arm',name,'actual_stop_time_s',t(end),'simulation_wall_seconds',wall, ...
                 'native_pipe_observation_count',numel(paths),'maximum_initial_pipe_temperature_error_K',max_initial_T_error, ...
-                'raw_file',raw,'raw_format','MAT-v7-selected-struct','raw_sha256',file_hash(raw),'compiled_and_simulated',true, ...
+                'compiled_and_simulated',true, ...
                 'full_mechanism_periodic_or_twenty_cycle_seed_allowed',false);
+            if full_cv,completed.CV_packet=completed_cv;
+            else,completed.raw_file=raw;completed.raw_format='MAT-v7-selected-struct';completed.raw_sha256=file_hash(raw);end
             write_json(fullfile(arm,'completed_initial_probe.json'),completed);
             result.completed_arms{end+1}=completed;
-            clear output rows traces model_cleanup
+            clear output rows traces cv completed_cv model_cleanup
             HeatDriveECC_ObserverContext('clear',model);
         end
         result.collection_complete=true;result.protected_model_sha256_unchanged=protected_hash;
-        write_json(fullfile(folder,'cold_initial_execution.json'),result);
+        filename='cold_initial_execution.json';if full_cv,filename='coupled_CV_execution.json';end
+        write_json(fullfile(folder,filename),result);
     catch e
         result.error_identifier=e.identifier;result.error_message=e.message;
         result.error_report=getReport(e,'extended','hyperlinks','off');

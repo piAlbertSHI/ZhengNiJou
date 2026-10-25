@@ -1,8 +1,8 @@
-function [traces, metadata] = Extract_HeatDriveECC_BoundaryTraces(log, model)
+function [traces, metadata] = Extract_HeatDriveECC_BoundaryTraces(log, model, tl, thermal)
 % Observe existing source leaves without inserting sensors or editing the model.
     assert(isa(log,'simscape.logging.Node'), 'Missing native Simscape log.');
-    tl = Export_HeatDriveECC_TLConnectivity(model);
-    thermal = Export_HeatDriveECC_TLConnectivity(model,'foundation.thermal.thermal');
+    if nargin<3,tl = Export_HeatDriveECC_TLConnectivity(model);end
+    if nargin<4,thermal = Export_HeatDriveECC_TLConnectivity(model,'foundation.thermal.thermal');end
     sources = {'foundation.thermal_liquid.sources.pressure_source', ...
         'foundation.thermal.sources.temperature','foundation.thermal.sources.controlled_heat_flow'};
     blocks = [tl.blocks(:); thermal.blocks(:)];
@@ -22,13 +22,11 @@ function [traces, metadata] = Extract_HeatDriveECC_BoundaryTraces(log, model)
         end
         names = node.childIds;
         for j = 1:numel(names)
-            series = node.child(names{j}).series;
-            if isempty(series) || series.points==0, continue; end
-            t = double(time(series));
-            data = reshape(double(values(series)),numel(t),[]);
+            [t,data,unit]=Read_HeatDriveECC_NativeSeries(node.child(names{j}));
+            if isempty(t),continue;end
             assert(all(isfinite(t)) && all(isfinite(data),'all'),'Nonfinite boundary trace.');
             traces{end+1} = struct('block_path',block.block_path,'state_name',names{j}, ...
-                'unit',series.unit,'time_s',t(:),'values',data,'channel_count',size(data,2)); %#ok<AGROW>
+                'unit',unit,'time_s',t(:),'values',data,'channel_count',size(data,2)); %#ok<AGROW>
             row.trace_names{end+1}=names{j};
         end
         assert(~isempty(row.trace_names),'Source has no recorded leaves.');
