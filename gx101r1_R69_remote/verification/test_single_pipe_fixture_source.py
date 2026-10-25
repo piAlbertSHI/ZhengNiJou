@@ -73,6 +73,13 @@ class SinglePipeFixtureSourceTests(unittest.TestCase):
         self.assertIn("set_param([model '/WallPS'],'FilteringAndDerivatives','zero')", self.fixture)
         self.assertIn("'wall_converter_handling',get_param", self.fixture)
 
+    def test_energy_observer_is_one_way_and_does_not_capture_OP(self):
+        self.assertIn("if nargin<6,observe_energy=false;end", self.fixture)
+        self.assertIn("der(observer_energy) == Phi_A + Phi_B + Q_H", self.fixture)
+        self.assertIn("count(probe,'observer_energy')==2", self.fixture)
+        self.assertIn("'SaveState','off','SaveFinalState','off','LoadInitialState','off'", self.fixture)
+        self.assertIn("row.one_way_energy_observer_enabled=observe_energy", self.fixture)
+
 
 if __name__ == "__main__":
     unittest.main()

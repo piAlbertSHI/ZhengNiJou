@@ -1,11 +1,14 @@
-function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder, study, integration)
+function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder, study, integration, observe_energy)
 % Independent native/probe pipe comparison. No production model or state load.
     if nargin<4,study='native_probe';end
     if nargin<5,integration='local_BE';end
+    if nargin<6,observe_energy=false;end
     assert(any(strcmp(study,{'native_probe','heat_law_reference'})),'Unknown independent study.');
     reference_study=strcmp(study,'heat_law_reference');
     assert(any(strcmp(integration,{'local_BE','global_ODE3'})),'Unknown integration contract.');
     assert(reference_study || strcmp(integration,'local_BE'),'Global integration requires the explicit reference study.');
+    assert(islogical(observe_energy) && isscalar(observe_energy));
+    assert(~observe_energy || strcmp(integration,'global_ODE3'),'Energy stage observer requires the global study.');
     assert(~isfolder(folder),'Never overwrite a fixture.');mkdir(folder);
     old=pwd;oldpath=path;restore=onCleanup(@() restore_path(old,oldpath));
     generation=Simulink.fileGenControl('getConfig');
@@ -18,6 +21,7 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder, s
         'error_identifier','','error_message','','cases',{{}});
     record.study=study;
     record.integration=integration;
+    record.one_way_energy_observer_enabled=observe_energy;
     record.reference_heat_laws_independently_integrated=reference_study;
     if reference_study,record.schema='heatdrive_ecc_single_pipe_reference_v1';end
     try
@@ -55,6 +59,18 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder, s
         % Compare the whole generated source after removing only the declared aliases.
         assert(strcmp(observable,undo), ...
             'Probe modified an equation rather than logging visibility.');
+        if observe_energy
+            marker='% Internal components that calculate energy convection at ports A and B';
+            assert(count(probe,marker)==1);
+            observer=sprintf(['variables (Access = private)\n', ...
+                '    observer_energy = {value = {0, ''J''}, priority = priority.high};\nend\n', ...
+                'equations\n    der(observer_energy) == Phi_A + Phi_B + Q_H;\nend\n\n']);
+            original_probe=probe;probe=strrep(probe,marker,[observer marker]);
+            assert(strcmp(strrep(probe,observer,''),original_probe) && count(probe,'observer_energy')==2, ...
+                'Energy observer is not a strictly one-way added coordinate.');
+            record.energy_observer_equation='der(observer_energy)=Phi_A+Phi_B+Q_H; no physical feedback or capacity';
+            record.observer_state_is_not_a_production_checkpoint=true;
+        end
         build=fullfile(folder,'component_build');mkdir(build);
         package=fullfile(build,'+ecc_pipe_probe');mkdir(package);
         generated=fullfile(package,'observed_pipe.ssc');write_text(generated,probe);
@@ -188,6 +204,7 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder, s
                     common={'T_I','p_I','u_I','rho_I','Phi_A','Phi_B','Q_H','mdot_A','mdot_B'};
                     extra={'Q_conv','Q_cond','cp_I','mu_I','k_I','Pr_I','Re_avg', ...
                         'probe_wall_T','probe_A_T','probe_B_T'};
+                    if observe_energy,extra=[extra {'observer_energy'}];end
                     native_traces=extract(native,common);probe_traces=extract(observed,[common extra]);
                     wall=probe_traces{find(strcmp([common extra],'probe_wall_T'),1)};
                     assert(strcmp(wall.unit,'K'));
@@ -213,6 +230,7 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder, s
                         'fluid_settings',fluid_record,'native_probe_comparisons',{comparisons}, ...
                         'native_probe_equivalence_pass',true,'power_spec','none','production_recovery_allowed',false);
                     row.solver_contract=solver_contract;
+                    row.one_way_energy_observer_enabled=observe_energy;
                     file=sprintf('case_%02d.mat',numel(record.cases)+1);
                     if reference_study
                         row.study=study;row.reference_saved_Nu=nu;row.reference_Q01_Nu=3.66;
