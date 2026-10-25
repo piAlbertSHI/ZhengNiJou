@@ -1,0 +1,556 @@
+{
+  "schema": "heatdrive_ecc_component_integral_rate_bounds_v1",
+  "reader_sha256": "DDDBB81FD863BE9DBE131F1A73C9884768554CF2132628D0E0B50C13CCF9416C",
+  "source_pixel_record": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\material_component_paths_20261026_r3\\Q01_material_pixel_paths.json",
+  "source_pixel_record_sha256": "B8D00A971D723D1775B1FBB570A6BE134065C27DE7714DA035B3352E7E339862",
+  "equation": "Q01 Eq3 two nonnegative fluxes; integrated logarithmic inequality",
+  "intervals": [
+    {
+      "selected_times_s": [
+        0.6064981949458483,
+        0.6931407942238267
+      ],
+      "conservative_duration_upper_s": 0.11552346570397112,
+      "integrated_coefficient_lower_bound": 0.006091389393401913,
+      "interval_average_coefficient_lower_bound_per_s": 0.052728589436635304,
+      "direction": "M_to_A",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        0.6064981949458483,
+        1.0974729241877257
+      ],
+      "conservative_duration_upper_s": 0.5198555956678701,
+      "integrated_coefficient_lower_bound": 1.2680615840572307,
+      "interval_average_coefficient_lower_bound_per_s": 2.4392573526656447,
+      "direction": "M_to_A",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        0.6931407942238267,
+        1.0974729241877257
+      ],
+      "conservative_duration_upper_s": 0.4332129963898918,
+      "integrated_coefficient_lower_bound": 1.1339516551134186,
+      "interval_average_coefficient_lower_bound_per_s": 2.6175384038868073,
+      "direction": "M_to_A",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        6.296028880866426,
+        6.498194945848375
+      ],
+      "conservative_duration_upper_s": 0.23104693140794244,
+      "integrated_coefficient_lower_bound": 0.06765864847381466,
+      "interval_average_coefficient_lower_bound_per_s": 0.2928350879257288,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        6.296028880866426,
+        6.59927797833935
+      ],
+      "conservative_duration_upper_s": 0.33212996389891686,
+      "integrated_coefficient_lower_bound": 0.12317135840407352,
+      "interval_average_coefficient_lower_bound_per_s": 0.37085289432530844,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        6.296028880866426,
+        6.700361010830325
+      ],
+      "conservative_duration_upper_s": 0.43321299638989214,
+      "integrated_coefficient_lower_bound": 0.1864421844637818,
+      "interval_average_coefficient_lower_bound_per_s": 0.43037070913722925,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        6.296028880866426,
+        7.696750902527076
+      ],
+      "conservative_duration_upper_s": 1.429602888086643,
+      "integrated_coefficient_lower_bound": 1.6283063967384832,
+      "interval_average_coefficient_lower_bound_per_s": 1.1389921007488883,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        6.296028880866426,
+        7.79783393501805
+      ],
+      "conservative_duration_upper_s": 1.5306859205776173,
+      "integrated_coefficient_lower_bound": 1.938461325042323,
+      "interval_average_coefficient_lower_bound_per_s": 1.266400441124348,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        6.296028880866426,
+        7.898916967509026
+      ],
+      "conservative_duration_upper_s": 1.6317689530685926,
+      "integrated_coefficient_lower_bound": 2.3119748333438843,
+      "interval_average_coefficient_lower_bound_per_s": 1.4168518337085305,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        6.498194945848375,
+        6.59927797833935
+      ],
+      "conservative_duration_upper_s": 0.12996389891696716,
+      "integrated_coefficient_lower_bound": 0.0021119332031435513,
+      "interval_average_coefficient_lower_bound_per_s": 0.0162501527019657,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        6.498194945848375,
+        6.700361010830325
+      ],
+      "conservative_duration_upper_s": 0.23104693140794244,
+      "integrated_coefficient_lower_bound": 0.06538275926285171,
+      "interval_average_coefficient_lower_bound_per_s": 0.2829847549345298,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        6.498194945848375,
+        7.696750902527076
+      ],
+      "conservative_duration_upper_s": 1.2274368231046933,
+      "integrated_coefficient_lower_bound": 1.5072469715375534,
+      "interval_average_coefficient_lower_bound_per_s": 1.2279629738703006,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        6.498194945848375,
+        7.79783393501805
+      ],
+      "conservative_duration_upper_s": 1.3285198555956677,
+      "integrated_coefficient_lower_bound": 1.8174018998413932,
+      "interval_average_coefficient_lower_bound_per_s": 1.3679900170001793,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        6.498194945848375,
+        7.898916967509026
+      ],
+      "conservative_duration_upper_s": 1.429602888086643,
+      "integrated_coefficient_lower_bound": 2.1909154081429545,
+      "interval_average_coefficient_lower_bound_per_s": 1.5325342627666623,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        6.59927797833935,
+        6.700361010830325
+      ],
+      "conservative_duration_upper_s": 0.12996389891696805,
+      "integrated_coefficient_lower_bound": 0.004494389587839267,
+      "interval_average_coefficient_lower_bound_per_s": 0.03458183099531866,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        6.59927797833935,
+        7.696750902527076
+      ],
+      "conservative_duration_upper_s": 1.1263537906137189,
+      "integrated_coefficient_lower_bound": 1.446358601862541,
+      "interval_average_coefficient_lower_bound_per_s": 1.2841068356279606,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        6.59927797833935,
+        7.79783393501805
+      ],
+      "conservative_duration_upper_s": 1.2274368231046933,
+      "integrated_coefficient_lower_bound": 1.7565135301663806,
+      "interval_average_coefficient_lower_bound_per_s": 1.4310419054590804,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        6.59927797833935,
+        7.898916967509026
+      ],
+      "conservative_duration_upper_s": 1.3285198555956685,
+      "integrated_coefficient_lower_bound": 2.130027038467942,
+      "interval_average_coefficient_lower_bound_per_s": 1.603308395803314,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        6.700361010830325,
+        7.696750902527076
+      ],
+      "conservative_duration_upper_s": 1.0252707581227436,
+      "integrated_coefficient_lower_bound": 1.3767249101037402,
+      "interval_average_coefficient_lower_bound_per_s": 1.3427915496434368,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        6.700361010830325,
+        7.79783393501805
+      ],
+      "conservative_duration_upper_s": 1.126353790613718,
+      "integrated_coefficient_lower_bound": 1.6868798384075798,
+      "interval_average_coefficient_lower_bound_per_s": 1.4976465232016019,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        6.700361010830325,
+        7.898916967509026
+      ],
+      "conservative_duration_upper_s": 1.2274368231046933,
+      "integrated_coefficient_lower_bound": 2.0603933467091413,
+      "interval_average_coefficient_lower_bound_per_s": 1.6786145795248002,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        7.696750902527076,
+        7.79783393501805
+      ],
+      "conservative_duration_upper_s": 0.12996389891696716,
+      "integrated_coefficient_lower_bound": 0.012903404835908001,
+      "interval_average_coefficient_lower_bound_per_s": 0.09928453165407015,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        7.696750902527076,
+        7.898916967509026
+      ],
+      "conservative_duration_upper_s": 0.23104693140794244,
+      "integrated_coefficient_lower_bound": 0.38641691313746906,
+      "interval_average_coefficient_lower_bound_per_s": 1.6724607021731068,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        7.79783393501805,
+        7.898916967509026
+      ],
+      "conservative_duration_upper_s": 0.12996389891696805,
+      "integrated_coefficient_lower_bound": 0.037041271680349076,
+      "interval_average_coefficient_lower_bound_per_s": 0.2850120070960181,
+      "direction": "A_to_M",
+      "cycle": 1
+    },
+    {
+      "selected_times_s": [
+        10.59927797833935,
+        10.700361010830324
+      ],
+      "conservative_duration_upper_s": 0.12996389891696716,
+      "integrated_coefficient_lower_bound": 0.01009090298196272,
+      "interval_average_coefficient_lower_bound_per_s": 0.07764389238899114,
+      "direction": "M_to_A",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        10.59927797833935,
+        11.104693140794224
+      ],
+      "conservative_duration_upper_s": 0.5342960288808665,
+      "integrated_coefficient_lower_bound": 1.2761261438939613,
+      "interval_average_coefficient_lower_bound_per_s": 2.3884252828285626,
+      "direction": "M_to_A",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        10.700361010830324,
+        11.104693140794224
+      ],
+      "conservative_duration_upper_s": 0.43321299638989214,
+      "integrated_coefficient_lower_bound": 1.1408720979579923,
+      "interval_average_coefficient_lower_bound_per_s": 2.633513092786363,
+      "direction": "M_to_A",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.303249097472925,
+        16.404332129963898
+      ],
+      "conservative_duration_upper_s": 0.1299638989169654,
+      "integrated_coefficient_lower_bound": 0.007504725654067792,
+      "interval_average_coefficient_lower_bound_per_s": 0.057744694616022565,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.303249097472925,
+        16.505415162454874
+      ],
+      "conservative_duration_upper_s": 0.23104693140794155,
+      "integrated_coefficient_lower_bound": 0.06566064581114156,
+      "interval_average_coefficient_lower_bound_per_s": 0.2841874826513479,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.303249097472925,
+        16.60649819494585
+      ],
+      "conservative_duration_upper_s": 0.33212996389891775,
+      "integrated_coefficient_lower_bound": 0.12528776131045116,
+      "interval_average_coefficient_lower_bound_per_s": 0.3772251074238575,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.303249097472925,
+        16.693140794223826
+      ],
+      "conservative_duration_upper_s": 0.41877256317689376,
+      "integrated_coefficient_lower_bound": 0.1841924647297664,
+      "interval_average_coefficient_lower_bound_per_s": 0.4398389028460817,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.303249097472925,
+        17.097472924187727
+      ],
+      "conservative_duration_upper_s": 0.8231046931407948,
+      "integrated_coefficient_lower_bound": 0.5170756441111618,
+      "interval_average_coefficient_lower_bound_per_s": 0.6282015500824198,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.303249097472925,
+        17.1985559566787
+      ],
+      "conservative_duration_upper_s": 0.9241877256317674,
+      "integrated_coefficient_lower_bound": 0.6439120775622608,
+      "interval_average_coefficient_lower_bound_per_s": 0.6967329901747911,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.404332129963898,
+        16.505415162454874
+      ],
+      "conservative_duration_upper_s": 0.12996389891696894,
+      "integrated_coefficient_lower_bound": 0.009930568202600788,
+      "interval_average_coefficient_lower_bound_per_s": 0.07641020533667744,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.404332129963898,
+        16.60649819494585
+      ],
+      "conservative_duration_upper_s": 0.2310469314079451,
+      "integrated_coefficient_lower_bound": 0.06955768370191019,
+      "interval_average_coefficient_lower_bound_per_s": 0.3010543497723263,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.404332129963898,
+        16.693140794223826
+      ],
+      "conservative_duration_upper_s": 0.31768953068592115,
+      "integrated_coefficient_lower_bound": 0.12846238712122532,
+      "interval_average_coefficient_lower_bound_per_s": 0.404364559461129,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.404332129963898,
+        17.097472924187727
+      ],
+      "conservative_duration_upper_s": 0.7220216606498222,
+      "integrated_coefficient_lower_bound": 0.461345566502621,
+      "interval_average_coefficient_lower_bound_per_s": 0.6389636096061276,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.404332129963898,
+        17.1985559566787
+      ],
+      "conservative_duration_upper_s": 0.8231046931407948,
+      "integrated_coefficient_lower_bound": 0.5881819999537199,
+      "interval_average_coefficient_lower_bound_per_s": 0.7145895350314925,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.505415162454874,
+        16.60649819494585
+      ],
+      "conservative_duration_upper_s": 0.12996389891696894,
+      "integrated_coefficient_lower_bound": 0.0021164029063776937,
+      "interval_average_coefficient_lower_bound_per_s": 0.016284544585183743,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.505415162454874,
+        16.693140794223826
+      ],
+      "conservative_duration_upper_s": 0.21660649819494496,
+      "integrated_coefficient_lower_bound": 0.061021106325692735,
+      "interval_average_coefficient_lower_bound_per_s": 0.2817141075369493,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.505415162454874,
+        17.097472924187727
+      ],
+      "conservative_duration_upper_s": 0.620938628158846,
+      "integrated_coefficient_lower_bound": 0.39390428570708846,
+      "interval_average_coefficient_lower_bound_per_s": 0.6343691112840888,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.505415162454874,
+        17.1985559566787
+      ],
+      "conservative_duration_upper_s": 0.7220216606498187,
+      "integrated_coefficient_lower_bound": 0.5207407191581872,
+      "interval_average_coefficient_lower_bound_per_s": 0.7212258960340902,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.60649819494585,
+        17.097472924187727
+      ],
+      "conservative_duration_upper_s": 0.5198555956678699,
+      "integrated_coefficient_lower_bound": 0.33288317938139567,
+      "interval_average_coefficient_lower_bound_per_s": 0.640337782560046,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.60649819494585,
+        17.1985559566787
+      ],
+      "conservative_duration_upper_s": 0.6209386281588425,
+      "integrated_coefficient_lower_bound": 0.4597196128324945,
+      "interval_average_coefficient_lower_bound_per_s": 0.7403623997360549,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.693140794223826,
+        17.097472924187727
+      ],
+      "conservative_duration_upper_s": 0.4332129963898939,
+      "integrated_coefficient_lower_bound": 0.27029032973991185,
+      "interval_average_coefficient_lower_bound_per_s": 0.6239201778162933,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        16.693140794223826,
+        17.1985559566787
+      ],
+      "conservative_duration_upper_s": 0.5342960288808665,
+      "integrated_coefficient_lower_bound": 0.39712676319101076,
+      "interval_average_coefficient_lower_bound_per_s": 0.7432710365129052,
+      "direction": "A_to_M",
+      "cycle": 2
+    },
+    {
+      "selected_times_s": [
+        17.097472924187727,
+        17.1985559566787
+      ],
+      "conservative_duration_upper_s": 0.1299638989169654,
+      "integrated_coefficient_lower_bound": 0.014134510934904716,
+      "interval_average_coefficient_lower_bound_per_s": 0.10875720913801862,
+      "direction": "A_to_M",
+      "cycle": 2
+    }
+  ],
+  "strongest_interval_average_bounds": {
+    "M_to_A": {
+      "selected_times_s": [
+        10.700361010830324,
+        11.104693140794224
+      ],
+      "conservative_duration_upper_s": 0.43321299638989214,
+      "integrated_coefficient_lower_bound": 1.1408720979579923,
+      "interval_average_coefficient_lower_bound_per_s": 2.633513092786363,
+      "direction": "M_to_A",
+      "cycle": 2
+    },
+    "A_to_M": {
+      "selected_times_s": [
+        6.700361010830325,
+        7.898916967509026
+      ],
+      "conservative_duration_upper_s": 1.2274368231046933,
+      "integrated_coefficient_lower_bound": 2.0603933467091413,
+      "interval_average_coefficient_lower_bound_per_s": 1.6786145795248002,
+      "direction": "A_to_M",
+      "cycle": 1
+    }
+  },
+  "scope": "conditional on source-pixel boxes and curve identity; Table2 simulated SMA, not Table4 or experiments",
+  "instantaneous_rates_identified": false,
+  "activation_volume_or_tau_identified": false,
+  "opposing_flux_set_to_zero": false,
+  "new_scientific_gate": false,
+  "material_or_Table4_reproduction_claim": false
+}

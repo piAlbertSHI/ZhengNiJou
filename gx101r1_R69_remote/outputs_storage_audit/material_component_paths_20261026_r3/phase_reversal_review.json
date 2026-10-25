@@ -1,0 +1,1414 @@
+{
+  "schema": "heatdrive_ecc_sampled_phase_reversal_control_v1",
+  "reader_sha256": "EAE76B9536721BC89F0B80847594E5471F221A25D4D824299B49668E5CD5A3DF",
+  "source_scope": {
+    "historical_full_source_hash_checked": true,
+    "executed_operator_AST_signature": "91D60222743587DF0BAC6872F4FD39927AEF4B0DCE7E14783DF2E3F0E41F5161",
+    "unused_SingleCrystalMAS_class_excluded": true,
+    "shared_coefficients_network_and_globals_unchanged": true
+  },
+  "controls": [
+    {
+      "root": "C:\\tmp\\se21_caloric_coupled_cold_C1_r4_20261025",
+      "execution_sha256": "AA7A482C7929C0F6A2984EBB2EA54878B95D5FCC721E92BE32D7A782BF3615D4",
+      "raw_sha256": "E89229B7BFA962A722F3944EB6EEA8CE2BA799F937FA3F5C5D751FF929A63F83",
+      "observations": 201,
+      "scans": [
+        {
+          "phase_increment_tolerance": 1e-09,
+          "fields": {
+            "phase_a": {
+              "count_range": [
+                1,
+                1
+              ],
+              "nodes_with_more_than_one_turn_1_based": []
+            },
+            "phase_r": {
+              "count_range": [
+                1,
+                1
+              ],
+              "nodes_with_more_than_one_turn_1_based": []
+            }
+          }
+        },
+        {
+          "phase_increment_tolerance": 1e-08,
+          "fields": {
+            "phase_a": {
+              "count_range": [
+                1,
+                1
+              ],
+              "nodes_with_more_than_one_turn_1_based": []
+            },
+            "phase_r": {
+              "count_range": [
+                1,
+                1
+              ],
+              "nodes_with_more_than_one_turn_1_based": []
+            }
+          }
+        },
+        {
+          "phase_increment_tolerance": 1e-07,
+          "fields": {
+            "phase_a": {
+              "count_range": [
+                1,
+                1
+              ],
+              "nodes_with_more_than_one_turn_1_based": []
+            },
+            "phase_r": {
+              "count_range": [
+                1,
+                1
+              ],
+              "nodes_with_more_than_one_turn_1_based": []
+            }
+          }
+        },
+        {
+          "phase_increment_tolerance": 1e-06,
+          "fields": {
+            "phase_a": {
+              "count_range": [
+                1,
+                1
+              ],
+              "nodes_with_more_than_one_turn_1_based": []
+            },
+            "phase_r": {
+              "count_range": [
+                1,
+                1
+              ],
+              "nodes_with_more_than_one_turn_1_based": []
+            }
+          }
+        },
+        {
+          "phase_increment_tolerance": 1e-05,
+          "fields": {
+            "phase_a": {
+              "count_range": [
+                1,
+                1
+              ],
+              "nodes_with_more_than_one_turn_1_based": [],
+              "events_by_node": [
+                [
+                  {
+                    "time_bracket_s": [
+                      0.8000000000000002,
+                      5.849999999999997
+                    ],
+                    "selected_turn_phase": 1.6165496798471134e-36,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      0.8500000000000002,
+                      5.799999999999997
+                    ],
+                    "selected_turn_phase": 3.025106455678233e-36,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      0.9000000000000002,
+                      5.749999999999997
+                    ],
+                    "selected_turn_phase": 6.328006074932968e-36,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      0.9500000000000003,
+                      5.6999999999999975
+                    ],
+                    "selected_turn_phase": 1.494159906063817e-35,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.0000000000000002,
+                      5.649999999999998
+                    ],
+                    "selected_turn_phase": 3.981544710317684e-35,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.0500000000000003,
+                      5.599999999999998
+                    ],
+                    "selected_turn_phase": 9.968882365912973e-35,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.1000000000000003,
+                      5.549999999999998
+                    ],
+                    "selected_turn_phase": 2.3542792875698197e-34,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.1500000000000004,
+                      5.499999999999998
+                    ],
+                    "selected_turn_phase": 5.772491622525493e-34,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.2000000000000004,
+                      5.449999999999998
+                    ],
+                    "selected_turn_phase": 1.4666191935051727e-33,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.2500000000000004,
+                      5.449999999999998
+                    ],
+                    "selected_turn_phase": 3.835992144184392e-33,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.3000000000000005,
+                      5.399999999999999
+                    ],
+                    "selected_turn_phase": 1.0328336102728551e-32,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.3500000000000005,
+                      5.349999999999999
+                    ],
+                    "selected_turn_phase": 2.862074163757626e-32,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.4500000000000006,
+                      5.299999999999999
+                    ],
+                    "selected_turn_phase": 8.268536803059273e-32,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.5000000000000007,
+                      5.299999999999999
+                    ],
+                    "selected_turn_phase": 2.427499023027751e-31,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.5500000000000007,
+                      5.249999999999999
+                    ],
+                    "selected_turn_phase": 7.141918535857452e-31,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.6500000000000008,
+                      5.199999999999999
+                    ],
+                    "selected_turn_phase": 2.0843313649560553e-30,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.7000000000000008,
+                      5.199999999999999
+                    ],
+                    "selected_turn_phase": 5.9769212505449926e-30,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.7500000000000009,
+                      5.1499999999999995
+                    ],
+                    "selected_turn_phase": 1.669846166263625e-29,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.800000000000001,
+                      5.1499999999999995
+                    ],
+                    "selected_turn_phase": 4.510641934388831e-29,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.850000000000001,
+                      5.1
+                    ],
+                    "selected_turn_phase": 1.1722134680417986e-28,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.900000000000001,
+                      5.1
+                    ],
+                    "selected_turn_phase": 2.90399729698821e-28,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ]
+              ]
+            },
+            "phase_r": {
+              "count_range": [
+                1,
+                1
+              ],
+              "nodes_with_more_than_one_turn_1_based": [],
+              "events_by_node": [
+                [
+                  {
+                    "time_bracket_s": [
+                      3.799999999999999,
+                      5.0
+                    ],
+                    "selected_turn_phase": 0.9511846707983893,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      3.799999999999999,
+                      5.0
+                    ],
+                    "selected_turn_phase": 0.9511846707983893,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      3.799999999999999,
+                      5.0
+                    ],
+                    "selected_turn_phase": 0.9511846707983893,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      3.799999999999999,
+                      5.0
+                    ],
+                    "selected_turn_phase": 0.9511846707983893,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      5.0,
+                      5.0
+                    ],
+                    "selected_turn_phase": 0.9582570877301237,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      5.0,
+                      5.0
+                    ],
+                    "selected_turn_phase": 0.9767097399902371,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      5.0,
+                      5.0
+                    ],
+                    "selected_turn_phase": 0.9956856482834786,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      5.0,
+                      5.0
+                    ],
+                    "selected_turn_phase": 0.9994991875129097,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      5.0,
+                      5.1499999999999995
+                    ],
+                    "selected_turn_phase": 0.9999397244021674,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      5.0,
+                      5.1499999999999995
+                    ],
+                    "selected_turn_phase": 0.9999924373275982,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      4.849999999999995,
+                      5.199999999999999
+                    ],
+                    "selected_turn_phase": 0.9999990049043257,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      4.749999999999996,
+                      5.199999999999999
+                    ],
+                    "selected_turn_phase": 0.9999998616219123,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      4.649999999999996,
+                      5.249999999999999
+                    ],
+                    "selected_turn_phase": 0.9999999794270662,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      4.4999999999999964,
+                      5.249999999999999
+                    ],
+                    "selected_turn_phase": 0.9999999966673842,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      4.399999999999997,
+                      5.299999999999999
+                    ],
+                    "selected_turn_phase": 0.9999999993915338,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      4.349999999999997,
+                      5.299999999999999
+                    ],
+                    "selected_turn_phase": 0.9999999998686944,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      4.249999999999997,
+                      5.299999999999999
+                    ],
+                    "selected_turn_phase": 0.9999999999649777,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      4.1999999999999975,
+                      5.349999999999999
+                    ],
+                    "selected_turn_phase": 0.9999999999883024,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      4.149999999999998,
+                      5.349999999999999
+                    ],
+                    "selected_turn_phase": 0.9999999999952812,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      4.099999999999998,
+                      5.349999999999999
+                    ],
+                    "selected_turn_phase": 0.9999999999977124,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      4.049999999999998,
+                      5.349999999999999
+                    ],
+                    "selected_turn_phase": 0.9999999999986762,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ]
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "root": "C:\\tmp\\se21_two_way_phase_cold_C1_r1_20261025",
+      "execution_sha256": "D1D7401906AFCC8CEB08F7CE5C965135561A1879601A3080459F0825FB7CBB10",
+      "raw_sha256": "A243EA54A47A2BBD0C18EAEE50F03C1D058B5D92A0A34C213DADE3C1871C14AA",
+      "observations": 201,
+      "scans": [
+        {
+          "phase_increment_tolerance": 1e-09,
+          "fields": {
+            "phase_a": {
+              "count_range": [
+                1,
+                1
+              ],
+              "nodes_with_more_than_one_turn_1_based": []
+            },
+            "phase_r": {
+              "count_range": [
+                1,
+                3
+              ],
+              "nodes_with_more_than_one_turn_1_based": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14
+              ]
+            }
+          }
+        },
+        {
+          "phase_increment_tolerance": 1e-08,
+          "fields": {
+            "phase_a": {
+              "count_range": [
+                1,
+                1
+              ],
+              "nodes_with_more_than_one_turn_1_based": []
+            },
+            "phase_r": {
+              "count_range": [
+                1,
+                3
+              ],
+              "nodes_with_more_than_one_turn_1_based": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14
+              ]
+            }
+          }
+        },
+        {
+          "phase_increment_tolerance": 1e-07,
+          "fields": {
+            "phase_a": {
+              "count_range": [
+                1,
+                1
+              ],
+              "nodes_with_more_than_one_turn_1_based": []
+            },
+            "phase_r": {
+              "count_range": [
+                1,
+                3
+              ],
+              "nodes_with_more_than_one_turn_1_based": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14
+              ]
+            }
+          }
+        },
+        {
+          "phase_increment_tolerance": 1e-06,
+          "fields": {
+            "phase_a": {
+              "count_range": [
+                1,
+                1
+              ],
+              "nodes_with_more_than_one_turn_1_based": []
+            },
+            "phase_r": {
+              "count_range": [
+                1,
+                3
+              ],
+              "nodes_with_more_than_one_turn_1_based": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14
+              ]
+            }
+          }
+        },
+        {
+          "phase_increment_tolerance": 1e-05,
+          "fields": {
+            "phase_a": {
+              "count_range": [
+                1,
+                1
+              ],
+              "nodes_with_more_than_one_turn_1_based": [],
+              "events_by_node": [
+                [
+                  {
+                    "time_bracket_s": [
+                      0.8000000000000002,
+                      5.849999999999997
+                    ],
+                    "selected_turn_phase": 9.420235632610063e-43,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      0.8500000000000002,
+                      5.799999999999997
+                    ],
+                    "selected_turn_phase": 4.166745321300927e-42,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      0.9000000000000002,
+                      5.749999999999997
+                    ],
+                    "selected_turn_phase": 2.0872338848936947e-41,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      0.9500000000000003,
+                      5.6999999999999975
+                    ],
+                    "selected_turn_phase": 1.1893824710742297e-40,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.0000000000000002,
+                      5.649999999999998
+                    ],
+                    "selected_turn_phase": 7.780924062085197e-40,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.0500000000000003,
+                      5.599999999999998
+                    ],
+                    "selected_turn_phase": 4.480299101872284e-39,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.1000000000000003,
+                      5.549999999999998
+                    ],
+                    "selected_turn_phase": 2.518382072684603e-38,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.1500000000000004,
+                      5.499999999999998
+                    ],
+                    "selected_turn_phase": 1.483582145412096e-37,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.2000000000000004,
+                      5.449999999999998
+                    ],
+                    "selected_turn_phase": 9.039878513651291e-37,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.2500000000000004,
+                      5.449999999999998
+                    ],
+                    "selected_turn_phase": 2.458472782125619e-36,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.3500000000000005,
+                      5.399999999999999
+                    ],
+                    "selected_turn_phase": 1.601407975723871e-35,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.4000000000000006,
+                      5.349999999999999
+                    ],
+                    "selected_turn_phase": 1.0817897479568354e-34,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.4500000000000006,
+                      5.299999999999999
+                    ],
+                    "selected_turn_phase": 7.581018513133845e-34,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.5000000000000007,
+                      5.299999999999999
+                    ],
+                    "selected_turn_phase": 2.3212587774960656e-33,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.6000000000000008,
+                      5.249999999999999
+                    ],
+                    "selected_turn_phase": 1.9540785168258223e-32,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.6500000000000008,
+                      5.199999999999999
+                    ],
+                    "selected_turn_phase": 1.425579191564631e-31,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.7500000000000009,
+                      5.199999999999999
+                    ],
+                    "selected_turn_phase": 4.27775401598347e-31,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.800000000000001,
+                      5.1499999999999995
+                    ],
+                    "selected_turn_phase": 2.8710769997667194e-30,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.850000000000001,
+                      5.1499999999999995
+                    ],
+                    "selected_turn_phase": 8.003312836139358e-30,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.900000000000001,
+                      5.1
+                    ],
+                    "selected_turn_phase": 5.029472215917667e-29,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      1.950000000000001,
+                      5.1
+                    ],
+                    "selected_turn_phase": 1.2917829787520782e-28,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  }
+                ]
+              ]
+            },
+            "phase_r": {
+              "count_range": [
+                1,
+                3
+              ],
+              "nodes_with_more_than_one_turn_1_based": [
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14
+              ],
+              "events_by_node": [
+                [
+                  {
+                    "time_bracket_s": [
+                      3.749999999999999,
+                      3.749999999999999
+                    ],
+                    "selected_turn_phase": 0.9155483822332477,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      3.749999999999999,
+                      3.749999999999999
+                    ],
+                    "selected_turn_phase": 0.9155483822332477,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      3.749999999999999,
+                      3.749999999999999
+                    ],
+                    "selected_turn_phase": 0.9155483822332477,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      3.749999999999999,
+                      3.749999999999999
+                    ],
+                    "selected_turn_phase": 0.9155483822332477,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  },
+                  {
+                    "time_bracket_s": [
+                      4.899999999999995,
+                      4.899999999999995
+                    ],
+                    "selected_turn_phase": 0.8816845937763567,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  },
+                  {
+                    "time_bracket_s": [
+                      5.0,
+                      5.0
+                    ],
+                    "selected_turn_phase": 0.8824587720816971,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      3.749999999999999,
+                      3.749999999999999
+                    ],
+                    "selected_turn_phase": 0.9155483822332477,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  },
+                  {
+                    "time_bracket_s": [
+                      4.749999999999996,
+                      4.749999999999996
+                    ],
+                    "selected_turn_phase": 0.8870684364621584,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  },
+                  {
+                    "time_bracket_s": [
+                      5.0,
+                      5.0
+                    ],
+                    "selected_turn_phase": 0.8925324603577122,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      3.749999999999999,
+                      3.749999999999999
+                    ],
+                    "selected_turn_phase": 0.9155483822332477,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  },
+                  {
+                    "time_bracket_s": [
+                      4.599999999999996,
+                      4.649999999999996
+                    ],
+                    "selected_turn_phase": 0.8919402596195534,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  },
+                  {
+                    "time_bracket_s": [
+                      5.1,
+                      5.1
+                    ],
+                    "selected_turn_phase": 0.9079752760669363,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      3.749999999999999,
+                      3.749999999999999
+                    ],
+                    "selected_turn_phase": 0.9155483822332477,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  },
+                  {
+                    "time_bracket_s": [
+                      4.4999999999999964,
+                      4.4999999999999964
+                    ],
+                    "selected_turn_phase": 0.8962280698199803,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  },
+                  {
+                    "time_bracket_s": [
+                      5.1,
+                      5.1
+                    ],
+                    "selected_turn_phase": 0.9312748234406014,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      3.749999999999999,
+                      3.749999999999999
+                    ],
+                    "selected_turn_phase": 0.9155483822332477,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  },
+                  {
+                    "time_bracket_s": [
+                      4.349999999999997,
+                      4.349999999999997
+                    ],
+                    "selected_turn_phase": 0.9001391832437927,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  },
+                  {
+                    "time_bracket_s": [
+                      5.1,
+                      5.1
+                    ],
+                    "selected_turn_phase": 0.9656202697655872,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      3.749999999999999,
+                      3.749999999999999
+                    ],
+                    "selected_turn_phase": 0.9155483822332477,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  },
+                  {
+                    "time_bracket_s": [
+                      4.249999999999997,
+                      4.249999999999997
+                    ],
+                    "selected_turn_phase": 0.9035966256362661,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  },
+                  {
+                    "time_bracket_s": [
+                      5.1,
+                      5.1
+                    ],
+                    "selected_turn_phase": 0.9993298591039034,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      3.749999999999999,
+                      3.749999999999999
+                    ],
+                    "selected_turn_phase": 0.9155483822332477,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  },
+                  {
+                    "time_bracket_s": [
+                      4.149999999999998,
+                      4.149999999999998
+                    ],
+                    "selected_turn_phase": 0.9066999188545934,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  },
+                  {
+                    "time_bracket_s": [
+                      5.1499999999999995,
+                      5.1499999999999995
+                    ],
+                    "selected_turn_phase": 0.9999765288535737,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      3.749999999999999,
+                      3.749999999999999
+                    ],
+                    "selected_turn_phase": 0.9155483822332477,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  },
+                  {
+                    "time_bracket_s": [
+                      4.049999999999998,
+                      4.049999999999998
+                    ],
+                    "selected_turn_phase": 0.9093275494179677,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  },
+                  {
+                    "time_bracket_s": [
+                      5.05,
+                      5.199999999999999
+                    ],
+                    "selected_turn_phase": 0.9999990905264653,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      3.749999999999999,
+                      3.749999999999999
+                    ],
+                    "selected_turn_phase": 0.9155483822332477,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  },
+                  {
+                    "time_bracket_s": [
+                      3.9499999999999984,
+                      3.9499999999999984
+                    ],
+                    "selected_turn_phase": 0.911486261981342,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  },
+                  {
+                    "time_bracket_s": [
+                      4.899999999999995,
+                      5.199999999999999
+                    ],
+                    "selected_turn_phase": 0.9999999092533883,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      3.749999999999999,
+                      3.749999999999999
+                    ],
+                    "selected_turn_phase": 0.9155483822332953,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  },
+                  {
+                    "time_bracket_s": [
+                      3.8999999999999986,
+                      3.8999999999999986
+                    ],
+                    "selected_turn_phase": 0.9134617073112011,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  },
+                  {
+                    "time_bracket_s": [
+                      4.799999999999995,
+                      5.249999999999999
+                    ],
+                    "selected_turn_phase": 0.9999999956821831,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      3.749999999999999,
+                      3.749999999999999
+                    ],
+                    "selected_turn_phase": 0.915548384109047,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  },
+                  {
+                    "time_bracket_s": [
+                      3.799999999999999,
+                      3.799999999999999
+                    ],
+                    "selected_turn_phase": 0.9148921567415187,
+                    "direction_before": -1,
+                    "direction_after": 1
+                  },
+                  {
+                    "time_bracket_s": [
+                      4.649999999999996,
+                      5.249999999999999
+                    ],
+                    "selected_turn_phase": 0.9999999994662094,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      4.549999999999996,
+                      5.299999999999999
+                    ],
+                    "selected_turn_phase": 0.9999999999679692,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      4.449999999999997,
+                      5.299999999999999
+                    ],
+                    "selected_turn_phase": 0.999999999994849,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      4.349999999999997,
+                      5.299999999999999
+                    ],
+                    "selected_turn_phase": 0.9999999999990175,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      4.249999999999997,
+                      5.349999999999999
+                    ],
+                    "selected_turn_phase": 0.9999999999999009,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      4.1999999999999975,
+                      5.349999999999999
+                    ],
+                    "selected_turn_phase": 0.9999999999999705,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      4.099999999999998,
+                      5.349999999999999
+                    ],
+                    "selected_turn_phase": 0.9999999999999887,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ],
+                [
+                  {
+                    "time_bracket_s": [
+                      4.099999999999998,
+                      5.349999999999999
+                    ],
+                    "selected_turn_phase": 0.9999999999999946,
+                    "direction_before": 1,
+                    "direction_after": -1
+                  }
+                ]
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "tolerance_scan_is_not_a_scientific_gate": true,
+  "continuous_event_times_or_rates_identified": false,
+  "memory_law_implemented_or_calibrated": false,
+  "source_2019_PC_memory_approach_is_not_claimed_Q01_code": true,
+  "mechanism_or_periodicity_promoted": false,
+  "interpretation": "retained observations support prioritizing path-dependent material closure; no claim that missing memory alone explains Table4 error"
+}

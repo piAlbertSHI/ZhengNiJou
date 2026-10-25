@@ -1,0 +1,15 @@
+{
+  "schema": "heatdrive_ecc_superseded_source_metrology_v1",
+  "reason": "Visual QA found two phase points touching the chart frame; final r3 retains 20 interior source phase points instead of 22",
+  "final_directory": "../material_component_paths_20261026_r3",
+  "old_extractor_producer": "304d4f7",
+  "final_extractor_producer": "cbb2535",
+  "old_files": [
+    {"name": "Q01_material_pixel_paths.json", "bytes": 103795, "sha256": "D70856EDA77F2B6D548BCB53EA72691497F3B355CE4151101A207CBF92010622"},
+    {"name": "Q01_material_pixel_overlay.png", "bytes": 789296, "sha256": "00CFEC06D46627802DC6A34CE5C08AC44EA0854C15EDE2A8F1E8EBAB28093780"}
+  ],
+  "classification": "regenerable superseded source-metrology products, not simulation states or a distinct physical trial",
+  "source_PDF_and_Git_producers_retained": true,
+  "production_or_test_dependencies_on_old_files": false,
+  "outcome_record": "../material_component_paths_20261026_r3/round_closeout.json"
+}

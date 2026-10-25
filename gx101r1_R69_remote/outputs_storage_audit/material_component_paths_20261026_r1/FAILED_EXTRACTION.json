@@ -1,0 +1,12 @@
+{
+  "schema": "heatdrive_ecc_pixel_extraction_failure_v1",
+  "producer": "7efb761",
+  "time_integration_occurred": false,
+  "reason": "fixed 14-pixel vertical extent incorrectly rejects steep real phase traces",
+  "offline_diagnosis_phase_accepted_count": 1,
+  "offline_diagnosis_temperature_accepted_count": 131,
+  "no_guide_values_used_as_measurements": true,
+  "repair": "slope-aware stroke geometry; crossing and annotation exclusions retained",
+  "new_output_required": true,
+  "material_or_Table4_failure": false
+}
