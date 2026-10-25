@@ -1,0 +1,52 @@
+{
+  "schema": "heatdrive_ecc_shared_SMA_wire_review_v1",
+  "execution_commit": "5df7636b110ace6e2745880c3cba5e55d4f43369",
+  "input_dependencies": [
+    {
+      "path": "C:\\tmp\\se21_shared_SMA_constructor_r5_20261026\\construction_execution.json",
+      "sha256": "986ADCDAC43A53A5317D03807CF906458C7EC3C3E44BD85C54C4D0235EBEB409"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_SMA_constructor_r5_20261026\\before_tl.json",
+      "sha256": "747D6AE42FE96E6582B7D5A3BA565189184CE90BE714D7A0CE3EFA632B969560"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_SMA_constructor_r5_20261026\\before_thermal.json",
+      "sha256": "8EEA9150D0FB68BC77073C779AA4B284A925B6653DBEB606EEF22E9ABFD1FF31"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_SMA_constructor_r5_20261026\\after_tl.json",
+      "sha256": "870389781ED05AA7FC3DA0683CE264F1F9A2B151955C847C9C8A32D51D169EB3"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_SMA_constructor_r5_20261026\\after_thermal.json",
+      "sha256": "FE9414220102FF635EE5C7BDBB6B0EC408D94CEC85630DC43688EA030F49810C"
+    }
+  ],
+  "reader_sha256": "0281B9CA4025B47E34E29F2EE2796D59F86ECA42792DD12C0486E33BA4CB167C",
+  "exact_liquid_partition_intervention_pass": true,
+  "all_surviving_thermal_wire_partitions_unchanged": true,
+  "retired_liquid_typed_vertices": 42,
+  "retired_thermal_typed_vertices": 105,
+  "retained_SMA_fluid_pipe_count": 21,
+  "single_bed_volume_m3": 1.5440062695232413e-05,
+  "actual_both_route_gate_inputs_verified": true,
+  "geometry_and_initial_expressions_held_by_applicator": true,
+  "initial_temperature_rule_source_sha256": "5A862DF1777B4B8B56868DB7731118A0F7F2ADB05D2839CF84FCCB2CF36AB984",
+  "configuration_sha256": "82A096E37867063D357C138B4C97EEC13234B9CC659B8135891D47C55C4D4256",
+  "constructor_initial_temperature_parameters_K": {
+    "Tshex_K": 393.15,
+    "Thhex_K": 303.15,
+    "T0_K": 303.15
+  },
+  "retained_bed_initial_T_K_from_constructor_rules": 393.15,
+  "removed_cooling_representation_initial_T_K": 303.15,
+  "uniform_cold_start_proven": false,
+  "initial_condition_caution": "The inherited hold fluid starts at Tshex, not uniform T0. A fresh explicitly matched cold protocol is needed for dual/shared physics comparison",
+  "compiled_inventory_state_count_verified": false,
+  "switch_continuity_or_energy_balance_proven": false,
+  "cold_initialization_or_mechanism_qualified": false,
+  "C200_inventory_or_causal_attribution": false,
+  "production_recovery_or_twenty_cycle_seed_allowed": false,
+  "next_action": "New native cold initialization and small observable switch test; never load old OP"
+}

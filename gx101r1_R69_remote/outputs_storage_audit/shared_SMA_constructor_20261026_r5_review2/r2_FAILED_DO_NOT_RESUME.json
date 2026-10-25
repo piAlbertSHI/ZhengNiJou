@@ -1,0 +1,25 @@
+{
+  "schema": "heatdrive_ecc_shared_SMA_constructor_execution_v1",
+  "construction_complete": false,
+  "simulated": false,
+  "compiled": false,
+  "checkpoint_loaded": false,
+  "production_recovery_allowed": false,
+  "execution_commit": "91e68bc7c2455302b520b873506a2f34d608f2b6",
+  "input_dependencies": {
+    "configuration_path": "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025\\conservative\\configuration.mat",
+    "configuration_sha256": "82A096E37867063D357C138B4C97EEC13234B9CC659B8135891D47C55C4D4256",
+    "seed_zip": "C:/tmp/se21_shared_SMA_constructor_seed_r1_20261026.zip",
+    "seed_zip_sha256": "C1BA6996FD7BE0E04524690D6F363317FD19B80EC44D4B9159DBDB417FF460F3"
+  },
+  "retained_chamber_library": {
+    "path": "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025\\component_build\\ecc_inventory_specific_lib.slx",
+    "sha256": "D7DC4F7166EB6E58BE60B48F0648DE4AD297AEE3D74371D466B1576D4B55AE72",
+    "component_path": "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025\\component_build\\+ecc_inventory_specific\\conservative_chamber.ssc",
+    "component_sha256": "AFCA0E54FE8A28BB7769DA29E003273A987A43A11B718B66C68C79807BD20539",
+    "rebuilt": false
+  },
+  "error_identifier": "Simulink:Commands:InvLineHandle",
+  "error_message": "Simulink 信号线句柄无效",
+  "error_report": "错误使用 Apply_HeatDriveECC_SharedSMAFluidDiagnostic (第 49 行)\nSimulink 信号线句柄无效\n\n出错 Run_HeatDriveECC_SharedSMAConstruction (第 49 行)\n        change=Apply_HeatDriveECC_SharedSMAFluidDiagnostic(model,isolated,before_tl,before_th);\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+}

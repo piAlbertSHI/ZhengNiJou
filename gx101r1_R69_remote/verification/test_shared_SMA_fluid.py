@@ -1,8 +1,9 @@
 """Partition adversaries and constructor source scope, not runtime physics."""
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 
-from Audit_HeatDriveECC_SharedSMAFluid import partition, require_partition
+from Audit_HeatDriveECC_SharedSMAFluid import partition, require_partition, review
 
 
 def topology(keys, pairs):
@@ -60,6 +61,33 @@ class ConstructorScopeTests(unittest.TestCase):
         self.assertIn("live=get_param(h,'Line')", apply)
         self.assertNotIn("for line=unique(line_handles)", apply)
         self.assertIn("get_param(line,'LineParent')", apply)
+
+
+class RetainedConstructorTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.root = Path("C:/tmp/se21_shared_SMA_constructor_r5_20261026")
+        cls.result = review(cls.root)
+
+    def test_actual_construction_is_one_inventory_not_physical_qualification(self):
+        r = self.result
+        self.assertEqual(r["retained_SMA_fluid_pipe_count"], 21)
+        self.assertEqual(r["retired_liquid_typed_vertices"], 42)
+        self.assertTrue(r["all_surviving_thermal_wire_partitions_unchanged"])
+        self.assertFalse(r["compiled_inventory_state_count_verified"])
+        self.assertFalse(r["switch_continuity_or_energy_balance_proven"])
+        self.assertFalse(r["production_recovery_or_twenty_cycle_seed_allowed"])
+
+    def test_actual_hot_constructor_is_not_mislabeled_uniform_cold(self):
+        r = self.result
+        self.assertEqual(r["retained_bed_initial_T_K_from_constructor_rules"], 393.15)
+        self.assertEqual(r["removed_cooling_representation_initial_T_K"], 303.15)
+        self.assertFalse(r["uniform_cold_start_proven"])
+
+    def test_wrong_historical_producer_source_is_rejected(self):
+        with patch("Audit_HeatDriveECC_SharedSMAFluid.subprocess.check_output", return_value=b"different source"):
+            with self.assertRaisesRegex(ValueError, "producer source"):
+                review(self.root)
 
 
 if __name__ == "__main__":

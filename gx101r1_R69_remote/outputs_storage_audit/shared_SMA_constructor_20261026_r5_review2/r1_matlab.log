@@ -1,0 +1,36 @@
+    ----------------------------------------------------
+	您的许可证将在 4 天后过期。
+	请与系统管理员或
+	MathWorks 公司联系，以便续订此许可证。
+    ----------------------------------------------------
+[警告: The file containing block diagram 'heatdrive_ecc_coupled_se21' is shadowed by a file of the same name higher on the MATLAB path. This can cause unexpected behavior. For more
+information see <a href="matlab:helpview([docroot '/toolbox/simulink/helptargets.map'], 'shadowing')">"Avoiding Problems with Shadowed Files"</a> in the Simulink documentation.
+
+The file containing the block diagram is: C:\tmp\se21_shared_SMA_constructor_r1_20261026\seed\gx101r1_R69_remote\heatdrive_ecc_coupled_se21.slx.
+The file higher on the MATLAB path is: C:\Users\86182\Desktop\正逆耦合\gx101r1_R69_remote\heatdrive_ecc_coupled_se21.slx] 
+[> 位置：load_system>i_load_system (第 44 行)
+位置: load_system (第 20 行)
+位置: Load_HeatDriveECC_ModelByPath (第 12 行)
+位置: Build_HeatDriveECC_EighthRound_Simulink_Model (第 32 行)
+位置: Run_HeatDriveECC_SharedSMAConstruction (第 27 行)] 
+{错误使用 assert
+Build the diagnostic component library first.
+
+出错 Integrate_HeatDriveECC_Constitutive21_Interface>ensure_sma_pump_manifold_volume (第 290 行)
+        assert(bdIsLoaded(library_name), 'Build the diagnostic component library first.');
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+出错 Integrate_HeatDriveECC_Constitutive21_Interface>configure_sma_valve_manifolds (第 114 行)
+    ensure_sma_pump_manifold_volume(inlet_plenum, options, ...
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+出错 Integrate_HeatDriveECC_Constitutive21_Interface (第 30 行)
+    configure_sma_valve_manifolds(model_name, options);
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+出错 Build_HeatDriveECC_EighthRound_Simulink_Model (第 64 行)
+    Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, false);
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+出错 Run_HeatDriveECC_SharedSMAConstruction (第 27 行)
+        [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(o);
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+[警告: 无法关闭模型 'heatdrive_ecc_coupled_se21'，因为它已更改。要保存更改，请使用 close_system('heatdrive_ecc_coupled_se21',1)。要放弃更改，请使用
+close_system('heatdrive_ecc_coupled_se21',0)。] 

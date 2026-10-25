@@ -1,0 +1,18 @@
+{
+  "schema": "heatdrive_ecc_shared_SMA_constructor_execution_v1",
+  "construction_complete": false,
+  "simulated": false,
+  "compiled": false,
+  "checkpoint_loaded": false,
+  "production_recovery_allowed": false,
+  "execution_commit": "a4ea1df914c1f00864c673e094f6154e368a427d",
+  "input_dependencies": {
+    "configuration_path": "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025\\conservative\\configuration.mat",
+    "configuration_sha256": "82A096E37867063D357C138B4C97EEC13234B9CC659B8135891D47C55C4D4256",
+    "seed_zip": "C:/tmp/se21_shared_SMA_constructor_seed_r1_20261026.zip",
+    "seed_zip_sha256": "C1BA6996FD7BE0E04524690D6F363317FD19B80EC44D4B9159DBDB417FF460F3"
+  },
+  "error_identifier": "",
+  "error_message": "Build the diagnostic component library first.",
+  "error_report": "错误使用 assert\nBuild the diagnostic component library first.\n\n出错 Integrate_HeatDriveECC_Constitutive21_Interface>ensure_sma_pump_manifold_volume (第 290 行)\n        assert(bdIsLoaded(library_name), 'Build the diagnostic component library first.');\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Integrate_HeatDriveECC_Constitutive21_Interface>configure_sma_valve_manifolds (第 114 行)\n    ensure_sma_pump_manifold_volume(inlet_plenum, options, ...\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Integrate_HeatDriveECC_Constitutive21_Interface (第 30 行)\n    configure_sma_valve_manifolds(model_name, options);\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Build_HeatDriveECC_EighthRound_Simulink_Model (第 64 行)\n    Integrate_HeatDriveECC_Constitutive21_Interface(model_name, options, false);\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_SharedSMAConstruction (第 27 行)\n        [model,options]=Build_HeatDriveECC_EighthRound_Simulink_Model(o);\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+}

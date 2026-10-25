@@ -1,0 +1,416 @@
+{
+  "schema": "heatdrive_ecc_shared_SMA_fluid_diagnostic_v1",
+  "mode": "isolated_constructor_only",
+  "retained_pipe_parameters": [
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    },
+    {
+      "block": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+      "area_m2": 1.8849555921538758E-5,
+      "length_m": 0.03900575078722239,
+      "retained_mask_expressions": {
+        "area": "sma_article_pipe_fa",
+        "length": "sma_article_pipe_segment_l",
+        "Dh": "sma_article_pipe_Dh",
+        "Nu_lam": "sma_article_Nu",
+        "T0": "sma_hold_fluid_T_init",
+        "p0": "0.85"
+      }
+    }
+  ],
+  "removed_blocks": [
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_001",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_001",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode01HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode01HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node01_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_002",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_002",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode02HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode02HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node02_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_003",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_003",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode03HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode03HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node03_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_004",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_004",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode04HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode04HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node04_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_005",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_005",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode05HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode05HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node05_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_006",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_006",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode06HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode06HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node06_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_007",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_007",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode07HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode07HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node07_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_008",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_008",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode08HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode08HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node08_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_009",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_009",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode09HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode09HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node09_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_010",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_010",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode10HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode10HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node10_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_011",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_011",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode11HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode11HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node11_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_012",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_012",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode12HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode12HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node12_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_013",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_013",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode13HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode13HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node13_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_014",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_014",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode14HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode14HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node14_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_015",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_015",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode15HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode15HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node15_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_016",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_016",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode16HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode16HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node16_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_017",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_017",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode17HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode17HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node17_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_018",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_018",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode18HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode18HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node18_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_019",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_019",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode19HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode19HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node19_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_020",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_020",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode20HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode20HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node20_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_021",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGate_021",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode21HeatFlowSensor",
+    "heatdrive_ecc_coupled_se21/SMA/SMACooldownNode21HeatFlowPS",
+    "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_node21_heatflow_W",
+    "heatdrive_ecc_coupled_se21/SMA/CooldownThermalGateCommandPS"
+  ],
+  "historical_temperature_aliases": [
+    {
+      "historical_sensor": "heatdrive_ecc_coupled_se21/SMA/SMACooldownPipeNode01FluidTempSensor",
+      "shared_port": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001:A",
+      "independent_cooling_inventory_measurement": false
+    },
+    {
+      "historical_sensor": "heatdrive_ecc_coupled_se21/SMA/SMACooldownPipeNode11FluidTempSensor",
+      "shared_port": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011:B",
+      "independent_cooling_inventory_measurement": false
+    },
+    {
+      "historical_sensor": "heatdrive_ecc_coupled_se21/SMA/SMACooldownPipeNode21FluidTempSensor",
+      "shared_port": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021:B",
+      "independent_cooling_inventory_measurement": false
+    }
+  ],
+  "single_bed_volume_m3": 1.5440062695232413E-5,
+  "live_liquid_wire_deletions": 23,
+  "external_valves_modified": false,
+  "solid_capacity_modified": false,
+  "retained_initial_state_expressions_modified": false,
+  "complete_state_loaded": false,
+  "gate_command": "max(original_hold_G, original_cooldown_G), original ZOH commands and PS converter",
+  "cooling_heatflow_outputs_removed_not_fabricated": true,
+  "compiled_or_simulated": false,
+  "switch_continuity_proven": false,
+  "production_recovery_allowed": false,
+  "scientific_mechanism_qualified": false
+}

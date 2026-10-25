@@ -1,0 +1,12 @@
+    ----------------------------------------------------
+	您的许可证将在 4 天后过期。
+	请与系统管理员或
+	MathWorks 公司联系，以便续订此许可证。
+    ----------------------------------------------------
+{错误使用 Apply_HeatDriveECC_SharedSMAFluidDiagnostic (第 49 行)
+Simulink 信号线句柄无效
+
+出错 Run_HeatDriveECC_SharedSMAConstruction (第 49 行)
+        change=Apply_HeatDriveECC_SharedSMAFluidDiagnostic(model,isolated,before_tl,before_th);
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - 显示完整堆栈跟踪
+} 
