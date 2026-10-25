@@ -149,7 +149,8 @@ def simulate(model, cycles, max_step, rtol=1e-8, stage_sink=None):
                 transitions.append({"time_s": start, "to_stage": stage,
                                     "state_bitwise_unchanged": bool(np.array_equal(old, y))})
             solver = CompensatedBS3(lambda t, v: model.evaluate(v, stage)[0], start, y, end,
-                                   max_step=max_step, rtol=rtol, atol=atol, compensation=summation_remainder)
+                                   max_step=max_step, rtol=rtol, atol=atol, compensation=summation_remainder,
+                                   controlled_size=getattr(model, "controlled_size", None))
             next_sample = start+.05
             while solver.status == "running":
                 message = solver.step()
@@ -176,7 +177,7 @@ def simulate(model, cycles, max_step, rtol=1e-8, stage_sink=None):
                         samples.append(observed.copy())
                         stages.append(stage)
                         next_sample += .05
-            evaluations += solver.nfev
+            evaluations += solver.nfev+solver.initial_control_nfev
             if solver.t != end:
                 raise RuntimeError("Stage endpoint was not reached")
             summation_remainder = solver.compensation.copy()

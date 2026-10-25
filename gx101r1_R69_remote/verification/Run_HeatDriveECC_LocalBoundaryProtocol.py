@@ -50,6 +50,7 @@ def run(output, parameter_root):
         "outer_solve_or_Table4_input": False, "scientific_gate_thresholds_changed": False,
         "runtime": {"python": platform.python_version(), "numpy": np.__version__, "scipy": scipy.__version__},
         "local_numerical_budgets": {"energy_J": 1e-8, "mass_kg": 1e-15},
+        "passive_observer_numerical_comparison": {"temperature_K": 1e-9, "phase_fraction": 1e-11},
         "budget_scope": "discrete local inventory identity, not physical validation or all-step gate"}
     write_json(output/"preflight.json", record)
     try:
@@ -89,6 +90,9 @@ def run(output, parameter_root):
         for name in ("Ta", "Tr", "buffer_T", "bus_T", "xa", "xr"):
             comparison[name] = max(float(np.max(abs(base.unpack(a)[name]-base.unpack(b)[name])))
                                    for a, b in zip(physical, states))
+            limit = 1e-11 if name in ("xa", "xr") else 1e-9
+            if comparison[name] > limit:
+                raise ValueError("Passive observer perturbed the numerical physical trajectory beyond roundoff allowance")
         raw = output/"selected_local_boundaries.npz"
         np.savez_compressed(raw, **profiles, diagnostic_coordinates_NOT_OP=physical,
                             boundary_integral_J=energy, boundary_mass_integral_kg=mass)
@@ -97,6 +101,8 @@ def run(output, parameter_root):
             control_volumes=local, local_energy_max_J=float(abs(er).max()), local_mass_max_kg=float(abs(mr).max()),
             observer_comparison_max_selected_difference=comparison,
             observer_extra_coordinates_do_not_enter_physical_RHS=True,
+            observer_coordinates_excluded_from_step_selection_and_error_norm=True,
+            physical_accepted_step_count_matches_control=(result["accepted_steps"] == prior["accepted_steps"]),
             exact_stage_stops=True, local_identity_pass=True,
             independence="boundary ports and common force/velocity rebuilt without summing cell RHS; same numerical time integrator, not independent physics",
             limitation="whole-component balance, not per-cell accuracy; prescribed flows, unresolved material/walls/pressure/pump remain")

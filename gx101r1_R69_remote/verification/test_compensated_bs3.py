@@ -48,6 +48,26 @@ class CompensatedTests(unittest.TestCase):
         full = finish(CompensatedBS3(f, 0., np.array([1e12]), 2., max_step=.005))
         np.testing.assert_array_equal(two.y, full.y)
 
+    def test_passive_suffix_does_not_dilute_error_norm_or_change_first_step(self):
+        base = CompensatedBS3(lambda t, y: -7*y, 0., np.array([1.]), 1., rtol=1e-7, atol=1e-10)
+        observed = CompensatedBS3(lambda t, y: np.r_[-7*y[0], np.full(40, 1e9*np.cos(300*t))],
+                                 0., np.r_[1., np.zeros(40)], 1., rtol=1e-7, atol=1e-10, controlled_size=1)
+        self.assertEqual(base.h_abs, observed.h_abs)
+        clocks = [[], []]
+        for j, solver in enumerate((base, observed)):
+            while solver.status == "running":
+                solver.step()
+                clocks[j].append(solver.t)
+            self.assertEqual(solver.status, "finished")
+        np.testing.assert_array_equal(clocks[0], clocks[1])
+        self.assertEqual(base.y[0], observed.y[0])
+        self.assertGreater(observed.initial_control_nfev, 0)
+
+    def test_invalid_physical_prefix_rejected(self):
+        for size in (0, 2, True, 1.5):
+            with self.assertRaises(ValueError):
+                CompensatedBS3(lambda t, y: y, 0., np.ones(1), 1., controlled_size=size)
+
 
 if __name__ == "__main__":
     unittest.main()

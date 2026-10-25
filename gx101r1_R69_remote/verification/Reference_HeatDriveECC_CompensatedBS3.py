@@ -16,11 +16,43 @@ def compensated_add(state, increment, remainder):
 
 
 class CompensatedBS3(RK23):
-    def __init__(self, *args, compensation=None, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, fun, t0, y0, t_bound, *, compensation=None, controlled_size=None, **kwargs):
+        self.controlled_size = controlled_size
+        self.initial_control_nfev = 0
+        if controlled_size is not None:
+            y0 = np.asarray(y0)
+            if (not isinstance(controlled_size, int) or isinstance(controlled_size, bool)
+                    or not 1 <= controlled_size <= len(y0) or kwargs.get("vectorized", False)):
+                raise ValueError("Require a nonvectorized physical prefix for passive-suffix integration")
+            if kwargs.get("first_step") is None:
+                # Public RK23 initialization chooses the same step as the physical
+                # system alone. The suffix MUST NOT feed back into that system.
+                options = dict(kwargs)
+                if np.ndim(options.get("atol", 1e-6)):
+                    options["atol"] = np.asarray(options["atol"])[:controlled_size]
+                probe = RK23(lambda t, v: fun(t, np.r_[v, y0[controlled_size:]])[:controlled_size],
+                             t0, y0[:controlled_size], t_bound, **options)
+                kwargs["first_step"] = probe.h_abs
+                self.initial_control_nfev = probe.nfev
+        super().__init__(fun, t0, y0, t_bound, **kwargs)
         self.compensation = np.zeros_like(self.y) if compensation is None else compensation.copy()
         if self.compensation.shape != self.y.shape or not np.isfinite(self.compensation).all():
             raise ValueError("Invalid numerical summation remainder")
+
+    def _estimate_error_norm(self, K, h, scale):
+        if self.controlled_size is None:
+            return super()._estimate_error_norm(K, h, scale)
+        physical = np.ascontiguousarray(K[:, :self.controlled_size])
+        error = self._estimate_error(physical, h)/scale[:self.controlled_size]
+        return np.linalg.norm(error)/np.sqrt(self.controlled_size)
+
+    def _weighted_increment(self, K, weights, h):
+        if self.controlled_size is None:
+            return h*(K.T@weights)
+        # Match the physical-only matrix shape/layout too: otherwise BLAS can
+        # change rounding and hence future adaptive steps merely on observation.
+        physical = np.ascontiguousarray(K[:, :self.controlled_size])
+        return h*np.r_[physical.T@weights, K[:, self.controlled_size:].T@weights]
 
     def _step_impl(self):
         spacing = 10*abs(np.nextafter(self.t, self.direction*np.inf)-self.t)
@@ -35,10 +67,10 @@ class CompensatedBS3(RK23):
             h = end-self.t
             self.K[0] = self.f
             for index in range(1, self.n_stages):
-                increment = h*(self.K[:index].T@self.A[index, :index])
+                increment = self._weighted_increment(self.K[:index], self.A[index, :index], h)
                 trial, _ = compensated_add(self.y, increment, self.compensation)
                 self.K[index] = self.fun(self.t+self.C[index]*h, trial)
-            increment = h*(self.K[:-1].T@self.B)
+            increment = self._weighted_increment(self.K[:-1], self.B, h)
             candidate, remainder = compensated_add(self.y, increment, self.compensation)
             final_rate = self.fun(end, candidate)
             self.K[-1] = final_rate

@@ -144,6 +144,7 @@ class ObservedCycle:
         self.c, self.slices = model.c, dict(model.slices)
         self.edge_count = len(self.boundaries.edges)
         self.size = model.size+2*self.edge_count
+        self.controlled_size = model.size
         self.slices["boundary_energy"] = slice(model.size, model.size+self.edge_count)
         self.slices["boundary_mass"] = slice(model.size+self.edge_count, self.size)
 
