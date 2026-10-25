@@ -1,5 +1,8 @@
-function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder)
+function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder, study)
 % Independent native/probe pipe comparison. No production model or state load.
+    if nargin<4,study='native_probe';end
+    assert(any(strcmp(study,{'native_probe','heat_law_reference'})),'Unknown independent study.');
+    reference_study=strcmp(study,'heat_law_reference');
     assert(~isfolder(folder),'Never overwrite a fixture.');mkdir(folder);
     old=pwd;oldpath=path;restore=onCleanup(@() restore_path(old,oldpath));
     generation=Simulink.fileGenControl('getConfig');
@@ -10,6 +13,9 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder)
         'production_model_loaded',false,'production_state_loaded',false,'checkpoint_saved',false, ...
         'production_recovery_allowed',false,'coupled_model_validated',false, ...
         'error_identifier','','error_message','','cases',{{}});
+    record.study=study;
+    record.reference_heat_laws_independently_integrated=reference_study;
+    if reference_study,record.schema='heatdrive_ecc_single_pipe_reference_v1';end
     try
         [code,commit]=system('git rev-parse HEAD');assert(code==0);record.execution_commit=strtrim(commit);
         configuration=fullfile(source_root,'conservative','configuration.mat');
@@ -50,9 +56,31 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder)
         generated=fullfile(package,'observed_pipe.ssc');write_text(generated,probe);
         record.probe_source_sha256=file_hash(generated);
         record.probe_recipe='component rename, one private visibility declaration, three read-only port-temperature aliases';
+        if reference_study
+            native_heat='    Q_H == Q_conv + Q_cond;';
+            reference_heat='    Q_H == Nu_lam * k_I * surface_area / Dh * (H.T - T_I);';
+            assert(count(probe,native_heat)==1);
+            reference=strrep(probe,'component observed_pipe','component reference_pipe');
+            reference=strrep(reference,native_heat,reference_heat);
+            undo=strrep(reference,reference_heat,native_heat);
+            assert(strcmp(probe,strrep(undo,'component reference_pipe','component observed_pipe')), ...
+                'Reference changed more than the declared wall heat equation.');
+            generated=fullfile(package,'reference_pipe.ssc');write_text(generated,reference);
+            record.reference_source_sha256=file_hash(generated);
+            record.reference_heat_equation=reference_heat;
+            record.other_pipe_equations='unchanged native fluid storage, ports, momentum and property equations';
+        end
         cd(build);ssc_build('ecc_pipe_probe');addpath(build);load_system('ecc_pipe_probe_lib');cd(repo);
         candidates=find_system('ecc_pipe_probe_lib','SearchDepth',1,'Type','Block');
-        candidates=setdiff(candidates,{'ecc_pipe_probe_lib'});assert(isscalar(candidates));
+        candidates=setdiff(candidates,{'ecc_pipe_probe_lib'});
+        probe_library=select_component(candidates,'ecc_pipe_probe.observed_pipe');
+        if reference_study
+            reference_library=select_component(candidates,'ecc_pipe_probe.reference_pipe');
+            arms={'Native','Probe','ReferenceSavedNu','ReferenceQ01'};
+            steps=[.001 .0005 .00025];
+        else
+            assert(isscalar(candidates));arms={'Native','Probe'};steps=.001;
+        end
         model='ecc_single_pipe_heat_step';assert(~bdIsLoaded(model));
         for material={'SMA','SE'}
             name=material{1};prefix=lower(name);
@@ -83,16 +111,18 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder)
             area=o.branch.([prefix '_pipe_flow_area_m2']);
             length=o.branch.([prefix '_pipe_length_m'])/o.node_count;
             diameter=o.branch.([prefix '_pipe_hydraulic_diameter_m']);nu=o.branch.([prefix '_pipe_Nu']);
-            for arm={'Native','Probe'}
+            for arm=arms
                 kind=arm{1};pipe=[model '/' kind];flow=[pipe 'Flow'];
                 library='fl_lib/Thermal Liquid/Elements/Pipe (TL)';
-                if strcmp(kind,'Probe'),library=candidates{1};end
+                if strcmp(kind,'Probe'),library=probe_library;end
+                if startsWith(kind,'Reference'),library=reference_library;end
                 add_block(library,pipe);
                 set_param(pipe,'length',num2str(length,17),'length_unit','m', ...
                     'area',num2str(area,17),'area_unit','m^2','Dh',num2str(diameter,17),'Dh_unit','m', ...
                     'length_add','0','length_add_unit','m','Nu_lam',num2str(nu,17), ...
                     'dynamic_compressibility','false','p_nominal',num2str(o.branch.network_absolute_pressure_MPa,17), ...
                     'p_nominal_unit','MPa','T_nominal','293.15','T_nominal_unit','K','T0','303.15','T0_unit','K');
+                if strcmp(kind,'ReferenceQ01'),set_param(pipe,'Nu_lam','3.66');end
                 add_block('fl_lib/Thermal Liquid/Sources/Flow Rate Source (TL)',flow);
                 set_param(flow,'source_type','foundation.enum.constant_controlled.constant', ...
                     'flow_type','foundation.enum.mass_volumetric_flow.mass', ...
@@ -109,16 +139,21 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder)
                 'SaveState','off','SaveFinalState','off','LoadInitialState','off', ...
                 'SimscapeLogType','all','SimscapeLogName','simlog','SimscapeLogLimitData','off','SimscapeLogToSDI','off');
             mdot=o.branch.(['m_dot_' prefix '_the_kg_per_s']);
-            for flow=[-mdot 0 mdot]
+            flows=[-mdot 0 mdot];if reference_study,flows=[-mdot mdot];end
+            for dt=steps
+            set_param(model,'FixedStep',num2str(dt,17));
+            set_param([model '/Solver'],'LocalSolverSampleTime',num2str(dt,17));
+            for flow=flows
                 for delta=[-5 5]
-                    set_param([model '/NativeFlow'],'mass_flow',num2str(flow,17));
-                    set_param([model '/ProbeFlow'],'mass_flow',num2str(flow,17));
+                    for arm=arms
+                        set_param([model '/' arm{1} 'Flow'],'mass_flow',num2str(flow,17));
+                    end
                     set_param([model '/WallStep'],'After',num2str(303.15+delta,17));
                     elapsed=tic;input=Simulink.SimulationInput(model);
                     output=sim(input.setModelParameter('CaptureErrors','on'));seconds=toc(elapsed);
                     if ~isempty(output.ErrorMessage)
                         failed_case_context=struct('material',name,'mass_flow_command_kgps',flow, ...
-                            'wall_step_K',delta,'resume_allowed',false); %#ok<NASGU>
+                            'wall_step_K',delta,'fixed_step_s',dt,'study',study,'resume_allowed',false); %#ok<NASGU>
                         save(fullfile(folder,'failed_simulation.mat'),'output','failed_case_context','-v7.3');
                         error('HeatDriveECC:SinglePipeSimulationError','%s',output.ErrorMessage);
                     end
@@ -130,7 +165,7 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder)
                     native_traces=extract(native,common);probe_traces=extract(observed,[common extra]);
                     wall=probe_traces{find(strcmp([common extra],'probe_wall_T'),1)};
                     assert(strcmp(wall.unit,'K'));
-                    before=wall.time_s<=.019;after=wall.time_s>=.021;
+                    before=wall.time_s<=.02-dt;after=wall.time_s>=.02+dt;
                     assert(any(before) && any(after) && ...
                         max(abs(wall.values(before)-303.15),[],'all')<1e-9 && ...
                         max(abs(wall.values(after)-(303.15+delta)),[],'all')<1e-9, ...
@@ -146,13 +181,28 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder)
                     end
                     t=native_traces{1}.time_s;assert(t(1)==0 && abs(t(end)-.1)<1e-12);
                     row=struct('material',name,'mass_flow_command_kgps',flow,'wall_step_K',delta, ...
-                        'initial_temperature_K',303.15,'step_time_s',.02,'fixed_step_s',.001, ...
+                        'initial_temperature_K',303.15,'step_time_s',.02,'fixed_step_s',dt, ...
                         'stop_time_s',.1,'simulation_wall_seconds',seconds,'area_m2',area,'length_m',length, ...
                         'Dh_m',diameter,'saved_Nu',nu,'surface_area_m2',4*area/diameter*length, ...
                         'fluid_settings',fluid_record,'native_probe_comparisons',{comparisons}, ...
                         'native_probe_equivalence_pass',true,'power_spec','none','production_recovery_allowed',false);
-                    file=sprintf('case_%02d.mat',numel(record.cases)+1);record_json=jsonencode(row);
-                    save(fullfile(folder,file),'native_traces','probe_traces','record_json','-v7.3');
+                    file=sprintf('case_%02d.mat',numel(record.cases)+1);
+                    if reference_study
+                        row.study=study;row.reference_saved_Nu=nu;row.reference_Q01_Nu=3.66;
+                        row.reference_states_independently_integrated=true;
+                        row.nominal_inventory_temperature_K=293.15;
+                        row.nominal_inventory_pressure_Pa=o.branch.network_absolute_pressure_MPa*1e6;
+                        reference_saved_Nu_traces=extract(simscape.logging.findNode( ...
+                            output.simlog,[model '/ReferenceSavedNu']),[common extra]); %#ok<NASGU>
+                        reference_q01_traces=extract(simscape.logging.findNode( ...
+                            output.simlog,[model '/ReferenceQ01']),[common extra]); %#ok<NASGU>
+                        record_json=jsonencode(row);
+                        save(fullfile(folder,file),'native_traces','probe_traces','record_json', ...
+                            'reference_saved_Nu_traces','reference_q01_traces','-v7.3');
+                    else
+                        record_json=jsonencode(row);
+                        save(fullfile(folder,file),'native_traces','probe_traces','record_json','-v7.3');
+                    end
                     row.file=file;row.sha256=file_hash(fullfile(folder,file));record.cases{end+1}=row;
                     write_text(fullfile(folder,'completed_case_progress.json'),jsonencode(struct( ...
                         'completed_cases',numel(record.cases),'last_measured_time_s',t(end), ...
@@ -160,10 +210,12 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder)
                     clear output native observed native_traces probe_traces
                 end
             end
+            end
             clear model_cleanup
         end
         assert(strcmp(file_hash(source),record.native_source_sha256),'Installed library changed.');
-        record.collection_pass=numel(record.cases)==12;
+        expected=12;if reference_study,expected=24;end
+        record.collection_pass=numel(record.cases)==expected;
         record.passive_probe_equivalence_pass=all(cellfun(@(c) c.native_probe_equivalence_pass,record.cases));
         record.scientific_gate_or_reference_equivalence_pass_claimed=false;
     catch exception
@@ -174,6 +226,11 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder)
     fprintf('FINAL_JSON=%s\n',jsonencode(struct('collection_pass',record.collection_pass, ...
         'completed_cases',numel(record.cases),'error_message',record.error_message,'production_recovery_allowed',false)));
     assert(record.collection_pass,'HeatDriveECC:SinglePipeHeatStepFailed','%s',record.error_message);
+end
+
+function block=select_component(candidates,source)
+    selected=cellfun(@(b) strcmp(get_param(b,'SourceFile'),source),candidates);
+    assert(nnz(selected)==1,'Expected a unique generated component %s.',source);block=candidates{selected};
 end
 
 function result=configure_fluid(block,settings,name)

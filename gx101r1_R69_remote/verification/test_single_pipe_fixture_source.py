@@ -52,6 +52,15 @@ class SinglePipeFixtureSourceTests(unittest.TestCase):
         self.assertIn("'CaptureErrors','on'", self.fixture)
         self.assertIn("'failed_simulation.mat'", self.fixture)
 
+    def test_reference_has_own_state_and_changes_one_heat_equation_only(self):
+        self.assertIn("'    Q_H == Nu_lam * k_I * surface_area / Dh * (H.T - T_I);'", self.fixture)
+        self.assertIn("Reference changed more than the declared wall heat equation.", self.fixture)
+        self.assertIn("'ReferenceSavedNu','ReferenceQ01'", self.fixture)
+        self.assertIn("reference_saved_Nu_traces=extract", self.fixture)
+        self.assertIn("reference_q01_traces=extract", self.fixture)
+        self.assertIn("steps=[.001 .0005 .00025]", self.fixture)
+        self.assertIn("row.nominal_inventory_pressure_Pa=", self.fixture)
+
 
 if __name__ == "__main__":
     unittest.main()
