@@ -1,0 +1,32 @@
+{
+  "schema": "heatdrive_ecc_exact_selected_prefix_coverage_v1",
+  "reader_sha256": "29FD9681B9046B844E6A72DC83979F54172F4797D24257296B69056E931FFD32",
+  "candidates": [
+    {
+      "arm": "dual",
+      "candidate_path": "C:\\tmp\\se21_shared_SMA_cold_prefix_r1_20261026\\dual\\selected_observations.json",
+      "candidate_sha256": "D5E767B11F4E38AD49BDA848C5D1FA3E275C3065C8422C59549F533ACC9833FD",
+      "candidate_bytes": 5110251,
+      "retained_full_raw": "C:\\tmp\\se21_shared_SMA_cold_cycle_r1_20261026\\dual\\selected_observations.mat",
+      "retained_full_raw_sha256": "70DD7446EBBC45BE2987417C419240AC2FC19FFCEB4B4C2E193A3DEAC2DF443F",
+      "exact_physical_prefix_series": 438,
+      "actual_clock_constitutive_and_recorded_gate_prefix_equal": true
+    },
+    {
+      "arm": "shared",
+      "candidate_path": "C:\\tmp\\se21_shared_SMA_cold_prefix_r1_20261026\\shared\\selected_observations.json",
+      "candidate_sha256": "4105D01B26F0945AFF585DAD7DCCA3030DC0CF1D7A260ACB4E6AA564C56752FA",
+      "candidate_bytes": 3312233,
+      "retained_full_raw": "C:\\tmp\\se21_shared_SMA_cold_cycle_r1_20261026\\shared\\selected_observations.mat",
+      "retained_full_raw_sha256": "4A55D1626BCE1530613FBC87F89D8991A38792B61B173F5C27C26275CC47D34C",
+      "exact_physical_prefix_series": 249,
+      "actual_clock_constitutive_and_recorded_gate_prefix_equal": true
+    }
+  ],
+  "byte_duplicate_files": false,
+  "data_prefix_covered_exactly": true,
+  "unobserved_state_equality_claimed": false,
+  "latest_full_cycle_raw_must_be_kept": true,
+  "earlier_summary_markers_preflight_and_logs_must_be_kept": true,
+  "automatic_deletion_performed": false
+}

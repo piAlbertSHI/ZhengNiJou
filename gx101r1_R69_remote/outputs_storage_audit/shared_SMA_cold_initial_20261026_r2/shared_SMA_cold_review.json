@@ -1,0 +1,1029 @@
+{
+  "schema": "heatdrive_ecc_shared_SMA_native_cold_review_v1",
+  "producer_commit": "68a729568bb4df73eb30b2c0fa66160b2eb0d474",
+  "reader_sha256": "B2030E8562D0CD307198213D13B77DF0644237686A86C1419B8CD52880A717B9",
+  "input_dependencies": [
+    {
+      "path": "C:\\tmp\\se21_shared_SMA_cold_initial_r2_20261026\\cold_initial_execution.json",
+      "sha256": "681ECE2E565AF89B88CB140CA30204A7F38D7A7C1DCED2C39DB4746FDF53413F"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_SMA_cold_initial_r2_20261026\\dual\\selected_observations.json",
+      "sha256": "C07D35652C94E57AA0FBA29B75B84076F4DB122E5022BCEAB6D7DB3E6C286DDA"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_SMA_cold_initial_r2_20261026\\dual\\cold_preflight.json",
+      "sha256": "7054D910D9A0D347D71B8EE448F42B594C4485C99858AA286A9967ED3FE9E428"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_SMA_cold_initial_r2_20261026\\dual\\solver_time.jsonl",
+      "sha256": "43FAFAC72A37C3D6BB8744D3F44BBA3C5CBDA9CA9A21D8CAAA05F522F6911454"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_SMA_cold_initial_r2_20261026\\shared\\selected_observations.json",
+      "sha256": "30645C8EB1BCE6760EE496E5CF78D34D00325908027247BAAA726C7AEA064203"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_SMA_cold_initial_r2_20261026\\shared\\cold_preflight.json",
+      "sha256": "EC16E2C20205E689488BE74393011D8F3275D15FC233BA332E4FF42B394E8CE6"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_SMA_cold_initial_r2_20261026\\shared\\solver_time.jsonl",
+      "sha256": "D18BA53AA6DF730D014224741D67EAE9533CD81DE14EFC6AC59998A7AFCF7E12"
+    }
+  ],
+  "arms": [
+    {
+      "arm": "dual",
+      "actual_duration_s": 0.01,
+      "simulation_wall_seconds": 116.7371026,
+      "actual_native_pipe_count": 42,
+      "maximum_initial_temperature_error_K": 0.0,
+      "native_constant_mass_kg": 0.030835360341622448,
+      "maximum_selected_pipe_BE_energy_residual_J": 2.7570231254242517e-14,
+      "maximum_selected_pipe_mass_port_sum_kg_s": 0.0,
+      "selected_pipe_wall_heat_BE_J": -1.1941203565195533e-17,
+      "selected_pipe_native_energy_change_J": 0.0006472903615680374,
+      "sampled_pipe_pressure_min_max_Pa": [
+        850231.0800216813,
+        850419.6814417182
+      ],
+      "pipe_ledgers": [
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_001",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.0070069778045365e-14,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.15007299547716,
+          "pressure_min_max_Pa": [
+            850231.0800216813,
+            850294.4445634055
+          ],
+          "wall_heat_BE_J": -3.889093506559571e-18,
+          "native_energy_change_J": 0.00022823447487195443,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_002",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 9.387306183223021e-15,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499986182815,
+          "pressure_min_max_Pa": [
+            850231.0800950436,
+            850294.4446301644
+          ],
+          "wall_heat_BE_J": 1.4446446063500192e-19,
+          "native_energy_change_J": 1.1748816443696671e-10,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_003",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 4.4607650743032854e-17,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999861824333,
+          "pressure_min_max_Pa": [
+            850231.0801684061,
+            850294.4446969231
+          ],
+          "wall_heat_BE_J": 1.4446543929369798e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_004",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 6.376283349008407e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499986182435,
+          "pressure_min_max_Pa": [
+            850231.0802417687,
+            850294.4447636822
+          ],
+          "wall_heat_BE_J": 1.4446542421865292e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_005",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 6.364356958567897e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499986182436,
+          "pressure_min_max_Pa": [
+            850231.0803151313,
+            850294.4448304408
+          ],
+          "wall_heat_BE_J": 1.4446540756433584e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_006",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 5.975941382436892e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499986182438,
+          "pressure_min_max_Pa": [
+            850231.080388494,
+            850294.4448971999
+          ],
+          "wall_heat_BE_J": 1.4446539278052872e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_007",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 6.611554743427692e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499986182439,
+          "pressure_min_max_Pa": [
+            850231.0804618563,
+            850294.4449639586
+          ],
+          "wall_heat_BE_J": 1.4446537651764612e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_008",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 6.109975590906524e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999861824407,
+          "pressure_min_max_Pa": [
+            850231.0805352193,
+            850294.4450307176
+          ],
+          "wall_heat_BE_J": 1.444653642701398e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_009",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 6.100624199244244e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499986182442,
+          "pressure_min_max_Pa": [
+            850231.0806085817,
+            850294.4450974766
+          ],
+          "wall_heat_BE_J": 1.444653494776805e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_010",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 6.602880706559911e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999861824435,
+          "pressure_min_max_Pa": [
+            850231.0806819441,
+            850294.4451642353
+          ],
+          "wall_heat_BE_J": 1.444653345688563e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_011",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 5.935418578772929e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999861824447,
+          "pressure_min_max_Pa": [
+            850231.0807553069,
+            850294.4452309944
+          ],
+          "wall_heat_BE_J": 1.4446531803379694e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_012",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 6.472098504849391e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999861824464,
+          "pressure_min_max_Pa": [
+            850231.0808286695,
+            850294.4452977531
+          ],
+          "wall_heat_BE_J": 1.4446530310341076e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_013",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 6.376824104488751e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999861824475,
+          "pressure_min_max_Pa": [
+            850231.080902032,
+            850294.4453645122
+          ],
+          "wall_heat_BE_J": 1.44465289658063e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_014",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 6.073111815101025e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499986182449,
+          "pressure_min_max_Pa": [
+            850231.0809753946,
+            850294.4454312709
+          ],
+          "wall_heat_BE_J": 1.4446527407604056e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_015",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 6.611282510475254e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999861824504,
+          "pressure_min_max_Pa": [
+            850231.0810487572,
+            850294.4454980299
+          ],
+          "wall_heat_BE_J": 1.4446525827671434e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_016",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 5.952222956272331e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499986182452,
+          "pressure_min_max_Pa": [
+            850231.0811221197,
+            850294.4455647885
+          ],
+          "wall_heat_BE_J": 1.4446524241638456e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_017",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 6.249565257635408e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499986182453,
+          "pressure_min_max_Pa": [
+            850231.0811954822,
+            850294.4456315476
+          ],
+          "wall_heat_BE_J": 1.4446522797227727e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_018",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 6.5231906122576895e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499986182455,
+          "pressure_min_max_Pa": [
+            850231.0812688449,
+            850294.4456983064
+          ],
+          "wall_heat_BE_J": 1.4446521110640257e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_019",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 6.180718123153246e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999861824566,
+          "pressure_min_max_Pa": [
+            850231.0813422075,
+            850294.4457650653
+          ],
+          "wall_heat_BE_J": 1.4446519831934415e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_020",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.3085837087410368e-17,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499986182458,
+          "pressure_min_max_Pa": [
+            850231.0814155699,
+            850294.4458318243
+          ],
+          "wall_heat_BE_J": 1.4446518299574743e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_021",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.1087261340537281e-14,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499986182374,
+          "pressure_min_max_Pa": [
+            850231.0814889326,
+            850294.445898583
+          ],
+          "wall_heat_BE_J": 1.4446646851724215e-19,
+          "native_energy_change_J": -2.6089487819866577e-11,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 2.7570231254242517e-14,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1500612554273,
+          "pressure_min_max_Pa": [
+            850371.1157198892,
+            850419.6814417182
+          ],
+          "wall_heat_BE_J": -1.070894138565169e-17,
+          "native_energy_change_J": 0.00019121858985344652,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 2.1490934415917144e-14,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999894098526,
+          "pressure_min_max_Pa": [
+            850371.115614857,
+            850419.6813466294
+          ],
+          "wall_heat_BE_J": 1.1072701458224584e-19,
+          "native_energy_change_J": 9.975329556678715e-11,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 3.8951000665501026e-17,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499989409525,
+          "pressure_min_max_Pa": [
+            850371.1155098248,
+            850419.6812515409
+          ],
+          "wall_heat_BE_J": 1.1073177376050315e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.0902813509404784e-18,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499989409523,
+          "pressure_min_max_Pa": [
+            850371.1154047924,
+            850419.6811564523
+          ],
+          "wall_heat_BE_J": 1.1073179315413726e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.0843453675732745e-18,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999894095206,
+          "pressure_min_max_Pa": [
+            850371.1152997604,
+            850419.6810613635
+          ],
+          "wall_heat_BE_J": 1.1073181668129137e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.1096073021425158e-18,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999894095183,
+          "pressure_min_max_Pa": [
+            850371.115194728,
+            850419.6809662748
+          ],
+          "wall_heat_BE_J": 1.1073184063162068e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.0907422065472395e-18,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999894095166,
+          "pressure_min_max_Pa": [
+            850371.1150896959,
+            850419.6808711862
+          ],
+          "wall_heat_BE_J": 1.1073186283759222e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.0920161667656537e-18,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999894095143,
+          "pressure_min_max_Pa": [
+            850371.1149846634,
+            850419.6807760977
+          ],
+          "wall_heat_BE_J": 1.107318855033358e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.1294753732915743e-18,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499989409512,
+          "pressure_min_max_Pa": [
+            850371.1148796313,
+            850419.680681009
+          ],
+          "wall_heat_BE_J": 1.107319069698821e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.0459918278759247e-18,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.149998940951,
+          "pressure_min_max_Pa": [
+            850371.114774599,
+            850419.6805859202
+          ],
+          "wall_heat_BE_J": 1.1073192883561654e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.1344627495523408e-18,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999894095075,
+          "pressure_min_max_Pa": [
+            850371.1146695669,
+            850419.6804908317
+          ],
+          "wall_heat_BE_J": 1.1073195323721526e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.0892515423059685e-18,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499989409506,
+          "pressure_min_max_Pa": [
+            850371.1145645344,
+            850419.6803957431
+          ],
+          "wall_heat_BE_J": 1.1073197658348854e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.0804695278447496e-18,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999894095035,
+          "pressure_min_max_Pa": [
+            850371.1144595023,
+            850419.6803006544
+          ],
+          "wall_heat_BE_J": 1.107319997194023e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.1195279327099655e-18,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499989409501,
+          "pressure_min_max_Pa": [
+            850371.1143544699,
+            850419.6802055656
+          ],
+          "wall_heat_BE_J": 1.10732021320828e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.058921053390773e-18,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499989409499,
+          "pressure_min_max_Pa": [
+            850371.1142494379,
+            850419.680110477
+          ],
+          "wall_heat_BE_J": 1.1073204344357504e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.1570413752948534e-18,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499989409497,
+          "pressure_min_max_Pa": [
+            850371.1141444055,
+            850419.6800153885
+          ],
+          "wall_heat_BE_J": 1.1073206873771727e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.0537982448765736e-18,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999894094944,
+          "pressure_min_max_Pa": [
+            850371.1140393734,
+            850419.6799202998
+          ],
+          "wall_heat_BE_J": 1.1073209019436956e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.097328983090172e-18,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499989409493,
+          "pressure_min_max_Pa": [
+            850371.113934341,
+            850419.6798252111
+          ],
+          "wall_heat_BE_J": 1.1073211118267507e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 4.4827539432690605e-17,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999894094905,
+          "pressure_min_max_Pa": [
+            850371.1138293089,
+            850419.6797301224
+          ],
+          "wall_heat_BE_J": 1.107321357527645e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 8.190022762980307e-15,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999894098696,
+          "pressure_min_max_Pa": [
+            850371.1137242767,
+            850419.679635034
+          ],
+          "wall_heat_BE_J": 1.1073198147959672e-19,
+          "native_energy_change_J": 1.170073999194016e-10,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.6130407556533277e-14,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1500731886575,
+          "pressure_min_max_Pa": [
+            850371.1136192445,
+            850419.6795399452
+          ],
+          "wall_heat_BE_J": -2.3363774013940928e-18,
+          "native_energy_change_J": 0.0002278369886832643,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        }
+      ]
+    },
+    {
+      "arm": "shared",
+      "actual_duration_s": 0.01,
+      "simulation_wall_seconds": 77.4120665,
+      "actual_native_pipe_count": 21,
+      "maximum_initial_temperature_error_K": 0.0,
+      "native_constant_mass_kg": 0.015417680170811224,
+      "maximum_selected_pipe_BE_energy_residual_J": 1.1530706944817837e-14,
+      "maximum_selected_pipe_mass_port_sum_kg_s": 0.0,
+      "selected_pipe_wall_heat_BE_J": -1.3946632349409528e-17,
+      "selected_pipe_native_energy_change_J": 0.00047380136280531486,
+      "sampled_pipe_pressure_min_max_Pa": [
+        850382.4540819302,
+        850428.4803676994
+      ],
+      "pipe_ledgers": [
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 9.224446293615296e-15,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1500899073581,
+          "pressure_min_max_Pa": [
+            850382.454239184,
+            850428.4803676994
+          ],
+          "wall_heat_BE_J": -9.790125220033346e-18,
+          "native_energy_change_J": 0.0002789701452808761,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.0651794335754729e-14,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999899637957,
+          "pressure_min_max_Pa": [
+            850382.4542313216,
+            850428.480360969
+          ],
+          "wall_heat_BE_J": 1.0498517055752346e-19,
+          "native_energy_change_J": 1.4447507935628818e-10,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 5.4512962794921776e-17,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999899633244,
+          "pressure_min_max_Pa": [
+            850382.4542234585,
+            850428.4803542383
+          ],
+          "wall_heat_BE_J": 1.0498896823384163e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.1862620227553714e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999899633244,
+          "pressure_min_max_Pa": [
+            850382.4542155961,
+            850428.4803475077
+          ],
+          "wall_heat_BE_J": 1.0498897182474288e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.078112875836346e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499989963324,
+          "pressure_min_max_Pa": [
+            850382.4542077333,
+            850428.4803407771
+          ],
+          "wall_heat_BE_J": 1.0498897380338327e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.176555086240808e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499989963324,
+          "pressure_min_max_Pa": [
+            850382.4541998708,
+            850428.4803340468
+          ],
+          "wall_heat_BE_J": 1.0498897793083998e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.0093508102369816e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999899633233,
+          "pressure_min_max_Pa": [
+            850382.4541920079,
+            850428.4803273162
+          ],
+          "wall_heat_BE_J": 1.0498898070925725e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.3040674609945262e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999899633233,
+          "pressure_min_max_Pa": [
+            850382.4541841453,
+            850428.4803205855
+          ],
+          "wall_heat_BE_J": 1.0498898141824557e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 7.838029099043243e-20,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999899633233,
+          "pressure_min_max_Pa": [
+            850382.4541762825,
+            850428.480313855
+          ],
+          "wall_heat_BE_J": 1.0498898399547902e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.1664585366613043e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499989963323,
+          "pressure_min_max_Pa": [
+            850382.4541684199,
+            850428.4803071246
+          ],
+          "wall_heat_BE_J": 1.0498898624601675e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 9.995761398064983e-20,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499989963323,
+          "pressure_min_max_Pa": [
+            850382.4541605571,
+            850428.4803003941
+          ],
+          "wall_heat_BE_J": 1.0498898968734036e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.0980014102879012e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499989963322,
+          "pressure_min_max_Pa": [
+            850382.4541526947,
+            850428.4802936635
+          ],
+          "wall_heat_BE_J": 1.0498899388838572e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.1762503478314175e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499989963322,
+          "pressure_min_max_Pa": [
+            850382.4541448317,
+            850428.4802869329
+          ],
+          "wall_heat_BE_J": 1.049889972760021e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.2060320238551114e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999899633216,
+          "pressure_min_max_Pa": [
+            850382.454136969,
+            850428.4802802022
+          ],
+          "wall_heat_BE_J": 1.0498899703582537e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.0092832594098511e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999899633216,
+          "pressure_min_max_Pa": [
+            850382.4541291064,
+            850428.4802734718
+          ],
+          "wall_heat_BE_J": 1.0498900189012223e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.3039660301822826e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499989963321,
+          "pressure_min_max_Pa": [
+            850382.4541212434,
+            850428.4802667415
+          ],
+          "wall_heat_BE_J": 1.0498900273238825e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 8.132290570553921e-20,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499989963321,
+          "pressure_min_max_Pa": [
+            850382.454113381,
+            850428.4802600108
+          ],
+          "wall_heat_BE_J": 1.0498900625182435e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.2060321419774468e-19,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499989963321,
+          "pressure_min_max_Pa": [
+            850382.4541055182,
+            850428.4802532803
+          ],
+          "wall_heat_BE_J": 1.0498900884805891e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 3.8044057200009085e-17,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.14999899633204,
+          "pressure_min_max_Pa": [
+            850382.4540976557,
+            850428.4802465497
+          ],
+          "wall_heat_BE_J": 1.0498901249977795e-19,
+          "native_energy_change_J": 0.0,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.009265355209644e-14,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.1499989963649,
+          "pressure_min_max_Pa": [
+            850382.4540897928,
+            850428.4802398193
+          ],
+          "wall_heat_BE_J": 1.0498670679477918e-19,
+          "native_energy_change_J": 1.007896101935386e-10,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "BE_energy_residual_max_J": 1.1530706944817837e-14,
+          "mass_port_sum_max_kg_s": 0.0,
+          "initial_temperature_K": 303.15,
+          "final_temperature_K": 303.15006248801313,
+          "pressure_min_max_Pa": [
+            850382.4540819302,
+            850428.4802330887
+          ],
+          "wall_heat_BE_J": -6.151291841000018e-18,
+          "native_energy_change_J": 0.0001948309722597492,
+          "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"
+        }
+      ]
+    }
+  ],
+  "initial_constitutive_output_array_equal": true,
+  "matched_measured_bed_temperature_pass": true,
+  "full_system_initial_state_equality_proven": false,
+  "actual_native_initialization_and_short_integration_completed": true,
+  "ledger_numerical_residuals_are_observations_not_new_production_thresholds": true,
+  "native_quasisteady_mass_is_not_instantaneous_rho_times_volume": true,
+  "all_pump_A_B_pressure_gates_or_full_device_first_law_evaluated": false,
+  "minimal_compiled_state_count_proven": false,
+  "switch_or_periodic_qualified": false,
+  "twenty_cycle_seed_or_production_recovery_allowed": false,
+  "C200_causal_attribution_or_Table4_reproduction": false
+}

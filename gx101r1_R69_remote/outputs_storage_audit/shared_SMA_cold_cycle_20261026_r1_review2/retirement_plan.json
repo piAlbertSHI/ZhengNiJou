@@ -1,0 +1,25 @@
+{
+  "schema": "heatdrive_ecc_bounded_cold_round_retirement_plan_v1",
+  "prefix_candidates_source": "prefix_coverage_retirement.json",
+  "prefix_candidate_bytes": 8422484,
+  "prefix_reason": "All selected physical series, clocks, constitutive outputs and recorded gate data are exact numeric prefixes of retained C1, not byte-identical JSON/MAT files",
+  "model_sha256_each": "F1D07FDE12F442AFB2F735D5A9A833269CF433437896E2096F23AE984575EA5E",
+  "model_bytes_each": 437028,
+  "model_paths": [
+    "C:/tmp/se21_shared_SMA_cold_initial_r1_20261026/dual/seed/gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx",
+    "C:/tmp/se21_shared_SMA_cold_initial_r2_20261026/dual/seed/gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx",
+    "C:/tmp/se21_shared_SMA_cold_initial_r2_20261026/shared/seed/gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx",
+    "C:/tmp/se21_shared_SMA_cold_prefix_r1_20261026/dual/seed/gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx",
+    "C:/tmp/se21_shared_SMA_cold_prefix_r1_20261026/shared/seed/gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx",
+    "C:/tmp/se21_shared_SMA_cold_cycle_r1_20261026/dual/seed/gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx",
+    "C:/tmp/se21_shared_SMA_cold_cycle_r1_20261026/shared/seed/gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx"
+  ],
+  "required_latest_full_raw": "Both MAT files identified and SHA-bound in prefix_coverage_retirement.json; verify before and after cleanup, never delete",
+  "retain_other_evidence": "All preflights, markers, logs, error receipts, current unit-test initialization data, configuration/library source and original Git seed archive",
+  "delete_count_expected": 9,
+  "logical_bytes_expected": 11481680,
+  "require_all_targets_within_four_explicit_owned_run_roots": true,
+  "require_no_active_MATLAB_reference_to_any_owned_run_root": true,
+  "recursive_delete_allowed": false,
+  "policy_denial_action": "Keep remaining files; report actual outcome; do not retry by another method"
+}

@@ -1,0 +1,378 @@
+{
+  "arm": "shared",
+  "fresh_initial_temperature_only": true,
+  "matched_bed_T0_K": 303.15,
+  "Tshex_K": 393.15,
+  "Thhex_K": 303.15,
+  "Tchex_K": 276.95,
+  "initialization_intervention": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+      "old_T0_expression": "sma_hold_fluid_T_init",
+      "declared_new_T0_K": 303.15,
+      "T0_priority": "native high, unchanged"
+    }
+  ],
+  "pipe_geometry": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+      "volume_m3": 7.3524108072535286E-7,
+      "nominal_temperature_K": 293.15,
+      "nominal_pressure_Pa": 850000,
+      "native_nominal_density_kg_m3": 998.55036052229912,
+      "mass_inventory_contract": "rho_nominal*volume constant; mdot_A+mdot_B=0",
+      "energy_inventory_contract": "rho_nominal*volume*u_I; native quasisteady pipe, not rho_I*volume*u_I"
+    }
+  ],
+  "fluid_tables": {
+    "T_TLU": [
+      273.16,
+      283.16,
+      293.16,
+      303.16,
+      313.16,
+      323.16,
+      333.16,
+      343.16,
+      353.16,
+      363.16,
+      373.16,
+      383.16,
+      393.16,
+      403.16,
+      413.16
+    ],
+    "rho_TLU_4": [
+      1000.047692,
+      999.8910379,
+      998.3863142,
+      995.8262391,
+      992.3948132,
+      988.216282,
+      983.3792011,
+      977.9489783,
+      971.9748358,
+      965.4939159,
+      958.5338333,
+      951.1143215,
+      943.2483073,
+      934.9425941,
+      926.1982521
+    ],
+    "beta_const_4": 2.15,
+    "p_ref_4": 0.5,
+    "p_min_1D": 0.45,
+    "p_max_1D": 5,
+    "pressure_axis_count": 30,
+    "native_settings_source_sha256": "D0B8A66CBD6AFE7BBF14402A78BFE975BCBE009A5817D346CCBC5F64A85E1693"
+  },
+  "local_solver_step_s": 0.001,
+  "stop_time_s": 10,
+  "observer_sample_time_s": 1,
+  "hydraulic_storage_variant": "native_foundation_chambers_and_buffers",
+  "actual_distributed_temperature_source_count": 21,
+  "actual_constitutive_step_function": "HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate",
+  "global_solver": "ode23t",
+  "production_recovery_allowed": false,
+  "native_pipe_source_sha256": "CC478BAB8A9B5DD6156ACE2239BF837FE0849843EF5BDBFE6F55C315343FAC3E"
+}

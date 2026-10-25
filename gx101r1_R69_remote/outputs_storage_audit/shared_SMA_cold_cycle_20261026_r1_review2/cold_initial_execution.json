@@ -1,0 +1,52 @@
+{
+  "schema": "heatdrive_ecc_shared_SMA_cold_initial_execution_v1",
+  "collection_complete": true,
+  "production_recovery_allowed": false,
+  "checkpoint_loaded_or_saved": false,
+  "stop_time_s": 10,
+  "completed_arms": [
+    {
+      "arm": "dual",
+      "actual_stop_time_s": 10,
+      "simulation_wall_seconds": 352.2899427,
+      "native_pipe_observation_count": 42,
+      "maximum_initial_pipe_temperature_error_K": 0,
+      "raw_file": "C:\\tmp\\se21_shared_SMA_cold_cycle_r1_20261026\\dual\\selected_observations.mat",
+      "raw_format": "MAT-v7-selected-struct",
+      "raw_sha256": "70DD7446EBBC45BE2987417C419240AC2FC19FFCEB4B4C2E193A3DEAC2DF443F",
+      "compiled_and_simulated": true,
+      "full_mechanism_periodic_or_twenty_cycle_seed_allowed": false
+    },
+    {
+      "arm": "shared",
+      "actual_stop_time_s": 10,
+      "simulation_wall_seconds": 178.2189601,
+      "native_pipe_observation_count": 21,
+      "maximum_initial_pipe_temperature_error_K": 0,
+      "raw_file": "C:\\tmp\\se21_shared_SMA_cold_cycle_r1_20261026\\shared\\selected_observations.mat",
+      "raw_format": "MAT-v7-selected-struct",
+      "raw_sha256": "4A55D1626BCE1530613FBC87F89D8991A38792B61B173F5C27C26275CC47D34C",
+      "compiled_and_simulated": true,
+      "full_mechanism_periodic_or_twenty_cycle_seed_allowed": false
+    }
+  ],
+  "execution_commit": "67739949262dd99eb4cfa0120808ee340ae01311",
+  "input_dependencies": {
+    "configuration_path": "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025\\native\\configuration.mat",
+    "configuration_sha256": "CF93E644F3A09DE7A21337BF7F7E83FDDA654E81693F9DCCF5D91D3B2EAAC384",
+    "source_execution_path": "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025\\cold_chamber_execution.json",
+    "source_execution_sha256": "C6978DBD7A4F2A965FC98B256C299915FD0E2E068F5E298400B4A15A26F83858",
+    "seed_zip": "C:/tmp/se21_shared_SMA_constructor_seed_r1_20261026.zip",
+    "seed_zip_sha256": "C1BA6996FD7BE0E04524690D6F363317FD19B80EC44D4B9159DBDB417FF460F3"
+  },
+  "hydraulic_storage_variant": "native_foundation_chambers_and_buffers",
+  "conservative_variant_or_its_old_initial_state_replayed": false,
+  "observer_function_name": "HeatDriveECC_ProcessLocalTimeObserver",
+  "source_sha256": {
+    "runner": "992A374CB027364091FE759FCC10348BEC74D8215B46AD67DCB53AAFB6E635E6",
+    "applicator": "BB3A6566CAEFFBCA40B31BDD04DE5AC5E2C9C7DC963ED5788D5AB2E563B25038",
+    "observer": "A565BED03592D19D45CFD43BE8DCC0E541090C65321278770199AAE4F3C0EA68",
+    "observer_delegate": "A565BED03592D19D45CFD43BE8DCC0E541090C65321278770199AAE4F3C0EA68"
+  },
+  "protected_model_sha256_unchanged": "77E2ACD5B983A0BA72DFB72D3AD106F4D0BC524C2EC56C79C096EEBB5DA88599"
+}
