@@ -1,0 +1,233 @@
+{
+  "schema": "heatdrive_ecc_chamber_discrete_chain_rule_v1",
+  "source_root": "C:\\tmp\\se21_v72_cold_20c_r1_20261024",
+  "producer": "6dedddd03a50c9dccd553369d2cbf3f7b68450e3",
+  "window_s": [
+    180.0,
+    200.0
+  ],
+  "local_step_s": 0.001,
+  "components": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "samples": 20001,
+      "window_s": [
+        180.0,
+        200.0
+      ],
+      "volume_m3": 1.608495438637974e-06,
+      "temperature_range_K": [
+        307.01945197110916,
+        392.5077070801867
+      ],
+      "pressure_range_MPa": [
+        0.8509041381136276,
+        0.8560827910691113
+      ],
+      "native_density_lookup_max_abs_error_kg_m3": 4.547473508864641e-13,
+      "native_energy_lookup_max_abs_error_J_kg": 3.4924596548080444e-10,
+      "knot_bounded_chord_segments": 20048,
+      "energy_J": {
+        "endpoint_residual": -0.9784942996701627,
+        "solver_equation_residual": 2.1198313141384648e-11,
+        "right_endpoint_vs_assumed_chord": -0.978498643344667,
+        "assumed_chord_coefficients_vs_inventory": 4.343653306135287e-06,
+        "absolute_interval_endpoint_residual_sum": 2.178293876145159,
+        "absolute_interval_right_endpoint_term_sum": 0.9784986433447047,
+        "absolute_interval_property_term_sum": 1.8637988396407934,
+        "max_interval_identity_error": 0.0,
+        "interval_count": 20000
+      },
+      "mass_kg": {
+        "endpoint_residual": -8.864305728428904e-07,
+        "solver_equation_residual": 1.9361696818966592e-19,
+        "right_endpoint_vs_assumed_chord": -8.864544115795317e-07,
+        "assumed_chord_coefficients_vs_inventory": 2.3838736447715835e-11,
+        "absolute_interval_endpoint_residual_sum": 1.0721152251652788e-05,
+        "absolute_interval_right_endpoint_term_sum": 8.86454411579551e-07,
+        "absolute_interval_property_term_sum": 1.0681374322782104e-05,
+        "max_interval_identity_error": 0.0,
+        "interval_count": 20000
+      },
+      "gauss4_vs5_max_interval_J": 2.6645352591003757e-15,
+      "gauss4_vs5_max_interval_kg": 4.235164736271502e-22,
+      "largest_intervals": [
+        {
+          "window_s": [
+            185.15200000000002,
+            185.153
+          ],
+          "temperature_change_K": -1.0315607117444756,
+          "pressure_change_MPa": -2.4323010096442885e-05,
+          "endpoint_residual_J": -0.011324308933411409,
+          "right_endpoint_vs_assumed_chord_J": -0.005518506074205121,
+          "assumed_chord_vs_inventory_J": -0.005805803008340327
+        },
+        {
+          "window_s": [
+            195.15200000000002,
+            195.153
+          ],
+          "temperature_change_K": -1.0315517457572128,
+          "pressure_change_MPa": -2.4323139577871187e-05,
+          "endpoint_residual_J": -0.011324049668584912,
+          "right_endpoint_vs_assumed_chord_J": -0.005518414074449751,
+          "assumed_chord_vs_inventory_J": -0.005805635743374893
+        },
+        {
+          "window_s": [
+            180.151,
+            180.15200000000002
+          ],
+          "temperature_change_K": 1.0021844895208005,
+          "pressure_change_MPa": -4.017842388479039e-06,
+          "endpoint_residual_J": -0.01088960586412302,
+          "right_endpoint_vs_assumed_chord_J": -0.004355511410440549,
+          "assumed_chord_vs_inventory_J": -0.006534094484217157
+        },
+        {
+          "window_s": [
+            190.151,
+            190.15200000000002
+          ],
+          "temperature_change_K": 1.0021778182165235,
+          "pressure_change_MPa": -4.017815944273025e-06,
+          "endpoint_residual_J": -0.010884638114588618,
+          "right_endpoint_vs_assumed_chord_J": -0.004355426150151942,
+          "assumed_chord_vs_inventory_J": -0.006529211995125905
+        },
+        {
+          "window_s": [
+            185.142,
+            185.143
+          ],
+          "temperature_change_K": -1.048440186932737,
+          "pressure_change_MPa": 4.603736605588347e-05,
+          "endpoint_residual_J": -0.010821135773722013,
+          "right_endpoint_vs_assumed_chord_J": -0.0060186616414403815,
+          "assumed_chord_vs_inventory_J": -0.004802474102226562
+        }
+      ]
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "samples": 20001,
+      "window_s": [
+        180.0,
+        200.0
+      ],
+      "volume_m3": 1.608495438637974e-06,
+      "temperature_range_K": [
+        306.9603328134074,
+        392.5753431266786
+      ],
+      "pressure_range_MPa": [
+        0.60861113718686,
+        0.850915241518607
+      ],
+      "native_density_lookup_max_abs_error_kg_m3": 4.547473508864641e-13,
+      "native_energy_lookup_max_abs_error_J_kg": 3.4924596548080444e-10,
+      "knot_bounded_chord_segments": 20088,
+      "energy_J": {
+        "endpoint_residual": -1.6379543325067127,
+        "solver_equation_residual": 2.9142196604015416e-12,
+        "right_endpoint_vs_assumed_chord": -1.6380101303209873,
+        "assumed_chord_coefficients_vs_inventory": 5.579781135994083e-05,
+        "absolute_interval_endpoint_residual_sum": 2.8400763056602116,
+        "absolute_interval_right_endpoint_term_sum": 1.6380108646747211,
+        "absolute_interval_property_term_sum": 2.064783265113674,
+        "max_interval_identity_error": 0.0,
+        "interval_count": 20000
+      },
+      "mass_kg": {
+        "endpoint_residual": -1.477356088959835e-06,
+        "solver_equation_residual": 5.747768488736715e-19,
+        "right_endpoint_vs_assumed_chord": -1.4773968659834713e-06,
+        "assumed_chord_coefficients_vs_inventory": 4.077702306139038e-11,
+        "absolute_interval_endpoint_residual_sum": 1.1979358462011117e-05,
+        "absolute_interval_right_endpoint_term_sum": 1.4773969773533082e-06,
+        "absolute_interval_property_term_sum": 1.1854374231252637e-05,
+        "max_interval_identity_error": 0.0,
+        "interval_count": 20000
+      },
+      "gauss4_vs5_max_interval_J": 5.329070518200751e-15,
+      "gauss4_vs5_max_interval_kg": 6.352747104407253e-22,
+      "largest_intervals": [
+        {
+          "window_s": [
+            185.12800000000001,
+            185.129
+          ],
+          "temperature_change_K": -1.7027055910760964,
+          "pressure_change_MPa": -0.005802420140243718,
+          "endpoint_residual_J": -0.02385936867502636,
+          "right_endpoint_vs_assumed_chord_J": -0.015078985826839642,
+          "assumed_chord_vs_inventory_J": -0.008780383094297406
+        },
+        {
+          "window_s": [
+            195.12800000000001,
+            195.129
+          ],
+          "temperature_change_K": -1.7026899728381295,
+          "pressure_change_MPa": -0.005802422676221118,
+          "endpoint_residual_J": -0.023858980269093166,
+          "right_endpoint_vs_assumed_chord_J": -0.015078711329451266,
+          "assumed_chord_vs_inventory_J": -0.00878026918602437
+        },
+        {
+          "window_s": [
+            185.122,
+            185.123
+          ],
+          "temperature_change_K": -1.7076931062854328,
+          "pressure_change_MPa": -0.005728447492841398,
+          "endpoint_residual_J": -0.023379896970446623,
+          "right_endpoint_vs_assumed_chord_J": -0.01599538098168729,
+          "assumed_chord_vs_inventory_J": -0.007384516231136118
+        },
+        {
+          "window_s": [
+            195.122,
+            195.123
+          ],
+          "temperature_change_K": -1.7076855413668,
+          "pressure_change_MPa": -0.005728455484200502,
+          "endpoint_residual_J": -0.02337980940351514,
+          "right_endpoint_vs_assumed_chord_J": -0.015995234184025264,
+          "assumed_chord_vs_inventory_J": -0.007384575462069165
+        },
+        {
+          "window_s": [
+            185.127,
+            185.12800000000001
+          ],
+          "temperature_change_K": -1.7225876194839316,
+          "pressure_change_MPa": -0.005852275865193223,
+          "endpoint_residual_J": -0.021411162052380917,
+          "right_endpoint_vs_assumed_chord_J": -0.015590377468885919,
+          "assumed_chord_vs_inventory_J": -0.005820784533161927
+        }
+      ]
+    }
+  ],
+  "interpretation": {
+    "state_chords_are_assumed_not_observed_substep_paths": true,
+    "signed_property_defects_can_cancel_do_not_omit_absolute_sums": true,
+    "decomposition_does_not_supply_missing_heat": true,
+    "endpoint_residuals_not_removed": true,
+    "physical_gates_unchanged": true,
+    "timestep_convergence_of_the_coupled_model_not_proven": true
+  },
+  "simulation_executed": false,
+  "source_state_edited": false,
+  "full_device_first_law_verified": false,
+  "production_recovery_allowed": false,
+  "input_sha256": {
+    "observations": "C24350D111F7B511971F52CE54263D23B442047535E9B1DDFB7633B80D207B04",
+    "metadata": "818F5DCB7332EAA5CBE587FC6F8E9D842F35DC426F20C2206D21FD554C85033B",
+    "topology": "978237EC3A5D8AD0A0CF71D6ECF128EC178AD2FDABADCBDF7248EE1C54D3451E",
+    "configuration": "1FF0E9C9ECFB0251155B2A27D5FF332F2CA936A52360C59FBB67ECD22EFA8069",
+    "execution": "898C782CE98A146F55E94367DDE4755067C4D4FD6E0E8716E770EEAEBE2B7A9E"
+  }
+}
