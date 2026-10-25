@@ -1,11 +1,13 @@
 import unittest
+import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
 import h5py
 import numpy as np
 
-from Analyze_HeatDriveECC_SinglePipeReference import measured_grid_difference, refinement_summary
+from Analyze_HeatDriveECC_SinglePipeReference import (
+    measured_grid_difference, refinement_summary, require_solver_contract, sampled_global_energy, sampled_heat_equation)
 from Analyze_HeatDriveECC_SinglePipeHeatStep import read_traces
 
 
@@ -50,6 +52,46 @@ class IntegratedReferenceTests(unittest.TestCase):
             self.assertEqual(values["T_I"][-1], 303.15)
             with self.assertRaises(ValueError):
                 read_traces(f, "native_traces")
+
+    def test_global_method_is_not_accepted_as_local_BE(self):
+        case = {"fixed_step_s": .001, "solver_contract": {
+            "integration_request": "global_ODE3", "global_solver": "ode3", "solver_type": "Fixed-step",
+            "local_solver_enabled": "off", "global_fixed_step": "0.001", "wall_converter_handling": "zero"}}
+        ex = {"integration": "global_ODE3"}
+        self.assertIsInstance(require_solver_contract(ex, case, "global_ODE3"), dict)
+        with self.assertRaises(ValueError):
+            require_solver_contract(ex, case, "local_BE")
+        case["solver_contract"]["local_solver_enabled"] = "on"
+        with self.assertRaises(ValueError):
+            require_solver_contract(ex, case, "global_ODE3")
+
+    def test_global_energy_is_sampled_quadrature_not_a_BE_gate(self):
+        time = np.arange(11)*.1
+        values = np.exp(-time)
+        rows = {"u_I": values, "Phi_A": np.zeros(11), "Phi_B": np.zeros(11), "Q_H": -values}
+        result = sampled_global_energy(time, rows, 1., post_start=.2)
+        self.assertFalse(result["BE_step_residual_gate_applicable"])
+        self.assertFalse(result["discrete_stage_energy_closure_verified"])
+        self.assertFalse(result["scientific_pass_or_fail_claimed"])
+        self.assertNotEqual(result["whole_storage_minus_trapezoid_J"], 0.)
+        self.assertLess(abs(result["post_step_storage_minus_Simpson_J"]), 1e-6)
+
+    def test_missing_stage_flux_does_not_get_synthetic_energy_proof(self):
+        time = np.arange(4)*.001
+        rows = {name: np.zeros(4) for name in ("Phi_A", "Phi_B", "Q_H", "u_I")}
+        with self.assertRaises(ValueError):
+            sampled_global_energy(time, rows, 1.)
+        self.assertFalse(sampled_global_energy(time, rows, 1., post_start=.001)["ODE3_internal_stage_fluxes_captured"])
+
+    def test_global_roundoff_failure_is_preserved_not_relaxed(self):
+        expected = np.array([40., 45.]); actual = expected + 1e-7
+        result = sampled_heat_equation(actual, expected, "global_ODE3")
+        json.dumps(result, allow_nan=False)
+        self.assertFalse(result["sampled_roundoff_identity_pass"])
+        self.assertLess(result["unchanged_roundoff_allowance_W"], 1e-9)
+        with self.assertRaises(ValueError):
+            sampled_heat_equation(actual, expected, "local_BE")
+        self.assertTrue(sampled_heat_equation(expected, expected, "local_BE")["sampled_roundoff_identity_pass"])
 
 
 if __name__ == "__main__":

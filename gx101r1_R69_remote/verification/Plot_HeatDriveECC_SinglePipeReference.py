@@ -70,7 +70,8 @@ def plot(review_path, output):
             ax.grid(axis="y", color="#DDDDDD", lw=.5)
     handles, names = axes[0, 0].get_legend_handles_labels()
     fig.legend(handles, names, loc="outside lower center", ncols=3, frameon=False, fontsize=8)
-    fig.suptitle("Independently integrated heat laws | 0.25 ms, positive flow\nSE reference laws coincide; isolated cells, not system performance", fontsize=10)
+    integration=review.get("integration", "local_BE")
+    fig.suptitle(f"{integration} heat-law states | 0.25 ms, positive flow\nSE reference laws coincide; isolated cells, not system performance", fontsize=10)
     save(fig, "Fig01_own_temperature_trajectories", "Each heat law evolves its own native TL states; all 401 points retained.")
 
     fig, axes = plt.subplots(1, 2, figsize=(7.6, 3.7), layout="constrained")
@@ -87,7 +88,7 @@ def plot(review_path, output):
         ax.minorticks_off(); ax.grid(axis="both", color="#DDDDDD", lw=.5)
     handles, names = axes[0].get_legend_handles_labels()
     fig.legend(handles, names, loc="outside lower center", ncols=3, frameon=False, fontsize=8)
-    fig.suptitle("Three-grid observations | positive flow, +5 K wall step\nExact common samples; no interpolation or spatial-convergence claim", fontsize=10)
+    fig.suptitle(f"{integration} three-grid observations | positive flow, +5 K step\nExact common samples; no interpolation or spatial-convergence claim", fontsize=10)
     save(fig, "Fig02_time_step_refinement", "Measured max differences, 1 vs 0.5ms and 0.5 vs 0.25ms, including step onset.")
     result = {"schema": "heatdrive_ecc_own_state_reference_figures_v1", "input_sha256": inputs,
               "files": files, "checks": checks, "full_reference_or_system_validation": False}
