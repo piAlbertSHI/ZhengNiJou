@@ -11,6 +11,7 @@ from pathlib import Path
 import subprocess
 
 import numpy as np
+from scipy.io import loadmat
 
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from Run_HeatDriveECC_ConservativeTransport import write_json
@@ -75,10 +76,13 @@ def analyze(root, output):
     if not execution["collection_complete"] or execution["checkpoint_loaded_or_saved"] or execution["hydraulic_storage_variant"] != "native_foundation_chambers_and_buffers":
         raise ValueError("Not a complete, fresh native probe")
     duration = execution["stop_time_s"]
-    if duration not in (.01, .2):
+    if duration not in (.01, .2, 10):
         raise ValueError("Outside the explicit short diagnostic scope")
+    observer = execution.get("observer_function_name", "HeatDriveECC_ShortColdTimeObserver")
+    if observer not in {"HeatDriveECC_ShortColdTimeObserver", "HeatDriveECC_ProcessLocalTimeObserver"}:
+        raise ValueError("Unreviewed clock observer")
     sources = {"runner": "Run_HeatDriveECC_SharedSMAColdInitial.m", "applicator": "Apply_HeatDriveECC_SharedSMAFluidDiagnostic.m",
-               "observer": "HeatDriveECC_ShortColdTimeObserver.m", "observer_delegate": "HeatDriveECC_ProcessLocalTimeObserver.m"}
+               "observer": observer+".m", "observer_delegate": "HeatDriveECC_ProcessLocalTimeObserver.m"}
     for role, name in sources.items():
         code = subprocess.check_output(["git", "show", execution["execution_commit"]+":gx101r1_R69_remote/verification/"+name])
         if hashlib.sha256(code).hexdigest().upper() != execution["source_sha256"][role]:
@@ -88,14 +92,16 @@ def analyze(root, output):
     dependencies = [{"path": str(execution_path), "sha256": sha256(execution_path)}]
     for arm, count in (("dual", 42), ("shared", 21)):
         completed = next(c for c in execution["completed_arms"] if c["arm"] == arm)
-        raw_path = root/arm/"selected_observations.json"
+        raw_path = root/arm/Path(completed["raw_file"]).name
         if sha256(raw_path) != completed["raw_sha256"]:
             raise ValueError("Native raw observations changed")
         preflight_path = root/arm/"cold_preflight.json"
         p = json.loads(preflight_path.read_text(encoding="utf-8"))
         if p["local_solver_step_s"] != .001 or p["native_pipe_source_sha256"] != "CC478BAB8A9B5DD6156ACE2239BF837FE0849843EF5BDBFE6F55C315343FAC3E":
             raise ValueError("Native ledger formula / local integration needs re-review")
-        raw = json.loads(raw_path.read_text(encoding="utf-8"))
+        raw = loadmat(raw_path, simplify_cells=True)["traces"] if raw_path.suffix == ".mat" else json.loads(raw_path.read_text(encoding="utf-8"))
+        if raw.get("partial_diagnostic_only", False):
+            raise ValueError("Partial diagnostic is not a completed cold cycle")
         rows = series_index(raw)
         observations[arm] = raw
         if len(p["pipe_geometry"]) != count or len(rows) != count*9+42+18:
@@ -109,7 +115,8 @@ def analyze(root, output):
         if len({r["run_id"] for r in events}) != 1 or len({r["process_pid"] for r in events}) != 1 or events[-1]["simulation_time_s"] != duration:
             raise ValueError("No same-process solver-clock completion witness")
         samples = [e["simulation_time_s"] for e in events if e["phase"] == "solver_time_sample"]
-        if len(samples) != round(duration/.001) or not np.allclose(samples, np.arange(1,len(samples)+1)*.001, atol=2e-14, rtol=0.):
+        observer_dt = p.get("observer_sample_time_s", .001)
+        if len(samples) != round(duration/observer_dt) or not np.allclose(samples, np.arange(1,len(samples)+1)*observer_dt, atol=2e-14, rtol=0.):
             raise ValueError("Incomplete actual solver-time samples")
         dependencies.extend({"path": str(f), "sha256": sha256(f)} for f in (raw_path, preflight_path, observer_path))
         results.append({"arm": arm, "actual_duration_s": duration, "simulation_wall_seconds": completed["simulation_wall_seconds"],

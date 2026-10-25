@@ -30,12 +30,13 @@ class ColdInitialScopeTests(unittest.TestCase):
         self.assertNotIn("Apply_HeatDriveECC_ColdConservativeBuffers(", self.run)
 
     def test_selected_raw_saved_before_gate_and_marker(self):
-        write = self.run.index("write_json(raw,traces)")
+        write = self.run.index("save(raw,'traces','-v7')")
         check = self.run.index("assert(max_initial_T_error<1e-6")
         marker = self.run.index("write_json(fullfile(arm,'completed_initial_probe.json')")
         self.assertLess(write, check)
         self.assertLess(check, marker)
         self.assertNotIn("save(fullfile", self.run)
+        self.assertIn("partial_selected_observations.mat", self.run)
 
     def test_native_energy_contract_is_not_variable_density_inventory(self):
         self.assertIn("rho_nominal*volume*u_I", self.run)

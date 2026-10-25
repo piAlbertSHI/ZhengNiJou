@@ -2,7 +2,7 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
 % Fresh, matched-bed-temperature native initialization; no old OP or seed.
     if nargin<5,requested_arm='both';end
     if nargin<6,duration=.01;end
-    assert(ismember(duration,[.01 .2]),'Only initialization or an explicit 0.2 s cold prefix is supported.');
+    assert(ismember(duration,[.01 .2 10]),'Only initialization, cold prefix or one explicit cold cycle is supported.');
     assert(ismember(requested_arm,{'dual','shared','both'}));
     assert(~isfolder(folder),'Never overwrite an experiment.');mkdir(folder);
     old=pwd;oldpath=path;restore=onCleanup(@() restore_path(old,oldpath));
@@ -32,9 +32,12 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
             'seed_zip',seed_zip,'seed_zip_sha256',file_hash(seed_zip));
         result.hydraulic_storage_variant='native_foundation_chambers_and_buffers';
         result.conservative_variant_or_its_old_initial_state_replayed=false;
+        observer_function='HeatDriveECC_ShortColdTimeObserver';observer_step=.001;
+        if duration==10,observer_function='HeatDriveECC_ProcessLocalTimeObserver';observer_step=1;end
+        result.observer_function_name=observer_function;
         result.source_sha256=struct('runner',file_hash([mfilename('fullpath') '.m']), ...
             'applicator',file_hash(fullfile(repo,'verification','Apply_HeatDriveECC_SharedSMAFluidDiagnostic.m')), ...
-            'observer',file_hash(fullfile(repo,'verification','HeatDriveECC_ShortColdTimeObserver.m')), ...
+            'observer',file_hash(fullfile(repo,'verification',[observer_function '.m'])), ...
             'observer_delegate',file_hash(fullfile(repo,'verification','HeatDriveECC_ProcessLocalTimeObserver.m')));
         arms={'dual','shared'};if ~strcmp(requested_arm,'both'),arms={requested_arm};end
         for a=1:numel(arms)
@@ -93,6 +96,7 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
                 'Thhex_K',options.system.Thhex_K,'Tchex_K',options.system.Tchex_K, ...
                 'initialization_intervention',{initial},'pipe_geometry',{geometry},'fluid_tables',fluid_tables, ...
                 'local_solver_step_s',options.simscape.local_solver_sample_time_s,'stop_time_s',duration, ...
+                'observer_sample_time_s',observer_step, ...
                 'hydraulic_storage_variant',result.hydraulic_storage_variant, ...
                 'actual_distributed_temperature_source_count',numel(ff.sources), ...
                 'actual_constitutive_step_function',get_param([model '/ECC_Constitutive21_VectorStep'],'MATLABFcn'), ...
@@ -103,7 +107,7 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
             write_json(fullfile(arm,'cold_preflight.json'),preflight);
             observer=[model '/SharedSMAColdTimeObserver'];
             add_block('simulink/User-Defined Functions/Level-2 MATLAB S-Function',observer, ...
-                'FunctionName','HeatDriveECC_ShortColdTimeObserver','Parameters','');
+                'FunctionName',observer_function,'Parameters','');
             HeatDriveECC_ObserverContext('register',model,fullfile(arm,'solver_time.json'));
             elapsed=tic;input=Simulink.SimulationInput(model);
             output=sim(input.setModelParameter('CaptureErrors','on'));wall=toc(elapsed);
@@ -111,38 +115,23 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
                 failure=struct('arm',name,'simulation_wall_seconds',wall,'error_message',output.ErrorMessage, ...
                     'production_recovery_allowed',false,'raw_complete_observations_available',false);
                 if ismember('tout',output.who),failure.returned_time_s=double(output.tout);end
+                try
+                    traces=collect_observations(output,model,paths,gate_names,name,true); %#ok<NASGU>
+                    partial=fullfile(arm,'partial_selected_observations.mat');assert(~isfile(partial));
+                    save(partial,'traces','-v7');failure.partial_observations_sha256=file_hash(partial);
+                    failure.partial_observations_not_a_restart_state=true;
+                catch extraction_error
+                    failure.partial_observation_extraction_error=extraction_error.message;
+                end
                 write_json(fullfile(arm,'simulation_error.json'),failure);
                 error('HeatDriveECC:SharedSMAColdInitialFailure', ...
                     'Native simulation failed. Full error is in simulation_error.json. %s', ...
                     output.ErrorMessage(1:min(500,numel(output.ErrorMessage))));
             end
-            rows={};
-            fields={'T_I','p_I','u_I','rho_I','Phi_A','Phi_B','Q_H','mdot_A','mdot_B'};
-            units={'K','Pa','J/kg','kg/m^3','W','W','W','kg/s','kg/s'};
-            for k=1:numel(paths)
-                node=simscape.logging.findNode(output.simlog,paths{k});
-                rows=[rows extract(node,paths{k},fields,units)]; %#ok<AGROW>
-            end
-            for part={'SMA','SE'}
-                for k=1:21
-                    p=sprintf('%s/%s/Subsystem2/NodeMass_%02d',model,part{1},k);
-                    rows=[rows extract(simscape.logging.findNode(output.simlog,p),p,{'T'},{'K'})]; %#ok<AGROW>
-                end
-            end
-            for n={'SMA_PumpInletConnectingPipeVolume','SMA_PumpOutletConnectingPipeVolume'}
-                p=[model '/' n{1}];node=simscape.logging.findNode(output.simlog,p);
-                rows=[rows extract(node,p,fields,units)]; %#ok<AGROW>
-            end
-            traces=struct('schema','heatdrive_ecc_native_cold_initial_observations_v1', ...
-                'arm',name,'series',{rows},'tout_s',double(output.tout), ...
-                'constitutive_output',output.get('ECC_constitutive21_output'), ...
-                'not_an_OP_or_restart_state',true);
-            traces.gate_commands=struct();
-            for k=1:numel(gate_names)
-                traces.gate_commands.(gate_names{k})=output.get(['diagnostic_' gate_names{k} '_G']);
-            end
+            traces=collect_observations(output,model,paths,gate_names,name,false);
+            rows=traces.series;
             % Persist each actual arm before any gate, next arm or final manifest.
-            raw=fullfile(arm,'selected_observations.json');write_json(raw,traces);
+            raw=fullfile(arm,'selected_observations.mat');assert(~isfile(raw));save(raw,'traces','-v7');
             t=double(output.tout);assert(t(1)==0 && abs(t(end)-duration)<1e-12 && all(diff(t)>=0));
             max_initial_T_error=0;
             for k=1:numel(rows)
@@ -156,7 +145,7 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
             assert(strcmp(file_hash(protected),protected_hash) && strcmp(file_hash(isolated),isolated_hash));
             completed=struct('arm',name,'actual_stop_time_s',t(end),'simulation_wall_seconds',wall, ...
                 'native_pipe_observation_count',numel(paths),'maximum_initial_pipe_temperature_error_K',max_initial_T_error, ...
-                'raw_file',raw,'raw_sha256',file_hash(raw),'compiled_and_simulated',true, ...
+                'raw_file',raw,'raw_format','MAT-v7-selected-struct','raw_sha256',file_hash(raw),'compiled_and_simulated',true, ...
                 'full_mechanism_periodic_or_twenty_cycle_seed_allowed',false);
             write_json(fullfile(arm,'completed_initial_probe.json'),completed);
             result.completed_arms{end+1}=completed;
@@ -172,6 +161,30 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
     end
     disp(jsonencode(struct('collection_complete',true,'completed_arms',numel(result.completed_arms), ...
         'stop_time_s',duration,'production_recovery_allowed',false)));
+end
+
+function traces=collect_observations(output,model,paths,gate_names,name,partial)
+    rows={};fields={'T_I','p_I','u_I','rho_I','Phi_A','Phi_B','Q_H','mdot_A','mdot_B'};
+    units={'K','Pa','J/kg','kg/m^3','W','W','W','kg/s','kg/s'};
+    for k=1:numel(paths)
+        rows=[rows extract(simscape.logging.findNode(output.simlog,paths{k}),paths{k},fields,units,partial)]; %#ok<AGROW>
+    end
+    for part={'SMA','SE'}
+        for k=1:21
+            p=sprintf('%s/%s/Subsystem2/NodeMass_%02d',model,part{1},k);
+            rows=[rows extract(simscape.logging.findNode(output.simlog,p),p,{'T'},{'K'},partial)]; %#ok<AGROW>
+        end
+    end
+    for n={'SMA_PumpInletConnectingPipeVolume','SMA_PumpOutletConnectingPipeVolume'}
+        p=[model '/' n{1}];rows=[rows extract(simscape.logging.findNode(output.simlog,p),p,fields,units,partial)]; %#ok<AGROW>
+    end
+    traces=struct('schema','heatdrive_ecc_native_cold_initial_observations_v1', ...
+        'arm',name,'series',{rows},'tout_s',double(output.tout), ...
+        'constitutive_output',output.get('ECC_constitutive21_output'), ...
+        'not_an_OP_or_restart_state',true,'partial_diagnostic_only',partial,'gate_commands',struct());
+    for k=1:numel(gate_names)
+        traces.gate_commands.(gate_names{k})=output.get(['diagnostic_' gate_names{k} '_G']);
+    end
 end
 
 function [pipes,fluid]=inventory_contract(model,paths)
@@ -203,12 +216,13 @@ function [pipes,fluid]=inventory_contract(model,paths)
     end
 end
 
-function rows=extract(node,path,names,units)
+function rows=extract(node,path,names,units,partial)
     rows=cell(1,numel(names));
     for k=1:numel(names)
         series=node.child(names{k}).series;t=double(time(series));native=double(values(series));
         v=value(simscape.Value(native,series.unit),units{k});
-        assert(numel(t)==numel(v) && numel(t)<=200000 && all(diff(t)>=0) && all(isfinite(v),'all'));
+        assert(numel(t)==numel(v) && numel(t)<=200000 && all(diff(t)>=0));
+        assert(partial || all(isfinite(v),'all'),'Completed observation contains nonfinite data.');
         rows{k}=struct('block_path',path,'state_name',names{k},'unit',units{k},'time_s',t(:),'values',v(:));
     end
 end
