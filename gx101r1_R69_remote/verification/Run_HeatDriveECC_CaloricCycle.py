@@ -105,7 +105,7 @@ def load_network(control_root, fluid_execution, metadata, aux_nodes=7):
     return CaloricCycle(c, fluids), c
 
 
-def simulate(model, cycles, max_step, rtol=1e-8):
+def simulate(model, cycles, max_step, rtol=1e-8, stage_sink=None):
     largest_rate = max(v for k, v in model.c["kinetics"].items() if k.startswith("rate_"))
     if not np.isfinite(max_step) or max_step <= 0 or max_step*largest_rate > 1:
         raise ValueError("BS3 directional phase interval requires dt*max_rate <= 1")
@@ -176,6 +176,11 @@ def simulate(model, cycles, max_step, rtol=1e-8):
                 "SMA_xM_range": [float(p["xa"].min()), float(p["xa"].max())],
                 "SE_xM_range": [float(p["xr"].min()), float(p["xr"].max())],
                 "buffer_temperature_K": p["buffer_T"].tolist(), "bus_temperature_K": p["bus_T"].tolist()})
+            if stage_sink is not None:
+                stage_sink({"completed_cycle_if_stage4": cycle if stage == 4 else cycle-1,
+                            "cycle": cycle, **row["stage_ends"][-1],
+                            "wall_seconds": time.perf_counter()-wall,
+                            "maximum_numerical_residuals": maxima.copy()})
             start = end
         if previous_endpoint is not None:
             old = model.unpack(previous_endpoint)
@@ -195,7 +200,7 @@ def simulate(model, cycles, max_step, rtol=1e-8):
         "before_blow_observation": "stage1/3 endpoints are left limits before prescribed SE flow; no new production gate substituted"}
 
 
-def run(output, control, witness, metadata, cycles, max_step):
+def run(output, control, witness, metadata, cycles, max_step, rtol=1e-8):
     output.mkdir(parents=True, exist_ok=False)
     source_names = ["Reference_HeatDriveECC_CaloricCoupling.py", "Run_HeatDriveECC_CaloricCycle.py",
         "Reference_HeatDriveECC_ConservativeTransport.py", "Run_HeatDriveECC_ConservativeTransport.py",
@@ -208,7 +213,7 @@ def run(output, control, witness, metadata, cycles, max_step):
         "runtime": {"python": platform.python_version(), "scipy": scipy.__version__, "numpy": np.__version__},
         "cold_start_all_temperature_K": 303.15, "initial_phase": {"SMA_xM": 1., "SE_xM": 0.},
         "integration": "monolithic adaptive RK23/BS3 with exact stage stops, not fixed paper ODE3",
-        "requested_cycles": cycles, "max_step_s": max_step,
+        "requested_cycles": cycles, "max_step_s": max_step, "requested_rtol": rtol,
         "production_state_loaded": False, "checkpoint_saved": False,
         "production_recovery_allowed": False, "outer_solve_allowed": False, "Table4_reproduction_claim": False,
         "all_production_mechanism_gates_evaluated": False, "scientific_gates_modified": False,
@@ -219,7 +224,13 @@ def run(output, control, witness, metadata, cycles, max_step):
         model, contract = load_network(control, witness, metadata)
         record["network_contract"] = contract
         record["coordinate_slices"] = {k: [v.start, v.stop] for k, v in model.slices.items()}
-        profiles, result = simulate(model, cycles, max_step)
+        # Written by completed simulation stages, not an external monitor.
+        # No checkpoint/state coordinates and no console waiting messages.
+        with (output/"completed_stage_observations.jsonl").open("x", encoding="utf-8") as progress:
+            def stage_sink(row):
+                progress.write(json.dumps(row, allow_nan=False)+"\n")
+                progress.flush()
+            profiles, result = simulate(model, cycles, max_step, rtol, stage_sink)
         raw = output/"selected_coupled_profiles.npz"
         np.savez_compressed(raw, **profiles)
         record.update(result, collection_complete=True, wall_seconds=time.perf_counter()-begin,
@@ -243,8 +254,11 @@ if __name__ == "__main__":
     parser.add_argument("--metadata", required=True, type=Path)
     parser.add_argument("--cycles", required=True, type=int, choices=range(1, 21))
     parser.add_argument("--max-step", type=float, default=.005)
+    parser.add_argument("--rtol", type=float, default=1e-8)
     args = parser.parse_args()
     if not np.isfinite(args.max_step) or not 0 < args.max_step <= .005:
         parser.error("Require 0 < max-step <= .005s")
+    if not np.isfinite(args.rtol) or not 0 < args.rtol <= 1e-6:
+        parser.error("Require 0 < rtol <= 1e-6; numerical study, not a physical gate")
     run(args.output.resolve(), args.control_root.resolve(), args.fluid_settings_execution.resolve(),
-        args.metadata.resolve(), args.cycles, args.max_step)
+        args.metadata.resolve(), args.cycles, args.max_step, args.rtol)
