@@ -75,7 +75,17 @@ function record=Apply_HeatDriveECC_SharedSMAFluidDiagnostic(model, isolated_mode
     for j=1:3
         i=[1 11 21];i=i(j);p='B';if i==1,p='A';end
         sensor=sprintf('%s/SMACooldownPipeNode%02dFluidTempSensor',parent,i);
-        add_line(parent,typed_handle(tl,[keep{i} ':' p]),typed_handle(tl,[sensor ':A']),'autorouting','on');
+        target=typed_handle(tl,[keep{i} ':' p]);sh=typed_handle(tl,[sensor ':A']);
+        if i==11
+            live=get_param(sh,'Line');if live>0,delete_line(root_line(live));end
+            add_line(parent,target,sh,'autorouting','on');
+        else
+            % The endpoint probe stays on its connector's surviving branch;
+            % joining Conn3/Conn4 already attaches it. Verify, do not rewire.
+            connectivity=get_param(sensor,'PortConnectivity');
+            assert(any(arrayfun(@(c)ismember(target,c.DstPort),connectivity)), ...
+                'Endpoint temperature probe did not follow the declared shared end.');
+        end
         alias{j}=struct('historical_sensor',sensor,'shared_port',[keep{i} ':' p], ...
             'independent_cooling_inventory_measurement',false);
     end
