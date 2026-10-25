@@ -51,6 +51,24 @@ class TransportDirectionReviewTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "changed"):
                 read_case(root, row, 3)
 
+    def test_text_bounds_ignore_undrawn_ticks_but_reject_visible_overflow(self):
+        import matplotlib
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+        from Analyze_HeatDriveECC_ConservativeTransport import assert_rendered_text_bounds
+        fig, ax = plt.subplots(figsize=(4, 3), layout="constrained")
+        try:
+            ax.plot([0., 1.], [0., 1.])
+            ax.set_xlim(0., 1.)
+            ax.set_xticks([-.2, 0., .5, 1., 1.2])
+            ax.set_xlim(0., 1.)
+            assert_rendered_text_bounds(fig)
+            fig.text(-.2, .5, "actually outside")
+            with self.assertRaisesRegex(ValueError, "Rendered text outside"):
+                assert_rendered_text_bounds(fig)
+        finally:
+            plt.close(fig)
+
 
 if __name__ == "__main__":
     unittest.main()

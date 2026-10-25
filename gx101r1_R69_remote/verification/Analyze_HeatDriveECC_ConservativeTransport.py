@@ -150,6 +150,38 @@ def analyze(control_root, limited_root):
     return result, profiles, control, limited
 
 
+def assert_rendered_text_bounds(fig):
+    """Check rendered labels, not locator-generated ticks outside the view.
+
+    Matplotlib's tick locator can allocate labels outside xlim/ylim which the
+    Axis draw path skips. Recursing over every Text incorrectly rejects these.
+    """
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    texts = list(fig.texts)
+    for ax in fig.axes:
+        texts.extend([ax.title, ax.xaxis.label, ax.yaxis.label,
+                      ax.xaxis.offsetText, ax.yaxis.offsetText])
+        legend = ax.get_legend()
+        if legend is not None:
+            texts.extend(legend.get_texts())
+            texts.append(legend.get_title())
+        for axis in (ax.xaxis, ax.yaxis):
+            lower, upper = sorted(axis.get_view_interval())
+            for minor in (False, True):
+                locations = axis.get_ticklocs(minor=minor)
+                ticks = axis.get_minor_ticks(len(locations)) if minor else axis.get_major_ticks(len(locations))
+                for location, tick in zip(locations, ticks):
+                    if lower <= location <= upper:
+                        texts.extend([tick.label1, tick.label2])
+    for text in texts:
+        if text.get_visible() and text.get_text():
+            bounds = text.get_window_extent(renderer)
+            canvas = fig.bbox
+            if bounds.x0 < canvas.x0-1 or bounds.x1 > canvas.x1+1 or bounds.y0 < canvas.y0-1 or bounds.y1 > canvas.y1+1:
+                raise ValueError("Rendered text outside figure: " + text.get_text())
+
+
 def plot(output, profiles, result):
     import matplotlib
     matplotlib.use("Agg")
@@ -159,14 +191,7 @@ def plot(output, profiles, result):
     output.mkdir(parents=True, exist_ok=False)
     files = []
     def save(fig, stem):
-        fig.canvas.draw()
-        renderer = fig.canvas.get_renderer()
-        canvas = fig.bbox
-        for text in fig.findobj(matplotlib.text.Text):
-            if text.get_visible() and text.get_text():
-                bounds = text.get_window_extent(renderer)
-                if bounds.x0 < canvas.x0-1 or bounds.x1 > canvas.x1+1 or bounds.y0 < canvas.y0-1 or bounds.y1 > canvas.y1+1:
-                    raise ValueError("Text outside figure: " + text.get_text())
+        assert_rendered_text_bounds(fig)
         for suffix in ("png", "svg"):
             path = output/(stem+"."+suffix)
             fig.savefig(path, dpi=220)
