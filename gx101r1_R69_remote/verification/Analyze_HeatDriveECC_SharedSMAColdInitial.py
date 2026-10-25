@@ -70,6 +70,97 @@ def pipe_ledger(rows, geometry, tables, duration):
             "ledger_rule": "rho_nominal*V*delta(u_I) minus right-endpoint local backward-Euler port sum"}
 
 
+def gate_on_clock(trace, clock):
+    """Evaluate recorded ZOH command samples, never interpolate physical state."""
+    t = np.asarray(trace["time"], dtype=float).ravel()
+    v = np.asarray(trace["signals"]["values"], dtype=float).ravel()
+    if len(t) != len(v) or not np.isfinite(v).all() or not np.isfinite(t).all() or np.any(np.diff(t) < 0) or t[0] != 0:
+        raise ValueError("Invalid actual ZOH control trace")
+    # Allow only timestamp roundoff; not a half-step temporal shift.
+    ix = np.searchsorted(t, clock+2e-14, side="right")-1
+    if np.any(ix < 0) or abs(t[-1]-clock[-1]) > 2e-14:
+        raise ValueError("Incomplete control trace clock")
+    return v[ix]
+
+
+def cycle_review(observations, preflights, commit, output):
+    source = subprocess.check_output(["git", "show", commit+":gx101r1_R69_remote/Extract_HeatDriveECC_PhysicalLogs.m"])
+    if b"offset = 2 * N;" not in source or b"names = {'xM_SMA_21','xM_SE_21','sigma_SMA_21_Pa'" not in source:
+        raise ValueError("Reassess changed constitutive output layout")
+    summaries, curves, gates = {}, {}, {}
+    for arm in ("dual", "shared"):
+        raw, p = observations[arm], preflights[arm]
+        rows = series_index(raw)
+        c = np.asarray(raw["constitutive_output"]["signals"]["values"], dtype=float)
+        t = np.asarray(raw["constitutive_output"]["time"], dtype=float).ravel()
+        if c.shape != (10001, 252) or not np.allclose(t, np.arange(10001)*.001, rtol=0, atol=2e-14):
+            raise ValueError("Not a complete native C1 constitutive observation")
+        phase = {"SMA": c[:,42:63], "SE": c[:,63:84]}
+        fluid = {}
+        energy = np.zeros_like(t)
+        for group in ("Hold", "Cooldown"):
+            paths = sorted(g["block_path"] for g in p["pipe_geometry"] if "/"+group+"Pipe_" in g["block_path"])
+            if paths:
+                fluid[group] = np.column_stack([rows[path,"T_I"][1] for path in paths])
+        for g in p["pipe_geometry"]:
+            u = rows[g["block_path"], "u_I"][1]
+            energy += native_mass(g,p["fluid_tables"])*(u-u[0])
+        model = p["pipe_geometry"][0]["block_path"].split("/")[0]
+        solid = {part: np.column_stack([rows[model+"/%s/Subsystem2/NodeMass_%02d" % (part,i),"T"][1] for i in range(1,22)]) for part in ("SMA","SE")}
+        gates[arm] = {name: gate_on_clock(trace,t) for name,trace in raw["gate_commands"].items()}
+        stage = []
+        for end in (3.5,5.,5.001,5.2,8.5,10.):
+            i = round(end/.001)
+            stage.append({"time_s":end,"fluid_profiles_K":{k:v[i].tolist() for k,v in fluid.items()},
+                          "solid_temperature_min_mean_max_K":{k:[float(v[i].min()),float(v[i].mean()),float(v[i].max())] for k,v in solid.items()},
+                          "phase_min_mean_max":{k:[float(v[i].min()),float(v[i].mean()),float(v[i].max())] for k,v in phase.items()},
+                          "selected_fluid_native_energy_change_J":float(energy[i])})
+        summaries[arm] = {"stage_observations":stage,"phase_full_record_min_max":{k:[float(v.min()),float(v.max())] for k,v in phase.items()}}
+        curves[arm] = {"t":t,"fluid":fluid,"energy":energy,"solid":solid,"phase":phase}
+    equal = {name: bool(np.array_equal(gates["dual"][name],gates["shared"][name])) for name in ("original_hold","original_cooldown")}
+    max_ok = bool(np.array_equal(gates["shared"]["shared_max"], np.maximum(gates["shared"]["original_hold"],gates["shared"]["original_cooldown"])))
+    if not max_ok:
+        raise ValueError("Actual shared thermal command differs from max of original commands")
+    first_active = {arm:{name:float(curves[arm]["t"][np.flatnonzero(v>1e-6)[0]]) for name,v in gs.items()} for arm,gs in gates.items()}
+    figure_cycle(curves,output)
+    return {"layout_source_sha256":hashlib.sha256(source).hexdigest().upper(),"arms":summaries,
+            "original_commands_equal_at_actual_1ms_native_samples":equal,
+            "actual_shared_gate_max_rule_pass":max_ok,"gate_first_active_at_1ms_sample_s":first_active,
+            "control_trace_event_times_need_not_be_identical_between_variable_step_runs":True,
+            "no_thermal_state_reset_during_switch_in_runner_source":True,
+            "discrete_selected_pipe_switch_energy_ledger_observed":True,
+            "all_hidden_states_or_full_system_switch_gate_proven":False,
+            "inactive_dual_hot_pipe_inventory_is_not_an_active_fluid_temperature_jump":True,
+            "C1_is_not_a_periodic_or_performance_comparison":True}
+
+
+def figure_cycle(curves, output):
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    fig, axes = plt.subplots(2,2,figsize=(10,7),layout="constrained")
+    colors = {"dual":"#666666","shared":"#007A78"}
+    axes[0,0].plot(curves["dual"]["t"],curves["dual"]["fluid"]["Hold"].mean(axis=1),color="#C43C39",label="Dual: hot-route inventory")
+    axes[0,0].plot(curves["dual"]["t"],curves["dual"]["fluid"]["Cooldown"].mean(axis=1),color="#666666",label="Dual: cold-route inventory")
+    axes[0,0].plot(curves["shared"]["t"],curves["shared"]["fluid"]["Hold"].mean(axis=1),color=colors["shared"],label="Shared inventory")
+    for arm,label in (("dual","Dual inventory"),("shared","Shared inventory")):
+        r=curves[arm]
+        axes[0,1].plot(r["t"],r["energy"]/1000,color=colors[arm],label=label)
+        axes[1,0].plot(r["t"],r["solid"]["SMA"].mean(axis=1),color=colors[arm],label=label)
+        axes[1,1].plot(r["t"],r["phase"]["SE"].mean(axis=1),color=colors[arm],label=label)
+    titles=("(a) Persistent fluid thermal histories","(b) Selected fluid stored-energy change","(c) Mean SMA solid temperature","(d) Mean SE martensite fraction")
+    labels=("Mean fluid temperature (K)","Native fluid energy change (kJ)","Mean solid temperature (K)","Martensite fraction")
+    for ax,title,label in zip(axes.ravel(),titles,labels):
+        ax.set(title=title,xlabel="Time (s)",ylabel=label,xlim=(0,10))
+        ax.axvline(5,color="#999999",ls=":",lw=.8)
+        ax.spines[["top","right"]].set_visible(False)
+        ax.legend(frameon=False,fontsize=8)
+    axes[1,1].set_ylim(-.02,1.02)
+    fig.suptitle("One native cold cycle: not periodic and not Table 4 reproduction",fontsize=11)
+    fig.savefig(output/"shared_SMA_cold_cycle.png",dpi=200)
+    plt.close(fig)
+
+
 def analyze(root, output):
     execution_path = root/"cold_initial_execution.json"
     execution = json.loads(execution_path.read_text(encoding="utf-8"))
@@ -89,6 +180,7 @@ def analyze(root, output):
             raise ValueError("Historical runtime producer hash mismatch")
     results = []
     observations = {}
+    preflights = {}
     dependencies = [{"path": str(execution_path), "sha256": sha256(execution_path)}]
     for arm, count in (("dual", 42), ("shared", 21)):
         completed = next(c for c in execution["completed_arms"] if c["arm"] == arm)
@@ -97,6 +189,7 @@ def analyze(root, output):
             raise ValueError("Native raw observations changed")
         preflight_path = root/arm/"cold_preflight.json"
         p = json.loads(preflight_path.read_text(encoding="utf-8"))
+        preflights[arm] = p
         if p["local_solver_step_s"] != .001 or p["native_pipe_source_sha256"] != "CC478BAB8A9B5DD6156ACE2239BF837FE0849843EF5BDBFE6F55C315343FAC3E":
             raise ValueError("Native ledger formula / local integration needs re-review")
         raw = loadmat(raw_path, simplify_cells=True)["traces"] if raw_path.suffix == ".mat" else json.loads(raw_path.read_text(encoding="utf-8"))
@@ -141,6 +234,8 @@ def analyze(root, output):
               "minimal_compiled_state_count_proven": False, "switch_or_periodic_qualified": False,
               "twenty_cycle_seed_or_production_recovery_allowed": False, "C200_causal_attribution_or_Table4_reproduction": False}
     output.mkdir(parents=True, exist_ok=False)
+    if duration == 10:
+        result["cold_cycle_observations"] = cycle_review(observations,preflights,execution["execution_commit"],output)
     write_json(output/"shared_SMA_cold_review.json", result)
     print(json.dumps({"output": str(output), "sha256": sha256(output/"shared_SMA_cold_review.json"),
                       "arms": [{k:v for k,v in r.items() if k != "pipe_ledgers"} for r in results],
