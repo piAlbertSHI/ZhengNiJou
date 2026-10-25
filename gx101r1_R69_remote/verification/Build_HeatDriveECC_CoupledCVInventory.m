@@ -60,6 +60,10 @@ function contract=Build_HeatDriveECC_CoupledCVInventory(model,variant,options)
         'storage_paths',{sort(expected)},'type_names',{types},'type_counts',counts, ...
         'storage_blocks',{rows},'settings_tables',{settings},'hex_channels',{hex}, ...
         'production_recovery_allowed',false,'compiled_minimal_state_count_claimed',false);
+    contract.hex_channel_records=cell(1,4);
+    for k=1:4
+        contract.hex_channel_records{k}=struct('block_path',hex{k,1},'tag',hex{k,2},'declared_fluid',hex{k,3});
+    end
 end
 
 function parent=unique_parent(model,name)

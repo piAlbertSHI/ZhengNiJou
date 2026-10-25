@@ -52,6 +52,7 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
                 'Extract_HeatDriveECC_NativeStorageTraces','Extract_HeatDriveECC_BoundaryTraces','Read_HeatDriveECC_NativeSeries'};
             for k=1:numel(modules),result.CV_source_sha256.(modules{k})=file_hash(fullfile(repo,'verification',[modules{k} '.m']));end
             result.CV_source_sha256.Instrument_HeatDriveECC_PumpPressureProbes=file_hash(fullfile(repo,'Instrument_HeatDriveECC_PumpPressureProbes.m'));
+            result.CV_source_sha256.Instrument_HeatDriveECC_Stage4ControllerProbes=file_hash(fullfile(repo,'Instrument_HeatDriveECC_Stage4ControllerProbes.m'));
         end
         arms={'dual','shared'};if ~strcmp(requested_arm,'both'),arms={requested_arm};end
         for a=1:numel(arms)
@@ -80,6 +81,7 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
                 tl=Export_HeatDriveECC_TLConnectivity(model);
                 th=Export_HeatDriveECC_TLConnectivity(model,'foundation.thermal.thermal');
                 intervention=Apply_HeatDriveECC_SharedSMAFluidDiagnostic(model,isolated,tl,th);
+                options.validation.shared_SMA_topology_requires_explicit_audit=true;
                 write_json(fullfile(arm,'intervention.json'),intervention);
             end
             parent=[model '/SMA'];gate_names={'original_hold','original_cooldown'};
@@ -110,6 +112,9 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
                 write_json(fullfile(arm,'CV_tl_topology.json'),cv.tl_topology);
                 write_json(fullfile(arm,'CV_thermal_topology.json'),cv.thermal_topology);
                 write_json(fullfile(arm,'CV_contract.json'),rmfield(cv,{'tl_topology','thermal_topology'}));
+                cv.capture_file_sha256=struct('contract',file_hash(fullfile(arm,'CV_contract.json')), ...
+                    'tl_topology',file_hash(fullfile(arm,'CV_tl_topology.json')), ...
+                    'thermal_topology',file_hash(fullfile(arm,'CV_thermal_topology.json')));
             end
             [geometry,fluid_tables]=inventory_contract(model,paths);
             preflight=struct('arm',name,'fresh_initial_temperature_only',true, ...

@@ -164,6 +164,8 @@ def figure_cycle(curves, output):
 def analyze(root, output):
     execution_path = root/"cold_initial_execution.json"
     execution = json.loads(execution_path.read_text(encoding="utf-8"))
+    if execution.get("capture_profile","selected_sma_v1") != "selected_sma_v1":
+        raise ValueError("Use the coupled CV packet reader, not the selected-SMA observation reader")
     if not execution["collection_complete"] or execution["checkpoint_loaded_or_saved"] or execution["hydraulic_storage_variant"] != "native_foundation_chambers_and_buffers":
         raise ValueError("Not a complete, fresh native probe")
     duration = execution["stop_time_s"]

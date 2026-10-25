@@ -2,6 +2,22 @@ function contract=Prepare_HeatDriveECC_CoupledCVObservation(model,options,varian
 % Passive observation of all four exchanger channels and three pump sources.
     contract=Build_HeatDriveECC_CoupledCVInventory(model,variant,options);
     pump=Instrument_HeatDriveECC_PumpPressureProbes(model,folder);
+    controller=Instrument_HeatDriveECC_Stage4ControllerProbes(model,folder);
+    memory=cell(1,3);
+    memory_blocks={'SMAPressurePI_Integrator','SEStage2PressurePI_Integrator','SEStage4PressurePI_Integrator'};
+    memory_variables={'cv_PI_sma_state','cv_PI_se_stage2_state','stage4_integrator_state'};
+    for k=1:3
+        p=[model '/' memory_blocks{k}];assert(getSimulinkBlockHandle(p)>0);
+        if k<3
+            sink=[model '/ToWorkspace_' memory_variables{k}];
+            add_block('simulink/Sinks/To Workspace',sink,'VariableName',memory_variables{k},'SaveFormat','Structure With Time');
+            a=get_param(p,'PortHandles');b=get_param(sink,'PortHandles');
+            add_line(model,a.Outport(1),b.Inport(1),'autorouting','on');
+        end
+        memory{k}=struct('block_path',p,'workspace_variable',memory_variables{k}, ...
+            'initial_condition_expression',get_param(p,'InitialCondition'),'external_reset',get_param(p,'ExternalReset'), ...
+            'controller_parameters_modified',false);
+    end
     scratch='ecc_coupled_cv_port_map';assert(~bdIsLoaded(scratch));new_system(scratch);
     cleanup=onCleanup(@() close_system(scratch,0));probes={};
     for k=1:size(contract.hex_channels,1)
@@ -28,6 +44,7 @@ function contract=Prepare_HeatDriveECC_CoupledCVObservation(model,options,varian
                 a=get_param(converter,'PortHandles');b=get_param(sink,'PortHandles');
                 add_line(parent,a.Outport(1),b.Inport(1),'autorouting','on');
                 probes{end+1}=struct('block_path',pipe,'port_name',row.name,'quantity',key, ...
+                    'sensor_block',sensor,'sensor_output_port',key,'converter_block',converter, ...
                     'workspace_variable',variable,'unit',unit,'flow_direction_not_assumed',true); %#ok<AGROW>
             end
         end
@@ -42,10 +59,12 @@ function contract=Prepare_HeatDriveECC_CoupledCVObservation(model,options,varian
         'mass_flow_v4_hot_inlet_kgps','mass_flow_v6_sma_to_chip_cold_kgps', ...
         'pressure_command_se_MPa','pressure_command_sma_MPa', ...
         'shex_source_heat_flow_W','Qdot_cold_sink_mass_to_hx_pipe_W'};
-    required=[required,cellfun(@(r)r.workspace_variable,pump.probes,'UniformOutput',false).', ...
-        cellfun(@(r)r.workspace_variable,probes,'UniformOutput',false)];
+    required=[required,reshape(cellfun(@(r)r.workspace_variable,pump.probes,'UniformOutput',false),1,[]), ...
+        reshape(cellfun(@(r)r.workspace_variable,probes,'UniformOutput',false),1,[]),memory_variables, ...
+        reshape(cellfun(@(r)r.workspace_variable,controller.probes,'UniformOutput',false),1,[])];
     assert(isempty(setdiff(required,variables)),'Core flow, outlet or pump probes are not actually wired.');
     contract.pump_pressure_contract=pump;contract.hex_port_probes=probes;
+    contract.PI_memory_probes=memory;contract.stage4_controller_contract=controller;
     contract.workspace_variables=unique(variables);contract.required_workspace_variables=unique(required);
     contract.flow_port_sign_rule='positive mdot into component; choose actual outlet by measured sign, never by A/B name';
     contract.tl_topology=Export_HeatDriveECC_TLConnectivity(model);
