@@ -4,7 +4,7 @@ import numpy as np
 from scipy.integrate import RK23
 
 from Reference_HeatDriveECC_ConservativeTransport import (
-    Bed, advective_faces, conductive_faces, bs3_step, advance_segments, affine_exponential)
+    Bed, advective_faces, conductive_faces, bs3_step, advance_segments, affine_exponential, mc_slope)
 
 
 def example_bed(nodes=12, periodic=False, **kw):
@@ -134,6 +134,43 @@ class ConservativeTransportTests(unittest.TestCase):
             for order in row["observed_spatial_orders"]:
                 self.assertGreater(order, 1.8)
                 self.assertLess(order, 2.2)
+
+    def test_MC_slope_has_no_extremum_slope_and_preserves_linear_gradient(self):
+        np.testing.assert_array_equal(mc_slope(np.array([1., -2., 1., 0.]), np.array([1., -2., -1., 1.])),
+                                      [1., -2., 0., 0.])
+        np.testing.assert_array_equal(mc_slope(np.array([.1]), np.array([2.])), [.2])
+
+    def test_MC_is_an_explicit_distinct_method_not_the_default(self):
+        with self.assertRaises(ValueError):
+            example_bed(slope_limiter="MC", advection_order=1)
+        initial = np.r_[1., np.zeros(11)]
+        self.assertFalse(np.array_equal(advective_faces(initial, 1., 1., 0.),
+                                       advective_faces(initial, 1., 1., 0., limiter="MC")))
+        for limiter in ("none", "MC"):
+            linear = (np.arange(8)+.5)/8
+            np.testing.assert_allclose(advective_faces(linear, 1., 0., 1., limiter=limiter), np.arange(9)/8)
+
+    def test_MC_retains_conservation_and_does_not_reset_at_reversal(self):
+        bed = example_bed(slope_limiter="MC")
+        segments = [{"end_s": .1, "mdot_kg_s": .3, "left_K": 1., "right_K": 0.},
+                    {"end_s": .2, "mdot_kg_s": -.3, "left_K": 1., "right_K": 0.}]
+        samples, meta = advance_segments(bed, segments, .001, [0., .1, .2])
+        self.assertTrue(meta["transitions"][0]["all_coordinates_bitwise_unchanged"])
+        self.assertLess(meta["max_abs_energy_residual_J"], 1e-12)
+        self.assertGreaterEqual(samples[:, :24].min(), -1e-12)
+        self.assertLessEqual(samples[:, :24].max(), 1.+1e-12)
+
+    def test_nonlinear_limiter_cannot_silently_use_linear_matrix_exponential(self):
+        bed = example_bed(slope_limiter="MC")
+        with self.assertRaisesRegex(ValueError, "Non-affine"):
+            affine_exponential(lambda y: bed.rhs(y, .3, 1., 0.), np.zeros(bed.state_size), .1)
+
+    def test_MC_slope_matches_standard_ratio_formula(self):
+        forward = np.array([-2., -1., .1, 1., 1., 1.])
+        backward = np.array([-1., 2., .5, -1., 1., 4.])
+        ratio = backward/forward
+        phi = np.maximum(0., np.minimum(np.minimum(.5*(1+ratio), 2.), 2*ratio))
+        np.testing.assert_allclose(mc_slope(backward, forward), phi*forward)
 
 
 if __name__ == "__main__":

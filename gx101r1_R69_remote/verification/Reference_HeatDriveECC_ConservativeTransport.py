@@ -26,6 +26,7 @@ class Bed:
     UA_W_K: float
     periodic: bool = False
     advection_order: int = 2
+    slope_limiter: str = "none"
 
     def __post_init__(self):
         positive = (self.length_m, self.fluid_area_m2, self.fluid_rho_kg_m3,
@@ -35,7 +36,8 @@ class Bed:
         if (not isinstance(self.nodes, int) or isinstance(self.nodes, bool) or self.nodes < 3
                 or not np.isfinite(positive + nonnegative).all() or min(positive) <= 0
                 or min(nonnegative) < 0 or self.advection_order not in (1, 2)
-                or not isinstance(self.periodic, bool)):
+                or not isinstance(self.periodic, bool) or self.slope_limiter not in ("none", "MC")
+                or (self.slope_limiter != "none" and self.advection_order != 2)):
             raise ValueError("Require finite physical parameters and at least three cells")
 
     @property
@@ -66,7 +68,7 @@ class Bed:
         n = self.nodes
         fluid, solid = state[:n], state[n:2*n]
         advective = advective_faces(fluid, mdot * self.fluid_cp_J_kgK,
-                                    left_K, right_K, self.periodic, self.advection_order)
+                                    left_K, right_K, self.periodic, self.advection_order, self.slope_limiter)
         fluid_flux = advective + conductive_faces(fluid, self.fluid_k_W_mK * self.fluid_area_m2 / self.dx,
                                                    self.periodic)
         solid_flux = conductive_faces(solid, self.solid_k_W_mK * self.solid_area_m2 / self.dx,
@@ -96,31 +98,48 @@ class Bed:
         return np.r_[fluid_net / self.fluid_capacity, solid_net / self.solid_capacity, boundary]
 
 
-def advective_faces(temperature, capacity_flow_W_K, left_K, right_K, periodic=False, order=2):
+def mc_slope(backward, forward):
+    """Monotonized-central slope: minmod(2*db, (db+df)/2, 2*df).
+
+    This limits face reconstruction, not temperatures or inventory states. It
+    is a distinct candidate method, not a claim about Q01's unpublished stencil.
+    """
+    same_sign = (np.sign(backward) == np.sign(forward))
+    magnitude = np.minimum(np.minimum(2*abs(backward), 2*abs(forward)), .5*abs(backward+forward))
+    return np.where(same_sign, np.sign(backward)*magnitude, 0.)
+
+
+def advective_faces(temperature, capacity_flow_W_K, left_K, right_K, periodic=False, order=2, limiter="none"):
     """Face j points right, independent of actual flow sign; output has N+1 entries.
 
     For positive flow, interior Tface=1.5*Tup-0.5*Tupstream. At the first
     cell only, the backward slope uses the boundary face at half-cell distance:
     Tghost=2*Tin-Tfirst. Outlet uses the interior one-sided reconstruction.
     Negative flow mirrors this flux evaluation, never the stored state itself.
-    No limiter/clipping is applied: a discontinuous front can overshoot.
+    Default unlimited reconstruction can overshoot a discontinuous front.
+    Optional MC is a separately declared, conservative face-slope candidate.
     """
     temperature = np.asarray(temperature)
     if capacity_flow_W_K == 0:
         return np.zeros(len(temperature) + 1)
     if capacity_flow_W_K < 0:
         return -advective_faces(temperature[::-1], -capacity_flow_W_K,
-                                right_K, left_K, periodic, order)[::-1]
+                                right_K, left_K, periodic, order, limiter)[::-1]
     if periodic:
         right_faces = temperature.copy()
         if order == 2:
-            right_faces += .5 * (temperature - np.roll(temperature, 1))
+            backward = temperature - np.roll(temperature, 1)
+            slope = backward if limiter == "none" else mc_slope(backward, np.roll(temperature, -1)-temperature)
+            right_faces += .5 * slope
         faces = np.r_[right_faces[-1], right_faces]
     else:
         right_faces = temperature.copy()
         if order == 2:
             upstream = np.r_[2 * left_K - temperature[0], temperature[:-1]]
-            right_faces += .5 * (temperature - upstream)
+            backward = temperature - upstream
+            forward = np.r_[np.diff(temperature), backward[-1]]
+            slope = backward if limiter == "none" else mc_slope(backward, forward)
+            right_faces += .5 * slope
         faces = np.r_[left_K, right_faces]
     return capacity_flow_W_K * faces
 
@@ -161,6 +180,12 @@ def affine_exponential(rhs, initial, duration):
         unit[j] = 1.
         matrix[:size, j] = rhs(unit) - baseline
     matrix[:size, -1] = baseline
+    probe = np.sin(np.arange(size) + .3)
+    measured = rhs(probe)
+    predicted = matrix[:size, :size] @ probe + baseline
+    allowance = 1024*np.finfo(float).eps*max(1., float(np.max(abs(measured))))
+    if np.max(abs(predicted-measured)) > allowance:
+        raise ValueError("Non-affine RHS: an MC-limited operator requires a nonlinear time reference")
     return expm_multiply(csc_matrix(matrix * duration), np.r_[initial, 1.])[:size]
 
 
