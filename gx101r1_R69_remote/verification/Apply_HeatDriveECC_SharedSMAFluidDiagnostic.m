@@ -42,7 +42,7 @@ function record=Apply_HeatDriveECC_SharedSMAFluidDiagnostic(model, isolated_mode
     for i=1:21
         for port={'A','B'}
             h=typed_handle(tl,[drop{i} ':' port{1}]);
-            line_handles(end+1)=get_param(h,'Line'); %#ok<AGROW>
+            line_handles(end+1)=root_line(get_param(h,'Line')); %#ok<AGROW>
         end
     end
     assert(all(line_handles>0));
@@ -94,6 +94,12 @@ function record=Apply_HeatDriveECC_SharedSMAFluidDiagnostic(model, isolated_mode
         'cooling_heatflow_outputs_removed_not_fabricated',true, ...
         'compiled_or_simulated',false,'switch_continuity_proven',false, ...
         'production_recovery_allowed',false,'scientific_mechanism_qualified',false);
+end
+
+function line=root_line(line)
+    assert(line>0,'Expected a connected cooling-chain liquid port.');
+    parent=get_param(line,'LineParent');
+    while parent>0,line=parent;parent=get_param(line,'LineParent');end
 end
 
 function p=pipe_parameters(block)

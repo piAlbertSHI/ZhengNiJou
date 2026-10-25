@@ -57,6 +57,8 @@ class ConstructorScopeTests(unittest.TestCase):
         self.assertIn("'Inputs','2'", apply)
         self.assertIn("'Function','max'", apply)
         self.assertIn("isequal(pipes{i},pipe_parameters(keep{i}))", apply)
+        self.assertIn("root_line(get_param(h,'Line'))", apply)
+        self.assertIn("get_param(line,'LineParent')", apply)
 
 
 if __name__ == "__main__":
