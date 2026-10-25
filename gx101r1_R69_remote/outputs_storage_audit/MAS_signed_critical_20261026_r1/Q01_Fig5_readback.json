@@ -1,0 +1,114 @@
+{
+  "schema": "heatdrive_ecc_Q01_Fig5_guided_raster_readback_v1",
+  "source": "C:\\Users\\86182\\Desktop\\\u51b7\u51dd\u6587\u732e\\\u5f39\u70ed\u5236\u51b7\u6587\u732e\\A heat driven elastocaloric cooling system..pdf",
+  "source_sha256": "2D0EB5F84AA515BA651638974414D426A3806FD417A1EAD96EFA36EDA08034CC",
+  "PDF_page": 8,
+  "phase_line_labels_from_PDF_page": 7,
+  "source_image_size": [
+    1422,
+    698
+  ],
+  "axes_x0_x120_y0_y800": [
+    133.0,
+    1387.0,
+    580.0,
+    18.0
+  ],
+  "fit_temperature_interval_C": [
+    82.0,
+    99.0
+  ],
+  "pixel_color_filter_max": 120,
+  "guided_strip_half_width_MPa": 15.0,
+  "runs": [
+    {
+      "axis_pixel_shift": 0.0,
+      "lines": [
+        {
+          "line": "left_100pct_M",
+          "slope_MPa_per_K": 7.587208194104189,
+          "zero_stress_intercept_C": 39.809290905717546,
+          "columns": 178,
+          "RMS_pixel_fit_MPa": 0.5580492773830937
+        },
+        {
+          "line": "middle_50pct_M",
+          "slope_MPa_per_K": 7.458915556588585,
+          "zero_stress_intercept_C": 44.83635352782407,
+          "columns": 118,
+          "RMS_pixel_fit_MPa": 1.2723738709804286
+        },
+        {
+          "line": "right_0pct_M",
+          "slope_MPa_per_K": 7.333105726370646,
+          "zero_stress_intercept_C": 49.83465660752857,
+          "columns": 176,
+          "RMS_pixel_fit_MPa": 1.4524194856313217
+        }
+      ]
+    },
+    {
+      "axis_pixel_shift": -1.0,
+      "lines": [
+        {
+          "line": "left_100pct_M",
+          "slope_MPa_per_K": 7.588964895277601,
+          "zero_stress_intercept_C": 40.10448744360514,
+          "columns": 178,
+          "RMS_pixel_fit_MPa": 0.5593246075081679
+        },
+        {
+          "line": "middle_50pct_M",
+          "slope_MPa_per_K": 7.4507670308290495,
+          "zero_stress_intercept_C": 45.06990522183738,
+          "columns": 119,
+          "RMS_pixel_fit_MPa": 1.2986897101187052
+        },
+        {
+          "line": "right_0pct_M",
+          "slope_MPa_per_K": 7.33527910783385,
+          "zero_stress_intercept_C": 50.13616997010281,
+          "columns": 176,
+          "RMS_pixel_fit_MPa": 1.451630437050346
+        }
+      ]
+    },
+    {
+      "axis_pixel_shift": 1.0,
+      "lines": [
+        {
+          "line": "left_100pct_M",
+          "slope_MPa_per_K": 7.582571136051847,
+          "zero_stress_intercept_C": 39.494597982195174,
+          "columns": 178,
+          "RMS_pixel_fit_MPa": 0.5540222317388699
+        },
+        {
+          "line": "middle_50pct_M",
+          "slope_MPa_per_K": 7.465542063371038,
+          "zero_stress_intercept_C": 44.59319108215867,
+          "columns": 117,
+          "RMS_pixel_fit_MPa": 1.2570409806469172
+        },
+        {
+          "line": "right_0pct_M",
+          "slope_MPa_per_K": 7.32952881612,
+          "zero_stress_intercept_C": 49.52455894823405,
+          "columns": 176,
+          "RMS_pixel_fit_MPa": 1.4510669517823265
+        }
+      ]
+    }
+  ],
+  "axis_shift_is_sensitivity_not_statistical_confidence": true,
+  "interpretation": "Check plot consistency only; finite-resolution fit is not exact constitutive input",
+  "not_identified": [
+    "activation volume",
+    "relaxation time",
+    "phase-dependent barrier distribution",
+    "low-temperature well branch",
+    "path dependence"
+  ],
+  "system_parameters_changed": false,
+  "physical_validation_claim": false
+}
