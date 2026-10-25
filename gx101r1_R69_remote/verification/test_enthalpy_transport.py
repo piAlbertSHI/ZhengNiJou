@@ -171,6 +171,21 @@ class EnthalpyTransportTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "cannot be repaired/projected"):
             constrained_midpoint_step(bed, state, .0032, 393.15, 303.15, .001)
 
+    def test_nonlinear_success_flag_does_not_replace_conservation_residual_check(self):
+        from unittest.mock import patch
+        from scipy.optimize import root as real_root
+        from Reference_HeatDriveECC_ConstrainedEnthalpy import constrained_midpoint_step
+        def premature(*args, **kwargs):
+            solution = real_root(*args, **kwargs)
+            solution.x[0] += 1e-7
+            solution.success = True
+            return solution
+        bed = test_bed()
+        with patch("Reference_HeatDriveECC_ConstrainedEnthalpy.root", side_effect=premature):
+            _, diagnostics = constrained_midpoint_step(bed, bed.initial_state(), .0032, 393.15, 303.15, .001)
+        self.assertGreater(diagnostics["unaccepted_nonlinear_unknown_polish_iterations"], 0)
+        self.assertLessEqual(diagnostics["max_nonlinear_energy_residual_J"], diagnostics["roundoff_scaled_residual_allowance_J"])
+
 
 if __name__ == "__main__":
     unittest.main()

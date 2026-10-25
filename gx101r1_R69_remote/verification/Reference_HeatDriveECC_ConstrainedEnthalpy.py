@@ -61,18 +61,48 @@ def constrained_midpoint_step(bed, old_state, command, left_K, right_K, dt):
     scale = np.r_[np.full(n, bed.geometry.fluid_capacity), np.full(n, bed.geometry.solid_capacity)]
     def objective(unknown):
         return endpoint_and_residual(unknown)[0]/scale
-    solution = root(objective, np.r_[old_T, old_solid], method="hybr", options={"xtol": 1e-10})
-    residual, mass1, energy1, solid1, dm, de = endpoint_and_residual(solution.x)
+    solution = root(objective, np.r_[old_T, old_solid], method="hybr", options={"xtol": 1e-12})
+    unknown = solution.x.copy()
+    residual, mass1, energy1, solid1, dm, de = endpoint_and_residual(unknown)
     max_residual = float(np.max(abs(residual)))
     # Independent residual acceptance, including statuses that only report
     # lack of further progress at roundoff; the status itself is retained.
     allowance = 512*np.finfo(float).eps*max(1., float(np.max(abs(np.r_[energy1, solid1]))))
-    if not np.isfinite(solution.x).all() or max_residual > allowance:
+    polish_iterations, polish_evaluations = 0, 0
+    # HYBR stops on scaled coordinate change, not this conservation residual.
+    # Polish its UNACCEPTED nonlinear unknowns, not the physical prior state.
+    # The independent residual threshold is unchanged.
+    for _ in range(4):
+        if max_residual <= allowance:
+            break
+        jacobian = np.empty((2*n, 2*n))
+        for j in range(2*n):
+            perturbation = 1e-4*max(1., abs(unknown[j])/300.)
+            plus, minus = unknown.copy(), unknown.copy()
+            plus[j] += perturbation
+            minus[j] -= perturbation
+            jacobian[:, j] = (endpoint_and_residual(plus)[0]-endpoint_and_residual(minus)[0])/(2*perturbation)
+        polish_evaluations += 4*n
+        correction = np.linalg.solve(jacobian, -residual)
+        for factor in (1., .5, .25, .125):
+            candidate = unknown+factor*correction
+            trial = endpoint_and_residual(candidate)
+            polish_evaluations += 1
+            if np.max(abs(trial[0])) < max_residual:
+                unknown = candidate
+                residual, mass1, energy1, solid1, dm, de = trial
+                max_residual = float(np.max(abs(residual)))
+                polish_iterations += 1
+                break
+        else:
+            break
+    if not np.isfinite(unknown).all() or max_residual > allowance:
         raise RuntimeError(f"Conservative nonlinear residual {max_residual:g} J exceeds {allowance:g} J: {solution.message}")
     state = np.r_[mass1, energy1, solid1, old_state[-2]+dm, old_state[-1]+de]
     observed = bed.unpack(state)
     return state, {"nonlinear_success_flag": bool(solution.success), "nonlinear_message": str(solution.message),
-        "RHS_evaluations": int(solution.nfev), "max_nonlinear_energy_residual_J": max_residual,
+        "RHS_evaluations": int(solution.nfev)+polish_evaluations, "max_nonlinear_energy_residual_J": max_residual,
+        "unaccepted_nonlinear_unknown_polish_iterations": polish_iterations,
         "roundoff_scaled_residual_allowance_J": allowance,
         "max_endpoint_pressure_deviation_Pa": float(np.max(abs(observed["p"]-eos.pref))),
         "integrated_mass_boundary_increment_kg": dm, "integrated_energy_boundary_increment_J": de,
