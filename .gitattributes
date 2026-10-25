@@ -271,4 +271,5 @@ gx101r1_R69_remote/outputs_storage_audit/saved_Nu_control_20261026_r1/*.json -te
 gx101r1_R69_remote/outputs_storage_audit/SMA_direction_pair_C2_20261026_r2/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
 gx101r1_R69_remote/outputs_storage_audit/SMA_direction_pair_C2_20261026_r2/*.jsonl -text whitespace=trailing-space,space-before-tab,cr-at-eol
 gx101r1_R69_remote/outputs_storage_audit/shared_SMA_constructor_20261026_r5_review2/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
-gx101r1_R69_remote/outputs_storage_audit/shared_SMA_constructor_20261026_r5_review2/*.log -text whitespace=trailing-space,space-before-tab,cr-at-eol
+# Preserve raw MATLAB console bytes, including control characters/trailing spaces.
+gx101r1_R69_remote/outputs_storage_audit/shared_SMA_constructor_20261026_r5_review2/*.log -text whitespace=-trailing-space,-space-before-tab,-blank-at-eof,cr-at-eol

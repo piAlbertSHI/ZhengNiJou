@@ -9,6 +9,9 @@
   final review, all four failure receipts, five final logs and cleanup receipt.
 - Copied original files were verified by SHA-256. No result MAT/OP/full-step
   trajectory was generated or copied.
+- Raw MATLAB console logs retain original control characters and trailing
+  spaces; the exact log paths have a scoped whitespace-check exception, not
+  a content rewrite or a scientific gate change.
 
 ## What Passed
 
