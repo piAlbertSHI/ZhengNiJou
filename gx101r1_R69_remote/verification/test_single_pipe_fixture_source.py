@@ -70,6 +70,8 @@ class SinglePipeFixtureSourceTests(unittest.TestCase):
         self.assertIn("'local_solver_enabled',get_param", self.fixture)
         self.assertIn("'global_solver',get_param(model,'Solver')", self.fixture)
         self.assertIn("row.solver_contract=solver_contract", self.fixture)
+        self.assertIn("set_param([model '/WallPS'],'FilteringAndDerivatives','zero')", self.fixture)
+        self.assertIn("'wall_converter_handling',get_param", self.fixture)
 
 
 if __name__ == "__main__":
