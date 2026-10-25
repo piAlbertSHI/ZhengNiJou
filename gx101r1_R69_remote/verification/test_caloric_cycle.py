@@ -147,6 +147,27 @@ class CoupledTests(unittest.TestCase):
         rate, _, _ = m.evaluate(y, 1)
         self.assertLess(rate[m.slices["ledgers"]][3], 0.)
 
+    def test_BS3_tableau_and_directional_phase_interval_without_clipping(self):
+        from scipy.integrate._ivp.rk import RK23
+        from Reference_HeatDriveECC_ConservativeTransport import bs3_step
+        np.testing.assert_allclose(RK23.B, [2/9, 1/3, 4/9], rtol=0, atol=0)
+        np.testing.assert_allclose(RK23.A, [[0, 0, 0], [.5, 0, 0], [0, .75, 0]], rtol=0, atol=0)
+        m = self.model
+        # Non-smooth drive can change arbitrarily within a substage. Signs and
+        # remaining-fraction factors must still keep all intermediate phases
+        # inside the interval at dt*k<=1; no SSP/TVD claim for thermal fields.
+        rng = np.random.default_rng(611)
+        for _ in range(100):
+            x = rng.uniform(0, 1, 2*m.n)
+            stage_sign = rng.choice([-1, 1], 2)
+            def rhs(t, phase):
+                gate = rng.uniform(0, 1, len(phase))
+                sign = np.repeat(stage_sign, m.n)
+                return np.where(sign < 0, -16.89*gate*phase, 16.89*gate*(1-phase))
+            candidate = bs3_step(rhs, 0., x, 1/16.89)
+            self.assertGreaterEqual(candidate.min(), 0.)
+            self.assertLessEqual(candidate.max(), 1.)
+
 
 if __name__ == "__main__":
     unittest.main()

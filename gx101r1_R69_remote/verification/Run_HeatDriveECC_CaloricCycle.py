@@ -14,7 +14,7 @@ import traceback
 import h5py
 import numpy as np
 import scipy
-from scipy.integrate import DOP853
+from scipy.integrate import RK23
 
 from Audit_HeatDriveECC_NativeAccumulation import energy_tables
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
@@ -106,6 +106,9 @@ def load_network(control_root, fluid_execution, metadata, aux_nodes=7):
 
 
 def simulate(model, cycles, max_step, rtol=1e-8):
+    largest_rate = max(v for k, v in model.c["kinetics"].items() if k.startswith("rate_"))
+    if not np.isfinite(max_step) or max_step <= 0 or max_step*largest_rate > 1:
+        raise ValueError("BS3 directional phase interval requires dt*max_rate <= 1")
     y0 = model.initial_state()
     y = y0.copy()
     samples, clocks, stages, transitions, cycle_rows = [y.copy()], [0.], [1], [], []
@@ -132,8 +135,8 @@ def simulate(model, cycles, max_step, rtol=1e-8):
                     model.evaluate(y, test_stage)
                 transitions.append({"time_s": start, "to_stage": stage,
                                     "state_bitwise_unchanged": bool(np.array_equal(old, y))})
-            solver = DOP853(lambda t, v: model.evaluate(v, stage)[0], start, y, end,
-                            max_step=max_step, rtol=rtol, atol=atol)
+            solver = RK23(lambda t, v: model.evaluate(v, stage)[0], start, y, end,
+                          max_step=max_step, rtol=rtol, atol=atol)
             next_sample = start+.05
             while solver.status == "running":
                 message = solver.step()
@@ -204,7 +207,7 @@ def run(output, control, witness, metadata, cycles, max_step):
         "source_sha256": {name: sha256(Path(__file__).with_name(name)) for name in source_names},
         "runtime": {"python": platform.python_version(), "scipy": scipy.__version__, "numpy": np.__version__},
         "cold_start_all_temperature_K": 303.15, "initial_phase": {"SMA_xM": 1., "SE_xM": 0.},
-        "integration": "monolithic adaptive DOP853 with exact stage stops, not paper ODE3",
+        "integration": "monolithic adaptive RK23/BS3 with exact stage stops, not fixed paper ODE3",
         "requested_cycles": cycles, "max_step_s": max_step,
         "production_state_loaded": False, "checkpoint_saved": False,
         "production_recovery_allowed": False, "outer_solve_allowed": False, "Table4_reproduction_claim": False,
