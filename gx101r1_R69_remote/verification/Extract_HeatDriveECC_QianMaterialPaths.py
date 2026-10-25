@@ -5,6 +5,7 @@ legend/annotations and shared chart-frame plateaus are explicitly left missing.
 These published simulated component paths use Table2, not the Table4 prototype.
 """
 import argparse
+from collections import Counter
 import json
 from pathlib import Path
 
@@ -27,14 +28,14 @@ GUIDES = {
         [9., 35.], [9.5, 33.], [10., 32.]])}
 
 
-def pixel_group(values):
+def pixel_group(values, max_vertical_pixels=14):
     """Only an unambiguous contiguous dark ridge is returned."""
     if len(values) == 0:
         return None, "no_dark_pixels"
     groups = np.split(values, np.flatnonzero(np.diff(values) > 1)+1)
     if len(groups) != 1:
         return None, "multiple_dark_ridges"
-    if len(groups[0]) > 14:
+    if len(groups[0]) > max_vertical_pixels:
         return None, "vertical_stroke_or_unresolved_crossing"
     return groups[0], None
 
@@ -55,12 +56,14 @@ def extract_trace(image, kind):
     ordinate = (yzero-np.arange(height))*ordinate_top/(yzero-ytop)
     measured, missing = [], []
     guide = GUIDES[kind]
+    guide_derivative = np.gradient(guide[:, 1], guide[:, 0])
     for requested in np.arange(.1, 20., .1):
         clock = float(round(requested, 10))
         cycle = 1 if clock < 10. else 2
         local = clock-(cycle-1)*10
         reason = None
-        if min(abs(local-v) for v in (3.5, 5., 8.5, 10., 0.)) < .075:
+        annotation_times = (0., 3.5, 5., 8.5, 10.) if kind == "temperature" else (0., .5, 1.4, 3.5, 5., 6.1, 8., 8.5, 10.)
+        if min(abs(local-v) for v in annotation_times) < .075:
             reason = "stage_annotation_column"
         if kind == "phase":
             if not (.5 <= local <= 1.35 or 6.2 <= local <= 8.15):
@@ -75,7 +78,9 @@ def extract_trace(image, kind):
             continue
         column = int(round(x0+clock*(x20-x0)/20))
         candidates = np.flatnonzero(dark[:, column] & (abs(ordinate-expected) < strip))
-        selected, reason = pixel_group(candidates)
+        dy_dx = abs(float(np.interp(local, guide[:, 0], guide_derivative)))*(yzero-ytop)/ordinate_top*20/(x20-x0)
+        max_stroke = int(np.ceil(7*np.sqrt(1+dy_dx*dy_dx)))+2
+        selected, reason = pixel_group(candidates, max_stroke)
         if reason:
             missing.append({"requested_time_s": clock, "reason": reason})
             continue
@@ -86,14 +91,17 @@ def extract_trace(image, kind):
         measured.append({"requested_time_s": clock, "image_time_s": float((column-x0)*20/(x20-x0)),
             "value": float(actual), "pixel_ordinate_extent_plus_one": [float(low), float(high)],
             "pixel_x": column, "pixel_y_median": row, "dark_pixel_count": len(selected),
+            "slope_aware_vertical_stroke_limit_pixels": max_stroke,
             "cycle": cycle})
     if len(measured) < (10 if kind == "phase" else 100):
-        raise ValueError("Insufficient separable source pixels; do not fill gaps with guide values")
+        raise ValueError("Insufficient separable source pixels for "+kind+": "+str(len(measured))+
+                         "; missing="+str(dict(Counter(r["reason"] for r in missing))))
     return {"quantity": "SMA_xM" if kind == "phase" else "SMA_temperature_C",
         "source_figure": 3 if kind == "phase" else 4,
         "axes_pixels_x0_x20_y0_ytop": [x0, x20, yzero, ytop], "axis_ordinate_top": ordinate_top,
         "one_pixel_time_s": 20/(x20-x0), "one_pixel_ordinate": ordinate_top/(yzero-ytop),
         "guide_half_width": strip, "guide_points_are_not_measurements": True,
+        "stroke_selection": "7-pixel normal width rotated by guide slope, plus 2-pixel allowance; not data smoothing",
         "guide_for_curve_identity": guide.tolist(), "measured": measured, "missing": missing,
         "uncertainty_scope": "pixel stroke extent plus 1 pixel only; axis registration/curve identity/systematic figure errors remain",
         "missing_points_interpolated": False}

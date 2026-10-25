@@ -27,6 +27,12 @@ class PixelPathTests(unittest.TestCase):
         np.testing.assert_array_equal(selected, pixels)
         self.assertIsNone(reason)
 
+    def test_steep_real_curve_is_not_rejected_by_flat_curve_stroke_width(self):
+        pixels = np.arange(30)
+        selected, reason = pixel_group(pixels, max_vertical_pixels=35)
+        np.testing.assert_array_equal(selected, pixels)
+        self.assertIsNone(reason)
+
 
 if __name__ == "__main__":
     unittest.main()
