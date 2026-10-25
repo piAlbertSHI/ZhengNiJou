@@ -1,0 +1,25 @@
+{
+  "schema": "heatdrive_ecc_Nu_control_reduced_phase_context_v1",
+  "execution_sha256": "EB7769F3582033AA9FD6AC8987319DE2AC2FD2532E79E5C5CC3B29EFC6C9BD61",
+  "time_s": 3.5,
+  "scope": "Observed coordinates and the existing reduced stage1 material law; not a global or material impossibility proof",
+  "legacy": {
+    "SMA_xM_max": 2.9284169898659704e-17,
+    "SE_weak_Tsolid_K": 322.4487103100269,
+    "SE_weak_xM": 0.899484155174834,
+    "SE_stress_MPa": 462.04491469873125,
+    "SE_weak_loading_drive_Pa": 1986.1077718734741,
+    "SE_weak_loading_rate_per_s": 0.006730660876017684
+  },
+  "saved_Nu": {
+    "SMA_xM_max": 8.831055273226344e-18,
+    "SE_weak_Tsolid_K": 322.4260877254473,
+    "SE_weak_xM": 0.899859800644411,
+    "SE_stress_MPa": 461.9077116050141,
+    "SE_weak_loading_drive_Pa": 2505.762206494808,
+    "SE_weak_loading_rate_per_s": 0.008455575336709062
+  },
+  "phase_rate_parameters_changed": false,
+  "production_recovery_or_twenty_cycle_seed_allowed": false,
+  "complete_mechanism_qualification_claim": false
+}

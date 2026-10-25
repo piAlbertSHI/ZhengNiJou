@@ -1,0 +1,32 @@
+{
+  "schema": "heatdrive_ecc_saved_Nu_control_review_v1",
+  "reader_sha256": "40CE9BD9B183F44C21893F107B433CD57AEBE73F33033E55DF38075A6E1D34BE",
+  "execution": "C:\\tmp\\se21_saved_Nu_cold_C1_r1_20261026\\saved_Nu_execution.json",
+  "execution_sha256": "EB7769F3582033AA9FD6AC8987319DE2AC2FD2532E79E5C5CC3B29EFC6C9BD61",
+  "raw_sha256": "9AD8B37EF24D934072928F56EB72D77CD6C0E3A1148D5A0762D4AB61D04A3122",
+  "selected_times": 201,
+  "all_other_physical_contract_items_equal": true,
+  "configuration_Nu_verified": {
+    "SMA": 4.365993493890937,
+    "SE": 3.66
+  },
+  "relative_SMA_Nu_increase": 0.19289439723796087,
+  "independent_selected_energy_residual_J": 2.9103830456733704e-11,
+  "maximum_selected_field_differences": {
+    "Ta": 6.947825214691193,
+    "Tr": 1.3565838174600913,
+    "xa": 0.13365810406851159,
+    "xr": 0.06479008240952008
+  },
+  "before_hot_blow_SE_min_xM": {
+    "legacy": 0.899484155174834,
+    "saved_Nu": 0.899859800644411
+  },
+  "not_a_complete_material_fix": true,
+  "periodic_qualified": false,
+  "all_production_mechanism_gates_evaluated": false,
+  "production_recovery_allowed": false,
+  "C200_SCP_deviation_attributed": false,
+  "twenty_cycle_seed_allowed": false,
+  "historical_legacy_Nu_controls_remain_valid_as_declared_controls": true
+}

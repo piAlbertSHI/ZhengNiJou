@@ -1,0 +1,757 @@
+{
+  "schema": "heatdrive_ecc_cold_storage_decomposition_v1",
+  "collection_complete": true,
+  "execution_commit": "e2d6a69096c574d0370c38e47207dcb71db9cf24",
+  "source_sha256": {
+    "Analyze_HeatDriveECC_ColdSinkStorage.py": "A7C0D4501CEC1CA6184F3196B0EBF4F1F683E1CA2903B4DDCB0F2D113417537A",
+    "Analyze_HeatDriveECC_CaloricCycle.py": "DEB64AFC958F6187FE2A92376FB1D3BFD1F8D9BA818FC5642567B069BCAD1EF8",
+    "Analyze_HeatDriveECC_LocalBoundaryProtocol.py": "BC43C0E8A068D6F9FE6A8B40B44C1B60DFD7B0F07CEC8BE600D0995D41AEA368",
+    "Reference_HeatDriveECC_CaloricCoupling.py": "AB00A503DA876F92D3D5C2847E7AB92379F192D387DC482B6D7707B16571BBC8",
+    "Reference_HeatDriveECC_LocalBoundaries.py": "AD5B8AA15EE66A33AC32EB06BE17D61E0C5C2FA7DEE6612BEE467013FDF50F8D",
+    "Run_HeatDriveECC_ConservativeTransport.py": "3748552B7E5591EB9458078BC46637FBC2461BEE73492125006D6BFDFA4FCACF",
+    "Audit_HeatDriveECC_SegmentedEvidence.py": "B128BDD8E72E537DA9C56171F479D3531D3321A06B0D577A70FEAB3A246473C2"
+  },
+  "input_dependencies": [
+    {
+      "path": "C:\\tmp\\se21_caloric_coupled_cold_C20_r2_20261025\\caloric_cycle_execution.json",
+      "sha256": "D641DF40C7928FC7E3C775EAD207357E001A5395A305AA93518C64B56A7D47D5"
+    },
+    {
+      "path": "C:\\tmp\\se21_caloric_coupled_cold_C20_r2_20261025\\selected_coupled_profiles.npz",
+      "sha256": "790444AB2DB3F35364EA51980C1C29FC295E0C62B5A32E8B4EC7AF5DF86D6EA7"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u51b7\u51dd\u6587\u732e\\\u5f39\u70ed\u5236\u51b7\u6587\u732e\\A heat driven elastocaloric cooling system..pdf",
+      "sha256": "2D0EB5F84AA515BA651638974414D426A3806FD417A1EAD96EFA36EDA08034CC"
+    }
+  ],
+  "physical_case_separation": {
+    "published_Table2_PDF_page": 6,
+    "Table2_literal_geometry": {
+      "SMA_area_m2": 1.414e-05,
+      "SE_area_m2": 4e-06,
+      "SMA_length_m": 0.45,
+      "SE_length_m": 0.2,
+      "SMA_solid_mass_kg": 0.0413595,
+      "SE_solid_mass_kg": 0.0052,
+      "driver_to_SE_mass_ratio": 7.95375
+    },
+    "retained_C20_Table4_derived_geometry": {
+      "SMA_area_m2": 2.5132741228718343e-05,
+      "SE_area_m2": 1.7000000000000003e-05,
+      "SMA_length_m": 0.8191207665316702,
+      "SE_length_m": 0.37843290919687267,
+      "SMA_solid_mass_kg": 0.13381387669201422,
+      "SE_solid_mass_kg": 0.04181683646625444,
+      "driver_to_SE_mass_ratio": 3.2,
+      "SMA_void_over_solid": 0.75,
+      "SE_void_over_solid": 0.42
+    },
+    "same_geometry": false,
+    "same_case_as_Q01_Fig3_to_Fig6": false,
+    "Table2_flow_magnitudes_found_in_Table2_or_Fig1c": false,
+    "Table4_flow_must_not_silently_fill_Table2_gap": true,
+    "source_Fig1c_visual_readback": "Schematic sequence only, no numerical flow axis ticks",
+    "porosity_interpretation_error_found_in_current_defaults": false
+  },
+  "C1_direct_port_crosscheck": {
+    "execution": "C:\\tmp\\se21_local_boundaries_cold_C1_r3_20261026\\local_boundary_execution.json",
+    "execution_sha256": "43642A76BD4FD1B94BAC2C113E44625C21A9906BCB6B3D5D03D5363B23374A47",
+    "raw_sha256": "F999C64EF92141AD49C685DA99E84387E429904014A943BB8CB0196B9BDB4D17",
+    "direct_stream_enthalpy_integral_J": 181.87222690489926,
+    "direct_leak_integral_J": 3.3328233954511976e-13,
+    "decomposition_minus_direct_max_J": 0.0,
+    "decomposition": {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 16.651524351407865,
+      "load_sensor_storage_change_J": -16.651524351407865,
+      "CHEX_bus_storage_change_J": -152.60221681115743,
+      "CHEX_fluid_enthalpy_storage_change_J": -12.618485742333636,
+      "ambient_leak_energy_interval_J": [
+        3.3328233954511976e-13,
+        3.3328233954511976e-13
+      ],
+      "stream_enthalpy_gain_without_leak_J": 181.87222690489892,
+      "stream_enthalpy_gain_interval_J": [
+        181.87222690489926,
+        181.87222690489926
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -181.87222690489892,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        0.0,
+        10.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    "isolated_observer_base_coordinates_bitwise_control": true,
+    "scope": "Same-model discrete boundary-integral cross-check, not independent physical validation"
+  },
+  "complete_cycle_budgets": [
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 16.651524351407865,
+      "load_sensor_storage_change_J": -16.651524351407865,
+      "CHEX_bus_storage_change_J": -152.60221681115743,
+      "CHEX_fluid_enthalpy_storage_change_J": -12.618485742333636,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 181.87222690489892,
+      "stream_enthalpy_gain_interval_J": [
+        181.87222690399892,
+        181.87222690537993
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -181.87222690489892,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        0.0,
+        10.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 86.72290690956578,
+      "load_sensor_storage_change_J": -86.72290690956578,
+      "CHEX_bus_storage_change_J": -105.56781849435342,
+      "CHEX_fluid_enthalpy_storage_change_J": -4.4408716724220545,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 196.73159707634125,
+      "stream_enthalpy_gain_interval_J": [
+        196.73159707544124,
+        196.73159707682225
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -196.73159707634125,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        10.0,
+        20.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 96.83189989384884,
+      "load_sensor_storage_change_J": -96.83189989384884,
+      "CHEX_bus_storage_change_J": -100.09235805276825,
+      "CHEX_fluid_enthalpy_storage_change_J": -2.7598603261205237,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 199.6841182727376,
+      "stream_enthalpy_gain_interval_J": [
+        199.6841182718376,
+        199.68411827321862
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -199.6841182727376,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        20.0,
+        30.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 98.59502626449702,
+      "load_sensor_storage_change_J": -98.59502626449702,
+      "CHEX_bus_storage_change_J": -98.27367861348495,
+      "CHEX_fluid_enthalpy_storage_change_J": -2.134271084874202,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 199.00297596285617,
+      "stream_enthalpy_gain_interval_J": [
+        199.00297596195617,
+        199.00297596333718
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -199.00297596285617,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        30.0,
+        40.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 98.30974459202673,
+      "load_sensor_storage_change_J": -98.30974459202673,
+      "CHEX_bus_storage_change_J": -96.66133766562132,
+      "CHEX_fluid_enthalpy_storage_change_J": -1.8295012302370215,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 196.80058348788506,
+      "stream_enthalpy_gain_interval_J": [
+        196.80058348698506,
+        196.80058348836607
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -196.80058348788506,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        40.0,
+        50.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 97.24142578049782,
+      "load_sensor_storage_change_J": -97.24142578049782,
+      "CHEX_bus_storage_change_J": -95.03117481074617,
+      "CHEX_fluid_enthalpy_storage_change_J": -1.6650087816643877,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 193.93760937290838,
+      "stream_enthalpy_gain_interval_J": [
+        193.93760937200838,
+        193.9376093733894
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -193.93760937290838,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        50.0,
+        60.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 95.84028619203116,
+      "load_sensor_storage_change_J": -95.84028619203116,
+      "CHEX_bus_storage_change_J": -93.42131421077545,
+      "CHEX_fluid_enthalpy_storage_change_J": -1.5722033810449811,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 190.83380378385158,
+      "stream_enthalpy_gain_interval_J": [
+        190.83380378295158,
+        190.8338037843326
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -190.83380378385158,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        60.0,
+        70.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 94.3176466010749,
+      "load_sensor_storage_change_J": -94.3176466010749,
+      "CHEX_bus_storage_change_J": -91.86667366978145,
+      "CHEX_fluid_enthalpy_storage_change_J": -1.5172784957393803,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 187.70159876659574,
+      "stream_enthalpy_gain_interval_J": [
+        187.70159876569573,
+        187.70159876707675
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -187.70159876659574,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        70.0,
+        80.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 92.77947699515221,
+      "load_sensor_storage_change_J": -92.77947699515221,
+      "CHEX_bus_storage_change_J": -90.38400946635068,
+      "CHEX_fluid_enthalpy_storage_change_J": -1.4825657705834212,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 184.6460522320863,
+      "stream_enthalpy_gain_interval_J": [
+        184.6460522311863,
+        184.6460522325673
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -184.6460522320863,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        80.0,
+        90.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 91.27813493930057,
+      "load_sensor_storage_change_J": -91.27813493930057,
+      "CHEX_bus_storage_change_J": -88.9791243795637,
+      "CHEX_fluid_enthalpy_storage_change_J": -1.4587145464866955,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 181.71597386535097,
+      "stream_enthalpy_gain_interval_J": [
+        181.71597386445097,
+        181.71597386583198
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -181.71597386535097,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        90.0,
+        100.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 89.83798337902601,
+      "load_sensor_storage_change_J": -89.83798337902601,
+      "CHEX_bus_storage_change_J": -87.65215523537483,
+      "CHEX_fluid_enthalpy_storage_change_J": -1.4407851661711772,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 178.93092378057202,
+      "stream_enthalpy_gain_interval_J": [
+        178.930923779672,
+        178.93092378105302
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -178.93092378057202,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        100.0,
+        110.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 88.46883963389143,
+      "load_sensor_storage_change_J": -88.46883963389143,
+      "CHEX_bus_storage_change_J": -86.40056805869199,
+      "CHEX_fluid_enthalpy_storage_change_J": -1.4261846104166551,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 176.2955923030001,
+      "stream_enthalpy_gain_interval_J": [
+        176.2955923021001,
+        176.2955923034811
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -176.2955923030001,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        110.0,
+        120.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 87.17311687430515,
+      "load_sensor_storage_change_J": -87.17311687430515,
+      "CHEX_bus_storage_change_J": -85.22063058783442,
+      "CHEX_fluid_enthalpy_storage_change_J": -1.4135462257968894,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 173.80729368793646,
+      "stream_enthalpy_gain_interval_J": [
+        173.80729368703646,
+        173.80729368841747
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -173.80729368793646,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        120.0,
+        130.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 85.94955509229817,
+      "load_sensor_storage_change_J": -85.94955509229817,
+      "CHEX_bus_storage_change_J": -84.10818282897094,
+      "CHEX_fluid_enthalpy_storage_change_J": -1.4021467801973548,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 171.45988470146645,
+      "stream_enthalpy_gain_interval_J": [
+        171.45988470056645,
+        171.45988470194746
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -171.45988470146645,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        130.0,
+        140.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 84.79516627019939,
+      "load_sensor_storage_change_J": -84.79516627019939,
+      "CHEX_bus_storage_change_J": -83.05898579250083,
+      "CHEX_fluid_enthalpy_storage_change_J": -1.3915964876435702,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 169.2457485503438,
+      "stream_enthalpy_gain_interval_J": [
+        169.2457485494438,
+        169.2457485508248
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -169.2457485503438,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        140.0,
+        150.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 83.70622369700664,
+      "load_sensor_storage_change_J": -83.70622369700664,
+      "CHEX_bus_storage_change_J": -82.06889712973089,
+      "CHEX_fluid_enthalpy_storage_change_J": -1.3816792669634124,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 167.15680009370092,
+      "stream_enthalpy_gain_interval_J": [
+        167.15680009280092,
+        167.15680009418193
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -167.15680009370092,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        150.0,
+        160.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 82.67876672925263,
+      "load_sensor_storage_change_J": -82.67876672925263,
+      "CHEX_bus_storage_change_J": -81.13398849684313,
+      "CHEX_fluid_enthalpy_storage_change_J": -1.3722706904269337,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 165.1850259165227,
+      "stream_enthalpy_gain_interval_J": [
+        165.1850259156227,
+        165.1850259170037
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -165.1850259165227,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        160.0,
+        170.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 81.70886167445997,
+      "load_sensor_storage_change_J": -81.70886167445997,
+      "CHEX_bus_storage_change_J": -80.25053194020029,
+      "CHEX_fluid_enthalpy_storage_change_J": -1.363294260377116,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 163.32268787503736,
+      "stream_enthalpy_gain_interval_J": [
+        163.32268787413736,
+        163.32268787551837
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -163.32268787503736,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        170.0,
+        180.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 80.79270899422772,
+      "load_sensor_storage_change_J": -80.79270899422772,
+      "CHEX_bus_storage_change_J": -79.415027620013,
+      "CHEX_fluid_enthalpy_storage_change_J": -1.3546987561147565,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 161.56243537035547,
+      "stream_enthalpy_gain_interval_J": [
+        161.56243536945547,
+        161.56243537083648
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -161.56243537035547,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        180.0,
+        190.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 79.92670183948212,
+      "load_sensor_storage_change_J": -79.92670183948212,
+      "CHEX_bus_storage_change_J": -78.6242317188121,
+      "CHEX_fluid_enthalpy_storage_change_J": -1.3464504932658432,
+      "ambient_leak_energy_interval_J": [
+        -9e-10,
+        4.809999999999996e-10
+      ],
+      "stream_enthalpy_gain_without_leak_J": 159.89738405156007,
+      "stream_enthalpy_gain_interval_J": [
+        159.89738405066007,
+        159.89738405204108
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -159.89738405156007,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        190.0,
+        200.0
+      ],
+      "duration_s": 10.0,
+      "complete_cycles": 1,
+      "matches_Qian_ten_cycle_duration": false,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    }
+  ],
+  "ten_cycle_windows": [
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 868.5680725194029,
+      "load_sensor_storage_change_J": -868.5680725194029,
+      "CHEX_bus_storage_change_J": -1012.8797061746028,
+      "CHEX_fluid_enthalpy_storage_change_J": -31.478761031506302,
+      "ambient_leak_energy_interval_J": [
+        -9e-09,
+        4.8099999999999964e-09
+      ],
+      "stream_enthalpy_gain_without_leak_J": 1912.926539725512,
+      "stream_enthalpy_gain_interval_J": [
+        1912.926539716512,
+        1912.926539730322
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -1912.926539725512,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        0.0,
+        100.0
+      ],
+      "duration_s": 100.0,
+      "complete_cycles": 10,
+      "matches_Qian_ten_cycle_duration": true,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    },
+    {
+      "imposed_external_load_J": 0.0,
+      "sensor_to_CHEX_bus_J": 845.0379241841492,
+      "load_sensor_storage_change_J": -845.0379241841492,
+      "CHEX_bus_storage_change_J": -827.9331994089724,
+      "CHEX_fluid_enthalpy_storage_change_J": -13.892652737373709,
+      "ambient_leak_energy_interval_J": [
+        -9e-09,
+        4.8099999999999964e-09
+      ],
+      "stream_enthalpy_gain_without_leak_J": 1686.8637763304953,
+      "stream_enthalpy_gain_interval_J": [
+        1686.8637763214954,
+        1686.8637763353054
+      ],
+      "sensor_coordinate_balance_residual_J": 0.0,
+      "combined_cold_inventory_change_J": -1686.8637763304953,
+      "stream_gain_is_not_imposed_load_during_cooldown": true,
+      "stream_integral_inferred_from_inventory_not_independent_for_this_packet": true,
+      "window_s": [
+        100.0,
+        200.0
+      ],
+      "duration_s": 100.0,
+      "complete_cycles": 10,
+      "matches_Qian_ten_cycle_duration": true,
+      "periodic_or_material_qualification_claim": false,
+      "formal_Eq9_or_Eq10_reported": false
+    }
+  ],
+  "performance_contract": {
+    "Eq9": "Actual HHEX/CHEX outlet temperatures, common 10 complete cycles; not cold-load or bus temperatures",
+    "Eq9_computed": false,
+    "Eq9_missing": "Exact outlet-temperature time integrals not exported; sparse samples not interpolated",
+    "Eq10_literal_computed": false,
+    "stream_quantity": "integral mdot*(h_out-h_in)dt, enthalpy form; not silently identified with a chosen cp*DeltaT",
+    "SE_active_mass_kg": 0.04181683646625444,
+    "SCP_mass_basis": "SE active solid only, not SMA plus SE or device mass",
+    "SCP_or_COP_reported": false,
+    "pump_work_not_evaluated_is_not_zero": true,
+    "transient_storage_cannot_be_claimed_as_steady_load": true,
+    "periodic_mechanism_or_paired_Table4_qualification": false
+  },
+  "C200_SCP_deviation_causal_attribution": false,
+  "production_recovery_allowed": false,
+  "new_scientific_gate": false,
+  "simulation_started": false,
+  "checkpoint_saved": false,
+  "claim_boundary": "Exact retained inventory/ledger arithmetic plus analytic leak interval within the declared reduced thermal graph; not native SLX or material validation"
+}
