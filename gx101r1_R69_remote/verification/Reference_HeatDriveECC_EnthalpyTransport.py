@@ -13,6 +13,13 @@ import numpy as np
 from Reference_HeatDriveECC_ConservativeTransport import Bed, advective_faces, conductive_faces
 
 
+class EOSDomainError(ValueError):
+    """An inadmissible EOS trial; its conserved input is never modified."""
+    def __init__(self, message, details=None):
+        super().__init__(message)
+        self.details = details or {}
+
+
 class TabulatedEOS:
     """Exact bilinear rho/u surfaces and their own piecewise derivatives.
 
@@ -45,7 +52,8 @@ class TabulatedEOS:
         if (not np.isfinite(t).all() or not np.isfinite(p).all()
                 or np.any(t < self.temperature[0]) or np.any(t > self.temperature[-1])
                 or np.any(p < self.pressure[0]) or np.any(p > self.pressure[-1])):
-            raise ValueError("EOS state outside actual table domain; extrapolation is forbidden")
+            raise EOSDomainError("EOS state outside actual table domain; extrapolation is forbidden",
+                                 {"trial_T_K": t.tolist(), "trial_p_Pa": p.tolist()})
         i = np.searchsorted(self.temperature, t, side="right")-1
         j = np.searchsorted(self.pressure, p, side="right")-1
         # Last-knot indices select the final valid cell, not a clipped state.
@@ -73,8 +81,10 @@ class TabulatedEOS:
         density, energy = np.broadcast_arrays(np.asarray(density, dtype=float),
                                              np.asarray(specific_internal_energy, dtype=float))
         if (not np.isfinite(density).all() or not np.isfinite(energy).all() or np.min(density) <= 0
-                or np.any(energy < self.u_reference_slice[0]) or np.any(energy > self.u_reference_slice[-1])):
-            raise ValueError("Invalid or unsupported EOS inversion target")
+                or np.any(energy < self.u.min()) or np.any(energy > self.u.max())):
+            raise EOSDomainError("Invalid or unsupported EOS inversion target")
+        # A reference-slice seed is only a Newton initial guess. It never
+        # clamps or replaces the conserved target, nor the returned EOS state.
         temperature = np.interp(energy, self.u_reference_slice, self.temperature)
         pressure = np.full(density.shape, self.pref)
         for iteration in range(16):
@@ -97,7 +107,10 @@ class TabulatedEOS:
                     break
                 factor = np.where(inside, factor, factor*.5)
             else:
-                raise ValueError("EOS inversion cannot find an in-domain Newton iterate")
+                raise EOSDomainError("EOS inversion cannot find an in-domain Newton iterate", {
+                    "target_density_kg_m3": density.tolist(), "target_u_J_kg": energy.tolist(),
+                    "unconstrained_Newton_T_K": (temperature-step_t).tolist(),
+                    "unconstrained_Newton_p_Pa": (pressure-step_p).tolist()})
             temperature, pressure = trial_t, trial_p
         raise ValueError("EOS inversion failed to converge; do not replace/reset the state")
 

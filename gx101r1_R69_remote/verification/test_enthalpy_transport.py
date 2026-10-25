@@ -101,6 +101,35 @@ class EnthalpyTransportTests(unittest.TestCase):
         self.assertTrue(record["transitions"][0]["all_coordinates_bitwise_unchanged"])
         np.testing.assert_array_equal(arrays["time_s"], [0., .005, .01])
 
+    def test_invalid_internal_trial_rejects_step_without_replacing_accepted_state(self):
+        from Run_HeatDriveECC_EnthalpyReference import DomainAwareDOP853
+        from Reference_HeatDriveECC_EnthalpyTransport import EOSDomainError
+        failed = [False]
+        def rhs(t, y):
+            if t > 0 and not failed[0]:
+                failed[0] = True
+                raise EOSDomainError("injected inadmissible internal trial")
+            return -y
+        solver = DomainAwareDOP853(rhs, 0., np.array([1.]), .001, first_step=.001, rtol=1e-10, atol=1e-12)
+        solver.step()
+        self.assertEqual(solver.domain_rejections, 1)
+        self.assertTrue(solver.first_domain_rejection["accepted_state_unchanged"])
+        self.assertAlmostEqual(solver.y[0], np.exp(-solver.t), places=12)
+
+    def test_persistent_domain_failure_ends_without_an_infinite_retry_or_state_reset(self):
+        from Run_HeatDriveECC_EnthalpyReference import DomainAwareDOP853
+        from Reference_HeatDriveECC_EnthalpyTransport import EOSDomainError
+        def rhs(t, y):
+            if t > 0:
+                raise EOSDomainError("persistent inadmissible trial")
+            return -y
+        solver = DomainAwareDOP853(rhs, 0., np.array([1.]), .001, first_step=.001)
+        solver.step()
+        self.assertEqual(solver.status, "failed")
+        self.assertEqual(solver.t, 0.)
+        np.testing.assert_array_equal(solver.y, [1.])
+        self.assertLessEqual(solver.domain_rejections, 20)
+
 
 if __name__ == "__main__":
     unittest.main()

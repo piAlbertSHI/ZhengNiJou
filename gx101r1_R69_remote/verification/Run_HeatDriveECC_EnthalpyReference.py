@@ -5,6 +5,8 @@ temperature clamp, mass/energy correction, or production-state import occurs.
 """
 import argparse
 from dataclasses import replace
+import hashlib
+import inspect
 import json
 from pathlib import Path
 import subprocess
@@ -16,7 +18,7 @@ from scipy.integrate import DOP853
 
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from Reference_HeatDriveECC_ConservativeTransport import Bed
-from Reference_HeatDriveECC_EnthalpyTransport import EnthalpyBed
+from Reference_HeatDriveECC_EnthalpyTransport import EnthalpyBed, EOSDomainError
 from Run_HeatDriveECC_ConservativeTransport import write_json
 from Run_HeatDriveECC_EnthalpyTransport import load_inputs, MASS_TOL_KG, ENERGY_TOL_J
 
@@ -25,6 +27,41 @@ from Run_HeatDriveECC_EnthalpyTransport import load_inputs, MASS_TOL_KG, ENERGY_
 # 1 Pa / 850000 Pa = 1.18e-6, well above EOS inversion roundoff and below
 # a meaningful hydraulic head scale. It cannot validate a pump or idle closure.
 PRESSURE_INVARIANT_TARGET_PA = 1.
+
+
+class DomainAwareDOP853(DOP853):
+    """Reject an invalid internal EOS trial, not the accepted physical state.
+
+    The inspected SciPy step assigns t/y/f only after acceptance. Pin this
+    private implementation contract; never restore/reset a partially advanced
+    physical state. Only the proposed numerical step length may change.
+    """
+    step_source_sha256 = "172D2034DC019B2CF3F6E9A2B7A6CF000A1658B8B9DC2D074E9FDEF14CA8BACB"
+
+    def __init__(self, *args, **kwargs):
+        source = inspect.getsource(DOP853._step_impl)
+        if hashlib.sha256(source.encode()).hexdigest().upper() != self.step_source_sha256:
+            raise ValueError("Reinspect installed SciPy step acceptance contract before using domain rejection")
+        self.domain_rejections = 0
+        self.first_domain_rejection = None
+        super().__init__(*args, **kwargs)
+
+    def _step_impl(self):
+        old_t, old_y, old_f = self.t, self.y.copy(), self.f.copy()
+        for _ in range(20):
+            try:
+                return super()._step_impl()
+            except EOSDomainError as error:
+                if self.t != old_t or not np.array_equal(self.y, old_y) or not np.array_equal(self.f, old_f):
+                    raise RuntimeError("EOS exception changed accepted physical state; no reset is permitted") from error
+                self.domain_rejections += 1
+                if self.first_domain_rejection is None:
+                    self.first_domain_rejection = {"accepted_time_s": old_t, "proposed_h_s": self.h_abs,
+                        "accepted_state_unchanged": True, "cause": str(error), "EOS_trial_details": error.details}
+                self.h_abs = min(self.h_abs, self.max_step)*.25
+                if self.h_abs <= 10*abs(np.nextafter(self.t, np.inf)-self.t):
+                    break
+        return False, "No admissible EOS trial step; accepted state retained, no projection applied"
 
 
 def adaptive_case(bed, flow, material, stop, rtol, sample_times):
@@ -62,10 +99,11 @@ def adaptive_case(bed, flow, material, stop, rtol, sample_times):
     begin = 0.
     evaluations = 0
     previous_end = None
+    domain_rejections, first_domain_rejections = 0, []
     for end, command in ((stop/2, flow), (stop, -flow)):
         if previous_end is not None:
             transitions.append({"time_s": begin, "all_coordinates_bitwise_unchanged": bool(np.array_equal(state, previous_end))})
-        solver = DOP853(lambda t, y: bed.rhs(y, command, left, right), begin, state, end,
+        solver = DomainAwareDOP853(lambda t, y: bed.rhs(y, command, left, right), begin, state, end,
                         rtol=rtol, atol=atol, max_step=.001)
         while solver.status == "running":
             old_t = solver.t
@@ -87,6 +125,9 @@ def adaptive_case(bed, flow, material, stop, rtol, sample_times):
         state = solver.y.copy()
         previous_end = state.copy()
         evaluations += solver.nfev
+        domain_rejections += solver.domain_rejections
+        if solver.first_domain_rejection is not None:
+            first_domain_rejections.append(solver.first_domain_rejection)
         begin = end
     if wanted or not np.array_equal(saved_times, sample_times):
         raise RuntimeError("Incomplete adaptive sample output")
@@ -95,6 +136,8 @@ def adaptive_case(bed, flow, material, stop, rtol, sample_times):
             "mass_face_kg_s": np.asarray(faces)}, {
         **monitor, "nodes": n, "stop_s": stop, "rtol": rtol, "atol_primary_coordinates": atol.tolist(),
         "RHS_evaluations": evaluations, "left_temperature_K": left, "right_temperature_K": right,
+        "internal_EOS_domain_trial_rejections": domain_rejections,
+        "first_domain_rejections": first_domain_rejections,
         "flow_magnitude_kg_s": flow, "transitions": transitions,
         "pressure_invariant_numerical_target_Pa": PRESSURE_INVARIANT_TARGET_PA,
         "pressure_invariant_numerical_target_pass": monitor["max_pressure_drift_Pa"] <= PRESSURE_INVARIANT_TARGET_PA,
@@ -125,6 +168,8 @@ def run(output, fixed_root, control_root, fluid_execution, study):
         "fluid_settings_execution_path": str(fluid_execution), "fluid_settings_execution_sha256": sha256(fluid_execution),
         "physical_equations_changed_from_fixed_control": False,
         "integration": "adaptive DOP853, max_step=1ms; NOT fixed-step ODE3",
+        "internal_domain_trial_handling": "reject proposed numerical step only, never reset/project accepted physical state",
+        "installed_SciPy_step_source_sha256": DomainAwareDOP853.step_source_sha256,
         "rtol_levels": [1e-10, 1e-11], "collection_complete": False, "cases": [],
         "pressure_invariant_target_Pa": PRESSURE_INVARIANT_TARGET_PA,
         "pressure_target_scope": "numerical active-component invariant, not a literature mechanism gate or pump capability",
