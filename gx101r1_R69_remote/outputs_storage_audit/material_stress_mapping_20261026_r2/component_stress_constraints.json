@@ -1,0 +1,8384 @@
+{
+  "schema": "heatdrive_ecc_component_stress_constraints_v1",
+  "collection_complete": true,
+  "execution_commit": "6f6d351e5b449e2b6c81dec5c876647df437f755",
+  "source_sha256": {
+    "Analyze_HeatDriveECC_ComponentStressMapping.py": "C550DD0D16F441475F9DB7E8A1563C511BA544AD5E4FFEFF13C44936CDFDCF42",
+    "Extract_HeatDriveECC_QianMaterialPaths.py": "03D72E91B0A4DAF8FA8A30AB0598326335B4C55CD06F3D610C26532DD749F0E2",
+    "Reference_HeatDriveECC_TwoWayPhase.py": "58DA7C7AD5EA082DA11DBF757AE27F240998715D4B04359B0C4CFA4CBA656882",
+    "Run_HeatDriveECC_ConservativeTransport.py": "3748552B7E5591EB9458078BC46637FBC2461BEE73492125006D6BFDFA4FCACF",
+    "Audit_HeatDriveECC_SegmentedEvidence.py": "B128BDD8E72E537DA9C56171F479D3531D3321A06B0D577A70FEAB3A246473C2"
+  },
+  "input_dependencies": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u51b7\u51dd\u6587\u732e\\\u5f39\u70ed\u5236\u51b7\u6587\u732e\\A heat driven elastocaloric cooling system..pdf",
+      "sha256": "2D0EB5F84AA515BA651638974414D426A3806FD417A1EAD96EFA36EDA08034CC"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\material_component_paths_20261026_r3\\Q01_material_pixel_paths.json",
+      "sha256": "B8D00A971D723D1775B1FBB570A6BE134065C27DE7714DA035B3352E7E339862"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\MAS_signed_critical_20261026_r1\\Q01_Fig5_readback.json",
+      "sha256": "A7E4F4302D2B9DF3A6A925A12B8F791DEE31A10232AE812535A8E792430972CE"
+    }
+  ],
+  "Table2_literal_contract": {
+    "L_SMA_m": 0.45,
+    "L_SE_m": 0.2,
+    "area_SMA_m2": 1.414e-05,
+    "area_SE_m2": 4e-06,
+    "E_Pa": 30000000000.0,
+    "transformation_strain": 0.03,
+    "SMA_T_As_K": 323.15,
+    "SMA_T_Ms_K": 313.15,
+    "C_A_Pa_K": 7600000.0,
+    "C_M_Pa_K": 7300000.0
+  },
+  "Table2_source_PDF_page": 6,
+  "figure5_axes": [
+    133.0,
+    1387.0,
+    580.0,
+    18.0
+  ],
+  "temperature_resampled_from_actual_pixels": {
+    "quantity": "SMA_temperature_C",
+    "source_figure": 4,
+    "axes_pixels_x0_x20_y0_ytop": [
+      131.0,
+      1515.0,
+      617.0,
+      77.0
+    ],
+    "axis_ordinate_top": 150.0,
+    "one_pixel_time_s": 0.014450867052023121,
+    "one_pixel_ordinate": 0.2777777777777778,
+    "guide_half_width": 5.0,
+    "guide_points_are_not_measurements": true,
+    "stroke_selection": "7-pixel normal width rotated by guide slope, plus 2-pixel allowance; not data smoothing",
+    "guide_for_curve_identity": [
+      [
+        0.0,
+        32.0
+      ],
+      [
+        0.2,
+        36.0
+      ],
+      [
+        0.5,
+        50.0
+      ],
+      [
+        0.8,
+        63.0
+      ],
+      [
+        1.0,
+        69.0
+      ],
+      [
+        1.3,
+        83.0
+      ],
+      [
+        1.8,
+        96.0
+      ],
+      [
+        2.5,
+        109.0
+      ],
+      [
+        3.5,
+        117.0
+      ],
+      [
+        4.5,
+        120.0
+      ],
+      [
+        5.0,
+        120.0
+      ],
+      [
+        5.25,
+        107.0
+      ],
+      [
+        5.5,
+        90.0
+      ],
+      [
+        6.0,
+        70.0
+      ],
+      [
+        6.5,
+        57.0
+      ],
+      [
+        7.0,
+        50.0
+      ],
+      [
+        8.0,
+        43.0
+      ],
+      [
+        8.5,
+        39.0
+      ],
+      [
+        9.0,
+        35.0
+      ],
+      [
+        9.5,
+        33.0
+      ],
+      [
+        10.0,
+        32.0
+      ]
+    ],
+    "measured": [
+      {
+        "requested_time_s": 0.563583815,
+        "image_time_s": 0.5635838150289018,
+        "value": 51.25,
+        "pixel_ordinate_extent_plus_one": [
+          48.888888888888886,
+          53.611111111111114
+        ],
+        "pixel_x": 170,
+        "pixel_y_median": 432.5,
+        "dark_pixel_count": 16,
+        "slope_aware_vertical_stroke_limit_pixels": 20,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 0.5780346821,
+        "image_time_s": 0.5780346820809249,
+        "value": 51.52777777777778,
+        "pixel_ordinate_extent_plus_one": [
+          49.166666666666664,
+          53.888888888888886
+        ],
+        "pixel_x": 171,
+        "pixel_y_median": 431.5,
+        "dark_pixel_count": 16,
+        "slope_aware_vertical_stroke_limit_pixels": 19,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 0.6213872832,
+        "image_time_s": 0.6213872832369942,
+        "value": 53.888888888888886,
+        "pixel_ordinate_extent_plus_one": [
+          51.388888888888886,
+          56.388888888888886
+        ],
+        "pixel_x": 174,
+        "pixel_y_median": 423.0,
+        "dark_pixel_count": 17,
+        "slope_aware_vertical_stroke_limit_pixels": 19,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 0.6358381503,
+        "image_time_s": 0.6358381502890174,
+        "value": 54.02777777777778,
+        "pixel_ordinate_extent_plus_one": [
+          51.388888888888886,
+          56.666666666666664
+        ],
+        "pixel_x": 175,
+        "pixel_y_median": 422.5,
+        "dark_pixel_count": 18,
+        "slope_aware_vertical_stroke_limit_pixels": 19,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 0.6502890173,
+        "image_time_s": 0.6502890173410405,
+        "value": 55.0,
+        "pixel_ordinate_extent_plus_one": [
+          52.77777777777778,
+          57.22222222222222
+        ],
+        "pixel_x": 176,
+        "pixel_y_median": 419.0,
+        "dark_pixel_count": 15,
+        "slope_aware_vertical_stroke_limit_pixels": 19,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 0.6647398844,
+        "image_time_s": 0.6647398843930635,
+        "value": 55.138888888888886,
+        "pixel_ordinate_extent_plus_one": [
+          53.05555555555556,
+          57.22222222222222
+        ],
+        "pixel_x": 177,
+        "pixel_y_median": 418.5,
+        "dark_pixel_count": 14,
+        "slope_aware_vertical_stroke_limit_pixels": 19,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 0.6791907514,
+        "image_time_s": 0.6791907514450867,
+        "value": 56.25,
+        "pixel_ordinate_extent_plus_one": [
+          54.44444444444444,
+          58.05555555555556
+        ],
+        "pixel_x": 178,
+        "pixel_y_median": 414.5,
+        "dark_pixel_count": 12,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 0.6936416185,
+        "image_time_s": 0.6936416184971098,
+        "value": 56.666666666666664,
+        "pixel_ordinate_extent_plus_one": [
+          54.44444444444444,
+          58.888888888888886
+        ],
+        "pixel_x": 179,
+        "pixel_y_median": 413.0,
+        "dark_pixel_count": 15,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 0.7080924855,
+        "image_time_s": 0.708092485549133,
+        "value": 56.80555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          54.72222222222222,
+          58.888888888888886
+        ],
+        "pixel_x": 180,
+        "pixel_y_median": 412.5,
+        "dark_pixel_count": 14,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 0.7225433526,
+        "image_time_s": 0.7225433526011561,
+        "value": 58.05555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          56.111111111111114,
+          60.0
+        ],
+        "pixel_x": 181,
+        "pixel_y_median": 408.0,
+        "dark_pixel_count": 13,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 1.0549132948,
+        "image_time_s": 1.0549132947976878,
+        "value": 67.63888888888889,
+        "pixel_ordinate_extent_plus_one": [
+          66.38888888888889,
+          68.88888888888889
+        ],
+        "pixel_x": 204,
+        "pixel_y_median": 373.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 1.0693641618,
+        "image_time_s": 1.069364161849711,
+        "value": 68.19444444444444,
+        "pixel_ordinate_extent_plus_one": [
+          67.22222222222223,
+          69.16666666666667
+        ],
+        "pixel_x": 205,
+        "pixel_y_median": 371.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 1.0838150289,
+        "image_time_s": 1.083815028901734,
+        "value": 68.75,
+        "pixel_ordinate_extent_plus_one": [
+          67.77777777777777,
+          69.72222222222223
+        ],
+        "pixel_x": 206,
+        "pixel_y_median": 369.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 1.098265896,
+        "image_time_s": 1.0982658959537572,
+        "value": 69.44444444444444,
+        "pixel_ordinate_extent_plus_one": [
+          68.33333333333333,
+          70.55555555555556
+        ],
+        "pixel_x": 207,
+        "pixel_y_median": 367.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 1.112716763,
+        "image_time_s": 1.1127167630057804,
+        "value": 70.0,
+        "pixel_ordinate_extent_plus_one": [
+          69.16666666666667,
+          70.83333333333333
+        ],
+        "pixel_x": 208,
+        "pixel_y_median": 365.0,
+        "dark_pixel_count": 5,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 1.1271676301,
+        "image_time_s": 1.1271676300578035,
+        "value": 70.55555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          69.72222222222223,
+          71.38888888888889
+        ],
+        "pixel_x": 209,
+        "pixel_y_median": 363.0,
+        "dark_pixel_count": 5,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.2572254335,
+        "image_time_s": 6.257225433526012,
+        "value": 66.80555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          65.27777777777777,
+          68.33333333333333
+        ],
+        "pixel_x": 564,
+        "pixel_y_median": 376.5,
+        "dark_pixel_count": 10,
+        "slope_aware_vertical_stroke_limit_pixels": 14,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.2716763006,
+        "image_time_s": 6.271676300578035,
+        "value": 65.69444444444444,
+        "pixel_ordinate_extent_plus_one": [
+          64.44444444444444,
+          66.94444444444444
+        ],
+        "pixel_x": 565,
+        "pixel_y_median": 380.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 14,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.2861271676,
+        "image_time_s": 6.286127167630058,
+        "value": 65.55555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          64.16666666666667,
+          66.94444444444444
+        ],
+        "pixel_x": 566,
+        "pixel_y_median": 381.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 14,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.3005780347,
+        "image_time_s": 6.300578034682081,
+        "value": 65.27777777777777,
+        "pixel_ordinate_extent_plus_one": [
+          63.888888888888886,
+          66.66666666666667
+        ],
+        "pixel_x": 567,
+        "pixel_y_median": 382.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 14,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.3150289017,
+        "image_time_s": 6.315028901734104,
+        "value": 65.0,
+        "pixel_ordinate_extent_plus_one": [
+          63.611111111111114,
+          66.38888888888889
+        ],
+        "pixel_x": 568,
+        "pixel_y_median": 383.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 14,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.3294797688,
+        "image_time_s": 6.329479768786127,
+        "value": 65.0,
+        "pixel_ordinate_extent_plus_one": [
+          63.611111111111114,
+          66.38888888888889
+        ],
+        "pixel_x": 569,
+        "pixel_y_median": 383.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 14,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.4595375723,
+        "image_time_s": 6.459537572254336,
+        "value": 61.388888888888886,
+        "pixel_ordinate_extent_plus_one": [
+          60.27777777777778,
+          62.5
+        ],
+        "pixel_x": 578,
+        "pixel_y_median": 396.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 13,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.4739884393,
+        "image_time_s": 6.473988439306359,
+        "value": 61.111111111111114,
+        "pixel_ordinate_extent_plus_one": [
+          59.72222222222222,
+          62.5
+        ],
+        "pixel_x": 579,
+        "pixel_y_median": 397.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 13,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.4884393064,
+        "image_time_s": 6.488439306358382,
+        "value": 61.111111111111114,
+        "pixel_ordinate_extent_plus_one": [
+          59.72222222222222,
+          62.5
+        ],
+        "pixel_x": 580,
+        "pixel_y_median": 397.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 13,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.5028901734,
+        "image_time_s": 6.502890173410405,
+        "value": 60.55555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          59.166666666666664,
+          61.94444444444444
+        ],
+        "pixel_x": 581,
+        "pixel_y_median": 399.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 13,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.5173410405,
+        "image_time_s": 6.517341040462428,
+        "value": 60.55555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          59.166666666666664,
+          61.94444444444444
+        ],
+        "pixel_x": 582,
+        "pixel_y_median": 399.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 13,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.5317919075,
+        "image_time_s": 6.531791907514451,
+        "value": 60.0,
+        "pixel_ordinate_extent_plus_one": [
+          58.611111111111114,
+          61.388888888888886
+        ],
+        "pixel_x": 583,
+        "pixel_y_median": 401.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.5606936416,
+        "image_time_s": 6.5606936416184976,
+        "value": 59.583333333333336,
+        "pixel_ordinate_extent_plus_one": [
+          58.333333333333336,
+          60.833333333333336
+        ],
+        "pixel_x": 585,
+        "pixel_y_median": 402.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.5751445087,
+        "image_time_s": 6.57514450867052,
+        "value": 59.166666666666664,
+        "pixel_ordinate_extent_plus_one": [
+          57.77777777777778,
+          60.55555555555556
+        ],
+        "pixel_x": 586,
+        "pixel_y_median": 404.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.5895953757,
+        "image_time_s": 6.589595375722543,
+        "value": 59.166666666666664,
+        "pixel_ordinate_extent_plus_one": [
+          57.77777777777778,
+          60.55555555555556
+        ],
+        "pixel_x": 587,
+        "pixel_y_median": 404.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.6040462428,
+        "image_time_s": 6.604046242774566,
+        "value": 58.47222222222222,
+        "pixel_ordinate_extent_plus_one": [
+          57.5,
+          59.44444444444444
+        ],
+        "pixel_x": 588,
+        "pixel_y_median": 406.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.6184971098,
+        "image_time_s": 6.618497109826589,
+        "value": 58.333333333333336,
+        "pixel_ordinate_extent_plus_one": [
+          57.22222222222222,
+          59.44444444444444
+        ],
+        "pixel_x": 589,
+        "pixel_y_median": 407.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.6329479769,
+        "image_time_s": 6.632947976878612,
+        "value": 57.916666666666664,
+        "pixel_ordinate_extent_plus_one": [
+          56.94444444444444,
+          58.888888888888886
+        ],
+        "pixel_x": 590,
+        "pixel_y_median": 408.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.661849711,
+        "image_time_s": 6.661849710982659,
+        "value": 57.638888888888886,
+        "pixel_ordinate_extent_plus_one": [
+          56.388888888888886,
+          58.888888888888886
+        ],
+        "pixel_x": 592,
+        "pixel_y_median": 409.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.676300578,
+        "image_time_s": 6.676300578034682,
+        "value": 57.5,
+        "pixel_ordinate_extent_plus_one": [
+          56.388888888888886,
+          58.611111111111114
+        ],
+        "pixel_x": 593,
+        "pixel_y_median": 410.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.6907514451,
+        "image_time_s": 6.690751445086705,
+        "value": 57.361111111111114,
+        "pixel_ordinate_extent_plus_one": [
+          56.111111111111114,
+          58.611111111111114
+        ],
+        "pixel_x": 594,
+        "pixel_y_median": 410.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.7052023121,
+        "image_time_s": 6.705202312138728,
+        "value": 56.80555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          55.833333333333336,
+          57.77777777777778
+        ],
+        "pixel_x": 595,
+        "pixel_y_median": 412.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.7196531792,
+        "image_time_s": 6.719653179190751,
+        "value": 56.666666666666664,
+        "pixel_ordinate_extent_plus_one": [
+          55.833333333333336,
+          57.5
+        ],
+        "pixel_x": 596,
+        "pixel_y_median": 413.0,
+        "dark_pixel_count": 5,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 6.7341040462,
+        "image_time_s": 6.734104046242774,
+        "value": 56.388888888888886,
+        "pixel_ordinate_extent_plus_one": [
+          55.27777777777778,
+          57.5
+        ],
+        "pixel_x": 597,
+        "pixel_y_median": 414.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 7.6589595376,
+        "image_time_s": 7.658959537572255,
+        "value": 47.361111111111114,
+        "pixel_ordinate_extent_plus_one": [
+          46.388888888888886,
+          48.333333333333336
+        ],
+        "pixel_x": 661,
+        "pixel_y_median": 446.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 7.6734104046,
+        "image_time_s": 7.673410404624278,
+        "value": 47.361111111111114,
+        "pixel_ordinate_extent_plus_one": [
+          46.388888888888886,
+          48.333333333333336
+        ],
+        "pixel_x": 662,
+        "pixel_y_median": 446.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 7.6878612717,
+        "image_time_s": 7.687861271676301,
+        "value": 47.361111111111114,
+        "pixel_ordinate_extent_plus_one": [
+          46.388888888888886,
+          48.333333333333336
+        ],
+        "pixel_x": 663,
+        "pixel_y_median": 446.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 7.7023121387,
+        "image_time_s": 7.702312138728324,
+        "value": 47.083333333333336,
+        "pixel_ordinate_extent_plus_one": [
+          46.111111111111114,
+          48.05555555555556
+        ],
+        "pixel_x": 664,
+        "pixel_y_median": 447.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 7.7167630058,
+        "image_time_s": 7.716763005780347,
+        "value": 47.083333333333336,
+        "pixel_ordinate_extent_plus_one": [
+          46.111111111111114,
+          48.05555555555556
+        ],
+        "pixel_x": 665,
+        "pixel_y_median": 447.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 7.7312138728,
+        "image_time_s": 7.73121387283237,
+        "value": 46.80555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          45.833333333333336,
+          47.77777777777778
+        ],
+        "pixel_x": 666,
+        "pixel_y_median": 448.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 7.7601156069,
+        "image_time_s": 7.7601156069364166,
+        "value": 46.666666666666664,
+        "pixel_ordinate_extent_plus_one": [
+          45.55555555555556,
+          47.77777777777778
+        ],
+        "pixel_x": 668,
+        "pixel_y_median": 449.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 7.774566474,
+        "image_time_s": 7.77456647398844,
+        "value": 46.388888888888886,
+        "pixel_ordinate_extent_plus_one": [
+          45.27777777777778,
+          47.5
+        ],
+        "pixel_x": 669,
+        "pixel_y_median": 450.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 7.789017341,
+        "image_time_s": 7.789017341040463,
+        "value": 46.111111111111114,
+        "pixel_ordinate_extent_plus_one": [
+          45.0,
+          47.22222222222222
+        ],
+        "pixel_x": 670,
+        "pixel_y_median": 451.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 7.8034682081,
+        "image_time_s": 7.803468208092486,
+        "value": 46.25,
+        "pixel_ordinate_extent_plus_one": [
+          45.27777777777778,
+          47.22222222222222
+        ],
+        "pixel_x": 671,
+        "pixel_y_median": 450.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 7.8179190751,
+        "image_time_s": 7.817919075144508,
+        "value": 46.111111111111114,
+        "pixel_ordinate_extent_plus_one": [
+          45.0,
+          47.22222222222222
+        ],
+        "pixel_x": 672,
+        "pixel_y_median": 451.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 7.8323699422,
+        "image_time_s": 7.832369942196531,
+        "value": 46.111111111111114,
+        "pixel_ordinate_extent_plus_one": [
+          45.0,
+          47.22222222222222
+        ],
+        "pixel_x": 673,
+        "pixel_y_median": 451.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 7.8612716763,
+        "image_time_s": 7.861271676300578,
+        "value": 45.69444444444444,
+        "pixel_ordinate_extent_plus_one": [
+          44.72222222222222,
+          46.666666666666664
+        ],
+        "pixel_x": 675,
+        "pixel_y_median": 452.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 7.8757225434,
+        "image_time_s": 7.875722543352601,
+        "value": 45.55555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          44.44444444444444,
+          46.666666666666664
+        ],
+        "pixel_x": 676,
+        "pixel_y_median": 453.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 7.8901734104,
+        "image_time_s": 7.890173410404624,
+        "value": 45.416666666666664,
+        "pixel_ordinate_extent_plus_one": [
+          44.44444444444444,
+          46.388888888888886
+        ],
+        "pixel_x": 677,
+        "pixel_y_median": 453.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 7.9046242775,
+        "image_time_s": 7.904624277456647,
+        "value": 45.138888888888886,
+        "pixel_ordinate_extent_plus_one": [
+          43.888888888888886,
+          46.388888888888886
+        ],
+        "pixel_x": 678,
+        "pixel_y_median": 454.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 7.9190751445,
+        "image_time_s": 7.91907514450867,
+        "value": 45.138888888888886,
+        "pixel_ordinate_extent_plus_one": [
+          43.888888888888886,
+          46.388888888888886
+        ],
+        "pixel_x": 679,
+        "pixel_y_median": 454.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      {
+        "requested_time_s": 10.563583815,
+        "image_time_s": 10.563583815028903,
+        "value": 51.388888888888886,
+        "pixel_ordinate_extent_plus_one": [
+          49.44444444444444,
+          53.333333333333336
+        ],
+        "pixel_x": 862,
+        "pixel_y_median": 432.0,
+        "dark_pixel_count": 13,
+        "slope_aware_vertical_stroke_limit_pixels": 20,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 10.5780346821,
+        "image_time_s": 10.578034682080926,
+        "value": 51.666666666666664,
+        "pixel_ordinate_extent_plus_one": [
+          49.44444444444444,
+          53.888888888888886
+        ],
+        "pixel_x": 863,
+        "pixel_y_median": 431.0,
+        "dark_pixel_count": 15,
+        "slope_aware_vertical_stroke_limit_pixels": 19,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 10.5924855491,
+        "image_time_s": 10.592485549132949,
+        "value": 52.5,
+        "pixel_ordinate_extent_plus_one": [
+          50.27777777777778,
+          54.72222222222222
+        ],
+        "pixel_x": 864,
+        "pixel_y_median": 428.0,
+        "dark_pixel_count": 15,
+        "slope_aware_vertical_stroke_limit_pixels": 19,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 10.6069364162,
+        "image_time_s": 10.606936416184972,
+        "value": 52.77777777777778,
+        "pixel_ordinate_extent_plus_one": [
+          50.55555555555556,
+          55.0
+        ],
+        "pixel_x": 865,
+        "pixel_y_median": 427.0,
+        "dark_pixel_count": 15,
+        "slope_aware_vertical_stroke_limit_pixels": 19,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 10.6213872832,
+        "image_time_s": 10.621387283236995,
+        "value": 53.75,
+        "pixel_ordinate_extent_plus_one": [
+          51.388888888888886,
+          56.111111111111114
+        ],
+        "pixel_x": 866,
+        "pixel_y_median": 423.5,
+        "dark_pixel_count": 16,
+        "slope_aware_vertical_stroke_limit_pixels": 19,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 10.6358381503,
+        "image_time_s": 10.635838150289016,
+        "value": 53.888888888888886,
+        "pixel_ordinate_extent_plus_one": [
+          51.388888888888886,
+          56.388888888888886
+        ],
+        "pixel_x": 867,
+        "pixel_y_median": 423.0,
+        "dark_pixel_count": 17,
+        "slope_aware_vertical_stroke_limit_pixels": 19,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 10.6647398844,
+        "image_time_s": 10.664739884393063,
+        "value": 55.833333333333336,
+        "pixel_ordinate_extent_plus_one": [
+          53.611111111111114,
+          58.05555555555556
+        ],
+        "pixel_x": 869,
+        "pixel_y_median": 416.0,
+        "dark_pixel_count": 15,
+        "slope_aware_vertical_stroke_limit_pixels": 19,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 10.6791907514,
+        "image_time_s": 10.679190751445086,
+        "value": 56.111111111111114,
+        "pixel_ordinate_extent_plus_one": [
+          54.166666666666664,
+          58.05555555555556
+        ],
+        "pixel_x": 870,
+        "pixel_y_median": 415.0,
+        "dark_pixel_count": 13,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 10.6936416185,
+        "image_time_s": 10.693641618497109,
+        "value": 56.80555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          54.72222222222222,
+          58.888888888888886
+        ],
+        "pixel_x": 871,
+        "pixel_y_median": 412.5,
+        "dark_pixel_count": 14,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 10.7080924855,
+        "image_time_s": 10.708092485549132,
+        "value": 56.94444444444444,
+        "pixel_ordinate_extent_plus_one": [
+          54.72222222222222,
+          59.166666666666664
+        ],
+        "pixel_x": 872,
+        "pixel_y_median": 412.0,
+        "dark_pixel_count": 15,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 10.7225433526,
+        "image_time_s": 10.722543352601155,
+        "value": 58.19444444444444,
+        "pixel_ordinate_extent_plus_one": [
+          56.388888888888886,
+          60.0
+        ],
+        "pixel_x": 873,
+        "pixel_y_median": 407.5,
+        "dark_pixel_count": 12,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 10.7369942197,
+        "image_time_s": 10.736994219653178,
+        "value": 58.19444444444444,
+        "pixel_ordinate_extent_plus_one": [
+          56.388888888888886,
+          60.0
+        ],
+        "pixel_x": 874,
+        "pixel_y_median": 407.5,
+        "dark_pixel_count": 12,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 11.0693641618,
+        "image_time_s": 11.06936416184971,
+        "value": 68.19444444444444,
+        "pixel_ordinate_extent_plus_one": [
+          67.22222222222223,
+          69.16666666666667
+        ],
+        "pixel_x": 897,
+        "pixel_y_median": 371.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 11.0838150289,
+        "image_time_s": 11.083815028901734,
+        "value": 68.75,
+        "pixel_ordinate_extent_plus_one": [
+          67.77777777777777,
+          69.72222222222223
+        ],
+        "pixel_x": 898,
+        "pixel_y_median": 369.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 11.098265896,
+        "image_time_s": 11.098265895953757,
+        "value": 69.16666666666667,
+        "pixel_ordinate_extent_plus_one": [
+          68.33333333333333,
+          70.0
+        ],
+        "pixel_x": 899,
+        "pixel_y_median": 368.0,
+        "dark_pixel_count": 5,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 11.112716763,
+        "image_time_s": 11.11271676300578,
+        "value": 69.86111111111111,
+        "pixel_ordinate_extent_plus_one": [
+          69.16666666666667,
+          70.55555555555556
+        ],
+        "pixel_x": 900,
+        "pixel_y_median": 365.5,
+        "dark_pixel_count": 4,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 11.1271676301,
+        "image_time_s": 11.127167630057803,
+        "value": 70.27777777777777,
+        "pixel_ordinate_extent_plus_one": [
+          69.72222222222223,
+          70.83333333333333
+        ],
+        "pixel_x": 901,
+        "pixel_y_median": 364.0,
+        "dark_pixel_count": 3,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 11.1416184971,
+        "image_time_s": 11.141618497109826,
+        "value": 70.97222222222223,
+        "pixel_ordinate_extent_plus_one": [
+          70.55555555555556,
+          71.38888888888889
+        ],
+        "pixel_x": 902,
+        "pixel_y_median": 361.5,
+        "dark_pixel_count": 2,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.2861271676,
+        "image_time_s": 16.286127167630056,
+        "value": 65.69444444444444,
+        "pixel_ordinate_extent_plus_one": [
+          64.16666666666667,
+          67.22222222222223
+        ],
+        "pixel_x": 1258,
+        "pixel_y_median": 380.5,
+        "dark_pixel_count": 10,
+        "slope_aware_vertical_stroke_limit_pixels": 14,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.3005780347,
+        "image_time_s": 16.30057803468208,
+        "value": 65.55555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          64.16666666666667,
+          66.94444444444444
+        ],
+        "pixel_x": 1259,
+        "pixel_y_median": 381.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 14,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.3150289017,
+        "image_time_s": 16.315028901734102,
+        "value": 64.86111111111111,
+        "pixel_ordinate_extent_plus_one": [
+          63.333333333333336,
+          66.38888888888889
+        ],
+        "pixel_x": 1260,
+        "pixel_y_median": 383.5,
+        "dark_pixel_count": 10,
+        "slope_aware_vertical_stroke_limit_pixels": 14,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.3294797688,
+        "image_time_s": 16.329479768786126,
+        "value": 64.72222222222223,
+        "pixel_ordinate_extent_plus_one": [
+          63.05555555555556,
+          66.38888888888889
+        ],
+        "pixel_x": 1261,
+        "pixel_y_median": 384.0,
+        "dark_pixel_count": 11,
+        "slope_aware_vertical_stroke_limit_pixels": 14,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.3439306358,
+        "image_time_s": 16.34393063583815,
+        "value": 64.16666666666667,
+        "pixel_ordinate_extent_plus_one": [
+          62.77777777777778,
+          65.55555555555556
+        ],
+        "pixel_x": 1262,
+        "pixel_y_median": 386.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 14,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.3728323699,
+        "image_time_s": 16.372832369942195,
+        "value": 63.333333333333336,
+        "pixel_ordinate_extent_plus_one": [
+          62.22222222222222,
+          64.44444444444444
+        ],
+        "pixel_x": 1264,
+        "pixel_y_median": 389.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 14,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.387283237,
+        "image_time_s": 16.387283236994218,
+        "value": 63.19444444444444,
+        "pixel_ordinate_extent_plus_one": [
+          61.94444444444444,
+          64.44444444444444
+        ],
+        "pixel_x": 1265,
+        "pixel_y_median": 389.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 13,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.401734104,
+        "image_time_s": 16.40173410404624,
+        "value": 63.05555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          61.666666666666664,
+          64.44444444444444
+        ],
+        "pixel_x": 1266,
+        "pixel_y_median": 390.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 13,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.4161849711,
+        "image_time_s": 16.416184971098264,
+        "value": 62.638888888888886,
+        "pixel_ordinate_extent_plus_one": [
+          61.388888888888886,
+          63.888888888888886
+        ],
+        "pixel_x": 1267,
+        "pixel_y_median": 391.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 13,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.4306358382,
+        "image_time_s": 16.430635838150287,
+        "value": 62.361111111111114,
+        "pixel_ordinate_extent_plus_one": [
+          61.111111111111114,
+          63.611111111111114
+        ],
+        "pixel_x": 1268,
+        "pixel_y_median": 392.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 13,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.4450867052,
+        "image_time_s": 16.44508670520231,
+        "value": 61.80555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          60.55555555555556,
+          63.05555555555556
+        ],
+        "pixel_x": 1269,
+        "pixel_y_median": 394.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 13,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.4884393064,
+        "image_time_s": 16.48843930635838,
+        "value": 60.833333333333336,
+        "pixel_ordinate_extent_plus_one": [
+          59.72222222222222,
+          61.94444444444444
+        ],
+        "pixel_x": 1272,
+        "pixel_y_median": 398.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 13,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.5028901734,
+        "image_time_s": 16.502890173410403,
+        "value": 60.55555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          59.166666666666664,
+          61.94444444444444
+        ],
+        "pixel_x": 1273,
+        "pixel_y_median": 399.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 13,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.5173410405,
+        "image_time_s": 16.517341040462426,
+        "value": 60.416666666666664,
+        "pixel_ordinate_extent_plus_one": [
+          59.166666666666664,
+          61.666666666666664
+        ],
+        "pixel_x": 1274,
+        "pixel_y_median": 399.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 13,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.5317919075,
+        "image_time_s": 16.53179190751445,
+        "value": 60.0,
+        "pixel_ordinate_extent_plus_one": [
+          58.611111111111114,
+          61.388888888888886
+        ],
+        "pixel_x": 1275,
+        "pixel_y_median": 401.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.5462427746,
+        "image_time_s": 16.546242774566473,
+        "value": 59.861111111111114,
+        "pixel_ordinate_extent_plus_one": [
+          58.611111111111114,
+          61.111111111111114
+        ],
+        "pixel_x": 1276,
+        "pixel_y_median": 401.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.5751445087,
+        "image_time_s": 16.57514450867052,
+        "value": 59.166666666666664,
+        "pixel_ordinate_extent_plus_one": [
+          57.77777777777778,
+          60.55555555555556
+        ],
+        "pixel_x": 1278,
+        "pixel_y_median": 404.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.5895953757,
+        "image_time_s": 16.589595375722542,
+        "value": 59.166666666666664,
+        "pixel_ordinate_extent_plus_one": [
+          57.77777777777778,
+          60.55555555555556
+        ],
+        "pixel_x": 1279,
+        "pixel_y_median": 404.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.6040462428,
+        "image_time_s": 16.604046242774565,
+        "value": 58.333333333333336,
+        "pixel_ordinate_extent_plus_one": [
+          57.22222222222222,
+          59.44444444444444
+        ],
+        "pixel_x": 1280,
+        "pixel_y_median": 407.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.6184971098,
+        "image_time_s": 16.61849710982659,
+        "value": 58.333333333333336,
+        "pixel_ordinate_extent_plus_one": [
+          57.22222222222222,
+          59.44444444444444
+        ],
+        "pixel_x": 1281,
+        "pixel_y_median": 407.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.6329479769,
+        "image_time_s": 16.63294797687861,
+        "value": 58.19444444444444,
+        "pixel_ordinate_extent_plus_one": [
+          56.94444444444444,
+          59.44444444444444
+        ],
+        "pixel_x": 1282,
+        "pixel_y_median": 407.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.6473988439,
+        "image_time_s": 16.647398843930635,
+        "value": 57.77777777777778,
+        "pixel_ordinate_extent_plus_one": [
+          56.388888888888886,
+          59.166666666666664
+        ],
+        "pixel_x": 1283,
+        "pixel_y_median": 409.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.661849711,
+        "image_time_s": 16.661849710982658,
+        "value": 57.638888888888886,
+        "pixel_ordinate_extent_plus_one": [
+          56.388888888888886,
+          58.888888888888886
+        ],
+        "pixel_x": 1284,
+        "pixel_y_median": 409.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.676300578,
+        "image_time_s": 16.67630057803468,
+        "value": 57.361111111111114,
+        "pixel_ordinate_extent_plus_one": [
+          56.111111111111114,
+          58.611111111111114
+        ],
+        "pixel_x": 1285,
+        "pixel_y_median": 410.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.6907514451,
+        "image_time_s": 16.690751445086704,
+        "value": 57.22222222222222,
+        "pixel_ordinate_extent_plus_one": [
+          55.833333333333336,
+          58.611111111111114
+        ],
+        "pixel_x": 1286,
+        "pixel_y_median": 411.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.7052023121,
+        "image_time_s": 16.705202312138727,
+        "value": 56.94444444444444,
+        "pixel_ordinate_extent_plus_one": [
+          55.833333333333336,
+          58.05555555555556
+        ],
+        "pixel_x": 1287,
+        "pixel_y_median": 412.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.7196531792,
+        "image_time_s": 16.71965317919075,
+        "value": 56.80555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          55.55555555555556,
+          58.05555555555556
+        ],
+        "pixel_x": 1288,
+        "pixel_y_median": 412.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 16.7341040462,
+        "image_time_s": 16.734104046242773,
+        "value": 56.388888888888886,
+        "pixel_ordinate_extent_plus_one": [
+          55.27777777777778,
+          57.5
+        ],
+        "pixel_x": 1289,
+        "pixel_y_median": 414.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 17.0664739884,
+        "image_time_s": 17.066473988439306,
+        "value": 52.083333333333336,
+        "pixel_ordinate_extent_plus_one": [
+          51.111111111111114,
+          53.05555555555556
+        ],
+        "pixel_x": 1312,
+        "pixel_y_median": 429.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 11,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 17.0809248555,
+        "image_time_s": 17.08092485549133,
+        "value": 51.94444444444444,
+        "pixel_ordinate_extent_plus_one": [
+          50.833333333333336,
+          53.05555555555556
+        ],
+        "pixel_x": 1313,
+        "pixel_y_median": 430.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 11,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 17.0953757225,
+        "image_time_s": 17.095375722543352,
+        "value": 51.52777777777778,
+        "pixel_ordinate_extent_plus_one": [
+          50.55555555555556,
+          52.5
+        ],
+        "pixel_x": 1314,
+        "pixel_y_median": 431.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 11,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 17.1098265896,
+        "image_time_s": 17.109826589595375,
+        "value": 51.666666666666664,
+        "pixel_ordinate_extent_plus_one": [
+          50.833333333333336,
+          52.5
+        ],
+        "pixel_x": 1315,
+        "pixel_y_median": 431.0,
+        "dark_pixel_count": 5,
+        "slope_aware_vertical_stroke_limit_pixels": 11,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 17.1242774566,
+        "image_time_s": 17.1242774566474,
+        "value": 51.666666666666664,
+        "pixel_ordinate_extent_plus_one": [
+          50.833333333333336,
+          52.5
+        ],
+        "pixel_x": 1316,
+        "pixel_y_median": 431.0,
+        "dark_pixel_count": 5,
+        "slope_aware_vertical_stroke_limit_pixels": 11,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 17.1387283237,
+        "image_time_s": 17.13872832369942,
+        "value": 51.25,
+        "pixel_ordinate_extent_plus_one": [
+          50.27777777777778,
+          52.22222222222222
+        ],
+        "pixel_x": 1317,
+        "pixel_y_median": 432.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 11,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 17.1676300578,
+        "image_time_s": 17.167630057803468,
+        "value": 51.25,
+        "pixel_ordinate_extent_plus_one": [
+          50.27777777777778,
+          52.22222222222222
+        ],
+        "pixel_x": 1319,
+        "pixel_y_median": 432.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 11,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 17.1820809249,
+        "image_time_s": 17.18208092485549,
+        "value": 50.97222222222222,
+        "pixel_ordinate_extent_plus_one": [
+          49.72222222222222,
+          52.22222222222222
+        ],
+        "pixel_x": 1320,
+        "pixel_y_median": 433.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 11,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 17.1965317919,
+        "image_time_s": 17.196531791907514,
+        "value": 50.97222222222222,
+        "pixel_ordinate_extent_plus_one": [
+          49.72222222222222,
+          52.22222222222222
+        ],
+        "pixel_x": 1321,
+        "pixel_y_median": 433.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 11,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 17.210982659,
+        "image_time_s": 17.210982658959537,
+        "value": 50.69444444444444,
+        "pixel_ordinate_extent_plus_one": [
+          49.72222222222222,
+          51.666666666666664
+        ],
+        "pixel_x": 1322,
+        "pixel_y_median": 434.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 11,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 17.225433526,
+        "image_time_s": 17.22543352601156,
+        "value": 50.55555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          49.72222222222222,
+          51.388888888888886
+        ],
+        "pixel_x": 1323,
+        "pixel_y_median": 435.0,
+        "dark_pixel_count": 5,
+        "slope_aware_vertical_stroke_limit_pixels": 11,
+        "cycle": 2
+      },
+      {
+        "requested_time_s": 17.2398843931,
+        "image_time_s": 17.239884393063583,
+        "value": 50.55555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          49.44444444444444,
+          51.666666666666664
+        ],
+        "pixel_x": 1324,
+        "pixel_y_median": 435.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 11,
+        "cycle": 2
+      }
+    ],
+    "missing": [
+      {
+        "requested_time_s": 0.5924855491,
+        "reason": "multiple_dark_ridges"
+      },
+      {
+        "requested_time_s": 0.6069364162,
+        "reason": "multiple_dark_ridges"
+      },
+      {
+        "requested_time_s": 7.9335260116,
+        "reason": "multiple_dark_ridges"
+      },
+      {
+        "requested_time_s": 16.2716763006,
+        "reason": "multiple_dark_ridges"
+      },
+      {
+        "requested_time_s": 16.4739884393,
+        "reason": "multiple_dark_ridges"
+      }
+    ],
+    "uncertainty_scope": "pixel stroke extent plus 1 pixel only; axis registration/curve identity/systematic figure errors remain",
+    "missing_points_interpolated": false
+  },
+  "pairs": [
+    {
+      "phase": {
+        "requested_time_s": 0.7,
+        "image_time_s": 0.6931407942238267,
+        "value": 0.751628664495114,
+        "pixel_ordinate_extent_plus_one": [
+          0.7035830618892508,
+          0.7996742671009772
+        ],
+        "pixel_x": 185,
+        "pixel_y_median": 228.5,
+        "dark_pixel_count": 58,
+        "slope_aware_vertical_stroke_limit_pixels": 77,
+        "cycle": 1
+      },
+      "temperature_center_pixel": {
+        "requested_time_s": 0.6936416185,
+        "image_time_s": 0.6936416184971098,
+        "value": 56.666666666666664,
+        "pixel_ordinate_extent_plus_one": [
+          54.44444444444444,
+          58.888888888888886
+        ],
+        "pixel_x": 179,
+        "pixel_y_median": 413.0,
+        "dark_pixel_count": 15,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 1
+      },
+      "temperature_pixel_support": [
+        {
+          "requested_time_s": 0.6502890173,
+          "image_time_s": 0.6502890173410405,
+          "value": 55.0,
+          "pixel_ordinate_extent_plus_one": [
+            52.77777777777778,
+            57.22222222222222
+          ],
+          "pixel_x": 176,
+          "pixel_y_median": 419.0,
+          "dark_pixel_count": 15,
+          "slope_aware_vertical_stroke_limit_pixels": 19,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 0.6647398844,
+          "image_time_s": 0.6647398843930635,
+          "value": 55.138888888888886,
+          "pixel_ordinate_extent_plus_one": [
+            53.05555555555556,
+            57.22222222222222
+          ],
+          "pixel_x": 177,
+          "pixel_y_median": 418.5,
+          "dark_pixel_count": 14,
+          "slope_aware_vertical_stroke_limit_pixels": 19,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 0.6791907514,
+          "image_time_s": 0.6791907514450867,
+          "value": 56.25,
+          "pixel_ordinate_extent_plus_one": [
+            54.44444444444444,
+            58.05555555555556
+          ],
+          "pixel_x": 178,
+          "pixel_y_median": 414.5,
+          "dark_pixel_count": 12,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 0.6936416185,
+          "image_time_s": 0.6936416184971098,
+          "value": 56.666666666666664,
+          "pixel_ordinate_extent_plus_one": [
+            54.44444444444444,
+            58.888888888888886
+          ],
+          "pixel_x": 179,
+          "pixel_y_median": 413.0,
+          "dark_pixel_count": 15,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 0.7080924855,
+          "image_time_s": 0.708092485549133,
+          "value": 56.80555555555556,
+          "pixel_ordinate_extent_plus_one": [
+            54.72222222222222,
+            58.888888888888886
+          ],
+          "pixel_x": 180,
+          "pixel_y_median": 412.5,
+          "dark_pixel_count": 14,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 0.7225433526,
+          "image_time_s": 0.7225433526011561,
+          "value": 58.05555555555556,
+          "pixel_ordinate_extent_plus_one": [
+            56.111111111111114,
+            60.0
+          ],
+          "pixel_x": 181,
+          "pixel_y_median": 408.0,
+          "dark_pixel_count": 13,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 1
+        }
+      ],
+      "temperature_extent_C": [
+        52.77777777777778,
+        60.0
+      ],
+      "clock_offset_s": 0.0005008242732831292,
+      "clock_overlap_half_width_sum_s": 0.02889130026501951,
+      "stress_hull": {
+        "available": true,
+        "stress_extent_MPa": [
+          46.97508896797153,
+          126.69039145907473
+        ],
+        "pixel_columns": [
+          683,
+          761
+        ],
+        "support_column_min_max_rows": [
+          [
+            683,
+            527,
+            546
+          ],
+          [
+            684,
+            526,
+            546
+          ],
+          [
+            685,
+            525,
+            545
+          ],
+          [
+            686,
+            525,
+            545
+          ],
+          [
+            687,
+            524,
+            543
+          ],
+          [
+            688,
+            524,
+            543
+          ],
+          [
+            689,
+            524,
+            542
+          ],
+          [
+            690,
+            523,
+            542
+          ],
+          [
+            691,
+            522,
+            542
+          ],
+          [
+            692,
+            522,
+            541
+          ],
+          [
+            693,
+            522,
+            541
+          ],
+          [
+            694,
+            521,
+            541
+          ],
+          [
+            695,
+            521,
+            541
+          ],
+          [
+            696,
+            520,
+            539
+          ],
+          [
+            697,
+            519,
+            539
+          ],
+          [
+            698,
+            519,
+            539
+          ],
+          [
+            699,
+            519,
+            538
+          ],
+          [
+            700,
+            518,
+            537
+          ],
+          [
+            701,
+            518,
+            537
+          ],
+          [
+            702,
+            518,
+            537
+          ],
+          [
+            703,
+            517,
+            536
+          ],
+          [
+            704,
+            516,
+            536
+          ],
+          [
+            705,
+            516,
+            535
+          ],
+          [
+            706,
+            515,
+            534
+          ],
+          [
+            707,
+            515,
+            534
+          ],
+          [
+            708,
+            515,
+            534
+          ],
+          [
+            709,
+            514,
+            533
+          ],
+          [
+            710,
+            513,
+            532
+          ],
+          [
+            711,
+            513,
+            532
+          ],
+          [
+            712,
+            513,
+            532
+          ],
+          [
+            713,
+            512,
+            532
+          ],
+          [
+            714,
+            512,
+            530
+          ],
+          [
+            715,
+            511,
+            530
+          ],
+          [
+            716,
+            510,
+            530
+          ],
+          [
+            717,
+            510,
+            529
+          ],
+          [
+            718,
+            510,
+            529
+          ],
+          [
+            719,
+            509,
+            529
+          ],
+          [
+            720,
+            509,
+            528
+          ],
+          [
+            721,
+            509,
+            527
+          ],
+          [
+            722,
+            508,
+            527
+          ],
+          [
+            723,
+            507,
+            527
+          ],
+          [
+            724,
+            508,
+            527
+          ],
+          [
+            725,
+            509,
+            526
+          ],
+          [
+            726,
+            509,
+            525
+          ],
+          [
+            727,
+            508,
+            525
+          ],
+          [
+            728,
+            508,
+            524
+          ],
+          [
+            729,
+            507,
+            524
+          ],
+          [
+            730,
+            507,
+            524
+          ],
+          [
+            731,
+            506,
+            523
+          ],
+          [
+            732,
+            506,
+            523
+          ],
+          [
+            733,
+            506,
+            522
+          ],
+          [
+            734,
+            505,
+            522
+          ],
+          [
+            735,
+            504,
+            521
+          ],
+          [
+            736,
+            504,
+            521
+          ],
+          [
+            737,
+            504,
+            521
+          ],
+          [
+            738,
+            504,
+            520
+          ],
+          [
+            739,
+            503,
+            520
+          ],
+          [
+            740,
+            503,
+            520
+          ],
+          [
+            741,
+            503,
+            519
+          ],
+          [
+            742,
+            501,
+            518
+          ],
+          [
+            743,
+            501,
+            518
+          ],
+          [
+            744,
+            501,
+            518
+          ],
+          [
+            745,
+            500,
+            517
+          ],
+          [
+            746,
+            500,
+            517
+          ],
+          [
+            747,
+            500,
+            517
+          ],
+          [
+            748,
+            499,
+            516
+          ],
+          [
+            749,
+            497,
+            515
+          ],
+          [
+            750,
+            497,
+            515
+          ],
+          [
+            751,
+            497,
+            515
+          ],
+          [
+            752,
+            497,
+            514
+          ],
+          [
+            753,
+            496,
+            514
+          ],
+          [
+            754,
+            495,
+            514
+          ],
+          [
+            755,
+            495,
+            513
+          ],
+          [
+            756,
+            494,
+            512
+          ],
+          [
+            757,
+            494,
+            512
+          ],
+          [
+            758,
+            494,
+            512
+          ],
+          [
+            759,
+            494,
+            511
+          ],
+          [
+            760,
+            492,
+            511
+          ],
+          [
+            761,
+            492,
+            511
+          ]
+        ],
+        "scope": "both red branches and arrow strokes; not unique stress or branch identity"
+      },
+      "stress_extent_MPa_including_axis_shift": [
+        44.12811387900356,
+        128.1138790035587
+      ],
+      "tensile_stress_intersection_MPa": [
+        44.12811387900356,
+        128.1138790035587
+      ],
+      "conditional_mean_compatibility": {
+        "unclipped_range": [
+          -0.37275464546118436,
+          0.3832924009824795
+        ],
+        "physical_intersection": [
+          0.0,
+          0.3832924009824795
+        ],
+        "SMA_curve_is_known_axial_mean": false,
+        "measured_SE_mean": false
+      },
+      "Q04_full_two_way_interval_positive_over_T_box": true
+    },
+    {
+      "phase": {
+        "requested_time_s": 1.1,
+        "image_time_s": 1.0974729241877257,
+        "value": 0.17263843648208468,
+        "pixel_ordinate_extent_plus_one": [
+          0.11889250814332247,
+          0.2263843648208469
+        ],
+        "pixel_x": 213,
+        "pixel_y_median": 584.0,
+        "dark_pixel_count": 65,
+        "slope_aware_vertical_stroke_limit_pixels": 79,
+        "cycle": 1
+      },
+      "temperature_center_pixel": {
+        "requested_time_s": 1.098265896,
+        "image_time_s": 1.0982658959537572,
+        "value": 69.44444444444444,
+        "pixel_ordinate_extent_plus_one": [
+          68.33333333333333,
+          70.55555555555556
+        ],
+        "pixel_x": 207,
+        "pixel_y_median": 367.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 1
+      },
+      "temperature_pixel_support": [
+        {
+          "requested_time_s": 1.0549132948,
+          "image_time_s": 1.0549132947976878,
+          "value": 67.63888888888889,
+          "pixel_ordinate_extent_plus_one": [
+            66.38888888888889,
+            68.88888888888889
+          ],
+          "pixel_x": 204,
+          "pixel_y_median": 373.5,
+          "dark_pixel_count": 8,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 1.0693641618,
+          "image_time_s": 1.069364161849711,
+          "value": 68.19444444444444,
+          "pixel_ordinate_extent_plus_one": [
+            67.22222222222223,
+            69.16666666666667
+          ],
+          "pixel_x": 205,
+          "pixel_y_median": 371.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 1.0838150289,
+          "image_time_s": 1.083815028901734,
+          "value": 68.75,
+          "pixel_ordinate_extent_plus_one": [
+            67.77777777777777,
+            69.72222222222223
+          ],
+          "pixel_x": 206,
+          "pixel_y_median": 369.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 1.098265896,
+          "image_time_s": 1.0982658959537572,
+          "value": 69.44444444444444,
+          "pixel_ordinate_extent_plus_one": [
+            68.33333333333333,
+            70.55555555555556
+          ],
+          "pixel_x": 207,
+          "pixel_y_median": 367.0,
+          "dark_pixel_count": 7,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 1.112716763,
+          "image_time_s": 1.1127167630057804,
+          "value": 70.0,
+          "pixel_ordinate_extent_plus_one": [
+            69.16666666666667,
+            70.83333333333333
+          ],
+          "pixel_x": 208,
+          "pixel_y_median": 365.0,
+          "dark_pixel_count": 5,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 1.1271676301,
+          "image_time_s": 1.1271676300578035,
+          "value": 70.55555555555556,
+          "pixel_ordinate_extent_plus_one": [
+            69.72222222222223,
+            71.38888888888889
+          ],
+          "pixel_x": 209,
+          "pixel_y_median": 363.0,
+          "dark_pixel_count": 5,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 1
+        }
+      ],
+      "temperature_extent_C": [
+        66.38888888888889,
+        71.38888888888889
+      ],
+      "clock_offset_s": 0.0007929717660315472,
+      "clock_overlap_half_width_sum_s": 0.02889130026501951,
+      "stress_hull": {
+        "available": true,
+        "stress_extent_MPa": [
+          138.07829181494662,
+          200.711743772242
+        ],
+        "pixel_columns": [
+          825,
+          881
+        ],
+        "support_column_min_max_rows": [
+          [
+            825,
+            460,
+            482
+          ],
+          [
+            826,
+            458,
+            481
+          ],
+          [
+            827,
+            458,
+            481
+          ],
+          [
+            828,
+            458,
+            481
+          ],
+          [
+            829,
+            458,
+            481
+          ],
+          [
+            830,
+            456,
+            481
+          ],
+          [
+            831,
+            456,
+            479
+          ],
+          [
+            832,
+            456,
+            478
+          ],
+          [
+            833,
+            456,
+            478
+          ],
+          [
+            834,
+            455,
+            478
+          ],
+          [
+            835,
+            455,
+            477
+          ],
+          [
+            836,
+            454,
+            477
+          ],
+          [
+            837,
+            453,
+            477
+          ],
+          [
+            838,
+            453,
+            477
+          ],
+          [
+            839,
+            453,
+            476
+          ],
+          [
+            840,
+            453,
+            476
+          ],
+          [
+            841,
+            451,
+            475
+          ],
+          [
+            842,
+            450,
+            475
+          ],
+          [
+            843,
+            450,
+            475
+          ],
+          [
+            844,
+            449,
+            473
+          ],
+          [
+            845,
+            449,
+            473
+          ],
+          [
+            846,
+            449,
+            473
+          ],
+          [
+            847,
+            449,
+            473
+          ],
+          [
+            848,
+            447,
+            472
+          ],
+          [
+            849,
+            447,
+            472
+          ],
+          [
+            850,
+            447,
+            472
+          ],
+          [
+            851,
+            447,
+            472
+          ],
+          [
+            852,
+            446,
+            471
+          ],
+          [
+            853,
+            445,
+            470
+          ],
+          [
+            854,
+            445,
+            470
+          ],
+          [
+            855,
+            445,
+            470
+          ],
+          [
+            856,
+            444,
+            470
+          ],
+          [
+            857,
+            444,
+            470
+          ],
+          [
+            858,
+            444,
+            468
+          ],
+          [
+            859,
+            443,
+            467
+          ],
+          [
+            860,
+            442,
+            467
+          ],
+          [
+            861,
+            442,
+            467
+          ],
+          [
+            862,
+            442,
+            466
+          ],
+          [
+            863,
+            442,
+            466
+          ],
+          [
+            864,
+            442,
+            466
+          ],
+          [
+            865,
+            442,
+            466
+          ],
+          [
+            866,
+            442,
+            466
+          ],
+          [
+            867,
+            440,
+            464
+          ],
+          [
+            868,
+            440,
+            464
+          ],
+          [
+            869,
+            440,
+            464
+          ],
+          [
+            870,
+            440,
+            464
+          ],
+          [
+            871,
+            440,
+            464
+          ],
+          [
+            872,
+            440,
+            462
+          ],
+          [
+            873,
+            440,
+            462
+          ],
+          [
+            874,
+            443,
+            462
+          ],
+          [
+            875,
+            444,
+            462
+          ],
+          [
+            876,
+            446,
+            461
+          ],
+          [
+            877,
+            446,
+            461
+          ],
+          [
+            878,
+            445,
+            461
+          ],
+          [
+            879,
+            445,
+            461
+          ],
+          [
+            880,
+            444,
+            461
+          ],
+          [
+            881,
+            444,
+            460
+          ]
+        ],
+        "scope": "both red branches and arrow strokes; not unique stress or branch identity"
+      },
+      "stress_extent_MPa_including_axis_shift": [
+        136.65480427046262,
+        202.135231316726
+      ],
+      "tensile_stress_intersection_MPa": [
+        136.65480427046262,
+        202.135231316726
+      ],
+      "conditional_mean_compatibility": {
+        "unclipped_range": [
+          0.44135483118947244,
+          1.104105142561273
+        ],
+        "physical_intersection": [
+          0.44135483118947244,
+          1.0
+        ],
+        "SMA_curve_is_known_axial_mean": false,
+        "measured_SE_mean": false
+      },
+      "Q04_full_two_way_interval_positive_over_T_box": true
+    },
+    {
+      "phase": {
+        "requested_time_s": 6.3,
+        "image_time_s": 6.296028880866426,
+        "value": 0.10423452768729642,
+        "pixel_ordinate_extent_plus_one": [
+          0.07980456026058631,
+          0.12866449511400652
+        ],
+        "pixel_x": 573,
+        "pixel_y_median": 626.0,
+        "dark_pixel_count": 29,
+        "slope_aware_vertical_stroke_limit_pixels": 35,
+        "cycle": 1
+      },
+      "temperature_center_pixel": {
+        "requested_time_s": 6.3005780347,
+        "image_time_s": 6.300578034682081,
+        "value": 65.27777777777777,
+        "pixel_ordinate_extent_plus_one": [
+          63.888888888888886,
+          66.66666666666667
+        ],
+        "pixel_x": 567,
+        "pixel_y_median": 382.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 14,
+        "cycle": 1
+      },
+      "temperature_pixel_support": [
+        {
+          "requested_time_s": 6.2572254335,
+          "image_time_s": 6.257225433526012,
+          "value": 66.80555555555556,
+          "pixel_ordinate_extent_plus_one": [
+            65.27777777777777,
+            68.33333333333333
+          ],
+          "pixel_x": 564,
+          "pixel_y_median": 376.5,
+          "dark_pixel_count": 10,
+          "slope_aware_vertical_stroke_limit_pixels": 14,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.2716763006,
+          "image_time_s": 6.271676300578035,
+          "value": 65.69444444444444,
+          "pixel_ordinate_extent_plus_one": [
+            64.44444444444444,
+            66.94444444444444
+          ],
+          "pixel_x": 565,
+          "pixel_y_median": 380.5,
+          "dark_pixel_count": 8,
+          "slope_aware_vertical_stroke_limit_pixels": 14,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.2861271676,
+          "image_time_s": 6.286127167630058,
+          "value": 65.55555555555556,
+          "pixel_ordinate_extent_plus_one": [
+            64.16666666666667,
+            66.94444444444444
+          ],
+          "pixel_x": 566,
+          "pixel_y_median": 381.0,
+          "dark_pixel_count": 9,
+          "slope_aware_vertical_stroke_limit_pixels": 14,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.3005780347,
+          "image_time_s": 6.300578034682081,
+          "value": 65.27777777777777,
+          "pixel_ordinate_extent_plus_one": [
+            63.888888888888886,
+            66.66666666666667
+          ],
+          "pixel_x": 567,
+          "pixel_y_median": 382.0,
+          "dark_pixel_count": 9,
+          "slope_aware_vertical_stroke_limit_pixels": 14,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.3150289017,
+          "image_time_s": 6.315028901734104,
+          "value": 65.0,
+          "pixel_ordinate_extent_plus_one": [
+            63.611111111111114,
+            66.38888888888889
+          ],
+          "pixel_x": 568,
+          "pixel_y_median": 383.0,
+          "dark_pixel_count": 9,
+          "slope_aware_vertical_stroke_limit_pixels": 14,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.3294797688,
+          "image_time_s": 6.329479768786127,
+          "value": 65.0,
+          "pixel_ordinate_extent_plus_one": [
+            63.611111111111114,
+            66.38888888888889
+          ],
+          "pixel_x": 569,
+          "pixel_y_median": 383.0,
+          "dark_pixel_count": 9,
+          "slope_aware_vertical_stroke_limit_pixels": 14,
+          "cycle": 1
+        }
+      ],
+      "temperature_extent_C": [
+        63.611111111111114,
+        68.33333333333333
+      ],
+      "clock_offset_s": 0.004549153815655238,
+      "clock_overlap_half_width_sum_s": 0.02889130026501951,
+      "stress_hull": {
+        "available": true,
+        "stress_extent_MPa": [
+          120.99644128113879,
+          190.7473309608541
+        ],
+        "pixel_columns": [
+          796,
+          849
+        ],
+        "support_column_min_max_rows": [
+          [
+            796,
+            474,
+            494
+          ],
+          [
+            797,
+            474,
+            494
+          ],
+          [
+            798,
+            474,
+            494
+          ],
+          [
+            799,
+            473,
+            493
+          ],
+          [
+            800,
+            472,
+            493
+          ],
+          [
+            801,
+            471,
+            493
+          ],
+          [
+            802,
+            471,
+            493
+          ],
+          [
+            803,
+            471,
+            491
+          ],
+          [
+            804,
+            471,
+            491
+          ],
+          [
+            805,
+            468,
+            491
+          ],
+          [
+            806,
+            468,
+            490
+          ],
+          [
+            807,
+            468,
+            489
+          ],
+          [
+            808,
+            467,
+            489
+          ],
+          [
+            809,
+            467,
+            488
+          ],
+          [
+            810,
+            467,
+            488
+          ],
+          [
+            811,
+            467,
+            488
+          ],
+          [
+            812,
+            465,
+            488
+          ],
+          [
+            813,
+            465,
+            488
+          ],
+          [
+            814,
+            465,
+            486
+          ],
+          [
+            815,
+            464,
+            485
+          ],
+          [
+            816,
+            463,
+            485
+          ],
+          [
+            817,
+            463,
+            485
+          ],
+          [
+            818,
+            463,
+            485
+          ],
+          [
+            819,
+            462,
+            484
+          ],
+          [
+            820,
+            462,
+            484
+          ],
+          [
+            821,
+            461,
+            484
+          ],
+          [
+            822,
+            461,
+            483
+          ],
+          [
+            823,
+            461,
+            482
+          ],
+          [
+            824,
+            460,
+            482
+          ],
+          [
+            825,
+            460,
+            482
+          ],
+          [
+            826,
+            458,
+            481
+          ],
+          [
+            827,
+            458,
+            481
+          ],
+          [
+            828,
+            458,
+            481
+          ],
+          [
+            829,
+            458,
+            481
+          ],
+          [
+            830,
+            456,
+            481
+          ],
+          [
+            831,
+            456,
+            479
+          ],
+          [
+            832,
+            456,
+            478
+          ],
+          [
+            833,
+            456,
+            478
+          ],
+          [
+            834,
+            455,
+            478
+          ],
+          [
+            835,
+            455,
+            477
+          ],
+          [
+            836,
+            454,
+            477
+          ],
+          [
+            837,
+            453,
+            477
+          ],
+          [
+            838,
+            453,
+            477
+          ],
+          [
+            839,
+            453,
+            476
+          ],
+          [
+            840,
+            453,
+            476
+          ],
+          [
+            841,
+            451,
+            475
+          ],
+          [
+            842,
+            450,
+            475
+          ],
+          [
+            843,
+            450,
+            475
+          ],
+          [
+            844,
+            449,
+            473
+          ],
+          [
+            845,
+            449,
+            473
+          ],
+          [
+            846,
+            449,
+            473
+          ],
+          [
+            847,
+            449,
+            473
+          ],
+          [
+            848,
+            447,
+            472
+          ],
+          [
+            849,
+            447,
+            472
+          ]
+        ],
+        "scope": "both red branches and arrow strokes; not unique stress or branch identity"
+      },
+      "stress_extent_MPa_including_axis_shift": [
+        118.14946619217082,
+        192.17081850533808
+      ],
+      "tensile_stress_intersection_MPa": [
+        118.14946619217082,
+        192.17081850533808
+      ],
+      "conditional_mean_compatibility": {
+        "unclipped_range": [
+          0.7252735692675066,
+          1.3110012261673383
+        ],
+        "physical_intersection": [
+          0.7252735692675066,
+          1.0
+        ],
+        "SMA_curve_is_known_axial_mean": false,
+        "measured_SE_mean": false
+      },
+      "Q04_full_two_way_interval_positive_over_T_box": true
+    },
+    {
+      "phase": {
+        "requested_time_s": 6.5,
+        "image_time_s": 6.498194945848375,
+        "value": 0.20684039087947884,
+        "pixel_ordinate_extent_plus_one": [
+          0.18566775244299674,
+          0.2280130293159609
+        ],
+        "pixel_x": 587,
+        "pixel_y_median": 563.0,
+        "dark_pixel_count": 25,
+        "slope_aware_vertical_stroke_limit_pixels": 36,
+        "cycle": 1
+      },
+      "temperature_center_pixel": {
+        "requested_time_s": 6.5028901734,
+        "image_time_s": 6.502890173410405,
+        "value": 60.55555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          59.166666666666664,
+          61.94444444444444
+        ],
+        "pixel_x": 581,
+        "pixel_y_median": 399.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 13,
+        "cycle": 1
+      },
+      "temperature_pixel_support": [
+        {
+          "requested_time_s": 6.4595375723,
+          "image_time_s": 6.459537572254336,
+          "value": 61.388888888888886,
+          "pixel_ordinate_extent_plus_one": [
+            60.27777777777778,
+            62.5
+          ],
+          "pixel_x": 578,
+          "pixel_y_median": 396.0,
+          "dark_pixel_count": 7,
+          "slope_aware_vertical_stroke_limit_pixels": 13,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.4739884393,
+          "image_time_s": 6.473988439306359,
+          "value": 61.111111111111114,
+          "pixel_ordinate_extent_plus_one": [
+            59.72222222222222,
+            62.5
+          ],
+          "pixel_x": 579,
+          "pixel_y_median": 397.0,
+          "dark_pixel_count": 9,
+          "slope_aware_vertical_stroke_limit_pixels": 13,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.4884393064,
+          "image_time_s": 6.488439306358382,
+          "value": 61.111111111111114,
+          "pixel_ordinate_extent_plus_one": [
+            59.72222222222222,
+            62.5
+          ],
+          "pixel_x": 580,
+          "pixel_y_median": 397.0,
+          "dark_pixel_count": 9,
+          "slope_aware_vertical_stroke_limit_pixels": 13,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.5028901734,
+          "image_time_s": 6.502890173410405,
+          "value": 60.55555555555556,
+          "pixel_ordinate_extent_plus_one": [
+            59.166666666666664,
+            61.94444444444444
+          ],
+          "pixel_x": 581,
+          "pixel_y_median": 399.0,
+          "dark_pixel_count": 9,
+          "slope_aware_vertical_stroke_limit_pixels": 13,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.5173410405,
+          "image_time_s": 6.517341040462428,
+          "value": 60.55555555555556,
+          "pixel_ordinate_extent_plus_one": [
+            59.166666666666664,
+            61.94444444444444
+          ],
+          "pixel_x": 582,
+          "pixel_y_median": 399.0,
+          "dark_pixel_count": 9,
+          "slope_aware_vertical_stroke_limit_pixels": 13,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.5317919075,
+          "image_time_s": 6.531791907514451,
+          "value": 60.0,
+          "pixel_ordinate_extent_plus_one": [
+            58.611111111111114,
+            61.388888888888886
+          ],
+          "pixel_x": 583,
+          "pixel_y_median": 401.0,
+          "dark_pixel_count": 9,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 1
+        }
+      ],
+      "temperature_extent_C": [
+        58.611111111111114,
+        62.5
+      ],
+      "clock_offset_s": 0.004695227562029558,
+      "clock_overlap_half_width_sum_s": 0.02889130026501951,
+      "stress_hull": {
+        "available": true,
+        "stress_extent_MPa": [
+          86.83274021352314,
+          146.61921708185054
+        ],
+        "pixel_columns": [
+          744,
+          788
+        ],
+        "support_column_min_max_rows": [
+          [
+            744,
+            501,
+            518
+          ],
+          [
+            745,
+            500,
+            517
+          ],
+          [
+            746,
+            500,
+            517
+          ],
+          [
+            747,
+            500,
+            517
+          ],
+          [
+            748,
+            499,
+            516
+          ],
+          [
+            749,
+            497,
+            515
+          ],
+          [
+            750,
+            497,
+            515
+          ],
+          [
+            751,
+            497,
+            515
+          ],
+          [
+            752,
+            497,
+            514
+          ],
+          [
+            753,
+            496,
+            514
+          ],
+          [
+            754,
+            495,
+            514
+          ],
+          [
+            755,
+            495,
+            513
+          ],
+          [
+            756,
+            494,
+            512
+          ],
+          [
+            757,
+            494,
+            512
+          ],
+          [
+            758,
+            494,
+            512
+          ],
+          [
+            759,
+            494,
+            511
+          ],
+          [
+            760,
+            492,
+            511
+          ],
+          [
+            761,
+            492,
+            511
+          ],
+          [
+            762,
+            492,
+            510
+          ],
+          [
+            763,
+            491,
+            510
+          ],
+          [
+            764,
+            490,
+            509
+          ],
+          [
+            765,
+            490,
+            509
+          ],
+          [
+            766,
+            490,
+            509
+          ],
+          [
+            767,
+            489,
+            511
+          ],
+          [
+            768,
+            488,
+            512
+          ],
+          [
+            769,
+            488,
+            515
+          ],
+          [
+            770,
+            488,
+            517
+          ],
+          [
+            771,
+            486,
+            516
+          ],
+          [
+            772,
+            486,
+            515
+          ],
+          [
+            773,
+            486,
+            514
+          ],
+          [
+            774,
+            485,
+            512
+          ],
+          [
+            775,
+            485,
+            511
+          ],
+          [
+            776,
+            485,
+            511
+          ],
+          [
+            777,
+            485,
+            509
+          ],
+          [
+            778,
+            483,
+            508
+          ],
+          [
+            779,
+            483,
+            507
+          ],
+          [
+            780,
+            483,
+            505
+          ],
+          [
+            781,
+            482,
+            505
+          ],
+          [
+            782,
+            482,
+            503
+          ],
+          [
+            783,
+            482,
+            502
+          ],
+          [
+            784,
+            481,
+            501
+          ],
+          [
+            785,
+            479,
+            500
+          ],
+          [
+            786,
+            479,
+            499
+          ],
+          [
+            787,
+            479,
+            499
+          ],
+          [
+            788,
+            478,
+            499
+          ]
+        ],
+        "scope": "both red branches and arrow strokes; not unique stress or branch identity"
+      },
+      "stress_extent_MPa_including_axis_shift": [
+        85.40925266903915,
+        149.46619217081852
+      ],
+      "tensile_stress_intersection_MPa": [
+        85.40925266903915,
+        149.46619217081852
+      ],
+      "conditional_mean_compatibility": {
+        "unclipped_range": [
+          0.7762352154744379,
+          1.2832558606806
+        ],
+        "physical_intersection": [
+          0.7762352154744379,
+          1.0
+        ],
+        "SMA_curve_is_known_axial_mean": false,
+        "measured_SE_mean": false
+      },
+      "Q04_full_two_way_interval_positive_over_T_box": true
+    },
+    {
+      "phase": {
+        "requested_time_s": 6.6,
+        "image_time_s": 6.59927797833935,
+        "value": 0.251628664495114,
+        "pixel_ordinate_extent_plus_one": [
+          0.2296416938110749,
+          0.2736156351791531
+        ],
+        "pixel_x": 594,
+        "pixel_y_median": 535.5,
+        "dark_pixel_count": 26,
+        "slope_aware_vertical_stroke_limit_pixels": 36,
+        "cycle": 1
+      },
+      "temperature_center_pixel": {
+        "requested_time_s": 6.6040462428,
+        "image_time_s": 6.604046242774566,
+        "value": 58.47222222222222,
+        "pixel_ordinate_extent_plus_one": [
+          57.5,
+          59.44444444444444
+        ],
+        "pixel_x": 588,
+        "pixel_y_median": 406.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 1
+      },
+      "temperature_pixel_support": [
+        {
+          "requested_time_s": 6.5606936416,
+          "image_time_s": 6.5606936416184976,
+          "value": 59.583333333333336,
+          "pixel_ordinate_extent_plus_one": [
+            58.333333333333336,
+            60.833333333333336
+          ],
+          "pixel_x": 585,
+          "pixel_y_median": 402.5,
+          "dark_pixel_count": 8,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.5751445087,
+          "image_time_s": 6.57514450867052,
+          "value": 59.166666666666664,
+          "pixel_ordinate_extent_plus_one": [
+            57.77777777777778,
+            60.55555555555556
+          ],
+          "pixel_x": 586,
+          "pixel_y_median": 404.0,
+          "dark_pixel_count": 9,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.5895953757,
+          "image_time_s": 6.589595375722543,
+          "value": 59.166666666666664,
+          "pixel_ordinate_extent_plus_one": [
+            57.77777777777778,
+            60.55555555555556
+          ],
+          "pixel_x": 587,
+          "pixel_y_median": 404.0,
+          "dark_pixel_count": 9,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.6040462428,
+          "image_time_s": 6.604046242774566,
+          "value": 58.47222222222222,
+          "pixel_ordinate_extent_plus_one": [
+            57.5,
+            59.44444444444444
+          ],
+          "pixel_x": 588,
+          "pixel_y_median": 406.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.6184971098,
+          "image_time_s": 6.618497109826589,
+          "value": 58.333333333333336,
+          "pixel_ordinate_extent_plus_one": [
+            57.22222222222222,
+            59.44444444444444
+          ],
+          "pixel_x": 589,
+          "pixel_y_median": 407.0,
+          "dark_pixel_count": 7,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.6329479769,
+          "image_time_s": 6.632947976878612,
+          "value": 57.916666666666664,
+          "pixel_ordinate_extent_plus_one": [
+            56.94444444444444,
+            58.888888888888886
+          ],
+          "pixel_x": 590,
+          "pixel_y_median": 408.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 1
+        }
+      ],
+      "temperature_extent_C": [
+        56.94444444444444,
+        60.833333333333336
+      ],
+      "clock_offset_s": 0.004768264435216274,
+      "clock_overlap_half_width_sum_s": 0.02889130026501951,
+      "stress_hull": {
+        "available": true,
+        "stress_extent_MPa": [
+          76.86832740213524,
+          132.38434163701066
+        ],
+        "pixel_columns": [
+          727,
+          770
+        ],
+        "support_column_min_max_rows": [
+          [
+            727,
+            508,
+            525
+          ],
+          [
+            728,
+            508,
+            524
+          ],
+          [
+            729,
+            507,
+            524
+          ],
+          [
+            730,
+            507,
+            524
+          ],
+          [
+            731,
+            506,
+            523
+          ],
+          [
+            732,
+            506,
+            523
+          ],
+          [
+            733,
+            506,
+            522
+          ],
+          [
+            734,
+            505,
+            522
+          ],
+          [
+            735,
+            504,
+            521
+          ],
+          [
+            736,
+            504,
+            521
+          ],
+          [
+            737,
+            504,
+            521
+          ],
+          [
+            738,
+            504,
+            520
+          ],
+          [
+            739,
+            503,
+            520
+          ],
+          [
+            740,
+            503,
+            520
+          ],
+          [
+            741,
+            503,
+            519
+          ],
+          [
+            742,
+            501,
+            518
+          ],
+          [
+            743,
+            501,
+            518
+          ],
+          [
+            744,
+            501,
+            518
+          ],
+          [
+            745,
+            500,
+            517
+          ],
+          [
+            746,
+            500,
+            517
+          ],
+          [
+            747,
+            500,
+            517
+          ],
+          [
+            748,
+            499,
+            516
+          ],
+          [
+            749,
+            497,
+            515
+          ],
+          [
+            750,
+            497,
+            515
+          ],
+          [
+            751,
+            497,
+            515
+          ],
+          [
+            752,
+            497,
+            514
+          ],
+          [
+            753,
+            496,
+            514
+          ],
+          [
+            754,
+            495,
+            514
+          ],
+          [
+            755,
+            495,
+            513
+          ],
+          [
+            756,
+            494,
+            512
+          ],
+          [
+            757,
+            494,
+            512
+          ],
+          [
+            758,
+            494,
+            512
+          ],
+          [
+            759,
+            494,
+            511
+          ],
+          [
+            760,
+            492,
+            511
+          ],
+          [
+            761,
+            492,
+            511
+          ],
+          [
+            762,
+            492,
+            510
+          ],
+          [
+            763,
+            491,
+            510
+          ],
+          [
+            764,
+            490,
+            509
+          ],
+          [
+            765,
+            490,
+            509
+          ],
+          [
+            766,
+            490,
+            509
+          ],
+          [
+            767,
+            489,
+            511
+          ],
+          [
+            768,
+            488,
+            512
+          ],
+          [
+            769,
+            488,
+            515
+          ],
+          [
+            770,
+            488,
+            517
+          ]
+        ],
+        "scope": "both red branches and arrow strokes; not unique stress or branch identity"
+      },
+      "stress_extent_MPa_including_axis_shift": [
+        75.44483985765125,
+        136.65480427046262
+      ],
+      "tensile_stress_intersection_MPa": [
+        75.44483985765125,
+        136.65480427046262
+      ],
+      "conditional_mean_compatibility": {
+        "unclipped_range": [
+          0.755978106730654,
+          1.2483635238400674
+        ],
+        "physical_intersection": [
+          0.755978106730654,
+          1.0
+        ],
+        "SMA_curve_is_known_axial_mean": false,
+        "measured_SE_mean": false
+      },
+      "Q04_full_two_way_interval_positive_over_T_box": true
+    },
+    {
+      "phase": {
+        "requested_time_s": 6.7,
+        "image_time_s": 6.700361010830325,
+        "value": 0.2996742671009772,
+        "pixel_ordinate_extent_plus_one": [
+          0.2768729641693811,
+          0.32247557003257327
+        ],
+        "pixel_x": 601,
+        "pixel_y_median": 506.0,
+        "dark_pixel_count": 27,
+        "slope_aware_vertical_stroke_limit_pixels": 35,
+        "cycle": 1
+      },
+      "temperature_center_pixel": {
+        "requested_time_s": 6.7052023121,
+        "image_time_s": 6.705202312138728,
+        "value": 56.80555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          55.833333333333336,
+          57.77777777777778
+        ],
+        "pixel_x": 595,
+        "pixel_y_median": 412.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 1
+      },
+      "temperature_pixel_support": [
+        {
+          "requested_time_s": 6.661849711,
+          "image_time_s": 6.661849710982659,
+          "value": 57.638888888888886,
+          "pixel_ordinate_extent_plus_one": [
+            56.388888888888886,
+            58.888888888888886
+          ],
+          "pixel_x": 592,
+          "pixel_y_median": 409.5,
+          "dark_pixel_count": 8,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.676300578,
+          "image_time_s": 6.676300578034682,
+          "value": 57.5,
+          "pixel_ordinate_extent_plus_one": [
+            56.388888888888886,
+            58.611111111111114
+          ],
+          "pixel_x": 593,
+          "pixel_y_median": 410.0,
+          "dark_pixel_count": 7,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.6907514451,
+          "image_time_s": 6.690751445086705,
+          "value": 57.361111111111114,
+          "pixel_ordinate_extent_plus_one": [
+            56.111111111111114,
+            58.611111111111114
+          ],
+          "pixel_x": 594,
+          "pixel_y_median": 410.5,
+          "dark_pixel_count": 8,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.7052023121,
+          "image_time_s": 6.705202312138728,
+          "value": 56.80555555555556,
+          "pixel_ordinate_extent_plus_one": [
+            55.833333333333336,
+            57.77777777777778
+          ],
+          "pixel_x": 595,
+          "pixel_y_median": 412.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.7196531792,
+          "image_time_s": 6.719653179190751,
+          "value": 56.666666666666664,
+          "pixel_ordinate_extent_plus_one": [
+            55.833333333333336,
+            57.5
+          ],
+          "pixel_x": 596,
+          "pixel_y_median": 413.0,
+          "dark_pixel_count": 5,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 6.7341040462,
+          "image_time_s": 6.734104046242774,
+          "value": 56.388888888888886,
+          "pixel_ordinate_extent_plus_one": [
+            55.27777777777778,
+            57.5
+          ],
+          "pixel_x": 597,
+          "pixel_y_median": 414.0,
+          "dark_pixel_count": 7,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 1
+        }
+      ],
+      "temperature_extent_C": [
+        55.27777777777778,
+        58.888888888888886
+      ],
+      "clock_offset_s": 0.00484130130840299,
+      "clock_overlap_half_width_sum_s": 0.02889130026501951,
+      "stress_hull": {
+        "available": true,
+        "stress_extent_MPa": [
+          65.48042704626334,
+          119.57295373665481
+        ],
+        "pixel_columns": [
+          709,
+          750
+        ],
+        "support_column_min_max_rows": [
+          [
+            709,
+            514,
+            533
+          ],
+          [
+            710,
+            513,
+            532
+          ],
+          [
+            711,
+            513,
+            532
+          ],
+          [
+            712,
+            513,
+            532
+          ],
+          [
+            713,
+            512,
+            532
+          ],
+          [
+            714,
+            512,
+            530
+          ],
+          [
+            715,
+            511,
+            530
+          ],
+          [
+            716,
+            510,
+            530
+          ],
+          [
+            717,
+            510,
+            529
+          ],
+          [
+            718,
+            510,
+            529
+          ],
+          [
+            719,
+            509,
+            529
+          ],
+          [
+            720,
+            509,
+            528
+          ],
+          [
+            721,
+            509,
+            527
+          ],
+          [
+            722,
+            508,
+            527
+          ],
+          [
+            723,
+            507,
+            527
+          ],
+          [
+            724,
+            508,
+            527
+          ],
+          [
+            725,
+            509,
+            526
+          ],
+          [
+            726,
+            509,
+            525
+          ],
+          [
+            727,
+            508,
+            525
+          ],
+          [
+            728,
+            508,
+            524
+          ],
+          [
+            729,
+            507,
+            524
+          ],
+          [
+            730,
+            507,
+            524
+          ],
+          [
+            731,
+            506,
+            523
+          ],
+          [
+            732,
+            506,
+            523
+          ],
+          [
+            733,
+            506,
+            522
+          ],
+          [
+            734,
+            505,
+            522
+          ],
+          [
+            735,
+            504,
+            521
+          ],
+          [
+            736,
+            504,
+            521
+          ],
+          [
+            737,
+            504,
+            521
+          ],
+          [
+            738,
+            504,
+            520
+          ],
+          [
+            739,
+            503,
+            520
+          ],
+          [
+            740,
+            503,
+            520
+          ],
+          [
+            741,
+            503,
+            519
+          ],
+          [
+            742,
+            501,
+            518
+          ],
+          [
+            743,
+            501,
+            518
+          ],
+          [
+            744,
+            501,
+            518
+          ],
+          [
+            745,
+            500,
+            517
+          ],
+          [
+            746,
+            500,
+            517
+          ],
+          [
+            747,
+            500,
+            517
+          ],
+          [
+            748,
+            499,
+            516
+          ],
+          [
+            749,
+            497,
+            515
+          ],
+          [
+            750,
+            497,
+            515
+          ]
+        ],
+        "scope": "both red branches and arrow strokes; not unique stress or branch identity"
+      },
+      "stress_extent_MPa_including_axis_shift": [
+        62.63345195729537,
+        120.99644128113879
+      ],
+      "tensile_stress_intersection_MPa": [
+        62.63345195729537,
+        120.99644128113879
+      ],
+      "conditional_mean_compatibility": {
+        "unclipped_range": [
+          0.7466917309696126,
+          1.2244419199822771
+        ],
+        "physical_intersection": [
+          0.7466917309696126,
+          1.0
+        ],
+        "SMA_curve_is_known_axial_mean": false,
+        "measured_SE_mean": false
+      },
+      "Q04_full_two_way_interval_positive_over_T_box": true
+    },
+    {
+      "phase": {
+        "requested_time_s": 7.7,
+        "image_time_s": 7.696750902527076,
+        "value": 0.8509771986970684,
+        "pixel_ordinate_extent_plus_one": [
+          0.8289902280130294,
+          0.8729641693811075
+        ],
+        "pixel_x": 670,
+        "pixel_y_median": 167.5,
+        "dark_pixel_count": 26,
+        "slope_aware_vertical_stroke_limit_pixels": 31,
+        "cycle": 1
+      },
+      "temperature_center_pixel": {
+        "requested_time_s": 7.7023121387,
+        "image_time_s": 7.702312138728324,
+        "value": 47.083333333333336,
+        "pixel_ordinate_extent_plus_one": [
+          46.111111111111114,
+          48.05555555555556
+        ],
+        "pixel_x": 664,
+        "pixel_y_median": 447.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      "temperature_pixel_support": [
+        {
+          "requested_time_s": 7.6589595376,
+          "image_time_s": 7.658959537572255,
+          "value": 47.361111111111114,
+          "pixel_ordinate_extent_plus_one": [
+            46.388888888888886,
+            48.333333333333336
+          ],
+          "pixel_x": 661,
+          "pixel_y_median": 446.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 10,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 7.6734104046,
+          "image_time_s": 7.673410404624278,
+          "value": 47.361111111111114,
+          "pixel_ordinate_extent_plus_one": [
+            46.388888888888886,
+            48.333333333333336
+          ],
+          "pixel_x": 662,
+          "pixel_y_median": 446.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 10,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 7.6878612717,
+          "image_time_s": 7.687861271676301,
+          "value": 47.361111111111114,
+          "pixel_ordinate_extent_plus_one": [
+            46.388888888888886,
+            48.333333333333336
+          ],
+          "pixel_x": 663,
+          "pixel_y_median": 446.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 10,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 7.7023121387,
+          "image_time_s": 7.702312138728324,
+          "value": 47.083333333333336,
+          "pixel_ordinate_extent_plus_one": [
+            46.111111111111114,
+            48.05555555555556
+          ],
+          "pixel_x": 664,
+          "pixel_y_median": 447.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 10,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 7.7167630058,
+          "image_time_s": 7.716763005780347,
+          "value": 47.083333333333336,
+          "pixel_ordinate_extent_plus_one": [
+            46.111111111111114,
+            48.05555555555556
+          ],
+          "pixel_x": 665,
+          "pixel_y_median": 447.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 10,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 7.7312138728,
+          "image_time_s": 7.73121387283237,
+          "value": 46.80555555555556,
+          "pixel_ordinate_extent_plus_one": [
+            45.833333333333336,
+            47.77777777777778
+          ],
+          "pixel_x": 666,
+          "pixel_y_median": 448.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 10,
+          "cycle": 1
+        }
+      ],
+      "temperature_extent_C": [
+        45.833333333333336,
+        48.333333333333336
+      ],
+      "clock_offset_s": 0.005561236201248043,
+      "clock_overlap_half_width_sum_s": 0.02889130026501951,
+      "stress_hull": {
+        "available": true,
+        "stress_extent_MPa": [
+          5.693950177935943,
+          46.97508896797153
+        ],
+        "pixel_columns": [
+          610,
+          640
+        ],
+        "support_column_min_max_rows": [
+          [
+            610,
+            561,
+            566
+          ],
+          [
+            611,
+            560,
+            566
+          ],
+          [
+            612,
+            560,
+            566
+          ],
+          [
+            613,
+            560,
+            566
+          ],
+          [
+            614,
+            560,
+            566
+          ],
+          [
+            615,
+            560,
+            565
+          ],
+          [
+            616,
+            558,
+            564
+          ],
+          [
+            617,
+            558,
+            564
+          ],
+          [
+            618,
+            558,
+            564
+          ],
+          [
+            619,
+            557,
+            575
+          ],
+          [
+            620,
+            557,
+            575
+          ],
+          [
+            621,
+            557,
+            575
+          ],
+          [
+            622,
+            557,
+            575
+          ],
+          [
+            623,
+            557,
+            575
+          ],
+          [
+            624,
+            556,
+            575
+          ],
+          [
+            625,
+            555,
+            574
+          ],
+          [
+            626,
+            554,
+            574
+          ],
+          [
+            627,
+            554,
+            574
+          ],
+          [
+            628,
+            554,
+            573
+          ],
+          [
+            629,
+            553,
+            571
+          ],
+          [
+            630,
+            552,
+            571
+          ],
+          [
+            631,
+            552,
+            571
+          ],
+          [
+            632,
+            552,
+            571
+          ],
+          [
+            633,
+            552,
+            570
+          ],
+          [
+            634,
+            551,
+            569
+          ],
+          [
+            635,
+            551,
+            569
+          ],
+          [
+            636,
+            551,
+            568
+          ],
+          [
+            637,
+            549,
+            568
+          ],
+          [
+            638,
+            549,
+            568
+          ],
+          [
+            639,
+            549,
+            568
+          ],
+          [
+            640,
+            548,
+            566
+          ]
+        ],
+        "scope": "both red branches and arrow strokes; not unique stress or branch identity"
+      },
+      "stress_extent_MPa_including_axis_shift": [
+        4.270462633451957,
+        48.39857651245551
+      ],
+      "tensile_stress_intersection_MPa": [
+        4.270462633451957,
+        48.39857651245551
+      ],
+      "conditional_mean_compatibility": {
+        "unclipped_range": [
+          -0.02526467569033103,
+          0.35732240215455113
+        ],
+        "physical_intersection": [
+          0.0,
+          0.35732240215455113
+        ],
+        "SMA_curve_is_known_axial_mean": false,
+        "measured_SE_mean": false
+      },
+      "Q04_full_two_way_interval_positive_over_T_box": false
+    },
+    {
+      "phase": {
+        "requested_time_s": 7.8,
+        "image_time_s": 7.79783393501805,
+        "value": 0.8925081433224755,
+        "pixel_ordinate_extent_plus_one": [
+          0.8745928338762216,
+          0.9104234527687296
+        ],
+        "pixel_x": 677,
+        "pixel_y_median": 142.0,
+        "dark_pixel_count": 21,
+        "slope_aware_vertical_stroke_limit_pixels": 30,
+        "cycle": 1
+      },
+      "temperature_center_pixel": {
+        "requested_time_s": 7.8034682081,
+        "image_time_s": 7.803468208092486,
+        "value": 46.25,
+        "pixel_ordinate_extent_plus_one": [
+          45.27777777777778,
+          47.22222222222222
+        ],
+        "pixel_x": 671,
+        "pixel_y_median": 450.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 10,
+        "cycle": 1
+      },
+      "temperature_pixel_support": [
+        {
+          "requested_time_s": 7.7601156069,
+          "image_time_s": 7.7601156069364166,
+          "value": 46.666666666666664,
+          "pixel_ordinate_extent_plus_one": [
+            45.55555555555556,
+            47.77777777777778
+          ],
+          "pixel_x": 668,
+          "pixel_y_median": 449.0,
+          "dark_pixel_count": 7,
+          "slope_aware_vertical_stroke_limit_pixels": 10,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 7.774566474,
+          "image_time_s": 7.77456647398844,
+          "value": 46.388888888888886,
+          "pixel_ordinate_extent_plus_one": [
+            45.27777777777778,
+            47.5
+          ],
+          "pixel_x": 669,
+          "pixel_y_median": 450.0,
+          "dark_pixel_count": 7,
+          "slope_aware_vertical_stroke_limit_pixels": 10,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 7.789017341,
+          "image_time_s": 7.789017341040463,
+          "value": 46.111111111111114,
+          "pixel_ordinate_extent_plus_one": [
+            45.0,
+            47.22222222222222
+          ],
+          "pixel_x": 670,
+          "pixel_y_median": 451.0,
+          "dark_pixel_count": 7,
+          "slope_aware_vertical_stroke_limit_pixels": 10,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 7.8034682081,
+          "image_time_s": 7.803468208092486,
+          "value": 46.25,
+          "pixel_ordinate_extent_plus_one": [
+            45.27777777777778,
+            47.22222222222222
+          ],
+          "pixel_x": 671,
+          "pixel_y_median": 450.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 10,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 7.8179190751,
+          "image_time_s": 7.817919075144508,
+          "value": 46.111111111111114,
+          "pixel_ordinate_extent_plus_one": [
+            45.0,
+            47.22222222222222
+          ],
+          "pixel_x": 672,
+          "pixel_y_median": 451.0,
+          "dark_pixel_count": 7,
+          "slope_aware_vertical_stroke_limit_pixels": 10,
+          "cycle": 1
+        },
+        {
+          "requested_time_s": 7.8323699422,
+          "image_time_s": 7.832369942196531,
+          "value": 46.111111111111114,
+          "pixel_ordinate_extent_plus_one": [
+            45.0,
+            47.22222222222222
+          ],
+          "pixel_x": 673,
+          "pixel_y_median": 451.0,
+          "dark_pixel_count": 7,
+          "slope_aware_vertical_stroke_limit_pixels": 10,
+          "cycle": 1
+        }
+      ],
+      "temperature_extent_C": [
+        45.0,
+        47.77777777777778
+      ],
+      "clock_offset_s": 0.005634273074435647,
+      "clock_overlap_half_width_sum_s": 0.02889130026501951,
+      "stress_hull": {
+        "available": true,
+        "stress_extent_MPa": [
+          -1.4234875444839858,
+          42.704626334519574
+        ],
+        "pixel_columns": [
+          602,
+          634
+        ],
+        "support_column_min_max_rows": [
+          [
+            602,
+            564,
+            570
+          ],
+          [
+            603,
+            563,
+            569
+          ],
+          [
+            604,
+            563,
+            569
+          ],
+          [
+            605,
+            563,
+            580
+          ],
+          [
+            606,
+            563,
+            580
+          ],
+          [
+            607,
+            561,
+            580
+          ],
+          [
+            608,
+            561,
+            568
+          ],
+          [
+            609,
+            561,
+            566
+          ],
+          [
+            610,
+            561,
+            566
+          ],
+          [
+            611,
+            560,
+            566
+          ],
+          [
+            612,
+            560,
+            566
+          ],
+          [
+            613,
+            560,
+            566
+          ],
+          [
+            614,
+            560,
+            566
+          ],
+          [
+            615,
+            560,
+            565
+          ],
+          [
+            616,
+            558,
+            564
+          ],
+          [
+            617,
+            558,
+            564
+          ],
+          [
+            618,
+            558,
+            564
+          ],
+          [
+            619,
+            557,
+            575
+          ],
+          [
+            620,
+            557,
+            575
+          ],
+          [
+            621,
+            557,
+            575
+          ],
+          [
+            622,
+            557,
+            575
+          ],
+          [
+            623,
+            557,
+            575
+          ],
+          [
+            624,
+            556,
+            575
+          ],
+          [
+            625,
+            555,
+            574
+          ],
+          [
+            626,
+            554,
+            574
+          ],
+          [
+            627,
+            554,
+            574
+          ],
+          [
+            628,
+            554,
+            573
+          ],
+          [
+            629,
+            553,
+            571
+          ],
+          [
+            630,
+            552,
+            571
+          ],
+          [
+            631,
+            552,
+            571
+          ],
+          [
+            632,
+            552,
+            571
+          ],
+          [
+            633,
+            552,
+            570
+          ],
+          [
+            634,
+            551,
+            569
+          ]
+        ],
+        "scope": "both red branches and arrow strokes; not unique stress or branch identity"
+      },
+      "stress_extent_MPa_including_axis_shift": [
+        -1.4234875444839858,
+        44.12811387900356
+      ],
+      "tensile_stress_intersection_MPa": [
+        0.0,
+        44.12811387900356
+      ],
+      "conditional_mean_compatibility": {
+        "unclipped_range": [
+          -0.08209847849634781,
+          0.28216612377850153
+        ],
+        "physical_intersection": [
+          0.0,
+          0.28216612377850153
+        ],
+        "SMA_curve_is_known_axial_mean": false,
+        "measured_SE_mean": false
+      },
+      "Q04_full_two_way_interval_positive_over_T_box": false
+    },
+    {
+      "phase": {
+        "requested_time_s": 10.6,
+        "image_time_s": 10.59927797833935,
+        "value": 0.8542345276872965,
+        "pixel_ordinate_extent_plus_one": [
+          0.8110749185667753,
+          0.8973941368078175
+        ],
+        "pixel_x": 871,
+        "pixel_y_median": 165.5,
+        "dark_pixel_count": 52,
+        "slope_aware_vertical_stroke_limit_pixels": 65,
+        "cycle": 2
+      },
+      "temperature_center_pixel": {
+        "requested_time_s": 10.5924855491,
+        "image_time_s": 10.592485549132949,
+        "value": 52.5,
+        "pixel_ordinate_extent_plus_one": [
+          50.27777777777778,
+          54.72222222222222
+        ],
+        "pixel_x": 864,
+        "pixel_y_median": 428.0,
+        "dark_pixel_count": 15,
+        "slope_aware_vertical_stroke_limit_pixels": 19,
+        "cycle": 2
+      },
+      "temperature_pixel_support": [
+        {
+          "requested_time_s": 10.563583815,
+          "image_time_s": 10.563583815028903,
+          "value": 51.388888888888886,
+          "pixel_ordinate_extent_plus_one": [
+            49.44444444444444,
+            53.333333333333336
+          ],
+          "pixel_x": 862,
+          "pixel_y_median": 432.0,
+          "dark_pixel_count": 13,
+          "slope_aware_vertical_stroke_limit_pixels": 20,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 10.5780346821,
+          "image_time_s": 10.578034682080926,
+          "value": 51.666666666666664,
+          "pixel_ordinate_extent_plus_one": [
+            49.44444444444444,
+            53.888888888888886
+          ],
+          "pixel_x": 863,
+          "pixel_y_median": 431.0,
+          "dark_pixel_count": 15,
+          "slope_aware_vertical_stroke_limit_pixels": 19,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 10.5924855491,
+          "image_time_s": 10.592485549132949,
+          "value": 52.5,
+          "pixel_ordinate_extent_plus_one": [
+            50.27777777777778,
+            54.72222222222222
+          ],
+          "pixel_x": 864,
+          "pixel_y_median": 428.0,
+          "dark_pixel_count": 15,
+          "slope_aware_vertical_stroke_limit_pixels": 19,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 10.6069364162,
+          "image_time_s": 10.606936416184972,
+          "value": 52.77777777777778,
+          "pixel_ordinate_extent_plus_one": [
+            50.55555555555556,
+            55.0
+          ],
+          "pixel_x": 865,
+          "pixel_y_median": 427.0,
+          "dark_pixel_count": 15,
+          "slope_aware_vertical_stroke_limit_pixels": 19,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 10.6213872832,
+          "image_time_s": 10.621387283236995,
+          "value": 53.75,
+          "pixel_ordinate_extent_plus_one": [
+            51.388888888888886,
+            56.111111111111114
+          ],
+          "pixel_x": 866,
+          "pixel_y_median": 423.5,
+          "dark_pixel_count": 16,
+          "slope_aware_vertical_stroke_limit_pixels": 19,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 10.6358381503,
+          "image_time_s": 10.635838150289016,
+          "value": 53.888888888888886,
+          "pixel_ordinate_extent_plus_one": [
+            51.388888888888886,
+            56.388888888888886
+          ],
+          "pixel_x": 867,
+          "pixel_y_median": 423.0,
+          "dark_pixel_count": 17,
+          "slope_aware_vertical_stroke_limit_pixels": 19,
+          "cycle": 2
+        }
+      ],
+      "temperature_extent_C": [
+        49.44444444444444,
+        56.388888888888886
+      ],
+      "clock_offset_s": -0.006792429206400996,
+      "clock_overlap_half_width_sum_s": 0.02889130026501951,
+      "stress_hull": {
+        "available": true,
+        "stress_extent_MPa": [
+          22.775800711743774,
+          105.33807829181495
+        ],
+        "pixel_columns": [
+          648,
+          724
+        ],
+        "support_column_min_max_rows": [
+          [
+            648,
+            540,
+            563
+          ],
+          [
+            649,
+            539,
+            562
+          ],
+          [
+            650,
+            538,
+            562
+          ],
+          [
+            651,
+            537,
+            560
+          ],
+          [
+            652,
+            535,
+            560
+          ],
+          [
+            653,
+            534,
+            560
+          ],
+          [
+            654,
+            533,
+            559
+          ],
+          [
+            655,
+            531,
+            559
+          ],
+          [
+            656,
+            530,
+            559
+          ],
+          [
+            657,
+            529,
+            559
+          ],
+          [
+            658,
+            528,
+            557
+          ],
+          [
+            659,
+            530,
+            557
+          ],
+          [
+            660,
+            532,
+            557
+          ],
+          [
+            661,
+            534,
+            557
+          ],
+          [
+            662,
+            536,
+            556
+          ],
+          [
+            663,
+            536,
+            556
+          ],
+          [
+            664,
+            536,
+            556
+          ],
+          [
+            665,
+            535,
+            554
+          ],
+          [
+            666,
+            534,
+            554
+          ],
+          [
+            667,
+            534,
+            553
+          ],
+          [
+            668,
+            533,
+            553
+          ],
+          [
+            669,
+            533,
+            552
+          ],
+          [
+            670,
+            533,
+            552
+          ],
+          [
+            671,
+            532,
+            552
+          ],
+          [
+            672,
+            531,
+            551
+          ],
+          [
+            673,
+            531,
+            550
+          ],
+          [
+            674,
+            531,
+            550
+          ],
+          [
+            675,
+            530,
+            550
+          ],
+          [
+            676,
+            530,
+            548
+          ],
+          [
+            677,
+            529,
+            548
+          ],
+          [
+            678,
+            528,
+            548
+          ],
+          [
+            679,
+            528,
+            548
+          ],
+          [
+            680,
+            528,
+            547
+          ],
+          [
+            681,
+            527,
+            547
+          ],
+          [
+            682,
+            527,
+            547
+          ],
+          [
+            683,
+            527,
+            546
+          ],
+          [
+            684,
+            526,
+            546
+          ],
+          [
+            685,
+            525,
+            545
+          ],
+          [
+            686,
+            525,
+            545
+          ],
+          [
+            687,
+            524,
+            543
+          ],
+          [
+            688,
+            524,
+            543
+          ],
+          [
+            689,
+            524,
+            542
+          ],
+          [
+            690,
+            523,
+            542
+          ],
+          [
+            691,
+            522,
+            542
+          ],
+          [
+            692,
+            522,
+            541
+          ],
+          [
+            693,
+            522,
+            541
+          ],
+          [
+            694,
+            521,
+            541
+          ],
+          [
+            695,
+            521,
+            541
+          ],
+          [
+            696,
+            520,
+            539
+          ],
+          [
+            697,
+            519,
+            539
+          ],
+          [
+            698,
+            519,
+            539
+          ],
+          [
+            699,
+            519,
+            538
+          ],
+          [
+            700,
+            518,
+            537
+          ],
+          [
+            701,
+            518,
+            537
+          ],
+          [
+            702,
+            518,
+            537
+          ],
+          [
+            703,
+            517,
+            536
+          ],
+          [
+            704,
+            516,
+            536
+          ],
+          [
+            705,
+            516,
+            535
+          ],
+          [
+            706,
+            515,
+            534
+          ],
+          [
+            707,
+            515,
+            534
+          ],
+          [
+            708,
+            515,
+            534
+          ],
+          [
+            709,
+            514,
+            533
+          ],
+          [
+            710,
+            513,
+            532
+          ],
+          [
+            711,
+            513,
+            532
+          ],
+          [
+            712,
+            513,
+            532
+          ],
+          [
+            713,
+            512,
+            532
+          ],
+          [
+            714,
+            512,
+            530
+          ],
+          [
+            715,
+            511,
+            530
+          ],
+          [
+            716,
+            510,
+            530
+          ],
+          [
+            717,
+            510,
+            529
+          ],
+          [
+            718,
+            510,
+            529
+          ],
+          [
+            719,
+            509,
+            529
+          ],
+          [
+            720,
+            509,
+            528
+          ],
+          [
+            721,
+            509,
+            527
+          ],
+          [
+            722,
+            508,
+            527
+          ],
+          [
+            723,
+            507,
+            527
+          ],
+          [
+            724,
+            508,
+            527
+          ]
+        ],
+        "scope": "both red branches and arrow strokes; not unique stress or branch identity"
+      },
+      "stress_extent_MPa_including_axis_shift": [
+        21.352313167259787,
+        106.76156583629893
+      ],
+      "tensile_stress_intersection_MPa": [
+        21.352313167259787,
+        106.76156583629893
+      ],
+      "conditional_mean_compatibility": {
+        "unclipped_range": [
+          -0.4553764282209109,
+          0.28783350914409134
+        ],
+        "physical_intersection": [
+          0.0,
+          0.28783350914409134
+        ],
+        "SMA_curve_is_known_axial_mean": false,
+        "measured_SE_mean": false
+      },
+      "Q04_full_two_way_interval_positive_over_T_box": false
+    },
+    {
+      "phase": {
+        "requested_time_s": 10.7,
+        "image_time_s": 10.700361010830324,
+        "value": 0.755700325732899,
+        "pixel_ordinate_extent_plus_one": [
+          0.7084690553745928,
+          0.8029315960912052
+        ],
+        "pixel_x": 878,
+        "pixel_y_median": 226.0,
+        "dark_pixel_count": 57,
+        "slope_aware_vertical_stroke_limit_pixels": 77,
+        "cycle": 2
+      },
+      "temperature_center_pixel": {
+        "requested_time_s": 10.6936416185,
+        "image_time_s": 10.693641618497109,
+        "value": 56.80555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          54.72222222222222,
+          58.888888888888886
+        ],
+        "pixel_x": 871,
+        "pixel_y_median": 412.5,
+        "dark_pixel_count": 14,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 2
+      },
+      "temperature_pixel_support": [
+        {
+          "requested_time_s": 10.6647398844,
+          "image_time_s": 10.664739884393063,
+          "value": 55.833333333333336,
+          "pixel_ordinate_extent_plus_one": [
+            53.611111111111114,
+            58.05555555555556
+          ],
+          "pixel_x": 869,
+          "pixel_y_median": 416.0,
+          "dark_pixel_count": 15,
+          "slope_aware_vertical_stroke_limit_pixels": 19,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 10.6791907514,
+          "image_time_s": 10.679190751445086,
+          "value": 56.111111111111114,
+          "pixel_ordinate_extent_plus_one": [
+            54.166666666666664,
+            58.05555555555556
+          ],
+          "pixel_x": 870,
+          "pixel_y_median": 415.0,
+          "dark_pixel_count": 13,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 10.6936416185,
+          "image_time_s": 10.693641618497109,
+          "value": 56.80555555555556,
+          "pixel_ordinate_extent_plus_one": [
+            54.72222222222222,
+            58.888888888888886
+          ],
+          "pixel_x": 871,
+          "pixel_y_median": 412.5,
+          "dark_pixel_count": 14,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 10.7080924855,
+          "image_time_s": 10.708092485549132,
+          "value": 56.94444444444444,
+          "pixel_ordinate_extent_plus_one": [
+            54.72222222222222,
+            59.166666666666664
+          ],
+          "pixel_x": 872,
+          "pixel_y_median": 412.0,
+          "dark_pixel_count": 15,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 10.7225433526,
+          "image_time_s": 10.722543352601155,
+          "value": 58.19444444444444,
+          "pixel_ordinate_extent_plus_one": [
+            56.388888888888886,
+            60.0
+          ],
+          "pixel_x": 873,
+          "pixel_y_median": 407.5,
+          "dark_pixel_count": 12,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 10.7369942197,
+          "image_time_s": 10.736994219653178,
+          "value": 58.19444444444444,
+          "pixel_ordinate_extent_plus_one": [
+            56.388888888888886,
+            60.0
+          ],
+          "pixel_x": 874,
+          "pixel_y_median": 407.5,
+          "dark_pixel_count": 12,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 2
+        }
+      ],
+      "temperature_extent_C": [
+        53.611111111111114,
+        60.0
+      ],
+      "clock_offset_s": -0.006719392333215168,
+      "clock_overlap_half_width_sum_s": 0.02889130026501951,
+      "stress_hull": {
+        "available": true,
+        "stress_extent_MPa": [
+          54.09252669039146,
+          126.69039145907473
+        ],
+        "pixel_columns": [
+          692,
+          761
+        ],
+        "support_column_min_max_rows": [
+          [
+            692,
+            522,
+            541
+          ],
+          [
+            693,
+            522,
+            541
+          ],
+          [
+            694,
+            521,
+            541
+          ],
+          [
+            695,
+            521,
+            541
+          ],
+          [
+            696,
+            520,
+            539
+          ],
+          [
+            697,
+            519,
+            539
+          ],
+          [
+            698,
+            519,
+            539
+          ],
+          [
+            699,
+            519,
+            538
+          ],
+          [
+            700,
+            518,
+            537
+          ],
+          [
+            701,
+            518,
+            537
+          ],
+          [
+            702,
+            518,
+            537
+          ],
+          [
+            703,
+            517,
+            536
+          ],
+          [
+            704,
+            516,
+            536
+          ],
+          [
+            705,
+            516,
+            535
+          ],
+          [
+            706,
+            515,
+            534
+          ],
+          [
+            707,
+            515,
+            534
+          ],
+          [
+            708,
+            515,
+            534
+          ],
+          [
+            709,
+            514,
+            533
+          ],
+          [
+            710,
+            513,
+            532
+          ],
+          [
+            711,
+            513,
+            532
+          ],
+          [
+            712,
+            513,
+            532
+          ],
+          [
+            713,
+            512,
+            532
+          ],
+          [
+            714,
+            512,
+            530
+          ],
+          [
+            715,
+            511,
+            530
+          ],
+          [
+            716,
+            510,
+            530
+          ],
+          [
+            717,
+            510,
+            529
+          ],
+          [
+            718,
+            510,
+            529
+          ],
+          [
+            719,
+            509,
+            529
+          ],
+          [
+            720,
+            509,
+            528
+          ],
+          [
+            721,
+            509,
+            527
+          ],
+          [
+            722,
+            508,
+            527
+          ],
+          [
+            723,
+            507,
+            527
+          ],
+          [
+            724,
+            508,
+            527
+          ],
+          [
+            725,
+            509,
+            526
+          ],
+          [
+            726,
+            509,
+            525
+          ],
+          [
+            727,
+            508,
+            525
+          ],
+          [
+            728,
+            508,
+            524
+          ],
+          [
+            729,
+            507,
+            524
+          ],
+          [
+            730,
+            507,
+            524
+          ],
+          [
+            731,
+            506,
+            523
+          ],
+          [
+            732,
+            506,
+            523
+          ],
+          [
+            733,
+            506,
+            522
+          ],
+          [
+            734,
+            505,
+            522
+          ],
+          [
+            735,
+            504,
+            521
+          ],
+          [
+            736,
+            504,
+            521
+          ],
+          [
+            737,
+            504,
+            521
+          ],
+          [
+            738,
+            504,
+            520
+          ],
+          [
+            739,
+            503,
+            520
+          ],
+          [
+            740,
+            503,
+            520
+          ],
+          [
+            741,
+            503,
+            519
+          ],
+          [
+            742,
+            501,
+            518
+          ],
+          [
+            743,
+            501,
+            518
+          ],
+          [
+            744,
+            501,
+            518
+          ],
+          [
+            745,
+            500,
+            517
+          ],
+          [
+            746,
+            500,
+            517
+          ],
+          [
+            747,
+            500,
+            517
+          ],
+          [
+            748,
+            499,
+            516
+          ],
+          [
+            749,
+            497,
+            515
+          ],
+          [
+            750,
+            497,
+            515
+          ],
+          [
+            751,
+            497,
+            515
+          ],
+          [
+            752,
+            497,
+            514
+          ],
+          [
+            753,
+            496,
+            514
+          ],
+          [
+            754,
+            495,
+            514
+          ],
+          [
+            755,
+            495,
+            513
+          ],
+          [
+            756,
+            494,
+            512
+          ],
+          [
+            757,
+            494,
+            512
+          ],
+          [
+            758,
+            494,
+            512
+          ],
+          [
+            759,
+            494,
+            511
+          ],
+          [
+            760,
+            492,
+            511
+          ],
+          [
+            761,
+            492,
+            511
+          ]
+        ],
+        "scope": "both red branches and arrow strokes; not unique stress or branch identity"
+      },
+      "stress_extent_MPa_including_axis_shift": [
+        51.245551601423486,
+        128.1138790035587
+      ],
+      "tensile_stress_intersection_MPa": [
+        51.245551601423486,
+        128.1138790035587
+      ],
+      "conditional_mean_compatibility": {
+        "unclipped_range": [
+          -0.3800836356891974,
+          0.3265496076135719
+        ],
+        "physical_intersection": [
+          0.0,
+          0.3265496076135719
+        ],
+        "SMA_curve_is_known_axial_mean": false,
+        "measured_SE_mean": false
+      },
+      "Q04_full_two_way_interval_positive_over_T_box": true
+    },
+    {
+      "phase": {
+        "requested_time_s": 11.1,
+        "image_time_s": 11.104693140794224,
+        "value": 0.1750814332247557,
+        "pixel_ordinate_extent_plus_one": [
+          0.1237785016286645,
+          0.2263843648208469
+        ],
+        "pixel_x": 906,
+        "pixel_y_median": 582.5,
+        "dark_pixel_count": 62,
+        "slope_aware_vertical_stroke_limit_pixels": 79,
+        "cycle": 2
+      },
+      "temperature_center_pixel": {
+        "requested_time_s": 11.098265896,
+        "image_time_s": 11.098265895953757,
+        "value": 69.16666666666667,
+        "pixel_ordinate_extent_plus_one": [
+          68.33333333333333,
+          70.0
+        ],
+        "pixel_x": 899,
+        "pixel_y_median": 368.0,
+        "dark_pixel_count": 5,
+        "slope_aware_vertical_stroke_limit_pixels": 18,
+        "cycle": 2
+      },
+      "temperature_pixel_support": [
+        {
+          "requested_time_s": 11.0693641618,
+          "image_time_s": 11.06936416184971,
+          "value": 68.19444444444444,
+          "pixel_ordinate_extent_plus_one": [
+            67.22222222222223,
+            69.16666666666667
+          ],
+          "pixel_x": 897,
+          "pixel_y_median": 371.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 11.0838150289,
+          "image_time_s": 11.083815028901734,
+          "value": 68.75,
+          "pixel_ordinate_extent_plus_one": [
+            67.77777777777777,
+            69.72222222222223
+          ],
+          "pixel_x": 898,
+          "pixel_y_median": 369.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 11.098265896,
+          "image_time_s": 11.098265895953757,
+          "value": 69.16666666666667,
+          "pixel_ordinate_extent_plus_one": [
+            68.33333333333333,
+            70.0
+          ],
+          "pixel_x": 899,
+          "pixel_y_median": 368.0,
+          "dark_pixel_count": 5,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 11.112716763,
+          "image_time_s": 11.11271676300578,
+          "value": 69.86111111111111,
+          "pixel_ordinate_extent_plus_one": [
+            69.16666666666667,
+            70.55555555555556
+          ],
+          "pixel_x": 900,
+          "pixel_y_median": 365.5,
+          "dark_pixel_count": 4,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 11.1271676301,
+          "image_time_s": 11.127167630057803,
+          "value": 70.27777777777777,
+          "pixel_ordinate_extent_plus_one": [
+            69.72222222222223,
+            70.83333333333333
+          ],
+          "pixel_x": 901,
+          "pixel_y_median": 364.0,
+          "dark_pixel_count": 3,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 11.1416184971,
+          "image_time_s": 11.141618497109826,
+          "value": 70.97222222222223,
+          "pixel_ordinate_extent_plus_one": [
+            70.55555555555556,
+            71.38888888888889
+          ],
+          "pixel_x": 902,
+          "pixel_y_median": 361.5,
+          "dark_pixel_count": 2,
+          "slope_aware_vertical_stroke_limit_pixels": 18,
+          "cycle": 2
+        }
+      ],
+      "temperature_extent_C": [
+        67.22222222222223,
+        71.38888888888889
+      ],
+      "clock_offset_s": -0.006427244840466528,
+      "clock_overlap_half_width_sum_s": 0.02889130026501951,
+      "stress_hull": {
+        "available": true,
+        "stress_extent_MPa": [
+          143.77224199288256,
+          200.711743772242
+        ],
+        "pixel_columns": [
+          834,
+          881
+        ],
+        "support_column_min_max_rows": [
+          [
+            834,
+            455,
+            478
+          ],
+          [
+            835,
+            455,
+            477
+          ],
+          [
+            836,
+            454,
+            477
+          ],
+          [
+            837,
+            453,
+            477
+          ],
+          [
+            838,
+            453,
+            477
+          ],
+          [
+            839,
+            453,
+            476
+          ],
+          [
+            840,
+            453,
+            476
+          ],
+          [
+            841,
+            451,
+            475
+          ],
+          [
+            842,
+            450,
+            475
+          ],
+          [
+            843,
+            450,
+            475
+          ],
+          [
+            844,
+            449,
+            473
+          ],
+          [
+            845,
+            449,
+            473
+          ],
+          [
+            846,
+            449,
+            473
+          ],
+          [
+            847,
+            449,
+            473
+          ],
+          [
+            848,
+            447,
+            472
+          ],
+          [
+            849,
+            447,
+            472
+          ],
+          [
+            850,
+            447,
+            472
+          ],
+          [
+            851,
+            447,
+            472
+          ],
+          [
+            852,
+            446,
+            471
+          ],
+          [
+            853,
+            445,
+            470
+          ],
+          [
+            854,
+            445,
+            470
+          ],
+          [
+            855,
+            445,
+            470
+          ],
+          [
+            856,
+            444,
+            470
+          ],
+          [
+            857,
+            444,
+            470
+          ],
+          [
+            858,
+            444,
+            468
+          ],
+          [
+            859,
+            443,
+            467
+          ],
+          [
+            860,
+            442,
+            467
+          ],
+          [
+            861,
+            442,
+            467
+          ],
+          [
+            862,
+            442,
+            466
+          ],
+          [
+            863,
+            442,
+            466
+          ],
+          [
+            864,
+            442,
+            466
+          ],
+          [
+            865,
+            442,
+            466
+          ],
+          [
+            866,
+            442,
+            466
+          ],
+          [
+            867,
+            440,
+            464
+          ],
+          [
+            868,
+            440,
+            464
+          ],
+          [
+            869,
+            440,
+            464
+          ],
+          [
+            870,
+            440,
+            464
+          ],
+          [
+            871,
+            440,
+            464
+          ],
+          [
+            872,
+            440,
+            462
+          ],
+          [
+            873,
+            440,
+            462
+          ],
+          [
+            874,
+            443,
+            462
+          ],
+          [
+            875,
+            444,
+            462
+          ],
+          [
+            876,
+            446,
+            461
+          ],
+          [
+            877,
+            446,
+            461
+          ],
+          [
+            878,
+            445,
+            461
+          ],
+          [
+            879,
+            445,
+            461
+          ],
+          [
+            880,
+            444,
+            461
+          ],
+          [
+            881,
+            444,
+            460
+          ]
+        ],
+        "scope": "both red branches and arrow strokes; not unique stress or branch identity"
+      },
+      "stress_extent_MPa_including_axis_shift": [
+        142.34875444839858,
+        202.135231316726
+      ],
+      "tensile_stress_intersection_MPa": [
+        142.34875444839858,
+        202.135231316726
+      ],
+      "conditional_mean_compatibility": {
+        "unclipped_range": [
+          0.44135483118947244,
+          1.0565122107977425
+        ],
+        "physical_intersection": [
+          0.44135483118947244,
+          1.0
+        ],
+        "SMA_curve_is_known_axial_mean": false,
+        "measured_SE_mean": false
+      },
+      "Q04_full_two_way_interval_positive_over_T_box": true
+    },
+    {
+      "phase": {
+        "requested_time_s": 16.4,
+        "image_time_s": 16.404332129963898,
+        "value": 0.15553745928338764,
+        "pixel_ordinate_extent_plus_one": [
+          0.13517915309446255,
+          0.1758957654723127
+        ],
+        "pixel_x": 1273,
+        "pixel_y_median": 594.5,
+        "dark_pixel_count": 24,
+        "slope_aware_vertical_stroke_limit_pixels": 35,
+        "cycle": 2
+      },
+      "temperature_center_pixel": {
+        "requested_time_s": 16.401734104,
+        "image_time_s": 16.40173410404624,
+        "value": 63.05555555555556,
+        "pixel_ordinate_extent_plus_one": [
+          61.666666666666664,
+          64.44444444444444
+        ],
+        "pixel_x": 1266,
+        "pixel_y_median": 390.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 13,
+        "cycle": 2
+      },
+      "temperature_pixel_support": [
+        {
+          "requested_time_s": 16.3728323699,
+          "image_time_s": 16.372832369942195,
+          "value": 63.333333333333336,
+          "pixel_ordinate_extent_plus_one": [
+            62.22222222222222,
+            64.44444444444444
+          ],
+          "pixel_x": 1264,
+          "pixel_y_median": 389.0,
+          "dark_pixel_count": 7,
+          "slope_aware_vertical_stroke_limit_pixels": 14,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 16.387283237,
+          "image_time_s": 16.387283236994218,
+          "value": 63.19444444444444,
+          "pixel_ordinate_extent_plus_one": [
+            61.94444444444444,
+            64.44444444444444
+          ],
+          "pixel_x": 1265,
+          "pixel_y_median": 389.5,
+          "dark_pixel_count": 8,
+          "slope_aware_vertical_stroke_limit_pixels": 13,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 16.401734104,
+          "image_time_s": 16.40173410404624,
+          "value": 63.05555555555556,
+          "pixel_ordinate_extent_plus_one": [
+            61.666666666666664,
+            64.44444444444444
+          ],
+          "pixel_x": 1266,
+          "pixel_y_median": 390.0,
+          "dark_pixel_count": 9,
+          "slope_aware_vertical_stroke_limit_pixels": 13,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 16.4161849711,
+          "image_time_s": 16.416184971098264,
+          "value": 62.638888888888886,
+          "pixel_ordinate_extent_plus_one": [
+            61.388888888888886,
+            63.888888888888886
+          ],
+          "pixel_x": 1267,
+          "pixel_y_median": 391.5,
+          "dark_pixel_count": 8,
+          "slope_aware_vertical_stroke_limit_pixels": 13,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 16.4306358382,
+          "image_time_s": 16.430635838150287,
+          "value": 62.361111111111114,
+          "pixel_ordinate_extent_plus_one": [
+            61.111111111111114,
+            63.611111111111114
+          ],
+          "pixel_x": 1268,
+          "pixel_y_median": 392.5,
+          "dark_pixel_count": 8,
+          "slope_aware_vertical_stroke_limit_pixels": 13,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 16.4450867052,
+          "image_time_s": 16.44508670520231,
+          "value": 61.80555555555556,
+          "pixel_ordinate_extent_plus_one": [
+            60.55555555555556,
+            63.05555555555556
+          ],
+          "pixel_x": 1269,
+          "pixel_y_median": 394.5,
+          "dark_pixel_count": 8,
+          "slope_aware_vertical_stroke_limit_pixels": 13,
+          "cycle": 2
+        }
+      ],
+      "temperature_extent_C": [
+        60.55555555555556,
+        64.44444444444444
+      ],
+      "clock_offset_s": -0.0025980259176563436,
+      "clock_overlap_half_width_sum_s": 0.02889130026501951,
+      "stress_hull": {
+        "available": true,
+        "stress_extent_MPa": [
+          88.25622775800711,
+          162.27758007117438
+        ],
+        "pixel_columns": [
+          764,
+          808
+        ],
+        "support_column_min_max_rows": [
+          [
+            764,
+            490,
+            509
+          ],
+          [
+            765,
+            490,
+            509
+          ],
+          [
+            766,
+            490,
+            509
+          ],
+          [
+            767,
+            489,
+            511
+          ],
+          [
+            768,
+            488,
+            512
+          ],
+          [
+            769,
+            488,
+            515
+          ],
+          [
+            770,
+            488,
+            517
+          ],
+          [
+            771,
+            486,
+            516
+          ],
+          [
+            772,
+            486,
+            515
+          ],
+          [
+            773,
+            486,
+            514
+          ],
+          [
+            774,
+            485,
+            512
+          ],
+          [
+            775,
+            485,
+            511
+          ],
+          [
+            776,
+            485,
+            511
+          ],
+          [
+            777,
+            485,
+            509
+          ],
+          [
+            778,
+            483,
+            508
+          ],
+          [
+            779,
+            483,
+            507
+          ],
+          [
+            780,
+            483,
+            505
+          ],
+          [
+            781,
+            482,
+            505
+          ],
+          [
+            782,
+            482,
+            503
+          ],
+          [
+            783,
+            482,
+            502
+          ],
+          [
+            784,
+            481,
+            501
+          ],
+          [
+            785,
+            479,
+            500
+          ],
+          [
+            786,
+            479,
+            499
+          ],
+          [
+            787,
+            479,
+            499
+          ],
+          [
+            788,
+            478,
+            499
+          ],
+          [
+            789,
+            477,
+            498
+          ],
+          [
+            790,
+            477,
+            496
+          ],
+          [
+            791,
+            477,
+            496
+          ],
+          [
+            792,
+            476,
+            496
+          ],
+          [
+            793,
+            476,
+            496
+          ],
+          [
+            794,
+            476,
+            495
+          ],
+          [
+            795,
+            474,
+            495
+          ],
+          [
+            796,
+            474,
+            494
+          ],
+          [
+            797,
+            474,
+            494
+          ],
+          [
+            798,
+            474,
+            494
+          ],
+          [
+            799,
+            473,
+            493
+          ],
+          [
+            800,
+            472,
+            493
+          ],
+          [
+            801,
+            471,
+            493
+          ],
+          [
+            802,
+            471,
+            493
+          ],
+          [
+            803,
+            471,
+            491
+          ],
+          [
+            804,
+            471,
+            491
+          ],
+          [
+            805,
+            468,
+            491
+          ],
+          [
+            806,
+            468,
+            490
+          ],
+          [
+            807,
+            468,
+            489
+          ],
+          [
+            808,
+            467,
+            489
+          ]
+        ],
+        "scope": "both red branches and arrow strokes; not unique stress or branch identity"
+      },
+      "stress_extent_MPa_including_axis_shift": [
+        86.83274021352314,
+        163.70106761565836
+      ],
+      "tensile_stress_intersection_MPa": [
+        86.83274021352314,
+        163.70106761565836
+      ],
+      "conditional_mean_compatibility": {
+        "unclipped_range": [
+          0.8020004430688702,
+          1.387705347609424
+        ],
+        "physical_intersection": [
+          0.8020004430688702,
+          1.0
+        ],
+        "SMA_curve_is_known_axial_mean": false,
+        "measured_SE_mean": false
+      },
+      "Q04_full_two_way_interval_positive_over_T_box": true
+    },
+    {
+      "phase": {
+        "requested_time_s": 16.6,
+        "image_time_s": 16.60649819494585,
+        "value": 0.253257328990228,
+        "pixel_ordinate_extent_plus_one": [
+          0.23127035830618892,
+          0.2752442996742671
+        ],
+        "pixel_x": 1287,
+        "pixel_y_median": 534.5,
+        "dark_pixel_count": 26,
+        "slope_aware_vertical_stroke_limit_pixels": 36,
+        "cycle": 2
+      },
+      "temperature_center_pixel": {
+        "requested_time_s": 16.6040462428,
+        "image_time_s": 16.604046242774565,
+        "value": 58.333333333333336,
+        "pixel_ordinate_extent_plus_one": [
+          57.22222222222222,
+          59.44444444444444
+        ],
+        "pixel_x": 1280,
+        "pixel_y_median": 407.0,
+        "dark_pixel_count": 7,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 2
+      },
+      "temperature_pixel_support": [
+        {
+          "requested_time_s": 16.5751445087,
+          "image_time_s": 16.57514450867052,
+          "value": 59.166666666666664,
+          "pixel_ordinate_extent_plus_one": [
+            57.77777777777778,
+            60.55555555555556
+          ],
+          "pixel_x": 1278,
+          "pixel_y_median": 404.0,
+          "dark_pixel_count": 9,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 16.5895953757,
+          "image_time_s": 16.589595375722542,
+          "value": 59.166666666666664,
+          "pixel_ordinate_extent_plus_one": [
+            57.77777777777778,
+            60.55555555555556
+          ],
+          "pixel_x": 1279,
+          "pixel_y_median": 404.0,
+          "dark_pixel_count": 9,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 16.6040462428,
+          "image_time_s": 16.604046242774565,
+          "value": 58.333333333333336,
+          "pixel_ordinate_extent_plus_one": [
+            57.22222222222222,
+            59.44444444444444
+          ],
+          "pixel_x": 1280,
+          "pixel_y_median": 407.0,
+          "dark_pixel_count": 7,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 16.6184971098,
+          "image_time_s": 16.61849710982659,
+          "value": 58.333333333333336,
+          "pixel_ordinate_extent_plus_one": [
+            57.22222222222222,
+            59.44444444444444
+          ],
+          "pixel_x": 1281,
+          "pixel_y_median": 407.0,
+          "dark_pixel_count": 7,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 16.6329479769,
+          "image_time_s": 16.63294797687861,
+          "value": 58.19444444444444,
+          "pixel_ordinate_extent_plus_one": [
+            56.94444444444444,
+            59.44444444444444
+          ],
+          "pixel_x": 1282,
+          "pixel_y_median": 407.5,
+          "dark_pixel_count": 8,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 16.6473988439,
+          "image_time_s": 16.647398843930635,
+          "value": 57.77777777777778,
+          "pixel_ordinate_extent_plus_one": [
+            56.388888888888886,
+            59.166666666666664
+          ],
+          "pixel_x": 1283,
+          "pixel_y_median": 409.0,
+          "dark_pixel_count": 9,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 2
+        }
+      ],
+      "temperature_extent_C": [
+        56.388888888888886,
+        60.55555555555556
+      ],
+      "clock_offset_s": -0.002451952171284688,
+      "clock_overlap_half_width_sum_s": 0.02889130026501951,
+      "stress_hull": {
+        "available": true,
+        "stress_extent_MPa": [
+          74.02135231316726,
+          130.9608540925267
+        ],
+        "pixel_columns": [
+          721,
+          767
+        ],
+        "support_column_min_max_rows": [
+          [
+            721,
+            509,
+            527
+          ],
+          [
+            722,
+            508,
+            527
+          ],
+          [
+            723,
+            507,
+            527
+          ],
+          [
+            724,
+            508,
+            527
+          ],
+          [
+            725,
+            509,
+            526
+          ],
+          [
+            726,
+            509,
+            525
+          ],
+          [
+            727,
+            508,
+            525
+          ],
+          [
+            728,
+            508,
+            524
+          ],
+          [
+            729,
+            507,
+            524
+          ],
+          [
+            730,
+            507,
+            524
+          ],
+          [
+            731,
+            506,
+            523
+          ],
+          [
+            732,
+            506,
+            523
+          ],
+          [
+            733,
+            506,
+            522
+          ],
+          [
+            734,
+            505,
+            522
+          ],
+          [
+            735,
+            504,
+            521
+          ],
+          [
+            736,
+            504,
+            521
+          ],
+          [
+            737,
+            504,
+            521
+          ],
+          [
+            738,
+            504,
+            520
+          ],
+          [
+            739,
+            503,
+            520
+          ],
+          [
+            740,
+            503,
+            520
+          ],
+          [
+            741,
+            503,
+            519
+          ],
+          [
+            742,
+            501,
+            518
+          ],
+          [
+            743,
+            501,
+            518
+          ],
+          [
+            744,
+            501,
+            518
+          ],
+          [
+            745,
+            500,
+            517
+          ],
+          [
+            746,
+            500,
+            517
+          ],
+          [
+            747,
+            500,
+            517
+          ],
+          [
+            748,
+            499,
+            516
+          ],
+          [
+            749,
+            497,
+            515
+          ],
+          [
+            750,
+            497,
+            515
+          ],
+          [
+            751,
+            497,
+            515
+          ],
+          [
+            752,
+            497,
+            514
+          ],
+          [
+            753,
+            496,
+            514
+          ],
+          [
+            754,
+            495,
+            514
+          ],
+          [
+            755,
+            495,
+            513
+          ],
+          [
+            756,
+            494,
+            512
+          ],
+          [
+            757,
+            494,
+            512
+          ],
+          [
+            758,
+            494,
+            512
+          ],
+          [
+            759,
+            494,
+            511
+          ],
+          [
+            760,
+            492,
+            511
+          ],
+          [
+            761,
+            492,
+            511
+          ],
+          [
+            762,
+            492,
+            510
+          ],
+          [
+            763,
+            491,
+            510
+          ],
+          [
+            764,
+            490,
+            509
+          ],
+          [
+            765,
+            490,
+            509
+          ],
+          [
+            766,
+            490,
+            509
+          ],
+          [
+            767,
+            489,
+            511
+          ]
+        ],
+        "scope": "both red branches and arrow strokes; not unique stress or branch identity"
+      },
+      "stress_extent_MPa_including_axis_shift": [
+        71.17437722419929,
+        133.80782918149467
+      ],
+      "tensile_stress_intersection_MPa": [
+        71.17437722419929,
+        133.80782918149467
+      ],
+      "conditional_mean_compatibility": {
+        "unclipped_range": [
+          0.7706133348274026,
+          1.2721486135421938
+        ],
+        "physical_intersection": [
+          0.7706133348274026,
+          1.0
+        ],
+        "SMA_curve_is_known_axial_mean": false,
+        "measured_SE_mean": false
+      },
+      "Q04_full_two_way_interval_positive_over_T_box": true
+    },
+    {
+      "phase": {
+        "requested_time_s": 16.7,
+        "image_time_s": 16.693140794223826,
+        "value": 0.2972312703583062,
+        "pixel_ordinate_extent_plus_one": [
+          0.2752442996742671,
+          0.31921824104234525
+        ],
+        "pixel_x": 1293,
+        "pixel_y_median": 507.5,
+        "dark_pixel_count": 26,
+        "slope_aware_vertical_stroke_limit_pixels": 35,
+        "cycle": 2
+      },
+      "temperature_center_pixel": {
+        "requested_time_s": 16.6907514451,
+        "image_time_s": 16.690751445086704,
+        "value": 57.22222222222222,
+        "pixel_ordinate_extent_plus_one": [
+          55.833333333333336,
+          58.611111111111114
+        ],
+        "pixel_x": 1286,
+        "pixel_y_median": 411.0,
+        "dark_pixel_count": 9,
+        "slope_aware_vertical_stroke_limit_pixels": 12,
+        "cycle": 2
+      },
+      "temperature_pixel_support": [
+        {
+          "requested_time_s": 16.661849711,
+          "image_time_s": 16.661849710982658,
+          "value": 57.638888888888886,
+          "pixel_ordinate_extent_plus_one": [
+            56.388888888888886,
+            58.888888888888886
+          ],
+          "pixel_x": 1284,
+          "pixel_y_median": 409.5,
+          "dark_pixel_count": 8,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 16.676300578,
+          "image_time_s": 16.67630057803468,
+          "value": 57.361111111111114,
+          "pixel_ordinate_extent_plus_one": [
+            56.111111111111114,
+            58.611111111111114
+          ],
+          "pixel_x": 1285,
+          "pixel_y_median": 410.5,
+          "dark_pixel_count": 8,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 16.6907514451,
+          "image_time_s": 16.690751445086704,
+          "value": 57.22222222222222,
+          "pixel_ordinate_extent_plus_one": [
+            55.833333333333336,
+            58.611111111111114
+          ],
+          "pixel_x": 1286,
+          "pixel_y_median": 411.0,
+          "dark_pixel_count": 9,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 16.7052023121,
+          "image_time_s": 16.705202312138727,
+          "value": 56.94444444444444,
+          "pixel_ordinate_extent_plus_one": [
+            55.833333333333336,
+            58.05555555555556
+          ],
+          "pixel_x": 1287,
+          "pixel_y_median": 412.0,
+          "dark_pixel_count": 7,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 16.7196531792,
+          "image_time_s": 16.71965317919075,
+          "value": 56.80555555555556,
+          "pixel_ordinate_extent_plus_one": [
+            55.55555555555556,
+            58.05555555555556
+          ],
+          "pixel_x": 1288,
+          "pixel_y_median": 412.5,
+          "dark_pixel_count": 8,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 16.7341040462,
+          "image_time_s": 16.734104046242773,
+          "value": 56.388888888888886,
+          "pixel_ordinate_extent_plus_one": [
+            55.27777777777778,
+            57.5
+          ],
+          "pixel_x": 1289,
+          "pixel_y_median": 414.0,
+          "dark_pixel_count": 7,
+          "slope_aware_vertical_stroke_limit_pixels": 12,
+          "cycle": 2
+        }
+      ],
+      "temperature_extent_C": [
+        55.27777777777778,
+        58.888888888888886
+      ],
+      "clock_offset_s": -0.0023893491371218545,
+      "clock_overlap_half_width_sum_s": 0.02889130026501951,
+      "stress_hull": {
+        "available": true,
+        "stress_extent_MPa": [
+          65.48042704626334,
+          119.57295373665481
+        ],
+        "pixel_columns": [
+          709,
+          750
+        ],
+        "support_column_min_max_rows": [
+          [
+            709,
+            514,
+            533
+          ],
+          [
+            710,
+            513,
+            532
+          ],
+          [
+            711,
+            513,
+            532
+          ],
+          [
+            712,
+            513,
+            532
+          ],
+          [
+            713,
+            512,
+            532
+          ],
+          [
+            714,
+            512,
+            530
+          ],
+          [
+            715,
+            511,
+            530
+          ],
+          [
+            716,
+            510,
+            530
+          ],
+          [
+            717,
+            510,
+            529
+          ],
+          [
+            718,
+            510,
+            529
+          ],
+          [
+            719,
+            509,
+            529
+          ],
+          [
+            720,
+            509,
+            528
+          ],
+          [
+            721,
+            509,
+            527
+          ],
+          [
+            722,
+            508,
+            527
+          ],
+          [
+            723,
+            507,
+            527
+          ],
+          [
+            724,
+            508,
+            527
+          ],
+          [
+            725,
+            509,
+            526
+          ],
+          [
+            726,
+            509,
+            525
+          ],
+          [
+            727,
+            508,
+            525
+          ],
+          [
+            728,
+            508,
+            524
+          ],
+          [
+            729,
+            507,
+            524
+          ],
+          [
+            730,
+            507,
+            524
+          ],
+          [
+            731,
+            506,
+            523
+          ],
+          [
+            732,
+            506,
+            523
+          ],
+          [
+            733,
+            506,
+            522
+          ],
+          [
+            734,
+            505,
+            522
+          ],
+          [
+            735,
+            504,
+            521
+          ],
+          [
+            736,
+            504,
+            521
+          ],
+          [
+            737,
+            504,
+            521
+          ],
+          [
+            738,
+            504,
+            520
+          ],
+          [
+            739,
+            503,
+            520
+          ],
+          [
+            740,
+            503,
+            520
+          ],
+          [
+            741,
+            503,
+            519
+          ],
+          [
+            742,
+            501,
+            518
+          ],
+          [
+            743,
+            501,
+            518
+          ],
+          [
+            744,
+            501,
+            518
+          ],
+          [
+            745,
+            500,
+            517
+          ],
+          [
+            746,
+            500,
+            517
+          ],
+          [
+            747,
+            500,
+            517
+          ],
+          [
+            748,
+            499,
+            516
+          ],
+          [
+            749,
+            497,
+            515
+          ],
+          [
+            750,
+            497,
+            515
+          ]
+        ],
+        "scope": "both red branches and arrow strokes; not unique stress or branch identity"
+      },
+      "stress_extent_MPa_including_axis_shift": [
+        62.63345195729537,
+        120.99644128113879
+      ],
+      "tensile_stress_intersection_MPa": [
+        62.63345195729537,
+        120.99644128113879
+      ],
+      "conditional_mean_compatibility": {
+        "unclipped_range": [
+          0.7540207211976255,
+          1.2281064150962835
+        ],
+        "physical_intersection": [
+          0.7540207211976255,
+          1.0
+        ],
+        "SMA_curve_is_known_axial_mean": false,
+        "measured_SE_mean": false
+      },
+      "Q04_full_two_way_interval_positive_over_T_box": true
+    },
+    {
+      "phase": {
+        "requested_time_s": 17.1,
+        "image_time_s": 17.097472924187727,
+        "value": 0.50814332247557,
+        "pixel_ordinate_extent_plus_one": [
+          0.4804560260586319,
+          0.5358306188925082
+        ],
+        "pixel_x": 1321,
+        "pixel_y_median": 378.0,
+        "dark_pixel_count": 33,
+        "slope_aware_vertical_stroke_limit_pixels": 35,
+        "cycle": 2
+      },
+      "temperature_center_pixel": {
+        "requested_time_s": 17.0953757225,
+        "image_time_s": 17.095375722543352,
+        "value": 51.52777777777778,
+        "pixel_ordinate_extent_plus_one": [
+          50.55555555555556,
+          52.5
+        ],
+        "pixel_x": 1314,
+        "pixel_y_median": 431.5,
+        "dark_pixel_count": 6,
+        "slope_aware_vertical_stroke_limit_pixels": 11,
+        "cycle": 2
+      },
+      "temperature_pixel_support": [
+        {
+          "requested_time_s": 17.0664739884,
+          "image_time_s": 17.066473988439306,
+          "value": 52.083333333333336,
+          "pixel_ordinate_extent_plus_one": [
+            51.111111111111114,
+            53.05555555555556
+          ],
+          "pixel_x": 1312,
+          "pixel_y_median": 429.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 11,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 17.0809248555,
+          "image_time_s": 17.08092485549133,
+          "value": 51.94444444444444,
+          "pixel_ordinate_extent_plus_one": [
+            50.833333333333336,
+            53.05555555555556
+          ],
+          "pixel_x": 1313,
+          "pixel_y_median": 430.0,
+          "dark_pixel_count": 7,
+          "slope_aware_vertical_stroke_limit_pixels": 11,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 17.0953757225,
+          "image_time_s": 17.095375722543352,
+          "value": 51.52777777777778,
+          "pixel_ordinate_extent_plus_one": [
+            50.55555555555556,
+            52.5
+          ],
+          "pixel_x": 1314,
+          "pixel_y_median": 431.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 11,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 17.1098265896,
+          "image_time_s": 17.109826589595375,
+          "value": 51.666666666666664,
+          "pixel_ordinate_extent_plus_one": [
+            50.833333333333336,
+            52.5
+          ],
+          "pixel_x": 1315,
+          "pixel_y_median": 431.0,
+          "dark_pixel_count": 5,
+          "slope_aware_vertical_stroke_limit_pixels": 11,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 17.1242774566,
+          "image_time_s": 17.1242774566474,
+          "value": 51.666666666666664,
+          "pixel_ordinate_extent_plus_one": [
+            50.833333333333336,
+            52.5
+          ],
+          "pixel_x": 1316,
+          "pixel_y_median": 431.0,
+          "dark_pixel_count": 5,
+          "slope_aware_vertical_stroke_limit_pixels": 11,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 17.1387283237,
+          "image_time_s": 17.13872832369942,
+          "value": 51.25,
+          "pixel_ordinate_extent_plus_one": [
+            50.27777777777778,
+            52.22222222222222
+          ],
+          "pixel_x": 1317,
+          "pixel_y_median": 432.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 11,
+          "cycle": 2
+        }
+      ],
+      "temperature_extent_C": [
+        50.27777777777778,
+        53.05555555555556
+      ],
+      "clock_offset_s": -0.002097201644374991,
+      "clock_overlap_half_width_sum_s": 0.02889130026501951,
+      "stress_hull": {
+        "available": true,
+        "stress_extent_MPa": [
+          28.469750889679716,
+          81.13879003558719
+        ],
+        "pixel_columns": [
+          657,
+          689
+        ],
+        "support_column_min_max_rows": [
+          [
+            657,
+            529,
+            559
+          ],
+          [
+            658,
+            528,
+            557
+          ],
+          [
+            659,
+            530,
+            557
+          ],
+          [
+            660,
+            532,
+            557
+          ],
+          [
+            661,
+            534,
+            557
+          ],
+          [
+            662,
+            536,
+            556
+          ],
+          [
+            663,
+            536,
+            556
+          ],
+          [
+            664,
+            536,
+            556
+          ],
+          [
+            665,
+            535,
+            554
+          ],
+          [
+            666,
+            534,
+            554
+          ],
+          [
+            667,
+            534,
+            553
+          ],
+          [
+            668,
+            533,
+            553
+          ],
+          [
+            669,
+            533,
+            552
+          ],
+          [
+            670,
+            533,
+            552
+          ],
+          [
+            671,
+            532,
+            552
+          ],
+          [
+            672,
+            531,
+            551
+          ],
+          [
+            673,
+            531,
+            550
+          ],
+          [
+            674,
+            531,
+            550
+          ],
+          [
+            675,
+            530,
+            550
+          ],
+          [
+            676,
+            530,
+            548
+          ],
+          [
+            677,
+            529,
+            548
+          ],
+          [
+            678,
+            528,
+            548
+          ],
+          [
+            679,
+            528,
+            548
+          ],
+          [
+            680,
+            528,
+            547
+          ],
+          [
+            681,
+            527,
+            547
+          ],
+          [
+            682,
+            527,
+            547
+          ],
+          [
+            683,
+            527,
+            546
+          ],
+          [
+            684,
+            526,
+            546
+          ],
+          [
+            685,
+            525,
+            545
+          ],
+          [
+            686,
+            525,
+            545
+          ],
+          [
+            687,
+            524,
+            543
+          ],
+          [
+            688,
+            524,
+            543
+          ],
+          [
+            689,
+            524,
+            542
+          ]
+        ],
+        "scope": "both red branches and arrow strokes; not unique stress or branch identity"
+      },
+      "stress_extent_MPa_including_axis_shift": [
+        27.04626334519573,
+        83.98576512455516
+      ],
+      "tensile_stress_intersection_MPa": [
+        27.04626334519573,
+        83.98576512455516
+      ],
+      "conditional_mean_compatibility": {
+        "unclipped_range": [
+          0.5045392727745771,
+          0.9951265708659033
+        ],
+        "physical_intersection": [
+          0.5045392727745771,
+          0.9951265708659033
+        ],
+        "SMA_curve_is_known_axial_mean": false,
+        "measured_SE_mean": false
+      },
+      "Q04_full_two_way_interval_positive_over_T_box": true
+    },
+    {
+      "phase": {
+        "requested_time_s": 17.2,
+        "image_time_s": 17.1985559566787,
+        "value": 0.5724755700325733,
+        "pixel_ordinate_extent_plus_one": [
+          0.5423452768729642,
+          0.6026058631921825
+        ],
+        "pixel_x": 1328,
+        "pixel_y_median": 338.5,
+        "dark_pixel_count": 36,
+        "slope_aware_vertical_stroke_limit_pixels": 36,
+        "cycle": 2
+      },
+      "temperature_center_pixel": {
+        "requested_time_s": 17.1965317919,
+        "image_time_s": 17.196531791907514,
+        "value": 50.97222222222222,
+        "pixel_ordinate_extent_plus_one": [
+          49.72222222222222,
+          52.22222222222222
+        ],
+        "pixel_x": 1321,
+        "pixel_y_median": 433.5,
+        "dark_pixel_count": 8,
+        "slope_aware_vertical_stroke_limit_pixels": 11,
+        "cycle": 2
+      },
+      "temperature_pixel_support": [
+        {
+          "requested_time_s": 17.1676300578,
+          "image_time_s": 17.167630057803468,
+          "value": 51.25,
+          "pixel_ordinate_extent_plus_one": [
+            50.27777777777778,
+            52.22222222222222
+          ],
+          "pixel_x": 1319,
+          "pixel_y_median": 432.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 11,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 17.1820809249,
+          "image_time_s": 17.18208092485549,
+          "value": 50.97222222222222,
+          "pixel_ordinate_extent_plus_one": [
+            49.72222222222222,
+            52.22222222222222
+          ],
+          "pixel_x": 1320,
+          "pixel_y_median": 433.5,
+          "dark_pixel_count": 8,
+          "slope_aware_vertical_stroke_limit_pixels": 11,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 17.1965317919,
+          "image_time_s": 17.196531791907514,
+          "value": 50.97222222222222,
+          "pixel_ordinate_extent_plus_one": [
+            49.72222222222222,
+            52.22222222222222
+          ],
+          "pixel_x": 1321,
+          "pixel_y_median": 433.5,
+          "dark_pixel_count": 8,
+          "slope_aware_vertical_stroke_limit_pixels": 11,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 17.210982659,
+          "image_time_s": 17.210982658959537,
+          "value": 50.69444444444444,
+          "pixel_ordinate_extent_plus_one": [
+            49.72222222222222,
+            51.666666666666664
+          ],
+          "pixel_x": 1322,
+          "pixel_y_median": 434.5,
+          "dark_pixel_count": 6,
+          "slope_aware_vertical_stroke_limit_pixels": 11,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 17.225433526,
+          "image_time_s": 17.22543352601156,
+          "value": 50.55555555555556,
+          "pixel_ordinate_extent_plus_one": [
+            49.72222222222222,
+            51.388888888888886
+          ],
+          "pixel_x": 1323,
+          "pixel_y_median": 435.0,
+          "dark_pixel_count": 5,
+          "slope_aware_vertical_stroke_limit_pixels": 11,
+          "cycle": 2
+        },
+        {
+          "requested_time_s": 17.2398843931,
+          "image_time_s": 17.239884393063583,
+          "value": 50.55555555555556,
+          "pixel_ordinate_extent_plus_one": [
+            49.44444444444444,
+            51.666666666666664
+          ],
+          "pixel_x": 1324,
+          "pixel_y_median": 435.0,
+          "dark_pixel_count": 7,
+          "slope_aware_vertical_stroke_limit_pixels": 11,
+          "cycle": 2
+        }
+      ],
+      "temperature_extent_C": [
+        49.44444444444444,
+        52.22222222222222
+      ],
+      "clock_offset_s": -0.0020241647711856103,
+      "clock_overlap_half_width_sum_s": 0.02889130026501951,
+      "stress_hull": {
+        "available": true,
+        "stress_extent_MPa": [
+          22.775800711743774,
+          75.44483985765125
+        ],
+        "pixel_columns": [
+          648,
+          680
+        ],
+        "support_column_min_max_rows": [
+          [
+            648,
+            540,
+            563
+          ],
+          [
+            649,
+            539,
+            562
+          ],
+          [
+            650,
+            538,
+            562
+          ],
+          [
+            651,
+            537,
+            560
+          ],
+          [
+            652,
+            535,
+            560
+          ],
+          [
+            653,
+            534,
+            560
+          ],
+          [
+            654,
+            533,
+            559
+          ],
+          [
+            655,
+            531,
+            559
+          ],
+          [
+            656,
+            530,
+            559
+          ],
+          [
+            657,
+            529,
+            559
+          ],
+          [
+            658,
+            528,
+            557
+          ],
+          [
+            659,
+            530,
+            557
+          ],
+          [
+            660,
+            532,
+            557
+          ],
+          [
+            661,
+            534,
+            557
+          ],
+          [
+            662,
+            536,
+            556
+          ],
+          [
+            663,
+            536,
+            556
+          ],
+          [
+            664,
+            536,
+            556
+          ],
+          [
+            665,
+            535,
+            554
+          ],
+          [
+            666,
+            534,
+            554
+          ],
+          [
+            667,
+            534,
+            553
+          ],
+          [
+            668,
+            533,
+            553
+          ],
+          [
+            669,
+            533,
+            552
+          ],
+          [
+            670,
+            533,
+            552
+          ],
+          [
+            671,
+            532,
+            552
+          ],
+          [
+            672,
+            531,
+            551
+          ],
+          [
+            673,
+            531,
+            550
+          ],
+          [
+            674,
+            531,
+            550
+          ],
+          [
+            675,
+            530,
+            550
+          ],
+          [
+            676,
+            530,
+            548
+          ],
+          [
+            677,
+            529,
+            548
+          ],
+          [
+            678,
+            528,
+            548
+          ],
+          [
+            679,
+            528,
+            548
+          ],
+          [
+            680,
+            528,
+            547
+          ]
+        ],
+        "scope": "both red branches and arrow strokes; not unique stress or branch identity"
+      },
+      "stress_extent_MPa_including_axis_shift": [
+        21.352313167259787,
+        78.29181494661921
+      ],
+      "tensile_stress_intersection_MPa": [
+        21.352313167259787,
+        78.29181494661921
+      ],
+      "conditional_mean_compatibility": {
+        "unclipped_range": [
+          0.39089441952182036,
+          0.8924752029551664
+        ],
+        "physical_intersection": [
+          0.39089441952182036,
+          0.8924752029551664
+        ],
+        "SMA_curve_is_known_axial_mean": false,
+        "measured_SE_mean": false
+      },
+      "Q04_full_two_way_interval_positive_over_T_box": false
+    }
+  ],
+  "missing": [
+    {
+      "phase_time_s": 0.6064981949458483,
+      "reason": "temperature_trace_missing_or_ambiguous"
+    },
+    {
+      "phase_time_s": 7.898916967509026,
+      "reason": "temperature_trace_missing_or_ambiguous"
+    },
+    {
+      "phase_time_s": 16.303249097472925,
+      "reason": "temperature_trace_missing_or_ambiguous"
+    },
+    {
+      "phase_time_s": 16.505415162454874,
+      "reason": "temperature_trace_missing_or_ambiguous"
+    }
+  ],
+  "integral_constraints": [
+    {
+      "cycle": 1,
+      "phase_time_pair_s": [
+        0.6931407942238267,
+        1.0974729241877257
+      ],
+      "integrated_pMA_lower_bound": 1.1339516551134186,
+      "duration_upper_s": 0.4332129963898918,
+      "temperature_strip_C": [
+        52.77777777777778,
+        71.38888888888889
+      ],
+      "unmodified_stress_extent_MPa": [
+        44.12811387900356,
+        202.135231316726
+      ],
+      "stress_lower_MPa": 44.12811387900356
+    },
+    {
+      "cycle": 2,
+      "phase_time_pair_s": [
+        10.59927797833935,
+        10.700361010830324
+      ],
+      "integrated_pMA_lower_bound": 0.01009090298196272,
+      "duration_upper_s": 0.12996389891696716,
+      "temperature_strip_C": [
+        49.44444444444444,
+        60.0
+      ],
+      "unmodified_stress_extent_MPa": [
+        21.352313167259787,
+        128.1138790035587
+      ],
+      "stress_lower_MPa": 21.352313167259787
+    },
+    {
+      "cycle": 2,
+      "phase_time_pair_s": [
+        10.59927797833935,
+        11.104693140794224
+      ],
+      "integrated_pMA_lower_bound": 1.2761261438939613,
+      "duration_upper_s": 0.5342960288808665,
+      "temperature_strip_C": [
+        49.44444444444444,
+        71.38888888888889
+      ],
+      "unmodified_stress_extent_MPa": [
+        21.352313167259787,
+        202.135231316726
+      ],
+      "stress_lower_MPa": 21.352313167259787
+    },
+    {
+      "cycle": 2,
+      "phase_time_pair_s": [
+        10.700361010830324,
+        11.104693140794224
+      ],
+      "integrated_pMA_lower_bound": 1.1408720979579923,
+      "duration_upper_s": 0.43321299638989214,
+      "temperature_strip_C": [
+        53.611111111111114,
+        71.38888888888889
+      ],
+      "unmodified_stress_extent_MPa": [
+        51.245551601423486,
+        202.135231316726
+      ],
+      "stress_lower_MPa": 51.245551601423486
+    }
+  ],
+  "reverse_rate_profile": [
+    {
+      "synthetic_activation_volume_m3": 1e-28,
+      "necessary_tau_upper_s": 0.4259585427606167,
+      "active_constraint_index": 3,
+      "sufficient_or_identified": false
+    },
+    {
+      "synthetic_activation_volume_m3": 3.1622776601683794e-28,
+      "necessary_tau_upper_s": 0.46342121489116805,
+      "active_constraint_index": 3,
+      "sufficient_or_identified": false
+    },
+    {
+      "synthetic_activation_volume_m3": 1e-27,
+      "necessary_tau_upper_s": 0.532955628970246,
+      "active_constraint_index": 3,
+      "sufficient_or_identified": false
+    },
+    {
+      "synthetic_activation_volume_m3": 3.1622776601683794e-27,
+      "necessary_tau_upper_s": 0.6646174986031846,
+      "active_constraint_index": 3,
+      "sufficient_or_identified": false
+    },
+    {
+      "synthetic_activation_volume_m3": 1e-26,
+      "necessary_tau_upper_s": 0.9182457571694412,
+      "active_constraint_index": 3,
+      "sufficient_or_identified": false
+    },
+    {
+      "synthetic_activation_volume_m3": 3.162277660168379e-26,
+      "necessary_tau_upper_s": 1.4078098221553146,
+      "active_constraint_index": 3,
+      "sufficient_or_identified": false
+    },
+    {
+      "synthetic_activation_volume_m3": 1e-25,
+      "necessary_tau_upper_s": 2.3346216872508974,
+      "active_constraint_index": 3,
+      "sufficient_or_identified": false
+    },
+    {
+      "synthetic_activation_volume_m3": 3.1622776601683796e-25,
+      "necessary_tau_upper_s": 4.040630923867913,
+      "active_constraint_index": 3,
+      "sufficient_or_identified": false
+    },
+    {
+      "synthetic_activation_volume_m3": 1e-24,
+      "necessary_tau_upper_s": 7.118681658298882,
+      "active_constraint_index": 3,
+      "sufficient_or_identified": false
+    },
+    {
+      "synthetic_activation_volume_m3": 3.1622776601683795e-24,
+      "necessary_tau_upper_s": 12.620595955363571,
+      "active_constraint_index": 3,
+      "sufficient_or_identified": false
+    },
+    {
+      "synthetic_activation_volume_m3": 1e-23,
+      "necessary_tau_upper_s": 22.42117501511085,
+      "active_constraint_index": 3,
+      "sufficient_or_identified": false
+    },
+    {
+      "synthetic_activation_volume_m3": 3.1622776601683793e-23,
+      "necessary_tau_upper_s": 39.858839965756665,
+      "active_constraint_index": 3,
+      "sufficient_or_identified": false
+    },
+    {
+      "synthetic_activation_volume_m3": 1e-22,
+      "necessary_tau_upper_s": 70.87324669966519,
+      "active_constraint_index": 3,
+      "sufficient_or_identified": false
+    }
+  ],
+  "assumptions": [
+    "Fig3/4/5 SMA legends refer to the same component observation convention; spatial statistic unspecified",
+    "pixel clock overlap is a raster approximation, not exact continuous simultaneity",
+    "SMA heating temperature monotone between selected early heating points",
+    "Figure5 hull covers the same component stress trajectory; union includes both branches/arrows",
+    "Q04 pMA formula and CM*(T-Ms) transferred conditionally, not established Q01 law",
+    "VL grid is a numerical probe, not a literature parameter range"
+  ],
+  "axis_shift_is_sensitivity_not_full_confidence": true,
+  "stress_branch_identified": false,
+  "Q01_material_identified": false,
+  "forward_low_temperature_branch_solved": false,
+  "Table4_calibration_or_input": false,
+  "production_recovery_allowed": false,
+  "new_scientific_gate": false
+}

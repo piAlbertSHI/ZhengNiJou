@@ -1,8 +1,11 @@
+import json
+from pathlib import Path
 import unittest
 
+import fitz
 import numpy as np
 
-from Analyze_HeatDriveECC_ComponentStressMapping import stress_hull, red_pixels, implied_SE_mean, tau_upper_bound, tensile_intersection, TABLE2
+from Analyze_HeatDriveECC_ComponentStressMapping import stress_hull, red_pixels, implied_SE_mean, tau_upper_bound, tensile_intersection, read_image, TABLE2
 from Extract_HeatDriveECC_QianMaterialPaths import extract_trace
 from Reference_HeatDriveECC_TwoWayPhase import SingleCrystalMAS
 
@@ -86,6 +89,28 @@ class StressMappingTests(unittest.TestCase):
         record = extract_trace(white, "temperature", [.6, .7])
         self.assertEqual(record["measured"], [])
         self.assertEqual(len(record["missing"]), 2)
+
+    def test_custom_sampling_did_not_change_default_frozen_source_extraction(self):
+        root = Path(__file__).resolve().parents[1]/"outputs_storage_audit"
+        r = json.loads((root/"material_component_paths_20261026_r3/Q01_material_pixel_paths.json").read_text(encoding="utf-8"))
+        with fitz.open(r["source"]) as d:
+            for kind, height in (("phase", 805), ("temperature", 735)):
+                original = next(v for v in r["traces"] if v["source_figure"] == (3 if kind == "phase" else 4))
+                self.assertEqual(extract_trace(read_image(d, 6, (1541, height)), kind), original)
+
+    def test_saved_hull_support_is_actual_red_source_not_legend_or_black_lines(self):
+        root = Path(__file__).resolve().parents[1]/"outputs_storage_audit"
+        r = json.loads((root/"material_stress_mapping_20261026_r2/component_stress_constraints.json").read_text(encoding="utf-8"))
+        with fitz.open(r["input_dependencies"][0]["path"]) as d:
+            image = read_image(d, 7, (1422, 698))
+            mask = red_pixels(image)
+            for p in r["pairs"]:
+                for col, lo, hi in p["stress_hull"]["support_column_min_max_rows"]:
+                    self.assertTrue(mask[lo, col])
+                    self.assertTrue(mask[hi, col])
+                    self.assertGreater(lo, 400)
+                self.assertEqual(tensile_intersection(p["stress_extent_MPa_including_axis_shift"]), p["tensile_stress_intersection_MPa"])
+        self.assertEqual(len(r["pairs"]), 16)
 
 
 if __name__ == "__main__":

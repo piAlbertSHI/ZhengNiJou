@@ -101,6 +101,8 @@ def tau_upper_bound(volume, temperature_upper_K, stress_lower_MPa, duration_uppe
     For positive CM,Ms,T and tensile stress, z=(CM*(T-Ms)-sigma)/sqrt(T)
     increases with T and decreases with sigma; 1/erfcx(z) increases with z.
     Thus maximum pMA is at Tmax,sigma_min. No assumed zero opposing flux.
+    The observed T/x must represent a material point for this local-kernel
+    statement; an unspecified axial mean does not establish that mapping.
     """
     if (not np.isfinite([volume, temperature_upper_K, stress_lower_MPa, duration_upper_s, integral_lower]).all()
             or min(volume, temperature_upper_K, duration_upper_s, integral_lower) <= 0
@@ -232,6 +234,7 @@ def analyze(pixels, fig5, output):
               "figure5_axes": axes, "temperature_resampled_from_actual_pixels": temperature,
               "pairs": pairs, "missing": missing, "integral_constraints": constraints, "reverse_rate_profile": profile,
               "assumptions": ["Fig3/4/5 SMA legends refer to the same component observation convention; spatial statistic unspecified",
+                              "Local-kernel bounds additionally assume a representative material point; a mean T cannot substitute for unobserved local T",
                               "pixel clock overlap is a raster approximation, not exact continuous simultaneity",
                               "SMA heating temperature monotone between selected early heating points",
                               "Figure5 hull covers the same component stress trajectory; union includes both branches/arrows",

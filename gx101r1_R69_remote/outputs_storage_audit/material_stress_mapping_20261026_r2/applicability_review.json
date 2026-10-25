@@ -1,0 +1,24 @@
+{
+  "schema": "heatdrive_ecc_component_stress_applicability_v1",
+  "result_sha256": "736FD8C7B0E540ABCCA70E478E849895BF163CBE44E8D86F4F8F5AAD25CC70B9",
+  "visual_overlay_reviewed": true,
+  "accepted_joint_pixel_boxes": 16,
+  "missing_ambiguous_temperature_strips_not_filled": 4,
+  "conditional_reverse_integral_constraints": 4,
+  "conditional_axial_mean_hypothesis_rejected_by_empty_range": 0,
+  "axial_mean_hypothesis_proven": false,
+  "Q04_positive_A_normalization_domain": {
+    "boxes_wholly_above_50_C": 12,
+    "boxes_wholly_below_50_C": 2,
+    "boxes_straddling_50_C": 2,
+    "implies_Q01_paper_physics_invalid": false,
+    "meaning": "The literal transferred Q04 full two-way branch is not established over the observed path"
+  },
+  "essential_additional_local_kernel_assumption": "The paired T/x/stress curves represent one material coordinate satisfying the local two-state equation; this has NOT been established. If curves are axial means, plugging mean T into the local pMA is not justified.",
+  "tau_profile_is_necessary_only_under_all_declared_assumptions": true,
+  "tau_0_01_and_0_1_excluded_by_this_profile": false,
+  "Q01_activation_volume_or_tau_identified": false,
+  "supports_direct_inverse_calibration_now": false,
+  "science_gate_added_or_relaxed": false,
+  "production_recovery_or_Table4_input_allowed": false
+}
