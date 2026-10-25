@@ -130,6 +130,25 @@ class EnthalpyTransportTests(unittest.TestCase):
         np.testing.assert_array_equal(solver.y, [1.])
         self.assertLessEqual(solver.domain_rejections, 20)
 
+    def test_impossible_iso_u_target_is_classified_as_domain_not_newton_failure(self):
+        from Reference_HeatDriveECC_EnthalpyTransport import EOSDomainError
+        eos = synthetic_eos()
+        point = eos.properties([310.], [eos.pressure[0]])
+        with self.assertRaisesRegex(EOSDomainError, "no in-domain EOS solution") as captured:
+            eos.invert(point["rho"]-.05, point["u"])
+        self.assertEqual(captured.exception.details["infeasible_indices"], [0])
+
+    def test_valid_domain_corners_are_not_rejected_by_reference_pressure_energy_bounds(self):
+        base = synthetic_eos()
+        u = base.u-.0001*(base.pressure[None, :]-.85e6)
+        eos = TabulatedEOS(base.temperature, base.pressure, base.rho, u, base.k)
+        t = np.array([280., 280., 400., 400.])
+        p = np.array([.45e6, 5e6, .45e6, 5e6])
+        points = eos.properties(t, p)
+        inverse = eos.invert(points["rho"], points["u"])
+        np.testing.assert_allclose(inverse["T"], t, rtol=0, atol=1e-10)
+        np.testing.assert_allclose(inverse["p"], p, rtol=0, atol=.001)
+
 
 if __name__ == "__main__":
     unittest.main()

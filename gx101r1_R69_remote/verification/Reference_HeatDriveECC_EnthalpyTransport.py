@@ -40,8 +40,20 @@ class TabulatedEOS:
                 or any(not np.isfinite(v).all() for v in (self.temperature, self.pressure, self.rho, self.u, self.k))
                 or np.any(np.diff(self.temperature) <= 0) or np.any(np.diff(self.pressure) <= 0)
                 or np.min(self.rho) <= 0 or np.min(self.k) <= 0
-                or np.any(np.diff(self.u, axis=0) <= 0) or np.any(np.diff(self.rho, axis=1) <= 0)):
+                or np.any(np.diff(self.u, axis=0) <= 0) or np.any(np.diff(self.rho, axis=1) <= 0)
+                or np.any(np.diff(self.u, axis=1) > 0)):
             raise ValueError("Require finite monotone invertible EOS tables and positive transport")
+        # The determinant is affine inside a bilinear cell. Positive values
+        # at all four corners establish monotone density along an iso-u curve.
+        dt, dp = np.diff(self.temperature)[:, None], np.diff(self.pressure)[None, :]
+        for a in (0., 1.):
+            for b in (0., 1.):
+                slopes = {}
+                for name, table in (("rho", self.rho), ("u", self.u)):
+                    slopes[name+"_p"] = ((1-a)*np.diff(table, axis=1)[:-1]+a*np.diff(table, axis=1)[1:])/dp
+                    slopes[name+"_T"] = ((1-b)*np.diff(table, axis=0)[:, :-1]+b*np.diff(table, axis=0)[:, 1:])/dt
+                if np.any(slopes["rho_p"]*slopes["u_T"]-slopes["rho_T"]*slopes["u_p"] <= 0):
+                    raise ValueError("EOS does not have monotone isochoric energy/iso-u density")
         self.uref = float(self.properties([self.Tref], [self.pref])["u"][0])
         self.u_reference_slice = self.properties(self.temperature, np.full(len(self.temperature), self.pref))["u"]
         for array in (self.temperature, self.pressure, self.rho, self.u, self.k, self.u_reference_slice):
@@ -73,46 +85,65 @@ class TabulatedEOS:
         return result
 
     def invert(self, density, specific_internal_energy):
-        """Bounded Newton inversion; no physical state clipping or projection.
+        """Bracket pressure on the exact iso-u curve, then use safeguarded Newton.
 
-        Backtracking only chooses an in-domain Newton iterate. Conserved input
-        mass/energy are not changed when solving this algebraic EOS relation.
+        Infeasible density/energy pairs are certified against EOS boundary
+        densities, not misreported as arbitrary Newton iteration failures.
+        No input mass/energy, returned temperature or pressure is projected.
         """
         density, energy = np.broadcast_arrays(np.asarray(density, dtype=float),
                                              np.asarray(specific_internal_energy, dtype=float))
         if (not np.isfinite(density).all() or not np.isfinite(energy).all() or np.min(density) <= 0
                 or np.any(energy < self.u.min()) or np.any(energy > self.u.max())):
             raise EOSDomainError("Invalid or unsupported EOS inversion target")
-        # A reference-slice seed is only a Newton initial guess. It never
-        # clamps or replaces the conserved target, nor the returned EOS state.
-        temperature = np.interp(energy, self.u_reference_slice, self.temperature)
-        pressure = np.full(density.shape, self.pref)
-        for iteration in range(16):
-            props = self.properties(temperature, pressure)
-            dr, du = props["rho"]-density, props["u"]-energy
-            norm = np.maximum(abs(dr)/np.maximum(density, 1.), abs(du)/np.maximum(abs(energy), 1e5))
-            if np.max(norm) <= 5e-14:
-                return props
-            determinant = props["rho_T"]*props["u_p"]-props["rho_p"]*props["u_T"]
-            if np.any(abs(determinant) < 1e-16):
-                raise ValueError("EOS inverse Jacobian is singular")
-            step_t = (dr*props["u_p"]-du*props["rho_p"])/determinant
-            step_p = (props["rho_T"]*du-props["u_T"]*dr)/determinant
-            factor = np.ones(density.shape)
-            for _ in range(20):
-                trial_t, trial_p = temperature-factor*step_t, pressure-factor*step_p
-                inside = ((trial_t >= self.temperature[0]) & (trial_t <= self.temperature[-1])
-                          & (trial_p >= self.pressure[0]) & (trial_p <= self.pressure[-1]))
-                if np.all(inside):
-                    break
-                factor = np.where(inside, factor, factor*.5)
-            else:
-                raise EOSDomainError("EOS inversion cannot find an in-domain Newton iterate", {
-                    "target_density_kg_m3": density.tolist(), "target_u_J_kg": energy.tolist(),
-                    "unconstrained_Newton_T_K": (temperature-step_t).tolist(),
-                    "unconstrained_Newton_p_Pa": (pressure-step_p).tolist()})
-            temperature, pressure = trial_t, trial_p
-        raise ValueError("EOS inversion failed to converge; do not replace/reset the state")
+        shape = density.shape
+        density, energy = density.ravel(), energy.ravel()
+        lower = np.full(energy.shape, self.pressure[0])
+        upper = np.full(energy.shape, self.pressure[-1])
+        low_cross = energy < self.u[0, 0]
+        high_cross = energy > self.u[-1, -1]
+        lower[low_cross] = np.interp(energy[low_cross], self.u[0, ::-1], self.pressure[::-1])
+        upper[high_cross] = np.interp(energy[high_cross], self.u[-1, ::-1], self.pressure[::-1])
+        if np.any(lower > upper):
+            raise EOSDomainError("Energy target has no pressure bracket in the EOS domain")
+
+        def along_iso_u(pressure):
+            j = np.minimum(np.searchsorted(self.pressure, pressure, side="right")-1, len(self.pressure)-2)
+            b = (pressure-self.pressure[j])/(self.pressure[j+1]-self.pressure[j])
+            u_knots = self.u[:, j]*(1-b)+self.u[:, j+1]*b
+            i = np.minimum(np.sum(u_knots <= energy[None, :], axis=0)-1, len(self.temperature)-2)
+            if np.any(i < 0):
+                raise EOSDomainError("No in-domain temperature on the specified iso-u curve")
+            col = np.arange(len(energy))
+            fraction = (energy-u_knots[i, col])/(u_knots[i+1, col]-u_knots[i, col])
+            temperature = (1-fraction)*self.temperature[i]+fraction*self.temperature[i+1]
+            return self.properties(temperature, pressure)
+
+        lo, hi = along_iso_u(lower), along_iso_u(upper)
+        tolerance = 5e-11  # Algebraic rho solve accuracy, not a scientific mass gate.
+        outside = (density < lo["rho"]-tolerance) | (density > hi["rho"]+tolerance)
+        if np.any(outside):
+            raise EOSDomainError("Density/internal-energy target has no in-domain EOS solution", {
+                "target_density_kg_m3": density.tolist(), "target_u_J_kg": energy.tolist(),
+                "admissible_density_lower_kg_m3": lo["rho"].tolist(),
+                "admissible_density_upper_kg_m3": hi["rho"].tolist(),
+                "infeasible_indices": np.flatnonzero(outside).tolist()})
+        width = hi["rho"]-lo["rho"]
+        pressure = np.where(width > 0, lower+(density-lo["rho"])/np.where(width > 0, width, 1.)*(upper-lower), lower)
+        # Roundoff at a bracket endpoint affects only the initial guess, never
+        # the conserved target. Endpoint props still have to satisfy it.
+        pressure = np.maximum(lower, np.minimum(upper, pressure))
+        for _ in range(20):
+            props = along_iso_u(pressure)
+            residual = props["rho"]-density
+            if np.max(abs(residual)) <= tolerance:
+                return {key: value.reshape(shape) for key, value in props.items()}
+            lower = np.where(residual < 0, pressure, lower)
+            upper = np.where(residual > 0, pressure, upper)
+            slope = props["rho_p"]-props["rho_T"]*props["u_p"]/props["u_T"]
+            candidate = pressure-residual/slope
+            pressure = np.where((candidate > lower) & (candidate < upper), candidate, .5*(lower+upper))
+        raise ValueError("Bracketed EOS inversion failed; preserve the conserved targets")
 
 
 @dataclass(frozen=True)
