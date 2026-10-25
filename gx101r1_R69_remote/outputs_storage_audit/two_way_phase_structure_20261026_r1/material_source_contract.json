@@ -1,0 +1,99 @@
+{
+  "schema": "heatdrive_ecc_material_source_and_operator_contract_v1",
+  "date": "2026-10-26",
+  "role": "source explicit implementation contract, not calibrated material or production recovery authority",
+  "published_operator": "dxM/dt = pAM(T,stress,xM)*(1-xM) - pMA(T,stress,xM)*xM",
+  "explicit_stage_argument_in_published_equation": false,
+  "source_binding": [
+    {
+      "id": "Q01",
+      "path": "C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/A heat driven elastocaloric cooling system..pdf",
+      "sha256": "2D0EB5F84AA515BA651638974414D426A3806FD417A1EAD96EFA36EDA08034CC",
+      "doi": "10.1016/j.energy.2019.06.094",
+      "read_pages": [5, 6, 7, 8, 17, 18, 19],
+      "anchors": "p5 Eq3 two-way rates; p6 Table2; p7 finish-line terminology; p17 Table4; p18 AppendixB supplementary statement; p19 references32-34"
+    },
+    {
+      "id": "Q04",
+      "path": "C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/2017）Numerical_modeling_of_an_active_elastocaloric_regenerator_refrigerator_with_phase_transformation_kinetics_and_the_matching_principle_for_materials.pdf",
+      "sha256": "E7F35A64B99887B85874DB4A80CAA128E53B629767E740D0B6074A9C6E28000E",
+      "doi": "10.1016/j.energy.2017.09.116",
+      "read_pages": [2, 4, 5, 10],
+      "anchors": "p4 Eqs6-13, a=EA*VL/(2*kB*T), b=EM*VL/(2*kB*T), critical-stress mapping; p5 tau discrepancy and model assumptions",
+      "tau_text_s": 0.1,
+      "tau_table1_s": 0.01,
+      "tau_conflict_visually_verified": true,
+      "tau_imported_as_Q01_default": false
+    },
+    {
+      "id": "Q10_Q01_ref32",
+      "path": "C:/tmp/se21_phase_surface_review_20261025/qian_2018_built.pdf",
+      "sha256": "329C531EE060E1C373CF7BF04D57083CB47CB89F0CAA6203EBE1F263EE05123B",
+      "doi": "10.1080/23744731.2018.1457411",
+      "author_source": "https://hhou.weebly.com/uploads/1/2/3/7/12372781/qian_2018_built.pdf",
+      "read_pages": [1, 2, 3, 4, 6],
+      "anchors": "p4 Eqs3-7 and Table2; p6 Table3 and calibration explanation",
+      "different_measured_alloy_parameters_imported": false,
+      "polycrystal_Eq7_width_and_critical_surface_identification_complete": false
+    },
+    {
+      "id": "Q11",
+      "path": "C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/[西安交通大学]低品位热驱动的双效弹性冷却系统的数值研究.pdf",
+      "sha256": "5A42482BBC319E4D536EDA6E627FB0D9C1AB8FA7151B8592E0E63ECB04AAF085",
+      "doi": "10.1016/j.applthermaleng.2022.119302",
+      "publication_year": 2023,
+      "read_pages": [1, 3, 11, 13],
+      "anchors": "p3 model, pump-COP boundary and 10-cycle metrics; p13 A1-A8, two-way A3, coupled mechanics and BS3",
+      "double_effect_topology_transferred_to_single_effect": false,
+      "experimental_validation_transferred_to_current_project": false
+    }
+  ],
+  "implemented_MAS_kernel": {
+    "path": "verification/Reference_HeatDriveECC_TwoWayPhase.py",
+    "equations": "Q04 Eqs8-11, Q10 Eqs5-6 with supplied critical stresses",
+    "units": "Pa, K, m3, s; coefficients in 1/s, NOT probabilities clipped to [0,1]",
+    "numerics": "log-CDF interval for pAM, scaled erfc for pMA, no arbitrary denominator floor or rate cap",
+    "domain": "finite positive temperature, nonnegative stress, strictly positive supplied critical stresses",
+    "unsupported_domain_is_not_a_physical_failure_gate": true,
+    "disappearing_well_and_cold_SMA_branch_complete": false,
+    "polycrystal_closure_complete": false,
+    "required_explicit_parameters": ["EA", "EM", "activation_volume", "relaxation_time", "sigmaA(T,xM)", "sigmaM(T,xM)"],
+    "unknown_Q01_parameters_filled_from_system_endpoints": false,
+    "MAS_kernel_used_in_cold_ablation": false,
+    "independent_material_validation_complete": false
+  },
+  "structural_ablation": {
+    "name": "stage_free_shared_surface",
+    "coefficients": "existing reduced forward/reverse overdrive gates and rates, no new physical parameter",
+    "scope": "remove stage selection only, recalculate both latent and mechanical powers in the same RHS",
+    "material_sufficiency_claim": false,
+    "candidate_promoted_to_production": false
+  },
+  "boundary_audit_interpretation": {
+    "paper_thermal_COP_and_engineering_pump_inclusive_COP_are_distinct": true,
+    "missing_momentum_solver_alone_proves_paper_mechanism_failure": false,
+    "paper_omitted_pump_work_is_zero_engineering_work": false,
+    "full_goal_pump_work_deliverable_removed": false,
+    "scientific_gate_thresholds_modified": false
+  },
+  "bounded_supplement_search": {
+    "Q01_AppendixB_announces_supplementary_data": true,
+    "publisher_page_status": "web fetch403",
+    "guessed_mmc1_pdf_docx_zip_HEAD_status": [404, 404, 404],
+    "guessed_urls_are_not_verified_attachment_links": true,
+    "absence_of_supplement_proven": false,
+    "queried_Zotero_database": "C:/Users/86182/Zotero/zotero.sqlite",
+    "Zotero_access_mode": "read-only SQLite, title query only",
+    "matching_title_records_in_that_database": 0,
+    "all_Zotero_profiles_or_libraries_exhausted": false
+  },
+  "next_implementation_requirements": [
+    "derive supported well-disappearance and low-temperature branches without resetting phase",
+    "identify Q01-specific polycrystal critical surfaces and material-scale rate parameters",
+    "use independent isothermal, near-adiabatic and reversing material paths, not Table4 fit",
+    "then run simultaneous coupled flow/phase/energy and periodic gates before outer solve"
+  ],
+  "full_goal_complete": false,
+  "production_recovery_allowed": false,
+  "outer_solve_allowed": false
+}

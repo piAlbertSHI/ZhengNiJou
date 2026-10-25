@@ -5,7 +5,7 @@ from scipy.integrate import quad, solve_ivp
 from scipy.special import erf, erfc
 
 from Reference_HeatDriveECC_TwoWayPhase import (SingleCrystalMAS, two_way_rate, frozen_coefficient_step,
-                                                TwoWaySharedSurfaceCycle, shared_surface_rates)
+                                                TwoWaySharedSurfaceCycle)
 import test_caloric_cycle as fixture
 
 

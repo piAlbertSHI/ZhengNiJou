@@ -1,0 +1,82 @@
+{
+  "schema": "heatdrive_ecc_two_way_phase_round_closeout_v1",
+  "date": "2026-10-26",
+  "previous_turn_classification": "progress_completed_coupled_20cycle_and_identified_joint_phase_thermal_force_gap",
+  "this_turn_classification": "progress_source_backed_structural_falsification_MAS_kernel_and_actual_operator_control",
+  "goal_complete": false,
+  "execution": {
+    "root": "C:/tmp/se21_two_way_phase_cold_C1_r1_20261025",
+    "producer": "46626ed",
+    "foreground_session": 81132,
+    "natural_exit_code": 0,
+    "cold_cycles": 1,
+    "completed_time_s": 10,
+    "wall_seconds": 126.66418239998166,
+    "execution_sha256": "D1D7401906AFCC8CEB08F7CE5C965135561A1879601A3080459F0825FB7CBB10",
+    "raw_sha256": "A243EA54A47A2BBD0C18EAEE50F03C1D058B5D92A0A34C213DADE3C1871C14AA",
+    "raw_bytes": 185818,
+    "online_energy_coordinate_residual_max_J": 4.3655745685100555e-11,
+    "independent_selected_energy_coordinate_residual_max_J": 2.9103830456733704e-11,
+    "phase_domain_projected_or_clipped": false,
+    "checkpoint_saved": false,
+    "production_state_imported": false
+  },
+  "actual_control_finding": {
+    "old_control_root": "C:/tmp/se21_caloric_coupled_cold_C1_r4_20261025",
+    "physical_parameters_and_initial_coordinates_identical": true,
+    "only_operator_selection_changed": true,
+    "max_selected_SE_solid_temperature_difference_K": 1.8665835219713927,
+    "max_selected_SE_phase_difference": 0.08175245088570704,
+    "SE_phase_before_hot_blow_scheduled": 0.899484155174834,
+    "SE_phase_before_hot_blow_two_way_control": 0.8672503680412337,
+    "blind_removal_of_stage_gate_solves_material_model": false,
+    "native_SCP_gap_causally_attributed": false
+  },
+  "formal_readback": {
+    "file": "phase_operator_review.json",
+    "sha256": "137DA9FC34DFD4C4ECAB7031EF6BD45539C3E346B6B072D939B78BC9797234C8",
+    "historical_producer_input_and_raw_hashes_checked": true,
+    "same_state_witness_scope": "saved C20 coordinates with only the hot/cold label switched; no alternative state propagation",
+    "maximum_SMA_label_rate_difference_per_s": 15.407747417744076,
+    "maximum_SE_label_rate_difference_per_s": 16.132944995854956,
+    "both_fluxes_positive_alone_is_thermodynamic_failure": false,
+    "final_figure_visually_reviewed": true,
+    "final_figure_differentiates_C1_trajectories_from_C20_coordinate_witnesses": true
+  },
+  "tests": {
+    "targeted_tests_passed": 58,
+    "new_tests_this_round": 13,
+    "complete_historical_suite_rerun": false,
+    "material_experimental_validation_claim": false
+  },
+  "C200": {
+    "result_sha256_recomputed": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD",
+    "checkpoint_sha256_recomputed": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816",
+    "freeze_contract_match": true,
+    "state_modified_or_imported": false,
+    "current_model_complete_restore_qualified": false
+  },
+  "storage": {
+    "new_raw_copy_count": 1,
+    "new_raw_NPZ_bytes": 185818,
+    "new_trial_package_bytes_before_RETENTION_note": 209615,
+    "checkpoint_or_OP_count_created": 0,
+    "full_accepted_step_history_saved": false,
+    "new_page_rendering": "C:/tmp/se21_phase_operator_source_review_20261025/Q04_page5_tau_conflict.png",
+    "new_page_rendering_sha256": "6123EC0428193DA01D363F1AEE19A91DCD8BD5F47BFFB8FFB17CF5FC24995566",
+    "new_page_rendering_bytes": 397657,
+    "rendering_role": "reproducible source-page visual witness, not simulation data",
+    "superseded_plotting_draft_root": "outputs_storage_audit/two_way_phase_structure_20261025_r1",
+    "superseded_draft_review_sha256": "84BA04A2F3F0DE155579BFB1ECCE925530575DC7B704F69F99923BD07C3E5998",
+    "draft_status": "retained regenerable candidate, final figure clarifies ranges and C1/C20 distinction",
+    "deletion_attempted_this_round": false,
+    "bytes_confirmed_released_this_round": 0,
+    "prior_tool_cleanup_rejection_bypassed": false,
+    "scope": "new named trial and source rendering only, not whole-disk/worktree inventory"
+  },
+  "source_contract": "material_source_contract.json",
+  "scope_exclusions": ["protected existing dirty SLX not modified/staged", "Agent6 not read/written", "unrelated MATLAB processes not stopped/restarted", "no scientific threshold relaxation"],
+  "next_direction": "replace stage-selected material evolution with identified bidirectional physics, including polycrystal surfaces and cold-SMA well branches, not just the uncalibrated shared-surface control",
+  "outer_solve_allowed": false,
+  "Table4_reproduction_claim": false
+}

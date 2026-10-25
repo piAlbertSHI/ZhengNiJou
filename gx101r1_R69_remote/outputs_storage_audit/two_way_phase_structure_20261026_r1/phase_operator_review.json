@@ -1,0 +1,103 @@
+{
+  "schema": "heatdrive_ecc_phase_operator_structure_v1",
+  "analysis_sha256": "CDCFF4DB71E270C293EA2BF8DCD3EF9C3C2F5C2EF1E75FFCB12E852D83018BD6",
+  "scheduled_C20_path": "C:\\tmp\\se21_caloric_coupled_cold_C20_r2_20261025",
+  "scheduled_C20_execution_sha256": "D641DF40C7928FC7E3C775EAD207357E001A5395A305AA93518C64B56A7D47D5",
+  "same_state_analysis": {
+    "scope": "algebra at identical saved coordinates; not an alternative trajectory, time fraction or new gate",
+    "selected_observations": 473,
+    "materials": {
+      "SMA": {
+        "max_same_state_hot_cold_rate_difference_per_s": 15.407747417744076,
+        "max_suppressed_opposite_flux_per_s": 14.33222326871371,
+        "max_difference_witness": {
+          "time_s": 185.9000000000002,
+          "node_zero_based": 10,
+          "phase": 0.8410613696696072,
+          "temperature_K": 331.0405682386695,
+          "stress_MPa": 121.06027740797728,
+          "scheduled_hot_rate_per_s": -14.156676862118262,
+          "scheduled_cold_rate_per_s": 1.2510705556258144,
+          "two_way_net_rate_per_s": -12.905606306492448,
+          "forward_flux_per_s": 1.2510705556258144,
+          "reverse_flux_per_s": 14.156676862118262
+        }
+      },
+      "SE": {
+        "max_same_state_hot_cold_rate_difference_per_s": 16.132944995854956,
+        "max_suppressed_opposite_flux_per_s": 15.49874526359872,
+        "max_difference_witness": {
+          "time_s": 185.9000000000002,
+          "node_zero_based": 3,
+          "phase": 0.08260662624004218,
+          "temperature_K": 291.396012072897,
+          "stress_MPa": 178.97509559832645,
+          "scheduled_hot_rate_per_s": 15.472247673465407,
+          "scheduled_cold_rate_per_s": -0.6606973223895477,
+          "two_way_net_rate_per_s": 14.81155035107586,
+          "forward_flux_per_s": 15.472247673465407,
+          "reverse_flux_per_s": 0.6606973223895477
+        }
+      }
+    },
+    "both_fluxes_positive_alone_is_not_a_thermodynamic_failure": true,
+    "finding": "explicit stage argument changes the material rate even when T, stress and phase are unchanged"
+  },
+  "cold_operator_ablation": {
+    "only_phase_operator_and_its_declared_limitation_changed": true,
+    "same_observation_clocks": true,
+    "all_initial_coordinates_bitwise_equal": true,
+    "old_execution_sha256": "AA7A482C7929C0F6A2984EBB2EA54878B95D5FCC721E92BE32D7A782BF3615D4",
+    "new_execution_sha256": "D1D7401906AFCC8CEB08F7CE5C965135561A1879601A3080459F0825FB7CBB10",
+    "saved_energy_residuals_J": [
+      1.4551915228366852e-11,
+      2.9103830456733704e-11
+    ],
+    "maximum_selected_Ta_difference": 1.456354295306653,
+    "maximum_selected_Tr_difference": 1.8665835219713927,
+    "maximum_selected_xa_difference": 0.08796499029604304,
+    "maximum_selected_xr_difference": 0.08175245088570704,
+    "maximum_selected_buffer_T_difference": 0.03656507362228467,
+    "maximum_selected_bus_T_difference": 0.009210953588478787,
+    "units": "temperature differences K, xa/xr differences fraction; no mixed-unit error metric",
+    "before_hot_blow": [
+      {
+        "operator": "scheduled",
+        "SE_xM_range": [
+          0.899484155174834,
+          0.899484155174834
+        ]
+      },
+      {
+        "operator": "two_way_shared_surface",
+        "SE_xM_range": [
+          0.8672503680412337,
+          0.8672503680412337
+        ]
+      }
+    ],
+    "Qian_MAS_material_identified": false,
+    "production_seed_allowed": false,
+    "operator_replacement_alone_solves_before_blow_completion": false,
+    "causal_scope": "one operator ablation in the reduced thermal reference only; not attribution of the native SCP gap"
+  },
+  "claims": {
+    "material_stage_independence_required_by_Qian_equation_structure": true,
+    "shared_surface_ablation_is_published_MAS": false,
+    "MAS_kernel_numerical_tests_are_material_validation": false,
+    "production_or_C200_modified": false,
+    "outer_solve_allowed": false
+  },
+  "figure_files": [
+    {
+      "file": "phase_operator_control.png",
+      "sha256": "D70AAE80B7017C1D73718128B47B6C3BD5A3E8542E9FAFCBCA3B1B351CDBC6B6",
+      "bytes": 185004
+    },
+    {
+      "file": "phase_operator_control.svg",
+      "sha256": "94823D254DD88BF1AFB757F8692AE4EBD9D7F40803E3F120F4551FAFC3301125",
+      "bytes": 137900
+    }
+  ]
+}
