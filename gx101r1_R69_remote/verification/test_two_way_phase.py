@@ -30,9 +30,17 @@ class TwoWayTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             SingleCrystalMAS(30e9, 30e9, -1., .1)
         model = SingleCrystalMAS(30e9, 30e9, 3e-26, .1)
-        for t, s, a, b in ((0., 1e8, 1e8, 2e8), (300., -1., 1e8, 2e8), (300., 1e8, 0., 2e8), (300., 1e8, 1e8, -1.)):
+        for t, s, a, b in ((0., 1e8, 1e8, 2e8), (300., -1., 1e8, 2e8), (300., 1e8, 0., 2e8)):
             with self.assertRaises(ValueError):
                 model.coefficients(t, s, a, b)
+
+    def test_negative_martensite_critical_stress_is_not_a_missing_well_gate(self):
+        model = SingleCrystalMAS(30e9, 30e9, 3e-26, .1)
+        for critical in (-20e6, 0., 20e6):
+            _, reverse = model.coefficients(255., 0., 7.6e6, critical)
+            z = np.sqrt(30e9*3e-26/(2*1.380649e-23*255.))*critical/30e9
+            self.assertAlmostEqual(float(reverse), float(np.exp(-z*z)/erfc(z)/.1), places=12)
+        self.assertAlmostEqual(float(model.coefficients(255., 0., 7.6e6, 0.)[1]), 10., places=12)
 
     def test_MAS_moderate_values_match_published_erf_form(self):
         model = SingleCrystalMAS(30e9, 40e9, 3e-26, .1)

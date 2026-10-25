@@ -2,7 +2,7 @@ import copy
 from pathlib import Path
 import unittest
 
-from Analyze_HeatDriveECC_PhaseOperator import compare_cold, check_ablation_contract, scheduled_structure
+from Analyze_HeatDriveECC_PhaseOperator import compare_cold, check_ablation_contract, scheduled_structure, shared_operator_source_signature
 from Analyze_HeatDriveECC_CaloricCycle import read_packet
 
 
@@ -35,6 +35,13 @@ class PhaseOperatorTests(unittest.TestCase):
             self.assertGreater(abs(witness["scheduled_hot_rate_per_s"]-witness["scheduled_cold_rate_per_s"]), .1)
             self.assertAlmostEqual(witness["two_way_net_rate_per_s"], witness["forward_flux_per_s"]-witness["reverse_flux_per_s"])
         self.assertIs(report["both_fluxes_positive_alone_is_not_a_thermodynamic_failure"], True)
+
+    def test_unexecuted_kernel_edit_is_not_a_false_shared_operator_failure(self):
+        source = Path(__file__).with_name("Reference_HeatDriveECC_TwoWayPhase.py").read_text(encoding="utf-8")
+        changed = source.replace("za = np.sqrt(a)", "za = 2*np.sqrt(a)")
+        self.assertEqual(shared_operator_source_signature(source), shared_operator_source_signature(changed))
+        changed = source.replace("surface = material[", "surface = 1+material[")
+        self.assertNotEqual(shared_operator_source_signature(source), shared_operator_source_signature(changed))
 
 
 if __name__ == "__main__":

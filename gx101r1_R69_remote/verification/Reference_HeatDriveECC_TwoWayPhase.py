@@ -52,16 +52,17 @@ class SingleCrystalMAS:
             raise ValueError("All dimensional MAS inputs must be explicitly finite and positive")
 
     def coefficients(self, temperature_K, stress_Pa, critical_a_Pa, critical_m_Pa):
-        """Thermally activated two-positive-well branch, all inputs in SI.
+        """Positive-austenite-normalization branch, all inputs in SI.
 
         sigma_A must be strictly positive for the interval-normalization formula.
+        sigma_M may have either sign: erfc is positive for every finite argument.
         No clipping of sigma_A, arbitrary pole floor, rate cap or substituted
         single-well branch is allowed; other branches require a separate model.
         """
         t, s, ca, cm = np.broadcast_arrays(temperature_K, stress_Pa, critical_a_Pa, critical_m_Pa)
         if (not all(np.isfinite(v).all() for v in (t, s, ca, cm))
-                or np.any(t <= 0) or np.any(s < 0) or np.any(ca <= 0) or np.any(cm <= 0)):
-            raise ValueError("Outside declared positive-critical-stress MAS branch")
+                or np.any(t <= 0) or np.any(s < 0) or np.any(ca <= 0)):
+            raise ValueError("Outside positive-austenite-normalization MAS branch")
         kb = 1.380649e-23  # Exact SI Boltzmann constant.
         a = self.young_a_Pa*self.activation_volume_m3/(2*kb*t)
         b = self.young_m_Pa*self.activation_volume_m3/(2*kb*t)
