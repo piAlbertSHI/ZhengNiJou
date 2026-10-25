@@ -1,0 +1,45 @@
+{
+  "schema": "heatdrive_ecc_own_state_reference_figures_v1",
+  "input_sha256": {
+    "gx101r1_R69_remote\\outputs_storage_audit\\single_pipe_global_ode3_20261025_r2\\global_energy_observer_review.json": "08F258A2B985D886133E4B9E514B0FBA51AFE7EBB902DC058D63A60D55D21721",
+    "C:\\tmp\\se21_single_pipe_global_ode3_ledger_r1_20261025\\case_12.mat": "7B6EE188BA57695530DBDA9C0D6BDBD0A05F486BEB3C4B87FA8B14761C468E76",
+    "C:\\tmp\\se21_single_pipe_global_ode3_ledger_r1_20261025\\case_11.mat": "7E5494A97A100DFD3E5236C22EB36192895BE3B01E39B2BB6AB74253912D1701",
+    "C:\\tmp\\se21_single_pipe_global_ode3_ledger_r1_20261025\\case_24.mat": "854BBE1320B9FEF2DE4516957A5AA829595302400B2590B79EBF8F54BBBD6875",
+    "C:\\tmp\\se21_single_pipe_global_ode3_ledger_r1_20261025\\case_23.mat": "9464C0B95B08835D24FD722E6545A2A7829EE505DF7963846D385B13C523DB32"
+  },
+  "files": [
+    {
+      "path": "gx101r1_R69_remote\\outputs_storage_audit\\single_pipe_global_ode3_20261025_r2\\figures\\Fig01_own_temperature_trajectories.png",
+      "bytes": 239155,
+      "sha256": "B7E941481B3F823107ACF697BB7CE424A12EF266DB89B5387418FB8B85068D55"
+    },
+    {
+      "path": "gx101r1_R69_remote\\outputs_storage_audit\\single_pipe_global_ode3_20261025_r2\\figures\\Fig01_own_temperature_trajectories.svg",
+      "bytes": 39707,
+      "sha256": "04BB619181876175C883468CBDB27E3F683A7F6C771289B521D4EEF8065AB2CE"
+    },
+    {
+      "path": "gx101r1_R69_remote\\outputs_storage_audit\\single_pipe_global_ode3_20261025_r2\\figures\\Fig02_time_step_refinement.png",
+      "bytes": 138733,
+      "sha256": "E224AEC315380E774BFDA4A96E20131EE8DC7AE93EDEC65A4C29F9FCF333752D"
+    },
+    {
+      "path": "gx101r1_R69_remote\\outputs_storage_audit\\single_pipe_global_ode3_20261025_r2\\figures\\Fig02_time_step_refinement.svg",
+      "bytes": 14442,
+      "sha256": "9E295A2AE0F1711FDC34104BADB59A6BF688E992513C20172D0D750969F94441"
+    }
+  ],
+  "checks": [
+    {
+      "figure": "Fig01_own_temperature_trajectories",
+      "text_within_canvas": true,
+      "scope": "Each heat law evolves its own native TL states; all 401 points retained."
+    },
+    {
+      "figure": "Fig02_time_step_refinement",
+      "text_within_canvas": true,
+      "scope": "Measured max differences, 1 vs 0.5ms and 0.5 vs 0.25ms, including step onset."
+    }
+  ],
+  "full_reference_or_system_validation": false
+}

@@ -11,13 +11,30 @@ import h5py
 import numpy as np
 from scipy.integrate import simpson
 
-from Analyze_HeatDriveECC_SinglePipeHeatStep import read_traces, text, pipe_balance, reference_flux
+from Analyze_HeatDriveECC_SinglePipeHeatStep import read_traces, text, pipe_balance, reference_flux, UNITS
+from Audit_HeatDriveECC_NativeInventoryCatalog import convert
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from Audit_HeatDriveECC_TLDomainInventory import density_table, DENSITY_ATOL_KG_M3
 
 
 BRANCHES = {"native": "native_traces", "probe": "probe_traces",
             "reference_saved_Nu": "reference_saved_Nu_traces", "reference_Q01": "reference_q01_traces"}
+
+
+def producer_comparison_allowances(case, original_units, native_SI):
+    """Convert the producer's existing raw-unit numerical envelopes; do not redefine them in SI."""
+    declared = {r["name"]: r["allowance"] for r in case["native_probe_comparisons"]}
+    if set(declared) != set(native_SI) or len(declared) != len(case["native_probe_comparisons"]):
+        raise ValueError("Missing or duplicate producer comparison limits")
+    result = {}
+    for name, values in native_SI.items():
+        scale = float(convert([1.], original_units[name], UNITS[name])[0])
+        limit = float(convert([declared[name]], original_units[name], UNITS[name])[0])
+        expected = 1e-10*max(scale, float(np.max(abs(values))))
+        if limit <= 0 or not np.isclose(limit, expected, rtol=1e-14, atol=0):
+            raise ValueError("Producer numerical envelope changed")
+        result[name] = limit
+    return result
 
 
 def measured_grid_difference(coarse_t, coarse_y, fine_t, fine_y):
@@ -170,7 +187,10 @@ def analyze(root, source_root, prior_root, integration="local_BE"):
             if any(c[k] != value for k, value in sealed.items()):
                 raise ValueError("Sealed case/manifest mismatch")
             branches = {name: read_traces(f, field, step) for name, field in BRANCHES.items()}
+            original_units = {text(f[ref]["name"]): text(f[ref]["unit"])
+                              for ref in f["native_traces"][...].reshape(-1)}
         t, native = branches["native"]
+        original_allowances = producer_comparison_allowances(c, original_units, native)
         if any(not np.array_equal(tc, t) for tc, _ in branches.values()):
             raise ValueError("Branch clocks differ")
         lookup = density_table(c["fluid_settings"]["saved_inventory_parameters"])
@@ -202,7 +222,7 @@ def analyze(root, source_root, prior_root, integration="local_BE"):
         probe_differences = {}
         for field in native:
             error = float(np.max(abs(native[field]-branches["probe"][1][field])))
-            if error > 1e-10*max(1., float(np.max(abs(native[field])))):
+            if error > original_allowances[field]:
                 raise ValueError("Passive probe changes native trajectory")
             probe_differences[field] = error
         baseline, integrator_contrasts = None, None
@@ -250,6 +270,7 @@ def analyze(root, source_root, prior_root, integration="local_BE"):
                      "wall_step_K": delta, "fixed_step_s": step, "branches": summaries,
                      "solver_contract": solver_contract,
                      "native_probe_max_differences_SI": probe_differences,
+                     "producer_native_probe_allowances_converted_to_SI": original_allowances,
                      "prior_native_comparison": baseline,
                      "prior_comparison_role": "different-integrator diagnostic, not an equality gate" if integration == "global_ODE3" else "same-method baseline identity",
                      "integrator_contrasts": integrator_contrasts,

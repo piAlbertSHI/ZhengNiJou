@@ -1,0 +1,114 @@
+{
+  "schema": "heatdrive_ecc_global_ode3_component_round_closeout_v1",
+  "date": "2026-10-25",
+  "status": "global_reference_cell_temporal_and_numerical_energy_tests_completed_not_full_coupled_qualification",
+  "runs": [
+    {
+      "root": "C:/tmp/se21_single_pipe_global_ode3_r1_20261025",
+      "execution_sha256": "571C6E89D668493DDE0977C9046FDDA527D9425BE276E5DA556ADE5141408446",
+      "session": 84434,
+      "exit_code": 1,
+      "completed_cases": 0,
+      "cause": "Step input converter declared input-only instead of the needed derivative contract; no numerical divergence claim"
+    },
+    {
+      "root": "C:/tmp/se21_single_pipe_global_ode3_r2_20261025",
+      "execution_sha256": "6C3488E1DCDCD9235FAF235B73CF9773A6A68EF6C7214550C61850262CD9D0F6",
+      "producer": "cb35f78ab03fb27a0c0c933b104def1e2906d279",
+      "session": 48621,
+      "exit_code": 0,
+      "completed_cases": 24,
+      "sim_call_seconds": 74.4809448,
+      "raw_MAT_bytes": 10529464,
+      "role": "global ODE3 control without energy observer; not a restart/checkpoint"
+    },
+    {
+      "root": "C:/tmp/se21_single_pipe_global_ode3_ledger_r1_20261025",
+      "execution_sha256": "173CFA4A2EE16DB76EC5545A22C87D7AB91DD3C38DBB54A768F6965BEC281D37",
+      "producer": "7b1407290e21d8f6428b6d308bfe839c41416b5c",
+      "session": 98481,
+      "exit_code": 0,
+      "completed_cases": 24,
+      "sim_call_seconds": 77.3006761,
+      "raw_MAT_bytes": 10985592,
+      "role": "same global ODE3 study plus an opt-in one-way nonphysical energy coordinate"
+    }
+  ],
+  "actual_solver_contract": {
+    "global_solver": "ode3",
+    "solver_type": "Fixed-step",
+    "active_local_solver": false,
+    "steps_s": [0.001, 0.0005, 0.00025],
+    "inactive_local_solver_choice_parameter": "NE_BACKWARD_EULER_ADVANCER",
+    "wall_converter_mode": "zero",
+    "wall_input": "actual continuous-time Step, not a sampled smooth control signal",
+    "filter_added": false,
+    "DAE_implicit_solver_recommendation_warnings_suppressed": false
+  },
+  "official_input_contract_reference": "https://www.mathworks.com/help/simscape/ref/simulinkpsconverter.html",
+  "key_review": "global_energy_observer_review.json",
+  "key_review_sha256": "08F258A2B985D886133E4B9E514B0FBA51AFE7EBB902DC058D63A60D55D21721",
+  "earlier_no_observer_analysis_sha256": "484BA256597AC3E4145DB03B146FD54AD9AFEAA3D7DE949608CE3DB486D05885",
+  "figure_manifest": "figures/figure_manifest.json",
+  "figure_manifest_sha256": "BD3527F769843690667E532E8CF342DE840DF0F42B0A885CFB542937265AB3D0",
+  "numerical_energy_observer": {
+    "source_proof": "Removing the added one-way observer declaration/equation reproduces the observer-free source text; observer symbol occurs only in declaration and its derivative equation.",
+    "added_nonphysical_states_per_observed_branch": 1,
+    "initial_observer_energy_J": 0,
+    "balances_compared": 72,
+    "all_inventory_invariants_pass": true,
+    "max_abs_storage_minus_integrated_net_J": 1.1646239528317892e-13,
+    "unchanged_inventory_tolerance_J": 1e-8,
+    "max_physical_temperature_difference_vs_no_observer_K": 0,
+    "max_physical_heat_flow_difference_vs_no_observer_W": 1.4210854715202004e-14,
+    "physical_heat_capacity_added": false,
+    "production_OP_or_checksum_unchanged_claim": false,
+    "whole_device_or_heat_law_validation_claim": false
+  },
+  "temporal_observations": {
+    "reference_temperature_log2_difference_ratio_range": [3.0200713138870756, 3.045018812587824],
+    "native_SMA_warming_log2_difference_ratios": [1.7352219584724333, 1.523252841933586],
+    "all_branches_claimed_third_order": false,
+    "no_interpolation": true,
+    "reference_saved_Nu_positive_warming_1_vs_0p5ms_max_temperature_difference_K": {
+      "SMA": 1.7557230194142903e-6,
+      "SE": 6.489644874818623e-7
+    },
+    "reference_saved_Nu_positive_warming_0p5_vs_0p25ms_max_temperature_difference_K": {
+      "SMA": 2.1514233594643883e-7,
+      "SE": 7.999926765478449e-8
+    }
+  },
+  "audit_corrections_and_limits": [
+    "The producer's existing raw-unit numerical comparison allowance is converted to SI with the data; it is not silently recomputed with a different dimensioned floor.",
+    "All 48 sampled reference-heat roundoff identity checks remain false for global ODE3 at the unchanged 1024*eps scale; observed residuals reach about 5.73e-8W and shrink with dt.",
+    "Sampled point formula residual is not the global stage-integrated energy balance; its internal projection/logging cause is not claimed proved.",
+    "Major-sample trapezoid/Simpson diagnostics do not prove or disprove the discrete ODE3 energy law.",
+    "The added independent energy coordinate verifies numerical storage/net-energy integration consistency, not an independent physical heat-law validation.",
+    "A numpy Boolean JSON serialization error was fixed before publishing an analysis file; raw simulation data were not rerun or changed."
+  ],
+  "targeted_python_tests_passed": 93,
+  "new_tests_this_round": 10,
+  "figure_PNGs_visually_checked": 2,
+  "complete_historical_test_suite_rerun": false,
+  "raw_MAT_files_total": 48,
+  "raw_MAT_bytes_total": 21515056,
+  "checkpoint_files": 0,
+  "full_per_step_state_history_saved": false,
+  "raw_data_copied_to_Git": false,
+  "retired_bytes_this_round": 0,
+  "storage_scope": "only these new independent runs and compact review; not a whole-project/disk audit",
+  "storage_note": "All cache/codegen subfolders were empty; the three component_build folders total 203564 bytes. No new deletion command was attempted after the preceding policy rejection.",
+  "C200_result_and_OP_frozen_hashes_reverified": true,
+  "production_SLX_Agent6_or_other_project_modified": false,
+  "next_work": [
+    "Implement the low-cost prescribed-flow multi-node reference transport with explicitly declared conservative state/flux form, second-order upwind and central diffusion boundaries.",
+    "Test flow reversal without reversing/resetting physical inventories, spatial/time convergence, and mass/energy consistency before adding full SMA-SE thermomechanics.",
+    "Keep material finish surfaces/probability coefficients and complete-model cold/OP qualification separate; do not fit the Table4 endpoints."
+  ],
+  "full_coupled_model_numerical_contract_verified": false,
+  "production_recovery_allowed": false,
+  "outer_solve_allowed": false,
+  "paired_Table4_allowed": false,
+  "goal_complete": false
+}

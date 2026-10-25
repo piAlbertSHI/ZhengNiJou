@@ -15,6 +15,7 @@ UNITS = {"T_I": "K", "p_I": "Pa", "u_I": "J/kg", "rho_I": "kg/m^3",
          "Phi_A": "W", "Phi_B": "W", "Q_H": "W", "mdot_A": "kg/s", "mdot_B": "kg/s",
          "Q_conv": "W", "Q_cond": "W", "probe_wall_T": "K", "probe_A_T": "K", "probe_B_T": "K",
          "Pr_I": "1", "Re_avg": "1"}
+UNITS["observer_energy"] = "J"
 DIRECT_UNITS = {"cp_I": "m^2/(K*s^2)", "mu_I": "kg/(m*s)", "k_I": "W/(K*m)"}
 
 
