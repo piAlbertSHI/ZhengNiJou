@@ -45,6 +45,13 @@ class SinglePipeFixtureSourceTests(unittest.TestCase):
         self.assertIn("Require one unindented heat-transfer intermediate section.", self.fixture)
         self.assertNotIn("strrep(probe,visibility", self.fixture)
 
+    def test_wall_sign_and_failed_trajectory_are_explicit(self):
+        self.assertIn("[model '/Wall'],'A',[model '/Reference']", self.fixture)
+        self.assertIn("pipe,'H',[model '/Wall'],'B'", self.fixture)
+        self.assertIn("Actual wall temperature does not witness", self.fixture)
+        self.assertIn("'CaptureErrors','on'", self.fixture)
+        self.assertIn("'failed_simulation.mat'", self.fixture)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -62,13 +62,15 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder)
             add_block('nesl_utility/Solver Configuration',[model '/Solver']);
             add_block('fl_lib/Thermal/Thermal Elements/Thermal Reference',[model '/Reference']);
             add_block('fl_lib/Thermal/Thermal Sources/Controlled Temperature Source',[model '/Wall']);
-            add_block('nesl_utility/Simulink-PS Converter',[model '/WallPS'],'Unit','K');
+            add_block('nesl_utility/Simulink-PS Converter',[model '/WallPS'],'Unit','K', ...
+                'FilteringAndDerivatives','provide','UdotUserProvided','0','AffineConversion','off');
             add_block('simulink/Sources/Step',[model '/WallStep'], ...
                 'Time','.02','Before','303.15','After','308.15');
             add_line(model,'WallStep/1','WallPS/1');
             p=get_param([model '/WallPS'],'PortHandles');q=get_param([model '/Wall'],'PortHandles');
             add_line(model,p.RConn(1),q.RConn(1));
-            simscape.addConnection([model '/Wall'],'B',[model '/Reference'],only_port([model '/Reference']));
+            % Native controlled_temperature enforces B.T-A.T=S, not A.T-B.T.
+            simscape.addConnection([model '/Wall'],'A',[model '/Reference'],only_port([model '/Reference']));
             for reservoir={'Inlet','Outlet'}
                 block=[model '/' reservoir{1}];
                 add_block('fl_lib/Thermal Liquid/Elements/Reservoir (TL)',block);
@@ -98,7 +100,7 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder)
                 simscape.addConnection([model '/Inlet'],'A',flow,'A');
                 simscape.addConnection(flow,'B',pipe,'A');
                 simscape.addConnection(pipe,'B',[model '/Outlet'],'A');
-                simscape.addConnection(pipe,'H',[model '/Wall'],'A');
+                simscape.addConnection(pipe,'H',[model '/Wall'],'B');
             end
             set_param([model '/Solver'],'UseLocalSolver','on', ...
                 'LocalSolverChoice','NE_BACKWARD_EULER_ADVANCER','LocalSolverSampleTime','.001');
@@ -112,13 +114,27 @@ function record=Run_HeatDriveECC_SinglePipeHeatStep(repo, source_root, folder)
                     set_param([model '/NativeFlow'],'mass_flow',num2str(flow,17));
                     set_param([model '/ProbeFlow'],'mass_flow',num2str(flow,17));
                     set_param([model '/WallStep'],'After',num2str(303.15+delta,17));
-                    elapsed=tic;output=sim(model);seconds=toc(elapsed);
+                    elapsed=tic;input=Simulink.SimulationInput(model);
+                    output=sim(input.setModelParameter('CaptureErrors','on'));seconds=toc(elapsed);
+                    if ~isempty(output.ErrorMessage)
+                        failed_case_context=struct('material',name,'mass_flow_command_kgps',flow, ...
+                            'wall_step_K',delta,'resume_allowed',false); %#ok<NASGU>
+                        save(fullfile(folder,'failed_simulation.mat'),'output','failed_case_context','-v7.3');
+                        error('HeatDriveECC:SinglePipeSimulationError','%s',output.ErrorMessage);
+                    end
                     native=simscape.logging.findNode(output.simlog,[model '/Native']);
                     observed=simscape.logging.findNode(output.simlog,[model '/Probe']);
                     common={'T_I','p_I','u_I','rho_I','Phi_A','Phi_B','Q_H','mdot_A','mdot_B'};
                     extra={'Q_conv','Q_cond','cp_I','mu_I','k_I','Pr_I','Re_avg', ...
                         'probe_wall_T','probe_A_T','probe_B_T'};
                     native_traces=extract(native,common);probe_traces=extract(observed,[common extra]);
+                    wall=probe_traces{find(strcmp([common extra],'probe_wall_T'),1)};
+                    assert(strcmp(wall.unit,'K'));
+                    before=wall.time_s<=.019;after=wall.time_s>=.021;
+                    assert(any(before) && any(after) && ...
+                        max(abs(wall.values(before)-303.15),[],'all')<1e-9 && ...
+                        max(abs(wall.values(after)-(303.15+delta)),[],'all')<1e-9, ...
+                        'Actual wall temperature does not witness the requested heat step.');
                     comparisons=cell(size(common));
                     for k=1:numel(common)
                         a=native_traces{k};b=probe_traces{k};
