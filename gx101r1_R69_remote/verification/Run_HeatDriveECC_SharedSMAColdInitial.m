@@ -8,14 +8,27 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
     assert(isstruct(inventory) && ismember(inventory.formulation,{'native','endpoint_inventory'}));
     endpoint=strcmp(inventory.formulation,'endpoint_inventory');
     assert(ismember(numerical_profile,{'inherited','local_tight'}));
-    assert(ismember(capture_profile,{'selected_sma_v1','coupled_cv_v1'}));
-    full_cv=strcmp(capture_profile,'coupled_cv_v1');
+    assert(ismember(capture_profile,{'selected_sma_v1','coupled_cv_v1','coupled_cv_tail_v1'}));
+    tail=strcmp(capture_profile,'coupled_cv_tail_v1');
+    full_cv=ismember(capture_profile,{'coupled_cv_v1','coupled_cv_tail_v1'});
     assert(full_cv || strcmp(numerical_profile,'inherited'),'Numerical refinement needs complete CV observation.');
-    assert(ismember(duration,[.01 .2 10 20]) && (duration~=20 || full_cv), ...
+    assert(ismember(duration,[.01 .2 10 20 200]) && (duration<20 || full_cv) && (duration~=200 || tail), ...
         'C2 requires the declared full CV observation profile.');
     assert(ismember(requested_arm,{'dual','shared','both'}));
     assert(~endpoint || (full_cv && strcmp(requested_arm,'shared') && strcmp(numerical_profile,'inherited') && ...
         isfield(inventory,'reference_root')),'Endpoint storage requires an explicit shared cold CV comparison, not a solver intervention.');
+    assert(~tail || (endpoint && isfield(inventory,'retained_duration_s')),'Tail logging is an explicit endpoint cold diagnostic.');
+    if duration==200
+        assert(isfield(inventory,'passive_logging_proof_path'),'C20 requires an actually executed same-physics logging proof.');
+        proof=jsondecode(fileread(inventory.passive_logging_proof_path));
+        assert(proof.passive_logging_equivalence_pass && ~proof.production_recovery_allowed);
+        fields=fieldnames(proof.runtime_logging_sources_sha256);
+        for k=1:numel(fields)
+            source=fullfile(repo,'verification',[fields{k} '.m']);
+            assert(strcmp(file_hash(source),proof.runtime_logging_sources_sha256.(fields{k})), ...
+                'Logging implementation changed since its executed equivalence proof.');
+        end
+    end
     assert(~isfolder(folder),'Never overwrite an experiment.');mkdir(folder);
     old=pwd;oldpath=path;restore=onCleanup(@() restore_path(old,oldpath));
     generation=Simulink.fileGenControl('getConfig');
@@ -62,6 +75,12 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
                 'Capture_HeatDriveECC_CoupledCVPacket','Pack_HeatDriveECC_TraceColumns', ...
                 'Extract_HeatDriveECC_NativeStorageTraces','Extract_HeatDriveECC_BoundaryTraces','Read_HeatDriveECC_NativeSeries'};
             for k=1:numel(modules),result.CV_source_sha256.(modules{k})=file_hash(fullfile(repo,'verification',[modules{k} '.m']));end
+            if tail
+                Test_HeatDriveECC_TraceWindow();
+                for name={'Configure_HeatDriveECC_CVTailObservation','Select_HeatDriveECC_TraceWindow','Test_HeatDriveECC_TraceWindow'}
+                    result.CV_source_sha256.(name{1})=file_hash(fullfile(repo,'verification',[name{1} '.m']));
+                end
+            end
             if endpoint
                 for name={'Apply_HeatDriveECC_SharedEndpointInventory','Build_HeatDriveECC_ColdInventoryTargets','Apply_HeatDriveECC_ColdConservativeBuffers'}
                     result.CV_source_sha256.(name{1})=file_hash(fullfile(repo,'verification',[name{1} '.m']));
@@ -139,6 +158,10 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
                 write_json(fullfile(arm,'numerical_solver_contract.json'),numerical);
                 cv=Prepare_HeatDriveECC_CoupledCVObservation(model,options,name,arm,endpoint_contract);
                 cv.numerical_solver_contract=numerical;
+                if tail
+                    cv.observation_window=Configure_HeatDriveECC_CVTailObservation(model,duration,inventory.retained_duration_s);
+                    if duration==200,cv.observation_window.executed_logging_proof_sha256=file_hash(inventory.passive_logging_proof_path);end
+                end
                 write_json(fullfile(arm,'CV_tl_topology.json'),cv.tl_topology);
                 write_json(fullfile(arm,'CV_thermal_topology.json'),cv.thermal_topology);
                 write_json(fullfile(arm,'CV_contract.json'),rmfield(cv,{'tl_topology','thermal_topology'}));

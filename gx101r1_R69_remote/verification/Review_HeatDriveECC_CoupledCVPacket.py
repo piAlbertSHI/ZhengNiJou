@@ -36,8 +36,9 @@ CORE_FIELDS={
 def on_grid(row,clock):
     """Select actually recorded physical samples, not interpolated/held states."""
     t=row['time_s'];v=row['values']
-    ix=np.searchsorted(t,clock+2e-14,side='right')-1
-    if np.any(ix<0) or np.any(abs(t[ix]-clock)>2e-14):
+    tolerance=np.maximum(2e-14,8*np.spacing(np.maximum(abs(clock),1.)))
+    ix=np.searchsorted(t,clock+tolerance,side='right')-1
+    if np.any(ix<0) or np.any(abs(t[ix]-clock)>tolerance):
         raise ValueError('Missing actual workspace sample on native clock')
     return v[ix]
 
@@ -110,12 +111,23 @@ def verify_arm(root,case,duration):
         if actual!=required:raise ValueError('Missing or unexpected regenerator coordinate')
     native=load(folder/files['native']);workspace=load(folder/files['workspace']);sources=load(folder/files['source'])
     if {p for p,n in native}!=set(paths):raise ValueError('Saved native stream ownership differs from exact inventory')
-    clock=np.arange(round(duration/.001)+1)*.001
+    start=0.
+    if 'observation_window' in c:
+        window=c['observation_window'];start=float(window['start_s'])
+        if window['stop_s']!=duration or not (0<start<duration) or window['time_interpolation_performed']:
+            raise ValueError('Invalid absolute-time passive observation window')
+        coarse_path=folder/'coarse_CV_observations.mat'
+        if sha256(coarse_path)!=record['coarse_sha256']:raise ValueError('Coarse evidence changed')
+        deps.append(dict(path=str(coarse_path),sha256=sha256(coarse_path),bytes=coarse_path.stat().st_size))
+        coarse=load(coarse_path)
+        if {n for p,n in coarse}!=set(window['coarse_workspace_variables']) or any(r['time_s'][0]!=0 for r in coarse.values()):
+            raise ValueError('Coarse evidence lacks actual fresh zero-time samples')
+    clock=np.arange(round(start/.001),round(duration/.001)+1)*.001
     for b in blocks:
         leaves={name for p,name in native if p==b['block_path']}
         if not CORE_FIELDS[b['mask_type']]<=leaves:raise ValueError('Missing actual mass/energy state or port')
         for name in CORE_FIELDS[b['mask_type']]:
-            validate_grid(native[b['block_path'],name]['time_s'],0,duration,.001)
+            validate_grid(native[b['block_path'],name]['time_s'],start,duration,.001)
     required=set(c['required_workspace_variables'])
     if not required<={name for p,name in workspace}:raise ValueError('Required measured signal not saved')
     if len({p for p,n in sources})!=49:raise ValueError('Incomplete constitutive/external/pump source set')
@@ -155,7 +167,8 @@ def verify_arm(root,case,duration):
         on_grid(workspace[model,p['workspace_variable']],clock)
     return {'arm':variant,'same_run_CV_capture_coverage_pass':True,'runtime_metadata_hashes_bound':bound,
             'component_count':len(paths),'type_counts':expected,'native_trace_count':len(native),'workspace_signal_count':len(workspace),
-            'source_trace_count':len(sources),'source_count':49,'native_grid_sample_count':len(clock),'hydraulic_domain_count':domain_count,
+            'source_trace_count':len(sources),'source_count':49,'observation_start_s':start,
+            'native_grid_sample_count':len(clock),'hydraulic_domain_count':domain_count,
             'pump_absolute_pressure_probes':pressure,'hex_absolute_port_probes':hexrows,'PI_memory_probe_count':len(pi),
             'solid_workspace_native_max_difference_K':errors,'input_dependencies':deps,
             'all_mechanism_energy_periodic_or_twenty_cycle_seed_qualified':False,'complete_hidden_state_or_OP_saved':False}

@@ -35,6 +35,13 @@ def path_steps(coefficient,coordinate):
     return c[1:]*np.diff(x)
 
 
+def window_indices(time,start,stop):
+    a=round((start-time[0])/.001);b=round((stop-time[0])/.001)
+    if a<0 or b>=len(time) or b<=a:raise ValueError('Window outside actually retained native samples')
+    validate_grid(time[a:b+1],start,stop,.001)
+    return a,b
+
+
 def native_sum(data,path,prefix,unit):
     rows=[r for (p,n),r in data.items() if p==path and n.startswith(prefix)]
     if not rows:raise ValueError('Missing native port quantity')
@@ -193,7 +200,7 @@ def sources(data):
 
 
 def balance_window(data,components,boundary,start,stop):
-    time=data['time'];a=round(start/.001);b=round(stop/.001);sl=slice(a+1,b+1);steps=slice(a,b)
+    time=data['time'];a,b=window_indices(time,start,stop);sl=slice(a+1,b+1);steps=slice(a,b)
     validate_grid(time[a:b+1],start,stop,.001);dt=np.diff(time)[steps]
     incoming=sum((r['power'] for r in boundary),np.zeros_like(time))
     native_rate=sum((r['power'] for r in components),np.zeros_like(time))
@@ -238,7 +245,7 @@ def balance_window(data,components,boundary,start,stop):
 
 
 def engineering_pumps(data,start,stop):
-    time=data['time'];a=round(start/.001);b=round(stop/.001);dt=np.diff(time)[a:b];rows=[]
+    time=data['time'];a,b=window_indices(time,start,stop);dt=np.diff(time)[a:b];rows=[]
     for source in data['boundary']['blocks']:
         if source['source_file']!='foundation.thermal_liquid.sources.pressure_source':continue
         path=source['block_path'];name=path[len(data['model'])+1:]
@@ -275,7 +282,7 @@ def cooling_decomposition(cp_power,advected,wall_stage,wall_all,sensor):
 
 
 def mechanical_bridge(data,boundary,start,stop):
-    time=data['time'];a=round(start/.001);b=round(stop/.001);idx=slice(a,b+1);steps=slice(a,b)
+    time=data['time'];a,b=window_indices(time,start,stop);idx=slice(a,b+1);steps=slice(a,b)
     c=signal(data,'ECC_constitutive21_output');o=data['options'];g=o['geometry'];v=o['validation'];N=o['node_count']
     if N!=21 or c.shape!=(len(time),12*N):raise ValueError('Unsupported constitutive layout')
     sa=c[:,4*N:5*N];sr=c[:,5*N:6*N];ea=c[:,6*N:7*N];er=c[:,7*N:8*N]
