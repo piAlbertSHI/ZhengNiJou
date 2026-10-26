@@ -59,8 +59,8 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
         if strcmp(mode,'warmup_C40')
             stop=400;
             assert(strcmp(get_param(model,'SimscapeLogLimitData'),'on') && ...
-                str2double(get_param(model,'SimscapeLogDataHistory'))==20002 && ...
-                str2double(get_param(model,'MaxDataPoints'))==40002);
+                numeric_parameter(get_param(model,'SimscapeLogDataHistory'))==20002 && ...
+                numeric_parameter(get_param(model,'MaxDataPoints'))==40002);
         end
         if strcmp(mode,'bounded_step_probe')
             stop=prior.snapshot_s+.002;
@@ -112,6 +112,11 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
     end
     write_json(fullfile(folder,'new_process_restore.json'),record);
     disp(jsonencode(struct('execution_complete',true,'production_recovery_allowed',false,'folder',folder)));
+end
+
+function v=numeric_parameter(v)
+    if ischar(v) || isstring(v),v=str2double(v);end
+    validateattributes(v,{'numeric'},{'scalar','real','finite'});
 end
 
 function verify(p,h)

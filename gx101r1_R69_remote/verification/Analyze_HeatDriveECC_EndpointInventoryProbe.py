@@ -52,7 +52,9 @@ def cycle_diagnostics(data,duration):
     sma=(b['m_dot_sma_shex_kg_per_s']+b['m_dot_sma_the_kg_per_s'])/2
     se=(b['m_dot_se_the_kg_per_s']+b['m_dot_se_chex_kg_per_s'])/2
     flows=[]
-    numbers=sorted(set(cycle.tolist()))
+    # A fixed long command horizon owns the terminal t=400 sample as cycle 41.
+    # It has no settled samples; keep it for ledgers, not as a third full cycle.
+    numbers=sorted(set(cycle[core].tolist()))
     if len(numbers)!=2:raise ValueError('Retained window does not own exactly two cycles')
     for number in numbers:
         row=dict(cycle=number,SMA=flow_metrics(signal(data,'mass_flow_sma_stage13_kgps')[:,0],sma,

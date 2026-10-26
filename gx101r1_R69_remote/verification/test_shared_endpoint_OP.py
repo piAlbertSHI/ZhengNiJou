@@ -57,5 +57,11 @@ class EndpointOPTests(unittest.TestCase):
         self.assertLess(source.index("save(terminal,"),source.index('Capture_HeatDriveECC_StateInterfaceTrace('))
         self.assertNotIn('.loggedStates=',source)
 
+    def test_logging_parameter_accepts_documented_numeric_or_character_storage(self):
+        source=(Path(__file__).resolve().parent/'Resume_HeatDriveECC_SharedEndpointOP.m').read_text(encoding='utf-8')
+        self.assertIn("numeric_parameter(get_param(model,'SimscapeLogDataHistory'))",source)
+        self.assertIn('if ischar(v) || isstring(v),v=str2double(v);end',source)
+        self.assertIn("validateattributes(v,{'numeric'},{'scalar','real','finite'})",source)
+
 
 if __name__=='__main__':unittest.main()
