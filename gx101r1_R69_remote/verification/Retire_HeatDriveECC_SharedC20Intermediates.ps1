@@ -28,7 +28,7 @@ foreach($c in $m.candidates) {
     $ancestor=Get-Item -LiteralPath $target -Force
     while($null -ne $ancestor) {
         if ($ancestor.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'Linked ancestor.' }
-        $ancestor=$ancestor.Parent
+        $ancestor=if($ancestor.PSIsContainer) { $ancestor.Parent } else { $ancestor.Directory }
     }
     $all=if($c.kind -eq 'file') { @(Get-Item -LiteralPath $target) } else { @(Get-ChildItem -LiteralPath $target -Recurse -Force) }
     if (@($all | Where-Object { $_.Attributes -band [IO.FileAttributes]::ReparsePoint }).Count) { throw 'Linked descendant.' }
