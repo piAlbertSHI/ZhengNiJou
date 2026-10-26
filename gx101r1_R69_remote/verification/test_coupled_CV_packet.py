@@ -7,6 +7,7 @@ import numpy as np
 
 from HeatDriveECC_TraceColumns import unpack
 from Review_HeatDriveECC_CoupledCVPacket import on_grid
+from Analyze_HeatDriveECC_CoupledCVTrajectories import be_residual, difference_stats, geometric_value, stage_coordinates, flow_metrics
 
 
 class PacketTests(unittest.TestCase):
@@ -68,6 +69,32 @@ class PacketTests(unittest.TestCase):
         self.assertIn("'cv_PI_sma_state','cv_PI_se_stage2_state','stage4_integrator_state'",capture)
         self.assertIn("'controller_parameters_modified',false",capture)
         self.assertNotIn("set_param(p,'InitialCondition'",capture)
+
+    def test_BE_ledger_uses_right_endpoint_not_trapezoid(self):
+        time=np.array([0.,.001,.002]);power=np.array([99.,2.,3.])
+        energy=np.array([7.,7.002,7.005])
+        np.testing.assert_allclose(be_residual(time,energy,power),0,atol=1e-15)
+
+    def test_C2_drift_keeps_endpoints_and_same_phase_distinct(self):
+        r=difference_stats(np.array([[0.],[1.],[2.],[4.],[2.]]),2)
+        self.assertEqual(r['endpoint_max_abs'],0.)
+        self.assertEqual(r['same_phase_max_abs'],3.)
+        with self.assertRaises(ValueError):difference_stats(np.zeros((4,1)),2)
+        with self.assertRaises(ValueError):geometric_value({'value':1.,'unit':'cm'},'m')
+
+    def test_stage_boundary_ownership_matches_runtime_final_endpoint(self):
+        options={'cycle_count':2,'schedule':{'tau_cycle_s':10.,'stage_start_s':[0.,3.5,5.,8.5],
+                                          'stage_end_s':[3.5,5.,8.5,10.]}}
+        cycle,stage,elapsed=stage_coordinates(np.array([0.,3.5,5.,8.5,10.,20.]),options)
+        np.testing.assert_array_equal(cycle,[1,1,1,1,2,2])
+        np.testing.assert_array_equal(stage,[1,2,3,4,1,4])
+        self.assertEqual(elapsed[-1],1.5)
+
+    def test_flow_magnitude_cannot_hide_reversal(self):
+        r=flow_metrics(np.array([-1.,1.]),1.,np.array([True,True]),1,.15,.05)
+        self.assertTrue(r['instantaneous_target_pass'])
+        self.assertFalse(r['direction_pass'])
+        with self.assertRaises(ValueError):flow_metrics(np.ones(2),1.,np.array([False,False]),1,.15)
 
 
 if __name__=='__main__':unittest.main()
