@@ -7,6 +7,7 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
     if nargin<9,inventory=struct('formulation','native');end
     assert(isstruct(inventory) && ismember(inventory.formulation,{'native','endpoint_inventory'}));
     endpoint=strcmp(inventory.formulation,'endpoint_inventory');
+    state_interface=isfield(inventory,'state_interface') && strcmp(inventory.state_interface,'cycle_roundtrip');
     assert(ismember(numerical_profile,{'inherited','local_tight'}));
     assert(ismember(capture_profile,{'selected_sma_v1','coupled_cv_v1','coupled_cv_tail_v1'}));
     tail=strcmp(capture_profile,'coupled_cv_tail_v1');
@@ -18,6 +19,9 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
     assert(~endpoint || (full_cv && strcmp(requested_arm,'shared') && strcmp(numerical_profile,'inherited') && ...
         isfield(inventory,'reference_root')),'Endpoint storage requires an explicit shared cold CV comparison, not a solver intervention.');
     assert(~tail || (endpoint && isfield(inventory,'retained_duration_s')),'Tail logging is an explicit endpoint cold diagnostic.');
+    assert(~state_interface || (endpoint && ~tail && duration==.2 && full_cv && ...
+        isfield(inventory,'command_cycle_count') && inventory.command_cycle_count==100), ...
+        'State interface is a separate fresh shared experiment with a fixed 100-cycle command horizon.');
     if duration==200
         assert(isfield(inventory,'passive_logging_proof_path'),'C20 requires an actually executed same-physics logging proof.');
         proof=jsondecode(fileread(inventory.passive_logging_proof_path));
@@ -63,7 +67,7 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
         if endpoint,result.hydraulic_storage_variant='shared_explicit_endpoint_chambers_and_offset_buffers';end
         result.conservative_variant_or_its_old_initial_state_replayed=false;
         observer_function='HeatDriveECC_ShortColdTimeObserver';observer_step=.001;
-        if duration>=10,observer_function='HeatDriveECC_ProcessLocalTimeObserver';observer_step=1;end
+        if duration>=10 || state_interface,observer_function='HeatDriveECC_ProcessLocalTimeObserver';observer_step=1;end
         result.observer_function_name=observer_function;
         result.source_sha256=struct('runner',file_hash([mfilename('fullpath') '.m']), ...
             'applicator',file_hash(fullfile(repo,'verification','Apply_HeatDriveECC_SharedSMAFluidDiagnostic.m')), ...
@@ -86,6 +90,11 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
                     result.CV_source_sha256.(name{1})=file_hash(fullfile(repo,'verification',[name{1} '.m']));
                 end
             end
+            if state_interface
+                for name={'Verify_HeatDriveECC_SharedEndpointOP','Capture_HeatDriveECC_StateInterfaceTrace'}
+                    result.CV_source_sha256.(name{1})=file_hash(fullfile(repo,'verification',[name{1} '.m']));
+                end
+            end
             result.CV_source_sha256.Instrument_HeatDriveECC_PumpPressureProbes=file_hash(fullfile(repo,'Instrument_HeatDriveECC_PumpPressureProbes.m'));
             result.CV_source_sha256.Instrument_HeatDriveECC_Stage4ControllerProbes=file_hash(fullfile(repo,'Instrument_HeatDriveECC_Stage4ControllerProbes.m'));
         end
@@ -97,6 +106,7 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
             assert(isfile(isolated));isolated_hash=file_hash(isolated);
             assert(~bdIsLoaded(o.model_name),'Never close another loaded model.');
             cd(fileparts(isolated));o.model_path=isolated;o.cycle_count=max(1,round(duration/10));
+            if state_interface,o.cycle_count=inventory.command_cycle_count;end
             o.outputs_dir=arm;o.report_path=fullfile(arm,'diagnostic_report.txt');
             o.simulation.stop_time_s=duration;o.simulation.persist_model_configuration=false;
             o.simulation.resume_checkpoint_path='';
@@ -190,6 +200,20 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
             HeatDriveECC_ObserverContext('register',model,fullfile(arm,'solver_time.json'));
             elapsed=tic;cpu_start=cputime;input=Simulink.SimulationInput(model);
             if endpoint,input=input.setVariable('cold_public_targets',cold_public_targets);end
+            if state_interface
+                result.schema='heatdrive_ecc_shared_endpoint_state_interface_execution_v1';
+                result.state_interface=Verify_HeatDriveECC_SharedEndpointOP(repo,input,options,cv,arm);
+                result.checkpoint_loaded_or_saved=true;
+                result.actual_reference_stop_time_s=result.state_interface.reference_stop_s;
+                result.collection_complete=true;
+                assert(strcmp(file_hash(protected),protected_hash),'Canonical model changed.');
+                result.protected_model_sha256_unchanged=protected_hash;
+                write_json(fullfile(folder,'state_interface_execution.json'),result);
+                clear model_cleanup library_cleanup
+                HeatDriveECC_ObserverContext('clear',model);
+                disp(jsonencode(struct('state_interface_execution_complete',true,'production_recovery_allowed',false,'folder',folder)));
+                return
+            end
             output=sim(input.setModelParameter('CaptureErrors','on'));wall=toc(elapsed);
             process_cpu_seconds=cputime-cpu_start;
             if ~isempty(output.ErrorMessage)
