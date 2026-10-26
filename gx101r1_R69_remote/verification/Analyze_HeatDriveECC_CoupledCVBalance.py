@@ -124,6 +124,11 @@ def storage(data):
             temperature=v('T','K');U=mass*cp*temperature;M=np.zeros_like(time)
             dE=np.diff(U);dM=np.zeros_like(dt);power=v('Q','W');mdot=np.zeros_like(time)
             basis='fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources'
+        elif kind in ('Endpoint Chamber','Endpoint Buffer'):
+            M=v('stored_mass','kg');U=v('stored_energy','J');dM=np.diff(M);dE=np.diff(U)
+            power=native_sum(data['native'],path,'Phi_','W')+v('Q_H','W')
+            mdot=native_sum(data['native'],path,'mdot_','kg/s')
+            basis='explicit endpoint stored_mass/stored_energy states; buffer U includes environment pV, gravity and declared reference auxiliary capacity; not native Tank equivalence'
         else:
             temperature=v('T_I','K');pressure=v('p_I','Pa');rho=v('rho_I','kg/m^3');u=v('u_I','J/kg');h=v('h_I','J/kg')
             power=native_sum(data['native'],path,'Phi_','W')+v('Q_H','W')

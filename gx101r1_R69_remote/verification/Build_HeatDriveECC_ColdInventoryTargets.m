@@ -1,4 +1,4 @@
-function [point,records]=Build_HeatDriveECC_ColdInventoryTargets(model,native,chamber_volume,buffers,chamber_source)
+function [point,records]=Build_HeatDriveECC_ColdInventoryTargets(model,native,chamber_volume,buffers,chamber_source,inventory)
 % Public target specification at t=0, not a ModelOperatingPoint or hidden state.
     if nargin<4, buffers={}; end
     if nargin<5,chamber_source='ecc_inventory.conservative_chamber';end
@@ -6,8 +6,16 @@ function [point,records]=Build_HeatDriveECC_ColdInventoryTargets(model,native,ch
         'ecc_inventory_priority.conservative_chamber','ecc_inventory_specific.conservative_chamber', ...
         'ecc_inventory_endpoint.conservative_chamber','ecc_inventory_pressure_only.conservative_chamber'})), ...
         'Unknown cold diagnostic chamber source.');
+    if nargin<6,inventory=[];end
+    expected_primary=125;expected_records=200+numel(buffers);
     point=simscape.op.OperatingPoint;records={};primary=0;
     types={'Pipe (TL)','Tank (TL)','Thermal Mass'};counts=[67 4 46];
+    if ~isempty(inventory)
+        assert(strcmp(inventory.schema,'heatdrive_ecc_coupled_CV_inventory_v1') && ...
+            strcmp(inventory.variant,'shared') && isequal(inventory.type_counts,[46 4 2 46]), ...
+            'Only the explicitly audited shared native topology may alter target coverage.');
+        counts=[46 4 46];expected_primary=104;expected_records=158+numel(buffers);
+    end
     for kind=1:3
         paths=find_system(model,'LookUnderMasks','all','FollowLinks','on','Type','Block','MaskType',types{kind});
         if kind==2 && ~isempty(buffers)
@@ -49,7 +57,13 @@ function [point,records]=Build_HeatDriveECC_ColdInventoryTargets(model,native,ch
         add_value(p,'stored_energy','J','High',mass*observed(p,'u_I','J/kg'));
         add(p,'T_I','K','Low');add(p,'p_I','MPa','Low');
     end
-    assert(primary==125 && numel(records)==200+numel(buffers) && ~hasPrivateData(point),'Invalid public cold target coverage.');
+    assert(primary==expected_primary && numel(records)==expected_records && ~hasPrivateData(point), ...
+        'Invalid public cold target coverage.');
+    if ~isempty(inventory)
+        actual=cellfun(@(r)r.block_path,records,'UniformOutput',false);
+        assert(isequal(sort(unique(actual)),sort(inventory.storage_paths)), ...
+            'Cold targets must cover the exact retained shared storage paths.');
+    end
 
     function v=observed(p,n,u)
         rows=native(cellfun(@(r) strcmp(r.block_path,p) && strcmp(r.state_name,n),native));

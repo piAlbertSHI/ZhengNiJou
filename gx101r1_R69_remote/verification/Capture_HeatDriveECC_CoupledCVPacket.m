@@ -1,6 +1,10 @@
 function record=Capture_HeatDriveECC_CoupledCVPacket(output,model,options,contract,folder)
 % Save disjoint raw groups immediately; never an aggregate duplicate packet.
-    [native,profiling]=Extract_HeatDriveECC_NativeStorageTraces(output.simlog,model,false,{}, {},contract);
+    chambers={};buffers={};
+    if strcmp(contract.schema,'heatdrive_ecc_endpoint_CV_inventory_v1')
+        chambers=contract.endpoint_chamber_paths;buffers=contract.endpoint_buffer_paths;
+    end
+    [native,profiling]=Extract_HeatDriveECC_NativeStorageTraces(output.simlog,model,false,chambers,buffers,contract);
     packet=Pack_HeatDriveECC_TraceColumns(native); %#ok<NASGU>
     file=fullfile(folder,'native_CV_observations.mat');assert(~isfile(file));save(file,'packet','-v7');
     record=struct('native_file',file,'native_sha256',file_hash(file),'native_trace_count',numel(native), ...

@@ -1,6 +1,13 @@
-function contract=Prepare_HeatDriveECC_CoupledCVObservation(model,options,variant,folder)
+function contract=Prepare_HeatDriveECC_CoupledCVObservation(model,options,variant,folder,inventory)
 % Passive observation of all four exchanger channels and three pump sources.
-    contract=Build_HeatDriveECC_CoupledCVInventory(model,variant,options);
+    if nargin<5,inventory=[];end
+    if isempty(inventory)
+        contract=Build_HeatDriveECC_CoupledCVInventory(model,variant,options);
+    else
+        assert(strcmp(inventory.schema,'heatdrive_ecc_endpoint_CV_inventory_v1') && ...
+            strcmp(variant,'shared') && strcmp(inventory.variant,variant));
+        contract=inventory;
+    end
     pump=Instrument_HeatDriveECC_PumpPressureProbes(model,folder);
     controller=Instrument_HeatDriveECC_Stage4ControllerProbes(model,folder);
     memory=cell(1,3);

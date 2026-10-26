@@ -1,9 +1,12 @@
-function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zip, folder, requested_arm, duration, capture_profile, numerical_profile)
+function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zip, folder, requested_arm, duration, capture_profile, numerical_profile, inventory)
 % Fresh, matched-bed-temperature native initialization; no old OP or seed.
     if nargin<5,requested_arm='both';end
     if nargin<6,duration=.01;end
     if nargin<7,capture_profile='selected_sma_v1';if duration==20,capture_profile='coupled_cv_v1';end;end
     if nargin<8,numerical_profile='inherited';end
+    if nargin<9,inventory=struct('formulation','native');end
+    assert(isstruct(inventory) && ismember(inventory.formulation,{'native','endpoint_inventory'}));
+    endpoint=strcmp(inventory.formulation,'endpoint_inventory');
     assert(ismember(numerical_profile,{'inherited','local_tight'}));
     assert(ismember(capture_profile,{'selected_sma_v1','coupled_cv_v1'}));
     full_cv=strcmp(capture_profile,'coupled_cv_v1');
@@ -11,6 +14,8 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
     assert(ismember(duration,[.01 .2 10 20]) && (duration~=20 || full_cv), ...
         'C2 requires the declared full CV observation profile.');
     assert(ismember(requested_arm,{'dual','shared','both'}));
+    assert(~endpoint || (full_cv && strcmp(requested_arm,'shared') && strcmp(numerical_profile,'inherited') && ...
+        isfield(inventory,'reference_root')),'Endpoint storage requires an explicit shared cold CV comparison, not a solver intervention.');
     assert(~isfolder(folder),'Never overwrite an experiment.');mkdir(folder);
     old=pwd;oldpath=path;restore=onCleanup(@() restore_path(old,oldpath));
     generation=Simulink.fileGenControl('getConfig');
@@ -22,6 +27,7 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
         'checkpoint_loaded_or_saved',false,'stop_time_s',duration,'completed_arms',{{}});
     result.capture_profile=capture_profile;
     result.numerical_profile=numerical_profile;
+    result.inventory_formulation=inventory.formulation;
     if full_cv,result.schema='heatdrive_ecc_coupled_CV_execution_v1';end
     protected=fullfile(repo,'heatdrive_ecc_coupled_se21.slx');protected_hash=file_hash(protected);
     try
@@ -41,6 +47,7 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
             'source_execution_path',source_execution,'source_execution_sha256',file_hash(source_execution), ...
             'seed_zip',seed_zip,'seed_zip_sha256',file_hash(seed_zip));
         result.hydraulic_storage_variant='native_foundation_chambers_and_buffers';
+        if endpoint,result.hydraulic_storage_variant='shared_explicit_endpoint_chambers_and_offset_buffers';end
         result.conservative_variant_or_its_old_initial_state_replayed=false;
         observer_function='HeatDriveECC_ShortColdTimeObserver';observer_step=.001;
         if duration>=10,observer_function='HeatDriveECC_ProcessLocalTimeObserver';observer_step=1;end
@@ -55,6 +62,11 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
                 'Capture_HeatDriveECC_CoupledCVPacket','Pack_HeatDriveECC_TraceColumns', ...
                 'Extract_HeatDriveECC_NativeStorageTraces','Extract_HeatDriveECC_BoundaryTraces','Read_HeatDriveECC_NativeSeries'};
             for k=1:numel(modules),result.CV_source_sha256.(modules{k})=file_hash(fullfile(repo,'verification',[modules{k} '.m']));end
+            if endpoint
+                for name={'Apply_HeatDriveECC_SharedEndpointInventory','Build_HeatDriveECC_ColdInventoryTargets','Apply_HeatDriveECC_ColdConservativeBuffers'}
+                    result.CV_source_sha256.(name{1})=file_hash(fullfile(repo,'verification',[name{1} '.m']));
+                end
+            end
             result.CV_source_sha256.Instrument_HeatDriveECC_PumpPressureProbes=file_hash(fullfile(repo,'Instrument_HeatDriveECC_PumpPressureProbes.m'));
             result.CV_source_sha256.Instrument_HeatDriveECC_Stage4ControllerProbes=file_hash(fullfile(repo,'Instrument_HeatDriveECC_Stage4ControllerProbes.m'));
         end
@@ -112,9 +124,19 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
                 assert(slResolve(get_param(p,'T0'),p)==303.15);
             end
             if full_cv
+                endpoint_contract=[];
+                if endpoint
+                    [cold_public_targets,endpoint_contract,inventory_record,endpoint_libraries]= ...
+                        Apply_HeatDriveECC_SharedEndpointInventory(repo,model,options,inventory.reference_root,arm);
+                    library_cleanup=onCleanup(@() close_libraries(endpoint_libraries));
+                    write_json(fullfile(arm,'endpoint_inventory_construction.json'),inventory_record);
+                    assignin('base','cold_public_targets',cold_public_targets);
+                    set_param(model,'SimscapeUseOperatingPoints','on','SimscapeOperatingPoint','cold_public_targets');
+                    options.validation.shared_endpoint_inventory_requires_explicit_audit=true;
+                end
                 numerical=Configure_HeatDriveECC_NativeConsistencyProbe(model,numerical_profile);
                 write_json(fullfile(arm,'numerical_solver_contract.json'),numerical);
-                cv=Prepare_HeatDriveECC_CoupledCVObservation(model,options,name,arm);
+                cv=Prepare_HeatDriveECC_CoupledCVObservation(model,options,name,arm,endpoint_contract);
                 cv.numerical_solver_contract=numerical;
                 write_json(fullfile(arm,'CV_tl_topology.json'),cv.tl_topology);
                 write_json(fullfile(arm,'CV_thermal_topology.json'),cv.thermal_topology);
@@ -143,6 +165,7 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
                 'FunctionName',observer_function,'Parameters','');
             HeatDriveECC_ObserverContext('register',model,fullfile(arm,'solver_time.json'));
             elapsed=tic;cpu_start=cputime;input=Simulink.SimulationInput(model);
+            if endpoint,input=input.setVariable('cold_public_targets',cold_public_targets);end
             output=sim(input.setModelParameter('CaptureErrors','on'));wall=toc(elapsed);
             process_cpu_seconds=cputime-cpu_start;
             if ~isempty(output.ErrorMessage)
@@ -180,12 +203,15 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
                 end
             end
             t=double(output.tout);assert(t(1)==0 && abs(t(end)-duration)<1e-12 && all(diff(t)>=0));
-            assert(max_initial_T_error<1e-6,'Actual native initialization did not match the declared cold protocol.');
+            if ~endpoint
+                assert(max_initial_T_error<1e-6,'Actual native initialization did not match the declared cold protocol.');
+            end
             state=HeatDriveECC_ObserverContext('get',model);assert(state.terminated && abs(state.last_time-duration)<1e-12);
             assert(strcmp(file_hash(protected),protected_hash) && strcmp(file_hash(isolated),isolated_hash));
             completed=struct('arm',name,'actual_stop_time_s',t(end),'simulation_wall_seconds',wall, ...
                 'simulation_process_cpu_seconds',process_cpu_seconds, ...
                 'native_pipe_observation_count',numel(paths),'maximum_initial_pipe_temperature_error_K',max_initial_T_error, ...
+                'initial_pipe_temperature_match_original_1e6_threshold',max_initial_T_error<1e-6, ...
                 'compiled_and_simulated',true, ...
                 'full_mechanism_periodic_or_twenty_cycle_seed_allowed',false);
             if full_cv,completed.CV_packet=completed_cv;
@@ -193,6 +219,7 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
             write_json(fullfile(arm,'completed_initial_probe.json'),completed);
             result.completed_arms{end+1}=completed;
             clear output rows traces cv completed_cv model_cleanup
+            if endpoint,clear cold_public_targets library_cleanup;end
             HeatDriveECC_ObserverContext('clear',model);
         end
         result.collection_complete=true;result.protected_model_sha256_unchanged=protected_hash;
@@ -205,6 +232,10 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
     end
     disp(jsonencode(struct('collection_complete',true,'completed_arms',numel(result.completed_arms), ...
         'stop_time_s',duration,'production_recovery_allowed',false)));
+end
+
+function close_libraries(names)
+    for k=1:numel(names),if bdIsLoaded(names{k}),close_system(names{k},0);end;end
 end
 
 function traces=collect_observations(output,model,paths,gate_names,name,partial)

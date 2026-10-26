@@ -27,6 +27,9 @@ CORE_FIELDS={
     'Tank (TL)':{'T_I','p_I','rho_I','u_I','h_I','mass','volume','mdot_A','Phi_A','Q_H'},
     'Constant Volume Chamber (TL)':{'T_I','p_I','rho_I','u_I','h_I','mdot_A','mdot_B','Phi_A','Phi_B','Q_H'},
     'Thermal Mass':{'T','Q'},
+    'Endpoint Chamber':{'T_I','p_I','rho_I','u_I','stored_mass','stored_energy','mdot_A','mdot_B','Phi_A','Phi_B','Q_H'},
+    'Endpoint Buffer':{'T_I','p_I','rho_I','u_I','stored_mass','stored_energy','mass_offset','volume','mdot_A','Phi_A','Q_H',
+                       'fluid_internal_energy','environment_pv_energy','gravitational_energy','auxiliary_energy','auxiliary_capacity'},
 }
 
 
@@ -55,6 +58,26 @@ def verify_sources(execution):
             raise ValueError('Runtime producer source hash differs from its Git identity')
 
 
+def expected_storage_types(c,variant):
+    if variant not in ('dual','shared'):raise ValueError('Unknown coupled topology')
+    expected={'Pipe (TL)':67 if variant=='dual' else 46,'Tank (TL)':4,'Constant Volume Chamber (TL)':2,'Thermal Mass':46}
+    if c['schema']=='heatdrive_ecc_endpoint_CV_inventory_v1':
+        if variant!='shared' or c['storage_formulation']!='endpoint_inventory':raise ValueError('Wrong endpoint CV topology')
+        expected={'Pipe (TL)':46,'Endpoint Buffer':4,'Endpoint Chamber':2,'Thermal Mass':46}
+        root_model=c['storage_paths'][0].split('/')[0]
+        named_buffers={root_model+'/'+n for n in ('ColdFluidBuffer','HotFluidBuffer','SHEXFluidBuffer','SMAHotFluidBuffer')}
+        named_chambers={root_model+'/'+n for n in ('SMA_PumpInletConnectingPipeVolume','SMA_PumpOutletConnectingPipeVolume')}
+        if set(c['endpoint_buffer_paths'])!=named_buffers or set(c['endpoint_chamber_paths'])!=named_chambers:
+            raise ValueError('Endpoint identities cannot be inferred from a count')
+        for row in c['storage_blocks']:
+            if row['block_path'] in named_buffers and (row['mask_type']!='Endpoint Buffer' or row['source_file']!='ecc_buffer_coupled_offset.conservative_buffer'):
+                raise ValueError('Wrong endpoint buffer source or ownership')
+            if row['block_path'] in named_chambers and (row['mask_type']!='Endpoint Chamber' or row['source_file']!='ecc_inventory_endpoint.conservative_chamber'):
+                raise ValueError('Wrong endpoint chamber source or ownership')
+    elif c['schema']!='heatdrive_ecc_coupled_CV_inventory_v1':raise ValueError('Unsupported CV inventory schema')
+    return expected
+
+
 def verify_arm(root,case,duration):
     folder=root/case['arm'];record=case['CV_packet']
     files={'native':'native_CV_observations.mat','workspace':'workspace_CV_observations.mat','source':'source_CV_observations.mat','options':'CV_options.mat'}
@@ -76,7 +99,7 @@ def verify_arm(root,case,duration):
     assignment,domain_count=resolve_domains(tl)
     wires=liquid_wire_labels(tl);wire_nets(th)
     if domain_count!=2:raise ValueError('SMA/SE property domains were merged or split')
-    variant=case['arm'];expected={'Pipe (TL)':67 if variant=='dual' else 46,'Tank (TL)':4,'Constant Volume Chamber (TL)':2,'Thermal Mass':46}
+    variant=case['arm'];expected=expected_storage_types(c,variant)
     blocks=c['storage_blocks'];paths=[r['block_path'] for r in blocks]
     if len(set(paths))!=len(paths) or Counter(r['mask_type'] for r in blocks)!=expected or set(paths)!=set(c['storage_paths']):
         raise ValueError('Wrong topology-specific storage coverage')
