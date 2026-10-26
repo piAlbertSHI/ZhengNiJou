@@ -1,6 +1,8 @@
 """Scope checks only; full-OP runtime and fresh-process evidence are separate."""
 from pathlib import Path
 import unittest
+import numpy as np
+from HeatDriveECC_TraceColumns import scalar_text
 
 
 class EndpointOPTests(unittest.TestCase):
@@ -28,6 +30,12 @@ class EndpointOPTests(unittest.TestCase):
         self.assertNotIn('Build_HeatDriveECC_EighthRound_Simulink_Model(',source)
         self.assertNotIn('set_param(model,',source)
         self.assertNotIn('.loggedStates=',source)
+
+    def test_MATLAB_empty_state_labels_remain_empty_not_fabricated_names(self):
+        self.assertEqual(scalar_text(np.array([],dtype='U1'),True),'')
+        with self.assertRaises(ValueError):scalar_text(np.array([],dtype=float),True)
+        with self.assertRaises(ValueError):scalar_text(np.array(['a','b']))
+        with self.assertRaises(ValueError):scalar_text('',False)
 
 
 if __name__=='__main__':unittest.main()
