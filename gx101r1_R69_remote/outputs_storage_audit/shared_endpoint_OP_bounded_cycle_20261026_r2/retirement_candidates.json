@@ -1,0 +1,483 @@
+{
+  "candidates": [
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\continuous_reference_observations.mat",
+      "workspace_root": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026",
+      "kind": "file",
+      "files": [
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\continuous_reference_observations.mat",
+          "bytes": 165305765,
+          "sha256": "DA8C0784B9718595E33A32A59A71FB260C8003F588B529B514BD3A1E49610756"
+        }
+      ],
+      "bytes": 165305765,
+      "full_content_subset_proved": true
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\same_model_restored_observations.mat",
+      "workspace_root": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026",
+      "kind": "file",
+      "files": [
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\same_model_restored_observations.mat",
+          "bytes": 162683581,
+          "sha256": "4B71B7EE54E9184C3517A00DCBDEE3B880D78A57DC83630A60BE70DD9F49DBEF"
+        }
+      ],
+      "bytes": 162683581,
+      "full_content_subset_proved": true
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\new_process_restored_observations.mat",
+      "workspace_root": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026",
+      "kind": "file",
+      "files": [
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\new_process_restored_observations.mat",
+          "bytes": 162683581,
+          "sha256": "12345662B4D4EB429966E219040120DF524CC2F014B80E925FF5B5B8B9B7FA96"
+        }
+      ],
+      "bytes": 162683581,
+      "full_content_subset_proved": true
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026\\new_process_restored_observations.mat",
+      "workspace_root": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026",
+      "kind": "file",
+      "files": [
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026\\new_process_restored_observations.mat",
+          "bytes": 162683581,
+          "sha256": "0FD2EB144B9A9D85E468A5415A146522EC56236DB8A464A15B4FFE24C7FFADD8"
+        }
+      ],
+      "bytes": 162683581,
+      "full_content_subset_proved": true
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\cache",
+      "workspace_root": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026",
+      "kind": "directory",
+      "files": [
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\cache\\heatdrive_ecc_coupled_se21.slxc",
+          "bytes": 7376,
+          "sha256": "D650B8C1A8E13373F440949B692CCBB3514A9A6B0EA32706F198028C16D9BE03"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\cache\\slprj\\_jitprj\\jitEngineAccessInfo.mat",
+          "bytes": 750,
+          "sha256": "4D0EEA34CB7F030A9971AA4AA758BB85B4289C8D31323D985B025794AD5DD2CE"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.l",
+          "bytes": 9392,
+          "sha256": "F113F8DB5D91D99C834E37E18D782A9BAADEA9885958CB4CCDBAD4E6E9452F5D"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+          "bytes": 1278,
+          "sha256": "93BA5DEE02D66080F13BD56BC978891123DE32E90C4D8B067A03EED7AA94FFBD"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\checksumOfCache.mat",
+          "bytes": 392,
+          "sha256": "C8D0277427A2EF1402F6A77B66DDE0162FC95ADEA56B6A7449CB0D973A8950A8"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\varInfo.mat",
+          "bytes": 40224,
+          "sha256": "F4336F176D639DF081742E4412E7D76C863F018BCF73CDC8717AF7CD57872544"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\tmwinternal\\simulink_cache.xml",
+          "bytes": 376,
+          "sha256": "0A1EEFEA9A5319D64CB817F1FCB514A9DAB14EB8B2D12BE1A074A5BBFE677F5F"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\cache\\slprj\\_sfprj\\EMLReport\\emlReportAccessInfo.mat",
+          "bytes": 750,
+          "sha256": "ED9035C26D6FA9EBCEBA0496370F25082E45DA8F8A66F987207DDC7725758B7B"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\cache\\slprj\\_sfprj\\EMLReport\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+          "bytes": 2584,
+          "sha256": "CF924EB033D7A9D2116BC8BB21BE35AA1330E240103F5F0812A7C30AB6DE45B0"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\amsi_serial.mat",
+          "bytes": 248,
+          "sha256": "ED48C1B801ECAE067FEEFBB9DCCC539E1FAC136BE6BEFDD4C97B5B1961F41AD0"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\cache\\slprj\\_sfprj\\precompile\\autoInferAccessInfo.mat",
+          "bytes": 749,
+          "sha256": "AD996842F6F520BC621BEA8CAB7322F163DD10D2C39AD7BC9513282FFA6B286D"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\cache\\slprj\\_sfprj\\precompile\\EXdKBUmsxqUsV2lCiMiQ4.mat",
+          "bytes": 846,
+          "sha256": "FEAC1C32696EA9F7021A5733150D71331F8106DD7B77C2CBA1FEA8075638AA08"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\_self\\sfun\\info\\binfo.mat",
+          "bytes": 779,
+          "sha256": "F1A71D6635990E3BF58343E639C8F18C0DBE5A21538E5FC93EFF84996CD3CC52"
+        }
+      ],
+      "bytes": 65744
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\codegen",
+      "workspace_root": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026",
+      "kind": "directory",
+      "files": [],
+      "bytes": 0
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\cache",
+      "workspace_root": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026",
+      "kind": "directory",
+      "files": [
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\cache\\heatdrive_ecc_coupled_se21.slxc",
+          "bytes": 7372,
+          "sha256": "837A373444A65280FC95B43793EECBB6B4E73C1522F3AC80117465BBBEF8296A"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.l",
+          "bytes": 9392,
+          "sha256": "F113F8DB5D91D99C834E37E18D782A9BAADEA9885958CB4CCDBAD4E6E9452F5D"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+          "bytes": 1278,
+          "sha256": "B7C10C22797D9812F81C7AF10F19487B90431C986EBD9F558354C071E3AB65EE"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\checksumOfCache.mat",
+          "bytes": 392,
+          "sha256": "6E7CAD55672F2066A2A0EDAE18CB8050570E97EFD79F267BB9BFEF92FFAB04A2"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\varInfo.mat",
+          "bytes": 40224,
+          "sha256": "001922F51F06D9C41C4A6D1001B94F54D8FF705C9DBE19D9007C8749090B4512"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\tmwinternal\\simulink_cache.xml",
+          "bytes": 376,
+          "sha256": "068BA3E9E25B186C645D8103EEBA6D80B00021DAC922CCFEB0A9FEC33B1BEDD9"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\cache\\slprj\\_sfprj\\EMLReport\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+          "bytes": 2590,
+          "sha256": "B3E4786EC0B4DDD4D1D95B7F3E70972F058E10C518958A74F94B5E0005564000"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\amsi_serial.mat",
+          "bytes": 248,
+          "sha256": "62B784936BDD1FE103DAE2966A08CE2B0EE258C7FB11A3FBCB3078F8DB5292DF"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\cache\\slprj\\_sfprj\\precompile\\EXdKBUmsxqUsV2lCiMiQ4.mat",
+          "bytes": 846,
+          "sha256": "691CB24BFA032552830DA6ADB10C656329280A4765F763B9058741F04CC1F5E1"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\_self\\sfun\\info\\binfo.mat",
+          "bytes": 779,
+          "sha256": "D9849C1C7FF8086575E1AD4F63BC858E9FF5D80ADF77F52136973D0419AFE45E"
+        }
+      ],
+      "bytes": 63497
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\codegen",
+      "workspace_root": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026",
+      "kind": "directory",
+      "files": [],
+      "bytes": 0
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_step_r1_20261026\\cache",
+      "workspace_root": "C:\\tmp\\se21_shared_endpoint_OP_bounded_step_r1_20261026",
+      "kind": "directory",
+      "files": [
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_step_r1_20261026\\cache\\heatdrive_ecc_coupled_se21.slxc",
+          "bytes": 7376,
+          "sha256": "747BF385F0EB0288EE12493C1BAAD4A27CE9A0B7128F1AB1741738F408ED0D25"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_step_r1_20261026\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.l",
+          "bytes": 9392,
+          "sha256": "F113F8DB5D91D99C834E37E18D782A9BAADEA9885958CB4CCDBAD4E6E9452F5D"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_step_r1_20261026\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+          "bytes": 1278,
+          "sha256": "A4964CE7F1B1071972778A112CBD41296029D7A410A0439FC9DC7C635FAB97BA"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_step_r1_20261026\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\checksumOfCache.mat",
+          "bytes": 392,
+          "sha256": "72453E0CAD5BFFF933F99380ED26E026B8D79D8CF765429145CF5D078012B2E9"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_step_r1_20261026\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\varInfo.mat",
+          "bytes": 40224,
+          "sha256": "58EF6373975C1E461A73B08AB1DB7B6631C09EF82B7730F216518900E1660EC6"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_step_r1_20261026\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\tmwinternal\\simulink_cache.xml",
+          "bytes": 376,
+          "sha256": "DEADCAF0542BB10F328176131DDA53F71769EF30BBDFDB27A0357BDFA5C21EBB"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_step_r1_20261026\\cache\\slprj\\_sfprj\\EMLReport\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+          "bytes": 2590,
+          "sha256": "2772FC2E19F346DC80FB74D93F0C4E5B049EF312103ECE0A173F7C23CCB6821B"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_step_r1_20261026\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\amsi_serial.mat",
+          "bytes": 248,
+          "sha256": "B28A298472B752DCC1CA68C965A5A47787B89F8606FA6DFD7AD639096EA756E2"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_step_r1_20261026\\cache\\slprj\\_sfprj\\precompile\\EXdKBUmsxqUsV2lCiMiQ4.mat",
+          "bytes": 846,
+          "sha256": "B7E1949CCAF804F06296BDCC74838D0040F006B0DEF1D16E32104BAE5FE04963"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_step_r1_20261026\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\_self\\sfun\\info\\binfo.mat",
+          "bytes": 779,
+          "sha256": "30C7693261B0E41E1E1F2C5FD90A7DE7E63D9BC3F3F592B0EC4EEA4DE651B496"
+        }
+      ],
+      "bytes": 63501
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_step_r1_20261026\\codegen",
+      "workspace_root": "C:\\tmp\\se21_shared_endpoint_OP_bounded_step_r1_20261026",
+      "kind": "directory",
+      "files": [],
+      "bytes": 0
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\cache",
+      "workspace_root": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026",
+      "kind": "directory",
+      "files": [
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\cache\\heatdrive_ecc_coupled_se21.slxc",
+          "bytes": 7371,
+          "sha256": "1FAD4077678FD23A241BD3A020D34181D45C6C0B2EC271A3AFE3B3C559F58B82"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\cache\\slprj\\_jitprj\\jitEngineAccessInfo.mat",
+          "bytes": 751,
+          "sha256": "14476F23A1CA6A55BF0C9D81E9703C198FBB760C657BE43057DC9CC97B179F9C"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.l",
+          "bytes": 9392,
+          "sha256": "F113F8DB5D91D99C834E37E18D782A9BAADEA9885958CB4CCDBAD4E6E9452F5D"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+          "bytes": 1278,
+          "sha256": "9A88121BC80155A0F6BA591B9B33BA7603C9A5BF16E3E9E28D6CBAAA54DAB545"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\checksumOfCache.mat",
+          "bytes": 392,
+          "sha256": "0C82B50C15EC1EB3D325C0EBA8778BAA0719AB79632690AA0E2FE512C6FF99A4"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\varInfo.mat",
+          "bytes": 40224,
+          "sha256": "9C330E71CDD6D9D1027007A52C14509DB0FA58C277DA9EDD5A773B05C6213047"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\tmwinternal\\simulink_cache.xml",
+          "bytes": 376,
+          "sha256": "523F86132FC517C4960CC38D41DDC485E9C9DA4E5199ECC76D42B1609FE93B76"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\cache\\slprj\\_sfprj\\EMLReport\\emlReportAccessInfo.mat",
+          "bytes": 750,
+          "sha256": "0BD2BD91E64B1B3191A906EF72054D69151B0810D1530FEAE49C14518A9F4299"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\cache\\slprj\\_sfprj\\EMLReport\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+          "bytes": 2590,
+          "sha256": "6C3AB6139057FE25FF30D09AB9F211401E1E74BD84D9810E42A411D326A78E55"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\amsi_serial.mat",
+          "bytes": 248,
+          "sha256": "342953ADEEAE0F2293FB55B73B3707EA51EFA802691C119A4CEB9B9A3ACBBDD2"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\cache\\slprj\\_sfprj\\precompile\\autoInferAccessInfo.mat",
+          "bytes": 747,
+          "sha256": "DAE0BAF97C2C52F21E8005530025FCE28B299785C8936A80955CAEEA89F93119"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\cache\\slprj\\_sfprj\\precompile\\EXdKBUmsxqUsV2lCiMiQ4.mat",
+          "bytes": 846,
+          "sha256": "110219E11123BF3E73336B3EFDCB2099FEF866097611CC6CD2F45B8A55867B5C"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\_self\\sfun\\info\\binfo.mat",
+          "bytes": 779,
+          "sha256": "A959BD37AFCEA403EB517FDAF46CD76649A43668192D055D5720EA57251D7890"
+        }
+      ],
+      "bytes": 65744
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\codegen",
+      "workspace_root": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026",
+      "kind": "directory",
+      "files": [],
+      "bytes": 0
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026\\cache",
+      "workspace_root": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026",
+      "kind": "directory",
+      "files": [
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026\\cache\\heatdrive_ecc_coupled_se21.slxc",
+          "bytes": 7371,
+          "sha256": "8780C24DD9C0401DE3D6CE68AC25F895F39FB71F978D84705AE2481AC8CA723C"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.l",
+          "bytes": 9392,
+          "sha256": "F113F8DB5D91D99C834E37E18D782A9BAADEA9885958CB4CCDBAD4E6E9452F5D"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026\\cache\\slprj\\_jitprj\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+          "bytes": 1278,
+          "sha256": "8EB707832D4236A1F9B35F89B93B55631E687D0661ED7557805806028657CE98"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\checksumOfCache.mat",
+          "bytes": 392,
+          "sha256": "180D8E11C75E2CCE176434A22E562640C912434E98CD231134D4B61405AB1285"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\varInfo.mat",
+          "bytes": 40224,
+          "sha256": "9FB2B6485F6149A577059D54B0C23D03CC17C7721E14E29952FEC562804585EB"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026\\cache\\slprj\\sim\\varcache\\heatdrive_ecc_coupled_se21\\tmwinternal\\simulink_cache.xml",
+          "bytes": 376,
+          "sha256": "D72F9695CF0FC2494B4B85DBACFE8E8162ABA2DC7D98DB78D9C6B6AB35214148"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026\\cache\\slprj\\_sfprj\\EMLReport\\sUAQIzKLlD5HVIWvaXcY6JG.mat",
+          "bytes": 2592,
+          "sha256": "9B6CC7CD1BE68C771E592723B7E193296BBA1DFCFF54F05074757B35E98858C7"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\amsi_serial.mat",
+          "bytes": 248,
+          "sha256": "B7109360EFBC40A7EDD0C5E8EEE20FF626D25E108AEEBC97F859C6BE259ADE66"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026\\cache\\slprj\\_sfprj\\precompile\\EXdKBUmsxqUsV2lCiMiQ4.mat",
+          "bytes": 846,
+          "sha256": "7F4523F5DE5F0217DF07CC222D9EB536056EAAD17872AD4D1B438FBC1DFF9EF7"
+        },
+        {
+          "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026\\cache\\slprj\\_sfprj\\heatdrive_ecc_coupled_se21\\_self\\sfun\\info\\binfo.mat",
+          "bytes": 776,
+          "sha256": "D26F9C5E7EE3E9A12A7C7B1C99C83BC51806E649E770EEEC3D8D70AD391B22FF"
+        }
+      ],
+      "bytes": 63495
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026\\codegen",
+      "workspace_root": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026",
+      "kind": "directory",
+      "files": [],
+      "bytes": 0
+    }
+  ],
+  "protected": [
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\seed\\gx101r1_R69_remote\\heatdrive_ecc_coupled_se21.slx",
+      "bytes": 431568,
+      "sha256": "57F5DAEEDE99554FE7DF823030694DE1F6B112478CFFB37CABE81DC66C887E6A"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\diagnostic_complete_operating_point.mat",
+      "bytes": 3891826,
+      "sha256": "7479D0608D73F40A92637CD0113DE7B676067E8FB507E78233D48B2FE00573DA"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\state_interface_contract.mat",
+      "bytes": 204701,
+      "sha256": "78DDAEDA5AAD555509C9AEEAD7289333ED6D4ADBB69FEDEE077F1FBEC5E810BC"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\fixed_runtime_base_workspace.mat",
+      "bytes": 22345835,
+      "sha256": "91400E433D3375ED63418A7D93DE8741079FF1B0F01249246E77BD0B08356CD5"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\seed\\gx101r1_R69_remote\\heatdrive_ecc_coupled_se21.slx",
+      "bytes": 431936,
+      "sha256": "5CAF1BBB602E443A3DD539D6E3D14782A1145E7D545F64724F0A4521B8AAF646"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\diagnostic_complete_operating_point.mat",
+      "bytes": 3891826,
+      "sha256": "83CCC40866491108A4775DD2A8D358BD85A655E7ED11403B629A1E8EE68F4967"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\state_interface_contract.mat",
+      "bytes": 204518,
+      "sha256": "3C1F8B717756D8F64D2DC5D3854D72F1FAB315C1250B80EA5B6869F113A9EAC6"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\fixed_runtime_base_workspace.mat",
+      "bytes": 22345771,
+      "sha256": "8AD953E3D3BA146309E0308AD30985AF03DAC29C21A48CCD0CD3FC592E94128F"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\physical_simscape_result.mat",
+      "bytes": 4987450900,
+      "sha256": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\final_operating_point.mat",
+      "bytes": 3822969,
+      "sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\heatdrive_ecc_coupled_se21.slx",
+      "bytes": 443803,
+      "sha256": "77E2ACD5B983A0BA72DFB72D3AD106F4D0BC524C2EC56C79C096EEBB5DA88599"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\continuous_reference_observations.mat",
+      "bytes": 165305765,
+      "sha256": "C7518570334AE021F1F2A401985B0A5C03B3754FE5AAF0CF093101A6F4FD604F"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\same_model_restored_observations.mat",
+      "bytes": 162683581,
+      "sha256": "158DA670C0FA91DD842BD8CA5EA12EA08CBFD002E8CFF45ECFC4FA4F4BA8E832"
+    }
+  ],
+  "special_protection": "shared/seed contains the ACTUAL persisted runtime model; never treat it as a disposable unpacked seed"
+}

@@ -1,0 +1,66 @@
+{
+  "comparisons": [
+    {
+      "retained": {
+        "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\continuous_reference_observations.mat",
+        "bytes": 165305765,
+        "sha256": "C7518570334AE021F1F2A401985B0A5C03B3754FE5AAF0CF093101A6F4FD604F"
+      },
+      "candidate": {
+        "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\continuous_reference_observations.mat",
+        "bytes": 165305765,
+        "sha256": "DA8C0784B9718595E33A32A59A71FB260C8003F588B529B514BD3A1E49610756"
+      },
+      "trace_count": 1362,
+      "all_original_time_and_value_bits_covered": true,
+      "whole_MAT_byte_identity_claimed": false
+    },
+    {
+      "retained": {
+        "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\same_model_restored_observations.mat",
+        "bytes": 162683581,
+        "sha256": "158DA670C0FA91DD842BD8CA5EA12EA08CBFD002E8CFF45ECFC4FA4F4BA8E832"
+      },
+      "candidate": {
+        "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\same_model_restored_observations.mat",
+        "bytes": 162683581,
+        "sha256": "4B71B7EE54E9184C3517A00DCBDEE3B880D78A57DC83630A60BE70DD9F49DBEF"
+      },
+      "trace_count": 1362,
+      "all_original_time_and_value_bits_covered": true,
+      "whole_MAT_byte_identity_claimed": false
+    },
+    {
+      "retained": {
+        "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\same_model_restored_observations.mat",
+        "bytes": 162683581,
+        "sha256": "158DA670C0FA91DD842BD8CA5EA12EA08CBFD002E8CFF45ECFC4FA4F4BA8E832"
+      },
+      "candidate": {
+        "path": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\new_process_restored_observations.mat",
+        "bytes": 162683581,
+        "sha256": "12345662B4D4EB429966E219040120DF524CC2F014B80E925FF5B5B8B9B7FA96"
+      },
+      "trace_count": 1362,
+      "all_original_time_and_value_bits_covered": true,
+      "whole_MAT_byte_identity_claimed": false
+    },
+    {
+      "retained": {
+        "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\same_model_restored_observations.mat",
+        "bytes": 162683581,
+        "sha256": "158DA670C0FA91DD842BD8CA5EA12EA08CBFD002E8CFF45ECFC4FA4F4BA8E832"
+      },
+      "candidate": {
+        "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026\\new_process_restored_observations.mat",
+        "bytes": 162683581,
+        "sha256": "0FD2EB144B9A9D85E468A5415A146522EC56236DB8A464A15B4FFE24C7FFADD8"
+      },
+      "trace_count": 1362,
+      "all_original_time_and_value_bits_covered": true,
+      "whole_MAT_byte_identity_claimed": false
+    }
+  ],
+  "distinct_continuous_and_restored_event_clocks_both_retained": true,
+  "OP_models_base_archives_and_component_libraries_are_not_candidates": true
+}

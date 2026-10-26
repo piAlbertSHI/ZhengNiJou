@@ -1,0 +1,93 @@
+{
+  "schema": "heatdrive_ecc_shared_OP_retirement_v1",
+  "complete": true,
+  "failure": null,
+  "deleted_targets": [
+    "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\continuous_reference_observations.mat",
+    "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\same_model_restored_observations.mat",
+    "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\new_process_restored_observations.mat",
+    "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026\\new_process_restored_observations.mat",
+    "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\cache",
+    "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\codegen",
+    "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\cache",
+    "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\codegen",
+    "C:\\tmp\\se21_shared_endpoint_OP_bounded_step_r1_20261026\\cache",
+    "C:\\tmp\\se21_shared_endpoint_OP_bounded_step_r1_20261026\\codegen",
+    "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\cache",
+    "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\codegen",
+    "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026\\cache",
+    "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026\\codegen"
+  ],
+  "reclaimed_bytes": 653678489,
+  "protected_hashes_verified_after": true,
+  "runtime_model_OP_or_base_archive_deleted": false,
+  "different_physical_trials_deleted": false,
+  "previously_denied_paths_retried": false,
+  "protected": [
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\seed\\gx101r1_R69_remote\\heatdrive_ecc_coupled_se21.slx",
+      "bytes": 431568,
+      "sha256": "57F5DAEEDE99554FE7DF823030694DE1F6B112478CFFB37CABE81DC66C887E6A"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\diagnostic_complete_operating_point.mat",
+      "bytes": 3891826,
+      "sha256": "7479D0608D73F40A92637CD0113DE7B676067E8FB507E78233D48B2FE00573DA"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\state_interface_contract.mat",
+      "bytes": 204701,
+      "sha256": "78DDAEDA5AAD555509C9AEEAD7289333ED6D4ADBB69FEDEE077F1FBEC5E810BC"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\fixed_runtime_base_workspace.mat",
+      "bytes": 22345835,
+      "sha256": "91400E433D3375ED63418A7D93DE8741079FF1B0F01249246E77BD0B08356CD5"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\seed\\gx101r1_R69_remote\\heatdrive_ecc_coupled_se21.slx",
+      "bytes": 431936,
+      "sha256": "5CAF1BBB602E443A3DD539D6E3D14782A1145E7D545F64724F0A4521B8AAF646"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\diagnostic_complete_operating_point.mat",
+      "bytes": 3891826,
+      "sha256": "83CCC40866491108A4775DD2A8D358BD85A655E7ED11403B629A1E8EE68F4967"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\state_interface_contract.mat",
+      "bytes": 204518,
+      "sha256": "3C1F8B717756D8F64D2DC5D3854D72F1FAB315C1250B80EA5B6869F113A9EAC6"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\fixed_runtime_base_workspace.mat",
+      "bytes": 22345771,
+      "sha256": "8AD953E3D3BA146309E0308AD30985AF03DAC29C21A48CCD0CD3FC592E94128F"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\physical_simscape_result.mat",
+      "bytes": 4987450900,
+      "sha256": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\final_operating_point.mat",
+      "bytes": 3822969,
+      "sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\heatdrive_ecc_coupled_se21.slx",
+      "bytes": 443803,
+      "sha256": "77E2ACD5B983A0BA72DFB72D3AD106F4D0BC524C2EC56C79C096EEBB5DA88599"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\continuous_reference_observations.mat",
+      "bytes": 165305765,
+      "sha256": "C7518570334AE021F1F2A401985B0A5C03B3754FE5AAF0CF093101A6F4FD604F"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\same_model_restored_observations.mat",
+      "bytes": 162683581,
+      "sha256": "158DA670C0FA91DD842BD8CA5EA12EA08CBFD002E8CFF45ECFC4FA4F4BA8E832"
+    }
+  ]
+}

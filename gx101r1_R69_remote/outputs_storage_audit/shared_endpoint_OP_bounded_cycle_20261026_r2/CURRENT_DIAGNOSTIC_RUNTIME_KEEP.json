@@ -1,0 +1,226 @@
+{
+  "schema": "heatdrive_ecc_bounded_diagnostic_runtime_keep_v1",
+  "source_root": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared",
+  "snapshot_s": 0.2,
+  "fixed_command_horizon_s": 1000,
+  "required_files": [
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\seed\\gx101r1_R69_remote\\heatdrive_ecc_coupled_se21.slx",
+      "bytes": 431568,
+      "sha256": "57F5DAEEDE99554FE7DF823030694DE1F6B112478CFFB37CABE81DC66C887E6A"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\diagnostic_complete_operating_point.mat",
+      "bytes": 3891826,
+      "sha256": "7479D0608D73F40A92637CD0113DE7B676067E8FB507E78233D48B2FE00573DA"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\state_interface_contract.mat",
+      "bytes": 204701,
+      "sha256": "78DDAEDA5AAD555509C9AEEAD7289333ED6D4ADBB69FEDEE077F1FBEC5E810BC"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\fixed_runtime_base_workspace.mat",
+      "bytes": 22345835,
+      "sha256": "91400E433D3375ED63418A7D93DE8741079FF1B0F01249246E77BD0B08356CD5"
+    }
+  ],
+  "component_build_root": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026\\shared\\endpoint_component_build",
+  "required_loaded_project_sources": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Run_HeatDriveECC_SharedSMAColdInitial.m",
+      "sha256": "2480B584618E8A6BE2DB98D205A978FD9139049EE3972BE091896B469564A550"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Test_HeatDriveECC_TraceColumns.m",
+      "sha256": "CF02CD1770B0C03513CB664EFFD24D01ACEC6F7D71821F2324C59334A855217B"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Build_HeatDriveECC_EighthRound_Simulink_Model.m",
+      "sha256": "F9E8437055F63739609CA8940E61AB7B5BD61B391EF1E29C24DED6F40726E78B"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Configure_HeatDriveECC_DistributedPressureFeedforward.m",
+      "sha256": "1799DB3E5CB1238AD20D5149A2169366228F21437DB675737FE01C66FF2075BC"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Export_HeatDriveECC_TLConnectivity.m",
+      "sha256": "F2118DC1BF31D5AECE7BC13E5038EC119325AE2753D575E1EDEB806FB5F91639"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Apply_HeatDriveECC_SharedSMAFluidDiagnostic.m",
+      "sha256": "BB3A6566CAEFFBCA40B31BDD04DE5AC5E2C9C7DC963ED5788D5AB2E563B25038"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Apply_HeatDriveECC_SharedEndpointInventory.m",
+      "sha256": "6EAAD47DD061CCF2625B4C52EB4FCEF205B18BF3677263F50614049285A3C9A6"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Configure_HeatDriveECC_NativeConsistencyProbe.m",
+      "sha256": "53A011B09A310717176AFE87969EDBA0D557E33B49631308953CADD6A8E632B1"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Prepare_HeatDriveECC_CoupledCVObservation.m",
+      "sha256": "73DD593A25AAC2F3577C4B5FCD19ABC73B7B317FA379A1F0E1ED4EBC320B36E6"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\HeatDriveECC_ObserverContext.m",
+      "sha256": "FD9762778E39CB26416D0AB8E94FDAB6744C70B8C8CE56DBB6070DE8CBDC5F3C"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Verify_HeatDriveECC_SharedEndpointOP.m",
+      "sha256": "0950204484FCB2EA2A710A7A283A38CE1AAC1B33ACFC914F1DB6B548B087D526"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Pack_HeatDriveECC_TraceColumns.m",
+      "sha256": "7792A4EC2F1717DD1ED14321BCFE5C70FFA348EB934E3370D08CC9DAA703FDC3"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Audit_HeatDriveECC_ManifoldMask.m",
+      "sha256": "03A29ACA6E06D49CBE24832A73BB43E502462D4338296233FCD683672559558D"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Create_Simulink_Exchange_Runtime.m",
+      "sha256": "CB710961F78D39104F301149AB21B4D97AA1B94238DF25886254F779AD264355"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Resolve_Exchange_Stage_Config.m",
+      "sha256": "B12DE433D543E30DA53A6E3804A110089A83F4234C59B03522C96B82A490DCF5"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Build_Simulink_Exchange_Params.m",
+      "sha256": "80E8B15CEB67287CA0684F914DD607F377881C465B0FFB2B8A3DE7B14F94939F"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Initialize_HeatDriveECC_ConstitutiveVector21.m",
+      "sha256": "1376D4D1EE3301B18741128D6B1B9B4F389E76D032EFC5CC69A79184A218BF63"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Build_HeatDriveECC_EighthRound_Defaults.m",
+      "sha256": "B3DDB9482D78A6DBEE5C938BFF41859300D32CA659FC1688C18444657110A2FA"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Load_HeatDriveECC_ModelByPath.m",
+      "sha256": "68024C6A8CA95DD7AF5DC29B9CF7B28D16A882A2624BFFB5E14184D282A0C152"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Integrate_HeatDriveECC_Constitutive21_Interface.m",
+      "sha256": "5A862DF1777B4B8B56868DB7731118A0F7F2ADB05D2839CF84FCCB2CF36AB984"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Configure_HeatDriveECC_PressureCommandDomain.m",
+      "sha256": "6E47AF971D0F4E30FF174C719CC7E40292FD06B0F12F2183FC4BCDD3C83341BE"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Build_HeatDriveECC_Article_Defaults.m",
+      "sha256": "01963D480168816B5B136DF8A2C31739ABA82A08257CB97289D6644F3B8111FF"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Build_HeatDriveECC_StageSchedule.m",
+      "sha256": "9CEDEB8729E6DD29DF48A9E366C3FC5865982125E427621B4DB8AA37A959A4F5"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Build_HeatDriveECC_RouteMatrix.m",
+      "sha256": "6B41B3DCAE7E67612F2022439F8B54CC2CD05ABFB1F0B741C536E6413CEA2669"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\GlobalXi_Checkpoint_To_Simulink_State.m",
+      "sha256": "637971C77F510CEC2348009B5F7173E11140766A577BE9F7C83D33A04FC43CF5"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Initialize_HeatDriveECC_EighthRound_State.m",
+      "sha256": "D31D1BBE1E990BB919A38687345BD902E11BA73F763AF53ACB18D2BC8F33EF0D"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveCompatibilityStep51.m",
+      "sha256": "FE5960655C3B79AD33349EC37ADEE281F50201E47A5686BF67E0428603E49308"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Initialize_HeatDriveECC_EighthRound_Branches.m",
+      "sha256": "5E72E711BCE022DE69E752CDA333F736FD055E72C2AE7B4B21B251B118120FEB"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Build_HeatDriveECC_EighthRound_BranchRoles.m",
+      "sha256": "E93DDC1A8AB7A5569E0C0956092E898162844B951FA2FCC79BBB58D5C89BB356"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate.m",
+      "sha256": "E36A8838EB5BA9A76253A31E4A2021E12D0F836871A721FD0FF922189E0099AE"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Audit_HeatDriveECC_PressureReferenceTopology.m",
+      "sha256": "2BCC6E1A90F6978097907662FEC2B7918C06D78649CC4629F078543158610622"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\HeatDriveECC_PressureCommandInterval.m",
+      "sha256": "4D058D8BAE66BD5B5261204FA72F94E85597442FC8C4411DFE0BA9FFC83436B1"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Map_HeatDriveECC_PhysicalPortHandles.m",
+      "sha256": "3B211B68F12D27B5AAF3F40465FF21F30F4EE40215DAEDF0EFAD42F4B443A175"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Build_HeatDriveECC_DistributedPressureEnvelope.m",
+      "sha256": "6DBF615B18DA39A818837A5C98A73FD62938A6D9A7A7D2150070546DDE6D3F7E"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Build_HeatDriveECC_CoupledCVInventory.m",
+      "sha256": "B1200F76DD88169AA6CBEF76454E431EA1DF3DB35450451B293652AE38FCA1BE"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Apply_HeatDriveECC_ColdConservativeBuffers.m",
+      "sha256": "4849EFE8526021EE86614063EC9D74DBB29FB38B2D3A5E0DE69D3A15C4A1D0C5"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Build_HeatDriveECC_ColdInventoryTargets.m",
+      "sha256": "4CC5B7A50D604C905F92172CD87BCF6CDD076ADCE3FF9C624EBEFBBC3AA0E5D4"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Instrument_HeatDriveECC_PumpPressureProbes.m",
+      "sha256": "B4DC1F3609A8C3444DACD23BBCEF2301970310729ACFDC457CC5238FBE28077D"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Instrument_HeatDriveECC_Stage4ControllerProbes.m",
+      "sha256": "60C812D117872011AB6899FAFB6518639DA5F61330C5BC2A0F9BBDF4F6CC115E"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\HeatDriveECC_ProcessLocalTimeObserver.m",
+      "sha256": "A565BED03592D19D45CFD43BE8DCC0E541090C65321278770199AAE4F3C0EA68"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Capture_HeatDriveECC_StateInterfaceTrace.m",
+      "sha256": "382B004BBEAAAD287B3936E3DE86FD39B89EB26E08557042A0E47E5B7CEFAC6F"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\HeatDriveECC_StableKernelCandidate.m",
+      "sha256": "2D75D4C7F7566A5C6C6BABC1BC5A7546A3DC9325935FDE0348009CBDC2D356B4"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\HeatDriveECC_ConstitutiveStabilityBound.m",
+      "sha256": "DEC5C3E31B37A96720B50BF8F972F986EC2D95486D36F68D640C9603F1716290"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Extract_HeatDriveECC_NativeStorageTraces.m",
+      "sha256": "5CE2A87040C8A21DF8D56F1A42A090D91318FB4837061C7DF5CD8CA280B6B3A8"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Extract_HeatDriveECC_BoundaryTraces.m",
+      "sha256": "13F2ADB22D9213C0479A20CB6FA0351CCA5C179A7EFFFF0D153403F6EC7705D2"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\Extract_HeatDriveECC_ObservedStates.m",
+      "sha256": "5A98A2E0B1483152C1FDA4BB1F6C4A185189369F8D9CCFEE94EB11B709E2016B"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Read_HeatDriveECC_NativeSeries.m",
+      "sha256": "48B8E276DDD37A91E0378A0B09E3E784F69BB622F11D6283450FECB266141DC3"
+    }
+  ],
+  "source_OP_sha256": "7479D0608D73F40A92637CD0113DE7B676067E8FB507E78233D48B2FE00573DA",
+  "strict_checksum_policy": "error/error",
+  "full_cycle_same_and_new_process_bit_equivalence_pass": true,
+  "only_unchanged_contract_diagnostic_warmup_may_use_this_OP": true,
+  "production_recovery_or_outer_solve_or_Table4_allowed": false,
+  "C200_unique_mainline_reference_not_replaced": true,
+  "never_reconstruct_state_from_observations": true
+}

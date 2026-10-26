@@ -1,0 +1,71 @@
+{
+  "schema": "heatdrive_ecc_shared_OP_proof_closeout_v1",
+  "freeze_commit": "e8d58c366d7edb940f92780fea642f9873ae6666",
+  "formal_review_sha256": "07DDCBCEF6A399EBB60212F9C14855EDEF8A33BA3B3CED49F7A9CABEE3EBBDCB",
+  "exact_retirement_proof_sha256": "16A607A1ACC58CA69F19A11744EC5C8C365B24937F5BC9F84E402A990A78E744",
+  "bounded_source_OP_sha256": "7479D0608D73F40A92637CD0113DE7B676067E8FB507E78233D48B2FE00573DA",
+  "raw_state_or_OP_edited": false,
+  "bounded_source_count": 47,
+  "regression_modules": [
+    "test_CV_tail_observation",
+    "test_shared_endpoint_inventory",
+    "test_coupled_CV_packet",
+    "test_coupled_CV_balance",
+    "test_native_consistency_probe",
+    "test_tank_energy_basis",
+    "test_c201_tank_basis",
+    "test_tank_interpolation_consistency",
+    "test_native_accumulation",
+    "test_native_window_ledger",
+    "test_native_inventory_catalog",
+    "test_native_window_packets",
+    "test_native_residual_localization",
+    "test_native_state_mapping",
+    "test_native_series_access_source",
+    "test_native_log_lookup_source",
+    "test_shared_SMA_cold_initial",
+    "test_shared_SMA_fluid",
+    "test_shared_SMA_native_ledger",
+    "test_coupled_energy_inventory",
+    "test_material_thermodynamics",
+    "test_cold_buffer_coupled",
+    "test_shared_endpoint_OP"
+  ],
+  "regression_return_code": 0,
+  "regression_log_sha256": "9D25C8322860681CD625F4C94821698175518C6FF9D8013CABF9CBC07B8B3353",
+  "bounded_storage_before_retirement": [
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026",
+      "bytes": 358117702,
+      "files": 41
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026",
+      "bytes": 162751960,
+      "files": 14
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_step_r1_20261026",
+      "bytes": 65871,
+      "files": 13
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_cycle_r1_20261026",
+      "bytes": 358117836,
+      "files": 41
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_OP_bounded_new_process_r1_20261026",
+      "bytes": 162752182,
+      "files": 14
+    }
+  ],
+  "candidate_bytes": 653678489,
+  "failed_bounded_change_exit_code": 1,
+  "failed_change_did_not_relax_checksums": true,
+  "full_goal_complete": false,
+  "periodic_steady_state": false,
+  "all_mechanism_gates_evaluated": false,
+  "production_recovery_allowed": false,
+  "Table4_reproduced": false
+}

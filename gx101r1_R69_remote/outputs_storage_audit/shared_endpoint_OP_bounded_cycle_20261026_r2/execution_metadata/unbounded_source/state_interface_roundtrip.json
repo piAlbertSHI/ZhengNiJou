@@ -1,0 +1,4550 @@
+{
+  "schema": "heatdrive_ecc_shared_endpoint_OP_execution_v1",
+  "snapshot_s": 0.2,
+  "reference_stop_s": 10.202,
+  "fixed_command_horizon_s": 1000,
+  "execution_complete": true,
+  "production_recovery_allowed": false,
+  "source_OP_edited": false,
+  "partial_state_or_private_coordinate_reconstruction": false,
+  "cases": [
+    {
+      "native_trace_count": 926,
+      "workspace_trace_count": 201,
+      "source_trace_count": 162,
+      "logged_public_state_groups": 73,
+      "all_vendor_private_state_fields_exposed": false,
+      "observations_are_not_a_restart_state": true
+    },
+    {
+      "native_trace_count": 926,
+      "workspace_trace_count": 201,
+      "source_trace_count": 162,
+      "logged_public_state_groups": 73,
+      "all_vendor_private_state_fields_exposed": false,
+      "observations_are_not_a_restart_state": true
+    }
+  ],
+  "saved_runtime_model_path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\seed\\gx101r1_R69_remote\\heatdrive_ecc_coupled_se21.slx",
+  "saved_runtime_model_sha256": "5CAF1BBB602E443A3DD539D6E3D14782A1145E7D545F64724F0A4521B8AAF646",
+  "base_workspace": {
+    "path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\fixed_runtime_base_workspace.mat",
+    "sha256": "8AD953E3D3BA146309E0308AD30985AF03DAC29C21A48CCD0CD3FC592E94128F",
+    "variables": [
+      {
+        "name": "D_e",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "D_inner",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "D_outer",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "EIGHTH_ROUND_OPTIONS",
+        "class": "struct",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "L",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "L_valve",
+        "class": "double",
+        "size": [
+          1,
+          6
+        ]
+      },
+      {
+        "name": "L_valve_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "L_valve_command_target",
+        "class": "double",
+        "size": [
+          1,
+          6
+        ]
+      },
+      {
+        "name": "L_valve_command_time_s",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "L_valve_command_values",
+        "class": "double",
+        "size": [
+          28543,
+          6
+        ]
+      },
+      {
+        "name": "L_valve_initial",
+        "class": "double",
+        "size": [
+          1,
+          6
+        ]
+      },
+      {
+        "name": "L_valve_target",
+        "class": "double",
+        "size": [
+          1,
+          6
+        ]
+      },
+      {
+        "name": "Nu",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "Nu_uncapped",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "Nuh",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "Pr",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "Q",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "Q_source_m3ps",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "Q_source_semantics",
+        "class": "char",
+        "size": [
+          1,
+          63
+        ]
+      },
+      {
+        "name": "Q_target_m3ps",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "Re",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SE_cooldown_pipe_to_se_G_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SE_cooldown_pipe_to_se_G_command_time_s",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SE_cooldown_pipe_to_se_G_command_values",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SE_distributed_pressure_envelope_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SE_hold_pipe_to_se_G_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SE_hold_pipe_to_se_G_command_time_s",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SE_hold_pipe_to_se_G_command_values",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SE_mdot_target_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SE_mdot_target_command_time_s",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SE_mdot_target_command_values",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SE_pressure_bias_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SE_pressure_bias_command_time_s",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SE_pressure_bias_command_values",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SE_pressure_feedback_enable_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SE_pressure_feedback_enable_command_time_s",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SE_pressure_feedback_enable_command_values",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage2_pressure_feedforward_activity_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage2_pressure_integrator_enable_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage2_pressure_integrator_enable_command_time_s",
+        "class": "double",
+        "size": [
+          1.000001E+6,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage2_pressure_integrator_enable_command_values",
+        "class": "double",
+        "size": [
+          1.000001E+6,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage2_pressure_integrator_output_enable_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage2_pressure_integrator_output_enable_command_time_s",
+        "class": "double",
+        "size": [
+          1.000001E+6,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage2_pressure_integrator_output_enable_command_values",
+        "class": "double",
+        "size": [
+          1.000001E+6,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage2_pressure_kp_command_MPa_per_kgps",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage2_pressure_kp_command_time_s",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage2_pressure_kp_command_values",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage2_route_temperature_blend_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage2_route_temperature_blend_command_time_s",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage2_route_temperature_blend_command_values",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage4_endpoint_viscosity_blend_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage4_endpoint_viscosity_blend_command_time_s",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage4_endpoint_viscosity_blend_command_values",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage4_pressure_feedforward_activity_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage4_pressure_integrator_enable_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage4_pressure_integrator_enable_command_time_s",
+        "class": "double",
+        "size": [
+          1.000001E+6,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage4_pressure_integrator_enable_command_values",
+        "class": "double",
+        "size": [
+          1.000001E+6,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage4_pressure_integrator_output_enable_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage4_pressure_integrator_output_enable_command_time_s",
+        "class": "double",
+        "size": [
+          1.000001E+6,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage4_pressure_integrator_output_enable_command_values",
+        "class": "double",
+        "size": [
+          1.000001E+6,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage4_pressure_kp_command_MPa_per_kgps",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage4_pressure_kp_command_time_s",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage4_pressure_kp_command_values",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SE_stage4_pressure_p_activity_mode",
+        "class": "char",
+        "size": [
+          1,
+          6
+        ]
+      },
+      {
+        "name": "SE_stage4_pressure_p_activity_values",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SMA_L_valve_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SMA_L_valve_command_initial",
+        "class": "double",
+        "size": [
+          1,
+          6
+        ]
+      },
+      {
+        "name": "SMA_L_valve_command_target",
+        "class": "double",
+        "size": [
+          1,
+          6
+        ]
+      },
+      {
+        "name": "SMA_L_valve_command_time_s",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SMA_L_valve_command_values",
+        "class": "double",
+        "size": [
+          28543,
+          6
+        ]
+      },
+      {
+        "name": "SMA_cooldown_pipe_to_sma_G_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SMA_cooldown_pipe_to_sma_G_command_time_s",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SMA_cooldown_pipe_to_sma_G_command_values",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SMA_hold_pipe_to_sma_G_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SMA_hold_pipe_to_sma_G_command_time_s",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SMA_hold_pipe_to_sma_G_command_values",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SMA_mdot_target_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SMA_mdot_target_command_time_s",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SMA_mdot_target_command_values",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SMA_pressure_bias_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SMA_pressure_bias_command_time_s",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SMA_pressure_bias_command_values",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SMA_pressure_feedback_enable_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SMA_pressure_feedback_enable_command_time_s",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SMA_pressure_feedback_enable_command_values",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SMA_pressure_feedback_reset_command",
+        "class": "timeseries",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SMA_pressure_feedback_reset_command_time_s",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SMA_pressure_feedback_reset_command_values",
+        "class": "double",
+        "size": [
+          28543,
+          1
+        ]
+      },
+      {
+        "name": "SMA_stage13_active",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SMA_stage13_route_description",
+        "class": "char",
+        "size": [
+          1,
+          73
+        ]
+      },
+      {
+        "name": "SMA_stage13_route_name",
+        "class": "char",
+        "size": [
+          1,
+          20
+        ]
+      },
+      {
+        "name": "SMA_stage13_startup_profile",
+        "class": "char",
+        "size": [
+          1,
+          34
+        ]
+      },
+      {
+        "name": "SMA_stage13_startup_ramp_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "SMA_stage13_valve_order",
+        "class": "cell",
+        "size": [
+          1,
+          6
+        ]
+      },
+      {
+        "name": "T_fluid",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "Th",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "UA_sma_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "U_eff_W_per_m2K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "V_star_vs_SMA",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "V_star_vs_pipe",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "active_sma_pipe_internal_volume_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "active_sma_pipe_internal_volume_ml",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "active_valve_duty_capacity_ratio",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "active_valve_duty_cycle_enabled",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "active_valve_duty_dead_fraction",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "active_valve_duty_effective_dead_fraction",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "active_valve_duty_fraction",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "active_valve_duty_raw_fraction",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "active_valve_opening_scale",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "actual_flush_audit_ignore_initial_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "actual_flush_audit_mode",
+        "class": "char",
+        "size": [
+          1,
+          41
+        ]
+      },
+      {
+        "name": "allow_flush_volume_ratio_out_of_gate",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "ambient_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "buffer_effective_energy_accounting_enabled",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "buffer_effective_energy_accounting_source",
+        "class": "char",
+        "size": [
+          1,
+          55
+        ]
+      },
+      {
+        "name": "buffer_follow_sink_enabled",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "buffer_follow_sink_policy_source",
+        "class": "char",
+        "size": [
+          1,
+          52
+        ]
+      },
+      {
+        "name": "chip_C_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_D_h_m",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_Nu",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_R_contact_K_per_W",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_R_conv_K_per_W",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_R_package_K_per_W",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_R_total_K_per_W",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_R_wall_K_per_W",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_Re",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_ambient_G_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_channel_flow_area_m2",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_channel_hydraulic_diameter_m",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_channel_length_m",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_contact_area_m2",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_flow_regime",
+        "class": "char",
+        "size": [
+          1,
+          12
+        ]
+      },
+      {
+        "name": "chip_fluid_G_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_fluid_G_cap_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_fluid_G_cap_active",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_fluid_G_configured_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_fluid_G_cooldown_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_fluid_G_effective_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_fluid_G_hold_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_fluid_G_model",
+        "class": "char",
+        "size": [
+          1,
+          36
+        ]
+      },
+      {
+        "name": "chip_fluid_G_reference_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_fluid_G_scale",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_fluid_G_uncapped_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_fluid_coupling_mode",
+        "class": "char",
+        "size": [
+          1,
+          17
+        ]
+      },
+      {
+        "name": "chip_h_conv_W_per_m2K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_heat_W",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_heat_default_W",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_heat_default_source",
+        "class": "char",
+        "size": [
+          1,
+          57
+        ]
+      },
+      {
+        "name": "chip_heat_dry_equilibrium_W",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_mass_kg",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "chip_v_fluid_m_per_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_buffer_hold_writeback_allowed",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_buffer_temp_current",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_end_C_total_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_end_effective_water_volume_ml",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_end_external_mixer_enabled",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_end_includes_cold_fluid_buffer",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_end_includes_cold_hx_pipe",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_end_includes_cold_pipe_or_CHEX",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_end_includes_cold_return_pipe",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_end_includes_cold_sink_mass",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_end_state_sync_policy",
+        "class": "char",
+        "size": [
+          1,
+          106
+        ]
+      },
+      {
+        "name": "cold_end_topology_mode",
+        "class": "char",
+        "size": [
+          1,
+          13
+        ]
+      },
+      {
+        "name": "cold_fluid_buffer_C_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_fluid_buffer_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_fluid_buffer_stage2_role",
+        "class": "char",
+        "size": [
+          1,
+          58
+        ]
+      },
+      {
+        "name": "cold_hx_pipe_C_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_hx_pipe_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_hx_pipe_T_state_in_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_hx_pipe_T_state_source",
+        "class": "char",
+        "size": [
+          1,
+          54
+        ]
+      },
+      {
+        "name": "cold_hx_pipe_length_fraction",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_hx_pipe_length_m",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_hx_pipe_volume_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_hx_pipe_volume_ml",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_load_C_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_load_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_load_ambient_G_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_load_coupling_stage_policy",
+        "class": "char",
+        "size": [
+          1,
+          48
+        ]
+      },
+      {
+        "name": "cold_load_heat_W",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_load_heat_policy",
+        "class": "char",
+        "size": [
+          1,
+          57
+        ]
+      },
+      {
+        "name": "cold_load_mass_kg",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_load_mode",
+        "class": "char",
+        "size": [
+          1,
+          7
+        ]
+      },
+      {
+        "name": "cold_load_model_version",
+        "class": "char",
+        "size": [
+          1,
+          29
+        ]
+      },
+      {
+        "name": "cold_load_to_cold_sink_G_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_load_to_cold_sink_G_cooldown_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_load_to_cold_sink_G_hold_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_pipe_or_CHEX_C_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_pipe_or_CHEX_T_state_in_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_pipe_or_CHEX_T_state_source",
+        "class": "char",
+        "size": [
+          1,
+          60
+        ]
+      },
+      {
+        "name": "cold_pipe_or_CHEX_default_volume_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_pipe_or_CHEX_effective_C_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_pipe_or_CHEX_effective_storage_fraction",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_pipe_or_CHEX_length_m",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_pipe_or_CHEX_storage_model",
+        "class": "char",
+        "size": [
+          1,
+          71
+        ]
+      },
+      {
+        "name": "cold_pipe_or_CHEX_volume_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_pipe_or_CHEX_volume_source",
+        "class": "char",
+        "size": [
+          1,
+          60
+        ]
+      },
+      {
+        "name": "cold_public_targets",
+        "class": "simscape.op.OperatingPoint",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_return_pipe_C_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_return_pipe_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_return_pipe_T_state_in_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_return_pipe_T_state_source",
+        "class": "char",
+        "size": [
+          1,
+          58
+        ]
+      },
+      {
+        "name": "cold_return_pipe_length_m",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_return_pipe_volume_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_return_pipe_volume_ml",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_side_fluid_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_sink_C_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_sink_C_semantics",
+        "class": "char",
+        "size": [
+          1,
+          66
+        ]
+      },
+      {
+        "name": "cold_sink_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_sink_ambient_G_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_sink_ambient_G_configured_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_sink_ambient_G_cooldown_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_sink_ambient_G_hold_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_sink_effective_C_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_sink_effective_water_volume_ml",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_sink_fluid_G_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_sink_fluid_G_cooldown_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_sink_fluid_G_hold_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_sink_mass_kg",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_sink_pipe_split_contract",
+        "class": "char",
+        "size": [
+          1,
+          116
+        ]
+      },
+      {
+        "name": "cold_sink_pipe_split_enabled",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_sink_pipe_total_C_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_sink_pipe_total_volume_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_sink_pipe_total_volume_ml",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "cold_sink_stage_coupling_policy",
+        "class": "char",
+        "size": [
+          1,
+          55
+        ]
+      },
+      {
+        "name": "constitutive_output_width",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "constitutive_sample_time_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "constitutive_state21_initial",
+        "class": "double",
+        "size": [
+          210,
+          1
+        ]
+      },
+      {
+        "name": "contact_resistance_m2K_per_W",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "correlation_name",
+        "class": "char",
+        "size": [
+          1,
+          33
+        ]
+      },
+      {
+        "name": "cp_water",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "enable_h_water_cap",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "exchange_backend_kind",
+        "class": "char",
+        "size": [
+          1,
+          17
+        ]
+      },
+      {
+        "name": "exchange_startup_closed_valve_opening",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "exchange_startup_profile",
+        "class": "char",
+        "size": [
+          1,
+          39
+        ]
+      },
+      {
+        "name": "exchange_startup_ramp_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "exchange_startup_smoothing_enabled",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "flow_control_mode",
+        "class": "char",
+        "size": [
+          1,
+          23
+        ]
+      },
+      {
+        "name": "flow_regime",
+        "class": "char",
+        "size": [
+          1,
+          7
+        ]
+      },
+      {
+        "name": "fluid_buffer_cp_ref",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "fluid_buffer_max_capacity_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "fluid_buffer_reference_ratio",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "fluid_buffer_reference_volume_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "fluid_buffer_tank_area_m2",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "fluid_buffer_tank_level_m",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "fluid_buffer_volume_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "flush_ratio_warning",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "flush_volume_control_abs_tolerance",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "flush_volume_control_rel_tolerance",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "flush_volume_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "flush_volume_ratio",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "flush_volume_target_ratio",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "full_cycle_valve_command_source",
+        "class": "char",
+        "size": [
+          1,
+          78
+        ]
+      },
+      {
+        "name": "h_conv_W_per_m2K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "h_water",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "h_water_cap_W_per_m2K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "h_water_cap_active",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "h_water_scale",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "h_water_scaled_uncapped",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "h_water_uncapped",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_buffer_cooldown_writeback_allowed",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_buffer_temp_current",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_end_C_total_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_end_effective_water_volume_ml",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_end_includes_hot_fluid_buffer",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_end_includes_hot_pipe_or_HHEX",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_end_includes_hot_sink_mass",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_end_state_sync_policy",
+        "class": "char",
+        "size": [
+          1,
+          102
+        ]
+      },
+      {
+        "name": "hot_fluid_buffer_C_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_fluid_buffer_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_fluid_buffer_stage4_role",
+        "class": "char",
+        "size": [
+          1,
+          57
+        ]
+      },
+      {
+        "name": "hot_pipe_or_HHEX_C_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_pipe_or_HHEX_volume_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_side_fluid_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_sink_C_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_sink_C_semantics",
+        "class": "char",
+        "size": [
+          1,
+          66
+        ]
+      },
+      {
+        "name": "hot_sink_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_sink_ambient_G_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_sink_effective_C_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_sink_effective_water_volume_ml",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_sink_fluid_G_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_sink_mass_kg",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_sink_sma_fluid_G_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "hot_source",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "inventory",
+        "class": "struct",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "k_water",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "legacy_D_inner",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "legacy_D_outer",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "legacy_active_sma_pipe_internal_volume_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "legacy_circular_volume_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "legacy_pipe_internal_fluid_C_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "legacy_pipe_internal_volume_to_plate_volume_ratio",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "legacy_tube_A_m2",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "mass_flow_source_direction_sign",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "mdot_cooldown_source_kgps",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "mdot_hold_source_kgps",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "mdot_root_source_kgps",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "mdot_source_kgps",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "mdot_target_kgps",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "mh",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "mu_water",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "nu",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "nuh",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "official_cold_end_control_mode",
+        "class": "char",
+        "size": [
+          1,
+          55
+        ]
+      },
+      {
+        "name": "official_cold_end_definition",
+        "class": "char",
+        "size": [
+          1,
+          55
+        ]
+      },
+      {
+        "name": "official_hot_end_control_mode",
+        "class": "char",
+        "size": [
+          1,
+          49
+        ]
+      },
+      {
+        "name": "official_hot_end_definition",
+        "class": "char",
+        "size": [
+          1,
+          49
+        ]
+      },
+      {
+        "name": "pipe_fa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pipe_internal_fluid_C_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pipe_internal_volume_to_flush_volume_ratio",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pipe_internal_volume_to_plate_volume_ratio",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pipe_storage_physical_note",
+        "class": "char",
+        "size": [
+          1,
+          180
+        ]
+      },
+      {
+        "name": "pipe_storage_scheme",
+        "class": "char",
+        "size": [
+          1,
+          61
+        ]
+      },
+      {
+        "name": "plate_volume_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_control_direction_sign",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_control_duration_exponent",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_control_duration_scale",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_control_duration_scale_adjusted",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_control_duty_audit_ignore_initial_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_control_duty_capacity_exponent",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_control_duty_capacity_ratio",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_control_duty_flow_scale",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_control_duty_pressure_capacity_ratio",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_control_duty_reference_window_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_control_duty_stage_window_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_control_exponent",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_control_flow_scale",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_control_reference_actual_flush_ratio",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_control_reference_duration_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_control_reference_pressure_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_control_target_ratio_scale",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_differential_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_differential_MPa_analytic_guess",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_differential_MPa_cached_guess",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_differential_MPa_initial_guess_source",
+        "class": "char",
+        "size": [
+          1,
+          34
+        ]
+      },
+      {
+        "name": "pressure_differential_MPa_uncached",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_differential_override_used",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_bias_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_bias_ref_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_bias_ref_MPa_split_cooldown",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_bias_ref_MPa_split_hold",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_bias_ref_MPa_split_mode",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_bias_ref_MPa_unsplit",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_dp_guess_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_duration_attenuation_enabled",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_duration_attenuation_factor",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_duration_attenuation_gain",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_duration_attenuation_min",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_error_filter_tau_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_error_normalization_gain_kgps_inv",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_hydraulic_scheduling_enabled",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_ki_MPa_per_kgps_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_ki_ref_MPa_per_kgps_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_ki_ref_effective_MPa_per_kgps_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_ki_time_scale",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_kp_MPa_per_kgps",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_long_duration_ki_boost_enabled",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_long_duration_ki_boost_factor",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_long_duration_ki_boost_threshold",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_margin_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_margin_fraction",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_margin_min_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_max_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_mdot_ref_kgps",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_mdot_scale",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_mdot_scale_exponent",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_mdot_scale_exponent_high",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_mdot_scale_exponent_low",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_mdot_scale_piecewise_enabled",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_mdot_scale_piecewise_threshold",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_min_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_normalized_error_enabled",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_pi_reference_stage_time_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_startup_compensation_factor",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_startup_smoothing_enabled",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "pressure_startup_smoothing_reason",
+        "class": "char",
+        "size": [
+          1,
+          84
+        ]
+      },
+      {
+        "name": "probe_sample_count",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "radius_m",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "repo",
+        "class": "char",
+        "size": [
+          1,
+          46
+        ]
+      },
+      {
+        "name": "requested_flow_control_mode",
+        "class": "char",
+        "size": [
+          1,
+          23
+        ]
+      },
+      {
+        "name": "rho_water",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "root_bypass_restriction_area_m2",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "root_cold_loop_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "root_hot_loop_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "root_manifold_split_mode",
+        "class": "char",
+        "size": [
+          1,
+          4
+        ]
+      },
+      {
+        "name": "se_article_Nu",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_article_pipe_Dh",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_article_pipe_fa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_article_pipe_segment_l",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_constitutive_T21_initial",
+        "class": "double",
+        "size": [
+          21,
+          1
+        ]
+      },
+      {
+        "name": "se_cooldown_fluid_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_fluid_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_hold_fluid_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_node_cp",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_node_mass_kg",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_pressure_feedforward_initial_temperature_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_pressure_feedforward_log_mu_Pa_s",
+        "class": "double",
+        "size": [
+          560,
+          1
+        ]
+      },
+      {
+        "name": "se_pressure_feedforward_reference_mu_Pa_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_pressure_feedforward_sample_time_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_pressure_feedforward_temperature_K",
+        "class": "double",
+        "size": [
+          560,
+          1
+        ]
+      },
+      {
+        "name": "se_pressure_integrator_max_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_pressure_integrator_min_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_pressure_pi_ki_MPa_per_kgps_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_pressure_pi_kp_MPa_per_kgps",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_pressure_pi_min_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_solid_axial_area_m2",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_solid_k_W_per_mK",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_solid_node_dx_m",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_solver_T_init_21_internal",
+        "class": "double",
+        "size": [
+          21,
+          1
+        ]
+      },
+      {
+        "name": "se_stage2_pressure_integrator_min_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_stage2_pressure_pi_ki_MPa_per_kgps_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_stage2_pressure_pi_kp_MPa_per_kgps",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_stage4_pressure_integrator_min_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_stage4_pressure_pi_ki_MPa_per_kgps_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "se_stage4_pressure_pi_kp_MPa_per_kgps",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "shex_fluid_buffer_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "shex_hot_side_fluid_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "shex_sink_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "shex_sink_ambient_G_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "shex_sink_fluid_G_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "shex_sink_mass_kg",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "shex_source_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_article_Nu",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_article_pipe_Dh",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_article_pipe_fa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_article_pipe_segment_l",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_connecting_pipe_flow_area_m2",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_constitutive_T21_initial",
+        "class": "double",
+        "size": [
+          21,
+          1
+        ]
+      },
+      {
+        "name": "sma_cooldown_fluid_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_cooldown_pipe_to_sma_G_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_density_kg_per_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_fluid_T_carryover_diagnostic_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_fluid_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_fluid_T_init_policy",
+        "class": "char",
+        "size": [
+          1,
+          19
+        ]
+      },
+      {
+        "name": "sma_fluid_T_init_source",
+        "class": "char",
+        "size": [
+          1,
+          48
+        ]
+      },
+      {
+        "name": "sma_heat_capacity_total_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_hold_fluid_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_hold_pipe_to_sma_G_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_mass_consistency_ratio",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_mass_contract_ok",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_mass_source",
+        "class": "char",
+        "size": [
+          1,
+          27
+        ]
+      },
+      {
+        "name": "sma_mdot_stage1_source_kgps",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_mdot_stage3_source_kgps",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_node_cp",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_node_mass_kg",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_physical_mass_kg",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_fa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_hydraulic_length_add_l",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_hydraulic_resistance_strategy",
+        "class": "char",
+        "size": [
+          1,
+          47
+        ]
+      },
+      {
+        "name": "sma_pipe_hydraulic_total_l",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_internal_fluid_profile_blend_factor",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_internal_volume_target_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_internal_volume_target_ml",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_pressure_actual_flush_trim_factor",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_pressure_calibration_factor",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_pressure_calibration_factor_field",
+        "class": "char",
+        "size": [
+          1,
+          45
+        ]
+      },
+      {
+        "name": "sma_pipe_pressure_calibration_method",
+        "class": "char",
+        "size": [
+          1,
+          36
+        ]
+      },
+      {
+        "name": "sma_pipe_pressure_hydraulic_reference_volume_ml",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_pressure_storage_fraction_exponent",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_pressure_storage_length_fraction",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_segment_l",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_segment_length_add_l",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_storage_l",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_storage_length_fraction",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_thermal_gate_active_G_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_thermal_gate_active_path",
+        "class": "char",
+        "size": [
+          1,
+          8
+        ]
+      },
+      {
+        "name": "sma_pipe_thermal_gate_enabled",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_thermal_gate_inactive_G_W_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pipe_volume_calibration_mode",
+        "class": "char",
+        "size": [
+          1,
+          65
+        ]
+      },
+      {
+        "name": "sma_pressure_integrator_max_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pressure_integrator_min_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pressure_pi_ki_MPa_per_kgps_s",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pressure_pi_kp_MPa_per_kgps",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pressure_pi_min_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_proxy_mass_kg",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pump_manifold_T_init_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pump_manifold_p_init_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_pump_manifold_volume_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_route_valve_min_Cv",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_solid_axial_area_m2",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_solid_k_W_per_mK",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_solid_node_dx_m",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_solver_T_init_21_internal",
+        "class": "double",
+        "size": [
+          21,
+          1
+        ]
+      },
+      {
+        "name": "sma_source_select_valve_min_Cv",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_stage13_nominal_mdot_target_kgps",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "sma_xi_in_51",
+        "class": "double",
+        "size": [
+          21,
+          1
+        ]
+      },
+      {
+        "name": "solid_volume_source",
+        "class": "char",
+        "size": [
+          1,
+          43
+        ]
+      },
+      {
+        "name": "solver51_cond_area",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "solver51_cond_dx",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "solver51_cond_k",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "solver51_node_cp",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "solver51_node_mass",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "solver_T_init_21",
+        "class": "double",
+        "size": [
+          21,
+          1
+        ]
+      },
+      {
+        "name": "solver_T_init_21_internal",
+        "class": "double",
+        "size": [
+          21,
+          1
+        ]
+      },
+      {
+        "name": "solver_T_init_51",
+        "class": "double",
+        "size": [
+          21,
+          1
+        ]
+      },
+      {
+        "name": "solver_internal_21_initialization_report",
+        "class": "struct",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "solver_internal_21_strip_count",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "solver_internal_temperature_workspace_var",
+        "class": "char",
+        "size": [
+          1,
+          13
+        ]
+      },
+      {
+        "name": "solver_internal_thermal_node_count",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "spreading_resistance_m2K_per_W",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "stage2_path_pipe_T_state_in_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "stage2_path_pipe_unreleased_cumulative_in_J",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "stage4_path_pipe_T_state_in_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "stage4_path_pipe_reference_T_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "stage4_path_pipe_unreleased_cumulative_in_J",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "stage4_sma_to_CHEX_transit_C_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "stage4_sma_to_CHEX_transit_T_state_in_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "stage4_sma_to_CHEX_transit_T_state_source",
+        "class": "char",
+        "size": [
+          1,
+          56
+        ]
+      },
+      {
+        "name": "stage4_sma_to_CHEX_transit_model",
+        "class": "char",
+        "size": [
+          1,
+          45
+        ]
+      },
+      {
+        "name": "stage4_sma_to_CHEX_transit_volume_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "stage4_sma_to_CHEX_transit_volume_ml",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "startup_smoothing_reason",
+        "class": "char",
+        "size": [
+          1,
+          92
+        ]
+      },
+      {
+        "name": "startup_smoothing_used",
+        "class": "logical",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "tank_pressure_MPa",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "target_flush_volume_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "target_flush_volume_ratio",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "thermal_gate_min_conductivity_W_per_mK",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "thermal_mass_cp_ref",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "thickness_m",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "transit_pipe_T_init",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "transit_pipe_T_state_in_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "transit_pipe_T_state_source",
+        "class": "char",
+        "size": [
+          1,
+          56
+        ]
+      },
+      {
+        "name": "transit_pipe_area_m2",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "transit_pipe_count_in_series",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "transit_pipe_geometry_source",
+        "class": "char",
+        "size": [
+          1,
+          67
+        ]
+      },
+      {
+        "name": "transit_pipe_internal_fluid_C_J_per_K",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "transit_pipe_length_m",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "transit_pipe_volume_m3",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "transit_pipe_volume_ml",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "tube_A",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "tube_A_m2",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "tube_l",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "v_water",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "valve_min_Cv",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "viscosity_ratio",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "wall_resistance_m2K_per_W",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "water_contact_area_m2",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      },
+      {
+        "name": "water_contact_area_mode",
+        "class": "char",
+        "size": [
+          1,
+          22
+        ]
+      },
+      {
+        "name": "wetting_efficiency",
+        "class": "double",
+        "size": [
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "interface_contract_path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\state_interface_contract.mat",
+  "interface_contract_sha256": "3C1F8B717756D8F64D2DC5D3854D72F1FAB315C1250B80EA5B6869F113A9EAC6",
+  "reference_file": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\continuous_reference_observations.mat",
+  "reference_sha256": "DA8C0784B9718595E33A32A59A71FB260C8003F588B529B514BD3A1E49610756",
+  "source_public_state_groups": 73,
+  "operating_point_path": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\diagnostic_complete_operating_point.mat",
+  "operating_point_sha256": "83CCC40866491108A4775DD2A8D358BD85A655E7ED11403B629A1E8EE68F4967",
+  "restored_file": "C:\\tmp\\se21_shared_endpoint_OP_cycle_r1_20261026\\shared\\same_model_restored_observations.mat",
+  "restored_sha256": "4B71B7EE54E9184C3517A00DCBDEE3B880D78A57DC83630A60BE70DD9F49DBEF",
+  "strict_checksum_policy": "error/error",
+  "same_model_numerical_equivalence_evaluated": false,
+  "new_process_restore_verified": false,
+  "loaded_project_sources": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Run_HeatDriveECC_SharedSMAColdInitial.m",
+      "sha256": "90052B59B61B3231062CE1B815890D451ABB9F76EBFEB28661ECFCCC8CF8840F"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Test_HeatDriveECC_TraceColumns.m",
+      "sha256": "CF02CD1770B0C03513CB664EFFD24D01ACEC6F7D71821F2324C59334A855217B"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Build_HeatDriveECC_EighthRound_Simulink_Model.m",
+      "sha256": "F9E8437055F63739609CA8940E61AB7B5BD61B391EF1E29C24DED6F40726E78B"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Configure_HeatDriveECC_DistributedPressureFeedforward.m",
+      "sha256": "1799DB3E5CB1238AD20D5149A2169366228F21437DB675737FE01C66FF2075BC"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Export_HeatDriveECC_TLConnectivity.m",
+      "sha256": "F2118DC1BF31D5AECE7BC13E5038EC119325AE2753D575E1EDEB806FB5F91639"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Apply_HeatDriveECC_SharedSMAFluidDiagnostic.m",
+      "sha256": "BB3A6566CAEFFBCA40B31BDD04DE5AC5E2C9C7DC963ED5788D5AB2E563B25038"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Apply_HeatDriveECC_SharedEndpointInventory.m",
+      "sha256": "6EAAD47DD061CCF2625B4C52EB4FCEF205B18BF3677263F50614049285A3C9A6"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Configure_HeatDriveECC_NativeConsistencyProbe.m",
+      "sha256": "53A011B09A310717176AFE87969EDBA0D557E33B49631308953CADD6A8E632B1"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Prepare_HeatDriveECC_CoupledCVObservation.m",
+      "sha256": "73DD593A25AAC2F3577C4B5FCD19ABC73B7B317FA379A1F0E1ED4EBC320B36E6"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\HeatDriveECC_ObserverContext.m",
+      "sha256": "FD9762778E39CB26416D0AB8E94FDAB6744C70B8C8CE56DBB6070DE8CBDC5F3C"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Verify_HeatDriveECC_SharedEndpointOP.m",
+      "sha256": "41AD1D4FD54A089169BE4C8EEEDD5555F604478EB015806860B7E9F78E31EF5A"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Pack_HeatDriveECC_TraceColumns.m",
+      "sha256": "7792A4EC2F1717DD1ED14321BCFE5C70FFA348EB934E3370D08CC9DAA703FDC3"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Audit_HeatDriveECC_ManifoldMask.m",
+      "sha256": "03A29ACA6E06D49CBE24832A73BB43E502462D4338296233FCD683672559558D"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Create_Simulink_Exchange_Runtime.m",
+      "sha256": "CB710961F78D39104F301149AB21B4D97AA1B94238DF25886254F779AD264355"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Resolve_Exchange_Stage_Config.m",
+      "sha256": "B12DE433D543E30DA53A6E3804A110089A83F4234C59B03522C96B82A490DCF5"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Build_Simulink_Exchange_Params.m",
+      "sha256": "80E8B15CEB67287CA0684F914DD607F377881C465B0FFB2B8A3DE7B14F94939F"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Initialize_HeatDriveECC_ConstitutiveVector21.m",
+      "sha256": "1376D4D1EE3301B18741128D6B1B9B4F389E76D032EFC5CC69A79184A218BF63"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Build_HeatDriveECC_EighthRound_Defaults.m",
+      "sha256": "B3DDB9482D78A6DBEE5C938BFF41859300D32CA659FC1688C18444657110A2FA"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Load_HeatDriveECC_ModelByPath.m",
+      "sha256": "68024C6A8CA95DD7AF5DC29B9CF7B28D16A882A2624BFFB5E14184D282A0C152"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Integrate_HeatDriveECC_Constitutive21_Interface.m",
+      "sha256": "5A862DF1777B4B8B56868DB7731118A0F7F2ADB05D2839CF84FCCB2CF36AB984"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Configure_HeatDriveECC_PressureCommandDomain.m",
+      "sha256": "6E47AF971D0F4E30FF174C719CC7E40292FD06B0F12F2183FC4BCDD3C83341BE"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Build_HeatDriveECC_Article_Defaults.m",
+      "sha256": "01963D480168816B5B136DF8A2C31739ABA82A08257CB97289D6644F3B8111FF"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Build_HeatDriveECC_StageSchedule.m",
+      "sha256": "9CEDEB8729E6DD29DF48A9E366C3FC5865982125E427621B4DB8AA37A959A4F5"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Build_HeatDriveECC_RouteMatrix.m",
+      "sha256": "6B41B3DCAE7E67612F2022439F8B54CC2CD05ABFB1F0B741C536E6413CEA2669"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\GlobalXi_Checkpoint_To_Simulink_State.m",
+      "sha256": "637971C77F510CEC2348009B5F7173E11140766A577BE9F7C83D33A04FC43CF5"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Initialize_HeatDriveECC_EighthRound_State.m",
+      "sha256": "D31D1BBE1E990BB919A38687345BD902E11BA73F763AF53ACB18D2BC8F33EF0D"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_ConstitutiveCompatibilityStep51.m",
+      "sha256": "FE5960655C3B79AD33349EC37ADEE281F50201E47A5686BF67E0428603E49308"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Initialize_HeatDriveECC_EighthRound_Branches.m",
+      "sha256": "5E72E711BCE022DE69E752CDA333F736FD055E72C2AE7B4B21B251B118120FEB"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Build_HeatDriveECC_EighthRound_BranchRoles.m",
+      "sha256": "E93DDC1A8AB7A5569E0C0956092E898162844B951FA2FCC79BBB58D5C89BB356"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\HeatDriveECC_ConstitutiveStateVectorStep21_KernelCandidate.m",
+      "sha256": "E36A8838EB5BA9A76253A31E4A2021E12D0F836871A721FD0FF922189E0099AE"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Audit_HeatDriveECC_PressureReferenceTopology.m",
+      "sha256": "2BCC6E1A90F6978097907662FEC2B7918C06D78649CC4629F078543158610622"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\HeatDriveECC_PressureCommandInterval.m",
+      "sha256": "4D058D8BAE66BD5B5261204FA72F94E85597442FC8C4411DFE0BA9FFC83436B1"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Map_HeatDriveECC_PhysicalPortHandles.m",
+      "sha256": "3B211B68F12D27B5AAF3F40465FF21F30F4EE40215DAEDF0EFAD42F4B443A175"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Build_HeatDriveECC_DistributedPressureEnvelope.m",
+      "sha256": "6DBF615B18DA39A818837A5C98A73FD62938A6D9A7A7D2150070546DDE6D3F7E"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Build_HeatDriveECC_CoupledCVInventory.m",
+      "sha256": "B1200F76DD88169AA6CBEF76454E431EA1DF3DB35450451B293652AE38FCA1BE"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Apply_HeatDriveECC_ColdConservativeBuffers.m",
+      "sha256": "4849EFE8526021EE86614063EC9D74DBB29FB38B2D3A5E0DE69D3A15C4A1D0C5"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Build_HeatDriveECC_ColdInventoryTargets.m",
+      "sha256": "4CC5B7A50D604C905F92172CD87BCF6CDD076ADCE3FF9C624EBEFBBC3AA0E5D4"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Instrument_HeatDriveECC_PumpPressureProbes.m",
+      "sha256": "B4DC1F3609A8C3444DACD23BBCEF2301970310729ACFDC457CC5238FBE28077D"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Instrument_HeatDriveECC_Stage4ControllerProbes.m",
+      "sha256": "60C812D117872011AB6899FAFB6518639DA5F61330C5BC2A0F9BBDF4F6CC115E"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\HeatDriveECC_ProcessLocalTimeObserver.m",
+      "sha256": "A565BED03592D19D45CFD43BE8DCC0E541090C65321278770199AAE4F3C0EA68"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Capture_HeatDriveECC_StateInterfaceTrace.m",
+      "sha256": "382B004BBEAAAD287B3936E3DE86FD39B89EB26E08557042A0E47E5B7CEFAC6F"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\HeatDriveECC_StableKernelCandidate.m",
+      "sha256": "2D75D4C7F7566A5C6C6BABC1BC5A7546A3DC9325935FDE0348009CBDC2D356B4"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\HeatDriveECC_ConstitutiveStabilityBound.m",
+      "sha256": "DEC5C3E31B37A96720B50BF8F972F986EC2D95486D36F68D640C9603F1716290"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Extract_HeatDriveECC_NativeStorageTraces.m",
+      "sha256": "5CE2A87040C8A21DF8D56F1A42A090D91318FB4837061C7DF5CD8CA280B6B3A8"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Extract_HeatDriveECC_BoundaryTraces.m",
+      "sha256": "13F2ADB22D9213C0479A20CB6FA0351CCA5C179A7EFFFF0D153403F6EC7705D2"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\Extract_HeatDriveECC_ObservedStates.m",
+      "sha256": "5A98A2E0B1483152C1FDA4BB1F6C4A185189369F8D9CCFEE94EB11B709E2016B"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\verification\\Read_HeatDriveECC_NativeSeries.m",
+      "sha256": "48B8E276DDD37A91E0378A0B09E3E784F69BB622F11D6283450FECB266141DC3"
+    }
+  ]
+}

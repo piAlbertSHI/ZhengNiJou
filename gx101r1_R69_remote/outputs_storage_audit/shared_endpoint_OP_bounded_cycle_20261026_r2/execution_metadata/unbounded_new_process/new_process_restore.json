@@ -1,0 +1,24 @@
+{
+  "schema": "heatdrive_ecc_shared_endpoint_new_process_OP_v1",
+  "execution_complete": true,
+  "production_recovery_allowed": false,
+  "source_OP_edited": false,
+  "observation": {
+    "native_trace_count": 926,
+    "workspace_trace_count": 201,
+    "source_trace_count": 162,
+    "logged_public_state_groups": 73,
+    "all_vendor_private_state_fields_exposed": false,
+    "observations_are_not_a_restart_state": true
+  },
+  "observation_path": "C:\\tmp\\se21_shared_endpoint_OP_new_process_r1_20261026\\new_process_restored_observations.mat",
+  "observation_sha256": "12345662B4D4EB429966E219040120DF524CC2F014B80E925FF5B5B8B9B7FA96",
+  "source_root": "C:/tmp/se21_shared_endpoint_OP_cycle_r1_20261026/shared",
+  "source_OP_sha256": "83CCC40866491108A4775DD2A8D358BD85A655E7ED11403B629A1E8EE68F4967",
+  "actual_tout_first_s": 0.2,
+  "actual_tout_last_s": 10.202,
+  "checksum_policy": "error/error",
+  "complete_cycle_numerical_equivalence_evaluated": false,
+  "state_projection_or_reset_used": false,
+  "reader_source_sha256": "AB394879D113C6B199595DC9F37A5D78CF90E360ADC2D9C2830F307EA5569CAD"
+}

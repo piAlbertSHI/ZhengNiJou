@@ -278,3 +278,7 @@ gx101r1_R69_remote/outputs_storage_audit/shared_SMA_cold_prefix_20261026_r1/*.js
 gx101r1_R69_remote/outputs_storage_audit/shared_SMA_cold_cycle_20261026_r1_review2/**/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol
 gx101r1_R69_remote/outputs_storage_audit/shared_SMA_cold_cycle_20261026_r1_review2/**/*.jsonl -text whitespace=trailing-space,space-before-tab,cr-at-eol
 gx101r1_R69_remote/outputs_storage_audit/shared_SMA_cold_cycle_20261026_r1_review2/*.log -text whitespace=-trailing-space,-space-before-tab,-blank-at-eof,cr-at-eol
+gx101r1_R69_remote/outputs_storage_audit/shared_endpoint_OP_bounded_cycle_20261026_r2/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+gx101r1_R69_remote/outputs_storage_audit/shared_endpoint_OP_bounded_cycle_20261026_r2/**/*.log -text whitespace=-trailing-space,-space-before-tab,-blank-at-eof,cr-at-eol
+gx101r1_R69_remote/outputs_storage_audit/shared_endpoint_OP_bounded_cycle_20261026_r2/*.log -text whitespace=-trailing-space,-space-before-tab,-blank-at-eof,cr-at-eol
+gx101r1_R69_remote/outputs_storage_audit/shared_endpoint_OP_cycle_20261026_r2/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
