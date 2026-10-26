@@ -1,0 +1,4553 @@
+{
+  "schema": "heatdrive_ecc_shared_endpoint_inventory_probe_v1",
+  "producer_commit": "f36b589ba5445f5b3e4aa09cb818fb4491b5d9ca",
+  "execution_sha256": "053FE31DCF4320D79F7FCD252BF5E1FF63F213946143245F0D9DD14C3FFF97C6",
+  "reader_sha256": "3EC5522A7B71B57AEC5546B2738B9B2409FF0FD55F5FADB71DE337AAEF304603",
+  "coverage": {
+    "arm": "shared",
+    "same_run_CV_capture_coverage_pass": true,
+    "runtime_metadata_hashes_bound": true,
+    "component_count": 98,
+    "type_counts": {
+      "Pipe (TL)": 46,
+      "Endpoint Buffer": 4,
+      "Endpoint Chamber": 2,
+      "Thermal Mass": 46
+    },
+    "native_trace_count": 926,
+    "workspace_signal_count": 201,
+    "source_trace_count": 162,
+    "source_count": 49,
+    "native_grid_sample_count": 20001,
+    "hydraulic_domain_count": 2,
+    "pump_absolute_pressure_probes": [
+      {
+        "source": "heatdrive_ecc_coupled_se21/SE_Stage2_PistonPressureSource",
+        "face": "A",
+        "min_max_MPa": [
+          0.8509493150441715,
+          1.2661934467137699
+        ]
+      },
+      {
+        "source": "heatdrive_ecc_coupled_se21/SE_Stage2_PistonPressureSource",
+        "face": "B",
+        "min_max_MPa": [
+          0.850670202088933,
+          0.8510835581178516
+        ]
+      },
+      {
+        "source": "heatdrive_ecc_coupled_se21/SE_Stage4_PistonPressureSource",
+        "face": "A",
+        "min_max_MPa": [
+          0.8509820976836316,
+          1.2661519204045046
+        ]
+      },
+      {
+        "source": "heatdrive_ecc_coupled_se21/SE_Stage4_PistonPressureSource",
+        "face": "B",
+        "min_max_MPa": [
+          0.8509810976492748,
+          0.8510260083424508
+        ]
+      },
+      {
+        "source": "heatdrive_ecc_coupled_se21/SMA Pressure Source (TL)",
+        "face": "A",
+        "min_max_MPa": [
+          0.8496287813763166,
+          0.8564177563837228
+        ]
+      },
+      {
+        "source": "heatdrive_ecc_coupled_se21/SMA Pressure Source (TL)",
+        "face": "B",
+        "min_max_MPa": [
+          0.6086648715434122,
+          0.8509349037385199
+        ]
+      }
+    ],
+    "hex_absolute_port_probes": [
+      {
+        "tag": "shex",
+        "pipe": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+        "face": "A",
+        "unit": "K",
+        "min_max": [
+          304.36594676744295,
+          393.1433142626839
+        ],
+        "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+      },
+      {
+        "tag": "shex",
+        "pipe": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+        "face": "A",
+        "unit": "Pa",
+        "min_max": [
+          850884.0083053578,
+          850887.2125715513
+        ],
+        "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+      },
+      {
+        "tag": "shex",
+        "pipe": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+        "face": "B",
+        "unit": "K",
+        "min_max": [
+          332.97976549381144,
+          393.1499158421361
+        ],
+        "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+      },
+      {
+        "tag": "shex",
+        "pipe": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+        "face": "B",
+        "unit": "Pa",
+        "min_max": [
+          837407.9713943783,
+          850887.2124890641
+        ],
+        "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+      },
+      {
+        "tag": "hhex_sma",
+        "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+        "face": "A",
+        "unit": "K",
+        "min_max": [
+          303.16792666194914,
+          392.3317544960664
+        ],
+        "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+      },
+      {
+        "tag": "hhex_sma",
+        "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+        "face": "A",
+        "unit": "Pa",
+        "min_max": [
+          850931.8701331168,
+          850935.0162969982
+        ],
+        "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+      },
+      {
+        "tag": "hhex_sma",
+        "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+        "face": "B",
+        "unit": "K",
+        "min_max": [
+          303.15026666874286,
+          365.47233139466533
+        ],
+        "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+      },
+      {
+        "tag": "hhex_sma",
+        "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+        "face": "B",
+        "unit": "Pa",
+        "min_max": [
+          838122.8439859177,
+          850935.0162923664
+        ],
+        "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+      },
+      {
+        "tag": "hhex_se",
+        "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+        "face": "A",
+        "unit": "K",
+        "min_max": [
+          291.41450626726703,
+          317.59607287649897
+        ],
+        "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+      },
+      {
+        "tag": "hhex_se",
+        "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+        "face": "A",
+        "unit": "Pa",
+        "min_max": [
+          850981.2126259558,
+          1057907.6913575535
+        ],
+        "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+      },
+      {
+        "tag": "hhex_se",
+        "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+        "face": "B",
+        "unit": "K",
+        "min_max": [
+          303.0584470440297,
+          305.12949397852856
+        ],
+        "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+      },
+      {
+        "tag": "hhex_se",
+        "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+        "face": "B",
+        "unit": "Pa",
+        "min_max": [
+          850981.0991834356,
+          1057907.674779446
+        ],
+        "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+      },
+      {
+        "tag": "chex",
+        "pipe": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+        "face": "A",
+        "unit": "K",
+        "min_max": [
+          267.5524002810064,
+          280.4148023554127
+        ],
+        "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+      },
+      {
+        "tag": "chex",
+        "pipe": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+        "face": "A",
+        "unit": "Pa",
+        "min_max": [
+          850948.882426636,
+          967833.3995445474
+        ],
+        "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+      },
+      {
+        "tag": "chex",
+        "pipe": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+        "face": "B",
+        "unit": "K",
+        "min_max": [
+          275.8969332735536,
+          277.40652065800884
+        ],
+        "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+      },
+      {
+        "tag": "chex",
+        "pipe": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+        "face": "B",
+        "unit": "Pa",
+        "min_max": [
+          850948.3685039037,
+          967833.3896571317
+        ],
+        "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+      }
+    ],
+    "PI_memory_probe_count": 3,
+    "solid_workspace_native_max_difference_K": {
+      "SMA": 0.0,
+      "SE": 0.0
+    },
+    "input_dependencies": [
+      {
+        "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\native_CV_observations.mat",
+        "sha256": "A1572F883C7FFB1DFA03F464FDB0A34EE67D362162B0100B8E8F2AD8CA9F2233",
+        "bytes": 112979792
+      },
+      {
+        "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\workspace_CV_observations.mat",
+        "sha256": "7C0C087C9B01353BC2CCF7647AB3543D5C57CE4CF3C2ED0D89D18074E6E64F12",
+        "bytes": 72284927
+      },
+      {
+        "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\source_CV_observations.mat",
+        "sha256": "00E1C674045FC60326270CCEDF82C71832F49997C75782EAD0636346383C7C8F",
+        "bytes": 20889398
+      },
+      {
+        "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\CV_options.mat",
+        "sha256": "53B4F640165E58DFC19D26C941EF814299CBF29566C92FB8D83ED9931C524990",
+        "bytes": 29663
+      },
+      {
+        "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\CV_contract.json",
+        "sha256": "AD6B8CEF88978B9BCB3FDC702CA26FB4CF8BD79FD4F48BD7E1DAFE9EB535DDFD",
+        "bytes": 124251
+      },
+      {
+        "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\CV_tl_topology.json",
+        "sha256": "D4964F1FEF093494E9B26AAB2670ED7BF7F3C99589EFFC3BEA69B20DF78B9952",
+        "bytes": 204308
+      },
+      {
+        "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\CV_thermal_topology.json",
+        "sha256": "8639C3C6F7E9CC57CDB1A1E4B2CCDA56E61B03884ABE8616362CAF025C307A7B",
+        "bytes": 1060154
+      }
+    ],
+    "all_mechanism_energy_periodic_or_twenty_cycle_seed_qualified": false,
+    "complete_hidden_state_or_OP_saved": false
+  },
+  "duration_s": 20,
+  "initialization_contract_runtime_hash_bound": true,
+  "initial_public_target_errors": [
+    {
+      "path": "SE/HoldPipe_001/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083577889,
+      "observed": 76.87575979479551,
+      "difference": 0.00022895901662423057
+    },
+    {
+      "path": "SE/HoldPipe_001/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.95006519970195,
+      "difference": 6.519970196450231e-05
+    },
+    {
+      "path": "SE/HoldPipe_002/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083577828,
+      "observed": 76.875759227025,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_002/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_003/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083577768,
+      "observed": 76.8757592270244,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_003/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_004/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083577711,
+      "observed": 76.87575922702383,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_004/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_005/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083577652,
+      "observed": 76.87575922702324,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_005/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_006/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083577592,
+      "observed": 76.87575922702264,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_006/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_007/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083577532,
+      "observed": 76.87575922702204,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_007/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_008/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083577474,
+      "observed": 76.87575922702146,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_008/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_009/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083577414,
+      "observed": 76.87575922702086,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_009/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_010/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083577355,
+      "observed": 76.87575922702027,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_010/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_011/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083577295,
+      "observed": 76.87575922701967,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_011/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_012/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083577235,
+      "observed": 76.87575922701907,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_012/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_013/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083577176,
+      "observed": 76.87575922701848,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_013/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_014/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083577117,
+      "observed": 76.8757592270179,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_014/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_015/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083577058,
+      "observed": 76.8757592270173,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_015/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_016/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083576998,
+      "observed": 76.8757592270167,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_016/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_017/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083576937,
+      "observed": 76.87575922701609,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_017/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_018/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083576877,
+      "observed": 76.8757592270155,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_018/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_019/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.8755308357682,
+      "observed": 76.87575922701492,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_019/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_020/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.8755308357676,
+      "observed": 76.87575922701433,
+      "difference": 0.00022839124672202615
+    },
+    {
+      "path": "SE/HoldPipe_020/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380205,
+      "difference": 6.503802052293395e-05
+    },
+    {
+      "path": "SE/HoldPipe_021/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553083576702,
+      "observed": 76.87575922701276,
+      "difference": 0.00022839124574147718
+    },
+    {
+      "path": "SE/HoldPipe_021/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9500650380202,
+      "difference": 6.503802023871685e-05
+    },
+    {
+      "path": "SHEX/HotPipe/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 503.3411010005015,
+      "observed": 503.34110089968976,
+      "difference": -1.0081174650622415e-07
+    },
+    {
+      "path": "SHEX/HotPipe/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 393.15,
+      "observed": 393.1499999761998,
+      "difference": -2.3800168946763733e-08
+    },
+    {
+      "path": "SMA/HoldPipe_001/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.66323030398435,
+      "observed": 125.6632310639279,
+      "difference": 7.599435463134796e-07
+    },
+    {
+      "path": "SMA/HoldPipe_001/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15000017983846,
+      "difference": 1.7983848010771908e-07
+    },
+    {
+      "path": "SMA/HoldPipe_002/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.66323030398496,
+      "observed": 125.66323030398496,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_002/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_003/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.66323030398559,
+      "observed": 125.66323030398559,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_003/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_004/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.66323030398618,
+      "observed": 125.66323030398618,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_004/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_005/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.6632303039868,
+      "observed": 125.6632303039868,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_005/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_006/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.6632303039874,
+      "observed": 125.6632303039874,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_006/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_007/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.66323030398803,
+      "observed": 125.66323030398803,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_007/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_008/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.66323030398864,
+      "observed": 125.66323030398864,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_008/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_009/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.66323030398928,
+      "observed": 125.66323030398928,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_009/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_010/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.66323030398988,
+      "observed": 125.66323030398988,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_010/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_011/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.66323030399049,
+      "observed": 125.66323030399049,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_011/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_012/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.66323030399109,
+      "observed": 125.66323030399109,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_012/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_013/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.66323030399168,
+      "observed": 125.66323030399168,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_013/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_014/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.6632303039923,
+      "observed": 125.6632303039923,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_014/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_015/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.66323030399292,
+      "observed": 125.66323030399292,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_015/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_016/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.66323030399353,
+      "observed": 125.66323030399353,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_016/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_017/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.66323030399417,
+      "observed": 125.66323030399417,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_017/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_018/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.66323030399477,
+      "observed": 125.66323030399477,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_018/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_019/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.66323030399538,
+      "observed": 125.66323030399538,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_019/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_020/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.663230303996,
+      "observed": 125.663230303996,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/HoldPipe_020/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999980192,
+      "difference": -1.980765773623716e-09
+    },
+    {
+      "path": "SMA/HoldPipe_021/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.6632303039966,
+      "observed": 125.66323083485278,
+      "difference": 5.308561839001413e-07
+    },
+    {
+      "path": "SMA/HoldPipe_021/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1500001250285,
+      "difference": 1.2502852086981875e-07
+    },
+    {
+      "path": "\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 76.87553038294982,
+      "observed": 76.87553038294986,
+      "difference": 4.263256414560601e-14
+    },
+    {
+      "path": "\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.9499999999999,
+      "difference": -1.1368683772161603e-13
+    },
+    {
+      "path": "\u70ed\u7aef\u6362\u70ed\u5668/HotPipe/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 171.02441462944287,
+      "observed": 171.02441461370768,
+      "difference": -1.5735196257082862e-08
+    },
+    {
+      "path": "\u70ed\u7aef\u6362\u70ed\u5668/HotPipe/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999956519,
+      "difference": -4.348066795500927e-09
+    },
+    {
+      "path": "\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe/u_I",
+      "priority": "High",
+      "unit": "kJ/kg",
+      "requested": 125.66318413640815,
+      "observed": 125.66318422018844,
+      "difference": 8.378029292543943e-08
+    },
+    {
+      "path": "\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15000002004473,
+      "difference": 2.004475163630559e-08
+    },
+    {
+      "path": "ColdFluidBuffer/stored_mass",
+      "priority": "High",
+      "unit": "kg",
+      "requested": 0.10123865866626236,
+      "observed": 0.10123865866626235,
+      "difference": -1.3877787807814457e-17
+    },
+    {
+      "path": "ColdFluidBuffer/stored_energy",
+      "priority": "High",
+      "unit": "J",
+      "requested": 7864.17560526318,
+      "observed": 7864.175605263178,
+      "difference": -1.8189894035458565e-12
+    },
+    {
+      "path": "ColdFluidBuffer/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.95,
+      "difference": 0.0
+    },
+    {
+      "path": "ColdFluidBuffer/level",
+      "priority": "Low",
+      "unit": "m",
+      "requested": 0.09569622191315919,
+      "observed": 0.09569622191315928,
+      "difference": 9.71445146547012e-17
+    },
+    {
+      "path": "HotFluidBuffer/stored_mass",
+      "priority": "High",
+      "unit": "kg",
+      "requested": 0.10001750154514236,
+      "observed": 0.10001750154514237,
+      "difference": 1.3877787807814457e-17
+    },
+    {
+      "path": "HotFluidBuffer/stored_energy",
+      "priority": "High",
+      "unit": "J",
+      "requested": 17186.838281235254,
+      "observed": 17186.838281189284,
+      "difference": -4.5969500206410885e-08
+    },
+    {
+      "path": "HotFluidBuffer/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.14999999987424,
+      "difference": -1.2573764252010733e-10
+    },
+    {
+      "path": "HotFluidBuffer/level",
+      "priority": "Low",
+      "unit": "m",
+      "requested": 0.09569622191315919,
+      "observed": 0.09569622191315932,
+      "difference": 1.3877787807814457e-16
+    },
+    {
+      "path": "SHEXFluidBuffer/stored_mass",
+      "priority": "High",
+      "unit": "kg",
+      "requested": 0.09028074776293574,
+      "observed": 0.09028074776285612,
+      "difference": -7.961686865343154e-14
+    },
+    {
+      "path": "SHEXFluidBuffer/stored_energy",
+      "priority": "High",
+      "unit": "J",
+      "requested": 45523.423672877914,
+      "observed": 45523.42367223437,
+      "difference": -6.435438990592957e-07
+    },
+    {
+      "path": "SHEXFluidBuffer/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 393.15,
+      "observed": 393.1499999984387,
+      "difference": -1.561261342430953e-09
+    },
+    {
+      "path": "SHEXFluidBuffer/level",
+      "priority": "Low",
+      "unit": "m",
+      "requested": 0.09569622191315919,
+      "observed": 0.09569622191295046,
+      "difference": -2.0872192862952943e-13
+    },
+    {
+      "path": "SMAHotFluidBuffer/stored_mass",
+      "priority": "High",
+      "unit": "kg",
+      "requested": 0.09531256850141726,
+      "observed": 0.09531256850136441,
+      "difference": -5.284661597215745e-14
+    },
+    {
+      "path": "SMAHotFluidBuffer/stored_energy",
+      "priority": "High",
+      "unit": "J",
+      "requested": 12058.675496118172,
+      "observed": 12058.675497516635,
+      "difference": 1.3984627003083006e-06
+    },
+    {
+      "path": "SMAHotFluidBuffer/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1500000034905,
+      "difference": 3.490526978566777e-09
+    },
+    {
+      "path": "SMAHotFluidBuffer/level",
+      "priority": "Low",
+      "unit": "m",
+      "requested": 0.09569622191315919,
+      "observed": 0.09569622191319241,
+      "difference": 3.322342401190781e-14
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_01/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984256,
+      "difference": -3.100157437074813e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_02/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_03/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_04/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_05/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_06/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_07/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_08/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_09/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_10/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_11/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_12/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_13/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_14/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_15/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_16/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_17/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_18/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_19/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_20/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SE/Subsystem2/NodeMass_21/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499689984255,
+      "difference": -3.100157448443497e-05
+    },
+    {
+      "path": "SHEX/HotSinkMass/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 393.15,
+      "observed": 393.1500000000034,
+      "difference": 3.410605131648481e-12
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_01/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_02/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_03/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_04/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_05/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_06/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_07/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_08/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_09/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_10/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_11/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_12/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_13/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_14/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_15/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_16/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_17/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_18/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_19/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_20/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "SMA/Subsystem2/NodeMass_21/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.15,
+      "difference": 0.0
+    },
+    {
+      "path": "\u51b7\u7aef\u6362\u70ed\u5668/ColdLoadMass/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.95,
+      "difference": 0.0
+    },
+    {
+      "path": "\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkMass/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 276.95,
+      "observed": 276.95,
+      "difference": 0.0
+    },
+    {
+      "path": "\u70ed\u7aef\u6362\u70ed\u5668/HotSinkMass/T",
+      "priority": "High",
+      "unit": "K",
+      "requested": 303.15,
+      "observed": 303.1499999999976,
+      "difference": -2.3874235921539366e-12
+    },
+    {
+      "path": "SMA_PumpInletConnectingPipeVolume/stored_mass",
+      "priority": "High",
+      "unit": "kg",
+      "requested": 0.0015174702627137884,
+      "observed": 0.0015174702627722392,
+      "difference": 5.845085700173502e-14
+    },
+    {
+      "path": "SMA_PumpInletConnectingPipeVolume/stored_energy",
+      "priority": "High",
+      "unit": "J",
+      "requested": 763.8056320283913,
+      "observed": 763.8056312361665,
+      "difference": -7.9222479598684e-07
+    },
+    {
+      "path": "SMA_PumpInletConnectingPipeVolume/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 393.15,
+      "observed": 393.1499998576459,
+      "difference": -1.4235405387807987e-07
+    },
+    {
+      "path": "SMA_PumpInletConnectingPipeVolume/p_I",
+      "priority": "Low",
+      "unit": "MPa",
+      "requested": 0.8500005,
+      "observed": 0.850000327582786,
+      "difference": -1.7241721406158206e-07
+    },
+    {
+      "path": "SMA_PumpOutletConnectingPipeVolume/stored_mass",
+      "priority": "High",
+      "unit": "kg",
+      "requested": 0.0015174702620079918,
+      "observed": 0.0015174702620820047,
+      "difference": 7.401284446428846e-14
+    },
+    {
+      "path": "SMA_PumpOutletConnectingPipeVolume/stored_energy",
+      "priority": "High",
+      "unit": "J",
+      "requested": 763.8056322145754,
+      "observed": 763.8056313511381,
+      "difference": -8.634373216409585e-07
+    },
+    {
+      "path": "SMA_PumpOutletConnectingPipeVolume/T_I",
+      "priority": "Low",
+      "unit": "K",
+      "requested": 393.15,
+      "observed": 393.14999984534813,
+      "difference": -1.5465184333152138e-07
+    },
+    {
+      "path": "SMA_PumpOutletConnectingPipeVolume/p_I",
+      "priority": "Low",
+      "unit": "MPa",
+      "requested": 0.8499995,
+      "observed": 0.8499993275827861,
+      "difference": -1.7241721395055976e-07
+    }
+  ],
+  "original_SMA_pipe_temperature_1e6_threshold_pass": true,
+  "endpoint_state_equation_checks": [
+    {
+      "path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "kind": "Endpoint Buffer",
+      "mass_equation_max_interval_abs_kg": 2.0076798432295054e-17,
+      "mass_equation_net_residual_kg": -6.255642620688779e-17,
+      "energy_equation_max_interval_abs_J": 1.020433737508597e-12,
+      "energy_equation_net_residual_J": -2.0412999965751327e-11,
+      "explicit_energy_state_definition_max_abs_J": 2.7284841053187847e-12,
+      "mass_EOS_max_abs_kg": 4.093947403305265e-15,
+      "temperature_range_K": [
+        276.8904660592491,
+        276.950005452682
+      ],
+      "pressure_range_Pa": [
+        850000.0000000001,
+        850000.0000000001
+      ]
+    },
+    {
+      "path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "kind": "Endpoint Buffer",
+      "mass_equation_max_interval_abs_kg": 2.0076798432295054e-17,
+      "mass_equation_net_residual_kg": 6.255642620688779e-17,
+      "energy_equation_max_interval_abs_J": 3.096078948772174e-12,
+      "energy_equation_net_residual_J": -5.276180474394108e-11,
+      "explicit_energy_state_definition_max_abs_J": 7.275957614183426e-12,
+      "mass_EOS_max_abs_kg": 1.0311196341206141e-14,
+      "temperature_range_K": [
+        303.1497723380174,
+        303.24619222886315
+      ],
+      "pressure_range_Pa": [
+        850000.0000000001,
+        850000.0000000001
+      ]
+    },
+    {
+      "path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "kind": "Endpoint Buffer",
+      "mass_equation_max_interval_abs_kg": 1.3782602480366755e-17,
+      "mass_equation_net_residual_kg": -5.191852749921048e-18,
+      "energy_equation_max_interval_abs_J": 3.655686864334484e-12,
+      "energy_equation_net_residual_J": -1.9348846839916515e-10,
+      "explicit_energy_state_definition_max_abs_J": 1.4551915228366852e-11,
+      "mass_EOS_max_abs_kg": 1.924849168943865e-14,
+      "temperature_range_K": [
+        392.99827337791226,
+        393.1499999984387
+      ],
+      "pressure_range_Pa": [
+        850000.0000000001,
+        850000.0000000001
+      ]
+    },
+    {
+      "path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "kind": "Endpoint Buffer",
+      "mass_equation_max_interval_abs_kg": 1.3834192080810462e-17,
+      "mass_equation_net_residual_kg": 4.011488365131891e-18,
+      "energy_equation_max_interval_abs_J": 9.2402474560771e-13,
+      "energy_equation_net_residual_J": 7.85285098639622e-11,
+      "explicit_energy_state_definition_max_abs_J": 3.637978807091713e-12,
+      "mass_EOS_max_abs_kg": 4.9404924595819466e-15,
+      "temperature_range_K": [
+        303.1500000034905,
+        303.16946374939386
+      ],
+      "pressure_range_Pa": [
+        850000.0000000001,
+        850000.0000000001
+      ]
+    },
+    {
+      "path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "kind": "Endpoint Chamber",
+      "mass_equation_max_interval_abs_kg": 2.0289086064700663e-19,
+      "mass_equation_net_residual_kg": 1.1277226667425713e-17,
+      "energy_equation_max_interval_abs_J": 7.134293156241256e-13,
+      "energy_equation_net_residual_J": -1.880591731066448e-12,
+      "explicit_energy_state_definition_max_abs_J": 3.410605131648481e-13,
+      "mass_EOS_max_abs_kg": 2.168404344971009e-19,
+      "temperature_range_K": [
+        304.35486342776267,
+        393.1499998576459
+      ],
+      "pressure_range_Pa": [
+        849628.7813763166,
+        856417.7563837228
+      ]
+    },
+    {
+      "path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "kind": "Endpoint Chamber",
+      "mass_equation_max_interval_abs_kg": 1.9325586087198896e-19,
+      "mass_equation_net_residual_kg": 1.8560030165728676e-18,
+      "energy_equation_max_interval_abs_J": 7.820410985459603e-13,
+      "energy_equation_net_residual_J": -4.8826941364339856e-12,
+      "explicit_energy_state_definition_max_abs_J": 2.2737367544323206e-13,
+      "mass_EOS_max_abs_kg": 2.168404344971009e-19,
+      "temperature_range_K": [
+        303.6850679893489,
+        393.14999984534813
+      ],
+      "pressure_range_Pa": [
+        608664.8715434123,
+        850934.90373852
+      ]
+    }
+  ],
+  "thermal_network_balance": {
+    "start_s": 0,
+    "stop_s": 20,
+    "sample_count": 20001,
+    "quadrature": "native right endpoint BE, no interpolation",
+    "source_component_identity_max_abs_W": 1.0095391189679503e-10,
+    "closed_fluid_port_mass_sum_max_abs_kg_s": 6.884683795282953e-18,
+    "source_terms": [
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE_Stage2_PistonPressureSource",
+        "source_file": "foundation.thermal_liquid.sources.pressure_source",
+        "role": "native_pressure_source_thermal_input",
+        "sign": 1,
+        "sign_rule": "native Phi_A+Phi_B+power=0; engineering pump work is separate",
+        "BE_net_input_J": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE_Stage4_PistonPressureSource",
+        "source_file": "foundation.thermal_liquid.sources.pressure_source",
+        "role": "native_pressure_source_thermal_input",
+        "sign": 1,
+        "sign_rule": "native Phi_A+Phi_B+power=0; engineering pump work is separate",
+        "BE_net_input_J": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA Pressure Source (TL)",
+        "source_file": "foundation.thermal_liquid.sources.pressure_source",
+        "role": "native_pressure_source_thermal_input",
+        "sign": 1,
+        "sign_rule": "native Phi_A+Phi_B+power=0; engineering pump work is separate",
+        "BE_net_input_J": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_01",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 1.7885372572326639
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_02",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 1.9339625937419551
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_03",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 2.09440792282483
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_04",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 2.270290221565375
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_05",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 2.4636904702562172
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_06",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 2.675771459156501
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_07",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 2.9061127762517627
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_08",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 3.152308574819635
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_09",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 3.41071401018101
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_10",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 3.6756335753149543
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_11",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 3.935912671016586
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_12",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 4.177160968961501
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_13",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 4.38818732915263
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_14",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 4.552493406372602
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_15",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 4.6628718070888
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_16",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 4.717419310064551
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_17",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 4.717973918045977
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_18",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 4.668637615889591
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_19",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 4.576434080831912
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_20",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 4.453054233788491
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ConstitutiveHeatSource_21",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 4.327260331754334
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SHEX/AmbientTempSource",
+        "source_file": "foundation.thermal.sources.temperature",
+        "role": "external_fixed_temperature",
+        "sign": -1,
+        "sign_rule": "single A.Q -> *; positive Q leaves modeled thermal network",
+        "BE_net_input_J": 26750.173716645448
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_01",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -0.7244520557464824
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_02",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -1.3933873386491733
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_03",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -1.9634079458384566
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_04",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -2.5616089842527243
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_05",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -3.1601208387703577
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_06",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -3.709050086624363
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_07",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -4.170737879151796
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_08",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -4.53538568893371
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_09",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -4.807559787777026
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_10",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -4.992011512754576
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_11",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -5.091463298796459
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_12",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -5.100088864530246
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_13",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -4.983827931289559
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_14",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -4.7405726136092206
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_15",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -4.430398353537985
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_16",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -4.070301430413623
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_17",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -3.673401193046125
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_18",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -3.270932840289503
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_19",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -2.9179238566050647
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_20",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -2.665590556531063
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ConstitutiveHeatSource_21",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "constitutive_to_thermal_solver_NOT_device_external_heat",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": -2.518005749417167
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/CHEXFixedReservoirTemperatureSource",
+        "source_file": "foundation.thermal.sources.temperature",
+        "role": "external_fixed_temperature",
+        "sign": -1,
+        "sign_rule": "single A.Q -> *; positive Q leaves modeled thermal network",
+        "BE_net_input_J": 164.16289501164943
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdLoadHeatSource",
+        "source_file": "foundation.thermal.sources.controlled_heat_flow",
+        "role": "external_controlled_load",
+        "sign": 1,
+        "sign_rule": "actual A.Q -> B.Q; reference-side face resolved by typed wire graph",
+        "BE_net_input_J": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/AmbientTempSource",
+        "source_file": "foundation.thermal.sources.temperature",
+        "role": "external_fixed_temperature",
+        "sign": -1,
+        "sign_rule": "single A.Q -> *; positive Q leaves modeled thermal network",
+        "BE_net_input_J": -27357.432034374266
+      }
+    ],
+    "source_net_input_J": -443.02681698941905,
+    "native_port_net_input_J": -443.02681698913676,
+    "native_fluid_mass_start_kg": 0.41762493607815626,
+    "native_fluid_mass_end_kg": 0.41762493607815626,
+    "gross_source_absolute_energy_J": 61939.258342736706,
+    "BE_coefficient_accumulation_J": -443.0268169883202,
+    "BE_coefficient_residual_J": -1.0988401299982797e-09,
+    "legacy_coefficient_fields_are_simplified_not_full_Tank_equations": true,
+    "BE_tank_extra_thermal_accumulation_J": 0.0,
+    "BE_tank_hydrostatic_transport_in_J": 0.0,
+    "BE_identified_native_equation_residual_J": -1.0988401299982797e-09,
+    "BE_coefficient_mass_kg": -1.1275702593849246e-17,
+    "endpoint_energy_change_J": -443.0268169883183,
+    "BE_tank_pressure_volume_work_out_J": 0.0,
+    "endpoint_fluid_mass_change_kg": -1.1275702593849246e-17,
+    "components": [
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 12.737104634353173,
+        "BE_coefficient_accumulation_J": 12.73710463435338,
+        "BE_coefficient_residual_J": -2.0605739337042905e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 12.73710463435338,
+        "BE_identified_native_equation_residual_J": -2.0605739337042905e-13,
+        "endpoint_energy_change_J": 12.73710463435338,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_002",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 12.710663130539574,
+        "BE_coefficient_accumulation_J": 12.710663130539713,
+        "BE_coefficient_residual_J": -1.3855583347321954e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 12.710663130539713,
+        "BE_identified_native_equation_residual_J": -1.3855583347321954e-13,
+        "endpoint_energy_change_J": 12.710663130539713,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_003",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 12.652705465629367,
+        "BE_coefficient_accumulation_J": 12.652705465629444,
+        "BE_coefficient_residual_J": -7.638334409421077e-14,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 12.652705465629444,
+        "BE_identified_native_equation_residual_J": -7.638334409421077e-14,
+        "endpoint_energy_change_J": 12.652705465629444,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_004",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 12.546905058897634,
+        "BE_coefficient_accumulation_J": 12.546905058897732,
+        "BE_coefficient_residual_J": -9.769962616701378e-14,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 12.546905058897732,
+        "BE_identified_native_equation_residual_J": -9.769962616701378e-14,
+        "endpoint_energy_change_J": 12.546905058897732,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_005",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 12.376940670263464,
+        "BE_coefficient_accumulation_J": 12.37694067026318,
+        "BE_coefficient_residual_J": 2.8421709430404007e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 12.37694067026318,
+        "BE_identified_native_equation_residual_J": 2.8421709430404007e-13,
+        "endpoint_energy_change_J": 12.37694067026318,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_006",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 12.12870872727812,
+        "BE_coefficient_accumulation_J": 12.128708727278067,
+        "BE_coefficient_residual_J": 5.3290705182007514e-14,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 12.128708727278067,
+        "BE_identified_native_equation_residual_J": 5.3290705182007514e-14,
+        "endpoint_energy_change_J": 12.128708727278067,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_007",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 11.792044675516005,
+        "BE_coefficient_accumulation_J": 11.792044675515886,
+        "BE_coefficient_residual_J": 1.1901590823981678e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 11.792044675515886,
+        "BE_identified_native_equation_residual_J": 1.1901590823981678e-13,
+        "endpoint_energy_change_J": 11.792044675515886,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_008",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 11.361642732200037,
+        "BE_coefficient_accumulation_J": 11.361642732200199,
+        "BE_coefficient_residual_J": -1.616484723854228e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 11.361642732200199,
+        "BE_identified_native_equation_residual_J": -1.616484723854228e-13,
+        "endpoint_energy_change_J": 11.361642732200199,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_009",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 10.8371110276423,
+        "BE_coefficient_accumulation_J": 10.837111027642376,
+        "BE_coefficient_residual_J": -7.638334409421077e-14,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 10.837111027642376,
+        "BE_identified_native_equation_residual_J": -7.638334409421077e-14,
+        "endpoint_energy_change_J": 10.837111027642376,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_010",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 10.222278884469219,
+        "BE_coefficient_accumulation_J": 10.222278884469302,
+        "BE_coefficient_residual_J": -8.348877145181177e-14,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 10.222278884469302,
+        "BE_identified_native_equation_residual_J": -8.348877145181177e-14,
+        "endpoint_energy_change_J": 10.222278884469302,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_011",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 9.523554921402994,
+        "BE_coefficient_accumulation_J": 9.523554921402901,
+        "BE_coefficient_residual_J": 9.237055564881302e-14,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 9.523554921402901,
+        "BE_identified_native_equation_residual_J": 9.237055564881302e-14,
+        "endpoint_energy_change_J": 9.523554921402901,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_012",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 8.74774597351579,
+        "BE_coefficient_accumulation_J": 8.74774597351578,
+        "BE_coefficient_residual_J": 1.0658141036401503e-14,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 8.74774597351578,
+        "BE_identified_native_equation_residual_J": 1.0658141036401503e-14,
+        "endpoint_energy_change_J": 8.74774597351578,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_013",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 7.901022805707853,
+        "BE_coefficient_accumulation_J": 7.901022805707656,
+        "BE_coefficient_residual_J": 1.9628743075372768e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 7.901022805707656,
+        "BE_identified_native_equation_residual_J": 1.9628743075372768e-13,
+        "endpoint_energy_change_J": 7.901022805707656,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_014",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 6.988006334791618,
+        "BE_coefficient_accumulation_J": 6.988006334791633,
+        "BE_coefficient_residual_J": -1.509903313490213e-14,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 6.988006334791633,
+        "BE_identified_native_equation_residual_J": -1.509903313490213e-14,
+        "endpoint_energy_change_J": 6.988006334791633,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_015",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 6.010243815099083,
+        "BE_coefficient_accumulation_J": 6.010243815099036,
+        "BE_coefficient_residual_J": 4.707345624410664e-14,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 6.010243815099036,
+        "BE_identified_native_equation_residual_J": 4.707345624410664e-14,
+        "endpoint_energy_change_J": 6.010243815099036,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_016",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 4.966144758357279,
+        "BE_coefficient_accumulation_J": 4.966144758357425,
+        "BE_coefficient_residual_J": -1.4566126083082054e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 4.966144758357425,
+        "BE_identified_native_equation_residual_J": -1.4566126083082054e-13,
+        "endpoint_energy_change_J": 4.966144758357425,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_017",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 3.852138458901759,
+        "BE_coefficient_accumulation_J": 3.8521384589018677,
+        "BE_coefficient_residual_J": -1.0880185641326534e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 3.8521384589018677,
+        "BE_identified_native_equation_residual_J": -1.0880185641326534e-13,
+        "endpoint_energy_change_J": 3.8521384589018677,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_018",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 2.6682859490014255,
+        "BE_coefficient_accumulation_J": 2.6682859490013637,
+        "BE_coefficient_residual_J": 6.17284001691587e-14,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 2.6682859490013637,
+        "BE_identified_native_equation_residual_J": 6.17284001691587e-14,
+        "endpoint_energy_change_J": 2.6682859490013637,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_019",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 1.4647776885492068,
+        "BE_coefficient_accumulation_J": 1.464777688549244,
+        "BE_coefficient_residual_J": -3.730349362740526e-14,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 1.464777688549244,
+        "BE_identified_native_equation_residual_J": -3.730349362740526e-14,
+        "endpoint_energy_change_J": 1.464777688549244,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_020",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 0.31882130701066824,
+        "BE_coefficient_accumulation_J": 0.31882130701067446,
+        "BE_coefficient_residual_J": -6.217248937900877e-15,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 0.31882130701067446,
+        "BE_identified_native_equation_residual_J": -6.217248937900877e-15,
+        "endpoint_energy_change_J": 0.31882130701067446,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_021",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": -0.7584112722347776,
+        "BE_coefficient_accumulation_J": -0.7584112722348841,
+        "BE_coefficient_residual_J": 1.0658141036401503e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -0.7584112722348841,
+        "BE_identified_native_equation_residual_J": 1.0658141036401503e-13,
+        "endpoint_energy_change_J": -0.7584112722348841,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": -3.2126064251603847,
+        "BE_coefficient_accumulation_J": -3.2126064251733624,
+        "BE_coefficient_residual_J": 1.297761897944838e-11,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -3.2126064251733624,
+        "BE_identified_native_equation_residual_J": 1.297761897944838e-11,
+        "endpoint_energy_change_J": -3.2126064251733624,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 15.493052030837667,
+        "BE_coefficient_accumulation_J": 15.493052030838896,
+        "BE_coefficient_residual_J": -1.2292389328649733e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 15.493052030838896,
+        "BE_identified_native_equation_residual_J": -1.2292389328649733e-12,
+        "endpoint_energy_change_J": 15.493052030838939,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 15.176192805033308,
+        "BE_coefficient_accumulation_J": 15.176192805030723,
+        "BE_coefficient_residual_J": 2.5845992013273644e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 15.176192805030723,
+        "BE_identified_native_equation_residual_J": 2.5845992013273644e-12,
+        "endpoint_energy_change_J": 15.176192805030695,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 14.879448326274987,
+        "BE_coefficient_accumulation_J": 14.879448326273007,
+        "BE_coefficient_residual_J": 1.9806378759312793e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 14.879448326273007,
+        "BE_identified_native_equation_residual_J": 1.9806378759312793e-12,
+        "endpoint_energy_change_J": 14.879448326272993,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 14.599021517856269,
+        "BE_coefficient_accumulation_J": 14.599021517855078,
+        "BE_coefficient_residual_J": 1.1901590823981678e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 14.599021517855078,
+        "BE_identified_native_equation_residual_J": 1.1901590823981678e-12,
+        "endpoint_energy_change_J": 14.599021517855064,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 14.331595785510517,
+        "BE_coefficient_accumulation_J": 14.331595785510558,
+        "BE_coefficient_residual_J": -4.085620730620576e-14,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 14.331595785510558,
+        "BE_identified_native_equation_residual_J": -4.085620730620576e-14,
+        "endpoint_energy_change_J": 14.331595785510515,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 14.07445050993033,
+        "BE_coefficient_accumulation_J": 14.074450509926578,
+        "BE_coefficient_residual_J": 3.751665644813329e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 14.074450509926578,
+        "BE_identified_native_equation_residual_J": 3.751665644813329e-12,
+        "endpoint_energy_change_J": 14.074450509926578,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 13.82543614885826,
+        "BE_coefficient_accumulation_J": 13.825436148857136,
+        "BE_coefficient_residual_J": 1.1244338793403585e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 13.825436148857136,
+        "BE_identified_native_equation_residual_J": 1.1244338793403585e-12,
+        "endpoint_energy_change_J": 13.825436148857136,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 13.582915295467966,
+        "BE_coefficient_accumulation_J": 13.582915295466137,
+        "BE_coefficient_residual_J": 1.829647544582258e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 13.582915295466137,
+        "BE_identified_native_equation_residual_J": 1.829647544582258e-12,
+        "endpoint_energy_change_J": 13.582915295466137,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 13.345683065573581,
+        "BE_coefficient_accumulation_J": 13.345683065574633,
+        "BE_coefficient_residual_J": -1.0516032489249483e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 13.345683065574633,
+        "BE_identified_native_equation_residual_J": -1.0516032489249483e-12,
+        "endpoint_energy_change_J": 13.345683065574605,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 13.112894871778076,
+        "BE_coefficient_accumulation_J": 13.112894871777655,
+        "BE_coefficient_residual_J": 4.2099657093785936e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 13.112894871777655,
+        "BE_identified_native_equation_residual_J": 4.2099657093785936e-13,
+        "endpoint_energy_change_J": 13.112894871777684,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 12.884058019929572,
+        "BE_coefficient_accumulation_J": 12.884058019927863,
+        "BE_coefficient_residual_J": 1.708855279503041e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 12.884058019927863,
+        "BE_identified_native_equation_residual_J": 1.708855279503041e-12,
+        "endpoint_energy_change_J": 12.884058019927878,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 12.65877183997614,
+        "BE_coefficient_accumulation_J": 12.65877183997685,
+        "BE_coefficient_residual_J": -7.105427357601002e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 12.65877183997685,
+        "BE_identified_native_equation_residual_J": -7.105427357601002e-13,
+        "endpoint_energy_change_J": 12.658771839976893,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 12.43666594234897,
+        "BE_coefficient_accumulation_J": 12.436665942349578,
+        "BE_coefficient_residual_J": -6.075140390748857e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 12.436665942349578,
+        "BE_identified_native_equation_residual_J": -6.075140390748857e-13,
+        "endpoint_energy_change_J": 12.436665942349563,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 12.21755578721414,
+        "BE_coefficient_accumulation_J": 12.217555787216952,
+        "BE_coefficient_residual_J": -2.8119728767705965e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 12.217555787216952,
+        "BE_identified_native_equation_residual_J": -2.8119728767705965e-12,
+        "endpoint_energy_change_J": 12.217555787216924,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 12.001372844494412,
+        "BE_coefficient_accumulation_J": 12.001372844493062,
+        "BE_coefficient_residual_J": 1.3500311979441904e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 12.001372844493062,
+        "BE_identified_native_equation_residual_J": 1.3500311979441904e-12,
+        "endpoint_energy_change_J": 12.001372844493105,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 11.788104143743606,
+        "BE_coefficient_accumulation_J": 11.788104143745443,
+        "BE_coefficient_residual_J": -1.836752971939859e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 11.788104143745443,
+        "BE_identified_native_equation_residual_J": -1.836752971939859e-12,
+        "endpoint_energy_change_J": 11.788104143745457,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 11.577759876633145,
+        "BE_coefficient_accumulation_J": 11.577759876633195,
+        "BE_coefficient_residual_J": -4.973799150320701e-14,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 11.577759876633195,
+        "BE_identified_native_equation_residual_J": -4.973799150320701e-14,
+        "endpoint_energy_change_J": 11.577759876633166,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 11.370358388556228,
+        "BE_coefficient_accumulation_J": 11.370358388557975,
+        "BE_coefficient_residual_J": -1.7461587731304462e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 11.370358388557975,
+        "BE_identified_native_equation_residual_J": -1.7461587731304462e-12,
+        "endpoint_energy_change_J": 11.37035838855796,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 11.16592007510727,
+        "BE_coefficient_accumulation_J": 11.165920075107408,
+        "BE_coefficient_residual_J": -1.3855583347321954e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 11.165920075107408,
+        "BE_identified_native_equation_residual_J": -1.3855583347321954e-13,
+        "endpoint_energy_change_J": 11.165920075107366,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 10.964465084970627,
+        "BE_coefficient_accumulation_J": 10.96446508497047,
+        "BE_coefficient_residual_J": 1.5631940186722204e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 10.96446508497047,
+        "BE_identified_native_equation_residual_J": 1.5631940186722204e-13,
+        "endpoint_energy_change_J": 10.964465084970385,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 10.76601197385608,
+        "BE_coefficient_accumulation_J": 10.766011973857758,
+        "BE_coefficient_residual_J": -1.6768808563938364e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 10.766011973857758,
+        "BE_identified_native_equation_residual_J": -1.6768808563938364e-12,
+        "endpoint_energy_change_J": 10.766011973857687,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": -5.758826131108615,
+        "BE_coefficient_accumulation_J": -5.758826131111249,
+        "BE_coefficient_residual_J": 2.6343371928305714e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -5.758826131111249,
+        "BE_identified_native_equation_residual_J": 2.6343371928305714e-12,
+        "endpoint_energy_change_J": -5.758826131111249,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 7.9082156489888575,
+        "BE_coefficient_accumulation_J": 7.908215648988914,
+        "BE_coefficient_residual_J": -5.684341886080802e-14,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 7.908215648988914,
+        "BE_identified_native_equation_residual_J": -5.684341886080802e-14,
+        "endpoint_energy_change_J": 7.908215648988914,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+        "mask_type": "Pipe (TL)",
+        "basis": "fixed nominal rho*V; delta(M*u), NOT delta(rho(T,p)*V*u)",
+        "BE_port_energy_J": 40.12148748256706,
+        "BE_coefficient_accumulation_J": 40.12148748256618,
+        "BE_coefficient_residual_J": 8.810729923425242e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 40.12148748256618,
+        "BE_identified_native_equation_residual_J": 8.810729923425242e-13,
+        "endpoint_energy_change_J": 40.12148748256618,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+        "mask_type": "Endpoint Buffer",
+        "basis": "explicit endpoint stored_mass/stored_energy states; buffer U includes environment pV, gravity and declared reference auxiliary capacity; not native Tank equivalence",
+        "BE_port_energy_J": -31.010843843275637,
+        "BE_coefficient_accumulation_J": -31.010843843255316,
+        "BE_coefficient_residual_J": -2.0321522242738865e-11,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -31.010843843255316,
+        "BE_identified_native_equation_residual_J": -2.0321522242738865e-11,
+        "endpoint_energy_change_J": -31.010843843255316,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": -0.00012417718751549234,
+        "BE_port_mass_kg": -0.00012417718751555566,
+        "endpoint_mass_change_kg": -0.00012417718751549234
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+        "mask_type": "Endpoint Buffer",
+        "basis": "explicit endpoint stored_mass/stored_energy states; buffer U includes environment pV, gravity and declared reference auxiliary capacity; not native Tank equivalence",
+        "BE_port_energy_J": 56.56774904903966,
+        "BE_coefficient_accumulation_J": 56.56774904909253,
+        "BE_coefficient_residual_J": -5.2864379540551454e-11,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 56.56774904909253,
+        "BE_identified_native_equation_residual_J": -5.2864379540551454e-11,
+        "endpoint_energy_change_J": 56.56774904909253,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.00012417718751549234,
+        "BE_port_mass_kg": 0.00012417718751555566,
+        "endpoint_mass_change_kg": 0.00012417718751549234
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+        "mask_type": "Endpoint Buffer",
+        "basis": "explicit endpoint stored_mass/stored_energy states; buffer U includes environment pV, gravity and declared reference auxiliary capacity; not native Tank equivalence",
+        "BE_port_energy_J": 20.623260231349594,
+        "BE_coefficient_accumulation_J": 20.6232602315431,
+        "BE_coefficient_residual_J": -1.9350565594322688e-10,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 20.6232602315431,
+        "BE_identified_native_equation_residual_J": -1.9350565594322688e-10,
+        "endpoint_energy_change_J": 20.6232602315431,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.00015739166583275677,
+        "BE_port_mass_kg": 0.0001573916658327516,
+        "endpoint_mass_change_kg": 0.00015739166583275677
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+        "mask_type": "Endpoint Buffer",
+        "basis": "explicit endpoint stored_mass/stored_energy states; buffer U includes environment pV, gravity and declared reference auxiliary capacity; not native Tank equivalence",
+        "BE_port_energy_J": -32.768753836151205,
+        "BE_coefficient_accumulation_J": -32.768753836229735,
+        "BE_coefficient_residual_J": 7.852918315620627e-11,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -32.768753836229735,
+        "BE_identified_native_equation_residual_J": 7.852918315620627e-11,
+        "endpoint_energy_change_J": -32.768753836229735,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": -0.0003207098757767174,
+        "BE_port_mass_kg": -0.0003207098757767134,
+        "endpoint_mass_change_kg": -0.0003207098757767174
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+        "mask_type": "Endpoint Chamber",
+        "basis": "explicit endpoint stored_mass/stored_energy states; buffer U includes environment pV, gravity and declared reference auxiliary capacity; not native Tank equivalence",
+        "BE_port_energy_J": -528.1479890676525,
+        "BE_coefficient_accumulation_J": -528.1479890676507,
+        "BE_coefficient_residual_J": -1.8189894035458565e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -528.1479890676507,
+        "BE_identified_native_equation_residual_J": -1.8189894035458565e-12,
+        "endpoint_energy_change_J": -528.1479890676507,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 8.171453654209622e-05,
+        "BE_port_mass_kg": 8.171453654210751e-05,
+        "endpoint_mass_change_kg": 8.171453654209622e-05
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+        "mask_type": "Endpoint Chamber",
+        "basis": "explicit endpoint stored_mass/stored_energy states; buffer U includes environment pV, gravity and declared reference auxiliary capacity; not native Tank equivalence",
+        "BE_port_energy_J": -528.4890849667339,
+        "BE_coefficient_accumulation_J": -528.489084966729,
+        "BE_coefficient_residual_J": -4.888534022029489e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -528.489084966729,
+        "BE_identified_native_equation_residual_J": -4.888534022029489e-12,
+        "endpoint_energy_change_J": -528.489084966729,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 8.160367340185313e-05,
+        "BE_port_mass_kg": 8.160367340185501e-05,
+        "endpoint_mass_change_kg": 8.160367340185313e-05
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_01",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 0.011536751195530437,
+        "BE_coefficient_accumulation_J": 0.011536751197525064,
+        "BE_coefficient_residual_J": -1.9946266860415562e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 0.011536751197525064,
+        "BE_identified_native_equation_residual_J": -1.9946266860415562e-12,
+        "endpoint_energy_change_J": 0.011536751197525064,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_02",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -0.0814643638436241,
+        "BE_coefficient_accumulation_J": -0.08146436384430444,
+        "BE_coefficient_residual_J": 6.803446694902959e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -0.08146436384430444,
+        "BE_identified_native_equation_residual_J": 6.803446694902959e-13,
+        "endpoint_energy_change_J": -0.08146436384430444,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_03",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -0.26745061212818744,
+        "BE_coefficient_accumulation_J": -0.26745061212659493,
+        "BE_coefficient_residual_J": -1.5925039065223245e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -0.26745061212659493,
+        "BE_identified_native_equation_residual_J": -1.5925039065223245e-12,
+        "endpoint_energy_change_J": -0.26745061212659493,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_04",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -0.5818257308976174,
+        "BE_coefficient_accumulation_J": -0.5818257308941952,
+        "BE_coefficient_residual_J": -3.4221514511045825e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -0.5818257308941952,
+        "BE_identified_native_equation_residual_J": -3.4221514511045825e-12,
+        "endpoint_energy_change_J": -0.5818257308941952,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_05",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -1.0558729957855917,
+        "BE_coefficient_accumulation_J": -1.0558729957844548,
+        "BE_coefficient_residual_J": -1.1368683772161603e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -1.0558729957844548,
+        "BE_identified_native_equation_residual_J": -1.1368683772161603e-12,
+        "endpoint_energy_change_J": -1.0558729957844548,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_06",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -1.7125158944824923,
+        "BE_coefficient_accumulation_J": -1.71251589447769,
+        "BE_coefficient_residual_J": -4.802380715318577e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -1.71251589447769,
+        "BE_identified_native_equation_residual_J": -4.802380715318577e-12,
+        "endpoint_energy_change_J": -1.71251589447769,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_07",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -2.5641671240175388,
+        "BE_coefficient_accumulation_J": -2.564167124018354,
+        "BE_coefficient_residual_J": 8.15347789284715e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -2.564167124018354,
+        "BE_identified_native_equation_residual_J": 8.15347789284715e-13,
+        "endpoint_energy_change_J": -2.564167124018354,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_08",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -3.612525969871907,
+        "BE_coefficient_accumulation_J": -3.612525969874582,
+        "BE_coefficient_residual_J": 2.675193400136777e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -3.612525969874582,
+        "BE_identified_native_equation_residual_J": 2.675193400136777e-12,
+        "endpoint_energy_change_J": -3.612525969874582,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_09",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -4.849988242119039,
+        "BE_coefficient_accumulation_J": -4.849988242118059,
+        "BE_coefficient_residual_J": -9.805489753489383e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -4.849988242118059,
+        "BE_identified_native_equation_residual_J": -9.805489753489383e-13,
+        "endpoint_energy_change_J": -4.849988242118059,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_10",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -6.262200799077478,
+        "BE_coefficient_accumulation_J": -6.262200799080233,
+        "BE_coefficient_residual_J": 2.7551294579097885e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -6.262200799080233,
+        "BE_identified_native_equation_residual_J": 2.7551294579097885e-12,
+        "endpoint_energy_change_J": -6.262200799080233,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_11",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -7.833151353551523,
+        "BE_coefficient_accumulation_J": -7.833151353551159,
+        "BE_coefficient_residual_J": -3.6415315207705135e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -7.833151353551159,
+        "BE_identified_native_equation_residual_J": -3.6415315207705135e-13,
+        "endpoint_energy_change_J": -7.833151353551159,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_12",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -9.550361148222079,
+        "BE_coefficient_accumulation_J": -9.55036114821877,
+        "BE_coefficient_residual_J": -3.3093527918026666e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -9.55036114821877,
+        "BE_identified_native_equation_residual_J": -3.3093527918026666e-12,
+        "endpoint_energy_change_J": -9.55036114821877,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_13",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -11.403724300633924,
+        "BE_coefficient_accumulation_J": -11.403724300636327,
+        "BE_coefficient_residual_J": 2.403410803708539e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -11.403724300636327,
+        "BE_identified_native_equation_residual_J": 2.403410803708539e-12,
+        "endpoint_energy_change_J": -11.403724300636327,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_14",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -13.387543639316108,
+        "BE_coefficient_accumulation_J": -13.387543639312412,
+        "BE_coefficient_residual_J": -3.696598582791921e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -13.387543639312412,
+        "BE_identified_native_equation_residual_J": -3.696598582791921e-12,
+        "endpoint_energy_change_J": -13.387543639312412,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_15",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -15.50558759494702,
+        "BE_coefficient_accumulation_J": -15.505587594948793,
+        "BE_coefficient_residual_J": 1.77280412572145e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -15.505587594948793,
+        "BE_identified_native_equation_residual_J": 1.77280412572145e-12,
+        "endpoint_energy_change_J": -15.505587594948793,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_16",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -17.767462977251984,
+        "BE_coefficient_accumulation_J": -17.76746297725913,
+        "BE_coefficient_residual_J": 7.144507208067807e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -17.76746297725913,
+        "BE_identified_native_equation_residual_J": 7.144507208067807e-12,
+        "endpoint_energy_change_J": -17.76746297725913,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_17",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -20.184275731416662,
+        "BE_coefficient_accumulation_J": -20.184275731423554,
+        "BE_coefficient_residual_J": 6.892264536872972e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -20.184275731423554,
+        "BE_identified_native_equation_residual_J": 6.892264536872972e-12,
+        "endpoint_energy_change_J": -20.184275731423554,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_18",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -22.763347568446406,
+        "BE_coefficient_accumulation_J": -22.763347568446534,
+        "BE_coefficient_residual_J": 1.2789769243681803e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -22.763347568446534,
+        "BE_identified_native_equation_residual_J": 1.2789769243681803e-13,
+        "endpoint_energy_change_J": -22.763347568446534,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_19",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -25.490356398244707,
+        "BE_coefficient_accumulation_J": -25.490356398242398,
+        "BE_coefficient_residual_J": -2.3092638912203256e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -25.490356398242398,
+        "BE_identified_native_equation_residual_J": -2.3092638912203256e-12,
+        "endpoint_energy_change_J": -25.490356398242398,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_20",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -28.176876793650944,
+        "BE_coefficient_accumulation_J": -28.176876793647466,
+        "BE_coefficient_residual_J": -3.4781066915456904e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -28.176876793647466,
+        "BE_identified_native_equation_residual_J": -3.4781066915456904e-12,
+        "endpoint_energy_change_J": -28.176876793647466,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_21",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -30.674478095746068,
+        "BE_coefficient_accumulation_J": -30.674478095745428,
+        "BE_coefficient_residual_J": -6.394884621840902e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -30.674478095745428,
+        "BE_identified_native_equation_residual_J": -6.394884621840902e-13,
+        "endpoint_energy_change_J": -30.674478095745428,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotSinkMass",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": -0.021593350880567713,
+        "BE_coefficient_accumulation_J": -0.021593349083559588,
+        "BE_coefficient_residual_J": -1.7970081256368786e-09,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": -0.021593349083559588,
+        "BE_identified_native_equation_residual_J": -1.7970081256368786e-09,
+        "endpoint_energy_change_J": -0.021593349083559588,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_01",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 19.083723944067312,
+        "BE_coefficient_accumulation_J": 19.083723944071608,
+        "BE_coefficient_residual_J": -4.295230837669806e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 19.083723944071608,
+        "BE_identified_native_equation_residual_J": -4.295230837669806e-12,
+        "endpoint_energy_change_J": 19.083723944071608,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_02",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 18.49955553437286,
+        "BE_coefficient_accumulation_J": 18.499555534371552,
+        "BE_coefficient_residual_J": 1.3073986337985843e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 18.499555534371552,
+        "BE_identified_native_equation_residual_J": 1.3073986337985843e-12,
+        "endpoint_energy_change_J": 18.499555534371552,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_03",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 17.98550514358176,
+        "BE_coefficient_accumulation_J": 17.985505143592263,
+        "BE_coefficient_residual_J": -1.050182163453428e-11,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 17.985505143592263,
+        "BE_identified_native_equation_residual_J": -1.050182163453428e-11,
+        "endpoint_energy_change_J": 17.985505143592263,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_04",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 17.53277522722833,
+        "BE_coefficient_accumulation_J": 17.532775227234538,
+        "BE_coefficient_residual_J": -6.206590796864475e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 17.532775227234538,
+        "BE_identified_native_equation_residual_J": -6.206590796864475e-12,
+        "endpoint_energy_change_J": 17.532775227234538,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_05",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 17.130731942362377,
+        "BE_coefficient_accumulation_J": 17.13073194236813,
+        "BE_coefficient_residual_J": -5.751843445978011e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 17.13073194236813,
+        "BE_identified_native_equation_residual_J": -5.751843445978011e-12,
+        "endpoint_energy_change_J": 17.13073194236813,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_06",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 16.76929658857712,
+        "BE_coefficient_accumulation_J": 16.769296588576594,
+        "BE_coefficient_residual_J": 5.258016244624741e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 16.769296588576594,
+        "BE_identified_native_equation_residual_J": 5.258016244624741e-13,
+        "endpoint_energy_change_J": 16.769296588576594,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_07",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 16.439488643721305,
+        "BE_coefficient_accumulation_J": 16.43948864374977,
+        "BE_coefficient_residual_J": -2.8464341994549613e-11,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 16.43948864374977,
+        "BE_identified_native_equation_residual_J": -2.8464341994549613e-11,
+        "endpoint_energy_change_J": 16.43948864374977,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_08",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 16.13375153667847,
+        "BE_coefficient_accumulation_J": 16.13375153667789,
+        "BE_coefficient_residual_J": 5.790923296444817e-13,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 16.13375153667789,
+        "BE_identified_native_equation_residual_J": 5.790923296444817e-13,
+        "endpoint_energy_change_J": 16.13375153667789,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_09",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 15.845804807763491,
+        "BE_coefficient_accumulation_J": 15.845804807766285,
+        "BE_coefficient_residual_J": -2.794209308376594e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 15.845804807766285,
+        "BE_identified_native_equation_residual_J": -2.794209308376594e-12,
+        "endpoint_energy_change_J": 15.845804807766285,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_10",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 15.569522978803903,
+        "BE_coefficient_accumulation_J": 15.569522978795021,
+        "BE_coefficient_residual_J": 8.881784197001252e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 15.569522978795021,
+        "BE_identified_native_equation_residual_J": 8.881784197001252e-12,
+        "endpoint_energy_change_J": 15.569522978795021,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_11",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 15.303285878614721,
+        "BE_coefficient_accumulation_J": 15.30328587862175,
+        "BE_coefficient_residual_J": -7.029044013506791e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 15.30328587862175,
+        "BE_identified_native_equation_residual_J": -7.029044013506791e-12,
+        "endpoint_energy_change_J": 15.30328587862175,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_12",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 15.046560478409438,
+        "BE_coefficient_accumulation_J": 15.046560478414108,
+        "BE_coefficient_residual_J": -4.6700421307832585e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 15.046560478414108,
+        "BE_identified_native_equation_residual_J": -4.6700421307832585e-12,
+        "endpoint_energy_change_J": 15.046560478414108,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_13",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 14.796117184556719,
+        "BE_coefficient_accumulation_J": 14.79611718455817,
+        "BE_coefficient_residual_J": -1.4512835377900046e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 14.79611718455817,
+        "BE_identified_native_equation_residual_J": -1.4512835377900046e-12,
+        "endpoint_energy_change_J": 14.79611718455817,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_14",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 14.549935912268086,
+        "BE_coefficient_accumulation_J": 14.54993591224968,
+        "BE_coefficient_residual_J": 1.8406609569865395e-11,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 14.54993591224968,
+        "BE_identified_native_equation_residual_J": 1.8406609569865395e-11,
+        "endpoint_energy_change_J": 14.54993591224968,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_15",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 14.307045412795688,
+        "BE_coefficient_accumulation_J": 14.307045412807497,
+        "BE_coefficient_residual_J": -1.1809220268332865e-11,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 14.307045412807497,
+        "BE_identified_native_equation_residual_J": -1.1809220268332865e-11,
+        "endpoint_energy_change_J": 14.307045412807497,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_16",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 14.067036903425072,
+        "BE_coefficient_accumulation_J": 14.067036903429539,
+        "BE_coefficient_residual_J": -4.46753745109163e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 14.067036903429539,
+        "BE_identified_native_equation_residual_J": -4.46753745109163e-12,
+        "endpoint_energy_change_J": 14.067036903429539,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_17",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 13.82976189202385,
+        "BE_coefficient_accumulation_J": 13.829761892036572,
+        "BE_coefficient_residual_J": -1.2722267683784594e-11,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 13.829761892036572,
+        "BE_identified_native_equation_residual_J": -1.2722267683784594e-11,
+        "endpoint_energy_change_J": 13.829761892036572,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_18",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 13.595176881152394,
+        "BE_coefficient_accumulation_J": 13.595176881146358,
+        "BE_coefficient_residual_J": 6.036060540282051e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 13.595176881146358,
+        "BE_identified_native_equation_residual_J": 6.036060540282051e-12,
+        "endpoint_energy_change_J": 13.595176881146358,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_19",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 13.36327723674923,
+        "BE_coefficient_accumulation_J": 13.3632772367514,
+        "BE_coefficient_residual_J": -2.170708057747106e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 13.3632772367514,
+        "BE_identified_native_equation_residual_J": -2.170708057747106e-12,
+        "endpoint_energy_change_J": 13.3632772367514,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_20",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 13.134073198722245,
+        "BE_coefficient_accumulation_J": 13.13407319872772,
+        "BE_coefficient_residual_J": -5.474731779031572e-12,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 13.13407319872772,
+        "BE_identified_native_equation_residual_J": -5.474731779031572e-12,
+        "endpoint_energy_change_J": 13.13407319872772,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_21",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 12.907948897149858,
+        "BE_coefficient_accumulation_J": 12.907948897124584,
+        "BE_coefficient_residual_J": 2.5274005110986764e-11,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 12.907948897124584,
+        "BE_identified_native_equation_residual_J": 2.5274005110986764e-11,
+        "endpoint_energy_change_J": 12.907948897124584,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdLoadMass",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 1.0339757656912846e-24,
+        "BE_coefficient_accumulation_J": 0.0,
+        "BE_coefficient_residual_J": 1.0339757656912846e-24,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 0.0,
+        "BE_identified_native_equation_residual_J": 1.0339757656912846e-24,
+        "endpoint_energy_change_J": 0.0,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkMass",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 0.0,
+        "BE_coefficient_accumulation_J": 0.0,
+        "BE_coefficient_residual_J": 0.0,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 0.0,
+        "BE_identified_native_equation_residual_J": 0.0,
+        "endpoint_energy_change_J": 0.0,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      },
+      {
+        "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotSinkMass",
+        "mask_type": "Thermal Mass",
+        "basis": "fixed thermal mass; sensible only; latent/mechanical heat remains in measured sources",
+        "BE_port_energy_J": 15.685262498470644,
+        "BE_coefficient_accumulation_J": 15.685262497267104,
+        "BE_coefficient_residual_J": 1.20354037846937e-09,
+        "BE_tank_extra_thermal_accumulation_J": 0.0,
+        "BE_tank_hydrostatic_transport_in_J": 0.0,
+        "BE_identified_native_accumulation_J": 15.685262497267104,
+        "BE_identified_native_equation_residual_J": 1.20354037846937e-09,
+        "endpoint_energy_change_J": 15.685262497267104,
+        "BE_tank_pressure_volume_work_out_J": 0.0,
+        "BE_coefficient_mass_kg": 0.0,
+        "BE_port_mass_kg": 0.0,
+        "endpoint_mass_change_kg": 0.0
+      }
+    ],
+    "full_device_first_law_verified": false,
+    "constitutive_heat_is_not_external_system_heat": true
+  },
+  "cycle_diagnostics": {
+    "evaluated": true,
+    "settled_flow_original_thresholds": [
+      {
+        "cycle": 1,
+        "SMA": {
+          "samples": 5403,
+          "signed_min_max_kg_s": [
+            -0.053179107642612876,
+            -0.048643864834896126
+          ],
+          "max_abs_relative_error": 0.04683282761048968,
+          "RMS_relative_error": 0.021276375379873376,
+          "instantaneous_limit": 0.05,
+          "direction_pass": true,
+          "instantaneous_target_pass": true
+        },
+        "SE_stage2": {
+          "samples": 1049,
+          "signed_min_max_kg_s": [
+            0.003185849799060755,
+            0.003191949887974959
+          ],
+          "max_abs_relative_error": 0.004421937793514075,
+          "RMS_relative_error": 0.0032558437338078665,
+          "instantaneous_limit": 0.15,
+          "direction_pass": true,
+          "instantaneous_target_pass": true,
+          "RMS_limit": 0.05,
+          "RMS_target_pass": true
+        },
+        "SE_stage4": {
+          "samples": 1050,
+          "signed_min_max_kg_s": [
+            0.0031803543127586825,
+            0.003190830493200508
+          ],
+          "max_abs_relative_error": 0.0061392772629117465,
+          "RMS_relative_error": 0.004356676341358416,
+          "instantaneous_limit": 0.15,
+          "direction_pass": true,
+          "instantaneous_target_pass": true,
+          "RMS_limit": 0.05,
+          "RMS_target_pass": true
+        }
+      },
+      {
+        "cycle": 2,
+        "SMA": {
+          "samples": 5402,
+          "signed_min_max_kg_s": [
+            -0.05316158040339196,
+            -0.048642452765149925
+          ],
+          "max_abs_relative_error": 0.04648780321637713,
+          "RMS_relative_error": 0.021157048768593256,
+          "instantaneous_limit": 0.05,
+          "direction_pass": true,
+          "instantaneous_target_pass": true
+        },
+        "SE_stage2": {
+          "samples": 1050,
+          "signed_min_max_kg_s": [
+            0.0031930521394112174,
+            0.003195276132498335
+          ],
+          "max_abs_relative_error": 0.002171206433994599,
+          "RMS_relative_error": 0.0017063435330760424,
+          "instantaneous_limit": 0.15,
+          "direction_pass": true,
+          "instantaneous_target_pass": true,
+          "RMS_limit": 0.05,
+          "RMS_target_pass": true
+        },
+        "SE_stage4": {
+          "samples": 1049,
+          "signed_min_max_kg_s": [
+            0.0031896686207534527,
+            0.003195756500453451
+          ],
+          "max_abs_relative_error": 0.00322855601454608,
+          "RMS_relative_error": 0.002215384498427649,
+          "instantaneous_limit": 0.15,
+          "direction_pass": true,
+          "instantaneous_target_pass": true,
+          "RMS_limit": 0.05,
+          "RMS_target_pass": true
+        }
+      }
+    ],
+    "all_native_temperature_C2_drift_K": {
+      "endpoint_max_abs": 4.789841943347312,
+      "same_phase_max_abs": 85.08048189218385,
+      "same_phase_p99_abs": 22.236362434003013,
+      "same_phase_RMS": 5.5509948375034455,
+      "endpoint_screen_pass": false,
+      "same_phase_screen_pass": false
+    },
+    "phase_C2_drift": {
+      "endpoint_max_abs": 0.002635493224560265,
+      "same_phase_max_abs": 0.6680443817663715,
+      "same_phase_p99_abs": 0.35415986156562757,
+      "same_phase_RMS": 0.07527494100929195
+    },
+    "phase_bounds_pass": true,
+    "all_fluid_pressure_temperature_domains": [
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+        "temperature_min_max_K": [
+          276.95006519970195,
+          317.59645626284396
+        ],
+        "pressure_min_max_Pa": [
+          850981.4488179906,
+          1261848.1431610568
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_002",
+        "temperature_min_max_K": [
+          276.9500650380205,
+          317.4254034451649
+        ],
+        "pressure_min_max_Pa": [
+          850981.9045163308,
+          1253898.9779020532
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_003",
+        "temperature_min_max_K": [
+          276.9500650380205,
+          317.1830974635059
+        ],
+        "pressure_min_max_Pa": [
+          850982.3618718428,
+          1245408.5849955548
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_004",
+        "temperature_min_max_K": [
+          276.9500650380205,
+          316.8464589372344
+        ],
+        "pressure_min_max_Pa": [
+          850982.8223378694,
+          1237895.2668938208
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_005",
+        "temperature_min_max_K": [
+          276.9500650380205,
+          316.38405451137027
+        ],
+        "pressure_min_max_Pa": [
+          850983.2878591106,
+          1230169.460989905
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_006",
+        "temperature_min_max_K": [
+          276.9500650380205,
+          315.7520275782148
+        ],
+        "pressure_min_max_Pa": [
+          850983.7607839495,
+          1221996.5948501274
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_007",
+        "temperature_min_max_K": [
+          276.9500650380205,
+          314.90001965027477
+        ],
+        "pressure_min_max_Pa": [
+          850984.2437128094,
+          1213377.1979163897
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_008",
+        "temperature_min_max_K": [
+          276.9500650380205,
+          313.87156386213866
+        ],
+        "pressure_min_max_Pa": [
+          850984.3618207981,
+          1204300.8679973138
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_009",
+        "temperature_min_max_K": [
+          276.9500650380205,
+          312.7095687625233
+        ],
+        "pressure_min_max_Pa": [
+          850984.3618225794,
+          1194752.7529819773
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_010",
+        "temperature_min_max_K": [
+          276.9500650380205,
+          311.40610206943865
+        ],
+        "pressure_min_max_Pa": [
+          850984.3618244226,
+          1183705.0021189766
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_011",
+        "temperature_min_max_K": [
+          276.9500650380205,
+          310.6078912805624
+        ],
+        "pressure_min_max_Pa": [
+          850984.3618263351,
+          1169619.8518277493
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_012",
+        "temperature_min_max_K": [
+          276.93539154215796,
+          310.4761992287106
+        ],
+        "pressure_min_max_Pa": [
+          850984.3618283244,
+          1151911.6130079136
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_013",
+        "temperature_min_max_K": [
+          275.13005325602893,
+          310.27518334332814
+        ],
+        "pressure_min_max_Pa": [
+          850984.3618303968,
+          1130752.0417118373
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_014",
+        "temperature_min_max_K": [
+          273.48407477883876,
+          309.9676771092948
+        ],
+        "pressure_min_max_Pa": [
+          850984.361832559,
+          1106372.487618192
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_015",
+        "temperature_min_max_K": [
+          272.09328995714276,
+          309.49596990258374
+        ],
+        "pressure_min_max_Pa": [
+          850984.3618348176,
+          1082615.8428728366
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_016",
+        "temperature_min_max_K": [
+          270.9499170420588,
+          308.7700568179163
+        ],
+        "pressure_min_max_Pa": [
+          850984.3618371802,
+          1055878.3793879936
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_017",
+        "temperature_min_max_K": [
+          270.0021591861735,
+          307.6483860604437
+        ],
+        "pressure_min_max_Pa": [
+          850978.9995368941,
+          1032061.6455433473
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_018",
+        "temperature_min_max_K": [
+          269.21263512473985,
+          305.9067326382876
+        ],
+        "pressure_min_max_Pa": [
+          850972.7686802684,
+          1042916.3024666274
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_019",
+        "temperature_min_max_K": [
+          268.5544075940706,
+          303.18637269805834
+        ],
+        "pressure_min_max_Pa": [
+          850966.3172394881,
+          1053770.8717442495
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_020",
+        "temperature_min_max_K": [
+          268.0066571812181,
+          298.9243303087797
+        ],
+        "pressure_min_max_Pa": [
+          850959.662783875,
+          1064626.582337402
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_021",
+        "temperature_min_max_K": [
+          267.5525846201435,
+          292.5683846974471
+        ],
+        "pressure_min_max_Pa": [
+          850952.884322842,
+          1075535.563813818
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+        "temperature_min_max_K": [
+          342.52398128051624,
+          393.1499999761998
+        ],
+        "pressure_min_max_Pa": [
+          844146.2923254396,
+          850887.2124878075
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+        "temperature_min_max_K": [
+          303.15000017983846,
+          392.5517979228255
+        ],
+        "pressure_min_max_Pa": [
+          621759.1945606151,
+          850934.1111024779
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+        "temperature_min_max_K": [
+          303.1499957310659,
+          392.53577921127055
+        ],
+        "pressure_min_max_Pa": [
+          632571.5640570748,
+          850934.1449344249
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+        "temperature_min_max_K": [
+          303.1499957299733,
+          392.51891470063015
+        ],
+        "pressure_min_max_Pa": [
+          643334.9945640655,
+          850934.1787712865
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+        "temperature_min_max_K": [
+          303.14994066679634,
+          392.50050043118154
+        ],
+        "pressure_min_max_Pa": [
+          654051.1117228842,
+          850934.2126134248
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+        "temperature_min_max_K": [
+          303.1498578145035,
+          392.4807238560811
+        ],
+        "pressure_min_max_Pa": [
+          664722.3116854146,
+          850934.2464612743
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+        "temperature_min_max_K": [
+          303.14976381101,
+          392.4598581767119
+        ],
+        "pressure_min_max_Pa": [
+          675355.2067872582,
+          850934.2803152023
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+        "temperature_min_max_K": [
+          303.1496720976421,
+          392.4380556728162
+        ],
+        "pressure_min_max_Pa": [
+          685952.7092131352,
+          850934.3141755115
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+        "temperature_min_max_K": [
+          303.14956518556954,
+          392.41536701074784
+        ],
+        "pressure_min_max_Pa": [
+          696517.8379452494,
+          850934.3480424735
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+        "temperature_min_max_K": [
+          303.1494570859927,
+          392.39179164141825
+        ],
+        "pressure_min_max_Pa": [
+          707053.3801429953,
+          850934.3819163541
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+        "temperature_min_max_K": [
+          303.14936612169276,
+          392.36730855604566
+        ],
+        "pressure_min_max_Pa": [
+          715529.1886161589,
+          850934.4192389051
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+        "temperature_min_max_K": [
+          303.1492767371798,
+          392.34188938161617
+        ],
+        "pressure_min_max_Pa": [
+          705532.4034227504,
+          850934.463135873
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+        "temperature_min_max_K": [
+          303.1491853363035,
+          392.31550289922643
+        ],
+        "pressure_min_max_Pa": [
+          695959.3332064355,
+          850934.5070428745
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+        "temperature_min_max_K": [
+          303.149091011858,
+          392.28811637326965
+        ],
+        "pressure_min_max_Pa": [
+          686723.4576880839,
+          850934.5509602902
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+        "temperature_min_max_K": [
+          303.14899317962437,
+          392.25969588281635
+        ],
+        "pressure_min_max_Pa": [
+          677860.4769890395,
+          850934.5948885134
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+        "temperature_min_max_K": [
+          303.1488928301505,
+          392.2302063782737
+        ],
+        "pressure_min_max_Pa": [
+          669380.9108199821,
+          850934.638827951
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+        "temperature_min_max_K": [
+          303.14878973675343,
+          392.1996116690064
+        ],
+        "pressure_min_max_Pa": [
+          661200.5652737148,
+          850934.6827790234
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+        "temperature_min_max_K": [
+          303.1486838390674,
+          392.16787439405647
+        ],
+        "pressure_min_max_Pa": [
+          653330.8042822672,
+          850934.7267421653
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+        "temperature_min_max_K": [
+          303.14857475582295,
+          392.1349559873757
+        ],
+        "pressure_min_max_Pa": [
+          645731.5539873509,
+          850934.7707178257
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+        "temperature_min_max_K": [
+          303.14846324430124,
+          392.10081663919044
+        ],
+        "pressure_min_max_Pa": [
+          638287.2568012623,
+          850934.8147064695
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+        "temperature_min_max_K": [
+          303.14834942684143,
+          392.06541525426667
+        ],
+        "pressure_min_max_Pa": [
+          629267.885533539,
+          850934.8587085764
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+        "temperature_min_max_K": [
+          303.1483134074622,
+          392.02870439732527
+        ],
+        "pressure_min_max_Pa": [
+          618689.6698682319,
+          850934.9027253817
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+        "temperature_min_max_K": [
+          275.8970042933913,
+          276.95371219284937
+        ],
+        "pressure_min_max_Pa": [
+          850948.882426613,
+          967833.3946008397
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+        "temperature_min_max_K": [
+          303.07637559602443,
+          305.12951608044324
+        ],
+        "pressure_min_max_Pa": [
+          850981.1560238836,
+          1057907.6830685001
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+        "temperature_min_max_K": [
+          303.15000002004473,
+          345.09235106688095
+        ],
+        "pressure_min_max_Pa": [
+          844528.1438902698,
+          850935.0162938937
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+        "temperature_min_max_K": [
+          276.8904660592491,
+          276.950005452682
+        ],
+        "pressure_min_max_Pa": [
+          850000.0000000001,
+          850000.0000000001
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+        "temperature_min_max_K": [
+          303.1497723380174,
+          303.24619222886315
+        ],
+        "pressure_min_max_Pa": [
+          850000.0000000001,
+          850000.0000000001
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+        "temperature_min_max_K": [
+          392.99827337791226,
+          393.1499999984387
+        ],
+        "pressure_min_max_Pa": [
+          850000.0000000001,
+          850000.0000000001
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+        "temperature_min_max_K": [
+          303.1500000034905,
+          303.16946374939386
+        ],
+        "pressure_min_max_Pa": [
+          850000.0000000001,
+          850000.0000000001
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+        "temperature_min_max_K": [
+          304.35486342776267,
+          393.1499998576459
+        ],
+        "pressure_min_max_Pa": [
+          849628.7813763166,
+          856417.7563837228
+        ],
+        "within_actual_property_interpolation_domain": true
+      },
+      {
+        "path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+        "temperature_min_max_K": [
+          303.6850679893489,
+          393.14999984534813
+        ],
+        "pressure_min_max_Pa": [
+          608664.8715434123,
+          850934.90373852
+        ],
+        "within_actual_property_interpolation_domain": true
+      }
+    ],
+    "route_memory_C2_drift": {
+      "cv_PI_sma_state": {
+        "endpoint_max_abs": 0.012686154177625952,
+        "same_phase_max_abs": 0.012686154177625952,
+        "same_phase_p99_abs": 0.0014401774126378362,
+        "same_phase_RMS": 0.00043016550283994003
+      },
+      "cv_PI_se_stage2_state": {
+        "endpoint_max_abs": 0.0005911481773066458,
+        "same_phase_max_abs": 0.0011439103247481708,
+        "same_phase_p99_abs": 0.0011439103247481708,
+        "same_phase_RMS": 0.0008641564803769766
+      },
+      "stage4_integrator_state": {
+        "endpoint_max_abs": 0.0016708203254202714,
+        "same_phase_max_abs": 0.0032826011405556934,
+        "same_phase_p99_abs": 0.0032826011405556934,
+        "same_phase_RMS": 0.0031779209243096933
+      }
+    },
+    "complete_hidden_state_periodicity_or_paper_performance_qualified": false
+  },
+  "auxiliary_gravity_environment_pv_are_in_buffer_state_not_external_heat": true,
+  "diagnostic_raw_is_not_OP_or_production_seed": true,
+  "all_mechanism_gates_evaluated": false,
+  "periodic_steady_state": false,
+  "production_recovery_allowed": false,
+  "Table4_reproduction_claim": false
+}

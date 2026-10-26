@@ -1,0 +1,24 @@
+{
+  "Eq10_measured_pipe_flow_declared_cp_W": {
+    "native": 10.237974878056928,
+    "endpoint": 10.238248552269518,
+    "endpoint_minus_native": 0.00027367421258972513,
+    "relative_change": 2.673128385734679e-05
+  },
+  "all_cycle_CHEX_sensor_W": {
+    "native": 9.458182818079846,
+    "endpoint": 9.458429994591684,
+    "endpoint_minus_native": 0.000247176511837921,
+    "relative_change": 2.613361536694229e-05
+  },
+  "Eq9_fixed_downstream_port_lift_K": {
+    "native": 26.927311650290402,
+    "endpoint": 26.92763682271584,
+    "endpoint_minus_native": 0.00032517242543761427,
+    "relative_change": 1.2075933522836744e-05
+  },
+  "energy_boundary_not_identical_between_native_and_endpoint": true,
+  "cold_C2_metrics_are_not_periodic_performance": true,
+  "native_analysis_sha256": "B330E2426ABC8A2E1904F14DEFCB8E0AB0038EF72CE2CEC773603C284FD50A47",
+  "endpoint_analysis_sha256": "122922114C7E3FF8C1047A8287BC2C47B8E1B5EA2E7918DE37C30E80EF675BDC"
+}

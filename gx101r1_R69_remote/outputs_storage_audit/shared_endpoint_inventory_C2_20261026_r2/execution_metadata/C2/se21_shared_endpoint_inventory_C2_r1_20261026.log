@@ -1,0 +1,19 @@
+    ----------------------------------------------------
+	您的许可证将在 4 天后过期。
+	请与系统管理员或
+	MathWorks 公司联系，以便续订此许可证。
+    ----------------------------------------------------
+正在当前目录 'C:\tmp\se21_shared_endpoint_inventory_C2_r1_20261026\shared\endpoint_component_build' 中生成 Simulink 库 'ecc_inventory_endpoint_lib'...
+正在当前目录 'C:\tmp\se21_shared_endpoint_inventory_C2_r1_20261026\shared\endpoint_component_build' 中生成 Simulink 库 'ecc_buffer_coupled_offset_lib'...
+[警告: 模型方程包含对时间的显式引用，因此，使用 Simscape 工作点进行初始化会将仿真时间设置为绝对时间。要使用相对时间，请将开始时间更新为相对于工作点时间。然后，要禁用此警告，请键入:
+warning('off','physmod:common:mf:system:xform:TimeUnsupportedWithOperatingPoint')。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Run_HeatDriveECC_SharedSMAColdInitial (第 170 行)] 
+[警告: 初始状态是一致的，但可能偏离指定的条件。] 
+[> 位置：Simulink.Simulation.internal.DesktopSimHelper
+位置: Simulink.Simulation.internal.DesktopSimHelper.sim
+位置: Simulink/SimulationInput/sim
+位置: Run_HeatDriveECC_SharedSMAColdInitial (第 170 行)] 
+{"collection_complete":true,"completed_arms":1,"stop_time_s":20,"production_recovery_allowed":false}

@@ -1,0 +1,207 @@
+{
+  "schema": "heatdrive_ecc_shared_endpoint_C2_closeout_v1",
+  "execution_commit": "de16f190aeab7b36ae59ec3cc2dabf51ff8e7c55",
+  "corrected_C2_probe_sha256": "C38B6D7682A67B4235BF66DC3EAE2A09AE58BD3B366184BC0EF6441F19EFE653",
+  "C2_balance_sha256": "122922114C7E3FF8C1047A8287BC2C47B8E1B5EA2E7918DE37C30E80EF675BDC",
+  "comparison_sha256": "9782AE3C5FF29580A086304A4B99A79EBA539E0C3889FD35AA5C3D1A82A3B309",
+  "raw_dependencies": [
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\CV_options.mat",
+      "bytes": 29663,
+      "sha256": "53B4F640165E58DFC19D26C941EF814299CBF29566C92FB8D83ED9931C524990"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\native_CV_observations.mat",
+      "bytes": 112979792,
+      "sha256": "A1572F883C7FFB1DFA03F464FDB0A34EE67D362162B0100B8E8F2AD8CA9F2233"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\source_CV_observations.mat",
+      "bytes": 20889398,
+      "sha256": "00E1C674045FC60326270CCEDF82C71832F49997C75782EAD0636346383C7C8F"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\workspace_CV_observations.mat",
+      "bytes": 72284927,
+      "sha256": "7C0C087C9B01353BC2CCF7647AB3543D5C57CE4CF3C2ED0D89D18074E6E64F12"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_smoke_r2_20261026\\shared\\CV_options.mat",
+      "bytes": 29663,
+      "sha256": "9B8F3371C135D633527F6ADF535FF301B688EF75C1728B243AF85EFC3AD3511A"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_smoke_r2_20261026\\shared\\native_CV_observations.mat",
+      "bytes": 92256,
+      "sha256": "80EA6445871DB2392D413B4274DF87E6B5E4D789D779CD8D9D1EE20C235137F0"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_smoke_r2_20261026\\shared\\source_CV_observations.mat",
+      "bytes": 10769,
+      "sha256": "0D48B605D27A3074EFEBC8EDB68C0A4674B99AC6D94F482919D402F80AD490E0"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_smoke_r2_20261026\\shared\\workspace_CV_observations.mat",
+      "bytes": 20074,
+      "sha256": "A1B8BAC0996B5B96CC98E312D9B0BF880FF7A5BCA56407FBC8E1547B42A26864"
+    }
+  ],
+  "new_raw_MAT_bytes": 206336542,
+  "protected_model_sha256": "77E2ACD5B983A0BA72DFB72D3AD106F4D0BC524C2EC56C79C096EEBB5DA88599",
+  "frozen_baseline_dependencies_reverified": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\physical_simscape_result.mat",
+      "sha256": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD",
+      "bytes": 4987450900
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\final_operating_point.mat",
+      "sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816",
+      "bytes": 3822969
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\native_CV_observations.mat",
+      "sha256": "67A1195E2B2E6BC78BA88AD27098EBCCCEA3DE6612C0C05C89209C2A5E3B6B1A",
+      "bytes": 149257302
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\workspace_CV_observations.mat",
+      "sha256": "275571222C4D141DB613B8DBA4C129A05E7F88424C31810DA37E9CF1835DF6A4",
+      "bytes": 75621297
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\source_CV_observations.mat",
+      "sha256": "B8FF53EDFBB207B53E322C19069B7D9846111EA6C0439C1C708853932ABAD7A2",
+      "bytes": 20947130
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_options.mat",
+      "sha256": "1C6965D361C5FCC5F35838E232ACFD034DBD0D82DEEFA0C265D80A3D28DFDA52",
+      "bytes": 29643
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_contract.json",
+      "sha256": "56808E5B40BE46FD771814CB3E026CD4DE9D4EACA810EE75ABE166208971B913",
+      "bytes": 144200
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_tl_topology.json",
+      "sha256": "2C90BED3EA39770319ACF177361406DCAD44BE6C3E2E43E72DC0A4CE47B7805E",
+      "bytes": 230603
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_thermal_topology.json",
+      "sha256": "07C0158E858FB34C186357CE78F9557941FB399C9CD05C96FA0868B2E577F5D4",
+      "bytes": 1134184
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\native_CV_observations.mat",
+      "sha256": "A5FCC7750EC5E32EF5898E10508D213EC0E9452142C674045573AC50C0F5D794",
+      "bytes": 111051596
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\workspace_CV_observations.mat",
+      "sha256": "7080DA9CF66C258D81B30D669DB7A8A03CABFE99BE49AF4735BC0CCB2AB0D472",
+      "bytes": 72277925
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\source_CV_observations.mat",
+      "sha256": "5B5E2ECC9139FACA6513D6A1899A5D699726C1DFE2A2F728A88CB6258B4639CF",
+      "bytes": 20887376
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_options.mat",
+      "sha256": "7195EAB3B42AD660D9AB25A1FCE1674CAFDE6AA3B6F65927C1904B4CDF483B4C",
+      "bytes": 29644
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_contract.json",
+      "sha256": "3EA57A9930A1AC83028B6E305A0260CD554048FA84CBE0241BF06E3C3CE87C64",
+      "bytes": 120677
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_tl_topology.json",
+      "sha256": "5240CCCC068EEB84C1629EF27EAA726D3D1CC85C7B37D495FCF9DA73BDA8C7E4",
+      "bytes": 203431
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_thermal_topology.json",
+      "sha256": "DB440D8F9C324A444CE8570F33D57015CC1518DDF96E1CC6D71D3503AF3344D8",
+      "bytes": 1056078
+    }
+  ],
+  "test_modules": [
+    "test_shared_endpoint_inventory",
+    "test_coupled_CV_packet",
+    "test_coupled_CV_balance",
+    "test_native_consistency_probe",
+    "test_tank_energy_basis",
+    "test_c201_tank_basis",
+    "test_tank_interpolation_consistency",
+    "test_native_accumulation",
+    "test_native_window_ledger",
+    "test_native_inventory_catalog",
+    "test_native_window_packets",
+    "test_native_residual_localization",
+    "test_native_state_mapping",
+    "test_native_series_access_source",
+    "test_native_log_lookup_source",
+    "test_shared_SMA_cold_initial",
+    "test_shared_SMA_fluid",
+    "test_shared_SMA_native_ledger",
+    "test_coupled_energy_inventory",
+    "test_material_thermodynamics",
+    "test_cold_buffer_coupled"
+  ],
+  "targeted_tests_exit": 0,
+  "targeted_tests_log_sha256": "C2CB6D5AE187C643B686A8251F16E1A1D1C37661831D55647A33F9521502B6F6",
+  "sessions": [
+    {
+      "session": 28320,
+      "exit_code": 1,
+      "scope": "constructor only; JSON vector shape assertion before simulation"
+    },
+    {
+      "session": 73824,
+      "exit_code": 0,
+      "scope": "compiled 0.01 s onset"
+    },
+    {
+      "session": 66034,
+      "exit_code": 0,
+      "scope": "continuous cold 20 s; TWO cycles not twenty"
+    }
+  ],
+  "first_reader_failure": "kJ/kg target is not SI output unit; repaired without MATLAB rerun",
+  "bounded_storage_before_retirement": [
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026",
+      "bytes": 208379665,
+      "file_count": 36,
+      "role": "current independent cold C2 raw; not a continuation OP"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_smoke_r2_20261026",
+      "bytes": 2331038,
+      "file_count": 36,
+      "role": "first compiled endpoint smoke and independent onset evidence"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_smoke_r1_20261026",
+      "bytes": 474169,
+      "file_count": 4,
+      "role": "pre-simulation constructor failure; never resume"
+    }
+  ],
+  "generated_retirement_candidate_bytes": 1438082,
+  "raw_MAT_copied_to_Git": false,
+  "OP_or_checkpoint_loaded_or_saved": false,
+  "full_C20_raw_linear_estimate_bytes": 2061837800,
+  "estimate_scope": "rough linear disk estimate only; compression/trajectory/peak memory are uncertain; prefer late-cycle logging before C20",
+  "all_mechanism_gates_evaluated": false,
+  "full_device_validation": false,
+  "production_recovery_allowed": false,
+  "periodic_steady_state": false,
+  "Table4_reproduced": false,
+  "goal_achieved": false
+}

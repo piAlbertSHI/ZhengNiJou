@@ -1,0 +1,47 @@
+{
+  "schema": "heatdrive_ecc_coupled_CV_execution_v1",
+  "collection_complete": false,
+  "production_recovery_allowed": false,
+  "checkpoint_loaded_or_saved": false,
+  "stop_time_s": 0.01,
+  "completed_arms": [],
+  "capture_profile": "coupled_cv_v1",
+  "numerical_profile": "inherited",
+  "inventory_formulation": "endpoint_inventory",
+  "execution_commit": "e7d0a80d88ff91741fd17f9fc0c723d7c0f77e52",
+  "input_dependencies": {
+    "configuration_path": "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025\\native\\configuration.mat",
+    "configuration_sha256": "CF93E644F3A09DE7A21337BF7F7E83FDDA654E81693F9DCCF5D91D3B2EAAC384",
+    "source_execution_path": "C:\\tmp\\se21_v74_layered_cold_20c_r1_20261025\\cold_chamber_execution.json",
+    "source_execution_sha256": "C6978DBD7A4F2A965FC98B256C299915FD0E2E068F5E298400B4A15A26F83858",
+    "seed_zip": "C:/tmp/se21_shared_SMA_constructor_seed_r1_20261026.zip",
+    "seed_zip_sha256": "C1BA6996FD7BE0E04524690D6F363317FD19B80EC44D4B9159DBDB417FF460F3"
+  },
+  "hydraulic_storage_variant": "shared_explicit_endpoint_chambers_and_offset_buffers",
+  "conservative_variant_or_its_old_initial_state_replayed": false,
+  "observer_function_name": "HeatDriveECC_ShortColdTimeObserver",
+  "source_sha256": {
+    "runner": "A35DF0B67922A633ABC1FE9FDBC02DCCCF58C059DF3530C5004D75111A3E1F97",
+    "applicator": "BB3A6566CAEFFBCA40B31BDD04DE5AC5E2C9C7DC963ED5788D5AB2E563B25038",
+    "observer": "F4CCD76FC8795A81E047E67BEE183D5A0E5832A3DAE8FB68FE5105036580E862",
+    "observer_delegate": "A565BED03592D19D45CFD43BE8DCC0E541090C65321278770199AAE4F3C0EA68"
+  },
+  "CV_source_sha256": {
+    "Configure_HeatDriveECC_NativeConsistencyProbe": "53A011B09A310717176AFE87969EDBA0D557E33B49631308953CADD6A8E632B1",
+    "Prepare_HeatDriveECC_CoupledCVObservation": "73DD593A25AAC2F3577C4B5FCD19ABC73B7B317FA379A1F0E1ED4EBC320B36E6",
+    "Build_HeatDriveECC_CoupledCVInventory": "B1200F76DD88169AA6CBEF76454E431EA1DF3DB35450451B293652AE38FCA1BE",
+    "Capture_HeatDriveECC_CoupledCVPacket": "68EB2496EF309F77ECEE61C256F8D840A2E3DCC93AF847604573265792F79DE8",
+    "Pack_HeatDriveECC_TraceColumns": "7792A4EC2F1717DD1ED14321BCFE5C70FFA348EB934E3370D08CC9DAA703FDC3",
+    "Extract_HeatDriveECC_NativeStorageTraces": "5CE2A87040C8A21DF8D56F1A42A090D91318FB4837061C7DF5CD8CA280B6B3A8",
+    "Extract_HeatDriveECC_BoundaryTraces": "13F2ADB22D9213C0479A20CB6FA0351CCA5C179A7EFFFF0D153403F6EC7705D2",
+    "Read_HeatDriveECC_NativeSeries": "48B8E276DDD37A91E0378A0B09E3E784F69BB622F11D6283450FECB266141DC3",
+    "Apply_HeatDriveECC_SharedEndpointInventory": "90A1E8E87B059A3C3305B4D8BE018B5C34237E4035CCD6704A8D488EEF57EBDD",
+    "Build_HeatDriveECC_ColdInventoryTargets": "4CC5B7A50D604C905F92172CD87BCF6CDD076ADCE3FF9C624EBEFBBC3AA0E5D4",
+    "Apply_HeatDriveECC_ColdConservativeBuffers": "4849EFE8526021EE86614063EC9D74DBB29FB38B2D3A5E0DE69D3A15C4A1D0C5",
+    "Instrument_HeatDriveECC_PumpPressureProbes": "B4DC1F3609A8C3444DACD23BBCEF2301970310729ACFDC457CC5238FBE28077D",
+    "Instrument_HeatDriveECC_Stage4ControllerProbes": "60C812D117872011AB6899FAFB6518639DA5F61330C5BC2A0F9BBDF4F6CC115E"
+  },
+  "error_identifier": "MATLAB:assertion:failed",
+  "error_message": "断言失败。",
+  "error_report": "错误使用 assert\n断言失败。\n\n出错 Apply_HeatDriveECC_SharedEndpointInventory (第 16 行)\n    assert(isequal(sort(string(reference_contract.storage_paths)),sort(string(contract.storage_paths))));\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n出错 Run_HeatDriveECC_SharedSMAColdInitial (第 130 行)\n                        Apply_HeatDriveECC_SharedEndpointInventory(repo,model,options,inventory.reference_root,arm);\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+}

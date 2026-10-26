@@ -1,0 +1,33 @@
+{
+  "scope": "Bounded new endpoint experiment folders, not a whole-workspace audit; no parent/child totals added twice",
+  "folders": [
+    {
+      "path": "C:/tmp/se21_shared_endpoint_inventory_C2_r1_20261026",
+      "files": 25,
+      "bytes": 207879141,
+      "classification": "Current independent C2 raw and bounded compiled recipe evidence; retain single copy"
+    },
+    {
+      "path": "C:/tmp/se21_shared_endpoint_inventory_smoke_r2_20261026",
+      "files": 25,
+      "bytes": 1830508,
+      "classification": "First successful compiled onset evidence; raw is small and not asserted byte-identical to C2"
+    },
+    {
+      "path": "C:/tmp/se21_shared_endpoint_inventory_smoke_r1_20261026",
+      "files": 3,
+      "bytes": 37141,
+      "classification": "Rejected pre-simulation constructor evidence; do not resume"
+    }
+  ],
+  "generated_directories_deleted": 9,
+  "generated_files_deleted": 23,
+  "reclaimed_bytes": 1438082,
+  "raw_MAT_or_checkpoint_deleted": false,
+  "key_raw_C200_and_protected_model_hashes_unchanged_before_after": true,
+  "not_retried": "Previously denied cleanup paths remain untouched",
+  "reproducible_intermediate_analysis_not_frozen": [
+    "gx101r1_R69_remote/outputs_storage_audit/shared_endpoint_inventory_C2_20261026_r1",
+    "gx101r1_R69_remote/outputs_storage_audit/shared_endpoint_inventory_smoke_20261026_r2"
+  ]
+}

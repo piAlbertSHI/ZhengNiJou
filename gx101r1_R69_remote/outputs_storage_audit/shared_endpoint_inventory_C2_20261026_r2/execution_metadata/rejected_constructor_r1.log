@@ -1,0 +1,15 @@
+    ----------------------------------------------------
+	您的许可证将在 4 天后过期。
+	请与系统管理员或
+	MathWorks 公司联系，以便续订此许可证。
+    ----------------------------------------------------
+{错误使用 assert
+断言失败。
+
+出错 Apply_HeatDriveECC_SharedEndpointInventory (第 16 行)
+    assert(isequal(sort(string(reference_contract.storage_paths)),sort(string(contract.storage_paths))));
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+出错 Run_HeatDriveECC_SharedSMAColdInitial (第 130 行)
+                        Apply_HeatDriveECC_SharedEndpointInventory(repo,model,options,inventory.reference_root,arm);
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 

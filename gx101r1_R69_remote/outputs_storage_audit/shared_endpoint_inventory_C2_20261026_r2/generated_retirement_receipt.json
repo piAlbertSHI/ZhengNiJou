@@ -1,0 +1,76 @@
+{
+  "schema": "heatdrive_ecc_shared_endpoint_generated_retirement_v1",
+  "complete": true,
+  "deleted_directories": [
+    "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\cache",
+    "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\codegen",
+    "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\seed",
+    "C:\\tmp\\se21_shared_endpoint_inventory_smoke_r2_20261026\\cache",
+    "C:\\tmp\\se21_shared_endpoint_inventory_smoke_r2_20261026\\codegen",
+    "C:\\tmp\\se21_shared_endpoint_inventory_smoke_r2_20261026\\shared\\seed",
+    "C:\\tmp\\se21_shared_endpoint_inventory_smoke_r1_20261026\\cache",
+    "C:\\tmp\\se21_shared_endpoint_inventory_smoke_r1_20261026\\codegen",
+    "C:\\tmp\\se21_shared_endpoint_inventory_smoke_r1_20261026\\shared\\seed"
+  ],
+  "reclaimed_bytes": 1438082,
+  "protected_files": [
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\CV_options.mat",
+      "bytes": 29663,
+      "sha256": "53B4F640165E58DFC19D26C941EF814299CBF29566C92FB8D83ED9931C524990"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\native_CV_observations.mat",
+      "bytes": 112979792,
+      "sha256": "A1572F883C7FFB1DFA03F464FDB0A34EE67D362162B0100B8E8F2AD8CA9F2233"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\source_CV_observations.mat",
+      "bytes": 20889398,
+      "sha256": "00E1C674045FC60326270CCEDF82C71832F49997C75782EAD0636346383C7C8F"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\workspace_CV_observations.mat",
+      "bytes": 72284927,
+      "sha256": "7C0C087C9B01353BC2CCF7647AB3543D5C57CE4CF3C2ED0D89D18074E6E64F12"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_smoke_r2_20261026\\shared\\CV_options.mat",
+      "bytes": 29663,
+      "sha256": "9B8F3371C135D633527F6ADF535FF301B688EF75C1728B243AF85EFC3AD3511A"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_smoke_r2_20261026\\shared\\native_CV_observations.mat",
+      "bytes": 92256,
+      "sha256": "80EA6445871DB2392D413B4274DF87E6B5E4D789D779CD8D9D1EE20C235137F0"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_smoke_r2_20261026\\shared\\source_CV_observations.mat",
+      "bytes": 10769,
+      "sha256": "0D48B605D27A3074EFEBC8EDB68C0A4674B99AC6D94F482919D402F80AD490E0"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_smoke_r2_20261026\\shared\\workspace_CV_observations.mat",
+      "bytes": 20074,
+      "sha256": "A1B8BAC0996B5B96CC98E312D9B0BF880FF7A5BCA56407FBC8E1547B42A26864"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\physical_simscape_result.mat",
+      "sha256": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD",
+      "bytes": 4987450900
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\final_operating_point.mat",
+      "sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816",
+      "bytes": 3822969
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\heatdrive_ecc_coupled_se21.slx",
+      "sha256": "77E2ACD5B983A0BA72DFB72D3AD106F4D0BC524C2EC56C79C096EEBB5DA88599"
+    }
+  ],
+  "protected_hashes_verified_after": true,
+  "failure": null,
+  "raw_result_or_checkpoint_deleted": false,
+  "unrelated_process_or_Agent6_touched": false
+}
