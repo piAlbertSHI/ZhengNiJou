@@ -130,6 +130,7 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
                         Apply_HeatDriveECC_SharedEndpointInventory(repo,model,options,inventory.reference_root,arm);
                     library_cleanup=onCleanup(@() close_libraries(endpoint_libraries));
                     write_json(fullfile(arm,'endpoint_inventory_construction.json'),inventory_record);
+                    endpoint_contract.initialization_construction_sha256=file_hash(fullfile(arm,'endpoint_inventory_construction.json'));
                     assignin('base','cold_public_targets',cold_public_targets);
                     set_param(model,'SimscapeUseOperatingPoints','on','SimscapeOperatingPoint','cold_public_targets');
                     options.validation.shared_endpoint_inventory_requires_explicit_audit=true;

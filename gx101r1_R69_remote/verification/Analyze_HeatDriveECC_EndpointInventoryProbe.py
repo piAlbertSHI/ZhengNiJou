@@ -36,6 +36,10 @@ def analyze(root,output):
     verify_sources(e);case=e['completed_arms'][0];coverage=verify_arm(root,case,duration)
     data=load_case(root,case);components=storage(data);boundary=sources(data)
     construction=read(root/'shared/endpoint_inventory_construction.json')
+    bound='initialization_construction_sha256' in data['contract']
+    if duration>=10 and not bound:raise ValueError('A full cycle needs runtime-bound construction metadata')
+    if bound and sha256(root/'shared/endpoint_inventory_construction.json')!=data['contract']['initialization_construction_sha256']:
+        raise ValueError('Endpoint construction/initial target contract changed')
     if (construction['public_targets_have_private_data'] or construction['private_state_or_checkpoint_loaded']
             or construction['initial_flux_compensation_applied'] or construction['old_topology_empirical_calibration_reused']):
         raise ValueError('Cold initialization imported a state or old calibration')
@@ -82,7 +86,7 @@ def analyze(root,output):
     output.mkdir(parents=True,exist_ok=False)
     result=dict(schema='heatdrive_ecc_shared_endpoint_inventory_probe_v1',producer_commit=e['execution_commit'],
         execution_sha256=sha256(root/'coupled_CV_execution.json'),reader_sha256=sha256(Path(__file__)),
-        coverage=coverage,duration_s=duration,initial_public_target_errors=target_errors,
+        coverage=coverage,duration_s=duration,initialization_contract_runtime_hash_bound=bound,initial_public_target_errors=target_errors,
         original_SMA_pipe_temperature_1e6_threshold_pass=case['initial_pipe_temperature_match_original_1e6_threshold'],
         endpoint_state_equation_checks=equation_checks,thermal_network_balance=window,
         auxiliary_gravity_environment_pv_are_in_buffer_state_not_external_heat=True,
