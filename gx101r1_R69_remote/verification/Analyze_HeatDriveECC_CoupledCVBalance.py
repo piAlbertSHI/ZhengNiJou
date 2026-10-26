@@ -85,6 +85,7 @@ def storage(data):
     time=data['time'];dt=np.diff(time);rows=[]
     for b in data['contract']['storage_blocks']:
         path=b['block_path'];kind=b['mask_type'];p=b['mask_parameters']
+        pdV=np.zeros_like(dt)
         v=lambda name,unit:native_value(data,path,name,unit)
         if kind=='Thermal Mass':
             mass=float(convert(p['mass']['value'],p['mass']['unit'],'kg'))
@@ -112,6 +113,7 @@ def storage(data):
                 if np.ptp(pressure)>1e-6:raise ValueError('Only observed constant-pressure tank supported')
                 M=v('mass','kg');U=M*u
                 dM=np.diff(M);dE=path_steps(M*table['cp'](coords),temperature)+path_steps(h,M)
+                pdV=path_steps(pressure,v('volume','m^3'))
                 basis='right-endpoint M*cp*dT + h*dM; variable mass endpoint U reported separately'
             elif kind=='Constant Volume Chamber (TL)':
                 volume=float(convert(p['volume']['value'],p['volume']['unit'],'m^3'))
@@ -120,7 +122,7 @@ def storage(data):
                 dM=path_steps(M/beta,pressure)-path_steps(alpha*M,temperature)
                 basis='right-endpoint native dUdp*dp+dUdT*dT; endpoint rho*V*u separate'
             else:raise ValueError('Unknown native storage type')
-        rows.append(dict(path=path,kind=kind,basis=basis,U=U,M=M,dE=dE,dM=dM,power=power,mdot=mdot))
+        rows.append(dict(path=path,kind=kind,basis=basis,U=U,M=M,dE=dE,dM=dM,power=power,mdot=mdot,pdV=pdV))
     if {r['path'] for r in rows}!=set(data['contract']['storage_paths']):raise ValueError('Incomplete accumulation set')
     return rows
 
@@ -166,6 +168,7 @@ def balance_window(data,components,boundary,start,stop):
         rows.append(dict(block_path=r['path'],mask_type=r['kind'],basis=r['basis'],
                          BE_port_energy_J=flow,BE_coefficient_accumulation_J=acc,BE_coefficient_residual_J=flow-acc,
                          endpoint_energy_change_J=float(r['U'][b]-r['U'][a]),
+                         BE_tank_pressure_volume_work_out_J=float(r.get('pdV',np.zeros(len(time)-1))[steps].sum()),
                          BE_coefficient_mass_kg=float(r['dM'][steps].sum()),
                          BE_port_mass_kg=float(np.dot(dt,r['mdot'][sl])),endpoint_mass_change_kg=float(r['M'][b]-r['M'][a])))
     return dict(start_s=start,stop_s=stop,sample_count=b-a+1,quadrature='native right endpoint BE, no interpolation',
@@ -181,8 +184,30 @@ def balance_window(data,components,boundary,start,stop):
                 BE_coefficient_residual_J=float(np.dot(dt,incoming[sl])-coefficient.sum()),
                 BE_coefficient_mass_kg=float(mass_coefficient.sum()),
                 endpoint_energy_change_J=sum(r['endpoint_energy_change_J'] for r in rows),
+                BE_tank_pressure_volume_work_out_J=sum(r['BE_tank_pressure_volume_work_out_J'] for r in rows),
                 endpoint_fluid_mass_change_kg=sum(r['endpoint_mass_change_kg'] for r in rows),components=rows,
                 full_device_first_law_verified=False,constitutive_heat_is_not_external_system_heat=True)
+
+
+def engineering_pumps(data,start,stop):
+    time=data['time'];a=round(start/.001);b=round(stop/.001);dt=np.diff(time)[a:b];rows=[]
+    for source in data['boundary']['blocks']:
+        if source['source_file']!='foundation.thermal_liquid.sources.pressure_source':continue
+        path=source['block_path'];name=path[len(data['model'])+1:]
+        probes={p['source_port_name']:p for p in data['contract']['pump_pressure_contract']['probes'] if p['source_block']==name}
+        if set(probes)!={'A','B'}:raise ValueError('Need both actual pressure-source faces')
+        pressure={face:convert(signal(data,p['workspace_variable'])[:,0],p['unit'],'Pa') for face,p in probes.items()}
+        q=data['sources'][path,'q_A']
+        if q['unit']!='m^3/s':raise ValueError('Unreviewed pump volumetric-flow unit')
+        q=on_grid(q,time)[:,0];work_rate=(pressure['B']-pressure['A'])*q
+        native=data['sources'][path,'power'];native=convert(on_grid(native,time)[:,0],native['unit'],'W')
+        rows.append(dict(source_path=path,formula='(p_B-p_A)*q_A; q_A positive into source A',
+                         hydraulic_work_signed_J=float(np.dot(dt,work_rate[a+1:b+1])),
+                         hydraulic_work_positive_J=float(np.dot(dt,np.maximum(work_rate[a+1:b+1],0))),
+                         native_source_thermal_energy_J=float(np.dot(dt,native[a+1:b+1])),
+                         electrical_efficiency_or_dissipation_heat_injection_assumed=False))
+    if len(rows)!=3:raise ValueError('Incomplete engineering pump boundary')
+    return rows
 
 
 def oriented_faces(mdot,mask):
@@ -342,8 +367,18 @@ def analyze(root,output):
             row['true_external_boundary_heat_J']=row['source_net_input_J']-constitutive
             row['endpoint_sensible_fluid_plus_solid_chemical_change_J']=row['endpoint_energy_change_J']-latent
             row['external_minus_corrected_endpoint_energy_J']=row['true_external_boundary_heat_J']-row['endpoint_sensible_fluid_plus_solid_chemical_change_J']
+            row['external_minus_corrected_endpoint_plus_tank_pressure_work_J']=row['external_minus_corrected_endpoint_energy_J']-row['BE_tank_pressure_volume_work_out_J']
+            row['engineering_pumps']=engineering_pumps(data,a,b)
             windows.append(row)
+        chex_sensor=data['options']['validation']['cold_boundary_audit']['heat_flow_sensor_path']
+        shex_sensor=data['model']+'/SHEX/SHEXSourceToSinkHeatFlowSensor'
+        sensor_paths={r['block_path'] for r in data['thermal']['blocks'] if r['source_file']=='foundation.thermal.sensors.heat_flow'}
+        if not {chex_sensor,shex_sensor}<=sensor_paths:raise ValueError('Named sensor boundary is not an actual heat-flow sensor')
         arms.append(dict(arm=case['arm'],coverage=coverage,
+                         measurement_interfaces=dict(CHEX_sensor_path=chex_sensor,
+                             CHEX_sensor_signal='Qdot_cold_sink_mass_to_hx_pipe_W',
+                             SHEX_sensor_path=shex_sensor,
+                             SHEX_sensor_signal='shex_source_heat_flow_W',zero_sensor_storage=True),
                          windows=windows,
                          Eq9_Eq10_diagnostics=[exchanger_metrics(data,a,b) for a,b in ((0,10),(10,20),(0,20))]))
     output.mkdir(parents=True,exist_ok=False)
@@ -363,6 +398,13 @@ def analyze(root,output):
             for row in arm['windows'][0]['source_terms']:
                 writer.writerow([arm['arm'],row['block_path'],row['role'],'no external mass',row['sign_rule'],
                                  'constitutive heat explicitly separate from true external boundary'])
+            interface=arm['measurement_interfaces']
+            for tag in ('CHEX','SHEX'):
+                writer.writerow([arm['arm'],interface[tag+'_sensor_path'],tag+' thermal sensor','no mass; no storage',
+                                 interface[tag+'_sensor_signal'], 'boundary measurement, not an extra energy source'])
+            for row in arm['windows'][0]['engineering_pumps']:
+                writer.writerow([arm['arm'],row['source_path'],'hydraulic work proxy','through-mass conserved; no accumulation',
+                                 row['formula'],'NOT electrical input; NOT extra thermal input in native power_spec=none mode'])
     figure_differences(arms,output/'CHEX_power_definition_differences.png')
     report['control_volume_table_sha256']=sha256(output/'control_volume_table.csv')
     report['figure_sha256']=sha256(output/'CHEX_power_definition_differences.png')

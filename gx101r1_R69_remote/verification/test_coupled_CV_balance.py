@@ -3,7 +3,7 @@ import unittest
 
 import numpy as np
 
-from Analyze_HeatDriveECC_CoupledCVBalance import path_steps,source_sign,oriented_faces,balance_window,cooling_decomposition,mechanical_bridge
+from Analyze_HeatDriveECC_CoupledCVBalance import path_steps,source_sign,oriented_faces,balance_window,cooling_decomposition,mechanical_bridge,engineering_pumps
 
 
 class BalanceTests(unittest.TestCase):
@@ -53,6 +53,28 @@ class BalanceTests(unittest.TestCase):
         self.assertAlmostEqual(whole['source_net_input_J'],a['source_net_input_J']+b['source_net_input_J'])
         self.assertAlmostEqual(whole['BE_coefficient_residual_J'],0.)
         self.assertFalse(whole['full_device_first_law_verified'])
+        component['pdV']=np.array([.002,.003])
+        r=balance_window(data,[component],[boundary],0.,.002)
+        self.assertEqual(r['BE_tank_pressure_volume_work_out_J'],.005)
+
+    def test_engineering_pump_work_is_not_zero_native_thermal_input(self):
+        t=np.array([0.,.001,.002]);blocks=[];probes=[];ws={};src={}
+        for k in range(3):
+            name='source'+str(k);path='m/'+name
+            blocks.append({'block_path':path,'source_file':'foundation.thermal_liquid.sources.pressure_source'})
+            for face,value in (('A',.5),('B',1.)):
+                var=name+face;ws['m',var]={'time_s':t,'values':np.full((3,1),value)}
+                probes.append({'source_block':name,'source_port_name':face,'workspace_variable':var,'unit':'MPa'})
+            src[path,'q_A']={'time_s':t,'values':np.full((3,1),.001),'unit':'m^3/s'}
+            src[path,'power']={'time_s':t,'values':np.zeros((3,1)),'unit':'W'}
+        data={'time':t,'model':'m','boundary':{'blocks':blocks},'contract':{'pump_pressure_contract':{'probes':probes}},
+              'workspace':ws,'sources':src}
+        rows=engineering_pumps(data,0.,.002)
+        self.assertEqual(len(rows),3)
+        for row in rows:
+            self.assertAlmostEqual(row['hydraulic_work_positive_J'],1.)
+            self.assertEqual(row['native_source_thermal_energy_J'],0.)
+            self.assertFalse(row['electrical_efficiency_or_dissipation_heat_injection_assumed'])
 
     def test_coupled_work_cancellation_does_not_hide_an_unexplained_heat_source(self):
         t=np.array([0.,.001,.002]);c=np.zeros((3,252));x=np.arange(3)[:,None]*.1
