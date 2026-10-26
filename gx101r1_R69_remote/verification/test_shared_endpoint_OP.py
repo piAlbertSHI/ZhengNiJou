@@ -3,7 +3,7 @@ from pathlib import Path
 import unittest
 import numpy as np
 from HeatDriveECC_TraceColumns import scalar_text
-from Analyze_HeatDriveECC_SharedEndpointWarmup import actual_native_window,periodic_screens
+from Analyze_HeatDriveECC_SharedEndpointWarmup import actual_native_window,periodic_screens,matlab_metadata
 from Analyze_HeatDriveECC_CoupledCVTrajectories import stage_coordinates
 
 
@@ -93,6 +93,11 @@ class EndpointOPTests(unittest.TestCase):
         screens=periodic_screens(d,v)
         self.assertTrue(screens['temperature_endpoint']);self.assertFalse(screens['temperature_RMS'])
         self.assertFalse(all(screens.values()))
+
+    def test_MAT_metadata_arrays_are_lists_without_touching_observation_packets(self):
+        row={'vertex_indices':np.array([1,2]),'source_file':np.array([],dtype='U1'),
+             'grid':np.array([[1.,2.],[3.,4.]])}
+        self.assertEqual(matlab_metadata(row),{'vertex_indices':[1,2],'source_file':'','grid':[[1.,2.],[3.,4.]]})
 
 
 if __name__=='__main__':unittest.main()

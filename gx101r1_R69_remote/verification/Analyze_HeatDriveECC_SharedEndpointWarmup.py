@@ -17,6 +17,17 @@ from Review_HeatDriveECC_CoupledCVPacket import on_grid
 from Run_HeatDriveECC_ConservativeTransport import write_json
 
 
+def matlab_metadata(value):
+    """Normalize scipy's MATLAB metadata arrays, never observation values."""
+    if isinstance(value,dict):return {k:matlab_metadata(v) for k,v in value.items()}
+    if isinstance(value,np.ndarray):
+        if value.size==0 and value.dtype.kind in 'US':return ''
+        return matlab_metadata(value.tolist())
+    if isinstance(value,(list,tuple)):return [matlab_metadata(v) for v in value]
+    if isinstance(value,np.generic):return value.item()
+    return value
+
+
 def actual_native_window(rows, start, stop):
     clock=np.arange(round(start*1000),round(stop*1000)+1)*.001
     return {k:dict(r,time_s=clock,values=on_grid(r,clock)) for k,r in rows.items()}
@@ -64,7 +75,16 @@ def analyze(root,out):
         if sha256(Path(r[role+'_path']))!=r[role+'_sha256']:raise ValueError('Warmup dependency changed: '+role)
     parent=read(Path(r['source_root'])/'state_interface_roundtrip.json')
     if r['source_OP_sha256']!=parent['operating_point_sha256']:raise ValueError('Source OP lineage differs')
-    context=loadmat(r['context_path'],simplify_cells=True);contract=context['contract'];options=context['options']
+    dependencies=[(parent[k+'_path'],parent[k+'_sha256'])
+                  for k in ('saved_runtime_model','operating_point','interface_contract')]
+    dependencies.append((parent['base_workspace']['path'],parent['base_workspace']['sha256']))
+    dependencies.extend((x['path'],x['sha256']) for x in parent['loaded_project_sources'])
+    construction=read(Path(r['source_root'])/'endpoint_inventory_construction.json')
+    for x in construction['source_components']:
+        dependencies.extend(((x['path'],x['sha256']),(x['library_path'],x['library_sha256'])))
+    for path,digest in dependencies:
+        if sha256(Path(path))!=digest:raise ValueError('Frozen runtime dependency changed: '+path)
+    context=matlab_metadata(loadmat(r['context_path'],simplify_cells=True));contract=context['contract'];options=context['options']
     if (options['simscape']['local_solver_choice']!='NE_BACKWARD_EULER_ADVANCER'
             or options['simscape']['local_solver_sample_time_s']!=.001 or options['cycle_count']!=100):
         raise ValueError('Changed local solver or command horizon')
@@ -95,6 +115,7 @@ def analyze(root,out):
     out.mkdir(parents=True,exist_ok=False);plot(data,out)
     result=dict(schema='heatdrive_ecc_shared_endpoint_warmup_review_v1',execution_sha256=sha256(rp),
         reader_sha256=sha256(Path(__file__)),retained_native_window_s=[380,400],completed_total_cycles=40,
+        frozen_runtime_dependency_hash_count=len(dependencies),
         physical_continuation_window_s=[.2,400],fixed_command_horizon_s=1000,
         simulation_wall_seconds=r['simulation_wall_seconds'],terminal_OP_path=r['terminal_OP_path'],
         terminal_OP_sha256=r['terminal_OP_sha256'],retained_cycle_diagnostics=diagnostics,
