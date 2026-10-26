@@ -48,5 +48,14 @@ class EndpointOPTests(unittest.TestCase):
         self.assertLess(setup,source.index('save_system(model,model_file)'))
         self.assertLess(setup,source.index('reference=sim('))
 
+    def test_long_warmup_uses_proven_epoch_and_saves_OP_before_observation_export(self):
+        source=(Path(__file__).resolve().parent/'Resume_HeatDriveECC_SharedEndpointOP.m').read_text(encoding='utf-8')
+        self.assertIn('proof.new_process_full_cycle_covered',source)
+        self.assertIn('prior.bounded_observation_from_cold_start',source)
+        self.assertIn('diagnostic_operating_point=output.interface_final_op',source)
+        self.assertIn('terminal_OP_requires_scientific_review_before_continuation=true',source)
+        self.assertLess(source.index("save(terminal,"),source.index('Capture_HeatDriveECC_StateInterfaceTrace('))
+        self.assertNotIn('.loggedStates=',source)
+
 
 if __name__=='__main__':unittest.main()

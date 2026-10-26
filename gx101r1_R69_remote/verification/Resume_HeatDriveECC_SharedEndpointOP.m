@@ -1,7 +1,7 @@
 function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
 % New-process strict load of a persisted isolated model and its untouched full OP.
     if nargin<4,mode='reference_cycle';end
-    assert(ismember(mode,{'reference_cycle','bounded_step_probe'}));
+    assert(ismember(mode,{'reference_cycle','bounded_step_probe','warmup_C40'}));
     assert(~isfolder(folder));mkdir(folder);old=pwd;oldpath=path;
     cleanup_path=onCleanup(@() restore_path(old,oldpath));addpath(repo,fullfile(repo,'verification'));
     record=struct('schema','heatdrive_ecc_shared_endpoint_new_process_OP_v1', ...
@@ -9,6 +9,16 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
     try
         prior=jsondecode(fileread(fullfile(source,'state_interface_roundtrip.json')));
         assert(prior.execution_complete && ~prior.production_recovery_allowed && prior.fixed_command_horizon_s==1000);
+        if strcmp(mode,'warmup_C40')
+            proof_file=fullfile(repo,'outputs_storage_audit','shared_endpoint_OP_bounded_cycle_20261026_r2', ...
+                'shared_endpoint_OP_review.json');
+            verify(proof_file,'07DDCBCEF6A399EBB60212F9C14855EDEF8A33BA3B3CED49F7A9CABEE3EBBDCB');
+            proof=jsondecode(fileread(proof_file));
+            assert(prior.bounded_observation_from_cold_start && proof.same_model_actual_all_value_bits_exact && ...
+                proof.new_process_actual_all_value_bits_exact && proof.new_process_full_cycle_covered);
+            assert(strcmp(prior.operating_point_sha256,'7479D0608D73F40A92637CD0113DE7B676067E8FB507E78233D48B2FE00573DA'));
+            record.prerequisite_proof_sha256=file_hash(proof_file);
+        end
         verify(prior.saved_runtime_model_path,prior.saved_runtime_model_sha256);
         verify(prior.base_workspace.path,prior.base_workspace.sha256);
         verify(prior.operating_point_path,prior.operating_point_sha256);
@@ -46,6 +56,12 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
         HeatDriveECC_ObserverContext('register',model,fullfile(folder,'solver_time.json'));
         input=Simulink.SimulationInput(model);stop=prior.reference_stop_s;
         record.observation_profile=mode;
+        if strcmp(mode,'warmup_C40')
+            stop=400;
+            assert(strcmp(get_param(model,'SimscapeLogLimitData'),'on') && ...
+                str2double(get_param(model,'SimscapeLogDataHistory'))==20002 && ...
+                str2double(get_param(model,'MaxDataPoints'))==40002);
+        end
         if strcmp(mode,'bounded_step_probe')
             stop=prior.snapshot_s+.002;
             input=input.setModelParameter('SimscapeLogLimitData','on','SimscapeLogDataHistory',20002,'MaxDataPoints','40002');
@@ -54,9 +70,30 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
             record.bounded_logging_requested=struct('native_history_points',20002,'public_state_and_sink_points',40002, ...
                 'sink_count',numel(sinks),'sample_times_or_equations_modified',false);
         end
+        wall=tic;cpu=cputime;
         output=sim(input.setModelParameter('CaptureErrors','on','StopTime',num2str(stop,17)) ...
             .setInitialState(point.diagnostic_operating_point));
+        record.simulation_wall_seconds=toc(wall);record.simulation_CPU_seconds=cputime-cpu;
         assert(isempty(output.ErrorMessage),'Strict new-process restore failed: %s',output.ErrorMessage);
+        if strcmp(mode,'warmup_C40')
+            % Save the untouched final OP before optional evidence serialization.
+            diagnostic_operating_point=output.interface_final_op;production_recovery_allowed=false; %#ok<NASGU>
+            assert(isa(diagnostic_operating_point,'Simulink.op.ModelOperatingPoint') && ...
+                diagnostic_operating_point.snapshotTime==stop);
+            terminal=fullfile(folder,'diagnostic_complete_operating_point.mat');assert(~isfile(terminal));
+            save(terminal,'diagnostic_operating_point','production_recovery_allowed','-v7.3');
+            record.terminal_OP_path=terminal;record.terminal_OP_sha256=file_hash(terminal);
+            record.terminal_OP_snapshot_s=stop;record.terminal_OP_requires_scientific_review_before_continuation=true;
+            write_json(fullfile(folder,'terminal_OP_saved_pending_observations.json'),record);
+            [~,boundary]=Extract_HeatDriveECC_BoundaryTraces(output.simlog,model,config.contract.tl_topology,config.contract.thermal_topology);
+            contract=config.contract;options=config.options; %#ok<NASGU>
+            context=fullfile(folder,'warmup_context.mat');assert(~isfile(context));
+            save(context,'contract','options','boundary','-v7');
+            record.context_path=context;record.context_sha256=file_hash(context);
+            record.completed_total_cycles=40;record.fixed_command_horizon_s=1000;
+            record.all_mechanism_gates_evaluated=false;record.periodic_steady_state=false;
+            record.outer_solve_or_Table4_allowed=false;
+        end
         file=fullfile(folder,'new_process_restored_observations.mat');
         record.observation=Capture_HeatDriveECC_StateInterfaceTrace(output,model,config.contract,file);
         record.observation_path=file;record.observation_sha256=file_hash(file);
