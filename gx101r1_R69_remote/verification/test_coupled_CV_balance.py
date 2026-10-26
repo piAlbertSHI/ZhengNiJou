@@ -3,7 +3,7 @@ import unittest
 
 import numpy as np
 
-from Analyze_HeatDriveECC_CoupledCVBalance import path_steps,source_sign,oriented_faces,balance_window
+from Analyze_HeatDriveECC_CoupledCVBalance import path_steps,source_sign,oriented_faces,balance_window,cooling_decomposition
 
 
 class BalanceTests(unittest.TestCase):
@@ -31,6 +31,15 @@ class BalanceTests(unittest.TestCase):
         # m_A*cp*(T_B-T_A) equals m_in*cp*(T_out-T_in) in either direction.
         for m,ta,tb in ((2.,280.,285.),(-2.,285.,280.)):
             self.assertEqual(m*3.*(tb-ta),30.)
+
+    def test_sensor_difference_keeps_storage_and_inactive_heat_separate(self):
+        r=cooling_decomposition(11.,10.,9.,9.5,9.5)
+        self.assertEqual(r['Eq10_minus_sensor_W'],1.5)
+        self.assertEqual(r['declared_cp_minus_native_enthalpy_W'],1.)
+        self.assertEqual(r['advected_minus_wall_stage_storage_W'],1.)
+        self.assertEqual(r['exclude_non_stage4_wall_W'],-.5)
+        self.assertEqual(r['algebraic_decomposition_roundoff_W'],0.)
+        self.assertTrue(r['identity_is_not_a_physical_validation_gate'])
 
     def test_BE_windows_are_additive_and_startpoint_has_no_fictitious_energy(self):
         t=np.array([0.,.001,.002]);power=np.array([1e9,2.,3.])

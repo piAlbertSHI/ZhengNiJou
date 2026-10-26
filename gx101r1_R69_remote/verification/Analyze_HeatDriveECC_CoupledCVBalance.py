@@ -174,6 +174,9 @@ def balance_window(data,components,boundary,start,stop):
                 source_terms=[dict(block_path=r['path'],source_file=r['kind'],role=r['role'],sign=r['sign'],sign_rule=r['rule'],
                                    BE_net_input_J=float(np.dot(dt,r['power'][sl]))) for r in boundary],
                 source_net_input_J=float(np.dot(dt,incoming[sl])),native_port_net_input_J=float(np.dot(dt,native_rate[sl])),
+                native_fluid_mass_start_kg=sum(float(r['M'][a]) for r in components),
+                native_fluid_mass_end_kg=sum(float(r['M'][b]) for r in components),
+                gross_source_absolute_energy_J=sum(float(np.dot(dt,abs(r['power'][sl]))) for r in boundary),
                 BE_coefficient_accumulation_J=float(coefficient.sum()),
                 BE_coefficient_residual_J=float(np.dot(dt,incoming[sl])-coefficient.sum()),
                 BE_coefficient_mass_kg=float(mass_coefficient.sum()),
@@ -188,19 +191,30 @@ def oriented_faces(mdot,mask):
     return ('b','a') if np.median(active)>0 else ('a','b')
 
 
+def cooling_decomposition(cp_power,advected,wall_stage,wall_all,sensor):
+    terms={'declared_cp_minus_native_enthalpy_W':cp_power-advected,
+           'advected_minus_wall_stage_storage_W':advected-wall_stage,
+           'exclude_non_stage4_wall_W':wall_stage-wall_all,
+           'wall_minus_sensor_W':wall_all-sensor}
+    return dict(terms,Eq10_minus_sensor_W=cp_power-sensor,
+                algebraic_decomposition_roundoff_W=(cp_power-sensor)-sum(terms.values()),
+                identity_is_not_a_physical_validation_gate=True)
+
+
 def exchanger_metrics(data,start,stop):
     time=data['time'];options=data['options'];cycle,stage,elapsed=stage_coordinates(time,options)
     idx=(time>=start)&(time<=stop);duration=stop-start
     average=lambda x:float(np.trapezoid(np.asarray(x)[idx],time[idx])/duration)
     channels={};records=data['contract']['hex_channel_records']
-    guard=options['validation']['se_settled_guard_s']+options['simulation']['fixed_step_s']
+    se_guard=options['validation']['se_settled_guard_s']+options['simulation']['fixed_step_s']
     for r in records:
         tag=r['tag'];path=r['block_path'];m=native_value(data,path,'mdot_A','kg/s')
         s=2 if tag=='hhex_se' else 4 if tag=='chex' else 1 if tag=='shex' else 3
+        guard=1. if tag in ('shex','hhex_sma') else se_guard
         active=(stage==s)&(elapsed>=guard)
         out_face,in_face=oriented_faces(m,active)
         T={f:signal(data,'cv_'+tag+'_'+f+'_T_K')[:,0] for f in ('a','b')}
-        channels[tag]=dict(path=path,mdot_A=m,temperature=T,outlet=out_face,inlet=in_face,
+        channels[tag]=dict(path=path,mdot_A=m,temperature=T,outlet=out_face,inlet=in_face,guard=guard,
                            native_port_energy=native_sum(data['native'],path,'Phi_','W'),wall=native_value(data,path,'Q_H','W'))
     cold=channels['chex'];hot=channels['hhex_se'];cp=options['system']['cp_fluid_J_per_kgK']
     stage4=(stage==4).astype(float)
@@ -214,10 +228,11 @@ def exchanger_metrics(data,start,stop):
     lift=hot['temperature'][hot['outlet']]-cold['temperature'][cold['outlet']]
     observed={}
     for tag,c in channels.items():
-        mask=idx&(stage==(2 if tag=='hhex_se' else 4 if tag=='chex' else 1 if tag=='shex' else 3))&(elapsed>=guard)
+        mask=idx&(stage==(2 if tag=='hhex_se' else 4 if tag=='chex' else 1 if tag=='shex' else 3))&(elapsed>=c['guard'])
         intended=1 if c['outlet']=='b' else -1
         observed[tag]=dict(pipe=c['path'],positive_mdot_A_means='A inlet, B outlet',intended_outlet_face=c['outlet'].upper(),
                            intended_inlet_face=c['inlet'].upper(),settled_route_direction_pass=bool(np.all(intended*c['mdot_A'][mask]>0)),
+                           settled_guard_s=c['guard'],
                            mass_flow_A_min_max_kg_s=[float(c['mdot_A'][idx].min()),float(c['mdot_A'][idx].max())])
     return dict(start_s=start,stop_s=stop,cycles=duration/options['schedule']['tau_cycle_s'],
                 quadrature='trapezoid on actually recorded 1 ms samples; both endpoints retained',
@@ -228,6 +243,7 @@ def exchanger_metrics(data,start,stop):
                 active_SE_solid_mass_g=actual*1000,scp_excludes='SMA, fluid, buffers, pipe and reservoir masses',
                 Eq9_fixed_downstream_port_lift_K=average(lift),
                 Eq9_stage4_contribution_K=average(stage4*lift),Eq9_non_stage4_contribution_K=average((1-stage4)*lift),
+                Eq9_SE_both_routes_scheduled_inactive_contribution_K=average(np.isin(stage,[1,3])*lift),
                 Eq10_measured_pipe_flow_declared_cp_W=average(cp_power),Eq10_diagnostic_W_per_g=average(cp_power)/(actual*1000),
                 stage4_native_enthalpy_out_minus_in_W=average(native_enthalpy),
                 stage4_native_CHEX_wall_heat_W=average(stage4*cold['wall']),all_cycle_native_CHEX_wall_heat_W=average(cold['wall']),
@@ -235,6 +251,8 @@ def exchanger_metrics(data,start,stop):
                 CHEX_sensor_minus_native_wall_max_abs_W=float(abs(sensor-cold['wall'])[idx].max()),
                 declared_cp_minus_native_enthalpy_stage4_W=average(cp_power-native_enthalpy),
                 wall_minus_advected_energy_stage4_W=average(stage4*cold['wall']-native_enthalpy),
+                Eq10_sensor_difference_decomposition=cooling_decomposition(average(cp_power),average(native_enthalpy),
+                    average(stage4*cold['wall']),average(cold['wall']),average(sensor)),
                 mass_basis_is_compiled_SE_solid=True,steady_cooling_load_equals_Eq10_claim=False)
 
 
@@ -251,6 +269,10 @@ def analyze(root,output):
     output.mkdir(parents=True,exist_ok=False)
     report=dict(schema='heatdrive_ecc_coupled_CV_balance_v1',execution_sha256=sha256(root/'coupled_CV_execution.json'),
                 producer_commit=e['execution_commit'],reader_sha256=sha256(Path(__file__)),arms=arms,
+                reference_equations=dict(Qian2019='Energy 182 (2019), p885, PDF page5, Eqs9/10; ten steady cycles',
+                    Tank_TL='https://www.mathworks.com/help/releases/R2025b/hydro/ref/tanktl.html',
+                    tank_coefficient_scope='documented constant-pressure M*cp*dT+h*dM; residual is diagnostic, not a physical rejection gate',
+                    hidden_state_and_nonlinear_solver_coordinate_effects_not_excluded=True),
                 no_new_simulation=True,production_recovery_allowed=False,Table4_reproduction_claim=False)
     write_json(output/'coupled_CV_balance.json',report)
     with (output/'control_volume_table.csv').open('w',encoding='utf-8',newline='') as f:
