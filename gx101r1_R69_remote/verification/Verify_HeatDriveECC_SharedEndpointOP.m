@@ -1,5 +1,6 @@
-function record=Verify_HeatDriveECC_SharedEndpointOP(repo,input,options,contract,folder)
+function record=Verify_HeatDriveECC_SharedEndpointOP(repo,input,options,contract,folder,bounded)
 % Untouched complete OP roundtrip on the actual shared endpoint model.
+    if nargin<6,bounded=false;end
     model=input.ModelName;snapshot=.2;stop=10.202;
     assert(options.cycle_count==100 && options.schedule.total_time_s==1000 && ...
         strcmp(contract.schema,'heatdrive_ecc_endpoint_CV_inventory_v1'));
@@ -8,6 +9,7 @@ function record=Verify_HeatDriveECC_SharedEndpointOP(repo,input,options,contract
         'snapshot_s',snapshot,'reference_stop_s',stop,'fixed_command_horizon_s',1000, ...
         'execution_complete',false,'production_recovery_allowed',false,'source_OP_edited',false, ...
         'partial_state_or_private_coordinate_reconstruction',false,'cases',{{}});
+    record.bounded_observation_from_cold_start=bounded;
     model_file=get_param(model,'FileName');
     root=char(java.io.File(folder).getCanonicalPath());actual=char(java.io.File(model_file).getCanonicalPath());
     assert(startsWith(lower(actual),[lower(root) filesep]),'Only persist this isolated experiment model.');
@@ -15,6 +17,13 @@ function record=Verify_HeatDriveECC_SharedEndpointOP(repo,input,options,contract
         'LimitDataPoints','on','MaxDataPoints','12002','Decimation','1', ...
         'SaveFinalState','on','FinalStateName','interface_final_op','SaveOperatingPoint','on', ...
         'OperatingPointContentsChecksumMismatchMsg','error','OperatingPointInterfaceChecksumMismatchMsg','error');
+    if bounded
+        set_param(model,'SimscapeLogLimitData','on','SimscapeLogDataHistory',20002,'MaxDataPoints','40002');
+        sinks=find_system(model,'LookUnderMasks','all','FollowLinks','on','Type','Block','BlockType','ToWorkspace');
+        for k=1:numel(sinks),set_param(sinks{k},'MaxDataPoints','40002');end
+        contract.state_interface_observation=struct('native_history_points',20002, ...
+            'public_state_and_sink_points',40002,'configured_before_first_cold_simulation',true);
+    end
     save_system(model,model_file);
     record.saved_runtime_model_path=model_file;record.saved_runtime_model_sha256=file_hash(model_file);
     names=evalin('base','who');base_state=struct();descriptors=cell(size(names));

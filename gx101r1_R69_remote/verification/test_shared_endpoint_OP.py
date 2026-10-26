@@ -42,5 +42,11 @@ class EndpointOPTests(unittest.TestCase):
         self.assertIn("input.setBlockParameter(sinks{k},'MaxDataPoints','40002')",source)
         self.assertIn('assert(strcmpi(actual,expected)',source)
 
+    def test_bounded_epoch_is_configured_before_model_persistence_and_first_simulation(self):
+        source=(Path(__file__).resolve().parent/'Verify_HeatDriveECC_SharedEndpointOP.m').read_text(encoding='utf-8')
+        setup=source.index("set_param(model,'SimscapeLogLimitData','on'")
+        self.assertLess(setup,source.index('save_system(model,model_file)'))
+        self.assertLess(setup,source.index('reference=sim('))
+
 
 if __name__=='__main__':unittest.main()

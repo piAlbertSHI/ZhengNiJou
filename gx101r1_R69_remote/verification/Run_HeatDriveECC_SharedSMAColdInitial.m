@@ -7,7 +7,8 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
     if nargin<9,inventory=struct('formulation','native');end
     assert(isstruct(inventory) && ismember(inventory.formulation,{'native','endpoint_inventory'}));
     endpoint=strcmp(inventory.formulation,'endpoint_inventory');
-    state_interface=isfield(inventory,'state_interface') && strcmp(inventory.state_interface,'cycle_roundtrip');
+    state_interface=isfield(inventory,'state_interface') && ...
+        ismember(inventory.state_interface,{'cycle_roundtrip','bounded_cycle_roundtrip'});
     assert(ismember(numerical_profile,{'inherited','local_tight'}));
     assert(ismember(capture_profile,{'selected_sma_v1','coupled_cv_v1','coupled_cv_tail_v1'}));
     tail=strcmp(capture_profile,'coupled_cv_tail_v1');
@@ -202,7 +203,8 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
             if endpoint,input=input.setVariable('cold_public_targets',cold_public_targets);end
             if state_interface
                 result.schema='heatdrive_ecc_shared_endpoint_state_interface_execution_v1';
-                result.state_interface=Verify_HeatDriveECC_SharedEndpointOP(repo,input,options,cv,arm);
+                bounded=strcmp(inventory.state_interface,'bounded_cycle_roundtrip');
+                result.state_interface=Verify_HeatDriveECC_SharedEndpointOP(repo,input,options,cv,arm,bounded);
                 result.checkpoint_loaded_or_saved=true;
                 result.actual_reference_stop_time_s=result.state_interface.reference_stop_s;
                 result.collection_complete=true;
