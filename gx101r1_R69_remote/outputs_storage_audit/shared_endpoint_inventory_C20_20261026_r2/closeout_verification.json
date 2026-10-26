@@ -1,0 +1,179 @@
+{
+  "schema": "heatdrive_ecc_shared_C20_closeout_v1",
+  "reader_commit": "4b22826061bcfe41e1c6c4848bdc709b461062a6",
+  "review_sha256": "7C73C16AF354928FC1CA18D9EF706A820FEB256007EC6BB6B84A998929987FB6",
+  "subset_retirement_proof_sha256": "C9E66FB82AC8F9564F6A1C1DDB0F654B186E40D5519D94581277122A18032FE3",
+  "actual_C20_raw": [
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_C20_r1_20261026\\shared\\coarse_CV_observations.mat",
+      "bytes": 344032,
+      "sha256": "579B02FD567B91CBFC41AC98B03A80D0F8DC56EF8A8D93B173F197CEA9DB9004"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_C20_r1_20261026\\shared\\CV_options.mat",
+      "bytes": 29663,
+      "sha256": "0ED4942473AE912E9CCA05D6512B8A377BA54EC5A326ECCE3494A06235EE0F1D"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_C20_r1_20261026\\shared\\native_CV_observations.mat",
+      "bytes": 112309537,
+      "sha256": "12C7E9A5A3686EC67CB42AEB41835F0516504B9FDE308A2000D4F8209D41DE7C"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_C20_r1_20261026\\shared\\source_CV_observations.mat",
+      "bytes": 20857126,
+      "sha256": "A3F909060196EA524CDFF4026B5FE2237C89488DE108459BBC187F2323E90540"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_C20_r1_20261026\\shared\\workspace_CV_observations.mat",
+      "bytes": 71878829,
+      "sha256": "B04127CA8ACD77E162EC0D753AE54AAD919F78C2DA05306D0A065041620D6FD0"
+    }
+  ],
+  "bounded_storage_before_retirement": [
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_inventory_C20_r1_20261026",
+      "files": 37,
+      "bytes": 208167507
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_endpoint_tail_equivalence_C2_r1_20261026",
+      "files": 37,
+      "bytes": 105379920
+    }
+  ],
+  "retirement_candidate_bytes": 103867327,
+  "frozen_baseline_dependencies_reverified": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\physical_simscape_result.mat",
+      "sha256": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD",
+      "bytes": 4987450900
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\final_operating_point.mat",
+      "sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816",
+      "bytes": 3822969
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\native_CV_observations.mat",
+      "sha256": "67A1195E2B2E6BC78BA88AD27098EBCCCEA3DE6612C0C05C89209C2A5E3B6B1A",
+      "bytes": 149257302
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\workspace_CV_observations.mat",
+      "sha256": "275571222C4D141DB613B8DBA4C129A05E7F88424C31810DA37E9CF1835DF6A4",
+      "bytes": 75621297
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\source_CV_observations.mat",
+      "sha256": "B8FF53EDFBB207B53E322C19069B7D9846111EA6C0439C1C708853932ABAD7A2",
+      "bytes": 20947130
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_options.mat",
+      "sha256": "1C6965D361C5FCC5F35838E232ACFD034DBD0D82DEEFA0C265D80A3D28DFDA52",
+      "bytes": 29643
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_contract.json",
+      "sha256": "56808E5B40BE46FD771814CB3E026CD4DE9D4EACA810EE75ABE166208971B913",
+      "bytes": 144200
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_tl_topology.json",
+      "sha256": "2C90BED3EA39770319ACF177361406DCAD44BE6C3E2E43E72DC0A4CE47B7805E",
+      "bytes": 230603
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_thermal_topology.json",
+      "sha256": "07C0158E858FB34C186357CE78F9557941FB399C9CD05C96FA0868B2E577F5D4",
+      "bytes": 1134184
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\native_CV_observations.mat",
+      "sha256": "A5FCC7750EC5E32EF5898E10508D213EC0E9452142C674045573AC50C0F5D794",
+      "bytes": 111051596
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\workspace_CV_observations.mat",
+      "sha256": "7080DA9CF66C258D81B30D669DB7A8A03CABFE99BE49AF4735BC0CCB2AB0D472",
+      "bytes": 72277925
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\source_CV_observations.mat",
+      "sha256": "5B5E2ECC9139FACA6513D6A1899A5D699726C1DFE2A2F728A88CB6258B4639CF",
+      "bytes": 20887376
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_options.mat",
+      "sha256": "7195EAB3B42AD660D9AB25A1FCE1674CAFDE6AA3B6F65927C1904B4CDF483B4C",
+      "bytes": 29644
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_contract.json",
+      "sha256": "3EA57A9930A1AC83028B6E305A0260CD554048FA84CBE0241BF06E3C3CE87C64",
+      "bytes": 120677
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_tl_topology.json",
+      "sha256": "5240CCCC068EEB84C1629EF27EAA726D3D1CC85C7B37D495FCF9DA73BDA8C7E4",
+      "bytes": 203431
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_thermal_topology.json",
+      "sha256": "DB440D8F9C324A444CE8570F33D57015CC1518DDF96E1CC6D71D3503AF3344D8",
+      "bytes": 1056078
+    }
+  ],
+  "protected_model_sha256": "77E2ACD5B983A0BA72DFB72D3AD106F4D0BC524C2EC56C79C096EEBB5DA88599",
+  "regression_modules": [
+    "test_CV_tail_observation",
+    "test_shared_endpoint_inventory",
+    "test_coupled_CV_packet",
+    "test_coupled_CV_balance",
+    "test_native_consistency_probe",
+    "test_tank_energy_basis",
+    "test_c201_tank_basis",
+    "test_tank_interpolation_consistency",
+    "test_native_accumulation",
+    "test_native_window_ledger",
+    "test_native_inventory_catalog",
+    "test_native_window_packets",
+    "test_native_residual_localization",
+    "test_native_state_mapping",
+    "test_native_series_access_source",
+    "test_native_log_lookup_source",
+    "test_shared_SMA_cold_initial",
+    "test_shared_SMA_fluid",
+    "test_shared_SMA_native_ledger",
+    "test_coupled_energy_inventory",
+    "test_material_thermodynamics",
+    "test_cold_buffer_coupled"
+  ],
+  "regression_return_code": 0,
+  "regression_log_sha256": "7481C47EBBC58C0E1B5811DD548C2006C30584584BD9EB0CFE6720637B5FF8E0",
+  "real_sessions": [
+    {
+      "session": 54313,
+      "exit_code": 0,
+      "scope": "passive cold C2 logging comparison"
+    },
+    {
+      "session": 97974,
+      "exit_code": 0,
+      "scope": "1303 actually recorded trace comparisons"
+    },
+    {
+      "session": 7552,
+      "exit_code": 0,
+      "scope": "one continuous fresh cold 200 s / 20 cycles"
+    }
+  ],
+  "terminal_OP_saved": false,
+  "current_result_is_not_a_resume_state": true,
+  "outer_solve_admitted": false,
+  "periodic_steady_state": false,
+  "all_mechanism_gates_evaluated": false,
+  "Table4_reproduced": false,
+  "goal_complete": false
+}

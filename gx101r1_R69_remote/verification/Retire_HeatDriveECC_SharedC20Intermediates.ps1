@@ -57,4 +57,4 @@ try {
     [IO.File]::WriteAllText($receipt,($result | ConvertTo-Json -Depth 12),[Text.UTF8Encoding]::new($false))
 }
 if($failure) { throw $failure }
-$result | Select-Object complete,reclaimed_bytes,deleted_targets | ConvertTo-Json -Depth 4
+[pscustomobject]$result | Select-Object complete,reclaimed_bytes,deleted_targets | ConvertTo-Json -Depth 4

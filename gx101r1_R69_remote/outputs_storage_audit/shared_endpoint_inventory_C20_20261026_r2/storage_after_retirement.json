@@ -1,0 +1,25 @@
+{
+  "scope": "Only two new experiment roots; parent and child sizes are not added twice",
+  "retained_C20_root": {
+    "path": "C:/tmp/se21_shared_endpoint_inventory_C20_r1_20261026",
+    "files": 26,
+    "bytes": 207666988,
+    "classification": "Current C20 result and construction evidence; not an OP; retain raw once"
+  },
+  "retained_logging_preflight_root": {
+    "path": "C:/tmp/se21_shared_endpoint_tail_equivalence_C2_r1_20261026",
+    "files": 23,
+    "bytes": 2013112,
+    "classification": "Executed passive logging evidence, coarse samples and bounded compiled metadata"
+  },
+  "retired_observation_MAT_bytes": 102866281,
+  "retired_generated_bytes": 1001046,
+  "reclaimed_bytes": 103867327,
+  "retired_observations_proof": "All 1289 native/workspace/source traces have exact original time bits and value bits covered by retained full C2; no whole-file binary identity claim",
+  "retained_full_C2_root_required": "C:/tmp/se21_shared_endpoint_inventory_C2_r1_20261026",
+  "current_C20_raw_MAT_bytes": 205419187,
+  "C200_full_C2_C20_and_protected_model_hashes_unchanged_after": true,
+  "different_physical_trials_or_diagnostic_arms_deleted": false,
+  "previously_denied_cleanup_paths_retried": false,
+  "reproducible_C20_review_r1_not_promoted": "gx101r1_R69_remote/outputs_storage_audit/shared_endpoint_inventory_C20_20261026_r1"
+}

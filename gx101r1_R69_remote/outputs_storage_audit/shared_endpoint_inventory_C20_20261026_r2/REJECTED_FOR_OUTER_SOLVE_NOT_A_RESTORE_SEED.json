@@ -1,0 +1,20 @@
+{
+  "scope": "Completed independent shared endpoint inventory cold C20, not a production recovery state",
+  "completed_cycles": 20,
+  "last_full_native_cycles": [19, 20],
+  "retained_flow_subset_pass": true,
+  "all_mechanism_gates_evaluated": false,
+  "periodic_temperature_endpoint": {"measured_K": 0.06985936791306813, "limit_K": 0.05, "pass": false},
+  "periodic_temperature_same_phase_max": {"measured_K": 0.07699251375595395, "limit_K": 0.05, "pass": false},
+  "periodic_temperature_same_phase_RMS": {"measured_K": 0.013956928566013082, "limit_K": 0.01, "pass": false},
+  "periodic_phase_endpoint_raw": {"measured": 0.0005135207165719025, "limit": 0.0001, "pass": false},
+  "SMA_PI_unmatched_terminal_difference_is_not_a_standalone_periodicity_failure": true,
+  "full_device_validation": false,
+  "ten_steady_cycle_performance_window_available": false,
+  "outer_solve_interpolation_or_paired_Table4_allowed": false,
+  "checkpoint_or_complete_OP_available": false,
+  "production_recovery_allowed": false,
+  "Table4_reproduced": false,
+  "next_run_must_not_reconstruct_hidden_state_from_these_observations": true,
+  "cold_recipe_and_diagnostic_results_preserved": true
+}

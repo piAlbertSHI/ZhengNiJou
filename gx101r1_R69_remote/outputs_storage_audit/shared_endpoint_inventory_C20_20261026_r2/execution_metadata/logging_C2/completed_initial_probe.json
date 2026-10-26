@@ -1,0 +1,1832 @@
+{
+  "arm": "shared",
+  "actual_stop_time_s": 20,
+  "simulation_wall_seconds": 391.6751484,
+  "simulation_process_cpu_seconds": 414.5625,
+  "native_pipe_observation_count": 21,
+  "maximum_initial_pipe_temperature_error_K": null,
+  "initial_pipe_temperature_match_original_1e6_threshold": false,
+  "compiled_and_simulated": true,
+  "full_mechanism_periodic_or_twenty_cycle_seed_allowed": false,
+  "CV_packet": {
+    "native_file": "C:\\tmp\\se21_shared_endpoint_tail_equivalence_C2_r1_20261026\\shared\\native_CV_observations.mat",
+    "native_sha256": "B9F8004F9615A6053BD55B8A11EE3BE3EC7230C7EF3F5F471D66D5914E99A9B6",
+    "native_trace_count": 926,
+    "component_count": 98,
+    "native_leaf_profile": {
+      "schema": "heatdrive_ecc_native_leaf_api_profile_v1",
+      "leaf_count": 1124,
+      "totals_s": {
+        "series_access_s": 0.048464200000000006,
+        "points_access_s": 0,
+        "time_access_s": 0.40689449999999994,
+        "values_access_s": 0.69312189999999985,
+        "unit_access_s": 0.030808300000000004,
+        "reshape_s": 0.0051220000000000033,
+        "total_s": 1.2355918000000001
+      },
+      "slowest_leaves": [
+        {
+          "series_access_s": 0.0001044,
+          "points_access_s": 0,
+          "time_access_s": 0.0005755,
+          "values_access_s": 0.1235791,
+          "unit_access_s": 0.0003452,
+          "reshape_s": 0.0002591,
+          "points": 10002,
+          "total_s": 0.1252481,
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+          "state_name": "Phi_A"
+        },
+        {
+          "series_access_s": 0.0003371,
+          "points_access_s": 0,
+          "time_access_s": 0.0022799,
+          "values_access_s": 0,
+          "unit_access_s": 0,
+          "reshape_s": 0,
+          "points": 0,
+          "total_s": 0.0042458,
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+          "state_name": "A"
+        },
+        {
+          "series_access_s": 0.0002675,
+          "points_access_s": 0,
+          "time_access_s": 0.0006749,
+          "values_access_s": 0.0007242,
+          "unit_access_s": 0.0001269,
+          "reshape_s": 7.39E-5,
+          "points": 10002,
+          "total_s": 0.0035515,
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+          "state_name": "Phi_B"
+        },
+        {
+          "series_access_s": 5.18E-5,
+          "points_access_s": 0,
+          "time_access_s": 0.0001888,
+          "values_access_s": 0.000529,
+          "unit_access_s": 0.0001253,
+          "reshape_s": 9.68E-5,
+          "points": 10002,
+          "total_s": 0.0021269,
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+          "state_name": "h_I"
+        },
+        {
+          "series_access_s": 2.96E-5,
+          "points_access_s": 0,
+          "time_access_s": 0.0012834,
+          "values_access_s": 0.0007162,
+          "unit_access_s": 4.36E-5,
+          "reshape_s": 8E-6,
+          "points": 10002,
+          "total_s": 0.0021207,
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+          "state_name": "Phi_A"
+        },
+        {
+          "series_access_s": 3.56E-5,
+          "points_access_s": 0,
+          "time_access_s": 0.0012015,
+          "values_access_s": 0.000679,
+          "unit_access_s": 5.04E-5,
+          "reshape_s": 9.2E-6,
+          "points": 10002,
+          "total_s": 0.0020216,
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_19",
+          "state_name": "Q"
+        },
+        {
+          "series_access_s": 3.63E-5,
+          "points_access_s": 0,
+          "time_access_s": 0.0010627,
+          "values_access_s": 0.0007734,
+          "unit_access_s": 4.7E-5,
+          "reshape_s": 6.5E-6,
+          "points": 10002,
+          "total_s": 0.0019731,
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_08",
+          "state_name": "Q"
+        },
+        {
+          "series_access_s": 3.15E-5,
+          "points_access_s": 0,
+          "time_access_s": 0.0012283,
+          "values_access_s": 0.0005993,
+          "unit_access_s": 4.48E-5,
+          "reshape_s": 7.8E-6,
+          "points": 10002,
+          "total_s": 0.001954,
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ColdLoadMass",
+          "state_name": "Q"
+        },
+        {
+          "series_access_s": 2.8E-5,
+          "points_access_s": 0,
+          "time_access_s": 0.0011111,
+          "values_access_s": 0.0007083,
+          "unit_access_s": 4.55E-5,
+          "reshape_s": 6.9E-6,
+          "points": 10002,
+          "total_s": 0.0019397,
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+          "state_name": "Phi_A"
+        },
+        {
+          "series_access_s": 3.01E-5,
+          "points_access_s": 0,
+          "time_access_s": 0.0008849,
+          "values_access_s": 0.0008777,
+          "unit_access_s": 7.75E-5,
+          "reshape_s": 1.13E-5,
+          "points": 10002,
+          "total_s": 0.0019319,
+          "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+          "state_name": "Phi_A"
+        },
+        {
+          "series_access_s": 3.04E-5,
+          "points_access_s": 0,
+          "time_access_s": 0.0010617,
+          "values_access_s": 0.0007245,
+          "unit_access_s": 5.08E-5,
+          "reshape_s": 9.4E-6,
+          "points": 10002,
+          "total_s": 0.0019305,
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_013",
+          "state_name": "Phi_A"
+        },
+        {
+          "series_access_s": 2.95E-5,
+          "points_access_s": 0,
+          "time_access_s": 0.0010757,
+          "values_access_s": 0.0007086,
+          "unit_access_s": 4.85E-5,
+          "reshape_s": 7.9E-6,
+          "points": 10002,
+          "total_s": 0.0019148,
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_008",
+          "state_name": "Phi_A"
+        },
+        {
+          "series_access_s": 2.81E-5,
+          "points_access_s": 0,
+          "time_access_s": 0.001022,
+          "values_access_s": 0.0007271,
+          "unit_access_s": 4.75E-5,
+          "reshape_s": 7.8E-6,
+          "points": 10002,
+          "total_s": 0.0018733,
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+          "state_name": "Phi_A"
+        },
+        {
+          "series_access_s": 2.72E-5,
+          "points_access_s": 0,
+          "time_access_s": 0.0009268,
+          "values_access_s": 0.000832,
+          "unit_access_s": 3.41E-5,
+          "reshape_s": 6.8E-6,
+          "points": 10002,
+          "total_s": 0.0018622,
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+          "state_name": "Phi_A"
+        },
+        {
+          "series_access_s": 3.02E-5,
+          "points_access_s": 0,
+          "time_access_s": 0.0010707,
+          "values_access_s": 0.0006746,
+          "unit_access_s": 3.87E-5,
+          "reshape_s": 7.8E-6,
+          "points": 10002,
+          "total_s": 0.0018587,
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_10",
+          "state_name": "Q"
+        },
+        {
+          "series_access_s": 2.77E-5,
+          "points_access_s": 0,
+          "time_access_s": 0.0010253,
+          "values_access_s": 0.0007122,
+          "unit_access_s": 4.36E-5,
+          "reshape_s": 8.1E-6,
+          "points": 10002,
+          "total_s": 0.0018555,
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+          "state_name": "Phi_A"
+        },
+        {
+          "series_access_s": 4.18E-5,
+          "points_access_s": 0,
+          "time_access_s": 0.0005071,
+          "values_access_s": 0.0011677,
+          "unit_access_s": 4.93E-5,
+          "reshape_s": 6.6E-6,
+          "points": 10002,
+          "total_s": 0.0018448,
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_11",
+          "state_name": "T"
+        },
+        {
+          "series_access_s": 3.88E-5,
+          "points_access_s": 0,
+          "time_access_s": 0.0003753,
+          "values_access_s": 0.0013355,
+          "unit_access_s": 4.53E-5,
+          "reshape_s": 6.5E-6,
+          "points": 10002,
+          "total_s": 0.0018437,
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+          "state_name": "mdot_B"
+        },
+        {
+          "series_access_s": 3.71E-5,
+          "points_access_s": 0,
+          "time_access_s": 0.000923,
+          "values_access_s": 0.0007514,
+          "unit_access_s": 6.06E-5,
+          "reshape_s": 8.3E-6,
+          "points": 10002,
+          "total_s": 0.0018305,
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_20",
+          "state_name": "Q"
+        },
+        {
+          "series_access_s": 3.32E-5,
+          "points_access_s": 0,
+          "time_access_s": 0.0009407,
+          "values_access_s": 0.0006685,
+          "unit_access_s": 0.0001006,
+          "reshape_s": 1.63E-5,
+          "points": 10002,
+          "total_s": 0.0018184,
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_21",
+          "state_name": "Q"
+        }
+      ],
+      "physical_or_observation_values_modified": false
+    },
+    "observational_only": true,
+    "production_recovery_allowed": false,
+    "contract_file_sha256": {
+      "contract": "1C560BFB89D9DEA45672D7ECEA949AC276890B3C6A1FB44CF8248835B0E6AE99",
+      "tl_topology": "D4964F1FEF093494E9B26AAB2670ED7BF7F3C99589EFFC3BEA69B20DF78B9952",
+      "thermal_topology": "8639C3C6F7E9CC57CDB1A1E4B2CCDA56E61B03884ABE8616362CAF025C307A7B"
+    },
+    "maximum_initial_SMA_pipe_temperature_error_K": null,
+    "initial_temperature_observed_from_native_zero_time": false,
+    "native_time_grid_count": 1,
+    "workspace_file": "C:\\tmp\\se21_shared_endpoint_tail_equivalence_C2_r1_20261026\\shared\\workspace_CV_observations.mat",
+    "workspace_sha256": "3DC94F560AD5A7F06C8545E1BBE6B910D45CE726C97C58341F6F767CE6FA336B",
+    "workspace_signal_count": 201,
+    "optional_variables_not_recorded": [],
+    "source_file": "C:\\tmp\\se21_shared_endpoint_tail_equivalence_C2_r1_20261026\\shared\\source_CV_observations.mat",
+    "source_sha256": "C28BDBD47A7A5117CB596C087C915C3C7D0E236ADC0BCC3E9E7AF60D4C38A153",
+    "source_count": 49,
+    "options_file": "C:\\tmp\\se21_shared_endpoint_tail_equivalence_C2_r1_20261026\\shared\\CV_options.mat",
+    "options_sha256": "5A2FAA5B56561DC5403966AFC0748DAAA08ABCC66D1B1BB2D7B39BFDA4235C80",
+    "coarse_file": "C:\\tmp\\se21_shared_endpoint_tail_equivalence_C2_r1_20261026\\shared\\coarse_CV_observations.mat",
+    "coarse_sha256": "CB0DCDE3426B0E373B65457182CFCBB1F446C781347E35EF9961DA91FEA401E7",
+    "observation_window": {
+      "schema": "heatdrive_ecc_passive_CV_tail_observation_v1",
+      "start_s": 10,
+      "stop_s": 20,
+      "retained_duration_s": 10,
+      "native_history_points": 10002,
+      "workspace_history_points": 20002,
+      "workspace_sink_changes": [
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ToWorkspace_Tx21_internal",
+          "workspace_variable": "SE_Tx21_internal",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node01_heatflow_W",
+          "workspace_variable": "se_hold_node01_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node02_heatflow_W",
+          "workspace_variable": "se_hold_node02_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node03_heatflow_W",
+          "workspace_variable": "se_hold_node03_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node04_heatflow_W",
+          "workspace_variable": "se_hold_node04_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node05_heatflow_W",
+          "workspace_variable": "se_hold_node05_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node06_heatflow_W",
+          "workspace_variable": "se_hold_node06_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node07_heatflow_W",
+          "workspace_variable": "se_hold_node07_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node08_heatflow_W",
+          "workspace_variable": "se_hold_node08_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node09_heatflow_W",
+          "workspace_variable": "se_hold_node09_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node10_heatflow_W",
+          "workspace_variable": "se_hold_node10_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node11_heatflow_W",
+          "workspace_variable": "se_hold_node11_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node12_heatflow_W",
+          "workspace_variable": "se_hold_node12_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node13_heatflow_W",
+          "workspace_variable": "se_hold_node13_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node14_heatflow_W",
+          "workspace_variable": "se_hold_node14_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node15_heatflow_W",
+          "workspace_variable": "se_hold_node15_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node16_heatflow_W",
+          "workspace_variable": "se_hold_node16_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node17_heatflow_W",
+          "workspace_variable": "se_hold_node17_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node18_heatflow_W",
+          "workspace_variable": "se_hold_node18_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node19_heatflow_W",
+          "workspace_variable": "se_hold_node19_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node20_heatflow_W",
+          "workspace_variable": "se_hold_node20_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/ToWorkspace_se_hold_node21_heatflow_W",
+          "workspace_variable": "se_hold_node21_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/ToWorkspace_cv_shex_a_P_Pa",
+          "workspace_variable": "cv_shex_a_P_Pa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/ToWorkspace_cv_shex_a_T_K",
+          "workspace_variable": "cv_shex_a_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/ToWorkspace_cv_shex_b_P_Pa",
+          "workspace_variable": "cv_shex_b_P_Pa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/ToWorkspace_cv_shex_b_T_K",
+          "workspace_variable": "cv_shex_b_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/ToWorkspace_hot_hx_inlet_fluid_temp_out",
+          "workspace_variable": "SHEX_hot_hx_inlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/ToWorkspace_hot_hx_outlet_fluid_temp_out",
+          "workspace_variable": "SHEX_hot_hx_outlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/ToWorkspace_hot_sink_temp_out",
+          "workspace_variable": "SHEX_hot_sink_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/ToWorkspace_hot_source_out",
+          "workspace_variable": "SHEX_hot_source_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/ToWorkspace_probe_hot_hx_port1_v3_side_T_K",
+          "workspace_variable": "SHEX_probe_hot_hx_port1_v3_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/ToWorkspace_probe_hot_hx_port2_v2_return_side_T_K",
+          "workspace_variable": "SHEX_probe_hot_hx_port2_v2_return_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/ToWorkspace_shex_fluid_heat_flow_W",
+          "workspace_variable": "shex_fluid_heat_flow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/ToWorkspace_shex_hot_pipe_portA_fluid_temp_out",
+          "workspace_variable": "shex_hot_pipe_portA_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/ToWorkspace_shex_hot_pipe_portA_pressure_MPa",
+          "workspace_variable": "shex_hot_pipe_portA_pressure_MPa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/ToWorkspace_shex_hot_pipe_portB_fluid_temp_out",
+          "workspace_variable": "shex_hot_pipe_portB_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/ToWorkspace_shex_hot_pipe_portB_pressure_MPa",
+          "workspace_variable": "shex_hot_pipe_portB_pressure_MPa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/ToWorkspace_shex_source_heat_flow_W",
+          "workspace_variable": "shex_source_heat_flow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ToWorkspace_Tx21_internal",
+          "workspace_variable": "SMA_Tx21_internal",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_diagnostic_original_cooldown_G",
+          "workspace_variable": "diagnostic_original_cooldown_G",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_diagnostic_original_hold_G",
+          "workspace_variable": "diagnostic_original_hold_G",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_diagnostic_shared_max_G",
+          "workspace_variable": "diagnostic_shared_max_G",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_pipe_node01_fluid_temp_out",
+          "workspace_variable": "sma_cooldown_pipe_node01_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_pipe_node01_pressure_MPa",
+          "workspace_variable": "sma_cooldown_pipe_node01_pressure_MPa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_pipe_node11_fluid_temp_out",
+          "workspace_variable": "sma_cooldown_pipe_node11_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_pipe_node11_pressure_MPa",
+          "workspace_variable": "sma_cooldown_pipe_node11_pressure_MPa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_pipe_node21_fluid_temp_out",
+          "workspace_variable": "sma_cooldown_pipe_node21_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_cooldown_pipe_node21_pressure_MPa",
+          "workspace_variable": "sma_cooldown_pipe_node21_pressure_MPa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node01_heatflow_W",
+          "workspace_variable": "sma_hold_node01_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node02_heatflow_W",
+          "workspace_variable": "sma_hold_node02_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node03_heatflow_W",
+          "workspace_variable": "sma_hold_node03_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node04_heatflow_W",
+          "workspace_variable": "sma_hold_node04_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node05_heatflow_W",
+          "workspace_variable": "sma_hold_node05_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node06_heatflow_W",
+          "workspace_variable": "sma_hold_node06_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node07_heatflow_W",
+          "workspace_variable": "sma_hold_node07_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node08_heatflow_W",
+          "workspace_variable": "sma_hold_node08_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node09_heatflow_W",
+          "workspace_variable": "sma_hold_node09_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node10_heatflow_W",
+          "workspace_variable": "sma_hold_node10_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node11_heatflow_W",
+          "workspace_variable": "sma_hold_node11_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node12_heatflow_W",
+          "workspace_variable": "sma_hold_node12_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node13_heatflow_W",
+          "workspace_variable": "sma_hold_node13_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node14_heatflow_W",
+          "workspace_variable": "sma_hold_node14_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node15_heatflow_W",
+          "workspace_variable": "sma_hold_node15_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node16_heatflow_W",
+          "workspace_variable": "sma_hold_node16_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node17_heatflow_W",
+          "workspace_variable": "sma_hold_node17_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node18_heatflow_W",
+          "workspace_variable": "sma_hold_node18_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node19_heatflow_W",
+          "workspace_variable": "sma_hold_node19_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node20_heatflow_W",
+          "workspace_variable": "sma_hold_node20_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_node21_heatflow_W",
+          "workspace_variable": "sma_hold_node21_heatflow_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_pipe_node01_fluid_temp_out",
+          "workspace_variable": "sma_hold_pipe_node01_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_pipe_node01_pressure_MPa",
+          "workspace_variable": "sma_hold_pipe_node01_pressure_MPa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_pipe_node11_fluid_temp_out",
+          "workspace_variable": "sma_hold_pipe_node11_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_pipe_node11_pressure_MPa",
+          "workspace_variable": "sma_hold_pipe_node11_pressure_MPa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_pipe_node21_fluid_temp_out",
+          "workspace_variable": "sma_hold_pipe_node21_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_pipe_node21_pressure_MPa",
+          "workspace_variable": "sma_hold_pipe_node21_pressure_MPa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_Diagnostic_se_stage2_Pressure_a",
+          "workspace_variable": "pump_pressure_se_stage2_port_a_MPa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_Diagnostic_se_stage2_Pressure_b",
+          "workspace_variable": "pump_pressure_se_stage2_port_b_MPa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_Diagnostic_se_stage4_Pressure_a",
+          "workspace_variable": "pump_pressure_se_stage4_port_a_MPa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_Diagnostic_se_stage4_Pressure_b",
+          "workspace_variable": "pump_pressure_se_stage4_port_b_MPa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_Diagnostic_sma_Pressure_a",
+          "workspace_variable": "pump_pressure_sma_port_a_MPa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_Diagnostic_sma_Pressure_b",
+          "workspace_variable": "pump_pressure_sma_port_b_MPa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_ECC_Constitutive21_Output",
+          "workspace_variable": "ECC_constitutive21_output",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_ECC_Q_SE_constitutive_W",
+          "workspace_variable": "ECC_Q_SE_constitutive_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_ECC_Q_SMA_constitutive_W",
+          "workspace_variable": "ECC_Q_SMA_constitutive_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_cold_buffer_temp_out",
+          "workspace_variable": "cold_buffer_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_cv_PI_se_stage2_state",
+          "workspace_variable": "cv_PI_se_stage2_state",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_cv_PI_sma_state",
+          "workspace_variable": "cv_PI_sma_state",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_distributed_bed_resistance_MPa_per_kgps",
+          "workspace_variable": "distributed_bed_resistance_MPa_per_kgps",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_distributed_delayed_temperature21_K",
+          "workspace_variable": "distributed_delayed_temperature21_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_distributed_fluid_temperature21_K",
+          "workspace_variable": "distributed_fluid_temperature21_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_distributed_inactive_pressure_MPa",
+          "workspace_variable": "distributed_inactive_pressure_MPa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_distributed_kinematic_viscosity21_m2_s",
+          "workspace_variable": "distributed_kinematic_viscosity21_m2_s",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_distributed_pressure_envelope",
+          "workspace_variable": "distributed_pressure_envelope",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_distributed_pressure_feedforward_MPa",
+          "workspace_variable": "distributed_pressure_feedforward_MPa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_distributed_target_flow_kg_s",
+          "workspace_variable": "distributed_target_flow_kg_s",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_hot_buffer_temp_out",
+          "workspace_variable": "hot_buffer_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_mass_flow_sma_stage13_kgps",
+          "workspace_variable": "mass_flow_sma_stage13_kgps",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_mass_flow_sma_stage1_route_kgps",
+          "workspace_variable": "mass_flow_sma_stage1_route_kgps",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_mass_flow_sma_stage3_route_kgps",
+          "workspace_variable": "mass_flow_sma_stage3_route_kgps",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_mass_flow_v1_cold_inlet_kgps",
+          "workspace_variable": "mass_flow_v1_cold_inlet_kgps",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_mass_flow_v3_sma_to_hot_kgps",
+          "workspace_variable": "mass_flow_v3_sma_to_hot_kgps",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_mass_flow_v4_hot_inlet_kgps",
+          "workspace_variable": "mass_flow_v4_hot_inlet_kgps",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_mass_flow_v6_sma_to_chip_cold_kgps",
+          "workspace_variable": "mass_flow_v6_sma_to_chip_cold_kgps",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_pressure_command_se_MPa",
+          "workspace_variable": "pressure_command_se_MPa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_pressure_command_sma_MPa",
+          "workspace_variable": "pressure_command_sma_MPa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_root_cold_buffer_fluid_T_K",
+          "workspace_variable": "probe_root_cold_buffer_fluid_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_root_hot_buffer_fluid_T_K",
+          "workspace_variable": "probe_root_hot_buffer_fluid_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_root_shex_buffer_fluid_T_K",
+          "workspace_variable": "probe_root_shex_buffer_fluid_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_sma_stage13_pump_outlet_T_K",
+          "workspace_variable": "probe_sma_stage13_pump_outlet_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_sma_stage1_port1_v3_side_T_K",
+          "workspace_variable": "probe_sma_stage1_port1_v3_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_sma_stage1_port2_v5_side_T_K",
+          "workspace_variable": "probe_sma_stage1_port2_v5_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_sma_stage1_v1_pump_side_T_K",
+          "workspace_variable": "probe_sma_stage1_v1_pump_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_sma_stage1_v1_shex_side_T_K",
+          "workspace_variable": "probe_sma_stage1_v1_shex_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_sma_stage1_v5_shex_side_T_K",
+          "workspace_variable": "probe_sma_stage1_v5_shex_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_sma_stage2_port1_v1_side_T_K",
+          "workspace_variable": "probe_sma_stage2_port1_v1_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_sma_stage2_port2_v3_side_T_K",
+          "workspace_variable": "probe_sma_stage2_port2_v3_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_sma_stage3_port3_v4_side_T_K",
+          "workspace_variable": "probe_sma_stage3_port3_v4_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_sma_stage3_port4_v6_side_T_K",
+          "workspace_variable": "probe_sma_stage3_port4_v6_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_sma_stage3_v2_hhex_side_T_K",
+          "workspace_variable": "probe_sma_stage3_v2_hhex_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_sma_stage3_v2_pump_side_T_K",
+          "workspace_variable": "probe_sma_stage3_v2_pump_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_sma_stage3_v6_hhex_side_T_K",
+          "workspace_variable": "probe_sma_stage3_v6_hhex_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_sma_stage4_port3_v4_side_T_K",
+          "workspace_variable": "probe_sma_stage4_port3_v4_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_sma_stage4_port4_v6_side_T_K",
+          "workspace_variable": "probe_sma_stage4_port4_v6_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_v1_cold_inlet_cold_buffer_side_T_K",
+          "workspace_variable": "probe_v1_cold_inlet_cold_buffer_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_v1_cold_inlet_sma_side_T_K",
+          "workspace_variable": "probe_v1_cold_inlet_sma_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_v3_sma_to_hot_hot_hx_side_T_K",
+          "workspace_variable": "probe_v3_sma_to_hot_hot_hx_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_v3_sma_to_hot_sma_side_T_K",
+          "workspace_variable": "probe_v3_sma_to_hot_sma_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_v4_hot_inlet_hot_buffer_side_T_K",
+          "workspace_variable": "probe_v4_hot_inlet_hot_buffer_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_v4_hot_inlet_sma_side_T_K",
+          "workspace_variable": "probe_v4_hot_inlet_sma_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_v6_sma_to_chip_chip_side_T_K",
+          "workspace_variable": "probe_v6_sma_to_chip_chip_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_probe_v6_sma_to_chip_sma_side_T_K",
+          "workspace_variable": "probe_v6_sma_to_chip_sma_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_se_cooldown_inlet_fluid_temp_out",
+          "workspace_variable": "se_cooldown_inlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_se_cooldown_outlet_fluid_temp_out",
+          "workspace_variable": "se_cooldown_outlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_se_hold_inlet_fluid_temp_out",
+          "workspace_variable": "se_hold_inlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_se_hold_outlet_fluid_temp_out",
+          "workspace_variable": "se_hold_outlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_shex_buffer_temp_out",
+          "workspace_variable": "shex_buffer_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_sma_hot_buffer_temp_out",
+          "workspace_variable": "sma_hot_buffer_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_sma_stage1_inlet_fluid_temp_out",
+          "workspace_variable": "sma_stage1_inlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_sma_stage1_outlet_fluid_temp_out",
+          "workspace_variable": "sma_stage1_outlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_sma_stage3_inlet_fluid_temp_out",
+          "workspace_variable": "sma_stage3_inlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_sma_stage3_outlet_fluid_temp_out",
+          "workspace_variable": "sma_stage3_outlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_bias_sum",
+          "workspace_variable": "stage4_bias_sum",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_blended_viscosity",
+          "workspace_variable": "stage4_blended_viscosity",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_dynamic_feedforward",
+          "workspace_variable": "stage4_dynamic_feedforward",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_endpoint_viscosity_mean",
+          "workspace_variable": "stage4_endpoint_viscosity_mean",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_feedforward_activity",
+          "workspace_variable": "stage4_feedforward_activity",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_feedforward_ratio_sum",
+          "workspace_variable": "stage4_feedforward_ratio_sum",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_filtered_error",
+          "workspace_variable": "stage4_filtered_error",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_flow_error",
+          "workspace_variable": "stage4_flow_error",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_inlet_temperature_delay",
+          "workspace_variable": "stage4_inlet_temperature_delay",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_inlet_viscosity",
+          "workspace_variable": "stage4_inlet_viscosity",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_integrator_input",
+          "workspace_variable": "stage4_integrator_input",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_integrator_output_gate",
+          "workspace_variable": "stage4_integrator_output_gate",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_integrator_state",
+          "workspace_variable": "stage4_integrator_state",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_normalized_error",
+          "workspace_variable": "stage4_normalized_error",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_outlet_temperature_delay",
+          "workspace_variable": "stage4_outlet_temperature_delay",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_outlet_viscosity",
+          "workspace_variable": "stage4_outlet_viscosity",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_p_enable_scale",
+          "workspace_variable": "stage4_p_enable_scale",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_p_output",
+          "workspace_variable": "stage4_p_output",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_pressure_bias_command",
+          "workspace_variable": "stage4_pressure_bias_command",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_pressure_command",
+          "workspace_variable": "stage4_pressure_command",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_route_integral",
+          "workspace_variable": "stage4_route_integral",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_target_flow_command",
+          "workspace_variable": "stage4_target_flow_command",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_viscosity_ratio",
+          "workspace_variable": "stage4_viscosity_ratio",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_weighted_viscosity_delta",
+          "workspace_variable": "stage4_weighted_viscosity_delta",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_Qdot_cold_sink_mass_to_hx_pipe_W",
+          "workspace_variable": "Qdot_cold_sink_mass_to_hx_pipe_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_Qdot_cold_sink_mass_to_pipe_W",
+          "workspace_variable": "Qdot_cold_sink_mass_to_pipe_W",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_chip_inlet_fluid_temp_out",
+          "workspace_variable": "chip_inlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_chip_outlet_fluid_temp_out",
+          "workspace_variable": "chip_outlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_cold_hx_inlet_fluid_temp_out",
+          "workspace_variable": "cold_hx_inlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_cold_hx_outlet_fluid_temp_out",
+          "workspace_variable": "cold_hx_outlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_cold_load_temp_out",
+          "workspace_variable": "cold_load_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_cold_return_outlet_fluid_temp_out",
+          "workspace_variable": "cold_return_outlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_cold_sink_hx_pipe_thermal_port_temp_out",
+          "workspace_variable": "cold_sink_hx_pipe_thermal_port_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_cold_sink_pipe_thermal_port_temp_out",
+          "workspace_variable": "cold_sink_pipe_thermal_port_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_cold_sink_temp_out",
+          "workspace_variable": "cold_sink_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_cold_subsystem_inlet_fluid_temp_out",
+          "workspace_variable": "cold_subsystem_inlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_cold_subsystem_outlet_fluid_temp_out",
+          "workspace_variable": "cold_subsystem_outlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_cv_chex_a_P_Pa",
+          "workspace_variable": "cv_chex_a_P_Pa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_cv_chex_a_T_K",
+          "workspace_variable": "cv_chex_a_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_cv_chex_b_P_Pa",
+          "workspace_variable": "cv_chex_b_P_Pa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_cv_chex_b_T_K",
+          "workspace_variable": "cv_chex_b_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_probe_chip_pipe_port_conn2_v6_sma_side_T_K",
+          "workspace_variable": "probe_chip_pipe_port_conn2_v6_sma_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_probe_chip_to_cold_junction_T_K",
+          "workspace_variable": "probe_chip_to_cold_junction_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_probe_cold_hx_port_conn1_v5_return_side_T_K",
+          "workspace_variable": "probe_cold_hx_port_conn1_v5_return_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/热端换热器/ToWorkspace_cv_hhex_se_a_P_Pa",
+          "workspace_variable": "cv_hhex_se_a_P_Pa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/热端换热器/ToWorkspace_cv_hhex_se_a_T_K",
+          "workspace_variable": "cv_hhex_se_a_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/热端换热器/ToWorkspace_cv_hhex_se_b_P_Pa",
+          "workspace_variable": "cv_hhex_se_b_P_Pa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/热端换热器/ToWorkspace_cv_hhex_se_b_T_K",
+          "workspace_variable": "cv_hhex_se_b_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/热端换热器/ToWorkspace_cv_hhex_sma_a_P_Pa",
+          "workspace_variable": "cv_hhex_sma_a_P_Pa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/热端换热器/ToWorkspace_cv_hhex_sma_a_T_K",
+          "workspace_variable": "cv_hhex_sma_a_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/热端换热器/ToWorkspace_cv_hhex_sma_b_P_Pa",
+          "workspace_variable": "cv_hhex_sma_b_P_Pa",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/热端换热器/ToWorkspace_cv_hhex_sma_b_T_K",
+          "workspace_variable": "cv_hhex_sma_b_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/热端换热器/ToWorkspace_hhex_sma_branch_inlet_fluid_temp_out",
+          "workspace_variable": "hhex_sma_branch_inlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/热端换热器/ToWorkspace_hhex_sma_branch_outlet_fluid_temp_out",
+          "workspace_variable": "hhex_sma_branch_outlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/热端换热器/ToWorkspace_hot_hx_inlet_fluid_temp_out",
+          "workspace_variable": "hot_hx_inlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/热端换热器/ToWorkspace_hot_hx_outlet_fluid_temp_out",
+          "workspace_variable": "hot_hx_outlet_fluid_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/热端换热器/ToWorkspace_hot_sink_temp_out",
+          "workspace_variable": "hot_sink_temp_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/热端换热器/ToWorkspace_hot_source_out",
+          "workspace_variable": "hot_source_out",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/热端换热器/ToWorkspace_probe_hot_hx_port1_v3_side_T_K",
+          "workspace_variable": "probe_hot_hx_port1_v3_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/热端换热器/ToWorkspace_probe_hot_hx_port2_v2_return_side_T_K",
+          "workspace_variable": "probe_hot_hx_port2_v2_return_side_T_K",
+          "prior_MaxDataPoints": "inf",
+          "sample_time": "-1",
+          "decimation": "1"
+        }
+      ],
+      "coarse_probes": [
+        {
+          "source_sink": "heatdrive_ecc_coupled_se21/ToWorkspace_ECC_Constitutive21_Output",
+          "workspace_variable": "coarse_ECC_constitutive21_output",
+          "source_variable": "ECC_constitutive21_output",
+          "decimation": 1000,
+          "actual_time_stamps_not_uniform_seconds": true
+        },
+        {
+          "source_sink": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/ToWorkspace_Tx21_internal",
+          "workspace_variable": "coarse_SMA_Tx21_internal",
+          "source_variable": "SMA_Tx21_internal",
+          "decimation": 1000,
+          "actual_time_stamps_not_uniform_seconds": true
+        },
+        {
+          "source_sink": "heatdrive_ecc_coupled_se21/SE/Subsystem2/ToWorkspace_Tx21_internal",
+          "workspace_variable": "coarse_SE_Tx21_internal",
+          "source_variable": "SE_Tx21_internal",
+          "decimation": 1000,
+          "actual_time_stamps_not_uniform_seconds": true
+        },
+        {
+          "source_sink": "heatdrive_ecc_coupled_se21/ToWorkspace_cv_PI_sma_state",
+          "workspace_variable": "coarse_cv_PI_sma_state",
+          "source_variable": "cv_PI_sma_state",
+          "decimation": 1000,
+          "actual_time_stamps_not_uniform_seconds": true
+        },
+        {
+          "source_sink": "heatdrive_ecc_coupled_se21/ToWorkspace_cv_PI_se_stage2_state",
+          "workspace_variable": "coarse_cv_PI_se_stage2_state",
+          "source_variable": "cv_PI_se_stage2_state",
+          "decimation": 1000,
+          "actual_time_stamps_not_uniform_seconds": true
+        },
+        {
+          "source_sink": "heatdrive_ecc_coupled_se21/ToWorkspace_stage4_integrator_state",
+          "workspace_variable": "coarse_stage4_integrator_state",
+          "source_variable": "stage4_integrator_state",
+          "decimation": 1000,
+          "actual_time_stamps_not_uniform_seconds": true
+        },
+        {
+          "source_sink": "heatdrive_ecc_coupled_se21/ToWorkspace_mass_flow_sma_stage13_kgps",
+          "workspace_variable": "coarse_mass_flow_sma_stage13_kgps",
+          "source_variable": "mass_flow_sma_stage13_kgps",
+          "decimation": 1000,
+          "actual_time_stamps_not_uniform_seconds": true
+        },
+        {
+          "source_sink": "heatdrive_ecc_coupled_se21/ToWorkspace_mass_flow_v1_cold_inlet_kgps",
+          "workspace_variable": "coarse_mass_flow_v1_cold_inlet_kgps",
+          "source_variable": "mass_flow_v1_cold_inlet_kgps",
+          "decimation": 1000,
+          "actual_time_stamps_not_uniform_seconds": true
+        },
+        {
+          "source_sink": "heatdrive_ecc_coupled_se21/ToWorkspace_mass_flow_v4_hot_inlet_kgps",
+          "workspace_variable": "coarse_mass_flow_v4_hot_inlet_kgps",
+          "source_variable": "mass_flow_v4_hot_inlet_kgps",
+          "decimation": 1000,
+          "actual_time_stamps_not_uniform_seconds": true
+        },
+        {
+          "source_sink": "heatdrive_ecc_coupled_se21/冷端换热器/ToWorkspace_Qdot_cold_sink_mass_to_hx_pipe_W",
+          "workspace_variable": "coarse_Qdot_cold_sink_mass_to_hx_pipe_W",
+          "source_variable": "Qdot_cold_sink_mass_to_hx_pipe_W",
+          "decimation": 1000,
+          "actual_time_stamps_not_uniform_seconds": true
+        },
+        {
+          "source_sink": "heatdrive_ecc_coupled_se21/SHEX/ToWorkspace_shex_source_heat_flow_W",
+          "workspace_variable": "coarse_shex_source_heat_flow_W",
+          "source_variable": "shex_source_heat_flow_W",
+          "decimation": 1000,
+          "actual_time_stamps_not_uniform_seconds": true
+        },
+        {
+          "source_sink": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_pipe_node01_fluid_temp_out",
+          "workspace_variable": "coarse_sma_hold_pipe_node01_fluid_temp_out",
+          "source_variable": "sma_hold_pipe_node01_fluid_temp_out",
+          "decimation": 1000,
+          "actual_time_stamps_not_uniform_seconds": true
+        },
+        {
+          "source_sink": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_pipe_node11_fluid_temp_out",
+          "workspace_variable": "coarse_sma_hold_pipe_node11_fluid_temp_out",
+          "source_variable": "sma_hold_pipe_node11_fluid_temp_out",
+          "decimation": 1000,
+          "actual_time_stamps_not_uniform_seconds": true
+        },
+        {
+          "source_sink": "heatdrive_ecc_coupled_se21/SMA/ToWorkspace_sma_hold_pipe_node21_fluid_temp_out",
+          "workspace_variable": "coarse_sma_hold_pipe_node21_fluid_temp_out",
+          "source_variable": "sma_hold_pipe_node21_fluid_temp_out",
+          "decimation": 1000,
+          "actual_time_stamps_not_uniform_seconds": true
+        }
+      ],
+      "coarse_workspace_variables": [
+        "coarse_ECC_constitutive21_output",
+        "coarse_SMA_Tx21_internal",
+        "coarse_SE_Tx21_internal",
+        "coarse_cv_PI_sma_state",
+        "coarse_cv_PI_se_stage2_state",
+        "coarse_stage4_integrator_state",
+        "coarse_mass_flow_sma_stage13_kgps",
+        "coarse_mass_flow_v1_cold_inlet_kgps",
+        "coarse_mass_flow_v4_hot_inlet_kgps",
+        "coarse_Qdot_cold_sink_mass_to_hx_pipe_W",
+        "coarse_shex_source_heat_flow_W",
+        "coarse_sma_hold_pipe_node01_fluid_temp_out",
+        "coarse_sma_hold_pipe_node11_fluid_temp_out",
+        "coarse_sma_hold_pipe_node21_fluid_temp_out"
+      ],
+      "equations_sample_times_controllers_or_initial_targets_modified": false,
+      "full_early_cycle_mechanism_coverage_claimed": false,
+      "time_interpolation_performed": false
+    },
+    "collection_complete": true,
+    "full_mechanism_or_periodic_qualification": false
+  }
+}

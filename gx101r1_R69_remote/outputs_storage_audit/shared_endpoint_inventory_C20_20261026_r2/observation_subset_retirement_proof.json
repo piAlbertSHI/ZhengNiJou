@@ -1,0 +1,52 @@
+{
+  "schema": "heatdrive_ecc_observation_subset_retirement_v1",
+  "comparisons": [
+    {
+      "retained": {
+        "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\native_CV_observations.mat",
+        "bytes": 112979792,
+        "sha256": "A1572F883C7FFB1DFA03F464FDB0A34EE67D362162B0100B8E8F2AD8CA9F2233"
+      },
+      "candidate": {
+        "path": "C:\\tmp\\se21_shared_endpoint_tail_equivalence_C2_r1_20261026\\shared\\native_CV_observations.mat",
+        "bytes": 56352949,
+        "sha256": "B9F8004F9615A6053BD55B8A11EE3BE3EC7230C7EF3F5F471D66D5914E99A9B6"
+      },
+      "trace_count": 926,
+      "all_original_time_bits_and_value_bits_exactly_covered": true,
+      "whole_MAT_file_byte_identity_claimed": false
+    },
+    {
+      "retained": {
+        "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\workspace_CV_observations.mat",
+        "bytes": 72284927,
+        "sha256": "7C0C087C9B01353BC2CCF7647AB3543D5C57CE4CF3C2ED0D89D18074E6E64F12"
+      },
+      "candidate": {
+        "path": "C:\\tmp\\se21_shared_endpoint_tail_equivalence_C2_r1_20261026\\shared\\workspace_CV_observations.mat",
+        "bytes": 36061399,
+        "sha256": "3DC94F560AD5A7F06C8545E1BBE6B910D45CE726C97C58341F6F767CE6FA336B"
+      },
+      "trace_count": 201,
+      "all_original_time_bits_and_value_bits_exactly_covered": true,
+      "whole_MAT_file_byte_identity_claimed": false
+    },
+    {
+      "retained": {
+        "path": "C:\\tmp\\se21_shared_endpoint_inventory_C2_r1_20261026\\shared\\source_CV_observations.mat",
+        "bytes": 20889398,
+        "sha256": "00E1C674045FC60326270CCEDF82C71832F49997C75782EAD0636346383C7C8F"
+      },
+      "candidate": {
+        "path": "C:\\tmp\\se21_shared_endpoint_tail_equivalence_C2_r1_20261026\\shared\\source_CV_observations.mat",
+        "bytes": 10451933,
+        "sha256": "C28BDBD47A7A5117CB596C087C915C3C7D0E236ADC0BCC3E9E7AF60D4C38A153"
+      },
+      "trace_count": 162,
+      "all_original_time_bits_and_value_bits_exactly_covered": true,
+      "whole_MAT_file_byte_identity_claimed": false
+    }
+  ],
+  "physical_variant_or_diagnostic_arm_not_deleted": true,
+  "retained_full_C2_required_for_reconstructing_retired_values": true
+}
