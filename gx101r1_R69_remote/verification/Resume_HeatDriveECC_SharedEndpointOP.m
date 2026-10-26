@@ -1,5 +1,7 @@
-function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder)
+function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
 % New-process strict load of a persisted isolated model and its untouched full OP.
+    if nargin<4,mode='reference_cycle';end
+    assert(ismember(mode,{'reference_cycle','bounded_step_probe'}));
     assert(~isfolder(folder));mkdir(folder);old=pwd;oldpath=path;
     cleanup_path=onCleanup(@() restore_path(old,oldpath));addpath(repo,fullfile(repo,'verification'));
     record=struct('schema','heatdrive_ecc_shared_endpoint_new_process_OP_v1', ...
@@ -24,7 +26,12 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder)
         saved=load(prior.base_workspace.path);names=fieldnames(saved);
         for k=1:numel(names),assignin('base',names{k},saved.(names{k}));end;clear saved
         [~,model]=fileparts(prior.saved_runtime_model_path);assert(~bdIsLoaded(model));
+        cd(fileparts(prior.saved_runtime_model_path));
         load_system(prior.saved_runtime_model_path);model_cleanup=onCleanup(@() close_system(model,0));
+        actual=char(java.io.File(get_param(model,'FileName')).getCanonicalPath());
+        expected=char(java.io.File(prior.saved_runtime_model_path).getCanonicalPath());
+        assert(strcmpi(actual,expected),'Loaded the wrong same-named model.');
+        record.actual_loaded_model_path=actual;
         assert(strcmp(get_param(model,'OperatingPointContentsChecksumMismatchMsg'),'error') && ...
             strcmp(get_param(model,'OperatingPointInterfaceChecksumMismatchMsg'),'error'));
         config=load(prior.interface_contract_path,'contract','options');
@@ -37,8 +44,17 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder)
             'CodeGenFolder',fullfile(folder,'codegen'),'createDir',true);
         cd(fileparts(prior.saved_runtime_model_path));
         HeatDriveECC_ObserverContext('register',model,fullfile(folder,'solver_time.json'));
-        input=Simulink.SimulationInput(model);
-        output=sim(input.setModelParameter('CaptureErrors','on','StopTime',num2str(prior.reference_stop_s,17)) ...
+        input=Simulink.SimulationInput(model);stop=prior.reference_stop_s;
+        record.observation_profile=mode;
+        if strcmp(mode,'bounded_step_probe')
+            stop=prior.snapshot_s+.002;
+            input=input.setModelParameter('SimscapeLogLimitData','on','SimscapeLogDataHistory',20002,'MaxDataPoints','40002');
+            sinks=find_system(model,'LookUnderMasks','all','FollowLinks','on','Type','Block','BlockType','ToWorkspace');
+            for k=1:numel(sinks),input=input.setBlockParameter(sinks{k},'MaxDataPoints','40002');end
+            record.bounded_logging_requested=struct('native_history_points',20002,'public_state_and_sink_points',40002, ...
+                'sink_count',numel(sinks),'sample_times_or_equations_modified',false);
+        end
+        output=sim(input.setModelParameter('CaptureErrors','on','StopTime',num2str(stop,17)) ...
             .setInitialState(point.diagnostic_operating_point));
         assert(isempty(output.ErrorMessage),'Strict new-process restore failed: %s',output.ErrorMessage);
         file=fullfile(folder,'new_process_restored_observations.mat');

@@ -53,8 +53,12 @@ def review(source,new_process,output):
         if not n['execution_complete'] or n['source_OP_sha256']!=r['operating_point_sha256']:
             raise ValueError('Wrong new-process state identity')
         if sha256(Path(n['observation_path']))!=n['observation_sha256']:raise ValueError('New-process observation changed')
-        new=comparisons(Path(r['reference_file']),Path(n['observation_path']),r['snapshot_s'],r['reference_stop_s'])
+        start=n['actual_tout_first_s'];stop=n['actual_tout_last_s']
+        if start!=r['snapshot_s'] or not start<stop<=r['reference_stop_s']:raise ValueError('Incorrect absolute restore interval')
+        new=comparisons(Path(r['reference_file']),Path(n['observation_path']),start,stop)
         result.update(new_process_executed=True,new_process_comparisons=new,
+            new_process_comparison_window_s=[start,stop],new_process_full_cycle_covered=stop-start>=10-1e-9,
+            new_process_observation_profile=n.get('observation_profile','reference_cycle'),
             new_process_actual_all_value_bits_exact=all(v['exact_value_bits'] for v in new))
     output.mkdir(parents=True,exist_ok=False);write_json(output/'shared_endpoint_OP_review.json',result)
     print(json.dumps(dict(output=str(output),groups=groups,same_model_bits_exact=result['same_model_actual_all_value_bits_exact'],

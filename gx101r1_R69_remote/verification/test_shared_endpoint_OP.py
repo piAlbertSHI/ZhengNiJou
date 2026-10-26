@@ -37,5 +37,10 @@ class EndpointOPTests(unittest.TestCase):
         with self.assertRaises(ValueError):scalar_text(np.array(['a','b']))
         with self.assertRaises(ValueError):scalar_text('',False)
 
+    def test_bounded_process_probe_keeps_loaded_identity_and_changes_only_logging(self):
+        source=(Path(__file__).resolve().parent/'Resume_HeatDriveECC_SharedEndpointOP.m').read_text(encoding='utf-8')
+        self.assertIn("input.setBlockParameter(sinks{k},'MaxDataPoints','40002')",source)
+        self.assertIn('assert(strcmpi(actual,expected)',source)
+
 
 if __name__=='__main__':unittest.main()
