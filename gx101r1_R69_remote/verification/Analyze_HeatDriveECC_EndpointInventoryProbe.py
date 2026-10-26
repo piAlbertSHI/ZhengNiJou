@@ -14,6 +14,19 @@ from Review_HeatDriveECC_CoupledCVPacket import verify_sources,verify_arm
 from Run_HeatDriveECC_ConservativeTransport import write_json
 
 
+def initial_target_value(data,target):
+    units={'K':('K',1.),'kg':('kg',1.),'J':('J',1.),'m':('m',1.),'kJ/kg':('J/kg',1000.),'MPa':('Pa',1e6)}
+    unit=target['unit']
+    if unit not in units:raise ValueError('Unsupported cold public target unit')
+    row=data['native'][target['block_path'],target['state_name']]
+    if not np.array_equal(row['time_s'],data['time']) or row['time_s'][0]!=0:
+        raise ValueError('A cold target needs the actual zero-time native sample')
+    value=float(row['values'][0,0])
+    if row['unit']==unit:return value
+    base,factor=units[unit]
+    return float(convert(value,row['unit'],base))/factor
+
+
 def analyze(root,output):
     read=lambda p:json.loads(p.read_text(encoding='utf-8'))
     e=read(root/'coupled_CV_execution.json');duration=e['stop_time_s']
@@ -38,7 +51,7 @@ def analyze(root,output):
     if len(targets)!=162 or sum(r['priority']=='High' for r in targets)!=104:raise ValueError('Wrong public target set')
     target_errors=[]
     for row in targets:
-        actual=float(native_value(data,row['block_path'],row['state_name'],row['unit'])[0])
+        actual=initial_target_value(data,row)
         target_errors.append(dict(path=row['path'],priority=row['priority'],unit=row['unit'],
                                   requested=row['value'],observed=actual,difference=actual-row['value']))
     window=balance_window(data,components,boundary,0,duration)

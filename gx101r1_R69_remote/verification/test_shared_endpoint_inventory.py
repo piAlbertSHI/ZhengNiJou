@@ -7,6 +7,7 @@ import numpy as np
 
 from Analyze_HeatDriveECC_CoupledCVBalance import storage,balance_window
 from Review_HeatDriveECC_CoupledCVPacket import expected_storage_types
+from Analyze_HeatDriveECC_EndpointInventoryProbe import initial_target_value
 
 
 class EndpointTests(unittest.TestCase):
@@ -62,6 +63,17 @@ class EndpointTests(unittest.TestCase):
         self.assertIn('expected_primary=125',target)
         self.assertIn('expected_primary=104',target)
         self.assertIn('sort(inventory.storage_paths)',target)
+
+    def test_public_target_units_are_not_assumed_to_be_SI_output_units(self):
+        t=np.array([0.,.001]);row={'time_s':t,'values':np.array([[500.],[501.]]),'unit':'kJ/kg'}
+        data={'time':t,'native':{('m','u_I'):row}};target={'block_path':'m','state_name':'u_I','unit':'kJ/kg'}
+        self.assertEqual(initial_target_value(data,target),500.)
+        row['values']*=1000.;row['unit']='J/kg'
+        self.assertEqual(initial_target_value(data,target),500.)
+        row['values'][:]=850000.;row['unit']='Pa';target['unit']='MPa'
+        self.assertEqual(initial_target_value(data,target),.85)
+        target['unit']='unknown'
+        with self.assertRaises(ValueError):initial_target_value(data,target)
 
 
 if __name__=='__main__':unittest.main()
