@@ -4,7 +4,7 @@ import unittest
 
 import numpy as np
 
-from Analyze_HeatDriveECC_NativeConsistencyProbe import require_equal,require_numerical_change
+from Analyze_HeatDriveECC_NativeConsistencyProbe import require_equal,require_numerical_change,same_cycle_schedule,active_materials_finite
 
 
 class ConsistencyProbeTests(unittest.TestCase):
@@ -32,6 +32,19 @@ class ConsistencyProbeTests(unittest.TestCase):
         b=copy.deepcopy(a);b['cp'][1]=np.nextafter(2.,3.)
         with self.assertRaises(ValueError):require_equal(a,b,'fixture')
         with self.assertRaises(ValueError):require_equal(a,{'cp':a['cp']},'fixture')
+
+    def test_matching_nan_means_matching_unknown_not_changed_physics(self):
+        unknown=[];require_equal({'inactive':float('nan')},{'inactive':float('nan')},'fixture',unknown)
+        self.assertEqual(unknown,['fixture.inactive'])
+        with self.assertRaises(ValueError):require_equal(float('nan'),1.,'fixture')
+        with self.assertRaises((ValueError,KeyError)):active_materials_finite({'material':{'SMA':{'rho_kg_per_m3':float('nan')}}})
+
+    def test_only_generated_horizon_may_differ_not_period_or_stages(self):
+        a={'tau_cycle_s':10.,'total_time_s':20.,'stage_end_s':np.array([3.5,5.,8.5,10.])}
+        b=dict(a,total_time_s=10.)
+        self.assertEqual(same_cycle_schedule(a,b,2,1)['experiment_s'],10.)
+        b['stage_end_s']=np.array([3.,5.,8.5,10.])
+        with self.assertRaises(ValueError):same_cycle_schedule(a,b,2,1)
 
     def test_runtime_probe_has_no_state_or_step_intervention(self):
         root=Path(__file__).resolve().parent

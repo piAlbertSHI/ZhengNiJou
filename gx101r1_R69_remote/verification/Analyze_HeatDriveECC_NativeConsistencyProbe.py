@@ -16,13 +16,35 @@ from Review_HeatDriveECC_CoupledCVPacket import verify_sources,verify_arm
 from Run_HeatDriveECC_ConservativeTransport import write_json
 
 
-def require_equal(a,b,path):
+def require_equal(a,b,path,unknown=None):
     if isinstance(a,dict):
         if not isinstance(b,dict) or set(a)!=set(b):raise ValueError('Physical field coverage differs: '+path)
-        for k in a:require_equal(a[k],b[k],path+'.'+k)
+        for k in a:require_equal(a[k],b[k],path+'.'+k,unknown)
     elif isinstance(a,(list,np.ndarray)):
-        if not np.array_equal(np.asarray(a),np.asarray(b)):raise ValueError('Physical array differs: '+path)
+        x,y=np.asarray(a),np.asarray(b)
+        if x.shape!=y.shape:raise ValueError('Physical array shape differs: '+path)
+        for i in np.ndindex(x.shape):require_equal(x[i],y[i],path+str(i),unknown)
+    elif isinstance(a,(float,np.floating)) and np.isnan(a):
+        if not isinstance(b,(float,np.floating)) or not np.isnan(b):raise ValueError('Only one field is unidentified: '+path)
+        if unknown is not None:unknown.append(path)
     elif a!=b:raise ValueError('Physical value differs: '+path)
+
+
+def same_cycle_schedule(a,b,count_a,count_b):
+    a,b=dict(a),dict(b)
+    horizons={'reference_s':a.pop('total_time_s'),'experiment_s':b.pop('total_time_s')}
+    if horizons['reference_s']!=count_a*a['tau_cycle_s'] or horizons['experiment_s']!=count_b*b['tau_cycle_s']:
+        raise ValueError('Unexplained schedule horizon, not the declared generated cycle count')
+    require_equal(a,b,'schedule')
+    return horizons
+
+
+def active_materials_finite(options):
+    used=('rho_kg_per_m3','cp_J_per_kgK','E_m_Pa','epsilon_T','T_As_K','T_Ms_K',
+          'C_A_Pa_per_K','C_M_Pa_per_K','Delta_h_J_per_kg')
+    for part in ('SMA','SE'):
+        if not all(np.isfinite(float(options['material'][part][k])) for k in used):
+            raise ValueError('An active material parameter is not identified')
 
 
 def require_numerical_change(contract):
@@ -70,13 +92,22 @@ def analyze(reference,experiment,output):
     a=load_case(reference,c_old);b=load_case(experiment,c_new)
     require_equal(a['contract']['storage_blocks'],b['contract']['storage_blocks'],'native_inventory')
     require_equal(a['contract']['settings_tables'],b['contract']['settings_tables'],'fluid_properties')
-    for group in ('system','fluid','geometry','material','equilibrium','schedule','solid','constitutive'):
-        require_equal(a['options'][group],b['options'][group],group)
+    unidentified=[]
+    for group in ('system','fluid','geometry','material','equilibrium','solid','constitutive'):
+        require_equal(a['options'][group],b['options'][group],group,unidentified)
+    active_materials_finite(a['options']);active_materials_finite(b['options'])
+    horizons=same_cycle_schedule(a['options']['schedule'],b['options']['schedule'],a['options']['cycle_count'],b['options']['cycle_count'])
     controller_fields=[]
     for k,value in a['options']['branch'].items():
         if 'pressure' in k and isinstance(value,(str,int,float,bool,np.number)):
             require_equal(value,b['options']['branch'][k],'branch.'+k);controller_fields.append(k)
     changed=require_numerical_change(b['contract']['numerical_solver_contract'])
+    command_checks={}
+    from Review_HeatDriveECC_CoupledCVPacket import on_grid
+    clock=b['time']
+    for name in ('diagnostic_original_hold_G','diagnostic_original_cooldown_G','diagnostic_shared_max_G'):
+        require_equal(on_grid(a['workspace'][a['model'],name],clock),on_grid(b['workspace'][b['model'],name],clock),name)
+        command_checks[name]=True
     initial={}
     for key,row in a['native'].items():
         if key[1] not in {'T_I','p_I','u_I','rho_I','mass','volume','T'}:continue
@@ -93,6 +124,8 @@ def analyze(reference,experiment,output):
                 experiment_execution_sha256=sha256(experiment/'coupled_CV_execution.json'),reader_sha256=sha256(Path(__file__)),
                 reference_coverage=cov_old,experiment_coverage=cov_new,numerical_contract=b['contract']['numerical_solver_contract'],
                 unchanged_physical_inventory_and_parameter_contract=True,unchanged_pressure_controller_fields=sorted(controller_fields),
+                matching_unidentified_metadata_not_material_validation=unidentified,
+                generated_schedule_horizons=horizons,original_thermal_command_prefix_exactly_equal=command_checks,
                 changed_numerical_parameters=changed,initial_measured_state_difference_max_by_native_unit=initial,
                 complete_hidden_initial_state_equality_claimed=False,tanks=tanks,
                 reference_balance=balance_window(a,storage(a),sources(a),0,duration),
