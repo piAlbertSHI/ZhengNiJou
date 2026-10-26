@@ -1,0 +1,184 @@
+{
+  "schema": "heatdrive_ecc_native_tank_closure_closeout_v1",
+  "execution_commit": "748146a44479ebd6604c99c9de822ef5b3c5e937",
+  "prior_receipt_sha256": "3E06737C564443626D5D289558DF436A8B5F7D2D6F2C4D2CC561752C81D7DA9C",
+  "reverified_frozen_dependencies": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\physical_simscape_result.mat",
+      "sha256": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD",
+      "bytes": 4987450900
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\final_operating_point.mat",
+      "sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816",
+      "bytes": 3822969
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\native_CV_observations.mat",
+      "sha256": "67A1195E2B2E6BC78BA88AD27098EBCCCEA3DE6612C0C05C89209C2A5E3B6B1A",
+      "bytes": 149257302
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\workspace_CV_observations.mat",
+      "sha256": "275571222C4D141DB613B8DBA4C129A05E7F88424C31810DA37E9CF1835DF6A4",
+      "bytes": 75621297
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\source_CV_observations.mat",
+      "sha256": "B8FF53EDFBB207B53E322C19069B7D9846111EA6C0439C1C708853932ABAD7A2",
+      "bytes": 20947130
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_options.mat",
+      "sha256": "1C6965D361C5FCC5F35838E232ACFD034DBD0D82DEEFA0C265D80A3D28DFDA52",
+      "bytes": 29643
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_contract.json",
+      "sha256": "56808E5B40BE46FD771814CB3E026CD4DE9D4EACA810EE75ABE166208971B913",
+      "bytes": 144200
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_tl_topology.json",
+      "sha256": "2C90BED3EA39770319ACF177361406DCAD44BE6C3E2E43E72DC0A4CE47B7805E",
+      "bytes": 230603
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_thermal_topology.json",
+      "sha256": "07C0158E858FB34C186357CE78F9557941FB399C9CD05C96FA0868B2E577F5D4",
+      "bytes": 1134184
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\native_CV_observations.mat",
+      "sha256": "A5FCC7750EC5E32EF5898E10508D213EC0E9452142C674045573AC50C0F5D794",
+      "bytes": 111051596
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\workspace_CV_observations.mat",
+      "sha256": "7080DA9CF66C258D81B30D669DB7A8A03CABFE99BE49AF4735BC0CCB2AB0D472",
+      "bytes": 72277925
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\source_CV_observations.mat",
+      "sha256": "5B5E2ECC9139FACA6513D6A1899A5D699726C1DFE2A2F728A88CB6258B4639CF",
+      "bytes": 20887376
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_options.mat",
+      "sha256": "7195EAB3B42AD660D9AB25A1FCE1674CAFDE6AA3B6F65927C1904B4CDF483B4C",
+      "bytes": 29644
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_contract.json",
+      "sha256": "3EA57A9930A1AC83028B6E305A0260CD554048FA84CBE0241BF06E3C3CE87C64",
+      "bytes": 120677
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_tl_topology.json",
+      "sha256": "5240CCCC068EEB84C1629EF27EAA726D3D1CC85C7B37D495FCF9DA73BDA8C7E4",
+      "bytes": 203431
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_thermal_topology.json",
+      "sha256": "DB440D8F9C324A444CE8570F33D57015CC1518DDF96E1CC6D71D3503AF3344D8",
+      "bytes": 1056078
+    }
+  ],
+  "protected_model_sha256": "77E2ACD5B983A0BA72DFB72D3AD106F4D0BC524C2EC56C79C096EEBB5DA88599",
+  "corrected_analysis_sha256": "B330E2426ABC8A2E1904F14DEFCB8E0AB0038EF72CE2CEC773603C284FD50A47",
+  "control_volume_table_sha256": "293E646625997EC3901583B151F28B9335DF834B77EA6BDB6448860FBB96627F",
+  "numerical_comparison_sha256": "EFA0F2C97235351647F7ACEFCDC1CFD7102C21B9A96962462FA5078A5F187D84",
+  "legacy_scalars_endpoints_and_Eq9_Eq10_preserved_exactly": true,
+  "targeted_test_modules": [
+    "test_coupled_CV_balance",
+    "test_coupled_CV_packet",
+    "test_native_consistency_probe",
+    "test_tank_energy_basis",
+    "test_c201_tank_basis",
+    "test_tank_interpolation_consistency",
+    "test_native_accumulation",
+    "test_native_window_ledger",
+    "test_native_inventory_catalog",
+    "test_native_window_packets",
+    "test_native_residual_localization",
+    "test_native_state_mapping",
+    "test_native_series_access_source",
+    "test_native_log_lookup_source",
+    "test_shared_SMA_cold_initial",
+    "test_shared_SMA_fluid",
+    "test_shared_SMA_native_ledger",
+    "test_coupled_energy_inventory",
+    "test_material_thermodynamics"
+  ],
+  "targeted_test_return_code": 0,
+  "targeted_test_log_sha256": "98C9E3F3C9B205E4B602A27882ABEE3D5847A4F99B81356EBA937EE0A5E29046",
+  "new_prefix_raw_files": [
+    {
+      "path": "C:\\tmp\\se21_shared_consistency_tight_prefix_r1_20261026\\shared\\CV_options.mat",
+      "bytes": 29632,
+      "sha256": "558A027462CDAC7EBC0EE65EE8C124995BD3D6BF15E556CA5E8B4067592ABD13"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_consistency_tight_prefix_r1_20261026\\shared\\native_CV_observations.mat",
+      "bytes": 1118016,
+      "sha256": "82D6F6EADC7E5D2451E02A70618805F5636E1712AA7711F021FA471DFA07EC22"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_consistency_tight_prefix_r1_20261026\\shared\\source_CV_observations.mat",
+      "bytes": 105427,
+      "sha256": "A823073910CAA211ED23168BCE1F532835D3202DFFAF877CFA2072D92AD0EE0C"
+    },
+    {
+      "path": "C:\\tmp\\se21_shared_consistency_tight_prefix_r1_20261026\\shared\\workspace_CV_observations.mat",
+      "bytes": 316289,
+      "sha256": "DE76B47100F1B8288F359B61F947F8A00BE17FE295FCE095A41E34B28999DAE1"
+    }
+  ],
+  "new_prefix_raw_bytes": 1569364,
+  "prefix_matlab_session": 78885,
+  "prefix_matlab_natural_exit_code": 0,
+  "prefix_wall_simulation_seconds": 136.2465352,
+  "prefix_process_cpu_seconds": 151.09375,
+  "first_comparator_failure": "matching NaN metadata and generated schedule horizons; no physical change; repaired before reuse",
+  "first_comparator_failure_directory_created": false,
+  "storage_snapshot_excludes_this_receipt": [
+    {
+      "path": "C:\\tmp\\se21_shared_consistency_tight_prefix_r1_20261026",
+      "file_count": 31,
+      "bytes": 3627255,
+      "role": "single-copy numerical diagnostic raw and regenerable constructor/cache"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\coupled_CV_C2_balance_20261026_r6",
+      "file_count": 10,
+      "bytes": 1218348,
+      "role": "authoritative corrected C2 analysis and regression evidence"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\coupled_CV_C2_balance_20261026_r5",
+      "file_count": 3,
+      "bytes": 1029700,
+      "role": "regenerable intermediate analysis"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\native_consistency_prefix_20261026_r2",
+      "file_count": 1,
+      "bytes": 194929,
+      "role": "prior comparator evidence"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs_storage_audit\\native_consistency_prefix_20261026_r3",
+      "file_count": 1,
+      "bytes": 248510,
+      "role": "corrected numerical comparator evidence"
+    }
+  ],
+  "prefix_raw_copied": false,
+  "deleted_files": 0,
+  "reclaimed_bytes": 0,
+  "new_MATLAB_run_in_this_offline_closeout": false,
+  "physical_endpoint_first_law_verified": false,
+  "production_recovery_allowed": false,
+  "strict_Table4_reproduction": false,
+  "goal_complete": false
+}

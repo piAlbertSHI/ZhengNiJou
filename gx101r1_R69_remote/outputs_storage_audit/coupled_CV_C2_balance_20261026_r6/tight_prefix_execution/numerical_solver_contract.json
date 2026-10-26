@@ -1,0 +1,53 @@
+{
+  "schema": "heatdrive_ecc_native_consistency_probe_v1",
+  "profile": "local_tight",
+  "solver_path": "heatdrive_ecc_coupled_se21/Solver\nConfiguration",
+  "before": {
+    "UseLocalSolver": "on",
+    "LocalSolverChoice": "NE_BACKWARD_EULER_ADVANCER",
+    "LocalSolverSampleTime": "0.001",
+    "DoFixedCost": "off",
+    "ConsistencyTolSource": "GLOBAL",
+    "ConsistencyAbsTol": "0.001",
+    "ConsistencyRelTol": "0.001",
+    "ResidualTolerance": "0.001",
+    "ConsistencyTolFactor": "0.001",
+    "MaxNonlinIter": "3",
+    "ResolveIndetEquations": "on",
+    "IndexReductionMethod": "DerivativeReplacement",
+    "global_Solver": "ode23t",
+    "global_FixedStep": "0.1",
+    "global_RelTol": "1e-2",
+    "global_AbsTol": "1e-3"
+  },
+  "after": {
+    "UseLocalSolver": "on",
+    "LocalSolverChoice": "NE_BACKWARD_EULER_ADVANCER",
+    "LocalSolverSampleTime": "0.001",
+    "DoFixedCost": "off",
+    "ConsistencyTolSource": "LOCAL",
+    "ConsistencyAbsTol": "1e-12",
+    "ConsistencyRelTol": "1e-9",
+    "ResidualTolerance": "1e-12",
+    "ConsistencyTolFactor": "0.001",
+    "MaxNonlinIter": "3",
+    "ResolveIndetEquations": "on",
+    "IndexReductionMethod": "DerivativeReplacement",
+    "global_Solver": "ode23t",
+    "global_FixedStep": "0.1",
+    "global_RelTol": "1e-2",
+    "global_AbsTol": "1e-3"
+  },
+  "changed_parameters": [
+    "ConsistencyTolSource",
+    "ConsistencyAbsTol",
+    "ConsistencyRelTol",
+    "ResidualTolerance"
+  ],
+  "time_step_or_global_solver_changed": false,
+  "initial_inventory_targets_changed": false,
+  "material_constitutive_PI_changed": false,
+  "old_OP_loaded": false,
+  "production_recovery_allowed": false,
+  "a_numerical_experiment_not_a_gate_relaxation": true
+}
