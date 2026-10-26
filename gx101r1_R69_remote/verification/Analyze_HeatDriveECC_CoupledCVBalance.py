@@ -201,6 +201,44 @@ def cooling_decomposition(cp_power,advected,wall_stage,wall_all,sensor):
                 identity_is_not_a_physical_validation_gate=True)
 
 
+def mechanical_bridge(data,boundary,start,stop):
+    time=data['time'];a=round(start/.001);b=round(stop/.001);idx=slice(a,b+1);steps=slice(a,b)
+    c=signal(data,'ECC_constitutive21_output');o=data['options'];g=o['geometry'];v=o['validation'];N=o['node_count']
+    if N!=21 or c.shape!=(len(time),12*N):raise ValueError('Unsupported constitutive layout')
+    sa=c[:,4*N:5*N];sr=c[:,5*N:6*N];ea=c[:,6*N:7*N];er=c[:,7*N:8*N]
+    force=sa.mean(1)*g['S_a_m2']-sr.mean(1)*g['S_r_m2']
+    displacement=ea.mean(1)*g['L_a_m']-er.mean(1)*g['L_r_m']
+    scaled_force=abs(force)/np.maximum(abs(sr.mean(1)*g['S_r_m2']),1e-9)
+    scaled_displacement=abs(displacement)/np.maximum(abs(er.mean(1)*g['L_r_m']),1e-9)
+    blocks={r['block_path']:r for r in data['contract']['storage_blocks']};latent=np.zeros_like(time)
+    masses={}
+    for j,part in enumerate(('SMA','SE')):
+        masses[part]=np.array([float(convert(blocks[f'{data["model"]}/{part}/Subsystem2/NodeMass_{k:02}']['mask_parameters']['mass']['value'],
+                    blocks[f'{data["model"]}/{part}/Subsystem2/NodeMass_{k:02}']['mask_parameters']['mass']['unit'],'kg')) for k in range(1,N+1)])
+        latent+=(c[:,(2+j)*N:(3+j)*N]*masses[part]*o['material'][part]['Delta_h_J_per_kg']).sum(1)
+    q=sum((r['power'] for r in boundary if r['role'].startswith('constitutive_')),np.zeros_like(time))
+    heat=float(np.dot(np.diff(time)[steps],q[a+1:b+1]));latent_change=float(latent[b]-latent[a])
+    workA=float(np.sum(sa[a+1:b+1]*np.diff(ea[idx],axis=0))*g['S_a_m2']*g['L_a_m']/N)
+    workR=float(np.sum(sr[a+1:b+1]*np.diff(er[idx],axis=0))*g['S_r_m2']*g['L_r_m']/N)
+    dxR=np.diff(c[:,3*N:4*N],axis=0)[steps]
+    phase_work=float(np.sum(-masses['SE']*(o['constitutive']['se_loading_work_J_per_kg']*np.maximum(dxR,0)+
+                      o['constitutive']['se_unloading_work_J_per_kg']*np.minimum(dxR,0))))
+    return dict(start_s=start,stop_s=stop,force_residual_max_N=float(abs(force[idx]).max()),
+                displacement_residual_max_m=float(abs(displacement[idx]).max()),
+                normalized_force_residual_max=float(scaled_force[idx].max()),
+                normalized_displacement_residual_max=float(scaled_displacement[idx].max()),
+                force_limit=v['max_eq6_scaled'],displacement_limit=v['max_eq7_scaled'],
+                force_and_displacement_checks_pass=bool(np.max(scaled_force[idx])<=v['max_eq6_scaled'] and np.max(scaled_displacement[idx])<=v['max_eq7_scaled']),
+                native_vs_observed_constitutive_heat_sum_max_abs_W=float(abs(q[idx]-c[idx,:2*N].sum(1)).max()),
+                native_constitutive_heat_BE_J=heat,solid_mL_delta_phase_J=latent_change,
+                declared_additional_phase_work_J=phase_work,
+                coarse_common_stress_net_internal_mechanical_work_J=-workA+workR,
+                coarse_work_not_claimed_equal_to_each_bed_32_substep_work=True,
+                heat_minus_latent_and_declared_phase_work_J=heat-latent_change-phase_work,
+                solid_chemical_energy_sign='U_chemical=-sum(m*Delta_h*xM); do not count latent heat twice',
+                material_law_or_full_device_validation_granted=False)
+
+
 def exchanger_metrics(data,start,stop):
     time=data['time'];options=data['options'];cycle,stage,elapsed=stage_coordinates(time,options)
     idx=(time>=start)&(time<=stop);duration=stop-start
@@ -234,12 +272,22 @@ def exchanger_metrics(data,start,stop):
                            intended_inlet_face=c['inlet'].upper(),settled_route_direction_pass=bool(np.all(intended*c['mdot_A'][mask]>0)),
                            settled_guard_s=c['guard'],
                            mass_flow_A_min_max_kg_s=[float(c['mdot_A'][idx].min()),float(c['mdot_A'][idx].max())])
+    aliases={}
+    for name,tag in (('hot_hx_inlet_fluid_temp_out','hhex_se'),('hot_hx_outlet_fluid_temp_out','hhex_se'),
+                     ('cold_hx_inlet_fluid_temp_out','chex'),('cold_hx_outlet_fluid_temp_out','chex')):
+        x=signal(data,name)[:,0]
+        aliases[name]={f:float(abs(x-channels[tag]['temperature'][f]).max()) for f in ('a','b')}
+    upstream=abs(signal(data,'mass_flow_v4_hot_inlet_kgps')[:,0])*cp*stage4*(cold['temperature'][cold['outlet']]-cold['temperature'][cold['inlet']])
     return dict(start_s=start,stop_s=stop,cycles=duration/options['schedule']['tau_cycle_s'],
                 quadrature='trapezoid on actually recorded 1 ms samples; both endpoints retained',
                 paper_requirement='Qian2019 p885 Eq9/Eq10: TEN cycles after cyclic steady state',
                 is_paper_ten_steady_cycle_window=False,performance_qualified=False,
                 outlet_convention='actual settled route fixes geometric downstream face; face retained during no-flow intervals, NOT an inferred advective outlet',
                 channels=observed,declared_glycol_cp_J_kgK=cp,active_SE_solid_mass_kg=actual,
+                historical_probe_vs_actual_face_max_abs_K=aliases,
+                historical_probe_comparison_scope='entire same-run record, not just this window',
+                Eq10_historical_upstream_flow_W=average(upstream),
+                Eq10_upstream_minus_actual_HEX_flow_W=average(upstream-cp_power),
                 active_SE_solid_mass_g=actual*1000,scp_excludes='SMA, fluid, buffers, pipe and reservoir masses',
                 Eq9_fixed_downstream_port_lift_K=average(lift),
                 Eq9_stage4_contribution_K=average(stage4*lift),Eq9_non_stage4_contribution_K=average((1-stage4)*lift),
@@ -256,6 +304,29 @@ def exchanger_metrics(data,start,stop):
                 mass_basis_is_compiled_SE_solid=True,steady_cooling_load_equals_Eq10_claim=False)
 
 
+def figure_differences(arms,path):
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    fig,axes=plt.subplots(1,2,figsize=(11,4.6),layout='constrained')
+    for j,arm in enumerate(arms):
+        q=arm['Eq9_Eq10_diagnostics'][1];d=q['Eq10_sensor_difference_decomposition']
+        color='#666666' if arm['arm']=='dual' else '#007A78';x=np.arange(4)+(j-.5)*.32
+        axes[0].bar(x,[q['Eq10_measured_pipe_flow_declared_cp_W'],q['stage4_native_enthalpy_out_minus_in_W'],
+                      q['stage4_native_CHEX_wall_heat_W'],q['all_cycle_CHEX_sensor_W']],.3,color=color,label=arm['arm'])
+        axes[1].bar(x,[d['declared_cp_minus_native_enthalpy_W'],d['advected_minus_wall_stage_storage_W'],
+                      d['exclude_non_stage4_wall_W'],d['Eq10_minus_sensor_W']],.3,color=color,label=arm['arm'])
+    axes[0].set_xticks(np.arange(4),['Declared cp','Native\nenthalpy','Wall\n(stage 4)','Sensor\n(full cycle)'])
+    axes[1].set_xticks(np.arange(4),['cp minus\nenthalpy','Flow minus wall\n(storage)','Off-stage\ncorrection','Total\ngap'])
+    for ax,title in zip(axes,('(a) Different CHEX power definitions','(b) Eq.10 minus sensor decomposition')):
+        ax.set(title=title,ylabel='Power averaged over full cycle (W)')
+        ax.spines[['top','right']].set_visible(False);ax.axhline(0,color='#555555',lw=.6);ax.legend(frameon=False)
+        ax.tick_params(axis='x',labelsize=9)
+    axes[0].set_ylim(0,12.5);axes[1].set_ylim(-.1,1.0)
+    fig.suptitle('Cold C2 (10-20 s): diagnostic, not cyclic-steady performance',fontsize=11)
+    fig.savefig(path,dpi=200);plt.close(fig)
+
+
 def analyze(root,output):
     e=json.loads((root/'coupled_CV_execution.json').read_text(encoding='utf-8'))
     if not e['collection_complete'] or e['checkpoint_loaded_or_saved'] or e['stop_time_s']!=20:
@@ -263,8 +334,17 @@ def analyze(root,output):
     verify_sources(e);arms=[]
     for case in e['completed_arms']:
         coverage=verify_arm(root,case,20);data=load_case(root,case);components=storage(data);boundary=sources(data)
+        windows=[]
+        for a,b in ((0,10),(10,20),(0,20)):
+            row=balance_window(data,components,boundary,a,b);bridge=mechanical_bridge(data,boundary,a,b)
+            row['two_bed_mechanical_latent_bridge']=bridge
+            constitutive=bridge['native_constitutive_heat_BE_J'];latent=bridge['solid_mL_delta_phase_J']
+            row['true_external_boundary_heat_J']=row['source_net_input_J']-constitutive
+            row['endpoint_sensible_fluid_plus_solid_chemical_change_J']=row['endpoint_energy_change_J']-latent
+            row['external_minus_corrected_endpoint_energy_J']=row['true_external_boundary_heat_J']-row['endpoint_sensible_fluid_plus_solid_chemical_change_J']
+            windows.append(row)
         arms.append(dict(arm=case['arm'],coverage=coverage,
-                         windows=[balance_window(data,components,boundary,a,b) for a,b in ((0,10),(10,20),(0,20))],
+                         windows=windows,
                          Eq9_Eq10_diagnostics=[exchanger_metrics(data,a,b) for a,b in ((0,10),(10,20),(0,20))]))
     output.mkdir(parents=True,exist_ok=False)
     report=dict(schema='heatdrive_ecc_coupled_CV_balance_v1',execution_sha256=sha256(root/'coupled_CV_execution.json'),
@@ -274,7 +354,6 @@ def analyze(root,output):
                     tank_coefficient_scope='documented constant-pressure M*cp*dT+h*dM; residual is diagnostic, not a physical rejection gate',
                     hidden_state_and_nonlinear_solver_coordinate_effects_not_excluded=True),
                 no_new_simulation=True,production_recovery_allowed=False,Table4_reproduction_claim=False)
-    write_json(output/'coupled_CV_balance.json',report)
     with (output/'control_volume_table.csv').open('w',encoding='utf-8',newline='') as f:
         writer=csv.writer(f);writer.writerow(['arm','physical_path','CV_class','mass_boundary','energy_boundary','scope'])
         for arm in arms:
@@ -284,6 +363,10 @@ def analyze(root,output):
             for row in arm['windows'][0]['source_terms']:
                 writer.writerow([arm['arm'],row['block_path'],row['role'],'no external mass',row['sign_rule'],
                                  'constitutive heat explicitly separate from true external boundary'])
+    figure_differences(arms,output/'CHEX_power_definition_differences.png')
+    report['control_volume_table_sha256']=sha256(output/'control_volume_table.csv')
+    report['figure_sha256']=sha256(output/'CHEX_power_definition_differences.png')
+    write_json(output/'coupled_CV_balance.json',report)
     print(json.dumps({'output':str(output),'arms':len(arms),'new_simulation':False,'Table4_claim':False}))
 
 

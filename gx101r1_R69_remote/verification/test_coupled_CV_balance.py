@@ -3,7 +3,7 @@ import unittest
 
 import numpy as np
 
-from Analyze_HeatDriveECC_CoupledCVBalance import path_steps,source_sign,oriented_faces,balance_window,cooling_decomposition
+from Analyze_HeatDriveECC_CoupledCVBalance import path_steps,source_sign,oriented_faces,balance_window,cooling_decomposition,mechanical_bridge
 
 
 class BalanceTests(unittest.TestCase):
@@ -53,6 +53,27 @@ class BalanceTests(unittest.TestCase):
         self.assertAlmostEqual(whole['source_net_input_J'],a['source_net_input_J']+b['source_net_input_J'])
         self.assertAlmostEqual(whole['BE_coefficient_residual_J'],0.)
         self.assertFalse(whole['full_device_first_law_verified'])
+
+    def test_coupled_work_cancellation_does_not_hide_an_unexplained_heat_source(self):
+        t=np.array([0.,.001,.002]);c=np.zeros((3,252));x=np.arange(3)[:,None]*.1
+        c[:,42:63]=1-x;c[:,63:84]=x;c[:,84:126]=100.;c[:,126:147]=x*.03;c[:,147:168]=x*.03
+        blocks=[{'block_path':f'm/{part}/Subsystem2/NodeMass_{k:02}',
+                 'mask_parameters':{'mass':{'value':1/21,'unit':'kg'}}} for part in ('SMA','SE') for k in range(1,22)]
+        o={'node_count':21,'geometry':{'S_a_m2':1.,'S_r_m2':1.,'L_a_m':1.,'L_r_m':1.},
+           'material':{'SMA':{'Delta_h_J_per_kg':100.},'SE':{'Delta_h_J_per_kg':100.}},
+           'constitutive':{'se_loading_work_J_per_kg':0.,'se_unloading_work_J_per_kg':0.},
+           'validation':{'max_eq6_scaled':1e-6,'max_eq7_scaled':1e-3}}
+        d={'time':t,'model':'m','options':o,'contract':{'storage_blocks':blocks},
+           'workspace':{('m','ECC_constitutive21_output'):{'time_s':t,'values':c}}}
+        sources=[{'role':'constitutive_fixture','power':np.zeros(3)}]
+        r=mechanical_bridge(d,sources,0.,.002)
+        self.assertTrue(r['force_and_displacement_checks_pass'])
+        self.assertAlmostEqual(r['coarse_common_stress_net_internal_mechanical_work_J'],0.)
+        self.assertAlmostEqual(r['heat_minus_latent_and_declared_phase_work_J'],0.)
+        sources[0]['power']=np.ones(3)*5
+        r=mechanical_bridge(d,sources,0.,.002)
+        self.assertAlmostEqual(r['heat_minus_latent_and_declared_phase_work_J'],.01)
+        self.assertFalse(r['material_law_or_full_device_validation_granted'])
 
 
 if __name__=='__main__':unittest.main()
