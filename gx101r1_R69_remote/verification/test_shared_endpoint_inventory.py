@@ -56,6 +56,8 @@ class EndpointTests(unittest.TestCase):
         self.assertNotIn('setInitialState(',apply)
         self.assertNotIn('save_system(',apply)
         self.assertIn('record.physical_target_count==162',apply)
+        self.assertIn('sort(string(reference_contract.storage_paths(:)))',apply)
+        self.assertIn('sort(string(contract.storage_paths(:)))',apply)
         target=(root/'Build_HeatDriveECC_ColdInventoryTargets.m').read_text(encoding='utf-8')
         self.assertIn('expected_primary=125',target)
         self.assertIn('expected_primary=104',target)

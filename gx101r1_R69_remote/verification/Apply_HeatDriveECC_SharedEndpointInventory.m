@@ -13,7 +13,8 @@ function [point,contract,record,libraries]=Apply_HeatDriveECC_SharedEndpointInve
     reference_contract_path=fullfile(reference_root,'shared','CV_contract.json');
     assert(strcmp(file_hash(reference_contract_path),case_record.CV_packet.contract_file_sha256.contract));
     reference_contract=jsondecode(fileread(reference_contract_path));
-    assert(isequal(sort(string(reference_contract.storage_paths)),sort(string(contract.storage_paths))));
+    assert(isequal(sort(string(reference_contract.storage_paths(:))),sort(string(contract.storage_paths(:)))), ...
+        'Reference and constructed storage path sets differ.');
     assert(isequal(reference_contract.settings_tables,jsondecode(jsonencode(baseline.settings_tables))), ...
         'Endpoint comparison cannot silently change fluid property domains.');
     saved=load(raw,'packet');packet=saved.packet;
