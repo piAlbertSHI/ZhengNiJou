@@ -29,7 +29,8 @@ def initial_target_value(data,target):
 
 
 def cycle_diagnostics(data,duration):
-    if duration!=20:return dict(evaluated=False,reason='Need the complete continuous two-cycle record')
+    if abs(data['time'][-1]-data['time'][0]-20)>1e-10:
+        return dict(evaluated=False,reason='Need two complete retained continuous cycles')
     time=data['time'];options=data['options'];v=options['validation'];b=options['branch']
     cycle,stage,elapsed=stage_coordinates(time,options)
     durations=np.asarray(options['schedule']['stage_durations_s']).ravel()[stage-1]
@@ -38,7 +39,9 @@ def cycle_diagnostics(data,duration):
     sma=(b['m_dot_sma_shex_kg_per_s']+b['m_dot_sma_the_kg_per_s'])/2
     se=(b['m_dot_se_the_kg_per_s']+b['m_dot_se_chex_kg_per_s'])/2
     flows=[]
-    for number in (1,2):
+    numbers=sorted(set(cycle.tolist()))
+    if len(numbers)!=2:raise ValueError('Retained window does not own exactly two cycles')
+    for number in numbers:
         row=dict(cycle=number,SMA=flow_metrics(signal(data,'mass_flow_sma_stage13_kgps')[:,0],sma,
             core&(cycle==number)&(elapsed>=1.),-1,v['max_sma_settled_flow_relative_error']))
         for s,name in ((2,'mass_flow_v1_cold_inlet_kgps'),(4,'mass_flow_v4_hot_inlet_kgps')):
@@ -61,7 +64,7 @@ def cycle_diagnostics(data,duration):
     drift=difference_stats(np.column_stack(temperatures),10000)
     drift['endpoint_screen_pass']=drift['endpoint_max_abs']<=v['max_periodic_endpoint_drift_K']
     drift['same_phase_screen_pass']=drift['same_phase_max_abs']<=v['max_periodic_same_phase_temperature_drift_K']
-    return dict(evaluated=True,settled_flow_original_thresholds=flows,
+    return dict(evaluated=True,actual_retained_cycle_numbers=numbers,settled_flow_original_thresholds=flows,
         all_native_temperature_C2_drift_K=drift,phase_C2_drift=difference_stats(phase,10000),
         phase_bounds_pass=bool(np.all((phase>=-1e-9)&(phase<=1+1e-9))),
         all_fluid_pressure_temperature_domains=domains,
