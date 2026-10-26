@@ -28,6 +28,19 @@ def initial_target_value(data,target):
     return float(convert(value,row['unit'],base))/factor
 
 
+def event_aligned_cycle_pair(values,shift=10000):
+    x=np.asarray(values)
+    if len(x)!=2*shift+1 or not np.isfinite(x).all():raise ValueError('Need the full actual two-cycle clock')
+    d=x[shift:2*shift]-x[:shift]
+    return dict(half_open_same_phase_max_abs=float(abs(d).max()),
+        half_open_same_phase_RMS=float(np.sqrt(np.mean(d*d))),
+        internal_post_wrap_start_difference_max_abs=float(abs(x[shift]-x[0]).max()),
+        last_available_pre_wrap_sample_difference_max_abs=float(abs(x[2*shift-1]-x[shift-1]).max()),
+        unmatched_terminal_vs_internal_post_wrap_difference_max_abs=float(abs(x[-1]-x[shift]).max()),
+        compared_same_phase_samples=shift,terminal_energy_integration_endpoint_not_removed=True,
+        event_alignment_is_not_complete_hidden_state_periodicity=True)
+
+
 def cycle_diagnostics(data,duration):
     if abs(data['time'][-1]-data['time'][0]-20)>1e-10:
         return dict(evaluated=False,reason='Need two complete retained continuous cycles')
@@ -69,6 +82,8 @@ def cycle_diagnostics(data,duration):
         phase_bounds_pass=bool(np.all((phase>=-1e-9)&(phase<=1+1e-9))),
         all_fluid_pressure_temperature_domains=domains,
         route_memory_C2_drift={r['workspace_variable']:difference_stats(signal(data,r['workspace_variable']),10000)
+                               for r in data['contract']['PI_memory_probes']},
+        route_memory_event_aligned_cycle_drift={r['workspace_variable']:event_aligned_cycle_pair(signal(data,r['workspace_variable']))
                                for r in data['contract']['PI_memory_probes']},
         complete_hidden_state_periodicity_or_paper_performance_qualified=False)
 

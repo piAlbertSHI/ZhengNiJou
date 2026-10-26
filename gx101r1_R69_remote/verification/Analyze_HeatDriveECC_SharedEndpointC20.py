@@ -27,7 +27,8 @@ def figures(data,coarse,output):
     axes[0].set(ylabel='Solid mean temperature (K)',title='(a) Actual coarse cold-start observations')
     axes[1].set(ylabel='Mean martensite fraction',xlabel='Absolute time (s)',title='(b) Recorded phase history',ylim=(-.02,1.02))
     for ax in axes:
-        ax.set_xlim(0,200);ax.axvline(180,color='#999999',ls=':',lw=.8);ax.legend(frameon=False)
+        ax.set_xlim(0,200);ax.axvline(180,color='#999999',ls=':',lw=.8)
+        ax.legend(frameon=False,loc='upper left',bbox_to_anchor=(1.01,1.))
         ax.spines[['top','right']].set_visible(False)
     fig.suptitle('Shared endpoint inventory: cold 20-cycle diagnostic',fontsize=11)
     fig.savefig(output/'cold_C20_history.png',dpi=200);plt.close(fig)
@@ -40,8 +41,8 @@ def figures(data,coarse,output):
     T=np.column_stack(T);phase=signal(data,'ECC_constitutive21_output')[:,42:84]
     clock=data['time'][10000:]-190
     fig,axes=plt.subplots(2,1,figsize=(8,5.5),layout='constrained',sharex=True)
-    for ax,x,ylabel in ((axes[0],T,'Maximum absolute temperature difference (K)'),
-                        (axes[1],phase,'Maximum absolute phase-fraction difference')):
+    for ax,x,ylabel in ((axes[0],T,r'Max $|\Delta T|$ (K)'),
+                        (axes[1],phase,r'Max $|\Delta x_M|$')):
         ax.plot(clock,abs(x[10000:]-x[:10001]).max(1),color='#007A78',lw=1)
         ax.set(ylabel=ylabel,xlim=(0,10));ax.spines[['top','right']].set_visible(False)
     axes[1].set_xlabel('Cycle phase time (s)')

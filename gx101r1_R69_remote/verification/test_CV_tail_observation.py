@@ -6,6 +6,8 @@ import numpy as np
 
 from Analyze_HeatDriveECC_CoupledCVBalance import window_indices,balance_window
 from Review_HeatDriveECC_CoupledCVPacket import on_grid
+from Analyze_HeatDriveECC_EndpointInventoryProbe import event_aligned_cycle_pair
+from Analyze_HeatDriveECC_CoupledCVTrajectories import stage_coordinates
 
 
 class TailTests(unittest.TestCase):
@@ -41,6 +43,20 @@ class TailTests(unittest.TestCase):
         select=(root/'Select_HeatDriveECC_TraceWindow.m').read_text(encoding='utf-8')
         self.assertNotIn('interp1(',select)
         self.assertNotIn('resample(',select)
+
+    def test_terminal_pre_wrap_and_internal_post_wrap_are_not_the_same_event_side(self):
+        x=np.array([0.,1.,2.,0.,1.,2.,3.])[:,None]
+        r=event_aligned_cycle_pair(x,3)
+        self.assertEqual(r['half_open_same_phase_max_abs'],0.)
+        self.assertEqual(r['unmatched_terminal_vs_internal_post_wrap_difference_max_abs'],3.)
+        x[4]+=.2;r=event_aligned_cycle_pair(x,3)
+        self.assertAlmostEqual(r['half_open_same_phase_max_abs'],.2)
+
+    def test_actual_cycles_19_20_keep_the_runtime_terminal_stage_ownership(self):
+        o={'cycle_count':20,'schedule':{'tau_cycle_s':10.,'stage_start_s':[0.,3.5,5.,8.5],'stage_end_s':[3.5,5.,8.5,10.]}}
+        cycle,stage,_=stage_coordinates(np.array([180.,183.5,185.,188.5,190.,200.]),o)
+        np.testing.assert_array_equal(cycle,[19,19,19,19,20,20])
+        np.testing.assert_array_equal(stage,[1,2,3,4,1,4])
 
 
 if __name__=='__main__':unittest.main()
