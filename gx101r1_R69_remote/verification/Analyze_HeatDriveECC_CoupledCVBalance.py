@@ -20,6 +20,8 @@ from Audit_HeatDriveECC_NativeWindowLedger import validate_grid
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from Audit_HeatDriveECC_ThermalConnectivity import wire_nets
 from Audit_HeatDriveECC_TLDomainInventory import density_table, resolve_domains
+from Audit_HeatDriveECC_C201TankBasis import geometry as native_tank_geometry
+from Audit_HeatDriveECC_TankEnergyBasis import extra_thermal_accumulation, hydrostatic_transport, DEAD_HEIGHT_M, TRIAL_COMMIT
 from HeatDriveECC_TraceColumns import load
 from Review_HeatDriveECC_CoupledCVPacket import on_grid, verify_arm, verify_sources
 from Run_HeatDriveECC_ConservativeTransport import write_json
@@ -81,11 +83,23 @@ def signal(data,name):
     return on_grid(data['workspace'][data['model'],name],data['time'])
 
 
+def tank_native_terms(data,block,temperature,rho,cp):
+    """Reuse the prior independent Tank intervention result, not a current fit."""
+    if block['mask_type']!='Tank (TL)':raise ValueError('Native Tank terms require Tank (TL)')
+    area,gravity,inlet=native_tank_geometry(block);path=block['block_path']
+    if {n for p,n in data['native'] if p==path and n.startswith('mdot_')}!={'mdot_A'}:
+        raise ValueError('Identified native Tank equation requires the actual single inlet')
+    extra,_=extra_thermal_accumulation(data['time'],temperature,rho,cp,area)
+    head,_=hydrostatic_transport(data['time'],native_value(data,path,'mdot_A','kg/s'),
+                               native_value(data,path,'volume','m^3')/area,gravity,inlet)
+    return extra,head
+
+
 def storage(data):
     time=data['time'];dt=np.diff(time);rows=[]
     for b in data['contract']['storage_blocks']:
         path=b['block_path'];kind=b['mask_type'];p=b['mask_parameters']
-        pdV=np.zeros_like(dt)
+        pdV=np.zeros_like(dt);extra=np.zeros_like(dt);head=np.zeros_like(dt)
         v=lambda name,unit:native_value(data,path,name,unit)
         if kind=='Thermal Mass':
             mass=float(convert(p['mass']['value'],p['mass']['unit'],'kg'))
@@ -114,7 +128,8 @@ def storage(data):
                 M=v('mass','kg');U=M*u
                 dM=np.diff(M);dE=path_steps(M*table['cp'](coords),temperature)+path_steps(h,M)
                 pdV=path_steps(pressure,v('volume','m^3'))
-                basis='right-endpoint M*cp*dT + h*dM; variable mass endpoint U reported separately'
+                extra,head=tank_native_terms(data,b,temperature,rho,table['cp'](coords))
+                basis='BE simplified M*cp*dT+h*dM; identified native equation adds rho*cp*A*1mm*dT and incoming -mdot*g*(V/A-y_inlet)*dt; endpoint M*u separate'
             elif kind=='Constant Volume Chamber (TL)':
                 volume=float(convert(p['volume']['value'],p['volume']['unit'],'m^3'))
                 M=rho*volume;U=M*u;cp=table['cp'](coords);alpha=table['alpha'](coords);beta=table['beta'](coords)
@@ -122,7 +137,8 @@ def storage(data):
                 dM=path_steps(M/beta,pressure)-path_steps(alpha*M,temperature)
                 basis='right-endpoint native dUdp*dp+dUdT*dT; endpoint rho*V*u separate'
             else:raise ValueError('Unknown native storage type')
-        rows.append(dict(path=path,kind=kind,basis=basis,U=U,M=M,dE=dE,dM=dM,power=power,mdot=mdot,pdV=pdV))
+        rows.append(dict(path=path,kind=kind,basis=basis,U=U,M=M,dE=dE,dM=dM,power=power,mdot=mdot,pdV=pdV,
+                         tank_extra=extra,tank_head=head))
     if {r['path'] for r in rows}!=set(data['contract']['storage_paths']):raise ValueError('Incomplete accumulation set')
     return rows
 
@@ -165,8 +181,13 @@ def balance_window(data,components,boundary,start,stop):
     rows=[]
     for r in components:
         flow=float(np.dot(dt,r['power'][sl]));acc=float(r['dE'][steps].sum())
+        extra=float(r.get('tank_extra',np.zeros(len(time)-1))[steps].sum())
+        head=float(r.get('tank_head',np.zeros(len(time)-1))[steps].sum())
         rows.append(dict(block_path=r['path'],mask_type=r['kind'],basis=r['basis'],
                          BE_port_energy_J=flow,BE_coefficient_accumulation_J=acc,BE_coefficient_residual_J=flow-acc,
+                         BE_tank_extra_thermal_accumulation_J=extra,BE_tank_hydrostatic_transport_in_J=head,
+                         BE_identified_native_accumulation_J=acc+extra,
+                         BE_identified_native_equation_residual_J=flow+head-acc-extra,
                          endpoint_energy_change_J=float(r['U'][b]-r['U'][a]),
                          BE_tank_pressure_volume_work_out_J=float(r.get('pdV',np.zeros(len(time)-1))[steps].sum()),
                          BE_coefficient_mass_kg=float(r['dM'][steps].sum()),
@@ -182,6 +203,11 @@ def balance_window(data,components,boundary,start,stop):
                 gross_source_absolute_energy_J=sum(float(np.dot(dt,abs(r['power'][sl]))) for r in boundary),
                 BE_coefficient_accumulation_J=float(coefficient.sum()),
                 BE_coefficient_residual_J=float(np.dot(dt,incoming[sl])-coefficient.sum()),
+                legacy_coefficient_fields_are_simplified_not_full_Tank_equations=True,
+                BE_tank_extra_thermal_accumulation_J=sum(r['BE_tank_extra_thermal_accumulation_J'] for r in rows),
+                BE_tank_hydrostatic_transport_in_J=sum(r['BE_tank_hydrostatic_transport_in_J'] for r in rows),
+                BE_identified_native_equation_residual_J=float(np.dot(dt,incoming[sl])-coefficient.sum())
+                    +sum(r['BE_tank_hydrostatic_transport_in_J']-r['BE_tank_extra_thermal_accumulation_J'] for r in rows),
                 BE_coefficient_mass_kg=float(mass_coefficient.sum()),
                 endpoint_energy_change_J=sum(r['endpoint_energy_change_J'] for r in rows),
                 BE_tank_pressure_volume_work_out_J=sum(r['BE_tank_pressure_volume_work_out_J'] for r in rows),
@@ -368,6 +394,9 @@ def analyze(root,output):
             row['endpoint_sensible_fluid_plus_solid_chemical_change_J']=row['endpoint_energy_change_J']-latent
             row['external_minus_corrected_endpoint_energy_J']=row['true_external_boundary_heat_J']-row['endpoint_sensible_fluid_plus_solid_chemical_change_J']
             row['external_minus_corrected_endpoint_plus_tank_pressure_work_J']=row['external_minus_corrected_endpoint_energy_J']-row['BE_tank_pressure_volume_work_out_J']
+            row['endpoint_remainder_after_identified_tank_path_terms_J']=(row['external_minus_corrected_endpoint_plus_tank_pressure_work_J']
+                -row['BE_tank_extra_thermal_accumulation_J']+row['BE_tank_hydrostatic_transport_in_J'])
+            row['tank_path_terms_do_not_define_an_endpoint_state_function']=True
             row['engineering_pumps']=engineering_pumps(data,a,b)
             windows.append(row)
         chex_sensor=data['options']['validation']['cold_boundary_audit']['heat_flow_sensor_path']
@@ -382,11 +411,15 @@ def analyze(root,output):
                          windows=windows,
                          Eq9_Eq10_diagnostics=[exchanger_metrics(data,a,b) for a,b in ((0,10),(10,20),(0,20))]))
     output.mkdir(parents=True,exist_ok=False)
-    report=dict(schema='heatdrive_ecc_coupled_CV_balance_v1',execution_sha256=sha256(root/'coupled_CV_execution.json'),
+    report=dict(schema='heatdrive_ecc_coupled_CV_balance_v2',execution_sha256=sha256(root/'coupled_CV_execution.json'),
                 producer_commit=e['execution_commit'],reader_sha256=sha256(Path(__file__)),arms=arms,
                 reference_equations=dict(Qian2019='Energy 182 (2019), p885, PDF page5, Eqs9/10; ten steady cycles',
                     Tank_TL='https://www.mathworks.com/help/releases/R2025b/hydro/ref/tanktl.html',
-                    tank_coefficient_scope='documented constant-pressure M*cp*dT+h*dM; residual is diagnostic, not a physical rejection gate',
+                    tank_coefficient_scope='Legacy coefficient fields omit prior independently identified extra thermal volume and head; full equation fields restore them, not a physical endpoint validation',
+                    tank_identification_trial_commit=TRIAL_COMMIT,tank_extra_height_m=DEAD_HEIGHT_M,
+                    tank_terms_source_read_or_decrypted=False,
+                    reused_reader_sha256={name:sha256(Path(__file__).with_name(name)) for name in
+                        ('Audit_HeatDriveECC_TankEnergyBasis.py','Audit_HeatDriveECC_C201TankBasis.py')},
                     hidden_state_and_nonlinear_solver_coordinate_effects_not_excluded=True),
                 no_new_simulation=True,production_recovery_allowed=False,Table4_reproduction_claim=False)
     with (output/'control_volume_table.csv').open('w',encoding='utf-8',newline='') as f:

@@ -9,7 +9,7 @@ from pathlib import Path
 
 import numpy as np
 
-from Analyze_HeatDriveECC_CoupledCVBalance import load_case,native_value,native_sum,path_steps,storage,sources,balance_window
+from Analyze_HeatDriveECC_CoupledCVBalance import load_case,native_value,native_sum,path_steps,storage,sources,balance_window,tank_native_terms
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from Audit_HeatDriveECC_NativeWindowLedger import validate_grid
 from Review_HeatDriveECC_CoupledCVPacket import verify_sources,verify_arm
@@ -68,10 +68,19 @@ def tank_defect(data,path,stop):
     power=(native_sum(data['native'],path,'Phi_','W')+native_value(data,path,'Q_H','W'))[:n+1]
     dt=np.diff(time);dT=np.diff(T);dM=np.diff(M)
     defect=dt*power[1:]-path_steps(M*cp,T)-path_steps(h,M)
+    block=next(b for b in data['contract']['storage_blocks'] if b['block_path']==path)
+    full_T=native_value(data,path,'T_I','K');full_P=native_value(data,path,'p_I','Pa')
+    full_cp=data['tables'][data['assignment'][path]]['cp'](np.column_stack((full_T,full_P)))
+    extra,head=tank_native_terms(data,block,full_T,native_value(data,path,'rho_I','kg/m^3'),full_cp)
+    extra,head=extra[:n],head[:n];identified=defect-extra+head
     rates=defect/dt;active=abs(dT)>1e-8
     implied=np.divide(dt*power[1:]-h[1:]*dM,M[1:]*dT,out=np.full_like(dT,np.nan),where=active)
     return dict(samples=len(time),end_s=stop,mass_minus_rhoV_max_abs_kg=float(abs(M-rho*V).max()),
                 coefficient_BE_net_defect_J=float(defect.sum()),cumulative_defect_max_abs_J=float(abs(np.cumsum(defect)).max()),
+                coefficient_defect_is_incomplete_Tank_equation=True,
+                prior_identified_extra_accumulation_J=float(extra.sum()),prior_identified_head_transport_in_J=float(head.sum()),
+                identified_native_equation_net_defect_J=float(identified.sum()),
+                identified_native_equation_max_interval_abs_J=float(abs(identified).max()),
                 instantaneous_equation_defect_RMS_W=float(np.sqrt(np.mean(rates*rates))),
                 delta_T_max_abs_K=float(abs(dT).max()),
                 implied_cp_to_lookup_cp_median=float(np.median(implied[active]/cp[1:][active])) if active.any() else None,
@@ -119,9 +128,10 @@ def analyze(reference,experiment,output):
         if block['mask_type']!='Tank (TL)':continue
         path=block['block_path'];tanks.append(dict(block_path=path,reference=tank_defect(a,path,duration),tight=tank_defect(b,path,duration)))
     output.mkdir(parents=True,exist_ok=False)
-    result=dict(schema='heatdrive_ecc_native_consistency_comparison_v1',reference_root=str(reference),experiment_root=str(experiment),
+    result=dict(schema='heatdrive_ecc_native_consistency_comparison_v2',reference_root=str(reference),experiment_root=str(experiment),
                 reference_execution_sha256=sha256(reference/'coupled_CV_execution.json'),
                 experiment_execution_sha256=sha256(experiment/'coupled_CV_execution.json'),reader_sha256=sha256(Path(__file__)),
+                CV_reader_sha256=sha256(Path(__file__).with_name('Analyze_HeatDriveECC_CoupledCVBalance.py')),
                 reference_coverage=cov_old,experiment_coverage=cov_new,numerical_contract=b['contract']['numerical_solver_contract'],
                 unchanged_physical_inventory_and_parameter_contract=True,unchanged_pressure_controller_fields=sorted(controller_fields),
                 matching_unidentified_metadata_not_material_validation=unidentified,

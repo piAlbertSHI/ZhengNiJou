@@ -3,7 +3,7 @@ import unittest
 
 import numpy as np
 
-from Analyze_HeatDriveECC_CoupledCVBalance import path_steps,source_sign,oriented_faces,balance_window,cooling_decomposition,mechanical_bridge,engineering_pumps
+from Analyze_HeatDriveECC_CoupledCVBalance import path_steps,source_sign,oriented_faces,balance_window,cooling_decomposition,mechanical_bridge,engineering_pumps,tank_native_terms
 
 
 class BalanceTests(unittest.TestCase):
@@ -75,6 +75,29 @@ class BalanceTests(unittest.TestCase):
             self.assertAlmostEqual(row['hydraulic_work_positive_J'],1.)
             self.assertEqual(row['native_source_thermal_energy_J'],0.)
             self.assertFalse(row['electrical_efficiency_or_dissipation_heat_injection_assumed'])
+
+    def test_known_tank_terms_are_not_replaced_by_solver_tuning_or_extra_mass(self):
+        t=np.array([0.,.001,.002]);path='m/Tank';T=np.array([300.,301.,303.])
+        native={}
+        for name,value,unit in (('mdot_A',np.ones(3)*.1,'kg/s'),('volume',np.ones(3)*1e-4,'m^3')):
+            native[path,name]={'time_s':t,'values':value[:,None],'unit':unit}
+        block={'block_path':path,'mask_type':'Tank (TL)',
+               'model_modes':{'num_inlet':'enum.One','volume_spec':'enum.Constant'},
+               'mask_parameters':{k:{'value':v,'unit':u} for k,v,u in
+                   (('tank_area',.001,'m^2'),('g',9.81,'m/s^2'),('inlet_height_A',0.,'m'))}}
+        extra,head=tank_native_terms({'native':native,'time':t},block,T,np.ones(3)*1000.,np.ones(3)*4000.)
+        np.testing.assert_allclose(extra,[4.,8.]);np.testing.assert_allclose(head,[-.0000981,-.0000981])
+        dE=np.array([40.,80.]);power=np.r_[0.,(dE+extra-head)/np.diff(t)]
+        component=dict(path=path,kind='Tank (TL)',basis='fixture',power=power,mdot=np.zeros(3),
+                       U=T*40,M=np.ones(3)*.01,dE=dE,dM=np.zeros(2),tank_extra=extra,tank_head=head)
+        boundary=dict(path='source',kind='fixture',role='fixture',sign=1,rule='fixture',power=power)
+        result=balance_window({'time':t},[component],[boundary],0.,.002)
+        self.assertGreater(result['BE_coefficient_residual_J'],12.)
+        self.assertAlmostEqual(result['BE_identified_native_equation_residual_J'],0.,places=12)
+        self.assertEqual(result['endpoint_fluid_mass_change_kg'],0.)
+        self.assertFalse(result['full_device_first_law_verified'])
+        native[path,'mdot_B']=native[path,'mdot_A']
+        with self.assertRaises(ValueError):tank_native_terms({'native':native,'time':t},block,T,np.ones(3)*1000.,np.ones(3)*4000.)
 
     def test_coupled_work_cancellation_does_not_hide_an_unexplained_heat_source(self):
         t=np.array([0.,.001,.002]);c=np.zeros((3,252));x=np.arange(3)[:,None]*.1
