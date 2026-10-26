@@ -3,6 +3,8 @@ from pathlib import Path
 import unittest
 import numpy as np
 from HeatDriveECC_TraceColumns import scalar_text
+from Analyze_HeatDriveECC_SharedEndpointWarmup import actual_native_window,periodic_screens
+from Analyze_HeatDriveECC_CoupledCVTrajectories import stage_coordinates
 
 
 class EndpointOPTests(unittest.TestCase):
@@ -62,6 +64,35 @@ class EndpointOPTests(unittest.TestCase):
         self.assertIn("numeric_parameter(get_param(model,'SimscapeLogDataHistory'))",source)
         self.assertIn('if ischar(v) || isstring(v),v=str2double(v);end',source)
         self.assertIn("validateattributes(v,{'numeric'},{'scalar','real','finite'})",source)
+
+    def test_warmup_keeps_actual_samples_and_rejects_a_missing_endpoint(self):
+        clock=np.arange(20001)*.001+380
+        row={'time_s':clock,'values':clock[:,None],'unit':'K'}
+        result=actual_native_window({('m','T'):row},380,400)['m','T']
+        np.testing.assert_array_equal(result['values'],row['values'])
+        row['time_s']=clock[:-1];row['values']=row['values'][:-1]
+        with self.assertRaises(ValueError):actual_native_window({('m','T'):row},380,400)
+
+    def test_fixed_horizon_endpoint_is_preserved_but_not_a_third_settled_cycle(self):
+        time=np.arange(380000,400001)*.001
+        options={'cycle_count':100,'schedule':{'tau_cycle_s':10,
+            'stage_start_s':[0,2.5,5,7.5],'stage_end_s':[2.5,5,7.5,10]}}
+        cycle,stage,elapsed=stage_coordinates(time,options)
+        self.assertEqual(cycle[-1],41);self.assertEqual(stage[-1],1)
+        core=(elapsed>=.1)&(elapsed<=2.4)
+        self.assertEqual(sorted(set(cycle[core].tolist())),[39,40])
+
+    def test_small_endpoint_drift_does_not_override_failed_same_phase_RMS(self):
+        d={'all_native_temperature_C2_drift_K':{'endpoint_max_abs':.001,'same_phase_max_abs':.02,
+            'same_phase_p99_abs':.02,'same_phase_RMS':.02},
+            'phase_C2_drift':{'endpoint_max_abs':.00001,'same_phase_p99_abs':.0001,'same_phase_RMS':.0001}}
+        v={'max_periodic_endpoint_drift_K':.05,'max_periodic_same_phase_temperature_drift_K':.05,
+           'max_periodic_same_phase_temperature_p99_drift_K':.05,'max_periodic_same_phase_temperature_rms_drift_K':.01,
+           'max_periodic_phase_drift':.0001,'max_periodic_same_phase_phase_p99_drift':.002,
+           'max_periodic_same_phase_phase_rms_drift':.0004}
+        screens=periodic_screens(d,v)
+        self.assertTrue(screens['temperature_endpoint']);self.assertFalse(screens['temperature_RMS'])
+        self.assertFalse(all(screens.values()))
 
 
 if __name__=='__main__':unittest.main()
