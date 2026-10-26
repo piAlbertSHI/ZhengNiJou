@@ -7,7 +7,8 @@ import subprocess
 
 import numpy as np
 
-from Analyze_HeatDriveECC_CoupledCVBalance import load_case,storage,sources,balance_window,native_value
+from Analyze_HeatDriveECC_CoupledCVBalance import load_case,storage,sources,balance_window,native_value,signal
+from Analyze_HeatDriveECC_CoupledCVTrajectories import stage_coordinates,flow_metrics,difference_stats
 from Audit_HeatDriveECC_NativeInventoryCatalog import convert
 from Audit_HeatDriveECC_SegmentedEvidence import sha256
 from Review_HeatDriveECC_CoupledCVPacket import verify_sources,verify_arm
@@ -25,6 +26,48 @@ def initial_target_value(data,target):
     if row['unit']==unit:return value
     base,factor=units[unit]
     return float(convert(value,row['unit'],base))/factor
+
+
+def cycle_diagnostics(data,duration):
+    if duration!=20:return dict(evaluated=False,reason='Need the complete continuous two-cycle record')
+    time=data['time'];options=data['options'];v=options['validation'];b=options['branch']
+    cycle,stage,elapsed=stage_coordinates(time,options)
+    durations=np.asarray(options['schedule']['stage_durations_s']).ravel()[stage-1]
+    guard=b['stage_command_ramp_s']
+    core=(cycle>=v['mechanism_gate_start_cycle'])&(elapsed>=guard)&(elapsed<=durations-guard)
+    sma=(b['m_dot_sma_shex_kg_per_s']+b['m_dot_sma_the_kg_per_s'])/2
+    se=(b['m_dot_se_the_kg_per_s']+b['m_dot_se_chex_kg_per_s'])/2
+    flows=[]
+    for number in (1,2):
+        row=dict(cycle=number,SMA=flow_metrics(signal(data,'mass_flow_sma_stage13_kgps')[:,0],sma,
+            core&(cycle==number)&(elapsed>=1.),-1,v['max_sma_settled_flow_relative_error']))
+        for s,name in ((2,'mass_flow_v1_cold_inlet_kgps'),(4,'mass_flow_v4_hot_inlet_kgps')):
+            row['SE_stage'+str(s)]=flow_metrics(signal(data,name)[:,0],se,
+                core&(cycle==number)&(stage==s)&(elapsed>=v['se_settled_guard_s']+max(options['simulation']['fixed_step_s'],np.finfo(float).eps)),
+                1,v['max_se_settled_flow_relative_error'],v['max_se_settled_flow_rms_relative_error'])
+        flows.append(row)
+    phase=signal(data,'ECC_constitutive21_output')
+    if phase.shape!=(len(time),252):raise ValueError('Changed constitutive output layout')
+    phase=phase[:,42:84];temperatures=[];domains=[]
+    for row in data['contract']['storage_blocks']:
+        path=row['block_path']
+        temperatures.append(native_value(data,path,'T' if row['mask_type']=='Thermal Mass' else 'T_I','K'))
+        if row['mask_type']=='Thermal Mass':continue
+        P=native_value(data,path,'p_I','Pa');T=temperatures[-1];table=data['tables'][data['assignment'][path]]
+        tk,pk=table['u'].grid
+        domains.append(dict(path=path,temperature_min_max_K=[float(T.min()),float(T.max())],
+            pressure_min_max_Pa=[float(P.min()),float(P.max())],
+            within_actual_property_interpolation_domain=bool(T.min()>=tk[0] and T.max()<=tk[-1] and P.min()>=pk[0] and P.max()<=pk[-1])))
+    drift=difference_stats(np.column_stack(temperatures),10000)
+    drift['endpoint_screen_pass']=drift['endpoint_max_abs']<=v['max_periodic_endpoint_drift_K']
+    drift['same_phase_screen_pass']=drift['same_phase_max_abs']<=v['max_periodic_same_phase_temperature_drift_K']
+    return dict(evaluated=True,settled_flow_original_thresholds=flows,
+        all_native_temperature_C2_drift_K=drift,phase_C2_drift=difference_stats(phase,10000),
+        phase_bounds_pass=bool(np.all((phase>=-1e-9)&(phase<=1+1e-9))),
+        all_fluid_pressure_temperature_domains=domains,
+        route_memory_C2_drift={r['workspace_variable']:difference_stats(signal(data,r['workspace_variable']),10000)
+                               for r in data['contract']['PI_memory_probes']},
+        complete_hidden_state_periodicity_or_paper_performance_qualified=False)
 
 
 def analyze(root,output):
@@ -89,6 +132,7 @@ def analyze(root,output):
         coverage=coverage,duration_s=duration,initialization_contract_runtime_hash_bound=bound,initial_public_target_errors=target_errors,
         original_SMA_pipe_temperature_1e6_threshold_pass=case['initial_pipe_temperature_match_original_1e6_threshold'],
         endpoint_state_equation_checks=equation_checks,thermal_network_balance=window,
+        cycle_diagnostics=cycle_diagnostics(data,duration),
         auxiliary_gravity_environment_pv_are_in_buffer_state_not_external_heat=True,
         diagnostic_raw_is_not_OP_or_production_seed=True,all_mechanism_gates_evaluated=False,
         periodic_steady_state=False,production_recovery_allowed=False,Table4_reproduction_claim=False)
