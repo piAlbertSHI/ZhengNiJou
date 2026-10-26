@@ -1,0 +1,3817 @@
+{
+  "schema": "heatdrive_ecc_coupled_CV_inventory_v1",
+  "variant": "shared",
+  "storage_paths": [
+    "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+    "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_002",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_003",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_004",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_005",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_006",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_007",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_008",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_009",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_010",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_011",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_012",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_013",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_014",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_015",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_016",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_017",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_018",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_019",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_020",
+    "heatdrive_ecc_coupled_se21/SE/HoldPipe_021",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_01",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_02",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_03",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_04",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_05",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_06",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_07",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_08",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_09",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_10",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_11",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_12",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_13",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_14",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_15",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_16",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_17",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_18",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_19",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_20",
+    "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_21",
+    "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+    "heatdrive_ecc_coupled_se21/SHEX/HotSinkMass",
+    "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+    "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_01",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_02",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_03",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_04",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_05",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_06",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_07",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_08",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_09",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_10",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_11",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_12",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_13",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_14",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_15",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_16",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_17",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_18",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_19",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_20",
+    "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_21",
+    "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+    "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+    "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+    "heatdrive_ecc_coupled_se21/冷端换热器/ColdLoadMass",
+    "heatdrive_ecc_coupled_se21/冷端换热器/ColdSinkMass",
+    "heatdrive_ecc_coupled_se21/冷端换热器/ColdSinkPipe",
+    "heatdrive_ecc_coupled_se21/热端换热器/HotPipe",
+    "heatdrive_ecc_coupled_se21/热端换热器/HotSinkMass",
+    "heatdrive_ecc_coupled_se21/热端换热器/SMAHotPipe"
+  ],
+  "type_names": [
+    "Pipe (TL)",
+    "Tank (TL)",
+    "Constant Volume Chamber (TL)",
+    "Thermal Mass"
+  ],
+  "type_counts": [
+    46,
+    4,
+    2,
+    46
+  ],
+  "storage_blocks": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_002",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_003",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_004",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_005",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_006",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_007",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_008",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_009",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_010",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_011",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_012",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_013",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_014",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_015",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_016",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_017",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_018",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_019",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_020",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_021",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "se_article_pipe_fa",
+          "value": 7.1400000000000011E-6,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "se_article_pipe_segment_l",
+          "value": 0.018020614723660604,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "se_hold_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "tube_l",
+          "value": 0.1481,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "shex_hot_side_fluid_T_init",
+          "value": 393.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_article_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "sma_article_pipe_segment_l",
+          "value": 0.03900575078722239,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "303.14999999999998",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ColdSinkPipe",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "pipe_fa",
+          "value": 1.2566370614359175E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "cold_pipe_or_CHEX_length_m",
+          "value": 0.1481,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "cold_side_fluid_T_init",
+          "value": 276.95,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/HotPipe",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "pipe_fa",
+          "value": 1.2566370614359175E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "tube_l",
+          "value": 0.1481,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "hot_side_fluid_T_init",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/SMAHotPipe",
+      "mask_type": "Pipe (TL)",
+      "source_file": "foundation.thermal_liquid.elements.pipe",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Pipe (TL)",
+      "model_modes": {
+        "dynamic_compressibility": "false",
+        "inertia": "false",
+        "p_nominal": "0.85",
+        "p_nominal_unit": "MPa",
+        "T_nominal": "293.15",
+        "T_nominal_unit": "K"
+      },
+      "mask_parameters": {
+        "area": {
+          "expression": "sma_pipe_fa",
+          "value": 1.8849555921538758E-5,
+          "unit": "m^2"
+        },
+        "length": {
+          "expression": "tube_l",
+          "value": 0.1481,
+          "unit": "m"
+        },
+        "T0": {
+          "expression": "hot_side_fluid_T_init",
+          "value": 303.15,
+          "unit": "K"
+        },
+        "p0": {
+          "expression": "0.85",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+      "mask_type": "Tank (TL)",
+      "source_file": "fluids.thermal_liquid.tanks_accumulators.tank",
+      "reference_block": "SimscapeFluids_lib/Thermal Liquid/Tanks & Accumulators/Tank (TL)",
+      "model_modes": {
+        "num_inlet": "fluids.thermal_liquid.tanks_accumulators.enum.NumInlet.One",
+        "volume_spec": "fluids.thermal_liquid.tanks_accumulators.enum.TankVolumeSpec.Constant"
+      },
+      "mask_parameters": {
+        "volume": {
+          "expression": "5",
+          "value": 5,
+          "unit": "m^3"
+        },
+        "mass": {
+          "expression": "5000",
+          "value": 5000,
+          "unit": "kg"
+        },
+        "tank_area": {
+          "expression": "fluid_buffer_tank_area_m2",
+          "value": 0.001,
+          "unit": "m^2"
+        },
+        "g": {
+          "expression": "9.81",
+          "value": 9.81,
+          "unit": "m/s^2"
+        },
+        "inlet_height_A": {
+          "expression": "0",
+          "value": 0,
+          "unit": "m"
+        },
+        "tank_pressure": {
+          "expression": "tank_pressure_MPa",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+      "mask_type": "Tank (TL)",
+      "source_file": "fluids.thermal_liquid.tanks_accumulators.tank",
+      "reference_block": "SimscapeFluids_lib/Thermal Liquid/Tanks & Accumulators/Tank (TL)",
+      "model_modes": {
+        "num_inlet": "fluids.thermal_liquid.tanks_accumulators.enum.NumInlet.One",
+        "volume_spec": "fluids.thermal_liquid.tanks_accumulators.enum.TankVolumeSpec.Constant"
+      },
+      "mask_parameters": {
+        "volume": {
+          "expression": "5",
+          "value": 5,
+          "unit": "m^3"
+        },
+        "mass": {
+          "expression": "5000",
+          "value": 5000,
+          "unit": "kg"
+        },
+        "tank_area": {
+          "expression": "fluid_buffer_tank_area_m2",
+          "value": 0.001,
+          "unit": "m^2"
+        },
+        "g": {
+          "expression": "9.81",
+          "value": 9.81,
+          "unit": "m/s^2"
+        },
+        "inlet_height_A": {
+          "expression": "0",
+          "value": 0,
+          "unit": "m"
+        },
+        "tank_pressure": {
+          "expression": "tank_pressure_MPa",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+      "mask_type": "Tank (TL)",
+      "source_file": "fluids.thermal_liquid.tanks_accumulators.tank",
+      "reference_block": "SimscapeFluids_lib/Thermal Liquid/Tanks & Accumulators/Tank (TL)",
+      "model_modes": {
+        "num_inlet": "fluids.thermal_liquid.tanks_accumulators.enum.NumInlet.One",
+        "volume_spec": "fluids.thermal_liquid.tanks_accumulators.enum.TankVolumeSpec.Constant"
+      },
+      "mask_parameters": {
+        "volume": {
+          "expression": "5",
+          "value": 5,
+          "unit": "m^3"
+        },
+        "mass": {
+          "expression": "5000",
+          "value": 5000,
+          "unit": "kg"
+        },
+        "tank_area": {
+          "expression": "fluid_buffer_tank_area_m2",
+          "value": 0.001,
+          "unit": "m^2"
+        },
+        "g": {
+          "expression": "9.81",
+          "value": 9.81,
+          "unit": "m/s^2"
+        },
+        "inlet_height_A": {
+          "expression": "0",
+          "value": 0,
+          "unit": "m"
+        },
+        "tank_pressure": {
+          "expression": "tank_pressure_MPa",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+      "mask_type": "Tank (TL)",
+      "source_file": "fluids.thermal_liquid.tanks_accumulators.tank",
+      "reference_block": "SimscapeFluids_lib/Thermal Liquid/Tanks & Accumulators/Tank (TL)",
+      "model_modes": {
+        "num_inlet": "fluids.thermal_liquid.tanks_accumulators.enum.NumInlet.One",
+        "volume_spec": "fluids.thermal_liquid.tanks_accumulators.enum.TankVolumeSpec.Constant"
+      },
+      "mask_parameters": {
+        "volume": {
+          "expression": "5",
+          "value": 5,
+          "unit": "m^3"
+        },
+        "mass": {
+          "expression": "5000",
+          "value": 5000,
+          "unit": "kg"
+        },
+        "tank_area": {
+          "expression": "fluid_buffer_tank_area_m2",
+          "value": 0.001,
+          "unit": "m^2"
+        },
+        "g": {
+          "expression": "9.81",
+          "value": 9.81,
+          "unit": "m/s^2"
+        },
+        "inlet_height_A": {
+          "expression": "0",
+          "value": 0,
+          "unit": "m"
+        },
+        "tank_pressure": {
+          "expression": "tank_pressure_MPa",
+          "value": 0.85,
+          "unit": "MPa"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+      "mask_type": "Constant Volume Chamber (TL)",
+      "source_file": "foundation.thermal_liquid.elements.constant_volume_chamber",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Constant Volume\nChamber (TL)",
+      "model_modes": {
+        "num_ports": "foundation.enum.num_ports.two"
+      },
+      "mask_parameters": {
+        "volume": {
+          "expression": "sma_pump_manifold_volume_m3",
+          "value": 1.6084954386379741E-6,
+          "unit": "m^3"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+      "mask_type": "Constant Volume Chamber (TL)",
+      "source_file": "foundation.thermal_liquid.elements.constant_volume_chamber",
+      "reference_block": "fl_lib/Thermal Liquid/Elements/Constant Volume\nChamber (TL)",
+      "model_modes": {
+        "num_ports": "foundation.enum.num_ports.two"
+      },
+      "mask_parameters": {
+        "volume": {
+          "expression": "sma_pump_manifold_volume_m3",
+          "value": 1.6084954386379741E-6,
+          "unit": "m^3"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_01",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_02",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_03",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_04",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_05",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_06",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_07",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_08",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_09",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_10",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_11",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_12",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_13",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_14",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_15",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_16",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_17",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_18",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_19",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_20",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_21",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "se_node_mass_kg",
+          "value": 0.001991277926964497,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "se_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotSinkMass",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "shex_sink_mass_kg",
+          "value": 0.836,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "thermal_mass_cp_ref",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_01",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_02",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_03",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_04",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_05",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_06",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_07",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_08",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_09",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_10",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_11",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_12",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_13",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_14",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_15",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_16",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_17",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_18",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_19",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_20",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_21",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "sma_node_mass_kg",
+          "value": 0.0063720893662863919,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "sma_node_cp",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ColdLoadMass",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "cold_load_mass_kg",
+          "value": 0.7276,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "thermal_mass_cp_ref",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ColdSinkMass",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "cold_sink_mass_kg",
+          "value": 0.7276,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "thermal_mass_cp_ref",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/HotSinkMass",
+      "mask_type": "Thermal Mass",
+      "source_file": "foundation.thermal.elements.mass",
+      "reference_block": "fl_lib/Thermal/Thermal Elements/Thermal Mass",
+      "model_modes": {
+        "mass_type": "foundation.enum.constant_variable.constant",
+        "T_nominal_unit": "K",
+        "num_ports": "foundation.enum.numPorts2.one"
+      },
+      "mask_parameters": {
+        "mass": {
+          "expression": "hot_sink_mass_kg",
+          "value": 0.7276,
+          "unit": "kg"
+        },
+        "sp_heat": {
+          "expression": "thermal_mass_cp_ref",
+          "value": 500,
+          "unit": "J/(K*kg)"
+        }
+      }
+    }
+  ],
+  "settings_tables": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+      "parameters": {
+        "table_dimensions": "1",
+        "T_TLU": "[273.16;283.16;293.16;303.16;313.16;323.16;333.16;343.16;353.16;363.16;373.16;383.16;393.16;403.16;413.16]",
+        "T_TLU_unit": "K",
+        "T_min_1D": "273.16",
+        "T_max_1D": "413.16",
+        "p_min_1D": "0.45",
+        "p_max_1D": "5",
+        "p_min_1D_unit": "MPa",
+        "p_max_1D_unit": "MPa",
+        "rho_parameterization_1D": "1",
+        "rho_TLU_4": "[1000.047692;999.8910379;998.3863142;995.8262391;992.3948132;988.216282;983.3792011;977.9489783;971.9748358;965.4939159;958.5338333;951.1143215;943.2483073;934.9425941;926.1982521]",
+        "rho_TLU_4_unit": "kg/m^3",
+        "beta_const_4": "2.15",
+        "beta_const_4_unit": "GPa",
+        "p_ref_4": "0.5",
+        "p_ref_4_unit": "MPa",
+        "u_parameterization_1D": "1",
+        "u_TLU_4": "[0.009195591107;42.04935692;83.92921694;125.7370066;167.5155824;209.2925951;251.0909039;292.9318876;334.8364138;376.8251884;418.9190578;461.1394123;503.5087057;546.0510694;588.793005]",
+        "u_TLU_4_unit": "kJ/kg",
+        "cp_TLU_5": "[4.2199; 4.1955; 4.1843; 4.1801; 4.1796; 4.1813; 4.185; 4.1901; 4.1968; 4.2052; 4.2136]",
+        "cp_TLU_5_unit": "kJ/kg/K"
+      }
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/热流体设置",
+      "parameters": {
+        "table_dimensions": "1",
+        "T_TLU": "[255.05;283.15;313.15;338.15;363.15;393.15]",
+        "T_TLU_unit": "K",
+        "T_min_1D": "255.05",
+        "T_max_1D": "393.15",
+        "p_min_1D": "0.45",
+        "p_max_1D": "5",
+        "p_min_1D_unit": "MPa",
+        "p_max_1D_unit": "MPa",
+        "rho_parameterization_1D": "1",
+        "rho_TLU_4": "[1066.03926666667;1055.38;1039.77;1023.55;1004.39;977.53]",
+        "rho_TLU_4_unit": "kg/m^3",
+        "beta_const_4": "2",
+        "beta_const_4_unit": "GPa",
+        "p_ref_4": "0.5",
+        "p_ref_4_unit": "MPa",
+        "u_parameterization_1D": "1",
+        "u_TLU_4": "[0;98.6876214999999;207.2726215;300.2976215;395.6226215;513.0576215]",
+        "u_TLU_4_unit": "kJ/kg",
+        "cp_TLU_5": "[4.2199; 4.1955; 4.1843; 4.1801; 4.1796; 4.1813; 4.185; 4.1901; 4.1968; 4.2052; 4.2136]",
+        "cp_TLU_5_unit": "kJ/kg/K"
+      }
+    }
+  ],
+  "hex_channels": [
+    "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+    "heatdrive_ecc_coupled_se21/热端换热器/SMAHotPipe",
+    "heatdrive_ecc_coupled_se21/热端换热器/HotPipe",
+    "heatdrive_ecc_coupled_se21/冷端换热器/ColdSinkPipe",
+    "shex",
+    "hhex_sma",
+    "hhex_se",
+    "chex",
+    "SMA",
+    "SMA",
+    "SE",
+    "SE"
+  ],
+  "production_recovery_allowed": false,
+  "compiled_minimal_state_count_claimed": false,
+  "hex_channel_records": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+      "tag": "shex",
+      "declared_fluid": "SMA"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/SMAHotPipe",
+      "tag": "hhex_sma",
+      "declared_fluid": "SMA"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/HotPipe",
+      "tag": "hhex_se",
+      "declared_fluid": "SE"
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ColdSinkPipe",
+      "tag": "chex",
+      "declared_fluid": "SE"
+    }
+  ],
+  "pump_pressure_contract": {
+    "schema": "heatdrive_ecc_pump_pressure_probe_contract_v1",
+    "model_name": "heatdrive_ecc_coupled_se21",
+    "source_count": 3,
+    "simulation_run": false,
+    "state_imported": false,
+    "production_recovery_allowed": false,
+    "probes": [
+      {
+        "source_block": "SE_Stage2_PistonPressureSource",
+        "source_port_name": "A",
+        "source_port_side": "LConn",
+        "source_port_index": 1,
+        "sensor_block": "Diagnostic_se_stage2_Pressure_aSensor",
+        "workspace_variable": "pump_pressure_se_stage2_port_a_MPa",
+        "unit": "MPa"
+      },
+      {
+        "source_block": "SE_Stage2_PistonPressureSource",
+        "source_port_name": "B",
+        "source_port_side": "RConn",
+        "source_port_index": 1,
+        "sensor_block": "Diagnostic_se_stage2_Pressure_bSensor",
+        "workspace_variable": "pump_pressure_se_stage2_port_b_MPa",
+        "unit": "MPa"
+      },
+      {
+        "source_block": "SE_Stage4_PistonPressureSource",
+        "source_port_name": "A",
+        "source_port_side": "LConn",
+        "source_port_index": 1,
+        "sensor_block": "Diagnostic_se_stage4_Pressure_aSensor",
+        "workspace_variable": "pump_pressure_se_stage4_port_a_MPa",
+        "unit": "MPa"
+      },
+      {
+        "source_block": "SE_Stage4_PistonPressureSource",
+        "source_port_name": "B",
+        "source_port_side": "RConn",
+        "source_port_index": 1,
+        "sensor_block": "Diagnostic_se_stage4_Pressure_bSensor",
+        "workspace_variable": "pump_pressure_se_stage4_port_b_MPa",
+        "unit": "MPa"
+      },
+      {
+        "source_block": "SMA Pressure Source (TL)",
+        "source_port_name": "A",
+        "source_port_side": "LConn",
+        "source_port_index": 1,
+        "sensor_block": "Diagnostic_sma_Pressure_aSensor",
+        "workspace_variable": "pump_pressure_sma_port_a_MPa",
+        "unit": "MPa"
+      },
+      {
+        "source_block": "SMA Pressure Source (TL)",
+        "source_port_name": "B",
+        "source_port_side": "RConn",
+        "source_port_index": 1,
+        "sensor_block": "Diagnostic_sma_Pressure_bSensor",
+        "workspace_variable": "pump_pressure_sma_port_b_MPa",
+        "unit": "MPa"
+      }
+    ],
+    "output_root": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared",
+    "contract_path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\pump_pressure_probe_contract.json"
+  },
+  "hex_port_probes": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+      "port_name": "A",
+      "quantity": "T",
+      "sensor_block": "heatdrive_ecc_coupled_se21/SHEX/CV_shex_a_Sensor",
+      "sensor_output_port": "T",
+      "converter_block": "heatdrive_ecc_coupled_se21/SHEX/cv_shex_a_T_K_PS",
+      "workspace_variable": "cv_shex_a_T_K",
+      "unit": "K",
+      "flow_direction_not_assumed": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+      "port_name": "A",
+      "quantity": "Pa",
+      "sensor_block": "heatdrive_ecc_coupled_se21/SHEX/CV_shex_a_Sensor",
+      "sensor_output_port": "Pa",
+      "converter_block": "heatdrive_ecc_coupled_se21/SHEX/cv_shex_a_P_Pa_PS",
+      "workspace_variable": "cv_shex_a_P_Pa",
+      "unit": "Pa",
+      "flow_direction_not_assumed": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+      "port_name": "B",
+      "quantity": "T",
+      "sensor_block": "heatdrive_ecc_coupled_se21/SHEX/CV_shex_b_Sensor",
+      "sensor_output_port": "T",
+      "converter_block": "heatdrive_ecc_coupled_se21/SHEX/cv_shex_b_T_K_PS",
+      "workspace_variable": "cv_shex_b_T_K",
+      "unit": "K",
+      "flow_direction_not_assumed": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+      "port_name": "B",
+      "quantity": "Pa",
+      "sensor_block": "heatdrive_ecc_coupled_se21/SHEX/CV_shex_b_Sensor",
+      "sensor_output_port": "Pa",
+      "converter_block": "heatdrive_ecc_coupled_se21/SHEX/cv_shex_b_P_Pa_PS",
+      "workspace_variable": "cv_shex_b_P_Pa",
+      "unit": "Pa",
+      "flow_direction_not_assumed": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/SMAHotPipe",
+      "port_name": "A",
+      "quantity": "T",
+      "sensor_block": "heatdrive_ecc_coupled_se21/热端换热器/CV_hhex_sma_a_Sensor",
+      "sensor_output_port": "T",
+      "converter_block": "heatdrive_ecc_coupled_se21/热端换热器/cv_hhex_sma_a_T_K_PS",
+      "workspace_variable": "cv_hhex_sma_a_T_K",
+      "unit": "K",
+      "flow_direction_not_assumed": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/SMAHotPipe",
+      "port_name": "A",
+      "quantity": "Pa",
+      "sensor_block": "heatdrive_ecc_coupled_se21/热端换热器/CV_hhex_sma_a_Sensor",
+      "sensor_output_port": "Pa",
+      "converter_block": "heatdrive_ecc_coupled_se21/热端换热器/cv_hhex_sma_a_P_Pa_PS",
+      "workspace_variable": "cv_hhex_sma_a_P_Pa",
+      "unit": "Pa",
+      "flow_direction_not_assumed": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/SMAHotPipe",
+      "port_name": "B",
+      "quantity": "T",
+      "sensor_block": "heatdrive_ecc_coupled_se21/热端换热器/CV_hhex_sma_b_Sensor",
+      "sensor_output_port": "T",
+      "converter_block": "heatdrive_ecc_coupled_se21/热端换热器/cv_hhex_sma_b_T_K_PS",
+      "workspace_variable": "cv_hhex_sma_b_T_K",
+      "unit": "K",
+      "flow_direction_not_assumed": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/SMAHotPipe",
+      "port_name": "B",
+      "quantity": "Pa",
+      "sensor_block": "heatdrive_ecc_coupled_se21/热端换热器/CV_hhex_sma_b_Sensor",
+      "sensor_output_port": "Pa",
+      "converter_block": "heatdrive_ecc_coupled_se21/热端换热器/cv_hhex_sma_b_P_Pa_PS",
+      "workspace_variable": "cv_hhex_sma_b_P_Pa",
+      "unit": "Pa",
+      "flow_direction_not_assumed": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/HotPipe",
+      "port_name": "A",
+      "quantity": "T",
+      "sensor_block": "heatdrive_ecc_coupled_se21/热端换热器/CV_hhex_se_a_Sensor",
+      "sensor_output_port": "T",
+      "converter_block": "heatdrive_ecc_coupled_se21/热端换热器/cv_hhex_se_a_T_K_PS",
+      "workspace_variable": "cv_hhex_se_a_T_K",
+      "unit": "K",
+      "flow_direction_not_assumed": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/HotPipe",
+      "port_name": "A",
+      "quantity": "Pa",
+      "sensor_block": "heatdrive_ecc_coupled_se21/热端换热器/CV_hhex_se_a_Sensor",
+      "sensor_output_port": "Pa",
+      "converter_block": "heatdrive_ecc_coupled_se21/热端换热器/cv_hhex_se_a_P_Pa_PS",
+      "workspace_variable": "cv_hhex_se_a_P_Pa",
+      "unit": "Pa",
+      "flow_direction_not_assumed": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/HotPipe",
+      "port_name": "B",
+      "quantity": "T",
+      "sensor_block": "heatdrive_ecc_coupled_se21/热端换热器/CV_hhex_se_b_Sensor",
+      "sensor_output_port": "T",
+      "converter_block": "heatdrive_ecc_coupled_se21/热端换热器/cv_hhex_se_b_T_K_PS",
+      "workspace_variable": "cv_hhex_se_b_T_K",
+      "unit": "K",
+      "flow_direction_not_assumed": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/热端换热器/HotPipe",
+      "port_name": "B",
+      "quantity": "Pa",
+      "sensor_block": "heatdrive_ecc_coupled_se21/热端换热器/CV_hhex_se_b_Sensor",
+      "sensor_output_port": "Pa",
+      "converter_block": "heatdrive_ecc_coupled_se21/热端换热器/cv_hhex_se_b_P_Pa_PS",
+      "workspace_variable": "cv_hhex_se_b_P_Pa",
+      "unit": "Pa",
+      "flow_direction_not_assumed": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ColdSinkPipe",
+      "port_name": "A",
+      "quantity": "T",
+      "sensor_block": "heatdrive_ecc_coupled_se21/冷端换热器/CV_chex_a_Sensor",
+      "sensor_output_port": "T",
+      "converter_block": "heatdrive_ecc_coupled_se21/冷端换热器/cv_chex_a_T_K_PS",
+      "workspace_variable": "cv_chex_a_T_K",
+      "unit": "K",
+      "flow_direction_not_assumed": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ColdSinkPipe",
+      "port_name": "A",
+      "quantity": "Pa",
+      "sensor_block": "heatdrive_ecc_coupled_se21/冷端换热器/CV_chex_a_Sensor",
+      "sensor_output_port": "Pa",
+      "converter_block": "heatdrive_ecc_coupled_se21/冷端换热器/cv_chex_a_P_Pa_PS",
+      "workspace_variable": "cv_chex_a_P_Pa",
+      "unit": "Pa",
+      "flow_direction_not_assumed": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ColdSinkPipe",
+      "port_name": "B",
+      "quantity": "T",
+      "sensor_block": "heatdrive_ecc_coupled_se21/冷端换热器/CV_chex_b_Sensor",
+      "sensor_output_port": "T",
+      "converter_block": "heatdrive_ecc_coupled_se21/冷端换热器/cv_chex_b_T_K_PS",
+      "workspace_variable": "cv_chex_b_T_K",
+      "unit": "K",
+      "flow_direction_not_assumed": true
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/冷端换热器/ColdSinkPipe",
+      "port_name": "B",
+      "quantity": "Pa",
+      "sensor_block": "heatdrive_ecc_coupled_se21/冷端换热器/CV_chex_b_Sensor",
+      "sensor_output_port": "Pa",
+      "converter_block": "heatdrive_ecc_coupled_se21/冷端换热器/cv_chex_b_P_Pa_PS",
+      "workspace_variable": "cv_chex_b_P_Pa",
+      "unit": "Pa",
+      "flow_direction_not_assumed": true
+    }
+  ],
+  "PI_memory_probes": [
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SMAPressurePI_Integrator",
+      "workspace_variable": "cv_PI_sma_state",
+      "initial_condition_expression": "0",
+      "external_reset": "level",
+      "controller_parameters_modified": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SEStage2PressurePI_Integrator",
+      "workspace_variable": "cv_PI_se_stage2_state",
+      "initial_condition_expression": "0",
+      "external_reset": "none",
+      "controller_parameters_modified": false
+    },
+    {
+      "block_path": "heatdrive_ecc_coupled_se21/SEStage4PressurePI_Integrator",
+      "workspace_variable": "stage4_integrator_state",
+      "initial_condition_expression": "0",
+      "external_reset": "none",
+      "controller_parameters_modified": false
+    }
+  ],
+  "stage4_controller_contract": {
+    "schema": "heatdrive_ecc_stage4_controller_probe_contract_v4",
+    "model_name": "heatdrive_ecc_coupled_se21",
+    "simulation_run": false,
+    "state_imported": false,
+    "production_recovery_allowed": false,
+    "probe_count": 24,
+    "probes": [
+      {
+        "source_block": "SEStage4PressureFFInletTemperatureDelay",
+        "workspace_variable": "stage4_inlet_temperature_delay",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "SEStage4PressureFFOutletTemperatureDelay",
+        "workspace_variable": "stage4_outlet_temperature_delay",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "SEStage4PressureFFActivityFromWorkspace",
+        "workspace_variable": "stage4_feedforward_activity",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "SEStage4InletViscosityExp",
+        "workspace_variable": "stage4_inlet_viscosity",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "SEStage4OutletViscosityExp",
+        "workspace_variable": "stage4_outlet_viscosity",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "SEStage4ViscosityMean",
+        "workspace_variable": "stage4_endpoint_viscosity_mean",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "SEStage4BlendedViscosity",
+        "workspace_variable": "stage4_blended_viscosity",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "SEStage4ViscosityRatio",
+        "workspace_variable": "stage4_viscosity_ratio",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "SEStage4EndpointViscosityWeightedDelta",
+        "workspace_variable": "stage4_weighted_viscosity_delta",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "SEPressureFFRatioSum",
+        "workspace_variable": "stage4_feedforward_ratio_sum",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "SEPressureDynamicFeedforward",
+        "workspace_variable": "stage4_dynamic_feedforward",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "PressurePI_ErrorNormalizer",
+        "workspace_variable": "stage4_normalized_error",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "PressurePI_ErrorLag",
+        "workspace_variable": "stage4_filtered_error",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "SEPressurePEnableProduct",
+        "workspace_variable": "stage4_p_output",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "SEPressureFeedbackEnableFromWorkspace",
+        "workspace_variable": "stage4_p_enable_scale",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "PressurePI_ErrorSum",
+        "workspace_variable": "stage4_flow_error",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "SEStage4PressureIInputGate",
+        "workspace_variable": "stage4_integrator_input",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "SEStage4PressurePI_Integrator",
+        "workspace_variable": "stage4_integrator_state",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "SEStage4PressureIOutputGate",
+        "workspace_variable": "stage4_integrator_output_gate",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "SERoutePressureISum",
+        "workspace_variable": "stage4_route_integral",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "PressurePI_BiasSum",
+        "workspace_variable": "stage4_bias_sum",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "PressurePI_Saturation",
+        "workspace_variable": "stage4_pressure_command",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "SEFlowTargetFromWorkspace",
+        "workspace_variable": "stage4_target_flow_command",
+        "unit": "model_signal",
+        "simulation_run": false
+      },
+      {
+        "source_block": "SEPressureBiasFromWorkspace",
+        "workspace_variable": "stage4_pressure_bias_command",
+        "unit": "model_signal",
+        "simulation_run": false
+      }
+    ],
+    "output_root": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared"
+  },
+  "workspace_variables": [
+    "ECC_Q_SE_constitutive_W",
+    "ECC_Q_SMA_constitutive_W",
+    "ECC_constitutive21_output",
+    "Qdot_cold_sink_mass_to_hx_pipe_W",
+    "Qdot_cold_sink_mass_to_pipe_W",
+    "SE_Tx21_internal",
+    "SHEX_hot_hx_inlet_fluid_temp_out",
+    "SHEX_hot_hx_outlet_fluid_temp_out",
+    "SHEX_hot_sink_temp_out",
+    "SHEX_hot_source_out",
+    "SHEX_probe_hot_hx_port1_v3_side_T_K",
+    "SHEX_probe_hot_hx_port2_v2_return_side_T_K",
+    "SMA_Tx21_internal",
+    "chip_inlet_fluid_temp_out",
+    "chip_outlet_fluid_temp_out",
+    "cold_buffer_temp_out",
+    "cold_hx_inlet_fluid_temp_out",
+    "cold_hx_outlet_fluid_temp_out",
+    "cold_load_temp_out",
+    "cold_return_outlet_fluid_temp_out",
+    "cold_sink_hx_pipe_thermal_port_temp_out",
+    "cold_sink_pipe_thermal_port_temp_out",
+    "cold_sink_temp_out",
+    "cold_subsystem_inlet_fluid_temp_out",
+    "cold_subsystem_outlet_fluid_temp_out",
+    "cv_PI_se_stage2_state",
+    "cv_PI_sma_state",
+    "cv_chex_a_P_Pa",
+    "cv_chex_a_T_K",
+    "cv_chex_b_P_Pa",
+    "cv_chex_b_T_K",
+    "cv_hhex_se_a_P_Pa",
+    "cv_hhex_se_a_T_K",
+    "cv_hhex_se_b_P_Pa",
+    "cv_hhex_se_b_T_K",
+    "cv_hhex_sma_a_P_Pa",
+    "cv_hhex_sma_a_T_K",
+    "cv_hhex_sma_b_P_Pa",
+    "cv_hhex_sma_b_T_K",
+    "cv_shex_a_P_Pa",
+    "cv_shex_a_T_K",
+    "cv_shex_b_P_Pa",
+    "cv_shex_b_T_K",
+    "diagnostic_original_cooldown_G",
+    "diagnostic_original_hold_G",
+    "diagnostic_shared_max_G",
+    "distributed_bed_resistance_MPa_per_kgps",
+    "distributed_delayed_temperature21_K",
+    "distributed_fluid_temperature21_K",
+    "distributed_inactive_pressure_MPa",
+    "distributed_kinematic_viscosity21_m2_s",
+    "distributed_pressure_envelope",
+    "distributed_pressure_feedforward_MPa",
+    "distributed_target_flow_kg_s",
+    "hhex_sma_branch_inlet_fluid_temp_out",
+    "hhex_sma_branch_outlet_fluid_temp_out",
+    "hot_buffer_temp_out",
+    "hot_hx_inlet_fluid_temp_out",
+    "hot_hx_outlet_fluid_temp_out",
+    "hot_sink_temp_out",
+    "hot_source_out",
+    "mass_flow_sma_stage13_kgps",
+    "mass_flow_sma_stage1_route_kgps",
+    "mass_flow_sma_stage3_route_kgps",
+    "mass_flow_v1_cold_inlet_kgps",
+    "mass_flow_v3_sma_to_hot_kgps",
+    "mass_flow_v4_hot_inlet_kgps",
+    "mass_flow_v6_sma_to_chip_cold_kgps",
+    "pressure_command_se_MPa",
+    "pressure_command_sma_MPa",
+    "probe_chip_pipe_port_conn2_v6_sma_side_T_K",
+    "probe_chip_to_cold_junction_T_K",
+    "probe_cold_hx_port_conn1_v5_return_side_T_K",
+    "probe_hot_hx_port1_v3_side_T_K",
+    "probe_hot_hx_port2_v2_return_side_T_K",
+    "probe_root_cold_buffer_fluid_T_K",
+    "probe_root_hot_buffer_fluid_T_K",
+    "probe_root_shex_buffer_fluid_T_K",
+    "probe_sma_stage13_pump_outlet_T_K",
+    "probe_sma_stage1_port1_v3_side_T_K",
+    "probe_sma_stage1_port2_v5_side_T_K",
+    "probe_sma_stage1_v1_pump_side_T_K",
+    "probe_sma_stage1_v1_shex_side_T_K",
+    "probe_sma_stage1_v5_shex_side_T_K",
+    "probe_sma_stage2_port1_v1_side_T_K",
+    "probe_sma_stage2_port2_v3_side_T_K",
+    "probe_sma_stage3_port3_v4_side_T_K",
+    "probe_sma_stage3_port4_v6_side_T_K",
+    "probe_sma_stage3_v2_hhex_side_T_K",
+    "probe_sma_stage3_v2_pump_side_T_K",
+    "probe_sma_stage3_v6_hhex_side_T_K",
+    "probe_sma_stage4_port3_v4_side_T_K",
+    "probe_sma_stage4_port4_v6_side_T_K",
+    "probe_v1_cold_inlet_cold_buffer_side_T_K",
+    "probe_v1_cold_inlet_sma_side_T_K",
+    "probe_v3_sma_to_hot_hot_hx_side_T_K",
+    "probe_v3_sma_to_hot_sma_side_T_K",
+    "probe_v4_hot_inlet_hot_buffer_side_T_K",
+    "probe_v4_hot_inlet_sma_side_T_K",
+    "probe_v6_sma_to_chip_chip_side_T_K",
+    "probe_v6_sma_to_chip_sma_side_T_K",
+    "pump_pressure_se_stage2_port_a_MPa",
+    "pump_pressure_se_stage2_port_b_MPa",
+    "pump_pressure_se_stage4_port_a_MPa",
+    "pump_pressure_se_stage4_port_b_MPa",
+    "pump_pressure_sma_port_a_MPa",
+    "pump_pressure_sma_port_b_MPa",
+    "se_cooldown_inlet_fluid_temp_out",
+    "se_cooldown_outlet_fluid_temp_out",
+    "se_hold_inlet_fluid_temp_out",
+    "se_hold_node01_heatflow_W",
+    "se_hold_node02_heatflow_W",
+    "se_hold_node03_heatflow_W",
+    "se_hold_node04_heatflow_W",
+    "se_hold_node05_heatflow_W",
+    "se_hold_node06_heatflow_W",
+    "se_hold_node07_heatflow_W",
+    "se_hold_node08_heatflow_W",
+    "se_hold_node09_heatflow_W",
+    "se_hold_node10_heatflow_W",
+    "se_hold_node11_heatflow_W",
+    "se_hold_node12_heatflow_W",
+    "se_hold_node13_heatflow_W",
+    "se_hold_node14_heatflow_W",
+    "se_hold_node15_heatflow_W",
+    "se_hold_node16_heatflow_W",
+    "se_hold_node17_heatflow_W",
+    "se_hold_node18_heatflow_W",
+    "se_hold_node19_heatflow_W",
+    "se_hold_node20_heatflow_W",
+    "se_hold_node21_heatflow_W",
+    "se_hold_outlet_fluid_temp_out",
+    "shex_buffer_temp_out",
+    "shex_fluid_heat_flow_W",
+    "shex_hot_pipe_portA_fluid_temp_out",
+    "shex_hot_pipe_portA_pressure_MPa",
+    "shex_hot_pipe_portB_fluid_temp_out",
+    "shex_hot_pipe_portB_pressure_MPa",
+    "shex_source_heat_flow_W",
+    "sma_cooldown_pipe_node01_fluid_temp_out",
+    "sma_cooldown_pipe_node01_pressure_MPa",
+    "sma_cooldown_pipe_node11_fluid_temp_out",
+    "sma_cooldown_pipe_node11_pressure_MPa",
+    "sma_cooldown_pipe_node21_fluid_temp_out",
+    "sma_cooldown_pipe_node21_pressure_MPa",
+    "sma_hold_node01_heatflow_W",
+    "sma_hold_node02_heatflow_W",
+    "sma_hold_node03_heatflow_W",
+    "sma_hold_node04_heatflow_W",
+    "sma_hold_node05_heatflow_W",
+    "sma_hold_node06_heatflow_W",
+    "sma_hold_node07_heatflow_W",
+    "sma_hold_node08_heatflow_W",
+    "sma_hold_node09_heatflow_W",
+    "sma_hold_node10_heatflow_W",
+    "sma_hold_node11_heatflow_W",
+    "sma_hold_node12_heatflow_W",
+    "sma_hold_node13_heatflow_W",
+    "sma_hold_node14_heatflow_W",
+    "sma_hold_node15_heatflow_W",
+    "sma_hold_node16_heatflow_W",
+    "sma_hold_node17_heatflow_W",
+    "sma_hold_node18_heatflow_W",
+    "sma_hold_node19_heatflow_W",
+    "sma_hold_node20_heatflow_W",
+    "sma_hold_node21_heatflow_W",
+    "sma_hold_pipe_node01_fluid_temp_out",
+    "sma_hold_pipe_node01_pressure_MPa",
+    "sma_hold_pipe_node11_fluid_temp_out",
+    "sma_hold_pipe_node11_pressure_MPa",
+    "sma_hold_pipe_node21_fluid_temp_out",
+    "sma_hold_pipe_node21_pressure_MPa",
+    "sma_hot_buffer_temp_out",
+    "sma_stage1_inlet_fluid_temp_out",
+    "sma_stage1_outlet_fluid_temp_out",
+    "sma_stage3_inlet_fluid_temp_out",
+    "sma_stage3_outlet_fluid_temp_out",
+    "stage4_bias_sum",
+    "stage4_blended_viscosity",
+    "stage4_dynamic_feedforward",
+    "stage4_endpoint_viscosity_mean",
+    "stage4_feedforward_activity",
+    "stage4_feedforward_ratio_sum",
+    "stage4_filtered_error",
+    "stage4_flow_error",
+    "stage4_inlet_temperature_delay",
+    "stage4_inlet_viscosity",
+    "stage4_integrator_input",
+    "stage4_integrator_output_gate",
+    "stage4_integrator_state",
+    "stage4_normalized_error",
+    "stage4_outlet_temperature_delay",
+    "stage4_outlet_viscosity",
+    "stage4_p_enable_scale",
+    "stage4_p_output",
+    "stage4_pressure_bias_command",
+    "stage4_pressure_command",
+    "stage4_route_integral",
+    "stage4_target_flow_command",
+    "stage4_viscosity_ratio",
+    "stage4_weighted_viscosity_delta"
+  ],
+  "required_workspace_variables": [
+    "ECC_Q_SE_constitutive_W",
+    "ECC_Q_SMA_constitutive_W",
+    "ECC_constitutive21_output",
+    "Qdot_cold_sink_mass_to_hx_pipe_W",
+    "SE_Tx21_internal",
+    "SMA_Tx21_internal",
+    "cv_PI_se_stage2_state",
+    "cv_PI_sma_state",
+    "cv_chex_a_P_Pa",
+    "cv_chex_a_T_K",
+    "cv_chex_b_P_Pa",
+    "cv_chex_b_T_K",
+    "cv_hhex_se_a_P_Pa",
+    "cv_hhex_se_a_T_K",
+    "cv_hhex_se_b_P_Pa",
+    "cv_hhex_se_b_T_K",
+    "cv_hhex_sma_a_P_Pa",
+    "cv_hhex_sma_a_T_K",
+    "cv_hhex_sma_b_P_Pa",
+    "cv_hhex_sma_b_T_K",
+    "cv_shex_a_P_Pa",
+    "cv_shex_a_T_K",
+    "cv_shex_b_P_Pa",
+    "cv_shex_b_T_K",
+    "mass_flow_sma_stage13_kgps",
+    "mass_flow_sma_stage1_route_kgps",
+    "mass_flow_sma_stage3_route_kgps",
+    "mass_flow_v1_cold_inlet_kgps",
+    "mass_flow_v3_sma_to_hot_kgps",
+    "mass_flow_v4_hot_inlet_kgps",
+    "mass_flow_v6_sma_to_chip_cold_kgps",
+    "pressure_command_se_MPa",
+    "pressure_command_sma_MPa",
+    "pump_pressure_se_stage2_port_a_MPa",
+    "pump_pressure_se_stage2_port_b_MPa",
+    "pump_pressure_se_stage4_port_a_MPa",
+    "pump_pressure_se_stage4_port_b_MPa",
+    "pump_pressure_sma_port_a_MPa",
+    "pump_pressure_sma_port_b_MPa",
+    "shex_source_heat_flow_W",
+    "stage4_bias_sum",
+    "stage4_blended_viscosity",
+    "stage4_dynamic_feedforward",
+    "stage4_endpoint_viscosity_mean",
+    "stage4_feedforward_activity",
+    "stage4_feedforward_ratio_sum",
+    "stage4_filtered_error",
+    "stage4_flow_error",
+    "stage4_inlet_temperature_delay",
+    "stage4_inlet_viscosity",
+    "stage4_integrator_input",
+    "stage4_integrator_output_gate",
+    "stage4_integrator_state",
+    "stage4_normalized_error",
+    "stage4_outlet_temperature_delay",
+    "stage4_outlet_viscosity",
+    "stage4_p_enable_scale",
+    "stage4_p_output",
+    "stage4_pressure_bias_command",
+    "stage4_pressure_command",
+    "stage4_route_integral",
+    "stage4_target_flow_command",
+    "stage4_viscosity_ratio",
+    "stage4_weighted_viscosity_delta"
+  ],
+  "flow_port_sign_rule": "positive mdot into component; choose actual outlet by measured sign, never by A/B name",
+  "measurement_changes_only": true
+}

@@ -1,0 +1,4753 @@
+{
+  "schema": "heatdrive_ecc_coupled_C2_trajectory_review_v1",
+  "producer_commit": "81160ab00bbf69a66fd52bc79e4fed2c698962f9",
+  "reader_sha256": "AB5A0B85E617C40F574193FE93A9617B82140EC9D643F7FF03DB608B037E4166",
+  "execution_sha256": "0A0EF5CDC7EF54E9A715089635B406EACCBD803FF3D53E9B5B7378A2F9709D4A",
+  "coverage": [
+    {
+      "arm": "dual",
+      "same_run_CV_capture_coverage_pass": true,
+      "runtime_metadata_hashes_bound": true,
+      "component_count": 119,
+      "type_counts": {
+        "Pipe (TL)": 67,
+        "Tank (TL)": 4,
+        "Constant Volume Chamber (TL)": 2,
+        "Thermal Mass": 46
+      },
+      "native_trace_count": 1240,
+      "workspace_signal_count": 221,
+      "source_trace_count": 162,
+      "source_count": 49,
+      "native_grid_sample_count": 20001,
+      "hydraulic_domain_count": 2,
+      "pump_absolute_pressure_probes": [
+        {
+          "source": "heatdrive_ecc_coupled_se21/SE_Stage2_PistonPressureSource",
+          "face": "A",
+          "min_max_MPa": [
+            0.8509493026153923,
+            1.272681814467794
+          ]
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SE_Stage2_PistonPressureSource",
+          "face": "B",
+          "min_max_MPa": [
+            0.8506516734188616,
+            0.8510737324617785
+          ]
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SE_Stage4_PistonPressureSource",
+          "face": "A",
+          "min_max_MPa": [
+            0.8509821052220673,
+            1.2726692361778362
+          ]
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SE_Stage4_PistonPressureSource",
+          "face": "B",
+          "min_max_MPa": [
+            0.8509811051874258,
+            0.8510260207715912
+          ]
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SMA Pressure Source (TL)",
+          "face": "A",
+          "min_max_MPa": [
+            0.849585600682066,
+            0.8564128681170312
+          ]
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SMA Pressure Source (TL)",
+          "face": "B",
+          "min_max_MPa": [
+            0.6085845333753932,
+            0.8509355390905732
+          ]
+        }
+      ],
+      "hex_absolute_port_probes": [
+        {
+          "tag": "shex",
+          "pipe": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+          "face": "A",
+          "unit": "K",
+          "min_max": [
+            304.36772055762,
+            393.14332837704285
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "shex",
+          "pipe": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+          "face": "A",
+          "unit": "Pa",
+          "min_max": [
+            850884.0170911285,
+            850887.2466987745
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "shex",
+          "pipe": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+          "face": "B",
+          "unit": "K",
+          "min_max": [
+            342.5249535102776,
+            393.14990768641246
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "shex",
+          "pipe": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+          "face": "B",
+          "unit": "Pa",
+          "min_max": [
+            837407.9270677953,
+            850887.2463128864
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "hhex_sma",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+          "face": "A",
+          "unit": "K",
+          "min_max": [
+            303.1756565019121,
+            386.17961774154577
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "hhex_sma",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+          "face": "A",
+          "unit": "Pa",
+          "min_max": [
+            850931.8418355192,
+            850935.0162969988
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "hhex_sma",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+          "face": "B",
+          "unit": "K",
+          "min_max": [
+            303.1463454717306,
+            327.50425403742105
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "hhex_sma",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+          "face": "B",
+          "unit": "Pa",
+          "min_max": [
+            837876.0046009197,
+            850935.0162938868
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "hhex_se",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+          "face": "A",
+          "unit": "K",
+          "min_max": [
+            291.414551113668,
+            317.61876742566636
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "hhex_se",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+          "face": "A",
+          "unit": "Pa",
+          "min_max": [
+            850981.2250235183,
+            1061210.1447028592
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "hhex_se",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+          "face": "B",
+          "unit": "K",
+          "min_max": [
+            303.0584754903939,
+            305.131633648848
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "hhex_se",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+          "face": "B",
+          "unit": "Pa",
+          "min_max": [
+            850981.1067816792,
+            1061210.1278207076
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "chex",
+          "pipe": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+          "face": "A",
+          "unit": "K",
+          "min_max": [
+            266.78179514510293,
+            280.4181805925013
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "chex",
+          "pipe": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+          "face": "A",
+          "unit": "Pa",
+          "min_max": [
+            850948.8701186882,
+            967652.340693838
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "chex",
+          "pipe": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+          "face": "B",
+          "unit": "K",
+          "min_max": [
+            275.86372371328514,
+            277.406540726345
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "chex",
+          "pipe": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+          "face": "B",
+          "unit": "Pa",
+          "min_max": [
+            850948.3532457964,
+            967652.3308308839
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        }
+      ],
+      "PI_memory_probe_count": 3,
+      "solid_workspace_native_max_difference_K": {
+        "SMA": 0.0,
+        "SE": 0.0
+      },
+      "input_dependencies": [
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\native_CV_observations.mat",
+          "sha256": "67A1195E2B2E6BC78BA88AD27098EBCCCEA3DE6612C0C05C89209C2A5E3B6B1A",
+          "bytes": 149257302
+        },
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\workspace_CV_observations.mat",
+          "sha256": "275571222C4D141DB613B8DBA4C129A05E7F88424C31810DA37E9CF1835DF6A4",
+          "bytes": 75621297
+        },
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\source_CV_observations.mat",
+          "sha256": "B8FF53EDFBB207B53E322C19069B7D9846111EA6C0439C1C708853932ABAD7A2",
+          "bytes": 20947130
+        },
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_options.mat",
+          "sha256": "1C6965D361C5FCC5F35838E232ACFD034DBD0D82DEEFA0C265D80A3D28DFDA52",
+          "bytes": 29643
+        },
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_contract.json",
+          "sha256": "56808E5B40BE46FD771814CB3E026CD4DE9D4EACA810EE75ABE166208971B913",
+          "bytes": 144200
+        },
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_tl_topology.json",
+          "sha256": "2C90BED3EA39770319ACF177361406DCAD44BE6C3E2E43E72DC0A4CE47B7805E",
+          "bytes": 230603
+        },
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_thermal_topology.json",
+          "sha256": "07C0158E858FB34C186357CE78F9557941FB399C9CD05C96FA0868B2E577F5D4",
+          "bytes": 1134184
+        }
+      ],
+      "all_mechanism_energy_periodic_or_twenty_cycle_seed_qualified": false,
+      "complete_hidden_state_or_OP_saved": false
+    },
+    {
+      "arm": "shared",
+      "same_run_CV_capture_coverage_pass": true,
+      "runtime_metadata_hashes_bound": true,
+      "component_count": 98,
+      "type_counts": {
+        "Pipe (TL)": 46,
+        "Tank (TL)": 4,
+        "Constant Volume Chamber (TL)": 2,
+        "Thermal Mass": 46
+      },
+      "native_trace_count": 904,
+      "workspace_signal_count": 201,
+      "source_trace_count": 162,
+      "source_count": 49,
+      "native_grid_sample_count": 20001,
+      "hydraulic_domain_count": 2,
+      "pump_absolute_pressure_probes": [
+        {
+          "source": "heatdrive_ecc_coupled_se21/SE_Stage2_PistonPressureSource",
+          "face": "A",
+          "min_max_MPa": [
+            0.8509493150394907,
+            1.2661933920774588
+          ]
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SE_Stage2_PistonPressureSource",
+          "face": "B",
+          "min_max_MPa": [
+            0.8506702078838184,
+            0.8510835585893601
+          ]
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SE_Stage4_PistonPressureSource",
+          "face": "A",
+          "min_max_MPa": [
+            0.8509820976839814,
+            1.2661518632291169
+          ]
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SE_Stage4_PistonPressureSource",
+          "face": "B",
+          "min_max_MPa": [
+            0.8509810976496046,
+            0.8510260083471356
+          ]
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SMA Pressure Source (TL)",
+          "face": "A",
+          "min_max_MPa": [
+            0.8496116179280148,
+            0.8564129483124002
+          ]
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SMA Pressure Source (TL)",
+          "face": "B",
+          "min_max_MPa": [
+            0.6086650799653621,
+            0.8509348797835793
+          ]
+        }
+      ],
+      "hex_absolute_port_probes": [
+        {
+          "tag": "shex",
+          "pipe": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+          "face": "A",
+          "unit": "K",
+          "min_max": [
+            304.3681005439864,
+            393.14333202831637
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "shex",
+          "pipe": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+          "face": "A",
+          "unit": "Pa",
+          "min_max": [
+            850884.0172809499,
+            850887.2191295741
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "shex",
+          "pipe": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+          "face": "B",
+          "unit": "K",
+          "min_max": [
+            332.97981297495244,
+            393.1499158714441
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "shex",
+          "pipe": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+          "face": "B",
+          "unit": "Pa",
+          "min_max": [
+            837407.7930523318,
+            850887.2190518447
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "hhex_sma",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+          "face": "A",
+          "unit": "K",
+          "min_max": [
+            303.16795992719625,
+            392.3315018623823
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "hhex_sma",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+          "face": "A",
+          "unit": "Pa",
+          "min_max": [
+            850931.8712924076,
+            850935.0162969988
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "hhex_sma",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+          "face": "B",
+          "unit": "K",
+          "min_max": [
+            303.1502665632456,
+            365.47229279639845
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "hhex_sma",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+          "face": "B",
+          "unit": "Pa",
+          "min_max": [
+            838122.8613872824,
+            850935.0162923544
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "hhex_se",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+          "face": "A",
+          "unit": "K",
+          "min_max": [
+            291.4145509033302,
+            317.59601247753534
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "hhex_se",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+          "face": "A",
+          "unit": "Pa",
+          "min_max": [
+            850981.2126260835,
+            1057907.6006197212
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "hhex_se",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+          "face": "B",
+          "unit": "K",
+          "min_max": [
+            303.0584754903939,
+            305.12948346589434
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "hhex_se",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+          "face": "B",
+          "unit": "Pa",
+          "min_max": [
+            850981.0991837848,
+            1057907.5840418583
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "chex",
+          "pipe": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+          "face": "A",
+          "unit": "K",
+          "min_max": [
+            267.55258475742886,
+            280.41484373712177
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "chex",
+          "pipe": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+          "face": "A",
+          "unit": "Pa",
+          "min_max": [
+            850948.8824215014,
+            967831.2166880007
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "chex",
+          "pipe": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+          "face": "B",
+          "unit": "K",
+          "min_max": [
+            275.89695565744114,
+            277.40654072042753
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "chex",
+          "pipe": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+          "face": "B",
+          "unit": "Pa",
+          "min_max": [
+            850948.3684999594,
+            967831.2068005762
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        }
+      ],
+      "PI_memory_probe_count": 3,
+      "solid_workspace_native_max_difference_K": {
+        "SMA": 0.0,
+        "SE": 0.0
+      },
+      "input_dependencies": [
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\native_CV_observations.mat",
+          "sha256": "A5FCC7750EC5E32EF5898E10508D213EC0E9452142C674045573AC50C0F5D794",
+          "bytes": 111051596
+        },
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\workspace_CV_observations.mat",
+          "sha256": "7080DA9CF66C258D81B30D669DB7A8A03CABFE99BE49AF4735BC0CCB2AB0D472",
+          "bytes": 72277925
+        },
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\source_CV_observations.mat",
+          "sha256": "5B5E2ECC9139FACA6513D6A1899A5D699726C1DFE2A2F728A88CB6258B4639CF",
+          "bytes": 20887376
+        },
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_options.mat",
+          "sha256": "7195EAB3B42AD660D9AB25A1FCE1674CAFDE6AA3B6F65927C1904B4CDF483B4C",
+          "bytes": 29644
+        },
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_contract.json",
+          "sha256": "3EA57A9930A1AC83028B6E305A0260CD554048FA84CBE0241BF06E3C3CE87C64",
+          "bytes": 120677
+        },
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_tl_topology.json",
+          "sha256": "5240CCCC068EEB84C1629EF27EAA726D3D1CC85C7B37D495FCF9DA73BDA8C7E4",
+          "bytes": 203431
+        },
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_thermal_topology.json",
+          "sha256": "DB440D8F9C324A444CE8570F33D57015CC1518DDF96E1CC6D71D3503AF3344D8",
+          "bytes": 1056078
+        }
+      ],
+      "all_mechanism_energy_periodic_or_twenty_cycle_seed_qualified": false,
+      "complete_hidden_state_or_OP_saved": false
+    }
+  ],
+  "arms": [
+    {
+      "arm": "dual",
+      "native_components": [
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            317.61915095017383
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850981.4574046261,
+            1269450.0771817195
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.6290081223123707e-13,
+          "energy_change_J": 12.737526562290595,
+          "net_port_energy_BE_J": 12.737526562290432,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_002",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            317.45340090247106
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850981.9056369996,
+            1263193.789958061
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 3.304023721284466e-13,
+          "energy_change_J": 12.711618988778635,
+          "net_port_energy_BE_J": 12.711618988778705,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_003",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            317.2180879091288
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850982.3554700575,
+            1256399.1207563267
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.1368683772161603e-13,
+          "energy_change_J": 12.654692591786167,
+          "net_port_energy_BE_J": 12.654692591786159,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_004",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            316.8907087035273
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850982.8083439923,
+            1249104.4443885877
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.9184653865522705e-13,
+          "energy_change_J": 12.55055237206928,
+          "net_port_energy_BE_J": 12.550552372069482,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_005",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            316.4407125236565
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850983.266184565,
+            1241345.639533111
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.3803181647963356e-13,
+          "energy_change_J": 12.382925993467728,
+          "net_port_energy_BE_J": 12.38292599346779,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_006",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            315.8253914096483
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850983.7313327832,
+            1233140.137952719
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 3.7836400679225335e-13,
+          "energy_change_J": 12.137656981486382,
+          "net_port_energy_BE_J": 12.13765698148647,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_007",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            314.9931807166131
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.206398186,
+            1224487.3380363379
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.3322676295501878e-13,
+          "energy_change_J": 11.804433969942814,
+          "net_port_energy_BE_J": 11.804433969942663,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_008",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            313.97548952192574
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.3844970005,
+            1215375.5013984917
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.779998453661392e-13,
+          "energy_change_J": 11.37774013819263,
+          "net_port_energy_BE_J": 11.377740138192872,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_009",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            312.82223162736244
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.3844987899,
+            1205788.8942531354
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 3.232969447708456e-13,
+          "energy_change_J": 10.85695026558271,
+          "net_port_energy_BE_J": 10.856950265582935,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_010",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            311.5225987181464
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.3845006406,
+            1194538.5462376226
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.341149413747189e-13,
+          "energy_change_J": 10.245694672971785,
+          "net_port_energy_BE_J": 10.245694672971712,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_011",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            310.6078945824597
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.3845025607,
+            1180035.4724856308
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.504663143554353e-13,
+          "energy_change_J": 9.550435840874437,
+          "net_port_energy_BE_J": 9.550435840874572,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_012",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.7386047526745,
+            310.4762030076502
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.3845045577,
+            1161844.245891659
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.0302869668521453e-13,
+          "energy_change_J": 8.778707316141627,
+          "net_port_energy_BE_J": 8.778707316141597,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_013",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            274.8648803995992,
+            310.2751878489388
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.3845066385,
+            1140137.928722161
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.638689184346731e-13,
+          "energy_change_J": 7.937199337934032,
+          "net_port_energy_BE_J": 7.937199337933908,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_014",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            273.1781403941473,
+            309.96768270194343
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.3845088092,
+            1115134.8456342542
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 9.646450305211829e-14,
+          "energy_change_J": 7.031135697823558,
+          "net_port_energy_BE_J": 7.031135697823613,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_015",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            271.6553787123341,
+            309.4959771246981
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.384511077,
+            1087097.484593727
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.3198110099542646e-13,
+          "energy_change_J": 6.064263713382408,
+          "net_port_energy_BE_J": 6.06426371338263,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_016",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            270.36490755434176,
+            308.7700665103291
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.3845134486,
+            1056755.8678081858
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.0802470029602773e-13,
+          "energy_change_J": 5.03841213662527,
+          "net_port_energy_BE_J": 5.038412136625315,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_017",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            269.3181550174364,
+            307.64839952527007
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850978.8627885701,
+            1032061.6761427739
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.7497114868092467e-13,
+          "energy_change_J": 3.9536040738057068,
+          "net_port_energy_BE_J": 3.953604073805598,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_018",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            268.4687613450755,
+            305.9067517935694
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850972.6176912822,
+            1042916.3319992387
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.3677947663381929e-13,
+          "energy_change_J": 2.8103749261670448,
+          "net_port_energy_BE_J": 2.8103749261670963,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_019",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            267.7801531258502,
+            303.1864008297583
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850966.1722769504,
+            1053770.9001616659
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.3855583347321954e-13,
+          "energy_change_J": 1.6424773361283371,
+          "net_port_energy_BE_J": 1.6424773361282776,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_020",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            267.22498042969073,
+            298.9243703307866
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850959.5987052509,
+            1064626.6059497138
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.1049828546892968e-13,
+          "energy_change_J": 0.5241047803084715,
+          "net_port_energy_BE_J": 0.5241047803086447,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_021",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            266.7819718020568,
+            292.56846409025053
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850952.8784626295,
+            1075535.5717857876
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.7053025658242404e-13,
+          "energy_change_J": -0.5338089086713573,
+          "net_port_energy_BE_J": -0.5338089086712161,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            342.5252079767436,
+            393.15
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            844146.2721760935,
+            850887.2463124079
+          ],
+          "constant_native_mass_kg": 0.002787572390534503,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.0686562745831907e-11,
+          "energy_change_J": -1.5763849970594492,
+          "net_port_energy_BE_J": -1.5763849970607529,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_001",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14772843329075,
+            349.65007482249905
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            627223.5183181954,
+            850934.6167375814
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.5099033134902129e-12,
+          "energy_change_J": 11.574405595846315,
+          "net_port_energy_BE_J": 11.574405595844983,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_002",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14650432002327,
+            349.4519867065942
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            638037.3950143011,
+            850934.616737461
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.2363443602225743e-12,
+          "energy_change_J": 11.359557234501267,
+          "net_port_energy_BE_J": 11.359557234501253,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_003",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14650348047917,
+            349.2213425380743
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            648799.5610151454,
+            850934.6167373401
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.4779288903810084e-12,
+          "energy_change_J": 11.151909834002566,
+          "net_port_energy_BE_J": 11.151909834002948,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_004",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1465034807759,
+            348.95330331673483
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            659504.1036018514,
+            850934.6167372194
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.5560885913146194e-12,
+          "energy_change_J": 10.950468149904026,
+          "net_port_energy_BE_J": 10.950468149903593,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_005",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1465034811048,
+            348.64269658065473
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            670149.1406032916,
+            850934.6167370982
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.1174173525650986e-12,
+          "energy_change_J": 10.754365481775352,
+          "net_port_energy_BE_J": 10.754365481776158,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_006",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14650348143374,
+            348.28328990698276
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            680734.3896298994,
+            850934.6167369771
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.4246381851990009e-12,
+          "energy_change_J": 10.562902105015056,
+          "net_port_energy_BE_J": 10.56290210501448,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_007",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1465034817626,
+            347.868064567726
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            689991.9351736633,
+            850934.6167368559
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.91491267287347e-12,
+          "energy_change_J": 10.375568396812497,
+          "net_port_energy_BE_J": 10.37556839681243,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_008",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1465034820914,
+            347.3889971170025
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            689991.951129373,
+            850934.6167367344
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.4210854715202004e-12,
+          "energy_change_J": 10.192004056545642,
+          "net_port_energy_BE_J": 10.192004056545375,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_009",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14650348242014,
+            346.83690448722604
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            689991.9670850829,
+            850934.616736613
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 9.947598300641403e-13,
+          "energy_change_J": 10.011845631313392,
+          "net_port_energy_BE_J": 10.011845631313744,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_010",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14650348274887,
+            346.2009358467582
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            689991.9830407928,
+            850934.6167364914
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.5366375666635577e-12,
+          "energy_change_J": 9.834763222085726,
+          "net_port_energy_BE_J": 9.83476322208363,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_011",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1465034830775,
+            345.46706762786135
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            689991.9989965025,
+            850934.6167363696
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.4087398742267396e-12,
+          "energy_change_J": 9.660543938511225,
+          "net_port_energy_BE_J": 9.660543938510019,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_012",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1465034834061,
+            344.6230518504402
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            689992.0149522123,
+            850934.6167362477
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.3926637620897964e-12,
+          "energy_change_J": 9.489062107260509,
+          "net_port_energy_BE_J": 9.489062107260818,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_013",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1465034837346,
+            343.6518446978807
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            689992.0309079222,
+            850934.6167361254
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.7124079931818414e-12,
+          "energy_change_J": 9.320247153530701,
+          "net_port_energy_BE_J": 9.32024715353085,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_014",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14650348406315,
+            342.52232929473456
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            689992.0468636319,
+            850934.6357833243
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.5224267119483557e-12,
+          "energy_change_J": 9.1540598983336,
+          "net_port_energy_BE_J": 9.154059898331523,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_015",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14650348439164,
+            341.20933781716906
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            689992.0628193418,
+            850934.6821771984
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.3661073100811336e-12,
+          "energy_change_J": 8.99047720645838,
+          "net_port_energy_BE_J": 8.990477206457186,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_016",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1465034847201,
+            339.6857164360476
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            689992.0787750515,
+            850934.7285710723
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.2754242106893798e-12,
+          "energy_change_J": 8.829482913700971,
+          "net_port_energy_BE_J": 8.829482913701874,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_017",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1465034850485,
+            337.92110647160365
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            689992.0947307614,
+            850934.7749649463
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.4868995751603507e-12,
+          "energy_change_J": 8.671062997769127,
+          "net_port_energy_BE_J": 8.67106299777129,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_018",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.146503485377,
+            335.881324363414
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            689992.1106864712,
+            850934.8213588202
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.1174173525650986e-12,
+          "energy_change_J": 8.515203294818619,
+          "net_port_energy_BE_J": 8.515203294819205,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_019",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14650348571297,
+            333.53777508308826
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            689992.126642181,
+            850934.8677526941
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.6200374375330284e-12,
+          "energy_change_J": 8.361888534962972,
+          "net_port_energy_BE_J": 8.361888534962993,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_020",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1465035051675,
+            330.87235983774474
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            689992.1425978909,
+            850934.914146568
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.0321522242738865e-12,
+          "energy_change_J": 8.21110195704533,
+          "net_port_energy_BE_J": 8.211101957045292,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/CooldownPipe_021",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14653712535255,
+            328.4069536691926
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            689992.158553594,
+            850934.9605404221
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.5205614545266144e-12,
+          "energy_change_J": 8.062825136492748,
+          "net_port_energy_BE_J": 8.062825136491671,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.15,
+            392.8451085533456
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            743428.3849159696,
+            850904.8580383469
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 3.183231456205249e-12,
+          "energy_change_J": 276.3341021446413,
+          "net_port_energy_BE_J": 276.3341021446391,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1499952596629,
+            392.8378986706106
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            743428.3785442498,
+            850904.8580401824
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 4.320099833421409e-12,
+          "energy_change_J": 276.3112007488947,
+          "net_port_energy_BE_J": 276.311200748896,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14999525890613,
+            392.83042976489713
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            743428.372172115,
+            850904.8580420183
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 4.092726157978177e-12,
+          "energy_change_J": 276.2879747275015,
+          "net_port_energy_BE_J": 276.2879747275015,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1499408585373,
+            392.82222867759685
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            743428.3657995373,
+            850904.8580438539
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 3.467448550509289e-12,
+          "energy_change_J": 276.2624741827275,
+          "net_port_energy_BE_J": 276.26247418272965,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1498580089088,
+            392.8133460674554
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            743428.359426477,
+            850904.85804569
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.7853275241795927e-12,
+          "energy_change_J": 276.23485406385663,
+          "net_port_energy_BE_J": 276.2348540638545,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1497640146615,
+            392.80390674839936
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            743428.3530528992,
+            850904.8580475259
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.1032064978498966e-12,
+          "energy_change_J": 276.2055021659081,
+          "net_port_energy_BE_J": 276.2055021659073,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14967226082484,
+            392.7939845998264
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            743428.3466787743,
+            850904.8580493623
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.6716406864579767e-12,
+          "energy_change_J": 276.17464844991935,
+          "net_port_energy_BE_J": 276.17464844991764,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1495654295749,
+            392.7836045639197
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            736706.2478110362,
+            850904.8580511988
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 5.8548721426632255e-12,
+          "energy_change_J": 276.1423706915799,
+          "net_port_energy_BE_J": 276.142370691581,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1494572194275,
+            392.7727659967222
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            725953.1418064594,
+            850904.8580530355
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.6484591469634324e-12,
+          "energy_change_J": 276.10866699959234,
+          "net_port_energy_BE_J": 276.108666999594,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14936629338087,
+            392.7614578473809
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            715529.1744682188,
+            850904.8580548723
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.3874235921539366e-12,
+          "energy_change_J": 276.07350305361945,
+          "net_port_energy_BE_J": 276.07350305361933,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14927699107994,
+            392.7496652845072
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            705534.8526972822,
+            850904.8580567092
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 3.808509063674137e-12,
+          "energy_change_J": 276.0368327477315,
+          "net_port_energy_BE_J": 276.0368327477332,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1491856372323,
+            392.7373720175494
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            695959.7511415192,
+            850904.8580585464
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.8990143619012088e-12,
+          "energy_change_J": 275.9986054281354,
+          "net_port_energy_BE_J": 275.9986054281351,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14909111852154,
+            392.72456098834033
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            686724.7415528864,
+            850904.8580603837
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 3.694822225952521e-12,
+          "energy_change_J": 275.95876805087545,
+          "net_port_energy_BE_J": 275.95876805087596,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1489933296636,
+            392.7112145462142
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            677862.0964504181,
+            850904.8580622214
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 6.934897101018578e-12,
+          "energy_change_J": 275.91726572868055,
+          "net_port_energy_BE_J": 275.91726572868464,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.148893041313,
+            392.69731447917343
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            669382.4964162743,
+            850904.8580640593
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.4442670110147446e-12,
+          "energy_change_J": 275.8740418285167,
+          "net_port_energy_BE_J": 275.8740418285198,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1487900123801,
+            392.682842008048
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            661201.9828697358,
+            850904.8580658972
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.2168933355715126e-12,
+          "energy_change_J": 275.82903795359084,
+          "net_port_energy_BE_J": 275.82903795359164,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1486841204944,
+            392.6677777711298
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            653331.8287127514,
+            850904.8580677356
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.4442670110147446e-12,
+          "energy_change_J": 275.78219389560167,
+          "net_port_energy_BE_J": 275.78219389560104,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1485751083274,
+            392.65210180538486
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            645731.9821355644,
+            850904.8580695741
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 5.286437954055145e-12,
+          "energy_change_J": 275.73344757633026,
+          "net_port_energy_BE_J": 275.73344757633,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.148463547446,
+            392.63579352526926
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            638375.3362402889,
+            850904.8580714129
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.9895196601282805e-12,
+          "energy_change_J": 275.68273498171544,
+          "net_port_energy_BE_J": 275.68273498171544,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.148349413472,
+            392.618831700118
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            629196.7056012977,
+            850904.858073252
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 4.661160346586257e-12,
+          "energy_change_J": 275.6299880540546,
+          "net_port_energy_BE_J": 275.62998805405454,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1483252148056,
+            392.60119326458675
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            618614.9233849855,
+            850904.8580750914
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 3.183231456205249e-12,
+          "energy_change_J": 275.5312517444515,
+          "net_port_energy_BE_J": 275.53125174445296,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            275.86379488435693,
+            276.9537121981439
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850948.8701186655,
+            967652.3357623612
+          ],
+          "constant_native_mass_kg": 0.001954804314188978,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.45372602844418e-12,
+          "energy_change_J": -5.614870077514524,
+          "net_port_energy_BE_J": -5.6148700775156595,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.07637636848153,
+            305.13165574920447
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850981.1660026107,
+            1061210.1362617835
+          ],
+          "constant_native_mass_kg": 0.001954804314188978,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.6436630662374228e-12,
+          "energy_change_J": 7.64958150672561,
+          "net_port_energy_BE_J": 7.6495815067264274,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14634840235783,
+            327.50443915927895
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            844404.721237363,
+            850935.0162947053
+          ],
+          "constant_native_mass_kg": 0.002787572390534503,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.1482370609883219e-11,
+          "energy_change_J": 30.046667970027272,
+          "net_port_energy_BE_J": 30.046667970035013,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+          "mask_type": "Tank (TL)",
+          "T_min_max_K": [
+            276.8883055854214,
+            276.9500040525481
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850000.0,
+            850000.0
+          ],
+          "variable_inventory_diagnostic": {
+            "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+            "mask_type": "Tank (TL)",
+            "sample_count": 20001,
+            "start_s": 0.0,
+            "stop_s": 20.0,
+            "volume_start_m3": 9.569622191315918e-05,
+            "volume_end_m3": 9.55747105992407e-05,
+            "equation_basis": "integral(M cp dT + h dM); constant-pressure native Tank (TL)",
+            "temperature_start_K": 276.95,
+            "temperature_end_K": 276.8883055854214,
+            "pressure_start_Pa": 850000.0,
+            "pressure_end_Pa": 850000.0,
+            "mass_start_kg": 0.10123865866626236,
+            "mass_end_kg": 0.1011123468855859,
+            "energy_start_J": 7782.786296226194,
+            "energy_end_J": 7751.170037072245,
+            "mass_endpoint_change_kg": -0.00012631178067645799,
+            "mass_equation_accumulation_kg": -0.00012631178067645799,
+            "mass_flow_integral_kg": -0.0001279099593424352,
+            "mass_flow_absolute_integral_kg": 0.018167181473023274,
+            "energy_endpoint_change_J": -31.616259153949613,
+            "energy_enthalpy_endpoint_change_J": -31.719543770782366,
+            "pressure_volume_work_J": -0.103284616830714,
+            "energy_equation_accumulation_J": -31.96673276522771,
+            "energy_flow_integral_J": -32.31895576962336,
+            "energy_flow_absolute_integral_J": 1387.960601930737,
+            "native_density_lookup_max_abs_error_kg_m3": 4.547473508864641e-13,
+            "native_energy_lookup_max_abs_error_J_kg": 2.9103830456733704e-11,
+            "mass_residual_kg": -1.5981786659772027e-06,
+            "energy_residual_J": -0.3522230043956469,
+            "energy_closure_verified": false,
+            "mass_closure_verified": false
+          },
+          "basis": "coefficient-path trapezoid and endpoint diagnostics; not a BE conservation gate"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+          "mask_type": "Tank (TL)",
+          "T_min_max_K": [
+            303.1497734866254,
+            303.24571802660546
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850000.0,
+            850000.0
+          ],
+          "variable_inventory_diagnostic": {
+            "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+            "mask_type": "Tank (TL)",
+            "sample_count": 20001,
+            "start_s": 0.0,
+            "stop_s": 20.0,
+            "volume_start_m3": 9.569622191315918e-05,
+            "volume_end_m3": 9.582164339293766e-05,
+            "equation_basis": "integral(M cp dT + h dM); constant-pressure native Tank (TL)",
+            "temperature_start_K": 303.15,
+            "temperature_end_K": 303.24571802660546,
+            "pressure_start_Pa": 850000.0,
+            "pressure_end_Pa": 850000.0,
+            "mass_start_kg": 0.10001750154514236,
+            "mass_end_kg": 0.10014381332581881,
+            "energy_start_J": 17105.449545397172,
+            "energy_end_J": 17161.74052589561,
+            "mass_endpoint_change_kg": 0.00012631178067645799,
+            "mass_equation_accumulation_kg": 0.00012631178067645799,
+            "mass_flow_integral_kg": 0.0001279099593424352,
+            "mass_flow_absolute_integral_kg": 0.018167181473023274,
+            "energy_endpoint_change_J": 56.29098049843742,
+            "energy_enthalpy_endpoint_change_J": 56.3975887562483,
+            "pressure_volume_work_J": 0.10660825781170491,
+            "energy_equation_accumulation_J": 56.58058777914724,
+            "energy_flow_integral_J": 57.220913790910345,
+            "energy_flow_absolute_integral_J": 3161.1183363433393,
+            "native_density_lookup_max_abs_error_kg_m3": 4.547473508864641e-13,
+            "native_energy_lookup_max_abs_error_J_kg": 8.731149137020111e-11,
+            "mass_residual_kg": 1.5981786659772027e-06,
+            "energy_residual_J": 0.6403260117631078,
+            "energy_closure_verified": false,
+            "mass_closure_verified": false
+          },
+          "basis": "coefficient-path trapezoid and endpoint diagnostics; not a BE conservation gate"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+          "mask_type": "Tank (TL)",
+          "T_min_max_K": [
+            392.9684434729131,
+            393.15
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            850000.0,
+            850000.0
+          ],
+          "variable_inventory_diagnostic": {
+            "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+            "mask_type": "Tank (TL)",
+            "sample_count": 20001,
+            "start_s": 0.0,
+            "stop_s": 20.0,
+            "volume_start_m3": 9.569622191315918e-05,
+            "volume_end_m3": 9.585276353079851e-05,
+            "equation_basis": "integral(M cp dT + h dM); constant-pressure native Tank (TL)",
+            "temperature_start_K": 393.15,
+            "temperature_end_K": 392.9684434729131,
+            "pressure_start_Pa": 850000.0,
+            "pressure_end_Pa": 850000.0,
+            "mass_start_kg": 0.09028074776293574,
+            "mass_end_kg": 0.0904421218627254,
+            "energy_start_J": 45442.03950737438,
+            "energy_end_J": 45453.71318337532,
+            "mass_endpoint_change_kg": 0.00016137409978966843,
+            "mass_equation_accumulation_kg": 0.00016137409978966843,
+            "mass_flow_integral_kg": 0.00016137417665239095,
+            "mass_flow_absolute_integral_kg": 0.0006014410325977169,
+            "energy_endpoint_change_J": 11.673676000944397,
+            "energy_enthalpy_endpoint_change_J": 11.80673637594009,
+            "pressure_volume_work_J": 0.133060374993432,
+            "energy_equation_accumulation_J": 11.667876858204153,
+            "energy_flow_integral_J": 10.940471156882339,
+            "energy_flow_absolute_integral_J": 234.9004276405538,
+            "native_density_lookup_max_abs_error_kg_m3": 2.2737367544323206e-13,
+            "native_energy_lookup_max_abs_error_J_kg": 1.7462298274040222e-10,
+            "mass_residual_kg": 7.686272251268209e-11,
+            "energy_residual_J": -0.727405701321814,
+            "energy_closure_verified": false,
+            "mass_closure_verified": false
+          },
+          "basis": "coefficient-path trapezoid and endpoint diagnostics; not a BE conservation gate"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+          "mask_type": "Tank (TL)",
+          "T_min_max_K": [
+            303.15,
+            303.19119590273874
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            850000.0,
+            850000.0
+          ],
+          "variable_inventory_diagnostic": {
+            "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+            "mask_type": "Tank (TL)",
+            "sample_count": 20001,
+            "start_s": 0.0,
+            "stop_s": 20.0,
+            "volume_start_m3": 9.569622191315918e-05,
+            "volume_end_m3": 9.53725953237831e-05,
+            "equation_basis": "integral(M cp dT + h dM); constant-pressure native Tank (TL)",
+            "temperature_start_K": 303.15,
+            "temperature_end_K": 303.19119590273874,
+            "pressure_start_Pa": 850000.0,
+            "pressure_end_Pa": 850000.0,
+            "mass_start_kg": 0.09531256850141726,
+            "mass_end_kg": 0.0949889740590432,
+            "energy_start_J": 11977.288968728462,
+            "energy_end_J": 11952.972311820735,
+            "mass_endpoint_change_kg": -0.00032359444237405055,
+            "mass_equation_accumulation_kg": -0.00032359444237405055,
+            "mass_flow_integral_kg": -0.0003235933375715541,
+            "mass_flow_absolute_integral_kg": 0.0004933997848922526,
+            "energy_endpoint_change_J": -24.31665690772752,
+            "energy_enthalpy_endpoint_change_J": -24.591739508698083,
+            "pressure_volume_work_J": -0.2750826009696662,
+            "energy_equation_accumulation_J": -24.588960272635408,
+            "energy_flow_integral_J": -24.417717425295628,
+            "energy_flow_absolute_integral_J": 70.28239458790395,
+            "native_density_lookup_max_abs_error_kg_m3": 3.410605131648481e-13,
+            "native_energy_lookup_max_abs_error_J_kg": 5.820766091346741e-11,
+            "mass_residual_kg": 1.1048024964495362e-09,
+            "energy_residual_J": 0.17124284733978,
+            "energy_closure_verified": false,
+            "mass_closure_verified": false
+          },
+          "basis": "coefficient-path trapezoid and endpoint diagnostics; not a BE conservation gate"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+          "mask_type": "Constant Volume Chamber (TL)",
+          "T_min_max_K": [
+            304.3559253202205,
+            393.15
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            849585.6006820662,
+            856412.8681170313
+          ],
+          "variable_inventory_diagnostic": {
+            "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+            "mask_type": "Constant Volume Chamber (TL)",
+            "sample_count": 20001,
+            "start_s": 0.0,
+            "stop_s": 20.0,
+            "equation_basis": "integral(dUdp dp + dUdT dT); compressible chamber table coefficients",
+            "temperature_start_K": 393.15,
+            "temperature_end_K": 307.0182170696728,
+            "pressure_start_Pa": 850000.5,
+            "pressure_end_Pa": 855734.7205953015,
+            "mass_start_kg": 0.0015174702627137884,
+            "mass_end_kg": 0.0015999171436141479,
+            "energy_start_J": 763.8056320283913,
+            "energy_end_J": 226.89959145050165,
+            "mass_endpoint_change_kg": 8.244688090035951e-05,
+            "mass_equation_accumulation_kg": 8.245435374040094e-05,
+            "mass_flow_integral_kg": 8.147183271434196e-05,
+            "mass_flow_absolute_integral_kg": 2.003854243238872,
+            "energy_endpoint_change_J": -536.9060405778896,
+            "energy_enthalpy_endpoint_change_J": -536.896817110218,
+            "pressure_volume_work_J": 0.0,
+            "energy_equation_accumulation_J": -536.9631418314318,
+            "energy_flow_integral_J": -538.0905227907017,
+            "energy_flow_absolute_integral_J": 622860.712276561,
+            "native_density_lookup_max_abs_error_kg_m3": 5.684341886080801e-13,
+            "native_energy_lookup_max_abs_error_J_kg": 3.4924596548080444e-10,
+            "mass_residual_kg": -9.82521026058979e-07,
+            "energy_residual_J": -1.1273809592698854,
+            "energy_closure_verified": false,
+            "mass_closure_verified": false
+          },
+          "basis": "coefficient-path trapezoid and endpoint diagnostics; not a BE conservation gate"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+          "mask_type": "Constant Volume Chamber (TL)",
+          "T_min_max_K": [
+            303.68535315741775,
+            393.15
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            608584.5333753934,
+            850935.5390905733
+          ],
+          "variable_inventory_diagnostic": {
+            "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+            "mask_type": "Constant Volume Chamber (TL)",
+            "sample_count": 20001,
+            "start_s": 0.0,
+            "stop_s": 20.0,
+            "equation_basis": "integral(dUdp dp + dUdT dT); compressible chamber table coefficients",
+            "temperature_start_K": 393.15,
+            "temperature_end_K": 306.9886373621143,
+            "pressure_start_Pa": 849999.5,
+            "pressure_end_Pa": 677293.8302868505,
+            "mass_start_kg": 0.0015174702620079918,
+            "mass_end_kg": 0.001599800690320365,
+            "energy_start_J": 763.8056322145754,
+            "energy_end_J": 226.7146743577623,
+            "mass_endpoint_change_kg": 8.233042831237323e-05,
+            "mass_equation_accumulation_kg": 8.233655674106982e-05,
+            "mass_flow_integral_kg": 8.074732820482125e-05,
+            "mass_flow_absolute_integral_kg": 2.0040164496930153,
+            "energy_endpoint_change_J": -537.0909578568131,
+            "energy_enthalpy_endpoint_change_J": -537.3687541387737,
+            "pressure_volume_work_J": 0.0,
+            "energy_equation_accumulation_J": -537.1474483094408,
+            "energy_flow_integral_J": -538.9753503856192,
+            "energy_flow_absolute_integral_J": 621783.6470198685,
+            "native_density_lookup_max_abs_error_kg_m3": 4.547473508864641e-13,
+            "native_energy_lookup_max_abs_error_J_kg": 3.4924596548080444e-10,
+            "mass_residual_kg": -1.5892285362485747e-06,
+            "energy_residual_J": -1.8279020761783613,
+            "energy_closure_verified": false,
+            "mass_closure_verified": false
+          },
+          "basis": "coefficient-path trapezoid and endpoint diagnostics; not a BE conservation gate"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_01",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            287.7421543062098,
+            321.85970159017927
+          ],
+          "BE_energy_residual_max_J": 1.9966250874858815e-12,
+          "energy_change_J": 0.01265746090734865,
+          "net_port_energy_BE_J": 0.012657460906998264,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_02",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            287.0315677546566,
+            321.8349142931799
+          ],
+          "BE_energy_residual_max_J": 1.6822099269120372e-12,
+          "energy_change_J": -0.07855309444602199,
+          "net_port_energy_BE_J": -0.07855309444690617,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_03",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            285.3573649780096,
+            321.7852844915546
+          ],
+          "BE_energy_residual_max_J": 3.896216682619524e-12,
+          "energy_change_J": -0.2614054962216983,
+          "net_port_energy_BE_J": -0.26140549622560094,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_04",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            283.5933680609408,
+            321.7018469209805
+          ],
+          "BE_energy_residual_max_J": 3.9825920339353615e-12,
+          "energy_change_J": -0.5711644522539245,
+          "net_port_energy_BE_J": -0.5711644522564328,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_05",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            281.72107198928285,
+            321.5771875882483
+          ],
+          "BE_energy_residual_max_J": 1.5774048733874224e-12,
+          "energy_change_J": -1.0392000795836793,
+          "net_port_energy_BE_J": -1.0392000795842185,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_06",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            279.73747721012234,
+            321.47801966513185
+          ],
+          "BE_energy_residual_max_J": 1.7763568394002505e-12,
+          "energy_change_J": -1.6887393092994216,
+          "net_port_energy_BE_J": -1.6887393093003427,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_07",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            277.65418916645115,
+            321.47801974025265
+          ],
+          "BE_energy_residual_max_J": 1.0320633236915455e-12,
+          "energy_change_J": -2.5326495582243638,
+          "net_port_energy_BE_J": -2.5326495582233743,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_08",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            275.4957972308226,
+            321.478019740902
+          ],
+          "BE_energy_residual_max_J": 6.0609295360336546e-12,
+          "energy_change_J": -3.5731444405667503,
+          "net_port_energy_BE_J": -3.5731444405726283,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_09",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            273.2995470970554,
+            321.47801974090436
+          ],
+          "BE_energy_residual_max_J": 4.121147867408581e-12,
+          "energy_change_J": -4.8030968008157515,
+          "net_port_energy_BE_J": -4.803096800813041,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_10",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            271.11456212772515,
+            321.47801974090436
+          ],
+          "BE_energy_residual_max_J": 2.170041923932331e-12,
+          "energy_change_J": -6.208450626063325,
+          "net_port_energy_BE_J": -6.208450626064167,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_11",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            269.00022366818354,
+            321.47801974090424
+          ],
+          "BE_energy_residual_max_J": 4.709121981250064e-12,
+          "energy_change_J": -7.772463642204968,
+          "net_port_energy_BE_J": -7.772463642208168,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_12",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            267.0258086077326,
+            321.47801974090424
+          ],
+          "BE_energy_residual_max_J": 2.4371615836571436e-12,
+          "energy_change_J": -9.47960592636906,
+          "net_port_energy_BE_J": -9.479605926367398,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_13",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            265.9859485020465,
+            321.47801974090424
+          ],
+          "BE_energy_residual_max_J": 2.9984903449076228e-12,
+          "energy_change_J": -11.319588290911383,
+          "net_port_energy_BE_J": -11.319588290909705,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_14",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            265.31816100973697,
+            321.47801974090424
+          ],
+          "BE_energy_residual_max_J": 2.092548356813495e-12,
+          "energy_change_J": -13.285298984853057,
+          "net_port_energy_BE_J": -13.285298984853293,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_15",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            264.74716685676447,
+            321.47801974090424
+          ],
+          "BE_energy_residual_max_J": 2.5632829192545614e-12,
+          "energy_change_J": -15.371897567716076,
+          "net_port_energy_BE_J": -15.371897567713653,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_16",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            264.28490112691486,
+            321.4780197408958
+          ],
+          "BE_energy_residual_max_J": 2.284394895468722e-12,
+          "energy_change_J": -17.579448307963958,
+          "net_port_energy_BE_J": -17.57944830796376,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_17",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            263.92899237111294,
+            321.47801973982985
+          ],
+          "BE_energy_residual_max_J": 3.062439191126032e-12,
+          "energy_change_J": -19.911697004712664,
+          "net_port_energy_BE_J": -19.91169700471012,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_18",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            263.66733119082716,
+            321.4780196674416
+          ],
+          "BE_energy_residual_max_J": 2.7533531010703882e-12,
+          "energy_change_J": -22.37712488641364,
+          "net_port_energy_BE_J": -22.37712488641425,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_19",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            263.48592888106344,
+            321.4780232439395
+          ],
+          "BE_energy_residual_max_J": 2.6787461138155777e-12,
+          "energy_change_J": -24.982793269706235,
+          "net_port_energy_BE_J": -24.982793269704132,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_20",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            263.3703030955629,
+            321.4780191557122
+          ],
+          "BE_energy_residual_max_J": 2.5650592760939617e-12,
+          "energy_change_J": -27.594184968528964,
+          "net_port_energy_BE_J": -27.594184968528417,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_21",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            263.3073693372916,
+            321.47797303996117
+          ],
+          "BE_energy_residual_max_J": 4.234834705130197e-12,
+          "energy_change_J": -30.05844516594277,
+          "net_port_energy_BE_J": -30.05844516594017,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotSinkMass",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            392.36156878266326,
+            393.1500000037235
+          ],
+          "BE_energy_residual_max_J": 7.260672410525082e-10,
+          "energy_change_J": -0.0109515672957059,
+          "net_port_energy_BE_J": -0.01095156787606435,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_01",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.15,
+            392.7558728814495
+          ],
+          "BE_energy_residual_max_J": 4.220623850414995e-12,
+          "energy_change_J": 13.98067049955489,
+          "net_port_energy_BE_J": 13.980670499554616,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_02",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.15,
+            392.74389282228464
+          ],
+          "BE_energy_residual_max_J": 1.6427748050773516e-11,
+          "energy_change_J": 13.67472126892028,
+          "net_port_energy_BE_J": 13.674721268909973,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_03",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.15,
+            392.73141632537994
+          ],
+          "BE_energy_residual_max_J": 7.879918939579511e-12,
+          "energy_change_J": 13.389490909371034,
+          "net_port_energy_BE_J": 13.389490909369368,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_04",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.14999995786144,
+            392.7184459794846
+          ],
+          "BE_energy_residual_max_J": 1.198685595227289e-11,
+          "energy_change_J": 13.122594596998397,
+          "net_port_energy_BE_J": 13.122594596992855,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_05",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.1499992633154,
+            392.70496511426
+          ],
+          "BE_energy_residual_max_J": 9.706013770482969e-12,
+          "energy_change_J": 12.870969595717611,
+          "net_port_energy_BE_J": 12.870969595725722,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_06",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.1499971666786,
+            392.69095647810263
+          ],
+          "BE_energy_residual_max_J": 1.2386536241137946e-11,
+          "energy_change_J": 12.631162266443994,
+          "net_port_energy_BE_J": 12.63116226643361,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_07",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.14999338778944,
+            392.6764021454218
+          ],
+          "BE_energy_residual_max_J": 7.503331289626658e-12,
+          "energy_change_J": 12.400452371394408,
+          "net_port_energy_BE_J": 12.400452371395506,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_08",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.14998758651126,
+            392.66128362147145
+          ],
+          "BE_energy_residual_max_J": 9.805489753489383e-12,
+          "energy_change_J": 12.178840728740397,
+          "net_port_energy_BE_J": 12.1788407287357,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_09",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.1499797163226,
+            392.645581827252
+          ],
+          "BE_energy_residual_max_J": 1.4839685036349692e-11,
+          "energy_change_J": 11.965691059446044,
+          "net_port_energy_BE_J": 11.965691059437393,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_10",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.14996973440236,
+            392.6292770760537
+          ],
+          "BE_energy_residual_max_J": 1.8985701899509877e-11,
+          "energy_change_J": 11.758888568626048,
+          "net_port_energy_BE_J": 11.758888568638087,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_11",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.1499580070657,
+            392.61234896834316
+          ],
+          "BE_energy_residual_max_J": 4.831690603168681e-12,
+          "energy_change_J": 11.556850741545531,
+          "net_port_energy_BE_J": 11.55685074154124,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_12",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.14994897152656,
+            392.59477664533057
+          ],
+          "BE_energy_residual_max_J": 2.1227464230832993e-11,
+          "energy_change_J": 11.358568004241874,
+          "net_port_energy_BE_J": 11.358568004255318,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_13",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.1499415388201,
+            392.5765384832731
+          ],
+          "BE_energy_residual_max_J": 2.177102942368947e-11,
+          "energy_change_J": 11.163453333632674,
+          "net_port_energy_BE_J": 11.163453333614026,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_14",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.149934616992,
+            392.55761216303966
+          ],
+          "BE_energy_residual_max_J": 9.208633855450898e-12,
+          "energy_change_J": 10.971193126287858,
+          "net_port_energy_BE_J": 10.971193126289242,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_15",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.14992757776537,
+            392.5379746450379
+          ],
+          "BE_energy_residual_max_J": 1.49018575257287e-11,
+          "energy_change_J": 10.78163501749168,
+          "net_port_energy_BE_J": 10.781635017479129,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_16",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.149920348244,
+            392.5176021003085
+          ],
+          "BE_energy_residual_max_J": 6.927791673660977e-12,
+          "energy_change_J": 10.594712015090522,
+          "net_port_energy_BE_J": 10.594712015080743,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_17",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.1499129544643,
+            392.4964699593979
+          ],
+          "BE_energy_residual_max_J": 6.3824501239651e-12,
+          "energy_change_J": 10.410396949554979,
+          "net_port_energy_BE_J": 10.410396949558638,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_18",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.14990529235706,
+            392.4745529061706
+          ],
+          "BE_energy_residual_max_J": 4.888534022029489e-12,
+          "energy_change_J": 10.228678787800959,
+          "net_port_energy_BE_J": 10.228678787803991,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_19",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.14989763022,
+            392.451824741093
+          ],
+          "BE_energy_residual_max_J": 9.963585512196005e-12,
+          "energy_change_J": 10.049552744020275,
+          "net_port_energy_BE_J": 10.049552744026727,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_20",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.1498895184841,
+            392.42825846127124
+          ],
+          "BE_energy_residual_max_J": 8.270717444247566e-12,
+          "energy_change_J": 9.873016109396872,
+          "net_port_energy_BE_J": 9.873016109398634,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_21",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.1498854799326,
+            392.40388254418997
+          ],
+          "BE_energy_residual_max_J": 9.208633855450898e-12,
+          "energy_change_J": 9.699366396621258,
+          "net_port_energy_BE_J": 9.699366396616128,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdLoadMass",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            276.95,
+            276.95
+          ],
+          "BE_energy_residual_max_J": 1.0339757656912846e-24,
+          "energy_change_J": 0.0,
+          "net_port_energy_BE_J": 1.0339757656912846e-24,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkMass",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            276.95,
+            276.95
+          ],
+          "BE_energy_residual_max_J": 0.0,
+          "energy_change_J": 0.0,
+          "net_port_energy_BE_J": 0.0,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotSinkMass",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.1463183596209,
+            303.62582878375116
+          ],
+          "BE_energy_residual_max_J": 9.922952030187341e-10,
+          "energy_change_J": 11.455106682245969,
+          "net_port_energy_BE_J": 11.455106682134605,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        }
+      ],
+      "all_native_temperature_C2_drift_K": {
+        "endpoint_max_abs": 4.581452626417672,
+        "same_phase_max_abs": 89.40191996981241,
+        "same_phase_p99_abs": 24.983252045601677,
+        "same_phase_RMS": 8.735289031916889,
+        "endpoint_screen_pass": false,
+        "same_phase_screen_pass": false
+      },
+      "settled_flow_original_thresholds": [
+        {
+          "cycle": 1,
+          "SMA": {
+            "samples": 5403,
+            "signed_min_max_kg_s": [
+              -0.053116383249210884,
+              -0.04860264753609495
+            ],
+            "max_abs_relative_error": 0.045598095456907295,
+            "RMS_relative_error": 0.022049440354254577,
+            "instantaneous_limit": 0.05,
+            "direction_pass": true,
+            "instantaneous_target_pass": true
+          },
+          "SE_stage2": {
+            "samples": 1049,
+            "signed_min_max_kg_s": [
+              0.003185850501845078,
+              0.003191949894814506
+            ],
+            "max_abs_relative_error": 0.004421718173413081,
+            "RMS_relative_error": 0.0032558413044312087,
+            "instantaneous_limit": 0.15,
+            "direction_pass": true,
+            "instantaneous_target_pass": true,
+            "RMS_limit": 0.05,
+            "RMS_target_pass": true
+          },
+          "SE_stage4": {
+            "samples": 1050,
+            "signed_min_max_kg_s": [
+              0.0031804819965392103,
+              0.0031908979879672577
+            ],
+            "max_abs_relative_error": 0.006099376081496799,
+            "RMS_relative_error": 0.004354504296343867,
+            "instantaneous_limit": 0.15,
+            "direction_pass": true,
+            "instantaneous_target_pass": true,
+            "RMS_limit": 0.05,
+            "RMS_target_pass": true
+          }
+        },
+        {
+          "cycle": 2,
+          "SMA": {
+            "samples": 5402,
+            "signed_min_max_kg_s": [
+              -0.05310118186828481,
+              -0.04861750573274872
+            ],
+            "max_abs_relative_error": 0.04529885567489789,
+            "RMS_relative_error": 0.021841092598834363,
+            "instantaneous_limit": 0.05,
+            "direction_pass": true,
+            "instantaneous_target_pass": true
+          },
+          "SE_stage2": {
+            "samples": 1050,
+            "signed_min_max_kg_s": [
+              0.003193183337689425,
+              0.0031952766430073483
+            ],
+            "max_abs_relative_error": 0.0021302069720546823,
+            "RMS_relative_error": 0.0017056784442580548,
+            "instantaneous_limit": 0.15,
+            "direction_pass": true,
+            "instantaneous_target_pass": true,
+            "RMS_limit": 0.05,
+            "RMS_target_pass": true
+          },
+          "SE_stage4": {
+            "samples": 1049,
+            "signed_min_max_kg_s": [
+              0.003189747545561021,
+              0.0031958461517537775
+            ],
+            "max_abs_relative_error": 0.0032038920121809644,
+            "RMS_relative_error": 0.0022115824572082375,
+            "instantaneous_limit": 0.15,
+            "direction_pass": true,
+            "instantaneous_target_pass": true,
+            "RMS_limit": 0.05,
+            "RMS_target_pass": true
+          }
+        }
+      ],
+      "phase_C2_drift": {
+        "endpoint_max_abs": 0.0017750319305183805,
+        "same_phase_max_abs": 0.99935963560172,
+        "same_phase_p99_abs": 0.7406199124419118,
+        "same_phase_RMS": 0.18559671355488738
+      },
+      "phase_bounds_pass": true,
+      "route_memory_C2_drift": {
+        "cv_PI_sma_state": {
+          "endpoint_max_abs": 0.023206896822309173,
+          "same_phase_max_abs": 0.023206896822309173,
+          "same_phase_p99_abs": 0.0062497432411835335,
+          "same_phase_RMS": 0.0015319772762814744
+        },
+        "cv_PI_se_stage2_state": {
+          "endpoint_max_abs": 0.0005909386224176457,
+          "same_phase_max_abs": 0.0011439094744610616,
+          "same_phase_p99_abs": 0.0011439094744610616,
+          "same_phase_RMS": 0.0008640799206354111
+        },
+        "stage4_integrator_state": {
+          "endpoint_max_abs": 0.0016695081891652665,
+          "same_phase_max_abs": 0.0032824807687432977,
+          "same_phase_p99_abs": 0.0032824807687432977,
+          "same_phase_RMS": 0.0031777567939728826
+        }
+      },
+      "pumps": [
+        {
+          "source": "heatdrive_ecc_coupled_se21/SMA Pressure Source (TL)",
+          "pressure_rise_min_max_Pa": [
+            -247041.71460365073,
+            -0.9999999998835847
+          ],
+          "signed_hydraulic_work_J": 237.0341051706829,
+          "positive_hydraulic_work_J": 237.03410517068852,
+          "negative_hydraulic_work_J": -5.676738493191344e-12,
+          "engineering_work_not_electrical_input": true
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SE_Stage2_PistonPressureSource",
+          "pressure_rise_min_max_Pa": [
+            -421649.3586288744,
+            -1.0
+          ],
+          "signed_hydraulic_work_J": 1.3158652049028243,
+          "positive_hydraulic_work_J": 1.315865204954509,
+          "negative_hydraulic_work_J": -5.1684770251777245e-11,
+          "engineering_work_not_electrical_input": true
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SE_Stage4_PistonPressureSource",
+          "pressure_rise_min_max_Pa": [
+            -421649.3586288744,
+            -1.0
+          ],
+          "signed_hydraulic_work_J": 2.498335604059471,
+          "positive_hydraulic_work_J": 2.498335604064517,
+          "negative_hydraulic_work_J": -5.04631891372565e-12,
+          "engineering_work_not_electrical_input": true
+        }
+      ],
+      "complete_mechanism_periodic_first_law_or_Table4_qualified": false,
+      "remaining_coverage": [
+        "topology-aware full mechanism gates",
+        "global external CV source ledger",
+        "variable-inventory physical endpoint closure",
+        "Eq9/Eq10 windows and mass basis",
+        "complete hidden-state periodicity"
+      ]
+    },
+    {
+      "arm": "shared",
+      "native_components": [
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_001",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            317.5963958613318
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850981.4488188768,
+            1261847.9991515952
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 4.050093593832571e-13,
+          "energy_change_J": 12.736921805266798,
+          "net_port_energy_BE_J": 12.736921805266944,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_002",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            317.42534298008513
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850981.9045186528,
+            1253898.6912577327
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.8066438062523957e-13,
+          "energy_change_J": 12.710481169628931,
+          "net_port_energy_BE_J": 12.7104811696289,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_003",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            317.18303718406946
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850982.3618757505,
+            1245408.1557082552
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 3.3573144264664734e-13,
+          "energy_change_J": 12.652525458794718,
+          "net_port_energy_BE_J": 12.652525458794814,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_004",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            316.84639498515253
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850982.8223431555,
+            1237892.0373826202
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 9.947598300641403e-14,
+          "energy_change_J": 12.546728570100779,
+          "net_port_energy_BE_J": 12.546728570100743,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_005",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            316.3839902893959
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850983.287865368,
+            1230166.214758408
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.474376176702208e-13,
+          "energy_change_J": 12.37676979478084,
+          "net_port_energy_BE_J": 12.376769794780696,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_006",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            315.75196124847
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850983.7607911988,
+            1221993.3403817979
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.6608936448392342e-13,
+          "energy_change_J": 12.128545964101479,
+          "net_port_energy_BE_J": 12.128545964101392,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_007",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            314.89995250881094
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.243721079,
+            1213373.9430564395
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.1316282072803006e-13,
+          "energy_change_J": 11.791892718870024,
+          "net_port_energy_BE_J": 11.791892718870105,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_008",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            313.8715026545141
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.3618542344,
+            1204297.6188138025
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.652011860642233e-13,
+          "energy_change_J": 11.36150422427374,
+          "net_port_energy_BE_J": 11.361504224273578,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_009",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            312.70951532106784
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.3618560157,
+            1194749.5164233772
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.0250467969162855e-13,
+          "energy_change_J": 10.836988321204128,
+          "net_port_energy_BE_J": 10.836988321204156,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_010",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            311.4060536195566
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.361857859,
+            1183701.8494844215
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.7763568394002505e-13,
+          "energy_change_J": 10.222173860033573,
+          "net_port_energy_BE_J": 10.222173860033509,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_011",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.95,
+            310.607896356026
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.3618597718,
+            1169616.8668286707
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.176836406102666e-13,
+          "energy_change_J": 9.523468907936946,
+          "net_port_energy_BE_J": 9.523468907936905,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_012",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            276.93551953259526,
+            310.476204676097
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.3618617607,
+            1151908.8285531616
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.496580637194711e-13,
+          "energy_change_J": 8.747679775983652,
+          "net_port_energy_BE_J": 8.747679775983743,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_013",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            275.13019590973755,
+            310.2751893604513
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.3618638332,
+            1130749.48625854
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.8696155734687636e-13,
+          "energy_change_J": 7.900976805576239,
+          "net_port_energy_BE_J": 7.900976805576259,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_014",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            273.4842289164118,
+            309.96768398486876
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.3618659953,
+            1106370.18981994
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.446931546273845e-13,
+          "energy_change_J": 6.987980673645989,
+          "net_port_energy_BE_J": 6.987980673646226,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_015",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            272.0934490721791,
+            309.4959780771524
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.3618682539,
+            1082615.6509887124
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.9340085088970227e-13,
+          "energy_change_J": 6.010238641711128,
+          "net_port_energy_BE_J": 6.010238641711258,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_016",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            270.9500809627127,
+            308.77006698410946
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850984.3618706168,
+            1055878.24113165
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.815214645262131e-13,
+          "energy_change_J": 4.966160445864448,
+          "net_port_energy_BE_J": 4.9661604458643005,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_017",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            270.0023278611025,
+            307.64839931187174
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850978.9994132841,
+            1032061.6727156426
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.474376176702208e-13,
+          "energy_change_J": 3.852175808545299,
+          "net_port_energy_BE_J": 3.852175808545344,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_018",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            269.212808408123,
+            305.90675063318196
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850972.7685871549,
+            1042916.328569724
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.0627943797535409e-13,
+          "energy_change_J": 2.668346037481342,
+          "net_port_energy_BE_J": 2.6683460374814856,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_019",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            268.55458514907855,
+            303.1863984607586
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850966.317176585,
+            1053770.8967111374
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.3514523661560816e-13,
+          "energy_change_J": 1.4648580380235021,
+          "net_port_energy_BE_J": 1.4648580380236633,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_020",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            268.0068385530798,
+            298.9243708326421
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850959.6626975387,
+            1064626.6056516985
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.3034018309099338e-13,
+          "energy_change_J": 0.31892034319991147,
+          "net_port_energy_BE_J": 0.31892034319998697,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/HoldPipe_021",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            267.55276909767883,
+            292.5684638228255
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850952.8842901024,
+            1075535.5735437619
+          ],
+          "constant_native_mass_kg": 0.0001351469284485053,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.815214645262131e-13,
+          "energy_change_J": -0.7582942360504248,
+          "net_port_energy_BE_J": -0.7582942360502791,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            342.5254571758877,
+            393.15
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            844146.2051856018,
+            850887.2190505884
+          ],
+          "constant_native_mass_kg": 0.002787572390534503,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 9.606537787476555e-12,
+          "energy_change_J": -3.213069869417268,
+          "net_port_energy_BE_J": -3.2130698694204747,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_001",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.15,
+            392.5517411812068
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            621758.7926184317,
+            850934.1110949608
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 7.702283255639486e-12,
+          "energy_change_J": 15.49327104234564,
+          "net_port_energy_BE_J": 15.493271042344535,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_002",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14999553392204,
+            392.53572343972127
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            632571.208720068,
+            850934.1449271957
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 6.700417998217745e-12,
+          "energy_change_J": 15.17640789969775,
+          "net_port_energy_BE_J": 15.176407899697459,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_003",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14999553283025,
+            392.51885988051555
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            643334.7197495274,
+            850934.1787643448
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 6.536993168992922e-12,
+          "energy_change_J": 14.879660693298263,
+          "net_port_energy_BE_J": 14.879660693300815,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_004",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14994066566567,
+            392.50044665941823
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            654051.184949545,
+            850934.21260677
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.7284841053187847e-12,
+          "energy_change_J": 14.5992316645778,
+          "net_port_energy_BE_J": 14.599231664579168,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_005",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14985781627007,
+            392.48067125928577
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            664723.2907293873,
+            850934.2464549064
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 3.19033688356285e-12,
+          "energy_change_J": 14.33180411340615,
+          "net_port_energy_BE_J": 14.331804113405413,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_006",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1497638253987,
+            392.4598068826626
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            675355.8739092745,
+            850934.2803091212
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.5845103007450234e-12,
+          "energy_change_J": 14.074657331530801,
+          "net_port_energy_BE_J": 14.074657331531158,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_007",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1496720740768,
+            392.4380058074904
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            685953.1328374842,
+            850934.3141697162
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 3.709033080667723e-12,
+          "energy_change_J": 13.82564170373989,
+          "net_port_energy_BE_J": 13.825641703742988,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_008",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14956524533864,
+            392.4153187007078
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            696518.0716712684,
+            850934.3480369642
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.1316282072803006e-12,
+          "energy_change_J": 13.58311976734447,
+          "net_port_energy_BE_J": 13.583119767346584,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_009",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14945703685976,
+            392.39174501559467
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            707053.4599877329,
+            850934.3819111302
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.9326762412674725e-12,
+          "energy_change_J": 13.345886598176364,
+          "net_port_energy_BE_J": 13.345886598176548,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_010",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14936611125717,
+            392.36726374642757
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            715529.3048570319,
+            850934.4192388246
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.3642420526593924e-12,
+          "energy_change_J": 13.113097578026498,
+          "net_port_energy_BE_J": 13.113097578027226,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_011",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1492768101749,
+            392.34184652334426
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            705535.0404006604,
+            850934.4631357983
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.4229507289419416e-12,
+          "energy_change_J": 12.88425999243755,
+          "net_port_energy_BE_J": 12.884259992436599,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_012",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14918545698583,
+            392.31546213043816
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            695959.9949010755,
+            850934.5070428047
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.8758328224066645e-12,
+          "energy_change_J": 12.658973169578672,
+          "net_port_energy_BE_J": 12.65897316957898,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_013",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14909093890833,
+            392.2880778348432
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            686725.0425349582,
+            850934.5509602245
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.9895196601282805e-12,
+          "energy_change_J": 12.436866707109303,
+          "net_port_energy_BE_J": 12.436866707109253,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_014",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14899315066754,
+            392.2596597180627
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            677862.4614675771,
+            850934.594888451
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.1884716261411086e-12,
+          "energy_change_J": 12.217756054162436,
+          "net_port_energy_BE_J": 12.217756054162436,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_015",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1488928627576,
+            392.23017273259137
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            669382.9259282165,
+            850934.6388278911
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 3.211653165635653e-12,
+          "energy_change_J": 12.0015726733061,
+          "net_port_energy_BE_J": 12.001572673304125,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_016",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1487898343649,
+            392.1995806895032
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            661202.4751187616,
+            850934.6827789645
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 3.268496584496461e-12,
+          "energy_change_J": 11.788303588142085,
+          "net_port_energy_BE_J": 11.788303588141595,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_017",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.1486839425563,
+            392.16784622914145
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            653332.3898369311,
+            850934.7267421067
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 2.1316282072803006e-12,
+          "energy_change_J": 11.57795898391042,
+          "net_port_energy_BE_J": 11.577958983909095,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_018",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14857493090454,
+            392.13493078632365
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            645732.6148086487,
+            850934.7707177663
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 4.604316927725449e-12,
+          "energy_change_J": 11.370557200061882,
+          "net_port_energy_BE_J": 11.370557200063663,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_019",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14846337050244,
+            392.10079455168193
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            638287.0082330836,
+            850934.8147064077
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 4.746425474877469e-12,
+          "energy_change_J": 11.166118626302776,
+          "net_port_energy_BE_J": 11.166118626301444,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_020",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14834923702847,
+            392.0653964299063
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            629268.0764967831,
+            850934.8587085115
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 4.746425474877469e-12,
+          "energy_change_J": 10.964663405312464,
+          "net_port_energy_BE_J": 10.964663405312443,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/HoldPipe_021",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.14831329643744,
+            392.0286889856318
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            618689.8695951699,
+            850934.9027253119
+          ],
+          "constant_native_mass_kg": 0.0007341752462291059,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 6.110667527536862e-12,
+          "energy_change_J": 10.76621047648905,
+          "net_port_energy_BE_J": 10.766210476488528,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            275.8970266771719,
+            276.9537121982036
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850948.8824214785,
+            967831.2117442887
+          ],
+          "constant_native_mass_kg": 0.001954804314188978,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.5569767697343195e-12,
+          "energy_change_J": -5.758651363012916,
+          "net_port_energy_BE_J": -5.758651363013981,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.0763760011477,
+            305.1295055678175
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850981.1560241207,
+            1057907.59233079
+          ],
+          "constant_native_mass_kg": 0.001954804314188978,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 1.971756091734278e-12,
+          "energy_change_J": 7.908171999231342,
+          "net_port_energy_BE_J": 7.908171999230859,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+          "mask_type": "Pipe (TL)",
+          "T_min_max_K": [
+            303.15,
+            345.09205316699575
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            844528.1528749852,
+            850935.016293882
+          ],
+          "constant_native_mass_kg": 0.002787572390534503,
+          "mass_port_sum_max_kg_s": 0.0,
+          "BE_energy_residual_max_J": 8.384404281969182e-12,
+          "energy_change_J": 40.122239187396474,
+          "net_port_energy_BE_J": 40.1222391873943,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+          "mask_type": "Tank (TL)",
+          "T_min_max_K": [
+            276.89111103610554,
+            276.9500040547417
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850000.0,
+            850000.0
+          ],
+          "variable_inventory_diagnostic": {
+            "block_path": "heatdrive_ecc_coupled_se21/ColdFluidBuffer",
+            "mask_type": "Tank (TL)",
+            "sample_count": 20001,
+            "start_s": 0.0,
+            "stop_s": 20.0,
+            "volume_start_m3": 9.569622191315918e-05,
+            "volume_end_m3": 9.557682424983724e-05,
+            "equation_basis": "integral(M cp dT + h dM); constant-pressure native Tank (TL)",
+            "temperature_start_K": 276.95,
+            "temperature_end_K": 276.89111103610554,
+            "pressure_start_Pa": 850000.0,
+            "pressure_end_Pa": 850000.0,
+            "mass_start_kg": 0.10123865866626236,
+            "mass_end_kg": 0.10111448127117909,
+            "energy_start_J": 7782.786296226194,
+            "energy_end_J": 7752.329814988683,
+            "mass_endpoint_change_kg": -0.00012417739508327474,
+            "mass_equation_accumulation_kg": -0.00012417739508327474,
+            "mass_flow_integral_kg": -0.00012577551908041652,
+            "mass_flow_absolute_integral_kg": 0.01816831968515432,
+            "energy_endpoint_change_J": -30.45648123751107,
+            "energy_enthalpy_endpoint_change_J": -30.557969251336544,
+            "pressure_volume_work_J": -0.10148801382364825,
+            "energy_equation_accumulation_J": -30.794052272307958,
+            "energy_flow_integral_J": -31.135576820975245,
+            "energy_flow_absolute_integral_J": 1389.1098392052106,
+            "native_density_lookup_max_abs_error_kg_m3": 4.547473508864641e-13,
+            "native_energy_lookup_max_abs_error_J_kg": 2.9103830456733704e-11,
+            "mass_residual_kg": -1.5981239971417718e-06,
+            "energy_residual_J": -0.3415245486672873,
+            "energy_closure_verified": false,
+            "mass_closure_verified": false
+          },
+          "basis": "coefficient-path trapezoid and endpoint diagnostics; not a BE conservation gate"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+          "mask_type": "Tank (TL)",
+          "T_min_max_K": [
+            303.14977348492266,
+            303.245713126066
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e",
+          "p_min_max_Pa": [
+            850000.0,
+            850000.0
+          ],
+          "variable_inventory_diagnostic": {
+            "block_path": "heatdrive_ecc_coupled_se21/HotFluidBuffer",
+            "mask_type": "Tank (TL)",
+            "sample_count": 20001,
+            "start_s": 0.0,
+            "stop_s": 20.0,
+            "volume_start_m3": 9.569622191315918e-05,
+            "volume_end_m3": 9.581960089280963e-05,
+            "equation_basis": "integral(M cp dT + h dM); constant-pressure native Tank (TL)",
+            "temperature_start_K": 303.15,
+            "temperature_end_K": 303.245713126066,
+            "pressure_start_Pa": 850000.0,
+            "pressure_end_Pa": 850000.0,
+            "mass_start_kg": 0.10001750154514236,
+            "mass_end_kg": 0.10014167894022563,
+            "energy_start_J": 17105.449545397172,
+            "energy_end_J": 17161.372978271123,
+            "mass_endpoint_change_kg": 0.00012417739508327474,
+            "mass_equation_accumulation_kg": 0.00012417739508327474,
+            "mass_flow_integral_kg": 0.00012577551908041652,
+            "mass_flow_absolute_integral_kg": 0.01816831968515432,
+            "energy_endpoint_change_J": 55.92343287395124,
+            "energy_enthalpy_endpoint_change_J": 56.028305006650044,
+            "pressure_volume_work_J": 0.10487213270288143,
+            "energy_equation_accumulation_J": 56.21128952255906,
+            "energy_flow_integral_J": 56.85158532234277,
+            "energy_flow_absolute_integral_J": 3161.312002438521,
+            "native_density_lookup_max_abs_error_kg_m3": 4.547473508864641e-13,
+            "native_energy_lookup_max_abs_error_J_kg": 8.731149137020111e-11,
+            "mass_residual_kg": 1.5981239971417718e-06,
+            "energy_residual_J": 0.6402957997837078,
+            "energy_closure_verified": false,
+            "mass_closure_verified": false
+          },
+          "basis": "coefficient-path trapezoid and endpoint diagnostics; not a BE conservation gate"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+          "mask_type": "Tank (TL)",
+          "T_min_max_K": [
+            392.99879952896634,
+            393.15
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            850000.0,
+            850000.0
+          ],
+          "variable_inventory_diagnostic": {
+            "block_path": "heatdrive_ecc_coupled_se21/SHEXFluidBuffer",
+            "mask_type": "Tank (TL)",
+            "sample_count": 20001,
+            "start_s": 0.0,
+            "stop_s": 20.0,
+            "volume_start_m3": 9.569622191315918e-05,
+            "volume_end_m3": 9.585167793600612e-05,
+            "equation_basis": "integral(M cp dT + h dM); constant-pressure native Tank (TL)",
+            "temperature_start_K": 393.15,
+            "temperature_end_K": 392.99879952896634,
+            "pressure_start_Pa": 850000.0,
+            "pressure_end_Pa": 850000.0,
+            "mass_start_kg": 0.09028074776293574,
+            "mass_end_kg": 0.09043880841678353,
+            "energy_start_J": 45442.03950737438,
+            "energy_end_J": 45463.67662947287,
+            "mass_endpoint_change_kg": 0.00015806065384779688,
+            "mass_equation_accumulation_kg": 0.00015806065384779688,
+            "mass_flow_integral_kg": 0.0001580607787261073,
+            "mass_flow_absolute_integral_kg": 0.0004998677180336252,
+            "energy_endpoint_change_J": 21.63712209849473,
+            "energy_enthalpy_endpoint_change_J": 21.769259717912064,
+            "pressure_volume_work_J": 0.13213761941989915,
+            "energy_equation_accumulation_J": 21.65330837232385,
+            "energy_flow_integral_J": 21.04794833781654,
+            "energy_flow_absolute_integral_J": 196.24057840996596,
+            "native_density_lookup_max_abs_error_kg_m3": 2.2737367544323206e-13,
+            "native_energy_lookup_max_abs_error_J_kg": 1.7462298274040222e-10,
+            "mass_residual_kg": 1.248783104105134e-10,
+            "energy_residual_J": -0.60536003450731,
+            "energy_closure_verified": false,
+            "mass_closure_verified": false
+          },
+          "basis": "coefficient-path trapezoid and endpoint diagnostics; not a BE conservation gate"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+          "mask_type": "Tank (TL)",
+          "T_min_max_K": [
+            303.15,
+            303.1694922850782
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            850000.0,
+            850000.0
+          ],
+          "variable_inventory_diagnostic": {
+            "block_path": "heatdrive_ecc_coupled_se21/SMAHotFluidBuffer",
+            "mask_type": "Tank (TL)",
+            "sample_count": 20001,
+            "start_s": 0.0,
+            "stop_s": 20.0,
+            "volume_start_m3": 9.569622191315918e-05,
+            "volume_end_m3": 9.537489690844652e-05,
+            "equation_basis": "integral(M cp dT + h dM); constant-pressure native Tank (TL)",
+            "temperature_start_K": 303.15,
+            "temperature_end_K": 303.1694922850782,
+            "pressure_start_Pa": 850000.0,
+            "pressure_end_Pa": 850000.0,
+            "mass_start_kg": 0.09531256850141726,
+            "mass_end_kg": 0.09499197679998411,
+            "energy_start_J": 11977.288968728462,
+            "energy_end_J": 11944.738922867979,
+            "mass_endpoint_change_kg": -0.00032059170143314275,
+            "mass_equation_accumulation_kg": -0.00032059170143314275,
+            "mass_flow_integral_kg": -0.00032059012920803136,
+            "mass_flow_absolute_integral_kg": 0.0003261631619336133,
+            "energy_endpoint_change_J": -32.550045860483806,
+            "energy_enthalpy_endpoint_change_J": -32.823172114487534,
+            "pressure_volume_work_J": -0.27312625400576307,
+            "energy_equation_accumulation_J": -32.823238873203415,
+            "energy_flow_integral_J": -32.742305547996864,
+            "energy_flow_absolute_integral_J": 39.19614493184393,
+            "native_density_lookup_max_abs_error_kg_m3": 2.2737367544323206e-13,
+            "native_energy_lookup_max_abs_error_J_kg": 5.820766091346741e-11,
+            "mass_residual_kg": 1.5722251113861607e-09,
+            "energy_residual_J": 0.08093332520655139,
+            "energy_closure_verified": false,
+            "mass_closure_verified": false
+          },
+          "basis": "coefficient-path trapezoid and endpoint diagnostics; not a BE conservation gate"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+          "mask_type": "Constant Volume Chamber (TL)",
+          "T_min_max_K": [
+            304.35634162183476,
+            393.15
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            849611.6179280148,
+            856412.9483124004
+          ],
+          "variable_inventory_diagnostic": {
+            "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpInletConnectingPipeVolume",
+            "mask_type": "Constant Volume Chamber (TL)",
+            "sample_count": 20001,
+            "start_s": 0.0,
+            "stop_s": 20.0,
+            "equation_basis": "integral(dUdp dp + dUdT dT); compressible chamber table coefficients",
+            "temperature_start_K": 393.15,
+            "temperature_end_K": 308.3450549255518,
+            "pressure_start_Pa": 850000.5,
+            "pressure_end_Pa": 855815.3419969546,
+            "mass_start_kg": 0.0015174702627137884,
+            "mass_end_kg": 0.0015991847431463947,
+            "energy_start_J": 763.8056320283913,
+            "energy_end_J": 235.658313600263,
+            "mass_endpoint_change_kg": 8.171448043260633e-05,
+            "mass_equation_accumulation_kg": 8.173674017962723e-05,
+            "mass_flow_integral_kg": 8.139053962764547e-05,
+            "mass_flow_absolute_integral_kg": 1.9992126971990154,
+            "energy_endpoint_change_J": -528.1473184281283,
+            "energy_enthalpy_endpoint_change_J": -528.1379652812998,
+            "pressure_volume_work_J": 0.0,
+            "energy_equation_accumulation_J": -528.2009146293118,
+            "energy_flow_integral_J": -528.5902632916001,
+            "energy_flow_absolute_integral_J": 639170.117315022,
+            "native_density_lookup_max_abs_error_kg_m3": 4.547473508864641e-13,
+            "native_energy_lookup_max_abs_error_J_kg": 3.4924596548080444e-10,
+            "mass_residual_kg": -3.4620055198175963e-07,
+            "energy_residual_J": -0.3893486622882847,
+            "energy_closure_verified": false,
+            "mass_closure_verified": false
+          },
+          "basis": "coefficient-path trapezoid and endpoint diagnostics; not a BE conservation gate"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+          "mask_type": "Constant Volume Chamber (TL)",
+          "T_min_max_K": [
+            303.68580125466184,
+            393.15
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings",
+          "p_min_max_Pa": [
+            608665.0799653622,
+            850934.8797835794
+          ],
+          "variable_inventory_diagnostic": {
+            "block_path": "heatdrive_ecc_coupled_se21/SMA_PumpOutletConnectingPipeVolume",
+            "mask_type": "Constant Volume Chamber (TL)",
+            "sample_count": 20001,
+            "start_s": 0.0,
+            "stop_s": 20.0,
+            "equation_basis": "integral(dUdp dp + dUdT dT); compressible chamber table coefficients",
+            "temperature_start_K": 393.15,
+            "temperature_end_K": 308.2916133516574,
+            "pressure_start_Pa": 849999.5,
+            "pressure_end_Pa": 667109.0069057721,
+            "mass_start_kg": 0.0015174702620079918,
+            "mass_end_kg": 0.0015990738871864587,
+            "energy_start_J": 763.8056322145754,
+            "energy_end_J": 235.31711743605794,
+            "mass_endpoint_change_kg": 8.160362517846691e-05,
+            "mass_equation_accumulation_kg": 8.162547967251229e-05,
+            "mass_flow_integral_kg": 8.113881085427887e-05,
+            "mass_flow_absolute_integral_kg": 1.9993752139428942,
+            "energy_endpoint_change_J": -528.4885147785175,
+            "energy_enthalpy_endpoint_change_J": -528.7826933024298,
+            "pressure_volume_work_J": 0.0,
+            "energy_equation_accumulation_J": -528.5419745007142,
+            "energy_flow_integral_J": -529.1038912688882,
+            "energy_flow_absolute_integral_J": 638112.4236149422,
+            "native_density_lookup_max_abs_error_kg_m3": 4.547473508864641e-13,
+            "native_energy_lookup_max_abs_error_J_kg": 3.4924596548080444e-10,
+            "mass_residual_kg": -4.866688182334161e-07,
+            "energy_residual_J": -0.5619167681740009,
+            "energy_closure_verified": false,
+            "mass_closure_verified": false
+          },
+          "basis": "coefficient-path trapezoid and endpoint diagnostics; not a BE conservation gate"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_01",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            287.8485523154927,
+            321.8346580675629
+          ],
+          "BE_energy_residual_max_J": 4.760636329592671e-12,
+          "energy_change_J": 0.011071451317604897,
+          "net_port_energy_BE_J": 0.011071451315541658,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_02",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            287.0681626340115,
+            321.8095503119706
+          ],
+          "BE_energy_residual_max_J": 4.18687307046639e-12,
+          "energy_change_J": -0.08192659898844568,
+          "net_port_energy_BE_J": -0.08192659898695887,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_03",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            285.3675814556504,
+            321.75920826987567
+          ],
+          "BE_energy_residual_max_J": 2.1174173525650986e-12,
+          "energy_change_J": -0.26790677836146415,
+          "net_port_energy_BE_J": -0.2679067783617568,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_04",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            283.57798838187773,
+            321.6747515639552
+          ],
+          "BE_energy_residual_max_J": 5.645262035613996e-12,
+          "energy_change_J": -0.5822716266538919,
+          "net_port_energy_BE_J": -0.5822716266484491,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_05",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            281.6822041185902,
+            321.5487675121529
+          ],
+          "BE_energy_residual_max_J": 2.298605750183924e-12,
+          "energy_change_J": -1.0563034569441925,
+          "net_port_energy_BE_J": -1.0563034569437164,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_06",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            279.6784218437983,
+            321.4780158503745
+          ],
+          "BE_energy_residual_max_J": 1.666222715357435e-12,
+          "energy_change_J": -1.712925232976545,
+          "net_port_energy_BE_J": -1.7129252329764721,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_07",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            277.579287435922,
+            321.47801215844413
+          ],
+          "BE_energy_residual_max_J": 2.1955770534987096e-12,
+          "energy_change_J": -2.564549668253676,
+          "net_port_energy_BE_J": -2.564549668251976,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_08",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            275.41059346527857,
+            321.4780122735966
+          ],
+          "BE_energy_residual_max_J": 3.410605131648481e-12,
+          "energy_change_J": -3.612876598684636,
+          "net_port_energy_BE_J": -3.6128765986866256,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_09",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            273.2100509641662,
+            321.4780122746797
+          ],
+          "BE_energy_residual_max_J": 1.63069557856943e-12,
+          "energy_change_J": -4.850302813522944,
+          "net_port_energy_BE_J": -4.850302813523831,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_10",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            271.02660217457867,
+            321.47801227468494
+          ],
+          "BE_energy_residual_max_J": 4.7126746949288645e-12,
+          "energy_change_J": -6.262476397706507,
+          "net_port_energy_BE_J": -6.262476397702146,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_11",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            269.09243155540815,
+            321.47801227468494
+          ],
+          "BE_energy_residual_max_J": 3.6215475063272606e-12,
+          "energy_change_J": -7.833386240976836,
+          "net_port_energy_BE_J": -7.833386240977699,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_12",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            268.22724947076847,
+            321.47801227468494
+          ],
+          "BE_energy_residual_max_J": 3.858247055177344e-12,
+          "energy_change_J": -9.55055451628806,
+          "net_port_energy_BE_J": -9.550554516285482,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_13",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            267.50695169608673,
+            321.47801227468494
+          ],
+          "BE_energy_residual_max_J": 2.716493696652833e-12,
+          "energy_change_J": -11.403875963070675,
+          "net_port_energy_BE_J": -11.403875963069556,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_14",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            266.8592362373893,
+            321.4780122746835
+          ],
+          "BE_energy_residual_max_J": 2.021494083237485e-12,
+          "energy_change_J": -13.387653506172057,
+          "net_port_energy_BE_J": -13.387653506172,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_15",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            266.30148382207716,
+            321.47801227454755
+          ],
+          "BE_energy_residual_max_J": 3.282707439211663e-12,
+          "energy_change_J": -15.505655055214561,
+          "net_port_energy_BE_J": -15.505655055216456,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_16",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            265.8498232447625,
+            321.4780122741854
+          ],
+          "BE_energy_residual_max_J": 1.957545237019076e-12,
+          "energy_change_J": -17.76748655908102,
+          "net_port_energy_BE_J": -17.767486559082464,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_17",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            265.502126055974,
+            321.47801230110065
+          ],
+          "BE_energy_residual_max_J": 1.694644424787839e-12,
+          "energy_change_J": -20.184252631238337,
+          "net_port_energy_BE_J": -20.184252631239147,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_18",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            265.24659085843206,
+            321.478012265814
+          ],
+          "BE_energy_residual_max_J": 1.0729195309977513e-12,
+          "energy_change_J": -22.76327294829622,
+          "net_port_energy_BE_J": -22.763272948297406,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_19",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            265.06950355501556,
+            321.4780117898926
+          ],
+          "BE_energy_residual_max_J": 3.206546139722377e-12,
+          "energy_change_J": -25.490224217545347,
+          "net_port_energy_BE_J": -25.490224217546537,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_20",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            264.9566724745322,
+            321.47802170261497
+          ],
+          "BE_energy_residual_max_J": 2.346123295637881e-12,
+          "energy_change_J": -28.176688268807823,
+          "net_port_energy_BE_J": -28.176688268808896,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SE/Subsystem2/NodeMass_21",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            264.89545577601194,
+            321.4779603850487
+          ],
+          "BE_energy_residual_max_J": 2.6290081223123707e-12,
+          "energy_change_J": -30.674235255907035,
+          "net_port_energy_BE_J": -30.67423525590825,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SHEX/HotSinkMass",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            392.3600958559017,
+            393.1500001802841
+          ],
+          "BE_energy_residual_max_J": 1.046058024922747e-09,
+          "energy_change_J": -0.02159654241404496,
+          "net_port_energy_BE_J": -0.021596543104804907,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_01",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.15,
+            392.39541531472565
+          ],
+          "BE_energy_residual_max_J": 1.3152146038919454e-11,
+          "energy_change_J": 19.08398801315309,
+          "net_port_energy_BE_J": 19.083988013156777,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_02",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.15,
+            392.37140018236573
+          ],
+          "BE_energy_residual_max_J": 1.298161578233703e-11,
+          "energy_change_J": 18.499808302168617,
+          "net_port_energy_BE_J": 18.499808302179503,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_03",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.15,
+            392.34635275847074
+          ],
+          "BE_energy_residual_max_J": 6.394884621840902e-12,
+          "energy_change_J": 17.985748753156145,
+          "net_port_energy_BE_J": 17.985748753155534,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_04",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.149999956951,
+            392.3202551070689
+          ],
+          "BE_energy_residual_max_J": 6.764366844436154e-12,
+          "energy_change_J": 17.533011495306937,
+          "net_port_energy_BE_J": 17.53301149530835,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_05",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.1499992603797,
+            392.29298221214174
+          ],
+          "BE_energy_residual_max_J": 1.0118128557223827e-11,
+          "energy_change_J": 17.130962393353002,
+          "net_port_energy_BE_J": 17.130962393345417,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_06",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.1499971617348,
+            392.2643553489451
+          ],
+          "BE_energy_residual_max_J": 5.6274984672199935e-12,
+          "energy_change_J": 16.76952247816439,
+          "net_port_energy_BE_J": 16.769522478160823,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_07",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.14999338030333,
+            392.23417755583927
+          ],
+          "BE_energy_residual_max_J": 7.332801033044234e-12,
+          "energy_change_J": 16.43971094246251,
+          "net_port_energy_BE_J": 16.439710942462035,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_08",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.14998757711163,
+            392.20224296336954
+          ],
+          "BE_energy_residual_max_J": 1.0231815394945443e-11,
+          "energy_change_J": 16.133970951444326,
+          "net_port_energy_BE_J": 16.133970951449527,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_09",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.1499797044594,
+            392.16836411587633
+          ],
+          "BE_energy_residual_max_J": 9.372058684675721e-12,
+          "energy_change_J": 15.846021895997637,
+          "net_port_energy_BE_J": 15.846021896005409,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_10",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.14996972057236,
+            392.1323645124862
+          ],
+          "BE_energy_residual_max_J": 5.9969806898152456e-12,
+          "energy_change_J": 15.569738125585332,
+          "net_port_energy_BE_J": 15.569738125581019,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_11",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.1499579911834,
+            392.09415046629715
+          ],
+          "BE_energy_residual_max_J": 8.412825991399586e-12,
+          "energy_change_J": 15.303499147975003,
+          "net_port_energy_BE_J": 15.3034991479705,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_12",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.1499489549292,
+            392.05388021701253
+          ],
+          "BE_energy_residual_max_J": 8.057554623519536e-12,
+          "energy_change_J": 15.046772121847312,
+          "net_port_energy_BE_J": 15.046772121846969,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_13",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.14994152129856,
+            392.0128573532798
+          ],
+          "BE_energy_residual_max_J": 1.2859047160418413e-11,
+          "energy_change_J": 14.796327424940046,
+          "net_port_energy_BE_J": 14.796327424933297,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_14",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.14993459948346,
+            391.9738141057734
+          ],
+          "BE_energy_residual_max_J": 5.8264504332328215e-12,
+          "energy_change_J": 14.550144906352557,
+          "net_port_energy_BE_J": 14.550144906352912,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_15",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.14992755955905,
+            391.9340590179827
+          ],
+          "BE_energy_residual_max_J": 1.3869794202037156e-11,
+          "energy_change_J": 14.307253288583183,
+          "net_port_energy_BE_J": 14.307253288575623,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_16",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.1499203300461,
+            391.89289623481017
+          ],
+          "BE_energy_residual_max_J": 1.1315393066979595e-11,
+          "energy_change_J": 14.067243790173393,
+          "net_port_energy_BE_J": 14.067243790160916,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_17",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.149912935371,
+            391.85026561482283
+          ],
+          "BE_energy_residual_max_J": 6.821210263296962e-12,
+          "energy_change_J": 13.82996790317543,
+          "net_port_energy_BE_J": 13.829967903182093,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_18",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.14990527327245,
+            391.80611818424893
+          ],
+          "BE_energy_residual_max_J": 1.3852030633643153e-11,
+          "energy_change_J": 13.595382120638305,
+          "net_port_energy_BE_J": 13.595382120627104,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_19",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.1498976111438,
+            391.76040325805013
+          ],
+          "BE_energy_residual_max_J": 9.237055564881302e-12,
+          "energy_change_J": 13.363481802397928,
+          "net_port_energy_BE_J": 13.363481802391027,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_20",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.14988949854046,
+            391.713068504508
+          ],
+          "BE_energy_residual_max_J": 3.375077994860476e-12,
+          "energy_change_J": 13.134277180920549,
+          "net_port_energy_BE_J": 13.13427718091928,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/SMA/Subsystem2/NodeMass_21",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.1498849324489,
+            391.66417261445486
+          ],
+          "BE_energy_residual_max_J": 8.412825991399586e-12,
+          "energy_change_J": 12.908152380546085,
+          "net_port_energy_BE_J": 12.908152380551563,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdLoadMass",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            276.95,
+            276.95
+          ],
+          "BE_energy_residual_max_J": 1.0339757656912846e-24,
+          "energy_change_J": 0.0,
+          "net_port_energy_BE_J": 1.0339757656912846e-24,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkMass",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            276.95,
+            276.95
+          ],
+          "BE_energy_residual_max_J": 0.0,
+          "energy_change_J": 0.0,
+          "net_port_energy_BE_J": 0.0,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        },
+        {
+          "block_path": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotSinkMass",
+          "mask_type": "Thermal Mass",
+          "T_min_max_K": [
+            303.1463172991624,
+            304.08632826381154
+          ],
+          "BE_energy_residual_max_J": 7.583054184578941e-10,
+          "energy_change_J": 15.685588194231968,
+          "net_port_energy_BE_J": 15.685588193545913,
+          "basis": "actual right-endpoint 1 ms BE samples; fixed native accumulation"
+        }
+      ],
+      "all_native_temperature_C2_drift_K": {
+        "endpoint_max_abs": 4.78961402422874,
+        "same_phase_max_abs": 85.0803916171543,
+        "same_phase_p99_abs": 22.236389003008384,
+        "same_phase_RMS": 5.551070458812267,
+        "endpoint_screen_pass": false,
+        "same_phase_screen_pass": false
+      },
+      "settled_flow_original_thresholds": [
+        {
+          "cycle": 1,
+          "SMA": {
+            "samples": 5403,
+            "signed_min_max_kg_s": [
+              -0.05317905325575106,
+              -0.04864501172945053
+            ],
+            "max_abs_relative_error": 0.046831757002973706,
+            "RMS_relative_error": 0.02127643764787767,
+            "instantaneous_limit": 0.05,
+            "direction_pass": true,
+            "instantaneous_target_pass": true
+          },
+          "SE_stage2": {
+            "samples": 1049,
+            "signed_min_max_kg_s": [
+              0.003185850426269671,
+              0.003191949894780214
+            ],
+            "max_abs_relative_error": 0.004421741790727851,
+            "RMS_relative_error": 0.0032558413000187067,
+            "instantaneous_limit": 0.15,
+            "direction_pass": true,
+            "instantaneous_target_pass": true,
+            "RMS_limit": 0.05,
+            "RMS_target_pass": true
+          },
+          "SE_stage4": {
+            "samples": 1050,
+            "signed_min_max_kg_s": [
+              0.0031803543078809215,
+              0.0031908304922940306
+            ],
+            "max_abs_relative_error": 0.006139278787212099,
+            "RMS_relative_error": 0.004356675953012426,
+            "instantaneous_limit": 0.15,
+            "direction_pass": true,
+            "instantaneous_target_pass": true,
+            "RMS_limit": 0.05,
+            "RMS_target_pass": true
+          }
+        },
+        {
+          "cycle": 2,
+          "SMA": {
+            "samples": 5402,
+            "signed_min_max_kg_s": [
+              -0.05316151897056724,
+              -0.04864360552815477
+            ],
+            "max_abs_relative_error": 0.04648659390880394,
+            "RMS_relative_error": 0.02115703067741896,
+            "instantaneous_limit": 0.05,
+            "direction_pass": true,
+            "instantaneous_target_pass": true
+          },
+          "SE_stage2": {
+            "samples": 1050,
+            "signed_min_max_kg_s": [
+              0.0031930410442392626,
+              0.0031952762127870136
+            ],
+            "max_abs_relative_error": 0.0021746736752304985,
+            "RMS_relative_error": 0.0017063137340705618,
+            "instantaneous_limit": 0.15,
+            "direction_pass": true,
+            "instantaneous_target_pass": true,
+            "RMS_limit": 0.05,
+            "RMS_target_pass": true
+          },
+          "SE_stage4": {
+            "samples": 1049,
+            "signed_min_max_kg_s": [
+              0.0031896686268971194,
+              0.0031957565355341167
+            ],
+            "max_abs_relative_error": 0.003228554094650282,
+            "RMS_relative_error": 0.00221537811064997,
+            "instantaneous_limit": 0.15,
+            "direction_pass": true,
+            "instantaneous_target_pass": true,
+            "RMS_limit": 0.05,
+            "RMS_target_pass": true
+          }
+        }
+      ],
+      "phase_C2_drift": {
+        "endpoint_max_abs": 0.002634799946091204,
+        "same_phase_max_abs": 0.6681506255891809,
+        "same_phase_p99_abs": 0.35412806487050486,
+        "same_phase_RMS": 0.07527001366445778
+      },
+      "phase_bounds_pass": true,
+      "route_memory_C2_drift": {
+        "cv_PI_sma_state": {
+          "endpoint_max_abs": 0.01268540485098298,
+          "same_phase_max_abs": 0.01268540485098298,
+          "same_phase_p99_abs": 0.0014408362360530894,
+          "same_phase_RMS": 0.0004303554934345673
+        },
+        "cv_PI_se_stage2_state": {
+          "endpoint_max_abs": 0.0005911377801254582,
+          "same_phase_max_abs": 0.001143909470752786,
+          "same_phase_p99_abs": 0.001143909470752786,
+          "same_phase_RMS": 0.000864151839057312
+        },
+        "stage4_integrator_state": {
+          "endpoint_max_abs": 0.0016708154325628145,
+          "same_phase_max_abs": 0.00328260074687501,
+          "same_phase_p99_abs": 0.00328260074687501,
+          "same_phase_RMS": 0.0031779203518829337
+        }
+      },
+      "pumps": [
+        {
+          "source": "heatdrive_ecc_coupled_se21/SMA Pressure Source (TL)",
+          "pressure_rise_min_max_Pa": [
+            -246957.53573156218,
+            -0.9999999998835847
+          ],
+          "signed_hydraulic_work_J": 240.88109703537913,
+          "positive_hydraulic_work_J": 240.88109703538476,
+          "negative_hydraulic_work_J": -5.625337927615007e-12,
+          "engineering_work_not_electrical_input": true
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SE_Stage2_PistonPressureSource",
+          "pressure_rise_min_max_Pa": [
+            -415125.90353534895,
+            -1.0
+          ],
+          "signed_hydraulic_work_J": 1.317994044594512,
+          "positive_hydraulic_work_J": 1.3179940446461536,
+          "negative_hydraulic_work_J": -5.164151924278843e-11,
+          "engineering_work_not_electrical_input": true
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SE_Stage4_PistonPressureSource",
+          "pressure_rise_min_max_Pa": [
+            -415125.9035353488,
+            -1.0
+          ],
+          "signed_hydraulic_work_J": 2.4890056601898856,
+          "positive_hydraulic_work_J": 2.4890056601948998,
+          "negative_hydraulic_work_J": -5.014363112077205e-12,
+          "engineering_work_not_electrical_input": true
+        }
+      ],
+      "complete_mechanism_periodic_first_law_or_Table4_qualified": false,
+      "remaining_coverage": [
+        "topology-aware full mechanism gates",
+        "global external CV source ledger",
+        "variable-inventory physical endpoint closure",
+        "Eq9/Eq10 windows and mass basis",
+        "complete hidden-state periodicity"
+      ]
+    }
+  ],
+  "twenty_cycle_seed_or_recovery_allowed": false,
+  "figure_sha256": "D69133B179F4BB76E2067093A8BDE4CA79567718399CC1707D8FDB071FCD0568"
+}

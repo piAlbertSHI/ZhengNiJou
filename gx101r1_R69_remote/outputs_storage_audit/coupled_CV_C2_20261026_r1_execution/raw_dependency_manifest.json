@@ -1,0 +1,78 @@
+{
+  "schema": "heatdrive_ecc_coupled_C2_evidence_manifest_v1",
+  "producer_commit": "81160ab00bbf69a66fd52bc79e4fed2c698962f9",
+  "terminal_session_id": 35284,
+  "natural_exit_code": 0,
+  "actual_duration_s": 20,
+  "actual_cycles": 2,
+  "raw_dependencies": [
+    {
+      "arm": "dual",
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_options.mat",
+      "bytes": 29643,
+      "sha256": "1C6965D361C5FCC5F35838E232ACFD034DBD0D82DEEFA0C265D80A3D28DFDA52",
+      "single_raw_copy_retained": true,
+      "is_operating_point_or_restart_state": false
+    },
+    {
+      "arm": "dual",
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\native_CV_observations.mat",
+      "bytes": 149257302,
+      "sha256": "67A1195E2B2E6BC78BA88AD27098EBCCCEA3DE6612C0C05C89209C2A5E3B6B1A",
+      "single_raw_copy_retained": true,
+      "is_operating_point_or_restart_state": false
+    },
+    {
+      "arm": "dual",
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\source_CV_observations.mat",
+      "bytes": 20947130,
+      "sha256": "B8FF53EDFBB207B53E322C19069B7D9846111EA6C0439C1C708853932ABAD7A2",
+      "single_raw_copy_retained": true,
+      "is_operating_point_or_restart_state": false
+    },
+    {
+      "arm": "dual",
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\workspace_CV_observations.mat",
+      "bytes": 75621297,
+      "sha256": "275571222C4D141DB613B8DBA4C129A05E7F88424C31810DA37E9CF1835DF6A4",
+      "single_raw_copy_retained": true,
+      "is_operating_point_or_restart_state": false
+    },
+    {
+      "arm": "shared",
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_options.mat",
+      "bytes": 29644,
+      "sha256": "7195EAB3B42AD660D9AB25A1FCE1674CAFDE6AA3B6F65927C1904B4CDF483B4C",
+      "single_raw_copy_retained": true,
+      "is_operating_point_or_restart_state": false
+    },
+    {
+      "arm": "shared",
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\native_CV_observations.mat",
+      "bytes": 111051596,
+      "sha256": "A5FCC7750EC5E32EF5898E10508D213EC0E9452142C674045573AC50C0F5D794",
+      "single_raw_copy_retained": true,
+      "is_operating_point_or_restart_state": false
+    },
+    {
+      "arm": "shared",
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\source_CV_observations.mat",
+      "bytes": 20887376,
+      "sha256": "5B5E2ECC9139FACA6513D6A1899A5D699726C1DFE2A2F728A88CB6258B4639CF",
+      "single_raw_copy_retained": true,
+      "is_operating_point_or_restart_state": false
+    },
+    {
+      "arm": "shared",
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\workspace_CV_observations.mat",
+      "bytes": 72277925,
+      "sha256": "7080DA9CF66C258D81B30D669DB7A8A03CABFE99BE49AF4735BC0CCB2AB0D472",
+      "single_raw_copy_retained": true,
+      "is_operating_point_or_restart_state": false
+    }
+  ],
+  "raw_total_bytes": 450101913.0,
+  "raw_duplicated_into_Git": false,
+  "cleanup_performed_this_round": false,
+  "performance_reproduction_claim": false
+}

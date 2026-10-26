@@ -69,6 +69,10 @@ class PacketTests(unittest.TestCase):
         self.assertIn("'cv_PI_sma_state','cv_PI_se_stage2_state','stage4_integrator_state'",capture)
         self.assertIn("'controller_parameters_modified',false",capture)
         self.assertNotIn("set_param(p,'InitialCondition'",capture)
+        runner=(root/'Run_HeatDriveECC_SharedSMAColdInitial.m').read_text(encoding='utf-8')
+        self.assertIn('cpu_start=cputime',runner)
+        self.assertIn('process_cpu_seconds=cputime-cpu_start',runner)
+        self.assertIn("'simulation_process_cpu_seconds',process_cpu_seconds",runner)
 
     def test_BE_ledger_uses_right_endpoint_not_trapezoid(self):
         time=np.array([0.,.001,.002]);power=np.array([99.,2.,3.])

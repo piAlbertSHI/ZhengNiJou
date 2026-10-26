@@ -1,0 +1,302 @@
+{
+  "schema": "heatdrive_ecc_coupled_CV_capture_review_v1",
+  "producer_commit": "ef3303b4a4334fd0b180e36b7938f795e07083e0",
+  "reader_sha256": "DD26D16471801345889CD893AA87B464F9B33DF99176D81DCDCAEB6DB79718B9",
+  "execution_path": "C:\\tmp\\se21_coupled_CV_smoke_r2_20261026\\coupled_CV_execution.json",
+  "execution_sha256": "24B93A6AFE5428DE44C0015EFBDCF2427D7B42ADFF1B7EF18F356A2B84E18F91",
+  "duration_s": 0.01,
+  "arms": [
+    {
+      "arm": "shared",
+      "same_run_CV_capture_coverage_pass": true,
+      "runtime_metadata_hashes_bound": false,
+      "component_count": 98,
+      "type_counts": {
+        "Pipe (TL)": 46,
+        "Tank (TL)": 4,
+        "Constant Volume Chamber (TL)": 2,
+        "Thermal Mass": 46
+      },
+      "native_trace_count": 904,
+      "workspace_signal_count": 175,
+      "source_trace_count": 162,
+      "source_count": 49,
+      "native_grid_sample_count": 11,
+      "hydraulic_domain_count": 2,
+      "pump_absolute_pressure_probes": [
+        {
+          "source": "heatdrive_ecc_coupled_se21/SE_Stage2_PistonPressureSource",
+          "face": "A",
+          "min_max_MPa": [
+            0.8509941512414854,
+            0.8509941512414855
+          ]
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SE_Stage2_PistonPressureSource",
+          "face": "B",
+          "min_max_MPa": [
+            0.8509931512414853,
+            0.8509931512414854
+          ]
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SE_Stage4_PistonPressureSource",
+          "face": "A",
+          "min_max_MPa": [
+            0.8509821716901579,
+            0.8509821716901579
+          ]
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SE_Stage4_PistonPressureSource",
+          "face": "B",
+          "min_max_MPa": [
+            0.8509811716901579,
+            0.8509811716901579
+          ]
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SMA Pressure Source (TL)",
+          "face": "A",
+          "min_max_MPa": [
+            0.8499131336140494,
+            0.8500004999999999
+          ]
+        },
+        {
+          "source": "heatdrive_ecc_coupled_se21/SMA Pressure Source (TL)",
+          "face": "B",
+          "min_max_MPa": [
+            0.8499121336140493,
+            0.8499994999999999
+          ]
+        }
+      ],
+      "hex_absolute_port_probes": [
+        {
+          "tag": "shex",
+          "pipe": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+          "face": "A",
+          "unit": "K",
+          "min_max": [
+            392.58782332382293,
+            392.58794076314445
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "shex",
+          "pipe": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+          "face": "A",
+          "unit": "Pa",
+          "min_max": [
+            850885.6541351422,
+            850885.6541355542
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "shex",
+          "pipe": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+          "face": "B",
+          "unit": "K",
+          "min_max": [
+            363.46260255173326,
+            363.4685398097091
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "shex",
+          "pipe": "heatdrive_ecc_coupled_se21/SHEX/HotPipe",
+          "face": "B",
+          "unit": "Pa",
+          "min_max": [
+            850885.6541153255,
+            850885.6541175507
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "hhex_sma",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+          "face": "A",
+          "unit": "K",
+          "min_max": [
+            304.4771945379214,
+            304.47774834590405
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "hhex_sma",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+          "face": "A",
+          "unit": "Pa",
+          "min_max": [
+            850935.0162967263,
+            850935.0162969988
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "hhex_sma",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+          "face": "B",
+          "unit": "K",
+          "min_max": [
+            327.22001702348433,
+            327.2314681559988
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "hhex_sma",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/SMAHotPipe",
+          "face": "B",
+          "unit": "Pa",
+          "min_max": [
+            850935.0162458585,
+            850935.0162503602
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/SMA_ThermalLiquidSettings"
+        },
+        {
+          "tag": "hhex_se",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+          "face": "A",
+          "unit": "K",
+          "min_max": [
+            297.16317381062254,
+            297.1704449185086
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "hhex_se",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+          "face": "A",
+          "unit": "Pa",
+          "min_max": [
+            850982.704607494,
+            850982.7053076391
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "hhex_se",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+          "face": "B",
+          "unit": "K",
+          "min_max": [
+            303.0584754903939,
+            303.05858600965047
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "hhex_se",
+          "pipe": "heatdrive_ecc_coupled_se21/\u70ed\u7aef\u6362\u70ed\u5668/HotPipe",
+          "face": "B",
+          "unit": "Pa",
+          "min_max": [
+            850982.7046073666,
+            850982.7053075117
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "chex",
+          "pipe": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+          "face": "A",
+          "unit": "K",
+          "min_max": [
+            276.9500049806466,
+            276.9582500816193
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "chex",
+          "pipe": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+          "face": "A",
+          "unit": "Pa",
+          "min_max": [
+            850988.9196852588,
+            850988.9206863621
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "chex",
+          "pipe": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+          "face": "B",
+          "unit": "K",
+          "min_max": [
+            276.9500152249535,
+            276.9511013993422
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        },
+        {
+          "tag": "chex",
+          "pipe": "heatdrive_ecc_coupled_se21/\u51b7\u7aef\u6362\u70ed\u5668/ColdSinkPipe",
+          "face": "B",
+          "unit": "Pa",
+          "min_max": [
+            850988.9196856119,
+            850988.920686715
+          ],
+          "settings_path": "heatdrive_ecc_coupled_se21/\u70ed\u6d41\u4f53\u8bbe\u7f6e"
+        }
+      ],
+      "PI_memory_probe_count": 0,
+      "solid_workspace_native_max_difference_K": {
+        "SMA": 0.0,
+        "SE": 0.0
+      },
+      "input_dependencies": [
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_smoke_r2_20261026\\shared\\native_CV_observations.mat",
+          "sha256": "361B2A430A5A52BD9A39569E24D63C83666CC8C7BCDF8619C2C807B394F44C4A",
+          "bytes": 89376
+        },
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_smoke_r2_20261026\\shared\\workspace_CV_observations.mat",
+          "sha256": "15ECE7596FE7B27B7884C8F2111E654E5E90A520EAD6EFCBD358116EF4F1A1B5",
+          "bytes": 17881
+        },
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_smoke_r2_20261026\\shared\\source_CV_observations.mat",
+          "sha256": "589EF5DF0FE56012648EC64EF5025255F0967CD49162FE948CD4B6855824C389",
+          "bytes": 10750
+        },
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_smoke_r2_20261026\\shared\\CV_options.mat",
+          "sha256": "961F9DEC07102DD5E4D9E7089C5C4780FA2FBCE9118447C7EA31FBFF3B5ECD4D",
+          "bytes": 29654
+        },
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_smoke_r2_20261026\\shared\\CV_contract.json",
+          "sha256": "E76326CD330FADD98A70F47D14F6FD9FF446CAF8B35007AF41FFB9F55B3C005F",
+          "bytes": 109333
+        },
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_smoke_r2_20261026\\shared\\CV_tl_topology.json",
+          "sha256": "3539078C7CDF1140879873A724E627C261151E2857375024D631EABCAB1C1299",
+          "bytes": 204114
+        },
+        {
+          "path": "C:\\tmp\\se21_coupled_CV_smoke_r2_20261026\\shared\\CV_thermal_topology.json",
+          "sha256": "58630748119CB264A7193A11F874776244A35CDE1827D3E888635471111E5176",
+          "bytes": 1059907
+        }
+      ],
+      "all_mechanism_energy_periodic_or_twenty_cycle_seed_qualified": false,
+      "complete_hidden_state_or_OP_saved": false
+    }
+  ],
+  "capture_complete_not_a_mechanism_gate": true,
+  "production_recovery_or_Table4_claim": false
+}
