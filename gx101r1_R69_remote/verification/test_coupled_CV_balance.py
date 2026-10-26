@@ -3,7 +3,8 @@ import unittest
 
 import numpy as np
 
-from Analyze_HeatDriveECC_CoupledCVBalance import path_steps,source_sign,oriented_faces,balance_window,cooling_decomposition,mechanical_bridge,engineering_pumps,tank_native_terms
+from Analyze_HeatDriveECC_CoupledCVBalance import path_steps,source_sign,oriented_faces,balance_window,cooling_decomposition,mechanical_bridge,engineering_pumps,tank_native_terms,tank_endpoint_bridge
+from scipy.interpolate import RegularGridInterpolator
 
 
 class BalanceTests(unittest.TestCase):
@@ -98,6 +99,23 @@ class BalanceTests(unittest.TestCase):
         self.assertFalse(result['full_device_first_law_verified'])
         native[path,'mdot_B']=native[path,'mdot_A']
         with self.assertRaises(ValueError):tank_native_terms({'native':native,'time':t},block,T,np.ones(3)*1000.,np.ones(3)*4000.)
+
+    def test_tank_endpoint_bridge_keeps_interpolation_and_BE_product_terms(self):
+        t=np.array([0.,.001,.002]);T=np.array([300.,301.,303.]);M=np.array([1.,1.1,1.3])
+        pressure=1e5;rho=1000.;u=2*T;h=u+pressure/rho;path='m/Tank';native={}
+        for name,value,unit in (('T_I',T,'K'),('p_I',np.full(3,pressure),'Pa'),('mass',M,'kg'),
+                                ('rho_I',np.full(3,rho),'kg/m^3'),('volume',M/rho,'m^3'),
+                                ('h_I',h,'J/kg'),('u_I',u,'J/kg')):
+            native[path,name]={'time_s':t,'values':value[:,None],'unit':unit}
+        knots=np.array([290.,310.]);pressures=np.array([9e4,11e4])
+        table={k:RegularGridInterpolator((knots,pressures),np.repeat(v[:,None],2,axis=1))
+               for k,v in (('cp',np.array([3.,3.])),('u',2*knots),('rho',np.array([rho,rho])))}
+        data={'native':native,'time':t,'assignment':{path:'fluid'},'tables':{'fluid':table}}
+        result=tank_endpoint_bridge(data,{'block_path':path},0,2)
+        self.assertAlmostEqual(result['property_interpolation']['exact_table_interpolation_term_J'],3.7)
+        self.assertAlmostEqual(result['property_interpolation']['BE_quadrature_term_J'],0.)
+        self.assertAlmostEqual(result['mass_enthalpy_BE_product_cross_J'],1.)
+        self.assertAlmostEqual(result['predicted_simplified_coefficient_minus_U_plus_pV_J'],4.7)
 
     def test_coupled_work_cancellation_does_not_hide_an_unexplained_heat_source(self):
         t=np.array([0.,.001,.002]);c=np.zeros((3,252));x=np.arange(3)[:,None]*.1

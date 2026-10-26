@@ -22,6 +22,7 @@ from Audit_HeatDriveECC_ThermalConnectivity import wire_nets
 from Audit_HeatDriveECC_TLDomainInventory import density_table, resolve_domains
 from Audit_HeatDriveECC_C201TankBasis import geometry as native_tank_geometry
 from Audit_HeatDriveECC_TankEnergyBasis import extra_thermal_accumulation, hydrostatic_transport, DEAD_HEIGHT_M, TRIAL_COMMIT
+from Audit_HeatDriveECC_TankInterpolationConsistency import analyze_path
 from HeatDriveECC_TraceColumns import load
 from Review_HeatDriveECC_CoupledCVPacket import on_grid, verify_arm, verify_sources
 from Run_HeatDriveECC_ConservativeTransport import write_json
@@ -93,6 +94,22 @@ def tank_native_terms(data,block,temperature,rho,cp):
     head,_=hydrostatic_transport(data['time'],native_value(data,path,'mdot_A','kg/s'),
                                native_value(data,path,'volume','m^3')/area,gravity,inlet)
     return extra,head
+
+
+def tank_endpoint_bridge(data,block,start_index,stop_index):
+    path=block['block_path'];sl=slice(start_index,stop_index+1)
+    v=lambda name,unit:native_value(data,path,name,unit)[sl]
+    T=v('T_I','K');P=v('p_I','Pa');M=v('mass','kg');h=v('h_I','J/kg')
+    u=v('u_I','J/kg');rho=v('rho_I','kg/m^3');V=v('volume','m^3')
+    if np.ptp(P)>1e-6:raise ValueError('Fixed-pressure endpoint bridge cannot cover variable pressure')
+    terms,_=analyze_path(data['tables'][data['assignment'][path]],float(P[0]),T,M,h,rho,u)
+    cross=float(np.dot(np.diff(h),np.diff(M)))
+    h_endpoint=float(M[-1]*h[-1]-M[0]*h[0])
+    u_endpoint=float(M[-1]*u[-1]-M[0]*u[0]);pdV=float(np.dot(P[1:],np.diff(V)))
+    return dict(property_interpolation=terms,mass_enthalpy_BE_product_cross_J=cross,
+                native_enthalpy_endpoint_minus_U_plus_pV_J=h_endpoint-u_endpoint-pdV,
+                predicted_simplified_coefficient_minus_U_plus_pV_J=terms['BE_cp_minus_native_dh_weighted_J']+cross+h_endpoint-u_endpoint-pdV,
+                identity_not_an_independent_conservation_or_material_gate=True)
 
 
 def storage(data):
@@ -397,6 +414,24 @@ def analyze(root,output):
             row['endpoint_remainder_after_identified_tank_path_terms_J']=(row['external_minus_corrected_endpoint_plus_tank_pressure_work_J']
                 -row['BE_tank_extra_thermal_accumulation_J']+row['BE_tank_hydrostatic_transport_in_J'])
             row['tank_path_terms_do_not_define_an_endpoint_state_function']=True
+            blocks={v['block_path']:v for v in data['contract']['storage_blocks']}
+            for component in row['components']:
+                delta=(component['BE_coefficient_accumulation_J']-component['endpoint_energy_change_J']
+                    -component['BE_tank_pressure_volume_work_out_J'])
+                component['simplified_coefficient_minus_endpoint_U_plus_pV_J']=delta
+                if component['mask_type']=='Tank (TL)':
+                    bridge_terms=tank_endpoint_bridge(data,blocks[component['block_path']],round(a/.001),round(b/.001))
+                    bridge_terms['algebraic_decomposition_roundoff_J']=delta-bridge_terms['predicted_simplified_coefficient_minus_U_plus_pV_J']
+                    if abs(bridge_terms['algebraic_decomposition_roundoff_J'])>1e-8:
+                        raise ValueError('Tank endpoint decomposition does not reproduce measured coefficients')
+                    component['tank_endpoint_bridge']=bridge_terms
+            row['endpoint_coefficient_gap_by_component_kind_J']={kind:sum(c['simplified_coefficient_minus_endpoint_U_plus_pV_J']
+                for c in row['components'] if c['mask_type']==kind) for kind in sorted({c['mask_type'] for c in row['components']})}
+            row['endpoint_remainder_minus_component_gaps_and_native_equation_residual_J']=(
+                row['endpoint_remainder_after_identified_tank_path_terms_J']
+                -sum(row['endpoint_coefficient_gap_by_component_kind_J'].values())-row['BE_identified_native_equation_residual_J'])
+            # The tiny constitutive heat minus latent term is still retained,
+            # not absorbed into a fluid property fit or a conservation threshold.
             row['engineering_pumps']=engineering_pumps(data,a,b)
             windows.append(row)
         chex_sensor=data['options']['validation']['cold_boundary_audit']['heat_flow_sensor_path']
@@ -419,7 +454,8 @@ def analyze(root,output):
                     tank_identification_trial_commit=TRIAL_COMMIT,tank_extra_height_m=DEAD_HEIGHT_M,
                     tank_terms_source_read_or_decrypted=False,
                     reused_reader_sha256={name:sha256(Path(__file__).with_name(name)) for name in
-                        ('Audit_HeatDriveECC_TankEnergyBasis.py','Audit_HeatDriveECC_C201TankBasis.py')},
+                        ('Audit_HeatDriveECC_TankEnergyBasis.py','Audit_HeatDriveECC_C201TankBasis.py',
+                         'Audit_HeatDriveECC_TankInterpolationConsistency.py')},
                     hidden_state_and_nonlinear_solver_coordinate_effects_not_excluded=True),
                 no_new_simulation=True,production_recovery_allowed=False,Table4_reproduction_claim=False)
     with (output/'control_volume_table.csv').open('w',encoding='utf-8',newline='') as f:
