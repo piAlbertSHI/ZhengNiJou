@@ -1,10 +1,13 @@
-function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zip, folder, requested_arm, duration, capture_profile)
+function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zip, folder, requested_arm, duration, capture_profile, numerical_profile)
 % Fresh, matched-bed-temperature native initialization; no old OP or seed.
     if nargin<5,requested_arm='both';end
     if nargin<6,duration=.01;end
     if nargin<7,capture_profile='selected_sma_v1';if duration==20,capture_profile='coupled_cv_v1';end;end
+    if nargin<8,numerical_profile='inherited';end
+    assert(ismember(numerical_profile,{'inherited','local_tight'}));
     assert(ismember(capture_profile,{'selected_sma_v1','coupled_cv_v1'}));
     full_cv=strcmp(capture_profile,'coupled_cv_v1');
+    assert(full_cv || strcmp(numerical_profile,'inherited'),'Numerical refinement needs complete CV observation.');
     assert(ismember(duration,[.01 .2 10 20]) && (duration~=20 || full_cv), ...
         'C2 requires the declared full CV observation profile.');
     assert(ismember(requested_arm,{'dual','shared','both'}));
@@ -18,6 +21,7 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
         'collection_complete',false,'production_recovery_allowed',false, ...
         'checkpoint_loaded_or_saved',false,'stop_time_s',duration,'completed_arms',{{}});
     result.capture_profile=capture_profile;
+    result.numerical_profile=numerical_profile;
     if full_cv,result.schema='heatdrive_ecc_coupled_CV_execution_v1';end
     protected=fullfile(repo,'heatdrive_ecc_coupled_se21.slx');protected_hash=file_hash(protected);
     try
@@ -47,7 +51,7 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
             'observer_delegate',file_hash(fullfile(repo,'verification','HeatDriveECC_ProcessLocalTimeObserver.m')));
         if full_cv
             Test_HeatDriveECC_TraceColumns();
-            modules={'Prepare_HeatDriveECC_CoupledCVObservation','Build_HeatDriveECC_CoupledCVInventory', ...
+            modules={'Configure_HeatDriveECC_NativeConsistencyProbe','Prepare_HeatDriveECC_CoupledCVObservation','Build_HeatDriveECC_CoupledCVInventory', ...
                 'Capture_HeatDriveECC_CoupledCVPacket','Pack_HeatDriveECC_TraceColumns', ...
                 'Extract_HeatDriveECC_NativeStorageTraces','Extract_HeatDriveECC_BoundaryTraces','Read_HeatDriveECC_NativeSeries'};
             for k=1:numel(modules),result.CV_source_sha256.(modules{k})=file_hash(fullfile(repo,'verification',[modules{k} '.m']));end
@@ -108,7 +112,10 @@ function result=Run_HeatDriveECC_SharedSMAColdInitial(repo, source_root, seed_zi
                 assert(slResolve(get_param(p,'T0'),p)==303.15);
             end
             if full_cv
+                numerical=Configure_HeatDriveECC_NativeConsistencyProbe(model,numerical_profile);
+                write_json(fullfile(arm,'numerical_solver_contract.json'),numerical);
                 cv=Prepare_HeatDriveECC_CoupledCVObservation(model,options,name,arm);
+                cv.numerical_solver_contract=numerical;
                 write_json(fullfile(arm,'CV_tl_topology.json'),cv.tl_topology);
                 write_json(fullfile(arm,'CV_thermal_topology.json'),cv.thermal_topology);
                 write_json(fullfile(arm,'CV_contract.json'),rmfield(cv,{'tl_topology','thermal_topology'}));
