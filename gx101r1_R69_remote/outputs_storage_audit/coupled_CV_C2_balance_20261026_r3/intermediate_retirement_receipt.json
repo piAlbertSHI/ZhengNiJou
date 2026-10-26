@@ -1,0 +1,42 @@
+{
+  "schema": "heatdrive_ecc_regenerable_analysis_retirement_v1",
+  "retirement_complete": false,
+  "execution_policy_denied_before_process_start": true,
+  "cleanup_performed": false,
+  "actual_released_bytes": 0,
+  "do_not_retry_with_another_shell_or_deletion_mechanism": true,
+  "retained_json": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\coupled_CV_C2_balance_20261026_r3\\coupled_CV_balance.json",
+  "retained_json_sha256": "7BCFA79ECEE1A02F2615F26369F8B92C1B02858E18ED5029D3A7E46E455E58D5",
+  "files": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\coupled_CV_C2_balance_20261026_r1\\coupled_CV_balance.json",
+      "bytes": 602273,
+      "sha256": "09FE198E27BD95B1E4403A290C37F426416C8DA4DAC97AE652290B4CFDA7A8B6",
+      "proof": "all_old_values_exactly_covered_by_r3_except_root_reader_sha256",
+      "old_reader_sha256": "745A56C5F3EA5995B468935ABE1FE7448F47A076782F46301109C0AA23F47D83"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\coupled_CV_C2_balance_20261026_r1\\control_volume_table.csv",
+      "bytes": 82751,
+      "sha256": "5D5A0DF45EC7131C1736252479A73094E9C4593F1D691F6A66E8D0896752A642",
+      "proof": "byte_identical_to_retained_r3_CSV",
+      "old_reader_sha256": "745A56C5F3EA5995B468935ABE1FE7448F47A076782F46301109C0AA23F47D83"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\coupled_CV_C2_balance_20261026_r2\\coupled_CV_balance.json",
+      "bytes": 608337,
+      "sha256": "E4A902601AC70578C2DA02C7D78D12F5F740F2C6734CC1B340C440FCF9AF22FD",
+      "proof": "all_old_values_exactly_covered_by_r3_except_root_reader_sha256",
+      "old_reader_sha256": "30401DDBF0C33993B8EB291F2E675D1DFEC3BCAF2A70D3134AFDE28370CA3335"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\coupled_CV_C2_balance_20261026_r2\\control_volume_table.csv",
+      "bytes": 82751,
+      "sha256": "5D5A0DF45EC7131C1736252479A73094E9C4593F1D691F6A66E8D0896752A642",
+      "proof": "byte_identical_to_retained_r3_CSV",
+      "old_reader_sha256": "30401DDBF0C33993B8EB291F2E675D1DFEC3BCAF2A70D3134AFDE28370CA3335"
+    }
+  ],
+  "total_bytes": 1376112.0,
+  "raw_MAT_or_OP_deleted": false
+}

@@ -1,0 +1,171 @@
+{
+  "schema": "heatdrive_ecc_CV_balance_closeout_v2",
+  "mainline": [
+    {
+      "role": "result",
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\physical_simscape_result.mat",
+      "sha256": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD",
+      "verified": true
+    },
+    {
+      "role": "checkpoint",
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\final_operating_point.mat",
+      "sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816",
+      "verified": true
+    }
+  ],
+  "C200_contract_sha256": "2C7147D7F2DC31EBE852BA176390A9B2BD0BF8FAE5ED25BD3D9A0B1041F100D8",
+  "current_model_restore_allowed": false,
+  "C2_raw_files_verified": 8,
+  "C2_raw_bytes": 450101913.0,
+  "protected_model_sha256": "77E2ACD5B983A0BA72DFB72D3AD106F4D0BC524C2EC56C79C096EEBB5DA88599",
+  "paper_path": "C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/A heat driven elastocaloric cooling system..pdf",
+  "paper_sha256": "2D0EB5F84AA515BA651638974414D426A3806FD417A1EAD96EFA36EDA08034CC",
+  "Qian_locations": [
+    "PDF page3 = journal p883, Eqs1/2",
+    "PDF page5 = journal p885, Eqs3-10 and ten-steady-cycle definition"
+  ],
+  "vendor_reference_files": [
+    {
+      "path": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\physmod\\simscape\\library\\m\\+foundation\\+thermal\\+sources\\temperature.ssc",
+      "sha256": "4960A335DB9A89719F644688631A246FD9BDE3AA63664AF2EB9AEF1D66CB4280"
+    },
+    {
+      "path": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\physmod\\simscape\\library\\m\\+foundation\\+thermal\\+sources\\controlled_heat_flow.ssc",
+      "sha256": "02D23D5727180E5E5AE2F756C4D58A2DB1B2944C29DADB0069CDB008422C3991"
+    },
+    {
+      "path": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\physmod\\simscape\\library\\m\\+foundation\\+thermal_liquid\\+sources\\pressure_source.ssc",
+      "sha256": "D6337F48A716E37DBEFEEF8E0DE2D07483FCEA0FC2069059224DFE8709CD44B0"
+    },
+    {
+      "path": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\physmod\\simscape\\library\\m\\+foundation\\+thermal_liquid\\+elements\\constant_volume_chamber.ssc",
+      "sha256": "D2A49CAEB1E66F5CA63C9ED1161BA354DA31F586814BF49A61A91007395215BB"
+    },
+    {
+      "path": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\physmod\\simscape\\library\\m\\+foundation\\+thermal_liquid\\+elements\\pipe.ssc",
+      "sha256": "CC478BAB8A9B5DD6156ACE2239BF837FE0849843EF5BDBFE6F55C315343FAC3E"
+    },
+    {
+      "path": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\physmod\\simscape\\library\\m\\+foundation\\+thermal_liquid\\+utilities\\thermal_liquid_settings.ssc",
+      "sha256": "D0B8A66CBD6AFE7BBF14402A78BFE975BCBE009A5817D346CCBC5F64A85E1693"
+    }
+  ],
+  "vendor_hash_scope": "current local primary-source references, not a complete cryptographic runtime attestation",
+  "tank_documentation": "https://www.mathworks.com/help/releases/R2025b/hydro/ref/tanktl.html",
+  "solver_documentation": "https://www.mathworks.com/help/releases/R2025b/simscape/ref/solverconfiguration.html",
+  "reader_sha256": "32FEB40F5166BDE54AD22D182C657BBEE31B0865132635CA3FAD7718F4EC4998",
+  "analysis_sha256": "A92EA669BC532DF416210EB800D35987FECC7346B02B7A33AF9E7E719DF0C3C1",
+  "targeted_tests_passed": 132,
+  "new_simulation": false,
+  "new_raw_MAT_or_OP_bytes": 0,
+  "deleted_files": 0,
+  "reclaimed_bytes": 0,
+  "cleanup_policy_denied_before_process_start": true,
+  "goal_achieved": false,
+  "previous_reference_verification": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\coupled_CV_C2_balance_20261026_r3\\C200_and_input_verification.json",
+  "current_verified_input_dependencies": [
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\native_CV_observations.mat",
+      "sha256": "67A1195E2B2E6BC78BA88AD27098EBCCCEA3DE6612C0C05C89209C2A5E3B6B1A",
+      "bytes": 149257302
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\workspace_CV_observations.mat",
+      "sha256": "275571222C4D141DB613B8DBA4C129A05E7F88424C31810DA37E9CF1835DF6A4",
+      "bytes": 75621297
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\source_CV_observations.mat",
+      "sha256": "B8FF53EDFBB207B53E322C19069B7D9846111EA6C0439C1C708853932ABAD7A2",
+      "bytes": 20947130
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_options.mat",
+      "sha256": "1C6965D361C5FCC5F35838E232ACFD034DBD0D82DEEFA0C265D80A3D28DFDA52",
+      "bytes": 29643
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_contract.json",
+      "sha256": "56808E5B40BE46FD771814CB3E026CD4DE9D4EACA810EE75ABE166208971B913",
+      "bytes": 144200
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_tl_topology.json",
+      "sha256": "2C90BED3EA39770319ACF177361406DCAD44BE6C3E2E43E72DC0A4CE47B7805E",
+      "bytes": 230603
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\dual\\CV_thermal_topology.json",
+      "sha256": "07C0158E858FB34C186357CE78F9557941FB399C9CD05C96FA0868B2E577F5D4",
+      "bytes": 1134184
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\native_CV_observations.mat",
+      "sha256": "A5FCC7750EC5E32EF5898E10508D213EC0E9452142C674045573AC50C0F5D794",
+      "bytes": 111051596
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\workspace_CV_observations.mat",
+      "sha256": "7080DA9CF66C258D81B30D669DB7A8A03CABFE99BE49AF4735BC0CCB2AB0D472",
+      "bytes": 72277925
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\source_CV_observations.mat",
+      "sha256": "5B5E2ECC9139FACA6513D6A1899A5D699726C1DFE2A2F728A88CB6258B4639CF",
+      "bytes": 20887376
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_options.mat",
+      "sha256": "7195EAB3B42AD660D9AB25A1FCE1674CAFDE6AA3B6F65927C1904B4CDF483B4C",
+      "bytes": 29644
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_contract.json",
+      "sha256": "3EA57A9930A1AC83028B6E305A0260CD554048FA84CBE0241BF06E3C3CE87C64",
+      "bytes": 120677
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_tl_topology.json",
+      "sha256": "5240CCCC068EEB84C1629EF27EAA726D3D1CC85C7B37D495FCF9DA73BDA8C7E4",
+      "bytes": 203431
+    },
+    {
+      "path": "C:\\tmp\\se21_coupled_CV_C2_r1_20261026\\shared\\CV_thermal_topology.json",
+      "sha256": "DB440D8F9C324A444CE8570F33D57015CC1518DDF96E1CC6D71D3503AF3344D8",
+      "bytes": 1056078
+    }
+  ],
+  "analysis_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\coupled_CV_C2_balance_20261026_r4\\coupled_CV_balance.json",
+  "pending_obsolete_analysis_files": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\coupled_CV_C2_balance_20261026_r1\\coupled_CV_balance.json",
+      "bytes": 602273,
+      "sha256": "09FE198E27BD95B1E4403A290C37F426416C8DA4DAC97AE652290B4CFDA7A8B6",
+      "proof": "all_old_values_exactly_covered_by_r3_except_root_reader_sha256",
+      "old_reader_sha256": "745A56C5F3EA5995B468935ABE1FE7448F47A076782F46301109C0AA23F47D83"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\coupled_CV_C2_balance_20261026_r1\\control_volume_table.csv",
+      "bytes": 82751,
+      "sha256": "5D5A0DF45EC7131C1736252479A73094E9C4593F1D691F6A66E8D0896752A642",
+      "proof": "byte_identical_to_retained_r3_CSV",
+      "old_reader_sha256": "745A56C5F3EA5995B468935ABE1FE7448F47A076782F46301109C0AA23F47D83"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\coupled_CV_C2_balance_20261026_r2\\coupled_CV_balance.json",
+      "bytes": 608337,
+      "sha256": "E4A902601AC70578C2DA02C7D78D12F5F740F2C6734CC1B340C440FCF9AF22FD",
+      "proof": "all_old_values_exactly_covered_by_r3_except_root_reader_sha256",
+      "old_reader_sha256": "30401DDBF0C33993B8EB291F2E675D1DFEC3BCAF2A70D3134AFDE28370CA3335"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\coupled_CV_C2_balance_20261026_r2\\control_volume_table.csv",
+      "bytes": 82751,
+      "sha256": "5D5A0DF45EC7131C1736252479A73094E9C4593F1D691F6A66E8D0896752A642",
+      "proof": "byte_identical_to_retained_r3_CSV",
+      "old_reader_sha256": "30401DDBF0C33993B8EB291F2E675D1DFEC3BCAF2A70D3134AFDE28370CA3335"
+    }
+  ],
+  "pending_obsolete_analysis_bytes": 1376112.0
+}

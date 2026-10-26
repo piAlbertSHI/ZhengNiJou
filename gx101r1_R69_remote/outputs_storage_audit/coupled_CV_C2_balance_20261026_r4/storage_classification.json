@@ -1,0 +1,43 @@
+{
+  "schema": "heatdrive_ecc_bounded_analysis_storage_classification_v1",
+  "scope": "only this round generated analysis folders, not a whole-workspace census",
+  "directories": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\coupled_CV_C2_balance_20261026_r1",
+      "role": "regenerable_superseded_analysis_policy_denied_cleanup",
+      "file_count": 2,
+      "logical_bytes": 685024.0,
+      "large_raw_MAT_copied": false
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\coupled_CV_C2_balance_20261026_r2",
+      "role": "regenerable_superseded_analysis_policy_denied_cleanup",
+      "file_count": 2,
+      "logical_bytes": 691088.0,
+      "large_raw_MAT_copied": false
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\coupled_CV_C2_balance_20261026_r3",
+      "role": "historical_bridge_and_cleanup_attempt_evidence",
+      "file_count": 6,
+      "logical_bytes": 800449.0,
+      "large_raw_MAT_copied": false
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\coupled_CV_C2_balance_20261026_r4",
+      "role": "current_control_volume_and_metric_evidence",
+      "file_count": 5,
+      "logical_bytes": 854006.0,
+      "large_raw_MAT_copied": false
+    }
+  ],
+  "raw_C2_single_copy_path": "C:/tmp/se21_coupled_CV_C2_r1_20261026",
+  "raw_C2_bytes": 450101913,
+  "raw_observations_are_not_an_OP": true,
+  "new_raw_simulation_bytes": 0,
+  "deleted_files": 0,
+  "reclaimed_bytes": 0,
+  "policy_denied_targets_not_retried": true,
+  "protected_agent_and_model_paths_not_touched": true,
+  "classification_receipt_itself_excluded_from_counts": true
+}

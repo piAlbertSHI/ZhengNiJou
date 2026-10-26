@@ -1,0 +1,66 @@
+{
+  "schema": "heatdrive_ecc_CV_balance_closeout_v1",
+  "mainline": [
+    {
+      "role": "result",
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\physical_simscape_result.mat",
+      "sha256": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD",
+      "verified": true
+    },
+    {
+      "role": "checkpoint",
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs\\qian_table4_fixed_Tc_276p950K_kp136_255_steady_from_valid107_20260821\\qian2019_table2_table4_simscape_200cycle_20260821_121246\\final_operating_point.mat",
+      "sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816",
+      "verified": true
+    }
+  ],
+  "C200_contract_sha256": "2C7147D7F2DC31EBE852BA176390A9B2BD0BF8FAE5ED25BD3D9A0B1041F100D8",
+  "current_model_restore_allowed": false,
+  "C2_raw_files_verified": 8,
+  "C2_raw_bytes": 450101913.0,
+  "protected_model_sha256": "77E2ACD5B983A0BA72DFB72D3AD106F4D0BC524C2EC56C79C096EEBB5DA88599",
+  "paper_path": "C:/Users/86182/Desktop/冷凝文献/弹热制冷文献/A heat driven elastocaloric cooling system..pdf",
+  "paper_sha256": "2D0EB5F84AA515BA651638974414D426A3806FD417A1EAD96EFA36EDA08034CC",
+  "Qian_locations": [
+    "PDF page3 = journal p883, Eqs1/2",
+    "PDF page5 = journal p885, Eqs3-10 and ten-steady-cycle definition"
+  ],
+  "vendor_reference_files": [
+    {
+      "path": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\physmod\\simscape\\library\\m\\+foundation\\+thermal\\+sources\\temperature.ssc",
+      "sha256": "4960A335DB9A89719F644688631A246FD9BDE3AA63664AF2EB9AEF1D66CB4280"
+    },
+    {
+      "path": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\physmod\\simscape\\library\\m\\+foundation\\+thermal\\+sources\\controlled_heat_flow.ssc",
+      "sha256": "02D23D5727180E5E5AE2F756C4D58A2DB1B2944C29DADB0069CDB008422C3991"
+    },
+    {
+      "path": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\physmod\\simscape\\library\\m\\+foundation\\+thermal_liquid\\+sources\\pressure_source.ssc",
+      "sha256": "D6337F48A716E37DBEFEEF8E0DE2D07483FCEA0FC2069059224DFE8709CD44B0"
+    },
+    {
+      "path": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\physmod\\simscape\\library\\m\\+foundation\\+thermal_liquid\\+elements\\constant_volume_chamber.ssc",
+      "sha256": "D2A49CAEB1E66F5CA63C9ED1161BA354DA31F586814BF49A61A91007395215BB"
+    },
+    {
+      "path": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\physmod\\simscape\\library\\m\\+foundation\\+thermal_liquid\\+elements\\pipe.ssc",
+      "sha256": "CC478BAB8A9B5DD6156ACE2239BF837FE0849843EF5BDBFE6F55C315343FAC3E"
+    },
+    {
+      "path": "C:\\Program Files\\MATLAB\\R2025b\\toolbox\\physmod\\simscape\\library\\m\\+foundation\\+thermal_liquid\\+utilities\\thermal_liquid_settings.ssc",
+      "sha256": "D0B8A66CBD6AFE7BBF14402A78BFE975BCBE009A5817D346CCBC5F64A85E1693"
+    }
+  ],
+  "vendor_hash_scope": "current local primary-source references, not a complete cryptographic runtime attestation",
+  "tank_documentation": "https://www.mathworks.com/help/releases/R2025b/hydro/ref/tanktl.html",
+  "solver_documentation": "https://www.mathworks.com/help/releases/R2025b/simscape/ref/solverconfiguration.html",
+  "reader_sha256": "C697D175528F1D0D279662F5C61904BDDE88F1FBE4F76A14E309909D604F5C1F",
+  "analysis_sha256": "7BCFA79ECEE1A02F2615F26369F8B92C1B02858E18ED5029D3A7E46E455E58D5",
+  "targeted_tests_passed": 131,
+  "new_simulation": false,
+  "new_raw_MAT_or_OP_bytes": 0,
+  "deleted_files": 0,
+  "reclaimed_bytes": 0,
+  "cleanup_policy_denied_before_process_start": true,
+  "goal_achieved": false
+}
