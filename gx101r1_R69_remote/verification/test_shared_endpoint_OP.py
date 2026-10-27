@@ -108,7 +108,7 @@ class EndpointOPTests(unittest.TestCase):
     def test_C60_continuation_is_anchored_to_the_reviewed_C40_terminal_OP(self):
         source=(Path(__file__).resolve().parent/'Resume_HeatDriveECC_SharedEndpointOP.m').read_text(encoding='utf-8')
         self.assertIn("warmup_C60_from_C40",source)
-        self.assertIn("review.completed_total_cycles==40",source)
+        self.assertIn("review.completed_total_cycles==previous_cycles",source)
         self.assertIn("point_path=prior.terminal_OP_path",source)
         self.assertIn("point_snapshot=prior.terminal_OP_snapshot_s",source)
         self.assertIn("cd(fileparts(runtime.saved_runtime_model_path))",source)
@@ -116,7 +116,7 @@ class EndpointOPTests(unittest.TestCase):
         self.assertIn("record.source_root=source;record.source_OP_sha256=point_sha",source)
         self.assertIn("warmup_C80_from_C60",source)
         self.assertIn("numbers=sscanf(mode,'warmup_C%d_from_C%d')",source)
-        self.assertIn("stop=600",source)
+        self.assertIn("stop=numbers(1)*10",source)
 
     def test_failed_post_simulation_receipt_is_finalizable_without_rerunning(self):
         source=(Path(__file__).resolve().parent/'Finalize_HeatDriveECC_WarmupRecord.py').read_text(encoding='utf-8')
