@@ -111,6 +111,8 @@ class EndpointOPTests(unittest.TestCase):
         self.assertIn("review.completed_total_cycles==40",source)
         self.assertIn("point_path=prior.terminal_OP_path",source)
         self.assertIn("point_snapshot=prior.terminal_OP_snapshot_s",source)
+        self.assertIn("cd(fileparts(runtime.saved_runtime_model_path))",source)
+        self.assertIn("stop=runtime.reference_stop_s",source)
         self.assertIn("stop=600",source)
 
 

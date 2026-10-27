@@ -67,9 +67,9 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
         cleanup_generation=onCleanup(@() Simulink.fileGenControl('setConfig','config',generation));
         Simulink.fileGenControl('set','CacheFolder',fullfile(folder,'cache'), ...
             'CodeGenFolder',fullfile(folder,'codegen'),'createDir',true);
-        cd(fileparts(prior.saved_runtime_model_path));
+        cd(fileparts(runtime.saved_runtime_model_path));
         HeatDriveECC_ObserverContext('register',model,fullfile(folder,'solver_time.json'));
-        input=Simulink.SimulationInput(model);stop=prior.reference_stop_s;
+        input=Simulink.SimulationInput(model);stop=runtime.reference_stop_s;
         record.observation_profile=mode;
         if strcmp(mode,'warmup_C40')
             stop=400;
@@ -84,7 +84,7 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
                 numeric_parameter(get_param(model,'MaxDataPoints'))==40002);
         end
         if strcmp(mode,'bounded_step_probe')
-            stop=prior.snapshot_s+.002;
+            stop=runtime.snapshot_s+.002;
             input=input.setModelParameter('SimscapeLogLimitData','on','SimscapeLogDataHistory',20002,'MaxDataPoints','40002');
             sinks=find_system(model,'LookUnderMasks','all','FollowLinks','on','Type','Block','BlockType','ToWorkspace');
             for k=1:numel(sinks),input=input.setBlockParameter(sinks{k},'MaxDataPoints','40002');end
