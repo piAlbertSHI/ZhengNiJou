@@ -101,9 +101,9 @@ class EndpointOPTests(unittest.TestCase):
 
     def test_warmup_audit_requires_real_packet_coverage_through_the_terminal_window(self):
         source=(Path(__file__).resolve().parent/'Analyze_HeatDriveECC_SharedEndpointWarmup.py').read_text(encoding='utf-8')
-        self.assertIn("r['actual_tout_first_s']>=380",source)
+        self.assertIn("r['actual_tout_first_s']>=window_start",source)
         self.assertIn("for packet_name in ('workspace_packet','source_packet','state_packet')",source)
-        self.assertIn("max(float(x['time_s'][-1]) for x in packet.values())<400",source)
+        self.assertIn("max(float(x['time_s'][-1]) for x in packet.values())<window_stop",source)
 
     def test_C60_continuation_is_anchored_to_the_reviewed_C40_terminal_OP(self):
         source=(Path(__file__).resolve().parent/'Resume_HeatDriveECC_SharedEndpointOP.m').read_text(encoding='utf-8')
