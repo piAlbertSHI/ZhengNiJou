@@ -44,7 +44,7 @@ def periodic_screens(d,v):
         phase_RMS=p['same_phase_RMS']<=v['max_periodic_same_phase_phase_rms_drift'])
 
 
-def plot(data,out):
+def plot(data,out,total_cycles):
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
@@ -58,23 +58,28 @@ def plot(data,out):
         ax.plot(time[10000:]-time[10000],abs(x[10000:]-x[:10001]).max(1),color='#007A78',lw=1)
         if limit is not None:ax.axhline(limit,color='#666666',ls=':',lw=1,label='Maximum-temperature screen')
         ax.set(ylabel=label,xlim=(0,10));ax.spines[['top','right']].set_visible(False)
-    axes[0].set_title('Cycles 40 minus 39: retained actual physical coordinates')
+    axes[0].set_title(f'Cycles {total_cycles} minus {total_cycles-1}: retained actual physical coordinates')
     axes[0].legend(frameon=False,loc='upper left',bbox_to_anchor=(1.01,1.))
     axes[1].set_xlabel('Cycle phase time (s)')
     fig.savefig(out/'last_cycle_pair_differences.png',dpi=200);plt.close(fig)
 
 
-def analyze(root,out):
+def analyze(root,out,total_cycles,window_start,window_stop):
     read=lambda p:json.loads(p.read_text(encoding='utf-8'))
     rp=root/'new_process_restore.json';r=read(rp)
+    expected_profile='warmup_C40' if total_cycles==40 else f'warmup_C{total_cycles}_from_C40'
     if (not r['execution_complete'] or r['production_recovery_allowed'] or r['source_OP_edited']
-            or r['observation_profile']!='warmup_C40' or r['actual_tout_first_s']!=.2
-            or r['actual_tout_last_s']!=400 or r['fixed_command_horizon_s']!=1000):
+            or r['observation_profile']!=expected_profile or r['actual_tout_first_s']>=window_start
+            or r['actual_tout_last_s']!=window_stop or r['fixed_command_horizon_s']!=1000):
         raise ValueError('Not the proven-epoch fixed-horizon C40 warmup')
     for role in ('context','observation','terminal_OP'):
         if sha256(Path(r[role+'_path']))!=r[role+'_sha256']:raise ValueError('Warmup dependency changed: '+role)
-    parent=read(Path(r['source_root'])/'state_interface_roundtrip.json')
-    if r['source_OP_sha256']!=parent['operating_point_sha256']:raise ValueError('Source OP lineage differs')
+    parent_root=Path(r['source_root'])
+    if (parent_root/'state_interface_roundtrip.json').is_file():
+        parent=read(parent_root/'state_interface_roundtrip.json')
+    else:
+        parent=read(parent_root/'new_process_restore.json')
+        parent=read(Path(parent['source_root'])/'state_interface_roundtrip.json')
     dependencies=[(parent[k+'_path'],parent[k+'_sha256'])
                   for k in ('saved_runtime_model','operating_point','interface_contract')]
     dependencies.append((parent['base_workspace']['path'],parent['base_workspace']['sha256']))
@@ -89,8 +94,12 @@ def analyze(root,out):
             or options['simscape']['local_solver_sample_time_s']!=.001 or options['cycle_count']!=100):
         raise ValueError('Changed local solver or command horizon')
     raw=loadmat(r['observation_path'],simplify_cells=True)
-    native=actual_native_window(unpack(raw['native_packet']),380,400)
+    native=actual_native_window(unpack(raw['native_packet']),window_start,window_stop)
     time=next(iter(native.values()))['time_s'];tl=contract['tl_topology'];thermal=contract['thermal_topology']
+    for packet_name in ('workspace_packet','source_packet','state_packet'):
+        packet=unpack(raw[packet_name])
+        if not packet or min(float(x['time_s'][0]) for x in packet.values())>window_start or max(float(x['time_s'][-1]) for x in packet.values())<window_stop:
+            raise ValueError(f'Retained packet does not cover the actual {window_start}--{window_stop} s audit window: '+packet_name)
     parameters={x['block_path']:x['parameters'] for x in contract['settings_tables']}
     assignment,_=resolve_domains(tl)
     data=dict(contract=contract,options=options,tl=tl,thermal=thermal,parameters=parameters,
@@ -99,7 +108,7 @@ def analyze(root,out):
         boundary=context['boundary'],model=contract['storage_paths'][0].split('/')[0],time=time)
     components=storage(data);boundary=sources(data);diagnostics=cycle_diagnostics(data,400)
     screens=periodic_screens(diagnostics,options['validation']);windows=[]
-    for start,stop in ((380,390),(390,400),(380,400)):
+    for start,stop in ((window_start,window_start+10),(window_start+10,window_stop),(window_start,window_stop)):
         row=balance_window(data,components,boundary,start,stop);bridge=mechanical_bridge(data,boundary,start,stop)
         row['two_bed_mechanical_latent_bridge']=bridge
         row['external_minus_corrected_endpoint_J']=(row['source_net_input_J']-bridge['native_constitutive_heat_BE_J']
@@ -112,11 +121,11 @@ def analyze(root,out):
     for key,value in unpack(raw['state_packet']).items():
         state_rows.append(dict(path=key[0],name=key[1],unit=value['unit'],
                                drift=difference_stats(on_grid(value,time),10000)))
-    out.mkdir(parents=True,exist_ok=False);plot(data,out)
+    out.mkdir(parents=True,exist_ok=False);plot(data,out,total_cycles)
     result=dict(schema='heatdrive_ecc_shared_endpoint_warmup_review_v1',execution_sha256=sha256(rp),
-        reader_sha256=sha256(Path(__file__)),retained_native_window_s=[380,400],completed_total_cycles=40,
+        reader_sha256=sha256(Path(__file__)),retained_native_window_s=[window_start,window_stop],completed_total_cycles=total_cycles,
         frozen_runtime_dependency_hash_count=len(dependencies),
-        physical_continuation_window_s=[.2,400],fixed_command_horizon_s=1000,
+        physical_continuation_window_s=[.2,window_stop],fixed_command_horizon_s=1000,
         simulation_wall_seconds=r['simulation_wall_seconds'],terminal_OP_path=r['terminal_OP_path'],
         terminal_OP_sha256=r['terminal_OP_sha256'],retained_cycle_diagnostics=diagnostics,
         original_periodic_screens=screens,all_listed_periodic_screens_pass=all(screens.values()),
@@ -127,7 +136,7 @@ def analyze(root,out):
         ten_steady_cycle_performance_window_available=False,Table4_reproduction_claim=False,
         plot_sha256=sha256(out/'last_cycle_pair_differences.png'))
     write_json(out/'shared_endpoint_warmup_review.json',result)
-    print(json.dumps(dict(output=str(out),completed_total_cycles=40,retained_flow_subset_pass=flow,
+    print(json.dumps(dict(output=str(out),completed_total_cycles=total_cycles,retained_flow_subset_pass=flow,
         original_periodic_screens=screens,temperature_drift_K=diagnostics['all_native_temperature_C2_drift_K'],
         last_cycle_endpoint_energy_residual_J=windows[1]['external_minus_corrected_endpoint_J'],
         production_or_Table4_allowed=False)))
@@ -136,4 +145,7 @@ def analyze(root,out):
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     for n in ('root','output'):p.add_argument('--'+n,type=Path,required=True)
-    a=p.parse_args();analyze(a.root.resolve(),a.output.resolve())
+    p.add_argument('--total-cycles',type=int,default=40)
+    p.add_argument('--window-start',type=float,default=380)
+    p.add_argument('--window-stop',type=float,default=400)
+    a=p.parse_args();analyze(a.root.resolve(),a.output.resolve(),a.total_cycles,a.window_start,a.window_stop)

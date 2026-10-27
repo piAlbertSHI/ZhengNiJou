@@ -27,8 +27,8 @@ class EndpointOPTests(unittest.TestCase):
 
     def test_rebuilt_process_loads_persisted_model_not_a_partial_builder(self):
         source=(Path(__file__).resolve().parent/'Resume_HeatDriveECC_SharedEndpointOP.m').read_text(encoding='utf-8')
-        self.assertIn('load_system(prior.saved_runtime_model_path)',source)
-        self.assertIn('prior.loaded_project_sources',source)
+        self.assertIn('load_system(runtime.saved_runtime_model_path)',source)
+        self.assertIn('runtime.loaded_project_sources',source)
         self.assertNotIn('Build_HeatDriveECC_EighthRound_Simulink_Model(',source)
         self.assertNotIn('set_param(model,',source)
         self.assertNotIn('.loggedStates=',source)
@@ -53,7 +53,7 @@ class EndpointOPTests(unittest.TestCase):
     def test_long_warmup_uses_proven_epoch_and_saves_OP_before_observation_export(self):
         source=(Path(__file__).resolve().parent/'Resume_HeatDriveECC_SharedEndpointOP.m').read_text(encoding='utf-8')
         self.assertIn('proof.new_process_full_cycle_covered',source)
-        self.assertIn('prior.bounded_observation_from_cold_start',source)
+        self.assertIn('runtime.bounded_observation_from_cold_start',source)
         self.assertIn('diagnostic_operating_point=output.interface_final_op',source)
         self.assertIn('terminal_OP_requires_scientific_review_before_continuation=true',source)
         self.assertLess(source.index("save(terminal,"),source.index('Capture_HeatDriveECC_StateInterfaceTrace('))
@@ -98,6 +98,20 @@ class EndpointOPTests(unittest.TestCase):
         row={'vertex_indices':np.array([1,2]),'source_file':np.array([],dtype='U1'),
              'grid':np.array([[1.,2.],[3.,4.]])}
         self.assertEqual(matlab_metadata(row),{'vertex_indices':[1,2],'source_file':'','grid':[[1.,2.],[3.,4.]]})
+
+    def test_warmup_audit_requires_real_packet_coverage_through_the_terminal_window(self):
+        source=(Path(__file__).resolve().parent/'Analyze_HeatDriveECC_SharedEndpointWarmup.py').read_text(encoding='utf-8')
+        self.assertIn("r['actual_tout_first_s']>=380",source)
+        self.assertIn("for packet_name in ('workspace_packet','source_packet','state_packet')",source)
+        self.assertIn("max(float(x['time_s'][-1]) for x in packet.values())<400",source)
+
+    def test_C60_continuation_is_anchored_to_the_reviewed_C40_terminal_OP(self):
+        source=(Path(__file__).resolve().parent/'Resume_HeatDriveECC_SharedEndpointOP.m').read_text(encoding='utf-8')
+        self.assertIn("warmup_C60_from_C40",source)
+        self.assertIn("review.completed_total_cycles==40",source)
+        self.assertIn("point_path=prior.terminal_OP_path",source)
+        self.assertIn("point_snapshot=prior.terminal_OP_snapshot_s",source)
+        self.assertIn("stop=600",source)
 
 
 if __name__=='__main__':unittest.main()
