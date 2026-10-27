@@ -1,21 +1,30 @@
 function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
 % New-process strict load of a persisted isolated model and its untouched full OP.
     if nargin<4,mode='reference_cycle';end
-    assert(ismember(mode,{'reference_cycle','bounded_step_probe','warmup_C40','warmup_C60_from_C40'}));
+    assert(ismember(mode,{'reference_cycle','bounded_step_probe','warmup_C40','warmup_C60_from_C40','warmup_C80_from_C60'}));
     assert(~isfolder(folder));mkdir(folder);old=pwd;oldpath=path;
     cleanup_path=onCleanup(@() restore_path(old,oldpath));addpath(repo,fullfile(repo,'verification'));
     record=struct('schema','heatdrive_ecc_shared_endpoint_new_process_OP_v1', ...
         'execution_complete',false,'production_recovery_allowed',false,'source_OP_edited',false);
     try
-        if strcmp(mode,'warmup_C60_from_C40')
+        is_continuation=~isempty(strfind(mode,'_from_C')); %#ok<STREMP>
+        if is_continuation
             prior=jsondecode(fileread(fullfile(source,'new_process_restore.json')));
-            runtime=jsondecode(fileread(fullfile(prior.source_root,'state_interface_roundtrip.json')));
+            if isfile(fullfile(prior.source_root,'state_interface_roundtrip.json'))
+                runtime=jsondecode(fileread(fullfile(prior.source_root,'state_interface_roundtrip.json')));
+                runtime_root=prior.source_root;
+            else
+                previous=jsondecode(fileread(fullfile(prior.source_root,'new_process_restore.json')));
+                runtime_root=previous.source_root;
+                runtime=jsondecode(fileread(fullfile(runtime_root,'state_interface_roundtrip.json')));
+            end
             point_path=prior.terminal_OP_path;point_sha=prior.terminal_OP_sha256;
-            point_snapshot=prior.terminal_OP_snapshot_s;runtime_root=prior.source_root;
-            review_file=fullfile(repo,'outputs_storage_audit','shared_endpoint_OP_C40_20261027', ...
+            point_snapshot=prior.terminal_OP_snapshot_s;
+            previous_cycles=prior.completed_total_cycles;
+            review_file=fullfile(repo,'outputs_storage_audit',sprintf('shared_endpoint_OP_C%d_20261027',previous_cycles), ...
                 'shared_endpoint_warmup_review.json');
             review=jsondecode(fileread(review_file));
-            assert(review.completed_total_cycles==40 && ~review.periodic_steady_state && ...
+            assert(review.completed_total_cycles==previous_cycles && ~review.periodic_steady_state && ...
                 strcmp(review.terminal_OP_sha256,point_sha));
             record.prerequisite_warmup_review_sha256=file_hash(review_file);
         else
@@ -77,8 +86,10 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
                 numeric_parameter(get_param(model,'SimscapeLogDataHistory'))==20002 && ...
                 numeric_parameter(get_param(model,'MaxDataPoints'))==40002);
         end
-        if strcmp(mode,'warmup_C60_from_C40')
-            stop=600;
+        if is_continuation
+            numbers=sscanf(mode,'warmup_C%d_from_C%d');
+            assert(numel(numbers)==2 && numbers(2)==previous_cycles && numbers(1)>numbers(2));
+            stop=numbers(1)*10;
             assert(strcmp(get_param(model,'SimscapeLogLimitData'),'on') && ...
                 numeric_parameter(get_param(model,'SimscapeLogDataHistory'))==20002 && ...
                 numeric_parameter(get_param(model,'MaxDataPoints'))==40002);
@@ -96,7 +107,7 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
             .setInitialState(point.diagnostic_operating_point));
         record.simulation_wall_seconds=toc(wall);record.simulation_CPU_seconds=cputime-cpu;
         assert(isempty(output.ErrorMessage),'Strict new-process restore failed: %s',output.ErrorMessage);
-        if ismember(mode,{'warmup_C40','warmup_C60_from_C40'})
+        if ismember(mode,{'warmup_C40','warmup_C60_from_C40','warmup_C80_from_C60'})
             % Save the untouched final OP before optional evidence serialization.
             diagnostic_operating_point=output.interface_final_op;production_recovery_allowed=false; %#ok<NASGU>
             assert(isa(diagnostic_operating_point,'Simulink.op.ModelOperatingPoint') && ...
@@ -121,7 +132,7 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
         assert(isequaln(original,point.diagnostic_operating_point.loggedStates));
         verify(point_path,point_sha);
         verify(runtime.saved_runtime_model_path,runtime.saved_runtime_model_sha256);
-        record.source_root=source;record.source_OP_sha256=prior.operating_point_sha256;
+        record.source_root=source;record.source_OP_sha256=point_sha;
         record.actual_tout_first_s=double(output.tout(1));record.actual_tout_last_s=double(output.tout(end));
         record.checksum_policy='error/error';record.execution_complete=true;
         record.complete_cycle_numerical_equivalence_evaluated=false;record.state_projection_or_reset_used=false;

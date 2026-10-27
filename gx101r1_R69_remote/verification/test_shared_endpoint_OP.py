@@ -113,7 +113,16 @@ class EndpointOPTests(unittest.TestCase):
         self.assertIn("point_snapshot=prior.terminal_OP_snapshot_s",source)
         self.assertIn("cd(fileparts(runtime.saved_runtime_model_path))",source)
         self.assertIn("stop=runtime.reference_stop_s",source)
+        self.assertIn("record.source_root=source;record.source_OP_sha256=point_sha",source)
+        self.assertIn("warmup_C80_from_C60",source)
+        self.assertIn("numbers=sscanf(mode,'warmup_C%d_from_C%d')",source)
         self.assertIn("stop=600",source)
+
+    def test_failed_post_simulation_receipt_is_finalizable_without_rerunning(self):
+        source=(Path(__file__).resolve().parent/'Finalize_HeatDriveECC_WarmupRecord.py').read_text(encoding='utf-8')
+        self.assertIn("failed['error_identifier']=='MATLAB:nonExistentField'",source)
+        self.assertIn("finalization_reason='MATLAB simulation completed",source)
+        self.assertIn("assert not out.exists()",source)
 
 
 if __name__=='__main__':unittest.main()

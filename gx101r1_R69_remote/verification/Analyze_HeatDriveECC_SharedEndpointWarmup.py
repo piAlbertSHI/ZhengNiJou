@@ -77,14 +77,16 @@ def analyze(root,out,total_cycles,window_start,window_stop):
     parent_root=Path(r['source_root'])
     if (parent_root/'state_interface_roundtrip.json').is_file():
         parent=read(parent_root/'state_interface_roundtrip.json')
+        runtime_root=parent_root
     else:
-        parent=read(parent_root/'new_process_restore.json')
-        parent=read(Path(parent['source_root'])/'state_interface_roundtrip.json')
+        parent_record=read(parent_root/'new_process_restore.json')
+        runtime_root=Path(parent_record['source_root'])
+        parent=read(runtime_root/'state_interface_roundtrip.json')
     dependencies=[(parent[k+'_path'],parent[k+'_sha256'])
                   for k in ('saved_runtime_model','operating_point','interface_contract')]
     dependencies.append((parent['base_workspace']['path'],parent['base_workspace']['sha256']))
     dependencies.extend((x['path'],x['sha256']) for x in parent['loaded_project_sources'])
-    construction=read(Path(r['source_root'])/'endpoint_inventory_construction.json')
+    construction=read(runtime_root/'endpoint_inventory_construction.json')
     for x in construction['source_components']:
         dependencies.extend(((x['path'],x['sha256']),(x['library_path'],x['library_sha256'])))
     for path,digest in dependencies:
