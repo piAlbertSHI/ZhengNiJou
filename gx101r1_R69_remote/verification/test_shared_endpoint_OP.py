@@ -118,6 +118,8 @@ class EndpointOPTests(unittest.TestCase):
         self.assertIn("numbers=sscanf(mode,'warmup_C%d_from_C%d')",source)
         self.assertIn("stop=numbers(1)*10",source)
         self.assertIn("warmup_C100_from_C80",source)
+        self.assertIn("[runtime,runtime_root]=load_runtime_metadata(prior.source_root)",source)
+        self.assertIn("Warmup parent chain exceeded four recorded links",source)
 
     def test_failed_post_simulation_receipt_is_finalizable_without_rerunning(self):
         source=(Path(__file__).resolve().parent/'Finalize_HeatDriveECC_WarmupRecord.py').read_text(encoding='utf-8')

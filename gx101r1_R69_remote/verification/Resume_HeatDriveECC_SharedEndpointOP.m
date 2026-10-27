@@ -10,14 +10,7 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
         is_continuation=~isempty(strfind(mode,'_from_C')); %#ok<STREMP>
         if is_continuation
             prior=jsondecode(fileread(fullfile(source,'new_process_restore.json')));
-            if isfile(fullfile(prior.source_root,'state_interface_roundtrip.json'))
-                runtime=jsondecode(fileread(fullfile(prior.source_root,'state_interface_roundtrip.json')));
-                runtime_root=prior.source_root;
-            else
-                previous=jsondecode(fileread(fullfile(prior.source_root,'new_process_restore.json')));
-                runtime_root=previous.source_root;
-                runtime=jsondecode(fileread(fullfile(runtime_root,'state_interface_roundtrip.json')));
-            end
+            [runtime,runtime_root]=load_runtime_metadata(prior.source_root);
             point_path=prior.terminal_OP_path;point_sha=prior.terminal_OP_sha256;
             point_snapshot=prior.terminal_OP_snapshot_s;
             previous_cycles=prior.completed_total_cycles;
@@ -149,6 +142,19 @@ end
 function v=numeric_parameter(v)
     if ischar(v) || isstring(v),v=str2double(v);end
     validateattributes(v,{'numeric'},{'scalar','real','finite'});
+end
+
+function [runtime,root]=load_runtime_metadata(root)
+    for hop=1:4
+        state_file=fullfile(root,'state_interface_roundtrip.json');
+        if isfile(state_file)
+            runtime=jsondecode(fileread(state_file));return
+        end
+        parent_file=fullfile(root,'new_process_restore.json');
+        assert(isfile(parent_file),'Missing recorded warmup parent at hop %d: %s',hop,root);
+        parent=jsondecode(fileread(parent_file));root=parent.source_root;
+    end
+    error('HeatDriveECC:ParentChainTooDeep','Warmup parent chain exceeded four recorded links.');
 end
 
 function verify(p,h)
