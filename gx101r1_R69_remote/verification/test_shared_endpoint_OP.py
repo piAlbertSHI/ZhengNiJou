@@ -117,6 +117,7 @@ class EndpointOPTests(unittest.TestCase):
         self.assertIn("warmup_C80_from_C60",source)
         self.assertIn("numbers=sscanf(mode,'warmup_C%d_from_C%d')",source)
         self.assertIn("stop=numbers(1)*10",source)
+        self.assertIn("warmup_C100_from_C80",source)
 
     def test_failed_post_simulation_receipt_is_finalizable_without_rerunning(self):
         source=(Path(__file__).resolve().parent/'Finalize_HeatDriveECC_WarmupRecord.py').read_text(encoding='utf-8')

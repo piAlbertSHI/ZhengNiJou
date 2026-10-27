@@ -28,6 +28,18 @@ def matlab_metadata(value):
     return value
 
 
+def resolve_runtime_metadata(root,read):
+    """Follow only recorded parent links until the frozen cold epoch is found."""
+    root=Path(root)
+    for _ in range(4):
+        state=root/'state_interface_roundtrip.json'
+        if state.is_file():return read(state),root
+        record=root/'new_process_restore.json'
+        if not record.is_file():raise ValueError('Missing recorded warmup parent: '+str(root))
+        root=Path(read(record)['source_root'])
+    raise ValueError('Warmup parent chain is too deep')
+
+
 def actual_native_window(rows, start, stop):
     clock=np.arange(round(start*1000),round(stop*1000)+1)*.001
     return {k:dict(r,time_s=clock,values=on_grid(r,clock)) for k,r in rows.items()}
@@ -67,21 +79,14 @@ def plot(data,out,total_cycles):
 def analyze(root,out,total_cycles,window_start,window_stop):
     read=lambda p:json.loads(p.read_text(encoding='utf-8'))
     rp=root/'new_process_restore.json';r=read(rp)
-    expected_profile='warmup_C40' if total_cycles==40 else f'warmup_C{total_cycles}_from_C40'
+    expected_profile='warmup_C40' if total_cycles==40 else f'warmup_C{total_cycles}_from_C{total_cycles-20}'
     if (not r['execution_complete'] or r['production_recovery_allowed'] or r['source_OP_edited']
             or r['observation_profile']!=expected_profile or r['actual_tout_first_s']>=window_start
             or r['actual_tout_last_s']!=window_stop or r['fixed_command_horizon_s']!=1000):
-        raise ValueError('Not the proven-epoch fixed-horizon C40 warmup')
+        raise ValueError('Not the proven-epoch fixed-horizon warmup')
     for role in ('context','observation','terminal_OP'):
         if sha256(Path(r[role+'_path']))!=r[role+'_sha256']:raise ValueError('Warmup dependency changed: '+role)
-    parent_root=Path(r['source_root'])
-    if (parent_root/'state_interface_roundtrip.json').is_file():
-        parent=read(parent_root/'state_interface_roundtrip.json')
-        runtime_root=parent_root
-    else:
-        parent_record=read(parent_root/'new_process_restore.json')
-        runtime_root=Path(parent_record['source_root'])
-        parent=read(runtime_root/'state_interface_roundtrip.json')
+    parent,runtime_root=resolve_runtime_metadata(r['source_root'],read)
     dependencies=[(parent[k+'_path'],parent[k+'_sha256'])
                   for k in ('saved_runtime_model','operating_point','interface_contract')]
     dependencies.append((parent['base_workspace']['path'],parent['base_workspace']['sha256']))

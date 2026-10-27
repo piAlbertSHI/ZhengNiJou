@@ -1,7 +1,7 @@
 function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
 % New-process strict load of a persisted isolated model and its untouched full OP.
     if nargin<4,mode='reference_cycle';end
-    assert(ismember(mode,{'reference_cycle','bounded_step_probe','warmup_C40','warmup_C60_from_C40','warmup_C80_from_C60'}));
+    assert(ismember(mode,{'reference_cycle','bounded_step_probe','warmup_C40','warmup_C60_from_C40','warmup_C80_from_C60','warmup_C100_from_C80'}));
     assert(~isfolder(folder));mkdir(folder);old=pwd;oldpath=path;
     cleanup_path=onCleanup(@() restore_path(old,oldpath));addpath(repo,fullfile(repo,'verification'));
     record=struct('schema','heatdrive_ecc_shared_endpoint_new_process_OP_v1', ...
@@ -107,7 +107,7 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
             .setInitialState(point.diagnostic_operating_point));
         record.simulation_wall_seconds=toc(wall);record.simulation_CPU_seconds=cputime-cpu;
         assert(isempty(output.ErrorMessage),'Strict new-process restore failed: %s',output.ErrorMessage);
-        if ismember(mode,{'warmup_C40','warmup_C60_from_C40','warmup_C80_from_C60'})
+        if ismember(mode,{'warmup_C40','warmup_C60_from_C40','warmup_C80_from_C60','warmup_C100_from_C80'})
             % Save the untouched final OP before optional evidence serialization.
             diagnostic_operating_point=output.interface_final_op;production_recovery_allowed=false; %#ok<NASGU>
             assert(isa(diagnostic_operating_point,'Simulink.op.ModelOperatingPoint') && ...
