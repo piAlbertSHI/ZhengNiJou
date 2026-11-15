@@ -59,7 +59,7 @@ C200 `physical_simscape_result.mat` 未处理，仍是受保护的唯一性能�
 | `stage4-default-cold-diagnostic` | 1.406391 GiB |
 | `stage4-phase-local-blend-diagnostic` | 54.375151 GiB |
 
-`git worktree list --porcelain` 正常；`git fsck --full --no-progress` 退出码为 0，报告 194 个 dangling object 行，未执行 `gc`、`prune` 或 `clean`。主工作树仍只有既有保护性 `heatdrive_ecc_coupled_se21.slx` 修改、`Agent6/`，以及本轮待提交的两个审计脚本；未覆盖或回退这些保护项。
+`git worktree list --porcelain` 正常；`git fsck --full --no-progress` 退出码为 0，报告 194 个 dangling object 行，未执行 `gc`、`prune` 或 `clean`。本轮两个审计脚本和本轮清单已提交到 `faf8abd`；主工作树只剩既有保护性 `heatdrive_ecc_coupled_se21.slx` 修改和 `Agent6/` 未跟踪目录，未覆盖或回退这些保护项。
 
 ## 回执与清单
 
