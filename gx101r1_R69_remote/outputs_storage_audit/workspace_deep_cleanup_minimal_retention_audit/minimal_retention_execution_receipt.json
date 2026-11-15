@@ -1,0 +1,793 @@
+{
+  "schema": "agent5_minimal_retention_execution_receipt_v1",
+  "status": "completed",
+  "generated_utc": "2026-11-15T17:22:30.4946527Z",
+  "thread_id": "019e9312-444b-7090-a68e-0888598c1598",
+  "scope": "six minimal-retention groups only",
+  "read_only_audit_before_execution": true,
+  "deleted_files": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C116_attempt01\\observed_states.mat",
+      "relative_path": "outputs\\v64c1\\packet_C116_attempt01\\observed_states.mat",
+      "group": "v64c1",
+      "packet": "C116",
+      "bytes": 137378836,
+      "sha256": "547E9A8D0BC21F843D3FC45D7177DBD28F3CA2F17021DEDA5A36BF3F3C8EA7C2",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C116_attempt01\\native\\observations.mat",
+      "relative_path": "outputs\\v64c1\\packet_C116_attempt01\\native\\observations.mat",
+      "group": "v64c1",
+      "packet": "C116",
+      "bytes": 318296264,
+      "sha256": "833B5834D3B865E01D4C906F8C8C52AD6529001ACE4A89B51F5FEC947F0E0872",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C116_attempt01\\observed_states.mat",
+      "relative_path": "outputs\\v65c1\\packet_C116_attempt01\\observed_states.mat",
+      "group": "v65c1",
+      "packet": "C116",
+      "bytes": 137396867,
+      "sha256": "C919B4C8BB26A971D98B77635E786928985495F4F53287E0D40387C380F3C7B0",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C116_attempt01\\native\\observations.mat",
+      "relative_path": "outputs\\v65c1\\packet_C116_attempt01\\native\\observations.mat",
+      "group": "v65c1",
+      "packet": "C116",
+      "bytes": 318329868,
+      "sha256": "AC95812454E75CF056545B7B3EAC575969A5BF8ECB67568A603F39995CE7CFB8",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C118_attempt01\\observed_states.mat",
+      "relative_path": "outputs\\v65c1\\packet_C118_attempt01\\observed_states.mat",
+      "group": "v65c1",
+      "packet": "C118",
+      "bytes": 137390781,
+      "sha256": "839694416257E263397C16A61DC78D1F81BCEF43B25B5E8CA9BA9C4B39172A79",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C118_attempt01\\native\\observations.mat",
+      "relative_path": "outputs\\v65c1\\packet_C118_attempt01\\native\\observations.mat",
+      "group": "v65c1",
+      "packet": "C118",
+      "bytes": 318305960,
+      "sha256": "0A4782C97A393EDBE6DA0F73C0473DDC7B4BA4A8ADFF9A4FA0234C68CC507D50",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C120_attempt01\\observed_states.mat",
+      "relative_path": "outputs\\v65c1\\packet_C120_attempt01\\observed_states.mat",
+      "group": "v65c1",
+      "packet": "C120",
+      "bytes": 137390627,
+      "sha256": "63EEF4E047C1D2E462E9F50811114E0FF26E1595B132B6E683B1914B4D74E967",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C120_attempt01\\native\\observations.mat",
+      "relative_path": "outputs\\v65c1\\packet_C120_attempt01\\native\\observations.mat",
+      "group": "v65c1",
+      "packet": "C120",
+      "bytes": 318321423,
+      "sha256": "B96546BFC06569F791CF8E20C99D7EE13A77A27AEF3394DEAC16EA3658731636",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C122_attempt01\\observed_states.mat",
+      "relative_path": "outputs\\v65c1\\packet_C122_attempt01\\observed_states.mat",
+      "group": "v65c1",
+      "packet": "C122",
+      "bytes": 137382174,
+      "sha256": "E606535FFA16E05FB4F11DEAEA7E3E1DEB82CFB599738E301E5A17E84FD91658",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C122_attempt01\\native\\observations.mat",
+      "relative_path": "outputs\\v65c1\\packet_C122_attempt01\\native\\observations.mat",
+      "group": "v65c1",
+      "packet": "C122",
+      "bytes": 318315339,
+      "sha256": "D09D8D0C0C3564393969A5A1C0916D146EA5408683461A830AF213E90B1054FB",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C124_attempt01\\observed_states.mat",
+      "relative_path": "outputs\\v65c1\\packet_C124_attempt01\\observed_states.mat",
+      "group": "v65c1",
+      "packet": "C124",
+      "bytes": 137373667,
+      "sha256": "6CBA9D22A92DACA3803155ACF991247E1FBB5D8A9EAAC2F2F3B696D6C7430242",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C124_attempt01\\native\\observations.mat",
+      "relative_path": "outputs\\v65c1\\packet_C124_attempt01\\native\\observations.mat",
+      "group": "v65c1",
+      "packet": "C124",
+      "bytes": 318283088,
+      "sha256": "4627FAB135EA3672D530DC88E75E7823DDD75FB5BC8CD574EBFDC0170AE11F6A",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\fresh_native_probe\\native\\observations.mat",
+      "relative_path": "outputs\\v66_sensitivity_nominal_20261017\\fresh_native_probe\\native\\observations.mat",
+      "group": "v66_sensitivity_nominal_20261017",
+      "packet": "fresh_native_probe",
+      "bytes": 4557296,
+      "sha256": "8C569BDF5A2E3529A69AAC44A5E6E63AA17B2A459F76C1ABE8E435212EDE2B1C",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+      "relative_path": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+      "group": "v66_sensitivity_nominal_20261017",
+      "packet": "C002",
+      "bytes": 135361079,
+      "sha256": "B5A55F62A0FCA01F3F8259AB48D01C747C5F00D4F3A020DAE0CAC2774933546E",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+      "relative_path": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+      "group": "v66_sensitivity_nominal_20261017",
+      "packet": "C002",
+      "bytes": 328458588,
+      "sha256": "06E246E890C41CF48A82AE4BC07C22C0B1A57AAC8A9AB30D1ABE0CDBD170DFD4",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+      "relative_path": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+      "group": "v66_sensitivity_nominal_20261017",
+      "packet": "C012",
+      "bytes": 137663883,
+      "sha256": "71857F46C2A7E1B43DD0FB94C6156A462B888A0909B4B74001472DAADC0A03A2",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+      "relative_path": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+      "group": "v66_sensitivity_nominal_20261017",
+      "packet": "C012",
+      "bytes": 320062057,
+      "sha256": "33A2045FA7E912D7FE799474533572A2E39D4FD0C30B6BC5BD07CC620AEA18A3",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+      "relative_path": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+      "group": "v66_sensitivity_nominal_20261017",
+      "packet": "C014",
+      "bytes": 137499478,
+      "sha256": "3A822265D9CE9531F211C26D9138D957F18930E901031413A3B1A99D430C0E0F",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+      "relative_path": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+      "group": "v66_sensitivity_nominal_20261017",
+      "packet": "C014",
+      "bytes": 316698164,
+      "sha256": "803705453F4F75CDFACC560876BF48C3E7DED89E23DDE138ABCCA9AE44CE3786",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+      "relative_path": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+      "group": "v66_sensitivity_nominal_20261017",
+      "packet": "C016",
+      "bytes": 137386295,
+      "sha256": "E54A9A8DDF9ACBCD82D1BCD6C0F4872C08580ACC52E8D5D22CFDEC41F9B168FF",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+      "relative_path": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+      "group": "v66_sensitivity_nominal_20261017",
+      "packet": "C016",
+      "bytes": 314520596,
+      "sha256": "A237886AC11D39C9D57E3D8A82CC318A76798A35E24EEE275B7227C2DCF2E6AE",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+      "relative_path": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+      "group": "v66_sensitivity_nominal_20261017",
+      "packet": "C018",
+      "bytes": 137366845,
+      "sha256": "D6F278D22D3382716CCE105DF00D8D04439EBADE500CDC4A4003931CA90F798A",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+      "relative_path": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+      "group": "v66_sensitivity_nominal_20261017",
+      "packet": "C018",
+      "bytes": 314464677,
+      "sha256": "7E6DF7195EDD183999023FA7C1D43E756412D3AB525DB3750AD7242F1DBE6535",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\fresh_native_probe\\native\\observations.mat",
+      "relative_path": "outputs\\v68r2\\fresh_native_probe\\native\\observations.mat",
+      "group": "v68r2",
+      "packet": "fresh_native_probe",
+      "bytes": 4557296,
+      "sha256": "5348EC6B9F9EF4A068C1E6D7F1EEFC9287823792646CBCA8A38EBE5E20112121",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+      "relative_path": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+      "group": "v68r2",
+      "packet": "C002",
+      "bytes": 135789271,
+      "sha256": "939909A6124EA3792CE6C675B13FA4B10492E94E0943690F6994914983284158",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+      "relative_path": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+      "group": "v68r2",
+      "packet": "C002",
+      "bytes": 328734315,
+      "sha256": "D80E00362911564CB78FA4070D81AE66EF87895A1BFFEB4A35F696860AEAF023",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+      "relative_path": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+      "group": "v68r2",
+      "packet": "C012",
+      "bytes": 137551709,
+      "sha256": "CCFCD3AC1B974FB346A0FD0C5ACC832339DEE917A326310DC411B0FF81A67E53",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+      "relative_path": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+      "group": "v68r2",
+      "packet": "C012",
+      "bytes": 319819200,
+      "sha256": "0578E2EB0A1E352DFD3315B9686BD1A96ADCFE5295A37E93E113C0F7D3FE6B25",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+      "relative_path": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+      "group": "v68r2",
+      "packet": "C014",
+      "bytes": 137385146,
+      "sha256": "A0AD8278DD9164587C3543839A761B8947ED7509D424D218193B1DD10358890E",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+      "relative_path": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+      "group": "v68r2",
+      "packet": "C014",
+      "bytes": 316450259,
+      "sha256": "CA63FA5F6F128DEFF816AC7284AB02A4EC5FF20448556DF4A591373084A41037",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+      "relative_path": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+      "group": "v68r2",
+      "packet": "C016",
+      "bytes": 137268903,
+      "sha256": "9BADF2D30AD65804B10E815AC81BA9138B9AC8E3D467EC05C284465AB54C6ABB",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+      "relative_path": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+      "group": "v68r2",
+      "packet": "C016",
+      "bytes": 314269023,
+      "sha256": "92FCE6D801ADA507279E26392B422201CFAF48CAC5AAAE87DAAABA2542D388B7",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+      "relative_path": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+      "group": "v68r2",
+      "packet": "C018",
+      "bytes": 137243085,
+      "sha256": "09ED633E08F94561300D3E9B812477C82F8CEC8EB88626C1ADFA6D21737A1C8F",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+      "relative_path": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+      "group": "v68r2",
+      "packet": "C018",
+      "bytes": 314206629,
+      "sha256": "637A4ECB166630C7F3C73686E30DCE92591D59D43C10EABA03E0AF533B9C28D6",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\fresh_native_probe\\native\\observations.mat",
+      "relative_path": "outputs\\v70case2\\fresh_native_probe\\native\\observations.mat",
+      "group": "v70case2",
+      "packet": "fresh_native_probe",
+      "bytes": 4557296,
+      "sha256": "6178F4C4D7C2D021CD6A8BEC4CB63F6BE4D9F6AD8791C4744DA7356A672025F5",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+      "relative_path": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+      "group": "v70case2",
+      "packet": "C002",
+      "bytes": 135093566,
+      "sha256": "E93D6AC8358E767B574A096D691ED17B2EA51C029DF5CAC104B19870BA43AA55",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+      "relative_path": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+      "group": "v70case2",
+      "packet": "C002",
+      "bytes": 328388553,
+      "sha256": "4ABA6D9F00588AE6C2C7B65BF6CB7DEF62522FEDB47DCA6000B6F1CB7793CB2F",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+      "relative_path": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+      "group": "v70case2",
+      "packet": "C012",
+      "bytes": 137726339,
+      "sha256": "7C5816115E902735D1D97604312DD91CAF734347C0EC7DE4F0DB0D79826740FA",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+      "relative_path": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+      "group": "v70case2",
+      "packet": "C012",
+      "bytes": 320131661,
+      "sha256": "BD7D45A437CB3CF8E81D35032D8C0C21B862CA49A5F76B3CD0013E06664CB600",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+      "relative_path": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+      "group": "v70case2",
+      "packet": "C014",
+      "bytes": 137556235,
+      "sha256": "717B57A93BF3350C125E6E9FCB960BF440FFBB7BE3E6F61D3D762C4EDDB1B12C",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+      "relative_path": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+      "group": "v70case2",
+      "packet": "C014",
+      "bytes": 316781923,
+      "sha256": "BDA2730CECC0C604C2A3871C957AA6ADEDF547379F4642D65AD8F92AEDFF0E16",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+      "relative_path": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+      "group": "v70case2",
+      "packet": "C016",
+      "bytes": 137436360,
+      "sha256": "0B9A8186CD8DF10B5A681632AEADF26F443CABC02BA34BE18BDB2165C26D30ED",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+      "relative_path": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+      "group": "v70case2",
+      "packet": "C016",
+      "bytes": 314628424,
+      "sha256": "B741D4C7020E5FB230E74641D452EAD232BDF1B18C08E4356B3132E76FCDB774",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+      "relative_path": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+      "group": "v70case2",
+      "packet": "C018",
+      "bytes": 137412540,
+      "sha256": "A86671A692C17F3CBD93FA77098A5CA39A032473DFE8E57A7487C1478539D458",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+      "relative_path": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+      "group": "v70case2",
+      "packet": "C018",
+      "bytes": 314571038,
+      "sha256": "BB6F14171CF68676F32415C5A3630BDF7CBD7D1BAD91456D9A6B5CFBE8B9DFC0",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\fresh_native_probe\\native\\observations.mat",
+      "relative_path": "outputs\\v71case3\\fresh_native_probe\\native\\observations.mat",
+      "group": "v71case3",
+      "packet": "fresh_native_probe",
+      "bytes": 4557296,
+      "sha256": "F793C5D5EED1187FDA679237924A74AAB53985B7BB14DE180F75CEF228D5FB8E",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+      "relative_path": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+      "group": "v71case3",
+      "packet": "C002",
+      "bytes": 135208355,
+      "sha256": "1ABCB0F1123039A49AFB831D87CDD54A16751178A78853AF316DB69E56743C3A",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+      "relative_path": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+      "group": "v71case3",
+      "packet": "C002",
+      "bytes": 328386047,
+      "sha256": "F1A9FFFC87422CF942748FDF88FFEA69D58FCC1956A566863E652E0F24A6856A",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C004\\observed_states.mat",
+      "relative_path": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C004\\observed_states.mat",
+      "group": "v71case3",
+      "packet": "C004",
+      "bytes": 138067091,
+      "sha256": "2377762377A650485947ED7BD484C975913258A1913E6AF0573B593648E3EEB4",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C004\\native\\observations.mat",
+      "relative_path": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C004\\native\\observations.mat",
+      "group": "v71case3",
+      "packet": "C004",
+      "bytes": 324484906,
+      "sha256": "A0EEC351DA97727884B13CD94647412F23F73927A42FEC6FFE81B024F4C6AB75",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C006\\observed_states.mat",
+      "relative_path": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C006\\observed_states.mat",
+      "group": "v71case3",
+      "packet": "C006",
+      "bytes": 137961270,
+      "sha256": "16C511F40E03F9648BF6D3A2DC84D2F255D386824D5E47C42D89306DFDCECFC0",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C006\\native\\observations.mat",
+      "relative_path": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C006\\native\\observations.mat",
+      "group": "v71case3",
+      "packet": "C006",
+      "bytes": 324287165,
+      "sha256": "41399851FA95C3A84AD3060DB74349EAC33A9CFEE20CB3AE109631CE8CFC36B4",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C008\\observed_states.mat",
+      "relative_path": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C008\\observed_states.mat",
+      "group": "v71case3",
+      "packet": "C008",
+      "bytes": 137777285,
+      "sha256": "3426C75D7271EE8176B12EBAA61D5E4DF9BC8DB4C79DA206F4F4A889E60880C5",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C008\\native\\observations.mat",
+      "relative_path": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C008\\native\\observations.mat",
+      "group": "v71case3",
+      "packet": "C008",
+      "bytes": 321121816,
+      "sha256": "3B5BA31A96DEBFCF813637D2F832BCF7E9787578CD4A1A61193C4BAEDF65A1AD",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C010\\observed_states.mat",
+      "relative_path": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C010\\observed_states.mat",
+      "group": "v71case3",
+      "packet": "C010",
+      "bytes": 137699412,
+      "sha256": "327F5BDDF580A88EB190A847F8A10FD845A46B0824A74219D53C79D7BD691C29",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C010\\native\\observations.mat",
+      "relative_path": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C010\\native\\observations.mat",
+      "group": "v71case3",
+      "packet": "C010",
+      "bytes": 319995505,
+      "sha256": "9E43510439CA66039B028F2787766D7526C3F68F87367D502A1D8F8B7EA7BFCC",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+      "relative_path": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+      "group": "v71case3",
+      "packet": "C012",
+      "bytes": 137696109,
+      "sha256": "6278853A662AFEEB0AC329DB5BB45469F5CBCD3F1E1518664205A86DB8C77D92",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+      "relative_path": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+      "group": "v71case3",
+      "packet": "C012",
+      "bytes": 320059862,
+      "sha256": "333A05CF41AFA971F02DF615D7B8231541FF74FF119C6EDC5AA8F191D70FD6D7",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+      "relative_path": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+      "group": "v71case3",
+      "packet": "C014",
+      "bytes": 137528142,
+      "sha256": "63DFC95FAD54708187B20C270E7B419820734094767A7141AFD6BE15B966F11B",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+      "relative_path": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+      "group": "v71case3",
+      "packet": "C014",
+      "bytes": 316689989,
+      "sha256": "DC002177610DB37B706FD85A25F634EDE599A92DE254621C095E4A6AFA7D2EE9",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+      "relative_path": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+      "group": "v71case3",
+      "packet": "C016",
+      "bytes": 137412225,
+      "sha256": "E658454DF58B673BFC7DC122B674219AD4BA22A80DBB45DBC22DCBDB4B51E989",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+      "relative_path": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+      "group": "v71case3",
+      "packet": "C016",
+      "bytes": 314519010,
+      "sha256": "29AF26EE0ACACA250AA25102540D281C1A004F60216EEBFACD2287FD2F097B0C",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+      "relative_path": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+      "group": "v71case3",
+      "packet": "C018",
+      "bytes": 137395824,
+      "sha256": "AEB8B4916BFBB68BB658BCCC154B11EE82E0E8FC7451B90528653653D093931D",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+      "relative_path": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+      "group": "v71case3",
+      "packet": "C018",
+      "bytes": 314470980,
+      "sha256": "1D40F38589974774AAEAC412BCCF34ADBBEE8A30201BDB09BD9825E4B8CD681B",
+      "structure": "MATLAB 7.3/HDF5 structure recorded in minimal_retention_audit.json"
+    }
+  ],
+  "deleted_file_count": 64,
+  "reclaimed_bytes": 13711080912,
+  "reclaimed_gib": 12.769439,
+  "protected_representative_files": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C110_attempt01\\observed_states.mat",
+      "group": "v64c1",
+      "packet": "C110",
+      "bytes": 137394599,
+      "sha256": "3E187C19E069E2CDDC223180C415D8041CAB7F37EF24AFCD7090A1CA8781DEAE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C110_attempt01\\native\\observations.mat",
+      "group": "v64c1",
+      "packet": "C110",
+      "bytes": 318310919,
+      "sha256": "15683711F841AA0989B376DDE9BA44E8AB6C717CB77B6F86D3DCE4C3FA34B6BB"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C118_attempt01\\observed_states.mat",
+      "group": "v64c1",
+      "packet": "C118",
+      "bytes": 137374729,
+      "sha256": "015BC228451BFEB22B454C34723D65FA65FC356D2E8A1167747DCB8328AB7ED2"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C118_attempt01\\native\\observations.mat",
+      "group": "v64c1",
+      "packet": "C118",
+      "bytes": 318283939,
+      "sha256": "6ABAEACCF25B392BAD11AB45494C51DCBC16A6ADEEDBDC55412C71E7839E9CDC"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C110_attempt01\\observed_states.mat",
+      "group": "v65c1",
+      "packet": "C110",
+      "bytes": 137380828,
+      "sha256": "30334ACFFB6181576651F08252F72F194939181CF24B81CC4C449A8DED026145"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C110_attempt01\\native\\observations.mat",
+      "group": "v65c1",
+      "packet": "C110",
+      "bytes": 318284914,
+      "sha256": "061787C1836530CA58F684B14593B31E0791EB7CD7C1D0D533950107A9664425"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C126_attempt01\\observed_states.mat",
+      "group": "v65c1",
+      "packet": "C126",
+      "bytes": 137369150,
+      "sha256": "8089FB394E31AEC4FED12F0E257F8B175AB897672B525C0D6D80BDBF7998A10C"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C126_attempt01\\native\\observations.mat",
+      "group": "v65c1",
+      "packet": "C126",
+      "bytes": 318299782,
+      "sha256": "8524DF923F3A637124381A6B854C8B9F89A86ACFD389723B2C82D91E3EF19063"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat",
+      "group": "v66_sensitivity_nominal_20261017",
+      "packet": "C020",
+      "bytes": 137354658,
+      "sha256": "4851E585D3C68DA1CC1EC44A418508BF328A78D0F112ADD38F4F8BE540D35176"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat",
+      "group": "v66_sensitivity_nominal_20261017",
+      "packet": "C020",
+      "bytes": 314463345,
+      "sha256": "9EAE0962FBEEA9FEE43E0940B0D324F9E9BDD17BF7840B5750700F741B90FB02"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat",
+      "group": "v68r2",
+      "packet": "C020",
+      "bytes": 137227922,
+      "sha256": "EA5733279E406B3708B5B67F13E5E03D45F786B2F90FF455E2D37D02ACA22DF9"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat",
+      "group": "v68r2",
+      "packet": "C020",
+      "bytes": 314210264,
+      "sha256": "98396170D252871C7EFDA414DACA8EEFE331E16C6059FD7E119D2E9450CD770F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat",
+      "group": "v70case2",
+      "packet": "C020",
+      "bytes": 137399380,
+      "sha256": "862854C406AF84C49FFAC52D8B054706191C556BB1CDECC562F5327E3C4A126A"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat",
+      "group": "v70case2",
+      "packet": "C020",
+      "bytes": 314597720,
+      "sha256": "006C28C8299490BEA6448D46A00B2624CC965930BD0F7B495D67323BA543C805"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat",
+      "group": "v71case3",
+      "packet": "C020",
+      "bytes": 137381226,
+      "sha256": "B71D15B40D05B78A4A5950A2930855DD521A1D74F663ADE9BFF174B2F93E11CD"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat",
+      "group": "v71case3",
+      "packet": "C020",
+      "bytes": 314472341,
+      "sha256": "7C168E0AE93DCECBD2ACDD4368E0D02010A201D800A3F651DFF1C4573AA45029"
+    }
+  ],
+  "v65_c124_decision": {
+    "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\periodicity_C124_attempt01\\target_window_stability.json",
+    "sha256": "656E1006A937FB6EDD21BB18EA73AE8ABCC7BF20459FF7A82FAA2FB8E67EF375",
+    "measured_window": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\periodicity_C124_attempt01\\measured_window.json",
+    "measured_window_sha256": "51032D19760C6C10768681A8B533F8BC8C5410FD5C46F9BD91821BE9D18343C8",
+    "precision_pass": false,
+    "periodic_steady_state": false,
+    "lift_span_K": 0.14070367528141148,
+    "SCP_span_W_per_g": 0.006611799835479049,
+    "decision": "candidate retained only as compact target-window evidence; raw C124 eligible for this minimal-retention execution"
+  },
+  "before_worktrees": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\正逆耦合",
+      "stats": {
+        "file_count": 994,
+        "bytes": 3247922139
+      }
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合",
+      "stats": {
+        "file_count": 4064,
+        "bytes": 33842148303
+      }
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\正逆耦合",
+      "stats": {
+        "file_count": 815,
+        "bytes": 1510100816
+      }
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合",
+      "stats": {
+        "file_count": 11266,
+        "bytes": 56129600699
+      }
+    }
+  ],
+  "after_worktrees": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\正逆耦合",
+      "stats": {
+        "file_count": 994,
+        "bytes": 3247922139
+      }
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合",
+      "stats": {
+        "file_count": 4064,
+        "bytes": 33842148303
+      }
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\正逆耦合",
+      "stats": {
+        "file_count": 815,
+        "bytes": 1510100816
+      }
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合",
+      "stats": {
+        "file_count": 11202,
+        "bytes": 42418519787
+      }
+    }
+  ],
+  "direct_script_references": [],
+  "live_process_references": [],
+  "hdf5_external_links": "none_found_in_six_groups_or_audit_roots",
+  "scientific_gates_changed": false,
+  "matlab_simulink_started": false,
+  "C200_touched": false,
+  "physical_simscape_result_touched": false,
+  "main_model_SLX_touched": false,
+  "Agent6_touched": false,
+  "other_worktrees_touched": false,
+  "new_project_touched": false,
+  "agentheat2_touched": false,
+  "retention_rule": "v64/v65 keep first intervention and last failed packet; v66/v68/v70/v71 keep C020; fresh probe and earlier raw are replaced by packet summaries, probes, manifests, gates, contracts and audit receipts.",
+  "git_status_after": [
+    " M gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx",
+    "?? Agent6/",
+    "?? gx101r1_R69_remote/verification/Retire_HeatDriveECC_MinimalRetentionConvergence.ps1",
+    "?? gx101r1_R69_remote/verification/Workspace_DeepCleanup_ConvergenceSummary.ps1"
+  ]
+}

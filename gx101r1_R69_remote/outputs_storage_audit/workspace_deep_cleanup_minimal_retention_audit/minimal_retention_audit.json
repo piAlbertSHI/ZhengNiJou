@@ -5,7 +5,7 @@
   "project_path": "C:\\Users\\86182\\Desktop\\正逆耦合",
   "worktree_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote",
   "read_only": true,
-  "deletion_performed": false,
+  "deletion_performed": true,
   "groups": [
     {
       "group": "v64c1",
@@ -1761,5 +1761,45 @@
     "This is a read-only minimum-retention plan, not authorization to delete. Each candidate requires a separate deletion execution after review.",
     "No HDF5/H5 files were found in any six group or corresponding audit root, so no external links were present to inspect.",
     "The storage receipts may still say keep raw for same-case continuation; that is recorded as a policy conflict/remaining dependency, not treated as proof that all raw must remain."
+  ],
+  "execution_receipt": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\workspace_deep_cleanup_minimal_retention_audit\\minimal_retention_execution_receipt.json",
+  "execution_status": "completed",
+  "deleted_file_count": 64,
+  "reclaimed_bytes": 13711080912,
+  "reclaimed_gib": 12.769439,
+  "after_worktrees": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\正逆耦合",
+      "stats": {
+        "file_count": 994,
+        "bytes": 3247922139
+      }
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合",
+      "stats": {
+        "file_count": 4064,
+        "bytes": 33842148303
+      }
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\正逆耦合",
+      "stats": {
+        "file_count": 815,
+        "bytes": 1510100816
+      }
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合",
+      "stats": {
+        "file_count": 11202,
+        "bytes": 42418519787
+      }
+    }
+  ],
+  "execution_notes": [
+    "Deletion was limited to the exact 64 candidate paths recorded in the read-only audit.",
+    "No MATLAB/Simulink process was started by this execution; no main SLX, Agent6, other worktree, New project or Agentheat2 path was touched.",
+    "C200 duplicate checkout copies were outside the deletion whitelist and remain protected."
   ]
 }
