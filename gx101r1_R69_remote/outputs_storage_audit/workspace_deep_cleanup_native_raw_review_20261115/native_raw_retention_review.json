@@ -1,0 +1,2044 @@
+{
+  "decision": "retain_all_four_native_raw_manual_confirmation_required",
+  "deletion_performed": false,
+  "generated_utc": "2026-11-15T18:46:48.766817Z",
+  "matlab_simulink_started_or_interrupted": false,
+  "protected_paths": [
+    "C200",
+    "v43",
+    "C020",
+    "v64c1",
+    "v65c1",
+    "v45",
+    "Agent6",
+    "model files",
+    "audit chain"
+  ],
+  "read_only": true,
+  "schema": "heatdrive_ecc_native_raw_retention_review_v1",
+  "targets": [
+    {
+      "coverage": {
+        "coverage_pass": false,
+        "cycle_energy_flow_gate_summary_present": false,
+        "dimensions_and_time_axes_recorded": true,
+        "pressure_and_stage4_probe_metadata_recorded": true,
+        "production_script_direct_reference_absent": true,
+        "raw_hash_recorded": true,
+        "temperature_probe_summary_present": false
+      },
+      "decision": "manual_confirmation_required",
+      "deletion_allowed": false,
+      "direct_script_references": {
+        "all_matches": [
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Retire_HeatDriveECC_ArchivedObsoleteArms.ps1",
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Review_HeatDriveECC_NativeRawRetention.py"
+        ],
+        "production_matches": [],
+        "retirement_or_audit_matches": [
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Retire_HeatDriveECC_ArchivedObsoleteArms.ps1",
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Review_HeatDriveECC_NativeRawRetention.py"
+        ]
+      },
+      "execution_contract": {
+        "bytes": 201849,
+        "c200_checkpoint_sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816",
+        "c200_result_sha256": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD",
+        "c200_state_imported": false,
+        "cases": [
+          {
+            "arm": "native",
+            "native_trace_count": 1262,
+            "observation_sha256": "FEF366367835B92C1A4EB90FCE5CD470217001149554C3A84625C00507B896B8",
+            "pressure_probe_count": 6,
+            "pressure_probe_signal_names": [
+              "pump_pressure_se_stage2_port_a_MPa",
+              "pump_pressure_se_stage2_port_b_MPa",
+              "pump_pressure_se_stage4_port_a_MPa",
+              "pump_pressure_se_stage4_port_b_MPa",
+              "pump_pressure_sma_port_a_MPa",
+              "pump_pressure_sma_port_b_MPa"
+            ],
+            "simulation_mode": "normal",
+            "source_count": 49,
+            "stage4_controller_probe_count": 17,
+            "stage4_controller_probe_signal_names": [
+              "stage4_bias_sum",
+              "stage4_blended_viscosity",
+              "stage4_dynamic_feedforward",
+              "stage4_endpoint_viscosity_mean",
+              "stage4_feedforward_ratio_sum",
+              "stage4_flow_error",
+              "stage4_inlet_temperature_delay",
+              "stage4_inlet_viscosity",
+              "stage4_integrator_input",
+              "stage4_integrator_output_gate",
+              "stage4_integrator_state",
+              "stage4_outlet_temperature_delay",
+              "stage4_outlet_viscosity",
+              "stage4_pressure_command",
+              "stage4_route_integral",
+              "stage4_viscosity_ratio",
+              "stage4_weighted_viscosity_delta"
+            ],
+            "storage_components": 119,
+            "topology_update_pass": true
+          },
+          {
+            "arm": "conservative",
+            "native_trace_count": 1262,
+            "observation_sha256": "278AB426DB8F976F9C2C2A38C6A7FEF2B898EFC0A2F8933F777A5A892D7ED6EC",
+            "pressure_probe_count": 6,
+            "pressure_probe_signal_names": [
+              "pump_pressure_se_stage2_port_a_MPa",
+              "pump_pressure_se_stage2_port_b_MPa",
+              "pump_pressure_se_stage4_port_a_MPa",
+              "pump_pressure_se_stage4_port_b_MPa",
+              "pump_pressure_sma_port_a_MPa",
+              "pump_pressure_sma_port_b_MPa"
+            ],
+            "simulation_mode": "normal",
+            "source_count": 49,
+            "stage4_controller_probe_count": 17,
+            "stage4_controller_probe_signal_names": [
+              "stage4_bias_sum",
+              "stage4_blended_viscosity",
+              "stage4_dynamic_feedforward",
+              "stage4_endpoint_viscosity_mean",
+              "stage4_feedforward_ratio_sum",
+              "stage4_flow_error",
+              "stage4_inlet_temperature_delay",
+              "stage4_inlet_viscosity",
+              "stage4_integrator_input",
+              "stage4_integrator_output_gate",
+              "stage4_integrator_state",
+              "stage4_outlet_temperature_delay",
+              "stage4_outlet_viscosity",
+              "stage4_pressure_command",
+              "stage4_route_integral",
+              "stage4_viscosity_ratio",
+              "stage4_weighted_viscosity_delta"
+            ],
+            "storage_components": 119,
+            "topology_update_pass": true
+          }
+        ],
+        "checkpoint_saved": false,
+        "collection_pass": true,
+        "cycle_count": 20,
+        "diagnostic_simulation_mode": "normal",
+        "error_message": "",
+        "execution_commit": "1ba3a32ae6fe9f7fe5d3d166c6fa12e740635a9c",
+        "full_device_first_law_verified": false,
+        "initialization_source_root": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_native_endpoint_chamber_diag_20260922_v32",
+        "periodic_steady_state": false,
+        "production_recovery_allowed": false,
+        "sha256": "96755783089984B7F2ABE50EDAE7493C88BCC2CE0B8775A11889EC55A3ACAD8B",
+        "start_time_s": 0,
+        "stop_time_s": 200,
+        "table4_reproduction_claim": false
+      },
+      "file_inventory": [
+        {
+          "bytes": 3446,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\buffer_component_build\\+ecc_buffer_coupled_offset\\conservative_buffer.ssc",
+          "sha256": "84657B41CB9A8B3C947BD1DE1C2BB67EFAF4BEE892DBA79B9DC95381808EF248"
+        },
+        {
+          "bytes": 54181,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\buffer_component_build\\ecc_buffer_coupled_offset_lib.slx",
+          "sha256": "B3AE68C5DAA7E58141BCB4F2AF00779B09033D22ABF32069D693D9DB71C5251A"
+        },
+        {
+          "bytes": 201849,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\cold_chamber_execution.json",
+          "sha256": "96755783089984B7F2ABE50EDAE7493C88BCC2CE0B8775A11889EC55A3ACAD8B"
+        },
+        {
+          "bytes": 2376,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\component_build\\+ecc_inventory_endpoint\\conservative_chamber.ssc",
+          "sha256": "BAFFAAC6219FA6378EFA83B743329834940BD1F454B666DBF7C7B49B993BC4F4"
+        },
+        {
+          "bytes": 50440,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\component_build\\ecc_inventory_endpoint_lib.slx",
+          "sha256": "08F25B4DDAC90A32DE1E8F78E8338779828FAD52B7E52EFB5A7E41D17999888A"
+        },
+        {
+          "bytes": 1318,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\conservative\\buffer_mass_guesses.json",
+          "sha256": "78F2F021345AFFB95DEE63C7CFB26547FE187856EB0A5FDEFB9B2A3AF273098F"
+        },
+        {
+          "bytes": 24143,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\conservative\\buffer_replacement_contract.json",
+          "sha256": "B5991D55A79AA26A3A8F6144F075D9A3D03426CBAE8E0FD59B40CEA9A2DF8403"
+        },
+        {
+          "bytes": 586,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\conservative\\cold_inventory_targets.json",
+          "sha256": "97C368433B70179D68BFF47B3FB97ED0C65CCF3E452D7777C89D044E236CD5EC"
+        },
+        {
+          "bytes": 2285096,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\conservative\\cold_public_targets.mat",
+          "sha256": "0149AF60686B2FC3F589656ED78B0715AB31957E93BC3111F2BB4630E66BB7D0"
+        },
+        {
+          "bytes": 14176,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\conservative\\compiled_inventory_tags.json",
+          "sha256": "0E48C00E7489D982FC7FA377BCBB07E9FC6ED16D41F389980176DF25391655F9"
+        },
+        {
+          "bytes": 624463,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\conservative\\configuration.mat",
+          "sha256": "89532FDF0DB8F15C736BBB6801CF24EEF921E2584A21A90796D8B9BC89C19153"
+        },
+        {
+          "bytes": 115560,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\conservative\\inventory_metadata.json",
+          "sha256": "318F3C1B3978897D3B2CFFCE1E8E95E52FCEEBC1A8B5F38DCF99BA468B0925FE"
+        },
+        {
+          "bytes": 52550,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\conservative\\public_inventory_targets.json",
+          "sha256": "7CD42979C340A92DF2DF0347CE059BF27B60584E1EF63501AB75FB8CCEA5FC05"
+        },
+        {
+          "bytes": 2797,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\conservative\\pump_pressure_probe_contract.json",
+          "sha256": "643A86A25D1D3E3663D90174A5762C4DC7114947F87A181431653F4A7AD15935"
+        },
+        {
+          "bytes": 181172554,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\conservative\\retained_key_evidence_shared_20261018.h5",
+          "sha256": "7C38FC277E66D42E70E11278387367303C32EEDF69271C684A8C159716363CE9"
+        },
+        {
+          "bytes": 52560,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\conservative\\runtime_inventory_targets.json",
+          "sha256": "E277723141B713819FC77942B130DF6BEECE12C51A56F0A433AD43A0A39007B6"
+        },
+        {
+          "bytes": 4120,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\conservative\\stage4_controller_probe_contract.json",
+          "sha256": "BDF38FD509C1C5027AACF05A45A7DDCB2F001E661718895D6F1F52F32A4EE041"
+        },
+        {
+          "bytes": 1127454,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\conservative\\thermal_connectivity.json",
+          "sha256": "23DD1E0067345F213068D2835989EDEA2A63D29B35A52E20DDC99B0B5EB78BB4"
+        },
+        {
+          "bytes": 219707,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\conservative\\tl_connectivity.json",
+          "sha256": "3D4E2F5133BAF2446484906C93904D69E77F3BC623425406A89ABED579A33255"
+        },
+        {
+          "bytes": 1043,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\HISTORICAL_CONSERVATIVE_RAW_RETIRED.json",
+          "sha256": "5A751CE8027B89CB94D76FD7E98C7502752751200483D08C634BDBF55FE2B3D1"
+        },
+        {
+          "bytes": 1730,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\launcher_contract.json",
+          "sha256": "3FF619FE6144B663517091917A1EAF94F935AB40F03444307D174709596B5F5B"
+        },
+        {
+          "bytes": 2516,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\matlab_diary.log",
+          "sha256": "19E4F689D9A2A72515A7CA5F19D63208400E605FF476AD101618F8F680E2935F"
+        },
+        {
+          "bytes": 0,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\matlab_stderr.log",
+          "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+        },
+        {
+          "bytes": 2520,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\matlab_stdout.log",
+          "sha256": "9894351DFA736853300B61B41DB048C5CA06343F5552354E873E1FC6D776179D"
+        },
+        {
+          "bytes": 1318,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\native\\buffer_mass_guesses.json",
+          "sha256": "78F2F021345AFFB95DEE63C7CFB26547FE187856EB0A5FDEFB9B2A3AF273098F"
+        },
+        {
+          "bytes": 24152,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\native\\buffer_replacement_contract.json",
+          "sha256": "A0CF5D6CB0A700BE60FEF7443D3BF10F4761C64DB88EA1B6CAE38A2839A670F4"
+        },
+        {
+          "bytes": 586,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\native\\cold_inventory_targets.json",
+          "sha256": "97C368433B70179D68BFF47B3FB97ED0C65CCF3E452D7777C89D044E236CD5EC"
+        },
+        {
+          "bytes": 2285096,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\native\\cold_public_targets.mat",
+          "sha256": "E6D8AA800C4F30365CA9DF6BEAEB6102A589A2D54B3EF9C1378CBDEE606BA7E1"
+        },
+        {
+          "bytes": 14176,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\native\\compiled_inventory_tags.json",
+          "sha256": "0E48C00E7489D982FC7FA377BCBB07E9FC6ED16D41F389980176DF25391655F9"
+        },
+        {
+          "bytes": 624463,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\native\\configuration.mat",
+          "sha256": "94BF7BBE2ECBCA356D86399895C78FEFEDC595F1240AE9A4296596E6FDF5812B"
+        },
+        {
+          "bytes": 115560,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\native\\inventory_metadata.json",
+          "sha256": "318F3C1B3978897D3B2CFFCE1E8E95E52FCEEBC1A8B5F38DCF99BA468B0925FE"
+        },
+        {
+          "bytes": 905763388,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\native\\observations.mat",
+          "sha256": "FEF366367835B92C1A4EB90FCE5CD470217001149554C3A84625C00507B896B8"
+        },
+        {
+          "bytes": 52550,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\native\\public_inventory_targets.json",
+          "sha256": "7CD42979C340A92DF2DF0347CE059BF27B60584E1EF63501AB75FB8CCEA5FC05"
+        },
+        {
+          "bytes": 2785,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\native\\pump_pressure_probe_contract.json",
+          "sha256": "C6684353D2E6A6BA31CFFC192F8579C14CB2FBBFBDC67D517D1016B8E30AB540"
+        },
+        {
+          "bytes": 52560,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\native\\runtime_inventory_targets.json",
+          "sha256": "E277723141B713819FC77942B130DF6BEECE12C51A56F0A433AD43A0A39007B6"
+        },
+        {
+          "bytes": 4114,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\native\\stage4_controller_probe_contract.json",
+          "sha256": "AA110BBCBB46A8C6FDD4B1F750AFA7521F99B1F7C8A1D3FA18404D623B1CE582"
+        },
+        {
+          "bytes": 1134432,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\native\\thermal_connectivity.json",
+          "sha256": "51E51D84BC59AB7863B8885B7F72D2C99A8FC40762E8C0CAA1AF4218F6ADC1C0"
+        },
+        {
+          "bytes": 220176,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\native\\tl_connectivity.json",
+          "sha256": "FA4212D673D7FD3A7A33D7069BD7F09C41B12E4C1193EF8C6B444B6BDF6E0855"
+        },
+        {
+          "bytes": 642,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\REJECTED_DO_NOT_RESUME.txt",
+          "sha256": "B0AF6B691F26035DB20D6F423633F05AF1C5E7B06CB8767F3B04EA5A2DB697A6"
+        }
+      ],
+      "generated_utc": "2026-11-15T18:46:41.228749Z",
+      "missing_compact_conclusion_evidence": [
+        "cycle_physical_summary.csv",
+        "mechanism.json",
+        "packet_gate.json",
+        "physical_validation_report.txt",
+        "stage_temperature_probes_50samples.csv",
+        "final_operating_point.mat"
+      ],
+      "potential_reclaimable_bytes_if_replaced": 905763388,
+      "raw_observation": {
+        "boundary_metadata": {
+          "complete_cycle_verified": 0,
+          "full_device_first_law_verified": 0,
+          "physical_model_modified": 0,
+          "production_recovery_allowed": 0,
+          "source_count": 49.0,
+          "trace_count": 162.0
+        },
+        "bytes": 905763388,
+        "dataset_count_excluding_refs": 429,
+        "dataset_logical_bytes_excluding_refs": 1198417904,
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt\\native\\observations.mat",
+        "root_keys": [
+          "#refs#",
+          "boundary_metadata",
+          "native",
+          "pressure_probe_signals",
+          "signals",
+          "source_traces",
+          "stage4_controller_probe_signals"
+        ],
+        "sha256": "FEF366367835B92C1A4EB90FCE5CD470217001149554C3A84625C00507B896B8",
+        "signal_group_counts": {
+          "pressure_probe_signals": 6,
+          "signals": 186,
+          "stage4_controller_probe_signals": 17
+        },
+        "time_axes": [
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_se_stage2_port_a_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_se_stage2_port_b_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_se_stage4_port_a_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_se_stage4_port_b_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_sma_port_a_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_sma_port_b_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/ECC_Q_SE_constitutive_W/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/ECC_Q_SMA_constitutive_W/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/ECC_constitutive21_output/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/Qdot_cold_sink_mass_to_hx_pipe_W/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/Qdot_cold_sink_mass_to_pipe_W/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SE_Tx21_internal/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_hot_hx_inlet_fluid_temp_out/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_hot_hx_outlet_fluid_temp_out/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_hot_sink_temp_out/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_hot_source_out/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_probe_hot_hx_port1_v3_side_T_K/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_probe_hot_hx_port2_v2_return_side_T_K/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SMA_Tx21_internal/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/chip_inlet_fluid_temp_out/time_s",
+            "samples": 200001
+          }
+        ]
+      },
+      "reason": "Native raw contains full 0-200 s traces and probe metadata, but no compact cycle-level flow/energy/pressure gate summary, temperature-probe summary, mechanism report, or final OP. Deleting it would remove unique native-arm diagnostic evidence.",
+      "root": "C:\\Users\\86182\\.codex\\worktrees\\fixed-stage4-kp237-endpoint\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_warmup20_logmean_kp50_20260927_wt",
+      "target": "qian_warmup20_logmean_kp50"
+    },
+    {
+      "coverage": {
+        "coverage_pass": false,
+        "cycle_energy_flow_gate_summary_present": false,
+        "dimensions_and_time_axes_recorded": true,
+        "pressure_and_stage4_probe_metadata_recorded": true,
+        "production_script_direct_reference_absent": true,
+        "raw_hash_recorded": true,
+        "temperature_probe_summary_present": false
+      },
+      "decision": "manual_confirmation_required",
+      "deletion_allowed": false,
+      "direct_script_references": {
+        "all_matches": [
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Retire_HeatDriveECC_ArchivedObsoleteArms.ps1",
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Review_HeatDriveECC_NativeRawRetention.py"
+        ],
+        "production_matches": [],
+        "retirement_or_audit_matches": [
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Retire_HeatDriveECC_ArchivedObsoleteArms.ps1",
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Review_HeatDriveECC_NativeRawRetention.py"
+        ]
+      },
+      "execution_contract": {
+        "bytes": 201857,
+        "c200_checkpoint_sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816",
+        "c200_result_sha256": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD",
+        "c200_state_imported": false,
+        "cases": [
+          {
+            "arm": "native",
+            "native_trace_count": 1262,
+            "observation_sha256": "207B5B9E79656F6E1F02F40AFE1E3B312A1E3896BD2303E4EE26DBF1F9B29CB4",
+            "pressure_probe_count": 6,
+            "pressure_probe_signal_names": [
+              "pump_pressure_se_stage2_port_a_MPa",
+              "pump_pressure_se_stage2_port_b_MPa",
+              "pump_pressure_se_stage4_port_a_MPa",
+              "pump_pressure_se_stage4_port_b_MPa",
+              "pump_pressure_sma_port_a_MPa",
+              "pump_pressure_sma_port_b_MPa"
+            ],
+            "simulation_mode": "normal",
+            "source_count": 49,
+            "stage4_controller_probe_count": 17,
+            "stage4_controller_probe_signal_names": [
+              "stage4_bias_sum",
+              "stage4_blended_viscosity",
+              "stage4_dynamic_feedforward",
+              "stage4_endpoint_viscosity_mean",
+              "stage4_feedforward_ratio_sum",
+              "stage4_flow_error",
+              "stage4_inlet_temperature_delay",
+              "stage4_inlet_viscosity",
+              "stage4_integrator_input",
+              "stage4_integrator_output_gate",
+              "stage4_integrator_state",
+              "stage4_outlet_temperature_delay",
+              "stage4_outlet_viscosity",
+              "stage4_pressure_command",
+              "stage4_route_integral",
+              "stage4_viscosity_ratio",
+              "stage4_weighted_viscosity_delta"
+            ],
+            "storage_components": 119,
+            "topology_update_pass": true
+          },
+          {
+            "arm": "conservative",
+            "native_trace_count": 1262,
+            "observation_sha256": "E46D19D85FC9597B305EA791576DA8AD02259593E4EF7ADF2F358081E1FD5AB2",
+            "pressure_probe_count": 6,
+            "pressure_probe_signal_names": [
+              "pump_pressure_se_stage2_port_a_MPa",
+              "pump_pressure_se_stage2_port_b_MPa",
+              "pump_pressure_se_stage4_port_a_MPa",
+              "pump_pressure_se_stage4_port_b_MPa",
+              "pump_pressure_sma_port_a_MPa",
+              "pump_pressure_sma_port_b_MPa"
+            ],
+            "simulation_mode": "normal",
+            "source_count": 49,
+            "stage4_controller_probe_count": 17,
+            "stage4_controller_probe_signal_names": [
+              "stage4_bias_sum",
+              "stage4_blended_viscosity",
+              "stage4_dynamic_feedforward",
+              "stage4_endpoint_viscosity_mean",
+              "stage4_feedforward_ratio_sum",
+              "stage4_flow_error",
+              "stage4_inlet_temperature_delay",
+              "stage4_inlet_viscosity",
+              "stage4_integrator_input",
+              "stage4_integrator_output_gate",
+              "stage4_integrator_state",
+              "stage4_outlet_temperature_delay",
+              "stage4_outlet_viscosity",
+              "stage4_pressure_command",
+              "stage4_route_integral",
+              "stage4_viscosity_ratio",
+              "stage4_weighted_viscosity_delta"
+            ],
+            "storage_components": 119,
+            "topology_update_pass": true
+          }
+        ],
+        "checkpoint_saved": false,
+        "collection_pass": true,
+        "cycle_count": 20,
+        "diagnostic_simulation_mode": "normal",
+        "error_message": "",
+        "execution_commit": "1d08a59fd91876e7440b7beab27398ef7888d8ce",
+        "full_device_first_law_verified": false,
+        "initialization_source_root": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_native_endpoint_chamber_diag_20260922_v32",
+        "periodic_steady_state": false,
+        "production_recovery_allowed": false,
+        "sha256": "0B5FC59297C911EB8AC4C5706D4958C7DC593B79ECB29684BD96F3ACBE791160",
+        "start_time_s": 0,
+        "stop_time_s": 200,
+        "table4_reproduction_claim": false
+      },
+      "file_inventory": [
+        {
+          "bytes": 3446,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\buffer_component_build\\+ecc_buffer_coupled_offset\\conservative_buffer.ssc",
+          "sha256": "84657B41CB9A8B3C947BD1DE1C2BB67EFAF4BEE892DBA79B9DC95381808EF248"
+        },
+        {
+          "bytes": 54179,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\buffer_component_build\\ecc_buffer_coupled_offset_lib.slx",
+          "sha256": "D829D657B7223DA6F2C922E186EB2939B3F9D91BCEEF49B0D6262FF0C70E9089"
+        },
+        {
+          "bytes": 201857,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\cold_chamber_execution.json",
+          "sha256": "0B5FC59297C911EB8AC4C5706D4958C7DC593B79ECB29684BD96F3ACBE791160"
+        },
+        {
+          "bytes": 2376,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\component_build\\+ecc_inventory_endpoint\\conservative_chamber.ssc",
+          "sha256": "BAFFAAC6219FA6378EFA83B743329834940BD1F454B666DBF7C7B49B993BC4F4"
+        },
+        {
+          "bytes": 50442,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\component_build\\ecc_inventory_endpoint_lib.slx",
+          "sha256": "2451AF2689F4289D600CC192DDEE47F3AADA6DC651BB7BF5E0C2EE30CC04CEEF"
+        },
+        {
+          "bytes": 1318,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\conservative\\buffer_mass_guesses.json",
+          "sha256": "78F2F021345AFFB95DEE63C7CFB26547FE187856EB0A5FDEFB9B2A3AF273098F"
+        },
+        {
+          "bytes": 24143,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\conservative\\buffer_replacement_contract.json",
+          "sha256": "B5991D55A79AA26A3A8F6144F075D9A3D03426CBAE8E0FD59B40CEA9A2DF8403"
+        },
+        {
+          "bytes": 586,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\conservative\\cold_inventory_targets.json",
+          "sha256": "97C368433B70179D68BFF47B3FB97ED0C65CCF3E452D7777C89D044E236CD5EC"
+        },
+        {
+          "bytes": 2285096,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\conservative\\cold_public_targets.mat",
+          "sha256": "30024E2191F5D1B44C0D0D479A1C4299FBE57BCCFB2669C55A6FB44136EDAE96"
+        },
+        {
+          "bytes": 14176,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\conservative\\compiled_inventory_tags.json",
+          "sha256": "0E48C00E7489D982FC7FA377BCBB07E9FC6ED16D41F389980176DF25391655F9"
+        },
+        {
+          "bytes": 624471,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\conservative\\configuration.mat",
+          "sha256": "9915C51980D845DA161C09A7354EA8FE2A012E708E41001CC38BD8255EBC5E39"
+        },
+        {
+          "bytes": 115560,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\conservative\\inventory_metadata.json",
+          "sha256": "318F3C1B3978897D3B2CFFCE1E8E95E52FCEEBC1A8B5F38DCF99BA468B0925FE"
+        },
+        {
+          "bytes": 52550,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\conservative\\public_inventory_targets.json",
+          "sha256": "7CD42979C340A92DF2DF0347CE059BF27B60584E1EF63501AB75FB8CCEA5FC05"
+        },
+        {
+          "bytes": 2797,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\conservative\\pump_pressure_probe_contract.json",
+          "sha256": "DD2144B254B2E0D7551515820DC401F5EA91BDEC44A7811422CDE2DE02A19FEE"
+        },
+        {
+          "bytes": 181172554,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\conservative\\retained_key_evidence_shared_20261018.h5",
+          "sha256": "AC9005FBA27F62CB1CEDF9E16D20B671ED005AEB0A795BCB01FC65E1FBC6D4F0"
+        },
+        {
+          "bytes": 52560,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\conservative\\runtime_inventory_targets.json",
+          "sha256": "E277723141B713819FC77942B130DF6BEECE12C51A56F0A433AD43A0A39007B6"
+        },
+        {
+          "bytes": 4120,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\conservative\\stage4_controller_probe_contract.json",
+          "sha256": "62CAFA59E2C71C16111AF5DF2856CCA136E89698E652BCCAF0970B8D0FD13645"
+        },
+        {
+          "bytes": 1127454,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\conservative\\thermal_connectivity.json",
+          "sha256": "23DD1E0067345F213068D2835989EDEA2A63D29B35A52E20DDC99B0B5EB78BB4"
+        },
+        {
+          "bytes": 219707,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\conservative\\tl_connectivity.json",
+          "sha256": "3D4E2F5133BAF2446484906C93904D69E77F3BC623425406A89ABED579A33255"
+        },
+        {
+          "bytes": 1043,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\HISTORICAL_CONSERVATIVE_RAW_RETIRED.json",
+          "sha256": "6CBE3EB0F9020BAD11D403CAF1A234AD44915CFDA817B780844470782393A3E3"
+        },
+        {
+          "bytes": 1833,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\launcher_contract.json",
+          "sha256": "45A23540CF44B84754B6BFB2D43A9BC83B8C33DDE7CD836AB7220A8402C57A48"
+        },
+        {
+          "bytes": 2516,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\matlab_diary.log",
+          "sha256": "5AAA87679A98BD72E9906E27730A01DF88A4E16A770033D50C6DE860FD2EE69A"
+        },
+        {
+          "bytes": 0,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\matlab_stderr.log",
+          "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+        },
+        {
+          "bytes": 4762,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\matlab_stdout.log",
+          "sha256": "E00B6EA1CA5AE73816E643EBCF4AE8A13B01B54EBD91BD3598D8BC96546D88D8"
+        },
+        {
+          "bytes": 1318,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\native\\buffer_mass_guesses.json",
+          "sha256": "78F2F021345AFFB95DEE63C7CFB26547FE187856EB0A5FDEFB9B2A3AF273098F"
+        },
+        {
+          "bytes": 24152,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\native\\buffer_replacement_contract.json",
+          "sha256": "A0CF5D6CB0A700BE60FEF7443D3BF10F4761C64DB88EA1B6CAE38A2839A670F4"
+        },
+        {
+          "bytes": 586,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\native\\cold_inventory_targets.json",
+          "sha256": "97C368433B70179D68BFF47B3FB97ED0C65CCF3E452D7777C89D044E236CD5EC"
+        },
+        {
+          "bytes": 2285096,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\native\\cold_public_targets.mat",
+          "sha256": "6D7606825F89CDF48FE27D114372D1157D3FAF5DB6A3B272060515ABCC77D1FA"
+        },
+        {
+          "bytes": 14176,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\native\\compiled_inventory_tags.json",
+          "sha256": "0E48C00E7489D982FC7FA377BCBB07E9FC6ED16D41F389980176DF25391655F9"
+        },
+        {
+          "bytes": 624471,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\native\\configuration.mat",
+          "sha256": "B9A03940552930F2B9B26CA60B78ACC49DD63F5471B377FC61D9D84226BBBF01"
+        },
+        {
+          "bytes": 115560,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\native\\inventory_metadata.json",
+          "sha256": "318F3C1B3978897D3B2CFFCE1E8E95E52FCEEBC1A8B5F38DCF99BA468B0925FE"
+        },
+        {
+          "bytes": 905634114,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\native\\observations.mat",
+          "sha256": "207B5B9E79656F6E1F02F40AFE1E3B312A1E3896BD2303E4EE26DBF1F9B29CB4"
+        },
+        {
+          "bytes": 52550,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\native\\public_inventory_targets.json",
+          "sha256": "7CD42979C340A92DF2DF0347CE059BF27B60584E1EF63501AB75FB8CCEA5FC05"
+        },
+        {
+          "bytes": 2785,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\native\\pump_pressure_probe_contract.json",
+          "sha256": "679FAEA84B304CC882F3642B493E7DB8D51DD3A001A1D1115F2680A032F0F5AF"
+        },
+        {
+          "bytes": 52560,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\native\\runtime_inventory_targets.json",
+          "sha256": "E277723141B713819FC77942B130DF6BEECE12C51A56F0A433AD43A0A39007B6"
+        },
+        {
+          "bytes": 4114,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\native\\stage4_controller_probe_contract.json",
+          "sha256": "A1BB9F12E59C3922DC8C8CDE2525EA25CAD5E79DDDBED45466924E30DAC0BFEC"
+        },
+        {
+          "bytes": 1134432,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\native\\thermal_connectivity.json",
+          "sha256": "51E51D84BC59AB7863B8885B7F72D2C99A8FC40762E8C0CAA1AF4218F6ADC1C0"
+        },
+        {
+          "bytes": 220176,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\native\\tl_connectivity.json",
+          "sha256": "FA4212D673D7FD3A7A33D7069BD7F09C41B12E4C1193EF8C6B444B6BDF6E0855"
+        },
+        {
+          "bytes": 816,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\REJECTED_DO_NOT_RESUME.txt",
+          "sha256": "E57E3059FD7AE536B0D8A069061EBAAF0DB3562529DB3C6F87C202C19F60C978"
+        }
+      ],
+      "generated_utc": "2026-11-15T18:46:43.878354Z",
+      "missing_compact_conclusion_evidence": [
+        "cycle_physical_summary.csv",
+        "mechanism.json",
+        "packet_gate.json",
+        "physical_validation_report.txt",
+        "stage_temperature_probes_50samples.csv",
+        "final_operating_point.mat"
+      ],
+      "potential_reclaimable_bytes_if_replaced": 905634114,
+      "raw_observation": {
+        "boundary_metadata": {
+          "complete_cycle_verified": 0,
+          "full_device_first_law_verified": 0,
+          "physical_model_modified": 0,
+          "production_recovery_allowed": 0,
+          "source_count": 49.0,
+          "trace_count": 162.0
+        },
+        "bytes": 905634114,
+        "dataset_count_excluding_refs": 429,
+        "dataset_logical_bytes_excluding_refs": 1198417904,
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle\\native\\observations.mat",
+        "root_keys": [
+          "#refs#",
+          "boundary_metadata",
+          "native",
+          "pressure_probe_signals",
+          "signals",
+          "source_traces",
+          "stage4_controller_probe_signals"
+        ],
+        "sha256": "207B5B9E79656F6E1F02F40AFE1E3B312A1E3896BD2303E4EE26DBF1F9B29CB4",
+        "signal_group_counts": {
+          "pressure_probe_signals": 6,
+          "signals": 186,
+          "stage4_controller_probe_signals": 17
+        },
+        "time_axes": [
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_se_stage2_port_a_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_se_stage2_port_b_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_se_stage4_port_a_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_se_stage4_port_b_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_sma_port_a_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_sma_port_b_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/ECC_Q_SE_constitutive_W/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/ECC_Q_SMA_constitutive_W/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/ECC_constitutive21_output/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/Qdot_cold_sink_mass_to_hx_pipe_W/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/Qdot_cold_sink_mass_to_pipe_W/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SE_Tx21_internal/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_hot_hx_inlet_fluid_temp_out/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_hot_hx_outlet_fluid_temp_out/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_hot_sink_temp_out/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_hot_source_out/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_probe_hot_hx_port1_v3_side_T_K/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_probe_hot_hx_port2_v2_return_side_T_K/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SMA_Tx21_internal/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/chip_inlet_fluid_temp_out/time_s",
+            "samples": 200001
+          }
+        ]
+      },
+      "reason": "Native raw contains full 0-200 s traces and probe metadata, but no compact cycle-level flow/energy/pressure gate summary, temperature-probe summary, mechanism report, or final OP. Deleting it would remove unique native-arm diagnostic evidence.",
+      "root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-default-cold-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_default_kp160_20260927_20cycle",
+      "target": "qian_default_kp160_20cycle"
+    },
+    {
+      "coverage": {
+        "coverage_pass": false,
+        "cycle_energy_flow_gate_summary_present": false,
+        "dimensions_and_time_axes_recorded": true,
+        "pressure_and_stage4_probe_metadata_recorded": true,
+        "production_script_direct_reference_absent": true,
+        "raw_hash_recorded": true,
+        "temperature_probe_summary_present": false
+      },
+      "decision": "manual_confirmation_required",
+      "deletion_allowed": false,
+      "direct_script_references": {
+        "all_matches": [
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Retire_HeatDriveECC_FourthStageRaw.ps1",
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Retire_HeatDriveECC_ObsoleteStage4Arms.ps1",
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Review_HeatDriveECC_NativeRawRetention.py"
+        ],
+        "production_matches": [],
+        "retirement_or_audit_matches": [
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Retire_HeatDriveECC_FourthStageRaw.ps1",
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Retire_HeatDriveECC_ObsoleteStage4Arms.ps1",
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Review_HeatDriveECC_NativeRawRetention.py"
+        ]
+      },
+      "execution_contract": {
+        "bytes": 201212,
+        "c200_checkpoint_sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816",
+        "c200_result_sha256": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD",
+        "c200_state_imported": false,
+        "cases": [
+          {
+            "arm": "native",
+            "native_trace_count": 1262,
+            "observation_sha256": "269EB8194CC34703A92535253671839004CDD3647C1B85957BBEDA6F8C27E3F0",
+            "pressure_probe_count": 6,
+            "pressure_probe_signal_names": [
+              "pump_pressure_se_stage2_port_a_MPa",
+              "pump_pressure_se_stage2_port_b_MPa",
+              "pump_pressure_se_stage4_port_a_MPa",
+              "pump_pressure_se_stage4_port_b_MPa",
+              "pump_pressure_sma_port_a_MPa",
+              "pump_pressure_sma_port_b_MPa"
+            ],
+            "simulation_mode": "normal",
+            "source_count": 49,
+            "stage4_controller_probe_count": 17,
+            "stage4_controller_probe_signal_names": [
+              "stage4_bias_sum",
+              "stage4_blended_viscosity",
+              "stage4_dynamic_feedforward",
+              "stage4_endpoint_viscosity_mean",
+              "stage4_feedforward_ratio_sum",
+              "stage4_flow_error",
+              "stage4_inlet_temperature_delay",
+              "stage4_inlet_viscosity",
+              "stage4_integrator_input",
+              "stage4_integrator_output_gate",
+              "stage4_integrator_state",
+              "stage4_outlet_temperature_delay",
+              "stage4_outlet_viscosity",
+              "stage4_pressure_command",
+              "stage4_route_integral",
+              "stage4_viscosity_ratio",
+              "stage4_weighted_viscosity_delta"
+            ],
+            "storage_components": 119,
+            "topology_update_pass": true
+          },
+          {
+            "arm": "conservative",
+            "native_trace_count": 1262,
+            "observation_sha256": "3C97A3E8A11DD9AC3C9FBF7702ABD2247837231C47E75BA3B53CB558524CB78B",
+            "pressure_probe_count": 6,
+            "pressure_probe_signal_names": [
+              "pump_pressure_se_stage2_port_a_MPa",
+              "pump_pressure_se_stage2_port_b_MPa",
+              "pump_pressure_se_stage4_port_a_MPa",
+              "pump_pressure_se_stage4_port_b_MPa",
+              "pump_pressure_sma_port_a_MPa",
+              "pump_pressure_sma_port_b_MPa"
+            ],
+            "simulation_mode": "normal",
+            "source_count": 49,
+            "stage4_controller_probe_count": 17,
+            "stage4_controller_probe_signal_names": [
+              "stage4_bias_sum",
+              "stage4_blended_viscosity",
+              "stage4_dynamic_feedforward",
+              "stage4_endpoint_viscosity_mean",
+              "stage4_feedforward_ratio_sum",
+              "stage4_flow_error",
+              "stage4_inlet_temperature_delay",
+              "stage4_inlet_viscosity",
+              "stage4_integrator_input",
+              "stage4_integrator_output_gate",
+              "stage4_integrator_state",
+              "stage4_outlet_temperature_delay",
+              "stage4_outlet_viscosity",
+              "stage4_pressure_command",
+              "stage4_route_integral",
+              "stage4_viscosity_ratio",
+              "stage4_weighted_viscosity_delta"
+            ],
+            "storage_components": 119,
+            "topology_update_pass": true
+          }
+        ],
+        "checkpoint_saved": false,
+        "collection_pass": true,
+        "cycle_count": 20,
+        "diagnostic_simulation_mode": "normal",
+        "error_message": "",
+        "execution_commit": "fb128caaa5b42436df598b8dd5ab41a4d7ce8b23",
+        "full_device_first_law_verified": false,
+        "initialization_source_root": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_native_endpoint_chamber_diag_20260922_v32",
+        "periodic_steady_state": false,
+        "production_recovery_allowed": false,
+        "sha256": "48E2B4D461B48387246A4027D2C14128B58985AC86E9143C79A211A6436B2ACA",
+        "start_time_s": 0,
+        "stop_time_s": 200,
+        "table4_reproduction_claim": false
+      },
+      "file_inventory": [
+        {
+          "bytes": 3446,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\buffer_component_build\\+ecc_buffer_coupled_offset\\conservative_buffer.ssc",
+          "sha256": "84657B41CB9A8B3C947BD1DE1C2BB67EFAF4BEE892DBA79B9DC95381808EF248"
+        },
+        {
+          "bytes": 54183,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\buffer_component_build\\ecc_buffer_coupled_offset_lib.slx",
+          "sha256": "1425C3AECC52418319484764844AE5AD9EB17097AC22E5B9BEDC120CF01716A3"
+        },
+        {
+          "bytes": 201212,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\cold_chamber_execution.json",
+          "sha256": "48E2B4D461B48387246A4027D2C14128B58985AC86E9143C79A211A6436B2ACA"
+        },
+        {
+          "bytes": 2376,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\component_build\\+ecc_inventory_endpoint\\conservative_chamber.ssc",
+          "sha256": "BAFFAAC6219FA6378EFA83B743329834940BD1F454B666DBF7C7B49B993BC4F4"
+        },
+        {
+          "bytes": 50440,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\component_build\\ecc_inventory_endpoint_lib.slx",
+          "sha256": "A5852141C5044CA36301475349FEF85011935C7E4287F64D621C059D62ED68B2"
+        },
+        {
+          "bytes": 1318,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\buffer_mass_guesses.json",
+          "sha256": "78F2F021345AFFB95DEE63C7CFB26547FE187856EB0A5FDEFB9B2A3AF273098F"
+        },
+        {
+          "bytes": 24143,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\buffer_replacement_contract.json",
+          "sha256": "B5991D55A79AA26A3A8F6144F075D9A3D03426CBAE8E0FD59B40CEA9A2DF8403"
+        },
+        {
+          "bytes": 586,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\cold_inventory_targets.json",
+          "sha256": "97C368433B70179D68BFF47B3FB97ED0C65CCF3E452D7777C89D044E236CD5EC"
+        },
+        {
+          "bytes": 2285096,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\cold_public_targets.mat",
+          "sha256": "33503F03282430ECE22D31C490BC0701BE92F47CE09FA8C1931B69FC2B8AD174"
+        },
+        {
+          "bytes": 14176,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\compiled_inventory_tags.json",
+          "sha256": "0E48C00E7489D982FC7FA377BCBB07E9FC6ED16D41F389980176DF25391655F9"
+        },
+        {
+          "bytes": 624663,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\configuration.mat",
+          "sha256": "53F9190836285CD18674D8689FDC5D27631BC90CF1CB4290F018DE6314371C4F"
+        },
+        {
+          "bytes": 115560,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\inventory_metadata.json",
+          "sha256": "318F3C1B3978897D3B2CFFCE1E8E95E52FCEEBC1A8B5F38DCF99BA468B0925FE"
+        },
+        {
+          "bytes": 52550,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\public_inventory_targets.json",
+          "sha256": "7CD42979C340A92DF2DF0347CE059BF27B60584E1EF63501AB75FB8CCEA5FC05"
+        },
+        {
+          "bytes": 2661,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\pump_pressure_probe_contract.json",
+          "sha256": "7F16B4FC51D7B6DC5029B180975C640BE692979C33D0667C597969E8055BE36E"
+        },
+        {
+          "bytes": 52560,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\runtime_inventory_targets.json",
+          "sha256": "E277723141B713819FC77942B130DF6BEECE12C51A56F0A433AD43A0A39007B6"
+        },
+        {
+          "bytes": 4052,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\stage4_controller_probe_contract.json",
+          "sha256": "E8F05ABAFA544DA23B2911426604AC04E16E23F0DA634122613BDB04D59DBBC9"
+        },
+        {
+          "bytes": 1127413,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\thermal_connectivity.json",
+          "sha256": "C5C82D9D1008D29B6A4D8707035DA4D682A8F3A03E8C0258FFE238AF0D6AD62D"
+        },
+        {
+          "bytes": 219692,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\conservative\\tl_connectivity.json",
+          "sha256": "FA6B0A97D8C1BDFAC84090BEE00719E6B27D4F9AE7B270BF7B3B30173F36F267"
+        },
+        {
+          "bytes": 509,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\HISTORICAL_CONSERVATIVE_RAW_RETIRED.json",
+          "sha256": "4421D0798306728A881837B42FB9F0244A18669B4720431A697477B0BCB3A9DD"
+        },
+        {
+          "bytes": 1923,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\launcher_contract.json",
+          "sha256": "686EDBC7C9F092A02E88577D2222DB12BE2CA41CCE28E17212AF19CA5258798E"
+        },
+        {
+          "bytes": 2324,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\matlab_diary.log",
+          "sha256": "32A7313DBD68B855A6D8DF1368EEAE70C8579EE6085F38252992A6280633D3FF"
+        },
+        {
+          "bytes": 0,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\matlab_stderr.log",
+          "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+        },
+        {
+          "bytes": 4282,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\matlab_stdout.log",
+          "sha256": "D417F027FFD0868DADB5BBCCB6F0DED0C69F1FEE3F378C0EC5BF77A81A511A49"
+        },
+        {
+          "bytes": 1318,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\buffer_mass_guesses.json",
+          "sha256": "78F2F021345AFFB95DEE63C7CFB26547FE187856EB0A5FDEFB9B2A3AF273098F"
+        },
+        {
+          "bytes": 24152,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\buffer_replacement_contract.json",
+          "sha256": "A0CF5D6CB0A700BE60FEF7443D3BF10F4761C64DB88EA1B6CAE38A2839A670F4"
+        },
+        {
+          "bytes": 586,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\cold_inventory_targets.json",
+          "sha256": "97C368433B70179D68BFF47B3FB97ED0C65CCF3E452D7777C89D044E236CD5EC"
+        },
+        {
+          "bytes": 2285096,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\cold_public_targets.mat",
+          "sha256": "75F02BF234B8B4BCBC79254E3E4578BB042B68CA6F2CDEBAF14BBCBD628D8C73"
+        },
+        {
+          "bytes": 14176,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\compiled_inventory_tags.json",
+          "sha256": "0E48C00E7489D982FC7FA377BCBB07E9FC6ED16D41F389980176DF25391655F9"
+        },
+        {
+          "bytes": 624663,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\configuration.mat",
+          "sha256": "6D00B21BB685F4F9A6BA95E5830EA5589DB9CEF5200BD9812A5A32EE3C2E989C"
+        },
+        {
+          "bytes": 115560,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\inventory_metadata.json",
+          "sha256": "318F3C1B3978897D3B2CFFCE1E8E95E52FCEEBC1A8B5F38DCF99BA468B0925FE"
+        },
+        {
+          "bytes": 905885198,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\observations.mat",
+          "sha256": "269EB8194CC34703A92535253671839004CDD3647C1B85957BBEDA6F8C27E3F0"
+        },
+        {
+          "bytes": 52550,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\public_inventory_targets.json",
+          "sha256": "7CD42979C340A92DF2DF0347CE059BF27B60584E1EF63501AB75FB8CCEA5FC05"
+        },
+        {
+          "bytes": 2649,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\pump_pressure_probe_contract.json",
+          "sha256": "1F85B93F7E504889A1C49A4C07344072B8021ABAB1D24CDEDCCD1D7E6603EAB1"
+        },
+        {
+          "bytes": 52560,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\runtime_inventory_targets.json",
+          "sha256": "E277723141B713819FC77942B130DF6BEECE12C51A56F0A433AD43A0A39007B6"
+        },
+        {
+          "bytes": 4046,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\stage4_controller_probe_contract.json",
+          "sha256": "FFDE58BF34200AF4A5096F5E3E255C716FD3BA6AF1348F78D587C5E6AA2F5634"
+        },
+        {
+          "bytes": 1134432,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\thermal_connectivity.json",
+          "sha256": "51E51D84BC59AB7863B8885B7F72D2C99A8FC40762E8C0CAA1AF4218F6ADC1C0"
+        },
+        {
+          "bytes": 220176,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\tl_connectivity.json",
+          "sha256": "BC2431E9661C985D7A731CDACD3DEF8C73796F113B4C1FDECACC1448C22260C2"
+        },
+        {
+          "bytes": 697,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\REJECTED_DO_NOT_RESUME.txt",
+          "sha256": "02982B5C14A62510B9A08EDC2238C7EECCA61BC86A538D3FEDAF455399B4BA54"
+        }
+      ],
+      "generated_utc": "2026-11-15T18:46:46.312321Z",
+      "missing_compact_conclusion_evidence": [
+        "cycle_physical_summary.csv",
+        "mechanism.json",
+        "packet_gate.json",
+        "physical_validation_report.txt",
+        "stage_temperature_probes_50samples.csv",
+        "final_operating_point.mat"
+      ],
+      "potential_reclaimable_bytes_if_replaced": 905885198,
+      "raw_observation": {
+        "boundary_metadata": {
+          "complete_cycle_verified": 0,
+          "full_device_first_law_verified": 0,
+          "physical_model_modified": 0,
+          "production_recovery_allowed": 0,
+          "source_count": 49.0,
+          "trace_count": 162.0
+        },
+        "bytes": 905885198,
+        "dataset_count_excluding_refs": 429,
+        "dataset_logical_bytes_excluding_refs": 1198417904,
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup\\native\\observations.mat",
+        "root_keys": [
+          "#refs#",
+          "boundary_metadata",
+          "native",
+          "pressure_probe_signals",
+          "signals",
+          "source_traces",
+          "stage4_controller_probe_signals"
+        ],
+        "sha256": "269EB8194CC34703A92535253671839004CDD3647C1B85957BBEDA6F8C27E3F0",
+        "signal_group_counts": {
+          "pressure_probe_signals": 6,
+          "signals": 186,
+          "stage4_controller_probe_signals": 17
+        },
+        "time_axes": [
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_se_stage2_port_a_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_se_stage2_port_b_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_se_stage4_port_a_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_se_stage4_port_b_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_sma_port_a_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_sma_port_b_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/ECC_Q_SE_constitutive_W/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/ECC_Q_SMA_constitutive_W/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/ECC_constitutive21_output/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/Qdot_cold_sink_mass_to_hx_pipe_W/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/Qdot_cold_sink_mass_to_pipe_W/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SE_Tx21_internal/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_hot_hx_inlet_fluid_temp_out/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_hot_hx_outlet_fluid_temp_out/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_hot_sink_temp_out/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_hot_source_out/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_probe_hot_hx_port1_v3_side_T_K/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_probe_hot_hx_port2_v2_return_side_T_K/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SMA_Tx21_internal/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/chip_inlet_fluid_temp_out/time_s",
+            "samples": 200001
+          }
+        ]
+      },
+      "reason": "Native raw contains full 0-200 s traces and probe metadata, but no compact cycle-level flow/energy/pressure gate summary, temperature-probe summary, mechanism report, or final OP. Deleting it would remove unique native-arm diagnostic evidence.",
+      "root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_phase_local_blend_20260928_20cycle_warmup",
+      "target": "qian_phase_local_blend_20cycle"
+    },
+    {
+      "coverage": {
+        "coverage_pass": false,
+        "cycle_energy_flow_gate_summary_present": false,
+        "dimensions_and_time_axes_recorded": true,
+        "pressure_and_stage4_probe_metadata_recorded": true,
+        "production_script_direct_reference_absent": true,
+        "raw_hash_recorded": true,
+        "temperature_probe_summary_present": false
+      },
+      "decision": "manual_confirmation_required",
+      "deletion_allowed": false,
+      "direct_script_references": {
+        "all_matches": [
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Retire_HeatDriveECC_FourthStageRaw.ps1",
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Retire_HeatDriveECC_ObsoleteStage4Arms.ps1",
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Review_HeatDriveECC_NativeRawRetention.py"
+        ],
+        "production_matches": [],
+        "retirement_or_audit_matches": [
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Retire_HeatDriveECC_FourthStageRaw.ps1",
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Retire_HeatDriveECC_ObsoleteStage4Arms.ps1",
+          "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\verification\\Review_HeatDriveECC_NativeRawRetention.py"
+        ]
+      },
+      "execution_contract": {
+        "bytes": 201392,
+        "c200_checkpoint_sha256": "FA116BB32B7EF8D2AA7B9097735FAC063A11692EE5DD7D17DA7F798EBAAF4816",
+        "c200_result_sha256": "0BEE740B0B1298B939F5644FD6BEE44296AE1D7BA121A5C5E7C55573FEAB97DD",
+        "c200_state_imported": false,
+        "cases": [
+          {
+            "arm": "native",
+            "native_trace_count": 1262,
+            "observation_sha256": "F7CC0D808CC4DE6301AAD485CFA0AB89B506EB2FA634AAD0E4B5820D15464D38",
+            "pressure_probe_count": 6,
+            "pressure_probe_signal_names": [
+              "pump_pressure_se_stage2_port_a_MPa",
+              "pump_pressure_se_stage2_port_b_MPa",
+              "pump_pressure_se_stage4_port_a_MPa",
+              "pump_pressure_se_stage4_port_b_MPa",
+              "pump_pressure_sma_port_a_MPa",
+              "pump_pressure_sma_port_b_MPa"
+            ],
+            "simulation_mode": "normal",
+            "source_count": 49,
+            "stage4_controller_probe_count": 17,
+            "stage4_controller_probe_signal_names": [
+              "stage4_bias_sum",
+              "stage4_blended_viscosity",
+              "stage4_dynamic_feedforward",
+              "stage4_endpoint_viscosity_mean",
+              "stage4_feedforward_ratio_sum",
+              "stage4_flow_error",
+              "stage4_inlet_temperature_delay",
+              "stage4_inlet_viscosity",
+              "stage4_integrator_input",
+              "stage4_integrator_output_gate",
+              "stage4_integrator_state",
+              "stage4_outlet_temperature_delay",
+              "stage4_outlet_viscosity",
+              "stage4_pressure_command",
+              "stage4_route_integral",
+              "stage4_viscosity_ratio",
+              "stage4_weighted_viscosity_delta"
+            ],
+            "storage_components": 119,
+            "topology_update_pass": true
+          },
+          {
+            "arm": "conservative",
+            "native_trace_count": 1262,
+            "observation_sha256": "D96D2790B981A2C51F284B943DC379A33A625A52A906173B3BF0DB431094CBD2",
+            "pressure_probe_count": 6,
+            "pressure_probe_signal_names": [
+              "pump_pressure_se_stage2_port_a_MPa",
+              "pump_pressure_se_stage2_port_b_MPa",
+              "pump_pressure_se_stage4_port_a_MPa",
+              "pump_pressure_se_stage4_port_b_MPa",
+              "pump_pressure_sma_port_a_MPa",
+              "pump_pressure_sma_port_b_MPa"
+            ],
+            "simulation_mode": "normal",
+            "source_count": 49,
+            "stage4_controller_probe_count": 17,
+            "stage4_controller_probe_signal_names": [
+              "stage4_bias_sum",
+              "stage4_blended_viscosity",
+              "stage4_dynamic_feedforward",
+              "stage4_endpoint_viscosity_mean",
+              "stage4_feedforward_ratio_sum",
+              "stage4_flow_error",
+              "stage4_inlet_temperature_delay",
+              "stage4_inlet_viscosity",
+              "stage4_integrator_input",
+              "stage4_integrator_output_gate",
+              "stage4_integrator_state",
+              "stage4_outlet_temperature_delay",
+              "stage4_outlet_viscosity",
+              "stage4_pressure_command",
+              "stage4_route_integral",
+              "stage4_viscosity_ratio",
+              "stage4_weighted_viscosity_delta"
+            ],
+            "storage_components": 119,
+            "topology_update_pass": true
+          }
+        ],
+        "checkpoint_saved": false,
+        "collection_pass": true,
+        "cycle_count": 20,
+        "diagnostic_simulation_mode": "normal",
+        "error_message": "",
+        "execution_commit": "d683155caed116674a06afc8c4764f79badfd3a9",
+        "full_device_first_law_verified": false,
+        "initialization_source_root": "C:\\Users\\86182\\Desktop\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_native_endpoint_chamber_diag_20260922_v32",
+        "periodic_steady_state": false,
+        "production_recovery_allowed": false,
+        "sha256": "EA27B6264693F5217F04AC6ADA593ED292A7B426EECF00A039AD6102BB4DE543",
+        "start_time_s": 0,
+        "stop_time_s": 200,
+        "table4_reproduction_claim": false
+      },
+      "file_inventory": [
+        {
+          "bytes": 3446,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\buffer_component_build\\+ecc_buffer_coupled_offset\\conservative_buffer.ssc",
+          "sha256": "84657B41CB9A8B3C947BD1DE1C2BB67EFAF4BEE892DBA79B9DC95381808EF248"
+        },
+        {
+          "bytes": 54177,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\buffer_component_build\\ecc_buffer_coupled_offset_lib.slx",
+          "sha256": "F8A72AB3EC376594E9238F70DF80D9A0726E630C10B09DE7C95055619A8AED65"
+        },
+        {
+          "bytes": 201392,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\cold_chamber_execution.json",
+          "sha256": "EA27B6264693F5217F04AC6ADA593ED292A7B426EECF00A039AD6102BB4DE543"
+        },
+        {
+          "bytes": 437,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\cold_chamber_progress.json",
+          "sha256": "A7C07E81268E83A33A155BBF19353746C6E428997755851B8AABFCCE03FC50E9"
+        },
+        {
+          "bytes": 2376,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\component_build\\+ecc_inventory_endpoint\\conservative_chamber.ssc",
+          "sha256": "BAFFAAC6219FA6378EFA83B743329834940BD1F454B666DBF7C7B49B993BC4F4"
+        },
+        {
+          "bytes": 50438,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\component_build\\ecc_inventory_endpoint_lib.slx",
+          "sha256": "9E397B7FBC0E34E81292883CD70CC7EE436657DB4DE4643B244B126F7F0ECB5F"
+        },
+        {
+          "bytes": 469,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\arm_completion.json",
+          "sha256": "25931C33FAC0E656F7A6B16089FC05F071FFE0168025FF1A1A2AD42905C5271A"
+        },
+        {
+          "bytes": 1318,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\buffer_mass_guesses.json",
+          "sha256": "78F2F021345AFFB95DEE63C7CFB26547FE187856EB0A5FDEFB9B2A3AF273098F"
+        },
+        {
+          "bytes": 24143,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\buffer_replacement_contract.json",
+          "sha256": "B5991D55A79AA26A3A8F6144F075D9A3D03426CBAE8E0FD59B40CEA9A2DF8403"
+        },
+        {
+          "bytes": 586,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\cold_inventory_targets.json",
+          "sha256": "97C368433B70179D68BFF47B3FB97ED0C65CCF3E452D7777C89D044E236CD5EC"
+        },
+        {
+          "bytes": 2285096,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\cold_public_targets.mat",
+          "sha256": "301094A6AD0B2E5F0778851D07E4CA635BB44F3803511BE8115490BB29587C23"
+        },
+        {
+          "bytes": 14176,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\compiled_inventory_tags.json",
+          "sha256": "0E48C00E7489D982FC7FA377BCBB07E9FC6ED16D41F389980176DF25391655F9"
+        },
+        {
+          "bytes": 642731,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\configuration.mat",
+          "sha256": "3BA18778FCEFF827808E9D573F51F3BE512457C94CF0764D899BAA03314A9A75"
+        },
+        {
+          "bytes": 115560,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\inventory_metadata.json",
+          "sha256": "318F3C1B3978897D3B2CFFCE1E8E95E52FCEEBC1A8B5F38DCF99BA468B0925FE"
+        },
+        {
+          "bytes": 52550,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\public_inventory_targets.json",
+          "sha256": "7CD42979C340A92DF2DF0347CE059BF27B60584E1EF63501AB75FB8CCEA5FC05"
+        },
+        {
+          "bytes": 2693,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\pump_pressure_probe_contract.json",
+          "sha256": "2668A533E7DEBD5F1F1F86284299CF046C4B3A73AC1163B7242472B9B2C39E81"
+        },
+        {
+          "bytes": 52560,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\runtime_inventory_targets.json",
+          "sha256": "E277723141B713819FC77942B130DF6BEECE12C51A56F0A433AD43A0A39007B6"
+        },
+        {
+          "bytes": 4068,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\stage4_controller_probe_contract.json",
+          "sha256": "5024215F75BC52DB12C807F3F9BB5CDB7734E9515F6AB2E18FEA058A94CCBA01"
+        },
+        {
+          "bytes": 1127413,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\thermal_connectivity.json",
+          "sha256": "C5C82D9D1008D29B6A4D8707035DA4D682A8F3A03E8C0258FFE238AF0D6AD62D"
+        },
+        {
+          "bytes": 219692,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\conservative\\tl_connectivity.json",
+          "sha256": "FA6B0A97D8C1BDFAC84090BEE00719E6B27D4F9AE7B270BF7B3B30173F36F267"
+        },
+        {
+          "bytes": 509,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\HISTORICAL_CONSERVATIVE_RAW_RETIRED.json",
+          "sha256": "4421D0798306728A881837B42FB9F0244A18669B4720431A697477B0BCB3A9DD"
+        },
+        {
+          "bytes": 1991,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\launcher_contract.json",
+          "sha256": "F60E3EB067AF5827885C5B42F9C97B2AE129C6D92DEB05FABD661634DEF259CD"
+        },
+        {
+          "bytes": 2372,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\matlab_diary.log",
+          "sha256": "739F63F16EF5CA86428FFD65603A0A4D466E301A0C80368E822C4EE1CEECAC44"
+        },
+        {
+          "bytes": 0,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\matlab_stderr.log",
+          "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+        },
+        {
+          "bytes": 4410,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\matlab_stdout.log",
+          "sha256": "992AB1FE2B799BEA7670042691AB36986C8BAEDC03C51A622607ED312033BF55"
+        },
+        {
+          "bytes": 463,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\arm_completion.json",
+          "sha256": "081123C62AA1128D3AFD2E37428015C6CA3990425FFA928EB4F233E2EE0B352D"
+        },
+        {
+          "bytes": 1318,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\buffer_mass_guesses.json",
+          "sha256": "78F2F021345AFFB95DEE63C7CFB26547FE187856EB0A5FDEFB9B2A3AF273098F"
+        },
+        {
+          "bytes": 24152,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\buffer_replacement_contract.json",
+          "sha256": "A0CF5D6CB0A700BE60FEF7443D3BF10F4761C64DB88EA1B6CAE38A2839A670F4"
+        },
+        {
+          "bytes": 586,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\cold_inventory_targets.json",
+          "sha256": "97C368433B70179D68BFF47B3FB97ED0C65CCF3E452D7777C89D044E236CD5EC"
+        },
+        {
+          "bytes": 2285096,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\cold_public_targets.mat",
+          "sha256": "162326E62B0019896962F3FA306CD079632C9F58856926308C0C133973C346FD"
+        },
+        {
+          "bytes": 14176,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\compiled_inventory_tags.json",
+          "sha256": "0E48C00E7489D982FC7FA377BCBB07E9FC6ED16D41F389980176DF25391655F9"
+        },
+        {
+          "bytes": 642731,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\configuration.mat",
+          "sha256": "8FD80DDA8E09AF90CBE3FAE8B43179AAF20468D9ABEAA29CD0D108559013D302"
+        },
+        {
+          "bytes": 115560,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\inventory_metadata.json",
+          "sha256": "318F3C1B3978897D3B2CFFCE1E8E95E52FCEEBC1A8B5F38DCF99BA468B0925FE"
+        },
+        {
+          "bytes": 903192147,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\observations.mat",
+          "sha256": "F7CC0D808CC4DE6301AAD485CFA0AB89B506EB2FA634AAD0E4B5820D15464D38"
+        },
+        {
+          "bytes": 52550,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\public_inventory_targets.json",
+          "sha256": "7CD42979C340A92DF2DF0347CE059BF27B60584E1EF63501AB75FB8CCEA5FC05"
+        },
+        {
+          "bytes": 2681,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\pump_pressure_probe_contract.json",
+          "sha256": "427CD3C55BD158CEA8EE0A1A5184079AB6299257502736F2A21285E8CEE41F18"
+        },
+        {
+          "bytes": 52560,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\runtime_inventory_targets.json",
+          "sha256": "E277723141B713819FC77942B130DF6BEECE12C51A56F0A433AD43A0A39007B6"
+        },
+        {
+          "bytes": 4062,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\stage4_controller_probe_contract.json",
+          "sha256": "8027D5BACF3481ED80F566566EFC0899DFF400F4FBE69E2CB67FE7CB7AC4A2BB"
+        },
+        {
+          "bytes": 1134432,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\thermal_connectivity.json",
+          "sha256": "51E51D84BC59AB7863B8885B7F72D2C99A8FC40762E8C0CAA1AF4218F6ADC1C0"
+        },
+        {
+          "bytes": 220176,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\tl_connectivity.json",
+          "sha256": "BC2431E9661C985D7A731CDACD3DEF8C73796F113B4C1FDECACC1448C22260C2"
+        },
+        {
+          "bytes": 557,
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\REJECTED_DO_NOT_RESUME.txt",
+          "sha256": "28327257CB036E8CEE39BB94B1890363ECFBE83D2B4B2D987042471110FF12D7"
+        }
+      ],
+      "generated_utc": "2026-11-15T18:46:48.766817Z",
+      "missing_compact_conclusion_evidence": [
+        "cycle_physical_summary.csv",
+        "mechanism.json",
+        "packet_gate.json",
+        "physical_validation_report.txt",
+        "stage_temperature_probes_50samples.csv",
+        "final_operating_point.mat"
+      ],
+      "potential_reclaimable_bytes_if_replaced": 903192147,
+      "raw_observation": {
+        "boundary_metadata": {
+          "complete_cycle_verified": 0,
+          "full_device_first_law_verified": 0,
+          "physical_model_modified": 0,
+          "production_recovery_allowed": 0,
+          "source_count": 49.0,
+          "trace_count": 162.0
+        },
+        "bytes": 903192147,
+        "dataset_count_excluding_refs": 429,
+        "dataset_logical_bytes_excluding_refs": 1198417904,
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract\\native\\observations.mat",
+        "root_keys": [
+          "#refs#",
+          "boundary_metadata",
+          "native",
+          "pressure_probe_signals",
+          "signals",
+          "source_traces",
+          "stage4_controller_probe_signals"
+        ],
+        "sha256": "F7CC0D808CC4DE6301AAD485CFA0AB89B506EB2FA634AAD0E4B5820D15464D38",
+        "signal_group_counts": {
+          "pressure_probe_signals": 6,
+          "signals": 186,
+          "stage4_controller_probe_signals": 17
+        },
+        "time_axes": [
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_se_stage2_port_a_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_se_stage2_port_b_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_se_stage4_port_a_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_se_stage4_port_b_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_sma_port_a_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "pressure_probe_signals/pump_pressure_sma_port_b_MPa/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/ECC_Q_SE_constitutive_W/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/ECC_Q_SMA_constitutive_W/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/ECC_constitutive21_output/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/Qdot_cold_sink_mass_to_hx_pipe_W/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/Qdot_cold_sink_mass_to_pipe_W/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SE_Tx21_internal/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_hot_hx_inlet_fluid_temp_out/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_hot_hx_outlet_fluid_temp_out/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_hot_sink_temp_out/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_hot_source_out/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_probe_hot_hx_port1_v3_side_T_K/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SHEX_probe_hot_hx_port2_v2_return_side_T_K/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/SMA_Tx21_internal/time_s",
+            "samples": 200001
+          },
+          {
+            "max": 200.0,
+            "min": 0.0,
+            "monotonic_non_decreasing": true,
+            "path": "signals/chip_inlet_fluid_temp_out/time_s",
+            "samples": 200001
+          }
+        ]
+      },
+      "reason": "Native raw contains full 0-200 s traces and probe metadata, but no compact cycle-level flow/energy/pressure gate summary, temperature-probe summary, mechanism report, or final OP. Deleting it would remove unique native-arm diagnostic evidence.",
+      "root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\\u6b63\u9006\u8026\u5408\\gx101r1_R69_remote\\outputs\\qian_coupled_stage4_single_target_contract_20260929_20cycle_progress_contract",
+      "target": "qian_single_target_contract_20cycle"
+    }
+  ],
+  "total_potential_reclaimable_bytes": 3620474847,
+  "total_potential_reclaimable_gib": 3.37183
+}
