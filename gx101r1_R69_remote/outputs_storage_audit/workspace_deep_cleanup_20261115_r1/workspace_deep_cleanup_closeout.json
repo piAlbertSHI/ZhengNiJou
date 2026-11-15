@@ -1,0 +1,118 @@
+{
+  "schema": "agent5_workspace_deep_cleanup_closeout_v1",
+  "generated_utc": "2026-11-15T14:27:26.1504682Z",
+  "thread_id": "019e9312-444b-7090-a68e-0888598c1598",
+  "project_path": "C:\\Users\\86182\\Desktop\\正逆耦合",
+  "pre_cleanup_bytes": 101412094989,
+  "post_cleanup_bytes": 100636703226,
+  "reclaimed_bytes": 775391763,
+  "reclaimed_gib": 0.72214,
+  "round2_failed_raw_retired_bytes": 770472476,
+  "cache_retired_bytes": 4919287,
+  "runtime_cv_json_contract_touched": false,
+  "external_or_unconfirmed_paths_touched": false,
+  "new_project_or_agentheat2_touched": false,
+  "agent6_touched": false,
+  "candidate_hashes": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v47_C62_recording_split_preflight_r2\\native\\split_observation\\reference\\mechanism.json",
+      "bytes": 319848981,
+      "sha256": "9EB0CB7D4553CF2431183D86A7F79AD60CB611A480BD0B8CEAD79E2796A543A8"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v47_C62_recording_split_preflight_r2\\native\\split_observation\\reference\\native\\observations.mat",
+      "bytes": 313353205,
+      "sha256": "5A35761579204BB98D104B5D0910BD9191139295C77D3CD9E5C2048C7364F845"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v47_C62_recording_split_preflight_r2\\native\\split_observation\\reference\\observed_states.mat",
+      "bytes": 137270290,
+      "sha256": "B5B1844CE0FECC2B337B837FC3D8000E90E1EEDDAB9B82639A5699156E577DD0"
+    }
+  ],
+  "failure_summary_preserved": true,
+  "protected_hashes_verified_after": true,
+  "current_C100": {
+    "completed_cycles": 100,
+    "terminal_op_sha256": "88C0F4DBB8BB01F8756336F48AC646B49D6285EEE42574D3041C1A037CBD3ADE",
+    "flow_subset_pass": true,
+    "periodic_screens": {
+      "temperature_endpoint": false,
+      "temperature_max": false,
+      "temperature_p99": false,
+      "temperature_RMS": true,
+      "phase_endpoint": true,
+      "phase_p99": true,
+      "phase_RMS": true
+    },
+    "periodic_steady_state": false,
+    "outer_solve_or_Table4_allowed": false,
+    "Table4_reproduction_claim": false
+  },
+  "git_fsck": {
+    "exit_code": 0,
+    "dangling_object_lines": 192,
+    "note": "Dangling objects reported; no git gc/prune/clean executed."
+  },
+  "git_worktree_list": [
+    "worktree C:/Users/86182/Desktop/正逆耦合",
+    "HEAD 52778c88568960247a3e452b6758c0d961d6878d",
+    "branch refs/heads/codex/native-chamber-endpoint-diagnostic",
+    "",
+    "worktree C:/Users/86182/.codex/worktrees/fixed-stage4-kp237-endpoint/正逆耦合",
+    "HEAD 1ba3a32ae6fe9f7fe5d3d166c6fa12e740635a9c",
+    "detached",
+    "",
+    "worktree C:/Users/86182/.codex/worktrees/runtime-cv-json-contract/正逆耦合",
+    "HEAD 7f5516fc411bc9011dd8bece2ea59d095424e87b",
+    "detached",
+    "",
+    "worktree C:/Users/86182/.codex/worktrees/stage4-default-cold-diagnostic/正逆耦合",
+    "HEAD 94ed8740f5c9d95a8ab8df087ca6213990ae2458",
+    "detached",
+    "",
+    "worktree C:/Users/86182/.codex/worktrees/stage4-phase-local-blend-diagnostic/正逆耦合",
+    "HEAD de1abba6d5f159348fefe650ec4459d3ba624f3c",
+    "branch refs/heads/codex/buffer-geometry-cold-diagnostic",
+    "",
+    "worktree C:/Users/86182/.codex/worktrees/stage4-positive-bias-diagnostic/正逆耦合",
+    "HEAD 237e2766d0022adff5686a9550e89620f4246162",
+    "branch refs/heads/codex/stage4-positive-bias-diagnostic",
+    "",
+    "worktree C:/Users/86182/.codex/worktrees/stage4-pressure-bias-diagnostic/正逆耦合",
+    "HEAD e422a06d05bdc901441885315d18c02f8536556d",
+    "branch refs/heads/codex/stage4-pressure-bias-diagnostic",
+    "",
+    "worktree C:/Users/86182/Desktop/正逆耦合/tmp/independent_cold_v37",
+    "HEAD 1fabb2ffab623374eab3c3514247d83ceba88836",
+    "detached",
+    "",
+    "worktree C:/Users/86182/Desktop/正逆耦合/tmp/native_chamber_endpoint_run",
+    "HEAD 2ef1cf50649b06bed852d2d0551210c06c6cb117",
+    "branch refs/heads/codex/native-chamber-endpoint-run",
+    ""
+  ],
+  "worktree_status": [
+    {
+      "path": "C:/Users/86182/.codex/worktrees/fixed-stage4-kp237-endpoint/正逆耦合",
+      "status": []
+    },
+    {
+      "path": "C:/Users/86182/.codex/worktrees/runtime-cv-json-contract/正逆耦合",
+      "status": []
+    },
+    {
+      "path": "C:/Users/86182/.codex/worktrees/stage4-default-cold-diagnostic/正逆耦合",
+      "status": []
+    },
+    {
+      "path": "C:/Users/86182/.codex/worktrees/stage4-phase-local-blend-diagnostic/正逆耦合",
+      "status": []
+    }
+  ],
+  "contradictions": [
+    "User described runtime-cv-contract as empty, while runtime-cv-json-contract contains a full checkout; deletion is blocked for both until identity is resolved.",
+    "The Git registry contains tmp/independent_cold_v37, which was not in the confirmed scope; it is recorded as unconfirmed and untouched."
+  ],
+  "next_round": "Resolve runtime-cv-contract versus runtime-cv-json-contract identity before any deletion there; then review v40/v41/v43 historical observation raw and remaining phase-local candidates with their own receipts."
+}

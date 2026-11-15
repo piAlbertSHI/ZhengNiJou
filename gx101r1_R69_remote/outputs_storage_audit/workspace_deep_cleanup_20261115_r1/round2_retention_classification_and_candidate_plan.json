@@ -1,0 +1,84 @@
+{
+  "schema": "agent5_workspace_deep_cleanup_round2_v1",
+  "generated_utc": "2026-11-15T14:23:09.4312695Z",
+  "read_only": true,
+  "deletion_performed": false,
+  "tier_definitions": {
+    "A": "Must retain source/runtime/final/audit evidence",
+    "B": "Selective representative or benchmark result",
+    "C": "Candidate only after replacement/hash/reference proof",
+    "D": "Unresolved or blocked; do not delete"
+  },
+  "high_confidence_candidate": {
+    "files": [
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v47_C62_recording_split_preflight_r2\\native\\split_observation\\reference\\mechanism.json",
+        "bytes": 319848981,
+        "sha256": "9EB0CB7D4553CF2431183D86A7F79AD60CB611A480BD0B8CEAD79E2796A543A8",
+        "process_reference_count": 0
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v47_C62_recording_split_preflight_r2\\native\\split_observation\\reference\\native\\observations.mat",
+        "bytes": 313353205,
+        "sha256": "5A35761579204BB98D104B5D0910BD9191139295C77D3CD9E5C2048C7364F845",
+        "process_reference_count": 0
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v47_C62_recording_split_preflight_r2\\native\\split_observation\\reference\\observed_states.mat",
+        "bytes": 137270290,
+        "sha256": "B5B1844CE0FECC2B337B837FC3D8000E90E1EEDDAB9B82639A5699156E577DD0",
+        "process_reference_count": 0
+      }
+    ],
+    "failed_marker": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v47_C62_recording_split_preflight_r2\\native\\split_observation\\REJECTED_DO_NOT_RESUME.json",
+    "preflight": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v47_C62_recording_split_preflight_r2\\native\\split_observation\\split_observation_preflight.json",
+    "marker_sha256": "696D0F0DB79F9F1A162DE61DEC62D04509C3C7AB1316F3AF5C7C4B75E8071653",
+    "preflight_sha256": "7749D07BC79D265A966A7240028FB95A09FFBC9EC3A5369F795AA68FCEEBC55D",
+    "evidence": [
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v47_split_observation_snapshot_20261015\\storage_receipt.json",
+        "sha256": "9DC1236F1B3254EDDBF1BBDEDCE8F6C483517D9E19DD77154D2615E5F5885EB4",
+        "bytes": 67206
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v47_C62_recording_split_preflight_r3\\native\\split_observation\\prefix_comparison.json",
+        "sha256": "7AA5B2C7EDCFFAD21EBD887C9664B3F9CD27C9FBE7679D30B5C59E40B3E78D93",
+        "bytes": 873376
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v47_C62_recording_split_preflight_r3\\native\\split_observation\\suffix_comparison.json",
+        "sha256": "EF48EE3145695839D0F39B7530F4E63EF14BF079FE3E7ED61CA6C5E26CB6BF7B",
+        "bytes": 873500
+      }
+    ],
+    "expected_reclaimed_bytes": 770472476,
+    "replacement_or_loss": "Deletes only failed split-observation raw payloads; preserves rejected marker, preflight JSON, logs, manifests and audit receipt. No recovery source or paper result is removed."
+  },
+  "blocked": {
+    "runtime_cv_json_contract": "Observed full checkout despite user description of empty runtime-cv-contract; no deletion",
+    "excluded_worktrees": "positive-bias, pressure-bias, tmp/native_chamber_endpoint_run, tmp/independent_cold_v37 remain untouched",
+    "current_main": "C100 tmp continuation and protected canonical SLX remain untouched"
+  },
+  "classification_counts": [
+    {
+      "tier": "A",
+      "files": 89,
+      "bytes": 518272164
+    },
+    {
+      "tier": "C",
+      "files": 210,
+      "bytes": 50416098825
+    },
+    {
+      "tier": "C-high-confidence",
+      "files": 3,
+      "bytes": 770472476
+    },
+    {
+      "tier": "D",
+      "files": 320,
+      "bytes": 39744394882
+    }
+  ]
+}
