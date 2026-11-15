@@ -1,0 +1,81 @@
+{
+  "schema": "agent5_workspace_deep_cleanup_round3_closeout_v1",
+  "generated_utc": "2026-11-15T16:40:02.2588054Z",
+  "thread_id": "019e9312-444b-7090-a68e-0888598c1598",
+  "project_path": "C:\\Users\\86182\\Desktop\\正逆耦合",
+  "scope": "Agent5 stage4-phase-local-blend-diagnostic exact v55 whitelist",
+  "round3_reclaimed_bytes": 2255273364,
+  "round3_reclaimed_gib": 2.100387,
+  "previous_rounds_reclaimed_bytes": 4427049668,
+  "cumulative_reclaimed_bytes": 6682323032,
+  "receipt": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\workspace_deep_cleanup_20261115_r3\\round3_phase_local_retirement_receipt.json",
+  "inventory": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\workspace_deep_cleanup_20261115_r3\\phase_local_blend_large_files.json",
+  "plan": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\workspace_deep_cleanup_20261115_r3\\round3_retention_plan.json",
+  "report": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\workspace_deep_cleanup_20261115_r3\\workspace_deep_cleanup_round3_report.md",
+  "phase_local_worktree_after": {
+    "file_count": 10988,
+    "bytes": 56060809439
+  },
+  "git_status": [
+    " M gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx",
+    "?? Agent6/",
+    "?? gx101r1_R69_remote/verification/Retire_HeatDriveECC_PhaseLocalRound3.ps1"
+  ],
+  "git_worktree_list": [
+    "worktree C:/Users/86182/Desktop/正逆耦合",
+    "HEAD 1eaedea141ffe06b4e88e9fd628720a9a244f8d2",
+    "branch refs/heads/codex/native-chamber-endpoint-diagnostic",
+    "",
+    "worktree C:/Users/86182/.codex/worktrees/fixed-stage4-kp237-endpoint/正逆耦合",
+    "HEAD 1ba3a32ae6fe9f7fe5d3d166c6fa12e740635a9c",
+    "detached",
+    "",
+    "worktree C:/Users/86182/.codex/worktrees/runtime-cv-json-contract/正逆耦合",
+    "HEAD 7f5516fc411bc9011dd8bece2ea59d095424e87b",
+    "detached",
+    "",
+    "worktree C:/Users/86182/.codex/worktrees/stage4-default-cold-diagnostic/正逆耦合",
+    "HEAD 94ed8740f5c9d95a8ab8df087ca6213990ae2458",
+    "detached",
+    "",
+    "worktree C:/Users/86182/.codex/worktrees/stage4-phase-local-blend-diagnostic/正逆耦合",
+    "HEAD de1abba6d5f159348fefe650ec4459d3ba624f3c",
+    "branch refs/heads/codex/buffer-geometry-cold-diagnostic",
+    "",
+    "worktree C:/Users/86182/.codex/worktrees/stage4-positive-bias-diagnostic/正逆耦合",
+    "HEAD 237e2766d0022adff5686a9550e89620f4246162",
+    "branch refs/heads/codex/stage4-positive-bias-diagnostic",
+    "",
+    "worktree C:/Users/86182/.codex/worktrees/stage4-pressure-bias-diagnostic/正逆耦合",
+    "HEAD e422a06d05bdc901441885315d18c02f8536556d",
+    "branch refs/heads/codex/stage4-pressure-bias-diagnostic",
+    "",
+    "worktree C:/Users/86182/Desktop/正逆耦合/tmp/independent_cold_v37",
+    "HEAD 1fabb2ffab623374eab3c3514247d83ceba88836",
+    "detached",
+    "",
+    "worktree C:/Users/86182/Desktop/正逆耦合/tmp/native_chamber_endpoint_run",
+    "HEAD 2ef1cf50649b06bed852d2d0551210c06c6cb117",
+    "branch refs/heads/codex/native-chamber-endpoint-run",
+    ""
+  ],
+  "git_fsck": {
+    "exit_code": 0,
+    "output_lines": 194,
+    "dangling_object_lines": 194,
+    "missing_or_bad": [
+      "dangling tree eba9f19ef168eccc7bbad07d9d8132ade42ed7fa",
+      "dangling tree ca4604e1e9e34600227501f45ebad7670436bff2"
+    ]
+  },
+  "protected_main_changes": [
+    "gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx",
+    "Agent6/"
+  ],
+  "other_worktrees_touched": false,
+  "unconfirmed_paths_touched": false,
+  "new_project_touched": false,
+  "agentheat2_touched": false,
+  "matlab_simulink_started": false,
+  "git_gc_prune_clean_run": false
+}

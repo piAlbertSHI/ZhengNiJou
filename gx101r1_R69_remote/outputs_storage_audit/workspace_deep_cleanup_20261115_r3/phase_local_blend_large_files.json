@@ -1,0 +1,1928 @@
+{
+  "schema": "agent5_phase_local_blend_large_files_v1",
+  "generated_utc": "2026-11-15T16:36:08.5596725Z",
+  "thread_id": "019e9312-444b-7090-a68e-0888598c1598",
+  "worktree_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote",
+  "read_only_inventory": true,
+  "deletion_performed": false,
+  "groups": [
+    {
+      "group": "v71case3",
+      "bytes": 4825462509,
+      "file_count": 243,
+      "raw_count": 21,
+      "raw_bytes": 4577171856,
+      "raw_files": [
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\fresh_native_probe\\native\\observations.mat",
+          "bytes": 4557296,
+          "relative": "outputs\\v71case3\\fresh_native_probe\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+          "bytes": 135208355,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+          "bytes": 328386047,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C004\\observed_states.mat",
+          "bytes": 138067091,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C004\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C004\\native\\observations.mat",
+          "bytes": 324484906,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C004\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C006\\observed_states.mat",
+          "bytes": 137961270,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C006\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C006\\native\\observations.mat",
+          "bytes": 324287165,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C006\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C008\\observed_states.mat",
+          "bytes": 137777285,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C008\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C008\\native\\observations.mat",
+          "bytes": 321121816,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C008\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C010\\observed_states.mat",
+          "bytes": 137699412,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C010\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C010\\native\\observations.mat",
+          "bytes": 319995505,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C010\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+          "bytes": 137696109,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+          "bytes": 320059862,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+          "bytes": 137528142,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+          "bytes": 316689989,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+          "bytes": 137412225,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+          "bytes": 314519010,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+          "bytes": 137395824,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+          "bytes": 314470980,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat",
+          "bytes": 137381226,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat",
+          "bytes": 314472341,
+          "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat"
+        }
+      ],
+      "markers": [],
+      "evidence_count": 31,
+      "evidence_bytes": 7485696,
+      "evidence_files": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\cold_public_targets.mat",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C002\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C002\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C002\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C004\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C004\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C004\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C006\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C006\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C006\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C008\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C008\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C008\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C010\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C010\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C010\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C012\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C012\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C012\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C014\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C014\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C014\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C016\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C016\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C016\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C018\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C018\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C018\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C020\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C020\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C020\\stage_temperature_probes_50samples.csv"
+      ]
+    },
+    {
+      "group": "v65c1",
+      "bytes": 3377628929,
+      "file_count": 181,
+      "raw_count": 14,
+      "raw_bytes": 3189824468,
+      "raw_files": [
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C110_attempt01\\observed_states.mat",
+          "bytes": 137380828,
+          "relative": "outputs\\v65c1\\packet_C110_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C110_attempt01\\native\\observations.mat",
+          "bytes": 318284914,
+          "relative": "outputs\\v65c1\\packet_C110_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C116_attempt01\\observed_states.mat",
+          "bytes": 137396867,
+          "relative": "outputs\\v65c1\\packet_C116_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C116_attempt01\\native\\observations.mat",
+          "bytes": 318329868,
+          "relative": "outputs\\v65c1\\packet_C116_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C118_attempt01\\observed_states.mat",
+          "bytes": 137390781,
+          "relative": "outputs\\v65c1\\packet_C118_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C118_attempt01\\native\\observations.mat",
+          "bytes": 318305960,
+          "relative": "outputs\\v65c1\\packet_C118_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C120_attempt01\\observed_states.mat",
+          "bytes": 137390627,
+          "relative": "outputs\\v65c1\\packet_C120_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C120_attempt01\\native\\observations.mat",
+          "bytes": 318321423,
+          "relative": "outputs\\v65c1\\packet_C120_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C122_attempt01\\observed_states.mat",
+          "bytes": 137382174,
+          "relative": "outputs\\v65c1\\packet_C122_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C122_attempt01\\native\\observations.mat",
+          "bytes": 318315339,
+          "relative": "outputs\\v65c1\\packet_C122_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C124_attempt01\\observed_states.mat",
+          "bytes": 137373667,
+          "relative": "outputs\\v65c1\\packet_C124_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C124_attempt01\\native\\observations.mat",
+          "bytes": 318283088,
+          "relative": "outputs\\v65c1\\packet_C124_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C126_attempt01\\observed_states.mat",
+          "bytes": 137369150,
+          "relative": "outputs\\v65c1\\packet_C126_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C126_attempt01\\native\\observations.mat",
+          "bytes": 318299782,
+          "relative": "outputs\\v65c1\\packet_C126_attempt01\\native\\observations.mat"
+        }
+      ],
+      "markers": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\collection_result.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\HISTORICAL_RAW_RETIRED.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C126_attempt01\\REJECTED_DO_NOT_RESUME.json"
+      ],
+      "evidence_count": 27,
+      "evidence_bytes": 4685026,
+      "evidence_files": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C110_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C110_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C110_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C112_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C112_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C112_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C114_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C114_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C114_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C116_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C116_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C116_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C118_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C118_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C118_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C120_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C120_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C120_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C122_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C122_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C122_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C124_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C124_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C124_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C126_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C126_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C126_attempt01\\stage_temperature_probes_50samples.csv"
+      ]
+    },
+    {
+      "group": "v70case2",
+      "bytes": 2984599695,
+      "file_count": 236,
+      "raw_count": 13,
+      "raw_bytes": 2736281035,
+      "raw_files": [
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\fresh_native_probe\\native\\observations.mat",
+          "bytes": 4557296,
+          "relative": "outputs\\v70case2\\fresh_native_probe\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+          "bytes": 135093566,
+          "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+          "bytes": 328388553,
+          "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+          "bytes": 137726339,
+          "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+          "bytes": 320131661,
+          "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+          "bytes": 137556235,
+          "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+          "bytes": 316781923,
+          "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+          "bytes": 137436360,
+          "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+          "bytes": 314628424,
+          "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+          "bytes": 137412540,
+          "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+          "bytes": 314571038,
+          "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat",
+          "bytes": 137399380,
+          "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat",
+          "bytes": 314597720,
+          "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat"
+        }
+      ],
+      "markers": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\HISTORICAL_COLD_PREFIX_RAW_RETIRED.json"
+      ],
+      "evidence_count": 31,
+      "evidence_bytes": 7486565,
+      "evidence_files": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\cold_public_targets.mat",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C004\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C006\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C008\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C010\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\stage_temperature_probes_50samples.csv"
+      ]
+    },
+    {
+      "group": "v66_sensitivity_nominal_20261017",
+      "bytes": 2984096129,
+      "file_count": 225,
+      "raw_count": 13,
+      "raw_bytes": 2735856961,
+      "raw_files": [
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\fresh_native_probe\\native\\observations.mat",
+          "bytes": 4557296,
+          "relative": "outputs\\v66_sensitivity_nominal_20261017\\fresh_native_probe\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+          "bytes": 135361079,
+          "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+          "bytes": 328458588,
+          "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+          "bytes": 137663883,
+          "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+          "bytes": 320062057,
+          "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+          "bytes": 137499478,
+          "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+          "bytes": 316698164,
+          "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+          "bytes": 137386295,
+          "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+          "bytes": 314520596,
+          "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+          "bytes": 137366845,
+          "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+          "bytes": 314464677,
+          "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat",
+          "bytes": 137354658,
+          "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat",
+          "bytes": 314463345,
+          "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat"
+        }
+      ],
+      "markers": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\HISTORICAL_COLD_PREFIX_RAW_RETIRED.json"
+      ],
+      "evidence_count": 31,
+      "evidence_bytes": 7483019,
+      "evidence_files": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\cold_public_targets.mat",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C004\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C004\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C004\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C006\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C006\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C006\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C008\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C008\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C008\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C010\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C010\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C010\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C012\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C012\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C012\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C014\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C014\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C014\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C016\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C016\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C016\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C018\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C018\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C018\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020\\stage_temperature_probes_50samples.csv"
+      ]
+    },
+    {
+      "group": "v68r2",
+      "bytes": 2982966207,
+      "file_count": 226,
+      "raw_count": 13,
+      "raw_bytes": 2734713022,
+      "raw_files": [
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\fresh_native_probe\\native\\observations.mat",
+          "bytes": 4557296,
+          "relative": "outputs\\v68r2\\fresh_native_probe\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+          "bytes": 135789271,
+          "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+          "bytes": 328734315,
+          "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+          "bytes": 137551709,
+          "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+          "bytes": 319819200,
+          "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+          "bytes": 137385146,
+          "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+          "bytes": 316450259,
+          "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+          "bytes": 137268903,
+          "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+          "bytes": 314269023,
+          "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+          "bytes": 137243085,
+          "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+          "bytes": 314206629,
+          "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat",
+          "bytes": 137227922,
+          "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat",
+          "bytes": 314210264,
+          "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat"
+        }
+      ],
+      "markers": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\HISTORICAL_COLD_PREFIX_RAW_RETIRED.json"
+      ],
+      "evidence_count": 31,
+      "evidence_bytes": 7483972,
+      "evidence_files": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\cold_public_targets.mat",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C002\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C002\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C002\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C004\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C004\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C004\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C006\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C006\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C006\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C008\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C008\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C008\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C010\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C010\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C010\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C012\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C012\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C012\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C014\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C014\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C014\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C016\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C016\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C016\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C018\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C018\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C018\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C020\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C020\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C020\\stage_temperature_probes_50samples.csv"
+      ]
+    },
+    {
+      "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+      "bytes": 2380424338,
+      "file_count": 130,
+      "raw_count": 10,
+      "raw_bytes": 2255378220,
+      "raw_files": [
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\observed_states.mat",
+          "bytes": 137323683,
+          "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\native\\observations.mat",
+          "bytes": 313773455,
+          "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\observed_states.mat",
+          "bytes": 137321506,
+          "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\native\\observations.mat",
+          "bytes": 313757371,
+          "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\observed_states.mat",
+          "bytes": 137317689,
+          "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\native\\observations.mat",
+          "bytes": 313748289,
+          "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C050_attempt01\\observed_states.mat",
+          "bytes": 137316831,
+          "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C050_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C050_attempt01\\native\\observations.mat",
+          "bytes": 313760283,
+          "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C050_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C052_attempt01\\observed_states.mat",
+          "bytes": 137318631,
+          "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C052_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C052_attempt01\\native\\observations.mat",
+          "bytes": 313740482,
+          "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C052_attempt01\\native\\observations.mat"
+        }
+      ],
+      "markers": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\collection_result.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\COMPLETED_RAW_PREFIX_RETIRED.json"
+      ],
+      "evidence_count": 18,
+      "evidence_bytes": 3122615,
+      "evidence_files": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C042_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C042_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C042_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C050_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C050_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C050_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C052_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C052_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C052_attempt01\\stage_temperature_probes_50samples.csv"
+      ]
+    },
+    {
+      "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+      "bytes": 2380319217,
+      "file_count": 130,
+      "raw_count": 10,
+      "raw_bytes": 2255273364,
+      "raw_files": [
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C044_attempt01\\observed_states.mat",
+          "bytes": 137314252,
+          "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C044_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C044_attempt01\\native\\observations.mat",
+          "bytes": 313750455,
+          "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C044_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C046_attempt01\\observed_states.mat",
+          "bytes": 137313467,
+          "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C046_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C046_attempt01\\native\\observations.mat",
+          "bytes": 313734783,
+          "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C046_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C048_attempt01\\observed_states.mat",
+          "bytes": 137313513,
+          "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C048_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C048_attempt01\\native\\observations.mat",
+          "bytes": 313738251,
+          "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C048_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C050_attempt01\\observed_states.mat",
+          "bytes": 137316588,
+          "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C050_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C050_attempt01\\native\\observations.mat",
+          "bytes": 313755685,
+          "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C050_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C052_attempt01\\observed_states.mat",
+          "bytes": 137313780,
+          "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C052_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C052_attempt01\\native\\observations.mat",
+          "bytes": 313722590,
+          "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C052_attempt01\\native\\observations.mat"
+        }
+      ],
+      "markers": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\collection_result.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\COMPLETED_RAW_PREFIX_RETIRED.json"
+      ],
+      "evidence_count": 18,
+      "evidence_bytes": 3122424,
+      "evidence_files": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C042_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C042_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C042_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C044_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C044_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C044_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C046_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C046_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C046_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C048_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C048_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C048_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C050_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C050_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C050_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C052_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C052_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C052_attempt01\\stage_temperature_probes_50samples.csv"
+      ]
+    },
+    {
+      "group": "v61c1",
+      "bytes": 2371898219,
+      "file_count": 115,
+      "raw_count": 10,
+      "raw_bytes": 2267659144,
+      "raw_files": [
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C100_attempt01\\observed_states.mat",
+          "bytes": 137155604,
+          "relative": "outputs\\v61c1\\packet_C100_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C100_attempt01\\native\\observations.mat",
+          "bytes": 313216647,
+          "relative": "outputs\\v61c1\\packet_C100_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C102_attempt01\\observed_states.mat",
+          "bytes": 137154361,
+          "relative": "outputs\\v61c1\\packet_C102_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C102_attempt01\\native\\observations.mat",
+          "bytes": 313230786,
+          "relative": "outputs\\v61c1\\packet_C102_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C104_attempt01\\observed_states.mat",
+          "bytes": 137372674,
+          "relative": "outputs\\v61c1\\packet_C104_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C104_attempt01\\native\\observations.mat",
+          "bytes": 318080956,
+          "relative": "outputs\\v61c1\\packet_C104_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C106_attempt01\\observed_states.mat",
+          "bytes": 137384687,
+          "relative": "outputs\\v61c1\\packet_C106_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C106_attempt01\\native\\observations.mat",
+          "bytes": 318335241,
+          "relative": "outputs\\v61c1\\packet_C106_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C108_attempt01\\observed_states.mat",
+          "bytes": 137388278,
+          "relative": "outputs\\v61c1\\packet_C108_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C108_attempt01\\native\\observations.mat",
+          "bytes": 318339910,
+          "relative": "outputs\\v61c1\\packet_C108_attempt01\\native\\observations.mat"
+        }
+      ],
+      "markers": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\collection_result.json"
+      ],
+      "evidence_count": 15,
+      "evidence_bytes": 2604609,
+      "evidence_files": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C100_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C100_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C100_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C102_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C102_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C102_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C104_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C104_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C104_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C106_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C106_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C106_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C108_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C108_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C108_attempt01\\stage_temperature_probes_50samples.csv"
+      ]
+    },
+    {
+      "group": "v48_native_recording_C64_C72_r1",
+      "bytes": 1883314537,
+      "file_count": 77,
+      "raw_count": 8,
+      "raw_bytes": 1802461752,
+      "raw_files": [
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C066_attempt01\\observed_states.mat",
+          "bytes": 137265801,
+          "relative": "outputs\\v48_native_recording_C64_C72_r1\\packet_C066_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C066_attempt01\\native\\observations.mat",
+          "bytes": 313349936,
+          "relative": "outputs\\v48_native_recording_C64_C72_r1\\packet_C066_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C068_attempt01\\observed_states.mat",
+          "bytes": 137268851,
+          "relative": "outputs\\v48_native_recording_C64_C72_r1\\packet_C068_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C068_attempt01\\native\\observations.mat",
+          "bytes": 313349280,
+          "relative": "outputs\\v48_native_recording_C64_C72_r1\\packet_C068_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C070_attempt01\\observed_states.mat",
+          "bytes": 137267735,
+          "relative": "outputs\\v48_native_recording_C64_C72_r1\\packet_C070_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C070_attempt01\\native\\observations.mat",
+          "bytes": 313345766,
+          "relative": "outputs\\v48_native_recording_C64_C72_r1\\packet_C070_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C072_attempt01\\observed_states.mat",
+          "bytes": 137267640,
+          "relative": "outputs\\v48_native_recording_C64_C72_r1\\packet_C072_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C072_attempt01\\native\\observations.mat",
+          "bytes": 313346743,
+          "relative": "outputs\\v48_native_recording_C64_C72_r1\\packet_C072_attempt01\\native\\observations.mat"
+        }
+      ],
+      "markers": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\collection_result.json"
+      ],
+      "evidence_count": 12,
+      "evidence_bytes": 2077884,
+      "evidence_files": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C066_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C066_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C066_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C068_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C068_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C068_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C070_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C070_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C070_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C072_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C072_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C072_attempt01\\stage_temperature_probes_50samples.csv"
+      ]
+    },
+    {
+      "group": "v64c1",
+      "bytes": 1471512658,
+      "file_count": 96,
+      "raw_count": 6,
+      "raw_bytes": 1367039286,
+      "raw_files": [
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C110_attempt01\\observed_states.mat",
+          "bytes": 137394599,
+          "relative": "outputs\\v64c1\\packet_C110_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C110_attempt01\\native\\observations.mat",
+          "bytes": 318310919,
+          "relative": "outputs\\v64c1\\packet_C110_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C116_attempt01\\observed_states.mat",
+          "bytes": 137378836,
+          "relative": "outputs\\v64c1\\packet_C116_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C116_attempt01\\native\\observations.mat",
+          "bytes": 318296264,
+          "relative": "outputs\\v64c1\\packet_C116_attempt01\\native\\observations.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C118_attempt01\\observed_states.mat",
+          "bytes": 137374729,
+          "relative": "outputs\\v64c1\\packet_C118_attempt01\\observed_states.mat"
+        },
+        {
+          "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C118_attempt01\\native\\observations.mat",
+          "bytes": 318283939,
+          "relative": "outputs\\v64c1\\packet_C118_attempt01\\native\\observations.mat"
+        }
+      ],
+      "markers": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\collection_result.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\HISTORICAL_RAW_RETIRED.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C118_attempt01\\REJECTED_DO_NOT_RESUME.json"
+      ],
+      "evidence_count": 15,
+      "evidence_bytes": 2602845,
+      "evidence_files": [
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C110_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C110_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C110_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C112_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C112_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C112_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C114_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C114_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C114_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C116_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C116_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C116_attempt01\\stage_temperature_probes_50samples.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C118_attempt01\\cycle_physical_summary.csv",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C118_attempt01\\packet_manifest.json",
+        "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C118_attempt01\\stage_temperature_probes_50samples.csv"
+      ]
+    }
+  ],
+  "all_raw_files": [
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\fresh_native_probe\\native\\observations.mat",
+      "bytes": 4557296,
+      "relative": "outputs\\v71case3\\fresh_native_probe\\native\\observations.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+      "bytes": 135208355,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+      "bytes": 328386047,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C004\\observed_states.mat",
+      "bytes": 138067091,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C004\\observed_states.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C004\\native\\observations.mat",
+      "bytes": 324484906,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C004\\native\\observations.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C006\\observed_states.mat",
+      "bytes": 137961270,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C006\\observed_states.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C006\\native\\observations.mat",
+      "bytes": 324287165,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C006\\native\\observations.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C008\\observed_states.mat",
+      "bytes": 137777285,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C008\\observed_states.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C008\\native\\observations.mat",
+      "bytes": 321121816,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C008\\native\\observations.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C010\\observed_states.mat",
+      "bytes": 137699412,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C010\\observed_states.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C010\\native\\observations.mat",
+      "bytes": 319995505,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C010\\native\\observations.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+      "bytes": 137696109,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+      "bytes": 320059862,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+      "bytes": 137528142,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+      "bytes": 316689989,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+      "bytes": 137412225,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+      "bytes": 314519010,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+      "bytes": 137395824,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+      "bytes": 314470980,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat",
+      "bytes": 137381226,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat"
+    },
+    {
+      "group": "v71case3",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat",
+      "bytes": 314472341,
+      "relative": "outputs\\v71case3\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat"
+    },
+    {
+      "group": "v65c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C110_attempt01\\observed_states.mat",
+      "bytes": 137380828,
+      "relative": "outputs\\v65c1\\packet_C110_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v65c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C110_attempt01\\native\\observations.mat",
+      "bytes": 318284914,
+      "relative": "outputs\\v65c1\\packet_C110_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v65c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C116_attempt01\\observed_states.mat",
+      "bytes": 137396867,
+      "relative": "outputs\\v65c1\\packet_C116_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v65c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C116_attempt01\\native\\observations.mat",
+      "bytes": 318329868,
+      "relative": "outputs\\v65c1\\packet_C116_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v65c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C118_attempt01\\observed_states.mat",
+      "bytes": 137390781,
+      "relative": "outputs\\v65c1\\packet_C118_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v65c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C118_attempt01\\native\\observations.mat",
+      "bytes": 318305960,
+      "relative": "outputs\\v65c1\\packet_C118_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v65c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C120_attempt01\\observed_states.mat",
+      "bytes": 137390627,
+      "relative": "outputs\\v65c1\\packet_C120_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v65c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C120_attempt01\\native\\observations.mat",
+      "bytes": 318321423,
+      "relative": "outputs\\v65c1\\packet_C120_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v65c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C122_attempt01\\observed_states.mat",
+      "bytes": 137382174,
+      "relative": "outputs\\v65c1\\packet_C122_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v65c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C122_attempt01\\native\\observations.mat",
+      "bytes": 318315339,
+      "relative": "outputs\\v65c1\\packet_C122_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v65c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C124_attempt01\\observed_states.mat",
+      "bytes": 137373667,
+      "relative": "outputs\\v65c1\\packet_C124_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v65c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C124_attempt01\\native\\observations.mat",
+      "bytes": 318283088,
+      "relative": "outputs\\v65c1\\packet_C124_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v65c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C126_attempt01\\observed_states.mat",
+      "bytes": 137369150,
+      "relative": "outputs\\v65c1\\packet_C126_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v65c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C126_attempt01\\native\\observations.mat",
+      "bytes": 318299782,
+      "relative": "outputs\\v65c1\\packet_C126_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v70case2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\fresh_native_probe\\native\\observations.mat",
+      "bytes": 4557296,
+      "relative": "outputs\\v70case2\\fresh_native_probe\\native\\observations.mat"
+    },
+    {
+      "group": "v70case2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+      "bytes": 135093566,
+      "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat"
+    },
+    {
+      "group": "v70case2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+      "bytes": 328388553,
+      "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat"
+    },
+    {
+      "group": "v70case2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+      "bytes": 137726339,
+      "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat"
+    },
+    {
+      "group": "v70case2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+      "bytes": 320131661,
+      "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat"
+    },
+    {
+      "group": "v70case2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+      "bytes": 137556235,
+      "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat"
+    },
+    {
+      "group": "v70case2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+      "bytes": 316781923,
+      "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat"
+    },
+    {
+      "group": "v70case2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+      "bytes": 137436360,
+      "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat"
+    },
+    {
+      "group": "v70case2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+      "bytes": 314628424,
+      "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat"
+    },
+    {
+      "group": "v70case2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+      "bytes": 137412540,
+      "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat"
+    },
+    {
+      "group": "v70case2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+      "bytes": 314571038,
+      "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat"
+    },
+    {
+      "group": "v70case2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat",
+      "bytes": 137399380,
+      "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat"
+    },
+    {
+      "group": "v70case2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat",
+      "bytes": 314597720,
+      "relative": "outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat"
+    },
+    {
+      "group": "v66_sensitivity_nominal_20261017",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\fresh_native_probe\\native\\observations.mat",
+      "bytes": 4557296,
+      "relative": "outputs\\v66_sensitivity_nominal_20261017\\fresh_native_probe\\native\\observations.mat"
+    },
+    {
+      "group": "v66_sensitivity_nominal_20261017",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+      "bytes": 135361079,
+      "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat"
+    },
+    {
+      "group": "v66_sensitivity_nominal_20261017",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+      "bytes": 328458588,
+      "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat"
+    },
+    {
+      "group": "v66_sensitivity_nominal_20261017",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+      "bytes": 137663883,
+      "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat"
+    },
+    {
+      "group": "v66_sensitivity_nominal_20261017",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+      "bytes": 320062057,
+      "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat"
+    },
+    {
+      "group": "v66_sensitivity_nominal_20261017",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+      "bytes": 137499478,
+      "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat"
+    },
+    {
+      "group": "v66_sensitivity_nominal_20261017",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+      "bytes": 316698164,
+      "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat"
+    },
+    {
+      "group": "v66_sensitivity_nominal_20261017",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+      "bytes": 137386295,
+      "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat"
+    },
+    {
+      "group": "v66_sensitivity_nominal_20261017",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+      "bytes": 314520596,
+      "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat"
+    },
+    {
+      "group": "v66_sensitivity_nominal_20261017",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+      "bytes": 137366845,
+      "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat"
+    },
+    {
+      "group": "v66_sensitivity_nominal_20261017",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+      "bytes": 314464677,
+      "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat"
+    },
+    {
+      "group": "v66_sensitivity_nominal_20261017",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat",
+      "bytes": 137354658,
+      "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat"
+    },
+    {
+      "group": "v66_sensitivity_nominal_20261017",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat",
+      "bytes": 314463345,
+      "relative": "outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat"
+    },
+    {
+      "group": "v68r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\fresh_native_probe\\native\\observations.mat",
+      "bytes": 4557296,
+      "relative": "outputs\\v68r2\\fresh_native_probe\\native\\observations.mat"
+    },
+    {
+      "group": "v68r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+      "bytes": 135789271,
+      "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat"
+    },
+    {
+      "group": "v68r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+      "bytes": 328734315,
+      "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat"
+    },
+    {
+      "group": "v68r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+      "bytes": 137551709,
+      "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat"
+    },
+    {
+      "group": "v68r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+      "bytes": 319819200,
+      "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat"
+    },
+    {
+      "group": "v68r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+      "bytes": 137385146,
+      "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat"
+    },
+    {
+      "group": "v68r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+      "bytes": 316450259,
+      "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat"
+    },
+    {
+      "group": "v68r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+      "bytes": 137268903,
+      "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat"
+    },
+    {
+      "group": "v68r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+      "bytes": 314269023,
+      "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat"
+    },
+    {
+      "group": "v68r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+      "bytes": 137243085,
+      "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat"
+    },
+    {
+      "group": "v68r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+      "bytes": 314206629,
+      "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat"
+    },
+    {
+      "group": "v68r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat",
+      "bytes": 137227922,
+      "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat"
+    },
+    {
+      "group": "v68r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat",
+      "bytes": 314210264,
+      "relative": "outputs\\v68r2\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat"
+    },
+    {
+      "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\observed_states.mat",
+      "bytes": 137323683,
+      "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\native\\observations.mat",
+      "bytes": 313773455,
+      "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\observed_states.mat",
+      "bytes": 137321506,
+      "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\native\\observations.mat",
+      "bytes": 313757371,
+      "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\observed_states.mat",
+      "bytes": 137317689,
+      "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\native\\observations.mat",
+      "bytes": 313748289,
+      "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C050_attempt01\\observed_states.mat",
+      "bytes": 137316831,
+      "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C050_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C050_attempt01\\native\\observations.mat",
+      "bytes": 313760283,
+      "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C050_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C052_attempt01\\observed_states.mat",
+      "bytes": 137318631,
+      "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C052_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C052_attempt01\\native\\observations.mat",
+      "bytes": 313740482,
+      "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C052_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C044_attempt01\\observed_states.mat",
+      "bytes": 137314252,
+      "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C044_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C044_attempt01\\native\\observations.mat",
+      "bytes": 313750455,
+      "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C044_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C046_attempt01\\observed_states.mat",
+      "bytes": 137313467,
+      "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C046_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C046_attempt01\\native\\observations.mat",
+      "bytes": 313734783,
+      "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C046_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C048_attempt01\\observed_states.mat",
+      "bytes": 137313513,
+      "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C048_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C048_attempt01\\native\\observations.mat",
+      "bytes": 313738251,
+      "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C048_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C050_attempt01\\observed_states.mat",
+      "bytes": 137316588,
+      "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C050_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C050_attempt01\\native\\observations.mat",
+      "bytes": 313755685,
+      "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C050_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C052_attempt01\\observed_states.mat",
+      "bytes": 137313780,
+      "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C052_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C052_attempt01\\native\\observations.mat",
+      "bytes": 313722590,
+      "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C052_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v61c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C100_attempt01\\observed_states.mat",
+      "bytes": 137155604,
+      "relative": "outputs\\v61c1\\packet_C100_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v61c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C100_attempt01\\native\\observations.mat",
+      "bytes": 313216647,
+      "relative": "outputs\\v61c1\\packet_C100_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v61c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C102_attempt01\\observed_states.mat",
+      "bytes": 137154361,
+      "relative": "outputs\\v61c1\\packet_C102_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v61c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C102_attempt01\\native\\observations.mat",
+      "bytes": 313230786,
+      "relative": "outputs\\v61c1\\packet_C102_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v61c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C104_attempt01\\observed_states.mat",
+      "bytes": 137372674,
+      "relative": "outputs\\v61c1\\packet_C104_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v61c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C104_attempt01\\native\\observations.mat",
+      "bytes": 318080956,
+      "relative": "outputs\\v61c1\\packet_C104_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v61c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C106_attempt01\\observed_states.mat",
+      "bytes": 137384687,
+      "relative": "outputs\\v61c1\\packet_C106_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v61c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C106_attempt01\\native\\observations.mat",
+      "bytes": 318335241,
+      "relative": "outputs\\v61c1\\packet_C106_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v61c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C108_attempt01\\observed_states.mat",
+      "bytes": 137388278,
+      "relative": "outputs\\v61c1\\packet_C108_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v61c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v61c1\\packet_C108_attempt01\\native\\observations.mat",
+      "bytes": 318339910,
+      "relative": "outputs\\v61c1\\packet_C108_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v48_native_recording_C64_C72_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C066_attempt01\\observed_states.mat",
+      "bytes": 137265801,
+      "relative": "outputs\\v48_native_recording_C64_C72_r1\\packet_C066_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v48_native_recording_C64_C72_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C066_attempt01\\native\\observations.mat",
+      "bytes": 313349936,
+      "relative": "outputs\\v48_native_recording_C64_C72_r1\\packet_C066_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v48_native_recording_C64_C72_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C068_attempt01\\observed_states.mat",
+      "bytes": 137268851,
+      "relative": "outputs\\v48_native_recording_C64_C72_r1\\packet_C068_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v48_native_recording_C64_C72_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C068_attempt01\\native\\observations.mat",
+      "bytes": 313349280,
+      "relative": "outputs\\v48_native_recording_C64_C72_r1\\packet_C068_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v48_native_recording_C64_C72_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C070_attempt01\\observed_states.mat",
+      "bytes": 137267735,
+      "relative": "outputs\\v48_native_recording_C64_C72_r1\\packet_C070_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v48_native_recording_C64_C72_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C070_attempt01\\native\\observations.mat",
+      "bytes": 313345766,
+      "relative": "outputs\\v48_native_recording_C64_C72_r1\\packet_C070_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v48_native_recording_C64_C72_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C072_attempt01\\observed_states.mat",
+      "bytes": 137267640,
+      "relative": "outputs\\v48_native_recording_C64_C72_r1\\packet_C072_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v48_native_recording_C64_C72_r1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v48_native_recording_C64_C72_r1\\packet_C072_attempt01\\native\\observations.mat",
+      "bytes": 313346743,
+      "relative": "outputs\\v48_native_recording_C64_C72_r1\\packet_C072_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v64c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C110_attempt01\\observed_states.mat",
+      "bytes": 137394599,
+      "relative": "outputs\\v64c1\\packet_C110_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v64c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C110_attempt01\\native\\observations.mat",
+      "bytes": 318310919,
+      "relative": "outputs\\v64c1\\packet_C110_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v64c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C116_attempt01\\observed_states.mat",
+      "bytes": 137378836,
+      "relative": "outputs\\v64c1\\packet_C116_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v64c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C116_attempt01\\native\\observations.mat",
+      "bytes": 318296264,
+      "relative": "outputs\\v64c1\\packet_C116_attempt01\\native\\observations.mat"
+    },
+    {
+      "group": "v64c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C118_attempt01\\observed_states.mat",
+      "bytes": 137374729,
+      "relative": "outputs\\v64c1\\packet_C118_attempt01\\observed_states.mat"
+    },
+    {
+      "group": "v64c1",
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C118_attempt01\\native\\observations.mat",
+      "bytes": 318283939,
+      "relative": "outputs\\v64c1\\packet_C118_attempt01\\native\\observations.mat"
+    }
+  ],
+  "explicit_round3_plan": {
+    "schema": "agent5_phase_local_blend_round3_plan_v1",
+    "generated_utc": "2026-11-15T16:36:08.5434605Z",
+    "thread_id": "019e9312-444b-7090-a68e-0888598c1598",
+    "scope": "stage4-phase-local-blend-diagnostic only",
+    "candidate_groups": [
+      "v71case3",
+      "v65c1",
+      "v70case2",
+      "v66_sensitivity_nominal_20261017",
+      "v68r2",
+      "v56_runtime_Tc277p05_precision_fromC40_r1",
+      "v55_runtime_Tc276p85_precision_fromC40_r2",
+      "v61c1",
+      "v48_native_recording_C64_C72_r1",
+      "v64c1"
+    ],
+    "explicit_deletion_group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+    "explicit_deletion_files": [
+      {
+        "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C044_attempt01\\observed_states.mat",
+        "bytes": 137314252,
+        "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C044_attempt01\\observed_states.mat"
+      },
+      {
+        "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C044_attempt01\\native\\observations.mat",
+        "bytes": 313750455,
+        "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C044_attempt01\\native\\observations.mat"
+      },
+      {
+        "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C046_attempt01\\observed_states.mat",
+        "bytes": 137313467,
+        "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C046_attempt01\\observed_states.mat"
+      },
+      {
+        "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C046_attempt01\\native\\observations.mat",
+        "bytes": 313734783,
+        "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C046_attempt01\\native\\observations.mat"
+      },
+      {
+        "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C048_attempt01\\observed_states.mat",
+        "bytes": 137313513,
+        "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C048_attempt01\\observed_states.mat"
+      },
+      {
+        "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C048_attempt01\\native\\observations.mat",
+        "bytes": 313738251,
+        "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C048_attempt01\\native\\observations.mat"
+      },
+      {
+        "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C050_attempt01\\observed_states.mat",
+        "bytes": 137316588,
+        "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C050_attempt01\\observed_states.mat"
+      },
+      {
+        "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C050_attempt01\\native\\observations.mat",
+        "bytes": 313755685,
+        "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C050_attempt01\\native\\observations.mat"
+      },
+      {
+        "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C052_attempt01\\observed_states.mat",
+        "bytes": 137313780,
+        "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C052_attempt01\\observed_states.mat"
+      },
+      {
+        "group": "v55_runtime_Tc276p85_precision_fromC40_r2",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C052_attempt01\\native\\observations.mat",
+        "bytes": 313722590,
+        "relative": "outputs\\v55_runtime_Tc276p85_precision_fromC40_r2\\packet_C052_attempt01\\native\\observations.mat"
+      }
+    ],
+    "retained_representative_group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+    "retained_representative_files": [
+      {
+        "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\observed_states.mat",
+        "bytes": 137323683,
+        "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\observed_states.mat"
+      },
+      {
+        "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\native\\observations.mat",
+        "bytes": 313773455,
+        "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\native\\observations.mat"
+      },
+      {
+        "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\observed_states.mat",
+        "bytes": 137321506,
+        "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\observed_states.mat"
+      },
+      {
+        "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\native\\observations.mat",
+        "bytes": 313757371,
+        "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\native\\observations.mat"
+      },
+      {
+        "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\observed_states.mat",
+        "bytes": 137317689,
+        "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\observed_states.mat"
+      },
+      {
+        "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\native\\observations.mat",
+        "bytes": 313748289,
+        "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\native\\observations.mat"
+      },
+      {
+        "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C050_attempt01\\observed_states.mat",
+        "bytes": 137316831,
+        "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C050_attempt01\\observed_states.mat"
+      },
+      {
+        "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C050_attempt01\\native\\observations.mat",
+        "bytes": 313760283,
+        "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C050_attempt01\\native\\observations.mat"
+      },
+      {
+        "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C052_attempt01\\observed_states.mat",
+        "bytes": 137318631,
+        "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C052_attempt01\\observed_states.mat"
+      },
+      {
+        "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C052_attempt01\\native\\observations.mat",
+        "bytes": 313740482,
+        "relative": "outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C052_attempt01\\native\\observations.mat"
+      }
+    ],
+    "deletion_basis": [
+      "v55 has COMPLETED_RAW_PREFIX_RETIRED.json and collection_result.json",
+      "v55 compact storage receipt and packet summaries/probes/manifests are archived",
+      "v56 is retained as the same precision branch representative",
+      "v71case3 and other non-whitelisted groups remain untouched until separately audited"
+    ],
+    "other_groups_not_deleted": [
+      "v71case3",
+      "v65c1",
+      "v70case2",
+      "v66_sensitivity_nominal_20261017",
+      "v68r2",
+      "v56_runtime_Tc277p05_precision_fromC40_r1",
+      "v61c1",
+      "v48_native_recording_C64_C72_r1",
+      "v64c1"
+    ]
+  },
+  "explicit_round3_candidate_count": 10,
+  "explicit_round3_candidate_bytes": 2255273364,
+  "actual_retirement_receipt": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\workspace_deep_cleanup_20261115_r3\\round3_phase_local_retirement_receipt.json",
+  "post_cleanup_worktree_stats": {
+    "file_count": 10988,
+    "bytes": 56060809439
+  },
+  "retained_representative": {
+    "group": "v56_runtime_Tc277p05_precision_fromC40_r1",
+    "files": [
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\observed_states.mat",
+        "bytes": 137323683,
+        "sha256": "AD1D63D6D61B43971EDF033D93835FAD813D4D7E086E886F81BA4AEFEAFC95CF"
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C044_attempt01\\native\\observations.mat",
+        "bytes": 313773455,
+        "sha256": "F1FE2F8326E2502843EB9B373FC7808F6DC66C1EE0E4E477494868D996B18ECB"
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\observed_states.mat",
+        "bytes": 137321506,
+        "sha256": "56868FF1D268DDA577B94B84DC665F65C73E6964C9EF1D484BD013C340E632CD"
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C046_attempt01\\native\\observations.mat",
+        "bytes": 313757371,
+        "sha256": "5C45C156A1D3BA2F7EE08D84F8A30A6E7EF57930A6963B861E5B6E368A07E0B2"
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\observed_states.mat",
+        "bytes": 137317689,
+        "sha256": "5081E1CC4F3F65F92742153092194EC2F26B1F7DA41EDB0979851C683121381D"
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C048_attempt01\\native\\observations.mat",
+        "bytes": 313748289,
+        "sha256": "D866366B0CDE565C23E0C877656B5F0CAD7BDE8A0C5DC37B31CA4BF91CDEB18A"
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C050_attempt01\\observed_states.mat",
+        "bytes": 137316831,
+        "sha256": "921F11CD150DF5F6EEF3B22B8CB3B9F036508B48D8B9E4F1EAF7848AD3F487D7"
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C050_attempt01\\native\\observations.mat",
+        "bytes": 313760283,
+        "sha256": "8A6EE80F6F5319AE4B310086FD392EDC7D23C499ABB42C2C1F748F38BBDD15C0"
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C052_attempt01\\observed_states.mat",
+        "bytes": 137318631,
+        "sha256": "4F343853B6857D9951958E4153224A463E8521C0C78A6F258127DC31420AD2F9"
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v56_runtime_Tc277p05_precision_fromC40_r1\\packet_C052_attempt01\\native\\observations.mat",
+        "bytes": 313740482,
+        "sha256": "8FD2A65D7A607662191D8349F665D63D28632C3C45828FF8131B7186EE0DC1D4"
+      }
+    ],
+    "purpose": "representative precision branch retained; v55 is a superseded adjacent-Tc branch"
+  },
+  "inventory_total_raw_bytes": 25921659108
+}
