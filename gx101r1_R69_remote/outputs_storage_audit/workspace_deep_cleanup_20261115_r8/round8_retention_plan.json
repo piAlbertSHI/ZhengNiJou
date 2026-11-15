@@ -1,0 +1,159 @@
+{
+  "schema": "agent5_phase_local_blend_round8_retention_plan_v1",
+  "generated_utc": "2026-11-15T16:52:41.5677853Z",
+  "thread_id": "019e9312-444b-7090-a68e-0888598c1598",
+  "scope": "v70case2 only",
+  "worktree_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote",
+  "group": "v70case2",
+  "deletion_authorized": false,
+  "status": "blocked_by_current_same_case_dependency",
+  "raw_bytes": 2736281035,
+  "raw_files": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\fresh_native_probe\\native\\observations.mat",
+      "relative": "fresh_native_probe\\native\\observations.mat",
+      "bytes": 4557296,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v70case2 as current independent cold sensitivity case 2 and requires same-case continuation qualification."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+      "bytes": 135093566,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v70case2 as current independent cold sensitivity case 2 and requires same-case continuation qualification."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+      "bytes": 328388553,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v70case2 as current independent cold sensitivity case 2 and requires same-case continuation qualification."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+      "bytes": 137726339,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v70case2 as current independent cold sensitivity case 2 and requires same-case continuation qualification."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+      "bytes": 320131661,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v70case2 as current independent cold sensitivity case 2 and requires same-case continuation qualification."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+      "bytes": 137556235,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v70case2 as current independent cold sensitivity case 2 and requires same-case continuation qualification."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+      "bytes": 316781923,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v70case2 as current independent cold sensitivity case 2 and requires same-case continuation qualification."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+      "bytes": 137436360,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v70case2 as current independent cold sensitivity case 2 and requires same-case continuation qualification."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+      "bytes": 314628424,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v70case2 as current independent cold sensitivity case 2 and requires same-case continuation qualification."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+      "bytes": 137412540,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v70case2 as current independent cold sensitivity case 2 and requires same-case continuation qualification."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+      "bytes": 314571038,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v70case2 as current independent cold sensitivity case 2 and requires same-case continuation qualification."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C020\\observed_states.mat",
+      "bytes": 137399380,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v70case2 as current independent cold sensitivity case 2 and requires same-case continuation qualification."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat",
+      "bytes": 314597720,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v70case2 as current independent cold sensitivity case 2 and requires same-case continuation qualification."
+    }
+  ],
+  "evidence_files": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v70_L8case02_C20_20261018\\storage_receipt.json",
+      "bytes": 151000,
+      "sha256": "999B281C3D5F891301CB9CD932795FD9746B24261BE759770E470D9B7993AE22"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v70_L8case02_C20_20261018\\case_closeout.json",
+      "bytes": 17981,
+      "sha256": "C9785F29C64B8DE15EC33E0B9D145651F0CF7139C32E2B9A4E9EE9756A7C53D3"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v70case2\\HISTORICAL_COLD_PREFIX_RAW_RETIRED.json",
+      "bytes": 482,
+      "sha256": "774FA966485F92E11DBB78594B3D0F40724DAD0F4A8647E772ECEE09E335E390"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v70_L8case02_C20_20261018\\evidence\\cold_chamber_execution.json",
+      "bytes": 248314,
+      "sha256": "711A6A6C31A9304219BA67E46EAAE50C115B2B9551BC1FFAC0AA3B7A8130964F"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v70_L8case02_C20_20261018\\evidence\\native\\sensitivity_cold_case\\case_result.json",
+      "bytes": 59779,
+      "sha256": "1566140F7CC8888CD1648C3150AD02BDDBA7E97CEBFED7CEC6DD90A8A19296DF"
+    }
+  ],
+  "direct_script_references": [],
+  "live_process_references": [],
+  "blockers": [
+    "v70 C20 storage_receipt explicitly classifies v70case2 as current independent cold sensitivity case 2, keep raw until compatible same-case continuation is qualified.",
+    "raw_copied_bytes=0 and raw_deleted_bytes=0; compact archive is not a full raw replacement.",
+    "protected packet inputs/current constructor dependencies are retained by the receipt.",
+    "HISTORICAL_COLD_PREFIX_RAW_RETIRED preserves the origin window but does not authorize deletion of current v70case2 raw.",
+    "case_closeout production_recovery_allowed=false does not remove the same-case continuation dependency."
+  ],
+  "representative_retained": [
+    "v70case2 C20 origin/current sensitivity inputs and fresh native probe are retained; no replacement case is authorized."
+  ],
+  "scientific_gates_changed": false,
+  "deletion_performed": false,
+  "other_worktrees_touched": false
+}
