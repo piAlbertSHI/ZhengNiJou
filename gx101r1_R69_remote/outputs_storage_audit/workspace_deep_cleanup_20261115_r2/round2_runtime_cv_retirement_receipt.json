@@ -1,0 +1,278 @@
+{
+  "schema": "agent5_runtime_cv_round2_retirement_v1",
+  "status": "completed",
+  "generated_utc": "2026-11-15T16:23:21.8607022Z",
+  "scope": "runtime-cv-json-contract only",
+  "thread_id": "019e9312-444b-7090-a68e-0888598c1598",
+  "project_path": "C:\\Users\\86182\\Desktop\\正逆耦合",
+  "worktree_root": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合",
+  "deleted_files": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v40_storage_warmup_r2\\native\\observations.mat",
+      "bytes": 1077726286,
+      "sha256": "BA06531B5311ED4C0788BAD446A2036D6F57C7CADABF160E49E48290202C0CA4",
+      "role": "old C22 warmup raw observations; replaced by compact targets and retained longer representative",
+      "storage_receipt": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v40_storage_snapshot_20261014\\storage_receipt.json",
+      "replacement_paths": [
+        "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v40_storage_warmup_r2\\native\\cold_public_targets.mat",
+        "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v40_storage_warmup_r2\\native\\diagnostic_complete_operating_point.mat",
+        "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v40_storage_snapshot_20261014\\storage_receipt.json"
+      ],
+      "structure": {
+        "matlab_format": "MATLAB 7.3 HDF5",
+        "dataset_count": 9469,
+        "shape_count": 51,
+        "principal_leaf_names": [
+          "block_path",
+          "channel_count",
+          "state_name",
+          "time_s",
+          "unit",
+          "values",
+          "temperature",
+          "pressure_differential",
+          "pump_power_se_W",
+          "pump_power_sma_W",
+          "chex_fluid_heat_flow_W",
+          "hhex_fluid_heat_flow_W",
+          "shex_fluid_heat_flow_W"
+        ]
+      }
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v40_storage_warmup_r2\\native\\diagnostic_state_observation.mat",
+      "bytes": 752530073,
+      "sha256": "A48EAE35A3B156706CE44B688B57C056C03D4F16447B4A94A44DE72A20361F63",
+      "role": "old C22 diagnostic trajectory; replaced by compact OP/audit and retained longer representative",
+      "storage_receipt": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v40_storage_snapshot_20261014\\storage_receipt.json",
+      "replacement_paths": [
+        "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v40_storage_warmup_r2\\native\\diagnostic_complete_operating_point.mat",
+        "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v40_storage_warmup_r2\\native\\cold_public_targets.mat",
+        "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v40_storage_snapshot_20261014\\storage_receipt.json"
+      ],
+      "structure": {
+        "matlab_format": "MATLAB 7.3 HDF5",
+        "dataset_count": 528,
+        "shape_count": 30,
+        "principal_leaf_names": [
+          "block_path",
+          "channel_count",
+          "complete_requested_window",
+          "state_name",
+          "time_s",
+          "unit",
+          "values",
+          "complete_internal_state_periodicity_verified"
+        ]
+      }
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v41_storage_warmup_from_C22_r1\\native\\observations.mat",
+      "bytes": 1069520964,
+      "sha256": "1A4583092CBF35EF274170D7688793E6B4E272A80A34116D0E316E4DBB8F13B1",
+      "role": "old C42 restart raw observations; replaced by compact targets and retained longer representative",
+      "storage_receipt": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v41_storage_snapshot_20261015\\storage_receipt.json",
+      "replacement_paths": [
+        "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v41_storage_warmup_from_C22_r1\\native\\cold_public_targets.mat",
+        "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v41_storage_warmup_from_C22_r1\\native\\diagnostic_complete_operating_point.mat",
+        "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v41_storage_snapshot_20261015\\storage_receipt.json"
+      ],
+      "structure": {
+        "matlab_format": "MATLAB 7.3 HDF5",
+        "dataset_count": 9469,
+        "shape_count": 51,
+        "principal_leaf_names": [
+          "block_path",
+          "channel_count",
+          "state_name",
+          "time_s",
+          "unit",
+          "values",
+          "temperature",
+          "pressure_differential",
+          "pump_power_se_W",
+          "pump_power_sma_W",
+          "chex_fluid_heat_flow_W",
+          "hhex_fluid_heat_flow_W",
+          "shex_fluid_heat_flow_W"
+        ]
+      }
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v41_storage_warmup_from_C22_r1\\native\\diagnostic_state_observation.mat",
+      "bytes": 751880582,
+      "sha256": "AC5B90AD7A3063794E8C58B3C46D7396E86F86CC5A5BB402E129D8E8A02D3825",
+      "role": "old C42 diagnostic trajectory; replaced by compact OP/audit and retained longer representative",
+      "storage_receipt": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v41_storage_snapshot_20261015\\storage_receipt.json",
+      "replacement_paths": [
+        "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v41_storage_warmup_from_C22_r1\\native\\cold_public_targets.mat",
+        "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v41_storage_warmup_from_C22_r1\\native\\diagnostic_complete_operating_point.mat",
+        "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v41_storage_snapshot_20261015\\storage_receipt.json"
+      ],
+      "structure": {
+        "matlab_format": "MATLAB 7.3 HDF5",
+        "dataset_count": 528,
+        "shape_count": 30,
+        "principal_leaf_names": [
+          "block_path",
+          "channel_count",
+          "complete_requested_window",
+          "state_name",
+          "time_s",
+          "unit",
+          "values",
+          "complete_internal_state_periodicity_verified"
+        ]
+      }
+    }
+  ],
+  "reclaimed_bytes": 3651657905,
+  "reclaimed_gib": 3.400871,
+  "pre_cleanup": {
+    "file_count": 3874,
+    "bytes": 37434232396
+  },
+  "post_cleanup": {
+    "file_count": 3870,
+    "bytes": 33782574491
+  },
+  "candidate_basis": "v40/v41 raw observations and diagnostic trajectories were non-production, receipt-hashed, directly unreferenced, and replaced by compact public targets, diagnostic OP/configuration, and archived storage receipts. v43 C62 was retained as the longest raw representative.",
+  "replacement_evidence": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v40_storage_warmup_r2\\native\\cold_public_targets.mat",
+      "bytes": 2285096,
+      "sha256": "D07352F1D922CF9699A57CEE0091D0236845564FE9B43F94CF60E0EC9243193F"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v40_storage_warmup_r2\\native\\diagnostic_complete_operating_point.mat",
+      "bytes": 3882807,
+      "sha256": "894CA87AB603C772795A617E399939574D314EBD2E313FC11C6EFD4AC507AA8F"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v40_storage_snapshot_20261014\\storage_receipt.json",
+      "bytes": 12034,
+      "sha256": "57D38E3414FE7E796830193D48664C7A658DD9284240A8F03913EE56BB33A6AE"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v41_storage_warmup_from_C22_r1\\native\\cold_public_targets.mat",
+      "bytes": 2285096,
+      "sha256": "890BAD3E3A8087C03C0C4BE39D528E2B194C7E931E10E32A312F9D3BAD9A0404"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v41_storage_warmup_from_C22_r1\\native\\diagnostic_complete_operating_point.mat",
+      "bytes": 3882827,
+      "sha256": "39EDC4435C62C5A2E23C011CD260A564B5A84BCB83C35E922CBC0AFF70B005D7"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v41_storage_snapshot_20261015\\storage_receipt.json",
+      "bytes": 10240,
+      "sha256": "49DDCA139649EC78A45B0CDD7BE97CF3B8FD9C12545F9DAE8F4A92902D0E61B0"
+    }
+  ],
+  "storage_receipts": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v40_storage_snapshot_20261014\\storage_receipt.json",
+      "sha256": "57D38E3414FE7E796830193D48664C7A658DD9284240A8F03913EE56BB33A6AE"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v41_storage_snapshot_20261015\\storage_receipt.json",
+      "sha256": "49DDCA139649EC78A45B0CDD7BE97CF3B8FD9C12545F9DAE8F4A92902D0E61B0"
+    }
+  ],
+  "retained_representative": {
+    "paths": [
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\observations.mat",
+        "bytes": 1068664177,
+        "sha256": "1F30EEB3261A4F22C63783E87BFF72BDDB702965AB4E348E49575A9F77335E8B"
+      },
+      {
+        "path": "C:\\Users\\86182\\.codex\\worktrees\\runtime-cv-json-contract\\正逆耦合\\gx101r1_R69_remote\\outputs\\v43_storage_warmup_from_C42_r1\\native\\diagnostic_state_observation.mat",
+        "bytes": 751730466,
+        "sha256": "414E8F731CD2FB1ED3B4C82AB4678C6D838F0A931F6A06B50B6DF6C399DB13AB"
+      }
+    ],
+    "receipt": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v43_storage_snapshot_20261015\\storage_receipt.json",
+    "receipt_sha256": "9F7CFA8C38AC611AF807CCF240E782080E7E6B4DACF78D01579C662E72581183",
+    "structure": {
+      "matlab_format": "MATLAB 7.3 HDF5",
+      "dataset_count": 9469,
+      "shape_count": 51,
+      "principal_leaf_names": [
+        "block_path",
+        "channel_count",
+        "state_name",
+        "time_s",
+        "unit",
+        "values",
+        "temperature",
+        "pressure_differential",
+        "pump_power_se_W",
+        "pump_power_sma_W",
+        "chex_fluid_heat_flow_W",
+        "hhex_fluid_heat_flow_W",
+        "shex_fluid_heat_flow_W"
+      ]
+    }
+  },
+  "mat_structure_comparison": {
+    "observations": "All v40/v41/v43 observations files were MATLAB 7.3 HDF5 with 9469 datasets and 51 shape classes; v40/v41/v43 diagnostic_state_observation files were MATLAB 7.3 HDF5 with 528 datasets and 30 shape classes. They are separate cycle records, not byte-identical duplicates; the two earlier records were retired only as regenerable intermediate trajectories."
+  },
+  "direct_script_references": [],
+  "live_process_references": [],
+  "scientific_gates_changed": false,
+  "production_recovery_source_deleted": false,
+  "model_or_code_deleted": false,
+  "final_plots_deleted": false,
+  "other_worktrees_touched": false,
+  "new_project_touched": false,
+  "agentheat2_touched": false,
+  "agent6_touched": false,
+  "protected_slx_touched": false,
+  "recovery_route": "Recreate v40/v41 trajectories from the retained source/model/configuration and archived storage receipts; use retained v43 C62 raw representative or later validated checkpoints for state-based work. Deleted files are not authorized as production recovery sources.",
+  "git_status": [
+    " M gx101r1_R69_remote/heatdrive_ecc_coupled_se21.slx",
+    "?? Agent6/",
+    "?? gx101r1_R69_remote/verification/Retire_HeatDriveECC_RuntimeCvIntermediateRound2.ps1",
+    "?? gx101r1_R69_remote/verification/Workspace_DeepCleanup_Round3_RuntimeCv.ps1"
+  ],
+  "git_worktrees": [
+    "worktree C:/Users/86182/Desktop/正逆耦合",
+    "HEAD 00b2a06a9142abbb578e95f10e10a192e8ca0be3",
+    "branch refs/heads/codex/native-chamber-endpoint-diagnostic",
+    "",
+    "worktree C:/Users/86182/.codex/worktrees/fixed-stage4-kp237-endpoint/正逆耦合",
+    "HEAD 1ba3a32ae6fe9f7fe5d3d166c6fa12e740635a9c",
+    "detached",
+    "",
+    "worktree C:/Users/86182/.codex/worktrees/runtime-cv-json-contract/正逆耦合",
+    "HEAD 7f5516fc411bc9011dd8bece2ea59d095424e87b",
+    "detached",
+    "",
+    "worktree C:/Users/86182/.codex/worktrees/stage4-default-cold-diagnostic/正逆耦合",
+    "HEAD 94ed8740f5c9d95a8ab8df087ca6213990ae2458",
+    "detached",
+    "",
+    "worktree C:/Users/86182/.codex/worktrees/stage4-phase-local-blend-diagnostic/正逆耦合",
+    "HEAD de1abba6d5f159348fefe650ec4459d3ba624f3c",
+    "branch refs/heads/codex/buffer-geometry-cold-diagnostic",
+    "",
+    "worktree C:/Users/86182/.codex/worktrees/stage4-positive-bias-diagnostic/正逆耦合",
+    "HEAD 237e2766d0022adff5686a9550e89620f4246162",
+    "branch refs/heads/codex/stage4-positive-bias-diagnostic",
+    "",
+    "worktree C:/Users/86182/.codex/worktrees/stage4-pressure-bias-diagnostic/正逆耦合",
+    "HEAD e422a06d05bdc901441885315d18c02f8536556d",
+    "branch refs/heads/codex/stage4-pressure-bias-diagnostic",
+    "",
+    "worktree C:/Users/86182/Desktop/正逆耦合/tmp/independent_cold_v37",
+    "HEAD 1fabb2ffab623374eab3c3514247d83ceba88836",
+    "detached",
+    "",
+    "worktree C:/Users/86182/Desktop/正逆耦合/tmp/native_chamber_endpoint_run",
+    "HEAD 2ef1cf50649b06bed852d2d0551210c06c6cb117",
+    "branch refs/heads/codex/native-chamber-endpoint-run",
+    ""
+  ],
+  "receipt_path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\workspace_deep_cleanup_20261115_r2\\round2_runtime_cv_retirement_receipt.json"
+}
