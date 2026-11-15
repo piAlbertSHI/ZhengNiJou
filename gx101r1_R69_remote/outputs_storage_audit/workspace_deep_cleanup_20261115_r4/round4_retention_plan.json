@@ -1,0 +1,149 @@
+{
+  "schema": "agent5_phase_local_blend_round4_retention_plan_v1",
+  "generated_utc": "2026-11-15T16:43:04.7201129Z",
+  "thread_id": "019e9312-444b-7090-a68e-0888598c1598",
+  "scope": "v64c1 only",
+  "worktree_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote",
+  "group": "v64c1",
+  "deletion_authorized": false,
+  "status": "blocked_by_evidence_contract",
+  "raw_files": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C110_attempt01\\observed_states.mat",
+      "relative": "packet_C110_attempt01\\observed_states.mat",
+      "bytes": 137394599,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C110_attempt01\\native\\observations.mat",
+      "relative": "packet_C110_attempt01\\native\\observations.mat",
+      "bytes": 318310919,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C116_attempt01\\observed_states.mat",
+      "relative": "packet_C116_attempt01\\observed_states.mat",
+      "bytes": 137378836,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C116_attempt01\\native\\observations.mat",
+      "relative": "packet_C116_attempt01\\native\\observations.mat",
+      "bytes": 318296264,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C118_attempt01\\observed_states.mat",
+      "relative": "packet_C118_attempt01\\observed_states.mat",
+      "bytes": 137374729,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\packet_C118_attempt01\\native\\observations.mat",
+      "relative": "packet_C118_attempt01\\native\\observations.mat",
+      "bytes": 318283939,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked"
+    }
+  ],
+  "group_bytes": 1471512658,
+  "raw_bytes": 1367039286,
+  "evidence_files": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v64_Tc272p85_phase_rejection_20261016\\post_retirement_reference.json",
+      "bytes": 608,
+      "sha256": "3F50FBFC2843E62DB07E9F8A904CB3F94D3BFA05324CF39288E8C2D1C13E6EA4"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v64_Tc272p85_phase_rejection_20261016\\storage_classification.json",
+      "bytes": 1020,
+      "sha256": "AC6C77E9F7E81C0133BE25C2005188C5752800DF27512F9520C00813D326A428"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v64_Tc272p85_phase_rejection_20261016\\compact\\collection_result.json",
+      "bytes": 5213,
+      "sha256": "C4ED0F5C128BF9A3A02FBE7A53DE94731BDE5DE4195318A5BEE785F78005A496"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v64_Tc272p85_phase_rejection_20261016\\compact\\HISTORICAL_RAW_RETIRED.json",
+      "bytes": 484,
+      "sha256": "C7378BA144573B1847F68FC78FF3E24489C0CC1F22F103690147185561414FAC"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v64_Tc272p85_phase_rejection_20261016\\compact\\packet_C110_attempt01\\cycle_physical_summary.csv",
+      "bytes": 6730,
+      "sha256": "F2E37850D0F722B94FB54859943B7B48B9534C494B525841D3D869A5AD407855"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v64_Tc272p85_phase_rejection_20261016\\compact\\packet_C110_attempt01\\packet_manifest.json",
+      "bytes": 3021,
+      "sha256": "F071872678C99CBD07F244320CBE3E46906DF61152D0E56AE01FECF24137294C"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v64_Tc272p85_phase_rejection_20261016\\compact\\packet_C112_attempt01\\cycle_physical_summary.csv",
+      "bytes": 6744,
+      "sha256": "0AF39A2947C06B4DCF1A302F20936AD5433720F16E039313854401B74913EA0B"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v64_Tc272p85_phase_rejection_20261016\\compact\\packet_C112_attempt01\\packet_manifest.json",
+      "bytes": 3021,
+      "sha256": "0B195B523564A6D4FBA325D13333A0371AB45A3BAC8125F12C67E682A0AB9729"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v64_Tc272p85_phase_rejection_20261016\\compact\\packet_C114_attempt01\\cycle_physical_summary.csv",
+      "bytes": 6710,
+      "sha256": "4B4D22A95FBDC1556C55BD8A786FCD332836A50B1E125BF690B39099E39D7357"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v64_Tc272p85_phase_rejection_20261016\\compact\\packet_C114_attempt01\\packet_manifest.json",
+      "bytes": 3021,
+      "sha256": "D42B4B927CA853E3E7882813D0C97B0D77A642E82441647FE4286BF434B7F4F5"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v64_Tc272p85_phase_rejection_20261016\\compact\\packet_C116_attempt01\\cycle_physical_summary.csv",
+      "bytes": 6718,
+      "sha256": "9BFA33051EBFC8B523B989289A017D9D25CA34CF5E92BDA0F179674BC477F188"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v64_Tc272p85_phase_rejection_20261016\\compact\\packet_C116_attempt01\\packet_manifest.json",
+      "bytes": 3021,
+      "sha256": "F9F18F0BF07D81791491145E0926CCB959F4C8684133E88C77BE7DFA8E85367A"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v64_Tc272p85_phase_rejection_20261016\\compact\\packet_C118_attempt01\\cycle_physical_summary.csv",
+      "bytes": 6702,
+      "sha256": "41BBF83889E2EABB60FDF315A74FD48562282F9ECFA485F381981BDF4FDFDD34"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v64_Tc272p85_phase_rejection_20261016\\compact\\packet_C118_attempt01\\packet_manifest.json",
+      "bytes": 3021,
+      "sha256": "A006C2BF5582B48A70E54EF8DA7FD8303EDBD77F66DDBF77A93E037EBCC79724"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v64_Tc272p85_phase_rejection_20261016\\compact\\packet_C118_attempt01\\REJECTED_DO_NOT_RESUME.json",
+      "bytes": 272,
+      "sha256": "EA907A99BA0ED68323869572C4A0CCAF06ACCC01A17A7A556AEB9292237276BC"
+    }
+  ],
+  "direct_script_references": [],
+  "live_process_reference_pid_126984": false,
+  "blockers": [
+    "No v64-specific storage_receipt.json or retirement_receipt.json exists; post_retirement_reference points to a v65 middle-retirement receipt instead.",
+    "storage_classification.json explicitly states raw_arrays_retained_only_in_execution_worktree=true, raw_copied_bytes=0, source_files_deleted=0, and describes these as necessary current failure data.",
+    "Full historical raw reverification is unavailable; compact archive contains summaries/manifests/gates but not raw arrays.",
+    "collection_result.json ends at C116 and records C118 packet-gate failure; deleting the six raw files would remove the only retained data for diagnosing the failed endpoint.",
+    "No independent representative raw result is explicitly designated for this v64 branch; compact evidence is not a full raw replacement."
+  ],
+  "preserve": [
+    "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v64_Tc272p85_phase_rejection_20261016\\compact",
+    "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v64c1\\collection_result.json"
+  ],
+  "scientific_gates_changed": false,
+  "deletion_performed": false,
+  "other_worktrees_touched": false
+}
