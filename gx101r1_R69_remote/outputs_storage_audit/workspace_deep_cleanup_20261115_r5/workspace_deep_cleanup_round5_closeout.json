@@ -1,0 +1,14 @@
+{
+  "schema": "agent5_workspace_deep_cleanup_round5_closeout_v1",
+  "generated_utc": "2026-11-15T16:46:13.7431590Z",
+  "thread_id": "019e9312-444b-7090-a68e-0888598c1598",
+  "scope": "v65c1 only",
+  "status": "no_deletion_authorized",
+  "reason": "remaining v65 raw MAT files are current failure/precision-window dependencies; only earlier middle raw has retirement receipt",
+  "round5_reclaimed_bytes": 0,
+  "blocked_raw_bytes": 3189824468,
+  "plan": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\workspace_deep_cleanup_20261115_r5\\round5_retention_plan.json",
+  "report": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\workspace_deep_cleanup_20261115_r5\\workspace_deep_cleanup_round5_report.md",
+  "other_worktrees_touched": false,
+  "matlab_simulink_started": false
+}

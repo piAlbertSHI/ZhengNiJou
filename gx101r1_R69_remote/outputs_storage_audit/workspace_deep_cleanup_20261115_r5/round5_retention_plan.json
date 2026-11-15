@@ -1,0 +1,294 @@
+{
+  "schema": "agent5_phase_local_blend_round5_retention_plan_v1",
+  "generated_utc": "2026-11-15T16:46:13.7241724Z",
+  "thread_id": "019e9312-444b-7090-a68e-0888598c1598",
+  "scope": "v65c1 only",
+  "worktree_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote",
+  "group": "v65c1",
+  "deletion_authorized": false,
+  "status": "blocked_by_current_failure_dependencies",
+  "raw_bytes": 3189824468,
+  "raw_files": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C110_attempt01\\observed_states.mat",
+      "relative": "packet_C110_attempt01\\observed_states.mat",
+      "bytes": 137380828,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Explicitly retained as matched common cycle / current dependency."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C110_attempt01\\native\\observations.mat",
+      "relative": "packet_C110_attempt01\\native\\observations.mat",
+      "bytes": 318284914,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Explicitly retained as matched common cycle / current dependency."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C116_attempt01\\observed_states.mat",
+      "relative": "packet_C116_attempt01\\observed_states.mat",
+      "bytes": 137396867,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Explicitly retained as matched common cycle and latest verified pre-failure window."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C116_attempt01\\native\\observations.mat",
+      "relative": "packet_C116_attempt01\\native\\observations.mat",
+      "bytes": 318329868,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Explicitly retained as matched common cycle and latest verified pre-failure window."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C118_attempt01\\observed_states.mat",
+      "relative": "packet_C118_attempt01\\observed_states.mat",
+      "bytes": 137390781,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Current failed branch diagnostic; C126 gate failure chain depends on preceding packets."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C118_attempt01\\native\\observations.mat",
+      "relative": "packet_C118_attempt01\\native\\observations.mat",
+      "bytes": 318305960,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Current failed branch diagnostic; C126 gate failure chain depends on preceding packets."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C120_attempt01\\observed_states.mat",
+      "relative": "packet_C120_attempt01\\observed_states.mat",
+      "bytes": 137390627,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Current v65 ten-cycle/precision window; compact archive is not raw replacement and C124 precision window is not passed."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C120_attempt01\\native\\observations.mat",
+      "relative": "packet_C120_attempt01\\native\\observations.mat",
+      "bytes": 318321423,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Current v65 ten-cycle/precision window; compact archive is not raw replacement and C124 precision window is not passed."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C122_attempt01\\observed_states.mat",
+      "relative": "packet_C122_attempt01\\observed_states.mat",
+      "bytes": 137382174,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Current v65 ten-cycle/precision window; compact archive is not raw replacement and C124 precision window is not passed."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C122_attempt01\\native\\observations.mat",
+      "relative": "packet_C122_attempt01\\native\\observations.mat",
+      "bytes": 318315339,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Current v65 ten-cycle/precision window; compact archive is not raw replacement and C124 precision window is not passed."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C124_attempt01\\observed_states.mat",
+      "relative": "packet_C124_attempt01\\observed_states.mat",
+      "bytes": 137373667,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Current v65 ten-cycle/precision window; compact archive is not raw replacement and C124 precision window is not passed."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C124_attempt01\\native\\observations.mat",
+      "relative": "packet_C124_attempt01\\native\\observations.mat",
+      "bytes": 318283088,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Current v65 ten-cycle/precision window; compact archive is not raw replacement and C124 precision window is not passed."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C126_attempt01\\observed_states.mat",
+      "relative": "packet_C126_attempt01\\observed_states.mat",
+      "bytes": 137369150,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Current packet-gate failure diagnostic; unique failure evidence."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v65c1\\packet_C126_attempt01\\native\\observations.mat",
+      "relative": "packet_C126_attempt01\\native\\observations.mat",
+      "bytes": 318299782,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Current packet-gate failure diagnostic; unique failure evidence."
+    }
+  ],
+  "direct_script_references": [],
+  "live_process_reference_pid_123512": false,
+  "evidence_files": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\post_retirement_storage_classification.json",
+      "bytes": 1462,
+      "sha256": "848B1F42CC51B549FDDE3474EA33D582F3887B33E4727FE2F5B4B9D887B7EF1C"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\collection_result.json",
+      "bytes": 16278,
+      "sha256": "F2E881589ABBA13B91342DDA6D1B573A261D6F65F49B361ADEC59043DBBC4DB0"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\HISTORICAL_RAW_RETIRED.json",
+      "bytes": 484,
+      "sha256": "C7378BA144573B1847F68FC78FF3E24489C0CC1F22F103690147185561414FAC"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C110_attempt01\\cycle_physical_summary.csv",
+      "bytes": 6763,
+      "sha256": "CD47ACABC2E90B2A768C2892826BB8ECC36645A4191A8546FAD2F126167D4F9E"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C110_attempt01\\packet_manifest.json",
+      "bytes": 3021,
+      "sha256": "976939E65C7E308757AD39A38691BFE658A243C60537DFADF288F2C1048CC430"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C112_attempt01\\cycle_physical_summary.csv",
+      "bytes": 6721,
+      "sha256": "BC4587E8F73EB361F0C7B457E12CCD56440E5B8AC2A7021617EB3E1E6DE9C177"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C112_attempt01\\packet_manifest.json",
+      "bytes": 3021,
+      "sha256": "3A481879D56DDC3F607FF0269C5557256B8B38C128D792666D302EB6759DEC96"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C114_attempt01\\cycle_physical_summary.csv",
+      "bytes": 6751,
+      "sha256": "B50B9A93CEF32B23B568CF3E95E2E7D9376FEB7D05FFB56F6D755FE82AEFA6D1"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C114_attempt01\\packet_manifest.json",
+      "bytes": 3021,
+      "sha256": "CA7745B1C08BA2AFA53A4534B794938F6300E92403A6E984713279EF55DDDFD4"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C116_attempt01\\cycle_physical_summary.csv",
+      "bytes": 6688,
+      "sha256": "684080E352ECD5DF14BBF4F422D62DD791CC84A0ED6033EACC592A2F491D9518"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C116_attempt01\\packet_manifest.json",
+      "bytes": 3021,
+      "sha256": "615AB9E2D10630351FE870E80852CA5F1B158D8B93F3FF09631C1E1BE559F529"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C118_attempt01\\cycle_physical_summary.csv",
+      "bytes": 6768,
+      "sha256": "7639B60E223747AC4004A0337CFCD5784C15F257FBA4E24E00421A6365690B22"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C118_attempt01\\packet_manifest.json",
+      "bytes": 3021,
+      "sha256": "4E70CA397B23C2A59D5DE3335705F8A6B78D8169A2C635D69C9F6BFD4C79D9B6"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C120_attempt01\\cycle_physical_summary.csv",
+      "bytes": 6757,
+      "sha256": "4632CF940C242D381AAB41D16908FBFC28ABF731A20CA9CBB62283895BCFC63C"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C120_attempt01\\packet_manifest.json",
+      "bytes": 3021,
+      "sha256": "BF3E1C049CF4426D75A7A7685D70699BCBDF8CA5E23C8C677A729FF5FD0997BC"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C122_attempt01\\cycle_physical_summary.csv",
+      "bytes": 6719,
+      "sha256": "D717F3777970A04D1A28592BD3384FE5B2F0E648AB36A811BE96C710B162AC59"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C122_attempt01\\packet_manifest.json",
+      "bytes": 3021,
+      "sha256": "CE0E2FBCF9CB9BB5CCE63565850292F06FE88EB14BE0EA5722261DD08B6F24A7"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C124_attempt01\\cycle_physical_summary.csv",
+      "bytes": 6719,
+      "sha256": "5E0FA18E9D21B527793E4C2312BF7E23338E4F56D13B41B7ADCD67797BE86990"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C124_attempt01\\packet_manifest.json",
+      "bytes": 3021,
+      "sha256": "438F496D9FDFD8C440E491486362FEA843626BC7C68A8694D7205FF25A4C0487"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C126_attempt01\\cycle_physical_summary.csv",
+      "bytes": 6706,
+      "sha256": "11BFBBE04C6849E13FE9EAFA173D9CB109FC0DF392D12B3278AA2365710601F5"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C126_attempt01\\packet_manifest.json",
+      "bytes": 3021,
+      "sha256": "4C1D64AD3042F83BABF176DED25389FD6C8D748CF346783F8BEC504FFBE9964E"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\packet_C126_attempt01\\REJECTED_DO_NOT_RESUME.json",
+      "bytes": 272,
+      "sha256": "734F7A13C82DD76292F1F5E34BF073B83E40D682BA74000AAE00F2700FC7477F"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\periodicity_C120_attempt01\\measured_window.json",
+      "bytes": 4367,
+      "sha256": "FF18AD01D2D42B0CC77D611BE7AB110F2CC53DECA7E730DF073C51AE6CDBAB08"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\periodicity_C120_attempt01\\target_window_stability.json",
+      "bytes": 7304,
+      "sha256": "4781A28E57826904A723FC837A98FB93FBA585737642A01A73943F7D762E2E06"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\periodicity_C122_attempt01\\measured_window.json",
+      "bytes": 4367,
+      "sha256": "F55DBD86752DFE3E72EAEC047D0CAA30718BF0D95BD397090711B1F30E9B2079"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\periodicity_C122_attempt01\\target_window_stability.json",
+      "bytes": 7308,
+      "sha256": "B297643322D9F86812276CEDD85A531103E0C78834101934B3282130C3F817F3"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\periodicity_C124_attempt01\\measured_window.json",
+      "bytes": 4367,
+      "sha256": "51032D19760C6C10768681A8B533F8BC8C5410FD5C46F9BD91821BE9D18343C8"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\compact\\periodicity_C124_attempt01\\target_window_stability.json",
+      "bytes": 7304,
+      "sha256": "656E1006A937FB6EDD21BB18EA73AE8ABCC7BF20459FF7A82FAA2FB8E67EF375"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\middle_raw_retirement\\retirement_plan.json",
+      "bytes": 50198,
+      "sha256": "AE3893CFD139180D7AAD8F36FF49BF3B8465A85BC3DB581574F3566E43F3026E"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\middle_raw_retirement\\retirement_receipt.json",
+      "bytes": 444,
+      "sha256": "6E52D74F1ABB30E32068A610DE575F5676F7F62552AD4D23E482E746AE44A453"
+    }
+  ],
+  "retirement_receipt": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v65_Tc273p85_phase_rejection_20261017\\middle_raw_retirement\\retirement_receipt.json",
+  "existing_retired_bytes": 1822807641,
+  "blockers": [
+    "Existing retirement receipt covers only the earlier C112/C114 middle raw files; the current v65 C110/C116/C118/C120/C122/C124/C126 raw files remain.",
+    "post_retirement_storage_classification explicitly says raw_copied_bytes=0 and matched common/current windows are retained.",
+    "C110/C116 are explicitly retained common-cycle/current dependencies; C124 is the last verified precision window and C126 is the packet-gate failure diagnostic.",
+    "Compact summaries and packet manifests are not a full raw replacement; deletion would remove current failure evidence.",
+    "collection_result reports production_recovery_allowed=false, outer_solve_eligible=false, periodic_steady_state=false and C126 gate failure."
+  ],
+  "representative_retained": [
+    "v56_runtime_Tc277p05_precision_fromC40_r1 is retained in the worktree; v65 current raw still cannot be deleted because it is active failure evidence."
+  ],
+  "scientific_gates_changed": false,
+  "deletion_performed": false,
+  "other_worktrees_touched": false
+}
