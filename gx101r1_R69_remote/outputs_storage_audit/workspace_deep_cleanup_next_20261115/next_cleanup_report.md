@@ -24,6 +24,8 @@ The six phase-local groups `v56_runtime_Tc277p05_precision_fromC40_r1`, `v61c1`,
 
 The four checkout paths for `physical_simscape_result.mat` and their `final_operating_point.mat` paths are already NTFS hard links. Their SHA-256 values match the frozen C200 hashes, and `fsutil hardlink list` confirms one physical content object per file. Removing checkout paths would reclaim zero disk space and would break local relative contracts, so no C200 path was modified.
 
+The file-ID and hard-link reconciliation is recorded in `c200_hardlink_reconciliation.json`.
+
 ## Scope boundary
 
 The next cleanup script is `verification/Build_HeatDriveECC_NextCleanupWhitelist.ps1`. It refuses to operate while MATLAB/Simulink is alive, rejects reparse points, requires terminal markers for cache targets, hashes every candidate, and leaves blocked raw files untouched.
