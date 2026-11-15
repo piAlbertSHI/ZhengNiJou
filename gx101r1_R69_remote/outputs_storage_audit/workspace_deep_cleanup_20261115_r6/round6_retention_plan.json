@@ -1,0 +1,159 @@
+{
+  "schema": "agent5_phase_local_blend_round6_retention_plan_v1",
+  "generated_utc": "2026-11-15T16:48:55.8457894Z",
+  "thread_id": "019e9312-444b-7090-a68e-0888598c1598",
+  "scope": "v66_sensitivity_nominal_20261017 only",
+  "worktree_root": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote",
+  "group": "v66_sensitivity_nominal_20261017",
+  "deletion_authorized": false,
+  "status": "blocked_by_current_same_case_dependency",
+  "raw_bytes": 2735856961,
+  "raw_files": [
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\fresh_native_probe\\native\\observations.mat",
+      "relative": "fresh_native_probe\\native\\observations.mat",
+      "bytes": 4557296,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v66 as current nominal cold control and explicitly says keep raw until compatible same-case continuation is qualified."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C002\\observed_states.mat",
+      "bytes": 135361079,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v66 as current nominal cold control and explicitly says keep raw until compatible same-case continuation is qualified."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C002\\native\\observations.mat",
+      "bytes": 328458588,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v66 as current nominal cold control and explicitly says keep raw until compatible same-case continuation is qualified."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C012\\observed_states.mat",
+      "bytes": 137663883,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v66 as current nominal cold control and explicitly says keep raw until compatible same-case continuation is qualified."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C012\\native\\observations.mat",
+      "bytes": 320062057,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v66 as current nominal cold control and explicitly says keep raw until compatible same-case continuation is qualified."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C014\\observed_states.mat",
+      "bytes": 137499478,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v66 as current nominal cold control and explicitly says keep raw until compatible same-case continuation is qualified."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C014\\native\\observations.mat",
+      "bytes": 316698164,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v66 as current nominal cold control and explicitly says keep raw until compatible same-case continuation is qualified."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C016\\observed_states.mat",
+      "bytes": 137386295,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v66 as current nominal cold control and explicitly says keep raw until compatible same-case continuation is qualified."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C016\\native\\observations.mat",
+      "bytes": 314520596,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v66 as current nominal cold control and explicitly says keep raw until compatible same-case continuation is qualified."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C018\\observed_states.mat",
+      "bytes": 137366845,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v66 as current nominal cold control and explicitly says keep raw until compatible same-case continuation is qualified."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C018\\native\\observations.mat",
+      "bytes": 314464677,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v66 as current nominal cold control and explicitly says keep raw until compatible same-case continuation is qualified."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020\\observed_states.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C020\\observed_states.mat",
+      "bytes": 137354658,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v66 as current nominal cold control and explicitly says keep raw until compatible same-case continuation is qualified."
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat",
+      "relative": "native\\sensitivity_cold_case\\packet_C020\\native\\observations.mat",
+      "bytes": 314463345,
+      "sha256": null,
+      "hash_status": "deferred_because_deletion_blocked",
+      "block_reason": "Storage receipt classifies v66 as current nominal cold control and explicitly says keep raw until compatible same-case continuation is qualified."
+    }
+  ],
+  "evidence_files": [
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v66_nominal_cold_20cycle_20261017\\storage_receipt.json",
+      "bytes": 151718,
+      "sha256": "2339F88F156C4699261E8A5E9A96CC8D8434AE6FFFD4EA070631DE8F48948CE1"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v66_nominal_cold_20cycle_20261017\\case_closeout.json",
+      "bytes": 18241,
+      "sha256": "98BEC1478F7949F533B3BD707836D69668396CF650ED053A4A24A114BB8C3D05"
+    },
+    {
+      "path": "C:\\Users\\86182\\.codex\\worktrees\\stage4-phase-local-blend-diagnostic\\正逆耦合\\gx101r1_R69_remote\\outputs\\v66_sensitivity_nominal_20261017\\HISTORICAL_COLD_PREFIX_RAW_RETIRED.json",
+      "bytes": 496,
+      "sha256": "7E8CF192FF0AFD82432C5E1B1A2AAD3BB69C422F353835253A2BCCD0E4C9DB7B"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v66_nominal_cold_20cycle_20261017\\evidence\\cold_chamber_execution.json",
+      "bytes": 248935,
+      "sha256": "FFF9748049D1C14F80D503DE873D4888D903505C3DE88851C251DB7728B87795"
+    },
+    {
+      "path": "C:\\Users\\86182\\Desktop\\正逆耦合\\gx101r1_R69_remote\\outputs_storage_audit\\v66_nominal_cold_20cycle_20261017\\evidence\\native\\sensitivity_cold_case\\case_result.json",
+      "bytes": 60354,
+      "sha256": "CA1199ADB21B7791BA74C04236370F9530CAA2B8AD1E7637014AE19B7096D852"
+    }
+  ],
+  "direct_script_references": [],
+  "live_process_references": [],
+  "blockers": [
+    "storage_receipt classification is current nominal cold control, keep raw until compatible same-case continuation is qualified.",
+    "raw_copied_bytes=0 and raw_deleted_bytes=0; no full raw replacement exists.",
+    "protected_packet_inputs explicitly contains hashes for the packet observations/observed_states/configuration files.",
+    "HISTORICAL_COLD_PREFIX_RAW_RETIRED preserves the C20 origin window and leaves the C60 continuation untouched; it does not authorize deletion of the current v66 case.",
+    "case_closeout production_recovery_allowed=false does not remove the same-case continuation dependency."
+  ],
+  "representative_retained": [
+    "v66 C20 origin/current nominal packet inputs and fresh native probe are retained; no replacement case is authorized."
+  ],
+  "scientific_gates_changed": false,
+  "deletion_performed": false,
+  "other_worktrees_touched": false
+}
