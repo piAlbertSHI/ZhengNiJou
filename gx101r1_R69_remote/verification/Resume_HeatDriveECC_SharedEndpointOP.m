@@ -2,8 +2,10 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
 % New-process strict load of a persisted isolated model and its untouched full OP.
     if nargin<4,mode='reference_cycle';end
     assert(ismember(mode,{'reference_cycle','bounded_step_probe','bounded_buffer_state_probe_from_C100', ...
-        'bounded_command_horizon_probe_from_C100','warmup_C40','warmup_C60_from_C40', ...
-        'warmup_C80_from_C60','warmup_C100_from_C80','warmup_C120_from_C100'}));
+        'bounded_command_horizon_probe_from_C100','bounded_command_horizon_probe_from_C120', ...
+        'warmup_C40','warmup_C60_from_C40', ...
+        'warmup_C80_from_C60','warmup_C100_from_C80','warmup_C120_from_C100', ...
+        'warmup_C140_from_C120'}));
     assert(~isfolder(folder));mkdir(folder);old=pwd;oldpath=path;
     cleanup_path=onCleanup(@() restore_path(old,oldpath));addpath(repo,fullfile(repo,'verification'));
     record=struct('schema','heatdrive_ecc_shared_endpoint_new_process_OP_v1', ...
@@ -11,7 +13,7 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
     try
         is_continuation=~isempty(strfind(mode,'_from_C')); %#ok<STREMP>
         buffer_state_probe=strcmp(mode,'bounded_buffer_state_probe_from_C100');
-        command_horizon_probe=strcmp(mode,'bounded_command_horizon_probe_from_C100');
+        command_horizon_probe=~isempty(regexp(mode,'^bounded_command_horizon_probe_from_C\d+$','once'));
         assert(~(buffer_state_probe || command_horizon_probe) || is_continuation, ...
             'Bounded continuation probes must be anchored to a recorded continuation.');
         if is_continuation
@@ -20,8 +22,7 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
             point_path=prior.terminal_OP_path;point_sha=prior.terminal_OP_sha256;
             point_snapshot=prior.terminal_OP_snapshot_s;
             previous_cycles=prior.completed_total_cycles;
-            review_file=fullfile(repo,'outputs_storage_audit',sprintf('shared_endpoint_OP_C%d_20261027',previous_cycles), ...
-                'shared_endpoint_warmup_review.json');
+            review_file=resolve_warmup_review(repo,previous_cycles);
             review=jsondecode(fileread(review_file));
             assert(review.completed_total_cycles==previous_cycles && ~review.periodic_steady_state && ...
                 strcmp(review.terminal_OP_sha256,point_sha));
@@ -95,7 +96,8 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
                 numeric_parameter(get_param(model,'MaxDataPoints'))==40002);
         end
         if command_horizon_probe
-            assert(previous_cycles==100);
+            probe_numbers=sscanf(mode,'bounded_command_horizon_probe_from_C%d');
+            assert(numel(probe_numbers)==1 && probe_numbers==previous_cycles);
             target_cycles=previous_cycles+20;stop=point_snapshot+0.1;
             assert(strcmp(get_param(model,'SimscapeLogLimitData'),'on') && ...
                 numeric_parameter(get_param(model,'SimscapeLogDataHistory'))==20002 && ...
@@ -122,7 +124,11 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
             runtime_options=evalin('base','EIGHTH_ROUND_OPTIONS');
             command_horizon_s=runtime_options.schedule.total_time_s;
             if target_cycles*runtime_options.schedule.tau_cycle_s>command_horizon_s
-                horizon=extend_runtime_command_horizon(model,previous_cycles,target_cycles,command_horizon_s);
+                horizon=extend_runtime_command_horizon(model,runtime_options.cycle_count,target_cycles, ...
+                    command_horizon_s,point_snapshot);
+                if previous_cycles>runtime_options.cycle_count && isfield(prior,'command_horizon_contract')
+                    verify_prior_horizon_prefix(horizon,prior.command_horizon_contract);
+                end
             else
                 horizon=struct('schema','heatdrive_ecc_future_command_extension_v1', ...
                     'old_horizon_cycles',runtime_options.cycle_count, ...
@@ -200,7 +206,8 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
             disp(jsonencode(struct('execution_complete',true,'probe_only',true,'folder',folder)));
             return
         end
-        if ismember(mode,{'warmup_C40','warmup_C60_from_C40','warmup_C80_from_C60','warmup_C100_from_C80','warmup_C120_from_C100'})
+        if ismember(mode,{'warmup_C40','warmup_C60_from_C40','warmup_C80_from_C60', ...
+                'warmup_C100_from_C80','warmup_C120_from_C100','warmup_C140_from_C120'})
             % Save the untouched final OP before optional evidence serialization.
             diagnostic_operating_point=output.interface_final_op;production_recovery_allowed=false; %#ok<NASGU>
             assert(isa(diagnostic_operating_point,'Simulink.op.ModelOperatingPoint') && ...
@@ -242,13 +249,14 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
     disp(jsonencode(struct('execution_complete',true,'production_recovery_allowed',false,'folder',folder)));
 end
 
-function audit=extend_runtime_command_horizon(model,old_cycles,new_cycles,source_s)
+function audit=extend_runtime_command_horizon(model,old_cycles,new_cycles,source_s,prefix_s)
 % Preserve the loaded model and OP; repeat only an audited terminal cycle.
     options=evalin('base','EIGHTH_ROUND_OPTIONS');
     assert(isstruct(options) && options.cycle_count==old_cycles && ...
         options.schedule.total_time_s==source_s,'Unexpected runtime command horizon.');
     tau=options.schedule.tau_cycle_s;new_horizon=new_cycles*tau;
-    assert(source_s==old_cycles*tau && new_horizon>source_s);
+    assert(source_s==old_cycles*tau && new_horizon>source_s && ...
+        prefix_s>=source_s && prefix_s<=new_horizon);
     workspace=get_param(model,'ModelWorkspace');paths=find_system(model, ...
         'LookUnderMasks','all','FollowLinks','on','Type','Block','BlockType','FromWorkspace');
     assert(~isempty(paths));rows={};seen={};
@@ -271,7 +279,8 @@ function audit=extend_runtime_command_horizon(model,old_cycles,new_cycles,source
             'new_horizon_s',extended.Time(end),'old_sha256',array_hash(actual), ...
             'new_sha256',array_hash(extended),'past_prefix_bitwise_equal',true, ...
             'future_only_append',true,'terminal_cycle_periodic',periodic.pass, ...
-            'terminal_cycle_max_abs_difference',periodic.max_abs_difference); %#ok<AGROW>
+            'terminal_cycle_max_abs_difference',periodic.max_abs_difference, ...
+            'prefix_horizon_s',prefix_s,'prefix_sha256',array_hash_prefix(extended,prefix_s,variable)); %#ok<AGROW>
     end
     future=options;future.cycle_count=new_cycles;
     future.schedule.total_time_s=new_horizon;future.simulation.stop_time_s=new_horizon;
@@ -325,9 +334,55 @@ function [extended,periodic]=repeat_terminal_command(actual,source_s,tau,new_hor
     extended.TimeInfo.Units=actual.TimeInfo.Units;extended=setinterpmethod(extended,getinterpmethod(actual));
 end
 
+function review_file=resolve_warmup_review(repo,cycles)
+    candidates={fullfile(repo,'outputs_storage_audit',sprintf('shared_endpoint_OP_C%d_20261027',cycles), ...
+        'shared_endpoint_warmup_review.json')};
+    listing=dir(fullfile(repo,'outputs_storage_audit',sprintf('shared_endpoint_OP_C%d_*',cycles), ...
+        'shared_endpoint_warmup_review.json'));
+    for k=1:numel(listing)
+        candidates{end+1}=fullfile(listing(k).folder,listing(k).name); %#ok<AGROW>
+    end
+    for k=1:numel(candidates)
+        if isfile(candidates{k}),review_file=candidates{k};return;end
+    end
+    error('HeatDriveECC:WarmupReviewMissing','No reviewed warmup evidence for C%d.',cycles);
+end
+
+function verify_prior_horizon_prefix(current,prior)
+    assert(prior.new_horizon_s<=current.new_horizon_s && prior.past_command_prefix_preserved && ...
+        ~prior.physical_parameters_changed && ~prior.resampling_used);
+    old=prior.commands;if isstruct(old),old=num2cell(old);end
+    now=current.commands;if isstruct(now),now=num2cell(now);end
+    for k=1:numel(old)
+        row=old{k};matches=cellfun(@(x)strcmp(x.variable,row.variable),now);
+        assert(any(matches),'Missing prior command in extended horizon: %s',row.variable);
+        candidate=now{find(matches,1)};
+        assert(candidate.prefix_horizon_s==prior.new_horizon_s && ...
+            strcmp(candidate.prefix_sha256,row.new_sha256) && ...
+            candidate.old_samples==row.old_samples && ...
+            candidate.past_prefix_bitwise_equal,'Changed prior command prefix: %s',row.variable);
+    end
+end
+
 function h=array_hash(value)
     digest=java.security.MessageDigest.getInstance('SHA-256');
     digest.update(typecast(value.Time(:),'uint8'));digest.update(typecast(value.Data(:),'uint8'));
+    h=upper(reshape(dec2hex(typecast(digest.digest(),'uint8'),2).',1,[]));
+end
+
+function h=array_hash_prefix(value,stop_s,variable)
+    time=double(value.Time(:));data=value.Data;
+    if isvector(data),data=reshape(data,[],1);
+    elseif size(data,1)~=numel(time) && size(data,2)==numel(time),data=data.';end
+    assert(size(data,1)==numel(time));
+    mask=time<=stop_s+16*eps(max(1,abs(stop_s)));indices=find(mask);
+    assert(~isempty(indices) && time(indices(end))==stop_s);
+    assert(~isempty(data(indices,:)),'Empty prefix payload for %s (time=%d data=%s).', ...
+        variable,numel(time),mat2str(size(data)));
+    digest=java.security.MessageDigest.getInstance('SHA-256');
+    time_payload=double(time(indices));data_payload=double(data(indices,:));
+    assert(~isempty(time_payload) && ~isempty(data_payload));
+    digest.update(typecast(time_payload(:),'uint8'));digest.update(typecast(data_payload(:),'uint8'));
     h=upper(reshape(dec2hex(typecast(digest.digest(),'uint8'),2).',1,[]));
 end
 
@@ -337,7 +392,7 @@ function v=numeric_parameter(v)
 end
 
 function [runtime,root]=load_runtime_metadata(root)
-    for hop=1:4
+    for hop=1:8
         state_file=fullfile(root,'state_interface_roundtrip.json');
         if isfile(state_file)
             runtime=jsondecode(fileread(state_file));return
