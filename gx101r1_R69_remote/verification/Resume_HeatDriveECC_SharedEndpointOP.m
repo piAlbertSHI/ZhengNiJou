@@ -1,7 +1,9 @@
 function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
 % New-process strict load of a persisted isolated model and its untouched full OP.
     if nargin<4,mode='reference_cycle';end
-    assert(ismember(mode,{'reference_cycle','bounded_step_probe','bounded_buffer_state_probe_from_C100','warmup_C40','warmup_C60_from_C40','warmup_C80_from_C60','warmup_C100_from_C80','warmup_C120_from_C100'}));
+    assert(ismember(mode,{'reference_cycle','bounded_step_probe','bounded_buffer_state_probe_from_C100', ...
+        'bounded_command_horizon_probe_from_C100','warmup_C40','warmup_C60_from_C40', ...
+        'warmup_C80_from_C60','warmup_C100_from_C80','warmup_C120_from_C100'}));
     assert(~isfolder(folder));mkdir(folder);old=pwd;oldpath=path;
     cleanup_path=onCleanup(@() restore_path(old,oldpath));addpath(repo,fullfile(repo,'verification'));
     record=struct('schema','heatdrive_ecc_shared_endpoint_new_process_OP_v1', ...
@@ -9,7 +11,9 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
     try
         is_continuation=~isempty(strfind(mode,'_from_C')); %#ok<STREMP>
         buffer_state_probe=strcmp(mode,'bounded_buffer_state_probe_from_C100');
-        assert(~buffer_state_probe || is_continuation,'Buffer state probe must be anchored to a recorded continuation.');
+        command_horizon_probe=strcmp(mode,'bounded_command_horizon_probe_from_C100');
+        assert(~(buffer_state_probe || command_horizon_probe) || is_continuation, ...
+            'Bounded continuation probes must be anchored to a recorded continuation.');
         if is_continuation
             prior=jsondecode(fileread(fullfile(source,'new_process_restore.json')));
             [runtime,runtime_root]=load_runtime_metadata(prior.source_root);
@@ -81,10 +85,18 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
                 numeric_parameter(get_param(model,'SimscapeLogDataHistory'))==20002 && ...
                 numeric_parameter(get_param(model,'MaxDataPoints'))==40002);
         end
-        if is_continuation && ~buffer_state_probe
+        target_cycles=previous_cycles;
+        if is_continuation && ~(buffer_state_probe || command_horizon_probe)
             numbers=sscanf(mode,'warmup_C%d_from_C%d');
             assert(numel(numbers)==2 && numbers(2)==previous_cycles && numbers(1)>numbers(2));
-            stop=numbers(1)*10;
+            stop=numbers(1)*10;target_cycles=numbers(1);
+            assert(strcmp(get_param(model,'SimscapeLogLimitData'),'on') && ...
+                numeric_parameter(get_param(model,'SimscapeLogDataHistory'))==20002 && ...
+                numeric_parameter(get_param(model,'MaxDataPoints'))==40002);
+        end
+        if command_horizon_probe
+            assert(previous_cycles==100);
+            target_cycles=previous_cycles+20;stop=point_snapshot+0.1;
             assert(strcmp(get_param(model,'SimscapeLogLimitData'),'on') && ...
                 numeric_parameter(get_param(model,'SimscapeLogDataHistory'))==20002 && ...
                 numeric_parameter(get_param(model,'MaxDataPoints'))==40002);
@@ -105,12 +117,41 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
             record.buffer_probe_logging_requested=struct('native_history_points',20002,'workspace_history_points',40002, ...
                 'sink_count',numel(sinks),'sample_times_or_equations_modified',false);
         end
+        command_horizon_s=runtime.fixed_command_horizon_s;
+        if is_continuation && ~buffer_state_probe
+            runtime_options=evalin('base','EIGHTH_ROUND_OPTIONS');
+            command_horizon_s=runtime_options.schedule.total_time_s;
+            if target_cycles*runtime_options.schedule.tau_cycle_s>command_horizon_s
+                horizon=extend_runtime_command_horizon(model,previous_cycles,target_cycles,command_horizon_s);
+            else
+                horizon=struct('schema','heatdrive_ecc_future_command_extension_v1', ...
+                    'old_horizon_cycles',runtime_options.cycle_count, ...
+                    'new_horizon_cycles',runtime_options.cycle_count, ...
+                    'old_horizon_s',command_horizon_s,'new_horizon_s',command_horizon_s, ...
+                    'commands',{{}},'source_state_edited',false, ...
+                    'physical_parameters_changed',false,'resampling_used',false, ...
+                    'past_command_prefix_preserved',true,'extension_required',false);
+            end
+            command_horizon_s=horizon.new_horizon_s;
+            record.command_horizon_contract=horizon;
+            write_json(fullfile(folder,'command_horizon_extension.json'),horizon);
+        end
         wall=tic;cpu=cputime;
-        input=input.setModelParameter('CaptureErrors','on', ...
-            'StartTime',num2str(point_snapshot,17),'StopTime',num2str(stop,17));
-        record.absolute_time_contract=struct('start_time_s',point_snapshot, ...
-            'stop_time_s',stop,'operating_point_snapshot_s',point_snapshot, ...
-            'start_time_matches_operating_point',true);
+        op_start_time=double(point.diagnostic_operating_point.startTime);
+        model_start_time=numeric_parameter(get_param(model,'StartTime'));
+        if buffer_state_probe
+            input=input.setModelParameter('CaptureErrors','on', ...
+                'StartTime',num2str(point_snapshot,17),'StopTime',num2str(stop,17));
+            start_override=true;
+        else
+            assert(model_start_time==op_start_time,'Model/OperatingPoint start-time contract differs.');
+            input=input.setModelParameter('CaptureErrors','on','StopTime',num2str(stop,17));
+            start_override=false;
+        end
+        record.absolute_time_contract=struct('model_start_time_s',model_start_time, ...
+            'operating_point_start_time_s',op_start_time,'stop_time_s',stop, ...
+            'operating_point_snapshot_s',point_snapshot,'start_time_override_used',start_override, ...
+            'start_time_matches_operating_point',model_start_time==op_start_time);
         output=sim(input ...
             .setInitialState(point.diagnostic_operating_point));
         record.simulation_wall_seconds=toc(wall);record.simulation_CPU_seconds=cputime-cpu;
@@ -146,6 +187,19 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
             disp(jsonencode(struct('execution_complete',true,'probe_only',true,'folder',folder)));
             return
         end
+        if command_horizon_probe
+            record.execution_complete=true;
+            record.probe_only=true;
+            record.production_recovery_allowed=false;
+            record.state_projection_or_reset_used=false;
+            record.actual_tout_first_s=double(output.tout(1));
+            record.actual_tout_last_s=double(output.tout(end));
+            record.reader_source_sha256=file_hash([mfilename('fullpath') '.m']);
+            write_json(fullfile(folder,'bounded_command_horizon_probe.json'),record);
+            HeatDriveECC_ObserverContext('clear',model);
+            disp(jsonencode(struct('execution_complete',true,'probe_only',true,'folder',folder)));
+            return
+        end
         if ismember(mode,{'warmup_C40','warmup_C60_from_C40','warmup_C80_from_C60','warmup_C100_from_C80','warmup_C120_from_C100'})
             % Save the untouched final OP before optional evidence serialization.
             diagnostic_operating_point=output.interface_final_op;production_recovery_allowed=false; %#ok<NASGU>
@@ -161,7 +215,10 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
             context=fullfile(folder,'warmup_context.mat');assert(~isfile(context));
             save(context,'contract','options','boundary','-v7');
             record.context_path=context;record.context_sha256=file_hash(context);
-            record.completed_total_cycles=stop/10;record.fixed_command_horizon_s=1000;
+            record.completed_total_cycles=stop/10;record.fixed_command_horizon_s=command_horizon_s;
+            record.command_horizon_extended=isfield(record,'command_horizon_contract') && ...
+                isfield(record.command_horizon_contract,'extension_required') && ...
+                record.command_horizon_contract.extension_required;
             record.all_mechanism_gates_evaluated=false;record.periodic_steady_state=false;
             record.outer_solve_or_Table4_allowed=false;
         end
@@ -183,6 +240,95 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
     end
     write_json(fullfile(folder,'new_process_restore.json'),record);
     disp(jsonencode(struct('execution_complete',true,'production_recovery_allowed',false,'folder',folder)));
+end
+
+function audit=extend_runtime_command_horizon(model,old_cycles,new_cycles,source_s)
+% Preserve the loaded model and OP; repeat only an audited terminal cycle.
+    options=evalin('base','EIGHTH_ROUND_OPTIONS');
+    assert(isstruct(options) && options.cycle_count==old_cycles && ...
+        options.schedule.total_time_s==source_s,'Unexpected runtime command horizon.');
+    tau=options.schedule.tau_cycle_s;new_horizon=new_cycles*tau;
+    assert(source_s==old_cycles*tau && new_horizon>source_s);
+    workspace=get_param(model,'ModelWorkspace');paths=find_system(model, ...
+        'LookUnderMasks','all','FollowLinks','on','Type','Block','BlockType','FromWorkspace');
+    assert(~isempty(paths));rows={};seen={};
+    for k=1:numel(paths)
+        variable=get_param(paths{k},'VariableName');
+        if ismember(variable,seen),continue;end
+        seen{end+1}=variable;actual=slResolve(variable,paths{k});
+        assert(isa(actual,'timeseries'),'Command input is not a timeseries: %s',variable);
+        [extended,periodic]=repeat_terminal_command(actual,source_s,tau,new_horizon,variable);
+        if hasVariable(workspace,variable),assignin(workspace,variable,extended);else,assignin('base',variable,extended);end
+        for suffix={'_time_s','_values'}
+            name=[variable suffix{1}];
+            if hasVariable(workspace,name),target=workspace; ...
+            elseif evalin('base',sprintf('exist(''%s'',''var'')',name)),target='base';else,continue;end
+            if strcmp(suffix{1},'_time_s'),value=extended.Time;else,value=extended.Data;end
+            assignin(target,name,value);
+        end
+        rows{end+1}=struct('variable',variable,'old_samples',numel(actual.Time), ...
+            'new_samples',numel(extended.Time),'old_horizon_s',actual.Time(end), ...
+            'new_horizon_s',extended.Time(end),'old_sha256',array_hash(actual), ...
+            'new_sha256',array_hash(extended),'past_prefix_bitwise_equal',true, ...
+            'future_only_append',true,'terminal_cycle_periodic',periodic.pass, ...
+            'terminal_cycle_max_abs_difference',periodic.max_abs_difference); %#ok<AGROW>
+    end
+    future=options;future.cycle_count=new_cycles;
+    future.schedule.total_time_s=new_horizon;future.simulation.stop_time_s=new_horizon;
+    assignin('base','EIGHTH_ROUND_OPTIONS',future);
+    audit=struct('schema','heatdrive_ecc_future_command_extension_v1', ...
+        'old_horizon_cycles',old_cycles,'new_horizon_cycles',new_cycles, ...
+        'old_horizon_s',source_s,'new_horizon_s',new_horizon, ...
+        'commands',{rows},'source_state_edited',false, ...
+        'physical_parameters_changed',false,'resampling_used',false, ...
+        'past_command_prefix_preserved',true,'extension_required',true);
+end
+
+function [extended,periodic]=repeat_terminal_command(actual,source_s,tau,new_horizon,variable)
+    a=double(actual.Time(:));x=actual.Data;
+    assert(isa(x,'double') && size(x,1)==numel(a) && ...
+        size(x,2)>=1 && a(1)==0 && a(end)==source_s && all(diff(a)>0));
+    tolerance=16*eps(max(1,abs(source_s)));old_cycles=round(source_s/tau);
+    found=false;periodic=struct();
+    for current_cycle=old_cycles:-1:2
+        previous_start=(current_cycle-2)*tau;current_start=(current_cycle-1)*tau;
+        previous=a>=previous_start-tolerance & a<=current_start+tolerance;
+        current=a>=current_start-tolerance & a<=current_cycle*tau+tolerance;
+        previous_time=a(previous)+tau;current_time=a(current);
+        if isempty(previous_time) || numel(previous_time)~=numel(current_time) || ...
+                max(abs(previous_time-current_time))>tolerance
+            continue
+        end
+        previous_values=x(previous,:);current_values=x(current,:);
+        difference=abs(previous_values-current_values);
+        maximum=max(difference,[],'all');
+        if maximum<=1e-12
+            found=true;periodic=struct('pass',true,'max_abs_difference',maximum, ...
+                'comparison_samples',numel(current_time),'template_cycle',current_cycle, ...
+                'comparison_previous_cycle',current_cycle-1);break
+        end
+    end
+    assert(found,'No stable periodic command template exists: %s.',variable);
+    template_start=(periodic.template_cycle-1)*tau;
+    tail=current_time>template_start+tolerance;
+    tail_time=current_time(tail);tail_values=current_values(tail,:);
+    repetitions=round((new_horizon-source_s)/tau);assert(repetitions>=1);
+    future_time=[];future_values=[];
+    for cycle=1:repetitions
+        shift=source_s-periodic.template_cycle*tau+cycle*tau;
+        future_time=[future_time;tail_time+shift]; %#ok<AGROW>
+        future_values=[future_values;tail_values]; %#ok<AGROW>
+    end
+    assert(~isempty(future_time) && future_time(end)==new_horizon);
+    t=[a;future_time];v=[x;future_values];
+    extended=timeseries(v,t,'Name',actual.Name);extended.DataInfo.Units=actual.DataInfo.Units;
+    extended.TimeInfo.Units=actual.TimeInfo.Units;extended=setinterpmethod(extended,getinterpmethod(actual));
+end
+
+function h=array_hash(value)
+    digest=java.security.MessageDigest.getInstance('SHA-256');
+    digest.update(typecast(value.Time(:),'uint8'));digest.update(typecast(value.Data(:),'uint8'));
+    h=upper(reshape(dec2hex(typecast(digest.digest(),'uint8'),2).',1,[]));
 end
 
 function v=numeric_parameter(v)
