@@ -1,13 +1,15 @@
 function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
 % New-process strict load of a persisted isolated model and its untouched full OP.
     if nargin<4,mode='reference_cycle';end
-    assert(ismember(mode,{'reference_cycle','bounded_step_probe','warmup_C40','warmup_C60_from_C40','warmup_C80_from_C60','warmup_C100_from_C80','warmup_C120_from_C100'}));
+    assert(ismember(mode,{'reference_cycle','bounded_step_probe','bounded_buffer_state_probe_from_C100','warmup_C40','warmup_C60_from_C40','warmup_C80_from_C60','warmup_C100_from_C80','warmup_C120_from_C100'}));
     assert(~isfolder(folder));mkdir(folder);old=pwd;oldpath=path;
     cleanup_path=onCleanup(@() restore_path(old,oldpath));addpath(repo,fullfile(repo,'verification'));
     record=struct('schema','heatdrive_ecc_shared_endpoint_new_process_OP_v1', ...
         'execution_complete',false,'production_recovery_allowed',false,'source_OP_edited',false);
     try
         is_continuation=~isempty(strfind(mode,'_from_C')); %#ok<STREMP>
+        buffer_state_probe=strcmp(mode,'bounded_buffer_state_probe_from_C100');
+        assert(~buffer_state_probe || is_continuation,'Buffer state probe must be anchored to a recorded continuation.');
         if is_continuation
             prior=jsondecode(fileread(fullfile(source,'new_process_restore.json')));
             [runtime,runtime_root]=load_runtime_metadata(prior.source_root);
@@ -79,7 +81,7 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
                 numeric_parameter(get_param(model,'SimscapeLogDataHistory'))==20002 && ...
                 numeric_parameter(get_param(model,'MaxDataPoints'))==40002);
         end
-        if is_continuation
+        if is_continuation && ~buffer_state_probe
             numbers=sscanf(mode,'warmup_C%d_from_C%d');
             assert(numel(numbers)==2 && numbers(2)==previous_cycles && numbers(1)>numbers(2));
             stop=numbers(1)*10;
@@ -95,11 +97,50 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
             record.bounded_logging_requested=struct('native_history_points',20002,'public_state_and_sink_points',40002, ...
                 'sink_count',numel(sinks),'sample_times_or_equations_modified',false);
         end
+        if buffer_state_probe
+            stop=point_snapshot+0.002;
+            input=input.setModelParameter('SimscapeLogLimitData','on','SimscapeLogDataHistory',20002,'MaxDataPoints','40002');
+            sinks=find_system(model,'LookUnderMasks','all','FollowLinks','on','Type','Block','BlockType','ToWorkspace');
+            for k=1:numel(sinks),input=input.setBlockParameter(sinks{k},'MaxDataPoints','40002');end
+            record.buffer_probe_logging_requested=struct('native_history_points',20002,'workspace_history_points',40002, ...
+                'sink_count',numel(sinks),'sample_times_or_equations_modified',false);
+        end
         wall=tic;cpu=cputime;
         output=sim(input.setModelParameter('CaptureErrors','on','StopTime',num2str(stop,17)) ...
             .setInitialState(point.diagnostic_operating_point));
         record.simulation_wall_seconds=toc(wall);record.simulation_CPU_seconds=cputime-cpu;
         assert(isempty(output.ErrorMessage),'Strict new-process restore failed: %s',output.ErrorMessage);
+        if buffer_state_probe
+            [native,profile]=Extract_HeatDriveECC_NativeStorageTraces(output.simlog,model,false,{}, {}, []);
+            selected={};
+            for k=1:numel(native)
+                row=native{k};
+                if strcmp(row.block_path,'heatdrive_ecc_coupled_se21/HotFluidBuffer') && ...
+                        ismember(row.state_name,{'stored_mass','mass_offset','mdot_A','stored_energy'})
+                    values=double(row.values(:));
+                    selected{end+1}=struct('state_name',row.state_name, ...
+                        'unit',row.unit,'samples',numel(values), ...
+                        'time_first_s',double(row.time_s(1)),'time_last_s',double(row.time_s(end)), ...
+                        'value_first',values(1),'value_last',values(end), ...
+                        'value_min',min(values),'value_max',max(values)); %#ok<AGROW>
+                end
+            end
+            assert(any(cellfun(@(x)strcmp(x.state_name,'stored_mass'),selected)), ...
+                'HotFluidBuffer stored_mass was not exported by the bounded probe.');
+            record.execution_complete=true;
+            record.probe_only=true;
+            record.production_recovery_allowed=false;
+            record.state_projection_or_reset_used=false;
+            record.actual_tout_first_s=double(output.tout(1));
+            record.actual_tout_last_s=double(output.tout(end));
+            record.buffer_state_probe=selected;
+            record.native_leaf_profile=profile;
+            record.reader_source_sha256=file_hash([mfilename('fullpath') '.m']);
+            write_json(fullfile(folder,'bounded_buffer_state_probe.json'),record);
+            HeatDriveECC_ObserverContext('clear',model);
+            disp(jsonencode(struct('execution_complete',true,'probe_only',true,'folder',folder)));
+            return
+        end
         if ismember(mode,{'warmup_C40','warmup_C60_from_C40','warmup_C80_from_C60','warmup_C100_from_C80','warmup_C120_from_C100'})
             % Save the untouched final OP before optional evidence serialization.
             diagnostic_operating_point=output.interface_final_op;production_recovery_allowed=false; %#ok<NASGU>
