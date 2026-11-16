@@ -65,6 +65,11 @@ class EndpointOPTests(unittest.TestCase):
         self.assertIn('if ischar(v) || isstring(v),v=str2double(v);end',source)
         self.assertIn("validateattributes(v,{'numeric'},{'scalar','real','finite'})",source)
 
+    def test_continuation_uses_absolute_operating_point_time_base(self):
+        source=(Path(__file__).resolve().parent/'Resume_HeatDriveECC_SharedEndpointOP.m').read_text(encoding='utf-8')
+        self.assertIn("'StartTime',num2str(point_snapshot,17)",source)
+        self.assertIn("'stop_time_s',stop",source)
+
     def test_warmup_keeps_actual_samples_and_rejects_a_missing_endpoint(self):
         clock=np.arange(20001)*.001+380
         row={'time_s':clock,'values':clock[:,None],'unit':'K'}
