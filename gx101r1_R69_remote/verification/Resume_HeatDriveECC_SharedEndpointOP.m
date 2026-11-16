@@ -111,16 +111,17 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
         record.simulation_wall_seconds=toc(wall);record.simulation_CPU_seconds=cputime-cpu;
         assert(isempty(output.ErrorMessage),'Strict new-process restore failed: %s',output.ErrorMessage);
         if buffer_state_probe
-            [native,profile]=Extract_HeatDriveECC_NativeStorageTraces(output.simlog,model,false,{}, {}, []);
             selected={};
-            for k=1:numel(native)
-                row=native{k};
-                if strcmp(row.block_path,'heatdrive_ecc_coupled_se21/HotFluidBuffer') && ...
-                        ismember(row.state_name,{'stored_mass','mass_offset','mdot_A','stored_energy'})
-                    values=double(row.values(:));
-                    selected{end+1}=struct('state_name',row.state_name, ...
-                        'unit',row.unit,'samples',numel(values), ...
-                        'time_first_s',double(row.time_s(1)),'time_last_s',double(row.time_s(end)), ...
+            node=simscape.logging.findNode(output.simlog,'heatdrive_ecc_coupled_se21/HotFluidBuffer');
+            assert(~isempty(node),'HotFluidBuffer log node was not exported by the bounded probe.');
+            names=node.childIds;
+            for k=1:numel(names)
+                if ismember(names{k},{'stored_mass','mass_offset','mdot_A','stored_energy'})
+                    [time_values,data,unit]=Read_HeatDriveECC_NativeSeries(node.child(names{k}));
+                    values=double(data(:));
+                    selected{end+1}=struct('state_name',names{k}, ...
+                        'unit',unit,'samples',numel(values), ...
+                        'time_first_s',double(time_values(1)),'time_last_s',double(time_values(end)), ...
                         'value_first',values(1),'value_last',values(end), ...
                         'value_min',min(values),'value_max',max(values)); %#ok<AGROW>
                 end
@@ -134,7 +135,6 @@ function record=Resume_HeatDriveECC_SharedEndpointOP(repo,source,folder,mode)
             record.actual_tout_first_s=double(output.tout(1));
             record.actual_tout_last_s=double(output.tout(end));
             record.buffer_state_probe=selected;
-            record.native_leaf_profile=profile;
             record.reader_source_sha256=file_hash([mfilename('fullpath') '.m']);
             write_json(fullfile(folder,'bounded_buffer_state_probe.json'),record);
             HeatDriveECC_ObserverContext('clear',model);
