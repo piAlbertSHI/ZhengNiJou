@@ -31,7 +31,9 @@ def matlab_metadata(value):
 def resolve_runtime_metadata(root,read):
     """Follow only recorded parent links until the frozen cold epoch is found."""
     root=Path(root)
-    for _ in range(4):
+    # C120 diagnostics legitimately traverse C100 -> C80 -> C60 -> C40
+    # before reaching the sealed cold runtime. Keep the chain bounded.
+    for _ in range(8):
         state=root/'state_interface_roundtrip.json'
         if state.is_file():return read(state),root
         record=root/'new_process_restore.json'
@@ -80,10 +82,22 @@ def analyze(root,out,total_cycles,window_start,window_stop):
     read=lambda p:json.loads(p.read_text(encoding='utf-8'))
     rp=root/'new_process_restore.json';r=read(rp)
     expected_profile='warmup_C40' if total_cycles==40 else f'warmup_C{total_cycles}_from_C{total_cycles-20}'
+    command_horizon=float(r.get('fixed_command_horizon_s',1000))
     if (not r['execution_complete'] or r['production_recovery_allowed'] or r['source_OP_edited']
             or r['observation_profile']!=expected_profile or r['actual_tout_first_s']>=window_start
-            or r['actual_tout_last_s']!=window_stop or r['fixed_command_horizon_s']!=1000):
+            or r['actual_tout_last_s']!=window_stop or command_horizon!=total_cycles*10):
         raise ValueError('Not the proven-epoch fixed-horizon warmup')
+    extension=None
+    if r.get('command_horizon_extended',False):
+        extension_path=root/'command_horizon_extension.json'
+        if not extension_path.is_file():raise ValueError('Missing command-horizon extension evidence')
+        extension=read(extension_path)
+        if extension!=r.get('command_horizon_contract'):
+            raise ValueError('Command-horizon extension evidence differs from execution record')
+        if (not extension.get('past_command_prefix_preserved',False) or
+                extension.get('physical_parameters_changed',True) or extension.get('resampling_used',True) or
+                extension.get('new_horizon_s')!=command_horizon):
+            raise ValueError('Command-horizon extension contract is not strict')
     for role in ('context','observation','terminal_OP'):
         if sha256(Path(r[role+'_path']))!=r[role+'_sha256']:raise ValueError('Warmup dependency changed: '+role)
     parent,runtime_root=resolve_runtime_metadata(r['source_root'],read)
@@ -97,8 +111,15 @@ def analyze(root,out,total_cycles,window_start,window_stop):
     for path,digest in dependencies:
         if sha256(Path(path))!=digest:raise ValueError('Frozen runtime dependency changed: '+path)
     context=matlab_metadata(loadmat(r['context_path'],simplify_cells=True));contract=context['contract'];options=context['options']
+    # The persisted context belongs to the C100 runtime recipe. For a
+    # command-only continuation, update analysis ownership to the measured
+    # horizon; this does not alter any recorded signal or physical parameter.
+    options=dict(options);options['schedule']=dict(options['schedule'])
+    options['cycle_count']=total_cycles
+    options['schedule']['total_time_s']=command_horizon
     if (options['simscape']['local_solver_choice']!='NE_BACKWARD_EULER_ADVANCER'
-            or options['simscape']['local_solver_sample_time_s']!=.001 or options['cycle_count']!=100):
+            or options['simscape']['local_solver_sample_time_s']!=.001 or
+            options['schedule']['tau_cycle_s']!=10):
         raise ValueError('Changed local solver or command horizon')
     raw=loadmat(r['observation_path'],simplify_cells=True)
     native=actual_native_window(unpack(raw['native_packet']),window_start,window_stop)
@@ -132,7 +153,10 @@ def analyze(root,out,total_cycles,window_start,window_stop):
     result=dict(schema='heatdrive_ecc_shared_endpoint_warmup_review_v1',execution_sha256=sha256(rp),
         reader_sha256=sha256(Path(__file__)),retained_native_window_s=[window_start,window_stop],completed_total_cycles=total_cycles,
         frozen_runtime_dependency_hash_count=len(dependencies),
-        physical_continuation_window_s=[.2,window_stop],fixed_command_horizon_s=1000,
+        physical_continuation_window_s=[.2,window_stop],fixed_command_horizon_s=command_horizon,
+        command_horizon_extended=bool(r.get('command_horizon_extended',False)),
+        command_horizon_extension_sha256=(sha256(root/'command_horizon_extension.json')
+                                          if extension is not None else ''),
         simulation_wall_seconds=r['simulation_wall_seconds'],terminal_OP_path=r['terminal_OP_path'],
         terminal_OP_sha256=r['terminal_OP_sha256'],retained_cycle_diagnostics=diagnostics,
         original_periodic_screens=screens,all_listed_periodic_screens_pass=all(screens.values()),
