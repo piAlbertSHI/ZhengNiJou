@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "coupled-elastocaloric-cooling"
+version = "0.1.0"
+description = "Thermal reference models for positive and reverse coupled elastocaloric cooling"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.24", "scipy>=1.10"]
+
+[project.scripts]
+coupled-cooling-demo = "coupled_cooling.demo:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

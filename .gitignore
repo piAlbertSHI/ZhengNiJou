@@ -1,0 +1,25 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+*.egg-info/
+build/
+dist/
+
+# Simulation output and local research artifacts.
+*.asv
+*.mat
+*.h5
+*.hdf5
+*.npz
+*.slx
+*.slxc
+*.log
+*.pdf
+*.fig
+slprj/
+outputs/
+outputs_storage_audit/
+data/raw/
+tmp/
+.DS_Store

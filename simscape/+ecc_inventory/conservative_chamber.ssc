@@ -1,0 +1,93 @@
+component conservative_chamber
+% Independent friction/port-convection diagnostic; never a production switch.
+nodes
+    A = foundation.thermal_liquid.thermal_liquid;
+    B = foundation.thermal_liquid.thermal_liquid;
+    H = foundation.thermal.thermal;
+end
+parameters
+    volume = {1.6084954386379741e-6, 'm^3'};
+    area = {8.04247719318987e-6, 'm^2'};
+    length = {0.2, 'm'};
+    Dh = {0.0032, 'm'};
+    roughness = {15e-6, 'm'};
+    friction_scale = {1, '1'};
+    convection_length = {0.1, 'm'};
+end
+variables
+    p_I = {value = {2.5, 'MPa'}, priority = priority.high};
+    T_I = {value = {340, 'K'}, priority = priority.high};
+    rho_I = {1000, 'kg/m^3'};
+    u_I = {100, 'kJ/kg'};
+    stored_mass = {0.0016, 'kg'};
+    stored_energy = {160, 'J'};
+end
+variables (Access = protected)
+    mdot_A = {0, 'kg/s'};
+    mdot_B = {0, 'kg/s'};
+    Phi_A = {0, 'W'};
+    Phi_B = {0, 'W'};
+    Q_H = {0, 'W'};
+end
+branches
+    mdot_A : A.mdot -> *;
+    mdot_B : B.mdot -> *;
+    Phi_A : A.Phi -> *;
+    Phi_B : B.Phi -> *;
+    Q_H : H.Q -> *;
+end
+intermediates (Access = private)
+    mu_I = tablelookup(A.T_TLU, A.p_TLU, A.mu_TLU, T_I, p_I, interpolation = linear, extrapolation = nearest);
+    pressure_loss_A = friction_scale*foundation.thermal_liquid.elements.pipe_friction( ...
+        mdot_A, rho_I, mu_I, area, Dh, length/2, roughness/Dh, 2000, 4000, 64);
+    pressure_loss_B = friction_scale*foundation.thermal_liquid.elements.pipe_friction( ...
+        mdot_B, rho_I, mu_I, area, Dh, length/2, roughness/Dh, 2000, 4000, 64);
+end
+equations
+    assert(volume > 0)
+    assert(area > 0)
+    assert(length > 0)
+    assert(Dh > 0)
+    assert(roughness > 0)
+    assert(friction_scale == 0 || friction_scale == 1)
+    assert(convection_length > 0)
+    assert(abs(volume-area*length) < {1e-15, 'm^3'})
+    A.p - p_I == pressure_loss_A;
+    B.p - p_I == pressure_loss_B;
+    H.T == T_I;
+    rho_I == tablelookup(A.T_TLU, A.p_TLU, A.rho_TLU, T_I, p_I, interpolation = linear, extrapolation = linear);
+    u_I == tablelookup(A.T_TLU, A.p_TLU, A.u_TLU, T_I, p_I, interpolation = linear, extrapolation = linear);
+    stored_mass == volume*rho_I;
+    stored_energy == stored_mass*u_I;
+    der(stored_mass) == mdot_A + mdot_B;
+    der(stored_energy) == Phi_A + Phi_B + Q_H;
+    assert(p_I >= A.p_min)
+    assert(p_I <= A.p_max)
+    assert(T_I >= A.T_min)
+    assert(T_I <= A.T_max)
+    assert(A.p >= A.p_min)
+    assert(A.p <= A.p_max)
+    assert(B.p >= A.p_min)
+    assert(B.p <= A.p_max)
+    assert(A.T >= A.T_min)
+    assert(A.T <= A.T_max)
+    assert(B.T >= A.T_min)
+    assert(B.T <= A.T_max)
+end
+components (ExternalAccess = none)
+    convection_A = foundation.thermal_liquid.port_convection(flow_area = area, length_scale = convection_length);
+    convection_B = foundation.thermal_liquid.port_convection(flow_area = area, length_scale = convection_length);
+end
+connections
+    connect(A, convection_A.port)
+    connect(B, convection_B.port)
+end
+equations
+    convection_A.mdot == mdot_A;
+    convection_B.mdot == mdot_B;
+    convection_A.Phi == Phi_A;
+    convection_B.Phi == Phi_B;
+    convection_A.u_I == u_I;
+    convection_B.u_I == u_I;
+end
+end
